@@ -1459,6 +1459,142 @@ ostream& operator<< (ostream& os, const S_msrOptionsPartRenameItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsMidiTempoItem msrOptionsMidiTempoItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsMidiTempoItemVariableDisplayName,
+  pair<string, int>&
+                     optionsMidiTempoItemVariable)
+{
+  msrOptionsMidiTempoItem* o = new
+    msrOptionsMidiTempoItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsMidiTempoItemVariableDisplayName,
+      optionsMidiTempoItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsMidiTempoItem::msrOptionsMidiTempoItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsMidiTempoItemVariableDisplayName,
+  pair<string, int>&
+                     optionsMidiTempoItemVariable)
+  : msrOptionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      1),
+    fOptionsMidiTempoItemVariableDisplayName (
+      optionsMidiTempoItemVariableDisplayName),
+    fOptionsMidiTempoItemVariable (
+      optionsMidiTempoItemVariable)
+{}
+
+msrOptionsMidiTempoItem::~msrOptionsMidiTempoItem()
+{}
+
+void msrOptionsMidiTempoItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    idtr <<
+      "OptionsMidiTempoItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsElementDescription" << " : " <<
+      fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsMidiTempoItemVariableDisplayName" << " : " <<
+      fOptionsMidiTempoItemVariableDisplayName <<
+    idtr <<
+      setw(fieldWidth) <<
+      "fOptionsMidiTempoItemVariable" << " : " <<
+      endl;
+
+  if (! fOptionsMidiTempoItemVariable.size ()) {
+    os << "none";
+  }
+  else {
+    pair<string, int>::const_iterator
+      iBegin = fOptionsMidiTempoItemVariable.begin(),
+      iEnd   = fOptionsMidiTempoItemVariable.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+  
+  os <<
+    endl;
+}
+
+void msrOptionsMidiTempoItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    idtr <<
+      setw(valueFieldWidth) <<
+      fOptionsMidiTempoItemVariableDisplayName <<
+      " : " <<
+      endl;
+      
+  if (! fOptionsMidiTempoItemVariable.size ()) {
+    os << "none";
+  }
+  else {
+    pair<string, int>::const_iterator
+      iBegin = fOptionsMidiTempoItemVariable.begin(),
+      iEnd   = fOptionsMidiTempoItemVariable.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+  
+  os <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsMidiTempoItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsSubGroup msrOptionsSubGroup::create (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
@@ -2850,6 +2986,17 @@ void msrOptionsHandler::handleOptionsItemName (
         fExpectedValuesNumber = 1;
       }
 
+      else if (
+        // midi tempo item?
+        S_msrOptionsMidiTempoItem
+          optionsMidiTempoItem =
+            dynamic_cast<msrOptionsMidiTempoItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsMidiTempoItem;
+        fExpectedValuesNumber = 1;
+      }
+
       else {
         stringstream s;
     
@@ -3163,6 +3310,67 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       else {
         optionsPartRenameItemVariable [oldPartName] =
           newPartName;
+      }
+    }
+
+    else if (
+      // midi tempo item?
+      S_msrOptionsMidiTempoItem
+        optionsMidiTempoItem =
+          dynamic_cast<msrOptionsMidiTempoItem*>(&(*fPendingOptionsItem))
+      ) {
+      // theString contains the midi tempo specification
+      // decipher it to extract duration and perSecond values
+      string regularExpression (
+        "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
+        "="
+        "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+        
+      regex  e (regularExpression);
+      smatch sm;
+
+      regex_match (optargAsString, sm, e);
+
+      if (false) {
+        cout <<
+          "There are " << sm.size() << " matches" <<
+          " for string '" << theString <<
+          "' with regex '" << regularExpression <<
+          "'" <<
+          endl;
+      }
+    
+      if (sm.size ()) {
+        for (unsigned i = 0; i < sm.size (); ++i) {
+          cout << "[" << sm [i] << "] ";
+        } // for
+        cout << endl;
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "--midiTempo argument '" << theString <<
+          "' is ill-formed";
+          
+        optionError (s.str());
+      }
+
+      string midiTempoDuration  = sm [1];
+      int    midiTempoPerSecond = sm [2];
+      
+      if (TRACE_OPTIONS) {
+        cerr <<
+          "midiTempoDuration = " <<
+          midiTempoDuration <<
+          endl <<
+          "midiTempoPerSecond= " <<
+          midiTempoPerSecond <<
+          endl;
+
+      setMidiTempoItemVariableValue (
+        pair (midiTempoDuration, midiTempoPerSecond));
       }
     }
 

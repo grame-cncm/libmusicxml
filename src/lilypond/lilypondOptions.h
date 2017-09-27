@@ -297,9 +297,8 @@ class EXP lilypondOptions : public msrOptionsGroup
     
     // midi
     // --------------------------------------
-    
-    string                fMidiTempoDuration;
-    int                   fMidiTempoPerSecond;
+
+    pair<string, int>     fMidiTempo;
     
     bool                  fNoMidi;
 

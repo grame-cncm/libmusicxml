@@ -889,6 +889,83 @@ class EXP msrOptionsPartRenameItem : public msrOptionsValuedItem
 typedef SMARTP<msrOptionsPartRenameItem> S_msrOptionsPartRenameItem;
 ostream& operator<< (ostream& os, const S_msrOptionsPartRenameItem& elt);
 
+//______________________________________________________________________________
+class EXP msrOptionsMidiTempoItem : public msrOptionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsMidiTempoItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsMidiTempoItemVariableDisplayName,
+      pair<string, int>&
+                         optionsMidiTempoItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsMidiTempoItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsMidiTempoItemVariableDisplayName,
+      pair<string, int>&
+                         optionsMidiTempoItemVariable);
+      
+    virtual ~msrOptionsMidiTempoItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsMidiTempoItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsMidiTempoItemVariableDisplayName;
+                              }
+                              
+    void                  setMidiTempoItemVariableValue (
+                            pair<string, int> value)
+                              {
+                                fOptionsMidiTempoItemVariable = value;
+                              }
+
+    const pair<string, int>&
+                          getOptionsMidiTempoItemVariable ()
+                              {
+                                return
+                                  fOptionsMidiTempoItemVariable;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    string                fOptionsMidiTempoItemVariableDisplayName;
+    pair<string, int>&    fOptionsMidiTempoItemVariable;
+};
+typedef SMARTP<msrOptionsMidiTempoItem> S_msrOptionsMidiTempoItem;
+ostream& operator<< (ostream& os, const S_msrOptionsMidiTempoItem& elt);
+
 //_______________________________________________________________________________
 class EXP msrOptionsSubGroup : public msrOptionsElement
 {
