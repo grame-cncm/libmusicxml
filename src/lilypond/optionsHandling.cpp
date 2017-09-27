@@ -193,26 +193,6 @@ msrOptionsItem::msrOptionsItem (
 msrOptionsItem::~msrOptionsItem()
 {}
 
-string msrOptionsItem::optionsItemKindAsString (
-  msrOptionsItem::msrOptionsItemKind optionsItemKind)
-{
-  string result;
-  
-  switch (optionsItemKind) {
-    case msrOptionsItem::kOptionsItemHasNoArgument:
-      result = "OptionsItemHasNoArgument";
-      break;
-    case msrOptionsItem::kOptionsItemHasARequiredArgument:
-      result = "OptionsItemHasARequiredArgument";
-      break;
-    case msrOptionsItem::kOptionsItemHasAnOptionsArgument:
-      result = "OptionsItemHasAnOptionsArgument";
-      break;
-  } // switch
-
-  return result;
-}  
-
 void msrOptionsItem::registerOptionsItemInHandler (
   S_msrOptionsHandler optionsHandler)
 {
@@ -3347,7 +3327,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       
       if (true || TRACE_OPTIONS) {
         cerr <<
-          "midiTempoDuration 1  = " <<
+          "midiTempoDuration  = " <<
           midiTempoDuration <<
           endl <<
           "midiTempoPerSecond = " <<

@@ -382,6 +382,7 @@ class EXP generalOptions : public msrOptionsGroup
     bool                  fTraceMidi;
 };
 typedef SMARTP<generalOptions> S_generalOptions;
+EXP ostream& operator<< (ostream& os, const S_generalOptions& elt);
 
 extern S_generalOptions gGeneralOptions;
 extern S_generalOptions gGeneralOptionsUserChoices;

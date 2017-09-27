@@ -91,6 +91,7 @@ class EXP musicXMLOptions : public msrOptionsGroup
     bool                  fLoopToMusicXML;
 };
 typedef SMARTP<musicXMLOptions> S_musicXMLOptions;
+EXP ostream& operator<< (ostream& os, const S_musicXMLOptions& elt);
 
 extern S_musicXMLOptions gMusicXMLOptions;
 extern S_musicXMLOptions gMusicXMLOptionsUserChoices;

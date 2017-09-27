@@ -202,6 +202,7 @@ class EXP msrOptions : public msrOptionsGroup
     bool                  fKeepEmptyFiguredBassVoices;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
+EXP ostream& operator<< (ostream& os, const S_msrOptions& elt);
 
 extern S_msrOptions gMsrOptions;
 extern S_msrOptions gMsrOptionsUserChoices;

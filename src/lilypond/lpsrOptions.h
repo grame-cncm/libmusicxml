@@ -111,6 +111,7 @@ class EXP lpsrOptions : public msrOptionsGroup
     lpsrChordsLanguage    fLpsrChordsLanguage;
 };
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
+EXP ostream& operator<< (ostream& os, const S_lpsrOptions& elt);
 
 extern S_lpsrOptions gLpsrOptions;
 extern S_lpsrOptions gLpsrOptionsUserChoices;

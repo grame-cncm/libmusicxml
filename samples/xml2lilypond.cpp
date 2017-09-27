@@ -43,6 +43,8 @@ using namespace MusicXML2;
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
+#define TRACE_OPTIONS 1
+
 enum msrHelpKind {
   kAllHelp,
   kGeneralHelp, kMusicXMLHelp, kMsrHelp, kLpsrHelp, kLilypondHelp};
@@ -3982,6 +3984,22 @@ int main (int argc, char *argv[])
         optionsHandler,
         argc, argv,
         inputFileName, outputFileName);
+
+  // print the resulting options
+  if (TRACE_OPTIONS) {
+    cerr <<
+      gGeneralOptions <<
+      endl <<
+      gMusicXMLOptions <<
+      endl <<
+      gMsrOptions <<
+      endl <<
+      gLpsrOptions <<
+      endl <<
+      gLilypondOptions <<
+      endl <<
+      endl;
+  }
 
   // program name
   // ------------------------------------------------------

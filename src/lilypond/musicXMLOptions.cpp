@@ -262,6 +262,12 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   idtr--;
 }
 
+ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 void initializeMusicXMLOptions ()
 {

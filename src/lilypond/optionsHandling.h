@@ -36,6 +36,12 @@ namespace MusicXML2
 class msrOptionsElement;
 typedef SMARTP<msrOptionsElement> S_msrOptionsElement;
 
+class msrOptionsSubGroup;
+typedef SMARTP<msrOptionsSubGroup> S_msrOptionsSubGroup;
+
+class msrOptionsGroup;
+typedef SMARTP<msrOptionsGroup> S_msrOptionsGroup;
+
 class msrOptionsHandler;
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 
@@ -111,17 +117,6 @@ class EXP msrOptionsItem : public msrOptionsElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrOptionsItemKind {
-      kOptionsItemHasNoArgument,
-      kOptionsItemHasARequiredArgument,
-      kOptionsItemHasAnOptionsArgument };
-          
-    static string optionsItemKindAsString (
-      msrOptionsItemKind optionsItemKind);
-
     // creation
     // ------------------------------------------------------
 
@@ -149,8 +144,15 @@ class EXP msrOptionsItem : public msrOptionsElement
     // set and get
     // ------------------------------------------------------
 
-    msrOptionsItemKind    getOptionsItemKind () const
-                              { return fOptionsItemKind; }
+    void                  setOptionsSubGroupUplink (
+                            S_msrOptionsSubGroup optionsSubGroup)
+                              {
+                                fOptionsSubGroupUplink =
+                                  optionsSubGroup;
+                              }
+
+    S_msrOptionsSubGroup  getOptionsSubGroupUplink () const
+                              { return fOptionsSubGroupUplink; }
     
     int                   getOptionsItemValuesNumber () const
                               { return fOptionsItemValuesNumber; }
@@ -172,7 +174,7 @@ class EXP msrOptionsItem : public msrOptionsElement
 
   protected:
 
-    msrOptionsItemKind    fOptionsItemKind;
+    S_msrOptionsSubGroup  fOptionsSubGroupUplink;
 
   int                     fOptionsItemValuesNumber;
 };
@@ -996,6 +998,16 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setOptionsGroupUplink (
+                            S_msrOptionsGroup optionsGroup)
+                              {
+                                fOptionsGroupUplink =
+                                  optionsGroup;
+                              }
+
+    S_msrOptionsGroup     getOptionsGroupUplink () const
+                              { return fOptionsGroupUplink; }
+    
     // services
     // ------------------------------------------------------
 
@@ -1027,6 +1039,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
   private:
   
+    S_msrOptionsGroup     fOptionsGroupUplink;
+
     list<S_msrOptionsItem>
                           fOptionsSubGroupItemsList;
 };

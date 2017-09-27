@@ -1624,5 +1624,11 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   idtr--;
 }
 
+ostream& operator<< (ostream& os, const S_lilypondOptions& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 
 }

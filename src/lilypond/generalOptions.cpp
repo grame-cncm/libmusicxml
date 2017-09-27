@@ -1365,6 +1365,12 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   idtr--;
 }
 
+ostream& operator<< (ostream& os, const S_generalOptions& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //______________________________________________________________________________
 void initializeGeneralOptions ()
 {  

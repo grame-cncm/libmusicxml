@@ -1034,5 +1034,11 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr--;
 }
 
+ostream& operator<< (ostream& os, const S_msrOptions& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 
 }

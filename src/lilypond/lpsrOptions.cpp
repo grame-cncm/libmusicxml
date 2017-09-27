@@ -434,5 +434,11 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   idtr--;
 }
 
+ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 
 }

@@ -314,6 +314,7 @@ class EXP lilypondOptions : public msrOptionsGroup
     set<string>           fLilypondAccidentalStyles;
 };
 typedef SMARTP<lilypondOptions> S_lilypondOptions;
+EXP ostream& operator<< (ostream& os, const S_lilypondOptions& elt);
 
 extern S_lilypondOptions gLilypondOptions;
 extern S_lilypondOptions gLilypondOptionsUserChoices;
