@@ -367,10 +367,8 @@ void msrOptionsBooleanItem::printOptionsValues (
   os << left <<
     idtr <<
       setw(valueFieldWidth) <<
-      "|" <<
       fOptionsBooleanItemVariableDisplayName <<
       " : " <<
-      "|" <<
       booleanAsString (
         fOptionsBooleanItemVariable) <<
       endl;
@@ -3068,7 +3066,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       if (sm.size ()) {
         if (TRACE_OPTIONS) {
-          cout <<
+          cerr <<
             "There are " << sm.size() << " matches" <<
             " for string '" << theString <<
             "' with regex '" << regularExpression <<
@@ -3076,10 +3074,10 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
             endl;
        
           for (unsigned i = 0; i < sm.size (); ++i) {
-            cout << "[" << sm [i] << "] ";
+            cerr << "[" << sm [i] << "] ";
           } // for
           
-          cout <<
+          cerr <<
             endl;
         }
       }
@@ -3092,6 +3090,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "' is ill-formed";
           
         optionError (s.str());
+        printHelpSummary (cerr);
+        exit (4);
       }
 
       int
@@ -3180,6 +3180,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         idtr--;
     
         optionError (s.str());
+        printHelpSummary (cerr);
+        exit (4);
       }
     
       optionsPitchesLanguageItem->
@@ -3223,6 +3225,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         idtr--;
     
         optionError (s.str());
+        printHelpSummary (cerr);
+        exit (4);
       }
     
       optionsChordsLanguageItem->
@@ -3277,6 +3281,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "in the '--partName' option";
           
         optionError (s.str());
+        exit (4);
       }
       
       else {
@@ -3304,7 +3309,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       regex_match (theString, sm, e);
 
       if (false) {
-        cout <<
+        cerr <<
           "There are " << sm.size() << " matches" <<
           " for string '" << theString <<
           "' with regex '" << regularExpression <<
@@ -3314,9 +3319,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
       if (sm.size ()) {
         for (unsigned i = 0; i < sm.size (); ++i) {
-          cout << "[" << sm [i] << "] ";
+          cerr << "[" << sm [i] << "] ";
         } // for
-        cout << endl;
+        cerr << endl;
       }
       
       else {
@@ -3327,6 +3332,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "' is ill-formed";
           
         optionError (s.str());
+        printHelpSummary (cerr);
+        exit (4);
       }
 
       string midiTempoDuration  = sm [1];
@@ -3338,9 +3345,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         s >> midiTempoPerSecond;
       }
       
-      if (TRACE_OPTIONS) {
+      if (true || TRACE_OPTIONS) {
         cerr <<
-          "midiTempoDuration  = " <<
+          "midiTempoDuration 1  = " <<
           midiTempoDuration <<
           endl <<
           "midiTempoPerSecond = " <<
