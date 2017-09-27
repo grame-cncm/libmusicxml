@@ -3710,21 +3710,21 @@ R"(
                 optionError (s.str());
               }
               
-              gLilypondOptions->fMidiTempoDuration =  sm [1];
+//              gLilypondOptions->fMidiTempoDuration =  sm [1];
     
               {
                 stringstream s;
                 s << sm [2];
-                s >> gLilypondOptions->fMidiTempoPerSecond;
+      //          s >> gLilypondOptions->fMidiTempoPerSecond;
               }
 
               if (false) {
                 cerr <<
                   "gLilypondOptions->fMidiTempoDuration = " <<
-                  gLilypondOptions->fMidiTempoDuration <<
+   //               gLilypondOptions->fMidiTempoDuration <<
                   endl <<
                   "gLilypondOptions->fMidiTempoPerSecond = " <<
-                  gLilypondOptions->fMidiTempoPerSecond <<
+    //              gLilypondOptions->fMidiTempoPerSecond <<
                   endl;
               }
     
