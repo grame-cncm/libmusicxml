@@ -1536,26 +1536,12 @@ void msrOptionsMidiTempoItem::print (ostream& os) const
       fOptionsMidiTempoItemVariableDisplayName <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsMidiTempoItemVariable" << " : " <<
+      "fOptionsMidiTempoItemVariable" << " : '" <<
+      fOptionsMidiTempoItemVariable.first <<
+      " = " <<
+      fOptionsMidiTempoItemVariable.second <<
+      "'" <<
       endl;
-
-  if (! fOptionsMidiTempoItemVariable.size ()) {
-    os << "none";
-  }
-  else {
-    pair<string, int>::const_iterator
-      iBegin = fOptionsMidiTempoItemVariable.begin(),
-      iEnd   = fOptionsMidiTempoItemVariable.end(),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i).first << " --> " << (*i).second;
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-  
-  os <<
-    endl;
 }
 
 void msrOptionsMidiTempoItem::printOptionsValues (
@@ -1566,26 +1552,12 @@ void msrOptionsMidiTempoItem::printOptionsValues (
     idtr <<
       setw(valueFieldWidth) <<
       fOptionsMidiTempoItemVariableDisplayName <<
-      " : " <<
+      " : '" <<
+      fOptionsMidiTempoItemVariable.first <<
+      " = " <<
+      fOptionsMidiTempoItemVariable.second <<
+      "'" <<
       endl;
-      
-  if (! fOptionsMidiTempoItemVariable.size ()) {
-    os << "none";
-  }
-  else {
-    pair<string, int>::const_iterator
-      iBegin = fOptionsMidiTempoItemVariable.begin(),
-      iEnd   = fOptionsMidiTempoItemVariable.end(),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i).first << " --> " << (*i).second;
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-  }
-  
-  os <<
-    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsMidiTempoItem& elt)
@@ -3329,7 +3301,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       regex  e (regularExpression);
       smatch sm;
 
-      regex_match (optargAsString, sm, e);
+      regex_match (theString, sm, e);
 
       if (false) {
         cout <<
@@ -3358,19 +3330,27 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       }
 
       string midiTempoDuration  = sm [1];
-      int    midiTempoPerSecond = sm [2];
+
+      int    midiTempoPerSecond;
+      {
+        stringstream s;
+        s << sm [2];
+        s >> midiTempoPerSecond;
+      }
       
       if (TRACE_OPTIONS) {
         cerr <<
-          "midiTempoDuration = " <<
+          "midiTempoDuration  = " <<
           midiTempoDuration <<
           endl <<
-          "midiTempoPerSecond= " <<
+          "midiTempoPerSecond = " <<
           midiTempoPerSecond <<
           endl;
 
-      setMidiTempoItemVariableValue (
-        pair (midiTempoDuration, midiTempoPerSecond));
+      optionsMidiTempoItem->
+        setMidiTempoItemVariableValue (
+          pair<string, int> (
+            midiTempoDuration, midiTempoPerSecond));
       }
     }
 

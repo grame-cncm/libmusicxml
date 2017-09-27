@@ -575,9 +575,11 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
   
   {
     // variables
+    string midiTempoDuration  = "4";
+    int    midiTempoPerSecond = 90;
     
-    fMidiTempoDuration  = "4";
-    fMidiTempoPerSecond = 100;
+    fMidiTempo.first  = midiTempoDuration;
+    fMidiTempo.second = midiTempoPerSecond;
     
     fNoMidi = boolOptionsInitialValue;
     
@@ -590,18 +592,19 @@ R"(Midi)"
       );
   
     appendOptionsSubGroup (midiSubGroup);
-/*
+
     midiSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsMidiTempoItem::create (
           "midiTempo", "",
 R"(Generate a '\tempo duration = perSecond' command in the \midi block.
-'duration' is a string such as '8.', and 'perSecond' is an integer,
-and spaces can be used frely in the argument.
-The default is '4 = 100'.)",
+'duration' is a string such as '8.', and 'perSecond' is an integer.
+The single or double quotes are used to allow spaces around the '=' sign,
+otherwise they can be dispensed with.
+The default is '4 = 90'.)",
+          "'duration = perSecond'" " or " "\"duration = perSecond\"",
           "midiTempo",
-          fMidiTempoDuration)); // per second JMI
-          */
+          fMidiTempo));
 
     midiSubGroup->
       appendOptionsItem (
@@ -609,7 +612,7 @@ The default is '4 = 100'.)",
           "noMidi", "",
 R"(Generate the '\midi' block as a comment instead of active code.)",
           "noMidi",
-          fNoMidi)); // per second JMI
+          fNoMidi));
   } 
 
   
@@ -759,10 +762,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
         
   // midi
   
-  clone->fMidiTempoDuration =
-    fMidiTempoDuration;
-  clone->fMidiTempoPerSecond =
-    fMidiTempoPerSecond;
+  clone->fMidiTempo =
+    fMidiTempo;
     
   clone->fNoMidi =
     fNoMidi;
@@ -1606,11 +1607,11 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   cerr <<
     idtr << setw(fieldWidth) << "midiTempoDuration" << " : " <<
-      fMidiTempoDuration <<
+ //     fMidiTempoDuration <<
       endl <<
 
     idtr << setw(fieldWidth) << "midiTempoPerSecond" << " : " <<
-      fMidiTempoPerSecond <<
+  //    fMidiTempoPerSecond <<
       endl <<
 
     idtr << setw(fieldWidth) << "noMidiCommand" << " : " <<

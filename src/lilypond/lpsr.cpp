@@ -3009,11 +3009,14 @@ lpsrScoreBlock::lpsrScoreBlock (
       inputLineNumber);
   
   // create the score command midi
+  string midiTempoDuration  = gLilypondOptions->fMidiTempo.first;
+  int    midiTempoPerSecond = gLilypondOptions->fMidiTempo.second;
+  
   fScoreBlockMidi =
     msrMidi::create (
       inputLineNumber,
-      gLilypondOptions->fMidiTempoDuration,
-      gLilypondOptions->fMidiTempoPerSecond);
+      midiTempoDuration,
+      midiTempoPerSecond);
 }
 
 lpsrScoreBlock::~lpsrScoreBlock()
