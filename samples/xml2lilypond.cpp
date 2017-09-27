@@ -243,7 +243,7 @@ S_xml2lilypondOptionsHandler
   }
   
   // handle the arguments 
-  int nonOptionArgsNumber = argumentsVector.size ();
+  unsigned int nonOptionArgsNumber = argumentsVector.size ();
 
   if (true || gGeneralOptions->fTraceGeneral) {    
     if (nonOptionArgsNumber > 0) {

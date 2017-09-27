@@ -80,6 +80,7 @@ void generalOptions::initializeGeneralOptions (
           fVersion));
   }
 
+
   // output file
   // --------------------------------------
 
@@ -97,16 +98,30 @@ R"(Output file)"
       );
             
     appendOptionsSubGroup (outputFileSubGroup);
+    
     outputFileSubGroup->
       appendOptionsItem (
         msrOptionsStringItem::create (
           "of", "outputFile",
-  R"(Write LilyPond code to file 'fileName' instead of standard output.)",
+R"(Write LilyPond code to file 'fileName' instead of standard output.)",
           "fileName",
           "outputFile",
-          fOutputFileName));
-  }
+          fOutputFileName));  
   
+    outputFileSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "aof", "autoOutputFile",
+R"(This option can only be used when reading from a file.
+Write LilyPond code to a file in the current working directory.
+The file name is derived from that of the input file,
+replacing any suffix after the the '.' by 'ly'
+or adding '.ly' if none is present.)",
+          "autoOutputFile",
+          fAutoOutputFile));
+  }
+
+
   // trace and display
   // --------------------------------------
 
@@ -151,6 +166,7 @@ debugging information to standard error for the specified measures.)",
             fTraceDetailedMeasureNumbersSet));
   }
 
+
   // CPU usage
   // --------------------------------------
 
@@ -177,6 +193,7 @@ debugging information to standard error for the specified measures.)",
           "displayCPUusage",
           fDisplayCPUusage));
   }
+
 
   // specific trace    
   // --------------------------------------
