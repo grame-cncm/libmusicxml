@@ -164,7 +164,7 @@ class EXP msrOptions : public msrOptionsGroup
     // parts
     // --------------------------------------
     
-    map<string, string>   fPartsRenaming;
+    map<string, string>   fPartsRenamingMap;
 
     // voices
     // --------------------------------------

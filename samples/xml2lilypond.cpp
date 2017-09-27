@@ -2907,9 +2907,9 @@ R"(
               // is this part name in the part renaming map?
               map<string, string>::iterator
                 it =
-                  gMsrOptions->fPartsRenaming.find (pair.first);
+                  gMsrOptions->fPartsRenamingMap.find (pair.first);
                     
-              if (it != gMsrOptions->fPartsRenaming.end ()) {
+              if (it != gMsrOptions->fPartsRenamingMap.end ()) {
                 // yes, issue error message
                 stringstream s;
     
@@ -2921,7 +2921,7 @@ R"(
               }
               
               else
-                gMsrOptions->fPartsRenaming [pair.first] =
+                gMsrOptions->fPartsRenamingMap [pair.first] =
                   pair.second;
     
               partNamePresent = false;

@@ -26180,9 +26180,9 @@ void msrPart::initializePart ()
   // is this part name in the part renaming map?
   map<string, string>::const_iterator
     it =
-      gMsrOptions->fPartsRenaming.find (fPartID);
+      gMsrOptions->fPartsRenamingMap.find (fPartID);
         
-  if (it != gMsrOptions->fPartsRenaming.end ()) {
+  if (it != gMsrOptions->fPartsRenamingMap.end ()) {
     // yes, rename the part accordinglingly
     fPartMsrName = (*it).second;
   }
@@ -26595,9 +26595,9 @@ void msrPart::setPartMsrName (string partMsrName)
   // is this part name in the part renaming map?
   map<string, string>::const_iterator
     it =
-      gMsrOptions->fPartsRenaming.find (fPartMsrName);
+      gMsrOptions->fPartsRenamingMap.find (fPartMsrName);
         
-  if (it != gMsrOptions->fPartsRenaming.end ()) {
+  if (it != gMsrOptions->fPartsRenamingMap.end ()) {
     // yes, rename the part accordinglingly
     fPartMsrName = (*it).second;
 

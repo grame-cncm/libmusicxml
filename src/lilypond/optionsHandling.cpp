@@ -1323,57 +1323,57 @@ ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt)
 }
 
 //______________________________________________________________________________
-S_msrOptionsStringsMapItem msrOptionsStringsMapItem::create (
+S_msrOptionsPartRenameItem msrOptionsPartRenameItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsStringsMapItemVariableDisplayName,
+  string             optionsPartRenameItemVariableDisplayName,
   map<string, string>&
-                     optionsStringsMapItemVariable)
+                     optionsPartRenameItemVariable)
 {
-  msrOptionsStringsMapItem* o = new
-    msrOptionsStringsMapItem (
+  msrOptionsPartRenameItem* o = new
+    msrOptionsPartRenameItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
-      optionsStringsMapItemVariableDisplayName,
-      optionsStringsMapItemVariable);
+      optionsPartRenameItemVariableDisplayName,
+      optionsPartRenameItemVariable);
   assert(o!=0);
   return o;
 }
 
-msrOptionsStringsMapItem::msrOptionsStringsMapItem (
+msrOptionsPartRenameItem::msrOptionsPartRenameItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsStringsMapItemVariableDisplayName,
+  string             optionsPartRenameItemVariableDisplayName,
   map<string, string>&
-                     optionsStringsMapItemVariable)
+                     optionsPartRenameItemVariable)
   : msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
       1),
-    fOptionsStringsMapItemVariableDisplayName (
-      optionsStringsMapItemVariableDisplayName),
-    fOptionsStringsMapItemVariable (
-      optionsStringsMapItemVariable)
+    fOptionsPartRenameItemVariableDisplayName (
+      optionsPartRenameItemVariableDisplayName),
+    fOptionsPartRenameItemVariable (
+      optionsPartRenameItemVariable)
 {}
 
-msrOptionsStringsMapItem::~msrOptionsStringsMapItem()
+msrOptionsPartRenameItem::~msrOptionsPartRenameItem()
 {}
 
-void msrOptionsStringsMapItem::print (ostream& os) const
+void msrOptionsPartRenameItem::print (ostream& os) const
 {
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
     idtr <<
-      "OptionsStringsMapItem:" <<
+      "OptionsPartRenameItem:" <<
       endl;
 
   idtr++;
@@ -1396,33 +1396,63 @@ void msrOptionsStringsMapItem::print (ostream& os) const
       endl <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsStringsMapItemVariableDisplayName" << " : " <<
-      fOptionsStringsMapItemVariableDisplayName <<
+      "fOptionsPartRenameItemVariableDisplayName" << " : " <<
+      fOptionsPartRenameItemVariableDisplayName <<
     idtr <<
       setw(fieldWidth) <<
-      "fOptionsStringsMapItemVariable" << " : \"" <<
-      map<string, string>AsString (
-        fOptionsStringsMapItemVariable) <<
-        "\"" <<
+      "fOptionsPartRenameItemVariable" << " : " <<
       endl;
+
+  if (! fOptionsPartRenameItemVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, string>::const_iterator
+      iBegin = fOptionsPartRenameItemVariable.begin(),
+      iEnd   = fOptionsPartRenameItemVariable.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+  
+  os <<
+    endl;
 }
 
-void msrOptionsStringsMapItem::printOptionsValues (
+void msrOptionsPartRenameItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
   os << left <<
     idtr <<
       setw(valueFieldWidth) <<
-      fOptionsStringsMapItemVariableDisplayName <<
-      " : \"" <<
-      map<string, string>AsString (
-        fOptionsStringsMapItemVariable) <<
-      "\"" <<
+      fOptionsPartRenameItemVariableDisplayName <<
+      " : " <<
       endl;
+      
+  if (! fOptionsPartRenameItemVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, string>::const_iterator
+      iBegin = fOptionsPartRenameItemVariable.begin(),
+      iEnd   = fOptionsPartRenameItemVariable.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+  
+  os <<
+    endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsStringsMapItem& elt)
+ostream& operator<< (ostream& os, const S_msrOptionsPartRenameItem& elt)
 {
   elt->print (os);
   return os;
@@ -2809,6 +2839,17 @@ void msrOptionsHandler::handleOptionsItemName (
         fExpectedValuesNumber = 1;
       }
 
+      else if (
+        // part rename item?
+        S_msrOptionsPartRenameItem
+          optionsPartRenameItem =
+            dynamic_cast<msrOptionsPartRenameItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsPartRenameItem;
+        fExpectedValuesNumber = 1;
+      }
+
       else {
         stringstream s;
     
@@ -3073,6 +3114,58 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       fExpectedValuesNumber = 0;
     }
     
+    else if (
+      // part rename item?
+      S_msrOptionsPartRenameItem
+        optionsPartRenameItem =
+          dynamic_cast<msrOptionsPartRenameItem*>(&(*fPendingOptionsItem))
+      ) {
+      // theString contains the part rename specification
+      std::pair<string, string>
+        pair =
+          extractNamesPairFromString (
+            theString,
+            '=',
+            false); // 'true' to debug it
+
+      string
+        oldPartName = pair.first,
+        newPartName = pair.second;
+        
+      if (TRACE_OPTIONS) {
+        cerr <<
+          "--> oldPartName = \"" << oldPartName << "\", " <<
+          "--> newPartName = \"" << newPartName << "\"" <<
+          endl;
+      }
+
+      map<string, string>
+        optionsPartRenameItemVariable =
+          optionsPartRenameItem->
+            getOptionsPartRenameItemVariable ();
+            
+      // is this part name in the part renaming map?
+      map<string, string>::iterator
+        it =
+          optionsPartRenameItemVariable.find (oldPartName);
+            
+      if (it != optionsPartRenameItemVariable.end ()) {
+        // yes, issue error message
+        stringstream s;
+
+        s <<
+          "Part \"" << oldPartName << "\" occurs more that one" <<
+          "in the '--partName' option";
+          
+        optionError (s.str());
+      }
+      
+      else {
+        optionsPartRenameItemVariable [oldPartName] =
+          newPartName;
+      }
+    }
+
   }
 
   else {

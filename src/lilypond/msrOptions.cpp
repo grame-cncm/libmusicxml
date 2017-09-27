@@ -182,17 +182,19 @@ R"(Parts)"
       );
   
     appendOptionsSubGroup (partsSubGroup);
-/* JMI
+
     partsSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsPartRenameItem::create (
           "mpr", "msrPartRename", // JMI
 R"(Rename part 'original' to 'newName', for example after 
 displaying a summary of the score in a first xml2lilypond run.
+The single or double quotes are used to allow spaces in the names
+and around the '=' sign, otherwise they can be dispensed with.
 There can be several occurrences of this option.)",
+          "'originalName = newName'" " or " "\"originalName = newName\"",
           "partRename",
-          fPartsRenaming));
-          */
+          fPartsRenamingMap));
   }
       
 
@@ -453,8 +455,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // parts
 
-  clone->fPartsRenaming =
-    fPartsRenaming;
+  clone->fPartsRenamingMap =
+    fPartsRenamingMap;
 
   // voices
   
@@ -892,7 +894,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   cerr <<
     idtr << setw(fieldWidth) << "parts renaming" << " : ";
 
-  if (fPartsRenaming.empty ()) {
+  if (fPartsRenamingMap.empty ()) {
     cerr <<
       "none";
   }
@@ -900,8 +902,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   else {
     for (
       map<string, string>::const_iterator i =
-        fPartsRenaming.begin();
-      i != fPartsRenaming.end();
+        fPartsRenamingMap.begin();
+      i != fPartsRenamingMap.end();
       i++) {
         cerr <<
           "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";

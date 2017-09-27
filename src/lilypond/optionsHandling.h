@@ -813,53 +813,60 @@ typedef SMARTP<msrOptionsChordsLanguageItem> S_msrOptionsChordsLanguageItem;
 ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt);
 
 //______________________________________________________________________________
-class EXP msrOptionsStringsMapItem : public msrOptionsValuedItem
+class EXP msrOptionsPartRenameItem : public msrOptionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsStringsMapItem> create (
+    static SMARTP<msrOptionsPartRenameItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification,
-      string             optionsStringsMapItemVariableDisplayName,
+      string             optionsPartRenameItemVariableDisplayName,
       map<string, string>&
-                         optionsStringsMapItemVariable);
+                         optionsPartRenameItemVariable);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsStringsMapItem (
+    msrOptionsPartRenameItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification,
-      string             optionsStringsMapItemVariableDisplayName,
+      string             optionsPartRenameItemVariableDisplayName,
       map<string, string>&
-                         optionsStringsMapItemVariable);
+                         optionsPartRenameItemVariable);
       
-    virtual ~msrOptionsStringsMapItem();
+    virtual ~msrOptionsPartRenameItem();
 
   public:
   
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsStringsMapItemVariableDisplayName () const
+    string                getOptionsPartRenameItemVariableDisplayName () const
                               {
                                 return
-                                  fOptionsStringsMapItemVariableDisplayName;
+                                  fOptionsPartRenameItemVariableDisplayName;
                               }
                               
-    void                  setStringsMapItemVariableValue (
+    void                  setPartRenameItemVariableValue (
                             map<string, string> value)
                               {
-                                fOptionsStringsMapItemVariable = value;
+                                fOptionsPartRenameItemVariable = value;
+                              }
+
+    const map<string, string>&
+                          getOptionsPartRenameItemVariable ()
+                              {
+                                return
+                                  fOptionsPartRenameItemVariable;
                               }
 
     // services
@@ -876,11 +883,11 @@ class EXP msrOptionsStringsMapItem : public msrOptionsValuedItem
 
   private:
   
-    string                fOptionsStringsMapItemVariableDisplayName;
-    map<string, string>&  fOptionsStringsMapItemVariable;
+    string                fOptionsPartRenameItemVariableDisplayName;
+    map<string, string>&  fOptionsPartRenameItemVariable;
 };
-typedef SMARTP<msrOptionsStringsMapItem> S_msrOptionsStringsMapItem;
-ostream& operator<< (ostream& os, const S_msrOptionsStringsMapItem& elt);
+typedef SMARTP<msrOptionsPartRenameItem> S_msrOptionsPartRenameItem;
+ostream& operator<< (ostream& os, const S_msrOptionsPartRenameItem& elt);
 
 //_______________________________________________________________________________
 class EXP msrOptionsSubGroup : public msrOptionsElement
