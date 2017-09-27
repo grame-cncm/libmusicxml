@@ -3233,7 +3233,10 @@ lpsrScore::lpsrScore (
     s <<
       "on " << gGeneralOptions->fTranslationDate <<
       endl <<
-      endl <<
+      endl;
+
+    s <<
+      idtr <<
       "% Translation command was:";
         
     fTranslationDateComment =
