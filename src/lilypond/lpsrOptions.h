@@ -24,32 +24,6 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-// LPSR options
-
-// trace and display
-
-#define _TRACE_LPSR_LONG_NAME_  "traceLpsr"
-#define _TRACE_LPSR_SHORT_NAME_ "tlpsr"
-
-#define _TRACE_LPSR_VISITORS_LONG_NAME_  "traceLpsrVisitors"
-#define _TRACE_LPSR_VISITORS_SHORT_NAME_ "tlpvisits"
-
-#define _DISPLAY_LPSR_LONG_NAME_  "displayLpsr"
-#define _DISPLAY_LPSR_SHORT_NAME_ "lpsr"
-
-// Scheme functions
-
-#define _TRACE_SCHEME_FUNCTIONS_LONG_NAME_  "traceSchemeFunctions"
-#define _TRACE_SCHEME_FUNCTIONS_SHORT_NAME_ "tscheme"
-
-// languages
-
-#define _LPSR_PITCHES_LANGUAGE_LONG_NAME_  "lpsrPitchesLanguage"
-#define _LPSR_PITCHES_LANGUAGE_SHORT_NAME_ "lppl"
-
-#define _LPSR_CHORDS_LANGUAGE_LONG_NAME_  "lpsrChordsLanguage"
-#define _LPSR_CHORDS_LANGUAGE_SHORT_NAME_ "lpcl"
-
 class EXP lpsrOptions : public msrOptionsGroup
 {
   public:
