@@ -1200,7 +1200,7 @@ S_msrOptionsAccidentalStyleItem msrOptionsAccidentalStyleItem::create (
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsAccidentalStyleItemVariableDisplayName,
-  msrQuarterTonesAccidentalStyle&
+  lpsrAccidentalStyle&
                      optionsAccidentalStyleItemVariable)
 {
   msrOptionsAccidentalStyleItem* o = new
@@ -1221,7 +1221,7 @@ msrOptionsAccidentalStyleItem::msrOptionsAccidentalStyleItem (
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsAccidentalStyleItemVariableDisplayName,
-  msrQuarterTonesAccidentalStyle&
+  lpsrAccidentalStyle&
                      optionsAccidentalStyleItemVariable)
   : msrOptionsValuedItem (
       optionsItemShortName,
@@ -1272,7 +1272,7 @@ void msrOptionsAccidentalStyleItem::print (ostream& os) const
     idtr <<
       setw (fieldWidth) <<
       "fOptionsAccidentalStyleItemVariable" << " : \"" <<
-      msrQuarterTonesAccidentalStyleAsString (
+      lpsrAccidentalStyleAsString (
         fOptionsAccidentalStyleItemVariable) <<
         "\"" <<
       endl;
@@ -1287,7 +1287,7 @@ void msrOptionsAccidentalStyleItem::printOptionsValues (
       setw (valueFieldWidth) <<
       fOptionsAccidentalStyleItemVariableDisplayName <<
       " : \"" <<
-      msrQuarterTonesAccidentalStyleAsString (
+      lpsrAccidentalStyleAsString (
         fOptionsAccidentalStyleItemVariable) <<
       "\"" <<
       endl;
@@ -3254,7 +3254,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       ) {
       // theString contains the language name:     
       // is it in the pitches languages map?
-      map<string, msrQuarterTonesAccidentalStyle>::const_iterator
+      map<string, lpsrAccidentalStyle>::const_iterator
         it =
           gQuarterTonesAccidentalStylesMap.find (
             theString);

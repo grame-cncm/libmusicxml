@@ -606,6 +606,74 @@ void writeTextsListAsLilypondString (
       contents);
 } 
 
+// accidental styles
+//______________________________________________________________________________
+
+string lpsrAccidentalStyleAsString (
+  lpsrAccidentalStyle style)
+{
+  string result;
+  
+  switch (language) {
+    case kDefaultStyle: // default value
+      result = "DefaultStyle";
+      break;
+    case kVoiceStyle:
+      result = "VoiceStyle";
+      break;
+    case kModernStyle:
+      result = "ModernStyle";
+      break;
+    case kModernCautionaryStyle:
+      result = "ModernCautionaryStyle";
+      break;
+    case kModernVoiceStyle:
+      result = "ModernVoiceStyle";
+      break;
+    case kModernVoiceCautionaryStyle:
+      result = "ModernVoiceCautionaryStyle";
+      break;
+    case kPianoStyle:
+      result = "PianoStyle";
+      break;
+    case kPianoCautionaryStyle:
+      result = "PianoCautionaryStyle";
+      break;
+    case kNeoModernStyle:
+      result = "NeoModernStyle";
+      break;
+    case kNeoModernCautionaryStyle:
+      result = "NeoModernCautionaryStyle";
+      break;
+    case kNeoModernVoiceStyle:
+      result = "NeoModernVoiceStyle";
+      break;
+    case kNeoModernVoiceVautionaryStyle:
+      result = "NeoModernVoiceVautionaryStyle";
+      break;
+    case kDodecaphonicStyle:
+      result = "DodecaphonicStyle";
+      break;
+    case kDodecaphonicNoRepeatStyle:
+      result = "DodecaphonicNoRepeatStyle";
+      break;
+    case kDodecaphonicFirstStyle:
+      result = "DodecaphonicFirstStyle";
+      break;
+    case kTeachingStyle:
+      result = "TeachingStyle";
+      break;
+    case kNoResetStyle:
+      result = "NoResetStyle";
+      break;
+    case kForgetStyle:
+      result = "ForgetStyle";
+      break;
+  } // switch
+
+  return result;
+}
+
 // chords languages
 //______________________________________________________________________________
 

@@ -791,7 +791,7 @@ class EXP msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
       string             optionsItemDescription,
       string             optionsValueSpecification,
       string             optionsAccidentalStyleItemVariableDisplayName,
-      msrQuarterTonesAccidentalStyle&
+      lpsrAccidentalStyle&
                          optionsAccidentalStyleItemVariable);
      
   protected:
@@ -805,7 +805,7 @@ class EXP msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
       string             optionsItemDescription,
       string             optionsValueSpecification,
       string             optionsAccidentalStyleItemVariableDisplayName,
-      msrQuarterTonesAccidentalStyle&
+      lpsrAccidentalStyle&
                          optionsAccidentalStyleItemVariable);
       
     virtual ~msrOptionsAccidentalStyleItem();
@@ -822,7 +822,7 @@ class EXP msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
                               }
                               
     void                  setAccidentalStyleItemVariableValue (
-                            msrQuarterTonesAccidentalStyle value)
+                            lpsrAccidentalStyle value)
                               {
                                 fOptionsAccidentalStyleItemVariable = value;
                               }
@@ -845,8 +845,7 @@ class EXP msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
     // ------------------------------------------------------
 
     string                fOptionsAccidentalStyleItemVariableDisplayName;
-    msrQuarterTonesAccidentalStyle&
-                          fOptionsAccidentalStyleItemVariable;
+    lpsrAccidentalStyle&  fOptionsAccidentalStyleItemVariable;
 };
 typedef SMARTP<msrOptionsAccidentalStyleItem> S_msrOptionsAccidentalStyleItem;
 ostream& operator<< (ostream& os, const S_msrOptionsAccidentalStyleItem& elt);

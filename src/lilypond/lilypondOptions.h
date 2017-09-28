@@ -100,8 +100,8 @@ class EXP lilypondOptions : public msrOptionsGroup
     bool                  fRomanStringNumbers;
     bool                  fAvoidOpenStrings;
     
-    string                fAccidentalStyle;
-    
+    lpsrAccidentalStyle   fAccidentalStyle;
+
     bool                  fCompressMultiMeasureRests;
 
     bool                  fNoteInputLineNumbers;
@@ -185,9 +185,8 @@ class EXP lilypondOptions : public msrOptionsGroup
 
     bool                  fSilentVoices; // JMI
 
-  private:
+  private: // JMI
 
-    set<string>           fLilypondAccidentalStyles;
 };
 typedef SMARTP<lilypondOptions> S_lilypondOptions;
 EXP ostream& operator<< (ostream& os, const S_lilypondOptions& elt);
