@@ -632,27 +632,6 @@ R"(Generate the '\midi' block as a comment instead of active code.)",
   fSilentVoices = boolOptionsInitialValue;
 
 
-  // register the LilyPond accidental styles
-  // --------------------------------------
-  
-  fLilypondAccidentalStyles.insert ("voice");
-  fLilypondAccidentalStyles.insert ("modern");
-  fLilypondAccidentalStyles.insert ("modern-cautionary");
-  fLilypondAccidentalStyles.insert ("modern-voice");
-  fLilypondAccidentalStyles.insert ("modern-voice-cautionary");
-  fLilypondAccidentalStyles.insert ("piano");
-  fLilypondAccidentalStyles.insert ("piano-cautionary");
-  fLilypondAccidentalStyles.insert ("neo-modern");
-  fLilypondAccidentalStyles.insert ("neo-modern-cautionary");
-  fLilypondAccidentalStyles.insert ("neo-modern-voice");
-  fLilypondAccidentalStyles.insert ("neo-modern-voice-cautionary");
-  fLilypondAccidentalStyles.insert ("dodecaphonic");
-  fLilypondAccidentalStyles.insert ("dodecaphonic-no-repeat");
-  fLilypondAccidentalStyles.insert ("dodecaphonic-first");
-  fLilypondAccidentalStyles.insert ("teaching");
-  fLilypondAccidentalStyles.insert ("no-reset");
-  fLilypondAccidentalStyles.insert ("forget");
-
   /* JMI
   for (
     set<string>::const_iterator i=fLilypondAccidentalStyles.begin();

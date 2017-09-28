@@ -609,12 +609,15 @@ void writeTextsListAsLilypondString (
 // accidental styles
 //______________________________________________________________________________
 
+map<string, lpsrAccidentalStyle>
+  gLpsrAccidentalStylesMap;
+
 string lpsrAccidentalStyleAsString (
   lpsrAccidentalStyle style)
 {
   string result;
   
-  switch (language) {
+  switch (style) {
     case kDefaultStyle: // default value
       result = "DefaultStyle";
       break;
@@ -648,7 +651,7 @@ string lpsrAccidentalStyleAsString (
     case kNeoModernVoiceStyle:
       result = "NeoModernVoiceStyle";
       break;
-    case kNeoModernVoiceVautionaryStyle:
+    case kNeoModernVoiceCautionaryStyle:
       result = "NeoModernVoiceVautionaryStyle";
       break;
     case kDodecaphonicStyle:
@@ -672,6 +675,115 @@ string lpsrAccidentalStyleAsString (
   } // switch
 
   return result;
+}
+
+string lpsrAccidentalStyleAsLilypondString (
+  lpsrAccidentalStyle style)
+{
+  string result;
+  
+  switch (style) {
+    case kDefaultStyle: // default value
+      result = "default";
+      break;
+    case kVoiceStyle:
+      result = "voice";
+      break;
+    case kModernStyle:
+      result = "modern";
+      break;
+    case kModernCautionaryStyle:
+      result = "modern-cautionary";
+      break;
+    case kModernVoiceStyle:
+      result = "modern-voice";
+      break;
+    case kModernVoiceCautionaryStyle:
+      result = "modern-voice-cautionary";
+      break;
+    case kPianoStyle:
+      result = "piano";
+      break;
+    case kPianoCautionaryStyle:
+      result = "piano-cautionary";
+      break;
+    case kNeoModernStyle:
+      result = "neo-modern";
+      break;
+    case kNeoModernCautionaryStyle:
+      result = "neo-modern-cautionary";
+      break;
+    case kNeoModernVoiceStyle:
+      result = "neo-modern-voice";
+      break;
+    case kNeoModernVoiceCautionaryStyle:
+      result = "neo-modern--voice-cautionary";
+      break;
+    case kDodecaphonicStyle:
+      result = "dodecaphonic";
+      break;
+    case kDodecaphonicNoRepeatStyle:
+      result = "dodecaphonic-no-repeat";
+      break;
+    case kDodecaphonicFirstStyle:
+      result = "dodecaphonic-first";
+      break;
+    case kTeachingStyle:
+      result = "teaching";
+      break;
+    case kNoResetStyle:
+      result = "no-reset";
+      break;
+    case kForgetStyle:
+      result = "forget";
+      break;
+  } // switch
+
+  return result;
+}
+
+void initializeLpsrAccidentalStylesMap ()
+{
+  // register the LilyPond accidental styles
+  // --------------------------------------
+
+  gLpsrAccidentalStylesMap ["default"] = kDefaultStyle;
+  gLpsrAccidentalStylesMap ["voice"] = kVoiceStyle;
+  gLpsrAccidentalStylesMap ["modern"] = kModernStyle;
+  gLpsrAccidentalStylesMap ["modern-cautionary"] = kModernCautionaryStyle;
+  gLpsrAccidentalStylesMap ["modern-voice"] = kModernVoiceStyle;
+  gLpsrAccidentalStylesMap ["modern-voice-cautionary"] = kModernVoiceCautionaryStyle;
+  gLpsrAccidentalStylesMap ["piano"] = kPianoStyle;
+  gLpsrAccidentalStylesMap ["piano-cautionary"] = kPianoCautionaryStyle;
+  gLpsrAccidentalStylesMap ["neo-modern"] = kNeoModernStyle;
+  gLpsrAccidentalStylesMap ["neo-modern-cautionary"] = kNeoModernCautionaryStyle;
+  gLpsrAccidentalStylesMap ["neo-modern-voice"] = kNeoModernVoiceStyle;
+  gLpsrAccidentalStylesMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionaryStyle;
+  gLpsrAccidentalStylesMap ["dodecaphonic"] = kDodecaphonicStyle;
+  gLpsrAccidentalStylesMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeatStyle;
+  gLpsrAccidentalStylesMap ["dodecaphonic-first"] = kDodecaphonicFirstStyle;
+  gLpsrAccidentalStylesMap ["teaching"] = kTeachingStyle;
+  gLpsrAccidentalStylesMap ["no-reset"] = kNoResetStyle;
+  gLpsrAccidentalStylesMap ["forget"] = kForgetStyle;
+}
+
+string existingLpsrAccidentalStyles ()
+{
+  stringstream s;
+  
+  map<string, lpsrChordsLanguage>::const_iterator
+    iBegin = gLpsrChordsLanguagesMap.begin(),
+    iEnd   = gLpsrChordsLanguagesMap.end(),
+    i      = iBegin;
+  for ( ; ; ) {
+    if ((*i).second != kDefaultStyle)
+      s << (*i).first;
+    if (++i == iEnd) break;
+    if ((*i).second != kDefaultStyle)
+      s << " ";
+  } // for
+
+  return s.str();
 }
 
 // chords languages

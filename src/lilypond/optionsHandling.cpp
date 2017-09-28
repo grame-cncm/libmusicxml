@@ -3260,7 +3260,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
             theString);
             
       if (it == gQuarterTonesAccidentalStylesMap.end ()) {
-        // no, language is unknown in the map
+        // no, accidental style is unknown in the map
         stringstream s;
     
         s <<

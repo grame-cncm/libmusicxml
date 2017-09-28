@@ -78,12 +78,22 @@ enum lpsrAccidentalStyle {
   kModernCautionaryStyle, kModernVoiceStyle, kModernVoiceCautionaryStyle,
   kPianoStyle, kPianoCautionaryStyle,
   kNeoModernStyle,
-  kNeoModernCautionaryStyle, kNeoModernVoiceStyle, kNeoModernVoiceVautionaryStyle,
+  kNeoModernCautionaryStyle, kNeoModernVoiceStyle, kNeoModernVoiceCautionaryStyle,
   kDodecaphonicStyle, kDodecaphonicNoRepeatStyle,
   kDodecaphonicFirstStyle, kTeachingStyle, kNoResetStyle, kForgetStyle };
 
 static string lpsrAccidentalStyleAsString (
   lpsrAccidentalStyle style);
+
+static string lpsrAccidentalStyleAsLilypondString (
+  lpsrAccidentalStyle style);
+
+extern map<string, lpsrAccidentalStyle>
+  gLpsrAccidentalStylesMap;
+
+string existingLpsrAccidentalStyles ();
+
+void initializeLpsrAccidentalStylesMap ();
 
 // chords languages
 //______________________________________________________________________________
@@ -99,7 +109,7 @@ extern map<string, lpsrChordsLanguage>
 
 string existingLpsrChordsLanguages ();
 
-void initializeLpsrChordsLanguages ();
+void initializeLpsrChordsLanguagesMap ();
 
 // whole notes
 //______________________________________________________________________________

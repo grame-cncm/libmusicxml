@@ -3429,10 +3429,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
         endl <<
       endl;
 
-  if (gLilypondOptions->fAccidentalStyle.size ())
+  if (gLilypondOptions->fAccidentalStyle != kDefaultStyle)
     fOstream <<
       idtr <<
-        "\\accidentalStyle Score." << gLilypondOptions->fAccidentalStyle <<
+        "\\accidentalStyle Score." <<
+        lpsrAccidentalStyleAsString (
+          gLilypondOptions->fAccidentalStyle) <<
         endl <<
       endl;
 

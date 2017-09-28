@@ -4000,7 +4000,7 @@ void initializeLPSR ()
   // languages handling
   // ------------------------------------------------------
 
-  initializeLpsrChordsLanguages ();
+  initializeLpsrChordsLanguagesMap ();
 
   // create the options variables
   // ------------------------------------------------------
