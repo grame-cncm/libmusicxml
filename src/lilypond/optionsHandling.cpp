@@ -1761,7 +1761,7 @@ void msrOptionsSubGroup::printHelpSummary (ostream& os) const
   os << idtr <<
     fOptionsElementDescription <<
     " " <<
-    optionsElementNamesBetweenParentheses () <<
+    optionsElementNamesBetweenParentheses ();
 
   // underline the options subgroup header
   underlineHeader (os);
@@ -1776,7 +1776,7 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
   if (optionsSubGroup == this)
     printHelp (os);
   else
-    printSummary (os);
+    printHelpSummary (os);
  }
 
 void msrOptionsSubGroup::printOptionsValues (
@@ -2052,7 +2052,9 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup specific subgroup help
-      (*i)->printSpecificSubGroupHelp (os);
+      (*i)->
+        printSpecificSubGroupHelp (
+          os, optionsSubGroup);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -2369,6 +2371,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
 void msrOptionsHandler::printSpecificSubGroupHelp (
   ostream& os,
   S_msrOptionsSubGroup optionsSubGroup) const
+{
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription <<
@@ -2388,7 +2391,9 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
       i      = iBegin;
     for ( ; ; ) {
       // print the options group specific subgroup help
-      (*i)->printSpecificSubGroupHelp (os);
+      (*i)->
+        printSpecificSubGroupHelp (
+          os, optionsSubGroup);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -3018,7 +3023,12 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "' is ill-formed";
           
         optionError (s.str());
-        printHelpSummary (cerr);
+        
+        printSpecificSubGroupHelp (
+          cerr,
+          optionsRationalItem->
+            getOptionsSubGroupUplink ());
+            
         exit (4);
       }
 
@@ -3236,7 +3246,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       regex_match (theString, sm, e);
 
-      if (TRACE_OPTIONS) {
+      if (true || TRACE_OPTIONS) {
         cerr <<
           "There are " << sm.size() << " matches" <<
           " for string '" << theString <<
@@ -3249,7 +3259,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         for (unsigned i = 0; i < sm.size (); ++i) {
           cerr << "[" << sm [i] << "] ";
         } // for
-        cerr << endl;
+        cerr <<
+          endl;
       }
       
       else {
@@ -3260,7 +3271,12 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "' is ill-formed";
           
         optionError (s.str());
-        printHelpSummary (cerr);
+        
+        printSpecificSubGroupHelp (
+          cerr,
+          optionsMidiTempoItem->
+            getOptionsSubGroupUplink ());
+            
         exit (4);
       }
 
