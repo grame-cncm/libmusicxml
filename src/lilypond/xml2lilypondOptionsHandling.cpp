@@ -80,8 +80,10 @@ What it does:
     Other passes are performed according to the options, such as
     printing views of the internal data or printing a summary of the score.
 
-    There are various options to fine tune the generated LilyPond code
+    A number of options exist to fine tune the generated LilyPond code
     and limit the need for manually editing the latter.
+    They are organized in a group-subgroup-item hierarchy,
+    and help can be obtained for groups or subgroups at will.
 
     The activity log and warning/error messages go to standard error.
 )"

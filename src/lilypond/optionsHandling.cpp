@@ -1688,11 +1688,10 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
+    endl <<
     endl;
 
-  if (fOptionsSubGroupItemsList.size ()) {
-    os << endl;
-    
+  if (fOptionsSubGroupItemsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsItem>::const_iterator
@@ -1706,6 +1705,9 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
       cerr << endl;
     } // for
 
+    os <<
+      endl;
+      
     idtr--;
   }
 }
@@ -1717,9 +1719,6 @@ void msrOptionsSubGroup::printHelpSummary (ostream& os) const
     fOptionsElementDescription <<
     " " <<
     optionsElementNamesBetweenParentheses ();
-
-  // underline the options subgroup header
-  underlineHeader (os);
 }
 
 void msrOptionsSubGroup::printSpecificSubGroupHelp (
@@ -1741,8 +1740,6 @@ void msrOptionsSubGroup::printOptionsValues (
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription <<
-    // " " <<
-    // optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -1750,9 +1747,7 @@ void msrOptionsSubGroup::printOptionsValues (
  // JMI underlineHeader (os);
 
   // print the options items values
-  if (fOptionsSubGroupItemsList.size ()) {
-  // JMI  os << endl;
-    
+  if (fOptionsSubGroupItemsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsItem>::const_iterator
@@ -1923,11 +1918,11 @@ void msrOptionsGroup::printHelp (ostream& os) const
 
   // underline the options group header
   underlineHeader (os);
+  os <<
+    endl;
 
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {
-    os << endl;
-    
+  if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsSubGroup>::const_iterator
@@ -1941,6 +1936,9 @@ void msrOptionsGroup::printHelp (ostream& os) const
       cerr << endl;
     } // for
 
+    os <<
+      endl;
+      
     idtr--;
   }
 }
@@ -1957,11 +1955,11 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
 
   // underline the options group header
   underlineHeader (os);
+  os <<
+    endl;
 
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {
-    os << endl;
-    
+  if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsSubGroup>::const_iterator
@@ -1976,6 +1974,9 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
       cerr << endl;
     } // for
 
+    os <<
+      endl;
+      
     idtr--;
   }
 }
@@ -1994,11 +1995,11 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
 
   // underline the options group header
   underlineHeader (os);
+  os <<
+    endl;
 
   // print the options subgroups
-  if (fOptionsGroupSubGroupsList.size ()) {
-    os << endl;
-    
+  if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsSubGroup>::const_iterator
@@ -2013,6 +2014,9 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
       if (++i == iEnd) break;
       cerr << endl;
     } // for
+
+    os <<
+      endl;
 
     idtr--;
   }
@@ -2034,9 +2038,7 @@ void msrOptionsGroup::printOptionsValues (
   underlineHeader (os);
 
   // print the options subgroups values
-  if (fOptionsGroupSubGroupsList.size ()) {
- // JMI   os << endl;
-    
+  if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsSubGroup>::const_iterator
@@ -2290,13 +2292,16 @@ void msrOptionsHandler::printHelp (ostream& os) const
 
 void msrOptionsHandler::printHelpSummary (ostream& os) const
 {
-  // the description is the header of the information
-  os << idtr <<
-    fOptionsElementDescription <<
-    " " <<
-    optionsElementNamesBetweenParentheses () <<
-    ":" <<
-    endl <<
+  os <<
+    idtr <<
+      fOptionsHandlerHelpHeader <<
+      endl <<
+    idtr <<
+      fOptionsElementDescription <<
+      " " <<
+      optionsElementNamesBetweenParentheses () <<
+      ":" <<
+      endl <<
     endl;
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
@@ -2625,10 +2630,9 @@ void msrOptionsHandler::handleOptionsItemName (
       "' is unknown";
       
     optionError (s.str());
-    cerr <<
-      fOptionsHandlerHelpHeader <<
-      endl;
+
     printHelpSummary (cerr);
+
     exit (2);
   }
 
@@ -3070,7 +3074,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         idtr--;
     
         optionError (s.str());
+        
         printHelpSummary (cerr);
+        
         exit (4);
       }
     
@@ -3115,7 +3121,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         idtr--;
     
         optionError (s.str());
+        
         printHelpSummary (cerr);
+        
         exit (4);
       }
     
