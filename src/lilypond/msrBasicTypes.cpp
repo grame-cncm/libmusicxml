@@ -2804,17 +2804,19 @@ string msrQuarterTonesPitchAsString (
 string existingQuarterTonesPitchesLanguages ()
 {
   stringstream s;
-  
-  map<string, msrQuarterTonesPitchesLanguage>::const_iterator
-    iBegin = gQuarterTonesPitchesLanguagesMap.begin(),
-    iEnd   = gQuarterTonesPitchesLanguagesMap.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    s << (*i).first;
-    if (++i == iEnd) break;
-    s << " ";
-  } // for
 
+  if (gQuarterTonesPitchesLanguagesMap.size ()) {
+    map<string, msrQuarterTonesPitchesLanguage>::const_iterator
+      iBegin = gQuarterTonesPitchesLanguagesMap.begin(),
+      iEnd   = gQuarterTonesPitchesLanguagesMap.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      s << (*i).first;
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+  
   return s.str();
 }
 

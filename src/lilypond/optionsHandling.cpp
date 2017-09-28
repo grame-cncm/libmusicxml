@@ -3247,13 +3247,13 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     }
     
     else if (
-      // accidentals style item?
+      // accidental style item?
       S_msrOptionsAccidentalStyleItem
         optionsAccidentalStyleItem =
           dynamic_cast<msrOptionsAccidentalStyleItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the language name:     
-      // is it in the pitches languages map?
+      // is it in the accidental styles map?
       map<string, lpsrAccidentalStyle>::const_iterator
         it =
           gLpsrAccidentalStylesMap.find (
@@ -3264,12 +3264,12 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         stringstream s;
     
         s <<
-          "MSR pitches language " << theString <<
+          "LPSR accidental style " << theString <<
           " is unknown" <<
           endl <<
           "The " <<
           gLpsrAccidentalStylesMap.size () <<
-          " known MSR pitches languages are:" <<
+          " known LPSR accidental styles are:" <<
           endl;
     
         idtr++;

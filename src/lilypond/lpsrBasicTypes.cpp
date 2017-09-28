@@ -770,18 +770,23 @@ void initializeLpsrAccidentalStylesMap ()
 string existingLpsrAccidentalStyles ()
 {
   stringstream s;
-  
-  map<string, lpsrAccidentalStyle>::const_iterator
-    iBegin = gLpsrAccidentalStylesMap.begin(),
-    iEnd   = gLpsrAccidentalStylesMap.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    if ((*i).second != kDefaultStyle)
-      s << (*i).first;
-    if (++i == iEnd) break;
-    if ((*i).second != kDefaultStyle)
-      s << " ";
-  } // for
+
+  if (gLpsrAccidentalStylesMap.size ()) {
+    map<string, lpsrAccidentalStyle>::const_iterator
+      iBegin = gLpsrAccidentalStylesMap.begin(),
+      iEnd   = gLpsrAccidentalStylesMap.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      cerr <<
+        (*i).first <<
+        endl;
+      if ((*i).second != kDefaultStyle)
+        s << (*i).first;
+      if (++i == iEnd) break;
+      if ((*i).second != kDefaultStyle)
+        s << " ";
+    } // for
+  }
 
   return s.str();
 }
@@ -831,18 +836,20 @@ string existingLpsrChordsLanguages ()
 {
   stringstream s;
   
-  map<string, lpsrChordsLanguage>::const_iterator
-    iBegin = gLpsrChordsLanguagesMap.begin(),
-    iEnd   = gLpsrChordsLanguagesMap.end(),
-    i      = iBegin;
-  for ( ; ; ) {
-    if ((*i).second != k_IgnatzekChords)
-      s << (*i).first;
-    if (++i == iEnd) break;
-    if ((*i).second != k_IgnatzekChords)
-      s << " ";
-  } // for
-
+  if (gLpsrChordsLanguagesMap.size ()) {
+    map<string, lpsrChordsLanguage>::const_iterator
+      iBegin = gLpsrChordsLanguagesMap.begin(),
+      iEnd   = gLpsrChordsLanguagesMap.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      if ((*i).second != k_IgnatzekChords)
+        s << (*i).first;
+      if (++i == iEnd) break;
+      if ((*i).second != k_IgnatzekChords)
+        s << " ";
+    } // for
+  }
+  
   return s.str();
 }
 
