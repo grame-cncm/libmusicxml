@@ -279,7 +279,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
         0, // JMI
         lpsrSchemeVarValAssoc::kCommented,
         "layout-set-staff-size",
-        s.str(),
+        s.str (),
         "Uncomment and adapt next line as needed (default is 20)",
         lpsrSchemeVarValAssoc::kWithEndl);
 
@@ -1552,7 +1552,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
 
     msrInternalError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 }
 
@@ -2641,7 +2641,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
           msrInternalError (
             elt->getInputLineNumber (),
-            s.str());
+            s.str ());
         }
       }
 
@@ -2654,7 +2654,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
         msrInternalError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
       break;
       
@@ -2705,7 +2705,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
         msrInternalError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
       break;
       
@@ -2723,7 +2723,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
         msrInternalError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
         }
       break;
       
@@ -2934,7 +2934,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
 
       msrInternalError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
   
@@ -3906,7 +3906,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 
     msrMusicXMLWarning (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 

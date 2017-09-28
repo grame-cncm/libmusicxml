@@ -137,7 +137,7 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
   
       idtr--;
   
-      optionError (s.str());
+      optionError (s.str ());
     }
   
     // options

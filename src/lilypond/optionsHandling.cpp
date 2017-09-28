@@ -105,7 +105,7 @@ string msrOptionsElement::optionsElementNames () const
     }
   }
 
-  return s.str();
+  return s.str ();
 }
 
 string msrOptionsElement::optionsElementNamesBetweenParentheses () const
@@ -117,7 +117,7 @@ string msrOptionsElement::optionsElementNamesBetweenParentheses () const
     optionsElementNames () <<
     ")";
   
-  return s.str();
+  return s.str ();
 }
 
 
@@ -2272,7 +2272,7 @@ void msrOptionsHandler::registerOptionsElementInHandler (
     s <<
       "option long name and short name are both empty";
       
-    optionError (s.str());
+    optionError (s.str ());
     abort ();
   }
   
@@ -2283,7 +2283,7 @@ void msrOptionsHandler::registerOptionsElementInHandler (
       "option long name '" << optionLongName << "'" <<
       " is the same as the short name for the same";
       
-    optionError (s.str());
+    optionError (s.str ());
     abort ();
   }
   
@@ -2302,7 +2302,7 @@ void msrOptionsHandler::registerOptionsElementInHandler (
           " for option short name '" << optionShortName << "'" <<
         " is specified more that once";
         
-      optionError (s.str());
+      optionError (s.str ());
       abort ();
     }
 
@@ -2316,7 +2316,7 @@ void msrOptionsHandler::registerOptionsElementInHandler (
           " for option long name '" << optionLongName << "'" <<
           " is specified more that once";
           
-        optionError (s.str());
+        optionError (s.str ());
         abort ();
       }
     }
@@ -2776,7 +2776,7 @@ void msrOptionsHandler::handleOptionsItemName (
       "option name '" << optionsItemName <<
       "' is unknown";
       
-    optionError (s.str());
+    optionError (s.str ());
 
     printHelpSummary (cerr);
 
@@ -2794,7 +2794,7 @@ void msrOptionsHandler::handleOptionsItemName (
       "option name '" << optionsItemName <<
       "' is not well handled";
       
-    optionError (s.str());
+    optionError (s.str ());
     abort ();
   }
   
@@ -3020,7 +3020,7 @@ void msrOptionsHandler::handleOptionsItemName (
         s <<
           "option item type is unknown";
           
-        optionError (s.str());
+        optionError (s.str ());
         abort ();
       }
     }
@@ -3135,7 +3135,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "--delayedOrnamentFraction argument '" << theString <<
           "' is ill-formed";
           
-        optionError (s.str());
+        optionError (s.str ());
         
         printSpecificSubGroupHelp (
           cerr,
@@ -3231,7 +3231,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
         idtr--;
     
-        optionError (s.str());
+        optionError (s.str ());
         
         printHelpSummary (cerr);
         
@@ -3268,7 +3268,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " is unknown" <<
           endl <<
           "The " <<
-          gLpsrAccidentalStylesMap.size () <<
+          gLpsrAccidentalStylesMap.size () - 1 <<
           " known LPSR accidental styles are:" <<
           endl;
     
@@ -3279,7 +3279,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
         idtr--;
     
-        optionError (s.str());
+        optionError (s.str ());
         
         printHelpSummary (cerr);
         
@@ -3315,7 +3315,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " is unknown" <<
           endl <<
           "The " <<
-          gLpsrChordsLanguagesMap.size () /* JMI ??? */ -1 <<
+          gLpsrChordsLanguagesMap.size () - 1 <<
           " known LPSR chords languages apart from the default Ignatzek are:" <<
           endl;
     
@@ -3326,7 +3326,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
         idtr--;
     
-        optionError (s.str());
+        optionError (s.str ());
         
         printHelpSummary (cerr);
         
@@ -3384,7 +3384,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "Part \"" << oldPartName << "\" occurs more that one" <<
           "in the '--partName' option";
           
-        optionError (s.str());
+        optionError (s.str ());
         exit (4);
       }
       
@@ -3436,7 +3436,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "--midiTempo argument '" << theString <<
           "' is ill-formed";
           
-        optionError (s.str());
+        optionError (s.str ());
         
         printSpecificSubGroupHelp (
           cerr,

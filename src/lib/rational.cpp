@@ -257,7 +257,7 @@ string rational::toString () const
   res <<
     fNumerator << "/" << fDenominator;
   
-  return res.str();
+  return res.str ();
 }
 
 rational::operator string () const

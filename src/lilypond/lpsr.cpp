@@ -3222,7 +3222,7 @@ lpsrScore::lpsrScore (
       fInputSourceNameComment =
         lpsrComment::create (
           inputLineNumber,
-          s.str(),
+          s.str (),
           lpsrComment::kNoGapAfterwards);
   }
 
@@ -3242,7 +3242,7 @@ lpsrScore::lpsrScore (
     fTranslationDateComment =
       lpsrComment::create (
         inputLineNumber,
-        s.str(),
+        s.str (),
         lpsrComment::kNoGapAfterwards);
   }
 
@@ -3385,7 +3385,7 @@ R"(
     
     fPaper->
       setOddFooterMarkup (
-        s.str()
+        s.str ()
       /*
 R"(\markup {
     \tiny

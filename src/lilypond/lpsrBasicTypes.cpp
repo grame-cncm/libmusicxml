@@ -136,7 +136,7 @@ string wholeNotesAsLilypondString (
   
             basicLpsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
         } // switch
         break;
       }
@@ -171,7 +171,7 @@ string wholeNotesAsLilypondString (
   dotsNumber = numberOfDots;
   
   return
-    s.str();
+    s.str ();
 }
 
 string wholeNotesAsLilypondString (
@@ -788,7 +788,7 @@ string existingLpsrAccidentalStyles ()
     } // for
   }
 
-  return s.str();
+  return s.str ();
 }
 
 // chords languages
@@ -850,7 +850,7 @@ string existingLpsrChordsLanguages ()
     } // for
   }
   
-  return s.str();
+  return s.str ();
 }
 
 

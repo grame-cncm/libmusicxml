@@ -318,7 +318,7 @@ string msrAccordionRegistration::accordionRegistrationAsString () const
     ", lowDotsNumber: " << fLowDotsNumber <<
     ", line " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrAccordionRegistration::print (ostream& os)
@@ -553,7 +553,7 @@ string msrBeam::beamAsString () const
     ", line " << fInputLineNumber <<
     ", " << beamKindAsString (fBeamKind);
 
-  return s.str();
+  return s.str ();
 }
 
 void msrBeam::print (ostream& os)
@@ -825,7 +825,7 @@ string msrFermata::fermataAsString () const
     ", " <<fermataTypeAsString (fFermataType) <<
     ", line " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrFermata::print (ostream& os)
@@ -1172,7 +1172,7 @@ string msrTechnicalWithInteger::technicalWithIntegerAsString () const
     ", placement " <<
     technicalWithIntegerPlacementKindAsString ();
 
-  return s.str();
+  return s.str ();
 }
 
 void msrTechnicalWithInteger::print (ostream& os)
@@ -1327,7 +1327,7 @@ string msrTechnicalWithString::technicalWithStringAsString () const
     ", placement " <<
     technicalWithStringPlacementKindAsString ();
 
-  return s.str();
+  return s.str ();
 }
 
 void msrTechnicalWithString::print (ostream& os)
@@ -1677,7 +1677,7 @@ string msrSingleTremolo::singleTremoloAsString () const
       fSingleTremoloNoteUplink->
         noteAsShortStringWithRawWholeNotes ();
 
-  return s.str();
+  return s.str ();
 }
 
 void msrSingleTremolo::print (ostream& os)
@@ -1773,7 +1773,7 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
     
     msrInternalError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
     
   // the number of repeats is the quotient of the number of sounding divisions
@@ -2158,7 +2158,7 @@ string msrDoubleTremolo::doubleTremoloAsShortString () const
       fDoubleTremoloMarksNumber, "mark", "marks") <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString ();
 
-  return s.str();
+  return s.str ();
 }
 
 string msrDoubleTremolo::doubleTremoloAsString () const
@@ -2245,7 +2245,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         break;
     } // switch
 
-  return s.str();
+  return s.str ();
 }
 
 void msrDoubleTremolo::print (ostream& os)
@@ -2503,11 +2503,11 @@ string msrDynamics::dynamicsKindAsString ()
       
       msrMusicXMLError (
         fInputLineNumber,
-        s.str());
+        s.str ());
       }
   } // switch
   
-  return s.str();
+  return s.str ();
 }
 
 void msrDynamics::acceptIn (basevisitor* v) {
@@ -2645,7 +2645,7 @@ string msrOtherDynamics::otherDynamicsAsString ()
     "OtherDynamics '" << fOtherDynamicsString <<
     "', line " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrOtherDynamics::print (ostream& os)
@@ -2694,7 +2694,7 @@ string msrWedge::wedgeKindAsString ()
       break;
   } // switch
     
-  return s.str();
+  return s.str ();
 }
 
 void msrWedge::acceptIn (basevisitor* v) {
@@ -2793,7 +2793,7 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
       s << "Tie" << tieKind << "???";
   } // switch
     
-  return s.str();
+  return s.str ();
 }
 
 void msrTie::acceptIn (basevisitor* v) {
@@ -2937,7 +2937,7 @@ string msrSlur::slurKindAsString (
       s << "Slur" << slurKind << "???";
   } // switch
     
-  return s.str();
+  return s.str ();
   
 }
       
@@ -2954,7 +2954,7 @@ string msrSlur::slurAsString ()
    "Slur" " " << slurKindAsString () <<
     ", line " << fInputLineNumber;
   
-  return s.str();
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const S_msrSlur& elt)
@@ -3015,7 +3015,7 @@ string msrLigature::ligatureKindAsString (
       s << "Ligature" << ligatureKind << "???";
   } // switch
     
-  return s.str();
+  return s.str ();
   
 }
       
@@ -3275,7 +3275,7 @@ string msrGraceNotes::graceNotesAsShortString () const
     s << " ";
   } // for
 
-  return s.str();
+  return s.str ();
 }
 
 void msrGraceNotes::print (ostream& os)
@@ -3488,7 +3488,7 @@ string msrAfterGraceNotes::afterGraceNotesAsShortString () const
     s << " ";
   } // for
 
-  return s.str();
+  return s.str ();
 }
 
 void msrAfterGraceNotes::print (ostream& os)
@@ -4791,7 +4791,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
         
       msrMusicXMLWarning (
         slur->getInputLineNumber (),
-        s.str());
+        s.str ());
         
       // rmeove 'slur start'
       fNoteSlurs.pop_back ();
@@ -4835,7 +4835,7 @@ void msrNote::addLigatureToNote (S_msrLigature ligature)
         
       msrMusicXMLWarning (
         ligature->getInputLineNumber (),
-        s.str());
+        s.str ());
         
       // rmeove 'ligature start'
       fNoteLigatures.pop_back ();
@@ -5188,7 +5188,7 @@ string msrNote::notePitchAsString () const
         fNoteQuarterTonesPitch);
   }
   
-  return s.str();
+  return s.str ();
 }
 
 string msrNote::noteDisplayPitchAsString () const
@@ -5221,7 +5221,7 @@ string msrNote::noteDisplayPitchAsString () const
 
  // JMI }
   
-  return s.str();
+  return s.str ();
 }
 
 string msrNote::noteGraphicDurationAsMsrString () const
@@ -5352,7 +5352,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       break;
   } // switch
 
-  return s.str();
+  return s.str ();
 }
 
 string msrNote::noteAsShortString ()
@@ -5440,7 +5440,7 @@ string msrNote::noteAsShortString ()
       break;
   } // switch
 
-  return s.str();
+  return s.str ();
 }
 
 string msrNote::noteAsString ()
@@ -5576,7 +5576,7 @@ string msrNote::noteAsString ()
   s <<
     " ===]";
   
-  return s.str();
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const S_msrNote& elt)
@@ -5754,7 +5754,7 @@ void msrNote::print (ostream& os)
         "has a delayed ornament" <<
         endl;
 
-    string result = s.str();
+    string result = s.str ();
 
     if (result.size ()) {
       os <<
@@ -6802,7 +6802,7 @@ string msrChord::chordAsStringwithRawDivisions () const
 
   s << ">";
   
-  return s.str();
+  return s.str ();
 }
 
 string msrChord::chordAsString () const
@@ -6836,7 +6836,7 @@ string msrChord::chordAsString () const
 
   s << ">";
   
-  return s.str();
+  return s.str ();
 }
 
 void msrChord::print (ostream& os)
@@ -7267,7 +7267,7 @@ string msrDivisions::divisionsAsMsrString (
       printDurationsDivisions (cerr);
 
       msrInternalError (
-        inputLineNumber, s.str());
+        inputLineNumber, s.str ());
       break;
     }
 
@@ -7519,7 +7519,7 @@ string msrDivisions::wholeNotesAsMsrString (
       printDurationsDivisions (cerr);
 
       msrInternalError (
-        inputLineNumber, s.str());
+        inputLineNumber, s.str ());
       break;
     }
 
@@ -7812,7 +7812,7 @@ string msrDivisions::divisionsAsString () const
     ", " << fDivisionsPerQuarterNote <<
     " per quarter note";
 
-  return s.str();
+  return s.str ();
 }
 
 void msrDivisions::print (ostream& os)
@@ -7895,7 +7895,7 @@ string msrBarCheck::barCheckAsString () const
     ", next bar number = \"" << fNextBarNumber << "\"" <<
     ", line " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrBarCheck::acceptIn (basevisitor* v) {
@@ -7983,7 +7983,7 @@ string msrBarNumberCheck::barNumberCheckAsString () const
     "BarNumberCheck" <<
     ", next bar number = \"" << fNextBarNumber << "\"";
 
-  return s.str();
+  return s.str ();
 }
 
 void msrBarNumberCheck::acceptIn (basevisitor* v) {
@@ -8075,7 +8075,7 @@ string msrLineBreak::lineBreakAsString () const
     "Line break" <<
     ", next bar number = \"" << fNextBarNumber << "\"";
 
-  return s.str();
+  return s.str ();
 }
 
 void msrLineBreak::acceptIn (basevisitor* v) {
@@ -8163,7 +8163,7 @@ string msrPageBreak::pageBreakAsString () const
   s <<
     "Page break";
 
-  return s.str();
+  return s.str ();
 }
 
 void msrPageBreak::acceptIn (basevisitor* v) {
@@ -8819,7 +8819,7 @@ string msrTuplet::tupletAsShortString () const
 
   s << "]]";
   
-  return s.str();
+  return s.str ();
 }
 
 string msrTuplet::tupletAsString () const
@@ -8884,7 +8884,7 @@ string msrTuplet::tupletAsString () const
 
   s << "]]";
   
-  return s.str();
+  return s.str ();
 }
 
 void msrTuplet::print (ostream& os)
@@ -9445,7 +9445,7 @@ string msrCredit::creditAsString () const
   else
     s << "no credit words";
     
-  return s.str();
+  return s.str ();
 }
 
 void msrCredit::print (ostream& os)
@@ -9875,7 +9875,7 @@ string msrClef::clefAsString () const
   s <<
     "\", line " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrClef::print (ostream& os)
@@ -10017,7 +10017,7 @@ string msrHumdrumScotKeyItem::humdrumScotKeyItemAsString () const
     ", KeyOctave" << ": " << fKeyOctave <<
     ", line " << fInputLineNumber;
      
-  return s.str();
+  return s.str ();
 }
 
 void msrHumdrumScotKeyItem::print (ostream& os)
@@ -10257,7 +10257,7 @@ string msrKey::keyAsString () const
   s <<
     ", line " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrKey::print (ostream& os)
@@ -10456,7 +10456,7 @@ string msrTimeItem::timeItemAsString () const
     ", beat value: " << fTimeBeatValue <<
     ", line " << fInputLineNumber;
      
-  return s.str();
+  return s.str ();
 }
 
 void msrTimeItem::print (ostream& os)
@@ -10806,7 +10806,7 @@ string msrTime::timeAsShortString () const
       fTimeItemsVector.size (), "item", "items") <<
     ", line " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
   */
 
   return timeAsString ();
@@ -10851,7 +10851,7 @@ string msrTime::timeAsString () const
     }
   }
 
-  return s.str();
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const S_msrTime& elt)
@@ -11021,7 +11021,7 @@ string msrTranspose::transposeAsString () const
     ", transposeDouble = " << fTransposeDouble <<
     ", line " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrTranspose::print (ostream& os)
@@ -11240,7 +11240,7 @@ string msrWords::wordsAsString () const
     fWordsContents << ", placement = " <<
     wordsPlacementKindAsString (fWordsPlacementKind);
 
-  return s.str();
+  return s.str ();
 }
 
 void msrWords::print (ostream& os)
@@ -11381,7 +11381,7 @@ string msrTempo::tempoAsString () const
     ", indication = \"" << fTempoIndication << "\"" <<
     ", " << fTempoUnit << " = " << fPerMinute;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrTempo::print (ostream& os)
@@ -11963,7 +11963,7 @@ string msrSyllable::syllableAsString ()
     ", in stanza " <<
     fSyllableStanzaUplink->getStanzaName ();
 
-  return s.str();
+  return s.str ();
 }
 
 
@@ -12917,7 +12917,7 @@ string msrHarmonyDegree::harmonyDegreeAsString () const
       fHarmonyDegreeAlteration) <<
     ", line: " << fInputLineNumber;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrHarmonyDegree::acceptIn (basevisitor* v) {
@@ -13152,7 +13152,7 @@ string msrHarmony::harmonyAsString () const
     } // for
   }
 
-  return s.str();
+  return s.str ();
 }
 
 void msrHarmony::acceptIn (basevisitor* v) {
@@ -13496,7 +13496,7 @@ string msrFigure::figureAsString () const
         fFigureSoundingWholeNotes);
 */
 
-  return s.str();
+  return s.str ();
 }
 
 void msrFigure::acceptIn (basevisitor* v) {
@@ -13742,7 +13742,7 @@ string msrFiguredBass::figuredBassAsString () const
         fFiguredBassSoundingWholeNotes);
 */
 
-  return s.str();
+  return s.str ();
 }
 
 void msrFiguredBass::acceptIn (basevisitor* v) {
@@ -14470,7 +14470,7 @@ string msrBarline::barlineAsString () const
     ", RepeatDirection" << " : " <<
     barlineRepeatDirectionAsString (fRepeatDirection);
     
-  return s.str();
+  return s.str ();
 }
 
 void msrBarline::print (ostream& os)
@@ -17260,7 +17260,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     
     msrInternalError (
       clef->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
     
   // sanity check
@@ -17806,7 +17806,7 @@ void msrSegment::bringSegmentToMeasureLength (
     
     msrInternalError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 
   if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
@@ -17821,7 +17821,7 @@ string msrSegment::segmentMeasureNumbersAsString () const
 {
   stringstream s;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
@@ -17867,7 +17867,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   // JMI  msrInternalError (
     msrInternalWarning (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 
   else { // JMI TEMP
@@ -18267,7 +18267,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       "' since it is empty";
 
     msrInternalError (
-      inputLineNumber, s.str());
+      inputLineNumber, s.str ());
   }
 
   S_msrMeasure
@@ -18379,7 +18379,7 @@ string msrSegment::segmentAsString ()
         fSegmentMeasuresList.size (), "measure", " measures") <<
       ")";
 
-  return s.str();
+  return s.str ();
 }
 
 string msrSegment::segmentAsShortString ()
@@ -18394,7 +18394,7 @@ string msrSegment::segmentAsShortString ()
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
 
-  return s.str();
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const S_msrSegment& elt)
@@ -18621,7 +18621,7 @@ string msrRepeatCommonPart::repeatCommonPartAsString () const
     ", line " << fInputLineNumber <<
     endl;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrRepeatCommonPart::print (ostream& os)
@@ -18862,7 +18862,7 @@ string msrRepeatEnding::repeatEndingAsString () const
     ", internal number " << fRepeatEndingInternalNumber <<
     endl;
 
-  return s.str();
+  return s.str ();
 }
 
 void msrRepeatEnding::print (ostream& os)
@@ -19391,7 +19391,7 @@ string msrMeasureRepeatPattern::measureRepeatPatternAsString () const
       "repeated measures") <<
     ")"; 
 
-  return s.str();
+  return s.str ();
 }
 
 void msrMeasureRepeatPattern::print (ostream& os)
@@ -19622,7 +19622,7 @@ string msrMeasureRepeatReplicas::measureRepeatReplicasAsString () const
       "replicas measures") <<
     ")"; 
 
-  return s.str();
+  return s.str ();
 }
 
 void msrMeasureRepeatReplicas::print (ostream& os)
@@ -19924,7 +19924,7 @@ string msrMeasureRepeat::measureRepeatAsString () const
     measureRepeatReplicasNumber () << " replicas" <<
     ")"; 
 
-  return s.str();
+  return s.str ();
 }
 
 void msrMeasureRepeat::print (ostream& os)
@@ -20134,7 +20134,7 @@ string msrMultipleRestContents::multipleRestContentsAsString () const
       "repeated measures") <<
     ")"; 
 
-  return s.str();
+  return s.str ();
 }
 
 void msrMultipleRestContents::print (ostream& os)
@@ -20332,7 +20332,7 @@ string msrMultipleRest::multipleRestAsString () const
         "rest measure",
         "rest measures");
     
-  return s.str();
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const S_msrMultipleRest& elt)
@@ -20465,7 +20465,7 @@ void msrVoice::setVoiceNameFromNumber (
 
         msrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -20547,7 +20547,7 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_MASTER_VOICE_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str());
+          fInputLineNumber, s.str ());
       }
       break;
       
@@ -20562,7 +20562,7 @@ void msrVoice::initializeVoice (
           " is not in the 0..4 range";
           
         msrMusicXMLError (
-          fInputLineNumber, s.str());
+          fInputLineNumber, s.str ());
       }
       break;
       
@@ -20575,7 +20575,7 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_HARMONY_VOICE_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str());
+          fInputLineNumber, s.str ());
       }
       break;
       
@@ -20588,7 +20588,7 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_FIGURED_BASS_VOICE_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str());
+          fInputLineNumber, s.str ());
       }
       break;
       
@@ -20601,7 +20601,7 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_SILENT_VOICE_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str());
+          fInputLineNumber, s.str ());
       }
       break;
   } // switch
@@ -21131,7 +21131,7 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
 
     msrInternalError (
       inputLineNumber,
-      s.str());
+      s.str ());
 
 // JMI    return fVoiceStanzasMap [stanzaNumber];
   }
@@ -21359,7 +21359,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 
         msrInternalError (
           harmony->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -21405,7 +21405,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 
         msrInternalError (
           harmony->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -21450,7 +21450,7 @@ void msrVoice::appendFiguredBassToVoice (
 
         msrInternalError (
           figuredBass->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -21496,7 +21496,7 @@ void msrVoice::appendFiguredBassToVoiceClone (S_msrFiguredBass figuredBass)
 
         msrInternalError (
           figuredBass->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -22295,7 +22295,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             "attempting to create a measure repeat while another one is pending";
 
           msrInternalError (
-            inputLineNumber, s.str());
+            inputLineNumber, s.str ());
         }
         
         fVoicePendingMeasureRepeat =
@@ -22371,7 +22371,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             "attempting to append a pending measure repeat which doesn't exist";
 
           msrInternalError (
-            inputLineNumber, s.str());
+            inputLineNumber, s.str ());
         }
 
         // fetch the last segment's measure list
@@ -22391,7 +22391,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             "attempting to grab first measure of voice last segment, that contains none";
 
           msrInternalError (
-            inputLineNumber, s.str());
+            inputLineNumber, s.str ());
         }
 
         S_msrMeasure
@@ -22581,7 +22581,7 @@ void msrVoice::createMultipleRestInVoice (
             "attempting to create a multiple rest while another one is pending";
 
           msrInternalError (
-            inputLineNumber, s.str());
+            inputLineNumber, s.str ());
         }
         
         fVoicePendingMultipleRest =
@@ -22671,7 +22671,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "attempting to append a pending multiple rest which doesn't exist";
 
           msrInternalError (
-            inputLineNumber, s.str());
+            inputLineNumber, s.str ());
         }
 
         // fetch the last segment's measure list
@@ -22689,7 +22689,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "attempting to grab first measure of voice last segment, that contains none";
 
           msrInternalError (
-            inputLineNumber, s.str());
+            inputLineNumber, s.str ());
         }
 
         S_msrMeasure
@@ -23776,7 +23776,7 @@ string msrStaffLinesNumber::staffLinesNumberAsString () const
     ", " <<
     "linesNumber: " << fLinesNumber;
     
-  return s.str();
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const S_msrStaffLinesNumber& elt)
@@ -23907,7 +23907,7 @@ string msrStaffTuning::staffTuningAsString () const
       fStaffTuningQuarterTonesPitch) <<
     ", octave " << fStaffTuningOctave;
     
-  return s.str();
+  return s.str ();
 }
 
 void msrStaffTuning::print (ostream& os)
@@ -24320,7 +24320,7 @@ void msrStaff::initializeStaff ()
           "regular staff number " << fStaffNumber <<
           " is not positive";
           
-        msrAssert (false, s.str());
+        msrAssert (false, s.str ());
       }
 
       // create the staff silent voice
@@ -24349,7 +24349,7 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_HARMONY_STAFF_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str());
+          fInputLineNumber, s.str ());
       }
       
     // JMI ???  // dont't create any staff silent voice for a harmony staff
@@ -24367,7 +24367,7 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_FIGURED_BASS_STAFF_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str());
+          fInputLineNumber, s.str ());
       }
       
     // JMI ???  // dont't create any staff silent voice for a harmony staff
@@ -24832,7 +24832,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 
   // create the voice as a deep copy of the silent voice
@@ -24966,7 +24966,7 @@ void msrStaff::registerVoiceInStaff (
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 
   // register voice in this staff
@@ -26115,7 +26115,7 @@ string msrVoiceStaffChange::voiceStaffChangeAsString () const
     ", " <<
     "newStaff: \"" << fNewStaff->getStaffName () << "\"";
     
-  return s.str();
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt)
@@ -26265,7 +26265,7 @@ void msrPart::createPartMasterStaffAndVoice (
 
     msrInternalError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
     
   // create the part master staff
@@ -26634,7 +26634,7 @@ string msrPart::getPartCombinedName () const
   s <<
     ")";
 
-  return s.str();
+  return s.str ();
 }
 
 void msrPart::createMeasureAndAppendItToPart (
@@ -27118,7 +27118,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
       " already exists in part " << getPartCombinedName ();
 
     msrInternalError ( // JMI
-      inputLineNumber, s.str());
+      inputLineNumber, s.str ());
       
     return fPartStavesMap [staffNumber];
   }
@@ -27244,7 +27244,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
     
         msrMusicXMLError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       break;
       
@@ -27265,7 +27265,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
     
         msrMusicXMLError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -27320,7 +27320,7 @@ void msrPart::appendHarmonyToPart (
     
         msrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -27377,7 +27377,7 @@ void msrPart::appendHarmonyToPartClone (
     
         msrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -27432,7 +27432,7 @@ void msrPart::appendFiguredBassToPart (
     
         msrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -27489,7 +27489,7 @@ void msrPart::appendFiguredBassToPartClone (
     
         msrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       break;
   } // switch
@@ -28199,7 +28199,7 @@ string msrPartGroup::getPartGroupCombinedName () const
     "PG_" << fPartGroupAbsoluteNumber <<
     " (" << fPartGroupNumber << ")";
 
-  return s.str();
+  return s.str ();
 }
 
 S_msrPart msrPartGroup::addPartToPartGroupByItsID (
@@ -29079,7 +29079,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
       " already exists in this score";
 
     msrInternalError ( // JMI
-      inputLineNumber, s.str());
+      inputLineNumber, s.str ());
 
     return fScorePartGroupsMap [partGroupNumber];
   }

@@ -197,7 +197,7 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
         s <<
           "%{" << absoluteOctave << "???%}";
 
-        result = s.str();
+        result = s.str ();
       }
   } // switch
 
@@ -358,7 +358,7 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
     } // while
   }
 
-  return s.str();
+  return s.str ();
 }
 
 void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
@@ -876,7 +876,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       break;
   } // switch
 
-  return s.str();
+  return s.str ();
 }
 
 //________________________________________________________________________
@@ -1009,7 +1009,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       lilypondRelativeOctave (note);
   }
 
-  return s.str();
+  return s.str ();
 }
 
 //________________________________________________________________________
@@ -1115,7 +1115,7 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       break;
   } // switch
 
-  return s.str();
+  return s.str ();
 }
 
 //________________________________________________________________________
@@ -1205,7 +1205,7 @@ string lpsr2LilypondTranslator::technicalWithIntegerAsLilypondString (
       break;
   } // switch
      
-  return s.str();
+  return s.str ();
 }
 
 //________________________________________________________________________
@@ -1381,7 +1381,7 @@ void lpsr2LilypondTranslator::transposeDiatonicError (
     
   msrMusicXMLError (
     inputLineNumber,
-    s.str());
+    s.str ());
 }
 
 //________________________________________________________________________
@@ -1428,7 +1428,7 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
     int (pow (2, durationToUse + 2)) <<
     " ";
     
-  return s.str();
+  return s.str ();
 }
 
 //________________________________________________________________________
@@ -1757,7 +1757,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       "%{ inversion: " << harmonyInversion << " %}";
   }
     
-  return s.str();
+  return s.str ();
 }
 
 //________________________________________________________________________
@@ -2690,7 +2690,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     staff->getStaffName () <<
     "\"";
 
-  string newContext = s.str();
+  string newContext = s.str ();
       
   if (gLilypondOptions->fComments) {
     fOstream << left <<
@@ -5317,7 +5317,7 @@ If the double element is present, it indicates that the music is doubled one oct
           
         msrMusicXMLError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
   } // switch
 
@@ -6266,7 +6266,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           quoteStringIfNonAlpha (wordsContents) <<
           " } ";
 
-        markup = s.str();
+        markup = s.str ();
         }
 
       fOstream <<
@@ -7309,12 +7309,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
   if (gLilypondOptions->fComments) {
     fOstream << idtr <<
       setw (commentFieldWidth) <<
-      s.str() << "% start of repeat" <<
+      s.str () << "% start of repeat" <<
       endl;
   }
   else {
     fOstream << idtr <<
-      s.str() <<
+      s.str () <<
       endl;
   }
 

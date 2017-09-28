@@ -2329,7 +2329,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
 
             basicMsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
           }
           break;
       } // switch
@@ -2374,7 +2374,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
 
             basicMsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
           }
           break;
       } // switch
@@ -2421,7 +2421,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
 
             basicMsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
           }
           break;
       } // switch
@@ -2466,7 +2466,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
 
             basicMsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
           }
           break;
       } // switch
@@ -2511,7 +2511,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
 
             basicMsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
           }
           break;
       } // switch
@@ -2556,7 +2556,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
 
             basicMsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
           }
           break;
       } // switch
@@ -2601,7 +2601,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
 
             basicMsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
           }
           break;
       } // switch
@@ -2619,7 +2619,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
 
         basicMsrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
           */
       }
       break;    
@@ -2729,7 +2729,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
 
         basicMsrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       
     case k_NoQuarterTonesPitch:
@@ -2745,7 +2745,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
 
         basicMsrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
           */
       }
   } // switch
@@ -2817,7 +2817,7 @@ string existingQuarterTonesPitchesLanguages ()
     } // for
   }
   
-  return s.str();
+  return s.str ();
 }
 
 // durations
@@ -3052,7 +3052,7 @@ string wholeNotesAsMsrString (
   
             basicMsrInternalError (
               inputLineNumber,
-              s.str());
+              s.str ());
         } // switch
         break;
       }
@@ -3087,7 +3087,7 @@ string wholeNotesAsMsrString (
   dotsNumber = numberOfDots;
   
   return
-    s.str();
+    s.str ();
 }
 
 string wholeNotesAsMsrString (
@@ -3205,7 +3205,7 @@ string msrChordItem::chordItemAsString () const
     " " << fChordItemNumber <<
     ": " << msrIntervalAsString (fChordItemInterval);
 
-  return s.str();
+  return s.str ();
 }
 
 /* JMI
@@ -4343,7 +4343,7 @@ string msrChordIntervals::chordIntervalsAsString () const
     singularOrPlural (
       fChordIntervalsItems.size (), "item", "items");
 
-  return s.str();
+  return s.str ();
 }
 
 /* JMI

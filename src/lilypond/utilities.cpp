@@ -248,7 +248,7 @@ string indenter::indentMultiLineString (string value)
     this->print (s);
   } // while
 
-  return s.str();
+  return s.str ();
 }
 
 ostream& operator<< (ostream& os, const indenter& idtr) {
@@ -454,7 +454,7 @@ string int2EnglishWord (int n)
     } // switch
   }
   
-  return s.str();
+  return s.str ();
 }
 
 //______________________________________________________________________________

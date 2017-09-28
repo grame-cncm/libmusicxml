@@ -139,7 +139,7 @@ This implies that no LilyPond code is generated.)",
   
       idtr--;
   
-      optionError (s.str());
+      optionError (s.str ());
     }
     
     // options

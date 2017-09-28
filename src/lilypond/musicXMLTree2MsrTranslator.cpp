@@ -341,7 +341,7 @@ void musicXMLTree2MsrTranslator::checkStep (
           
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }
   }
 
@@ -354,7 +354,7 @@ void musicXMLTree2MsrTranslator::checkStep (
       
     msrMusicXMLError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 }
 
@@ -702,7 +702,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_creator& elt )
 
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 
@@ -1399,7 +1399,7 @@ void musicXMLTree2MsrTranslator::handlePartGroupStop (int inputLineNumber)
       endl;
     msrInternalError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 
   // remove the part group to be stopped from the part group list
@@ -1426,7 +1426,7 @@ void musicXMLTree2MsrTranslator::handlePartGroupStop (int inputLineNumber)
         
       msrInternalError (
         inputLineNumber,
-        s.str());
+        s.str ());
       break;
     }
 
@@ -1482,7 +1482,7 @@ void musicXMLTree2MsrTranslator::handlePartGroupStop (int inputLineNumber)
           " as sub part group of itself";
         msrInternalError (
           inputLineNumber,
-          s.str());
+          s.str ());
       }
       
       // insert current group into future current group
@@ -1986,7 +1986,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());    
+      s.str ());    
   }
 }
   
@@ -2047,7 +2047,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());    
+        s.str ());    
     }
   }
 
@@ -2113,7 +2113,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());    
+        s.str ());    
     }
   }
     
@@ -2145,7 +2145,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt )
           
           msrMusicXMLError (
             elt->getInputLineNumber (),
-            s.str());    
+            s.str ());    
         }
     } // switch
   }
@@ -2175,7 +2175,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt )
           
           msrMusicXMLError (
             elt->getInputLineNumber (),
-            s.str());    
+            s.str ());    
         }
     } // switch
   }
@@ -2198,7 +2198,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());    
+      s.str ());    
   }
 
   // create clef
@@ -2317,7 +2317,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_mode& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 
@@ -2417,7 +2417,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_key_alter& elt )
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   // complement the current Humdrum/Scot item with the alteration
@@ -2464,7 +2464,7 @@ If the cancel attribute is
 
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   if (! item) { // JMI
@@ -2490,7 +2490,7 @@ If the cancel attribute is
 
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
   
   // complement the item with the octave
@@ -2629,7 +2629,7 @@ S_msrKey musicXMLTree2MsrTranslator::handleTraditionalKey (
         
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
       }
   } // switch
 
@@ -2764,7 +2764,7 @@ Cut time, also known as  or alla breve, is a meter with two half-note beats per 
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 
@@ -2884,7 +2884,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_interchangeable& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 
@@ -2919,7 +2919,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_interchangeable& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 
@@ -2968,7 +2968,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_time_relation& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 }
@@ -3277,7 +3277,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_direction& elt)
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());    
+      s.str ());    
   }
 
   fCurrentWordsContents = ""; // there can be several such
@@ -3350,7 +3350,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_octave_shift& elt)
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   string type = elt->getAttributeValue ("type");
@@ -3375,7 +3375,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_octave_shift& elt)
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   // create an octave shift
@@ -3432,7 +3432,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
   
@@ -3458,7 +3458,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
   
@@ -3490,7 +3490,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 
@@ -3573,7 +3573,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_accordion_middle& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
 
     fCurrentAccordionMiddle = 1;
   }
@@ -3672,7 +3672,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_metronome& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 }
@@ -3891,7 +3891,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_staff& elt)
       "staff number " << fCurrentStaffNumber <<
       " is not positive";
       
-    msrAssert (false, s.str());
+    msrAssert (false, s.str ());
   }
   
   S_msrStaff
@@ -3935,7 +3935,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_staff& elt)
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 }
     
@@ -3975,7 +3975,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_staff_details& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 
@@ -4058,7 +4058,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_staff_type& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());      
+      s.str ());      
   }
 }
 
@@ -4143,7 +4143,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_tuning_alter& elt )
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 
@@ -4346,7 +4346,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_voice& elt )
       "voice number " << fCurrentVoiceNumber <<
       " is not in the 1..4 range";
       
-    msrAssert (false, s.str());
+    msrAssert (false, s.str ());
   }
   */
   
@@ -4414,7 +4414,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_voice& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 }
 
@@ -4503,7 +4503,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_forward& elt )
       "staff number " << fCurrentStaffNumber <<
       " is not positive";
       
-    msrAssert (false, s.str());
+    msrAssert (false, s.str ());
   }
 
   /* Don't do anything JMI
@@ -4620,7 +4620,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_tied& elt )
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
       
@@ -4634,7 +4634,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_tied& elt )
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
     
@@ -4715,7 +4715,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
   }
 
@@ -4775,7 +4775,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_bracket& elt )
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
   }
 
@@ -4965,7 +4965,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_lyric& elt )
 
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   if (stanzaNumber > 0) {
@@ -5015,7 +5015,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_syllabic& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   if (fCurrentLyricElision) { // JMI
@@ -5153,7 +5153,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_extend& elt )
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
     }
     else {
       fCurrentSyllableExtendKind =
@@ -5378,7 +5378,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
       msrMusicXMLWarning (
         inputLineNumber,
-        s.str());
+        s.str ());
         
       fCurrentSyllableKind = msrSyllable::kRestSyllable;
     }
@@ -5540,7 +5540,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_measure& elt)
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 
@@ -5738,7 +5738,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }
   }
 
@@ -5787,7 +5787,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_print& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }
   }
 
@@ -5982,7 +5982,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_barline& elt )
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   fOnGoingBarline = true;
@@ -6203,7 +6203,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   string
@@ -6227,7 +6227,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   if (fOnGoingDirectionType) {
@@ -6296,7 +6296,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_ending& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 
@@ -6338,7 +6338,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_repeat& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 
   fCurrentBarlineRepeatWinged =
@@ -6375,7 +6375,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_repeat& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }
   }
 }
@@ -6780,7 +6780,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
       
     msrMusicXMLError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 
   fOnGoingBarline = false;
@@ -6941,7 +6941,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_alter& elt)
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 
@@ -7047,7 +7047,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_duration& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
     
 //  cerr << "=== musicXMLTree2MsrTranslator::visitStart ( S_duration& elt ), fCurrentDuration = " << fCurrentDuration << endl; JMI
@@ -7114,7 +7114,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
 
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   // convert note graphic duration into whole notes
@@ -7200,7 +7200,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
   }
@@ -7225,7 +7225,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
         
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
   }
@@ -7263,7 +7263,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_stem& elt )
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   fCurrentStem =
@@ -7321,7 +7321,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_beam& elt )
       
     msrMusicXMLError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
     
   S_msrBeam
@@ -7365,7 +7365,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
        
@@ -7413,7 +7413,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
        
@@ -7445,7 +7445,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
       }
   }
 
@@ -7479,7 +7479,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   string slashUseDots = elt->getAttributeValue ("use-dots");
@@ -7496,7 +7496,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 
@@ -7514,7 +7514,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 }
@@ -7767,7 +7767,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }   
   }
   
@@ -7793,7 +7793,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }   
   }
 
@@ -7973,7 +7973,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arrow& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8036,7 +8036,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_bend& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithInteger
@@ -8084,7 +8084,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_double_tongue& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8131,7 +8131,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_down_bow& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8180,7 +8180,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fingering& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithInteger
@@ -8228,7 +8228,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fingernails& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8277,7 +8277,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fret& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithInteger
@@ -8327,7 +8327,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_hammer_on& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithString
@@ -8379,7 +8379,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_handbell& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithString
@@ -8427,7 +8427,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_harmonic& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8474,7 +8474,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_heel& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8521,7 +8521,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_hole& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8568,7 +8568,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_open_string& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8619,7 +8619,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_other_technical& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithString
@@ -8671,7 +8671,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pluck& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithString
@@ -8723,7 +8723,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pull_off& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithString
@@ -8771,7 +8771,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8818,7 +8818,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_stopped& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8864,7 +8864,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_string& elt )
     
     msrMusicXMLWarning (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
   
   string placement = elt->getAttributeValue ("placement");
@@ -8890,7 +8890,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_string& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnicalWithInteger
@@ -8938,7 +8938,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_tap& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -8985,7 +8985,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_thumb_position& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -9032,7 +9032,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_toe& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -9079,7 +9079,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_triple_tongue& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -9126,7 +9126,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_up_bow& elt )
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   S_msrTechnical
@@ -9193,7 +9193,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     
     msrMusicXMLWarning (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
 
   if (tremoloMarksNumber < 0 || tremoloMarksNumber > 8) { // JMI what does 0 mean?
@@ -9205,7 +9205,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
   
   string tremoloType = elt->getAttributeValue ("type");
@@ -9230,7 +9230,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());
+      s.str ());
   }
   
   string
@@ -9293,7 +9293,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     
     msrMusicXMLError (
       inputLineNumber,
-      s.str());    
+      s.str ());    
   }
 
   switch (fCurrentMusicXMLTremoloType) {
@@ -9373,7 +9373,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());    
+          s.str ());    
       }
 */
       break;
@@ -9399,7 +9399,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
 
         msrMusicXMLError (
           elt->getInputLineNumber (),
-          s.str());    
+          s.str ());    
       }
       break;
   } // switch
@@ -9465,7 +9465,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_wavy_line& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }   
   }
 
@@ -9663,7 +9663,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());    
+      s.str ());    
   }
 
   string placement =
@@ -9690,7 +9690,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());    
+      s.str ());    
   }
 
   fCurrentOrnament->
@@ -10368,7 +10368,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_tuplet& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 
   string tupletShowNumber =
@@ -11533,7 +11533,7 @@ void musicXMLTree2MsrTranslator::attachPendingDynamicsToNote (
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
     
@@ -11589,7 +11589,7 @@ void musicXMLTree2MsrTranslator::attachPendingOtherDynamicsToNote (
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
     
@@ -11644,7 +11644,7 @@ void musicXMLTree2MsrTranslator::attachPendingWordsToNote (
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
 
@@ -11699,7 +11699,7 @@ void musicXMLTree2MsrTranslator::attachPendingSlursToNote (
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
     
@@ -11754,7 +11754,7 @@ void musicXMLTree2MsrTranslator::attachPendingLigaturesToNote (
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
     
@@ -11809,7 +11809,7 @@ void musicXMLTree2MsrTranslator::attachPendingWedgesToNote (
           
         msrMusicXMLWarning (
           note->getInputLineNumber (),
-          s.str());
+          s.str ());
       }
     }
     
@@ -11991,7 +11991,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }
 
     // set current double tremolo note display whole notes 
@@ -12960,7 +12960,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
         
       msrInternalError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }
         
     if (gGeneralOptions->fTraceChords) {
@@ -13105,7 +13105,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
   
             msrInternalError (
               newChordNote->getInputLineNumber (),
-              s.str());
+              s.str ());
           }
         }
         break;
@@ -13254,7 +13254,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToATuplet (
 
           msrInternalError (
             inputLineNumber,
-            s.str());
+            s.str ());
         }
       }
       break;
@@ -13308,7 +13308,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToATuplet (
 
           msrInternalError (
             inputLineNumber,
-            s.str());
+            s.str ());
         }
 
         // finalizeTuplet() should be delayed in case this note
@@ -13401,7 +13401,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         
       msrInternalError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }
         
     // create the chord from its first note
@@ -13488,7 +13488,7 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
       msrInternalError (
         inputLineNumber,
-        s.str());
+        s.str ());
     }
 
     // account for chord being built
@@ -14106,7 +14106,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_rehearsal& elt )
         
       msrMusicXMLWarning (
         inputLineNumber,
-        s.str());
+        s.str ());
     }    
   }
 
@@ -14198,7 +14198,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_root_alter& elt )
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 
@@ -14361,7 +14361,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
       }
   }
 
@@ -14385,7 +14385,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
       }
   }
 
@@ -14409,7 +14409,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
       }
   }
 
@@ -14433,7 +14433,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_kind& elt )
       
       msrMusicXMLError (
         inputLineNumber,
-        s.str());
+        s.str ());
       }
   }
 }
@@ -14492,7 +14492,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_bass_alter& elt )
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 
@@ -14572,7 +14572,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_degree_alter& elt )
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());
+      s.str ());
   }
 }
 
@@ -14677,7 +14677,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_harmony& elt )
 
     msrMusicXMLWarning (
      inputLineNumber,
-     s.str());
+     s.str ());
 
     fCurrentHarmonyBassQuarterTonesPitch =
       k_NoQuarterTonesPitch;
@@ -14715,7 +14715,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_figured_bass& elt )
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
-        s.str());
+        s.str ());
     }
   }
 
@@ -14782,7 +14782,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_prefix& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());    
+      s.str ());    
   }
 
 }
@@ -14854,7 +14854,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_suffix& elt )
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
-      s.str());    
+      s.str ());    
   }
 }
 
