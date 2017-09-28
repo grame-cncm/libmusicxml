@@ -2214,13 +2214,20 @@ void msrOptionsHandler::registerOptionsElementInHandler (
     }
   } // for
 
-  // everything OK, register optionsElement in the options element map
-
-  if (optionDescriptionSize > fMaximumSubGroupsDescriptionsSize) {
-    fMaximumSubGroupsDescriptionsSize =
-      optionDescriptionSize;
+  if (
+    // options subgroup?
+    S_msrOptionsSubGroup
+      optionsSubGroup =
+        dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
+    ) {    
+    // account for optionsSubGroup's description size
+    if (optionDescriptionSize > fMaximumSubGroupsDescriptionsSize) {
+      fMaximumSubGroupsDescriptionsSize =
+        optionDescriptionSize;
+    }
   }
     
+  // register optionsElement's names size
   if (optionLongNameSize) {
     fOptionsElementsMap [optionLongName] =
       optionsElement;
@@ -2317,8 +2324,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
   }
 }
 
-void msrOptionsHandler::printHelpSummary (
-  ostream& os) const
+void msrOptionsHandler::printHelpSummary (ostream& os) const
 {
   os <<
     idtr <<
