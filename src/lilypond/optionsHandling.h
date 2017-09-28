@@ -1069,11 +1069,15 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printHelpSummary (ostream& os) const;
+    void                  printHelpSummary (
+                            ostream& os,
+                            int      subGroupsDescriptionFieldWidth) const;
 
     void                  printSpecificSubGroupHelp (
                             ostream& os,
-                            S_msrOptionsSubGroup optionsSubGroup) const;
+                            S_msrOptionsSubGroup
+                                     optionsSubGroup,
+                            int      subGroupsDescriptionFieldWidth) const;
 
     void                  printOptionsValues (
                             ostream& os,
@@ -1141,11 +1145,15 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printHelpSummary (ostream& os) const;
+    void                  printHelpSummary (
+                            ostream& os,
+                            int      subGroupsDescriptionFieldWidth) const;
     
     void                  printSpecificSubGroupHelp (
                             ostream& os,
-                            S_msrOptionsSubGroup optionsSubGroup) const;
+                            S_msrOptionsSubGroup
+                                     optionsSubGroup,
+                            int      subGroupsDescriptionFieldWidth) const;
 
     void                  printOptionsValues (
                             ostream& os,
@@ -1249,11 +1257,14 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printHelpSummary (ostream& os) const;
+    void                  printHelpSummary (
+                            ostream& os) const;
     
     void                  printSpecificSubGroupHelp (
                             ostream& os,
-                            S_msrOptionsSubGroup optionsSubGroup) const;
+                            S_msrOptionsSubGroup
+                                     optionsSubGroup,
+                            int      subGroupsDescriptionFieldWidth) const;
 
     void                  printOptionsValues (
                             ostream& os) const;
