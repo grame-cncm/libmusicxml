@@ -113,7 +113,7 @@ string msrOptionsElement::optionsElementNamesBetweenParentheses () const
   stringstream s;
 
   s <<
-    " (" <<
+    "(" <<
     optionsElementNames () <<
     ")";
   
@@ -1759,39 +1759,25 @@ void msrOptionsSubGroup::printHelpSummary (ostream& os) const
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription;
-
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os <<
-        " (" <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
-    }
-    if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
-    }
-  }
+    fOptionsElementDescription <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
 
   // underline the options subgroup header
   underlineHeader (os);
 }
+
+void msrOptionsSubGroup::printSpecificSubGroupHelp (
+  ostream& os,
+  S_msrOptionsSubGroup optionsSubGroup) const
+{
+  // print only the summary if this is not the desired subgroup,
+  // otherwise print the regular help
+  if (optionsSubGroup == this)
+    printHelp (os);
+  else
+    printSummary (os);
+ }
 
 void msrOptionsSubGroup::printOptionsValues (
   ostream& os,
@@ -1800,6 +1786,7 @@ void msrOptionsSubGroup::printOptionsValues (
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription <<
+    // " " <<
     // optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
@@ -1974,6 +1961,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription <<
+    " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
@@ -2007,6 +1995,7 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
   // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription <<
+    " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
@@ -2028,6 +2017,42 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
       // print the options subgroup description
       os << idtr;
       (*i)->printHelpSummary (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+}
+
+void msrOptionsGroup::printSpecificSubGroupHelp (
+  ostream& os,
+  S_msrOptionsSubGroup optionsSubGroup) const
+{
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
+    ":" <<
+    endl;
+
+  // underline the options group header
+  underlineHeader (os);
+
+  // print the options subgroups
+  if (fOptionsGroupSubGroupsList.size ()) {
+    os << endl;
+    
+    idtr++;
+
+    list<S_msrOptionsSubGroup>::const_iterator
+      iBegin = fOptionsGroupSubGroupsList.begin(),
+      iEnd   = fOptionsGroupSubGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options subgroup specific subgroup help
+      (*i)->printSpecificSubGroupHelp (os);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -2278,37 +2303,9 @@ void msrOptionsHandler::printHelp (ostream& os) const
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription;
-
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os <<
-        " (" <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
-    }
-    if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
-    }
-  }
-
-  os <<
+    fOptionsElementDescription <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2339,37 +2336,9 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription;
-
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os <<
-        " (" <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
-    }
-    if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
-    }
-  }
-
-  os <<
+    fOptionsElementDescription <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2386,6 +2355,40 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
       // print the options group summary
       os << idtr;
       (*i)->printHelpSummary (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+
+    idtr--;
+  }
+  
+  os <<
+    endl;
+}
+
+void msrOptionsHandler::printSpecificSubGroupHelp (
+  ostream& os,
+  S_msrOptionsSubGroup optionsSubGroup) const
+  // the description is the header of the information
+  os << idtr <<
+    fOptionsElementDescription <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
+    ":" <<
+    endl;
+
+  if (fOptionsHandlerOptionsGroupsList.size ()) {
+  // JMI  os << endl;
+    
+    idtr++;
+
+    list<S_msrOptionsGroup>::const_iterator
+      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options group specific subgroup help
+      (*i)->printSpecificSubGroupHelp (os);
       if (++i == iEnd) break;
       cerr << endl;
     } // for

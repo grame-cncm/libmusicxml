@@ -108,6 +108,9 @@ class EXP msrOptionsElement : public smartable
     
   protected:
      
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsElementShortName;
     string                fOptionsElementLongName;
     string                fOptionsElementDescription;
@@ -177,6 +180,9 @@ class EXP msrOptionsItem : public msrOptionsElement
 
   protected:
 
+    // fields
+    // ------------------------------------------------------
+
     S_msrOptionsSubGroup  fOptionsSubGroupUplink;
 
   int                     fOptionsItemValuesNumber;
@@ -244,6 +250,9 @@ class EXP msrOptionsBooleanItem : public msrOptionsItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsBooleanItemVariableDisplayName;
     bool&                 fOptionsBooleanItemVariable;
 };
@@ -324,6 +333,9 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
 
   protected:
 
+    // fields
+    // ------------------------------------------------------
+
     msrOptionsValuedItemKind
                           fOptionsItemKind;
 
@@ -398,6 +410,9 @@ class EXP msrOptionsIntegerItem : public msrOptionsValuedItem
                             int      valueFieldWidth) const;
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsIntegerItemVariableDisplayName;
     int&                  fOptionsIntegerItemVariable;
 };
@@ -466,6 +481,9 @@ class EXP msrOptionsFloatItem : public msrOptionsValuedItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsFloatItemVariableDisplayName;
     float&                fOptionsFloatItemVariable;
 };
@@ -534,6 +552,9 @@ class EXP msrOptionsStringItem : public msrOptionsValuedItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsStringItemVariableDisplayName;
     string&               fOptionsStringItemVariable;
 };
@@ -602,6 +623,9 @@ class EXP msrOptionsRationalItem : public msrOptionsValuedItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsRationalItemVariableDisplayName;
     rational&             fOptionsRationalItemVariable;
 };
@@ -670,6 +694,9 @@ class EXP msrOptionsNumbersSetItem : public msrOptionsValuedItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsNumbersSetItemVariableDisplayName;
     set<int>&             fOptionsNumbersSetItemVariable;
 };
@@ -740,6 +767,9 @@ class EXP msrOptionsPitchesLanguageItem : public msrOptionsValuedItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsPitchesLanguageItemVariableDisplayName;
     msrQuarterTonesPitchesLanguage&
                           fOptionsPitchesLanguageItemVariable;
@@ -811,6 +841,9 @@ class EXP msrOptionsChordsLanguageItem : public msrOptionsValuedItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsChordsLanguageItemVariableDisplayName;
     lpsrChordsLanguage&   fOptionsChordsLanguageItemVariable;
 };
@@ -888,6 +921,9 @@ class EXP msrOptionsPartRenameItem : public msrOptionsValuedItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsPartRenameItemVariableDisplayName;
     map<string, string>&  fOptionsPartRenameItemVariable;
 };
@@ -965,6 +1001,9 @@ class EXP msrOptionsMidiTempoItem : public msrOptionsValuedItem
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     string                fOptionsMidiTempoItemVariableDisplayName;
     pair<string, int>&    fOptionsMidiTempoItemVariable;
 };
@@ -1032,12 +1071,19 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     void                  printHelpSummary (ostream& os) const;
 
+    void                  printSpecificSubGroupHelp (
+                            ostream& os,
+                            S_msrOptionsSubGroup optionsSubGroup) const;
+
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     S_msrOptionsGroup     fOptionsGroupUplink;
 
     list<S_msrOptionsItem>
@@ -1097,11 +1143,18 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelpSummary (ostream& os) const;
     
+    void                  printSpecificSubGroupHelp (
+                            ostream& os,
+                            S_msrOptionsSubGroup optionsSubGroup) const;
+
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     list<S_msrOptionsSubGroup>
                           fOptionsGroupSubGroupsList;
@@ -1198,10 +1251,17 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     void                  printHelpSummary (ostream& os) const;
     
+    void                  printSpecificSubGroupHelp (
+                            ostream& os,
+                            S_msrOptionsSubGroup optionsSubGroup) const;
+
     void                  printOptionsValues (
                             ostream& os) const;
 
   protected:
+
+    // fields
+    // ------------------------------------------------------
 
     string                fOptionsHandlerHelpHeader;
 
