@@ -323,6 +323,22 @@ R"(staves)",
     specificTraceSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
+          "tvoices", "traceVoices",
+R"(voices)",
+          "traceVoices",
+          fTraceVoices));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tvdetails", "traceVoicesDetails",
+R"(voices with more details (quite verbose))",
+          "traceVoicesDetails",
+          fTraceVoicesDetails));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
           "tclefs", "traceClefs",
 R"(clefs)",
           "traceClefs",

@@ -2264,11 +2264,10 @@ void msrOptionsHandler::printHelp (ostream& os) const
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
+    endl <<
     endl;
 
-  if (fOptionsHandlerOptionsGroupsList.size ()) {
-  // JMI  os << endl;
-    
+  if (fOptionsHandlerOptionsGroupsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsGroup>::const_iterator
@@ -2281,12 +2280,12 @@ void msrOptionsHandler::printHelp (ostream& os) const
       if (++i == iEnd) break;
       cerr << endl;
     } // for
+    
+    os <<
+      endl;
 
     idtr--;
   }
-  
-  os <<
-    endl;
 }
 
 void msrOptionsHandler::printHelpSummary (ostream& os) const
@@ -2297,11 +2296,10 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
+    endl <<
     endl;
 
-  if (fOptionsHandlerOptionsGroupsList.size ()) {
-  // JMI  os << endl;
-    
+  if (fOptionsHandlerOptionsGroupsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsGroup>::const_iterator
@@ -2316,11 +2314,11 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
       cerr << endl;
     } // for
 
+    os <<
+      endl;
+
     idtr--;
   }
-  
-  os <<
-    endl;
 }
 
 void msrOptionsHandler::printSpecificSubGroupHelp (
@@ -2333,11 +2331,10 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
+    endl <<
     endl;
 
-  if (fOptionsHandlerOptionsGroupsList.size ()) {
-  // JMI  os << endl;
-    
+  if (fOptionsHandlerOptionsGroupsList.size ()) {    
     idtr++;
 
     list<S_msrOptionsGroup>::const_iterator
@@ -2352,12 +2349,12 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
       if (++i == iEnd) break;
       cerr << endl;
     } // for
+  
+    os <<
+      endl;
 
     idtr--;
   }
-  
-  os <<
-    endl;
 }
 
 void msrOptionsHandler::printOptionsValues (

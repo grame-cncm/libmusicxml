@@ -300,7 +300,8 @@ class EXP lilypondOptions : public msrOptionsGroup
     // score notation
     // --------------------------------------
 
-    scoreNotationKind     fScoreNotationKind;
+ // JMI   scoreNotationKind     fScoreNotationKind;
+    bool                  fJianpu;
     
     // midi
     // --------------------------------------

@@ -3639,8 +3639,8 @@ R"(
             // --------------------------------------
     
             if (jianpuPresent) {
-              gLilypondOptions->fScoreNotationKind =
-                lilypondOptions::kJianpuNotation;
+  //            gLilypondOptions->fScoreNotationKind =
+  //              lilypondOptions::kJianpuNotation;
     
               gGeneralOptions->fCommandLineLongOptions +=
                 "--" _JIANPU_LONG_NAME_ " ";
@@ -3652,8 +3652,8 @@ R"(
             }
             
             if (abcPresent) {
-              gLilypondOptions->fScoreNotationKind =
-                lilypondOptions::kABCNotation;
+        //      gLilypondOptions->fScoreNotationKind =
+       //         lilypondOptions::kABCNotation;
     
               gGeneralOptions->fCommandLineLongOptions +=
                 "--" _ABC_LONG_NAME_ " ";

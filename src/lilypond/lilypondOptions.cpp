@@ -253,7 +253,7 @@ R"(Line breaks)"
     lineBreaksSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "noBreaks", "dontKeepLineBreaks",
+          "dklb", "dontKeepLineBreaks",
 R"(Don't keep the line breaks from the MusicXML input
 and let LilyPond decide about them.)",
           "dontKeepLineBreaks",
@@ -302,7 +302,7 @@ R"(Page breaks)"
     pageBreaksSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "noPageBreaks", "dontKeepPageBreaks",
+          "dkpb", "dontKeepPageBreaks",
 R"(Don't keep the page breaks from the MusicXML input
 and let LilyPond decide about them.)",
           "dontKeepPageBreaks",
@@ -543,8 +543,10 @@ when LilyPond creates the score.)",
   {
     // variables  
   
-    fScoreNotationKind =  lilypondOptions::kWesternNotation;
+  //  fScoreNotationKind =  lilypondOptions::kWesternNotation;
       // default value
+
+    fJianpu = false;
     
     // options
   
@@ -555,18 +557,18 @@ R"(Score notation)"
       );
   
     appendOptionsSubGroup (scoreNotationSubGroup);
-/*
+
     scoreNotationSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "jianpu", "",
-R"(Generate the score using jianpu (numbered) notation i
-nstead of the default western notation.
+R"(Generate the score using jianpu (numbered) notation
+instead of the default western notation.
 That option needs lilypond-Jianpu to be accessible to LilyPond
 (https://github.com/nybbs2003/lilypond-Jianpu/blob/master/jianpu10a.ly).)",
           "jianpu",
-          fScoreNotationKind));
-          */
+          fJianpu));
+
   } 
       
 
@@ -764,8 +766,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     
   // score notation
 
-  clone->fScoreNotationKind =
-    fScoreNotationKind;
+  clone->fJianpu =
+    fJianpu;
         
   // midi
   
@@ -1596,12 +1598,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   idtr++;
 
+/*
   cerr <<
     idtr << setw(fieldWidth) << "scoreNotationKind" << " : " <<
       scoreNotationKindAsString (
         fScoreNotationKind) <<
       endl;
-
+*/
   idtr--;
   
   // midi
