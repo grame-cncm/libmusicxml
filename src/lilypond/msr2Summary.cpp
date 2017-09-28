@@ -161,50 +161,50 @@ void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
   
   fOstream << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartGroupAbsoluteNumber" << " : \"" <<
       elt->getPartGroupAbsoluteNumber  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartGroupName" << " : \"" <<
       elt->getPartGroupName  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartGroupDisplayText" << " : \"" <<
       elt->getPartGroupDisplayText  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartGroupAccidentalText" << " : \"" <<
       elt->getPartGroupAccidentalText  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartGroupAbbrevation" << " : \"" <<
       elt->getPartGroupAbbreviation  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartGroupSymbolKind" << " : " <<
       msrPartGroup::partGroupSymbolKindAsString (
         elt->getPartGroupSymbolKind  ()) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartGroupSymbolDefaultX" << " : " <<
       elt->getPartGroupSymbolDefaultX  () <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fPartGroupBarline" << " : \"" <<
       booleanAsString (
         elt->getPartGroupBarline ()) <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartGroupInstrumentName" << " : \"" <<
         elt->getPartGroupInstrumentName () << "\"" <<
       endl <<
@@ -244,32 +244,32 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
   
   fOstream << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartID" << " : \"" <<
       elt->getPartID () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartMsrName" << " : \"" <<
       elt->getPartMsrName () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartName" << " : \"" <<
       elt->getPartName  () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartAbbrevation" << " : \"" <<
       elt->getPartAbbreviation () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartInstrumentName" << " : \"" <<
       elt->getPartInstrumentName () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartInstrumentAbbreviation" << " : \"" <<
       elt->getPartInstrumentAbbreviation () << "\"" <<
       endl;
@@ -313,7 +313,7 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
   // print the staff number
   fOstream << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "StaffNumber" << " : " <<
       elt->getStaffNumber () <<
       endl;
@@ -364,32 +364,32 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
   
   fOstream << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "VoiceAbsoluteNumber" << " : " <<
       elt->getVoiceAbsoluteNumber () <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "VoicePartRelativeID" << " : " <<
       elt->getVoicePartRelativeID () <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "VoiceStaffRelativeNumber" << " : " <<
       elt->getVoiceStaffRelativeNumber () <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "VoiceActualNotesCounter" << " : " <<
       elt->getVoiceActualNotesCounter () <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "VoiceActualHarmoniesCounter" << " : " <<
       elt->getVoiceActualHarmoniesCounter () <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "MusicHasBeenInsertedInVoice" << " : " <<
       booleanAsString (
         elt->getMusicHasBeenInsertedInVoice ()) <<

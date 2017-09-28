@@ -852,20 +852,20 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   
   cerr << left <<
     idtr <<
-      setw(fieldWidth) << "traceMsr" << " : " <<
+      setw (fieldWidth) << "traceMsr" << " : " <<
       booleanAsString (fTraceMsr) <<
       endl <<
     
     idtr <<
-      setw(fieldWidth) << "traceMsrVisitors" << " : " <<
+      setw (fieldWidth) << "traceMsrVisitors" << " : " <<
       booleanAsString (fTraceMsrVisitors) <<
       endl <<
 
-    idtr << setw(fieldWidth) << "displayMsr" << " : " <<
+    idtr << setw (fieldWidth) << "displayMsr" << " : " <<
       booleanAsString (fDisplayMsr) <<
       endl <<
 
-    idtr << setw(fieldWidth) << "displayMsrSummary" << " : " <<
+    idtr << setw (fieldWidth) << "displayMsrSummary" << " : " <<
       booleanAsString (fDisplayMsrSummary) <<
       endl;    
 
@@ -881,7 +881,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) << "msrPitchesLanguage" << " : \"" <<
+    idtr << setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
       msrQuarterTonesPitchesLanguageAsString (
         fMsrQuarterTonesPitchesLanguage) <<
         "\"" <<
@@ -899,7 +899,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) << "parts renaming" << " : ";
+    idtr << setw (fieldWidth) << "parts renaming" << " : ";
 
   if (fPartsRenamingMap.empty ()) {
     cerr <<
@@ -932,16 +932,16 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) <<
+    idtr << setw (fieldWidth) <<
       "createVoicesStaffRelativeNumbers" << " : " <<
       booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
       endl <<
     
-    idtr << setw(fieldWidth) <<
+    idtr << setw (fieldWidth) <<
     "showSilentVoices" << " : " <<
       booleanAsString (fShowSilentVoices) <<
       endl <<
-    idtr << setw(fieldWidth) <<
+    idtr << setw (fieldWidth) <<
       "keepSilentVoices" << " : " <<
       booleanAsString (fKeepSilentVoices) <<
       endl;
@@ -958,23 +958,23 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<    
-    idtr << setw(fieldWidth) << "delayRestsDynamics" << " : " <<
+    idtr << setw (fieldWidth) << "delayRestsDynamics" << " : " <<
       booleanAsString (fDelayRestsDynamics) <<
       endl <<
       
-    idtr << setw(fieldWidth) << "delayRestsWords" << " : " <<
+    idtr << setw (fieldWidth) << "delayRestsWords" << " : " <<
       booleanAsString (fDelayRestsWords) <<
       endl <<
       
-    idtr << setw(fieldWidth) << "delayRestsSlurs" << " : " <<
+    idtr << setw (fieldWidth) << "delayRestsSlurs" << " : " <<
       booleanAsString (fDelayRestsSlurs) <<
       endl <<
       
-    idtr << setw(fieldWidth) << "delayRestsLigatures" << " : " <<
+    idtr << setw (fieldWidth) << "delayRestsLigatures" << " : " <<
       booleanAsString (fDelayRestsLigatures) <<
       endl <<
       
-    idtr << setw(fieldWidth) << "delayRestsWedges" << " : " <<
+    idtr << setw (fieldWidth) << "delayRestsWedges" << " : " <<
       booleanAsString (fDelayRestsWedges) <<
       endl;
 
@@ -990,11 +990,11 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) << "showMsrStanzas" << " : " <<
+    idtr << setw (fieldWidth) << "showMsrStanzas" << " : " <<
       booleanAsString (fShowMsrStanzas) <<
       endl <<
 
-    idtr << setw(fieldWidth) << "keepMuteStanzas" << " : " <<
+    idtr << setw (fieldWidth) << "keepMuteStanzas" << " : " <<
       booleanAsString (fKeepMuteStanzas) <<
       endl;
 
@@ -1010,10 +1010,10 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;    
 
   cerr <<
-    idtr << setw(fieldWidth) << "showHarmonyVoices" << " : " <<
+    idtr << setw (fieldWidth) << "showHarmonyVoices" << " : " <<
       booleanAsString (fShowHarmonyVoices) <<
       endl <<
-    idtr << setw(fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
+    idtr << setw (fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
       booleanAsString (fKeepEmptyHarmonyVoices) <<
       endl;
   
@@ -1029,10 +1029,10 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   idtr++;    
 
   cerr <<
-    idtr << setw(fieldWidth) << "showFiguredBassVoices" << " : " <<
+    idtr << setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
       booleanAsString (fShowFiguredBassVoices) <<
       endl <<
-    idtr << setw(fieldWidth) << "keepEmptyFiguredBassVoices" << " : " <<
+    idtr << setw (fieldWidth) << "keepEmptyFiguredBassVoices" << " : " <<
       booleanAsString (fKeepEmptyFiguredBassVoices) <<
       endl;
   

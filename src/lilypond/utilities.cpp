@@ -107,13 +107,13 @@ void timing::print (ostream& os) const
     "Timing information:" <<
 // JMI    __FILE__ << ":" << __LINE__ <<
     endl << endl <<
-    setw(activityWidth) << "Activity" <<
-    setw(kindWidth)     << "Kind" <<
-    setw(secondsWidth)  << "CPU (s)" <<
+    setw (activityWidth) << "Activity" <<
+    setw (kindWidth)     << "Kind" <<
+    setw (secondsWidth)  << "CPU (s)" <<
     endl <<
-    setw(activityWidth) << "--------" <<
-    setw(kindWidth)     << "----" <<
-    setw(secondsWidth)  << "-------" <<
+    setw (activityWidth) << "--------" <<
+    setw (kindWidth)     << "----" <<
+    setw (secondsWidth)  << "-------" <<
     endl << endl;
 
   for (
@@ -127,23 +127,23 @@ void timing::print (ostream& os) const
     totalClock += timingItemClock;
     
     os << left <<
-      setw(activityWidth) << (*i)->fActivity;
+      setw (activityWidth) << (*i)->fActivity;
 
     switch ((*i)->fKind) {
       case timingItem::kMandatory:
         totalMandatoryClock += timingItemClock;
         os <<
-          setw(kindWidth) << "mandatory";
+          setw (kindWidth) << "mandatory";
         break;
       case timingItem::kOptional:
         totalOptionalClock += timingItemClock;
         os <<
-          setw(kindWidth) << "optional";
+          setw (kindWidth) << "optional";
         break;
     } // switch
 
     os <<
-      setw(secondsWidth) <<
+      setw (secondsWidth) <<
       setprecision(secondsPrecision) <<
       left <<
       float(timingItemClock) / CLOCKS_PER_SEC <<
@@ -159,21 +159,21 @@ void timing::print (ostream& os) const
   os <<
     endl <<
     left <<
-    setw(totalClockWidth)            << "Total" <<
-    setw(totalMandatoryClockWidth)   << "Mandatory" <<
-    setw(totalOptionalClockWidth)    << "Optional" <<
+    setw (totalClockWidth)            << "Total" <<
+    setw (totalMandatoryClockWidth)   << "Mandatory" <<
+    setw (totalOptionalClockWidth)    << "Optional" <<
     endl <<
-    setw(totalClockWidth) << "-----" <<
-    setw(totalMandatoryClockWidth)   << "---------" <<
-    setw(totalOptionalClockWidth)    << "--------" <<
+    setw (totalClockWidth) << "-----" <<
+    setw (totalMandatoryClockWidth)   << "---------" <<
+    setw (totalOptionalClockWidth)    << "--------" <<
     endl <<
     setprecision(totalsPrecision) <<
     left <<
-    setw(totalClockWidth) <<
+    setw (totalClockWidth) <<
     float(totalClock) / CLOCKS_PER_SEC <<
-    setw(totalMandatoryClockWidth) <<
+    setw (totalMandatoryClockWidth) <<
     float(totalMandatoryClock) / CLOCKS_PER_SEC <<
-    setw(totalOptionalClockWidth) <<
+    setw (totalOptionalClockWidth) <<
     float(totalOptionalClock) / CLOCKS_PER_SEC <<
     endl << endl;
 }

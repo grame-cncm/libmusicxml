@@ -386,22 +386,22 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   
   cerr << left <<
     idtr <<
-      setw(fieldWidth) << "traceLpsr" << " : " <<
+      setw (fieldWidth) << "traceLpsr" << " : " <<
       booleanAsString (fTraceLpsr) <<
       endl <<
     
     idtr <<
-      setw(fieldWidth) << "traceLpsrVisitors" << " : " <<
+      setw (fieldWidth) << "traceLpsrVisitors" << " : " <<
       booleanAsString (fTraceLpsrVisitors) <<
       endl <<
 
-    idtr << setw(fieldWidth) << "displayLpsr" << " : " <<
+    idtr << setw (fieldWidth) << "displayLpsr" << " : " <<
       booleanAsString (fDisplayLpsr) <<
       endl <<
       
     // Scheme functions
     idtr <<
-      setw(fieldWidth) << "traceSchemeFunctions" << " : " <<
+      setw (fieldWidth) << "traceSchemeFunctions" << " : " <<
       booleanAsString (fTraceSchemeFunctions) <<
       endl;
 
@@ -416,13 +416,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw(fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
+    idtr << setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
       msrQuarterTonesPitchesLanguageAsString (
         fLpsrQuarterTonesPitchesLanguage) <<
         "\"" <<
       endl <<
 
-    idtr << setw(fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
+    idtr << setw (fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
       lpsrChordsLanguageAsString (
         fLpsrChordsLanguage) <<
         "\"" <<

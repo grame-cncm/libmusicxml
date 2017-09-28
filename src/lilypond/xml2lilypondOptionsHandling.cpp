@@ -160,15 +160,15 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
 
   os <<
     idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl <<
     endl;

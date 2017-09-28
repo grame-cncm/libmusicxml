@@ -2307,7 +2307,7 @@ void lpsrPaper::print (ostream& os) {
 
   if (fPaperWidth > 0) {
     os << idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "paper-width" << " = " <<
       setprecision(4) << fPaperWidth << "\\cm" <<
       endl;
@@ -2317,7 +2317,7 @@ void lpsrPaper::print (ostream& os) {
   
   if (fPaperHeight > 0) {
     os << idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "paper-height" << " = " <<
       setprecision(4) << fPaperHeight << "\\cm" <<
       endl;
@@ -2327,7 +2327,7 @@ void lpsrPaper::print (ostream& os) {
   
   if (fTopMargin > 0) {
     os << idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "top-margin" << " = " <<
       setprecision(4) << fTopMargin << "\\cm" <<
       endl;
@@ -2337,7 +2337,7 @@ void lpsrPaper::print (ostream& os) {
   
   if (fBottomMargin > 0) {
     os << idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "bottom-margin" << " = " <<
       setprecision(4) << fBottomMargin << "\\cm" <<
       endl;
@@ -2347,7 +2347,7 @@ void lpsrPaper::print (ostream& os) {
   
   if (fLeftMargin > 0) {
     os << idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "left-margin" << " = " <<
       setprecision(4) << fLeftMargin << "\\cm" <<
       endl;
@@ -2357,7 +2357,7 @@ void lpsrPaper::print (ostream& os) {
   
   if (fRightMargin > 0) {
     os << idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "right-margin" << " = " <<
       setprecision(4) << fRightMargin << "\\cm" <<
       endl;
@@ -2369,7 +2369,7 @@ void lpsrPaper::print (ostream& os) {
 
   if (fBetweenSystemSpace > 0) {
     os << idtr << left <<
-    setw(fieldWidth) <<
+    setw (fieldWidth) <<
     "between-system-space" << " = " <<
     setprecision(4) << fBetweenSystemSpace << "\\cm" <<
     endl;
@@ -2379,7 +2379,7 @@ void lpsrPaper::print (ostream& os) {
 
   if (fPageTopSpace > 0) {
     os << idtr << left <<
-    setw(fieldWidth) <<
+    setw (fieldWidth) <<
     "page-top-space" << " = " <<
     setprecision(4) << fPageTopSpace << "\\cm" <<
     endl;
@@ -2391,7 +2391,7 @@ void lpsrPaper::print (ostream& os) {
 
   if (fOddHeaderMarkup.size ()) {
     os << idtr << left <<
-    setw(fieldWidth) <<
+    setw (fieldWidth) <<
     "oddHeaderMarkup" << " = " <<
     fOddHeaderMarkup <<
     endl;
@@ -2401,7 +2401,7 @@ void lpsrPaper::print (ostream& os) {
 
   if (fEvenHeaderMarkup.size ()) {
     os << idtr << left <<
-    setw(fieldWidth) <<
+    setw (fieldWidth) <<
     "evenHeaderMarkup" << " = " <<
     fEvenHeaderMarkup <<
     endl;
@@ -2411,7 +2411,7 @@ void lpsrPaper::print (ostream& os) {
 
   if (fOddFooterMarkup.size ()) {
     os << idtr << left <<
-    setw(fieldWidth) <<
+    setw (fieldWidth) <<
     "oddFooterMarkup" << " = " <<
     fOddFooterMarkup <<
     endl;
@@ -2421,7 +2421,7 @@ void lpsrPaper::print (ostream& os) {
 
   if (fEvenFooterMarkup.size ()) {
     os << idtr << left <<
-    setw(fieldWidth) <<
+    setw (fieldWidth) <<
     "evenFooterMarkup" << " = " <<
     fEvenFooterMarkup <<
     endl;
@@ -2689,12 +2689,12 @@ void lpsrStaffBlock::print (ostream& os)
   
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "(StaffBlockInstrumentName" << " = \"" << fStaffBlockInstrumentName <<
       "\")" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "(StaffBlockShortInstrumentName" << " = \"" << fStaffBlockShortInstrumentName <<
       "\")" <<
       endl <<
@@ -2830,21 +2830,21 @@ void lpsrPartBlock::print (ostream& os)
 
   os << left <<
     idtr <<
-      setw(fieldWidth) << string ("(") + "PartName" << " = \"" <<
+      setw (fieldWidth) << string ("(") + "PartName" << " = \"" <<
       fPart->getPartName () << "\")" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << string ("(") + "PartAbbreviation" << " = \"" <<
+      setw (fieldWidth) << string ("(") + "PartAbbreviation" << " = \"" <<
       fPart->getPartAbbreviation () << "\")" <<
       endl <<
 
     idtr <<
-      setw(fieldWidth) << "PartBlockInstrumentName" << " = \"" <<
+      setw (fieldWidth) << "PartBlockInstrumentName" << " = \"" <<
       fPartBlockInstrumentName <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartBlockShortInstrumentName" << " = \"" <<
+      setw (fieldWidth) << "PartBlockShortInstrumentName" << " = \"" <<
       fPartBlockShortInstrumentName <<
       "\"" <<
       endl;
@@ -3941,13 +3941,13 @@ void lpsrScore::print (ostream& os)
   
   os <<
     idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "TongueSchemeFunctionIsNeeded" << " : " <<
       booleanAsString (
         fTongueSchemeFunctionIsNeeded) <<
       endl <<
     idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "EditorialAccidentalSchemeFunctionIsNeeded" << " : " <<
       booleanAsString (
         fEditorialAccidentalSchemeFunctionIsNeeded) <<

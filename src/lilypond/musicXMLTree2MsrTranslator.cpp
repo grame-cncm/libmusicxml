@@ -4184,32 +4184,32 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
 
     cerr <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fCurrentStaffTuningLine" << " = " <<
         fCurrentStaffTuningLine <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fCurrentStaffTuningDiatonicPitch" << " = " <<
         msrDiatonicPitchAsString (
           gMsrOptions->fMsrQuarterTonesPitchesLanguage,
           fCurrentStaffTuningDiatonicPitch) <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fCurrentStaffTuningAlteration" << " = " <<
         msrAlterationAsString (
           fCurrentStaffTuningAlteration) <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "quarterTonesPitch" << " = " <<
         msrQuarterTonesPitchAsString (
           gMsrOptions->fMsrQuarterTonesPitchesLanguage,
           quarterTonesPitch) <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "CurrentStaffTuningOctave" << " = " <<
         fCurrentStaffTuningOctave <<
         endl;
@@ -4258,22 +4258,22 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_details& elt )
 
     cerr << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "CurrentStaffLinesNumber" << " = " <<
         fCurrentStaffLinesNumber->staffLinesNumberAsString () <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "StaffDetailsStaffNumber" << " = " <<
         fStaffDetailsStaffNumber <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "CurrentStaffDetailsCapo" << " = " <<
         fCurrentStaffDetailsCapo <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "CurrentStaffDetailsStaffSize" << " = " <<
         fCurrentStaffDetailsStaffSize <<
         endl;
@@ -5087,19 +5087,19 @@ void musicXMLTree2MsrTranslator::visitStart ( S_text& elt )
 
     cerr <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "line " << " = " << elt->getInputLineNumber () <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fCurrentSyllabic" << " = " << fCurrentSyllabic <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fCurrentLyricTextsList" << " = ";
 
     msrSyllable::writeTextsList (
@@ -5193,11 +5193,11 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
           endl <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentLyricText" << " = ";
 
       msrSyllable::writeTextsList (
@@ -5207,30 +5207,30 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
       cerr <<
           endl <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentLyricElision" << " = " <<
           booleanAsString (fCurrentLyricElision) <<
           endl <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentSyllableExtendKind" << " = " <<
           msrSyllable::syllableExtendKindAsString (
             fCurrentSyllableExtendKind) <<
           endl <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentNoteIsARest" << " = " <<
           booleanAsString (fCurrentNoteIsARest) <<
           endl <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentRestMeasure" << " = " <<
           booleanAsString (fCurrentRestMeasure) <<
           endl;
   
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentTieKind" << " = \"" <<
           msrTie::tieKindAsString (fCurrentTieKind) <<
           "\"" <<
@@ -5238,7 +5238,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
           
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentSlurKind" << " = \"" <<
           msrSlur::slurKindAsString (fCurrentSlurKind) <<
           "\"" <<
@@ -5246,7 +5246,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentLigatureKind" << " = \"" <<
           msrLigature::ligatureKindAsString (
             fCurrentLigatureKind) <<
@@ -5255,31 +5255,31 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fOnGoingSlur" << " = " <<
           booleanAsString (fOnGoingSlur) <<
           endl <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fOnGoingSlurHasStanza" << " = " <<
           booleanAsString (fOnGoingSlurHasStanza) <<
           endl;
   
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fOnGoingLigature" << " = " <<
           booleanAsString (fOnGoingLigature) <<
           endl <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fOnGoingLigatureHasStanza" << " = " <<
           booleanAsString (fOnGoingLigatureHasStanza) <<
           endl;
   
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fFirstSyllableInSlurKind" << " = \"" <<
           msrSyllable::syllableKindAsString (
             fFirstSyllableInSlurKind) <<
@@ -5288,7 +5288,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fFirstSyllableInLigatureKind" << " = \"" <<
           msrSyllable::syllableKindAsString (
             fFirstSyllableInLigatureKind) <<
@@ -5297,7 +5297,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   
       cerr <<
         idtr <<
-          setw(fieldwidth) <<
+          setw (fieldwidth) <<
           "fCurrentSyllableKind" << " = \""<<
           msrSyllable::syllableKindAsString (
             fCurrentSyllableKind) <<
@@ -11913,15 +11913,15 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 
     cerr <<
       idtr <<
-        setw(fieldWidth) << "--> fCurrentNoteStaffNumber" << " = " <<
+        setw (fieldWidth) << "--> fCurrentNoteStaffNumber" << " = " <<
         fCurrentNoteStaffNumber <<
         endl <<
       idtr <<
-        setw(fieldWidth) << "--> fCurrentNoteVoiceNumber" << " = " <<
+        setw (fieldWidth) << "--> fCurrentNoteVoiceNumber" << " = " <<
         fCurrentNoteVoiceNumber <<
         endl <<
       idtr <<
-        setw(fieldWidth) << "--> current voice" << " = \"" <<
+        setw (fieldWidth) << "--> current voice" << " = \"" <<
         currentVoice->getVoiceName () << "\"" <<
       endl;
 
@@ -11949,22 +11949,22 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
     
     cerr << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "CurrentNoteSoundingWholeNotesFromDuration" << " = " << 
         fCurrentNoteSoundingWholeNotesFromDuration <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "CurrentNoteDisplayWholeNotesFromType" << " = " << 
         fCurrentNoteDisplayWholeNotesFromType <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "CurrentNoteIsARest" << " = " << 
         booleanAsString (fCurrentNoteIsARest) <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "CurrentDivisionsPerQuarterNote" << " = " <<
         fCurrentDivisionsPerQuarterNote <<
         endl;
@@ -12112,37 +12112,37 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       
       cerr <<
         idtr <<
-          setw(fieldWidth) << "fCurrentPart" << " = " <<
+          setw (fieldWidth) << "fCurrentPart" << " = " <<
           fCurrentPart->getPartCombinedName () <<
           endl <<
         idtr <<
-          setw(fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
+          setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
           msrDiatonicPitchAsString (
             gMsrOptions->fMsrQuarterTonesPitchesLanguage,
             fCurrentHarmonyRootDiatonicPitch) <<
           endl <<
         idtr <<
-          setw(fieldWidth) << "fCurrentHarmonyRootAlteration" << " = " <<
+          setw (fieldWidth) << "fCurrentHarmonyRootAlteration" << " = " <<
           msrAlterationAsString(
             fCurrentHarmonyRootAlteration) <<
           endl <<
         idtr <<
-          setw(fieldWidth) << "fCurrentHarmonyKind" << " = " <<
+          setw (fieldWidth) << "fCurrentHarmonyKind" << " = " <<
           harmonyKindAsString (
             fCurrentHarmonyKind) <<
           endl <<
         idtr <<
-          setw(fieldWidth) << "fCurrentHarmonyKindText" << " = " <<
+          setw (fieldWidth) << "fCurrentHarmonyKindText" << " = " <<
           fCurrentHarmonyKindText <<
           endl <<
         idtr <<
-          setw(fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
+          setw (fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
           msrDiatonicPitchAsString (
             gMsrOptions->fMsrQuarterTonesPitchesLanguage,
             fCurrentHarmonyBassDiatonicPitch) <<
           endl <<
         idtr <<
-          setw(fieldWidth) << "fCurrentHarmonyBassAlteration" << " = " <<
+          setw (fieldWidth) << "fCurrentHarmonyBassAlteration" << " = " <<
           msrAlterationAsString(
             fCurrentHarmonyBassAlteration) <<
           endl;
@@ -12215,11 +12215,11 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       
       cerr <<
         idtr <<
-          setw(fieldWidth) << "fCurrentPart" << " = " <<
+          setw (fieldWidth) << "fCurrentPart" << " = " <<
           fCurrentPart->getPartCombinedName () <<
           endl <<
         idtr <<
-          setw(fieldWidth) << "fCurrentFiguredBassSoundingWholeNotes" << " = " <<
+          setw (fieldWidth) << "fCurrentFiguredBassSoundingWholeNotes" << " = " <<
           fCurrentFiguredBassSoundingWholeNotes <<
           endl;
           
@@ -12361,17 +12361,17 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         endl <<
         
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "--> fCurrentNoteStaffNumber" << " = " <<
         fCurrentNoteStaffNumber <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "--> fCurrentNoteVoiceNumber" << " = " <<
         fCurrentNoteVoiceNumber <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "--> current voice" << " = \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl <<
@@ -12491,19 +12491,19 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
 
     cerr <<
       idtr <<
-        setw(fieldWidth) << "voice" << " : \"" <<
+        setw (fieldWidth) << "voice" << " : \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl <<
       idtr <<
-        setw(fieldWidth) << "line:" << " : " <<
+        setw (fieldWidth) << "line:" << " : " <<
         inputLineNumber <<
         endl <<
       idtr <<
-        setw(fieldWidth) << "fCurrentNoteIsAGraceNote" << " : " <<
+        setw (fieldWidth) << "fCurrentNoteIsAGraceNote" << " : " <<
         booleanAsString (fCurrentNoteIsAGraceNote) <<
         endl <<
       idtr <<
-        setw(fieldWidth) << "fCurrentGraceNotes" << " : ";
+        setw (fieldWidth) << "fCurrentGraceNotes" << " : ";
         
     if (fCurrentGraceNotes)
       cerr << fCurrentGraceNotes;

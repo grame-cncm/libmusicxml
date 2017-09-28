@@ -234,22 +234,22 @@ void msrOptionsItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsItemValuesNumber" << " : " <<
       fOptionsItemValuesNumber <<
       endl;
@@ -323,17 +323,17 @@ void msrOptionsBooleanItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " :" <<
       endl;
 
@@ -347,12 +347,12 @@ void msrOptionsBooleanItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsBooleanItemVariableDisplayName" << " : " <<
       fOptionsBooleanItemVariableDisplayName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsBooleanItemVariable" << " : " <<
       booleanAsString (
         fOptionsBooleanItemVariable) <<
@@ -367,7 +367,7 @@ void msrOptionsBooleanItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsBooleanItemVariableDisplayName <<
       " : " <<
       booleanAsString (
@@ -460,27 +460,27 @@ void msrOptionsValuedItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsValueSpecification" << " : " <<
       fOptionsValueSpecification <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsItemValuesNumber" << " : " <<
       fOptionsItemValuesNumber <<
       endl;
@@ -577,27 +577,27 @@ void msrOptionsIntegerItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsIntegerItemVariableDisplayName" << " : " <<
       fOptionsIntegerItemVariableDisplayName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsIntegerItemVariable" << " : " <<
       fOptionsIntegerItemVariable <<
       endl;
@@ -611,7 +611,7 @@ void msrOptionsIntegerItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsIntegerItemVariableDisplayName <<
       " : " <<
       fOptionsIntegerItemVariable <<
@@ -680,27 +680,27 @@ void msrOptionsFloatItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsFloatItemVariableDisplayName" << " : " <<
       fOptionsFloatItemVariableDisplayName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsFloatItemVariable" << " : " <<
       fOptionsFloatItemVariable <<
       endl;
@@ -714,7 +714,7 @@ void msrOptionsFloatItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsFloatItemVariableDisplayName <<
       " : " <<
       fOptionsFloatItemVariable <<
@@ -783,32 +783,32 @@ void msrOptionsStringItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsValueSpecification" << " : " <<
       fOptionsValueSpecification <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsStringItemVariableDisplayName" << " : " <<
       fOptionsStringItemVariableDisplayName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsStringItemVariable" << " : " <<
       fOptionsStringItemVariable <<
       endl;
@@ -820,7 +820,7 @@ void msrOptionsStringItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsStringItemVariableDisplayName <<
       " : \"" <<
       fOptionsStringItemVariable <<
@@ -893,27 +893,27 @@ void msrOptionsRationalItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsRationalItemVariableDisplayName" << " : " <<
       fOptionsRationalItemVariableDisplayName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsRationalItemVariable" << " : " <<
       fOptionsRationalItemVariable <<
       endl;
@@ -925,7 +925,7 @@ void msrOptionsRationalItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsRationalItemVariableDisplayName <<
       " : " <<
       fOptionsRationalItemVariable <<
@@ -994,26 +994,26 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsNumbersSetItemVariableDisplayName" << " : " <<
       fOptionsNumbersSetItemVariableDisplayName <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsNumbersSetItemVariable" << " : " <<
       endl;
 
@@ -1050,7 +1050,7 @@ void msrOptionsNumbersSetItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsNumbersSetItemVariableDisplayName <<
       " : ";
 
@@ -1145,26 +1145,26 @@ void msrOptionsPitchesLanguageItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsPitchesLanguageItemVariableDisplayName" << " : " <<
       fOptionsPitchesLanguageItemVariableDisplayName <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsPitchesLanguageItemVariable" << " : \"" <<
       msrQuarterTonesPitchesLanguageAsString (
         fOptionsPitchesLanguageItemVariable) <<
@@ -1178,7 +1178,7 @@ void msrOptionsPitchesLanguageItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsPitchesLanguageItemVariableDisplayName <<
       " : \"" <<
       msrQuarterTonesPitchesLanguageAsString (
@@ -1251,26 +1251,26 @@ void msrOptionsChordsLanguageItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsChordsLanguageItemVariableDisplayName" << " : " <<
       fOptionsChordsLanguageItemVariableDisplayName <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsChordsLanguageItemVariable" << " : \"" <<
       lpsrChordsLanguageAsString (
         fOptionsChordsLanguageItemVariable) <<
@@ -1284,7 +1284,7 @@ void msrOptionsChordsLanguageItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsChordsLanguageItemVariableDisplayName <<
       " : \"" <<
       lpsrChordsLanguageAsString (
@@ -1357,26 +1357,26 @@ void msrOptionsPartRenameItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsPartRenameItemVariableDisplayName" << " : " <<
       fOptionsPartRenameItemVariableDisplayName <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsPartRenameItemVariable" << " : " <<
       endl;
 
@@ -1405,7 +1405,7 @@ void msrOptionsPartRenameItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsPartRenameItemVariableDisplayName <<
       " : ";
       
@@ -1496,26 +1496,26 @@ void msrOptionsMidiTempoItem::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " <<
       fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " <<
       fOptionsElementLongName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsMidiTempoItemVariableDisplayName" << " : " <<
       fOptionsMidiTempoItemVariableDisplayName <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsMidiTempoItemVariable" << " : '" <<
       fOptionsMidiTempoItemVariable.first <<
       " = " <<
@@ -1530,7 +1530,7 @@ void msrOptionsMidiTempoItem::printOptionsValues (
 {  
   os << left <<
     idtr <<
-      setw(valueFieldWidth) <<
+      setw (valueFieldWidth) <<
       fOptionsMidiTempoItemVariableDisplayName <<
       " : '" <<
       fOptionsMidiTempoItemVariable.first <<
@@ -1637,15 +1637,15 @@ void msrOptionsSubGroup::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
       endl <<
     endl;
@@ -1719,7 +1719,7 @@ void msrOptionsSubGroup::printHelpSummary (
   // the description is the header of the information
   os << left <<
     idtr <<
-    setw(subGroupsDescriptionFieldWidth) <<
+    setw (subGroupsDescriptionFieldWidth) <<
     fOptionsElementDescription <<
     " " <<
     optionsElementNamesBetweenParentheses ();
@@ -1871,15 +1871,15 @@ void msrOptionsGroup::print (ostream& os) const
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
       endl <<
     endl;
@@ -2251,15 +2251,15 @@ void msrOptionsHandler::print (ostream& os) const
   
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
       endl;
 

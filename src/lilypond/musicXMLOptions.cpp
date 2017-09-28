@@ -230,7 +230,7 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   cerr <<
     idtr <<
-      setw(fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
+      setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
       booleanAsString (fTraceMusicXMLTreeVisitors) <<
       endl;
 
@@ -247,12 +247,12 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   cerr <<
     idtr <<
-      setw(fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
+      setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
       booleanAsString (fIgnoreMusicXMLErrors) <<
       endl <<
       
     idtr <<
-      setw(fieldWidth) << "loopToMusicXML" << " : " <<
+      setw (fieldWidth) << "loopToMusicXML" << " : " <<
       booleanAsString (fLoopToMusicXML) <<
       endl;
 

@@ -98,11 +98,11 @@ void msrPolyphony::print (ostream& os)
 /* JMI
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fBeatUnit" << " = " << fBeatUnit <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fDots" << " = " << fDots <<
       endl;
       */
@@ -115,11 +115,11 @@ void msrBeatData::print (ostream& os)
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fBeatUnit" << " = " << fBeatUnit <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fDots" << " = " << fDots <<
       endl;
 };
@@ -3741,7 +3741,7 @@ void msrNote::initializeNote ()
     
     cerr <<
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteQuarterTonesPitch" << " = " <<
         msrQuarterTonesPitchAsString (
           gMsrOptions->fMsrQuarterTonesPitchesLanguage,
@@ -3750,27 +3750,27 @@ void msrNote::initializeNote ()
 
     cerr <<
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteSoundingWholeNotes" << " = " <<
         fNoteSoundingWholeNotes <<
         endl;
       
     cerr <<
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
         endl;
       
     cerr <<
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteDotsNumber" << " = " <<
         fNoteDotsNumber <<
         endl <<
 
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteGraphicDuration" << " = ";
       if (fNoteGraphicDuration != k_NoDuration)
         cerr <<
@@ -3783,30 +3783,30 @@ void msrNote::initializeNote ()
         endl <<
 
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteOctave" << " = " <<
         fNoteOctave <<
         endl <<
 
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteDisplayOctave" << " = " <<
         fNoteDisplayOctave <<
         endl <<
 
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteIsARest" << " = " <<
         booleanAsString (fNoteIsARest) <<
         endl <<
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteIsUnpitched" << " = " <<
          booleanAsString (fNoteIsUnpitched) <<
         endl <<
 
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteIsAGraceNote" << " = " <<
          booleanAsString (fNoteIsAGraceNote) <<
         endl <<
@@ -3815,43 +3815,43 @@ void msrNote::initializeNote ()
 
       // accidentals
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteEditorialAccidentalKind" << " = " <<
         noteEditorialAccidentalKindAsString (
           fNoteEditorialAccidentalKind) <<
         endl <<
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteCautionaryAccidentalKind" << " = " <<
         noteCautionaryAccidentalKindAsString (
           fNoteCautionaryAccidentalKind) <<
         endl <<
             
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fStaffNumber" << " = " <<
         fNoteStaffNumber <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fVoiceNumber" << " = " <<
         fNoteVoiceNumber <<
         endl <<
 
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteBelongsToAChord" << " = " <<
          booleanAsString (fNoteBelongsToAChord) <<
         endl <<
             
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteBelongsToATuplet" << " = " <<
          booleanAsString (fNoteBelongsToATuplet) <<
         endl <<
           
       idtr << left <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "fNoteSyllableExtendKind" << " = " <<
         msrSyllable::syllableExtendKindAsString (
           fNoteSyllableExtendKind) <<
@@ -5781,7 +5781,7 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 46;
 
           os << left <<
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteSoundingWholeNotesAsMsrString" << " = \"" <<
               noteSoundingWholeNotesAsMsrString () <<
               "\"" <<
@@ -5794,7 +5794,7 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 46;
 
           os << left <<
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteSoundingWholeNotesAsMsrString" << " = \"" <<
               noteSoundingWholeNotesAsMsrString () <<
               "\"" <<
@@ -5807,17 +5807,17 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 36;
 
           os << left <<
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteSoundingWholeNotesAsMsrString" << " = \"" <<
               noteSoundingWholeNotesAsMsrString () <<
               "\"" <<
               endl <<
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteDisplayWholeNotesAsMsrString" << " = \"" <<
               noteDisplayWholeNotesAsMsrString () <<
               "\"" <<
               endl <<
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteGraphicDurationAsMsrString" << " = \"" <<
               noteGraphicDurationAsMsrString () <<
               "\"" <<
@@ -5837,7 +5837,7 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 46;
 
           os << left <<
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteGraphicDurationAsMsrString" << " = \"" <<
               noteGraphicDurationAsMsrString () <<
               "\"" <<
@@ -5858,13 +5858,13 @@ void msrNote::print (ostream& os)
 
           os << left <<
           /* JMI
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
               fNoteTupletNoteGraphicDurationAsMsrString <<
               "\"" <<
               endl <<
               */
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteTupletNoteSoundingWholeNotes" << " = \"" <<
               wholeNotesAsMsrString (
                 fInputLineNumber,
@@ -5873,7 +5873,7 @@ void msrNote::print (ostream& os)
               "\"" <<
             endl <<
       
-            idtr << setw(fieldWidth) <<
+            idtr << setw (fieldWidth) <<
               "noteGraphicDurationAsMsrString" << " = \"" <<
               noteGraphicDurationAsMsrString () <<
               "\"" <<
@@ -7181,10 +7181,10 @@ void msrDivisions::printDurationsDivisions (ostream& os)
           
     for ( ; ; ) {
       os << idtr <<
-        setw(6) << left <<
+        setw (6) << left <<
         msrDurationAsString (msrDuration((*i).first)) <<
         ": " <<
-        setw(4) << right <<
+        setw (4) << right <<
         (*i).second;
 
       if (++i == iEnd) break;
@@ -7200,10 +7200,10 @@ void msrDivisions::printDurationsDivisions (ostream& os)
       i != fDurationsToDivisions.end ();
       i++) {
       os << idtr <<
-        setw(6) << left <<
+        setw (6) << left <<
         msrDurationAsString (msrDuration((*i).first)) <<
         ": " <<
-        setw(4) << right <<
+        setw (4) << right <<
         (*i).second <<
         endl;
     } // for
@@ -7237,11 +7237,11 @@ string msrDivisions::divisionsAsMsrString (
        "--> divisionsAsMsrString ():" <<
         endl <<
       idtr <<
-        tab << setw(fieldWidth) <<
+        tab << setw (fieldWidth) <<
         "inputLineNumber" << " = " << inputLineNumber <<
         endl <<
       idtr <<
-        tab << setw(fieldWidth) <<
+        tab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
         endl;
   }
@@ -7282,19 +7282,19 @@ string msrDivisions::divisionsAsMsrString (
       if (gGeneralOptions->fTraceDivisions) {
         cerr <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "baseDuration" << " = " << msrDurationAsString (baseDuration) <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "baseDurationDivisions" << " = " << baseDurationDivisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "result" << " = " << result <<
             endl <<
           endl;
@@ -7321,19 +7321,19 @@ string msrDivisions::divisionsAsMsrString (
     if (gGeneralOptions->fTraceDivisions) {
       cerr <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
         "baseDurationDivisions" << " = " << baseDurationDivisions <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
         "nextDivisionsInList" << " = " << nextDivisionsInList <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
         "remainingDivisions" << " = " << remainingDivisions <<
           endl <<
         endl;
@@ -7349,15 +7349,15 @@ string msrDivisions::divisionsAsMsrString (
       if (gGeneralOptions->fTraceDivisions) { // JMI
         cerr <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "baseDurationDivisions" << " = " << baseDurationDivisions <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "r" << " = " << r <<
           endl <<
         endl;
@@ -7378,23 +7378,23 @@ string msrDivisions::divisionsAsMsrString (
         if (gGeneralOptions->fTraceDivisions) {
           cerr <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "divisions" << " = " << divisions <<
               endl <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "baseDurationDivisions" << " = " << baseDurationDivisions <<
               endl <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "nextDivisionsInList" << " = " << nextDivisionsInList <<
               endl <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "remainingDivisions" << " = " << remainingDivisions <<
               endl <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "dotsNumber" << " = " << dotsNumber <<
               endl <<
             endl;
@@ -7407,23 +7407,23 @@ string msrDivisions::divisionsAsMsrString (
       if (gGeneralOptions->fTraceDivisions) {
         cerr <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "baseDurationDivisions" << " = " << baseDurationDivisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "nextDivisionsInList" << " = " << nextDivisionsInList <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "remainingDivisions" << " = " << remainingDivisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "dotsNumber" << " = " << dotsNumber <<
             endl <<
           endl;
@@ -7469,11 +7469,11 @@ string msrDivisions::wholeNotesAsMsrString (
         "--> wholeNotesAsMsrString ():" <<
       endl <<
       idtr <<
-        tab << setw(fieldWidth) <<
+        tab << setw (fieldWidth) <<
         "inputLineNumber" << " = " << inputLineNumber <<
         endl <<
       idtr <<
-        tab << setw(fieldWidth) <<
+        tab << setw (fieldWidth) <<
         "wholeNotes" << " = " << wholeNotes <<
         endl <<
       endl;
@@ -7534,19 +7534,19 @@ string msrDivisions::wholeNotesAsMsrString (
       if (gGeneralOptions->fTraceDivisions) {
         cerr << left <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "baseDuration" << " = " << msrDurationAsString (baseDuration) <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "baseDurationDivisions" << " = " << baseDurationDivisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "result" << " = " << result <<
             endl <<
           endl;
@@ -7572,19 +7572,19 @@ string msrDivisions::wholeNotesAsMsrString (
     if (gGeneralOptions->fTraceDivisions) {
       cerr << left <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "baseDurationDivisions" << " = " << baseDurationDivisions <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "nextDivisionsInList" << " = " << nextDivisionsInList <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "remainingDivisions" << " = " << remainingDivisions <<
           endl <<
         endl;
@@ -7600,15 +7600,15 @@ string msrDivisions::wholeNotesAsMsrString (
       if (gGeneralOptions->fTraceDivisions) {
         cerr << left <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "baseDurationDivisions" << " = " << baseDurationDivisions <<
           endl <<
         idtr <<
-          tab << setw(fieldWidth) <<
+          tab << setw (fieldWidth) <<
           "r" << " = " << r <<
           endl <<
         endl;
@@ -7629,23 +7629,23 @@ string msrDivisions::wholeNotesAsMsrString (
         if (gGeneralOptions->fTraceDivisions) {
           cerr << left <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "divisions" << " = " << divisions <<
               endl <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "baseDurationDivisions" << " = " << baseDurationDivisions <<
               endl <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "nextDivisionsInList" << " = " << nextDivisionsInList <<
               endl <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "remainingDivisions" << " = " << remainingDivisions <<
               endl <<
             idtr <<
-              tab << setw(fieldWidth) <<
+              tab << setw (fieldWidth) <<
               "dotsNumber" << " = " << dotsNumber <<
               endl <<
             endl;
@@ -7658,23 +7658,23 @@ string msrDivisions::wholeNotesAsMsrString (
       if (gGeneralOptions->fTraceDivisions) {
         cerr << left <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "baseDurationDivisions" << " = " << baseDurationDivisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "nextDivisionsInList" << " = " << nextDivisionsInList <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "remainingDivisions" << " = " << remainingDivisions <<
             endl <<
           idtr <<
-            tab << setw(fieldWidth) <<
+            tab << setw (fieldWidth) <<
             "dotsNumber" << " = " << dotsNumber <<
             endl <<
           endl;
@@ -9066,7 +9066,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fPaperWidth > 0) {
     os << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "PaperWidth" << " = " <<
         setprecision(4) << fPaperWidth << " cm" <<
         endl;
@@ -9076,7 +9076,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fPaperHeight > 0) {
     os << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "PaperHeight" << " = " <<
         setprecision(4) << fPaperHeight << " cm" <<
         endl;
@@ -9086,7 +9086,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fTopMargin > 0) {
     os << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "TopMargin" << " = " <<
         setprecision(4) << fTopMargin << " cm" <<
         endl;
@@ -9096,7 +9096,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fBottomMargin > 0) {
     os << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "BottomMargin" << " = " <<
         setprecision(4) << fBottomMargin << " cm" <<
         endl;
@@ -9106,7 +9106,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fLeftMargin > 0) {
     os << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "LeftMargin" << " = " <<
         setprecision(4) << fLeftMargin << " cm" <<
         endl;
@@ -9116,7 +9116,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fRightMargin > 0) {
     os << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "RightMargin" << " = " <<
         setprecision(4) << fRightMargin << " cm" <<
         endl;
@@ -9127,7 +9127,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fMillimeters > 0) {
     os << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "Millimeters" << " = " <<
         setprecision(4) << fMillimeters <<
         endl;
@@ -9137,7 +9137,7 @@ void msrPageGeometry::print (ostream& os) {
   if (fTenths > 0) {
     os << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "Tenths" << " = " <<
         setprecision(4) << fTenths <<
         endl;
@@ -9281,49 +9281,49 @@ void msrCreditWords::print (ostream& os)
   
   os <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
         "fCreditWordsContents" << " = \"" <<
         fCreditWordsContents <<
         "\"" <<
       endl <<
       
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
         "creditWordsFontFamily" << " = \"" <<
         fCreditWordsFontFamily <<
         "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
         "creditWordsFontSize" << " = " <<
         fCreditWordsFontSize <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
         "creditWordsFontWeight" << " = \"" <<
         fCreditWordsFontWeight <<
         "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
         "creditWordsFontJustify" << " = \"" <<
         fCreditWordsFontJustify <<
         "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
         "creditWordsFontHAlign" << " = \"" <<
         fCreditWordsFontHAlign <<
         "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
         "creditWordsFontVAlign" << " = \"" <<
         fCreditWordsFontVAlign <<
         "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
         "creditWordsFontXMLLanguage" << " = \"" <<
         fCreditWordsFontXMLLanguage <<
         "\"" <<
@@ -11037,19 +11037,19 @@ void msrTranspose::print (ostream& os)
   
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "Diatonic" << " = " << fTransposeDiatonic <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "Chromatic" << " = " << fTransposeChromatic <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "TransposeOctaveChange" << " = " << fTransposeOctaveChange <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "TransposeDouble" << " = " << fTransposeDouble <<
       endl <<
     endl;
@@ -11257,26 +11257,26 @@ void msrWords::print (ostream& os)
 
   os <<
     idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "Placement" << " = " <<
       wordsPlacementKindAsString (fWordsPlacementKind) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "WordsFontStyle" << " = " <<
       wordsFontStyleKindAsString (fWordsFontStyleKind) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "WordsFontSize" << " = " << fWordsFontSize <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "WordsFontWeight" << " = " <<
       msrWordsFontWeightKindAsString (fWordsFontWeightKind) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "WordsFontXMLLang" << " = " <<
       msrWordsXMLLangKindAsString (fWordsXMLLangKind) <<
       endl;
@@ -13231,25 +13231,25 @@ void msrHarmony::print (ostream& os)
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "HarmonyRoot" << " = " <<
       msrQuarterTonesPitchAsString (
         gMsrOptions->fMsrQuarterTonesPitchesLanguage,
         fHarmonyRootQuarterTonesPitch) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "HarmonyKind" << " = " <<
       harmonyKindAsString (fHarmonyKind) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "HarmonyKindText" << " = \"" <<
       fHarmonyKindText <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "HarmonyBass" << " = " <<
       msrQuarterTonesPitchAsString (
         gMsrOptions->fMsrQuarterTonesPitchesLanguage,
@@ -14494,24 +14494,24 @@ void msrBarline::print (ostream& os)
 
   os <<
     idtr << left <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "Location" << " : " <<
       barlineLocationAsString (fLocation) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "Style" << " : " <<
       barlineStyleAsString (fStyle) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "EndingType" << " : " <<
       barlineEndingTypeAsString (fEndingType) <<
       endl;
   
   os <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "Ending number" << " : ";
       
   list<int>::const_iterator i;
@@ -14524,14 +14524,14 @@ void msrBarline::print (ostream& os)
  
   os <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
        "RepeatDirection" << " : " <<
       barlineRepeatDirectionAsString (fRepeatDirection) <<
       endl;
   
   os <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "RepeatWinged" << " : " <<
       barlineRepeatWingedAsString (fRepeatWinged) <<
       endl;
@@ -16529,11 +16529,11 @@ void msrMeasure::finalizeMeasure (
     
     cerr << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "measureLength" << " = " << fMeasureLength <<
         endl <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "partMeasureLengthHighTide" << " = " <<
         partMeasureLengthHighTide <<
         endl;
@@ -18418,7 +18418,7 @@ void msrSegment::print (ostream& os)
   const int fieldWidth = 20;
   
   os << idtr <<
-    setw(fieldWidth) << "SegmentVoiceUplink" << " : " <<
+    setw (fieldWidth) << "SegmentVoiceUplink" << " : " <<
     "\"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"" <<
@@ -18426,7 +18426,7 @@ void msrSegment::print (ostream& os)
 
   if (! fSegmentMeasuresList.size ()) {
     os << idtr <<
-      setw(fieldWidth) << "Measures" << " : " << "none" <<
+      setw (fieldWidth) << "Measures" << " : " << "none" <<
       endl;
   }
   
@@ -23213,7 +23213,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
     
     cerr << left <<
       idtr <<
-        setw(fieldWidth) <<
+        setw (fieldWidth) <<
         "partMeasureLengthHighTide" << " = " <<
         fetchVoicePartUplink ()->
           getPartMeasureLengthHighTide () <<
@@ -23570,27 +23570,27 @@ void msrVoice::print (ostream& os)
 
   os <<
     idtr <<
-      setw(fieldWidth) << "VoiceStaffUplink" << " : " <<
+      setw (fieldWidth) << "VoiceStaffUplink" << " : " <<
       fVoiceStaffUplink->getStaffName () <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
+      setw (fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
       fVoiceAbsoluteNumber <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "VoicePartRelativeID" << " : " <<
+      setw (fieldWidth) << "VoicePartRelativeID" << " : " <<
       voicePartRelativeIDAsString () <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "VoiceStaffRelativeNumber" << " : " <<
+      setw (fieldWidth) << "VoiceStaffRelativeNumber" << " : " <<
       voiceStaffRelativeNumberAsString () <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
+      setw (fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
       booleanAsString (fMusicHasBeenInsertedInVoice) <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "VoiceContainsMultipleRests" << " : " <<
+      setw (fieldWidth) << "VoiceContainsMultipleRests" << " : " <<
       booleanAsString (fVoiceContainsMultipleRests) <<
       endl;
 
@@ -23924,19 +23924,19 @@ void msrStaffTuning::print (ostream& os)
 
   os << left <<  
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "StaffTuningLineNumber" << " = " <<
       fStaffTuningLineNumber <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "fStaffTuningQuarterTonesPitch" << " = " <<
       msrQuarterTonesPitchAsString (
         gMsrOptions->fMsrQuarterTonesPitchesLanguage,
         fStaffTuningQuarterTonesPitch) <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "StaffTuningOctave" << " = " <<
       fStaffTuningOctave <<
       endl;
@@ -25775,20 +25775,20 @@ void msrStaff::print (ostream& os)
   
   os <<
     idtr <<
-      setw(fieldwidth) << "StaffPartUplink" << " : " <<
+      setw (fieldwidth) << "StaffPartUplink" << " : " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl <<
     idtr <<
-      setw(fieldwidth) << "StaffNumber" << " : " <<
+      setw (fieldwidth) << "StaffNumber" << " : " <<
       staffNumberAsString () <<
       endl <<
     idtr <<
-      setw(fieldwidth) << "StaffInstrumentName" << " : \"" <<
+      setw (fieldwidth) << "StaffInstrumentName" << " : \"" <<
       fStaffInstrumentName <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldwidth) << "StaffInstrumentAbbreviation" << " : \"" <<
+      setw (fieldwidth) << "StaffInstrumentAbbreviation" << " : \"" <<
       fStaffInstrumentAbbreviation <<
       "\"" <<
       endl;
@@ -27800,33 +27800,33 @@ void msrPart::print (ostream& os)
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartPartGroupUplink" << ": \"" <<
       fPartPartGroupUplink->getPartGroupName () << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartMsrName" << ": \"" <<
       fPartMsrName << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartName" << ": \"" <<
       fPartName << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartAbbrevation" << ": \"" <<
       fPartAbbreviation << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
        "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" <<
       endl <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
        "PartInstrumentAbbreviation" << ": \"" <<
       fPartInstrumentAbbreviation << "\"" <<
       endl <<
@@ -27977,32 +27977,32 @@ void msrPart::printStructure (ostream& os)
 
   os << left <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartMsrName" << ": \"" <<
       fPartMsrName << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartName" << ": \"" <<
       fPartName << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartAbbrevation" << ": \"" <<
       fPartAbbreviation << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "PartInstrumentName" << ": \"" <<
       fPartInstrumentName << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
        "PartInstrumentAbbreviation" << ": \"" <<
       fPartInstrumentAbbreviation << "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
        "PartInstrumentAbbreviation" << ": \"" <<
       fPartInstrumentAbbreviation << "\"" <<
       endl <<
@@ -28470,37 +28470,37 @@ void msrPartGroup::print (ostream& os)
   
   os << left <<
     idtr <<
-      setw(fieldWidth) << "PartGroupName" << " : \"" <<
+      setw (fieldWidth) << "PartGroupName" << " : \"" <<
       fPartGroupName <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartGroupDisplayText" << " : \"" <<
+      setw (fieldWidth) << "PartGroupDisplayText" << " : \"" <<
       fPartGroupDisplayText <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartGroupAccidentalText" << " : \"" <<
+      setw (fieldWidth) << "PartGroupAccidentalText" << " : \"" <<
       fPartGroupAccidentalText <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
+      setw (fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
       fPartGroupAbbreviation <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartGroupSymbolDefaultX" << " : " <<
+      setw (fieldWidth) << "PartGroupSymbolDefaultX" << " : " <<
       fPartGroupSymbolDefaultX <<
         endl <<
     idtr <<
-      setw(fieldWidth) << "PartGroupSymbolKind" << " : " <<
+      setw (fieldWidth) << "PartGroupSymbolKind" << " : " <<
       partGroupSymbolKindAsString (fPartGroupSymbolKind) <<
       endl;
     
   os <<
     idtr <<
-    setw(fieldWidth) << "PartGroupBarline" << " : ";
+    setw (fieldWidth) << "PartGroupBarline" << " : ";
   if (fPartGroupBarline)
     os << "true";
   else
@@ -28509,7 +28509,7 @@ void msrPartGroup::print (ostream& os)
 
   os <<
     idtr <<
-    setw(fieldWidth) << "PartGroupPartGroupUplink" << " : ";
+    setw (fieldWidth) << "PartGroupPartGroupUplink" << " : ";
   if (fPartGroupPartGroupUplink)
     os <<
       "\"" <<
@@ -28553,21 +28553,21 @@ void msrPartGroup::printStructure (ostream& os)
   
   os << left <<
     idtr <<
-      setw(fieldWidth) << "PartGroupName" << " : \"" <<
+      setw (fieldWidth) << "PartGroupName" << " : \"" <<
       fPartGroupName <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
+      setw (fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
       fPartGroupAbbreviation <<
       "\"" <<
       endl <<
     idtr <<
-      setw(fieldWidth) << "fPartGroupSymbolDefaultX" << " : " <<
+      setw (fieldWidth) << "fPartGroupSymbolDefaultX" << " : " <<
       fPartGroupSymbolDefaultX <<
         endl <<
     idtr <<
-      setw(fieldWidth) << "fPartGroupSymbolKind" << " : \"" <<
+      setw (fieldWidth) << "fPartGroupSymbolKind" << " : \"" <<
       partGroupSymbolKindAsString (fPartGroupSymbolKind) <<
       "\"" <<
       endl;
@@ -29391,11 +29391,11 @@ void msrMidi::print (ostream& os)
 
   os <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "MidiTempoDuration" << " = " << fMidiTempoDuration <<
       endl <<
     idtr <<
-      setw(fieldWidth) <<
+      setw (fieldWidth) <<
       "MidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
       endl <<
     endl;
