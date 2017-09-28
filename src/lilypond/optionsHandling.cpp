@@ -160,29 +160,8 @@ void msrOptionsElement::print (ostream& os) const
 
 void msrOptionsElement::printHelp (ostream& os) const
 {
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os << idtr <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName;
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os << idtr <<
-      "-" << fOptionsElementShortName;
-    }
-    if (fOptionsElementLongName.size ()) {
-      os << idtr <<
-      "-" << fOptionsElementLongName;
-    }
-  }
-
-  os <<
+  os << idtr <<
+    optionsElementNames () <<
     endl;
 
   // indent a bit more for readability
@@ -509,34 +488,10 @@ void msrOptionsValuedItem::print (ostream& os) const
 
 void msrOptionsValuedItem::printHelp (ostream& os) const
 {
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os << idtr <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName;
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os << idtr <<
-      "-" << fOptionsElementShortName;
-    }
-    if (fOptionsElementLongName.size ()) {
-      os << idtr <<
-      "-" << fOptionsElementLongName;
-    }
-  }
-
-  os <<
+  os << idtr <<
     optionsElementNames () <<
     " " <<
-    fOptionsValueSpecification;
-
-  os <<
+    fOptionsValueSpecification <<
     endl;
 
   // indent a bit more for readability

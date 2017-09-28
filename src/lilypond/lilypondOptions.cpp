@@ -597,12 +597,19 @@ R"(Midi)"
       appendOptionsItem (
         msrOptionsMidiTempoItem::create (
           "midiTempo", "",
-R"(Generate a '\tempo duration = perSecond' command in the \midi block.
+R"(Generate a '\tempo' command in the \midi block.
+'midiTempoSpecification' can be:
+  'duration = perSecond'
+or
+  "duration = perSecond" .
 'duration' is a string such as '8.', and 'perSecond' is an integer.
 The single or double quotes are used to allow spaces around the '=' sign,
 otherwise they can be dispensed with.
-The default is '4 = 90'.)",
-          "'duration = perSecond'" " or " "\"duration = perSecond\"",
+Using double quotes allows for shell variables substitutions, as in:
+  PER_SECOND=66
+  xml2lilypond -midiTempo "8. ${PER_SECOND}" .
+The default midi tempo is '4 = 90'.)",
+          "midiTempoSpecification",
           "midiTempo",
           fMidiTempo));
 
