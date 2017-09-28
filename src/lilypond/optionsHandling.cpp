@@ -1963,6 +1963,8 @@ void msrOptionsGroup::printHelpSummary (
     endl;
 
   // underline the options group header
+  os <<
+    idtr;
   underlineHeader (os);
   os <<
     endl;
@@ -2517,7 +2519,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
 
   fExpectedValuesNumber = 0;
   
-  bool pureHelpRun = true;
+  fPureHelpRun = true;
 
   while (true) { 
     if (argv [n] == 0)
@@ -2546,13 +2548,12 @@ const vector<string> msrOptionsHandler::analyzeOptions (
         }
         
         fArgumentsVector.push_back (currentElement);
+        fPureHelpRun = false;
 
         fCommandLineWithShortOptions +=
           " " + currentElement;
         fCommandLineWithLongOptions +=
           " " + currentElement;
-        
-        pureHelpRun = false;
       }
       
       else {
@@ -2611,7 +2612,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
       // i.e. it is an item value or an argument
       handleOptionsItemValueOrArgument (currentElement);
 
-      pureHelpRun = false;
+      fPureHelpRun = false;
     }
     
     // next please
@@ -2641,7 +2642,7 @@ const vector<string> msrOptionsHandler::analyzeOptions (
   }
 
   // exit if this is a pure help run
-  if (pureHelpRun) {
+  if (fPureHelpRun) {
     cerr << idtr <<
       "This is a pure help run, exiting." <<
       endl;
@@ -2935,7 +2936,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       fPendingOptionsItem = 0;
       fExpectedValuesNumber = 0;
-
       }
     
     else if (
@@ -3312,6 +3312,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
   else {
     // theString is an argument
     fArgumentsVector.push_back (theString);
+    fPureHelpRun = false;
   }
 }
 

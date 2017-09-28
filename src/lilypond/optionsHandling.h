@@ -1296,6 +1296,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     string                fCommandLineWithShortOptions;
     string                fCommandLineWithLongOptions;
+
+    bool                  fPureHelpRun;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);
