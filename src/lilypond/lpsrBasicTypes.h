@@ -82,10 +82,10 @@ enum lpsrAccidentalStyle {
   kDodecaphonicStyle, kDodecaphonicNoRepeatStyle,
   kDodecaphonicFirstStyle, kTeachingStyle, kNoResetStyle, kForgetStyle };
 
-static string lpsrAccidentalStyleAsString (
+string lpsrAccidentalStyleAsString (
   lpsrAccidentalStyle style);
 
-static string lpsrAccidentalStyleAsLilypondString (
+string lpsrAccidentalStyleAsLilypondString (
   lpsrAccidentalStyle style);
 
 extern map<string, lpsrAccidentalStyle>

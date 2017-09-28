@@ -771,9 +771,9 @@ string existingLpsrAccidentalStyles ()
 {
   stringstream s;
   
-  map<string, lpsrChordsLanguage>::const_iterator
-    iBegin = gLpsrChordsLanguagesMap.begin(),
-    iEnd   = gLpsrChordsLanguagesMap.end(),
+  map<string, lpsrAccidentalStyle>::const_iterator
+    iBegin = gLpsrAccidentalStylesMap.begin(),
+    iEnd   = gLpsrAccidentalStylesMap.end(),
     i      = iBegin;
   for ( ; ; ) {
     if ((*i).second != kDefaultStyle)
@@ -792,7 +792,7 @@ string existingLpsrAccidentalStyles ()
 map<string, lpsrChordsLanguage>
   gLpsrChordsLanguagesMap;
 
-void initializeLpsrChordsLanguages ()
+void initializeLpsrChordsLanguagesMap ()
 {
   gLpsrChordsLanguagesMap ["Ignatzek"]   = k_IgnatzekChords; // default
   gLpsrChordsLanguagesMap ["german"]     = k_GermanChords;
