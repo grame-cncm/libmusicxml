@@ -1223,7 +1223,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     void                  registerOptionsHandlerInSelf ();
 
-    void                  registerOptionsElementNamesInHandler (
+    void                  registerOptionsElementInHandler (
                             S_msrOptionsElement optionsElement);
 
     void                  appendOptionsGroup (
@@ -1274,6 +1274,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     map<string, S_msrOptionsElement>
                           fOptionsElementsMap;
+    
+    int                   fMaximumSubGroupsDescriptionsSize;
+
+    int                   fMaximumDisplayNameWidth;
 
     string                fProgramName;
     list<S_msrOptionsElement>
@@ -1281,7 +1285,6 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     string                fCommandLineWithShortOptions;
     string                fCommandLineWithLongOptions;
-    int                   fMaximumDisplayNameWidth;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);

@@ -218,7 +218,7 @@ void msrOptionsItem::registerOptionsItemInHandler (
   S_msrOptionsHandler optionsHandler)
 {
   optionsHandler->
-    registerOptionsElementNamesInHandler (this);
+    registerOptionsElementInHandler (this);
 }
 
 void msrOptionsItem::print (ostream& os) const
@@ -444,7 +444,7 @@ void msrOptionsValuedItem::registerOptionsItemInHandler (
   S_msrOptionsHandler optionsHandler)
 {
   optionsHandler->
-    registerOptionsElementNamesInHandler (this);
+    registerOptionsElementInHandler (this);
 }
 
 void msrOptionsValuedItem::print (ostream& os) const
@@ -1578,7 +1578,7 @@ void msrOptionsSubGroup::registerOptionsSubGroupInHandler (
   S_msrOptionsHandler optionsHandler)
 {
   optionsHandler->
-    registerOptionsElementNamesInHandler (this);
+    registerOptionsElementInHandler (this);
 
   for (
     list<S_msrOptionsItem>::const_iterator
@@ -1805,7 +1805,7 @@ void msrOptionsGroup::registerOptionsGroupInHandler (
   S_msrOptionsHandler optionsHandler)
 {
   optionsHandler->
-    registerOptionsElementNamesInHandler (this);
+    registerOptionsElementInHandler (this);
 
   for (
     list<S_msrOptionsSubGroup>::const_iterator
@@ -2096,6 +2096,8 @@ msrOptionsHandler::msrOptionsHandler (
 
   fExpectedValuesNumber = 0;
   
+  fMaximumSubGroupsDescriptionsSize = 1;
+  
   fMaximumDisplayNameWidth = 1;
 }
 
@@ -2105,7 +2107,7 @@ msrOptionsHandler::~msrOptionsHandler()
 void msrOptionsHandler::registerOptionsHandlerInSelf ()
 {
   this->
-    registerOptionsElementNamesInHandler (this);
+    registerOptionsElementInHandler (this);
 
   for (
     list<S_msrOptionsGroup>::const_iterator
@@ -2119,20 +2121,24 @@ void msrOptionsHandler::registerOptionsHandlerInSelf ()
   } // for
 }
 
-void msrOptionsHandler::registerOptionsElementNamesInHandler (
+void msrOptionsHandler::registerOptionsElementInHandler (
   S_msrOptionsElement optionsElement)
 {
   string
     optionLongName =
       optionsElement->getOptionsElementLongName (),
     optionShortName =
-      optionsElement->getOptionsElementShortName ();
+      optionsElement->getOptionsElementShortName (),
+    optionDescription =
+      optionsElement->getOptionsElementDescription ();
 
   int
     optionLongNameSize =
       optionLongName.size (),
     optionShortNameSize =
-      optionShortName.size ();
+      optionShortName.size (),
+    optionDescriptionSize =
+      optionDescription.size ();
 
   if (
     optionShortNameSize == 0
@@ -2194,6 +2200,12 @@ void msrOptionsHandler::registerOptionsElementNamesInHandler (
   } // for
 
   // everything OK, register optionsElement in the options element map
+
+  if (optionDescriptionSize > fMaximumSubGroupsDescriptionsSize) {
+    fMaximumSubGroupsDescriptionsSize =
+      optionDescriptionSize;
+  }
+    
   if (optionLongNameSize) {
     fOptionsElementsMap [optionLongName] =
       optionsElement;
