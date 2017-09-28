@@ -20366,6 +20366,204 @@ void msrMultipleRest::print (ostream& os)
   idtr--;
 }
 
+//______________________________________________________________________________
+S_msrRepeatCoda msrRepeatCoda::create (
+  int                 inputLineNumber,
+  S_msrSegment        repeatCodaSegment,
+  S_msrRepeat         repeatUplink)
+{
+  msrRepeatCoda* o =
+    new msrRepeatCoda (
+      inputLineNumber,
+      repeatCodaSegment,
+      repeatUplink);
+  assert(o!=0);
+  return o;
+}
+
+msrRepeatCoda::msrRepeatCoda (
+  int                 inputLineNumber,
+  S_msrSegment        repeatCodaSegment,
+  S_msrRepeat         repeatUplink)
+    : msrElement (inputLineNumber)
+{
+  // sanity check
+  msrAssert (
+    repeatCodaSegment != 0,
+    "repeatCodaSegment is null");
+    
+  fRepeatCodaSegment = repeatCodaSegment;
+  
+  // sanity check
+  msrAssert (
+    repeatUplink != 0,
+    "repeatUplink is null");
+    
+  fRepeatCodaRepeatUplink = repeatUplink;
+}
+
+msrRepeatCoda::~msrRepeatCoda()
+{}
+
+S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
+  S_msrRepeat containingRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "==> Creating a newborn clone of a " <<
+      repeatCodaAsString () <<
+      endl;
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != 0,
+    "containingRepeat is null");
+    
+  S_msrRepeatCoda
+    newbornClone = 0; // JMI
+    /*
+      msrRepeatCoda::create (
+        fInputLineNumber,
+        containingRepeat->
+          getRepeatCoda ()->
+            getRepeatCodaSegment (), // JMI
+        containingRepeat);
+      */
+      
+  // segment
+
+  // uplinks
+
+  return newbornClone;
+}
+
+S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
+  S_msrRepeat containingRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "==> Creating a newborn clone of a " <<
+      repeatCodaAsString () <<
+      endl;
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != 0,
+    "containingRepeat is null");
+    
+  S_msrRepeatCoda
+    repeatCodaDeepCopy = 0; // JMI
+    /* JMI
+      msrRepeatCoda::create (
+        fInputLineNumber,
+        containingRepeat->
+          getRepeatCoda ()->
+            getRepeatCodaSegment (), // JMI
+        containingRepeat);
+    */
+    
+  // segment
+  repeatCodaDeepCopy->fRepeatCodaSegment =
+    fRepeatCodaSegment->
+      createSegmentDeepCopy (
+        fRepeatCodaRepeatUplink->
+          getRepeatVoiceUplink ());
+    
+  // uplinks
+  repeatCodaDeepCopy->fRepeatCodaRepeatUplink =
+    containingRepeat;
+
+  return repeatCodaDeepCopy;
+}
+
+/* JMI
+void msrRepeatCoda::appendElementToRepeatCoda (
+  S_msrElement elem) // JMI ???
+{
+  fRepeatCodaSegment->
+    appendOtherElementToSegment (elem);
+}
+*/
+
+void msrRepeatCoda::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrRepeatCoda::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrRepeatCoda>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
+        S_msrRepeatCoda elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrRepeatCoda::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrRepeatCoda::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrRepeatCoda::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrRepeatCoda>*
+    p =
+      dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
+        S_msrRepeatCoda elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrRepeatCoda::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrRepeatCoda::browseData (basevisitor* v)
+{
+  // browse the segment
+  msrBrowser<msrSegment> browser (v);
+  browser.browse (*fRepeatCodaSegment);
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrRepeatCoda::repeatCodaAsString () const
+{
+  stringstream s;
+
+  s <<
+    "RepeatCoda" <<
+    ", line " << fInputLineNumber <<
+    endl;
+
+  return s.str ();
+}
+
+void msrRepeatCoda::print (ostream& os)
+{
+  os <<
+    endl <<
+    idtr <<
+    repeatCodaAsString () <<
+    endl;
+ 
+  idtr++;
+
+  os <<
+    fRepeatCodaSegment;
+
+  idtr--;
+}
+
 //______________________________________________________________________________ 
 int msrVoice::gVoicesCounter = 0;
 

@@ -8041,6 +8041,88 @@ typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
 EXP ostream& operator<< (ostream& os, const S_msrMultipleRest& elt);
 
 /*!
+\brief A msr repeat representation.
+
+  A repeat is represented by:
+    - a sequence of elements for the common segment
+    - a vector of sequences of elements for the alternate endings
+*/
+//______________________________________________________________________________
+class EXP msrRepeatCoda : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatCoda> create (
+      int          inputLineNumber,
+      S_msrSegment segment,
+      S_msrRepeat  repeatUplink);
+    
+    SMARTP<msrRepeatCoda> createRepeatCodaNewbornClone (
+      S_msrRepeat containingRepeat);
+
+    SMARTP<msrRepeatCoda> createRepeatCodaDeepCopy (
+      S_msrRepeat containingRepeat);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRepeatCoda (
+      int          inputLineNumber,
+      S_msrSegment segment,
+      S_msrRepeat  repeatUplink);
+      
+    virtual ~msrRepeatCoda();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // segment
+    S_msrSegment          getRepeatCodaSegment () const
+                              { return fRepeatCodaSegment; }
+                
+    // uplinks
+    S_msrRepeat           getRepeatCodaRepeatUplink () const
+                              { return fRepeatCodaRepeatUplink; }
+
+    // services
+    // ------------------------------------------------------
+  
+    string                repeatCodaAsString () const;
+
+ //  JMI void                  appendElementToRepeatCoda (S_msrElement elem);
+                    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // segment
+    S_msrSegment          fRepeatCodaSegment;
+
+    // uplinks
+    S_msrRepeat           fRepeatCodaRepeatUplink;
+};
+typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
+
+/*!
 \brief A msr voice representation.
 
   A vpoce is represented by a its string contents
