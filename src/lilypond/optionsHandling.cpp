@@ -108,6 +108,38 @@ string msrOptionsElement::optionsElementNames () const
   return s.str ();
 }
 
+string msrOptionsElement::optionsElementNamesInColumns (
+  int subGroupsShortNameFieldWidth) const
+{
+  stringstream s;
+  
+  if (
+    fOptionsElementShortName.size ()
+        &&
+    fOptionsElementLongName.size ()
+    ) {
+      s << left <<
+        setw (subGroupsShortNameFieldWidth) <<
+        "-" + fOptionsElementShortName <<
+        ", " <<
+        "-" << fOptionsElementLongName;
+  }
+  
+  else {
+    if (fOptionsElementShortName.size ()) {
+      s << left <<
+        setw (subGroupsShortNameFieldWidth) <<
+          "-" + fOptionsElementShortName;
+    }
+    if (fOptionsElementLongName.size ()) {
+      s <<
+        "-" << fOptionsElementLongName;
+    }
+  }
+
+  return s.str ();
+}
+
 string msrOptionsElement::optionsElementNamesBetweenParentheses () const
 {
   stringstream s;
@@ -120,6 +152,19 @@ string msrOptionsElement::optionsElementNamesBetweenParentheses () const
   return s.str ();
 }
 
+string msrOptionsElement::optionsElementNamesInColumnsBetweenParentheses (
+  int subGroupsShortNameFieldWidth) const
+{
+  stringstream s;
+
+  s <<
+    "(" <<
+    optionsElementNamesInColumns (
+      subGroupsShortNameFieldWidth) <<
+    ")";
+  
+  return s.str ();
+}
 
 void msrOptionsElement::printHeader (ostream& os) const
 {
@@ -1829,7 +1874,8 @@ void msrOptionsSubGroup::printHelpSummary (
     setw (subGroupsDescriptionFieldWidth) <<
     fOptionsElementDescription <<
     " " <<
-    optionsElementNamesBetweenParentheses ();
+    optionsElementNamesInColumnsBetweenParentheses (
+      subGroupsShortNameFieldWidth);
 }
 
 void msrOptionsSubGroup::printSpecificSubGroupHelp (

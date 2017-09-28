@@ -88,7 +88,12 @@ class EXP msrOptionsElement : public smartable
     // ------------------------------------------------------
 
     string                optionsElementNames () const;
+    string                optionsElementNamesInColumns (
+                            int subGroupsShortNameFieldWidth) const;
+    
     string                optionsElementNamesBetweenParentheses () const;
+    string                optionsElementNamesInColumnsBetweenParentheses (
+                            int subGroupsShortNameFieldWidth) const;
 
     string                operator() () const
                               { return fOptionsElementDescription; }
