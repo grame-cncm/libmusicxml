@@ -343,7 +343,7 @@ int main (int argc, char *argv[])
     optionsHandler =
       xml2lilypondOptionsHandler::create (
         "h", "help",
-        R"(All options)");
+R"(Available options)");
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
