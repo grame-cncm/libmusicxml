@@ -1194,6 +1194,112 @@ ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsAccidentalStyleItem msrOptionsAccidentalStyleItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsAccidentalStyleItemVariableDisplayName,
+  msrQuarterTonesAccidentalStyle&
+                     optionsAccidentalStyleItemVariable)
+{
+  msrOptionsAccidentalStyleItem* o = new
+    msrOptionsAccidentalStyleItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsAccidentalStyleItemVariableDisplayName,
+      optionsAccidentalStyleItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsAccidentalStyleItem::msrOptionsAccidentalStyleItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsAccidentalStyleItemVariableDisplayName,
+  msrQuarterTonesAccidentalStyle&
+                     optionsAccidentalStyleItemVariable)
+  : msrOptionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      1),
+    fOptionsAccidentalStyleItemVariableDisplayName (
+      optionsAccidentalStyleItemVariableDisplayName),
+    fOptionsAccidentalStyleItemVariable (
+      optionsAccidentalStyleItemVariable)
+{}
+
+msrOptionsAccidentalStyleItem::~msrOptionsAccidentalStyleItem()
+{}
+
+void msrOptionsAccidentalStyleItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    idtr <<
+      "OptionsAccidentalStyleItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementDescription" << " : " <<
+      fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsAccidentalStyleItemVariableDisplayName" << " : " <<
+      fOptionsAccidentalStyleItemVariableDisplayName <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsAccidentalStyleItemVariable" << " : \"" <<
+      msrQuarterTonesAccidentalStyleAsString (
+        fOptionsAccidentalStyleItemVariable) <<
+        "\"" <<
+      endl;
+}
+
+void msrOptionsAccidentalStyleItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    idtr <<
+      setw (valueFieldWidth) <<
+      fOptionsAccidentalStyleItemVariableDisplayName <<
+      " : \"" <<
+      msrQuarterTonesAccidentalStyleAsString (
+        fOptionsAccidentalStyleItemVariable) <<
+      "\"" <<
+      endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsAccidentalStyleItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsChordsLanguageItem msrOptionsChordsLanguageItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -2865,6 +2971,17 @@ void msrOptionsHandler::handleOptionsItemName (
       }
 
       else if (
+        // cccidentals style item?
+        S_msrOptionsAccidentalStyleItem
+          optionsPitchesLanguageItem =
+            dynamic_cast<msrOptionsAccidentalStyleItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsAccidentalStyleItem;
+        fExpectedValuesNumber = 1;
+      }
+
+      else if (
         // chords language item?
         S_msrOptionsChordsLanguageItem
           optionsChordsLanguageItem =
@@ -3123,6 +3240,54 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
       optionsPitchesLanguageItem->
         setPitchesLanguageItemVariableValue (
+          (*it).second);
+
+      fPendingOptionsItem = 0;
+      fExpectedValuesNumber = 0;
+    }
+    
+    else if (
+      // accidentals style item?
+      S_msrOptionsAccidentalStyleItem
+        optionsAccidentalStyleItem =
+          dynamic_cast<msrOptionsAccidentalStyleItem*>(&(*fPendingOptionsItem))
+      ) {
+      // theString contains the language name:     
+      // is it in the pitches languages map?
+      map<string, msrQuarterTonesAccidentalStyle>::const_iterator
+        it =
+          gQuarterTonesAccidentalStylesMap.find (
+            theString);
+            
+      if (it == gQuarterTonesAccidentalStylesMap.end ()) {
+        // no, language is unknown in the map
+        stringstream s;
+    
+        s <<
+          "MSR pitches language " << theString <<
+          " is unknown" <<
+          endl <<
+          "The " <<
+          gQuarterTonesAccidentalStylesMap.size () <<
+          " known MSR pitches languages are:" <<
+          endl;
+    
+        idtr++;
+      
+        s <<
+          existingQuarterTonesAccidentalStyles ();
+    
+        idtr--;
+    
+        optionError (s.str());
+        
+        printHelpSummary (cerr);
+        
+        exit (4);
+      }
+    
+      optionsAccidentalStyleItem->
+        setAccidentalStyleItemVariableValue (
           (*it).second);
 
       fPendingOptionsItem = 0;

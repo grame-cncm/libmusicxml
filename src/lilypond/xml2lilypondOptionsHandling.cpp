@@ -102,20 +102,19 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 {
   // append the various options groups
   appendOptionsGroup (
-    gGeneralOptions
-  );
+    gGeneralOptions);
+    
   appendOptionsGroup (
-    gMusicXMLOptions
-  );
+    gMusicXMLOptions);
+    
   appendOptionsGroup (
-    gMsrOptions
-  );
+    gMsrOptions);
+    
   appendOptionsGroup (
-    gLpsrOptions
-  );
+    gLpsrOptions);
+    
   appendOptionsGroup (
-    gLilypondOptions
-  );
+    gLilypondOptions);
 
   if (TRACE_OPTIONS) {
     // print the options handler initial state

@@ -32,7 +32,7 @@ class EXP lilypondOptions : public msrOptionsGroup
     // ------------------------------------------------------
 
     enum scoreNotationKind {
-      kWesternNotation, kJianpuNotation, kABCNotation };
+      kWesternNotation, kJianpuNotation, kABCNotation }; // JMI
 
     static string scoreNotationKindAsString (
       scoreNotationKind notationKind);

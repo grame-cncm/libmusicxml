@@ -164,21 +164,21 @@ R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice
 to prevent LilyPond from using open strings.)",
           "avoidOpenStrings",
           fAvoidOpenStrings));
-/* JMI
+
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        ccidentalStyle::create (
           "as", "accidentalStyle", // JMI
-R"(Choose the LilyPond accidental styles among: 
+R"(Choose the LilyPond accidental 'style' among: 
   voice, modern, modern-cautionary, modern-voice, 
   modern-voice-cautionary, piano, piano-cautionary, 
   neo-modern, neo-modern-cautionary, neo-modern-voice,
   neo-modern-voice-cautionary, dodecaphonic, dodecaphonic-no-repeat,
   dodecaphonic-first, teaching, no-reset, forget.
 The default is... 'default'.)",
+          "style",
           "accidentalStyle",
           fAccidentalStyle));
-          */
 
     notesSubGroup->
       appendOptionsItem (
@@ -263,8 +263,8 @@ and let LilyPond decide about them.)",
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "blairm", "breakLinesAtIncompleteRightMeasures",
-R"(Generate a '\break' command at the end incomplete right measures
-which is handy in popular folk dances and tuness.)",
+R"(Generate a '\break' command at the end of incomplete right measures
+which is handy in popular folk dances and tunes.)",
           "breakLinesAtIncompleteRightMeasures",
           fBreakLinesAtIncompleteRightMeasures));
 

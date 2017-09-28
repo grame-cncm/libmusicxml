@@ -778,6 +778,80 @@ typedef SMARTP<msrOptionsPitchesLanguageItem> S_msrOptionsPitchesLanguageItem;
 ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt);
 
 //______________________________________________________________________________
+class EXP msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsAccidentalStyleItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsAccidentalStyleItemVariableDisplayName,
+      msrQuarterTonesAccidentalStyle&
+                         optionsAccidentalStyleItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsAccidentalStyleItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsAccidentalStyleItemVariableDisplayName,
+      msrQuarterTonesAccidentalStyle&
+                         optionsAccidentalStyleItemVariable);
+      
+    virtual ~msrOptionsAccidentalStyleItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsAccidentalStyleItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsAccidentalStyleItemVariableDisplayName;
+                              }
+                              
+    void                  setAccidentalStyleItemVariableValue (
+                            msrQuarterTonesAccidentalStyle value)
+                              {
+                                fOptionsAccidentalStyleItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsAccidentalStyleItemVariableDisplayName;
+    msrQuarterTonesAccidentalStyle&
+                          fOptionsAccidentalStyleItemVariable;
+};
+typedef SMARTP<msrOptionsAccidentalStyleItem> S_msrOptionsAccidentalStyleItem;
+ostream& operator<< (ostream& os, const S_msrOptionsAccidentalStyleItem& elt);
+
+//______________________________________________________________________________
 class EXP msrOptionsChordsLanguageItem : public msrOptionsValuedItem
 {
   public:

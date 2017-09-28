@@ -69,6 +69,22 @@ namespace MusicXML2
   assert(false); \
 }
 
+// accidental styles
+//______________________________________________________________________________
+    enum accidentalStyleKind {
+      kDefaultStyle,
+      kVoiceStyle,
+      kModernStyle,
+      kModernCautionaryStyle, kModernVoiceStyle, kModernVoiceCautionaryStyle,
+      kPianoStyle, kPianoCautionaryStyle,
+      kNeoModernStyle,
+      kNeoModernCautionaryStyle, kNeoModernVoiceStyle, kNeoModernVoiceVautionaryStyle,
+      kDodecaphonicStyle, kDodecaphonicNoRepeatStyle,
+      kDodecaphonicFirstStyle, kTeachingStyle, kNoResetStyle, kForgetStyle };
+
+    static string accidentalStyleKindAsString (
+      accidentalStyleKind accidentalStyle);
+
 // chords languages
 //______________________________________________________________________________
 enum lpsrChordsLanguage {
