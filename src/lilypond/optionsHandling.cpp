@@ -79,36 +79,45 @@ S_msrOptionsElement msrOptionsElement::fetchOptionElement (
   return result;
 }
 
-void msrOptionsElement::printOptionsElementNamesBetweenParentheses (
-  ostream& os) const
+string msrOptionsElement::optionsElementNames () const
 {
+  stringstream s;
+  
   if (
     fOptionsElementShortName.size ()
         &&
     fOptionsElementLongName.size ()
     ) {
-      os <<
-        " (" <<
+      s <<
         "-" << fOptionsElementShortName <<
         ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
+        "-" << fOptionsElementLongName;
   }
   
   else {
     if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
+      s <<
+      "-" << fOptionsElementShortName;
     }
     if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
+      s <<
+      "-" << fOptionsElementLongName;
     }
   }
+
+  return s.str();
+}
+
+string msrOptionsElement::optionsElementNamesBetweenParentheses () const
+{
+  stringstream s;
+
+  s <<
+    " (" <<
+    optionsElementNames () <<
+    ")";
+  
+  return s.str();
 }
 
 
@@ -523,6 +532,7 @@ void msrOptionsValuedItem::printHelp (ostream& os) const
   }
 
   os <<
+    optionsElementNames () <<
     " " <<
     fOptionsValueSpecification;
 
@@ -1719,39 +1729,9 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription;
-
-  printOptionsElementNamesBetweenParentheses (os);
-  /* JMI
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os <<
-        " (" <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
-    }
-    if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
-    }
-  }
-*/
-  os <<
+    fOptionsElementDescription <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -1819,39 +1799,8 @@ void msrOptionsSubGroup::printOptionsValues (
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription;
-
-/* JMI
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os <<
-        " (" <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
-    }
-    if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
-    }
-  }
-  */
-
-  os <<
+    fOptionsElementDescription <<
+    // optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2024,37 +1973,8 @@ void msrOptionsGroup::printHelp (ostream& os) const
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription;
-
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os <<
-        " (" <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
-    }
-    if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
-    }
-  }
-
-  os <<
+    fOptionsElementDescription <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2086,37 +2006,8 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription;
-
-  if (
-    fOptionsElementShortName.size ()
-        &&
-    fOptionsElementLongName.size ()
-    ) {
-      os <<
-        " (" <<
-        "-" << fOptionsElementShortName <<
-        ", " <<
-        "-" << fOptionsElementLongName <<
-        ")";
-  }
-  
-  else {
-    if (fOptionsElementShortName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementShortName <<
-      ")";
-    }
-    if (fOptionsElementLongName.size ()) {
-      os <<
-      " (" <<
-      "-" << fOptionsElementLongName <<
-      ")";
-    }
-  }
-
-  os <<
+    fOptionsElementDescription <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 

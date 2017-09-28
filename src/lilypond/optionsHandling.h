@@ -87,6 +87,9 @@ class EXP msrOptionsElement : public smartable
     // services
     // ------------------------------------------------------
 
+    string                optionsElementNames () const;
+    string                optionsElementNamesBetweenParentheses () const;
+
     string                operator() () const
                               { return fOptionsElementDescription; }
   
@@ -95,9 +98,6 @@ class EXP msrOptionsElement : public smartable
                             
     // print
     // ------------------------------------------------------
-
-    virtual void          printOptionsElementNamesBetweenParentheses (
-                            ostream& os) const;
     
     virtual void          printHeader (ostream& os) const;
     virtual void          underlineHeader (ostream& os) const;
