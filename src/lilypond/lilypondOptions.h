@@ -70,8 +70,8 @@ class EXP lilypondOptions : public msrOptionsGroup
     // set and get
     // ------------------------------------------------------
 
-    bool                  setAccidentalStyle (
-                            string accidentalStyle);    
+ // JMI   bool                  setAccidentalStyle (
+  //                          lpsrAccidentalStyle accidentalStyle);    
  
   public:
 

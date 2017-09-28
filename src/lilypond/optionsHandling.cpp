@@ -2971,9 +2971,9 @@ void msrOptionsHandler::handleOptionsItemName (
       }
 
       else if (
-        // cccidentals style item?
+        // acccidentals style item?
         S_msrOptionsAccidentalStyleItem
-          optionsPitchesLanguageItem =
+          optionsAccidentalStyleItem =
             dynamic_cast<msrOptionsAccidentalStyleItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
@@ -3256,10 +3256,10 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       // is it in the pitches languages map?
       map<string, lpsrAccidentalStyle>::const_iterator
         it =
-          gQuarterTonesAccidentalStylesMap.find (
+          gLpsrAccidentalStylesMap.find (
             theString);
             
-      if (it == gQuarterTonesAccidentalStylesMap.end ()) {
+      if (it == gLpsrAccidentalStylesMap.end ()) {
         // no, accidental style is unknown in the map
         stringstream s;
     
@@ -3268,14 +3268,14 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " is unknown" <<
           endl <<
           "The " <<
-          gQuarterTonesAccidentalStylesMap.size () <<
+          gLpsrAccidentalStylesMap.size () <<
           " known MSR pitches languages are:" <<
           endl;
     
         idtr++;
       
         s <<
-          existingQuarterTonesAccidentalStyles ();
+          existingLpsrAccidentalStyles ();
     
         idtr--;
     

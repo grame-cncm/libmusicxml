@@ -96,7 +96,7 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
     fRomanStringNumbers = boolOptionsInitialValue;
     fAvoidOpenStrings    = boolOptionsInitialValue;
     
-    fAccidentalStyle = "";
+    fAccidentalStyle = kDefaultStyle;
   
     fCompressMultiMeasureRests = boolOptionsInitialValue;
   
@@ -167,7 +167,7 @@ to prevent LilyPond from using open strings.)",
 
     notesSubGroup->
       appendOptionsItem (
-        ccidentalStyle::create (
+        msrOptionsAccidentalStyleItem::create (
           "as", "accidentalStyle", // JMI
 R"(Choose the LilyPond accidental 'style' among: 
   voice, modern, modern-cautionary, modern-voice, 
@@ -767,22 +767,24 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   return clone;
 }
 
-bool lilypondOptions::setAccidentalStyle (string accidentalStyle)
+/* JMI
+bool lilypondOptions::setAccidentalStyle (lpsrAccidentalStyle accidentalStyle)
 {
   // is accidentalStyle in the accidental styles set?
-  set<string>::const_iterator
+  map<string, lpsrAccidentalStyle>::const_iterator
     it =
-      fLilypondAccidentalStyles.find (accidentalStyle);
+      gLpsrAccidentalStylesMap.find (accidentalStyle);
         
-  if (it == fLilypondAccidentalStyles.end ()) {
+  if (it == gLpsrAccidentalStylesMap.end ()) {
     // no, accidentalStyle is unknown
     return false;
   }
 
-  fAccidentalStyle = accidentalStyle;
+  fAccidentalStyle = it.second;
   
   return true;
 } 
+*/
 
 string lilypondOptions::scoreNotationKindAsString (
   scoreNotationKind notationKind)
