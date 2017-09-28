@@ -1144,12 +1144,14 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     void                  printHelpSummary (
                             ostream& os,
+                            int      subGroupsShortNameFieldWidth,
                             int      subGroupsDescriptionFieldWidth) const;
 
     void                  printSpecificSubGroupHelp (
                             ostream& os,
                             S_msrOptionsSubGroup
                                      optionsSubGroup,
+                            int      subGroupsShortNameFieldWidth,
                             int      subGroupsDescriptionFieldWidth) const;
 
     void                  printOptionsValues (
@@ -1220,12 +1222,14 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelpSummary (
                             ostream& os,
+                            int      subGroupsShortNameFieldWidth,
                             int      subGroupsDescriptionFieldWidth) const;
     
     void                  printSpecificSubGroupHelp (
                             ostream& os,
                             S_msrOptionsSubGroup
                                      optionsSubGroup,
+                            int      subGroupsShortNameFieldWidth,
                             int      subGroupsDescriptionFieldWidth) const;
 
     void                  printOptionsValues (
@@ -1330,13 +1334,13 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printHelpSummary (
-                            ostream& os) const;
+    void                  printHelpSummary (ostream& os) const;
     
     void                  printSpecificSubGroupHelp (
                             ostream& os,
                             S_msrOptionsSubGroup
                                      optionsSubGroup,
+                            int      subGroupsShortNameFieldWidth,
                             int      subGroupsDescriptionFieldWidth) const;
 
     void                  printOptionsValues (
@@ -1361,6 +1365,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     
     int                   fMaximumSubGroupsDescriptionsSize;
 
+    int                   fMaximumShortNameWidth;
+    int                   fMaximumLongNameWidth;
     int                   fMaximumDisplayNameWidth;
 
     string                fProgramName;

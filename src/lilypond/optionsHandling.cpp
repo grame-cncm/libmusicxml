@@ -1820,6 +1820,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
 
 void msrOptionsSubGroup::printHelpSummary (
   ostream& os,
+  int      subGroupsShortNameFieldWidth,
   int      subGroupsDescriptionFieldWidth) const
 {
   // the description is the header of the information
@@ -1835,6 +1836,7 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
   ostream& os,
   S_msrOptionsSubGroup
            optionsSubGroup,
+  int      subGroupsShortNameFieldWidth,
   int      subGroupsDescriptionFieldWidth) const
 {
   // print only the summary if this is not the desired subgroup,
@@ -1843,7 +1845,9 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
     printHelp (os);
   else
     printHelpSummary (
-      os, subGroupsDescriptionFieldWidth);
+      os,
+      subGroupsShortNameFieldWidth,
+      subGroupsDescriptionFieldWidth);
  }
 
 void msrOptionsSubGroup::printOptionsValues (
@@ -2058,6 +2062,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
 
 void msrOptionsGroup::printHelpSummary (
   ostream& os,
+  int      subGroupsShortNameFieldWidth,
   int      subGroupsDescriptionFieldWidth) const
 {
   // the description is the header of the information
@@ -2088,7 +2093,9 @@ void msrOptionsGroup::printHelpSummary (
       os << idtr;
       (*i)->
         printHelpSummary (
-          os, subGroupsDescriptionFieldWidth);
+          os,
+          subGroupsShortNameFieldWidth,
+          subGroupsDescriptionFieldWidth);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -2104,6 +2111,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
   ostream& os,
   S_msrOptionsSubGroup
            optionsSubGroup,
+  int      subGroupsShortNameFieldWidth,
   int      subGroupsDescriptionFieldWidth) const
 {
   // the description is the header of the information
@@ -2133,6 +2141,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
         printSpecificSubGroupHelp (
           os,
           optionsSubGroup,
+          subGroupsShortNameFieldWidth,
           subGroupsDescriptionFieldWidth);
       if (++i == iEnd) break;
       cerr << endl;
@@ -2220,7 +2229,9 @@ msrOptionsHandler::msrOptionsHandler (
   fExpectedValuesNumber = 0;
   
   fMaximumSubGroupsDescriptionsSize = 1;
-  
+
+  fMaximumShortNameWidth   = 1;
+  fMaximumLongNameWidth    = 1;
   fMaximumDisplayNameWidth = 1;
 }
 
@@ -2340,6 +2351,9 @@ void msrOptionsHandler::registerOptionsElementInHandler (
     fOptionsElementsMap [optionLongName] =
       optionsElement;
     
+    if (optionLongNameSize > fMaximumLongNameWidth)
+      fMaximumLongNameWidth = optionLongNameSize;
+    
     if (optionLongNameSize > fMaximumDisplayNameWidth)
       fMaximumDisplayNameWidth = optionLongNameSize;
   }
@@ -2347,6 +2361,9 @@ void msrOptionsHandler::registerOptionsElementInHandler (
   if (optionShortNameSize) {
     fOptionsElementsMap [optionShortName] =
       optionsElement;
+    
+    if (optionShortNameSize > fMaximumShortNameWidth)
+      fMaximumShortNameWidth = optionShortNameSize;
     
     if (optionShortNameSize > fMaximumDisplayNameWidth)
       fMaximumDisplayNameWidth = optionShortNameSize;
@@ -2458,7 +2475,9 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
       os << idtr;
       (*i)->
         printHelpSummary (
-          os, fMaximumSubGroupsDescriptionsSize);
+          os,
+          fMaximumShortNameWidth,
+          fMaximumSubGroupsDescriptionsSize);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -2474,6 +2493,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
   ostream& os,
   S_msrOptionsSubGroup
            optionsSubGroup,
+  int      subGroupsShortNameFieldWidth,
   int      subGroupsDescriptionFieldWidth) const
 {
   // the description is the header of the information
@@ -2498,6 +2518,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
         printSpecificSubGroupHelp (
           os,
           optionsSubGroup,
+          subGroupsShortNameFieldWidth,
           subGroupsDescriptionFieldWidth);
       if (++i == iEnd) break;
       cerr << endl;
@@ -3141,6 +3162,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           cerr,
           optionsRationalItem->
             getOptionsSubGroupUplink (),
+          fMaximumShortNameWidth,
           fMaximumDisplayNameWidth);
             
         exit (4);
@@ -3442,6 +3464,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           cerr,
           optionsMidiTempoItem->
             getOptionsSubGroupUplink (),
+          fMaximumShortNameWidth,
           fMaximumDisplayNameWidth);
             
         exit (4);
