@@ -41,13 +41,15 @@ namespace MusicXML2
 S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
   string optionHandlerShortName,
   string optionHandlerLongName,
-  string optionHandlerDescription)
+  string optionHandlerDescription,
+  string optionsHandlerValuesHeader)
 {
   xml2lilypondOptionsHandler* o = new
     xml2lilypondOptionsHandler (
       optionHandlerShortName,
       optionHandlerLongName,
-      optionHandlerDescription);
+      optionHandlerDescription,
+      optionsHandlerValuesHeader);
   assert(o!=0);
   return o;
 }
@@ -55,7 +57,8 @@ S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
 xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
   string optionHandlerShortName,
   string optionHandlerLongName,
-  string optionHandlerDescription)
+  string optionHandlerDescription,
+  string optionsHandlerValuesHeader)
   : msrOptionsHandler (
 R"(
                 Welcome to xml2lilypond v0.1.0, 
@@ -93,7 +96,8 @@ What it does:
       ,
       optionHandlerShortName,
       optionHandlerLongName,
-      optionHandlerDescription)
+      optionHandlerDescription,
+      optionsHandlerValuesHeader)
 {
   initializeOptionsHandler ();
 }

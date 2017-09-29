@@ -1271,12 +1271,15 @@ class EXP msrOptionsHandler : public msrOptionsElement
   
     // creation
     // ------------------------------------------------------
-/* JMI
+/* JMI this a pure virtual class
     static SMARTP<msrOptionsHandler> create (
+      string optionsHandlerHelpHeader,
       string optionHandlerShortName,
       string optionHandlerLongName,
-      string optionHandlerDescription);
-     */
+      string optionHandlerDescription,
+      string optionsHandlerValuesHeader);
+*/
+
   protected:
 
     // constructors/destructor
@@ -1286,7 +1289,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
       string optionsHandlerHelpHeader,
       string optionHandlerShortName,
       string optionHandlerLongName,
-      string optionHandlerDescription);
+      string optionHandlerDescription,
+      string optionsHandlerValuesHeader);
       
     virtual ~msrOptionsHandler();
 
@@ -1318,6 +1322,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
     string                getCommandLineWithLongOptions () const
                               { return fCommandLineWithLongOptions; }
                               
+    string                getOptionsHandlerValuesHeader () const
+                              { return fOptionsHandlerValuesHeader; }
+
   public:
   
     // services
@@ -1369,6 +1376,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // ------------------------------------------------------
 
     string                fOptionsHandlerHelpHeader;
+
+    string                fOptionsHandlerValuesHeader;
 
     S_msrOptionsItem      fPendingOptionsItem;
     int                   fExpectedValuesNumber;

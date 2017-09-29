@@ -2252,13 +2252,15 @@ S_msrOptionsHandler msrOptionsHandler::create (
   string optionsHandlerHelpHeader,
   string optionHandlerShortName,
   string optionHandlerLongName,
-  string optionHandlerDescription)
+  string optionHandlerDescription,
+  string optionsHandlerValuesHeader)
 {
   msrOptionsHandler* o = new
     msrOptionsHandler (
       optionHandlerShortName,
       optionHandlerLongName,
-      optionHandlerDescription);
+      optionHandlerDescription,
+      optionsHandlerValuesHeader);
   assert(o!=0);
   return o;
 }
@@ -2268,12 +2270,15 @@ msrOptionsHandler::msrOptionsHandler (
   string optionsHandlerHelpHeader,
   string optionHandlerShortName,
   string optionHandlerLongName,
-  string optionHandlerDescription)
+  string optionHandlerDescription,
+  string optionsHandlerValuesHeader)
   : msrOptionsElement (
       optionHandlerShortName,
       optionHandlerLongName,
       optionHandlerDescription)
 {
+  fOptionsHandlerValuesHeader = optionsHandlerValuesHeader;
+  
   fOptionsHandlerHelpHeader = optionsHandlerHelpHeader;
 
   fExpectedValuesNumber = 0;

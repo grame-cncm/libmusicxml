@@ -31,7 +31,8 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     static SMARTP<xml2lilypondOptionsHandler> create (
       string optionHandlerShortName,
       string optionHandlerLongName,
-      string optionHandlerDescription);
+      string optionHandlerDescription,
+      string optionsHandlerValuesHeader);
      
   protected:
 
@@ -41,7 +42,8 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     xml2lilypondOptionsHandler (
       string optionHandlerShortName,
       string optionHandlerLongName,
-      string optionHandlerDescription);
+      string optionHandlerDescription,
+      string optionsHandlerValuesHeader);
       
     virtual ~xml2lilypondOptionsHandler();
 
@@ -63,6 +65,9 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     void                  print (ostream& os) const;
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 };
 typedef SMARTP<xml2lilypondOptionsHandler> S_xml2lilypondOptionsHandler;
 ostream& operator<< (ostream& os, const S_xml2lilypondOptionsHandler& elt);
