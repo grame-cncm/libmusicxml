@@ -2589,9 +2589,9 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
 void msrOptionsHandler::printOptionsValues (
   ostream& os) const
 {
-  // the description is the header of the information
+  // print the options handler values header
   os << idtr <<
-    fOptionsElementDescription <<
+    fOptionsHandlerValuesHeader <<
     ":" <<
     endl;
 
@@ -2616,9 +2616,6 @@ void msrOptionsHandler::printOptionsValues (
 
     idtr--;
   }
-  
-  os <<
-    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)

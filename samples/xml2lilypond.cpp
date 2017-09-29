@@ -285,7 +285,7 @@ R"(Options values)");
   // ------------------------------------------------------
   
   gGeneralOptions->fProgramName =
-    optionsHandler->getProgramName (); //argv [0]; // JMI
+    optionsHandler->getProgramName ();
   
   // input source name
   // ------------------------------------------------------
@@ -385,19 +385,7 @@ R"(Options values)");
 
   optionsHandler->
     printOptionsValues (cerr);
-  cerr <<
-    endl;
 
-  cerr <<
-    endl <<
-    endl;
-
- // JMI printOptions ();
-
-  cerr <<
-    endl <<
-    endl;
-  
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
