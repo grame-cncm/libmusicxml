@@ -1967,6 +1967,10 @@ msrOptionsGroup::~msrOptionsGroup()
 void msrOptionsGroup::registerOptionsGroupInHandler (
   S_msrOptionsHandler optionsHandler)
 {
+  // set options handler uplink
+  setOptionsHandlerUplink (optionsHandler);
+
+  // register options group in options handler
   optionsHandler->
     registerOptionsElementInHandler (this);
 
@@ -2792,11 +2796,11 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     n++;
   } // while
 
+  unsigned int argumentsVectorSize =
+    fArgumentsVector.size ();
+
   if (TRACE_OPTIONS) {
     // print the arguments vector
-    unsigned int argumentsVectorSize =
-      fArgumentsVector.size ();
-      
     cerr << idtr <<
       "Arguments vector (" <<
       argumentsVectorSize <<
@@ -2812,6 +2816,16 @@ const vector<string> msrOptionsHandler::analyzeOptions (
       } // for
       idtr--;
     }
+  }
+
+  // register option element names in command line strings
+  if (argumentsVectorSize) {
+    for (unsigned int i = 0; i < argumentsVectorSize; i++) {
+      fCommandLineWithShortOptions +=
+        " " + fArgumentsVector [i];
+      fCommandLineWithLongOptions +=
+        " " + fArgumentsVector [i];
+    } // for
   }
 
   // exit if this is a pure help run
@@ -3416,7 +3430,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           dynamic_cast<msrOptionsPartRenameItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the part rename specification
-      std::pair<string, string>
+      pair<string, string>
         pair =
           extractNamesPairFromString (
             theString,
@@ -3549,5 +3563,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     fPureHelpRun = false;
   }
 }
+
 
 }

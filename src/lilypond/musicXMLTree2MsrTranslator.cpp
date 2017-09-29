@@ -2001,7 +2001,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt )
     elt->getInputLineNumber ();
 
   // convert clef to upper case for analysis
-  std::transform (
+  transform (
     fCurrentClefSign.begin(),
     fCurrentClefSign.end(),
     fCurrentClefSign.begin(),
@@ -2796,7 +2796,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_beat_type& elt )
   int beatType = (int)(*elt);
 
   // extract the numbers list from the beat type
-  std::list<int>
+  list<int>
     beatNumbers =
       extractNumbersFromString (
         fCurrentTimeBeats, // may contain "1+5+3"
@@ -2812,7 +2812,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_beat_type& elt )
   if (beatNumbers.size ()) {
     // append the beats numbers to the time item
     for (
-      std::list<int>::const_iterator i = beatNumbers.begin();
+      list<int>::const_iterator i = beatNumbers.begin();
       i != beatNumbers.end();
       i++) {
       timeItem->

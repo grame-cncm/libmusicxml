@@ -660,11 +660,11 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   string variableName;
   string variableValue;
 
-  std::for_each (
+  for_each (
     fVariableName.begin(),
     fVariableName.end(),
     stringQuoteEscaper (variableName));
-  std::for_each (
+  for_each (
     fVariableValue.begin(),
     fVariableValue.end(),
     stringQuoteEscaper (variableValue));
@@ -861,11 +861,11 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   string variableName;
   string variableValue;
 
-  std::for_each (
+  for_each (
     fVariableName.begin(),
     fVariableName.end(),
     stringQuoteEscaper (variableName));
-  std::for_each (
+  for_each (
     fVariableValue.begin(),
     fVariableValue.end(),
     stringQuoteEscaper (variableValue));

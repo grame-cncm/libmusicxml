@@ -381,6 +381,11 @@ void optionError (string errorMessage);
 //______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (string& s);
 
+//______________________________________________________________________________
+string baseName (const string &filename);
+  // wait until c++17 for a standard library containing basename()...
+
+
 } // namespace MusicXML2
 
 

@@ -516,11 +516,11 @@ string stringNumbersToEnglishWords (string str)
 
 //______________________________________________________________________________
 int consumeDecimalNumber (
-  std::string::const_iterator  theStringIterator,
-  std::string::const_iterator& remainingStringIterator,
+  string::const_iterator  theStringIterator,
+  string::const_iterator& remainingStringIterator,
   bool   debugMode)
 {
-  std::string::const_iterator cursor = theStringIterator;
+  string::const_iterator cursor = theStringIterator;
   int    number = 0;
 
   if (! isdigit (*cursor))
@@ -556,12 +556,12 @@ int consumeDecimalNumber (
 
 //______________________________________________________________________________
 set<int> decipherNumbersSetSpecification (
-  std::string theString,
+  string theString,
   bool        debugMode)
 {
 //  A numbersSetSpecification sample is: "7,15-19,^16-17"
 
-  std::set<int> selectedNumbers;
+  set<int> selectedNumbers;
   
   if (debugMode)
     cerr <<
@@ -569,7 +569,7 @@ set<int> decipherNumbersSetSpecification (
       "|" <<
       endl;
 
-  std::string::const_iterator
+  string::const_iterator
     cursor = theString.begin();
 
   while (1) {
@@ -654,11 +654,11 @@ set<int> decipherNumbersSetSpecification (
 }
 
 //______________________________________________________________________________
-std::list<int> extractNumbersFromString (
-  std::string theString, // can contain "1, 2, 17"
+list<int> extractNumbersFromString (
+  string theString, // can contain "1, 2, 17"
   bool        debugMode)
 {
-  std::list<int> foundNumbers;
+  list<int> foundNumbers;
 
   if (debugMode)
     cerr <<
@@ -666,7 +666,7 @@ std::list<int> extractNumbersFromString (
       "|" <<
       endl;
 
-  std::string::const_iterator
+  string::const_iterator
     cursor = theString.begin();
 
   while (1) {
@@ -700,13 +700,13 @@ std::list<int> extractNumbersFromString (
 
 
 //______________________________________________________________________________
-std::pair<std::string, std::string> extractNamesPairFromString (
-  std::string theString, // can contain "P1 = Bassoon"
+pair<string, string> extractNamesPairFromString (
+  string theString, // can contain "P1 = Bassoon"
   char        separator,
   bool        debugMode)
 {
-  std::string name1;
-  std::string name2;
+  string name1;
+  string name2;
 
   if (debugMode)
     cerr <<
@@ -714,7 +714,7 @@ std::pair<std::string, std::string> extractNamesPairFromString (
       "|" <<
       endl;
 
-  std::string::const_iterator
+  string::const_iterator
     cursor = theString.begin();
 
   // fetch name1
@@ -948,7 +948,7 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
     for ( ; ; ) {
       size_t found = s.find (lookedFor);
 
-      if (found == std::string::npos)
+      if (found == string::npos)
         break;
 
       s.replace (found, lookedFor.size (), ersatz);
@@ -959,13 +959,49 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
 /*
 int main(int argc, char* argv[])
 {
-  std::string s = "gsdf&quot;gsdfg&amp;&amp;fgg";
+  string s = "gsdf&quot;gsdfg&amp;&amp;fgg";
   htmlEntitiesDecode(s);
   
   return 0;
 }
 
     */
+
+//______________________________________________________________________________
+string baseName (const string &filename)
+{
+  if (filename.empty ()) {
+      return {};
+  }
+
+  auto len   = filename.length ();
+  auto index = filename.find_last_of ("/\\");
+
+  if (index == string::npos) {
+      return filename;
+  }
+
+  if (index + 1 >= len) {
+    len--;
+    index = filename.substr (0, len).find_last_of ("/\\");
+
+    if (len == 0) {
+      return filename;
+    }
+
+    if (index == 0) {
+      return filename.substr (1, len - 1);
+    }
+
+    if (index == string::npos) {
+      return filename.substr (0, len);
+    }
+
+    return filename.substr (index + 1, len - index - 1);
+  }
+
+  return filename.substr (index + 1, len - index);
+}
 
 
 }

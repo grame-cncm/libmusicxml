@@ -15,11 +15,8 @@
 #endif
 
 #include <iomanip>      // setw, set::precision, ...
+#include <cmath>
 
-//#include "msrOptions.h"
-//#include "lpsrOptions.h"
-
-//#include "generalOptions.h"
 #include "musicXMLOptions.h"
 #include "lilypondOptions.h"
 

@@ -11,13 +11,9 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <getopt.h>
-
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw()), set::precision(), ...
 
 #include <fstream>      // ofstream, ofstream::open(), ofstream::close()
-
-#include <regex> //JMI
 
 #include "libmusicxml.h"
 #include "version.h"
@@ -60,7 +56,7 @@ S_xml2lilypondOptionsHandler
       optionsHandler->
         analyzeOptions (argc, argv);
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (TRACE_OPTIONS) {
     // print the options values
     cerr <<
       "Options values:" <<
@@ -80,7 +76,7 @@ S_xml2lilypondOptionsHandler
   // handle the arguments 
   unsigned int nonOptionArgsNumber = argumentsVector.size ();
 
-  if (gGeneralOptions->fTraceGeneral) {    
+  if (TRACE_OPTIONS) {    
     if (nonOptionArgsNumber > 0) {
       cerr << idtr <<
         singularOrPluralWithoutNumber (
@@ -152,7 +148,8 @@ S_xml2lilypondOptionsHandler
 
     // build output file name
     string
-      inputFileBasename = basename (inputFileName.c_str());
+      inputFileBasename =
+        baseName (inputFileName.c_str());
     
     outputFileName =
       inputFileBasename;
@@ -208,7 +205,7 @@ S_xml2lilypondOptionsHandler
 
     // build output file name
     string
-      inputFileBasename = basename (inputFileName.c_str());
+      inputFileBasename = baseName (inputFileName.c_str());
     
     outputFileName =
       inputFileBasename;
@@ -222,89 +219,6 @@ S_xml2lilypondOptionsHandler
   }
 }
 */
-
-//_______________________________________________________________________________
-void printOptions ()
-{
-  cerr <<
-    endl <<
-    idtr <<
-    "The command line is:" <<
-    endl;
-
-  cerr <<
-    idtr << tab <<
-      gGeneralOptions->fProgramName << " " <<
-      gGeneralOptions->fCommandLineLongOptions <<
-      gGeneralOptions->fInputSourceName <<
-      endl <<
-    idtr <<
-      "or:" <<
-      endl <<
-    idtr << tab <<
-      gGeneralOptions->fProgramName << " " <<
-      gGeneralOptions->fCommandLineShortOptions <<
-      gGeneralOptions->fInputSourceName <<
-      endl <<
-    endl;
-
-  // the option name field width
-  int const fieldWidth = 35;
-  
-  // General options
-  // ---------------
-
-  // print the chosen general options
-  gGeneralOptions->
-    printGeneralOptionsValues (fieldWidth);
-  cerr <<
-    endl;
-    
-  // MusicXML options
-  // -----------
-
-  // print the chosen MusicXML options
-  gMusicXMLOptions->
-    printMusicXMLOptionsValues (fieldWidth);
-  cerr <<
-    endl;
-    
-  // MSR options
-  // -----------
-
-  // print the chosen MSR options
-  gMsrOptions->
-    printMsrOptionsValues (fieldWidth);
-  cerr <<
-    endl;
-    
-  // LPSR options
-  // ------------
-
-  // print the chosen LPSR options
-  gLpsrOptions->
-    printLpsrOptionsValues (fieldWidth);
-  cerr <<
-    endl;
-        
-  // LilyPond options
-  // ------------
-
-  // print the chosen LilyPond options
-  gLilypondOptions->
-    printLilypondOptionsValues (fieldWidth);
-  cerr <<
-    endl;
-
-  // acknoledge end of command line analysis
-  // ------------
-  if (gGeneralOptions->fTraceGeneral)
-    cerr <<
-      endl <<
-      idtr <<
-        "The command line options and arguments have been analyzed" <<
-        endl;
-}
 
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
@@ -447,10 +361,16 @@ R"(Available options)");
     cerr <<
       idtr <<
         optionsHandler->getCommandLineWithLongOptions () <<
-        endl <<
+      endl;
+
+    idtr--;
+    cerr <<
       idtr <<
         "or:" <<
-        endl <<
+        endl;
+    idtr++;
+    
+    cerr <<
       idtr <<
         optionsHandler->getCommandLineWithShortOptions () <<
         endl <<
@@ -471,7 +391,7 @@ R"(Available options)");
     endl <<
     endl;
 
-  printOptions ();
+ // JMI printOptions ();
 
   cerr <<
     endl <<
