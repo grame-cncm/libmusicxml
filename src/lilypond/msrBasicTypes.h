@@ -195,7 +195,7 @@ string msrAlterationAsString (
 // intervals
 //______________________________________________________________________________
 enum msrInterval {
-  kUnisson, kAugmentedUnison,
+  kDiminishedUnisson, kUnisson, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
   
@@ -228,6 +228,9 @@ string msrIntervalAsString (
   msrInterval interval);
       
 string msrIntervalAsShortString (
+  msrInterval interval);
+
+msrInterval invertInterval (
   msrInterval interval);
 
 // harmonies
