@@ -192,38 +192,6 @@ msrAlteration msrAlterationFromMusicXMLAlter (
 string msrAlterationAsString (
   msrAlteration alteration);
 
-// well tempered pitches
-//______________________________________________________________________________
-enum msrWellTemperedPitch {
-  kC_Natural, kB_Sharp = kC_Natural, kD_DoubleFlat = kC_Natural,
-  
-  kC_Sharp, kB_DoubleSharp = kC_Sharp, kD_Flat = kC_Sharp,
-  
-  kD_Natural, kC_DoubleSharp = kD_Natural, kE_DoubleFlat = kD_Natural,
-  
-  kD_Sharp, kE_Flat,
-  
-  kE_Natural, kDDoubleSharp, kF_Flat,
-  
-  kF_Natural, kE_Sharp = kF_Natural, kG_DoubleFlat = kF_Natural,
-  
-  kF_Sharp, kE_DoubleSharp = kF_Sharp, kG_Flat = kF_Sharp,
-  
-  kG_Natural, kF_DoubleSharp = kG_Natural, kA_DoubleFlat = kG_Natural,
-  
-  kG_Sharp, kA_Flat = kG_Sharp,
-  
-  kA_Natural, kG_DoubleSharp, kB_DoubleFlat,
-  
-  kA_Sharp, kB_Flat,
-  
-  kB_Natural, kA_DoubleSharp, kC_Flat,
-  
-  k_NoWelTemperedPitch};
-  
-string msrWellTemperedPitchAsString (
-  msrWellTemperedPitch wellTemperedPitch);
-
 // intervals
 //______________________________________________________________________________
 enum msrInterval {
@@ -504,6 +472,38 @@ string msrDiatonicPitchAsString ( // JMI
 string msrQuarterTonesPitchAsString (
   msrQuarterTonesPitchesLanguage language,
   msrQuarterTonesPitch           quarterTonesPitch);
+
+// well tempered pitches
+//______________________________________________________________________________
+enum msrWellTemperedPitch {
+  kC_Natural, kB_Sharp = kC_Natural, kD_DoubleFlat = kC_Natural,
+  
+  kC_Sharp, kB_DoubleSharp = kC_Sharp, kD_Flat = kC_Sharp,
+  
+  kD_Natural, kC_DoubleSharp = kD_Natural, kE_DoubleFlat = kD_Natural,
+  
+  kD_Sharp, kE_Flat = kD_Sharp,
+  
+  kE_Natural, kD_DoubleSharp = kE_Natural, kF_Flat = kE_Natural,
+  
+  kF_Natural, kE_Sharp = kF_Natural, kG_DoubleFlat = kF_Natural,
+  
+  kF_Sharp, kE_DoubleSharp = kF_Sharp, kG_Flat = kF_Sharp,
+  
+  kG_Natural, kF_DoubleSharp = kG_Natural, kA_DoubleFlat = kG_Natural,
+  
+  kG_Sharp, kA_Flat = kG_Sharp,
+  
+  kA_Natural, kG_DoubleSharp = kA_Natural, kB_DoubleFlat = kA_Natural,
+  
+  kA_Sharp, kB_Flat = kA_Sharp,
+  
+  kB_Natural, kA_DoubleSharp = kB_Natural, kC_Flat = kB_Natural,
+  
+  k_NoWelTemperedPitch};
+  
+string msrWellTemperedPitchAsString (
+  msrWellTemperedPitch wellTemperedPitch);
 
 // global variables
 //______________________________________________________________________________

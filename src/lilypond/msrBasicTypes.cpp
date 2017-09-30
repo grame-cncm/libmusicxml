@@ -716,36 +716,36 @@ string msrWellTemperedPitchAsString (
       result = "D_Sharp_E_Flat";
       break;
       
-    case kE_Natural:
-      result = "kE_Natural";
+    case kE_Natural: // kD_DoubleSharp, kF_Flat
+      result = "E_Natural_D_DoubleSharp_F_Flat";
       break;
       
-    case kF_Natural:
-      result = "kF_Natural";
+    case kF_Natural: // kE_Sharp, kG_DoubleFlat
+      result = "F_Natural_E_Sharp_G_DoubleFlat";
       break;
       
-    case kF_Sharp:
-      result = "kF_Sharp";
+    case kF_Sharp: // kE_DoubleSharp, kG_Flat
+      result = "F_Sharp_E_DoubleSharp_G_Flat";
       break;
       
-    case kG_Natural:
-      result = "kG_Natural";
+    case kG_Natural: // kF_DoubleSharp, kA_DoubleFlat
+      result = "G_Natural_F_DoubleSharp_A_DoubleFlat";
       break;
       
-    case kG_Sharp:
-      result = "kG_Sharp";
+    case kG_Sharp: // kA_Flat
+      result = "G_Sharp_A_Flat";
       break;
       
-    case kA_Natural:
-      result = "kA_Natural";
+    case kA_Natural: // kG_DoubleSharp, kB_DoubleFlat
+      result = "A_Natural_G_DoubleSharp_B_DoubleFlat";
       break;
       
-    case kA_Sharp:
-      result = "kA_Sharp";
+    case kA_Sharp: // kB_Flat
+      result = "A_Sharp_B_Flat";
       break;
 
-    case kB_Natural:
-      result = "kB_Natural";
+    case kB_Natural: // kA_DoubleSharp, kC_Flat
+      result = "B_Natural_A_DoubleSharp_C_Flat";
       break;
   } // switch
 
@@ -2199,6 +2199,72 @@ msrAlteration msrAlterationFromMusicXMLAlter (
 
   return result;
 }
+
+// well tempered pitches
+//______________________________________________________________________________
+
+string msrWellTemperedPitchAsString (
+  msrWellTemperedPitch wellTemperedPitch)
+{
+  string result;
+  
+  switch (wellTemperedPitch) {
+    case k_NoWelTemperedPitch:
+      result = "NoWelTemperedPitch???";
+      break;
+
+    case kC_Natural: // kB_Sharp, kD_DoubleFlat
+      result = "C_Natural_B_Sharp_D_DoubleFlat";
+      break;
+      
+    case kC_Sharp: // kB_DoubleSharp, kD_Flat
+      result = "C_Sharp_B_DoubleSharp_D_Flat";
+      break;
+
+    case kD_Natural: // kC_DoubleSharp, kE_DoubleFlat
+      result = "D_Natural_C_DoubleSharp_E_DoubleFlat";
+      break;
+
+    case kD_Sharp: // kE_Flat
+      result = "D_Sharp_E_Flat";
+      break;
+      
+    case kE_Natural: // kD_DoubleSharp, kF_Flat
+      result = "E_Natural_D_DoubleSharp_F_Flat";
+      break;
+      
+    case kF_Natural: // kE_Sharp, kG_DoubleFlat
+      result = "F_Natural_E_Sharp_G_DoubleFlat";
+      break;
+      
+    case kF_Sharp: // kE_DoubleSharp, kG_Flat
+      result = "F_Sharp_E_DoubleSharp_G_Flat";
+      break;
+      
+    case kG_Natural: // kF_DoubleSharp, kA_DoubleFlat
+      result = "G_Natural_F_DoubleSharp_A_DoubleFlat";
+      break;
+      
+    case kG_Sharp: // kA_Flat
+      result = "G_Sharp_A_Flat";
+      break;
+      
+    case kA_Natural: // kG_DoubleSharp, kB_DoubleFlat
+      result = "A_Natural_G_DoubleSharp_B_DoubleFlat";
+      break;
+      
+    case kA_Sharp: // kB_Flat
+      result = "A_Sharp_B_Flat";
+      break;
+
+    case kB_Natural: // kA_DoubleSharp, kC_Flat
+      result = "B_Natural_A_DoubleSharp_C_Flat";
+      break;
+  } // switch
+
+  return result;
+}
+
 
 string msrAlterationAsString (
   msrAlteration alteration)
