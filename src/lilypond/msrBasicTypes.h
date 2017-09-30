@@ -473,9 +473,9 @@ string msrQuarterTonesPitchAsString (
   msrQuarterTonesPitchesLanguage language,
   msrQuarterTonesPitch           quarterTonesPitch);
 
-// well tempered pitches
+// semi tones pitches
 //______________________________________________________________________________
-enum msrWellTemperedPitch {
+enum msrSemiTonesPitch {
   kC_Natural, kB_Sharp = kC_Natural, kD_DoubleFlat = kC_Natural,
   
   kC_Sharp, kB_DoubleSharp = kC_Sharp, kD_Flat = kC_Sharp,
@@ -502,8 +502,15 @@ enum msrWellTemperedPitch {
   
   k_NoWelTemperedPitch};
   
-string msrWellTemperedPitchAsString (
-  msrWellTemperedPitch wellTemperedPitch);
+string msrSemiTonesPitchAsString (
+  msrSemiTonesPitch semiTonesPitch);
+
+enum msrAlterationPreference {
+  kPreferSharp, kPreferFlat };
+  
+msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
+  msrSemiTonesPitch       semiTonesPitch,
+  msrAlterationPreference alterationPreference);
 
 // global variables
 //______________________________________________________________________________
