@@ -192,6 +192,35 @@ msrAlteration msrAlterationFromMusicXMLAlter (
 string msrAlterationAsString (
   msrAlteration alteration);
 
+// well tempered pitches
+//______________________________________________________________________________
+enum msrWellTemperedPitch {
+  kC_Natural, kB_Sharp = kC_Natural, kD_FlatFlat = kC_Natural
+  
+  kC_Sharp, kB_SharpSharp = kC_Sharp, kD_Flat = kC_Sharp,
+  
+  kD_Natural, k_C_sharpsharp = kD_Natural, kE_flatflat = kD_Natural,
+  
+  kD_Natural, k_C_SharpSharp, k_E_FlatFlat,
+  
+  kE_Natural, k_DSharpSharp, k_F_Flat,
+  
+  kF_Natural, k_E_sharp_G_FlatFlat,
+  kG_Natural, k_FSharpSharp, k_A_FlatFlat,
+  
+  kA_Natural, k_GSharpSharp, k_B_FlatFlat,
+  
+  kB_Natural, k_ASharpSharp, k_C_Flat,
+  
+  k_NoWelTemperedPitch};
+
+msrDiatonicPitch msrDiatonicPitchFromString (
+  char diatonicNoteName);
+  
+string msrDiatonicPitchAsString (
+  msrDiatonicPitch diatonicPitch);
+
+
 // intervals
 //______________________________________________________________________________
 enum msrInterval {
