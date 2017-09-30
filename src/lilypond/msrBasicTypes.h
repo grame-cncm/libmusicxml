@@ -476,31 +476,31 @@ string msrQuarterTonesPitchAsString (
 // semi tones pitches
 //______________________________________________________________________________
 enum msrSemiTonesPitch {
-  kC_Natural, kB_Sharp = kC_Natural, kD_DoubleFlat = kC_Natural,
+  kC_Natural_STP, kB_Sharp_STP = kC_Natural_STP, kD_DoubleFlat_STP = kC_Natural_STP,
   
-  kC_Sharp, kB_DoubleSharp = kC_Sharp, kD_Flat = kC_Sharp,
+  kC_Sharp_STP, kB_DoubleSharp_STP = kC_Sharp_STP, kD_Flat_STP = kC_Sharp_STP,
   
-  kD_Natural, kC_DoubleSharp = kD_Natural, kE_DoubleFlat = kD_Natural,
+  kD_Natural_STP, kC_DoubleSharp_STP = kD_Natural_STP, kE_DoubleFlat_STP = kD_Natural_STP,
   
-  kD_Sharp, kE_Flat = kD_Sharp,
+  kD_Sharp_STP, kE_Flat_STP = kD_Sharp_STP,
   
-  kE_Natural, kD_DoubleSharp = kE_Natural, kF_Flat = kE_Natural,
+  kE_Natural_STP, kD_DoubleSharp_STP = kE_Natural_STP, kF_Flat_STP = kE_Natural_STP,
   
-  kF_Natural, kE_Sharp = kF_Natural, kG_DoubleFlat = kF_Natural,
+  kF_Natural_STP, kE_Sharp_STP = kF_Natural_STP, kG_DoubleFlat_STP = kF_Natural_STP,
   
-  kF_Sharp, kE_DoubleSharp = kF_Sharp, kG_Flat = kF_Sharp,
+  kF_Sharp_STP, kE_DoubleSharp_STP = kF_Sharp_STP, kG_Flat_STP = kF_Sharp_STP,
   
-  kG_Natural, kF_DoubleSharp = kG_Natural, kA_DoubleFlat = kG_Natural,
+  kG_Natural_STP, kF_DoubleSharp_STP = kG_Natural_STP, kA_DoubleFlat_STP = kG_Natural_STP,
   
-  kG_Sharp, kA_Flat = kG_Sharp,
+  kG_Sharp_STP, kA_Flat_STP = kG_Sharp_STP,
   
-  kA_Natural, kG_DoubleSharp = kA_Natural, kB_DoubleFlat = kA_Natural,
+  kA_Natural_STP, kG_DoubleSharp_STP = kA_Natural_STP, kB_DoubleFlat_STP = kA_Natural_STP,
   
-  kA_Sharp, kB_Flat = kA_Sharp,
+  kA_Sharp_STP, kB_Flat_STP = kA_Sharp_STP,
   
-  kB_Natural, kA_DoubleSharp = kB_Natural, kC_Flat = kB_Natural,
+  kB_Natural_STP, kA_DoubleSharp_STP = kB_Natural_STP, kC_Flat_STP = kB_Natural_STP,
   
-  k_NoWelTemperedPitch};
+  k_NoWelTemperedPitch_STP};
   
 string msrSemiTonesPitchAsString (
   msrSemiTonesPitch semiTonesPitch);

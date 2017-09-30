@@ -2999,55 +2999,55 @@ string msrSemiTonesPitchAsString (
   string result;
   
   switch (semiTonesPitch) {
-    case k_NoWelTemperedPitch:
+    case k_NoWelTemperedPitch_STP:
       result = "NoWelTemperedPitch???";
       break;
 
-    case kC_Natural: // kB_Sharp, kD_DoubleFlat
+    case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
       result = "C_Natural_B_Sharp_D_DoubleFlat";
       break;
       
-    case kC_Sharp: // kB_DoubleSharp, kD_Flat
+    case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
       result = "C_Sharp_B_DoubleSharp_D_Flat";
       break;
 
-    case kD_Natural: // kC_DoubleSharp, kE_DoubleFlat
+    case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
       result = "D_Natural_C_DoubleSharp_E_DoubleFlat";
       break;
 
-    case kD_Sharp: // kE_Flat
+    case kD_Sharp_STP: // kE_Flat_STP
       result = "D_Sharp_E_Flat";
       break;
       
-    case kE_Natural: // kD_DoubleSharp, kF_Flat
+    case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
       result = "E_Natural_D_DoubleSharp_F_Flat";
       break;
       
-    case kF_Natural: // kE_Sharp, kG_DoubleFlat
+    case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
       result = "F_Natural_E_Sharp_G_DoubleFlat";
       break;
       
-    case kF_Sharp: // kE_DoubleSharp, kG_Flat
+    case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
       result = "F_Sharp_E_DoubleSharp_G_Flat";
       break;
       
-    case kG_Natural: // kF_DoubleSharp, kA_DoubleFlat
+    case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
       result = "G_Natural_F_DoubleSharp_A_DoubleFlat";
       break;
       
-    case kG_Sharp: // kA_Flat
+    case kG_Sharp_STP: // kA_Flat_STP
       result = "G_Sharp_A_Flat";
       break;
       
-    case kA_Natural: // kG_DoubleSharp, kB_DoubleFlat
+    case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
       result = "A_Natural_G_DoubleSharp_B_DoubleFlat";
       break;
       
-    case kA_Sharp: // kB_Flat
+    case kA_Sharp_STP: // kB_Flat_STP
       result = "A_Sharp_B_Flat";
       break;
 
-    case kB_Natural: // kA_DoubleSharp, kC_Flat
+    case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
       result = "B_Natural_A_DoubleSharp_C_Flat";
       break;
   } // switch
@@ -3062,15 +3062,15 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
   msrQuarterTonesPitch result;
   
   switch (semiTonesPitch) {
-    case k_NoWelTemperedPitch:
+    case k_NoWelTemperedPitch_STP:
       result = k_NoQuarterTonesPitch;
       break;
 
-    case kC_Natural: // kB_Sharp, kD_DoubleFlat
+    case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
       result = k_cNatural;
       break;
       
-    case kC_Sharp: // kB_DoubleSharp, kD_Flat
+    case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
       switch (alterationPreference) {
         case kPreferSharp:
           result = k_cSharp;
@@ -3081,11 +3081,11 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       } // switch
       break;
 
-    case kD_Natural: // kC_DoubleSharp, kE_DoubleFlat
+    case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
       result = k_dNatural;
       break;
 
-    case kD_Sharp: // kE_Flat
+    case kD_Sharp_STP: // kE_Flat_STP
       switch (alterationPreference) {
         case kPreferSharp:
           result = k_dSharp;
@@ -3096,15 +3096,15 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       } // switch
       break;
       
-    case kE_Natural: // kD_DoubleSharp, kF_Flat
+    case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
       result = k_eNatural;
       break;
       
-    case kF_Natural: // kE_Sharp, kG_DoubleFlat
+    case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
       result = k_fNatural;
       break;
       
-    case kF_Sharp: // kE_DoubleSharp, kG_Flat
+    case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
       switch (alterationPreference) {
         case kPreferSharp:
           result = k_fSharp;
@@ -3115,11 +3115,11 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       } // switch
       break;
       
-    case kG_Natural: // kF_DoubleSharp, kA_DoubleFlat
+    case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
       result = k_gNatural;
       break;
       
-    case kG_Sharp: // kA_Flat
+    case kG_Sharp_STP: // kA_Flat_STP
       switch (alterationPreference) {
         case kPreferSharp:
           result = k_gSharp;
@@ -3130,11 +3130,11 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       } // switch
       break;
       
-    case kA_Natural: // kG_DoubleSharp, kB_DoubleFlat
+    case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
       result = k_aNatural;
       break;
       
-    case kA_Sharp: // kB_Flat
+    case kA_Sharp_STP: // kB_Flat_STP
       switch (alterationPreference) {
         case kPreferSharp:
           result = k_aSharp;
@@ -3145,7 +3145,7 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       } // switch
       break;
 
-    case kB_Natural: // kA_DoubleSharp, kC_Flat
+    case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
       result = k_bNatural;
       break;
   } // switch
