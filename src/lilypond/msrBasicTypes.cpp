@@ -687,6 +687,71 @@ msrInterval invertInterval (
   return result;
 }
 
+// well tempered pitches
+//______________________________________________________________________________
+
+string msrWellTemperedPitchAsString (
+  msrWellTemperedPitch wellTemperedPitch)
+{
+  string result;
+  
+  switch (wellTemperedPitch) {
+    case k_NoWelTemperedPitch:
+      result = "NoWelTemperedPitch???";
+      break;
+
+    case kC_Natural: // kB_Sharp, kD_DoubleFlat
+      result = "C_Natural_B_Sharp_D_DoubleFlat";
+      break;
+      
+    case kC_Sharp: // kB_DoubleSharp, kD_Flat
+      result = "C_Sharp_B_DoubleSharp_D_Flat";
+      break;
+
+    case kD_Natural: // kC_DoubleSharp, kE_DoubleFlat
+      result = "D_Natural_C_DoubleSharp_E_DoubleFlat";
+      break;
+
+    case kD_Sharp: // kE_Flat
+      result = "D_Sharp_E_Flat";
+      break;
+      
+    case kE_Natural:
+      result = "kE_Natural";
+      break;
+      
+    case kF_Natural:
+      result = "kF_Natural";
+      break;
+      
+    case kF_Sharp:
+      result = "kF_Sharp";
+      break;
+      
+    case kG_Natural:
+      result = "kG_Natural";
+      break;
+      
+    case kG_Sharp:
+      result = "kG_Sharp";
+      break;
+      
+    case kA_Natural:
+      result = "kA_Natural";
+      break;
+      
+    case kA_Sharp:
+      result = "kA_Sharp";
+      break;
+
+    case kB_Natural:
+      result = "kB_Natural";
+      break;
+  } // switch
+
+  return result;
+}
+
 // harmonies
 //______________________________________________________________________________
 string harmonyKindAsString (
