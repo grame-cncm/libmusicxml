@@ -29687,7 +29687,7 @@ void initializeMSR ()
     
   enlistVersion (
     "0.1.0", "01-OCT-2017",
-    "Tentative version");
+    "First draft version");
   
   // languages handling
   // ------------------------------------------------------

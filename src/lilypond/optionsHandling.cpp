@@ -1860,9 +1860,6 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
       if (++i == iEnd) break;
       cerr << endl;
     } // for
-
-    os <<
-      endl;
       
     idtr--;
   }
@@ -1877,7 +1874,7 @@ void msrOptionsSubGroup::printHelpSummary (
   os << left <<
     idtr <<
     setw (subGroupsDescriptionFieldWidth) <<
-    fOptionsElementDescription <<
+    fOptionsSubGroupHelpHeader <<
     " " <<
     optionsElementNamesInColumnsBetweenParentheses (
       subGroupsShortNameFieldWidth);
@@ -2123,9 +2120,6 @@ void msrOptionsGroup::printHelp (ostream& os) const
       if (++i == iEnd) break;
       cerr << endl;
     } // for
-
-    os <<
-      endl;
       
     idtr--;
   }
@@ -2138,7 +2132,7 @@ void msrOptionsGroup::printHelpSummary (
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription <<
+    fOptionsGroupHelpHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
@@ -2271,17 +2265,18 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
 /* JMI
 S_msrOptionsHandler msrOptionsHandler::create (
   string optionsHandlerHelpHeader,
+  string optionsHandlerValuesHeader,
   string optionHandlerShortName,
   string optionHandlerLongName,
-  string optionHandlerDescription,
-  string optionsHandlerValuesHeader)
+  string optionHandlerDescription)
 {
   msrOptionsHandler* o = new
     msrOptionsHandler (
-      optionHandlerShortName,
-      optionHandlerLongName,
-      optionHandlerDescription,
-      optionsHandlerValuesHeader);
+      string optionsHandlerHelpHeader,
+      string optionsHandlerValuesHeader,
+      string optionHandlerShortName,
+      string optionHandlerLongName,
+      string optionHandlerDescription);
   assert(o!=0);
   return o;
 }
@@ -2289,19 +2284,18 @@ S_msrOptionsHandler msrOptionsHandler::create (
 
 msrOptionsHandler::msrOptionsHandler (
   string optionsHandlerHelpHeader,
+  string optionsHandlerValuesHeader,
   string optionHandlerShortName,
   string optionHandlerLongName,
-  string optionHandlerDescription,
-  string optionsHandlerValuesHeader)
+  string optionHandlerDescription)
   : msrOptionsElement (
       optionHandlerShortName,
       optionHandlerLongName,
       optionHandlerDescription)
 {
+  fOptionsHandlerHelpHeader   = optionsHandlerHelpHeader;
   fOptionsHandlerValuesHeader = optionsHandlerValuesHeader;
   
-  fOptionsHandlerHelpHeader = optionsHandlerHelpHeader;
-
   fExpectedValuesNumber = 0;
   
   fMaximumSubGroupsDescriptionsSize = 1;
@@ -2460,7 +2454,11 @@ void msrOptionsHandler::print (ostream& os) const
   os << left <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      "fOptionsHandlerHelpHeader" << " : " << fOptionsHandlerHelpHeader <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsHandlerValuesHeader" << " : " << fOptionsHandlerValuesHeader <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
@@ -2469,6 +2467,10 @@ void msrOptionsHandler::print (ostream& os) const
     idtr <<
       setw (fieldWidth) <<
       "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
       endl;
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {
@@ -2495,9 +2497,16 @@ void msrOptionsHandler::print (ostream& os) const
 
 void msrOptionsHandler::printHelp (ostream& os) const
 {
-  // the description is the header of the information
   os << idtr <<
     fOptionsElementDescription <<
+    endl;
+    
+  // print versions history
+  printVersionsHistory (os);
+
+  // print the options handler help header and element names
+  os <<
+    fOptionsHandlerHelpHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
@@ -2518,9 +2527,6 @@ void msrOptionsHandler::printHelp (ostream& os) const
       cerr << endl;
     } // for
     
-    os <<
-      endl;
-
     idtr--;
   }
 }
@@ -2530,9 +2536,6 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
   os <<
     idtr <<
       fOptionsHandlerHelpHeader <<
-      endl <<
-    idtr <<
-      fOptionsElementDescription <<
       " " <<
       optionsElementNamesBetweenParentheses () <<
       ":" <<
@@ -2572,9 +2575,8 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
   int      subGroupsShortNameFieldWidth,
   int      subGroupsDescriptionFieldWidth) const
 {
-  // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription <<
+    fOptionsHandlerValuesHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
@@ -2938,15 +2940,7 @@ void msrOptionsHandler::handleOptionsItemName (
         optionsHandler =
           dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
       ) {
-      // print the help header
-      cerr <<
-        getOptionsHandlerHelpHeader () <<
-        endl;
-        
-      // print versions history
-      printVersionsHistory (cerr);
-
-      // print the help
+      // print the option handler help
       optionsHandler->printHelp (cerr);
       cerr <<
         endl;

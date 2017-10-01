@@ -1393,7 +1393,6 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // ------------------------------------------------------
 
     string                fOptionsHandlerHelpHeader;
-
     string                fOptionsHandlerValuesHeader;
 
     S_msrOptionsItem      fPendingOptionsItem;

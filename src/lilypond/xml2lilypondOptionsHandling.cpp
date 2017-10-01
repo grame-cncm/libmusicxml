@@ -59,7 +59,7 @@ R"(
 
 Usage:
 
-    xml2lilypond [options] [MusicXMLFile|-]
+    xml2lilypond [options] [MusicXMLFile|-] [options] 
 
 What it does:
 
@@ -73,6 +73,8 @@ What it does:
 
     Other passes are performed according to the options, such as
     printing views of the internal data or printing a summary of the score.
+
+    '-' as an argument represents standard input.
 
     A number of options exist to fine tune the generated LilyPond code
     and limit the need for manually editing the latter.
