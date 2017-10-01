@@ -1097,6 +1097,7 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsSubGroup> create (
+      string optionsSubGroupHelpHeader,
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
       string optionsSubGroupDescription);
@@ -1107,6 +1108,7 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     msrOptionsSubGroup (
+      string optionsSubGroupHelpHeader,
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
       string optionsSubGroupDescription);
@@ -1128,6 +1130,9 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     S_msrOptionsGroup     getOptionsGroupUplink () const
                               { return fOptionsGroupUplink; }
     
+    string                getOptionsSubGroupHelpHeader () const
+                              { return fOptionsSubGroupHelpHeader; }
+                              
     // services
     // ------------------------------------------------------
 
@@ -1170,6 +1175,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     S_msrOptionsGroup     fOptionsGroupUplink;
 
+    string                fOptionsSubGroupHelpHeader;
+
     list<S_msrOptionsItem>
                           fOptionsSubGroupItemsList;
 };
@@ -1185,6 +1192,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     static SMARTP<msrOptionsGroup> create (
+      string optionsGroupHelpHeader,
       string optionGroupShortName,
       string optionGroupLongName,
       string optionGroupDescription);
@@ -1195,6 +1203,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     msrOptionsGroup (
+      string optionsGroupHelpHeader,
       string optionGroupShortName,
       string optionGroupLongName,
       string optionGroupDescription);
@@ -1216,6 +1225,9 @@ class EXP msrOptionsGroup : public msrOptionsElement
     S_msrOptionsHandler   getOptionsHandlerUplink () const
                               { return fOptionsHandlerUplink; }
 
+    string                getOptionsGroupHelpHeader () const
+                              { return fOptionsGroupHelpHeader; }
+                              
     // services
     // ------------------------------------------------------
 
@@ -1258,6 +1270,8 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     S_msrOptionsHandler   fOptionsHandlerUplink;
     
+    string                fOptionsGroupHelpHeader;
+
     list<S_msrOptionsSubGroup>
                           fOptionsGroupSubGroupsList;
 };
@@ -1274,10 +1288,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
 /* JMI this a pure virtual class
     static SMARTP<msrOptionsHandler> create (
       string optionsHandlerHelpHeader,
+      string optionsHandlerValuesHeader,
       string optionHandlerShortName,
       string optionHandlerLongName,
-      string optionHandlerDescription,
-      string optionsHandlerValuesHeader);
+      string optionHandlerDescriptionr);
 */
 
   protected:
@@ -1287,10 +1301,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     msrOptionsHandler (
       string optionsHandlerHelpHeader,
+      string optionsHandlerValuesHeader,
       string optionHandlerShortName,
       string optionHandlerLongName,
-      string optionHandlerDescription,
-      string optionsHandlerValuesHeader);
+      string optionHandlerDescription);
       
     virtual ~msrOptionsHandler();
 

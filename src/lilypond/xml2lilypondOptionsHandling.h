@@ -28,22 +28,14 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lilypondOptionsHandler> create (
-      string optionHandlerShortName,
-      string optionHandlerLongName,
-      string optionHandlerDescription,
-      string optionsHandlerValuesHeader);
+    static SMARTP<xml2lilypondOptionsHandler> create ();
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lilypondOptionsHandler (
-      string optionHandlerShortName,
-      string optionHandlerLongName,
-      string optionHandlerDescription,
-      string optionsHandlerValuesHeader);
+    xml2lilypondOptionsHandler ();
       
     virtual ~xml2lilypondOptionsHandler();
 

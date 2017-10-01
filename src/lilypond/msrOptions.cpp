@@ -42,8 +42,9 @@ S_msrOptions msrOptions::create ()
 
 msrOptions::msrOptions ()
   : msrOptionsGroup (
+    "MSR",
     "hmsr", "helpMSR",
-R"(MSR)"
+R"()"
     )
 {
   initializeMsrOptions (false);
@@ -73,8 +74,9 @@ void msrOptions::initializeMsrOptions (
   
     S_msrOptionsSubGroup traceAndDisplaySubGroup =
       msrOptionsSubGroup::create (
-      "hmsrtd", "helpMsrTraceAndDisplay",
-R"(Trace and display)"
+        "Trace and display",
+        "hmsrtd", "helpMsrTraceAndDisplay",
+R"()"
       );
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -146,8 +148,9 @@ This implies that no LilyPond code is generated.)",
   
     S_msrOptionsSubGroup languagesSubGroup =
       msrOptionsSubGroup::create (
-      "hmsrlang", "helpMsrLanguages",
-R"(Languages)"
+        "Languages",
+        "hmsrlang", "helpMsrLanguages",
+R"()"
       );
   
     appendOptionsSubGroup (languagesSubGroup);
@@ -177,8 +180,9 @@ The default is to use 'nederlands'.)",
   
     S_msrOptionsSubGroup partsSubGroup =
       msrOptionsSubGroup::create (
-      "hmsrp", "helpMsrParts",
-R"(Parts)"
+        "Parts",
+        "hmsrp", "helpMsrParts",
+R"()"
       );
   
     appendOptionsSubGroup (partsSubGroup);
@@ -220,8 +224,9 @@ There can be several occurrences of this option.)",
   
     S_msrOptionsSubGroup voicesSubGroup =
       msrOptionsSubGroup::create (
-      "hmsrv", "helpMsrVoices",
-R"(Voices)"
+        "Voices",
+        "hmsrv", "helpMsrVoices",
+R"()"
       );
   
     appendOptionsSubGroup (voicesSubGroup);
@@ -271,8 +276,9 @@ By default, there are removed after usage.)",
   
     S_msrOptionsSubGroup notesSubGroup =
       msrOptionsSubGroup::create (
-      "hmsrn", "helpMsrNotes",
-R"(Notes)"
+        "Notes",
+        "hmsrn", "helpMsrNotes",
+R"()"
       );
   
     appendOptionsSubGroup (notesSubGroup);
@@ -331,8 +337,9 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
   
     S_msrOptionsSubGroup lyricsSubGroup =
       msrOptionsSubGroup::create (
-      "hmsrlyrd", "helpMsrLyrics",
-R"(Lyrics)"
+        "Lyrics",
+        "hmsrlyrd", "helpMsrLyrics",
+R"()"
       );
   
     appendOptionsSubGroup (lyricsSubGroup);
@@ -368,8 +375,9 @@ By default, there are removed after usage.)",
   
     S_msrOptionsSubGroup harmoniesSubGroup =
       msrOptionsSubGroup::create (
-      "hmsrh", "helpMsrHarmonies",
-R"(Harmonies)"
+        "Harmonies",
+        "hmsrh", "helpMsrHarmonies",
+R"()"
       );
   
     appendOptionsSubGroup (harmoniesSubGroup);
@@ -407,8 +415,9 @@ It is thrown away in such a case by default.)",
   
     S_msrOptionsSubGroup figuredBassSubGroup =
       msrOptionsSubGroup::create (
-      "hmsrfb", "helpMsrFiguredBass",
-  R"(Figured bass)"
+        "Figured bass",
+        "hmsrfb", "helpMsrFiguredBass",
+  R"()"
       );
   
     appendOptionsSubGroup (figuredBassSubGroup);

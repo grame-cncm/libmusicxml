@@ -234,31 +234,12 @@ int main (int argc, char *argv[])
   }
   */
 
-  // analyze the pitches and chords languages variables
-  // ------------------------------------------------------
-
-  if (false) {
-    cerr <<
-      "7/16: " << wholeNotesAsMsrString (1, rational (7, 16)) <<
-      endl <<
-      "3/4:  " << wholeNotesAsMsrString (1, rational (3, 4)) <<
-      endl <<
-      "14/4: " << wholeNotesAsMsrString (1, rational (14, 4)) <<
-      endl <<
-      endl;
-      
-    exit (0);
-  }
-  
   // create the options handler
   // ------------------------------------------------------
 
   S_xml2lilypondOptionsHandler
     optionsHandler =
-      xml2lilypondOptionsHandler::create (
-        "h", "help",
-R"(Available options)",
-R"(Options values)");
+      xml2lilypondOptionsHandler::create ();
 
   // analyze the command line options and arguments
   // ------------------------------------------------------

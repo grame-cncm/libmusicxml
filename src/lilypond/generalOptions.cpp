@@ -40,8 +40,9 @@ S_generalOptions generalOptions::create ()
 
 generalOptions::generalOptions ()
   : msrOptionsGroup (
+    "General"
     "hg", "helpGeneral",
-R"(General)"
+R"()"
     )
 {
   initializeGeneralOptions (false);

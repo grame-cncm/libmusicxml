@@ -41,8 +41,9 @@ S_lpsrOptions lpsrOptions::create ()
 
 lpsrOptions::lpsrOptions()
   : msrOptionsGroup (
+    "LPSR",
     "hlpsr", "helpLPSR",
-R"(LPSR)"
+R"()"
     )
 {
   initializeLpsrOptions (false);
@@ -73,8 +74,9 @@ void lpsrOptions::initializeLpsrOptions (
   
     S_msrOptionsSubGroup traceAndDisplaySubGroup =
       msrOptionsSubGroup::create (
-      "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"(Trace and display)"
+        "Trace and display",
+        "hlpsrtd", "helpLpsrTraceAndDisplay",
+R"()"
       );
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -144,8 +146,9 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
     
     S_msrOptionsSubGroup languagesSubGroup =
       msrOptionsSubGroup::create (
-      "hlpsrl", "helpLpsrlanguages",
-R"(Languages)"
+        "Languages",
+        "hlpsrl", "helpLpsrlanguages",
+R"()"
       );
   
     appendOptionsSubGroup (languagesSubGroup);

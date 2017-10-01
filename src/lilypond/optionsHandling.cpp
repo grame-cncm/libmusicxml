@@ -1699,12 +1699,14 @@ ostream& operator<< (ostream& os, const S_msrOptionsMidiTempoItem& elt)
 
 //______________________________________________________________________________
 S_msrOptionsSubGroup msrOptionsSubGroup::create (
+  string optionsSubGroupHelpHeader,
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription)
 {
   msrOptionsSubGroup* o = new
     msrOptionsSubGroup (
+      optionsSubGroupHelpHeader,
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription);
@@ -1713,6 +1715,7 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
 }
 
 msrOptionsSubGroup::msrOptionsSubGroup (
+  string optionsSubGroupHelpHeader,
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription)
@@ -1720,7 +1723,9 @@ msrOptionsSubGroup::msrOptionsSubGroup (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
-{}
+{
+  fOptionsSubGroupHelpHeader = optionsSubGroupHelpHeader;
+}
 
 msrOptionsSubGroup::~msrOptionsSubGroup()
 {}
@@ -1938,12 +1943,14 @@ ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt)
 
 //______________________________________________________________________________
 S_msrOptionsGroup msrOptionsGroup::create (
+  string optionsGroupHelpHeader,
   string optionGroupShortName,
   string optionGroupLongName,
   string optionGroupDescription)
 {
   msrOptionsGroup* o = new
     msrOptionsGroup (
+      optionsGroupHelpHeader,
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription);
@@ -1952,6 +1959,7 @@ S_msrOptionsGroup msrOptionsGroup::create (
 }
 
 msrOptionsGroup::msrOptionsGroup (
+  string optionsGroupHelpHeader,
   string optionGroupShortName,
   string optionGroupLongName,
   string optionGroupDescription)
@@ -1959,7 +1967,9 @@ msrOptionsGroup::msrOptionsGroup (
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription)
-{}
+{
+  fOptionsGroupHelpHeader = optionsGroupHelpHeader;
+}
 
 msrOptionsGroup::~msrOptionsGroup()
 {}

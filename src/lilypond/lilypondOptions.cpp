@@ -41,8 +41,9 @@ S_lilypondOptions lilypondOptions::create ()
 
 lilypondOptions::lilypondOptions()
   : msrOptionsGroup (
+    "LilyPond",
     "hlp", "helpLilypond",
-R"(LilyPond)"
+R"()"
     )
 {
   initializeLilypondOptions (false);
@@ -64,8 +65,9 @@ void lilypondOptions::initializeLilypondOptions (
   
     S_msrOptionsSubGroup timeSubGroup =
       msrOptionsSubGroup::create (
-      "hlilyti", "helpLilypondtime",
-R"(Time)"
+        "Time",
+        "hlilyti", "helpLilypondtime",
+R"()"
       );
   
     appendOptionsSubGroup (timeSubGroup);
@@ -104,8 +106,9 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
   
     S_msrOptionsSubGroup notesSubGroup =
       msrOptionsSubGroup::create (
-      "hlilyn", "helpLilypondNotes",
-R"(Notes)"
+        "Notes",
+        "hlilyn", "helpLilypondNotes",
+R"()"
       );
   
     appendOptionsSubGroup (notesSubGroup);
@@ -212,8 +215,9 @@ its MusicXML input line number.)",
   
     S_msrOptionsSubGroup barsSubGroup =
       msrOptionsSubGroup::create (
-      "hlilyb", "helpLilypondBars",
-R"(Bars)"
+        "Bars",
+        "hlilyb", "helpLilypondBars",
+R"()"
       );
   
     appendOptionsSubGroup (barsSubGroup);
@@ -244,8 +248,9 @@ R"(Generate LilyPond code to show all bar numbers.)",
   
     S_msrOptionsSubGroup lineBreaksSubGroup =
       msrOptionsSubGroup::create (
-      "hlilylb", "helpLilypondLineBreaks",
-R"(Line breaks)"
+        "Line breaks",
+        "hlilylb", "helpLilypondLineBreaks",
+R"()"
       );
   
     appendOptionsSubGroup (lineBreaksSubGroup);
@@ -253,8 +258,8 @@ R"(Line breaks)"
     lineBreaksSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "dklb", "dontKeepLineBreaks",
-R"(Don't keep the line breaks from the MusicXML input
+          "ilb", "ignoreLineBreaks",
+R"(Ignore the line breaks from the MusicXML input
 and let LilyPond decide about them.)",
           "dontKeepLineBreaks",
           fDontKeepLineBreaks));
@@ -293,8 +298,9 @@ Nothing special is done by default.)",
   
     S_msrOptionsSubGroup pageBreaksSubGroup =
       msrOptionsSubGroup::create (
-      "hlilypb", "helpLilypondPageBreaks",
-R"(Page breaks)"
+        "Page breaks",
+        "hlilypb", "helpLilypondPageBreaks",
+R"()"
       );
   
     appendOptionsSubGroup (pageBreaksSubGroup);
@@ -302,8 +308,8 @@ R"(Page breaks)"
     pageBreaksSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "dkpb", "dontKeepPageBreaks",
-R"(Don't keep the page breaks from the MusicXML input
+          "ipb", "ignorePageBreaks",
+R"(Ignore the page breaks from the MusicXML input
 and let LilyPond decide about them.)",
           "dontKeepPageBreaks",
           fDontKeepPageBreaks));
@@ -322,8 +328,9 @@ and let LilyPond decide about them.)",
   
     S_msrOptionsSubGroup stavesSubGroup =
       msrOptionsSubGroup::create (
-      "hlilys", "helpLilypondStaves",
-R"(Staves)"
+        "Staves",
+        "hlilys", "helpLilypondStaves",
+R"()"
       );
   
     appendOptionsSubGroup (stavesSubGroup);
@@ -350,8 +357,9 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
   
     S_msrOptionsSubGroup tupletsSubGroup =
       msrOptionsSubGroup::create (
-      "hlilytu", "helpLilypondTuplets",
-R"(Tuplets)"
+        "Tuplets",
+        "hlilytu", "helpLilypondTuplets",
+R"()"
       );
   
     appendOptionsSubGroup (tupletsSubGroup);
@@ -379,8 +387,9 @@ R"(Keep tuplets notes on the same line, instead of
   
     S_msrOptionsSubGroup repeatsSubGroup =
       msrOptionsSubGroup::create (
-      "hlilyr", "helpLilypondRepeats",
-R"(Repeats)"
+        "Repeats",
+        "hlilyr", "helpLilypondRepeats",
+R"()"
       );
   
     appendOptionsSubGroup (repeatsSubGroup);
@@ -406,8 +415,9 @@ R"(Generate repeats with brackets instead of regular bar lines)",
   
     S_msrOptionsSubGroup ornamentsSubGroup =
       msrOptionsSubGroup::create (
-      "hlilyo", "helpLilypondOrnaments",
-R"(Ornaments)"
+        "Ornaments",
+        "hlilyo", "helpLilypondOrnaments",
+R"()"
       );
   
     appendOptionsSubGroup (ornamentsSubGroup);
@@ -437,8 +447,9 @@ The default value is '2/3'.)",
   
     S_msrOptionsSubGroup fontsSubGroup =
       msrOptionsSubGroup::create (
-      "hfonts", "helpFonts",
-R"(Fonts)"
+        "Fonts",
+        "hfonts", "helpFonts",
+R"()"
       );
   
     appendOptionsSubGroup (fontsSubGroup);
@@ -476,8 +487,9 @@ This font should be installed so that LilyPond can use it.)",
   
     S_msrOptionsSubGroup codeGenerationSubGroup =
       msrOptionsSubGroup::create (
-      "hlilycg", "helpLilypondCodeGeneration",
-  R"(Code generation)"
+        "Code generation",
+        "hlilycg", "helpLilypondCodeGeneration",
+R"()"
       );
   
     appendOptionsSubGroup (codeGenerationSubGroup);
@@ -552,8 +564,9 @@ when LilyPond creates the score.)",
   
     S_msrOptionsSubGroup scoreNotationSubGroup =
       msrOptionsSubGroup::create (
-      "hlilysn", "helpLilypondScoreNotation",
-R"(Score notation)"
+        "Score notation",
+        "hlilysn", "helpLilypondScoreNotation",
+R"()"
       );
   
     appendOptionsSubGroup (scoreNotationSubGroup);
@@ -589,8 +602,9 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
   
     S_msrOptionsSubGroup midiSubGroup =
       msrOptionsSubGroup::create (
-      "hlilym", "helpLilypondMidi",
-R"(Midi)"
+        "Midi",
+        "hlilym", "helpLilypondMidi",
+R"()"
       );
   
     appendOptionsSubGroup (midiSubGroup);

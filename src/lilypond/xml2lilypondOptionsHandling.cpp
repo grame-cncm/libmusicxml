@@ -38,28 +38,19 @@ namespace MusicXML2
 #define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
-S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
-  string optionHandlerShortName,
-  string optionHandlerLongName,
-  string optionHandlerDescription,
-  string optionsHandlerValuesHeader)
+S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create ()
 {
   xml2lilypondOptionsHandler* o = new
-    xml2lilypondOptionsHandler (
-      optionHandlerShortName,
-      optionHandlerLongName,
-      optionHandlerDescription,
-      optionsHandlerValuesHeader);
+    xml2lilypondOptionsHandler ();
   assert(o!=0);
   return o;
 }
 
-xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
-  string optionHandlerShortName,
-  string optionHandlerLongName,
-  string optionHandlerDescription,
-  string optionsHandlerValuesHeader)
+xml2lilypondOptionsHandler::xml2lilypondOptionsHandler ()
   : msrOptionsHandler (
+    "Available options",
+    "Options values",
+    "h", "help",
 R"(
                 Welcome to xml2lilypond v0.1.0, 
               the MusicXML to LilyPond translator
@@ -93,11 +84,7 @@ What it does:
     
     The activity log and warning/error messages go to standard error.
 )"
-      ,
-      optionHandlerShortName,
-      optionHandlerLongName,
-      optionHandlerDescription,
-      optionsHandlerValuesHeader)
+      )
 {
   initializeOptionsHandler ();
 }
