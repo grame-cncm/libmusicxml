@@ -1435,6 +1435,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
     void                  handleOptionsItemValueOrArgument (
                             string theString);
 
+    virtual void          checkOptionsConsistency ( // JMI
+                            string inputFileName,
+                            string outputFileName) = 0;
+
     // print
     // ------------------------------------------------------
 

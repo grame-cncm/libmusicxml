@@ -16541,21 +16541,6 @@ void msrMeasure::finalizeMeasure (
     idtr--;
   }
 
-  if (fMeasureLength.getNumerator () == 0) { // JMI
-    // empty measure
-    if (gGeneralOptions->fTraceMeasures) {
-      cerr << idtr <<
-      "Measure '" << fMeasureNumber <<
-      "' in voice \"" << voice->getVoiceName () <<
-      "\", is **empty**" <<
-      ", line " << inputLineNumber <<
-      endl;
-    }
-
-    abort (); // JMI
-  }
-    
-
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
     
     if (fMeasureLength < partMeasureLengthHighTide) {

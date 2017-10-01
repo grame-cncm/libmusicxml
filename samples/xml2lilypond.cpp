@@ -165,7 +165,7 @@ S_xml2lilypondOptionsHandler
   return argumentsVector;
 }
 
-/*
+/* JMI
   int nonOptionArgsNumber = argc-optind;
 
   switch (nonOptionArgsNumber)
@@ -179,29 +179,6 @@ S_xml2lilypondOptionsHandler
       break;
     } //  switch
 
-  // handle auto output file option
-  if (gGeneralOptions->fAutoOutputFile) {
-    if (outputFileName.size ()) {
-      stringstream s;
-  
-      s <<
-        "options '--aof, --autoOutputFile' and '--of, --outputFile'"  <<
-        endl <<
-        "cannot be used simultaneously";
-        
-      optionError (s.str ());
-    }
-  
-    else if (inputFileName == "-") {
-      stringstream s;
-  
-      s <<
-        "option '--aof, --autoOutputFile'"  <<
-        endl <<
-        "cannot be used when reading from standard input";
-        
-      optionError (s.str ());
-    }
 
     // build output file name
     string

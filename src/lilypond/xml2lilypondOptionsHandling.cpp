@@ -151,6 +151,36 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
   }
 }
 
+void xml2lilypondOptionsHandler::checkOptionsConsistency (
+  string inputFileName,
+  string outputFileName)
+{
+  // check auto output file option usage
+  if (gGeneralOptions->fAutoOutputFile) {
+    if (outputFileName.size ()) {
+      stringstream s;
+  
+      s <<
+        "options '--aof, --autoOutputFile' and '--of, --outputFile'"  <<
+        endl <<
+        "cannot be used simultaneously";
+        
+      optionError (s.str ());
+    }
+  
+    else if (inputFileName == "-") {
+      stringstream s;
+  
+      s <<
+        "option '--aof, --autoOutputFile'"  <<
+        endl <<
+        "cannot be used when reading from standard input";
+        
+      optionError (s.str ());
+    }
+  }
+}
+
 void xml2lilypondOptionsHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
