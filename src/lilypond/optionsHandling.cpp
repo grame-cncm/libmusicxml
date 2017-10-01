@@ -365,6 +365,7 @@ void msrOptionsVersionItem::print (ostream& os) const
 void msrOptionsVersionItem::printVersion (ostream& os) const
 {  
   os << idtr <<
+    "xml2lilypond" " "<<
     currentVersionNumber () <<
     endl;
 }
