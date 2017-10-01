@@ -1099,6 +1099,10 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
       kAlwaysShowDescription,
       kHideDescriptionByDefault };
           
+    static string optionsSubGroupDescriptionVisibilityAsString (
+      msrOptionsSubGroupDescriptionVisibility
+        optionsSubGroupDescriptionVisibility);
+
   public:
   
     // creation
@@ -1109,7 +1113,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
       string optionsSubGroupDescription,
-      msrOptionsSubGroupDescriptionVisibility                       msrOptionsSubGroupDescriptionVisibility);
+      msrOptionsSubGroupDescriptionVisibility
+             optionsSubGroupDescriptionVisibility);
      
   protected:
 
@@ -1121,7 +1126,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
       string optionsSubGroupDescription,
-      bool   optionsSubGroupIsHiddenByDefault);
+      msrOptionsSubGroupDescriptionVisibility
+             optionsSubGroupDescriptionVisibility);
     
     virtual ~msrOptionsSubGroup();
 
@@ -1143,10 +1149,11 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     string                getOptionsSubGroupHelpHeader () const
                               { return fOptionsSubGroupHelpHeader; }
                               
-    bool                  getOptionsSubGroupIsHiddenByDefault () const
+    msrOptionsSubGroupDescriptionVisibility
+                          getOptionsSubGroupIsHiddenByDefault () const
                               {
                                 return
-                                  fOptionsSubGroupIsHiddenByDefault;
+                                  fOptionsSubGroupDescriptionVisibility;
                               }
                               
     // services
@@ -1190,7 +1197,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     string                fOptionsSubGroupHelpHeader;
 
-    bool                  fOptionsSubGroupIsHiddenByDefault;
+    msrOptionsSubGroupDescriptionVisibility
+                          fOptionsSubGroupDescriptionVisibility;
   
     list<S_msrOptionsItem>
                           fOptionsSubGroupItemsList;

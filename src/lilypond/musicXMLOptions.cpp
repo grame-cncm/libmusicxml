@@ -69,7 +69,8 @@ void musicXMLOptions::initializeMusicXMLOptions (
     msrOptionsSubGroup::create (
       "Trace and display",
       "hmxmltd", "helpMusicXMLTraceAndDisplay",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
     );
 
   appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -96,7 +97,8 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
     msrOptionsSubGroup::create (
       "Other",
       "hmxmlo", "helpMusicXMLOther",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
     );
 
   appendOptionsSubGroup (otherSubGroup);

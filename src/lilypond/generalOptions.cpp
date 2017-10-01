@@ -68,7 +68,8 @@ void generalOptions::initializeGeneralOptions (
       msrOptionsSubGroup::create (
         "Version",
         "hgb", "helpGeneralVersion",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (versionSubGroup);
@@ -97,7 +98,8 @@ R"(Display xml2lilypond's version number and exit.)",
       msrOptionsSubGroup::create (
         "Output file",
         "hgof", "helpGeneralOutputFile",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
             
     appendOptionsSubGroup (outputFileSubGroup);
@@ -141,7 +143,8 @@ or adding '.ly' if none is present.)",
         msrOptionsSubGroup::create (
           "Trace and display",
           "hgtd", "helpGeneralTraceDansDisplay",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
         );
     
       appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -185,7 +188,8 @@ debugging information to standard error for the specified measures.)",
       msrOptionsSubGroup::create (
         "CPU usage",
         "hgcu", "helpGeneralCPUUsage",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (CPUUsageSubGroup);
@@ -289,7 +293,8 @@ R"()"
       msrOptionsSubGroup::create (
         "Specific trace about elements",
         "hgst", "helpGeneralSpecificTrace",
-R"()"
+R"()",
+      msrOptionsSubGroup::kHideDescriptionByDefault
       );
   
     appendOptionsSubGroup (specificTraceSubGroup);

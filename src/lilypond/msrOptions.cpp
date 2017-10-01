@@ -76,7 +76,8 @@ void msrOptions::initializeMsrOptions (
       msrOptionsSubGroup::create (
         "Trace and display",
         "hmsrtd", "helpMsrTraceAndDisplay",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -150,7 +151,8 @@ This implies that no LilyPond code is generated.)",
       msrOptionsSubGroup::create (
         "Languages",
         "hmsrlang", "helpMsrLanguages",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (languagesSubGroup);
@@ -182,7 +184,8 @@ The default is to use 'nederlands'.)",
       msrOptionsSubGroup::create (
         "Parts",
         "hmsrp", "helpMsrParts",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (partsSubGroup);
@@ -226,7 +229,8 @@ There can be several occurrences of this option.)",
       msrOptionsSubGroup::create (
         "Voices",
         "hmsrv", "helpMsrVoices",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (voicesSubGroup);
@@ -278,7 +282,8 @@ By default, there are removed after usage.)",
       msrOptionsSubGroup::create (
         "Notes",
         "hmsrn", "helpMsrNotes",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (notesSubGroup);
@@ -339,7 +344,8 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
       msrOptionsSubGroup::create (
         "Lyrics",
         "hmsrlyrd", "helpMsrLyrics",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (lyricsSubGroup);
@@ -377,7 +383,8 @@ By default, there are removed after usage.)",
       msrOptionsSubGroup::create (
         "Harmonies",
         "hmsrh", "helpMsrHarmonies",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (harmoniesSubGroup);
@@ -417,7 +424,8 @@ It is thrown away in such a case by default.)",
       msrOptionsSubGroup::create (
         "Figured bass",
         "hmsrfb", "helpMsrFiguredBass",
-  R"()"
+  R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (figuredBassSubGroup);

@@ -1197,6 +1197,7 @@ void msrOptionsPitchesLanguageItem::print (ostream& os) const
       setw (fieldWidth) <<
       "fOptionsPitchesLanguageItemVariableDisplayName" << " : " <<
       fOptionsPitchesLanguageItemVariableDisplayName <<
+      endl <<
     idtr <<
       setw (fieldWidth) <<
       "fOptionsPitchesLanguageItemVariable" << " : \"" <<
@@ -1692,7 +1693,8 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription,
-  bool   optionsSubGroupIsHiddenByDefault)
+  msrOptionsSubGroupDescriptionVisibility
+         optionsSubGroupDescriptionVisibility)
 {
   msrOptionsSubGroup* o = new
     msrOptionsSubGroup (
@@ -1700,7 +1702,7 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription,
-      optionsSubGroupIsHiddenByDefault);
+      optionsSubGroupDescriptionVisibility);
   assert(o!=0);
   return o;
 }
@@ -1710,19 +1712,41 @@ msrOptionsSubGroup::msrOptionsSubGroup (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription,
-  bool   optionsSubGroupIsHiddenByDefault)
+  msrOptionsSubGroupDescriptionVisibility
+         optionsSubGroupDescriptionVisibility)
   : msrOptionsElement (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
 {
-  fOptionsSubGroupHelpHeader = optionsSubGroupHelpHeader;
+  fOptionsSubGroupHelpHeader =
+    optionsSubGroupHelpHeader;
 
-  fOptionsSubGroupIsHiddenByDefault = optionsSubGroupIsHiddenByDefault;
+  fOptionsSubGroupDescriptionVisibility =
+    optionsSubGroupDescriptionVisibility;
 }
 
 msrOptionsSubGroup::~msrOptionsSubGroup()
 {}
+
+string msrOptionsSubGroup::optionsSubGroupDescriptionVisibilityAsString (
+  msrOptionsSubGroupDescriptionVisibility
+    optionsSubGroupDescriptionVisibility)
+{
+  string result;
+  
+  switch (optionsSubGroupDescriptionVisibility) {
+    case kAlwaysShowDescription:
+      result = "AlwaysShowDescription";
+      break;
+      
+    case kHideDescriptionByDefault:
+      result = "HideDescriptionByDefault";
+      break;
+  } // switch
+
+  return result;
+}
 
 void msrOptionsSubGroup::underlineHeader (ostream& os) const
 {
@@ -1814,8 +1838,9 @@ void msrOptionsSubGroup::print (ostream& os) const
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsSubGroupIsHiddenByDefault" << " : " <<
-      booleanAsString (fOptionsSubGroupIsHiddenByDefault) <<
+      "fOptionsSubGroupDescriptionVisibility" << " : " <<
+        optionsSubGroupDescriptionVisibilityAsString (
+          fOptionsSubGroupDescriptionVisibility) <<
       endl <<
     endl;
 
@@ -1853,37 +1878,47 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   
   // print the header and option names
   os << idtr <<
-    fOptionsSubGroupHelpHeader <<
-    " " <<
-    optionsElementNamesBetweenParentheses () <<
-    ":";
-
-  if (fOptionsSubGroupIsHiddenByDefault) {
-    os << " ***";
-  }
+    fOptionsSubGroupHelpHeader;
+    
+  switch (fOptionsSubGroupDescriptionVisibility) {
+    case kAlwaysShowDescription:
+      break;
+      
+    case kHideDescriptionByDefault:
+      os <<
+        " ***";
+      break;
+  } // switch
 
   os <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
     endl <<
     endl;
   
-  if (! fOptionsSubGroupIsHiddenByDefault) {
-    if (fOptionsSubGroupItemsList.size ()) {    
-      idtr++;
-  
-      list<S_msrOptionsItem>::const_iterator
-        iBegin = fOptionsSubGroupItemsList.begin(),
-        iEnd   = fOptionsSubGroupItemsList.end(),
-        i      = iBegin;
-      for ( ; ; ) {
-        // print the options item help
-        (*i)->printHelp (os);
-        if (++i == iEnd) break;
-        cerr << endl;
-      } // for
-        
-      idtr--;
-    }
-  }
+  switch (fOptionsSubGroupDescriptionVisibility) {
+    case kAlwaysShowDescription:
+      if (fOptionsSubGroupItemsList.size ()) {    
+        idtr++;
+    
+        list<S_msrOptionsItem>::const_iterator
+          iBegin = fOptionsSubGroupItemsList.begin(),
+          iEnd   = fOptionsSubGroupItemsList.end(),
+          i      = iBegin;
+        for ( ; ; ) {
+          // print the options item help
+          (*i)->printHelp (os);
+          if (++i == iEnd) break;
+          cerr << endl;
+        } // for
+          
+        idtr--;
+      }
+      break;
+      
+    case kHideDescriptionByDefault:
+      break;
+  } // switch
 }
 
 void msrOptionsSubGroup::printHelpSummary (

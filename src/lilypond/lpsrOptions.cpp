@@ -76,7 +76,8 @@ void lpsrOptions::initializeLpsrOptions (
       msrOptionsSubGroup::create (
         "Trace and display",
         "hlpsrtd", "helpLpsrTraceAndDisplay",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -148,7 +149,8 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
       msrOptionsSubGroup::create (
         "Languages",
         "hlpsrl", "helpLpsrlanguages",
-R"()"
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
       );
   
     appendOptionsSubGroup (languagesSubGroup);
