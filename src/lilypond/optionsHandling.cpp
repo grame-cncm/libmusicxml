@@ -2959,8 +2959,8 @@ void msrOptionsHandler::handleOptionsItemName (
       // print the help
       cerr << idtr <<
         "--- Help for group \"" <<
-        optionsElement->
-          getOptionsElementDescription () <<
+        optionsGroup->
+          getOptionsGroupHelpHeader () <<
         "\" ---" <<
         endl <<
         endl;
@@ -2980,8 +2980,8 @@ void msrOptionsHandler::handleOptionsItemName (
       // print the help
       cerr << idtr <<
         "--- Help for subgroup \"" <<
-        optionsElement->
-          getOptionsElementDescription () <<
+        optionsSubGroup->
+          getOptionsSubGroupHelpHeader () <<
         "\" ---" <<
         endl <<
         endl;
