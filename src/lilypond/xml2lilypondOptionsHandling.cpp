@@ -82,8 +82,9 @@ What it does:
     and help can be obtained for groups or subgroups at will.
 
     Most options have a short and a long name for commodity.
-    Hidden options subgroups are indicated by '***': their description
-    is printed only when the corresponding item short or long names are used.
+    
+    A subgroup displayed with '***' has its description printed
+    only when the corresponding item short or long names are used.
     
     Both '-' and '--' can be used to introduce options in the command line,
     even though the help shows only '-'.
