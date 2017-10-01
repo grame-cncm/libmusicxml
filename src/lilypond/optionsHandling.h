@@ -1405,10 +1405,11 @@ class EXP msrOptionsHandler : public msrOptionsElement
     map<string, S_msrOptionsElement>
                           fOptionsElementsMap;
     
-    int                   fMaximumSubGroupsDescriptionsSize;
+    int                   fMaximumSubGroupsHelpHeadersSize;
 
     int                   fMaximumShortNameWidth;
     int                   fMaximumLongNameWidth;
+    
     int                   fMaximumDisplayNameWidth;
 
     string                fProgramName;

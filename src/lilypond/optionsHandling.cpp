@@ -2298,7 +2298,7 @@ msrOptionsHandler::msrOptionsHandler (
   
   fExpectedValuesNumber = 0;
   
-  fMaximumSubGroupsDescriptionsSize = 1;
+  fMaximumSubGroupsHelpHeadersSize = 1;
 
   fMaximumShortNameWidth   = 1;
   fMaximumLongNameWidth    = 1;
@@ -2332,17 +2332,13 @@ void msrOptionsHandler::registerOptionsElementInHandler (
     optionLongName =
       optionsElement->getOptionsElementLongName (),
     optionShortName =
-      optionsElement->getOptionsElementShortName (),
-    optionDescription =
-      optionsElement->getOptionsElementDescription ();
+      optionsElement->getOptionsElementShortName ();
 
   int
     optionLongNameSize =
       optionLongName.size (),
     optionShortNameSize =
-      optionShortName.size (),
-    optionDescriptionSize =
-      optionDescription.size ();
+      optionShortName.size ();
 
   if (
     optionShortNameSize == 0
@@ -2409,10 +2405,18 @@ void msrOptionsHandler::registerOptionsElementInHandler (
       optionsSubGroup =
         dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
     ) {    
+
+    string
+      optionHelpHeader=
+        optionsSubGroup->getOptionsSubGroupHelpHeader ();
+    int
+      optionHelpHeaderSize =
+        optionHelpHeader.size ();
+          
     // account for optionsSubGroup's description size
-    if (optionDescriptionSize > fMaximumSubGroupsDescriptionsSize) {
-      fMaximumSubGroupsDescriptionsSize =
-        optionDescriptionSize;
+    if (optionHelpHeaderSize > fMaximumSubGroupsHelpHeadersSize) {
+      fMaximumSubGroupsHelpHeadersSize =
+        optionHelpHeaderSize;
     }
   }
     
@@ -2556,7 +2560,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
         printHelpSummary (
           os,
           fMaximumShortNameWidth,
-          fMaximumSubGroupsDescriptionsSize);
+          fMaximumSubGroupsHelpHeadersSize);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
