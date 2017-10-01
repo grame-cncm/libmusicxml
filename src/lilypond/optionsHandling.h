@@ -105,7 +105,6 @@ class EXP msrOptionsElement : public smartable
     // ------------------------------------------------------
     
     virtual void          printHeader (ostream& os) const;
-    virtual void          underlineHeader (ostream& os) const;
     
     virtual void          print (ostream& os) const;
     
@@ -1136,6 +1135,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
+    void                  underlineHeader (ostream& os) const;
+
     void                  registerOptionsSubGroupInHandler (
                             S_msrOptionsHandler optionsHandler);
 
@@ -1230,6 +1231,8 @@ class EXP msrOptionsGroup : public msrOptionsElement
                               
     // services
     // ------------------------------------------------------
+
+    void                  underlineHeader (ostream& os) const;
 
     void                  registerOptionsGroupInHandler (
                             S_msrOptionsHandler optionsHandler);

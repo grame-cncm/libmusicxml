@@ -187,17 +187,6 @@ void msrOptionsElement::printHeader (ostream& os) const
   idtr--; idtr--; idtr--;
 }
 
-void msrOptionsElement::underlineHeader (ostream& os) const
-{
-  os <<
-    idtr;
-  for (unsigned int i = 0; i < fOptionsElementDescription.size (); i++) {
-    os << "-";
-  } // for
-  os <<
-    endl;
-}
-
 void msrOptionsElement::print (ostream& os) const
 {
   os << "??? msrOptionsElement ???" << endl;
@@ -1730,6 +1719,17 @@ msrOptionsSubGroup::msrOptionsSubGroup (
 msrOptionsSubGroup::~msrOptionsSubGroup()
 {}
 
+void msrOptionsSubGroup::underlineHeader (ostream& os) const
+{
+  os <<
+    idtr;
+  for (unsigned int i = 0; i < fOptionsSubGroupHelpHeader.size (); i++) {
+    os << "-";
+  } // for
+  os <<
+    endl;
+}
+
 void msrOptionsSubGroup::registerOptionsSubGroupInHandler (
   S_msrOptionsHandler optionsHandler)
 {
@@ -1838,9 +1838,9 @@ void msrOptionsSubGroup::print (ostream& os) const
 void msrOptionsSubGroup::printHelp (ostream& os) const
 {
   
-  // the description is the header of the information
+  // print the header and option names
   os << idtr <<
-    fOptionsElementDescription <<
+    fOptionsSubGroupHelpHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
@@ -1974,6 +1974,17 @@ msrOptionsGroup::msrOptionsGroup (
 msrOptionsGroup::~msrOptionsGroup()
 {}
 
+void msrOptionsGroup::underlineHeader (ostream& os) const
+{
+  os <<
+    idtr;
+  for (unsigned int i = 0; i < fOptionsGroupHelpHeader.size (); i++) {
+    os << "-";
+  } // for
+  os <<
+    endl;
+}
+
 void msrOptionsGroup::registerOptionsGroupInHandler (
   S_msrOptionsHandler optionsHandler)
 {
@@ -2085,9 +2096,9 @@ void msrOptionsGroup::print (ostream& os) const
 
 void msrOptionsGroup::printHelp (ostream& os) const
 {
-  // the description is the header of the information
+  // print the header and option names
   os << idtr <<
-    fOptionsElementDescription <<
+    fOptionsGroupHelpHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
