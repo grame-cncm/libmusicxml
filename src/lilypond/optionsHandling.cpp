@@ -1866,18 +1866,28 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
 }
 
 void msrOptionsSubGroup::printHelpSummary (
-  ostream& os,
-  int      subGroupsShortNameFieldWidth,
-  int      subGroupsDescriptionFieldWidth) const
+  ostream& os) const
 {
-  // the description is the header of the information
+  // fetch maximum subgroups help headers size
+  int maximumSubGroupsHelpHeadersSize =
+    getOptionsGroupUplink ()->
+      getOptionsHandlerUplink ()->
+        getMaximumSubGroupsHelpHeadersSize ();
+    
+  // fetch maximum short name width
+  int maximumShortNameWidth =
+    getOptionsGroupUplink ()->
+      getOptionsHandlerUplink ()->
+        getMaximumShortNameWidth ();
+
+  // print the summary
   os << left <<
     idtr <<
-    setw (subGroupsDescriptionFieldWidth) <<
+    setw (maximumSubGroupsHelpHeadersSize) <<
     fOptionsSubGroupHelpHeader <<
     " " <<
     optionsElementNamesInColumnsBetweenParentheses (
-      subGroupsShortNameFieldWidth);
+      maximumShortNameWidth);
 }
 
 void msrOptionsSubGroup::printSpecificSubGroupHelp (
@@ -1892,10 +1902,7 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
   if (optionsSubGroup == this)
     printHelp (os);
   else
-    printHelpSummary (
-      os,
-      subGroupsShortNameFieldWidth,
-      subGroupsDescriptionFieldWidth);
+    printHelpSummary (os);
  }
 
 void msrOptionsSubGroup::printOptionsValues (
@@ -2157,10 +2164,7 @@ void msrOptionsGroup::printHelpSummary (
       // print the options subgroup description
       os << idtr;
       (*i)->
-        printHelpSummary (
-          os,
-          subGroupsShortNameFieldWidth,
-          subGroupsDescriptionFieldWidth);
+        printHelpSummary (os);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -2296,13 +2300,14 @@ msrOptionsHandler::msrOptionsHandler (
   fOptionsHandlerHelpHeader   = optionsHandlerHelpHeader;
   fOptionsHandlerValuesHeader = optionsHandlerValuesHeader;
   
-  fExpectedValuesNumber = 0;
-  
   fMaximumSubGroupsHelpHeadersSize = 1;
 
   fMaximumShortNameWidth   = 1;
   fMaximumLongNameWidth    = 1;
+  
   fMaximumDisplayNameWidth = 1;
+
+  fExpectedValuesNumber = 0;
 }
 
 msrOptionsHandler::~msrOptionsHandler()

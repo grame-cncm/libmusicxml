@@ -1153,10 +1153,7 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printHelpSummary (
-                            ostream& os,
-                            int      subGroupsShortNameFieldWidth,
-                            int      subGroupsDescriptionFieldWidth) const;
+    void                  printHelpSummary (ostream& os) const;
 
     void                  printSpecificSubGroupHelp (
                             ostream& os,
@@ -1231,7 +1228,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
                               
     // services
     // ------------------------------------------------------
-
+                              
     void                  underlineHeader (ostream& os) const;
 
     void                  registerOptionsGroupInHandler (
@@ -1341,6 +1338,18 @@ class EXP msrOptionsHandler : public msrOptionsElement
                               
     string                getOptionsHandlerValuesHeader () const
                               { return fOptionsHandlerValuesHeader; }
+
+    int                   getMaximumSubGroupsHelpHeadersSize () const
+                              { return fMaximumSubGroupsHelpHeadersSize; }
+
+    int                   getMaximumShortNameWidth () const
+                              { return fMaximumShortNameWidth; }
+
+    int                   getMaximumLongNameWidth () const
+                              { return fMaximumLongNameWidth; }
+
+    int                   getMaximumDisplayNameWidth () const
+                              { return fMaximumDisplayNameWidth; }
 
   public:
   
