@@ -3414,7 +3414,7 @@ R"(\markup {
   {
     lpsrLilypondVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOptions->fDontKeepLineBreaks
+        gLilypondOptions->fIgnoreLineBreaks
           ? lpsrLilypondVarValAssoc::kCommented
           : lpsrLilypondVarValAssoc::kUncommented;
   
@@ -3436,7 +3436,7 @@ R"(\markup {
   {
     lpsrLilypondVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOptions->fDontKeepLineBreaks
+        gLilypondOptions->fIgnoreLineBreaks
           ? lpsrLilypondVarValAssoc::kUncommented
           : lpsrLilypondVarValAssoc::kCommented;
   
@@ -3458,7 +3458,7 @@ R"(\markup {
   {
     lpsrLilypondVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOptions->fDontKeepLineBreaks
+        gLilypondOptions->fIgnoreLineBreaks
           ? lpsrLilypondVarValAssoc::kCommented
           : lpsrLilypondVarValAssoc::kUncommented;
   
@@ -3480,7 +3480,7 @@ R"(\markup {
   {
     lpsrLilypondVarValAssoc::lpsrCommentedKind
       commentedKind =
-        gLilypondOptions->fDontKeepLineBreaks
+        gLilypondOptions->fIgnoreLineBreaks
           ? lpsrLilypondVarValAssoc::kUncommented
           : lpsrLilypondVarValAssoc::kCommented;
   

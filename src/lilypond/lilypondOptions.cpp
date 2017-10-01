@@ -238,7 +238,7 @@ R"(Generate LilyPond code to show all bar numbers.)",
   {
     // variables
       
-    fDontKeepLineBreaks                  = boolOptionsInitialValue;
+    fIgnoreLineBreaks                    = boolOptionsInitialValue;
   
     fBreakLinesAtIncompleteRightMeasures = boolOptionsInitialValue;
     
@@ -262,7 +262,7 @@ R"()"
 R"(Ignore the line breaks from the MusicXML input
 and let LilyPond decide about them.)",
           "dontKeepLineBreaks",
-          fDontKeepLineBreaks));
+          fIgnoreLineBreaks));
 
     lineBreaksSubGroup->
       appendOptionsItem (
@@ -292,7 +292,7 @@ Nothing special is done by default.)",
   {
     // variables  
    
-    fDontKeepPageBreaks                  = boolOptionsInitialValue;
+    fIgnorePageBreaks = boolOptionsInitialValue;
   
     // options
   
@@ -312,7 +312,7 @@ R"()"
 R"(Ignore the page breaks from the MusicXML input
 and let LilyPond decide about them.)",
           "dontKeepPageBreaks",
-          fDontKeepPageBreaks));
+          fIgnorePageBreaks));
   }
     
 
@@ -703,8 +703,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 
   // line breaks
 
-  clone->fDontKeepLineBreaks =
-    fDontKeepLineBreaks;
+  clone->fIgnoreLineBreaks =
+    fIgnoreLineBreaks;
 
   clone->fBreakLinesAtIncompleteRightMeasures =
     fBreakLinesAtIncompleteRightMeasures;
@@ -714,8 +714,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 
   // page breaks
 
-  clone->fDontKeepPageBreaks =
-    fDontKeepPageBreaks;
+  clone->fIgnorePageBreaks =
+    fIgnorePageBreaks;
 
   // staves
   
@@ -914,8 +914,8 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "dontKeepLineBreaks" << " : " <<
-      booleanAsString (fDontKeepLineBreaks) <<
+    idtr << setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
+      booleanAsString (fIgnoreLineBreaks) <<
       endl <<
 
     idtr << setw (fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
@@ -937,8 +937,8 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   idtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "dontKeepPageBreaks" << " : " <<
-      booleanAsString (fDontKeepPageBreaks) <<
+    idtr << setw (fieldWidth) << "ignorePageBreaks" << " : " <<
+      booleanAsString (fIgnorePageBreaks) <<
       endl;
 
   idtr--;

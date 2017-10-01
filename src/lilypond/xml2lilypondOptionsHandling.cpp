@@ -78,9 +78,12 @@ What it does:
     and limit the need for manually editing the latter.
     They are organized in a group-subgroup-item hierarchy,
     and help can be obtained for groups or subgroups at will.
-    Both '-' and '--' can be used to introduce an option in the command line.
-    We use '-' to describe the options in the help,
-    but you can use '--' if you so prefer.
+    
+    Both '-' and '--' can be used to introduce options in the command line,
+    even though the help shows only '-'.
+    
+    Command line options and arguments can be placed in any order,
+    provided item values immediately follow the corresponding items.
     
     The activity log and warning/error messages go to standard error.
 )"

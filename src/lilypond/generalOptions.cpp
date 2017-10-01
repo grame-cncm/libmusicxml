@@ -40,7 +40,7 @@ S_generalOptions generalOptions::create ()
 
 generalOptions::generalOptions ()
   : msrOptionsGroup (
-    "General"
+    "General",
     "hg", "helpGeneral",
 R"()"
     )
@@ -66,8 +66,9 @@ void generalOptions::initializeGeneralOptions (
   
     S_msrOptionsSubGroup versionSubGroup =
       msrOptionsSubGroup::create (
-      "hgb", "helpGeneralVersion",
-  R"(Version)"
+        "Version",
+        "hgb", "helpGeneralVersion",
+R"()"
       );
   
     appendOptionsSubGroup (versionSubGroup);
@@ -76,7 +77,7 @@ void generalOptions::initializeGeneralOptions (
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "v", "version",
-  R"(Display xml2lilypond's version number and exit.)",
+R"(Display xml2lilypond's version number and exit.)",
           "version",
           fVersion));
   }
@@ -94,8 +95,9 @@ void generalOptions::initializeGeneralOptions (
   
     S_msrOptionsSubGroup outputFileSubGroup =
       msrOptionsSubGroup::create (
-      "hgof", "helpGeneralOutputFile",
-R"(Output file)"
+        "Output file",
+        "hgof", "helpGeneralOutputFile",
+R"()"
       );
             
     appendOptionsSubGroup (outputFileSubGroup);
@@ -137,8 +139,9 @@ or adding '.ly' if none is present.)",
     
       S_msrOptionsSubGroup traceAndDisplaySubGroup =
         msrOptionsSubGroup::create (
-        "hgtd", "helpGeneralTraceDansDisplay",
-R"(Trace and display)"
+          "Trace and display",
+          "hgtd", "helpGeneralTraceDansDisplay",
+R"()"
         );
     
       appendOptionsSubGroup (traceAndDisplaySubGroup);
@@ -180,8 +183,9 @@ debugging information to standard error for the specified measures.)",
   
     S_msrOptionsSubGroup CPUUsageSubGroup =
       msrOptionsSubGroup::create (
-      "hgcu", "helpGeneralCPUUsage",
-  R"(CPU usage)"
+        "CPU usage",
+        "hgcu", "helpGeneralCPUUsage",
+R"()"
       );
   
     appendOptionsSubGroup (CPUUsageSubGroup);
@@ -283,8 +287,9 @@ debugging information to standard error for the specified measures.)",
   
     S_msrOptionsSubGroup specificTraceSubGroup =
       msrOptionsSubGroup::create (
-      "hgst", "helpGeneralSpecificTrace",
-R"(Specific trace about elements)"
+        "Specific trace about elements",
+        "hgst", "helpGeneralSpecificTrace",
+R"()"
       );
   
     appendOptionsSubGroup (specificTraceSubGroup);

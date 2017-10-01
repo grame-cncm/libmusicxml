@@ -114,7 +114,7 @@ class EXP lilypondOptions : public msrOptionsGroup
     // line breaks
     // --------------------------------------
     
-    bool                  fDontKeepLineBreaks;
+    bool                  fIgnoreLineBreaks;
     
     bool                  fBreakLinesAtIncompleteRightMeasures;
     
@@ -123,7 +123,7 @@ class EXP lilypondOptions : public msrOptionsGroup
     // page breaks
     // --------------------------------------
     
-    bool                  fDontKeepPageBreaks;
+    bool                  fIgnorePageBreaks;
     
     // staves
     // --------------------------------------
