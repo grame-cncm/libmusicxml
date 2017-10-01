@@ -219,15 +219,13 @@ ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
 S_msrOptionsItem msrOptionsItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
-  string             optionsItemDescription,
-  int                optionsItemValuesNumber)
+  string             optionsItemDescription)
 {
   msrOptionsItem* o = new
     msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription,
-      optionsItemValuesNumber);
+      optionsItemDescription);
   assert(o!=0);
   return o;
 }
@@ -235,14 +233,12 @@ S_msrOptionsItem msrOptionsItem::create (
 msrOptionsItem::msrOptionsItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
-  string             optionsItemDescription,
-  int                optionsItemValuesNumber)
+  string             optionsItemDescription)
   : msrOptionsElement (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {
-  fOptionsItemValuesNumber = optionsItemValuesNumber;
 }
     
 msrOptionsItem::~msrOptionsItem()
@@ -281,11 +277,6 @@ void msrOptionsItem::print (ostream& os) const
       setw (fieldWidth) <<
       "fOptionsElementDescription" << " : " <<
       fOptionsElementDescription <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsItemValuesNumber" << " : " <<
-      fOptionsItemValuesNumber <<
       endl;
 }
 
@@ -300,6 +291,85 @@ void msrOptionsItem::printOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrOptionsVersionItem msrOptionsVersionItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  msrOptionsVersionItem* o = new
+    msrOptionsVersionItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsVersionItem::msrOptionsVersionItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+msrOptionsVersionItem::~msrOptionsVersionItem()
+{}
+
+void msrOptionsVersionItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    idtr <<
+      "OptionsVersionItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementDescription" << " :" <<
+      endl;
+
+  idtr++;
+  os <<
+    idtr <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
+  idtr--;
+
+  idtr--;
+}
+
+void msrOptionsVersionItem::printVersion (ostream& os) const
+{  
+  os << idtr <<
+    currentVersionNumber () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt)
 {
   elt->print (os);
   return os;
@@ -333,8 +403,7 @@ msrOptionsBooleanItem::msrOptionsBooleanItem (
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription,
-      0),
+      optionsItemDescription),
     fOptionsBooleanItemVariableDisplayName (
       optionsBooleanItemVariableDisplayName),
     fOptionsBooleanItemVariable (
@@ -420,16 +489,14 @@ S_msrOptionsValuedItem msrOptionsValuedItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  string             optionsValueSpecification,
-  int                optionsItemValuesNumber)
+  string             optionsValueSpecification)
 {
   msrOptionsValuedItem* o = new
     msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      optionsItemValuesNumber);
+      optionsValueSpecification);
   assert(o!=0);
   return o;
 }
@@ -438,17 +505,13 @@ msrOptionsValuedItem::msrOptionsValuedItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
-  string             optionsValueSpecification,
-  int                optionsItemValuesNumber)
+  string             optionsValueSpecification)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription,
-      optionsItemValuesNumber)
+      optionsItemDescription)
 {
   fOptionsValueSpecification = optionsValueSpecification;
-  
-  fOptionsItemValuesNumber = optionsItemValuesNumber;
 }
     
 msrOptionsValuedItem::~msrOptionsValuedItem()
@@ -513,11 +576,7 @@ void msrOptionsValuedItem::print (ostream& os) const
       "fOptionsValueSpecification" << " : " <<
       fOptionsValueSpecification <<
       endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsItemValuesNumber" << " : " <<
-      fOptionsItemValuesNumber <<
-      endl;
+    endl;
 }
 
 void msrOptionsValuedItem::printHelp (ostream& os) const
@@ -587,8 +646,7 @@ msrOptionsIntegerItem::msrOptionsIntegerItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsIntegerItemVariableDisplayName (
       optionsIntegerItemVariableDisplayName),
     fOptionsIntegerItemVariable (
@@ -690,8 +748,7 @@ msrOptionsFloatItem::msrOptionsFloatItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsFloatItemVariableDisplayName (
       optionsFloatItemVariableDisplayName),
     fOptionsFloatItemVariable (
@@ -793,8 +850,7 @@ msrOptionsStringItem::msrOptionsStringItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsStringItemVariableDisplayName (
       optionsStringItemVariableDisplayName),
     fOptionsStringItemVariable (
@@ -903,8 +959,7 @@ msrOptionsRationalItem::msrOptionsRationalItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsRationalItemVariableDisplayName (
       optionsRationalItemVariableDisplayName),
     fOptionsRationalItemVariable (
@@ -1004,8 +1059,7 @@ msrOptionsNumbersSetItem::msrOptionsNumbersSetItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsNumbersSetItemVariableDisplayName (
       optionsNumbersSetItemVariableDisplayName),
     fOptionsNumbersSetItemVariable (
@@ -1155,8 +1209,7 @@ msrOptionsPitchesLanguageItem::msrOptionsPitchesLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsPitchesLanguageItemVariableDisplayName (
       optionsPitchesLanguageItemVariableDisplayName),
     fOptionsPitchesLanguageItemVariable (
@@ -1262,8 +1315,7 @@ msrOptionsAccidentalStyleItem::msrOptionsAccidentalStyleItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsAccidentalStyleItemVariableDisplayName (
       optionsAccidentalStyleItemVariableDisplayName),
     fOptionsAccidentalStyleItemVariable (
@@ -1368,8 +1420,7 @@ msrOptionsChordsLanguageItem::msrOptionsChordsLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsChordsLanguageItemVariableDisplayName (
       optionsChordsLanguageItemVariableDisplayName),
     fOptionsChordsLanguageItemVariable (
@@ -1474,8 +1525,7 @@ msrOptionsPartRenameItem::msrOptionsPartRenameItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsPartRenameItemVariableDisplayName (
       optionsPartRenameItemVariableDisplayName),
     fOptionsPartRenameItemVariable (
@@ -1613,8 +1663,7 @@ msrOptionsMidiTempoItem::msrOptionsMidiTempoItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
-      optionsValueSpecification,
-      1),
+      optionsValueSpecification),
     fOptionsMidiTempoItemVariableDisplayName (
       optionsMidiTempoItemVariableDisplayName),
     fOptionsMidiTempoItemVariable (
@@ -1880,8 +1929,14 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   os << idtr <<
     fOptionsSubGroupHelpHeader;
     
+  os <<
+    " " <<
+    optionsElementNamesBetweenParentheses ();
+
   switch (fOptionsSubGroupDescriptionVisibility) {
     case kAlwaysShowDescription:
+      os <<
+        ":";
       break;
       
     case kHideDescriptionByDefault:
@@ -1891,8 +1946,6 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   } // switch
 
   os <<
-    " " <<
-    optionsElementNamesBetweenParentheses () <<
     endl <<
     endl;
   
@@ -1921,6 +1974,51 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   } // switch
 }
 
+void msrOptionsSubGroup::printForcedHelp (ostream& os) const
+{
+  
+  // print the header and option names
+  os << idtr <<
+    fOptionsSubGroupHelpHeader;
+    
+  os <<
+    " " <<
+    optionsElementNamesBetweenParentheses ();
+
+  switch (fOptionsSubGroupDescriptionVisibility) {
+    case kAlwaysShowDescription:
+      os <<
+        ":";
+      break;
+      
+    case kHideDescriptionByDefault:
+      os <<
+        " *** :";
+      break;
+  } // switch
+
+  os <<
+    endl <<
+    endl;
+  
+  if (fOptionsSubGroupItemsList.size ()) {    
+    idtr++;
+
+    list<S_msrOptionsItem>::const_iterator
+      iBegin = fOptionsSubGroupItemsList.begin(),
+      iEnd   = fOptionsSubGroupItemsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      // print the options item help
+      (*i)->printHelp (os);
+      if (++i == iEnd) break;
+      cerr << endl;
+    } // for
+      
+    idtr--;
+  }
+}
+
 void msrOptionsSubGroup::printHelpSummary (
   ostream& os) const
 {
@@ -1944,6 +2042,16 @@ void msrOptionsSubGroup::printHelpSummary (
       " " <<
       optionsElementNamesInColumnsBetweenParentheses (
         maximumShortNameWidth);
+
+  switch (fOptionsSubGroupDescriptionVisibility) {
+    case kAlwaysShowDescription:
+      break;
+      
+    case kHideDescriptionByDefault:
+      os <<
+        " ***";
+      break;
+  } // switch
 }
 
 void msrOptionsSubGroup::printSpecificSubGroupHelp (
@@ -3013,7 +3121,8 @@ void msrOptionsHandler::handleOptionsItemName (
         endl <<
         endl;
         
-      optionsGroup->printHelp (cerr);
+      optionsGroup->
+        printHelp (cerr);
       
       cerr <<
         endl;
@@ -3034,7 +3143,8 @@ void msrOptionsHandler::handleOptionsItemName (
         endl <<
         endl;
         
-      optionsSubGroup->printHelp (cerr);
+      optionsSubGroup->
+        printForcedHelp (cerr);
 
       cerr <<
         endl;
@@ -3044,6 +3154,20 @@ void msrOptionsHandler::handleOptionsItemName (
       // this is an options item, handle it
       
       if (
+        // version item?
+        S_msrOptionsVersionItem
+          optionsVersionItem =
+            dynamic_cast<msrOptionsVersionItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsVersionItem->
+          printVersion (cerr);
+
+        // exit
+        exit (0);
+      }
+      
+      else if (
         // boolean item?
         S_msrOptionsBooleanItem
           optionsBooleanItem =

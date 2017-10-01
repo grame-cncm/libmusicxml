@@ -75,12 +75,6 @@ class EXP generalOptions : public msrOptionsGroup
     
     string                fTranslationDate;
 
-  
-    // version
-    // --------------------------------------
-  
-    bool                  fVersion;
-
 
     // output file
     // --------------------------------------

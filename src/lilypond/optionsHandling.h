@@ -133,8 +133,7 @@ class EXP msrOptionsItem : public msrOptionsElement
     static SMARTP<msrOptionsItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
-      string             optionsItemDescription,
-      int                optionsItemValuesNumber);
+      string             optionsItemDescription);
      
   protected:
 
@@ -144,8 +143,7 @@ class EXP msrOptionsItem : public msrOptionsElement
     msrOptionsItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
-      string             optionsItemDescription,
-      int                optionsItemValuesNumber);
+      string             optionsItemDescription);
   
     virtual ~msrOptionsItem();
 
@@ -163,10 +161,7 @@ class EXP msrOptionsItem : public msrOptionsElement
 
     S_msrOptionsSubGroup  getOptionsSubGroupUplink () const
                               { return fOptionsSubGroupUplink; }
-    
-    int                   getOptionsItemValuesNumber () const
-                              { return fOptionsItemValuesNumber; }
-    
+        
     // services
     // ------------------------------------------------------
 
@@ -188,11 +183,59 @@ class EXP msrOptionsItem : public msrOptionsElement
     // ------------------------------------------------------
 
     S_msrOptionsSubGroup  fOptionsSubGroupUplink;
-
-  int                     fOptionsItemValuesNumber;
 };
 typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsItem& elt);
+
+//______________________________________________________________________________
+class EXP msrOptionsVersionItem : public msrOptionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsVersionItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsVersionItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~msrOptionsVersionItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printVersion (ostream& os) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+};
+typedef SMARTP<msrOptionsVersionItem> S_msrOptionsVersionItem;
+ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt);
 
 //______________________________________________________________________________
 class EXP msrOptionsBooleanItem : public msrOptionsItem
@@ -286,8 +329,7 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
-      string             optionsValueSpecification,
-      int                optionsItemValuesNumber);
+      string             optionsValueSpecification);
      
   protected:
 
@@ -298,8 +340,7 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
-      string             optionsValueSpecification,
-      int                optionsItemValuesNumber);
+      string             optionsValueSpecification);
   
     virtual ~msrOptionsValuedItem();
 
@@ -314,9 +355,6 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
     
     string                getOptionsValueSpecification () const
                               { return fOptionsValueSpecification; }
-    
-    int                   getOptionsItemValuesNumber () const
-                              { return fOptionsItemValuesNumber; }
     
     // services
     // ------------------------------------------------------
@@ -344,8 +382,6 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
                           fOptionsItemKind;
 
     string                fOptionsValueSpecification;
-    
-  int                     fOptionsItemValuesNumber;
 };
 typedef SMARTP<msrOptionsValuedItem> S_msrOptionsValuedItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt);
@@ -1176,6 +1212,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     void                  print (ostream& os) const;
 
     void                  printHelp (ostream& os) const;
+
+    void                  printForcedHelp (ostream& os) const;
 
     void                  printHelpSummary (ostream& os) const;
 

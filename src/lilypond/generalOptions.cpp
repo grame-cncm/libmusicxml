@@ -59,9 +59,7 @@ void generalOptions::initializeGeneralOptions (
 
   {
     // variables  
-  
-    fVersion = false;
-  
+    
     // options
   
     S_msrOptionsSubGroup versionSubGroup =
@@ -76,11 +74,9 @@ R"()",
   
     versionSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsVersionItem::create (
           "v", "version",
-R"(Display xml2lilypond's version number and exit.)",
-          "version",
-          fVersion));
+R"(Display xml2lilypond's version number and exit.)"));
   }
 
 
@@ -292,7 +288,7 @@ R"()",
     S_msrOptionsSubGroup specificTraceSubGroup =
       msrOptionsSubGroup::create (
         "Specific trace",
-        "hst", "helpSpecificTrace",
+        "hgst", "helpGeneralSpecificTrace",
 R"()",
       msrOptionsSubGroup::kHideDescriptionByDefault
       );
@@ -531,6 +527,7 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
     clone =
       generalOptions::create ();
 
+
   // command line
   // --------------------------------------
 
@@ -541,6 +538,7 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
     fCommandLineLongOptions;
   clone->fCommandLineShortOptions =
     fCommandLineShortOptions;
+
   
   // input
   // --------------------------------------
@@ -551,17 +549,13 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
   clone->fTranslationDate =
     fTranslationDate;
 
-  // version
-  // --------------------------------------
-
-  clone->fVersion =
-    fVersion;
 
   // output file
   // --------------------------------------
 
   clone->fAutoOutputFile =
     fAutoOutputFile;
+
   
   // trace and display
   // --------------------------------------
@@ -571,11 +565,13 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
   clone->fTraceDetailedMeasureNumbersSet =
     fTraceDetailedMeasureNumbersSet;
 
+
   // CPU usage
   // --------------------------------------
 
   clone->fDisplayCPUusage =
     true;
+
     
   // specific trace
   // --------------------------------------
