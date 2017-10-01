@@ -17215,6 +17215,21 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       inputLineNumber, s.str ());
   }
       */
+
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) { // JMI
+    cerr << idtr <<
+      "Current measure '" <<
+      currentMeasureNumber <<
+      "'in segment " <<
+      segmentAsString () <<
+      ", in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      " contains:" <<
+      endl <<
+      fSegmentMeasuresList.back ();
+  }
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
