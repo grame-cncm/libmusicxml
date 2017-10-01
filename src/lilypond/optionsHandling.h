@@ -1247,10 +1247,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printHelpSummary (
-                            ostream& os,
-                            int      subGroupsShortNameFieldWidth,
-                            int      subGroupsDescriptionFieldWidth) const;
+    void                  printHelpSummary (ostream& os) const;
     
     void                  printSpecificSubGroupHelp (
                             ostream& os,

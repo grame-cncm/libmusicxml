@@ -2132,10 +2132,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
   }
 }
 
-void msrOptionsGroup::printHelpSummary (
-  ostream& os,
-  int      subGroupsShortNameFieldWidth,
-  int      subGroupsDescriptionFieldWidth) const
+void msrOptionsGroup::printHelpSummary (ostream& os) const
 {
   // the description is the header of the information
   os << idtr <<
@@ -2562,10 +2559,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
       // print the options group summary
       os << idtr;
       (*i)->
-        printHelpSummary (
-          os,
-          fMaximumShortNameWidth,
-          fMaximumSubGroupsHelpHeadersSize);
+        printHelpSummary (os);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -3221,7 +3215,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         if (TRACE_OPTIONS) {
           cerr <<
             "There are " << sm.size() << " matches" <<
-            " for string '" << theString <<
+            " for rational string '" << theString <<
             "' with regex '" << regularExpression <<
             "'" <<
             endl;
@@ -3520,10 +3514,10 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       regex_match (theString, sm, e);
 
-      if (true || TRACE_OPTIONS) {
+      if (TRACE_OPTIONS) {
         cerr <<
           "There are " << sm.size() << " matches" <<
-          " for string '" << theString <<
+          " for MIDI tempo string '" << theString <<
           "' with regex '" << regularExpression <<
           "'" <<
           endl;
