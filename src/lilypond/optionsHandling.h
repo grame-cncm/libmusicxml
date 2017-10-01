@@ -1091,6 +1091,15 @@ ostream& operator<< (ostream& os, const S_msrOptionsMidiTempoItem& elt);
 class EXP msrOptionsSubGroup : public msrOptionsElement
 {
   public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrOptionsSubGroupDescriptionVisibility {
+      kAlwaysShowDescription,
+      kHideDescriptionByDefault };
+          
+  public:
   
     // creation
     // ------------------------------------------------------
@@ -1099,7 +1108,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
       string optionsSubGroupHelpHeader,
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
-      string optionsSubGroupDescription);
+      string optionsSubGroupDescription,
+      msrOptionsSubGroupDescriptionVisibility                       msrOptionsSubGroupDescriptionVisibility);
      
   protected:
 
@@ -1110,7 +1120,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
       string optionsSubGroupHelpHeader,
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
-      string optionsSubGroupDescription);
+      string optionsSubGroupDescription,
+      bool   optionsSubGroupIsHiddenByDefault);
     
     virtual ~msrOptionsSubGroup();
 
@@ -1131,6 +1142,12 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     
     string                getOptionsSubGroupHelpHeader () const
                               { return fOptionsSubGroupHelpHeader; }
+                              
+    bool                  getOptionsSubGroupIsHiddenByDefault () const
+                              {
+                                return
+                                  fOptionsSubGroupIsHiddenByDefault;
+                              }
                               
     // services
     // ------------------------------------------------------
@@ -1158,9 +1175,7 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
     void                  printSpecificSubGroupHelp (
                             ostream& os,
                             S_msrOptionsSubGroup
-                                     optionsSubGroup,
-                            int      subGroupsShortNameFieldWidth,
-                            int      subGroupsDescriptionFieldWidth) const;
+                                     optionsSubGroup) const;
 
     void                  printOptionsValues (
                             ostream& os,
@@ -1175,6 +1190,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     string                fOptionsSubGroupHelpHeader;
 
+    bool                  fOptionsSubGroupIsHiddenByDefault;
+  
     list<S_msrOptionsItem>
                           fOptionsSubGroupItemsList;
 };
@@ -1252,9 +1269,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
     void                  printSpecificSubGroupHelp (
                             ostream& os,
                             S_msrOptionsSubGroup
-                                     optionsSubGroup,
-                            int      subGroupsShortNameFieldWidth,
-                            int      subGroupsDescriptionFieldWidth) const;
+                                     optionsSubGroup) const;
 
     void                  printOptionsValues (
                             ostream& os,
@@ -1386,9 +1401,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     void                  printSpecificSubGroupHelp (
                             ostream& os,
                             S_msrOptionsSubGroup
-                                     optionsSubGroup,
-                            int      subGroupsShortNameFieldWidth,
-                            int      subGroupsDescriptionFieldWidth) const;
+                                     optionsSubGroup) const;
 
     void                  printOptionsValues (
                             ostream& os) const;

@@ -1691,14 +1691,16 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
   string optionsSubGroupHelpHeader,
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
-  string optionsSubGroupDescription)
+  string optionsSubGroupDescription,
+  bool   optionsSubGroupIsHiddenByDefault)
 {
   msrOptionsSubGroup* o = new
     msrOptionsSubGroup (
       optionsSubGroupHelpHeader,
       optionsSubGroupShortName,
       optionsSubGroupLongName,
-      optionsSubGroupDescription);
+      optionsSubGroupDescription,
+      optionsSubGroupIsHiddenByDefault);
   assert(o!=0);
   return o;
 }
@@ -1707,13 +1709,16 @@ msrOptionsSubGroup::msrOptionsSubGroup (
   string optionsSubGroupHelpHeader,
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
-  string optionsSubGroupDescription)
+  string optionsSubGroupDescription,
+  bool   optionsSubGroupIsHiddenByDefault)
   : msrOptionsElement (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
 {
   fOptionsSubGroupHelpHeader = optionsSubGroupHelpHeader;
+
+  fOptionsSubGroupIsHiddenByDefault = optionsSubGroupIsHiddenByDefault;
 }
 
 msrOptionsSubGroup::~msrOptionsSubGroup()
@@ -1794,15 +1799,23 @@ void msrOptionsSubGroup::print (ostream& os) const
   os << left <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      "fOptionsElementDescription" << " : " <<
+      fOptionsElementDescription <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsSubGroupIsHiddenByDefault" << " : " <<
+      booleanAsString (fOptionsSubGroupIsHiddenByDefault) <<
       endl <<
     endl;
 
@@ -1843,25 +1856,33 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
     fOptionsSubGroupHelpHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
-    ":" <<
+    ":";
+
+  if (fOptionsSubGroupIsHiddenByDefault) {
+    os << " ***";
+  }
+
+  os <<
     endl <<
     endl;
-
-  if (fOptionsSubGroupItemsList.size ()) {    
-    idtr++;
-
-    list<S_msrOptionsItem>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin(),
-      iEnd   = fOptionsSubGroupItemsList.end(),
-      i      = iBegin;
-    for ( ; ; ) {
-      // print the options item help
-      (*i)->printHelp (os);
-      if (++i == iEnd) break;
-      cerr << endl;
-    } // for
-      
-    idtr--;
+  
+  if (! fOptionsSubGroupIsHiddenByDefault) {
+    if (fOptionsSubGroupItemsList.size ()) {    
+      idtr++;
+  
+      list<S_msrOptionsItem>::const_iterator
+        iBegin = fOptionsSubGroupItemsList.begin(),
+        iEnd   = fOptionsSubGroupItemsList.end(),
+        i      = iBegin;
+      for ( ; ; ) {
+        // print the options item help
+        (*i)->printHelp (os);
+        if (++i == iEnd) break;
+        cerr << endl;
+      } // for
+        
+      idtr--;
+    }
   }
 }
 
@@ -1883,26 +1904,28 @@ void msrOptionsSubGroup::printHelpSummary (
   // print the summary
   os << left <<
     idtr <<
-    setw (maximumSubGroupsHelpHeadersSize) <<
-    fOptionsSubGroupHelpHeader <<
-    " " <<
-    optionsElementNamesInColumnsBetweenParentheses (
-      maximumShortNameWidth);
+      setw (maximumSubGroupsHelpHeadersSize) <<
+      fOptionsSubGroupHelpHeader <<
+      " " <<
+      optionsElementNamesInColumnsBetweenParentheses (
+        maximumShortNameWidth);
 }
 
 void msrOptionsSubGroup::printSpecificSubGroupHelp (
   ostream& os,
   S_msrOptionsSubGroup
-           optionsSubGroup,
-  int      subGroupsShortNameFieldWidth,
-  int      subGroupsDescriptionFieldWidth) const
+           optionsSubGroup) const
 {
   // print only the summary if this is not the desired subgroup,
   // otherwise print the regular help
-  if (optionsSubGroup == this)
+  if (optionsSubGroup == this) {
+    os <<
+    endl;
     printHelp (os);
-  else
+  }
+  else {
     printHelpSummary (os);
+  }
  }
 
 void msrOptionsSubGroup::printOptionsValues (
@@ -2176,13 +2199,11 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
 void msrOptionsGroup::printSpecificSubGroupHelp (
   ostream& os,
   S_msrOptionsSubGroup
-           optionsSubGroup,
-  int      subGroupsShortNameFieldWidth,
-  int      subGroupsDescriptionFieldWidth) const
+           optionsSubGroup) const
 {
   // the description is the header of the information
   os << idtr <<
-    fOptionsElementDescription <<
+    fOptionsGroupHelpHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
@@ -2205,10 +2226,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
       // print the options subgroup specific subgroup help
       (*i)->
         printSpecificSubGroupHelp (
-          os,
-          optionsSubGroup,
-          subGroupsShortNameFieldWidth,
-          subGroupsDescriptionFieldWidth);
+          os, optionsSubGroup);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -2574,9 +2592,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
 void msrOptionsHandler::printSpecificSubGroupHelp (
   ostream& os,
   S_msrOptionsSubGroup
-           optionsSubGroup,
-  int      subGroupsShortNameFieldWidth,
-  int      subGroupsDescriptionFieldWidth) const
+           optionsSubGroup) const
 {
   os << idtr <<
     fOptionsHandlerValuesHeader <<
@@ -2598,9 +2614,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
       (*i)->
         printSpecificSubGroupHelp (
           os,
-          optionsSubGroup,
-          subGroupsShortNameFieldWidth,
-          subGroupsDescriptionFieldWidth);
+          optionsSubGroup);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -3241,9 +3255,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         printSpecificSubGroupHelp (
           cerr,
           optionsRationalItem->
-            getOptionsSubGroupUplink (),
-          fMaximumShortNameWidth,
-          fMaximumDisplayNameWidth);
+            getOptionsSubGroupUplink ());
             
         exit (4);
       }
@@ -3543,9 +3555,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         printSpecificSubGroupHelp (
           cerr,
           optionsMidiTempoItem->
-            getOptionsSubGroupUplink (),
-          fMaximumShortNameWidth,
-          fMaximumDisplayNameWidth);
+            getOptionsSubGroupUplink ());
             
         exit (4);
       }
