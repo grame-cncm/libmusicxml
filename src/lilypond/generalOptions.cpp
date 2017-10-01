@@ -291,8 +291,8 @@ R"()",
   
     S_msrOptionsSubGroup specificTraceSubGroup =
       msrOptionsSubGroup::create (
-        "Specific trace about elements",
-        "hgst", "helpGeneralSpecificTrace",
+        "Specific trace",
+        "hst", "helpSpecificTrace",
 R"()",
       msrOptionsSubGroup::kHideDescriptionByDefault
       );
