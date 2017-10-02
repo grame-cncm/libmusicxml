@@ -45,6 +45,22 @@ generalOptions::generalOptions ()
 R"()"
     )
 {
+  // register translation date
+  // ------------------------------------------------------
+
+  {
+    time_t      translationRawtime;
+    struct tm*  translationTimeinfo;
+    char buffer [80];
+  
+    time (&translationRawtime);
+    translationTimeinfo = localtime (&translationRawtime);
+  
+    strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
+    fTranslationDate = buffer;
+  }
+
+  // initialize options
   initializeGeneralOptions (false);
 }
 

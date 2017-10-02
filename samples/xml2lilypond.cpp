@@ -46,9 +46,7 @@ vector<string> analyzeOptionsAndArguments (
 S_xml2lilypondOptionsHandler
                  optionsHandler,
   int            argc,
-  char*          argv[],
-  string&        inputFileName,
-  string&        outputFileName)
+  char*          argv [])
 {
   // analyse the options
   vector<string>
@@ -107,8 +105,7 @@ int main (int argc, char *argv[])
     argumentsVector =
       analyzeOptionsAndArguments (
         optionsHandler,
-        argc, argv,
-        inputFileName, outputFileName);
+        argc, argv);
 
   // print the resulting options
   if (TRACE_OPTIONS) {
@@ -117,43 +114,6 @@ int main (int argc, char *argv[])
       endl <<
       endl;
   }
-
-  // program name
-  // ------------------------------------------------------
-  
-  gGeneralOptions->fProgramName =
-    optionsHandler->getProgramName ();
-  
-  // input source name
-  // ------------------------------------------------------
-
-  switch (argumentsVector.size ()) {
-    case 1:
-      gGeneralOptions->fInputSourceName =
-        argumentsVector [0]; // inputFileName; // JMI
-      break;
-      
-    default:
-      {
-        cerr <<
-          "Input file name or '-' for standard input expected" <<
-          endl;
-        exit (3);
-      }
-  } // switch
-  
-  // translation date
-  // ------------------------------------------------------
-
-  time_t      translationRawtime;
-  struct tm*  translationTimeinfo;
-  char buffer [80];
-
-  time (&translationRawtime);
-  translationTimeinfo = localtime (&translationRawtime);
-
-  strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
-  gGeneralOptions->fTranslationDate = buffer;
 
   // welcome message
   // ------------------------------------------------------

@@ -153,30 +153,26 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 
 void xml2lilypondOptionsHandler::checkOptionsConsistency ()
 {
-  string
-    inputFileName,
-    outputFileName;
-  
   // handle the arguments 
-  unsigned int nonOptionArgsNumber =
+  unsigned int argumentsNumber =
     fArgumentsVector.size ();
 
   if (TRACE_OPTIONS) {    
-    if (nonOptionArgsNumber > 0) {
+    if (argumentsNumber > 0) {
       cerr << idtr <<
         singularOrPluralWithoutNumber (
-          nonOptionArgsNumber, "There is", "There are") <<
+          argumentsNumber, "There is", "There are") <<
         " " <<
-        nonOptionArgsNumber <<
+        argumentsNumber <<
         " " <<
         singularOrPluralWithoutNumber (
-          nonOptionArgsNumber, "argument", "arguments") <<
+          argumentsNumber, "argument", "arguments") <<
         ":" <<
         endl;
 
       idtr++;
       
-      for (unsigned int i = 0; i < nonOptionArgsNumber; i++) {
+      for (unsigned int i = 0; i < argumentsNumber; i++) {
         cerr << idtr <<
           i << " : " << fArgumentsVector [i] <<
             endl;
@@ -194,18 +190,24 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
     }
   }
 
-  // handle the arguments 
-  switch (nonOptionArgsNumber)
+  // input source name
+  // ------------------------------------------------------
+
+  string inputSourceName; 
+
+  switch (argumentsNumber)
     {
     case 1 :
       // register intput file name
-      inputFileName =
+      inputSourceName =
         fArgumentsVector [0];
       break;
 
     default:
-      cerr << idtr <<
-        "There should be one argument, the input file specification" <<
+      cerr <<
+        endl <<
+        "Input file name or '-' for standard input expected" <<
+        endl <<
         endl;
 
       printHelpSummary (cerr);
@@ -215,6 +217,10 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
     } //  switch
 
   // check auto output file option usage
+  // ------------------------------------------------------
+
+  string outputFileName;
+
   if (gGeneralOptions->fAutoOutputFile) {
     if (outputFileName.size ()) {
       stringstream s;
@@ -227,7 +233,7 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
       optionError (s.str ());
     }
   
-    else if (inputFileName == "-") {
+    else if (inputSourceName == "-") {
       stringstream s;
   
       s <<
@@ -239,6 +245,7 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
     }
 
     // build output file name
+
     string
       inputFileBasename =
         baseName (
@@ -266,7 +273,7 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
     fCommandLineWithLongOptions;
 
   gGeneralOptions->fInputSourceName =
-    inputFileName;
+    inputSourceName;
   gGeneralOptions->fOutputFileName =
     outputFileName;
 }
