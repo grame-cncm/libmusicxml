@@ -3023,7 +3023,10 @@ const vector<string> msrOptionsHandler::analyzeOptions (
     exit (1);
   }
 
-  // return arguements vector for handling by caller
+  // are the options consistent?
+  checkOptionsConsistency ();
+
+  // return arguments vector for handling by caller
   return fArgumentsVector;
 }
 

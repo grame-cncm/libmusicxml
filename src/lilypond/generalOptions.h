@@ -64,8 +64,8 @@ class EXP generalOptions : public msrOptionsGroup
 
     string                fProgramName;
     
-    string                fCommandLineLongOptions;
-    string                fCommandLineShortOptions;
+    string                fCommandLineWithLongOptions;
+    string                fCommandLineWithShortOptions;
 
 
     // input

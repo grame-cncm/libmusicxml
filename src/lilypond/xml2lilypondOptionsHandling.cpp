@@ -151,10 +151,61 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
   }
 }
 
-void xml2lilypondOptionsHandler::checkOptionsConsistency (
-  string inputFileName,
-  string outputFileName)
+void xml2lilypondOptionsHandler::checkOptionsConsistency ()
 {
+  // handle the arguments 
+  unsigned int nonOptionArgsNumber = argumentsVector.size ();
+
+  if (TRACE_OPTIONS) {    
+    if (nonOptionArgsNumber > 0) {
+      cerr << idtr <<
+        singularOrPluralWithoutNumber (
+          nonOptionArgsNumber, "There is", "There are") <<
+        " " <<
+        nonOptionArgsNumber <<
+        " " <<
+        singularOrPluralWithoutNumber (
+          nonOptionArgsNumber, "argument", "arguments") <<
+        ":" <<
+        endl;
+
+      idtr++;
+      
+      for (unsigned int i = 0; i < nonOptionArgsNumber; i++) {
+        cerr << idtr <<
+          i << " : " << argumentsVector [i] <<
+            endl;
+      } // for
+
+      cerr <<
+        endl;
+
+      idtr--;
+    }
+    else {
+      cerr << idtr <<
+        "There are no arguments" <<
+        endl;
+    }
+  }
+
+  // handle the arguments 
+  switch (nonOptionArgsNumber)
+    {
+    case 1 :
+      // register intput file name
+      inputFileName =
+        argumentsVector [0];
+      break;
+
+    default:
+      optionsHandler->
+        printHelpSummary (cerr);
+
+      exit (1);
+      break;
+    } //  switch
+
   // check auto output file option usage
   if (gGeneralOptions->fAutoOutputFile) {
     if (outputFileName.size ()) {
@@ -178,7 +229,36 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency (
         
       optionError (s.str ());
     }
+
+    // build output file name
+    string
+      inputFileBasename =
+        baseName (
+          gGeneralOptions->fInputSourceName);
+    
+    outputFileName =
+      inputFileBasename;
+    
+    size_t
+      posInString =
+        outputFileName.rfind ('.');
+      
+    if (posInString != string::npos)
+      outputFileName.replace (
+        posInString, outputFileName.size () - posInString, ".ly");
   }
+
+  // register command line informations in gGeneralOptions
+  gGeneralOptions->fProgramName =
+    fProgramName;
+
+  gGeneralOptions->fCommandLineShortOptions =
+    fCommandLineWithShortOptions;
+  gGeneralOptions->fCommandLineWithLongOptions =
+    fCommandLineWithLongOptions;
+
+  gGeneralOptions->fInputSourceName = inputFileName;
+  gGeneralOptions->fOutputFileName  = outputFileName;
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const
