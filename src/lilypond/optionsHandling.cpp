@@ -32,7 +32,7 @@ namespace MusicXML2
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
-#define TRACE_OPTIONS 1
+#define TRACE_OPTIONS 0
 
 #define FIELD_WIDTH 40
 
@@ -1719,19 +1719,30 @@ void msrOptionsPartRenameItem::printOptionsValues (
     os << "none";
   }
   else {
+    idtr++;
+    
     os <<
-      endl <<
-      idtr;
-      
+      endl;
+
     map<string, string>::const_iterator
       iBegin = fOptionsPartRenameItemVariable.begin(),
       iEnd   = fOptionsPartRenameItemVariable.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << (*i).first << " --> " << (*i).second;
+      os << left <<
+        idtr <<
+          setw (valueFieldWidth) <<
+          " " <<
+          " \"" <<
+          (*i).first <<
+          "\" --> \"" <<
+          (*i).second <<
+          "\"";
       if (++i == iEnd) break;
       os << endl;
     } // for
+
+    idtr--;
   }
   
   os <<
@@ -3001,7 +3012,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     if (TRACE_OPTIONS) {
       // print current element
       cerr <<
-        "Command line elemnt " << n <<
+        "Command line element " << n <<
         ": " <<currentElement << " "<<
         endl;
     }
@@ -3782,21 +3793,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           endl;
       }
 
-/* JMI
-Command line elemnt 1: -mpr 
-'mpr' is a single-dashed option
-Command line elemnt 2: P1=foo 
-There are 3 matches for MIDI tempo string 'P1=foo' with regex '[[:space:]]*(.*)[[:space:]]*=[[:space:]]*(.*)[[:space:]]*'
-[P1=foo] [P1] [foo] 
---> oldPartName = "P1", --> newPartName = "foo"
-Command line elemnt 3: basic/HelloWorld.xml 
-There are 0 matches for MIDI tempo string 'basic/HelloWorld.xml' with regex '[[:space:]]*(.*)[[:space:]]*=[[:space:]]*(.*)[[:space:]]*'
-
-
-### ERROR in the options:
--msrPartRename argument 'basic/HelloWorld.xml' is ill-formed
-*/
-
       map<string, string>
         optionsPartRenameItemVariable =
           optionsPartRenameItem->
@@ -3820,9 +3816,12 @@ There are 0 matches for MIDI tempo string 'basic/HelloWorld.xml' with regex '[[:
       }
       
       else {
-        optionsPartRenameItemVariable [oldPartName] =
-          newPartName;
+        optionsPartRenameItem->
+          setPartRenameItemVariableValue (
+            oldPartName, newPartName);
       }
+
+      fPendingOptionsItem = 0;
     }
 
     else if (
@@ -3900,8 +3899,9 @@ There are 0 matches for MIDI tempo string 'basic/HelloWorld.xml' with regex '[[:
           pair<string, int> (
             midiTempoDuration, midiTempoPerSecond));
       }
-    }
 
+      fPendingOptionsItem = 0;
+    }
   }
 
   else {

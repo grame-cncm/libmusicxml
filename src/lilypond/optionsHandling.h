@@ -1084,9 +1084,11 @@ class EXP msrOptionsPartRenameItem : public msrOptionsValuedItem
                               }
                               
     void                  setPartRenameItemVariableValue (
-                            map<string, string> value)
+                            string oldPartName,
+                            string newPartName)
                               {
-                                fOptionsPartRenameItemVariable = value;
+                                fOptionsPartRenameItemVariable [oldPartName] =
+                                  newPartName;
                               }
 
     const map<string, string>&
