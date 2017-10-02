@@ -157,7 +157,7 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
   // ------------------------------------------------------
 
   int outputFileNameSize =
-    outputFileNameSize;
+    gGeneralOptions->fOutputFileName.size ();
 
   if (gGeneralOptions->fAutoOutputFile) {
     if (outputFileNameSize) {

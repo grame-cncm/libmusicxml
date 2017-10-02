@@ -42,7 +42,7 @@ using namespace MusicXML2;
 #define TRACE_OPTIONS 0
 
 //_______________________________________________________________________________
-vector<string> analyzeOptionsAndArguments (
+vector<string> handleOptionsAndArguments (
 S_xml2lilypondOptionsHandler
                  optionsHandler,
   int            argc,
@@ -52,7 +52,7 @@ S_xml2lilypondOptionsHandler
   vector<string>
     argumentsVector =
       optionsHandler->
-        analyzeOptionsAndArguments (
+        decipherOptionsAndArguments (
           argc, argv);
 
   if (TRACE_OPTIONS) {
@@ -103,7 +103,7 @@ int main (int argc, char *argv[])
 
   vector<string>
     argumentsVector =
-      analyzeOptionsAndArguments (
+      handleOptionsAndArguments (
         optionsHandler,
         argc, argv);
 

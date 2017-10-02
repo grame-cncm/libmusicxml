@@ -2833,7 +2833,7 @@ S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
   return result;
 }
 
-const vector<string> msrOptionsHandler::analyzeOptionsAndArguments (
+const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
   int   argc,
   char* argv[])
 {
@@ -2979,6 +2979,15 @@ const vector<string> msrOptionsHandler::analyzeOptionsAndArguments (
     n++;
   } // while
 
+  // exit if this is a pure help run
+  if (fPureHelpRun) {
+    cerr << idtr <<
+      "This is a pure help run, exiting." <<
+      endl;
+
+    exit (1);
+  }
+
   unsigned int argumentsVectorSize =
     fArgumentsVector.size ();
 
@@ -3009,15 +3018,6 @@ const vector<string> msrOptionsHandler::analyzeOptionsAndArguments (
       fCommandLineWithLongOptions +=
         " " + fArgumentsVector [i];
     } // for
-  }
-
-  // exit if this is a pure help run
-  if (fPureHelpRun) {
-    cerr << idtr <<
-      "This is a pure help run, exiting." <<
-      endl;
-
-    exit (1);
   }
 
   // are the options consistent?

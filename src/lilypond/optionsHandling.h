@@ -1425,15 +1425,15 @@ class EXP msrOptionsHandler : public msrOptionsElement
     S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
                             
-    const vector<string>  analyzeOptionsAndArguments (
-                            int   argc,
-                            char* argv[]);
-
     void                  handleOptionsItemName (
                             string optionsItemName);
 
     void                  handleOptionsItemValueOrArgument (
                             string theString);
+
+    const vector<string>  decipherOptionsAndArguments (
+                            int   argc,
+                            char* argv[]);
 
     virtual void          checkOptionsConsistency () = 0; // JMI
     virtual void          checkArguments () = 0; // JMI
