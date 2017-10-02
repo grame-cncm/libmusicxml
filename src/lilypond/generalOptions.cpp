@@ -313,211 +313,237 @@ R"()",
 
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tdivs", "traceDivisions",
 R"(divisions)",
           "traceDivisions",
-          fTraceDivisions));
+          fTraceDivisions,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tpgrps", "tracePartGroups",
 R"(part groups)",
           "tracePartGroups",
-          fTracePartGroups));
+          fTracePartGroups,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tparts", "traceParts",
 R"(parts)",
           "traceParts",
-          fTraceParts));
+          fTraceParts,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tstaves", "traceStaves",
 R"(staves)",
           "traceStaves",
-          fTraceStaves));
+          fTraceStaves,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tvoices", "traceVoices",
 R"(voices)",
           "traceVoices",
-          fTraceVoices));
+          fTraceVoices,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tvdetails", "traceVoicesDetails",
 R"(voices with more details (quite verbose))",
           "traceVoicesDetails",
-          fTraceVoicesDetails));
+          fTraceVoicesDetails,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tclefs", "traceClefs",
 R"(clefs)",
           "traceClefs",
-          fTraceClefs));
+          fTraceClefs,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tkeys", "traceKeys",
 R"(keys)",
           "traceKeys",
-          fTraceKeys));
+          fTraceKeys,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "ttimes", "traceTimes",
 R"(times)",
           "traceTimes",
-          fTraceTimes));
+          fTraceTimes,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "ttransps", "traceTranspositions",
 R"(transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
           "traceTranspositions",
-          fTraceTranspositions));
+          fTraceTranspositions,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tsegs", "traceSegments",
 R"(voices segments)",
           "traceSegments",
-          fTraceSegments));
+          fTraceSegments,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "treps", "traceRepeats",
 R"(repeats)",
           "traceRepeats",
-          fTraceRepeats));
+          fTraceRepeats,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tmeas", "traceMeasures",
 R"(measures)",
           "traceMeasures",
-          fTraceMeasures));
+          fTraceMeasures,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tnotes", "traceNotes",
 R"(notes)",
           "traceNotes",
-          fTraceNotes));
+          fTraceNotes,
+          fTraceGeneral));
           
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tndetails", "traceNotesDetails",
 R"(notes with more details, including divisions handling (quite verbose))",
           "traceNotesDetails",
-          fTraceNotesDetails));
+          fTraceNotesDetails,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tbeams", "traceBeams",
 R"(beams)",
           "traceBeams",
-          fTraceBeams));
+          fTraceBeams,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "ttechs", "traceTechnicals",
 R"(technicals)",
           "traceTechnicals",
-          fTraceTechnicals));
+          fTraceTechnicals,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "twords", "traceWords",
 R"(words)",
           "traceWords",
-          fTraceWords));
+          fTraceWords,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "ttrems", "traceTremolos",
 R"(tremolos)",
           "traceTremolos",
-          fTraceTremolos));
+          fTraceTremolos,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tchords", "traceChords",
 R"(chords)",
           "traceChords",
-          fTraceChords));
+          fTraceChords,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "ttups", "traceTuplets",
 R"(tuplets)",
           "traceTuplets",
-          fTraceTuplets));
+          fTraceTuplets,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tgraces", "traceGraceNotes",
 R"(grace notes)",
           "traceGraceNotes",
-          fTraceGraceNotes));
+          fTraceGraceNotes,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tlyrics", "traceLyrics",
 R"(lyrics in MusicXML, stanzas in MSR)",
           "traceLyrics",
-          fTraceLyrics));
+          fTraceLyrics,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tharms", "traceHarmonies",
 R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
           "traceHarmonies",
-          fTraceHarmonies));
+          fTraceHarmonies,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tfigbass", "traceFiguredBass",
 R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
           "traceFiguredBass",
-          fTraceFiguredBass));
+          fTraceFiguredBass,
+          fTraceGeneral));
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        msrOptionsTwoBooleansItem::create (
           "tcredits", "traceCredits",
 R"(credits)",
           "traceCredits",
-          fTraceCredits));
+          fTraceCredits,
+          fTraceGeneral));
   }
       
 

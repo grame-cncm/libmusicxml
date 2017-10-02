@@ -486,6 +486,120 @@ ostream& operator<< (ostream& os, const S_msrOptionsBooleanItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsTwoBooleansItem msrOptionsTwoBooleansItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsTwoBooleansItemVariableDisplayName,
+  bool&  optionsTwoBooleansItemVariable,
+  bool&  optionsTwoBooleansItemSecondaryVariable)
+{
+  msrOptionsTwoBooleansItem* o = new
+    msrOptionsTwoBooleansItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsTwoBooleansItemVariableDisplayName,
+      optionsTwoBooleansItemVariable,
+      optionsTwoBooleansItemSecondaryVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsTwoBooleansItem::msrOptionsTwoBooleansItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsTwoBooleansItemVariableDisplayName,
+  bool&  optionsTwoBooleansItemVariable,
+  bool&  optionsTwoBooleansItemSecondaryVariable)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription),
+    fOptionsTwoBooleansItemVariableDisplayName (
+      optionsTwoBooleansItemVariableDisplayName),
+    fOptionsTwoBooleansItemVariable (
+      optionsTwoBooleansItemVariable),
+    fOptionsTwoBooleansItemSecondaryVariable (
+      optionsTwoBooleansItemSecondaryVariable)
+{}
+
+msrOptionsTwoBooleansItem::~msrOptionsTwoBooleansItem()
+{}
+
+void msrOptionsTwoBooleansItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    idtr <<
+      "OptionsTwoBooleansItem:" <<
+      endl;
+
+  idtr++;
+
+  os << left <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementDescription" << " :" <<
+      endl;
+
+  idtr++;
+  os <<
+    idtr <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
+  idtr--;
+
+  os << left <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsTwoBooleansItemVariableDisplayName" << " : " <<
+      fOptionsTwoBooleansItemVariableDisplayName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsTwoBooleansItemVariable" << " : " <<
+      booleanAsString (
+        fOptionsTwoBooleansItemVariable) <<
+      endl;
+
+  idtr--;
+}
+
+void msrOptionsTwoBooleansItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    idtr <<
+      setw (valueFieldWidth) <<
+      fOptionsTwoBooleansItemVariableDisplayName <<
+      " : " <<
+      booleanAsString (
+        fOptionsTwoBooleansItemVariable) <<
+      endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsTwoBooleansItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsValuedItem msrOptionsValuedItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -2076,9 +2190,9 @@ void msrOptionsSubGroup::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
-  // the description is the header of the information
+  // print the header
   os << idtr <<
-    fOptionsElementDescription <<
+    fOptionsSubGroupHelpHeader <<
     ":" <<
     endl;
 
@@ -2386,11 +2500,9 @@ void msrOptionsGroup::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
-  // the description is the header of the information
+  // print the header
   os << idtr <<
-    fOptionsElementDescription;
-
-  os <<
+    fOptionsGroupHelpHeader <<
     ":" <<
     endl;
 
