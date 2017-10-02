@@ -2577,8 +2577,6 @@ msrOptionsHandler::msrOptionsHandler (
   fMaximumLongNameWidth    = 1;
   
   fMaximumDisplayNameWidth = 1;
-
-  fExpectedValuesNumber = 0;
 }
 
 msrOptionsHandler::~msrOptionsHandler()
@@ -2988,8 +2986,6 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
   
   // decipher the command options and arguments
   int n = 1;
-
-  fExpectedValuesNumber = 0;
   
   fPureHelpRun = true;
 
@@ -3310,7 +3306,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsIntegerItem;
-        fExpectedValuesNumber = 1;
       }
       
       else if (
@@ -3321,7 +3316,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {              
         // wait until the value is met
         fPendingOptionsItem = optionsFloatItem;
-        fExpectedValuesNumber = 1;
       }
       
       else if (
@@ -3332,7 +3326,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsStringItem;
-        fExpectedValuesNumber = 1;
       }
       
       else if (
@@ -3343,7 +3336,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsRationalItem;
-        fExpectedValuesNumber = 1;
       }
 
       else if (
@@ -3354,7 +3346,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsNumbersSetItem;
-        fExpectedValuesNumber = 1;
       }
 
       else if (
@@ -3365,7 +3356,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsPitchesLanguageItem;
-        fExpectedValuesNumber = 1;
       }
 
       else if (
@@ -3376,7 +3366,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsAccidentalStyleItem;
-        fExpectedValuesNumber = 1;
       }
 
       else if (
@@ -3387,7 +3376,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsChordsLanguageItem;
-        fExpectedValuesNumber = 1;
       }
 
       else if (
@@ -3398,7 +3386,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsPartRenameItem;
-        fExpectedValuesNumber = 1;
       }
 
       else if (
@@ -3409,7 +3396,6 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // wait until the value is met
         fPendingOptionsItem = optionsMidiTempoItem;
-        fExpectedValuesNumber = 1;
       }
 
       else {
@@ -3450,7 +3436,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           integerValue);
 
       fPendingOptionsItem = 0;
-      fExpectedValuesNumber = 0;
       }
     
     else if (
@@ -3471,7 +3456,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           floatValue);
 
       fPendingOptionsItem = 0;
-      fExpectedValuesNumber = 0;
     }
     
     else if (
@@ -3486,7 +3470,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           theString);
 
       fPendingOptionsItem = 0;
-      fExpectedValuesNumber = 0;
     }
     
     else if (
@@ -3574,7 +3557,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           rationalValue);
 
       fPendingOptionsItem = 0;
-      fExpectedValuesNumber = 0;
     }
 
     else if (
@@ -3592,7 +3574,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           );
 
       fPendingOptionsItem = 0;
-      fExpectedValuesNumber = 0;
     }
     
     else if (
@@ -3640,7 +3621,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           (*it).second);
 
       fPendingOptionsItem = 0;
-      fExpectedValuesNumber = 0;
     }
     
     else if (
@@ -3688,7 +3668,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           (*it).second);
 
       fPendingOptionsItem = 0;
-      fExpectedValuesNumber = 0;
     }
     
     else if (
@@ -3735,7 +3714,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           (*it).second);
 
       fPendingOptionsItem = 0;
-      fExpectedValuesNumber = 0;
     }
     
     else if (
