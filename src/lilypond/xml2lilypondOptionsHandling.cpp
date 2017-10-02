@@ -216,12 +216,37 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
       break;
     } //  switch
 
-  // check auto output file option usage
+  // build output file name
   // ------------------------------------------------------
 
   string
+    outputFileName;
+
+  if (inputSourceName == "-") {
+    // keep outputFileName empty for now
+  }
+  else {
+    // determine potential output file name,
+    // may be set differently by '--of, --outputFile' option
+    string
+      inputFileBasename =
+        baseName (
+          gGeneralOptions->fInputSourceName);
+    
     outputFileName =
-      gGeneralOptions->fOutputFileName;
+      inputFileBasename;
+    
+    size_t
+      posInString =
+        outputFileName.rfind ('.');
+      
+    if (posInString != string::npos)
+      outputFileName.replace (
+        posInString, outputFileName.size () - posInString, ".ly");
+  }
+
+  // check auto output file option usage
+  // ------------------------------------------------------
 
   int outputFileNameSize =
     outputFileNameSize;
@@ -248,23 +273,6 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
         
       optionError (s.str ());
     }
-
-    // build output file name
-    string
-      inputFileBasename =
-        baseName (
-          gGeneralOptions->fInputSourceName);
-    
-    outputFileName =
-      inputFileBasename;
-    
-    size_t
-      posInString =
-        outputFileName.rfind ('.');
-      
-    if (posInString != string::npos)
-      outputFileName.replace (
-        posInString, outputFileNameSize - posInString, ".ly");
   }
 
   // register command line informations in gGeneralOptions
