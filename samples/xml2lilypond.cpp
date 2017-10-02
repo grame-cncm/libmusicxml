@@ -77,17 +77,17 @@ S_xml2lilypondOptionsHandler
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
-  // initialize the components of MSR that we'll use
-  initializeMSR ();
-  initializeLPSR ();
-  
-  /*
+  /* JMI
   cerr << "argc = " << argc << endl;
   for (int i = 0; i < argc ; i++ ) {
     cerr << "argv[ " << i << "] = " << argv[i] << endl;
   }
   */
 
+  // initialize the components of MSR that we'll use
+  initializeMSR ();
+  initializeLPSR ();
+  
   // create the options handler
   // ------------------------------------------------------
 
@@ -97,9 +97,6 @@ int main (int argc, char *argv[])
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
-
-  string    inputFileName;
-  string    outputFileName;
 
   vector<string>
     argumentsVector =
@@ -115,6 +112,18 @@ int main (int argc, char *argv[])
       endl;
   }
 
+  string
+    inputSourceName =
+      gGeneralOptions->fInputSourceName;
+      
+  string
+    outputFileName =
+      gGeneralOptions->fOutputFileName;
+
+  int
+    outputFileNameSize =
+      outputFileName.size ();
+
   // welcome message
   // ------------------------------------------------------
 
@@ -127,10 +136,10 @@ int main (int argc, char *argv[])
     cerr << idtr <<
       "Launching conversion of ";
 
-    if (gGeneralOptions->fInputSourceName == "-")
+    if (inputSourceName == "-")
       cerr << "standard input";
     else
-      cerr << "\"" << gGeneralOptions->fInputSourceName << "\"";
+      cerr << "\"" << inputSourceName << "\"";
 
     cerr <<
       " to LilyPond" <<
@@ -142,10 +151,13 @@ int main (int argc, char *argv[])
 
     cerr << idtr <<
       "LilyPond code will be written to ";
-    if (outputFileName.size ())
-      cerr << outputFileName;
-    else
+    if (outputFileNameSize) {
+      cerr <<
+        outputFileName;
+    }
+    else {
       cerr << "standard output";
+    }
     cerr <<
       endl <<
       endl;
@@ -158,7 +170,8 @@ int main (int argc, char *argv[])
     
     cerr <<
       idtr <<
-        optionsHandler->getCommandLineWithLongOptions () <<
+        optionsHandler->
+          getCommandLineWithLongOptions () <<
       endl;
 
     idtr--;
@@ -170,7 +183,8 @@ int main (int argc, char *argv[])
     
     cerr <<
       idtr <<
-        optionsHandler->getCommandLineWithShortOptions () <<
+        optionsHandler->
+          getCommandLineWithShortOptions () <<
         endl <<
       endl;
 
@@ -198,13 +212,15 @@ int main (int argc, char *argv[])
 
   ofstream outStream;
 
-  if (outputFileName.size ()) {
+  if (outputFileNameSize) {
     if (gGeneralOptions->fTraceGeneral)
       cerr << idtr <<
         "Opening file '" << outputFileName << "' for writing" <<
         endl;
         
-    outStream.open (outputFileName.c_str(), ofstream::out);
+    outStream.open (
+      outputFileName.c_str(),
+      ofstream::out);
   }
       
   // create MSR from MusicXML contents
@@ -212,26 +228,30 @@ int main (int argc, char *argv[])
 
   S_msrScore mScore;
 
-  if (inputFileName == "-") {
+  if (inputSourceName == "-") {
     // input comes from standard input
-    if (outputFileName.size ())
+    if (outputFileNameSize)
       mScore =
-        musicxmlFd2Msr (stdin, gMsrOptions, outStream);
+        musicxmlFd2Msr (
+          stdin, gMsrOptions, outStream);
     else
       mScore =
-        musicxmlFd2Msr (stdin, gMsrOptions, cout);
+        musicxmlFd2Msr (
+          stdin, gMsrOptions, cout);
   }
   
   else {
     // input comes from a file
-    if (outputFileName.size ())
+    if (outputFileNameSize) {
       mScore =
         musicxmlFile2Msr (
-          inputFileName.c_str(), gMsrOptions, outStream);
-    else
+          inputSourceName.c_str(), gMsrOptions, outStream);
+    }
+    else {
       mScore =
         musicxmlFile2Msr (
-          inputFileName.c_str(), gMsrOptions, cout);
+          inputSourceName.c_str(), gMsrOptions, cout);
+    }
   }
     
   if (! mScore) {
@@ -248,12 +268,16 @@ int main (int argc, char *argv[])
   S_lpsrScore lpScore;
         
   if (! gLilypondOptions->fNoLilypondCode) {
-    if (outputFileName.size()) // ??? JMI
+    if (outputFileNameSize) {
       lpScore =
-        msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, outStream);
-    else
+        msr2Lpsr (
+          mScore, gMsrOptions, gLpsrOptions, outStream);
+    }
+    else {
       lpScore =
-        msr2Lpsr (mScore, gMsrOptions, gLpsrOptions, cout);
+        msr2Lpsr (
+          mScore, gMsrOptions, gLpsrOptions, cout);
+    }
     
     if (! lpScore) {
       cerr <<
@@ -268,14 +292,14 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (! gLilypondOptions->fNoLilypondCode) {
-    if (outputFileName.size ())
+    if (outputFileNameSize)
       lpsr2Lilypond (
         lpScore, gMsrOptions, gLpsrOptions, outStream);
     else
       lpsr2Lilypond (
         lpScore, gMsrOptions, gLpsrOptions, cout);
     
-    if (outputFileName.size ()) {
+    if (outputFileNameSize) {
       if (gGeneralOptions->fTraceGeneral)
         cerr <<
           endl <<

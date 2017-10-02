@@ -219,10 +219,15 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
   // check auto output file option usage
   // ------------------------------------------------------
 
-  string outputFileName;
+  string
+    outputFileName =
+      gGeneralOptions->fOutputFileName;
+
+  int outputFileNameSize =
+    outputFileNameSize;
 
   if (gGeneralOptions->fAutoOutputFile) {
-    if (outputFileName.size ()) {
+    if (outputFileNameSize) {
       stringstream s;
   
       s <<
@@ -245,7 +250,6 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
     }
 
     // build output file name
-
     string
       inputFileBasename =
         baseName (
@@ -260,7 +264,7 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
       
     if (posInString != string::npos)
       outputFileName.replace (
-        posInString, outputFileName.size () - posInString, ".ly");
+        posInString, outputFileNameSize - posInString, ".ly");
   }
 
   // register command line informations in gGeneralOptions
