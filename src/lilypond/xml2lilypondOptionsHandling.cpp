@@ -153,8 +153,13 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 
 void xml2lilypondOptionsHandler::checkOptionsConsistency ()
 {
+  string
+    inputFileName,
+    outputFileName;
+  
   // handle the arguments 
-  unsigned int nonOptionArgsNumber = argumentsVector.size ();
+  unsigned int nonOptionArgsNumber =
+    fArgumentsVector.size ();
 
   if (TRACE_OPTIONS) {    
     if (nonOptionArgsNumber > 0) {
@@ -173,7 +178,7 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
       
       for (unsigned int i = 0; i < nonOptionArgsNumber; i++) {
         cerr << idtr <<
-          i << " : " << argumentsVector [i] <<
+          i << " : " << fArgumentsVector [i] <<
             endl;
       } // for
 
@@ -195,12 +200,15 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
     case 1 :
       // register intput file name
       inputFileName =
-        argumentsVector [0];
+        fArgumentsVector [0];
       break;
 
     default:
-      optionsHandler->
-        printHelpSummary (cerr);
+      cerr << idtr <<
+        "There should be one argument, the input file specification" <<
+        endl;
+
+      printHelpSummary (cerr);
 
       exit (1);
       break;
@@ -252,13 +260,15 @@ void xml2lilypondOptionsHandler::checkOptionsConsistency ()
   gGeneralOptions->fProgramName =
     fProgramName;
 
-  gGeneralOptions->fCommandLineShortOptions =
+  gGeneralOptions->fCommandLineWithShortOptions =
     fCommandLineWithShortOptions;
   gGeneralOptions->fCommandLineWithLongOptions =
     fCommandLineWithLongOptions;
 
-  gGeneralOptions->fInputSourceName = inputFileName;
-  gGeneralOptions->fOutputFileName  = outputFileName;
+  gGeneralOptions->fInputSourceName =
+    inputFileName;
+  gGeneralOptions->fOutputFileName =
+    outputFileName;
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const

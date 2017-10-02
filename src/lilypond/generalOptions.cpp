@@ -534,10 +534,10 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
   clone->fProgramName =
     fProgramName;
       
-  clone->fCommandLineLongOptions =
-    fCommandLineLongOptions;
-  clone->fCommandLineShortOptions =
-    fCommandLineShortOptions;
+  clone->fCommandLineWithLongOptions =
+    fCommandLineWithLongOptions;
+  clone->fCommandLineWithShortOptions =
+    fCommandLineWithShortOptions;
 
   
   // input
