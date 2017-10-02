@@ -32,7 +32,7 @@ namespace MusicXML2
 #define idtr indenter::gIndenter
 #define tab  indenter::gIndenter.getSpacer ()
 
-#define TRACE_OPTIONS 0
+#define TRACE_OPTIONS 1
 
 #define FIELD_WIDTH 40
 
@@ -2872,7 +2872,10 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
       if (++i == iEnd) break;
       cerr << endl;
     } // for
-  
+
+    os <<
+      endl;
+      
     idtr--;
   }
 }
@@ -3513,7 +3516,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         stringstream s;
 
         s <<
-          "--delayedOrnamentFraction argument '" << theString <<
+          "-delayedOrnamentFraction argument '" << theString <<
           "' is ill-formed";
           
         optionError (s.str ());
@@ -3723,16 +3726,54 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           dynamic_cast<msrOptionsPartRenameItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the part rename specification
-      pair<string, string>
-        pair =
-          extractNamesPairFromString (
-            theString,
-            '=',
-            false); // 'true' to debug it
+      // decipher it to extract the old and new part names
+      string regularExpression (
+        "[[:space:]]*(.*)[[:space:]]*"
+        "="
+        "[[:space:]]*(.*)[[:space:]]*");
+        
+      regex  e (regularExpression);
+      smatch sm;
+
+      regex_match (theString, sm, e);
+
+      if (TRACE_OPTIONS) {
+        cerr <<
+          "There are " << sm.size() << " matches" <<
+          " for MIDI tempo string '" << theString <<
+          "' with regex '" << regularExpression <<
+          "'" <<
+          endl;
+      }
+    
+      if (sm.size ()) {
+        for (unsigned i = 0; i < sm.size (); ++i) {
+          cerr << "[" << sm [i] << "] ";
+        } // for
+        cerr <<
+          endl;
+      }
+      
+      else {
+        stringstream s;
+
+        s <<
+          "-msrPartRename argument '" << theString <<
+          "' is ill-formed";
+          
+        optionError (s.str ());
+        
+        printSpecificSubGroupHelp (
+          cerr,
+          optionsPartRenameItem->
+            getOptionsSubGroupUplink ());
+            
+        exit (4);
+      }
 
       string
-        oldPartName = pair.first,
-        newPartName = pair.second;
+        oldPartName = sm [1],
+        newPartName = sm [2];
         
       if (TRACE_OPTIONS) {
         cerr <<
@@ -3740,6 +3781,21 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           "--> newPartName = \"" << newPartName << "\"" <<
           endl;
       }
+
+/* JMI
+Command line elemnt 1: -mpr 
+'mpr' is a single-dashed option
+Command line elemnt 2: P1=foo 
+There are 3 matches for MIDI tempo string 'P1=foo' with regex '[[:space:]]*(.*)[[:space:]]*=[[:space:]]*(.*)[[:space:]]*'
+[P1=foo] [P1] [foo] 
+--> oldPartName = "P1", --> newPartName = "foo"
+Command line elemnt 3: basic/HelloWorld.xml 
+There are 0 matches for MIDI tempo string 'basic/HelloWorld.xml' with regex '[[:space:]]*(.*)[[:space:]]*=[[:space:]]*(.*)[[:space:]]*'
+
+
+### ERROR in the options:
+-msrPartRename argument 'basic/HelloWorld.xml' is ill-formed
+*/
 
       map<string, string>
         optionsPartRenameItemVariable =
@@ -3808,7 +3864,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         stringstream s;
 
         s <<
-          "--midiTempo argument '" << theString <<
+          "-midiTempo argument '" << theString <<
           "' is ill-formed";
           
         optionError (s.str ());
