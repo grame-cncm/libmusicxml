@@ -151,56 +151,8 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
   }
 }
 
-void xml2lilypondOptionsHandler::checkOptionsConsistency ()
+void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
 {
-  // check auto output file option usage
-  // ------------------------------------------------------
-
-  int outputFileNameSize =
-    gGeneralOptions->fOutputFileName.size ();
-
-  if (gGeneralOptions->fAutoOutputFile) {
-    if (outputFileNameSize) {
-      stringstream s;
-  
-      s <<
-        "options '--aof, --autoOutputFile' and '--of, --outputFile'"  <<
-        endl <<
-        "cannot be used simultaneously";
-        
-      optionError (s.str ());
-    }
-  
-    else if (fInputSourceName == "-") {
-      stringstream s;
-  
-      s <<
-        "option '--aof, --autoOutputFile'"  <<
-        endl <<
-        "cannot be used when reading from standard input";
-        
-      optionError (s.str ());
-    }
-  }
-
-  // register command line informations in gGeneralOptions
-  gGeneralOptions->fProgramName =
-    fProgramName;
-
-  gGeneralOptions->fCommandLineWithShortOptions =
-    fCommandLineWithShortOptions;
-  gGeneralOptions->fCommandLineWithLongOptions =
-    fCommandLineWithLongOptions;
-
-  gGeneralOptions->fInputSourceName =
-    fInputSourceName;
-  gGeneralOptions->fOutputFileName =
-    fOutputFileName;
-}
-
-void xml2lilypondOptionsHandler::checkArguments ()
-{
-  // handle the arguments 
   unsigned int argumentsNumber =
     fArgumentsVector.size ();
 
@@ -260,7 +212,7 @@ void xml2lilypondOptionsHandler::checkArguments ()
       break;
   } //  switch
 
-  // build output file name
+  // build potential output file name
   // ------------------------------------------------------
 
   if (fInputSourceName == "-") {
@@ -284,6 +236,52 @@ void xml2lilypondOptionsHandler::checkArguments ()
       fOutputFileName.replace (
         posInString, fOutputFileName.size () - posInString, ".ly");
   }
+
+  // check auto output file option usage
+  // ------------------------------------------------------
+
+  int outputFileNameSize =
+    gGeneralOptions->fOutputFileName.size ();
+
+  if (gGeneralOptions->fAutoOutputFile) {
+    if (outputFileNameSize) {
+      stringstream s;
+  
+      s <<
+        "options '--aof, --autoOutputFile' and '--of, --outputFile'"  <<
+        endl <<
+        "cannot be used simultaneously";
+        
+      optionError (s.str ());
+    }
+  
+    else if (fInputSourceName == "-") {
+      stringstream s;
+  
+      s <<
+        "option '--aof, --autoOutputFile'"  <<
+        endl <<
+        "cannot be used when reading from standard input";
+        
+      optionError (s.str ());
+    }
+  }
+
+  // register command line informations in gGeneralOptions
+  // ------------------------------------------------------
+
+  gGeneralOptions->fProgramName =
+    fProgramName;
+
+  gGeneralOptions->fCommandLineWithShortOptions =
+    fCommandLineWithShortOptions;
+  gGeneralOptions->fCommandLineWithLongOptions =
+    fCommandLineWithLongOptions;
+
+  gGeneralOptions->fInputSourceName =
+    fInputSourceName;
+  gGeneralOptions->fOutputFileName =
+    fOutputFileName;
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const

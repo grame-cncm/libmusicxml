@@ -1435,8 +1435,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
                             int   argc,
                             char* argv[]);
 
-    virtual void          checkOptionsConsistency () = 0; // JMI
-    virtual void          checkArguments () = 0; // JMI
+    virtual void          checkOptionsAndArguments () = 0;
 
     // print
     // ------------------------------------------------------

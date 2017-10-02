@@ -51,10 +51,8 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     // services
     // ------------------------------------------------------
 
-    void                  checkOptionsConsistency ();
+    void                  checkOptionsAndArguments ();
     
-    void                  checkArguments ();
-
     // print
     // ------------------------------------------------------
 

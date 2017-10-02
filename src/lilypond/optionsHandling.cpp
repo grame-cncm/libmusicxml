@@ -3020,11 +3020,8 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     } // for
   }
 
-  // are the options consistent?
-  checkOptionsConsistency ();
-
-  // are the arguments fine?
-  checkArguments ();
+  // check the options and arguments
+  checkOptionsAndArguments ();
 
   // return arguments vector for handling by caller
   return fArgumentsVector;
