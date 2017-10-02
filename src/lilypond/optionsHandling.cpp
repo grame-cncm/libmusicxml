@@ -2763,9 +2763,6 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
       cerr << endl;
     } // for
   
-    os <<
-      endl;
-
     idtr--;
   }
 }
