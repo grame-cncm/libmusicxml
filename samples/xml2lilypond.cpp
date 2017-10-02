@@ -197,18 +197,21 @@ int main (int argc, char *argv[])
   // print the chosen LilyPond options
   // ------------------------------------------------------
 
-  optionsHandler->
-    printOptionsValues (cerr);
+  if (gGeneralOptions->fTraceGeneral) {
+    optionsHandler->
+      printOptionsValues (cerr);
+  }
 
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fTraceGeneral)
+  if (gGeneralOptions->fTraceGeneral) {
     cerr <<
       endl <<
       idtr <<
         "The command line options and arguments have been analyzed" <<
         endl;
+  }
 
   // open output file if need be
   // ------------------------------------------------------

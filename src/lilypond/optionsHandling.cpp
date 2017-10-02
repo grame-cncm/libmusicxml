@@ -3292,6 +3292,17 @@ void msrOptionsHandler::handleOptionsItemName (
       }
       
       else if (
+        // two booleans item?
+        S_msrOptionsTwoBooleansItem
+          optionsTwoBooleansItem =
+            dynamic_cast<msrOptionsTwoBooleansItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsTwoBooleansItem->
+          setTwoBooleansItemVariableValue (true);              
+      }
+      
+      else if (
         // integer item?
         S_msrOptionsIntegerItem
           optionsIntegerItem =
@@ -3405,7 +3416,7 @@ void msrOptionsHandler::handleOptionsItemName (
         stringstream s;
     
         s <<
-          "option item type is unknown";
+          "option item is of unknown type";
           
         optionError (s.str ());
         abort ();
