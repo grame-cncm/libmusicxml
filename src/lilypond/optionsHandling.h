@@ -1425,7 +1425,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     S_msrOptionsElement   fetchOptionElement (
                             string optiontElementName);
                             
-    const vector<string>  analyzeOptions (
+    const vector<string>  analyzeOptionsAndArguments (
                             int   argc,
                             char* argv[]);
 
@@ -1436,6 +1436,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
                             string theString);
 
     virtual void          checkOptionsConsistency () = 0; // JMI
+    virtual void          checkArguments () = 0; // JMI
 
     // print
     // ------------------------------------------------------
@@ -1479,13 +1480,18 @@ class EXP msrOptionsHandler : public msrOptionsElement
     
     int                   fMaximumDisplayNameWidth;
 
-    string                fProgramName;
     list<S_msrOptionsElement>
                           fCommandOptionsElements;
+
+    string                fProgramName;
 
     string                fCommandLineWithShortOptions;
     string                fCommandLineWithLongOptions;
 
+    string                fInputSourceName;
+    
+    string                fOutputFileName;
+    
     bool                  fPureHelpRun;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;

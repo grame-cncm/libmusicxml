@@ -2833,7 +2833,7 @@ S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
   return result;
 }
 
-const vector<string> msrOptionsHandler::analyzeOptions (
+const vector<string> msrOptionsHandler::analyzeOptionsAndArguments (
   int   argc,
   char* argv[])
 {
@@ -3022,6 +3022,9 @@ const vector<string> msrOptionsHandler::analyzeOptions (
 
   // are the options consistent?
   checkOptionsConsistency ();
+
+  // are the arguments fine?
+  checkArguments ();
 
   // return arguments vector for handling by caller
   return fArgumentsVector;

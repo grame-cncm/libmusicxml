@@ -52,7 +52,8 @@ S_xml2lilypondOptionsHandler
   vector<string>
     argumentsVector =
       optionsHandler->
-        analyzeOptions (argc, argv);
+        analyzeOptionsAndArguments (
+          argc, argv);
 
   if (TRACE_OPTIONS) {
     // print the options values
@@ -84,7 +85,9 @@ int main (int argc, char *argv[])
   }
   */
 
-  // initialize the components of MSR that we'll use
+  // initialize the components of MSR that we'll be using
+  // ------------------------------------------------------
+
   initializeMSR ();
   initializeLPSR ();
   
