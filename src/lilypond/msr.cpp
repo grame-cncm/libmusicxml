@@ -22447,13 +22447,30 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // create a measure repeat
         if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
-            "==> Creating a measure repeat from it's first measure in voice \"" <<
+            "==> Creating a '" <<
+            measureRepeatMeasuresNumber <<
+            "' measure, '" <<
+            measureRepeatSlashes <<
+            "' slashes repeat from it's first measure in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
             endl;
         }
       
+        // print current voice contents
+        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices)
+          cerr << idtr <<
+            "The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+
+        idtr++;
+        cerr <<
+          idtr;
+        print (cerr);
+        idtr--;
+
         // grab the just created last measure from the voice,
         // (i.e. the one containing:
         //   <measure-repeat ... type="start">2</measure-repeat>)
@@ -22543,6 +22560,8 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             endl;
 
         idtr++;
+        cerr <<
+          idtr;
         print (cerr);
         idtr--;
 
