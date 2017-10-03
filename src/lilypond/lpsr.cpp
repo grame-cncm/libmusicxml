@@ -3219,18 +3219,18 @@ lpsrScore::lpsrScore (
     }
     else {
       s << "\"" << gGeneralOptions->fInputSourceName << "\"";
-  
-      fInputSourceNameComment =
-        lpsrComment::create (
-          inputLineNumber,
-          s.str (),
-          lpsrComment::kNoGapAfterwards);
     }
-
+  
     s <<
-      "on " << gGeneralOptions->fTranslationDate <<
       endl <<
+      "% on " << gGeneralOptions->fTranslationDate <<
       endl;
+
+    fInputSourceNameComment =
+      lpsrComment::create (
+        inputLineNumber,
+        s.str (),
+        lpsrComment::kNoGapAfterwards);
   }
 
   // create the translation date comment
