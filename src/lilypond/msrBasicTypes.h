@@ -634,12 +634,16 @@ class EXP msrChordItem : public smartable
 
     virtual void          browseData (basevisitor* v);
 */
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     int                   fChordItemNumber;
     msrInterval           fChordItemInterval;
@@ -723,12 +727,16 @@ class EXP msrChordIntervals : public smartable
 
     virtual void          browseData (basevisitor* v);
 */
+
     // print
     // ------------------------------------------------------
 
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrHarmonyKind        fChordIntervalsHarmonyKind;
     vector <S_msrChordItem>

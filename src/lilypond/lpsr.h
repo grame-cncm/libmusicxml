@@ -248,6 +248,9 @@ class EXP lpsrParallelMusic : public lpsrElement
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     vector<S_msrElement>  fParallelMusicElements;
     lpsrElementsSeparator fElementsSeparator;
 
@@ -390,6 +393,9 @@ class EXP lpsrLilypondVarValAssoc : public lpsrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     lpsrCommentedKind   fCommentedKind;
     lpsrBackslashKind   fBackslashKind;
     string              fVariableName;
@@ -492,6 +498,9 @@ class EXP lpsrSchemeVarValAssoc : public lpsrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     lpsrCommentedKind fCommentedKind;
     
     string            fVariableName;
@@ -567,6 +576,9 @@ class EXP lpsrSchemeFunction : public lpsrElement
 
   private:
     
+    // fields
+    // ------------------------------------------------------
+
     string            fFunctionName;
     
     string            fFunctionDescription;
@@ -644,6 +656,9 @@ class EXP lpsrComment : public lpsrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     string              fContents;
     lpsrCommentGapKind  fCommentGapKind;
 };
@@ -701,7 +716,10 @@ class EXP lpsrBarNumberCheck : public lpsrElement
 
   private:
 
-    int fNextBarNumber;
+    // fields
+    // ------------------------------------------------------
+
+    int                   fNextBarNumber;
 };
 typedef SMARTP<lpsrBarNumberCheck> S_lpsrBarNumberCheck;
 
@@ -760,6 +778,9 @@ class EXP lpsrNewStaffgroupBlock : public lpsrElement
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     vector<S_msrElement> fNewStaffgroupElements;
 };
 typedef SMARTP<lpsrNewStaffgroupBlock> S_lpsrNewStaffgroupBlock;
@@ -819,6 +840,9 @@ class EXP lpsrNewStaffTuningBlock : public lpsrElement
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     S_msrStaffTuning fStaffTuning;
 };
 typedef SMARTP<lpsrNewStaffTuningBlock> S_lpsrNewStaffTuningBlock;
@@ -876,6 +900,9 @@ class EXP lpsrNewStaffBlock : public lpsrElement
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     vector<S_msrElement> fNewStaffElements;
 };
 typedef SMARTP<lpsrNewStaffBlock> S_lpsrNewStaffBlock;
@@ -934,6 +961,9 @@ class EXP lpsrUseVoiceCommand : public lpsrElement
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     S_msrVoice fVoice;
 };
 typedef SMARTP<lpsrUseVoiceCommand> S_lpsrUseVoiceCommand;
@@ -996,8 +1026,11 @@ class EXP lpsrNewLyricsBlock : public lpsrElement
 
   private:
   
-    S_msrStanza fStanza;
-    S_msrVoice  fVoice;
+    // fields
+    // ------------------------------------------------------
+
+    S_msrStanza           fStanza;
+    S_msrVoice            fVoice;
 };
 typedef SMARTP<lpsrNewLyricsBlock> S_lpsrNewLyricsBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewLyricsBlock& elt);
@@ -1054,7 +1087,10 @@ class EXP lpsrVariableUseCommand : public lpsrElement
 
   private:
   
-    string fVariableName;
+    // fields
+    // ------------------------------------------------------
+
+    string                fVariableName;
 };
 typedef SMARTP<lpsrVariableUseCommand> S_lpsrVariableUseCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& elt);
@@ -1110,7 +1146,10 @@ class EXP lpsrUseLyricsCommand : public lpsrElement
   
   private:
   
-    S_msrStanza fStanza;
+    // fields
+    // ------------------------------------------------------
+
+    S_msrStanza           fStanza;
 };
 typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrUseLyricsCommand& elt);
@@ -1219,6 +1258,9 @@ class EXP lpsrContext : public lpsrElement
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     lpsrContextExistingKind
                           fContextExistingKind;
     lpsrContextType       fContextType;
@@ -1277,6 +1319,9 @@ class EXP lpsrBarCommand : public lpsrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 };
 typedef SMARTP<lpsrBarCommand> S_lpsrBarCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrBarCommand& elt);
@@ -1343,6 +1388,9 @@ class EXP lpsrMelismaCommand : public lpsrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     lpsrMelismaKind fMelismaKind;
 
@@ -1605,6 +1653,9 @@ class EXP lpsrHeader : public lpsrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // MusicXML informations
     
     S_lpsrLilypondVarValAssoc
@@ -1770,6 +1821,9 @@ class EXP lpsrPaper : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // page width, height and margins (centimeters)
     
     float             fPaperWidth;
@@ -1861,10 +1915,16 @@ class EXP lpsrLayout : public lpsrElement
 
   private:
   
-    float                             fStaffSize;
+    // fields
+    // ------------------------------------------------------
+
+    float
+                          fStaffSize;
     
-    vector<S_lpsrLilypondVarValAssoc> flpsrLilypondVarValAssocs;
-    vector<S_lpsrSchemeVarValAssoc>   fLpsrSchemeVarValAssocs;
+    vector<S_lpsrLilypondVarValAssoc>
+                          flpsrLilypondVarValAssocs;
+    vector<S_lpsrSchemeVarValAssoc>
+                          fLpsrSchemeVarValAssocs;
 };
 typedef SMARTP<lpsrLayout> S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
@@ -1954,6 +2014,9 @@ class EXP lpsrStaffBlock : public lpsrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     S_msrStaff            fStaff;
 
@@ -2045,6 +2108,9 @@ class EXP lpsrPartBlock : public lpsrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     S_msrPart             fPart;
 
     list<S_msrElement>    fPartBlockElements;
@@ -2115,9 +2181,12 @@ class EXP lpsrPartGroupBlock : public lpsrElement
 
   private:
 
-    S_msrPartGroup     fPartGroup;
+    // fields
+    // ------------------------------------------------------
+
+    S_msrPartGroup        fPartGroup;
     
-    list<S_msrElement> fPartGroupBlockElements;
+    list<S_msrElement>    fPartGroupBlockElements;
 };
 typedef SMARTP<lpsrPartGroupBlock> S_lpsrPartGroupBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& elt);
@@ -2194,10 +2263,11 @@ class EXP lpsrScoreBlock : public lpsrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     S_lpsrParallelMusic   fScoreBlockParallelMusic;
     
-//    vector<S_msrElement>  fScoreBlockElements;
-
     S_lpsrLayout          fScoreBlockLayout;
     
     S_msrMidi             fScoreBlockMidi;    
@@ -2348,6 +2418,9 @@ class EXP lpsrScore : public lpsrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     // MSR data
     S_msrScore            fMsrScore;

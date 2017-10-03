@@ -66,14 +66,15 @@ class EXP musicXMLOptions : public msrOptionsGroup
     
   public:
 
+    // fields
+    // ------------------------------------------------------
+
     // trace and display
-    // --------------------------------------
     
     bool                  fTraceMusicXMLTreeVisitors;
 
     // other
-    // --------------------------------------
-  
+      
     bool                  fIgnoreMusicXMLErrors;
     
     bool                  fLoopToMusicXML;
