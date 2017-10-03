@@ -3306,11 +3306,35 @@ void musicXMLTree2MsrTranslator::visitStart (S_offset& elt)
       endl;
 
 /*
-    <offset>1</offset>
+<offset sound="yes">2048</offset>
 */
 
-  string offset = elt->getValue ();
+  int offsetDivisions = (int)(*elt);
+
+  string offsetSound =elt->getAttributeValue ("sound");
+
+  bool offsetSoundValue; // JMI
   
+  if (offsetSound.size()) {    
+    if (offsetSound == "yes")
+      offsetSoundValue = true;
+      
+    else if (offsetSound == "no")
+      offsetSoundValue = false;
+      
+    else {
+      stringstream s;
+      
+      s <<
+        "offset sound value " << offsetSound <<
+        " should be 'yes' or 'no'";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+  }
+
   if (fOnGoingDirection) { // JMI
   }
 }
@@ -3647,7 +3671,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_metronome& elt )
       "--> Start visiting S_metronome" <<
       endl;
 
-  string parentheses = elt->getAttributeValue("parentheses");
+  string parentheses = elt->getAttributeValue ("parentheses");
   
   fCurrentMetronomeBeatsData.clear();
   fCurrentMetrenomePerMinute = 0;
@@ -14898,6 +14922,208 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
 
   fOnGoingFiguredBass = false;
 }
+
+//______________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart ( S_sound& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_sound" <<
+      endl;
+
+/*
+<!ATTLIST sound
+    tempo CDATA #IMPLIED
+    dynamics CDATA #IMPLIED
+    dacapo %yes-no; #IMPLIED
+    segno CDATA #IMPLIED
+    dalsegno CDATA #IMPLIED
+    coda CDATA #IMPLIED
+    tocoda CDATA #IMPLIED
+    divisions CDATA #IMPLIED
+    forward-repeat %yes-no; #IMPLIED
+    fine CDATA #IMPLIED
+    %time-only;
+    pizzicato %yes-no; #IMPLIED
+    pan CDATA #IMPLIED
+    elevation CDATA #IMPLIED
+    damper-pedal %yes-no-number; #IMPLIED
+    soft-pedal %yes-no-number; #IMPLIED
+    sostenuto-pedal %yes-no-number; #IMPLIED
+>
+
+<sound id="brass.trombone.bass"/>
+
+<sound dynamics="106.67"/>
+
+<sound dynamics="69"/>
+
+*/
+
+  string rehearsalValue = elt->getValue();
+
+  string rehearsalEnclosure = 
+    elt->getAttributeValue ("enclosure");
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  msrRehearsal::msrRehearsalKind
+    rehearsalKind =
+      msrRehearsal::kNone; // default value
+
+  if      (rehearsalEnclosure == "none") {
+    rehearsalKind = msrRehearsal::kNone;
+  }
+  else if (rehearsalEnclosure == "kRectangle") {
+    rehearsalKind = msrRehearsal::kRectangle;
+  }
+  else if (rehearsalEnclosure == "kOval") {
+    rehearsalKind = msrRehearsal::kOval;
+  }
+  else if (rehearsalEnclosure == "kCircle") {
+    rehearsalKind = msrRehearsal::kCircle;
+  }
+  else if (rehearsalEnclosure == "kBracket") {
+    rehearsalKind = msrRehearsal::kBracket;
+  }
+  else if (rehearsalEnclosure == "kTriangle") {
+    rehearsalKind = msrRehearsal::kTriangle;
+  }
+  else if (rehearsalEnclosure == "kDiamond") {
+    rehearsalKind = msrRehearsal::kDiamond;
+  }
+  else {
+    if (rehearsalEnclosure.size ()) {
+      stringstream s;
+      
+      s <<
+        "rehearsal enclosure \"" << rehearsalEnclosure <<
+        "\"" << " is not handled, ignored";
+        
+      msrMusicXMLWarning (
+        inputLineNumber,
+        s.str ());
+    }    
+  }
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNotYetDone (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+    
+  // create a rehearsal
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating rehearsal \"" << rehearsalValue << "\"" <<
+      " in voice " <<
+      currentVoice->getVoiceName () <<
+      endl;
+
+  S_msrRehearsal
+    rehearsal =
+      msrRehearsal::create (
+        inputLineNumber,
+        rehearsalKind,
+        rehearsalValue);
+
+  // append the rehearsal to the current voice
+  currentVoice->
+    appendRehearsalToVoice (rehearsal);
+}
+
+void musicXMLTree2MsrTranslator::visitEnd ( S_sound& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> End visiting S_sound" <<
+      endl;
+}
+
+//______________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart ( S_instrument_sound& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_instrument_sound" <<
+      endl;
+
+/*
+      <score-instrument id="P1-I1">
+        <instrument-name>ARIA Player</instrument-name>
+        <instrument-sound>wind.reed.oboe</instrument-sound>
+        <virtual-instrument/>
+      </score-instrument>
+*/
+}
+
+//______________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart ( S_virtual_instrument& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_virtual_instrument" <<
+      endl;
+
+/*
+<!ELEMENT score-instrument
+  (instrument-name, instrument-abbreviation?,
+   instrument-sound?, (solo | ensemble)?,
+   virtual-instrument?)>
+<!ATTLIST score-instrument
+    id ID #REQUIRED
+>
+<!ELEMENT instrument-name (#PCDATA)>
+<!ELEMENT instrument-abbreviation (#PCDATA)>
+<!ELEMENT instrument-sound (#PCDATA)>
+<!ELEMENT solo EMPTY>
+<!ELEMENT ensemble (#PCDATA)>
+<!ELEMENT virtual-instrument
+  (virtual-library?, virtual-name?)>
+<!ELEMENT virtual-library (#PCDATA)>
+<!ELEMENT virtual-name (#PCDATA)>
+
+      <score-instrument id="P1-I1">
+        <instrument-name>ARIA Player</instrument-name>
+        <instrument-sound>wind.reed.oboe</instrument-sound>
+        <virtual-instrument/>
+      </score-instrument>
+*/
+}
+
+//______________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart ( S_midi_device& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_midi_device" <<
+      endl;
+
+/*
+      <midi-device>SmartMusic SoftSynth</midi-device>
+*/
+}
+
+//______________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_midi_instrument" <<
+      endl;
+/*
+      <midi-instrument id="P2-I2">
+        <midi-channel>2</midi-channel>
+        <midi-program>70</midi-program>
+        <volume>80</volume>
+        <pan>4</pan>
+      </midi-instrument>
+*/
+}
+
 
 /*
  * Figured bass elements take their position from the first

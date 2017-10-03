@@ -342,7 +342,15 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_tuplet_number>,
   public visitor<S_tuplet_type>,
   
-  public visitor<S_rehearsal>
+  public visitor<S_rehearsal>,
+  
+  public visitor<S_sound>,
+  
+  public visitor<S_instrument_sound>,
+  public visitor<S_virtual_instrument>,
+  public visitor<S_midi_device>,
+  public visitor<S_midi_instrument>
+  
 {
   public:
   
@@ -686,6 +694,14 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_tuplet_type& elt);
 
     virtual void visitStart ( S_rehearsal& elt);
+
+    virtual void visitStart ( S_sound& elt);
+    virtual void visitEnd   ( S_sound& elt);
+
+    virtual void visitStart ( S_instrument_sound& elt);
+    virtual void visitStart ( S_virtual_instrument& elt);
+    virtual void visitStart ( S_midi_device& elt);
+    virtual void visitStart ( S_midi_instrument& elt);
 
   private:
                      
