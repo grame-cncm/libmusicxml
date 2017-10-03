@@ -17859,10 +17859,64 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     if (fSegmentMeasuresList.size () == 0)
       cerr <<
-        ", first measure";
+        ", as first measure";
     else
       cerr <<
       ", after measure number '" << currentMeasureNumber << "'";
+
+    cerr <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
+      ", line " << measure->getInputLineNumber () <<
+      endl;
+  }
+
+  if (measureNumber == currentMeasureNumber) {
+    stringstream s;
+
+    s <<
+      "measure number '" << measureNumber <<
+      "' occurs twice in a row";
+
+  // JMI  msrInternalError (
+    msrInternalWarning (
+      inputLineNumber,
+      s.str ());
+  }
+
+  else { // JMI TEMP
+    // append measure to the segment
+    fSegmentMeasuresList.push_back (measure);
+  }
+}
+
+void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
+{
+  int inputLineNumber =
+    measure->getInputLineNumber ();
+    
+  string measureNumber =
+    measure->getMeasureNumber ();
+  
+  string currentMeasureNumber =
+    fSegmentMeasuresList.size () == 0
+      ? ""
+      : fSegmentMeasuresList.back ()->getMeasureNumber ();
+    
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    cerr << idtr <<
+      "Prepending measure " << measureNumber <<
+      " to segment " << segmentAsString ();
+
+    if (fSegmentMeasuresList.size () == 0)
+      cerr <<
+        ", as first measure";
+/* JMI
+    else
+      cerr <<
+      ", after measure number '" << currentMeasureNumber << "'";
+*/
 
     cerr <<
       "' in voice \"" <<
@@ -22521,10 +22575,17 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
               this);
 
         // remove the repeated measure(s) for the last segment
-        // and append  them to the repeated segment
-        repeatedSegment->
-          appendMeasureToSegment (
-            repeatedMeasure);
+        // and preppend  them to the repeated segment
+        for (int i = 0; i< measureRepeatMeasuresNumber; i++) {
+          S_msrMeasure
+            lastMeasure =
+              removeLastMeasureFromVoice (
+                inputLineNumber);
+
+          repeatedSegment->
+            prependMeasureToSegment (
+              lastMeasure);
+        }
             
         // create the measure pattern
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)

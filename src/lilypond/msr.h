@@ -3394,6 +3394,9 @@ class EXP msrSegment : public msrElement
     void                  appendMeasureToSegment (
                             S_msrMeasure measure);
 
+    void                  prependMeasureToSegment (
+                            S_msrMeasure measure);
+
     void                  appendMeasureToSegmentIfNotYetDone (  // JMI
                             int    inputLineNumber,
                             string measureNumber);
