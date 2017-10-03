@@ -22475,6 +22475,28 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // hence the repeated measure/measures is/are the
         // measureRepeatMeasuresNumber measures preceding the last one
 
+        int
+          lastSegmentMeasuresNumber =
+            fVoiceLastSegment->
+              getSegmentMeasuresList ().size (),
+          availableMeasuresNumber =
+            lastSegmentMeasuresNumber - 1;
+            
+        if (
+          availableMeasuresNumber < measureRepeatMeasuresNumber) {
+          stringstream s;
+
+          s <<
+            "attempting to create a measure repeat with " <<
+            measureRepeatMeasuresNumber <<
+            " measures while current last segment has only " <<
+            availableMeasuresNumber <<
+            " available";
+
+          msrInternalError (
+            inputLineNumber, s.str ());
+        }
+
         // grab the just created last measure from the voice,
         // (i.e. the one containing:
         //   <measure-repeat ... type="start">2</measure-repeat>)
@@ -22498,7 +22520,8 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
               inputLineNumber,
               this);
 
-        // append the repeated measure to the repeated segment
+        // remove the repeated measure(s) for the last segment
+        // and append  them to the repeated segment
         repeatedSegment->
           appendMeasureToSegment (
             repeatedMeasure);
