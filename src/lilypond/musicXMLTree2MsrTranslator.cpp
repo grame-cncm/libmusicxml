@@ -7400,6 +7400,16 @@ void musicXMLTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
       "--> Start visiting S_measure_repeat" <<
       endl;
 
+/*
+  The multiple-rest and measure-repeat symbols indicate the
+  number of measures covered in the element content. The
+  beat-repeat and slash elements can cover partial measures.
+  All but the multiple-rest element use a type attribute to 
+  indicate starting and stopping the use of the style. The
+  optional number attribute specifies the staff number from
+  top to bottom on the system, as with clef.
+*/
+
   int inputLineNumber = elt->getInputLineNumber ();
   
   fCurrentMeasureRepeatMeasuresNumber = (int)(*elt);
@@ -7408,7 +7418,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
     elt->getAttributeValue ("type");
 
   fCurrentMeasureRepeatSlashesNumber =
-    elt->getAttributeIntValue ("slashes", 0);
+    elt->getAttributeIntValue ("slashes", 1); // default value
 
   fCurrentMeasureRepeatKind = msrMeasureRepeat::k_NoMeasureRepeat;
   

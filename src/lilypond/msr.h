@@ -302,6 +302,9 @@ class EXP msrElement : public smartable
     
   protected:
      
+    // fields
+    // ------------------------------------------------------
+
     int                   fInputLineNumber;
 };
 typedef SMARTP<msrElement> S_msrElement;
@@ -357,6 +360,9 @@ class msrPolyphony : public smartable
  
   public:
 
+    // fields
+    // ------------------------------------------------------
+
     // what happens every measure
     list<string>          fPolyphonyMeasureActivities;
 
@@ -379,6 +385,9 @@ class msrBeatData // JMI ???
  
   public:
   
+    // fields
+    // ------------------------------------------------------
+
     string fBeatUnit;
     int    fDots;
 };
@@ -461,6 +470,9 @@ class EXP msrOctaveShift : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     msrOctaveShiftKind    fOctaveShiftKind;
 
     int                   fOctaveShiftSize;
@@ -535,6 +547,9 @@ class EXP msrAccordionRegistration : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // see https://de.wikipedia.org/wiki/Register_%28Akkordeon%29
     // for the meaning of the dots numbers
 
@@ -603,6 +618,9 @@ class EXP msrStem : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrStemKind fStemKind;
 };
@@ -675,6 +693,9 @@ class EXP msrBeam : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     int                   fBeamNumber;
     msrBeamKind           fBeamKind;
@@ -756,6 +777,9 @@ class EXP msrArticulation : public msrElement
 //  private:
   protected:
 
+    // fields
+    // ------------------------------------------------------
+
     msrArticulationKind fArticulationKind;
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
@@ -836,6 +860,9 @@ class EXP msrFermata : public msrArticulation
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrFermataKind        fFermataKind;
     msrFermataType        fFermataType;
@@ -976,6 +1003,9 @@ class EXP msrTechnical : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     msrTechnicalKind                fTechnicalKind;
 
     msrTechnicalPlacementKind       fTechnicalPlacementKind;
@@ -1095,6 +1125,9 @@ class EXP msrTechnicalWithInteger : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrTechnicalWithIntegerKind     fTechnicalWithIntegerKind;
 
@@ -1217,6 +1250,9 @@ class EXP msrTechnicalWithString : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrTechnicalWithStringKind      fTechnicalWithStringKind;
 
@@ -1347,6 +1383,9 @@ class EXP msrOrnament : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     msrOrnamentKind               fOrnamentKind;
 
     msrOrnamentPlacementKind      fOrnamentPlacementKind;
@@ -1450,6 +1489,9 @@ class EXP msrSingleTremolo : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     int                   fSingleTremoloMarksNumber;
 
@@ -1697,6 +1739,9 @@ class EXP msrDoubleTremolo : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
 
     S_msrVoice            fDoubleTremoloVoiceUplink;
@@ -1798,6 +1843,9 @@ class EXP msrRehearsal : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     msrRehearsalKind fRehearsalKind;
 
     string           fRehearsalText;
@@ -1871,6 +1919,9 @@ class EXP msrTie : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrTieKind fTieKind;
 };
@@ -1947,6 +1998,9 @@ class EXP msrSlur : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     int         fSlurNumber;
 
@@ -2026,6 +2080,9 @@ class EXP msrLigature : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     int               fLigatureNumber;
 
     msrLigatureKind   fLigatureKind;
@@ -2101,6 +2158,9 @@ class EXP msrDynamics : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     msrDynamicsKind fDynamicsKind;
 };
 typedef SMARTP<msrDynamics> S_msrDynamics;
@@ -2161,6 +2221,9 @@ class EXP msrOtherDynamics : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     string                fOtherDynamicsString;
 };
@@ -2230,6 +2293,9 @@ class EXP msrWedge : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrWedgeKind fWedgeKind;
 };
@@ -2317,6 +2383,9 @@ class EXP msrClef : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrClefKind  fClefKind;
 };
@@ -2412,6 +2481,9 @@ class EXP msrHumdrumScotKeyItem : public msrElement
   
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     msrDiatonicPitch      fKeyDiatonicPitch;
     msrAlteration         fKeyAlteration;
     int                   fKeyOctave;
@@ -2531,6 +2603,9 @@ class EXP msrKey : public msrElement
   
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     msrKeyKind            fKeyKind;
     
     // traditional keys
@@ -2613,6 +2688,9 @@ class EXP msrTimeItem : public msrElement
   
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     vector<int>           fTimeBeatsNumbersVector; // 5+3+1 is possible
     int                   fTimeBeatValue;
 };
@@ -2731,6 +2809,9 @@ class EXP msrTime : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     msrTimeSymbolKind     fTimeSymbolKind;
 
     vector<S_msrTimeItem> fTimeItemsVector;
@@ -2815,6 +2896,9 @@ class EXP msrTranspose : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     int                   fTransposeDiatonic;
     int                   fTransposeChromatic;
@@ -3487,6 +3571,9 @@ class EXP msrSegment : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
     S_msrVoice            fSegmentVoiceUplink;
 
@@ -3581,6 +3668,9 @@ class EXP msrGraceNotes : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     // uplinks
     S_msrVoice            fGraceNotesVoiceUplink;
@@ -3677,6 +3767,9 @@ class EXP msrAfterGraceNotes : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     // uplinks
     S_msrVoice            fAfterGraceNotesVoiceUplink;
@@ -3798,15 +3891,19 @@ class EXP msrWords : public msrElement
 
   private:
                         
-  msrWordsPlacementKind  fWordsPlacementKind;
-  
-  string                 fWordsContents;
+    // fields
+    // ------------------------------------------------------
 
-  msrWordsFontStyleKind  fWordsFontStyleKind;
-  string                 fWordsFontSize;
-  msrWordsFontWeightKind fWordsFontWeightKind;
+    msrWordsPlacementKind fWordsPlacementKind;
+    
+    string                fWordsContents;
   
-  msrWordsXMLLangKind    fWordsXMLLangKind;
+    msrWordsFontStyleKind fWordsFontStyleKind;
+    string                fWordsFontSize;
+    msrWordsFontWeightKind
+                          fWordsFontWeightKind;
+    
+    msrWordsXMLLangKind   fWordsXMLLangKind;
 };
 typedef SMARTP<msrWords> S_msrWords;
 EXP ostream& operator<< (ostream& os, const S_msrWords& elt);
@@ -3946,6 +4043,9 @@ class EXP msrSyllable : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
     S_msrNote             fSyllableNoteUplink;
     S_msrStanza           fSyllableStanzaUplink;
@@ -4082,6 +4182,9 @@ Degree elements
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
     S_msrHarmony          fHarmonyDegreeHarmonyUplink;
 
@@ -4195,6 +4298,9 @@ class EXP msrHarmony : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     // uplinks
     S_msrPart             fHarmonyPartUplink;
@@ -4320,6 +4426,9 @@ class EXP msrFigure : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
     S_msrPart             fFigurePartUplink;
 
@@ -4424,6 +4533,9 @@ class EXP msrFiguredBass : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     // uplinks
     S_msrPart             fFiguredBassPartUplink;
@@ -4969,6 +5081,9 @@ class EXP msrNote : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
 
     // uplinks
     // ------------------------------------------------------
@@ -5414,6 +5529,9 @@ class EXP msrChord : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // sounding divisions
     rational              fChordSoundingWholeNotes;
     
@@ -5547,6 +5665,9 @@ class EXP msrVarValAssoc : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     string             fVariableName;
     string             fVariableValue;
@@ -5696,6 +5817,9 @@ class EXP msrIdentification : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     S_msrVarValAssoc         fWorkNumber;
     S_msrVarValAssoc         fWorkTitle;
     S_msrVarValAssoc         fMovementNumber;
@@ -5793,6 +5917,9 @@ class EXP msrPageGeometry : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // page height, margins and the like in centimeters are in centimeters
     float             fPaperWidth;
     float             fPaperHeight;
@@ -5880,6 +6007,9 @@ class EXP msrCreditWords : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
 /*
     <credit-words default-x="607" default-y="1443" font-family="ＭＳ ゴシック" font-size="24" font-weight="bold" justify="center" valign="top" xml:lang="ja">越後獅子</credit-words>
 */
@@ -5960,6 +6090,9 @@ class EXP msrCredit : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     int                       fCreditPageNumber;
     
     vector<S_msrCreditWords>  fCreditWordsList;
@@ -6019,6 +6152,9 @@ class EXP msrLayout : public msrElement // JMI
 
   private:
   
+    // fields
+    // ------------------------------------------------------
+
     vector<S_msrVarValAssoc> fVarValAssocs;
 };
 typedef SMARTP<msrLayout> S_msrLayout;
@@ -6140,6 +6276,9 @@ class EXP msrDivisions : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     int                   fDivisionsPerQuarterNote;
     
     list<pair<msrDuration, int> >
@@ -6212,6 +6351,9 @@ class EXP msrBarCheck : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     string                fNextBarNumber;
 };
 typedef SMARTP<msrBarCheck> S_msrBarCheck;
@@ -6272,6 +6414,9 @@ class EXP msrBarNumberCheck : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     string                fNextBarNumber;
 };
@@ -6334,6 +6479,9 @@ class EXP msrLineBreak : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     string                fNextBarNumber;
 };
 typedef SMARTP<msrLineBreak> S_msrLineBreak;
@@ -6389,6 +6537,9 @@ class EXP msrPageBreak : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 };
 typedef SMARTP<msrPageBreak> S_msrPageBreak;
 EXP ostream& operator<< (ostream& os, const S_msrPageBreak& elt);
@@ -6537,6 +6688,9 @@ class EXP msrTuplet : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     int                   fTupletNumber;
     
     int                   fTupletActualNotes;
@@ -6620,6 +6774,9 @@ class EXP msrTempo : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     string fTempoIndication;
     
@@ -6788,6 +6945,9 @@ class EXP msrStanza : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
     S_msrVoice            fStanzaVoiceUplink;
 
@@ -6856,6 +7016,9 @@ class EXP msrSegno : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 };
 typedef SMARTP<msrSegno> S_msrSegno;
 EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
@@ -6908,6 +7071,9 @@ class EXP msrCoda : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 };
 typedef SMARTP<msrCoda> S_msrCoda;
 EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
@@ -6960,6 +7126,9 @@ class EXP msrEyeGlasses : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 };
 typedef SMARTP<msrEyeGlasses> S_msrEyeGlasses;
 EXP ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt);
@@ -7040,6 +7209,9 @@ class EXP msrPedal : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrPedalType        fPedalType;
     msrPedalLine        fPedalLine;
@@ -7253,6 +7425,9 @@ class EXP msrBarline : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     bool                  fBarlineHasSegno;
     bool                  fBarlineHasCoda;
 
@@ -7348,6 +7523,9 @@ class EXP msrRepeatCommonPart : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     // segment
     S_msrSegment          fRepeatCommonPartSegment;
@@ -7466,6 +7644,9 @@ class EXP msrRepeatEnding : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // numbers
     string                fRepeatEndingNumber; // may be "1, 2"
     int                   fRepeatEndingInternalNumber; // internally assigned
@@ -7566,6 +7747,9 @@ class EXP msrRepeat : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // common part
   //  S_msrSegment          fRepeatCommonSegment;
     S_msrRepeatCommonPart fRepeatCommonPart;
@@ -7655,6 +7839,9 @@ class EXP msrMeasureRepeatPattern : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // segment
     S_msrSegment          fMeasureRepeatPatternSegment;
 
@@ -7733,6 +7920,9 @@ class EXP msrMeasureRepeatReplicas : public msrElement
 
   private:
       
+    // fields
+    // ------------------------------------------------------
+
     // segment
     S_msrSegment          fMeasureRepeatReplicasSegment;
 
@@ -7855,6 +8045,9 @@ class EXP msrMeasureRepeat : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // numbers
     int                   fMeasureRepeatMeasuresNumber;
     int                   fMeasureRepeatSlashesNumber;
@@ -7938,6 +8131,9 @@ class EXP msrMultipleRestContents : public msrElement
 
   private:
     
+    // fields
+    // ------------------------------------------------------
+
     S_msrSegment          fMultipleRestContentsSegment;
 
     S_msrVoice            fMultipleRestContentsVoiceUplink;
@@ -8030,6 +8226,10 @@ class EXP msrMultipleRest : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
+
     int                   fMultipleRestMeasuresNumber;
     
     S_msrMultipleRestContents
@@ -8112,6 +8312,9 @@ class EXP msrRepeatCoda : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     // segment
     S_msrSegment          fRepeatCodaSegment;
@@ -8592,6 +8795,9 @@ class EXP msrVoice : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
     
     S_msrStaff            fVoiceStaffUplink;
@@ -8743,6 +8949,9 @@ class EXP msrStaffLinesNumber : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     int                   fLinesNumber;
 };
 typedef SMARTP<msrStaffLinesNumber> S_msrStaffLinesNumber;
@@ -8813,7 +9022,7 @@ class EXP msrStaffTuning : public msrElement
     
   public:
   
-    // data
+    // fields
     // ------------------------------------------------------
     
     int                   fStaffTuningLineNumber;
@@ -8942,6 +9151,9 @@ class EXP msrStaffDetails : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     msrStaffTypeKind      fStaffTypeKind;
 
@@ -9237,6 +9449,9 @@ class EXP msrStaff : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
 
     S_msrPart             fStaffPartUplink;
@@ -9355,6 +9570,9 @@ class EXP msrVoiceStaffChange : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     S_msrStaff            fNewStaff;
 };
@@ -9757,6 +9975,9 @@ class EXP msrPart : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // uplinks
     
     S_msrPartGroup        fPartPartGroupUplink;
@@ -9997,6 +10218,9 @@ class EXP msrPartGroup : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     // counters
     
     static int            gPartGroupsCounter;
@@ -10146,6 +10370,9 @@ class EXP msrScore : public msrElement
 
   private:
 
+    // fields
+    // ------------------------------------------------------
+
     S_msrIdentification  fIdentification;
 
     S_msrPageGeometry    fPageGeometry;
@@ -10222,6 +10449,9 @@ class EXP msrMidi : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // fields
+    // ------------------------------------------------------
 
     string          fMidiTempoDuration;
     int             fMidiTempoPerSecond;

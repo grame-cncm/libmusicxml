@@ -22471,6 +22471,10 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         print (cerr);
         idtr--;
 
+        // this occurs after a measure has just been created,
+        // hence the repeated measure/measures is/are the
+        // measureRepeatMeasuresNumber measures preceding the last one
+
         // grab the just created last measure from the voice,
         // (i.e. the one containing:
         //   <measure-repeat ... type="start">2</measure-repeat>)
