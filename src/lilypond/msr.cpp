@@ -22499,7 +22499,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
     case msrVoice::kSilentVoice:
       {
         // create a measure repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
           cerr << idtr <<
             "==> Creating a '" <<
             measureRepeatMeasuresNumber <<
@@ -22557,15 +22557,9 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // which is the first replica measure
         S_msrMeasure
           firstReplicaMeasure =
-            removeLastMeasureFromVoice (
-              inputLineNumber);
-
-        // grab the (new current) last measure from the voice,
-        // which is the repeated measure
-        S_msrMeasure
-          repeatedMeasure =
-            removeLastMeasureFromVoice (
-              inputLineNumber);
+            fVoiceLastSegment->
+              removeLastMeasureFromSegment (
+                inputLineNumber);
 
         // create the measure repeat repeated segment
         S_msrSegment
@@ -22576,11 +22570,12 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
 
         // remove the repeated measure(s) for the last segment
         // and preppend  them to the repeated segment
-        for (int i = 0; i< measureRepeatMeasuresNumber; i++) {
+        for (int i = 0; i < measureRepeatMeasuresNumber; i++) {
           S_msrMeasure
             lastMeasure =
-              removeLastMeasureFromVoice (
-                inputLineNumber);
+              fVoiceLastSegment->
+                removeLastMeasureFromSegment (
+                  inputLineNumber);
 
           repeatedSegment->
             prependMeasureToSegment (
