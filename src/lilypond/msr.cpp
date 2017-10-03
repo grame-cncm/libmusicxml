@@ -22536,7 +22536,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           firstReplicaMeasure);
 
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices)
           cerr << idtr <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
