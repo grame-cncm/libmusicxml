@@ -3018,7 +3018,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
     " = \"" << contextName << "\"" <<
     endl;
 
-  if (true) { //option JMI
+  if (false) { //option JMI
     fOstream <<
       idtr <<
         "\\with {" <<

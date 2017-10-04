@@ -9777,14 +9777,20 @@ class EXP msrPart : public msrElement
     
     void                  setPartFiguredBassStaff (
                             S_msrStaff figuredBassStaff)
-                              { fPartFiguredBassStaff = figuredBassStaff; }
+                              {
+                                fPartFiguredBassStaff =
+                                  figuredBassStaff;
+                              }
                   
     S_msrStaff            getPartFiguredBassStaff () const
                               { return fPartFiguredBassStaff; }
                  
     void                  setPartFiguredBassVoice (
                             S_msrVoice figuredBassVoice)
-                              { fPartFiguredBassVoice = figuredBassVoice; }
+                              {
+                                fPartFiguredBassVoice =
+                                  figuredBassVoice;
+                              }
 
     S_msrVoice            getPartFiguredBassVoice () const
                               { return fPartFiguredBassVoice; }

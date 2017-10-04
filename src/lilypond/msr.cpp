@@ -22499,7 +22499,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
     case msrVoice::kSilentVoice:
       {
         // create a measure repeat
-        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+        if (gGeneralOptions->fTraceRepeats) {
           cerr << idtr <<
             "==> Creating a '" <<
             measureRepeatMeasuresNumber <<
@@ -22557,9 +22557,15 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // which is the first replica measure
         S_msrMeasure
           firstReplicaMeasure =
-            fVoiceLastSegment->
-              removeLastMeasureFromSegment (
-                inputLineNumber);
+            removeLastMeasureFromVoice (
+              inputLineNumber);
+
+        // grab the (new current) last measure from the voice,
+        // which is the repeated measure
+        S_msrMeasure
+          repeatedMeasure =
+            removeLastMeasureFromVoice (
+              inputLineNumber);
 
         // create the measure repeat repeated segment
         S_msrSegment
@@ -22570,12 +22576,11 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
 
         // remove the repeated measure(s) for the last segment
         // and preppend  them to the repeated segment
-        for (int i = 0; i < measureRepeatMeasuresNumber; i++) {
+        for (int i = 0; i< measureRepeatMeasuresNumber; i++) {
           S_msrMeasure
             lastMeasure =
-              fVoiceLastSegment->
-                removeLastMeasureFromSegment (
-                  inputLineNumber);
+              removeLastMeasureFromVoice (
+                inputLineNumber);
 
           repeatedSegment->
             prependMeasureToSegment (
@@ -28078,19 +28083,29 @@ void msrPart::browseData (basevisitor* v)
   browser.browse (*fPartHarmonyStaff);
 */
 
+  // browse all non figured bass staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
     i != fPartStavesMap.end();
     i++) {
-    // browse the staff
-    msrBrowser<msrStaff> browser (v);
-    browser.browse (*((*i).second));
+    S_msrStaff
+      staff =
+        (*i).second;
+
+    if (staff != fPartFiguredBassStaff) {
+      // browse the staff
+      msrBrowser<msrStaff> browser (v);
+      browser.browse (*staff);
+    }
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% <== msrPart::browseData()" <<
-      endl;
+  // browse the part figured bass only now,
+  // to place it after the corresponding part
+  {
+    msrBrowser<msrStaff> browser (v);
+    browser.browse (*fPartFiguredBassStaff);
+  }
+      
 }
 
 ostream& operator<< (ostream& os, const S_msrPart& elt)
