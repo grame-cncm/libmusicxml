@@ -28099,9 +28099,9 @@ void msrPart::browseData (basevisitor* v)
     }
   } // for
 
-  // browse the part figured bass only now,
+  // browse the part figured bass only now if any,
   // to place it after the corresponding part
-  {
+  if (fPartFiguredBassStaff) {
     msrBrowser<msrStaff> browser (v);
     browser.browse (*fPartFiguredBassStaff);
   }
