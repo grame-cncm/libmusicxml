@@ -1003,5 +1003,21 @@ string baseName (const string &filename)
   return filename.substr (index + 1, len - index);
 }
 
+//______________________________________________________________________________
+string makeSingleWordFromString (const string &theString)
+{
+  string result;
+
+  for (
+    string::const_iterator i = theString.begin ();
+    i != theString.end ();
+    i++) {
+    if (isalpha (*i)) {
+      result.push_back ((*i));
+    }
+  } // for
+  
+  return result;
+}
 
 }

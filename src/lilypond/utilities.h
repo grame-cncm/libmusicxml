@@ -385,6 +385,9 @@ void convertHTMLEntitiesToPlainCharacters (string& s);
 string baseName (const string &filename);
   // wait until c++17 for a standard library containing basename()...
 
+//______________________________________________________________________________
+string makeSingleWordFromString (const string &string);
+
 
 } // namespace MusicXML2
 

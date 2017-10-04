@@ -5225,7 +5225,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
       inputLineNumber,
       s.str ());
       
-    fCurrentSyllableKind = msrSyllable::kRestSyllable;
+    fCurrentSyllableKind =
+      msrSyllable::kRestSyllable;
   }
 
   if (gGeneralOptions->fTraceLyrics) {

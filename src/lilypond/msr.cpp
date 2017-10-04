@@ -12051,8 +12051,9 @@ void msrStanza::initializeStanza ()
     case kRegularStanza:
       fStanzaName =
         fStanzaVoiceUplink->getVoiceName() +
-        "_Stanza_" + fStanzaNumber;
-   //     int2EnglishWord (fStanzaNumber); // JMI STANZA what if there are spaces???
+        "_Stanza_" + 
+          stringNumbersToEnglishWords (
+            makeSingleWordFromString (fStanzaNumber));
       break;
       
     case kMuteStanza:
