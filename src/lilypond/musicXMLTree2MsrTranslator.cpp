@@ -14966,6 +14966,14 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
 }
 
 //______________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart ( S_sound& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_sound" <<
+      endl;
+}
+
 void musicXMLTree2MsrTranslator::visitEnd ( S_sound& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
