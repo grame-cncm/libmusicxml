@@ -5915,7 +5915,9 @@ void msrNote::print (ostream& os)
 
       os <<
         ", stanza " <<
-        syllable->getSyllableStanzaUplink ()->getStanzaNumber () <<
+        syllable->
+          getSyllableStanzaUplink ()->
+            getStanzaNumber () <<
         ", line " << syllable->getInputLineNumber () <<
         ", noteUpLink: " <<
         syllable->
@@ -12004,7 +12006,7 @@ void msrSyllable::print (ostream& os)
 //______________________________________________________________________________
 S_msrStanza msrStanza::create (
   int           inputLineNumber,
-  int           stanzaNumber,
+  string        stanzaNumber,
   msrStanzaKind stanzaKind,
   S_msrVoice    stanzaVoiceUplink)
 {
@@ -12021,7 +12023,7 @@ S_msrStanza msrStanza::create (
 
 msrStanza::msrStanza (
   int           inputLineNumber,
-  int           stanzaNumber,
+  string        stanzaNumber,
   msrStanzaKind stanzaKind,
   S_msrVoice    stanzaVoiceUplink)
     : msrElement (inputLineNumber)
@@ -12049,8 +12051,8 @@ void msrStanza::initializeStanza ()
     case kRegularStanza:
       fStanzaName =
         fStanzaVoiceUplink->getVoiceName() +
-        "_Stanza_" +
-        int2EnglishWord (fStanzaNumber);
+        "_Stanza_" + fStanzaNumber;
+   //     int2EnglishWord (fStanzaNumber); // JMI STANZA what if there are spaces???
       break;
       
     case kMuteStanza:
@@ -21248,7 +21250,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         voiceDeepCopy);
 
   for (
-    map<int, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
+    map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
     i != fVoiceStanzasMap.end();
     i++) {
     S_msrStanza stanza = (*i).second;
@@ -21410,8 +21412,8 @@ void msrVoice::createNewLastSegmentAndANewMeasureForVoice (
 }
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
-  int inputLineNumber,
-  int stanzaNumber)
+  int    inputLineNumber,
+  string stanzaNumber)
 {
   if (fVoiceStanzasMap.count (stanzaNumber)) {
     stringstream s;
@@ -21426,8 +21428,6 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
     msrInternalError (
       inputLineNumber,
       s.str ());
-
-// JMI    return fVoiceStanzasMap [stanzaNumber];
   }
 
   // create the stanza
@@ -21449,7 +21449,7 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
 void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
 {
   // get stanza number
-  int stanzaNumber =
+  string stanzaNumber =
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
@@ -21493,7 +21493,7 @@ void msrVoice::catchUpWithVoiceMuteStanza (S_msrStanza stanza)
 void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
 {
   // get stanza number
-  int stanzaNumber =
+  string stanzaNumber =
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
@@ -21513,8 +21513,8 @@ void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
 }
 
 S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
-  int inputLineNumber,
-  int stanzaNumber)
+  int    inputLineNumber,
+  string stanzaNumber)
 {
   S_msrStanza stanza;
 
@@ -22316,7 +22316,7 @@ void msrVoice::prependAfterGraceNotesToVoice (
 
 void msrVoice::appendSyllableToVoice (
   int           inputLineNumber,
-  int           stanzaNumber,
+  string        stanzaNumber,
   S_msrSyllable syllable)
 {
   // append syllable to this voice
@@ -23770,7 +23770,7 @@ void msrVoice::browseData (basevisitor* v)
   // browse the voice stanzas
   if (fVoiceStanzasMap.size ()) {
     for (
-      map<int, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
+      map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
       i != fVoiceStanzasMap.end();
       i++) {
       S_msrStanza stanza = (*i).second;
@@ -24014,7 +24014,7 @@ void msrVoice::print (ostream& os)
     
     // print the stanzas
     if (fVoiceStanzasMap.size()) {
-      map<int, S_msrStanza>::const_iterator
+      map<string, S_msrStanza>::const_iterator
         iBegin = fVoiceStanzasMap.begin(),
         iEnd   = fVoiceStanzasMap.end(),
         i      = iBegin;

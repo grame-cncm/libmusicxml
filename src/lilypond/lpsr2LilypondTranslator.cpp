@@ -4448,6 +4448,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             idtr;
           break;
     
+        case msrSyllable::kPageBreakSyllable:
+          fOstream <<
+            "%{ pageBreak " << "\"";
+          writeTextsListAsLilypondString (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            "\"" << " %}" <<
+            endl <<
+            idtr;
+          break;
+    
         case msrSyllable::k_NoSyllable: // JMI
           break;
       } // switch

@@ -4977,22 +4977,21 @@ void musicXMLTree2MsrTranslator::visitStart (S_lyric& elt )
       "--> Start visiting S_lyric" <<
       endl;
 
-  int stanzaNumber =
-    elt->getAttributeIntValue ("number", 0);
+  string stanzaNumber =
+    elt->getAttributeValue ("number");
   
-  if (stanzaNumber < 0) {
+  if (stanzaNumber.size () == 0) {
     stringstream s;
 
     s <<
       "lyric number " << stanzaNumber <<
-      " is not positive";
+      " is empty";
 
     msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str ());
   }
-
-  if (stanzaNumber > 0) {
+  else {
     if (gGeneralOptions->fTraceLyrics)
       cerr << idtr <<
         "--> setting fCurrentStanzaNumber to " <<
@@ -5359,12 +5358,14 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
     // the presence of a '<lyric />' ends the effect
     // of an on going syllable extend
     fOnGoingSyllableExtend = false;
-    
+
+    /* JMI
     if (fOnGoingSlur)
       fOnGoingSlurHasStanza = true;
       
     if (fOnGoingLigature)
       fOnGoingLigatureHasStanza = true;
+      */
       
     fCurrentNoteHasStanza = true;
   }
@@ -14094,6 +14095,33 @@ void musicXMLTree2MsrTranslator::visitStart ( S_rehearsal& elt )
       endl;
 
 /*
+/*
+<!ATTLIST sound
+    tempo CDATA #IMPLIED
+    dynamics CDATA #IMPLIED
+    dacapo %yes-no; #IMPLIED
+    segno CDATA #IMPLIED
+    dalsegno CDATA #IMPLIED
+    coda CDATA #IMPLIED
+    tocoda CDATA #IMPLIED
+    divisions CDATA #IMPLIED
+    forward-repeat %yes-no; #IMPLIED
+    fine CDATA #IMPLIED
+    %time-only;
+    pizzicato %yes-no; #IMPLIED
+    pan CDATA #IMPLIED
+    elevation CDATA #IMPLIED
+    damper-pedal %yes-no-number; #IMPLIED
+    soft-pedal %yes-no-number; #IMPLIED
+    sostenuto-pedal %yes-no-number; #IMPLIED
+>
+
+<sound id="brass.trombone.bass"/>
+
+<sound dynamics="106.67"/>
+
+<sound dynamics="69"/>
+
       <direction placement="above">
         <direction-type>
           <rehearsal default-y="15" font-size="11.3" font-weight="bold">A</rehearsal>
@@ -14116,22 +14144,22 @@ void musicXMLTree2MsrTranslator::visitStart ( S_rehearsal& elt )
   if      (rehearsalEnclosure == "none") {
     rehearsalKind = msrRehearsal::kNone;
   }
-  else if (rehearsalEnclosure == "kRectangle") {
+  else if (rehearsalEnclosure == "rectangle") {
     rehearsalKind = msrRehearsal::kRectangle;
   }
-  else if (rehearsalEnclosure == "kOval") {
+  else if (rehearsalEnclosure == "oval") {
     rehearsalKind = msrRehearsal::kOval;
   }
-  else if (rehearsalEnclosure == "kCircle") {
+  else if (rehearsalEnclosure == "circle") {
     rehearsalKind = msrRehearsal::kCircle;
   }
-  else if (rehearsalEnclosure == "kBracket") {
+  else if (rehearsalEnclosure == "bracket") {
     rehearsalKind = msrRehearsal::kBracket;
   }
-  else if (rehearsalEnclosure == "kTriangle") {
+  else if (rehearsalEnclosure == "triangle") {
     rehearsalKind = msrRehearsal::kTriangle;
   }
-  else if (rehearsalEnclosure == "kDiamond") {
+  else if (rehearsalEnclosure == "diamond") {
     rehearsalKind = msrRehearsal::kDiamond;
   }
   else {
@@ -14938,117 +14966,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
 }
 
 //______________________________________________________________________________
-void musicXMLTree2MsrTranslator::visitStart ( S_sound& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
-    cerr << idtr <<
-      "--> Start visiting S_sound" <<
-      endl;
-
-/*
-<!ATTLIST sound
-    tempo CDATA #IMPLIED
-    dynamics CDATA #IMPLIED
-    dacapo %yes-no; #IMPLIED
-    segno CDATA #IMPLIED
-    dalsegno CDATA #IMPLIED
-    coda CDATA #IMPLIED
-    tocoda CDATA #IMPLIED
-    divisions CDATA #IMPLIED
-    forward-repeat %yes-no; #IMPLIED
-    fine CDATA #IMPLIED
-    %time-only;
-    pizzicato %yes-no; #IMPLIED
-    pan CDATA #IMPLIED
-    elevation CDATA #IMPLIED
-    damper-pedal %yes-no-number; #IMPLIED
-    soft-pedal %yes-no-number; #IMPLIED
-    sostenuto-pedal %yes-no-number; #IMPLIED
->
-
-<sound id="brass.trombone.bass"/>
-
-<sound dynamics="106.67"/>
-
-<sound dynamics="69"/>
-
-*/
-
-  string rehearsalValue = elt->getValue();
-
-  string rehearsalEnclosure = 
-    elt->getAttributeValue ("enclosure");
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-  
-  msrRehearsal::msrRehearsalKind
-    rehearsalKind =
-      msrRehearsal::kNone; // default value
-
-  if      (rehearsalEnclosure == "none") {
-    rehearsalKind = msrRehearsal::kNone;
-  }
-  else if (rehearsalEnclosure == "kRectangle") {
-    rehearsalKind = msrRehearsal::kRectangle;
-  }
-  else if (rehearsalEnclosure == "kOval") {
-    rehearsalKind = msrRehearsal::kOval;
-  }
-  else if (rehearsalEnclosure == "kCircle") {
-    rehearsalKind = msrRehearsal::kCircle;
-  }
-  else if (rehearsalEnclosure == "kBracket") {
-    rehearsalKind = msrRehearsal::kBracket;
-  }
-  else if (rehearsalEnclosure == "kTriangle") {
-    rehearsalKind = msrRehearsal::kTriangle;
-  }
-  else if (rehearsalEnclosure == "kDiamond") {
-    rehearsalKind = msrRehearsal::kDiamond;
-  }
-  else {
-    if (rehearsalEnclosure.size ()) {
-      stringstream s;
-      
-      s <<
-        "rehearsal enclosure \"" << rehearsalEnclosure <<
-        "\"" << " is not handled, ignored";
-        
-      msrMusicXMLWarning (
-        inputLineNumber,
-        s.str ());
-    }    
-  }
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-    
-  // create a rehearsal
-  if (gGeneralOptions->fTraceRepeats)
-    cerr << idtr <<
-      "Creating rehearsal \"" << rehearsalValue << "\"" <<
-      " in voice " <<
-      currentVoice->getVoiceName () <<
-      endl;
-
-  S_msrRehearsal
-    rehearsal =
-      msrRehearsal::create (
-        inputLineNumber,
-        rehearsalKind,
-        rehearsalValue);
-
-  // append the rehearsal to the current voice
-  currentVoice->
-    appendRehearsalToVoice (rehearsal);
-}
-
 void musicXMLTree2MsrTranslator::visitEnd ( S_sound& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)

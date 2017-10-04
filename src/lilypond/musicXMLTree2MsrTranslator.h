@@ -695,6 +695,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     virtual void visitStart ( S_rehearsal& elt);
 
+
     virtual void visitStart ( S_sound& elt);
     virtual void visitEnd   ( S_sound& elt);
 
@@ -1000,7 +1001,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                               fCurrentSyllableExtendKind;
     bool                      fOnGoingSyllableExtend;
     
-    int                       fCurrentStanzaNumber;
+    string                    fCurrentStanzaNumber;
     bool                      fCurrentNoteHasStanza;
     bool                      fCurrentNoteHasLyrics;
     bool                      fCurrentStanzaHasText;

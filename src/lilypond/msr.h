@@ -6798,7 +6798,7 @@ class EXP msrStanza : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_MUTE_STANZA_NUMBER -99
+    #define K_MUTE_STANZA_NUMBER "MUTE_STANZA"
     
     // data types
     // ------------------------------------------------------
@@ -6814,7 +6814,7 @@ class EXP msrStanza : public msrElement
 
     static SMARTP<msrStanza> create (
       int           inputLineNumber,
-      int           stanzaNumber,
+      string        stanzaNumber,
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
     
@@ -6831,7 +6831,7 @@ class EXP msrStanza : public msrElement
 
     msrStanza (
       int           inputLineNumber,
-      int           stanzaNumber,
+      string        stanzaNumber,
       msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
 
@@ -6852,7 +6852,7 @@ class EXP msrStanza : public msrElement
     // ------------------------------------------------------
                               
     // number
-    int                   getStanzaNumber () const
+    string                getStanzaNumber () const
                               { return fStanzaNumber; }
                 
     // name
@@ -6951,7 +6951,9 @@ class EXP msrStanza : public msrElement
     S_msrVoice            fStanzaVoiceUplink;
 
     // number
-    int                   fStanzaNumber;
+    // The lyric number indicates multiple lines,
+    // though a name can be used as well (as in Finale's verse/chorus/section specification)
+    string                fStanzaNumber;
 
     // kind
     msrStanzaKind         fStanzaKind;
@@ -8449,7 +8451,7 @@ class EXP msrVoice : public msrElement
     S_msrStanza           getVoiceMuteStanza () const
                               { return fVoiceMuteStanza; }
                
-    const map<int, S_msrStanza>&
+    const map<string, S_msrStanza>&
                           getVoiceStanzasMap () const
                               { return fVoiceStanzasMap; }
 
@@ -8647,7 +8649,7 @@ class EXP msrVoice : public msrElement
     
     void                  appendSyllableToVoice (
                             int           inputLineNumber,
-                            int           stanzaNumber,
+                            string        stanzaNumber,
                             S_msrSyllable syllable);
 
     // bar checks
@@ -8754,8 +8756,8 @@ class EXP msrVoice : public msrElement
     // stanzas
 
     S_msrStanza           addStanzaToVoiceByItsNumber (
-                            int inputLineNumber,
-                            int stanzaNumber);
+                            int    inputLineNumber,
+                            string stanzaNumber);
 
     void                  addStanzaToVoiceWithoutCatchUp (
                             S_msrStanza stanza);
@@ -8767,8 +8769,8 @@ class EXP msrVoice : public msrElement
                             S_msrStanza stanza);
 
     S_msrStanza           createStanzaInVoiceIfNotYetDone (
-                            int inputLineNumber,
-                            int stanzaNumber);
+                            int    inputLineNumber,
+                            string stanzaNumber);
     
     // finalization
     
@@ -8873,7 +8875,8 @@ class EXP msrVoice : public msrElement
     S_msrStanza           fVoiceMuteStanza;
                             // K_MUTE_STANZA_NUMBER
     
-    map<int, S_msrStanza> fVoiceStanzasMap;
+    map<string, S_msrStanza>
+                          fVoiceStanzasMap;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
