@@ -1603,16 +1603,16 @@ Tristan = C D# F# A#
 in all of them, the C and A# in theory want to fan out to B (the dominant).  This is, of course, in theory - Wagner’s use of the Tristan chord, which he clearly named his opera after, has the A# moving down to A, or the 7th of the dominant (I’m transposing to fit w/ the example above).  Wagner obviously did not pay much attention during his sophomore music theory course…
 */      
     case kNeapolitanHarmony:
-      s << "3-.6-%{:Neapolitan%}";
+      s << ":3-.6-%{:Neapolitan%}";
       break;
     case kItalianHarmony:
-      s << "3.6+%{:Italian%}";
+      s << ":3.6+%{:Italian%}";
       break;
     case kFrenchHarmony:
-      s << "3.5+.6+%{:French%}";
+      s << ":3.5+.6+%{:French%}";
       break;
     case kGermanHarmony:
-      s << "3.5.6+%{:German%}";
+      s << ":3.5.6+%{:German%}";
       break;
 
     case kPedalHarmony:
@@ -1622,7 +1622,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       s << ":5 %{power%}";
       break;
     case kTristanHarmony:
-      s << "2+.5+.6+%{:Tristan%}";
+      s << ":2+.5+.6+%{:Tristan%}";
       break;
       
     case kOtherHarmony:
