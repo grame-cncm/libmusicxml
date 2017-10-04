@@ -11726,6 +11726,10 @@ string msrSyllable::syllableKindAsString (
       result = "line break";
       break;
       
+    case msrSyllable::kPageBreakSyllable:
+      result = "page break";
+      break;
+      
     case msrSyllable::k_NoSyllable:
       result = "k_NoSyllable ???";
       break;
@@ -11968,6 +11972,12 @@ string msrSyllable::syllableAsString ()
         " measure " << "fSyllableText ???";
       break;
       
+    case kPageBreakSyllable:
+      s << 
+        "page break" <<
+        " measure " << "fSyllableText ???";
+      break;
+      
     case k_NoSyllable:
       msrInternalError (
         fInputLineNumber,
@@ -12203,6 +12213,7 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kBarcheckSyllable:
     case msrSyllable::kBarNumberCheckSyllable:
     case msrSyllable::kLineBreakSyllable:
+    case msrSyllable::kPageBreakSyllable:
       break;
       
     case msrSyllable::k_NoSyllable:

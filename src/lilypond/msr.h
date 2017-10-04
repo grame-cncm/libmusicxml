@@ -3935,7 +3935,7 @@ class EXP msrSyllable : public msrElement
       kSlurSyllable, kSlurBeyondEndSyllable,
       kLigatureSyllable, kLigatureBeyondEndSyllable,
       kBarcheckSyllable, kBarNumberCheckSyllable,
-      kLineBreakSyllable};
+      kLineBreakSyllable, kPageBreakSyllable};
 
     static string syllableKindAsString (
       msrSyllableKind syllableKind);

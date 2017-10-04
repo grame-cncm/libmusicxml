@@ -5382,12 +5382,14 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         &&
       fCurrentNoteHasStanza) { // JMI
     }
-    
+
+    /* JMI
     if (fCurrentTieKind != msrTie::k_NoTie) {
       fCurrentSyllableKind = msrSyllable::kTiedSyllable;
     }
-  
-    else if (fCurrentNoteIsARest) {
+    else
+  */
+    if (fCurrentNoteIsARest) {
       stringstream s;
 
       s <<
@@ -5406,7 +5408,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         
       fCurrentSyllableKind = msrSyllable::kRestSyllable;
     }
-  
+
+  /* JMI
     else if (
       fOnGoingSlurHasStanza // JMI Ligature ???
         &&
@@ -5430,6 +5433,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
     
     else { // JMI
     }
+    */
   }
 
   if (gGeneralOptions->fTraceLyrics)    
