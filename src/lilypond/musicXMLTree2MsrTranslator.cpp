@@ -5435,7 +5435,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   if (gGeneralOptions->fTraceLyrics)    
     cerr <<
       idtr <<
-        "@@@@@@@@@@ visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
+        "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
         endl;
 

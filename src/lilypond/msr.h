@@ -4015,11 +4015,7 @@ class EXP msrSyllable : public msrElement
                             const list<string>& textsList,
                             ostream&            os);
 
-    void                  appendLyricTextToSyllable (string text)
-                              {
-                                fSyllableTextsList.push_back (
-                                  text);
-                              }
+    void                  appendLyricTextToSyllable (string text);
                                   
     // as MSR string
     string                syllableWholeNotesAsMsrString ();

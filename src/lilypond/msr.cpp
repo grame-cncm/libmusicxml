@@ -11548,6 +11548,22 @@ void msrSyllable::writeTextsList (
   os << "]";
 } 
 
+void msrSyllable::appendLyricTextToSyllable (string text)
+{
+  if (gGeneralOptions->fTraceLyrics) {
+    cerr << idtr <<
+      "Appending text '" <<
+      text <<
+      "' to the texts list of syllable '" <<
+      syllableAsString () <<
+      "'" <<
+      endl;
+  }
+
+  fSyllableTextsList.push_back (
+    text);
+}
+
 void msrSyllable::setSyllableNoteUplink (S_msrNote note)
 {
   fSyllableNoteUplink = note;
