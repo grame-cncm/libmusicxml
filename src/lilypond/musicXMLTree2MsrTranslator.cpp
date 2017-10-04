@@ -5195,6 +5195,39 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  if (fCurrentSyllableKind == msrSyllable::k_NoSyllable) {
+    stringstream s;
+
+    s <<
+      "<lyric /> has no <syllabic /> component, using 'single' by defualt";
+
+    msrMusicXMLWarning (
+      inputLineNumber,
+      s.str ());
+    
+    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
+  }
+
+  if (fCurrentNoteIsARest) {
+    stringstream s;
+
+    s <<
+      "syllable ";
+
+   msrSyllable::writeTextsList (
+    fCurrentLyricTextsList,
+    s);
+
+    s <<
+      " is attached to a rest";
+
+    msrMusicXMLWarning (
+      inputLineNumber,
+      s.str ());
+      
+    fCurrentSyllableKind = msrSyllable::kRestSyllable;
+  }
+
   if (gGeneralOptions->fTraceLyrics) {
     cerr <<
       endl <<
@@ -5352,26 +5385,15 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   S_msrSyllable
     syllable;
 
-  if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
- // BAD JMI   fCurrentSyllableKind = msrSyllable::kSingleSyllable;
+  /* JMI
+  if (fOnGoingSlur)
+    fOnGoingSlurHasStanza = true;
     
-    // the presence of a '<lyric />' ends the effect
-    // of an on going syllable extend
-    fOnGoingSyllableExtend = false;
-
-    /* JMI
-    if (fOnGoingSlur)
-      fOnGoingSlurHasStanza = true;
-      
-    if (fOnGoingLigature)
-      fOnGoingLigatureHasStanza = true;
-      */
-      
-    fCurrentNoteHasStanza = true;
-  }
-  
-  else {
-
+  if (fOnGoingLigature)
+    fOnGoingLigatureHasStanza = true;
+    */
+    
+/* JMI
     if (
       fCurrentSlurKind == msrSlur::kStartSlur
         &&
@@ -5383,6 +5405,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         &&
       fCurrentNoteHasStanza) { // JMI
     }
+*/
 
     /* JMI
     if (fCurrentTieKind != msrTie::k_NoTie) {
@@ -5390,26 +5413,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
     }
     else
   */
-    if (fCurrentNoteIsARest) {
-      stringstream s;
-
-      s <<
-        "syllable ";
-
-     msrSyllable::writeTextsList (
-      fCurrentLyricTextsList,
-      s);
-
-      s <<
-        " is attached to a rest";
-
-      msrMusicXMLWarning (
-        inputLineNumber,
-        s.str ());
-        
-      fCurrentSyllableKind = msrSyllable::kRestSyllable;
-    }
-
+  
   /* JMI
     else if (
       fOnGoingSlurHasStanza // JMI Ligature ???
@@ -5435,82 +5439,86 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
     else { // JMI
     }
     */
-  }
 
-  if (gGeneralOptions->fTraceLyrics)    
+  if (gGeneralOptions->fTraceLyrics) {   
     cerr <<
       idtr <<
         "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
         endl;
-
-  if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
-   //     fCurrentLyricElision ??? JMI
-    if (gGeneralOptions->fTraceLyrics) {      
-      cerr <<
-        idtr <<
-        "Creating a \"" <<
-        msrSyllable::syllableKindAsString (
-          fCurrentSyllableKind) << "\"" <<
-        " syllable"
-        ", text = \"";
-  
-      msrSyllable::writeTextsList (
-        fCurrentLyricTextsList,
-        cerr);
-
-      cerr <<
-        "\"" <<
-        ", line " << inputLineNumber <<
-        ", whole notes: " <<
-        fCurrentNoteSoundingWholeNotesFromDuration <<
-        " sounding from duration, " <<
-         fCurrentNoteDisplayWholeNotesFromType << 
-        ", display from type" <<
-        ", syllabic = \"" <<
-        msrSyllable::syllableKindAsString (
-          fCurrentSyllableKind) << "\"" <<
-        ", elision: " <<
-        booleanAsString (fCurrentLyricElision) << 
-        ", in stanza " << stanza->getStanzaName () <<
-        endl;
-    }
-    
-    // create a syllable
-    syllable =
-      msrSyllable::create (
-        inputLineNumber,
-        fCurrentSyllableKind,
-        msrSyllable::k_NoSyllableExtend,
-        fCurrentNoteSoundingWholeNotesFromDuration,
-        stanza);
-
-    // append the lyric texts to the syllable
-    for (
-      list<string>::const_iterator i = fCurrentLyricTextsList.begin();
-      i!=fCurrentLyricTextsList.end();
-      i++) {
-      syllable->
-        appendLyricTextToSyllable ((*i));
-    } // for
-
-    // forget about those texts
-    fCurrentLyricTextsList.clear ();
-    
-    // setSyllableNoteUplink() will be called in handleLyrics(),
-    // after the note has been created
-      
-    // append syllable to current note's syllables list
-    fCurrentNoteSyllables.push_back (
-      syllable);
-
-    // append syllable to stanza
-    stanza->
-      appendSyllableToStanza (syllable);
-
-    // register current note as having lyrics
-    fCurrentNoteHasLyrics = true;
   }
+
+  //     fCurrentLyricElision ??? JMI
+  if (gGeneralOptions->fTraceLyrics) {      
+    cerr <<
+      idtr <<
+      "Creating a \"" <<
+      msrSyllable::syllableKindAsString (
+        fCurrentSyllableKind) << "\"" <<
+      " syllable"
+      ", text = \"";
+
+    msrSyllable::writeTextsList (
+      fCurrentLyricTextsList,
+      cerr);
+
+    cerr <<
+      "\"" <<
+      ", line " << inputLineNumber <<
+      ", whole notes: " <<
+      fCurrentNoteSoundingWholeNotesFromDuration <<
+      " sounding from duration, " <<
+       fCurrentNoteDisplayWholeNotesFromType << 
+      ", display from type" <<
+      ", syllabic = \"" <<
+      msrSyllable::syllableKindAsString (
+        fCurrentSyllableKind) << "\"" <<
+      ", elision: " <<
+      booleanAsString (fCurrentLyricElision) << 
+      ", in stanza " << stanza->getStanzaName () <<
+      endl;
+  }
+    
+  // create a syllable
+  syllable =
+    msrSyllable::create (
+      inputLineNumber,
+      fCurrentSyllableKind,
+      msrSyllable::k_NoSyllableExtend,
+      fCurrentNoteSoundingWholeNotesFromDuration,
+      stanza);
+
+  // append the lyric texts to the syllable
+  for (
+    list<string>::const_iterator i = fCurrentLyricTextsList.begin();
+    i!=fCurrentLyricTextsList.end();
+    i++) {
+    syllable->
+      appendLyricTextToSyllable ((*i));
+  } // for
+
+  // forget about those texts
+  fCurrentLyricTextsList.clear ();
+  
+  // setSyllableNoteUplink() will be called in handleLyrics(),
+  // after the note has been created
+    
+  // append syllable to current note's syllables list
+  fCurrentNoteSyllables.push_back (
+    syllable);
+
+  // append syllable to stanza
+  stanza->
+    appendSyllableToStanza (syllable);
+
+  // register current note as having lyrics
+  fCurrentNoteHasLyrics = true;
+
+  // the presence of a '<lyric />' ends the effect
+  // of an on going syllable extend
+  fOnGoingSyllableExtend = false;
+
+  fCurrentNoteHasStanza = true;
 
   fOnGoingLyric = false;
 }
