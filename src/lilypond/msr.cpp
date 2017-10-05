@@ -566,31 +566,40 @@ void msrBeam::print (ostream& os)
 //______________________________________________________________________________
 S_msrArticulation msrArticulation::create (
   int                 inputLineNumber,
-  msrArticulationKind articulationKind)
+  msrArticulationKind articulationKind,
+  msrArticulationPlacementKind
+                      articulationPlacementKind)
 {
   msrArticulation* o =
     new msrArticulation (
-      inputLineNumber, articulationKind);
+      inputLineNumber,
+      articulationKind,
+      articulationPlacementKind);
   assert (o!=0);
   return o;
 }
 
 msrArticulation::msrArticulation (
   int                 inputLineNumber,
-  msrArticulationKind articulationKind)
+  msrArticulationKind articulationKind,
+  msrArticulationPlacementKind
+                      articulationPlacementKind)
     : msrElement (inputLineNumber)
 {
   fArticulationKind = articulationKind;
+
+  fArticulationPlacementKind = articulationPlacementKind;
 }
 
 msrArticulation::~msrArticulation()
 {}
 
-string msrArticulation::articulationKindAsString () const
+string msrArticulation::articulationKindAsString (
+  msrArticulationKind articulationKind) const
 {
   string result;
   
-  switch (fArticulationKind) {
+  switch (articulationKind) {
     case msrArticulation::kAccent:
       result = "accent";
       break;
@@ -647,6 +656,40 @@ string msrArticulation::articulationKindAsString () const
   return result;
 }
 
+string msrArticulation::articulationKindAsString ()
+{
+  return
+    articulationKindAsString (
+      fArticulationKind);
+}
+
+string msrArticulation::articulationPlacementKindAsString (
+  msrArticulationPlacementKind articulationPlacementKind) const
+{
+  string result;
+  
+  switch (articulationPlacementKind) {
+    case msrArticulation::k_NoArticulationPlacement:
+      result = "none";
+      break;
+    case msrArticulation::kArticulationPlacementAbove:
+      result = "above";
+      break;
+    case msrArticulation::kArticulationPlacementBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrArticulation::articulationPlacementKindAsString () const
+{
+  return
+    articulationPlacementKindAsString (
+      fArticulationPlacementKind);
+}
+
 void msrArticulation::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -699,6 +742,9 @@ void msrArticulation::print (ostream& os)
   os <<
     "Articulation" " " <<
     articulationKindAsString () <<
+    ", " <<
+    articulationPlacementKindAsString (
+      fArticulationPlacementKind) <<
     ", line " << fInputLineNumber <<
     endl;
 }

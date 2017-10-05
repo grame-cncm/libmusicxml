@@ -730,12 +730,21 @@ class EXP msrArticulation : public msrElement
     static string articulationKindAsString (
       msrArticulationKind articulationKind);
       
+    enum msrArticulationPlacementKind {
+      k_NoArticulationPlacement,
+      kArticulationPlacementAbove, kArticulationPlacementBelow};
+
+    static string articulationPlacementKindAsString (
+      msrArticulationPlacementKind articulationPlacementKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrArticulation> create (
       int                 inputLineNumber,
-      msrArticulationKind articulationKind);
+      msrArticulationKind articulationKind,
+      msrArticulationPlacementKind
+                          articulationPlacementKind);
 
   protected:
 
@@ -744,7 +753,9 @@ class EXP msrArticulation : public msrElement
 
     msrArticulation (
       int                 inputLineNumber,
-      msrArticulationKind articulationKind);
+      msrArticulationKind articulationKind,
+      msrArticulationPlacementKind
+                          articulationPlacementKind);
       
     virtual ~msrArticulation();
   
@@ -756,10 +767,16 @@ class EXP msrArticulation : public msrElement
     msrArticulationKind   getArticulationKind () const
                               { return fArticulationKind; }
         
+    msrArticulationPlacementKind
+                          getArticulationPlacementKind () const
+                              { return fArticulationPlacementKind; }
+        
     // services
     // ------------------------------------------------------
 
-    virtual string                articulationKindAsString () const;
+    virtual string        articulationKindAsString () const;
+
+    virtual string        articulationPlacementKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -780,7 +797,10 @@ class EXP msrArticulation : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrArticulationKind fArticulationKind;
+    msrArticulationKind   fArticulationKind;
+
+    msrArticulationPlacementKind
+                          fArticulationPlacementKind;
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
