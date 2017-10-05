@@ -2102,7 +2102,7 @@ namespace MusicXML2
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
         if ( nv.fNotehead
-             //|| ((timePos4measure != timePositions.end()) )              // if we need to infer default-x
+             || ((timePos4measure != timePositions.end()) )              // if we need to infer default-x
             &&  fInGrace==false  )      // FIXME: Workaround for GUID-74
         {
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
@@ -2132,7 +2132,7 @@ namespace MusicXML2
                         noteFormatTag->add (guidoparam::create(s.str(), false));
                         noteFormat = true;
                     }
-                    //cout<<"\t Measure "<<measureNum<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos <<endl;
+                    //cout<<"\t Measure="<<measureNum<<" staff="<<fCurrentStaff<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos <<endl;
                 }
             }
             
@@ -2157,6 +2157,7 @@ namespace MusicXML2
     
     int xmlpart2guido::checkNoteFormatDx	 ( const notevisitor& nv , rational posInMeasure)
     {
+        cout<<"\t checkNoteFormatDx NoteFormat with on measure "<<fMeasNum<<" staff "<<fCurrentStaff<<endl;
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
         
