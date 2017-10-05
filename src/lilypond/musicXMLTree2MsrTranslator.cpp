@@ -10532,7 +10532,7 @@ void musicXMLTree2MsrTranslator::visitStart( S_fffff& elt)
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kFFFFF,
-        dynamicsPlacementKind
+        dynamicsPlacementKind);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10716,37 +10716,6 @@ void musicXMLTree2MsrTranslator::visitStart( S_ppp& elt)
       s.str ());    
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
@@ -10762,37 +10731,6 @@ void musicXMLTree2MsrTranslator::visitStart( S_pppp& elt)
     cerr << idtr <<
       "--> Start visiting S_pppp" <<
       endl;
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -10872,37 +10810,6 @@ void musicXMLTree2MsrTranslator::visitStart( S_ppppp& elt)
       s.str ());    
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
@@ -10918,37 +10825,6 @@ void musicXMLTree2MsrTranslator::visitStart( S_pppppp& elt)
     cerr << idtr <<
       "--> Start visiting S_pppppp" <<
       endl;
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -11005,7 +10881,7 @@ void musicXMLTree2MsrTranslator::visitStart( S_mf& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamicsPlacementKind
+  msrDynamics::msrDynamicsPlacementKind
     dynamicsPlacementKind =
       msrDynamics::k_NoDynamicsPlacement;
 
@@ -11035,7 +10911,7 @@ void musicXMLTree2MsrTranslator::visitStart( S_mf& elt)
       msrDynamics::create (
         elt->getInputLineNumber (),
         msrDynamics::kMF,
-        msrDynamicsPlacementKind);
+        dynamicsPlacementKind);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11512,8 +11388,8 @@ void musicXMLTree2MsrTranslator::visitStart( S_sffz& elt)
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kSFFZ),
-        dynamicsPlacementKind;
+        msrDynamics::kSFFZ,
+        dynamicsPlacementKind);
         
   fPendingDynamics.push_back(dynamics);
 }
