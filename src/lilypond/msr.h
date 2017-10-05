@@ -2124,20 +2124,28 @@ class EXP msrDynamics : public msrElement
     // ------------------------------------------------------
 
     enum msrDynamicsKind {
-          kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
-          kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
-          kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
-          k_NoDynamics};
+      kF, kFF, kFFF, kFFFF, kFFFFF, kFFFFFF,
+      kP, kPP, kPPP, kPPPP, kPPPPP, kPPPPPP,
+      kMF, kMP, kFP, kFZ, kRF, kSF, kRFZ, kSFZ, kSFP, kSFPP, kSFFZ,
+      k_NoDynamics };
     
     static string dynamicsKindAsString (
       msrDynamicsKind dynamicsKind);
+      
+    enum msrDynamicsPlacementKind {
+      k_NoDynamicsPlacement,
+      kDynamicsPlacementAbove, kDynamicsPlacementBelow };
+
+    static string dynamicsPlacementKindAsString (
+      msrDynamicsPlacementKind dynamicsPlacementKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrDynamics> create (
-      int             inputLineNumber,
-      msrDynamicsKind dynamicsKind);
+      int                      inputLineNumber,
+      msrDynamicsKind          dynamicsKind,
+      msrDynamicsPlacementKind dynamicsPlacementKind);
 
   protected:
 
@@ -2145,8 +2153,9 @@ class EXP msrDynamics : public msrElement
     // ------------------------------------------------------
 
     msrDynamics (
-      int             inputLineNumber,
-      msrDynamicsKind dynamicsKind);
+      int                      inputLineNumber,
+      msrDynamicsKind          dynamicsKind,
+      msrDynamicsPlacementKind dynamicsPlacementKind);
       
     virtual ~msrDynamics();
   
@@ -2181,7 +2190,10 @@ class EXP msrDynamics : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrDynamicsKind fDynamicsKind;
+    msrDynamicsKind       fDynamicsKind;
+
+    msrDynamicsPlacementKind
+                          fDynamicsPlacementKind;
 };
 typedef SMARTP<msrDynamics> S_msrDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);

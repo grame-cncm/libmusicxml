@@ -746,8 +746,7 @@ void msrArticulation::print (ostream& os)
     "Articulation" " " <<
     articulationKindAsString () <<
     ", " <<
-    articulationPlacementKindAsString (
-      fArticulationPlacementKind) <<
+    articulationPlacementKindAsString ()
     ", line " << fInputLineNumber <<
     endl;
 }
@@ -2469,23 +2468,30 @@ void msrRehearsal::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrDynamics msrDynamics::create (
-  int             inputLineNumber,
-  msrDynamicsKind dynamicsKind)
+  int                      inputLineNumber,
+  msrDynamicsKind          dynamicsKind,
+  msrDynamicsPlacementKind dynamicsPlacementKind)
 {
   msrDynamics* o =
     new msrDynamics (
-      inputLineNumber, dynamicsKind);
+      inputLineNumber,
+      dynamicsKind,
+      dynamicsPlacementKind);
     assert(o!=0);
   return o;
 }
 
 msrDynamics::msrDynamics (
-  int             inputLineNumber,
-  msrDynamicsKind dynamicsKind)
+  int                      inputLineNumber,
+  msrDynamicsKind          dynamicsKind,
+  msrDynamicsPlacementKind dynamicsPlacementKind)
     : msrElement (inputLineNumber)
 {
-  fDynamicsKind = dynamicsKind; 
+  fDynamicsKind = dynamicsKind;
+
+  fDynamicsPlacementKind = dynamicsPlacementKind;
 }
+
 msrDynamics::~msrDynamics()
 {}
 
@@ -2547,13 +2553,13 @@ string msrDynamics::dynamicsKindAsString ()
 
     default:
       {
-      stringstream s;
-      
-      s << "Dynamics " << fDynamicsKind << " is unknown";
-      
-      msrMusicXMLError (
-        fInputLineNumber,
-        s.str ());
+        stringstream s;
+        
+        s << "Dynamics " << fDynamicsKind << " is unknown";
+        
+        msrMusicXMLError (
+          fInputLineNumber,
+          s.str ());
       }
   } // switch
   
@@ -2611,7 +2617,10 @@ ostream& operator<< (ostream& os, const S_msrDynamics& elt)
 void msrDynamics::print (ostream& os)
 {
   os <<
-    "Dynamics" " " << dynamicsKindAsString () <<
+    "Dynamics" " " <<
+    dynamicsKindAsString () <<
+    ", " <<
+    dynamicsPlacementKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 }
