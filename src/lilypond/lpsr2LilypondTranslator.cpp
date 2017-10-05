@@ -5486,23 +5486,25 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       
   switch (elt->getArticulationPlacementKind ()) {
     case msrArticulation::kArticulationPlacementAbove:
-      fOstream << "^";
-      break;
-    case msrArticulation::kArticulationPlacementBelow:
-  // JMI    fOstream << "_";
-      break;
-  } // switch
-
-  switch (elt->getFermataType ()) {
-    case msrFermata::kUprightFermataType:
       // no prefix needed
       break;
-    case msrFermata::kInvertedFermataType:
+    case msrArticulation::kArticulationPlacementBelow:
       fOstream << "_";
       break;
   } // switch
 
-  \override #`(direction . ,DOWN)
+  msrFermata::msrFermataType
+    fermataType =
+      elt->getFermataType ();
+      
+  switch (fermataType) {
+    case msrFermata::kUprightFermataType:
+      // no markup needed
+      break;
+    case msrFermata::kInvertedFermataType:
+      fOstream << "\\markup {\\override #`(direction . ,DOWN) ";
+      break;
+  } // switch
 
   switch (elt->getFermataKind ()) {
     case msrFermata::kNormalFermataKind:
@@ -5513,6 +5515,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       break;
     case msrFermata::kSquareFermataKind:
       fOstream << "\\longfermata";
+      break;
+  } // switch
+
+  switch (fermataType) {
+    case msrFermata::kUprightFermataType:
+      // no markup needed
+      break;
+    case msrFermata::kInvertedFermataType:
+      fOstream << "} ";
       break;
   } // switch
 }

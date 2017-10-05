@@ -761,7 +761,10 @@ S_msrFermata msrFermata::create (
 {
   msrFermata* o =
     new msrFermata (
-      inputLineNumber, fermataKind, fermataType);
+      inputLineNumber,
+      fermataKind,
+      fermataType,
+      articulationPlacementKind);
   assert (o!=0);
   return o;
 }
