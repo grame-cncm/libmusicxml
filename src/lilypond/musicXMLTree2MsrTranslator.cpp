@@ -7173,6 +7173,37 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
     } // while
   }
 
+  if (gGeneralOptions->fTraceNotesDetails) {
+    cerr <<
+      idtr <<
+        "==> visitStart ( S_type& elt ):" <<
+        endl;
+
+    idtr++;
+
+    const int fieldWidth = 43;
+    
+    cerr <<
+      idtr <<
+        setw (fieldWidth) <<
+        "fCurrentNoteSoundingWholeNotesFromDuration" << " : " <<
+          fCurrentNoteSoundingWholeNotesFromDuration <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "fCurrentNoteGraphicDuration" << " : " <<
+          msrDurationAsString (
+            fCurrentNoteGraphicDuration) <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "fCurrentNoteDisplayWholeNotesFromType" << " : " <<
+          fCurrentNoteDisplayWholeNotesFromType <<
+        endl;
+        
+    idtr--;        
+  }
+  
   string noteTypeSize = elt->getAttributeValue ("size");
 
   if (noteTypeSize == "cue") {
@@ -11878,7 +11909,7 @@ S_msrChord musicXMLTree2MsrTranslator::createChordFromItsFirstNote (
   // register note as first member of chord
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "--> adding first note 2 " <<
+      "--> adding first note " <<
       chordFirstNote->
         noteAsShortStringWithRawWholeNotes() <<
       ", line " << inputLineNumber <<
