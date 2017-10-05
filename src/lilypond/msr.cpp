@@ -10868,7 +10868,7 @@ void msrTime::print (ostream& os)
     "Time" <<
     ", timeSymbolKind: " <<
     timeSymbolKindAsString (fTimeSymbolKind) <<
-    ", compound " <<
+    ", compound: " <<
     booleanAsString (
       fTimeIsCompound) <<
     ", " <<
@@ -25382,10 +25382,12 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       break;
       
     case msrStaff::kRegularStaff: // JMI
+    /* JMI
       if (clef->clefIsATablatureClef ())
         fStaffKind = kTablatureStaff;
       else if (clef->clefIsAPercussionClef ())
         fStaffKind = kPercussionStaff;
+        */
       break;
       
     case msrStaff::kTablatureStaff:

@@ -4805,12 +4805,26 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         }
   
         // should there be a single number?
-        if (timeSymbolKind == msrTime::kTimeSymbolSingleNumber) {
-          fOstream <<
-            "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
-            endl <<
-            idtr;
-        }
+        switch (timeSymbolKind) {
+          case msrTime::kTimeSymbolCommon:
+            break;
+          case msrTime::kTimeSymbolCut:
+            break;
+          case msrTime::kTimeSymbolNote:
+            break;
+          case msrTime::kTimeSymbolDottedNote:
+            break;
+          case msrTime::kTimeSymbolSingleNumber:
+            fOstream <<
+              "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
+              endl <<
+              idtr;
+            break;
+          case msrTime::kTimeSymbolSenzaMisura:
+            break;
+          case msrTime::k_NoTimeSymbol:
+            break;
+        } // switch
   
         /* dotted-note: JMI
   \relative {

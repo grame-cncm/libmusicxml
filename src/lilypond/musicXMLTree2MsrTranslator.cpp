@@ -2753,7 +2753,7 @@ Cut time, also known as  or alla breve, is a meter with two half-note beats per 
   else  if (timeSymbol == "single-number") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
   }
-  // \numericTimeSignature par default si pas de symbol
+  // \numericTimeSignature par default si pas de symbol // JMI
   
   else {
     if (timeSymbol.size ()) {
