@@ -122,12 +122,20 @@ string wholeNotesAsLilypondString (
             s << "\\longa";
             numberOfDots += 1;
             break;
+          case 7:
+            s << "\\longa";
+            numberOfDots += 2;
+            break;
           case 8:
             s << "\\maxima";
             break;
           case 12:
             s << "\\maxima";
             numberOfDots += 1;
+            break;
+          case 14:
+            s << "\\maxima";
+            numberOfDots += 2;
             break;
           default:
             s <<

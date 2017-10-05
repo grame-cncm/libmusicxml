@@ -3379,12 +3379,20 @@ string wholeNotesAsMsrString (
             s << "long";
             numberOfDots += 1;
             break;
+          case 7:
+            s << "long";
+            numberOfDots += 2;
+            break;
           case 8:
             s << "maxima";
             break;
           case 12:
             s << "maxima";
             numberOfDots += 1;
+            break;
+          case 14:
+            s << "maxima";
+            numberOfDots += 2;
             break;
           default:
             s <<
