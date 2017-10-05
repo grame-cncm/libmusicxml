@@ -7155,60 +7155,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
       s.str ());
   }
 
-  // convert note graphic duration into whole notes
-  fCurrentNoteDisplayWholeNotesFromType =
-    msrDurationAsWholeNotes (
-      fCurrentNoteGraphicDuration);
-
-  // take dots into account if any
-  if (fCurrentNoteDotsNumber > 0) {
-    int dots = fCurrentNoteDotsNumber;
-
-    while (dots > 0) {
-      fCurrentNoteDisplayWholeNotesFromType *=
-        rational (3, 2);
-      fCurrentNoteDisplayWholeNotesFromType.rationalise ();
-
-      dots--;
-    } // while
-  }
-
-  if (gGeneralOptions->fTraceNotesDetails) {
-    cerr <<
-      idtr <<
-        "==> visitStart ( S_type& elt ):" <<
-        endl;
-
-    idtr++;
-
-    const int fieldWidth = 43;
-    
-    cerr <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNoteSoundingWholeNotesFromDuration" << " : " <<
-          fCurrentNoteSoundingWholeNotesFromDuration <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNoteGraphicDuration" << " : " <<
-          msrDurationAsString (
-            fCurrentNoteGraphicDuration) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNoteDotsNumber" << " : " <<
-          fCurrentNoteDotsNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNoteDisplayWholeNotesFromType" << " : " <<
-          fCurrentNoteDisplayWholeNotesFromType <<
-        endl;
-        
-    idtr--;        
-  }
-  
   string noteTypeSize = elt->getAttributeValue ("size");
 
   if (noteTypeSize == "cue") {
@@ -13191,6 +13137,73 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentDisplayDiatonicPitch,
       fCurrentNoteAlteration);
 
+  // convert note graphic duration into whole notes
+  fCurrentNoteDisplayWholeNotesFromType =
+    msrDurationAsWholeNotes (
+      fCurrentNoteGraphicDuration);
+
+  // take dots into account if any
+  if (fCurrentNoteDotsNumber > 0) {
+    int dots = fCurrentNoteDotsNumber;
+
+    while (dots > 0) {
+      fCurrentNoteDisplayWholeNotesFromType *=
+        rational (3, 2);
+      fCurrentNoteDisplayWholeNotesFromType.rationalise ();
+
+      dots--;
+    } // while
+  }
+
+  // store voice and staff numbers in MusicXML note data
+  fCurrentNoteStaffNumber = fCurrentStaffNumber;
+  fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
+
+  if (gGeneralOptions->fTraceNotes) {
+    cerr << idtr <<
+      "--> Gathered note information:" <<
+      endl;
+
+    idtr++;
+
+    const int fieldWidth = 42;
+    
+    cerr << left <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentNoteSoundingWholeNotesFromDuration" << " = " << 
+        fCurrentNoteSoundingWholeNotesFromDuration <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "fCurrentNoteGraphicDuration" << " : " <<
+          msrDurationAsString (
+            fCurrentNoteGraphicDuration) <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "fCurrentNoteDotsNumber" << " : " <<
+          fCurrentNoteDotsNumber <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentNoteDisplayWholeNotesFromType" << " = " << 
+        fCurrentNoteDisplayWholeNotesFromType <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentNoteIsARest" << " = " << 
+        booleanAsString (fCurrentNoteIsARest) <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentDivisionsPerQuarterNote" << " = " <<
+        fCurrentDivisionsPerQuarterNote <<
+        endl;
+
+    idtr--;
+  }
+
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -13235,44 +13248,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         endl << endl;
   }
 */
-
-  // store voice and staff numbers in MusicXML note data
-  fCurrentNoteStaffNumber = fCurrentStaffNumber;
-  fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
-
-  if (gGeneralOptions->fTraceNotes) {
-    cerr << idtr <<
-      "--> Gathered note information:" <<
-      endl;
-
-    idtr++;
-
-    const int fieldWidth = 42;
-    
-    cerr << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteSoundingWholeNotesFromDuration" << " = " << 
-        fCurrentNoteSoundingWholeNotesFromDuration <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteDisplayWholeNotesFromType" << " = " << 
-        fCurrentNoteDisplayWholeNotesFromType <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteIsARest" << " = " << 
-        booleanAsString (fCurrentNoteIsARest) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentDivisionsPerQuarterNote" << " = " <<
-        fCurrentDivisionsPerQuarterNote <<
-        endl;
-
-    idtr--;
-  }
 
   if (fCurrentNoteIsAGraceNote) {
     // set current grace note display whole notes      
