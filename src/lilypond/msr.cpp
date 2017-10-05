@@ -12053,7 +12053,8 @@ void msrStanza::initializeStanza ()
         fStanzaVoiceUplink->getVoiceName() +
         "_Stanza_" + 
           stringNumbersToEnglishWords (
-            makeSingleWordFromString (fStanzaNumber));
+            makeSingleWordFromString (
+              fStanzaNumber));
       break;
       
     case kMuteStanza:

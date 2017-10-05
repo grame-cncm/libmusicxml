@@ -204,6 +204,14 @@ int msrIntervalAsSemiTones (
   return result;
 }
 
+int msrIntervalAsQuarterTones (
+  msrInterval interval)
+{
+  return
+    msrIntervalAsSemiTones (interval) * 2;
+}
+
+//______________________________________________________________________________
 string msrIntervalAsString (
   msrInterval interval)
 {

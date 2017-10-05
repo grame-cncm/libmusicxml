@@ -224,6 +224,9 @@ enum msrInterval {
 int msrIntervalAsSemiTones (
   msrInterval interval);
   
+int msrIntervalAsQuarterTones (
+  msrInterval interval);
+  
 string msrIntervalAsString (
   msrInterval interval);
       
@@ -467,7 +470,7 @@ string msrQuarterTonesPitchesLanguageAsString (
 
 string msrDiatonicPitchAsString ( // JMI
   msrQuarterTonesPitchesLanguage language,
-  msrDiatonicPitch              diatonicPitch);
+  msrDiatonicPitch               diatonicPitch);
 
 string msrQuarterTonesPitchAsString (
   msrQuarterTonesPitchesLanguage language,

@@ -1012,7 +1012,7 @@ string makeSingleWordFromString (const string &theString)
     string::const_iterator i = theString.begin ();
     i != theString.end ();
     i++) {
-    if (isalpha (*i)) {
+    if (isalnum (*i)) {
       result.push_back ((*i));
     }
   } // for
