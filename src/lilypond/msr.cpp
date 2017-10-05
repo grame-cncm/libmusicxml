@@ -11989,12 +11989,22 @@ string msrSyllable::syllableAsString ()
       break;
       
     case kRestSyllable:
-       s << 
-        "rest" << ":" << syllableWholeNotesAsMsrString () <<
+      s <<
+        "rest" <<
+        ", texts list: ";
+
+      writeTextsList (
+        fSyllableTextsList,
+        s);
+
+      s <<
+        ":" << syllableWholeNotesAsMsrString () <<
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber <<
         ", " <<
-        syllableNoteUplinkAsString ();
+        syllableNoteUplinkAsString () <<
+        ", NoteSyllableExtendKind: " <<
+        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kSkipSyllable:
@@ -12320,12 +12330,12 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kBeginSyllable:
     case msrSyllable::kMiddleSyllable:
     case msrSyllable::kEndSyllable:
+    case msrSyllable::kRestSyllable:
       // only now, in case addSyllableToStanza() is called
       // from LPSR for example
       fStanzaTextPresent = true;
       break;
       
-    case msrSyllable::kRestSyllable:
     case msrSyllable::kSkipSyllable:
     case msrSyllable::kMelismaFirstSyllable:
     case msrSyllable::kMelismaOtherSyllable:

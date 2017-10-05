@@ -4323,6 +4323,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
           
         case msrSyllable::kRestSyllable:
+          writeTextsListAsLilypondString (
+            elt->getSyllableTextsList (),
+            fOstream);
+          fOstream <<
+            elt->syllableWholeNotesAsMsrString () <<
+            " ";
+/* JMI
           // LilyPond ignores the skip duration
           // when \lyricsto is used
           fOstream <<
@@ -4331,7 +4338,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             " %{rest%}" " ";
 
-          fStanzaOlec++; // for the comment        
+          fStanzaOlec++; // for the comment
+          */ 
           break;
           
         case msrSyllable::kSkipSyllable:
