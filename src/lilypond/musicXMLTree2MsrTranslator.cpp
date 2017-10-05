@@ -8146,12 +8146,38 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
     }   
   }
 
+  string placement = elt->getAttributeValue ("placement");
+
+  msrArticulation::msrArticulationPlacementKind
+    articulationPlacementKind =
+      msrArticulation::k_NoArticulationPlacement;
+
+  if      (placement == "above")
+    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
+    
+  else if (placement == "below")
+    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str ());    
+  }
+
   S_msrFermata
     fermata =
       msrFermata::create (
         inputLineNumber,
         fermataKind,
-        fermataType);
+        fermataType,
+        articulationPlacementKind);
         
   fCurrentArticulations.push_back (fermata);
 }

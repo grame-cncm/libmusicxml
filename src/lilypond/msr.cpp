@@ -755,7 +755,9 @@ void msrArticulation::print (ostream& os)
 S_msrFermata msrFermata::create (
   int            inputLineNumber,
   msrFermataKind fermataKind,
-  msrFermataType fermataType)
+  msrFermataType fermataType,
+  msrArticulationPlacementKind
+                 articulationPlacementKind)
 {
   msrFermata* o =
     new msrFermata (
@@ -767,11 +769,13 @@ S_msrFermata msrFermata::create (
 msrFermata::msrFermata (
   int            inputLineNumber,
   msrFermataKind fermataKind,
-  msrFermataType fermataType)
+  msrFermataType fermataType,
+      msrArticulationPlacementKind
+                     articulationPlacementKind)
     : msrArticulation (
       inputLineNumber,
       msrArticulation::kFermata,
-      kArticulationPlacementAbove) // JMI ???
+      articulationPlacementKind)
 {
   fFermataKind = fermataKind;
   fFermataType = fermataType;

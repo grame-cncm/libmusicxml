@@ -836,7 +836,9 @@ class EXP msrFermata : public msrArticulation
     static SMARTP<msrFermata> create (
       int            inputLineNumber,
       msrFermataKind fermataKind,
-      msrFermataType fermataType);
+      msrFermataType fermataType,
+      msrArticulationPlacementKind
+                     articulationPlacementKind);
 
   protected:
 
@@ -846,7 +848,9 @@ class EXP msrFermata : public msrArticulation
     msrFermata (
       int            inputLineNumber,
       msrFermataKind fermataKind,
-      msrFermataType fermataType);
+      msrFermataType fermataType,
+      msrArticulationPlacementKind
+                     articulationPlacementKind);
       
     virtual ~msrFermata();
   

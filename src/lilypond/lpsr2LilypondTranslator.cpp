@@ -5484,6 +5484,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       "% --> Start visiting msrFermata" <<
       endl;
       
+  switch (elt->getArticulationPlacementKind ()) {
+    case msrArticulation::kArticulationPlacementAbove:
+      fOstream << "^";
+      break;
+    case msrArticulation::kArticulationPlacementBelow:
+  // JMI    fOstream << "_";
+      break;
+  } // switch
+
   switch (elt->getFermataType ()) {
     case msrFermata::kUprightFermataType:
       // no prefix needed
@@ -5492,6 +5501,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       fOstream << "_";
       break;
   } // switch
+
+  \override #`(direction . ,DOWN)
 
   switch (elt->getFermataKind ()) {
     case msrFermata::kNormalFermataKind:
