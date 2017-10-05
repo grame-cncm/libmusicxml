@@ -746,7 +746,7 @@ void msrArticulation::print (ostream& os)
     "Articulation" " " <<
     articulationKindAsString () <<
     ", " <<
-    articulationPlacementKindAsString ()
+    articulationPlacementKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 }
@@ -2495,75 +2495,129 @@ msrDynamics::msrDynamics (
 msrDynamics::~msrDynamics()
 {}
 
-string msrDynamics::dynamicsKindAsString ()
+string msrDynamics::dynamicsKindAsString (
+  msrDynamicsKind dynamicsKind)
 {
   stringstream s;
   
-  switch (fDynamicsKind) {
+  switch (dynamicsKind) {
     case kF:
       s << "f";
       break;
     case kFF:
-      s << "ff"; break;
+      s << "ff";
+      break;
     case kFFF:
-      s << "fff"; break;
+      s << "fff";
+      break;
     case kFFFF:
-      s << "ffff"; break;
+      s << "ffff";
+      break;
     case kFFFFF:
-      s << "fffff"; break;
+      s << "fffff";
+      break;
     case kFFFFFF:
-      s << "ffffff"; break;
+      s << "ffffff";
+      break;
 
     case kP:
-      s << "p"; break;
+      s << "p";
+      break;
     case kPP:
-      s << "pp"; break;
+      s << "pp";
+      break;
     case kPPP:
-      s << "ppp"; break;
+      s << "ppp";
+      break;
     case kPPPP:
-      s << "pppp"; break;
+      s << "pppp";
+      break;
     case kPPPPP:
-      s << "ppppp"; break;
+      s << "ppppp";
+      break;
     case kPPPPPP:
-      s << "pppppp"; break;
+      s << "pppppp";
+      break;
 
     case kMF:
-      s << "mf"; break;
+      s << "mf";
+      break;
     case kMP:
-      s << "mp"; break;
+      s << "mp";
+      break;
     case kFP:
-      s << "fp"; break;
+      s << "fp";
+      break;
     case kFZ:
-      s << "fz"; break;
+      s << "fz";
+      break;
     case kRF:
-      s << "rf"; break;
+      s << "rf";
+      break;
     case kSF:
-      s << "sf"; break;
+      s << "sf";
+      break;
 
     case kRFZ:
-      s << "rfz"; break;
+      s << "rfz";
+      break;
     case kSFZ:
-      s << "sfz"; break;
+      s << "sfz";
+      break;
     case kSFP:
-      s << "sfp"; break;
+      s << "sfp";
+      break;
     case kSFPP:
-      s << "sfpp"; break;
+      s << "sfpp";
+      break;
     case kSFFZ:
-      s << "sffz"; break;
-
+      s << "sffz";
+      break;
+/* JMI
     default:
       {
         stringstream s;
         
-        s << "Dynamics " << fDynamicsKind << " is unknown";
+        s << "Dynamics " << dynamicsKind << " is unknown";
         
         msrMusicXMLError (
           fInputLineNumber,
           s.str ());
       }
+      */
   } // switch
   
   return s.str ();
+}
+
+string msrDynamics::dynamicsKindAsString () const
+{
+  return
+    dynamicsKindAsString (fDynamicsKind);
+}
+
+string msrDynamics::dynamicsPlacementKindAsString (
+  msrDynamicsPlacementKind dynamicsPlacementKind)
+{
+  string result;
+
+  switch (dynamicsPlacementKind) {
+    case msrDynamics::kDynamicsPlacementAbove:
+      result = "above";
+      break;
+    case msrDynamics::kDynamicsPlacementBelow:
+      result = "below";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrDynamics::dynamicsPlacementKindAsString () const
+{
+  return
+    dynamicsPlacementKindAsString (
+      fDynamicsPlacementKind);
 }
 
 void msrDynamics::acceptIn (basevisitor* v) {

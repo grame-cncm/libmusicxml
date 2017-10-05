@@ -2170,7 +2170,9 @@ class EXP msrDynamics : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                dynamicsKindAsString ();
+    string                dynamicsKindAsString () const;
+    
+    string                dynamicsPlacementKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
