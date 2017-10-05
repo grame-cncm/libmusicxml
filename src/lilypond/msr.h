@@ -2167,6 +2167,10 @@ class EXP msrDynamics : public msrElement
     msrDynamicsKind       getDynamicsKind () const
                               { return fDynamicsKind; }
 
+    msrDynamicsPlacementKind
+                          getDynamicsPlacementKind () const
+                              { return fDynamicsPlacementKind; }
+
     // services
     // ------------------------------------------------------
 

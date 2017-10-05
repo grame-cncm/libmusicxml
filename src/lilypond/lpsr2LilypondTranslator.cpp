@@ -6200,8 +6200,20 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i=noteDynamics.begin();
       i!=noteDynamics.end();
       i++) {
+      S_msrDynamics
+        dynamics = (*i);
+        
+      switch (dynamics->getDynamicsPlacementKind ()) {
+        case msrDynamics::kDynamicsPlacementAbove:
+          fOstream << "^";
+          break;
+        case msrDynamics::kDynamicsPlacementBelow:
+      // JMI    fOstream << "_";
+          break;
+      } // switch
+
       fOstream <<
-        "\\" << (*i)->dynamicsKindAsString () << " ";
+        "\\" << dynamics->dynamicsKindAsString () << " ";
       fMusicOlec++;
     } // for
   }
@@ -6750,8 +6762,20 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordDynamics.begin();
       i!=chordDynamics.end();
       i++) {
+      S_msrDynamics
+        dynamics = (*i);
+        
+      switch (dynamics->getDynamicsPlacementKind ()) {
+        case msrDynamics::kDynamicsPlacementAbove:
+          fOstream << "^";
+          break;
+        case msrDynamics::kDynamicsPlacementBelow:
+    // JMI      fOstream << "_";
+          break;
+      } // switch
+
       fOstream <<
-        "\\" << (*i)->dynamicsKindAsString () << " ";
+        "\\" << dynamics->dynamicsKindAsString () << " ";
       fMusicOlec++;
     } // for
   }
