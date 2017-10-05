@@ -7660,7 +7660,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_breath_mark& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kBreathMark);
+        msrArticulation::kBreathMark,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7704,7 +7705,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_caesura& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kCaesura);
+        msrArticulation::kCaesura,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7748,7 +7750,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_spiccato& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kSpiccato);
+        msrArticulation::kSpiccato,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7792,7 +7795,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_staccato& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kStaccato);
+        msrArticulation::kStaccato,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7836,7 +7840,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kStaccatissimo);
+        msrArticulation::kStaccatissimo,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7880,7 +7885,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_stress& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kStress);
+        msrArticulation::kStress,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7924,7 +7930,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_unstress& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kUnstress);
+        msrArticulation::kUnstress,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7968,7 +7975,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_detached_legato& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kDetachedLegato);
+        msrArticulation::kDetachedLegato,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8013,7 +8021,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_strong_accent& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kStrongAccent);
+        msrArticulation::kStrongAccent,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8058,7 +8067,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_tenuto& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kTenuto);
+        msrArticulation::kTenuto,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8154,15 +8164,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
     }   
   }
 
-/* JMI
-  // type : upright inverted  (Binchois20.xml)
-  S_msrArticulation
-    articulation =
-      msrArticulation::create (
-        inputLineNumber,
-        msrArticulation::kFermata);
-*/
-
   S_msrFermata
     fermata =
       msrFermata::create (
@@ -8212,7 +8213,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kArpeggiato);
+        msrArticulation::kArpeggiato,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8256,7 +8258,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kArpeggiato);
+        msrArticulation::kNonArpeggiato,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8300,7 +8303,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_doit& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kDoit);
+        msrArticulation::kDoit,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8344,7 +8348,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_falloff& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kFalloff);
+        msrArticulation::kFalloff,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8388,7 +8393,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_plop& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kPlop);
+        msrArticulation::kPlop,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8432,7 +8438,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_scoop& elt )
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kScoop);
+        msrArticulation::kScoop,
+        articulationPlacementKind);
       
   fCurrentArticulations.push_back (articulation);
 }

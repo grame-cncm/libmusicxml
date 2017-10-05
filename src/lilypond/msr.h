@@ -723,8 +723,8 @@ class EXP msrArticulation : public msrElement
         kStress, kUnstress,
         kDetachedLegato,
         kStrongAccent, kTenuto,
-        kFermata, // barline ???
-        kArpeggiato, // ???
+        kFermata, // barline ??? JMI
+        kArpeggiato, kNonArpeggiato,
         kDoit, kFalloff, kPlop, kScoop};
 
     static string articulationKindAsString (

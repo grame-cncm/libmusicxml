@@ -595,7 +595,7 @@ msrArticulation::~msrArticulation()
 {}
 
 string msrArticulation::articulationKindAsString (
-  msrArticulationKind articulationKind) const
+  msrArticulationKind articulationKind)
 {
   string result;
   
@@ -639,6 +639,9 @@ string msrArticulation::articulationKindAsString (
     case msrArticulation::kArpeggiato:
       result = "arpeggiato";
       break;
+    case msrArticulation::kNonArpeggiato:
+      result = "nonArpeggiato";
+      break;
     case msrArticulation::kDoit:
       result = "doit";
       break;
@@ -656,7 +659,7 @@ string msrArticulation::articulationKindAsString (
   return result;
 }
 
-string msrArticulation::articulationKindAsString ()
+string msrArticulation::articulationKindAsString () const
 {
   return
     articulationKindAsString (
@@ -664,7 +667,7 @@ string msrArticulation::articulationKindAsString ()
 }
 
 string msrArticulation::articulationPlacementKindAsString (
-  msrArticulationPlacementKind articulationPlacementKind) const
+  msrArticulationPlacementKind articulationPlacementKind)
 {
   string result;
   
@@ -768,7 +771,8 @@ msrFermata::msrFermata (
   msrFermataType fermataType)
     : msrArticulation (
       inputLineNumber,
-      msrArticulation::kFermata)
+      msrArticulation::kFermata,
+      kArticulationPlacementAbove) // JMI ???
 {
   fFermataKind = fermataKind;
   fFermataType = fermataType;
