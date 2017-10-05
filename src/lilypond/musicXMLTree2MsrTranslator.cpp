@@ -7197,6 +7197,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
         endl <<
       idtr <<
         setw (fieldWidth) <<
+        "fCurrentNoteDotsNumber" << " : " <<
+          fCurrentNoteDotsNumber <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
         "fCurrentNoteDisplayWholeNotesFromType" << " : " <<
           fCurrentNoteDisplayWholeNotesFromType <<
         endl;
