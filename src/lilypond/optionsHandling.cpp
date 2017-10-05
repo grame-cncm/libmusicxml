@@ -2074,6 +2074,18 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   os <<
     endl <<
     endl;
+
+  // print the description if any
+  if (fOptionsElementDescription.size ()) {
+    idtr++;
+    os << idtr <<
+      fOptionsElementDescription <<
+      endl;
+    idtr--;
+  }
+  
+  os <<
+    endl;
   
   switch (fOptionsSubGroupDescriptionVisibility) {
     case kAlwaysShowDescription:
@@ -2126,7 +2138,19 @@ void msrOptionsSubGroup::printForcedHelp (ostream& os) const
   os <<
     endl <<
     endl;
+
+  // print the description if any
+  if (fOptionsElementDescription.size ()) {
+    idtr++;
+    os << idtr <<
+      fOptionsElementDescription <<
+      endl;
+    idtr--;
+  }
   
+  os <<
+    endl;
+    
   if (fOptionsSubGroupItemsList.size ()) {    
     idtr++;
 
@@ -2189,7 +2213,7 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
   // otherwise print the regular help
   if (optionsSubGroup == this) {
     os <<
-    endl;
+      endl;
     printHelp (os);
   }
   else {
@@ -2403,8 +2427,21 @@ void msrOptionsGroup::printHelp (ostream& os) const
   // underline the options group header
   underlineHeader (os);
   os <<
+    endl <<
     endl;
 
+  // print the description if any
+  if (fOptionsElementDescription.size ()) {
+    idtr++;
+    os << idtr <<
+      fOptionsElementDescription <<
+      endl;
+    idtr--;
+  }
+  
+  os <<
+    endl;
+  
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;
@@ -2439,8 +2476,21 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
     idtr;
   underlineHeader (os);
   os <<
+    endl <<
     endl;
 
+  // print the description if any
+  if (fOptionsElementDescription.size ()) {
+    idtr++;
+    os << idtr <<
+      fOptionsElementDescription <<
+      endl;
+    idtr--;
+  }
+  
+  os <<
+    endl;
+  
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;
@@ -2481,8 +2531,21 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
   // underline the options group header
   underlineHeader (os);
   os <<
+    endl <<
     endl;
 
+  // print the description if any
+  if (fOptionsElementDescription.size ()) {
+    idtr++;
+    os << idtr <<
+      fOptionsElementDescription <<
+      endl;
+    idtr--;
+  }
+  
+  os <<
+    endl;
+  
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;

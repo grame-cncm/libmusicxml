@@ -305,7 +305,7 @@ R"()",
       msrOptionsSubGroup::create (
         "Specific trace",
         "hgst", "helpGeneralSpecificTrace",
-R"()",
+R"(Note: the options in this group imply '-t, -traceGeneral'.)",
       msrOptionsSubGroup::kHideDescriptionByDefault
       );
   
