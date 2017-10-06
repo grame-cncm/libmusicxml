@@ -266,6 +266,7 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   // note print kind
   fCurrentNotePrintKind = msrNote::kNotePrintYes;
 
+  fCurrentNoteHeadKind = msrNote::kNoteHeadNormal;
   fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
   fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
   

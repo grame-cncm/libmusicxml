@@ -3687,7 +3687,7 @@ S_msrNote msrNote::create (
 
   msrNotePrintKind           msrNotePrintKind,
   
-  msrNoteHeadKind            msrNoteHeadKind,
+  msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
 {  
@@ -3714,7 +3714,13 @@ S_msrNote msrNote::create (
       noteIsARest,
       noteIsUnpitched,
       
-      noteIsAGraceNote);
+      noteIsAGraceNote,
+
+      msrNotePrintKind,
+
+      noteHeadKind,
+      noteHeadFilledKind,
+      noteHeadParenthesesKind);
   assert(o!=0);
 
   return o;
@@ -3744,9 +3750,9 @@ msrNote::msrNote (
 
   bool                       noteIsAGraceNote,
 
-  msrNotePrintKind           msrNotePrintKind,
+  msrNotePrintKind           notePrintKind,
   
-  msrNoteHeadKind            msrNoteHeadKind,
+  msrNoteHeadKind            noteHeadKind,
   msrNoteHeadFilledKind      noteHeadFilledKind,
   msrNoteHeadParenthesesKind noteHeadParenthesesKind)
   : msrElement (inputLineNumber)
@@ -3772,6 +3778,12 @@ msrNote::msrNote (
   fNoteIsUnpitched = noteIsUnpitched;
 
   fNoteIsAGraceNote = noteIsAGraceNote;
+
+  fNotePrintKind = notePrintKind;
+  
+  fNoteHeadKind            = noteHeadKind;
+  fNoteHeadFilledKind      = noteHeadFilledKind;
+  fNoteHeadParenthesesKind = noteHeadParenthesesKind;
 
   // do other initializations
   initializeNote ();
@@ -3906,6 +3918,28 @@ void msrNote::initializeNote ()
          booleanAsString (fNoteIsAGraceNote) <<
         endl <<
 
+      idtr << left <<
+        setw (fieldWidth) <<
+        "fNotePrintKind" << " = " <<
+         notePrintKindAsString (fNotePrintKind) <<
+        endl <<
+
+      idtr << left <<
+        setw (fieldWidth) <<
+        "fNoteHeadKind" << " = " <<
+         noteHeadKindAsString (fNoteHeadKind) <<
+        endl <<
+      idtr << left <<
+        setw (fieldWidth) <<
+        "fNoteHeadFilledKind" << " = " <<
+         noteHeadFilledKindAsString (fNoteHeadFilledKind) <<
+        endl <<
+      idtr << left <<
+        setw (fieldWidth) <<
+        "fNoteHeadParenthesesKind" << " = " <<
+         noteHeadParenthesesKindAsString (fNoteHeadParenthesesKind) <<
+        endl <<
+
         // fNoteOctaveShift JMI ???
 
       // accidentals
@@ -4030,7 +4064,13 @@ S_msrNote msrNote::createNoteNewbornClone (
         fNoteIsARest,
         fNoteIsUnpitched,
         
-        fNoteIsAGraceNote);
+        fNoteIsAGraceNote,
+
+        fNotePrintKind,
+  
+        fNoteHeadKind,
+        fNoteHeadFilledKind,
+        fNoteHeadParenthesesKind);
 
   // basic note description
   // ------------------------------------------------------
@@ -4232,7 +4272,13 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteIsARest,
         fNoteIsUnpitched,
         
-        fNoteIsAGraceNote);
+        fNoteIsAGraceNote,
+  
+        fNotePrintKind,
+        
+        fNoteHeadKind,
+        fNoteHeadFilledKind,
+        fNoteHeadParenthesesKind);
 
   // basic note description
   // ------------------------------------------------------
@@ -4563,7 +4609,13 @@ S_msrNote msrNote::createSkipNote (
       false, // noteIsARest
       false, // noteIsUnpitched
       
-      false); // noteIsAGraceNote
+      false, // noteIsAGraceNote
+
+      kNotePrintYes, // JMI
+
+      kNoteHeadNormal, // JMI
+      kNoteHeadFilledYes, // JMI
+      kNoteHeadParenthesesNo); // JMI
   assert(o!=0);
   
   return o;
@@ -4686,6 +4738,105 @@ string msrNote::notePrintKindAsString (
       break;
     case msrNote::kNotePrintNo:
       result = "print: no";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrNote::noteHeadKindAsString (
+  msrNoteHeadKind noteHeadKind)
+{
+  string result;
+ 
+  switch (noteHeadKind) {
+    case msrNote::kNoteHeadSlash:
+      result = "kNoteHeadSlash";
+      break;
+    case msrNote::kNoteHeadTriangle:
+      result = "kNoteHeadTriangle";
+      break;
+    case msrNote::kNoteHeadDiamond:
+      result = "kNoteHeadDiamond";
+      break;
+    case msrNote::kNoteHeadSquare:
+      result = "kNoteHeadSquare";
+      break;
+    case msrNote::kNoteHeadCross:
+      result = "kNoteHeadCross";
+      break;
+    case msrNote::kNoteHeadX:
+      result = "kNoteHeadX";
+      break;
+    case msrNote::kNoteHeadCircleX:
+      result = "kNoteHeadCircleX";
+      break;
+    case msrNote::kNoteHeadInvertedTriangle:
+      result = "kNoteHeadInvertedTriangle";
+      break;
+    case msrNote::kNoteHeadArrowDown:
+      result = "kNoteHeadArrowDown";
+      break;
+    case msrNote::kNoteHeadArrowUp:
+      result = "kNoteHeadArrowUp";
+      break;
+    case msrNote::kNoteHeadSlashed:
+      result = "kNoteHeadSlashed";
+      break;
+    case msrNote::kNoteHeadBackSlashed:
+      result = "kNoteHeadBackSlashed";
+      break;
+    case msrNote::kNoteHeadNormal:
+      result = "kNoteHeadNormal";
+      break;
+    case msrNote::kNoteHeadCluster:
+      result = "kNoteHeadCluster";
+      break;
+    case msrNote::kNoteHeadCircleDot:
+      result = "kNoteHeadCircleDot";
+      break;
+    case msrNote::kNoteHeadLeftTriangle:
+      result = "kNoteHeadLeftTriangle";
+      break;
+    case msrNote::kNoteHeadRectangle:
+      result = "kNoteHeadRectangle";
+      break;
+    case msrNote::kNoHeadNone:
+      result = "kNoHeadNone";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrNote::noteHeadFilledKindAsString (
+  msrNoteHeadFilledKind noteHeadFilledKind)
+{
+  string result;
+ 
+  switch (noteHeadFilledKind) {
+    case msrNote::kNoteHeadFilledYes:
+      result = "headFilled: yes";
+      break;
+    case msrNote::kNoteHeadFilledNo:
+      result = "headFilled: no";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrNote::noteHeadParenthesesKindAsString (
+  msrNoteHeadParenthesesKind noteHeadParenthesesKind)
+{
+  string result;
+ 
+  switch (noteHeadParenthesesKind) {
+    case msrNote::kNoteHeadParenthesesYes:
+      result = "headParentheses: yes";
+      break;
+    case msrNote::kNoteHeadParenthesesNo:
+      result = "headParentheses: no";
       break;
   } // switch
 

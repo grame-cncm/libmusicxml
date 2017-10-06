@@ -4753,7 +4753,7 @@ class EXP msrNote : public msrElement
 
       msrNotePrintKind           msrNotePrintKind,
       
-      msrNoteHeadKind            msrNoteHeadKind,
+      msrNoteHeadKind            noteHeadKind,
       msrNoteHeadFilledKind      noteHeadFilledKind,
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
         
