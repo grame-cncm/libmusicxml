@@ -5805,11 +5805,11 @@ void msrNote::print (ostream& os)
     }
 
     os <<
-      endl;
+      endl <<
+      idtr;
   
     // accidentals
     os <<
-      idtr <<
         noteEditorialAccidentalKindAsString (
           fNoteEditorialAccidentalKind) <<
         ", " <<
@@ -5818,7 +5818,7 @@ void msrNote::print (ostream& os)
 
     // print kind
     os <<
-      idtr <<
+      ", " <<
         notePrintKindAsString ();
 
     os <<
