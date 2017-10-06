@@ -7281,41 +7281,41 @@ void musicXMLTree2MsrTranslator::visitStart ( S_notehead& elt )
   string noteHead = elt->getValue();
  
   if      (noteHead == "slash") {
-    fCurrentNoteGraphicDuration = kNoteHeadSlash; }
+    fCurrentNoteHeadKind = msrNote::kNoteHeadSlash; }
   else if (noteHead == "triangle") {
-    fCurrentNoteGraphicDuration = kNoteHeadTriangle; }
+    fCurrentNoteHeadKind = msrNote::kNoteHeadTriangle; }
   else if (noteHead == "diamond")   {
-    fCurrentNoteGraphicDuration = kNoteHeadDiamond; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadDiamond; } 
   else if (noteHead == "square") {
-    fCurrentNoteGraphicDuration = kNoteHeadSquare; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadSquare; } 
   else if (noteHead == "cross") {
-    fCurrentNoteGraphicDuration = kNoteHeadCross; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadCross; } 
   else if (noteHead == "x") {
-    fCurrentNoteGraphicDuration = kNoteHeadX; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadX; } 
   else if (noteHead == "circle-x") {
-    fCurrentNoteGraphicDuration = kNoteHeadCircleX; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadCircleX; } 
   else if (noteHead == "inverted triangle") {
-    fCurrentNoteGraphicDuration = kNoteHeadInvertedTriangle; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadInvertedTriangle; } 
   else if (noteHead == "arrow down") {
-    fCurrentNoteGraphicDuration = kNoteHeadArrowDown; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadArrowDown; } 
   else if (noteHead == "arrow up") {
-    fCurrentNoteGraphicDuration = kNoteHeadArrowUp; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadArrowUp; } 
   else if (noteHead == "slashed") {
-    fCurrentNoteGraphicDuration = kNoteHeadSlashed; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadSlashed; } 
   else if (noteHead == "back slashed") {
-    fCurrentNoteGraphicDuration = kNoteHeadBackSlashed; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadBackSlashed; } 
   else if (noteHead == "normal") {
-    fCurrentNoteGraphicDuration = kNoteHeadNormal; } 
+    fCurrentNoteHeadKind = msrNote::kNoteHeadNormal; } 
   else if (noteHead == "cluster") {
-    fCurrentNoteGraphicDuration = kNoteHeadCluster; }
+    fCurrentNoteHeadKind = msrNote::kNoteHeadCluster; }
   else if (noteHead == "circle dot") {
-    fCurrentNoteGraphicDuration = kNoteHeadCircleDot; }
+    fCurrentNoteHeadKind = msrNote::kNoteHeadCircleDot; }
   else if (noteHead == "left triangle") {
-    fCurrentNoteGraphicDuration = kNoteHeadLeftTriangle; }
+    fCurrentNoteHeadKind = msrNote::kNoteHeadLeftTriangle; }
   else if (noteHead == "rectangle") {
-    fCurrentNoteGraphicDuration = kNoteHeadRectangle; }
+    fCurrentNoteHeadKind = msrNote::kNoteHeadRectangle; }
   else if (noteHead == "none") {
-    fCurrentNoteGraphicDuration = kNoHeadNone; }
+    fCurrentNoteHeadKind = msrNote::kNoHeadNone; }
   else {
     stringstream s;
     
