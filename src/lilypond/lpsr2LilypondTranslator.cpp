@@ -5929,9 +5929,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       break;
   } // switch
 
-  // print the note as a LilyPond string
-  printNoteAsLilypondString (elt);
-
   // handling note head
   msrNote::msrNoteHeadKind
     noteHeadKind =
@@ -5939,25 +5936,25 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
  
   switch (noteHeadKind) {
     case msrNote::kNoteHeadSlash:
-      fOstream << "\\once\\override NoteHead.style = #'slash ";
+      fOstream << "\\tweak style #'slash ";
       break;
     case msrNote::kNoteHeadTriangle:
-      fOstream << "\\once\\override NoteHead.style = #'triangle ";
+      fOstream << "\\tweak style #'triangle ";
       break;
     case msrNote::kNoteHeadDiamond:
-      fOstream << "\\once\\override NoteHead.style = #'diamond ";
+      fOstream << "\\tweak style #'diamond ";
       break;
     case msrNote::kNoteHeadSquare:
       fOstream << "%{kNoteHeadSquare%} ";
       break;
     case msrNote::kNoteHeadCross:
-      fOstream << "\\once\\override NoteHead.style = #'cross ";
+      fOstream << "\\tweak style #'cross ";
       break;
     case msrNote::kNoteHeadX:
       fOstream << "%{kNoteHeadX%} ";
       break;
     case msrNote::kNoteHeadCircleX:
-      fOstream << "\\once\\override NoteHead.style = #'xcircle ";
+      fOstream << "\\tweak style #'xcircle ";
       break;
     case msrNote::kNoteHeadInvertedTriangle:
       fOstream << "%{kNoteHeadInvertedTriangle%} ";
@@ -5993,6 +5990,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       fOstream << "\\once\\omit NoteHead ";
       break;
   } // switch
+
+  // print the note as a LilyPond string
+  printNoteAsLilypondString (elt);
 
   fOnGoingNote = true;
 }
