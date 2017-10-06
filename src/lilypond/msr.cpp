@@ -4680,7 +4680,7 @@ string msrNote::notePrintKindAsString (
   return result;
 }
 
-string msrNote::notePrintKindAsString ()
+string msrNote::notePrintKindAsString () const
 {
   return
     notePrintKindAsString (

@@ -169,7 +169,7 @@ namespace MusicXML2
 enum msrDiatonicPitch {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB,
-  k_NoDiatonicPitch};
+  k_NoDiatonicPitch };
 
 msrDiatonicPitch msrDiatonicPitchFromString (
   char diatonicNoteName);
@@ -184,7 +184,7 @@ enum msrAlteration {
   
   kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
   kNatural,
-  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
+  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp };
 
 msrAlteration msrAlterationFromMusicXMLAlter (
   float alter);
@@ -443,7 +443,7 @@ enum msrQuarterTonesPitch {
   
   k_gDoubleFlat, k_gSesquiFlat, k_gFlat, k_gSemiFlat,
   k_gNatural,
-  k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp};
+  k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp };
 
 void setDiatonicPitchAndAlteration (
   msrQuarterTonesPitch quarterTonesPitch,
@@ -463,7 +463,7 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
 //______________________________________________________________________________
 enum msrQuarterTonesPitchesLanguage {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
-  kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams};
+  kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams };
   
 string msrQuarterTonesPitchesLanguageAsString (
   msrQuarterTonesPitchesLanguage language);
@@ -503,7 +503,7 @@ enum msrSemiTonesPitch {
   
   kB_Natural_STP, kA_DoubleSharp_STP = kB_Natural_STP, kC_Flat_STP = kB_Natural_STP,
   
-  k_NoWelTemperedPitch_STP};
+  k_NoWelTemperedPitch_STP };
   
 string msrSemiTonesPitchAsString (
   msrSemiTonesPitch semiTonesPitch);
@@ -547,7 +547,7 @@ enum msrDuration {
   kMaxima, kLong, kBreve, kWhole, kHalf, 
   kQuarter,
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
-  k_NoDuration};
+  k_NoDuration };
 
 rational msrDurationAsWholeNotes (msrDuration duration);
 
@@ -563,6 +563,27 @@ string wholeNotesAsMsrString (
 string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes);
+
+// measure style
+//______________________________________________________________________________
+
+enum msrSlashTypeKind {
+  kSlashTypeStart, kSlashTypeStop };
+
+string msrSlashTypeKindAsString (
+  msrSlashTypeKind slashTypeKind);
+
+enum msrSlashUseDotsKind {
+  kSlashUseDotsYes, kSlashUseDotsNo };
+
+string msrSlashUseDotsKindAsString (
+  msrSlashUseDotsKind slashUseDotsKind);
+
+enum msrSlashUseStemsKind {
+  kSlashUseStemsYes, kSlashUseStemsNo };
+
+string msrSlashUseStemsKindAsString (
+  msrSlashUseStemsKind slashUseStemsKind);
 
 /*!
 \brief A msr harmony representation.

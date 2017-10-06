@@ -820,6 +820,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // measure style handling
     // ------------------------------------------------------
     
+    msrSlashTypeKind          fCurrentSlashTypeKind;
+    msrSlashUseDotsKind       fCurrentSlashUseDotsKind;
+    msrSlashUseStemsKind      fCurrentSlashUseStemsKind;
+
     int                       fCurrentBeatRepeatSlashes;
 
     msrMeasureRepeat::msrMeasureRepeatKind
@@ -1134,7 +1138,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                               fCurrentNoteCautionaryAccidentalKind;
 
     // note print kind
-    msrNotePrintKind          fCurrentNotePrintKind;
+    msrNote::msrNotePrintKind fCurrentNotePrintKind;
 
     // ongoing note
     bool                      fOnGoingNote;

@@ -3452,6 +3452,59 @@ string wholeNotesAsMsrString (
       dotsNumber);
 }
 
+// measure style
+//______________________________________________________________________________
+string msrSlashTypeKindAsString (
+  msrSlashTypeKind slashTypeKind)
+{
+  string result;
+
+  switch (slashTypeKind) {
+    case kSlashTypeStart:
+      result = "SlashTypeStart";
+      break;
+    case kSlashTypeStop:
+      result = "SlashTypeStop";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrSlashUseDotsKindAsString (
+  msrSlashUseDotsKind slashUseDotsKind)
+{
+  string result;
+
+  switch (slashUseDotsKind) {
+    case kSlashUseDotsYes:
+      result = "SlashUseDotsYes";
+      break;
+    case kSlashUseDotsNo:
+      result = "SlashUseDotsNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrSlashUseStemsKindAsString (
+  msrSlashUseStemsKind slashUseStemsKind)
+{
+  string result;
+
+  switch (slashUseStemsKind) {
+    case kSlashUseStemsYes:
+      result = "SlashUseStemsYes";
+      break;
+    case kSlashUseStemsNo:
+      result = "SlashUseStemsNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 //______________________________________________________________________________
 S_msrChordItem msrChordItem::create (
   int         inputLineNumber,

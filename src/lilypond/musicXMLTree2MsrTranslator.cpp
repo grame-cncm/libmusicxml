@@ -122,6 +122,10 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   // part handling
 
   // measure style handling
+  fCurrentSlashTypeKind     = kSlashTypeStart; // ???
+  fCurrentSlashUseDotsKind  = kSlashUseDotsYes; // ???
+  fCurrentSlashUseStemsKind = kSlashUseStemsYes; // ??? JMI
+
   fCurrentBeatRepeatSlashes = -1;
 
   fCurrentMeasureRepeatKind =
@@ -7533,9 +7537,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
   string slashType = elt->getAttributeValue ("type");
 
   if      (slashType == "start")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentSlashTypeKind = kSlashTypeStart;
   else if (slashType == "stop")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentSlashTypeKind = kSlashTypeStop;
   else {
     stringstream s;
     
@@ -7549,9 +7553,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
   string slashUseDots = elt->getAttributeValue ("use-dots");
 
   if      (slashUseDots == "yes")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentSlashUseDotsKind = kSlashUseDotsYes;
   else if (slashUseDots == "no")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentSlashUseDotsKind = kSlashUseDotsNo;
   else {
     if (slashUseDots.size ()) {
       stringstream s;
@@ -7567,9 +7571,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
   string slashUseStems = elt->getAttributeValue ("use-stems");
 
   if      (slashUseStems == "yes")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentSlashUseStemsKind = kSlashUseStemsYes;
   else if (slashUseStems == "no")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentSlashUseStemsKind = kSlashUseStemsNo;
   else {
     if (slashUseStems.size ()) {
       stringstream s;
@@ -13263,7 +13267,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       idtr <<
         setw (fieldWidth) <<
         "fCurrentNotePrintKind" << " = " <<
-        notePrintKindAsString (
+        msrNote::notePrintKindAsString (
           fCurrentNotePrintKind) <<
         endl;
 
