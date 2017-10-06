@@ -4663,6 +4663,30 @@ string msrNote::noteCautionaryAccidentalKindAsString (
   return result;
 }
 
+string msrNote::notePrintKindAsString (
+  msrNotePrintKind notePrintKind)
+{
+  string result;
+  
+  switch (notePrintKind) {
+    case msrNote::kNotePrintYes:
+      result = "print: yes";
+      break;
+    case msrNote::kNotePrintNo:
+      result = "print: no";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrNote::notePrintKindAsString ()
+{
+  return
+    notePrintKindAsString (
+      fNotePrintKind);
+}
+
 msrDiatonicPitch msrNote::noteDiatonicPitch (
   int inputLineNumber) const
 {
@@ -5769,19 +5793,21 @@ void msrNote::print (ostream& os)
 
     // full measure length,
     // may be unknown if there is no time signature
-    if (measureFullMeasureLength.getNumerator () == 0)
+    if (measureFullMeasureLength.getNumerator () == 0) {
       os <<
         ", full measure length unknown, no time signature";
-    else
+    }
+    else {
       os <<
         ", " <<
         measureFullMeasureLength <<
         " per full measure";
+    }
 
     os <<
       endl;
   
-   // accidentals
+    // accidentals
     os <<
       idtr <<
         noteEditorialAccidentalKindAsString (
@@ -5791,6 +5817,12 @@ void msrNote::print (ostream& os)
           fNoteCautionaryAccidentalKind) <<
         endl;
 
+    // print kind
+    os <<
+      idtr <<
+        notePrintKindAsString () <<
+      endl;
+      
     // print measure related information
     os <<
       idtr <<

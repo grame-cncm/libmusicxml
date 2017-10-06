@@ -1132,7 +1132,11 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                               fCurrentNoteEditorialAccidentalKind;
     msrNote::msrNoteCautionaryAccidentalKind
                               fCurrentNoteCautionaryAccidentalKind;
-    
+
+    // note print kind
+    msrNotePrintKind          fCurrentNotePrintKind;
+
+    // ongoing note
     bool                      fOnGoingNote;
 
     // tremolos

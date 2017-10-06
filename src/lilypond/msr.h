@@ -4638,6 +4638,12 @@ class EXP msrNote : public msrElement
     static string noteCautionaryAccidentalKindAsString (
       msrNoteCautionaryAccidentalKind noteCautionaryAccidentalKind);
 
+    enum msrNotePrintKind {
+      kNotePrintYes, kNotePrintNo };
+      
+    static string notePrintKindAsString (
+      msrNotePrintKind notePrintKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -4735,6 +4741,13 @@ class EXP msrNote : public msrElement
 
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
+
+    void                  setNotePrintKind (
+                            msrNotePrintKind notePrintKind)
+                              { fNotePrintKind = notePrintKind; }
+
+    msrNotePrintKind      getNotePrintKind () const
+                              { return fNotePrintKind; }
 
     // note pitch
 
@@ -5030,6 +5043,8 @@ class EXP msrNote : public msrElement
 
     string                noteKindAsString () const;
     
+    string                notePrintKindAsString () const;
+
     string                notePitchAsString () const;
     string                noteDisplayPitchAsString () const;
 
@@ -5137,6 +5152,8 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     msrNoteKind           fNoteKind;
+    
+    msrNotePrintKind      fNotePrintKind;
 
     msrQuarterTonesPitch  fNoteQuarterTonesPitch;
 

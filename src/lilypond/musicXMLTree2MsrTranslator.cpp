@@ -258,6 +258,9 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   // MusicXML notes handling
   fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
   fCurrentNoteAlteration    = k_NoAlteration;
+
+  fCurrentNotePrintKind = msrNote::kNotePrintYes;
+    
   fOnGoingNote              = false;
 
   // note context
@@ -6875,6 +6878,17 @@ void musicXMLTree2MsrTranslator::visitStart ( S_note& elt )
       "--> Start visiting S_note" <<
       endl;
 
+/*
+<!ELEMENT note 
+  (((grace, %full-note;, (tie, tie?)?) |
+    (cue, %full-note;, duration) |
+    (%full-note;, duration, (tie, tie?)?)),
+   instrument?, %editorial-voice;, type?, dot*,
+   accidental?, time-modification?, stem?, notehead?,
+   notehead-text?, staff?, beam*, notations*, lyric*, play?)>
+
+*/
+
 //       <note print-object="no"> JMI grise les notes
 //           <staff-lines>5</staff-lines> revient a la normale
 
@@ -6935,7 +6949,27 @@ void musicXMLTree2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentNoteStaffNumber = 1; // it may be absent
   fCurrentNoteVoiceNumber = 1; // it may be absent
+
+  string notePrintObject = elt->getAttributeValue ("print-object");
   
+  fCurrentNotePrintKind = msrNote::kNotePrintYes; // default value
+      
+  if      (notePrintObject == "yes")
+    fCurrentNotePrintKind = msrNote::kNotePrintYes;
+  else if (notePrintObject == "no")
+    fCurrentNotePrintKind = msrNote::kNotePrintNo;
+  else {
+    if (notePrintObject.size ()) {
+      stringstream s;
+      
+      s << "note print-object " << notePrintObject << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+  }
+
   fOnGoingNote = true;
 }
 
@@ -13225,6 +13259,12 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         setw (fieldWidth) <<
         "CurrentDivisionsPerQuarterNote" << " = " <<
         fCurrentDivisionsPerQuarterNote <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "fCurrentNotePrintKind" << " = " <<
+        notePrintKindAsString (
+          fCurrentNotePrintKind) <<
         endl;
 
     idtr--;
@@ -13399,6 +13439,11 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   newNote->
     setNoteCautionaryAccidentalKind (
       fCurrentNoteCautionaryAccidentalKind);
+
+  // set note print kind
+  newNote->
+    setNotePrintKind (
+      fCurrentNotePrintKind);
 
   // handling the current pending harmony if any,
   // so that it gets attached to the note right now
