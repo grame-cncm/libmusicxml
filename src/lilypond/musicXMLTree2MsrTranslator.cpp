@@ -7168,50 +7168,55 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
  Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
 */
 
-  string noteType = elt->getValue();
-
-  // the type contains a display duration,
-  if      (noteType == "maxima")  { fCurrentNoteGraphicDuration = kMaxima; }
-  else if (noteType == "long")    { fCurrentNoteGraphicDuration = kLong; }
-  else if (noteType == "breve")   { fCurrentNoteGraphicDuration = kBreve; } 
-  else if (noteType == "whole")   { fCurrentNoteGraphicDuration = kWhole; } 
-  else if (noteType == "half")    { fCurrentNoteGraphicDuration = kHalf; } 
-  else if (noteType == "quarter") { fCurrentNoteGraphicDuration = kQuarter; } 
-  else if (noteType == "eighth")  { fCurrentNoteGraphicDuration = kEighth; } 
-  else if (noteType == "16th")    { fCurrentNoteGraphicDuration = k16th; } 
-  else if (noteType == "32nd")    { fCurrentNoteGraphicDuration = k32nd; } 
-  else if (noteType == "64th")    { fCurrentNoteGraphicDuration = k64th; } 
-  else if (noteType == "128th")   { fCurrentNoteGraphicDuration = k128th; } 
-  else if (noteType == "256th")   { fCurrentNoteGraphicDuration = k256th; } 
-  else if (noteType == "512th")   { fCurrentNoteGraphicDuration = k512th; } 
-  else if (noteType == "1024th")  { fCurrentNoteGraphicDuration = k1024th; }
-  else {
-    stringstream s;
-    
-    s <<
-      endl << 
-      "--> unknown note type " << noteType <<
-      endl;
-
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());
-  }
-
-  string noteTypeSize = elt->getAttributeValue ("size");
-
-  if (noteTypeSize == "cue") {
-     // USE IT! JMI ???
-  }
-
-  else {
-    if (noteTypeSize.size ())
+  {
+    string noteType = elt->getValue();
+  
+    // the type contains a display duration,
+    if      (noteType == "maxima")  { fCurrentNoteGraphicDuration = kMaxima; }
+    else if (noteType == "long")    { fCurrentNoteGraphicDuration = kLong; }
+    else if (noteType == "breve")   { fCurrentNoteGraphicDuration = kBreve; } 
+    else if (noteType == "whole")   { fCurrentNoteGraphicDuration = kWhole; } 
+    else if (noteType == "half")    { fCurrentNoteGraphicDuration = kHalf; } 
+    else if (noteType == "quarter") { fCurrentNoteGraphicDuration = kQuarter; } 
+    else if (noteType == "eighth")  { fCurrentNoteGraphicDuration = kEighth; } 
+    else if (noteType == "16th")    { fCurrentNoteGraphicDuration = k16th; } 
+    else if (noteType == "32nd")    { fCurrentNoteGraphicDuration = k32nd; } 
+    else if (noteType == "64th")    { fCurrentNoteGraphicDuration = k64th; } 
+    else if (noteType == "128th")   { fCurrentNoteGraphicDuration = k128th; } 
+    else if (noteType == "256th")   { fCurrentNoteGraphicDuration = k256th; } 
+    else if (noteType == "512th")   { fCurrentNoteGraphicDuration = k512th; } 
+    else if (noteType == "1024th")  { fCurrentNoteGraphicDuration = k1024th; }
+    else {
+      stringstream s;
+      
+      s <<
+        endl << 
+        "--> unknown note type " << noteType <<
+        endl;
+  
       msrMusicXMLError (
         elt->getInputLineNumber (),
-          "unknown note type size \"" + noteTypeSize + "\"");
+        s.str ());
+    }
   }
 
+  {
+    string noteTypeSize = elt->getAttributeValue ("size");
+  
+    if (noteTypeSize == "cue") {
+       // USE IT! JMI ???
+    }
+  
+    else {
+      if (noteTypeSize.size ())
+        msrMusicXMLError (
+          elt->getInputLineNumber (),
+            "unknown note type size \"" + noteTypeSize + "\"");
+    }
+  }
+  
   if (gGeneralOptions->fTraceNotesDetails) {
+    /* JMI
     cerr <<
       idtr <<
         "noteType: \"" <<
@@ -7223,6 +7228,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
         noteTypeSize <<
         "\"" <<
         endl;
+        */
   }
 }
 
@@ -7278,87 +7284,97 @@ void musicXMLTree2MsrTranslator::visitStart ( S_notehead& elt )
 >
 */
 
-  string noteHead = elt->getValue();
- 
-  if      (noteHead == "slash") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadSlash; }
-  else if (noteHead == "triangle") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadTriangle; }
-  else if (noteHead == "diamond")   {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadDiamond; } 
-  else if (noteHead == "square") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadSquare; } 
-  else if (noteHead == "cross") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadCross; } 
-  else if (noteHead == "x") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadX; } 
-  else if (noteHead == "circle-x") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadCircleX; } 
-  else if (noteHead == "inverted triangle") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadInvertedTriangle; } 
-  else if (noteHead == "arrow down") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadArrowDown; } 
-  else if (noteHead == "arrow up") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadArrowUp; } 
-  else if (noteHead == "slashed") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadSlashed; } 
-  else if (noteHead == "back slashed") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadBackSlashed; } 
-  else if (noteHead == "normal") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadNormal; } 
-  else if (noteHead == "cluster") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadCluster; }
-  else if (noteHead == "circle dot") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadCircleDot; }
-  else if (noteHead == "left triangle") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadLeftTriangle; }
-  else if (noteHead == "rectangle") {
-    fCurrentNoteHeadKind = msrNote::kNoteHeadRectangle; }
-  else if (noteHead == "none") {
-    fCurrentNoteHeadKind = msrNote::kNoHeadNone; }
-  else {
-    stringstream s;
-    
-    s <<
-      endl << 
-      "--> unknown note head " << noteHead <<
-      endl;
-
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());
+  {
+    string noteHead = elt->getValue();
+   
+    if      (noteHead == "slash") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadSlash; }
+    else if (noteHead == "triangle") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadTriangle; }
+    else if (noteHead == "diamond")   {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadDiamond; } 
+    else if (noteHead == "square") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadSquare; } 
+    else if (noteHead == "cross") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadCross; } 
+    else if (noteHead == "x") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadX; } 
+    else if (noteHead == "circle-x") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadCircleX; } 
+    else if (noteHead == "inverted triangle") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadInvertedTriangle; } 
+    else if (noteHead == "arrow down") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadArrowDown; } 
+    else if (noteHead == "arrow up") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadArrowUp; } 
+    else if (noteHead == "slashed") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadSlashed; } 
+    else if (noteHead == "back slashed") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadBackSlashed; } 
+    else if (noteHead == "normal") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadNormal; } 
+    else if (noteHead == "cluster") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadCluster; }
+    else if (noteHead == "circle dot") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadCircleDot; }
+    else if (noteHead == "left triangle") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadLeftTriangle; }
+    else if (noteHead == "rectangle") {
+      fCurrentNoteHeadKind = msrNote::kNoteHeadRectangle; }
+    else if (noteHead == "none") {
+      fCurrentNoteHeadKind = msrNote::kNoHeadNone; }
+    else {
+      stringstream s;
+      
+      s <<
+        endl << 
+        "--> unknown note head " << noteHead <<
+        endl;
+  
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
   }
 
-  string noteHeadFilled = elt->getAttributeValue ("filled");
-  
-  if      (noteHeadFilled == "yes")
-    fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
-  else if (noteHeadFilled == "no")
-    fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledNo;
-  else {
-    stringstream s;
+  {
+    string noteHeadFilled = elt->getAttributeValue ("filled");
     
-    s << "note head filled " << noteHeadFilled << " is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());
+    if      (noteHeadFilled == "yes")
+      fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
+    else if (noteHeadFilled == "no")
+      fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledNo;
+    else {
+      if (noteHeadFilled.size ()) {
+        stringstream s;
+        
+        s << "note head filled " << noteHeadFilled << " is unknown";
+        
+        msrMusicXMLError (
+          elt->getInputLineNumber (),
+          s.str ());
+      }
+    }
   }
 
-  string noteHeadParentheses = elt->getAttributeValue ("parentheses");
-  
-  if      (noteHeadParentheses == "yes")
-    fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesYes;
-  else if (noteHeadParentheses == "no")
-    fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
-  else {
-    stringstream s;
+  {
+    string noteHeadParentheses = elt->getAttributeValue ("parentheses");
     
-    s << "note head parentheses " << noteHeadParentheses << " is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());
+    if      (noteHeadParentheses == "yes")
+      fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesYes;
+    else if (noteHeadParentheses == "no")
+      fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
+    else {
+      if (noteHeadParentheses.size ()) {
+        stringstream s;
+        
+        s << "note head parentheses " << noteHeadParentheses << " is unknown";
+        
+        msrMusicXMLError (
+          elt->getInputLineNumber (),
+          s.str ());
+      }
+    }
   }
 }
 
