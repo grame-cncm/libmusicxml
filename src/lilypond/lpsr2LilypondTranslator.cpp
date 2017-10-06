@@ -5920,7 +5920,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   printNoteAsLilypondString (elt);
 
   // print the note head
-  msrNoteHeadKind
+  msrNote::msrNoteHeadKind
     noteHeadKind =
       elt->getNoteHeadKind ();
  
@@ -5980,10 +5980,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       fOstream << "kNoHeadNone";
       break;
   } // switch
-
-  return result;
-}
-
 
   fOnGoingNote = true;
 }
