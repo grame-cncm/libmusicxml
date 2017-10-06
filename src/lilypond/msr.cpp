@@ -5814,13 +5814,14 @@ void msrNote::print (ostream& os)
           fNoteEditorialAccidentalKind) <<
         ", " <<
         noteCautionaryAccidentalKindAsString (
-          fNoteCautionaryAccidentalKind) <<
-        endl;
+          fNoteCautionaryAccidentalKind);
 
     // print kind
     os <<
       idtr <<
-        notePrintKindAsString () <<
+        notePrintKindAsString ();
+
+    os <<
       endl;
       
     // print measure related information
