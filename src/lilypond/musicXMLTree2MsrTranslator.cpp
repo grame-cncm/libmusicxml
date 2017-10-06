@@ -263,9 +263,14 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
   fCurrentNoteAlteration    = k_NoAlteration;
 
+  // note print kind
   fCurrentNotePrintKind = msrNote::kNotePrintYes;
-    
-  fOnGoingNote              = false;
+
+  fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
+  fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
+  
+  // ongoing note
+  fOnGoingNote = false;
 
   // note context
   fCurrentNoteStaffNumber = 0;
@@ -7218,6 +7223,142 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
         noteTypeSize <<
         "\"" <<
         endl;
+  }
+}
+
+void musicXMLTree2MsrTranslator::visitStart ( S_notehead& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_notehead" <<
+      endl;
+
+/*
+<!--
+  The notehead element indicates shapes other than the open
+  and closed ovals associated with note durations. The element
+  value can be slash, triangle, diamond, square, cross, x,
+  circle-x, inverted triangle, arrow down, arrow up, slashed,
+  back slashed, normal, cluster, circle dot, left triangle,
+  rectangle, or none. For shape note music, the element values
+  do, re, mi, fa, fa up, so, la, and ti are also used,
+  corresponding to Aikin's 7-shape system. The fa up shape is
+  typically used with upstems; the fa shape is typically used
+  with downstems or no stems.
+
+  The arrow shapes differ from triangle and inverted triangle
+  by being centered on the stem. Slashed and back slashed 
+  notes include both the normal notehead and a slash. The 
+  triangle shape has the tip of the triangle pointing up;
+  the inverted triangle shape has the tip of the triangle 
+  pointing down. The left triangle shape is a right triangle
+  with the hypotenuse facing up and to the left.
+  
+  For the enclosed shapes, the default is to be hollow for
+  half notes and longer, and filled otherwise. The filled
+  attribute can be set to change this if needed.
+  
+  If the parentheses attribute is set to yes, the notehead
+  is parenthesized. It is no by default.
+
+  The notehead-text element indicates text that is displayed
+  inside a notehead, as is done in some educational music. 
+  It is not needed for the numbers used in tablature or jianpu 
+  notation. The presence of a TAB or jianpu clefs is sufficient
+  to indicate that numbers are used. The display-text and
+  accidental-text elements allow display of fully formatted
+  text and accidentals.
+-->
+<!ELEMENT notehead (#PCDATA)>
+<!ATTLIST notehead
+    filled %yes-no; #IMPLIED
+    parentheses %yes-no; #IMPLIED
+    %font;
+    %color;
+>
+*/
+
+  string noteHead = elt->getValue();
+ 
+  if      (noteHead == "slash") {
+    fCurrentNoteGraphicDuration = kNoteHeadSlash; }
+  else if (noteHead == "triangle") {
+    fCurrentNoteGraphicDuration = kNoteHeadTriangle; }
+  else if (noteHead == "diamond")   {
+    fCurrentNoteGraphicDuration = kNoteHeadDiamond; } 
+  else if (noteHead == "square") {
+    fCurrentNoteGraphicDuration = kNoteHeadSquare; } 
+  else if (noteHead == "cross") {
+    fCurrentNoteGraphicDuration = kNoteHeadCross; } 
+  else if (noteHead == "x") {
+    fCurrentNoteGraphicDuration = kNoteHeadX; } 
+  else if (noteHead == "circle-x") {
+    fCurrentNoteGraphicDuration = kNoteHeadCircleX; } 
+  else if (noteHead == "inverted triangle") {
+    fCurrentNoteGraphicDuration = kNoteHeadInvertedTriangle; } 
+  else if (noteHead == "arrow down") {
+    fCurrentNoteGraphicDuration = kNoteHeadArrowDown; } 
+  else if (noteHead == "arrow up") {
+    fCurrentNoteGraphicDuration = kNoteHeadArrowUp; } 
+  else if (noteHead == "slashed") {
+    fCurrentNoteGraphicDuration = kNoteHeadSlashed; } 
+  else if (noteHead == "back slashed") {
+    fCurrentNoteGraphicDuration = kNoteHeadBackSlashed; } 
+  else if (noteHead == "normal") {
+    fCurrentNoteGraphicDuration = kNoteHeadNormal; } 
+  else if (noteHead == "cluster") {
+    fCurrentNoteGraphicDuration = kNoteHeadCluster; }
+  else if (noteHead == "circle dot") {
+    fCurrentNoteGraphicDuration = kNoteHeadCircleDot; }
+  else if (noteHead == "left triangle") {
+    fCurrentNoteGraphicDuration = kNoteHeadLeftTriangle; }
+  else if (noteHead == "rectangle") {
+    fCurrentNoteGraphicDuration = kNoteHeadRectangle; }
+  else if (noteHead == "none") {
+    fCurrentNoteGraphicDuration = kNoHeadNone; }
+  else {
+    stringstream s;
+    
+    s <<
+      endl << 
+      "--> unknown note head " << noteHead <<
+      endl;
+
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str ());
+  }
+
+  string noteHeadFilled = elt->getAttributeValue ("filled");
+  
+  if      (noteHeadFilled == "yes")
+    fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
+  else if (noteHeadFilled == "no")
+    fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledNo;
+  else {
+    stringstream s;
+    
+    s << "note head filled " << noteHeadFilled << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str ());
+  }
+
+  string noteHeadParentheses = elt->getAttributeValue ("parentheses");
+  
+  if      (noteHeadParentheses == "yes")
+    fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesYes;
+  else if (noteHeadParentheses == "no")
+    fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
+  else {
+    stringstream s;
+    
+    s << "note head parentheses " << noteHeadParentheses << " is unknown";
+    
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str ());
   }
 }
 

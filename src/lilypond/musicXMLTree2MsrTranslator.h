@@ -321,6 +321,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_grace>,
 
   public visitor<S_type>,
+  public visitor<S_notehead>,
   public visitor<S_accidental>,
   
   public visitor<S_stem>,
@@ -671,6 +672,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 //    virtual void visitStart ( S_voice& elt);
 
     virtual void visitStart ( S_type& elt);
+    virtual void visitStart ( S_notehead& elt);
     virtual void visitStart ( S_accidental& elt);
     
     virtual void visitStart ( S_stem& elt);
@@ -1131,14 +1133,21 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fCurrentDisplayOctave;
     msrDiatonicPitch          fCurrentDisplayDiatonicPitch;
 
+    // note print kind
+    msrNote::msrNotePrintKind fCurrentNotePrintKind;
+
+    // note heads
+    msrNote::msrNoteHeadKind  fCurrentNoteHeadKind;
+    msrNote::msrNoteHeadFilledKind
+                              fCurrentNoteHeadFilledKind;
+    msrNote::msrNoteHeadParenthesesKind
+                              fCurrentNoteHeadParenthesesKind;
+
     // accidentals
     msrNote::msrNoteEditorialAccidentalKind
                               fCurrentNoteEditorialAccidentalKind;
     msrNote::msrNoteCautionaryAccidentalKind
                               fCurrentNoteCautionaryAccidentalKind;
-
-    // note print kind
-    msrNote::msrNotePrintKind fCurrentNotePrintKind;
 
     // ongoing note
     bool                      fOnGoingNote;

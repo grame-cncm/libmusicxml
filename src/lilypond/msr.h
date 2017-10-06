@@ -4644,6 +4644,34 @@ class EXP msrNote : public msrElement
     static string notePrintKindAsString (
       msrNotePrintKind notePrintKind);
       
+    enum msrNoteHeadKind {
+      kNoteHeadSlash,
+      kNoteHeadTriangle, kNoteHeadDiamond, kNoteHeadSquare,
+      kNoteHeadCross,kNoteHeadX,
+      kNoteHeadCircleX, kNoteHeadInvertedTriangle,
+      kNoteHeadArrowDown, kNoteHeadArrowUp,
+      kNoteHeadSlashed, kNoteHeadBackSlashed,
+      kNoteHeadNormal, kNoteHeadCluster,
+      kNoteHeadCircleDot,
+      kNoteHeadLeftTriangle,
+      kNoteHeadRectangle,
+      kNoHeadNone };
+      
+    static string noteHeadKindAsString (
+      msrNoteHeadKind noteHeadKind);
+      
+    enum msrNoteHeadFilledKind {
+      kNoteHeadFilledYes, kNoteHeadFilledNo };
+      
+    static string noteHeadFilledKindAsString (
+      msrNoteHeadFilledKind noteHeadFilledKind);
+      
+    enum msrNoteHeadParenthesesKind {
+      kNoteHeadParenthesesYes, kNoteHeadParenthesesNo };
+      
+    static string noteHeadParenthesesKindAsString (
+      msrNoteHeadParenthesesKind noteHeadParenthesesKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
