@@ -5919,6 +5919,72 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   // print the note as a LilyPond string
   printNoteAsLilypondString (elt);
 
+  // print the note head
+  msrNoteHeadKind
+    noteHeadKind =
+      elt->getNoteHeadKind ();
+ 
+  switch (noteHeadKind) {
+    case msrNote::kNoteHeadSlash:
+      fOstream << "\\once\\override NoteHead.style = #'slash";
+      break;
+    case msrNote::kNoteHeadTriangle:
+      fOstream << "\\once\\override NoteHead.style = #'triangle";
+      break;
+    case msrNote::kNoteHeadDiamond:
+      fOstream << "\\once\\override NoteHead.style = #'diamond";
+      break;
+    case msrNote::kNoteHeadSquare:
+      fOstream << "kNoteHeadSquare";
+      break;
+    case msrNote::kNoteHeadCross:
+      fOstream << "\\once\\override NoteHead.style = #'cross";
+      break;
+    case msrNote::kNoteHeadX:
+      fOstream << "kNoteHeadX";
+      break;
+    case msrNote::kNoteHeadCircleX:
+      fOstream << "\\once\\override NoteHead.style = #'xcircle";
+      break;
+    case msrNote::kNoteHeadInvertedTriangle:
+      fOstream << "kNoteHeadInvertedTriangle";
+      break;
+    case msrNote::kNoteHeadArrowDown:
+      fOstream << "kNoteHeadArrowDown";
+      break;
+    case msrNote::kNoteHeadArrowUp:
+      fOstream << "kNoteHeadArrowUp";
+      break;
+    case msrNote::kNoteHeadSlashed:
+      fOstream << "kNoteHeadSlashed";
+      break;
+    case msrNote::kNoteHeadBackSlashed:
+      fOstream << "kNoteHeadBackSlashed";
+      break;
+    case msrNote::kNoteHeadNormal:
+      fOstream << "kNoteHeadNormal";
+      break;
+    case msrNote::kNoteHeadCluster:
+      fOstream << "kNoteHeadCluster";
+      break;
+    case msrNote::kNoteHeadCircleDot:
+      fOstream << "kNoteHeadCircleDot";
+      break;
+    case msrNote::kNoteHeadLeftTriangle:
+      fOstream << "kNoteHeadLeftTriangle";
+      break;
+    case msrNote::kNoteHeadRectangle:
+      fOstream << "kNoteHeadRectangle";
+      break;
+    case msrNote::kNoHeadNone:
+      fOstream << "kNoHeadNone";
+      break;
+  } // switch
+
+  return result;
+}
+
+
   fOnGoingNote = true;
 }
 
