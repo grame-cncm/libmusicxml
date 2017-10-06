@@ -5939,58 +5939,58 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
  
   switch (noteHeadKind) {
     case msrNote::kNoteHeadSlash:
-      fOstream << "\\once\\override NoteHead.style = #'slash";
+      fOstream << "\\once\\override NoteHead.style = #'slash ";
       break;
     case msrNote::kNoteHeadTriangle:
-      fOstream << "\\once\\override NoteHead.style = #'triangle";
+      fOstream << "\\once\\override NoteHead.style = #'triangle ";
       break;
     case msrNote::kNoteHeadDiamond:
-      fOstream << "\\once\\override NoteHead.style = #'diamond";
+      fOstream << "\\once\\override NoteHead.style = #'diamond ";
       break;
     case msrNote::kNoteHeadSquare:
-      fOstream << "%{kNoteHeadSquare%}";
+      fOstream << "%{kNoteHeadSquare%} ";
       break;
     case msrNote::kNoteHeadCross:
-      fOstream << "\\once\\override NoteHead.style = #'cross";
+      fOstream << "\\once\\override NoteHead.style = #'cross ";
       break;
     case msrNote::kNoteHeadX:
-      fOstream << "%{kNoteHeadX%}";
+      fOstream << "%{kNoteHeadX%} ";
       break;
     case msrNote::kNoteHeadCircleX:
-      fOstream << "\\once\\override NoteHead.style = #'xcircle";
+      fOstream << "\\once\\override NoteHead.style = #'xcircle ";
       break;
     case msrNote::kNoteHeadInvertedTriangle:
-      fOstream << "%{kNoteHeadInvertedTriangle%}";
+      fOstream << "%{kNoteHeadInvertedTriangle%} ";
       break;
     case msrNote::kNoteHeadArrowDown:
-      fOstream << "%{kNoteHeadArrowDown%}";
+      fOstream << "%{kNoteHeadArrowDown%} ";
       break;
     case msrNote::kNoteHeadArrowUp:
-      fOstream << "%{kNoteHeadArrowUp%}";
+      fOstream << "%{kNoteHeadArrowUp%} ";
       break;
     case msrNote::kNoteHeadSlashed:
-      fOstream << "%{kNoteHeadSlashed%}";
+      fOstream << "%{kNoteHeadSlashed%} ";
       break;
     case msrNote::kNoteHeadBackSlashed:
-      fOstream << "%{kNoteHeadBackSlashed%}";
+      fOstream << "%{kNoteHeadBackSlashed%} ";
       break;
     case msrNote::kNoteHeadNormal:
-      fOstream << "%{kNoteHeadNormal%}";
+      fOstream << "%{kNoteHeadNormal%} ";
       break;
     case msrNote::kNoteHeadCluster:
-      fOstream << "%{kNoteHeadCluster%}";
+      fOstream << "%{kNoteHeadCluster%} ";
       break;
     case msrNote::kNoteHeadCircleDot:
-      fOstream << "%{kNoteHeadCircleDot%}";
+      fOstream << "%{kNoteHeadCircleDot%} ";
       break;
     case msrNote::kNoteHeadLeftTriangle:
-      fOstream << "%{kNoteHeadLeftTriangle%}";
+      fOstream << "%{kNoteHeadLeftTriangle%} ";
       break;
     case msrNote::kNoteHeadRectangle:
-      fOstream << "%{kNoteHeadRectangle%}";
+      fOstream << "%{kNoteHeadRectangle%} ";
       break;
     case msrNote::kNoHeadNone:
-      fOstream << "%{kNoHeadNone%}";
+      fOstream << "\\once\\omit NoteHead ";
       break;
   } // switch
 
