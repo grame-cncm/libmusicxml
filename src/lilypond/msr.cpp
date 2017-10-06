@@ -3662,28 +3662,34 @@ void msrAfterGraceNotes::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrNote msrNote::create (
-  int                  inputLineNumber,
+  int                        inputLineNumber,
+  
+  msrNoteKind                noteKind,
 
-  msrNoteKind          noteKind,
+  msrQuarterTonesPitch       noteQuarterTonesPitch,
+  
+  rational                   noteSoundingWholeNotes,
+  rational                   noteDisplayWholeNotes,
+  
+  int                        noteDotsNumber,
+  
+  msrDuration                noteGraphicDuration,
+  
+  int                        noteOctave,
+  
+  msrQuarterTonesPitch       noteQuarterTonesDisplayPitch,
+  int                        noteDisplayOctave,
+  
+  bool                       noteIsARest,
+  bool                       noteIsUnpitched,
 
-  msrQuarterTonesPitch noteQuarterTonesPitch,
-  
-  rational             noteSoundingWholeNotes,
-  rational             noteDisplayWholeNotes,
-  
-  int                  noteDotsNumber,
-  
-  msrDuration          noteGraphicDuration,
-  
-  int                  noteOctave,
+  bool                       noteIsAGraceNote,
 
-  msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
-  int                  noteDisplayOctave,
+  msrNotePrintKind           msrNotePrintKind,
   
-  bool                 noteIsARest,
-  bool                 noteIsUnpitched,
-
-  bool                 noteIsAGraceNote)
+  msrNoteHeadKind            msrNoteHeadKind,
+  msrNoteHeadFilledKind      noteHeadFilledKind,
+  msrNoteHeadParenthesesKind noteHeadParenthesesKind)
 {  
   msrNote * o =
     new msrNote (
@@ -3714,66 +3720,35 @@ S_msrNote msrNote::create (
   return o;
 }
 
-S_msrNote msrNote::createSkipNote (
-  int       inputLineNumber,
-  rational  soundingWholeNotes,
-  rational  displayWholeNotes,
-  int       dotsNumber,
-  int       staffNumber,
-  int       voicePartRelativeID)
-{    
-  msrNote * o =
-    new msrNote (
-      inputLineNumber,
-      
-      kSkipNote, // noteKind
-      
-      k_NoQuarterTonesPitch,
-      
-      soundingWholeNotes,
-      displayWholeNotes,
-      
-      dotsNumber,
-      
-      k_NoDuration, // noteGraphicDuration
-      
-      K_NO_OCTAVE, // noteOctave,
-      
-      k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
-      K_NO_OCTAVE, // noteDisplayOctave,
-      
-      false, // noteIsARest
-      false, // noteIsUnpitched
-      
-      false); // noteIsAGraceNote
-  assert(o!=0);
-  
-  return o;
-}    
-
 msrNote::msrNote (
-  int                  inputLineNumber,
-
-  msrNoteKind          noteKind,
-
-  msrQuarterTonesPitch noteQuarterTonesPitch,
-    
-  rational             noteSoundingWholeNotes,
-  rational             noteDisplayWholeNotes,
+  int                        inputLineNumber,
   
-  int                  noteDotsNumber,
-  
-  msrDuration          noteGraphicDuration,
-  
-  int                  noteOctave,
+  msrNoteKind                noteKind,
 
-  msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
-  int                  noteDisplayOctave,
+  msrQuarterTonesPitch       noteQuarterTonesPitch,
   
-  bool                 noteIsARest,
-  bool                 noteIsUnpitched,
+  rational                   noteSoundingWholeNotes,
+  rational                   noteDisplayWholeNotes,
+  
+  int                        noteDotsNumber,
+  
+  msrDuration                noteGraphicDuration,
+  
+  int                        noteOctave,
+  
+  msrQuarterTonesPitch       noteQuarterTonesDisplayPitch,
+  int                        noteDisplayOctave,
+  
+  bool                       noteIsARest,
+  bool                       noteIsUnpitched,
 
-  bool                 noteIsAGraceNote)
+  bool                       noteIsAGraceNote,
+
+  msrNotePrintKind           msrNotePrintKind,
+  
+  msrNoteHeadKind            msrNoteHeadKind,
+  msrNoteHeadFilledKind      noteHeadFilledKind,
+  msrNoteHeadParenthesesKind noteHeadParenthesesKind)
   : msrElement (inputLineNumber)
 {
   // basic note description
@@ -4557,6 +4532,43 @@ S_msrNote msrNote::createNoteDeepCopy (
   return noteDeepCopy;
 }
 
+S_msrNote msrNote::createSkipNote (
+  int       inputLineNumber,
+  rational  soundingWholeNotes,
+  rational  displayWholeNotes,
+  int       dotsNumber,
+  int       staffNumber,
+  int       voicePartRelativeID)
+{    
+  msrNote * o =
+    new msrNote (
+      inputLineNumber,
+      
+      kSkipNote, // noteKind
+      
+      k_NoQuarterTonesPitch,
+      
+      soundingWholeNotes,
+      displayWholeNotes,
+      
+      dotsNumber,
+      
+      k_NoDuration, // noteGraphicDuration
+      
+      K_NO_OCTAVE, // noteOctave,
+      
+      k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
+      K_NO_OCTAVE, // noteDisplayOctave,
+      
+      false, // noteIsARest
+      false, // noteIsUnpitched
+      
+      false); // noteIsAGraceNote
+  assert(o!=0);
+  
+  return o;
+}    
+
 string msrNote::noteSoundingWholeNotesAsMsrString ()
 {
   string result;
@@ -4685,6 +4697,27 @@ string msrNote::notePrintKindAsString () const
   return
     notePrintKindAsString (
       fNotePrintKind);
+}
+
+string msrNote::noteHeadKindAsString () const
+{
+  return
+    noteHeadKindAsString (
+      fNoteHeadKind);
+}
+
+string msrNote::noteHeadFilledKindAsString () const
+{
+  return
+    noteHeadFilledKindAsString (
+      fNoteHeadFilledKind);
+}
+
+string msrNote::noteHeadParenthesesKindAsString () const
+{
+  return
+    noteHeadParenthesesKindAsString (
+      fNoteHeadParenthesesKind);
 }
 
 msrDiatonicPitch msrNote::noteDiatonicPitch (

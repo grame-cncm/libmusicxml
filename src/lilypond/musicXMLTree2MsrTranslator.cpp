@@ -13590,7 +13590,13 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteIsARest,
         fCurrentNoteIsUnpitched,
         
-        fCurrentNoteIsAGraceNote);
+        fCurrentNoteIsAGraceNote,
+
+        fCurrentNotePrintKind,
+
+        fCurrentNoteHeadKind,
+        fCurrentNoteHeadFilledKind,
+        fCurrentNoteHeadParenthesesKind);
 
   // set note accidentals
   newNote->

@@ -4676,28 +4676,34 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrNote> create (
-      int                  inputLineNumber,
+      int                        inputLineNumber,
       
-      msrNoteKind          noteKind,
+      msrNoteKind                noteKind,
     
-      msrQuarterTonesPitch noteQuarterTonesPitch,
+      msrQuarterTonesPitch       noteQuarterTonesPitch,
       
-      rational             noteSoundingWholeNotes,
-      rational             noteDisplayWholeNotes,
+      rational                   noteSoundingWholeNotes,
+      rational                   noteDisplayWholeNotes,
       
-      int                  noteDotsNumber,
+      int                        noteDotsNumber,
       
-      msrDuration          noteGraphicDuration,
+      msrDuration                noteGraphicDuration,
       
-      int                  noteOctave,
+      int                        noteOctave,
       
-      msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
-      int                  noteDisplayOctave,
+      msrQuarterTonesPitch       noteQuarterTonesDisplayPitch,
+      int                        noteDisplayOctave,
       
-      bool                 noteIsARest,
-      bool                 noteIsUnpitched,
+      bool                       noteIsARest,
+      bool                       noteIsUnpitched,
     
-      bool                 noteIsAGraceNote);
+      bool                       noteIsAGraceNote,
+
+      msrNotePrintKind           msrNotePrintKind,
+      
+      msrNoteHeadKind            msrNoteHeadKind,
+      msrNoteHeadFilledKind      noteHeadFilledKind,
+      msrNoteHeadParenthesesKind noteHeadParenthesesKind);
     
     SMARTP<msrNote> createNoteNewbornClone (
       S_msrPart containingPart);
@@ -4722,28 +4728,34 @@ class EXP msrNote : public msrElement
     // ------------------------------------------------------
 
     msrNote (
-      int                  inputLineNumber,
-
-      msrNoteKind          noteKind,
+      int                        inputLineNumber,
+      
+      msrNoteKind                noteKind,
     
-      msrQuarterTonesPitch noteQuarterTonesPitch,
+      msrQuarterTonesPitch       noteQuarterTonesPitch,
       
-      rational             noteSoundingWholeNotes,
-      rational             noteDisplayWholeNotes,
+      rational                   noteSoundingWholeNotes,
+      rational                   noteDisplayWholeNotes,
       
-      int                  noteDotsNumber,
+      int                        noteDotsNumber,
       
-      msrDuration          noteGraphicDuration,
+      msrDuration                noteGraphicDuration,
       
-      int                  noteOctave,
-
-      msrQuarterTonesPitch noteQuarterTonesDisplayPitch,
-      int                  noteDisplayOctave,
+      int                        noteOctave,
       
-      bool                 noteIsARest,
-      bool                 noteIsUnpitched,
+      msrQuarterTonesPitch       noteQuarterTonesDisplayPitch,
+      int                        noteDisplayOctave,
+      
+      bool                       noteIsARest,
+      bool                       noteIsUnpitched,
     
-      bool                 noteIsAGraceNote);
+      bool                       noteIsAGraceNote,
+
+      msrNotePrintKind           msrNotePrintKind,
+      
+      msrNoteHeadKind            msrNoteHeadKind,
+      msrNoteHeadFilledKind      noteHeadFilledKind,
+      msrNoteHeadParenthesesKind noteHeadParenthesesKind);
         
     virtual ~msrNote();
     
@@ -4770,19 +4782,52 @@ class EXP msrNote : public msrElement
     msrNoteKind           getNoteKind () const
                               { return fNoteKind; }
 
-    void                  setNotePrintKind (
-                            msrNotePrintKind notePrintKind)
-                              { fNotePrintKind = notePrintKind; }
-
-    msrNotePrintKind      getNotePrintKind () const
-                              { return fNotePrintKind; }
-
     // note pitch
 
     msrQuarterTonesPitch  getNoteQuarterTonesPitch () const
                               { return fNoteQuarterTonesPitch; }
 
-    // accidentals
+    // note print kind
+
+    void                  setNotePrintKind (
+                            msrNotePrintKind notePrintKind)
+                              { fNotePrintKind = notePrintKind; }
+    msrNotePrintKind      getNotePrintKind () const
+                              { return fNotePrintKind; }
+
+    // note head
+
+    void                  setNoteHeadKind (
+                            msrNoteHeadKind noteHeadKind)
+                              { fNoteHeadKind = noteHeadKind; }
+
+    msrNoteHeadKind       getNoteHeadKind () const
+                              { return fNoteHeadKind; }
+
+    void                  setNoteHeadFilledKind (
+                            msrNoteHeadFilledKind
+                              noteHeadFilledKind)
+                              {
+                                fNoteHeadFilledKind =
+                                  noteHeadFilledKind;
+                              }
+
+    msrNoteHeadFilledKind getNoteHeadFilledKind () const
+                              { return fNoteHeadFilledKind; }
+
+    void                  setNoteHeadParenthesesKind (
+                            msrNoteHeadParenthesesKind
+                              noteHeadParenthesesKind)
+                              {
+                                fNoteHeadParenthesesKind =
+                                  noteHeadParenthesesKind;
+                              }
+
+    msrNoteHeadParenthesesKind
+                          getNoteHeadParenthesesKind () const
+                              { return fNoteHeadParenthesesKind; }
+
+   // accidentals
 
     void                  setNoteEditorialAccidentalKind (
                             msrNoteEditorialAccidentalKind
@@ -5069,10 +5114,9 @@ class EXP msrNote : public msrElement
     // services
     // ------------------------------------------------------
 
+    // note kind
     string                noteKindAsString () const;
     
-    string                notePrintKindAsString () const;
-
     string                notePitchAsString () const;
     string                noteDisplayPitchAsString () const;
 
@@ -5082,6 +5126,16 @@ class EXP msrNote : public msrElement
     
     string                noteAsShortStringWithRawWholeNotes () const;
     
+    // note print kind
+    string                notePrintKindAsString () const;
+    
+    // note head
+    string                noteHeadKindAsString () const;
+    
+    string                noteHeadFilledKindAsString () const;
+    string                noteHeadParenthesesKindAsString () const;
+
+    // note as string
     string                noteAsShortString ();
     
     string                noteAsString ();
@@ -5179,10 +5233,10 @@ class EXP msrNote : public msrElement
     // basic note description
     // ------------------------------------------------------
 
+    // note kind
     msrNoteKind           fNoteKind;
-    
-    msrNotePrintKind      fNotePrintKind;
 
+    // note quarter tones pitch
     msrQuarterTonesPitch  fNoteQuarterTonesPitch;
 
     // whole notes
@@ -5199,13 +5253,24 @@ class EXP msrNote : public msrElement
     int                   fNoteDisplayOctave;
                                 // for unpitched notes
                                 // and pitched rests
-    
+
+    // short cuts for efficiency
     bool                  fNoteIsARest;
     bool                  fNoteIsUnpitched;
   
     bool                  fNoteIsAGraceNote;
     
     S_msrOctaveShift      fNoteOctaveShift; // JMI ???
+
+    // note print kind
+    msrNotePrintKind      fNotePrintKind;
+
+    // note head
+    msrNoteHeadKind       fNoteHeadKind;
+    msrNoteHeadFilledKind fNoteHeadFilledKind;
+    msrNoteHeadParenthesesKind
+                          fNoteHeadParenthesesKind;
+
 
     // accidentals
     // ------------------------------------------------------
