@@ -5945,7 +5945,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       fOstream << "\\tweak style #'diamond ";
       break;
     case msrNote::kNoteHeadSquare:
-      fOstream << "%{kNoteHeadSquare%} ";
+      fOstream << "\\tweak style #'la ";
       break;
     case msrNote::kNoteHeadCross:
       fOstream << "\\tweak style #'cross ";
@@ -5957,7 +5957,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       fOstream << "\\tweak style #'xcircle ";
       break;
     case msrNote::kNoteHeadInvertedTriangle:
-      fOstream << "\\tweak style #'triangle %{kNoteHeadInvertedTriangle%} ";
+      fOstream << "%{kNoteHeadInvertedTriangle%} ";
       break;
     case msrNote::kNoteHeadArrowDown:
       fOstream << "%{kNoteHeadArrowDown%} ";
