@@ -5951,13 +5951,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       fOstream << "\\tweak style #'cross ";
       break;
     case msrNote::kNoteHeadX:
-      fOstream << "%{kNoteHeadX%} ";
+      fOstream << "\\tweak style #'cross ";
       break;
     case msrNote::kNoteHeadCircleX:
       fOstream << "\\tweak style #'xcircle ";
       break;
     case msrNote::kNoteHeadInvertedTriangle:
-      fOstream << "%{kNoteHeadInvertedTriangle%} ";
+      fOstream << "\\tweak style #'triangle %{kNoteHeadInvertedTriangle%} ";
       break;
     case msrNote::kNoteHeadArrowDown:
       fOstream << "%{kNoteHeadArrowDown%} ";
@@ -5986,8 +5986,32 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     case msrNote::kNoteHeadRectangle:
       fOstream << "%{kNoteHeadRectangle%} ";
       break;
-    case msrNote::kNoHeadNone:
+    case msrNote::kNoteHeadNone:
       fOstream << "\\once\\omit NoteHead ";
+      break;
+    case msrNote::kNoteHeadDo:
+      fOstream << "\\tweak style #'do ";
+      break;
+    case msrNote::kNoteHeadRe:
+      fOstream << "\\tweak style #'re ";
+      break;
+    case msrNote::kNoteHeadMi:
+      fOstream << "\\tweak style #'mi ";
+      break;
+    case msrNote::kNoteHeadFa:
+      fOstream << "\\tweak style #'fa ";
+      break;
+    case msrNote::kNoteHeadFaUp:
+      fOstream << "\\tweak style #'triangle ";
+      break;
+    case msrNote::kNoteHeadSo:
+      fOstream << "\\tweak style #'sol ";
+      break;
+    case msrNote::kNoteHeadLa:
+      fOstream << "\\tweak style #'la ";
+      break;
+    case msrNote::kNoteHeadTi:
+      fOstream << "\\tweak style #'ti ";
       break;
   } // switch
 

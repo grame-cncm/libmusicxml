@@ -4655,7 +4655,9 @@ class EXP msrNote : public msrElement
       kNoteHeadCircleDot,
       kNoteHeadLeftTriangle,
       kNoteHeadRectangle,
-      kNoHeadNone };
+      kNoteHeadNone,
+      kNoteHeadDo, kNoteHeadRe, kNoteHeadMi, kNoteHeadFa, kNoteHeadFaUp,
+      kNoteHeadSo, kNoteHeadLa, kNoteHeadTi };
       
     static string noteHeadKindAsString (
       msrNoteHeadKind noteHeadKind);

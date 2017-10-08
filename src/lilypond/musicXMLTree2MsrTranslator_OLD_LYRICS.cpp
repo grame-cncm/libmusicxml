@@ -122,10 +122,6 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   // part handling
 
   // measure style handling
-  fCurrentSlashTypeKind     = kSlashTypeStart; // ???
-  fCurrentSlashUseDotsKind  = kSlashUseDotsYes; // ???
-  fCurrentSlashUseStemsKind = kSlashUseStemsYes; // ??? JMI
-
   fCurrentBeatRepeatSlashes = -1;
 
   fCurrentMeasureRepeatKind =
@@ -262,16 +258,7 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   // MusicXML notes handling
   fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
   fCurrentNoteAlteration    = k_NoAlteration;
-
-  // note print kind
-  fCurrentNotePrintKind = msrNote::kNotePrintYes;
-
-  fCurrentNoteHeadKind = msrNote::kNoteHeadNormal;
-  fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
-  fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
-  
-  // ongoing note
-  fOnGoingNote = false;
+  fOnGoingNote              = false;
 
   // note context
   fCurrentNoteStaffNumber = 0;
@@ -2766,7 +2753,7 @@ Cut time, also known as  or alla breve, is a meter with two half-note beats per 
   else  if (timeSymbol == "single-number") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolSingleNumber;
   }
-  // \numericTimeSignature par default si pas de symbol // JMI
+  // \numericTimeSignature par default si pas de symbol
   
   else {
     if (timeSymbol.size ()) {
@@ -4990,21 +4977,22 @@ void musicXMLTree2MsrTranslator::visitStart (S_lyric& elt )
       "--> Start visiting S_lyric" <<
       endl;
 
-  string stanzaNumber =
-    elt->getAttributeValue ("number");
+  int stanzaNumber =
+    elt->getAttributeIntValue ("number", 0);
   
-  if (stanzaNumber.size () == 0) {
+  if (stanzaNumber < 0) {
     stringstream s;
 
     s <<
       "lyric number " << stanzaNumber <<
-      " is empty";
+      " is not positive";
 
     msrMusicXMLError (
       elt->getInputLineNumber (),
       s.str ());
   }
-  else {
+
+  if (stanzaNumber > 0) {
     if (gGeneralOptions->fTraceLyrics)
       cerr << idtr <<
         "--> setting fCurrentStanzaNumber to " <<
@@ -5208,40 +5196,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (fCurrentSyllableKind == msrSyllable::k_NoSyllable) {
-    stringstream s;
-
-    s <<
-      "<lyric /> has no <syllabic /> component, using 'single' by defualt";
-
-    msrMusicXMLWarning (
-      inputLineNumber,
-      s.str ());
-    
-    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
-  }
-
-  if (fCurrentNoteIsARest) {
-    stringstream s;
-
-    s <<
-      "syllable ";
-
-   msrSyllable::writeTextsList (
-    fCurrentLyricTextsList,
-    s);
-
-    s <<
-      " is attached to a rest";
-
-    msrMusicXMLWarning (
-      inputLineNumber,
-      s.str ());
-      
-    fCurrentSyllableKind =
-      msrSyllable::kRestSyllable;
-  }
-
   if (gGeneralOptions->fTraceLyrics) {
     cerr <<
       endl <<
@@ -5399,15 +5353,24 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
   S_msrSyllable
     syllable;
 
-  /* JMI
-  if (fOnGoingSlur)
-    fOnGoingSlurHasStanza = true;
+  if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
+ // BAD JMI   fCurrentSyllableKind = msrSyllable::kSingleSyllable;
     
-  if (fOnGoingLigature)
-    fOnGoingLigatureHasStanza = true;
-    */
+    // the presence of a '<lyric />' ends the effect
+    // of an on going syllable extend
+    fOnGoingSyllableExtend = false;
     
-/* JMI
+    if (fOnGoingSlur)
+      fOnGoingSlurHasStanza = true;
+      
+    if (fOnGoingLigature)
+      fOnGoingLigatureHasStanza = true;
+      
+    fCurrentNoteHasStanza = true;
+  }
+  
+  else {
+
     if (
       fCurrentSlurKind == msrSlur::kStartSlur
         &&
@@ -5419,16 +5382,31 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         &&
       fCurrentNoteHasStanza) { // JMI
     }
-*/
-
-    /* JMI
+    
     if (fCurrentTieKind != msrTie::k_NoTie) {
       fCurrentSyllableKind = msrSyllable::kTiedSyllable;
     }
-    else
-  */
   
-  /* JMI
+    else if (fCurrentNoteIsARest) {
+      stringstream s;
+
+      s <<
+        "syllable ";
+
+     msrSyllable::writeTextsList (
+      fCurrentLyricTextsList,
+      s);
+
+      s <<
+        " is attached to a rest";
+
+      msrMusicXMLWarning (
+        inputLineNumber,
+        s.str ());
+        
+      fCurrentSyllableKind = msrSyllable::kRestSyllable;
+    }
+  
     else if (
       fOnGoingSlurHasStanza // JMI Ligature ???
         &&
@@ -5452,87 +5430,82 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
     
     else { // JMI
     }
-    */
+  }
 
-  if (gGeneralOptions->fTraceLyrics) {   
+  if (gGeneralOptions->fTraceLyrics)    
     cerr <<
       idtr <<
         "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
         msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
         endl;
-  }
 
-  //     fCurrentLyricElision ??? JMI
-  if (gGeneralOptions->fTraceLyrics) {      
-    cerr <<
-      idtr <<
-      "Creating a \"" <<
-      msrSyllable::syllableKindAsString (
-        fCurrentSyllableKind) << "\"" <<
-      " syllable"
-      ", text = \"";
-
-    msrSyllable::writeTextsList (
-      fCurrentLyricTextsList,
-      cerr);
-
-    cerr <<
-      "\"" <<
-      ", line " << inputLineNumber <<
-      ", whole notes: " <<
-      fCurrentNoteSoundingWholeNotesFromDuration <<
-      " sounding from duration, " <<
-       fCurrentNoteDisplayWholeNotesFromType << 
-      ", display from type" <<
-      ", syllabic = \"" <<
-      msrSyllable::syllableKindAsString (
-        fCurrentSyllableKind) << "\"" <<
-      ", elision: " <<
-      booleanAsString (fCurrentLyricElision) << 
-      ", in stanza " << stanza->getStanzaName () <<
-      endl;
-  }
-    
-  // create a syllable
-  syllable =
-    msrSyllable::create (
-      inputLineNumber,
-      fCurrentSyllableKind,
-      msrSyllable::k_NoSyllableExtend,
-      fCurrentNoteSoundingWholeNotesFromDuration,
-      stanza);
-
-  // append the lyric texts to the syllable
-  for (
-    list<string>::const_iterator i = fCurrentLyricTextsList.begin();
-    i!=fCurrentLyricTextsList.end();
-    i++) {
-    syllable->
-      appendLyricTextToSyllable ((*i));
-  } // for
-
-  // forget about those texts
-  fCurrentLyricTextsList.clear ();
+  if (fCurrentSyllableKind != msrSyllable::k_NoSyllable) {
+   //     fCurrentLyricElision ??? JMI
+    if (gGeneralOptions->fTraceLyrics) {      
+      cerr <<
+        idtr <<
+        "Creating a \"" <<
+        msrSyllable::syllableKindAsString (
+          fCurrentSyllableKind) << "\"" <<
+        " syllable"
+        ", text = \"";
   
-  // setSyllableNoteUplink() will be called in handleLyrics(),
-  // after the note has been created
+      msrSyllable::writeTextsList (
+        fCurrentLyricTextsList,
+        cerr);
+
+      cerr <<
+        "\"" <<
+        ", line " << inputLineNumber <<
+        ", whole notes: " <<
+        fCurrentNoteSoundingWholeNotesFromDuration <<
+        " sounding from duration, " <<
+         fCurrentNoteDisplayWholeNotesFromType << 
+        ", display from type" <<
+        ", syllabic = \"" <<
+        msrSyllable::syllableKindAsString (
+          fCurrentSyllableKind) << "\"" <<
+        ", elision: " <<
+        booleanAsString (fCurrentLyricElision) << 
+        ", in stanza " << stanza->getStanzaName () <<
+        endl;
+    }
     
-  // append syllable to current note's syllables list
-  fCurrentNoteSyllables.push_back (
-    syllable);
+    // create a syllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        fCurrentSyllableKind,
+        msrSyllable::k_NoSyllableExtend,
+        fCurrentNoteSoundingWholeNotesFromDuration,
+        stanza);
 
-  // append syllable to stanza
-  stanza->
-    appendSyllableToStanza (syllable);
+    // append the lyric texts to the syllable
+    for (
+      list<string>::const_iterator i = fCurrentLyricTextsList.begin();
+      i!=fCurrentLyricTextsList.end();
+      i++) {
+      syllable->
+        appendLyricTextToSyllable ((*i));
+    } // for
 
-  // register current note as having lyrics
-  fCurrentNoteHasLyrics = true;
+    // forget about those texts
+    fCurrentLyricTextsList.clear ();
+    
+    // setSyllableNoteUplink() will be called in handleLyrics(),
+    // after the note has been created
+      
+    // append syllable to current note's syllables list
+    fCurrentNoteSyllables.push_back (
+      syllable);
 
-  // the presence of a '<lyric />' ends the effect
-  // of an on going syllable extend
-  fOnGoingSyllableExtend = false;
+    // append syllable to stanza
+    stanza->
+      appendSyllableToStanza (syllable);
 
-  fCurrentNoteHasStanza = true;
+    // register current note as having lyrics
+    fCurrentNoteHasLyrics = true;
+  }
 
   fOnGoingLyric = false;
 }
@@ -6888,17 +6861,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_note& elt )
       "--> Start visiting S_note" <<
       endl;
 
-/*
-<!ELEMENT note 
-  (((grace, %full-note;, (tie, tie?)?) |
-    (cue, %full-note;, duration) |
-    (%full-note;, duration, (tie, tie?)?)),
-   instrument?, %editorial-voice;, type?, dot*,
-   accidental?, time-modification?, stem?, notehead?,
-   notehead-text?, staff?, beam*, notations*, lyric*, play?)>
-
-*/
-
 //       <note print-object="no"> JMI grise les notes
 //           <staff-lines>5</staff-lines> revient a la normale
 
@@ -6959,27 +6921,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentNoteStaffNumber = 1; // it may be absent
   fCurrentNoteVoiceNumber = 1; // it may be absent
-
-  string notePrintObject = elt->getAttributeValue ("print-object");
   
-  fCurrentNotePrintKind = msrNote::kNotePrintYes; // default value
-      
-  if      (notePrintObject == "yes")
-    fCurrentNotePrintKind = msrNote::kNotePrintYes;
-  else if (notePrintObject == "no")
-    fCurrentNotePrintKind = msrNote::kNotePrintNo;
-  else {
-    if (notePrintObject.size ()) {
-      stringstream s;
-      
-      s << "note print-object " << notePrintObject << " is unknown";
-      
-      msrMusicXMLError (
-        elt->getInputLineNumber (),
-        s.str ());
-    }
-  }
-
   fOnGoingNote = true;
 }
 
@@ -7169,55 +7111,68 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
  Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
 */
 
-  {
-    string noteType = elt->getValue();
-  
-    // the type contains a display duration,
-    if      (noteType == "maxima")  { fCurrentNoteGraphicDuration = kMaxima; }
-    else if (noteType == "long")    { fCurrentNoteGraphicDuration = kLong; }
-    else if (noteType == "breve")   { fCurrentNoteGraphicDuration = kBreve; } 
-    else if (noteType == "whole")   { fCurrentNoteGraphicDuration = kWhole; } 
-    else if (noteType == "half")    { fCurrentNoteGraphicDuration = kHalf; } 
-    else if (noteType == "quarter") { fCurrentNoteGraphicDuration = kQuarter; } 
-    else if (noteType == "eighth")  { fCurrentNoteGraphicDuration = kEighth; } 
-    else if (noteType == "16th")    { fCurrentNoteGraphicDuration = k16th; } 
-    else if (noteType == "32nd")    { fCurrentNoteGraphicDuration = k32nd; } 
-    else if (noteType == "64th")    { fCurrentNoteGraphicDuration = k64th; } 
-    else if (noteType == "128th")   { fCurrentNoteGraphicDuration = k128th; } 
-    else if (noteType == "256th")   { fCurrentNoteGraphicDuration = k256th; } 
-    else if (noteType == "512th")   { fCurrentNoteGraphicDuration = k512th; } 
-    else if (noteType == "1024th")  { fCurrentNoteGraphicDuration = k1024th; }
-    else {
-      stringstream s;
-      
-      s <<
-        endl << 
-        "--> unknown note type " << noteType <<
-        endl;
-  
-      msrMusicXMLError (
-        elt->getInputLineNumber (),
-        s.str ());
-    }
+  string noteType = elt->getValue();
+
+  // the type contains a display duration,
+  if      (noteType == "maxima")  { fCurrentNoteGraphicDuration = kMaxima; }
+  else if (noteType == "long")    { fCurrentNoteGraphicDuration = kLong; }
+  else if (noteType == "breve")   { fCurrentNoteGraphicDuration = kBreve; } 
+  else if (noteType == "whole")   { fCurrentNoteGraphicDuration = kWhole; } 
+  else if (noteType == "half")    { fCurrentNoteGraphicDuration = kHalf; } 
+  else if (noteType == "quarter") { fCurrentNoteGraphicDuration = kQuarter; } 
+  else if (noteType == "eighth")  { fCurrentNoteGraphicDuration = kEighth; } 
+  else if (noteType == "16th")    { fCurrentNoteGraphicDuration = k16th; } 
+  else if (noteType == "32nd")    { fCurrentNoteGraphicDuration = k32nd; } 
+  else if (noteType == "64th")    { fCurrentNoteGraphicDuration = k64th; } 
+  else if (noteType == "128th")   { fCurrentNoteGraphicDuration = k128th; } 
+  else if (noteType == "256th")   { fCurrentNoteGraphicDuration = k256th; } 
+  else if (noteType == "512th")   { fCurrentNoteGraphicDuration = k512th; } 
+  else if (noteType == "1024th")  { fCurrentNoteGraphicDuration = k1024th; }
+  else {
+    stringstream s;
+    
+    s <<
+      endl << 
+      "--> unknown note type " << noteType <<
+      endl;
+
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str ());
   }
 
-  {
-    string noteTypeSize = elt->getAttributeValue ("size");
-  
-    if (noteTypeSize == "cue") {
-       // USE IT! JMI ???
-    }
-  
-    else {
-      if (noteTypeSize.size ())
-        msrMusicXMLError (
-          elt->getInputLineNumber (),
-            "unknown note type size \"" + noteTypeSize + "\"");
-    }
+  // convert note graphic duration into whole notes
+  fCurrentNoteDisplayWholeNotesFromType =
+    msrDurationAsWholeNotes (
+      fCurrentNoteGraphicDuration);
+
+  // take dots into account if any
+  if (fCurrentNoteDotsNumber > 0) {
+    int dots = fCurrentNoteDotsNumber;
+
+    while (dots > 0) {
+      fCurrentNoteDisplayWholeNotesFromType *=
+        rational (3, 2);
+      fCurrentNoteDisplayWholeNotesFromType.rationalise ();
+
+      dots--;
+    } // while
   }
-  
+
+  string noteTypeSize = elt->getAttributeValue ("size");
+
+  if (noteTypeSize == "cue") {
+     // USE IT! JMI ???
+  }
+
+  else {
+    if (noteTypeSize.size ())
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+          "unknown note type size \"" + noteTypeSize + "\"");
+  }
+
   if (gGeneralOptions->fTraceNotesDetails) {
-    /* JMI
     cerr <<
       idtr <<
         "noteType: \"" <<
@@ -7229,169 +7184,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
         noteTypeSize <<
         "\"" <<
         endl;
-        */
-  }
-}
-
-void musicXMLTree2MsrTranslator::visitStart ( S_notehead& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
-    cerr << idtr <<
-      "--> Start visiting S_notehead" <<
-      endl;
-
-/*
-<!--
-  The notehead element indicates shapes other than the open
-  and closed ovals associated with note durations. The element
-  value can be slash, triangle, diamond, square, cross, x,
-  circle-x, inverted triangle, arrow down, arrow up, slashed,
-  back slashed, normal, cluster, circle dot, left triangle,
-  rectangle, or none. For shape note music, the element values
-  do, re, mi, fa, fa up, so, la, and ti are also used,
-  corresponding to Aikin's 7-shape system. The fa up shape is
-  typically used with upstems; the fa shape is typically used
-  with downstems or no stems.
-
-  The arrow shapes differ from triangle and inverted triangle
-  by being centered on the stem. Slashed and back slashed 
-  notes include both the normal notehead and a slash. The 
-  triangle shape has the tip of the triangle pointing up;
-  the inverted triangle shape has the tip of the triangle 
-  pointing down. The left triangle shape is a right triangle
-  with the hypotenuse facing up and to the left.
-  
-  For the enclosed shapes, the default is to be hollow for
-  half notes and longer, and filled otherwise. The filled
-  attribute can be set to change this if needed.
-  
-  If the parentheses attribute is set to yes, the notehead
-  is parenthesized. It is no by default.
-
-  The notehead-text element indicates text that is displayed
-  inside a notehead, as is done in some educational music. 
-  It is not needed for the numbers used in tablature or jianpu 
-  notation. The presence of a TAB or jianpu clefs is sufficient
-  to indicate that numbers are used. The display-text and
-  accidental-text elements allow display of fully formatted
-  text and accidentals.
--->
-<!ELEMENT notehead (#PCDATA)>
-<!ATTLIST notehead
-    filled %yes-no; #IMPLIED
-    parentheses %yes-no; #IMPLIED
-    %font;
-    %color;
->
-*/
-
-  {
-    string noteHead = elt->getValue();
-   
-    if      (noteHead == "slash") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadSlash; }
-    else if (noteHead == "triangle") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadTriangle; }
-    else if (noteHead == "diamond")   {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadDiamond; } 
-    else if (noteHead == "square") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadSquare; } 
-    else if (noteHead == "cross") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadCross; } 
-    else if (noteHead == "x") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadX; } 
-    else if (noteHead == "circle-x") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadCircleX; } 
-    else if (noteHead == "inverted triangle") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadInvertedTriangle; } 
-    else if (noteHead == "arrow down") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadArrowDown; } 
-    else if (noteHead == "arrow up") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadArrowUp; } 
-    else if (noteHead == "slashed") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadSlashed; } 
-    else if (noteHead == "back slashed") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadBackSlashed; } 
-    else if (noteHead == "normal") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadNormal; } 
-    else if (noteHead == "cluster") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadCluster; }
-    else if (noteHead == "circle dot") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadCircleDot; }
-    else if (noteHead == "left triangle") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadLeftTriangle; }
-    else if (noteHead == "rectangle") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadRectangle; }
-    else if (noteHead == "none") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadNone; }
-    else if (noteHead == "do") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadDo; }
-    else if (noteHead == "re") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadRe; }
-    else if (noteHead == "mi") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadMi; }
-    else if (noteHead == "fa") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadFa; }
-    else if (noteHead == "fa up") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadFaUp; }
-    else if (noteHead == "so") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadSo; }
-    else if (noteHead == "la") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadLa; }
-    else if (noteHead == "ti") {
-      fCurrentNoteHeadKind = msrNote::kNoteHeadTi; }
-    else {
-      stringstream s;
-      
-      s <<
-        endl << 
-        "--> unknown note head " << noteHead <<
-        endl;
-  
-      msrMusicXMLError (
-        elt->getInputLineNumber (),
-        s.str ());
-    }
-  }
-
-  {
-    string noteHeadFilled = elt->getAttributeValue ("filled");
-    
-    if      (noteHeadFilled == "yes")
-      fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
-    else if (noteHeadFilled == "no")
-      fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledNo;
-    else {
-      if (noteHeadFilled.size ()) {
-        stringstream s;
-        
-        s << "note head filled " << noteHeadFilled << " is unknown";
-        
-        msrMusicXMLError (
-          elt->getInputLineNumber (),
-          s.str ());
-      }
-    }
-  }
-
-  {
-    string noteHeadParentheses = elt->getAttributeValue ("parentheses");
-    
-    if      (noteHeadParentheses == "yes")
-      fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesYes;
-    else if (noteHeadParentheses == "no")
-      fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
-    else {
-      if (noteHeadParentheses.size ()) {
-        stringstream s;
-        
-        s << "note head parentheses " << noteHeadParentheses << " is unknown";
-        
-        msrMusicXMLError (
-          elt->getInputLineNumber (),
-          s.str ());
-      }
-    }
   }
 }
 
@@ -7711,9 +7503,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
   string slashType = elt->getAttributeValue ("type");
 
   if      (slashType == "start")
-    fCurrentSlashTypeKind = kSlashTypeStart;
+    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
   else if (slashType == "stop")
-    fCurrentSlashTypeKind = kSlashTypeStop;
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
   else {
     stringstream s;
     
@@ -7727,9 +7519,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
   string slashUseDots = elt->getAttributeValue ("use-dots");
 
   if      (slashUseDots == "yes")
-    fCurrentSlashUseDotsKind = kSlashUseDotsYes;
+    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
   else if (slashUseDots == "no")
-    fCurrentSlashUseDotsKind = kSlashUseDotsNo;
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
   else {
     if (slashUseDots.size ()) {
       stringstream s;
@@ -7745,9 +7537,9 @@ void musicXMLTree2MsrTranslator::visitStart ( S_slash& elt )
   string slashUseStems = elt->getAttributeValue ("use-stems");
 
   if      (slashUseStems == "yes")
-    fCurrentSlashUseStemsKind = kSlashUseStemsYes;
+    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
   else if (slashUseStems == "no")
-    fCurrentSlashUseStemsKind = kSlashUseStemsNo;
+    fCurrentTupletKind = msrTuplet::kStopTuplet;
   else {
     if (slashUseStems.size ()) {
       stringstream s;
@@ -7777,40 +7569,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_accent& elt )
       "--> Start visiting S_accent" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
-        inputLineNumber,
-        msrArticulation::kAccent,
-        articulationPlacementKind);
+        elt->getInputLineNumber (),
+        msrArticulation::kAccent);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7822,40 +7585,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_breath_mark& elt )
       "--> Start visiting S_breath_mark" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kBreathMark,
-        articulationPlacementKind);
+        msrArticulation::kBreathMark);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7867,40 +7601,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_caesura& elt )
       "--> Start visiting S_caesura" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kCaesura,
-        articulationPlacementKind);
+        msrArticulation::kCaesura);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7912,40 +7617,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_spiccato& elt )
       "--> Start visiting S_spiccato" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kSpiccato,
-        articulationPlacementKind);
+        msrArticulation::kSpiccato);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7957,40 +7633,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_staccato& elt )
       "--> Start visiting S_staccato" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kStaccato,
-        articulationPlacementKind);
+        msrArticulation::kStaccato);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8002,40 +7649,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
       "--> Start visiting S_staccatissimo" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kStaccatissimo,
-        articulationPlacementKind);
+        msrArticulation::kStaccatissimo);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8047,40 +7665,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_stress& elt )
       "--> Start visiting S_stress" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kStress,
-        articulationPlacementKind);
+        msrArticulation::kStress);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8092,40 +7681,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_unstress& elt )
       "--> Start visiting S_unstress" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kUnstress,
-        articulationPlacementKind);
+        msrArticulation::kUnstress);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8137,40 +7697,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_detached_legato& elt )
       "--> Start visiting S_detached_legato" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kDetachedLegato,
-        articulationPlacementKind);
+        msrArticulation::kDetachedLegato);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8182,41 +7713,12 @@ void musicXMLTree2MsrTranslator::visitStart ( S_strong_accent& elt )
       "--> Start visiting S_strong_accent" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
-  // type : upright inverted  (Binchois20.xml) // JMI
+  // type : upright inverted  (Binchois20.xml)
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kStrongAccent,
-        articulationPlacementKind);
+        msrArticulation::kStrongAccent);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8228,41 +7730,12 @@ void musicXMLTree2MsrTranslator::visitStart ( S_tenuto& elt )
       "--> Start visiting S_tenuto" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
-  // type : upright inverted  (Binchois20.xml) // JMI
+  // type : upright inverted  (Binchois20.xml)
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kTenuto,
-        articulationPlacementKind);
+        msrArticulation::kTenuto);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8358,38 +7831,21 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
     }   
   }
 
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
+/* JMI
+  // type : upright inverted  (Binchois20.xml)
+  S_msrArticulation
+    articulation =
+      msrArticulation::create (
+        inputLineNumber,
+        msrArticulation::kFermata);
+*/
 
   S_msrFermata
     fermata =
       msrFermata::create (
         inputLineNumber,
         fermataKind,
-        fermataType,
-        articulationPlacementKind);
+        fermataType);
         
   fCurrentArticulations.push_back (fermata);
 }
@@ -8401,40 +7857,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
       "--> Start visiting S_arpeggiate" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kArpeggiato,
-        articulationPlacementKind);
+        msrArticulation::kArpeggiato);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8443,45 +7870,18 @@ void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
     cerr << idtr <<
-      "--> Start visiting S_non_arpeggiate" << // JMI
+      "--> Start visiting S_non_arpeggiate" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
+/* JMI
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kNonArpeggiato,
-        articulationPlacementKind);
+        msrArticulation::kArpeggiato);
       
   fCurrentArticulations.push_back (articulation);
+  */
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_doit& elt )
@@ -8491,40 +7891,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_doit& elt )
       "--> Start visiting S_doit" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kDoit,
-        articulationPlacementKind);
+        msrArticulation::kDoit);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8536,40 +7907,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_falloff& elt )
       "--> Start visiting S_falloff" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kFalloff,
-        articulationPlacementKind);
+        msrArticulation::kFalloff);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8581,40 +7923,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_plop& elt )
       "--> Start visiting S_plop" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kPlop,
-        articulationPlacementKind);
+        msrArticulation::kPlop);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8626,40 +7939,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_scoop& elt )
       "--> Start visiting S_scoop" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement = elt->getAttributeValue ("placement");
-
-  msrArticulation::msrArticulationPlacementKind
-    articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
-
-  if      (placement == "above")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
-  }
-
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
-        msrArticulation::kScoop,
-        articulationPlacementKind);
+        msrArticulation::kScoop);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -10528,43 +9812,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_f& elt)
       "--> Start visiting S_f" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kF,
-        dynamicsPlacementKind);
+        msrDynamics::kF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10575,43 +9827,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_ff& elt)
       "--> Start visiting S_ff" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kFF,
-        dynamicsPlacementKind);
+        msrDynamics::kFF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10622,43 +9842,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_fff& elt)
       "--> Start visiting S_fff" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kFFF,
-        dynamicsPlacementKind);
+        msrDynamics::kFFF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10669,43 +9857,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_ffff& elt)
       "--> Start visiting S_ffff" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kFFFF,
-        dynamicsPlacementKind);
+        msrDynamics::kFFFF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10716,43 +9872,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_fffff& elt)
       "--> Start visiting S_fffff" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kFFFFF,
-        dynamicsPlacementKind);
+        msrDynamics::kFFFFF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10763,43 +9887,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_ffffff& elt)
       "--> Start visiting S_ffffff" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kFFFFFF,
-        dynamicsPlacementKind);
+        msrDynamics::kFFFFFF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10811,43 +9903,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_p& elt)
       "--> Start visiting S_p" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kP,
-        dynamicsPlacementKind);
+        msrDynamics::kP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10858,43 +9918,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_pp& elt)
       "--> Start visiting S_pp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kPP,
-        dynamicsPlacementKind);
+        msrDynamics::kPP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10905,43 +9933,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_ppp& elt)
       "--> Start visiting S_ppp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kPPP,
-        dynamicsPlacementKind);
+        msrDynamics::kPPP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10952,43 +9948,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_pppp& elt)
       "--> Start visiting S_pppp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kPPPP,
-        dynamicsPlacementKind);
+        msrDynamics::kPPPP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -10999,43 +9963,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_ppppp& elt)
       "--> Start visiting S_ppppp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kPPPPP,
-        dynamicsPlacementKind);
+        msrDynamics::kPPPPP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11046,43 +9978,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_pppppp& elt)
       "--> Start visiting S_pppppp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kPPPPPP,
-        dynamicsPlacementKind);
+        msrDynamics::kPPPPPP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11095,43 +9995,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_mf& elt)
       "--> Start visiting S_mf" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kMF,
-        dynamicsPlacementKind);
+        msrDynamics::kMF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11142,43 +10010,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_mp& elt)
       "--> Start visiting S_mp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kMP,
-        dynamicsPlacementKind);
+        msrDynamics::kMP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11190,43 +10026,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_fp& elt)
       "--> Start visiting S_fp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kFP,
-        dynamicsPlacementKind);
+        msrDynamics::kFP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11237,43 +10041,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_fz& elt)
       "--> Start visiting S_fz" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kFZ,
-        dynamicsPlacementKind);
+        msrDynamics::kFZ);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11285,43 +10057,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_rf& elt)
       "--> Start visiting S_rf" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kRF,
-        dynamicsPlacementKind);
+        msrDynamics::kRF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11333,43 +10073,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_sf& elt)
       "--> Start visiting S_sf" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kSF,
-        dynamicsPlacementKind);
+        msrDynamics::kSF);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11381,43 +10089,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_rfz& elt)
       "--> Start visiting S_rfz" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kRFZ,
-        dynamicsPlacementKind);
+        msrDynamics::kRFZ);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11429,43 +10105,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_sfz& elt)
       "--> Start visiting S_sfz" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kSFZ,
-        dynamicsPlacementKind);
+        msrDynamics::kSFZ);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11477,43 +10121,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_sfp& elt)
       "--> Start visiting S_sfp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kSFP,
-        dynamicsPlacementKind);
+        msrDynamics::kSFP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11525,43 +10137,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_sfpp& elt)
       "--> Start visiting S_sfpp" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kSFPP,
-        dynamicsPlacementKind);
+        msrDynamics::kSFPP);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -11573,43 +10153,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_sffz& elt)
       "--> Start visiting S_sffz" <<
       endl;
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-  string placement =
-    elt->getAttributeValue ("placement");
-
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
-
-  if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
-  else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "dynamics placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());    
-  }
-
   S_msrDynamics
     dynamics =
       msrDynamics::create (
         elt->getInputLineNumber (),
-        msrDynamics::kSFFZ,
-        dynamicsPlacementKind);
+        msrDynamics::kSFFZ);
         
   fPendingDynamics.push_back(dynamics);
 }
@@ -12098,7 +10646,7 @@ S_msrChord musicXMLTree2MsrTranslator::createChordFromItsFirstNote (
   // register note as first member of chord
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
     cerr << idtr <<
-      "--> adding first note " <<
+      "--> adding first note 2 " <<
       chordFirstNote->
         noteAsShortStringWithRawWholeNotes() <<
       ", line " << inputLineNumber <<
@@ -13375,79 +11923,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentDisplayDiatonicPitch,
       fCurrentNoteAlteration);
 
-  // convert note graphic duration into whole notes
-  fCurrentNoteDisplayWholeNotesFromType =
-    msrDurationAsWholeNotes (
-      fCurrentNoteGraphicDuration);
-
-  // take dots into account if any
-  if (fCurrentNoteDotsNumber > 0) {
-    int dots = fCurrentNoteDotsNumber;
-
-    while (dots > 0) {
-      fCurrentNoteDisplayWholeNotesFromType *=
-        rational (3, 2);
-      fCurrentNoteDisplayWholeNotesFromType.rationalise ();
-
-      dots--;
-    } // while
-  }
-
-  // store voice and staff numbers in MusicXML note data
-  fCurrentNoteStaffNumber = fCurrentStaffNumber;
-  fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
-
-  if (gGeneralOptions->fTraceNotes) {
-    cerr << idtr <<
-      "--> Gathered note information:" <<
-      endl;
-
-    idtr++;
-
-    const int fieldWidth = 42;
-    
-    cerr << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteSoundingWholeNotesFromDuration" << " = " << 
-        fCurrentNoteSoundingWholeNotesFromDuration <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNoteGraphicDuration" << " : " <<
-          msrDurationAsString (
-            fCurrentNoteGraphicDuration) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNoteDotsNumber" << " : " <<
-          fCurrentNoteDotsNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteDisplayWholeNotesFromType" << " = " << 
-        fCurrentNoteDisplayWholeNotesFromType <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteIsARest" << " = " << 
-        booleanAsString (fCurrentNoteIsARest) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentDivisionsPerQuarterNote" << " = " <<
-        fCurrentDivisionsPerQuarterNote <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNotePrintKind" << " = " <<
-        msrNote::notePrintKindAsString (
-          fCurrentNotePrintKind) <<
-        endl;
-
-    idtr--;
-  }
-
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -13492,6 +11967,44 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         endl << endl;
   }
 */
+
+  // store voice and staff numbers in MusicXML note data
+  fCurrentNoteStaffNumber = fCurrentStaffNumber;
+  fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
+
+  if (gGeneralOptions->fTraceNotes) {
+    cerr << idtr <<
+      "--> Gathered note information:" <<
+      endl;
+
+    idtr++;
+
+    const int fieldWidth = 42;
+    
+    cerr << left <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentNoteSoundingWholeNotesFromDuration" << " = " << 
+        fCurrentNoteSoundingWholeNotesFromDuration <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentNoteDisplayWholeNotesFromType" << " = " << 
+        fCurrentNoteDisplayWholeNotesFromType <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentNoteIsARest" << " = " << 
+        booleanAsString (fCurrentNoteIsARest) <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentDivisionsPerQuarterNote" << " = " <<
+        fCurrentDivisionsPerQuarterNote <<
+        endl;
+
+    idtr--;
+  }
 
   if (fCurrentNoteIsAGraceNote) {
     // set current grace note display whole notes      
@@ -13607,13 +12120,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteIsARest,
         fCurrentNoteIsUnpitched,
         
-        fCurrentNoteIsAGraceNote,
-
-        fCurrentNotePrintKind,
-
-        fCurrentNoteHeadKind,
-        fCurrentNoteHeadFilledKind,
-        fCurrentNoteHeadParenthesesKind);
+        fCurrentNoteIsAGraceNote);
 
   // set note accidentals
   newNote->
@@ -13623,11 +12130,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   newNote->
     setNoteCautionaryAccidentalKind (
       fCurrentNoteCautionaryAccidentalKind);
-
-  // set note print kind
-  newNote->
-    setNotePrintKind (
-      fCurrentNotePrintKind);
 
   // handling the current pending harmony if any,
   // so that it gets attached to the note right now
@@ -15588,33 +14090,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_rehearsal& elt )
       endl;
 
 /*
-/*
-<!ATTLIST sound
-    tempo CDATA #IMPLIED
-    dynamics CDATA #IMPLIED
-    dacapo %yes-no; #IMPLIED
-    segno CDATA #IMPLIED
-    dalsegno CDATA #IMPLIED
-    coda CDATA #IMPLIED
-    tocoda CDATA #IMPLIED
-    divisions CDATA #IMPLIED
-    forward-repeat %yes-no; #IMPLIED
-    fine CDATA #IMPLIED
-    %time-only;
-    pizzicato %yes-no; #IMPLIED
-    pan CDATA #IMPLIED
-    elevation CDATA #IMPLIED
-    damper-pedal %yes-no-number; #IMPLIED
-    soft-pedal %yes-no-number; #IMPLIED
-    sostenuto-pedal %yes-no-number; #IMPLIED
->
-
-<sound id="brass.trombone.bass"/>
-
-<sound dynamics="106.67"/>
-
-<sound dynamics="69"/>
-
       <direction placement="above">
         <direction-type>
           <rehearsal default-y="15" font-size="11.3" font-weight="bold">A</rehearsal>
@@ -15637,22 +14112,22 @@ void musicXMLTree2MsrTranslator::visitStart ( S_rehearsal& elt )
   if      (rehearsalEnclosure == "none") {
     rehearsalKind = msrRehearsal::kNone;
   }
-  else if (rehearsalEnclosure == "rectangle") {
+  else if (rehearsalEnclosure == "kRectangle") {
     rehearsalKind = msrRehearsal::kRectangle;
   }
-  else if (rehearsalEnclosure == "oval") {
+  else if (rehearsalEnclosure == "kOval") {
     rehearsalKind = msrRehearsal::kOval;
   }
-  else if (rehearsalEnclosure == "circle") {
+  else if (rehearsalEnclosure == "kCircle") {
     rehearsalKind = msrRehearsal::kCircle;
   }
-  else if (rehearsalEnclosure == "bracket") {
+  else if (rehearsalEnclosure == "kBracket") {
     rehearsalKind = msrRehearsal::kBracket;
   }
-  else if (rehearsalEnclosure == "triangle") {
+  else if (rehearsalEnclosure == "kTriangle") {
     rehearsalKind = msrRehearsal::kTriangle;
   }
-  else if (rehearsalEnclosure == "diamond") {
+  else if (rehearsalEnclosure == "kDiamond") {
     rehearsalKind = msrRehearsal::kDiamond;
   }
   else {
@@ -16465,6 +14940,109 @@ void musicXMLTree2MsrTranslator::visitStart ( S_sound& elt )
     cerr << idtr <<
       "--> Start visiting S_sound" <<
       endl;
+
+/*
+<!ATTLIST sound
+    tempo CDATA #IMPLIED
+    dynamics CDATA #IMPLIED
+    dacapo %yes-no; #IMPLIED
+    segno CDATA #IMPLIED
+    dalsegno CDATA #IMPLIED
+    coda CDATA #IMPLIED
+    tocoda CDATA #IMPLIED
+    divisions CDATA #IMPLIED
+    forward-repeat %yes-no; #IMPLIED
+    fine CDATA #IMPLIED
+    %time-only;
+    pizzicato %yes-no; #IMPLIED
+    pan CDATA #IMPLIED
+    elevation CDATA #IMPLIED
+    damper-pedal %yes-no-number; #IMPLIED
+    soft-pedal %yes-no-number; #IMPLIED
+    sostenuto-pedal %yes-no-number; #IMPLIED
+>
+
+<sound id="brass.trombone.bass"/>
+
+<sound dynamics="106.67"/>
+
+<sound dynamics="69"/>
+
+*/
+
+  string rehearsalValue = elt->getValue();
+
+  string rehearsalEnclosure = 
+    elt->getAttributeValue ("enclosure");
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+  
+  msrRehearsal::msrRehearsalKind
+    rehearsalKind =
+      msrRehearsal::kNone; // default value
+
+  if      (rehearsalEnclosure == "none") {
+    rehearsalKind = msrRehearsal::kNone;
+  }
+  else if (rehearsalEnclosure == "kRectangle") {
+    rehearsalKind = msrRehearsal::kRectangle;
+  }
+  else if (rehearsalEnclosure == "kOval") {
+    rehearsalKind = msrRehearsal::kOval;
+  }
+  else if (rehearsalEnclosure == "kCircle") {
+    rehearsalKind = msrRehearsal::kCircle;
+  }
+  else if (rehearsalEnclosure == "kBracket") {
+    rehearsalKind = msrRehearsal::kBracket;
+  }
+  else if (rehearsalEnclosure == "kTriangle") {
+    rehearsalKind = msrRehearsal::kTriangle;
+  }
+  else if (rehearsalEnclosure == "kDiamond") {
+    rehearsalKind = msrRehearsal::kDiamond;
+  }
+  else {
+    if (rehearsalEnclosure.size ()) {
+      stringstream s;
+      
+      s <<
+        "rehearsal enclosure \"" << rehearsalEnclosure <<
+        "\"" << " is not handled, ignored";
+        
+      msrMusicXMLWarning (
+        inputLineNumber,
+        s.str ());
+    }    
+  }
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      createVoiceInStaffInCurrentPartIfNotYetDone (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+    
+  // create a rehearsal
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "Creating rehearsal \"" << rehearsalValue << "\"" <<
+      " in voice " <<
+      currentVoice->getVoiceName () <<
+      endl;
+
+  S_msrRehearsal
+    rehearsal =
+      msrRehearsal::create (
+        inputLineNumber,
+        rehearsalKind,
+        rehearsalValue);
+
+  // append the rehearsal to the current voice
+  currentVoice->
+    appendRehearsalToVoice (rehearsal);
 }
 
 void musicXMLTree2MsrTranslator::visitEnd ( S_sound& elt )

@@ -4751,58 +4751,82 @@ string msrNote::noteHeadKindAsString (
  
   switch (noteHeadKind) {
     case msrNote::kNoteHeadSlash:
-      result = "kNoteHeadSlash";
+      result = "NoteHeadSlash";
       break;
     case msrNote::kNoteHeadTriangle:
-      result = "kNoteHeadTriangle";
+      result = "NoteHeadTriangle";
       break;
     case msrNote::kNoteHeadDiamond:
-      result = "kNoteHeadDiamond";
+      result = "NoteHeadDiamond";
       break;
     case msrNote::kNoteHeadSquare:
-      result = "kNoteHeadSquare";
+      result = "NoteHeadSquare";
       break;
     case msrNote::kNoteHeadCross:
-      result = "kNoteHeadCross";
+      result = "NoteHeadCross";
       break;
     case msrNote::kNoteHeadX:
-      result = "kNoteHeadX";
+      result = "NoteHeadX";
       break;
     case msrNote::kNoteHeadCircleX:
-      result = "kNoteHeadCircleX";
+      result = "NoteHeadCircleX";
       break;
     case msrNote::kNoteHeadInvertedTriangle:
-      result = "kNoteHeadInvertedTriangle";
+      result = "NoteHeadInvertedTriangle";
       break;
     case msrNote::kNoteHeadArrowDown:
-      result = "kNoteHeadArrowDown";
+      result = "NoteHeadArrowDown";
       break;
     case msrNote::kNoteHeadArrowUp:
-      result = "kNoteHeadArrowUp";
+      result = "NoteHeadArrowUp";
       break;
     case msrNote::kNoteHeadSlashed:
-      result = "kNoteHeadSlashed";
+      result = "NoteHeadSlashed";
       break;
     case msrNote::kNoteHeadBackSlashed:
-      result = "kNoteHeadBackSlashed";
+      result = "NoteHeadBackSlashed";
       break;
     case msrNote::kNoteHeadNormal:
-      result = "kNoteHeadNormal";
+      result = "NoteHeadNormal";
       break;
     case msrNote::kNoteHeadCluster:
-      result = "kNoteHeadCluster";
+      result = "NoteHeadCluster";
       break;
     case msrNote::kNoteHeadCircleDot:
-      result = "kNoteHeadCircleDot";
+      result = "NoteHeadCircleDot";
       break;
     case msrNote::kNoteHeadLeftTriangle:
-      result = "kNoteHeadLeftTriangle";
+      result = "NoteHeadLeftTriangle";
       break;
     case msrNote::kNoteHeadRectangle:
-      result = "kNoteHeadRectangle";
+      result = "NoteHeadRectangle";
       break;
-    case msrNote::kNoHeadNone:
-      result = "kNoHeadNone";
+    case msrNote::kNoteHeadNone:
+      result = "NoteHeadNone";
+      break;
+    case msrNote::kNoteHeadDo:
+      result = "NoteHeadDo";
+      break;
+    case msrNote::kNoteHeadRe:
+      result = "NoteHeadRe";
+      break;
+    case msrNote::kNoteHeadMi:
+      result = "NoteHeadMi";
+      break;
+    case msrNote::kNoteHeadFa:
+      result = "NoteHeadFa";
+      break;
+    case msrNote::kNoteHeadFaUp:
+      result = "NoteHeadFaUp";
+      break;
+    case msrNote::kNoteHeadSo:
+      result = "NoteHeadSo";
+      break;
+    case msrNote::kNoteHeadLa:
+      result = "NoteHeadLa";
+      break;
+    case msrNote::kNoteHeadTi:
+      result = "NoteHeadTi";
       break;
   } // switch
 
