@@ -84,6 +84,12 @@ class EXP msrOptionsElement : public smartable
     string                getOptionsElementDescription () const
                               { return fOptionsElementDescription; }
 
+    void                  setOptionsElementIsHidden ()
+                              { fOptionsElementIsHidden = true; }
+    
+    bool                  getOptionsElementIsHidden () const
+                              { return fOptionsElementIsHidden; }
+
     // services
     // ------------------------------------------------------
 
@@ -118,6 +124,8 @@ class EXP msrOptionsElement : public smartable
     string                fOptionsElementShortName;
     string                fOptionsElementLongName;
     string                fOptionsElementDescription;
+
+    bool                  fOptionsElementIsHidden;
 };
 typedef SMARTP<msrOptionsElement> S_msrOptionsElement;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsElement& elt);

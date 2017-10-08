@@ -15588,7 +15588,6 @@ void musicXMLTree2MsrTranslator::visitStart ( S_rehearsal& elt )
       endl;
 
 /*
-/*
 <!ATTLIST sound
     tempo CDATA #IMPLIED
     dynamics CDATA #IMPLIED

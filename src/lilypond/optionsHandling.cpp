@@ -2202,6 +2202,21 @@ void msrOptionsSubGroup::printHelpSummary (
         " ***";
       break;
   } // switch
+
+  os <<
+    endl;
+
+  // print the description if any
+  if (fOptionsElementDescription.size ()) {
+    idtr++;
+    os << idtr <<
+      fOptionsElementDescription <<
+      endl;
+    idtr--;
+  }
+  
+  os <<
+    endl;
 }
 
 void msrOptionsSubGroup::printSpecificSubGroupHelp (

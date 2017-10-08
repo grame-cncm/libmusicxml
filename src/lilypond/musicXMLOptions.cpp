@@ -111,14 +111,20 @@ R"(Don't stop the translation after issuing a MusicXML error message.)",
         "ignoreMusicXMLErrors",
         fIgnoreMusicXMLErrors));
 
-  otherSubGroup->
-    appendOptionsItem (
+  S_msrOptionsBooleanItem
+    loopOptionsBooleanItem =
       msrOptionsBooleanItem::create (
         "loop", "loopToMusicXML",
 R"(Close the loop, generating a MusicXML file from the MSR. 
 The file name receives a '_loop' suffix. Currently under development.)",
         "loopToMusicXML",
-        fLoopToMusicXML));
+        fLoopToMusicXML);
+  loopOptionsBooleanItem->
+    setOptionsElementIsHidden ();
+    
+  otherSubGroup->
+    appendOptionsItem (
+      loopOptionsBooleanItem);
 }
 
 S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
