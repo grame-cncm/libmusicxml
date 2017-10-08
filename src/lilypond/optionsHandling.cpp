@@ -189,7 +189,9 @@ void msrOptionsElement::printHeader (ostream& os) const
   idtr--; idtr--; idtr--;
 }
 
-void msrOptionsElement::print (ostream& os) const
+void msrOptionsElement::printEssentials (
+  ostream& os,
+  int      fieldWidth) const
 {
   os << left <<
     idtr <<
@@ -213,8 +215,15 @@ void msrOptionsElement::print (ostream& os) const
       booleanAsString (
         fOptionsElementIsHidden) <<
       endl;
+}
 
-  os << "??? msrOptionsElement ???" << endl;
+void msrOptionsElement::print (ostream& os) const
+{
+  os <<
+    "??? msrOptionsElement ???" <<
+    endl;
+
+  printEssentials (os, 35);  
 }
 
 void msrOptionsElement::printHelp (ostream& os) const
@@ -287,7 +296,7 @@ void msrOptionsItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 }
 
 void msrOptionsItem::printOptionsValues (
@@ -345,7 +354,7 @@ void msrOptionsVersionItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   idtr++;
   os <<
@@ -421,7 +430,7 @@ void msrOptionsBooleanItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   idtr++;
   os <<
@@ -521,7 +530,7 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   idtr++;
   os <<
@@ -638,7 +647,7 @@ void msrOptionsValuedItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 }
 
 void msrOptionsValuedItem::printHelp (ostream& os) const
@@ -729,7 +738,7 @@ void msrOptionsIntegerItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -818,7 +827,7 @@ void msrOptionsFloatItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -907,7 +916,7 @@ void msrOptionsStringItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -1003,7 +1012,7 @@ void msrOptionsRationalItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -1090,7 +1099,7 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -1227,7 +1236,7 @@ void msrOptionsPitchesLanguageItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -1320,7 +1329,7 @@ void msrOptionsAccidentalStyleItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -1412,7 +1421,7 @@ void msrOptionsChordsLanguageItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -1504,7 +1513,7 @@ void msrOptionsPartRenameItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -1640,7 +1649,7 @@ void msrOptionsMidiTempoItem::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -1812,7 +1821,7 @@ void msrOptionsSubGroup::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
     idtr <<
@@ -2189,7 +2198,7 @@ void msrOptionsGroup::print (ostream& os) const
 
   idtr++;
 
-  msrOptionsElement::print (os);
+  msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << idtr <<
     "Options subgroups (" <<

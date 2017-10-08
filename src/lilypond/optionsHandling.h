@@ -112,6 +112,10 @@ class EXP msrOptionsElement : public smartable
     
     virtual void          printHeader (ostream& os) const;
     
+    virtual void          printEssentials (
+                            ostream& os,
+                            int      fieldWidth) const;
+    
     virtual void          print (ostream& os) const;
     
     virtual void          printHelp (ostream& os) const;
