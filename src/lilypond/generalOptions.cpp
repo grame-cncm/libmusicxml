@@ -42,7 +42,8 @@ generalOptions::generalOptions ()
   : msrOptionsGroup (
     "General",
     "hg", "helpGeneral",
-R"()"
+R"(Options that are used by various components of the library
+are grouped here)"
     )
 {
   // register translation date

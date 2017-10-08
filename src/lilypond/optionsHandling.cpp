@@ -1894,7 +1894,8 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   if (fOptionsElementDescription.size ()) {
     idtr++;
     os << idtr <<
-      fOptionsElementDescription <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
       endl;
     idtr--;
 
@@ -1968,7 +1969,8 @@ void msrOptionsSubGroup::printForcedHelp (ostream& os) const
   if (fOptionsElementDescription.size ()) {
     idtr++;
     os << idtr <<
-      fOptionsElementDescription <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
       endl;
     idtr--;
 
@@ -2035,7 +2037,8 @@ void msrOptionsSubGroup::printHelpSummary (
   if (fOptionsElementDescription.size ()) {
     idtr++;
     os << idtr <<
-      fOptionsElementDescription <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
       endl;
     idtr--;
 
@@ -2260,7 +2263,8 @@ void msrOptionsGroup::printHelp (ostream& os) const
   if (fOptionsElementDescription.size ()) {
     idtr++;
     os << idtr <<
-      fOptionsElementDescription <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
       endl;
     idtr--;
 
@@ -2302,14 +2306,14 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
     idtr;
   underlineHeader (os);
   os <<
-    endl <<
     endl;
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     idtr++;
     os << idtr <<
-      fOptionsElementDescription <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
       endl;
     idtr--;
 
@@ -2364,7 +2368,8 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
   if (fOptionsElementDescription.size ()) {
     idtr++;
     os << idtr <<
-      fOptionsElementDescription <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
       endl;
     idtr--;
 
@@ -2632,23 +2637,29 @@ void msrOptionsHandler::print (ostream& os) const
   os << left <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsHandlerHelpHeader" << " : " << fOptionsHandlerHelpHeader <<
+      "fOptionsHandlerHelpHeader" << " : " <<
+      fOptionsHandlerHelpHeader <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsHandlerValuesHeader" << " : " << fOptionsHandlerValuesHeader <<
+      "fOptionsHandlerValuesHeader" << " : " <<
+      fOptionsHandlerValuesHeader <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+      "fOptionsElementDescription" << " : " <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
       endl;
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {
@@ -2676,7 +2687,8 @@ void msrOptionsHandler::print (ostream& os) const
 void msrOptionsHandler::printHelp (ostream& os) const
 {
   os << idtr <<
-    fOptionsElementDescription <<
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
     endl;
     
   // print versions history
