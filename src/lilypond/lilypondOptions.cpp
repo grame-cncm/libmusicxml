@@ -67,7 +67,7 @@ void lilypondOptions::initializeLilypondOptions (
       msrOptionsSubGroup::create (
         "Time",
         "hlilyti", "helpLilypondtime",
-R"()",
+R"(These options control which LilyPond code is generated.)",
       msrOptionsSubGroup::kAlwaysShowDescription
       );
   

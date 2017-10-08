@@ -44,7 +44,7 @@ msrOptions::msrOptions ()
   : msrOptionsGroup (
     "MSR",
     "hmsr", "helpMSR",
-R"()"
+R"(These options control the way MSR data is handled.)"
     )
 {
   initializeMsrOptions (false);

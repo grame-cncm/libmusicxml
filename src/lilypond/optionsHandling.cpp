@@ -2644,23 +2644,9 @@ void msrOptionsHandler::print (ostream& os) const
       setw (fieldWidth) <<
       "fOptionsHandlerValuesHeader" << " : " <<
       fOptionsHandlerValuesHeader <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementShortName" << " : " <<
-      fOptionsElementShortName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementLongName" << " : " <<
-      fOptionsElementLongName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementDescription" << " : " <<
-      idtr.indentMultiLineString (
-        fOptionsElementDescription) <<
       endl;
+
+  printEssentials (os, fieldWidth);
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os << endl;

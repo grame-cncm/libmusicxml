@@ -44,7 +44,7 @@ musicXMLOptions::musicXMLOptions ()
   : msrOptionsGroup (
     "MusicXML",
     "hmxml", "helpMusicXML",
-R"()"
+R"(These options control the way MusicXML data is translated.)"
     )
 {
   initializeMusicXMLOptions (false);

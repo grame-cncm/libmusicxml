@@ -43,7 +43,7 @@ lpsrOptions::lpsrOptions()
   : msrOptionsGroup (
     "LPSR",
     "hlpsr", "helpLPSR",
-R"()"
+R"(These options control the way LPSR data is handled.)"
     )
 {
   initializeLpsrOptions (false);
