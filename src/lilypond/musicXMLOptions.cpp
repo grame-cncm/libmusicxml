@@ -78,7 +78,7 @@ R"()",
   traceAndDisplaySubGroup->
     appendOptionsItem (
       msrOptionsBooleanItem::create (
-        "tmxtvisits", "traceMusicXMLTreeVisitors",
+        "tmxmltv", "traceMusicXMLTreeVisitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
         "traceMusicXMLTreeVisitors",
         fTraceMusicXMLTreeVisitors));

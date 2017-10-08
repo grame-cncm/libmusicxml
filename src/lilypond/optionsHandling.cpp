@@ -230,6 +230,7 @@ void msrOptionsElement::printHelp (ostream& os) const
 {
   os << idtr <<
     optionsElementNames () <<
+    endl <<
     endl;
 
   // indent a bit more for readability
@@ -656,6 +657,7 @@ void msrOptionsValuedItem::printHelp (ostream& os) const
     optionsElementNames () <<
     " " <<
     fOptionsValueSpecification <<
+    endl <<
     endl;
 
   // indent a bit more for readability
@@ -1895,10 +1897,10 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
       fOptionsElementDescription <<
       endl;
     idtr--;
+
+    os <<
+      endl;  
   }
-  
-  os <<
-    endl;
   
   switch (fOptionsSubGroupDescriptionVisibility) {
     case kAlwaysShowDescription:
@@ -1910,10 +1912,21 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
           iEnd   = fOptionsSubGroupItemsList.end(),
           i      = iBegin;
         for ( ; ; ) {
-          // print the options item help
-          (*i)->printHelp (os);
+          S_msrOptionsItem
+            optionsItem = (*i);
+          bool
+            optionsItemIsHidden =
+              optionsItem->getOptionsElementIsHidden ();
+              
+          // print the options item help unless it is hidden
+          if (! optionsItemIsHidden) {
+            optionsItem->printHelp (os);
+          }
           if (++i == iEnd) break;
-          cerr << endl;
+          if (! optionsItemIsHidden) {
+            cerr <<
+              endl;
+          }
         } // for
           
         idtr--;
@@ -1949,7 +1962,6 @@ void msrOptionsSubGroup::printForcedHelp (ostream& os) const
   } // switch
 
   os <<
-    endl <<
     endl;
 
   // print the description if any
@@ -1959,11 +1971,11 @@ void msrOptionsSubGroup::printForcedHelp (ostream& os) const
       fOptionsElementDescription <<
       endl;
     idtr--;
+
+    os <<
+      endl;  
   }
-  
-  os <<
-    endl;
-    
+      
   if (fOptionsSubGroupItemsList.size ()) {    
     idtr++;
 
@@ -2026,10 +2038,10 @@ void msrOptionsSubGroup::printHelpSummary (
       fOptionsElementDescription <<
       endl;
     idtr--;
+
+    os <<
+      endl;  
   }
-  
-  os <<
-    endl;
 }
 
 void msrOptionsSubGroup::printSpecificSubGroupHelp (
@@ -2242,7 +2254,6 @@ void msrOptionsGroup::printHelp (ostream& os) const
   // underline the options group header
   underlineHeader (os);
   os <<
-    endl <<
     endl;
 
   // print the description if any
@@ -2252,11 +2263,11 @@ void msrOptionsGroup::printHelp (ostream& os) const
       fOptionsElementDescription <<
       endl;
     idtr--;
+
+    os <<
+      endl;  
   }
-  
-  os <<
-    endl;
-  
+    
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;
@@ -2301,11 +2312,11 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
       fOptionsElementDescription <<
       endl;
     idtr--;
+
+    os <<
+      endl;  
   }
-  
-  os <<
-    endl;
-  
+    
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;
@@ -2356,11 +2367,11 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
       fOptionsElementDescription <<
       endl;
     idtr--;
+
+    os <<
+      endl;  
   }
-  
-  os <<
-    endl;
-  
+    
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
     idtr++;

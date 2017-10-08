@@ -93,7 +93,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "tmvisits", "traceMsrVisitors",
+          "tmsrv", "traceMsrVisitors",
 R"(Write a trace of the MSR graphs visiting activity to standard error.)",
           "traceMsrVisitors",
           fTraceMsrVisitors));
