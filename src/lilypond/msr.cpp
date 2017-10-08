@@ -4078,6 +4078,22 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->fNoteOctaveShift =
     fNoteOctaveShift;
 
+  // note print kind
+  // ------------------------------------------------------
+
+  newbornClone->fNotePrintKind =
+    fNotePrintKind;
+
+  // note head
+  // ------------------------------------------------------
+
+  newbornClone->fNoteHeadKind =
+    fNoteHeadKind;
+  newbornClone->fNoteHeadFilledKind =
+    fNoteHeadFilledKind;
+  newbornClone->fNoteHeadParenthesesKind =
+    fNoteHeadParenthesesKind;
+
   // accidentals
   // ------------------------------------------------------
 
@@ -4285,6 +4301,22 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   noteDeepCopy->fNoteOctaveShift = // JMI
     fNoteOctaveShift;
+
+  // note print kind
+  // ------------------------------------------------------
+
+  noteDeepCopy->fNotePrintKind =
+    fNotePrintKind;
+
+  // note head
+  // ------------------------------------------------------
+
+  noteDeepCopy->fNoteHeadKind =
+    fNoteHeadKind;
+  noteDeepCopy->fNoteHeadFilledKind =
+    fNoteHeadFilledKind;
+  noteDeepCopy->fNoteHeadParenthesesKind =
+    fNoteHeadParenthesesKind;
 
   // accidentals
   // ------------------------------------------------------
@@ -4751,82 +4783,82 @@ string msrNote::noteHeadKindAsString (
  
   switch (noteHeadKind) {
     case msrNote::kNoteHeadSlash:
-      result = "NoteHeadSlash";
+      result = "noteHead: Slash";
       break;
     case msrNote::kNoteHeadTriangle:
-      result = "NoteHeadTriangle";
+      result = "noteHead: triangle";
       break;
     case msrNote::kNoteHeadDiamond:
-      result = "NoteHeadDiamond";
+      result = "noteHead: diamond";
       break;
     case msrNote::kNoteHeadSquare:
-      result = "NoteHeadSquare";
+      result = "noteHead: square";
       break;
     case msrNote::kNoteHeadCross:
-      result = "NoteHeadCross";
+      result = "noteHead: cross";
       break;
     case msrNote::kNoteHeadX:
-      result = "NoteHeadX";
+      result = "noteHead: X";
       break;
     case msrNote::kNoteHeadCircleX:
-      result = "NoteHeadCircleX";
+      result = "noteHead: circleX";
       break;
     case msrNote::kNoteHeadInvertedTriangle:
-      result = "NoteHeadInvertedTriangle";
+      result = "noteHead: invertedTriangle";
       break;
     case msrNote::kNoteHeadArrowDown:
-      result = "NoteHeadArrowDown";
+      result = "noteHead: arrowDown";
       break;
     case msrNote::kNoteHeadArrowUp:
-      result = "NoteHeadArrowUp";
+      result = "noteHead: arrowUp";
       break;
     case msrNote::kNoteHeadSlashed:
-      result = "NoteHeadSlashed";
+      result = "noteHead: slashed";
       break;
     case msrNote::kNoteHeadBackSlashed:
-      result = "NoteHeadBackSlashed";
+      result = "noteHead: backSlashed";
       break;
     case msrNote::kNoteHeadNormal:
-      result = "NoteHeadNormal";
+      result = "noteHead: normal";
       break;
     case msrNote::kNoteHeadCluster:
-      result = "NoteHeadCluster";
+      result = "noteHead: cluster";
       break;
     case msrNote::kNoteHeadCircleDot:
-      result = "NoteHeadCircleDot";
+      result = "noteHead: circleDot";
       break;
     case msrNote::kNoteHeadLeftTriangle:
-      result = "NoteHeadLeftTriangle";
+      result = "noteHead: leftTriangle";
       break;
     case msrNote::kNoteHeadRectangle:
-      result = "NoteHeadRectangle";
+      result = "noteHead: rectangle";
       break;
     case msrNote::kNoteHeadNone:
-      result = "NoteHeadNone";
+      result = "noteHead: none";
       break;
     case msrNote::kNoteHeadDo:
-      result = "NoteHeadDo";
+      result = "noteHead: do";
       break;
     case msrNote::kNoteHeadRe:
-      result = "NoteHeadRe";
+      result = "noteHead: re";
       break;
     case msrNote::kNoteHeadMi:
-      result = "NoteHeadMi";
+      result = "noteHead: mi";
       break;
     case msrNote::kNoteHeadFa:
-      result = "NoteHeadFa";
+      result = "noteHead: fa";
       break;
     case msrNote::kNoteHeadFaUp:
-      result = "NoteHeadFaUp";
+      result = "noteHead: faUp";
       break;
     case msrNote::kNoteHeadSo:
-      result = "NoteHeadSo";
+      result = "noteHead: so";
       break;
     case msrNote::kNoteHeadLa:
-      result = "NoteHeadLa";
+      result = "noteHead: la";
       break;
     case msrNote::kNoteHeadTi:
-      result = "NoteHeadTi";
+      result = "noteHead: ii";
       break;
   } // switch
 
@@ -6013,25 +6045,34 @@ void msrNote::print (ostream& os)
     }
 
     os <<
-      endl <<
-      idtr;
-  
-    // accidentals
-    os <<
-        noteEditorialAccidentalKindAsString (
-          fNoteEditorialAccidentalKind) <<
-        ", " <<
-        noteCautionaryAccidentalKindAsString (
-          fNoteCautionaryAccidentalKind);
+      endl;
 
     // print kind
+
+    os << idtr <<
+      notePrintKindAsString ();
+
+    // note head
     os <<
       ", " <<
-        notePrintKindAsString ();
-
+        noteHeadKindAsString () <<
+      ", " <<
+        noteHeadFilledKindAsString () <<
+      ", " <<
+        noteHeadParenthesesKindAsString ();
+  
     os <<
       endl;
       
+    // accidentals
+    os << idtr <<
+      noteEditorialAccidentalKindAsString (
+        fNoteEditorialAccidentalKind) <<
+      ", " <<
+      noteCautionaryAccidentalKindAsString (
+        fNoteCautionaryAccidentalKind) <<
+      endl;
+
     // print measure related information
     os <<
       idtr <<

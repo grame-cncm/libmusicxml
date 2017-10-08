@@ -5273,7 +5273,6 @@ class EXP msrNote : public msrElement
     msrNoteHeadParenthesesKind
                           fNoteHeadParenthesesKind;
 
-
     // accidentals
     // ------------------------------------------------------
 

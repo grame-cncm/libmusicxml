@@ -266,6 +266,7 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
   // note print kind
   fCurrentNotePrintKind = msrNote::kNotePrintYes;
 
+  // note head
   fCurrentNoteHeadKind = msrNote::kNoteHeadNormal;
   fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
   fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
@@ -6917,6 +6918,14 @@ void musicXMLTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentDisplayOctave        = K_NO_OCTAVE;
   fCurrentNoteDisplayWholeNotes         = rational (0, 1);
   fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
+  
+  // note print kind
+  fCurrentNotePrintKind = msrNote::kNotePrintYes;
+
+  // note head
+  fCurrentNoteHeadKind = msrNote::kNoteHeadNormal;
+  fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
+  fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
   
   // assuming staff number 1, unless S_staff states otherwise afterwards
   fCurrentStaffNumber = 1;
