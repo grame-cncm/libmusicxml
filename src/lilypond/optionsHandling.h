@@ -1400,6 +1400,10 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
+    void                  printForcedHelp (
+                            ostream&             os,
+                            S_msrOptionsSubGroup targetOptionsSubGroup) const;
+
     void                  printHelpSummary (ostream& os) const;
     
     void                  printSpecificSubGroupHelp (

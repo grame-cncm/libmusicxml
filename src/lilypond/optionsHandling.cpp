@@ -2031,6 +2031,7 @@ void msrOptionsSubGroup::printHelpSummary (
   } // switch
 
   os <<
+    endl <<
     endl;
 
   // print the description if any
@@ -2285,6 +2286,63 @@ void msrOptionsGroup::printHelp (ostream& os) const
       (*i)->printHelp (os);
       if (++i == iEnd) break;
       cerr << endl;
+    } // for
+      
+    idtr--;
+  }
+}
+
+void msrOptionsGroup::printForcedHelp (
+  ostream&             os,
+  S_msrOptionsSubGroup targetOptionsSubGroup) const
+{
+  // print the header and option names
+  os << idtr <<
+    fOptionsGroupHelpHeader <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
+    ":" <<
+    endl;
+
+  // underline the options group header
+  underlineHeader (os);
+  os <<
+    endl;
+
+  // print the description if any
+  if (fOptionsElementDescription.size ()) {
+    idtr++;
+    os << idtr <<
+      idtr.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
+    idtr--;
+
+    os <<
+      endl;  
+  }
+    
+  // print the target options subgroup
+  if (fOptionsGroupSubGroupsList.size ()) {    
+    idtr++;
+
+    list<S_msrOptionsSubGroup>::const_iterator
+      iBegin = fOptionsGroupSubGroupsList.begin(),
+      iEnd   = fOptionsGroupSubGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrOptionsSubGroup
+        optionsSubGroup = (*i);
+        
+      if (optionsSubGroup == targetOptionsSubGroup) {
+        // print the target options subgroup help
+        (*i)->printHelp (os);
+      }
+      if (++i == iEnd) break;
+      if (optionsSubGroup == targetOptionsSubGroup) {
+        cerr <<
+          endl;
+      }
     } // for
       
     idtr--;
@@ -3143,21 +3201,28 @@ void msrOptionsHandler::handleOptionsItemName (
       S_msrOptionsSubGroup
         optionsSubGroup =
           dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
-      ) {    
+      ) {
+      // get the options group uplink
+      S_msrOptionsGroup
+        optionsGroup =
+          optionsSubGroup-> getOptionsGroupUplink ();
+          
       // print the help
       cerr << idtr <<
         "--- Help for subgroup \"" <<
         optionsSubGroup->
           getOptionsSubGroupHelpHeader () <<
+        "\"" <<
+        " in group \"" <<
+        optionsGroup->
+          getOptionsGroupHelpHeader () <<
         "\" ---" <<
         endl <<
         endl;
-        
-      optionsSubGroup->
-        printForcedHelp (cerr);
 
-      cerr <<
-        endl;
+      optionsGroup->
+        printForcedHelp (
+          cerr, optionsSubGroup);
     }
     
     else {
