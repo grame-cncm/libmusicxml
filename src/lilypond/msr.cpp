@@ -14428,7 +14428,7 @@ void msrCoda::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrEyeGlasses msrEyeGlasses::create (
-  int                       inputLineNumber)
+  int inputLineNumber)
 {
   msrEyeGlasses* o =
     new msrEyeGlasses (
@@ -14438,7 +14438,7 @@ S_msrEyeGlasses msrEyeGlasses::create (
 }
 
 msrEyeGlasses::msrEyeGlasses (
-  int                       inputLineNumber)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
 {}
 
@@ -14503,21 +14503,21 @@ void msrEyeGlasses::print (ostream& os)
 //______________________________________________________________________________
 S_msrPedal msrPedal::create (
   int          inputLineNumber,
-  msrPedalType pedaTypeKind,
+  msrPedalType pedalType,
   msrPedalLine pedalLine,
   msrPedalSign pedalSign)
 {
   msrPedal* o =
     new msrPedal (
       inputLineNumber,
-      pedalType, pedalLine);
+      pedalType, pedalLine, pedalSign);
   assert(o!=0);
   return o;
 }
 
 msrPedal::msrPedal (
   int          inputLineNumber,
-  msrPedalType pedaTypeKind,
+  msrPedalType pedalType,
   msrPedalLine pedalLine,
   msrPedalSign pedalSign)
     : msrElement (inputLineNumber)

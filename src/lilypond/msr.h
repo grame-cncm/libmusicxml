@@ -7246,7 +7246,7 @@ class EXP msrEyeGlasses : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrEyeGlasses> create (
-      int                       inputLineNumber);
+      int inputLineNumber);
 
   protected:
 
@@ -7254,7 +7254,7 @@ class EXP msrEyeGlasses : public msrElement
     // ------------------------------------------------------
 
     msrEyeGlasses (
-      int                       inputLineNumber);
+      int inputLineNumber);
       
     virtual ~msrEyeGlasses();
   
@@ -7323,7 +7323,7 @@ class EXP msrPedal : public msrElement
 
     static SMARTP<msrPedal> create (
       int          inputLineNumber,
-      msrPedalType pedaTypeKind,
+      msrPedalType pedalType,
       msrPedalLine pedalLine,
       msrPedalSign pedalSign);
 
@@ -7334,7 +7334,7 @@ class EXP msrPedal : public msrElement
 
     msrPedal (
       int          inputLineNumber,
-      msrPedalType pedaTypeKind,
+      msrPedalType pedalType,
       msrPedalLine pedalLine,
       msrPedalSign pedalSign);
       
@@ -7357,8 +7357,11 @@ class EXP msrPedal : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                 pedalTypeAsString ();
-    string                 pedalLineAsString ();
+    string                pedalTypeAsString ();
+    
+    string                pedalLineAsString ();
+    
+    string                pedalSignAsString ();
     
     // visitors
     // ------------------------------------------------------
@@ -7378,9 +7381,9 @@ class EXP msrPedal : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrPedalType        fPedalType;
-    msrPedalLine        fPedalLine;
-    msrPedalSign        fPedalSign;
+    msrPedalType          fPedalType;
+    msrPedalLine          fPedalLine;
+    msrPedalSign          fPedalSign;
 };
 typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
