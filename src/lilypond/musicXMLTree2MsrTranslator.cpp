@@ -3712,6 +3712,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_metronome& elt )
   fCurrentMetrenomePerMinute = 0;
   fCurrentMetronomeBeat.fBeatUnit = "";
   fCurrentMetronomeBeat.fDots = 0;
+  fCurrentMetronomeParentheses = false;
 
   if (parentheses.size()) {
     // cerr << "--> S_metronome, parentheses = " << parentheses << endl;
@@ -4005,7 +4006,39 @@ void musicXMLTree2MsrTranslator::visitStart (S_staff_details& elt )
     cerr << idtr <<
       "--> Start visiting S_staff_details" <<
       endl;
-
+/*
+        <staff-details>
+          <staff-lines>6</staff-lines>
+          <staff-tuning line="1">
+            <tuning-step>D</tuning-step>
+            <tuning-alter>0</tuning-alter>
+            <tuning-octave>2</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="2">
+            <tuning-step>A</tuning-step>
+            <tuning-octave>2</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="3">
+            <tuning-step>D</tuning-step>
+            <tuning-octave>3</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="4">
+            <tuning-step>G</tuning-step>
+            <tuning-octave>3</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="5">
+            <tuning-step>B</tuning-step>
+            <tuning-octave>3</tuning-octave>
+          </staff-tuning>
+          <staff-tuning line="6">
+            <tuning-step>D</tuning-step>
+            <tuning-octave>4</tuning-octave>
+          </staff-tuning>
+          <capo>4</capo>
+          <staff-size>183</staff-size>
+        </staff-details>
+*/
+ 
   fStaffDetailsStaffNumber =
     elt->getAttributeIntValue ("number", 0);
 
@@ -16865,6 +16898,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_details& elt )
   }
 }
 
+//______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart (S_scordatura& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
@@ -16873,15 +16907,41 @@ void musicXMLTree2MsrTranslator::visitStart (S_scordatura& elt )
       endl;
 
 /*
-      <direction>
-        <direction-type>
-          <scordatura>
-              <accord string="3"><tuning-step>C</tuning-step><tuning-octave>3</tuning-octave></accord>
-              <accord string="2"><tuning-step>G</tuning-step><tuning-octave>5</tuning-octave></accord>
-              <accord string="1"><tuning-step>E</tuning-step><tuning-octave>5</tuning-octave></accord>
-          </scordatura>
-        </direction-type>
-      </direction>
+  <direction>
+    <direction-type>
+      <scordatura>
+        <accord string="3">
+          <tuning-step>C</tuning-step>
+          <tuning-octave>3</tuning-octave>
+          </accord>
+        <accord string="2">
+          <tuning-step>G</tuning-step>
+          <tuning-octave>5</tuning-octave>
+          </accord>
+        <accord string="1">
+          <tuning-step>E</tuning-step><
+          tuning-octave>5</tuning-octave>
+          </accord>
+      </scordatura>
+    </direction-type>
+  </direction>
+*/
+
+  // JMI not used
+}
+
+void musicXMLTree2MsrTranslator::visitStart (S_accord& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_accord" <<
+      endl;
+
+/*
+        <accord string="3">
+          <tuning-step>C</tuning-step>
+          <tuning-octave>3</tuning-octave>
+          </accord>
 */
 
   // JMI not used

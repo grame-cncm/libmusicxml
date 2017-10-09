@@ -129,7 +129,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_tuning_alter>,
   public visitor<S_capo>,
   public visitor<S_staff_size>,
+  
   public visitor<S_scordatura>,
+  public visitor<S_accord>,
 
   // ?
   
@@ -556,7 +558,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_tuning_alter& elt);
     virtual void visitStart ( S_capo& elt);
     virtual void visitStart ( S_staff_size& elt);
+    
     virtual void visitStart ( S_scordatura& elt);
+    virtual void visitStart ( S_accord& elt);
+
+    // ?
+    // ------------------------------------------------------
 
     virtual void visitStart ( S_voice& elt );
     
