@@ -40,7 +40,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   S_msrOptions&  msrOpts,
   S_lpsrOptions& lpsrOpts,
   ostream&       os,
-  S_lpsrScore    lpScore)
+  S_lpsrScore    lpsrScore)
     : fOstream (os),
       fMusicOlec (os),
       fStanzaOlec (os)
@@ -49,7 +49,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fLpsrOptions = lpsrOpts;
   
   // the LPSR score we're visiting
-  fVisitedLpsrScore = lpScore;
+  fVisitedLpsrScore = lpsrScore;
 
   // inhibit the browsing of measure repeats replicas,
   // since Lilypond only needs the repeat measure
@@ -1369,56 +1369,9 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
 string lpsr2LilypondTranslator::dynamicsAsLilypondString (
   S_msrDynamics dynamics)
 {
-/*
-rf = #(make-dynamic-script "rf")
-sfpp = #(make-dynamic-script "sfpp")
-sffz = #(make-dynamic-script "sffz")
-ppppp = #(make-dynamic-script "ppppp")
-pppppp = #(make-dynamic-script "pppppp")
-fffff = #(make-dynamic-script "fffff")
-ffffff = #(make-dynamic-script "ffffff")
-*/
   string result =
     "\\" + dynamics->dynamicsKindAsString ();
-
-  bool knownToLilyPondNatively = true;
-  
-  switch (dynamics->getDynamicsKind ()) {
-    case msrDynamics::kFFFFF:
-      knownToLilyPondNatively = false;
-      break;
-    case msrDynamics::kFFFFFF:
-      knownToLilyPondNatively = false;
-      break;
-
-    case msrDynamics::kPPPPP:
-      knownToLilyPondNatively = false;
-      break;
-    case msrDynamics::kPPPPPP:
-      knownToLilyPondNatively = false;
-      break;
-
-    case msrDynamics::kRF:
-      knownToLilyPondNatively = false;
-      break;
-
-    case msrDynamics::kSFPP:
-      knownToLilyPondNatively = false;
-      break;
-    case msrDynamics::kSFFZ:
-      knownToLilyPondNatively = false;
-      break;
-    case msrDynamics::k_NoDynamics:
-      knownToLilyPondNatively = false;
-
-    default:
-      ;
-  } // switch
-
-  if (! knownToLilyPondNatively) {
     
-  }
-
   return result;
 }
 

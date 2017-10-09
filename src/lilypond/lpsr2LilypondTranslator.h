@@ -183,14 +183,11 @@ class lpsr2LilypondTranslator :
       S_msrOptions&  msrOpts,
       S_lpsrOptions& lpsrOpts,
       ostream&       os,
-      S_lpsrScore    lpScore);
+      S_lpsrScore    lpsrScore);
         
     virtual ~lpsr2LilypondTranslator ();
 
     void generateLilypondCodeFromLpsrScore ();
-
-    S_lpsrScore getLpsrScore () const
-        { return fLpsrScore; };
     
   protected:
       
@@ -533,10 +530,6 @@ class lpsr2LilypondTranslator :
     // the LPSR score we're visiting
     // ------------------------------------------------------
     S_lpsrScore           fVisitedLpsrScore;
-
-    // the LPSR score we're building
-    // ------------------------------------------------------
-    S_lpsrScore           fLpsrScore;
 
     // header handling
     // ------------------------------------------------------

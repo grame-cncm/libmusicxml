@@ -2177,7 +2177,41 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
     if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
       fCurrentNoteClone->
         addDynamicsToNote (elt);
+
+    // is this a non LilyPond native dynamics?
+/* JMI
+rf = #(make-dynamic-script "rf")
+sfpp = #(make-dynamic-script "sfpp")
+sffz = #(make-dynamic-script "sffz")
+ppppp = #(make-dynamic-script "ppppp")
+pppppp = #(make-dynamic-script "pppppp")
+fffff = #(make-dynamic-script "fffff")
+ffffff = #(make-dynamic-script "ffffff")
+*/
+
+    bool knownToLilyPondNatively = true;
+    
+    switch (elt->getDynamicsKind ()) {
+      case msrDynamics::kFFFFF:
+      case msrDynamics::kFFFFFF:
+      case msrDynamics::kPPPPP:
+      case msrDynamics::kPPPPPP:
+      case msrDynamics::kRF:
+      case msrDynamics::kSFPP:
+      case msrDynamics::kSFFZ:
+      case msrDynamics::k_NoDynamics:
+        knownToLilyPondNatively = false;
+          
+      default:
+        ;
+    } // switch
+  
+    if (! knownToLilyPondNatively) {
+      fLpsrScore->
+        setDynamicsSchemeFunctionIsNeeded ();   
+    }
   }
+  
   else if (fOnGoingChord) {
     fCurrentChordClone->
       addDynamicsToChord (elt);

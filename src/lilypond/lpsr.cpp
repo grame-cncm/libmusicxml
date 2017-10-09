@@ -3575,6 +3575,24 @@ void lpsrScore::setTongueSchemeFunctionIsNeeded ()
   }
 }
 
+void lpsrScore::setEditorialAccidentalSchemeFunctionIsNeeded ()
+{
+  if (! fEditorialAccidentalSchemeFunctionIsNeeded) {
+    addEditorialAccidentalSchemeFunctionToScore ();
+    
+    fEditorialAccidentalSchemeFunctionIsNeeded = true;    
+  }
+}
+
+void lpsrScore::setDynamicsSchemeFunctionIsNeeded ()
+{
+  if (! fDynamicsSchemeFunctionIsNeeded) {
+    addDynamicsSchemeFunctionToScore ();
+    
+    fDynamicsSchemeFunctionIsNeeded = true;    
+  }
+}
+
 void lpsrScore::addDateAndTimeSchemeFunctionsToScore ()
 {
   string
@@ -3618,15 +3636,6 @@ R"(
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
     dateAndTimeSchemeFunctions;
-}
-
-void lpsrScore::setEditorialAccidentalSchemeFunctionIsNeeded ()
-{
-  if (! fTongueSchemeFunctionIsNeeded) {
-    addEditorialAccidentalSchemeFunctionToScore ();
-    
-    fTongueSchemeFunctionIsNeeded = true;    
-  }
 }
 
 void lpsrScore::addTongueSchemeFunctionToScore ()
@@ -3713,7 +3722,7 @@ editorialAccidental =
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    tongueSchemeFunction =
+    editorialAccidentalSchemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeFunctionName,
@@ -3722,7 +3731,49 @@ editorialAccidental =
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
-    tongueSchemeFunction;
+    editorialAccidentalSchemeFunction;
+}
+
+void lpsrScore::addDynamicsSchemeFunctionToScore ()
+{
+  string
+    schemeFunctionName =
+      "dynamics",
+      
+    schemeFunctionDescription =
+R"(
+% Creates variables define dynamics not native to LilyPond.
+)",
+
+    schemeFunctionCode =
+R"(
+rf = #(make-dynamic-script "rf")
+sfpp = #(make-dynamic-script "sfpp")
+sffz = #(make-dynamic-script "sffz")
+ppppp = #(make-dynamic-script "ppppp")
+pppppp = #(make-dynamic-script "pppppp")
+fffff = #(make-dynamic-script "fffff")
+ffffff = #(make-dynamic-script "ffffff")
+)";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    cerr << idtr <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    dynamicsSchemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    dynamicsSchemeFunction;
 }
 
 void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)

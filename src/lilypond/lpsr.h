@@ -2363,6 +2363,14 @@ class EXP lpsrScore : public lpsrElement
                                   fEditorialAccidentalSchemeFunctionIsNeeded;
                               }
     
+    void                  setDynamicsSchemeFunctionIsNeeded ();
+                        
+    bool                  getDynamicsSchemeFunctionIsNeeded () const
+                              {
+                                return
+                                  fDynamicsSchemeFunctionIsNeeded;
+                              }
+    
     // services
     // ------------------------------------------------------
 
@@ -2403,6 +2411,8 @@ class EXP lpsrScore : public lpsrElement
     void                  addTongueSchemeFunctionToScore ();
     
     void                  addEditorialAccidentalSchemeFunctionToScore ();
+
+    void                  addDynamicsSchemeFunctionToScore ();
 
     // visitors
     // ------------------------------------------------------
@@ -2469,6 +2479,7 @@ class EXP lpsrScore : public lpsrElement
     // Scheme functions
     bool                  fTongueSchemeFunctionIsNeeded;
     bool                  fEditorialAccidentalSchemeFunctionIsNeeded;
+    bool                  fDynamicsSchemeFunctionIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
                           fScoreSchemeFunctionsMap;
