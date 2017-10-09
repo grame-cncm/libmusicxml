@@ -108,6 +108,8 @@ class EXP generalOptions : public msrOptionsGroup
     // geometry
     bool                  fTraceGeometry;
 
+    // score
+    bool                  fTraceScore; // JMI ???
 
     // part groups
     bool                  fTracePartGroups;
@@ -116,15 +118,12 @@ class EXP generalOptions : public msrOptionsGroup
     // parts
     bool                  fTraceParts;
     
-
     // staves
     bool                  fTraceStaves;
     
-
     // voices
     bool                  fTraceVoices;
     bool                  fTraceVoicesDetails;
-
 
     // clefs
     bool                  fTraceClefs;
@@ -135,87 +134,74 @@ class EXP generalOptions : public msrOptionsGroup
     // times
     bool                  fTraceTimes;
 
-
     //transpositions
     bool                  fTraceTranspositions;
-
 
     // segments
     bool                  fTraceSegments;
 
-
     // repeats
     bool                  fTraceRepeats;
 
-
     // measures
     bool                  fTraceMeasures;
-
 
     // notes
     bool                  fTraceNotes;
     bool                  fTraceNotesDetails;
 
-
     // beams
     bool                  fTraceBeams;
 
-    
     // technicals
     bool                  fTraceTechnicals;
-
 
     // words
     bool                  fTraceWords;
 
-
     // tremolos
     bool                  fTraceTremolos;
-
 
     // chords
     bool                  fTraceChords;
 
-    
     // tuplets
     bool                  fTraceTuplets;
 
-    
     // grace notes
     bool                  fTraceGraceNotes;
 
-    
     // lyrics
     bool                  fTraceLyrics;
-
 
     // harmonies
     bool                  fTraceHarmonies;
 
-
     // figured bass
     bool                  fTraceFiguredBass;
 
-    
     // credits
     bool                  fTraceCredits;
 
-    
-    /* STUFF not yet handled JMI */
-
-    bool                  fTraceScore;
-
-
+    // dynamics
     bool                  fTraceDynamics;
-    
+
+    // slurs
     bool                  fTraceSlurs;
-    
+
+    // ligatures
     bool                  fTraceLigatures;
-    
+
+    // wedges
     bool                  fTraceWedges;
-        
+
+    // staff tuning
     bool                  fTraceStaffTuning;
     
+    // harp pedals tuning
+    bool                  fTraceHarpPedalsTuning;
+    
+    /* STUFF not yet handled JMI */
     bool                  fTraceMidi;
 };
 typedef SMARTP<generalOptions> S_generalOptions;

@@ -16762,6 +16762,13 @@ void msrMeasure::appendAccordionRegistrationToMeasure (
   fMeasureElementsList.push_back (accordionRegistration);
 }    
 
+void msrMeasure::appendHarpPedalsTuningToMeasure (
+  S_msrHarpPedalsTuning
+    harpPedalsTuning)
+{
+  fMeasureElementsList.push_back (harpPedalsTuning);
+}    
+
 void msrMeasure::appendLineBreakToMeasure (S_msrLineBreak lineBreak)
 {
   fMeasureElementsList.push_back (lineBreak);
@@ -18224,6 +18231,32 @@ void msrSegment::appendAccordionRegistrationToSegment (
   fSegmentMeasuresList.back ()->
     appendAccordionRegistrationToMeasure (
       accordionRegistration);
+}
+
+void msrSegment::appendHarpPedalsTuningToSegment (
+  S_msrHarpPedalsTuning
+    harpPedalsTuning)
+{
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments)
+    cerr <<
+      idtr <<
+        "Appending staff pedals tuning '" <<
+        harpPedalsTuning->harpPedalsTuningAsString () <<
+        "' to segment " << segmentAsString () <<
+        "' in voice \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        endl;
+      
+  // sanity check
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendHarpPedalsTuningToMeasure (
+      harpPedalsTuning);
 }
 
 void msrSegment::bringSegmentToMeasureLength (
@@ -21088,6 +21121,164 @@ void msrRepeatCoda::print (ostream& os)
   idtr--;
 }
 
+//______________________________________________________________________________
+S_msrHarpPedalsTuning msrHarpPedalsTuning::create (
+  int inputLineNumber)
+{
+  msrHarpPedalsTuning* o =
+    new msrHarpPedalsTuning (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrHarpPedalsTuning::msrHarpPedalsTuning (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{
+}
+
+msrHarpPedalsTuning::~msrHarpPedalsTuning()
+{}
+
+S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "==> Creating a newborn clone of a " <<
+      harpPedalsTuningAsString () <<
+      endl;
+  
+  S_msrHarpPedalsTuning
+    newbornClone = 0; // JMI
+
+  return newbornClone;
+}
+
+S_msrHarpPedalsTuning msrHarpPedalsTuning::createRepeatCodaDeepCopy ()
+{
+  if (gGeneralOptions->fTraceRepeats)
+    cerr << idtr <<
+      "==> Creating a newborn clone of a " <<
+      harpPedalsTuningAsString () <<
+      endl;
+  
+  S_msrHarpPedalsTuning
+    repeatCodaDeepCopy = 0; // JMI
+
+  return repeatCodaDeepCopy;
+}
+
+void msrHarpPedalsTuning::addPedalTuning (
+  int              intputLineNumber,
+  msrDiatonicPitch diatonicPitch,
+  msrAlteration    alteration)
+{
+  // is diatonicPitch in the part renaming map?
+  map<msrDiatonicPitch, msrAlteration>::const_iterator
+    it =
+      fHarpPedalsAlterationsMap.find (diatonicPitch);
+        
+  if (it == fHarpPedalsAlterationsMap.end ()) {
+    stringstream s;
+
+    msrMusicXMLError (
+      intputLineNumber,
+      s.str ());
+  }
+
+  fHarpPedalsAlterationsMap [diatonicPitch] = alteration;
+}
+
+void msrHarpPedalsTuning::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrHarpPedalsTuning::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrHarpPedalsTuning>*
+    p =
+      dynamic_cast<visitor<S_msrHarpPedalsTuning>*> (v)) {
+        S_msrHarpPedalsTuning elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrHarpPedalsTuning::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrHarpPedalsTuning::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrHarpPedalsTuning::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrHarpPedalsTuning>*
+    p =
+      dynamic_cast<visitor<S_msrHarpPedalsTuning>*> (v)) {
+        S_msrHarpPedalsTuning elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrHarpPedalsTuning::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrHarpPedalsTuning::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrHarpPedalsTuning::harpPedalsTuningAsString () const
+{
+  stringstream s;
+
+  s <<
+    "HarpPedalsTuning" <<
+    ", line " << fInputLineNumber <<
+    endl;
+    
+  if (fHarpPedalsAlterationsMap.size ()) {
+    idtr++;
+
+     map<msrDiatonicPitch, msrAlteration>::const_iterator
+      iBegin = fHarpPedalsAlterationsMap.begin(),
+      iEnd   = fHarpPedalsAlterationsMap.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the pedal and its alteration
+      os << idtr <<
+        msrDiatonicPitchAsString
+          (*i).first) <<
+        msrAlterationAsString (
+          (*i).second);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+
+    idtr--;
+  }
+  os << endl;
+   
+  return s.str ();
+}
+
+void msrHarpPedalsTuning::print (ostream& os)
+{
+  os << idtr <<
+    harpPedalsTuningAsString () <<
+    endl;
+}
+
 //______________________________________________________________________________ 
 int msrVoice::gVoicesCounter = 0;
 
@@ -22369,6 +22560,26 @@ void msrVoice::appendAccordionRegistrationToVoice (
   fVoiceLastSegment->
     appendAccordionRegistrationToSegment (
       accordionRegistration);
+}
+
+void msrVoice::appendHarpPedalsTuningToVoice (
+  S_msrHarpPedalsTuning
+    harpPedalsTuning)
+{
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices)
+    cerr << idtr <<
+      "Appending harp pedals tuning '" <<
+      harpPedalsTuning->harpPedalsTuningAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    harpPedalsTuning->getInputLineNumber ());
+
+  fVoiceLastSegment->
+    appendHarpPedalsTuningToSegment (
+      harpPedalsTuning);
 }
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
@@ -26264,6 +26475,20 @@ void msrStaff::appendAccordionRegistrationToStaff (
   } // for
 }
 
+void msrStaff::appendHarpPedalsTuningToStaff (
+  S_msrHarpPedalsTuning
+    harpPedalsTuning)
+{
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+    i != fStaffAllVoicesMap.end();
+    i++) {
+    (*i).second->
+      appendHarpPedalsTuningToVoice (
+        harpPedalsTuning);
+  } // for
+}
+
 void msrStaff::finalizeCurrentMeasureInStaff (
   int inputLineNumber)
 {
@@ -28289,6 +28514,28 @@ void msrPart::appendAccordionRegistrationToPart (
     (*i).second->
       appendAccordionRegistrationToStaff (
         accordionRegistration);
+  } // for
+}
+
+void msrPart::appendHarpPedalsTuningToPart (
+  S_msrHarpPedalsTuning
+    harpPedalsTuning)
+{
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts)
+    cerr << idtr <<
+      "Appending harp pedals tuning '" <<
+      harpPedalsTuning->harpPedalsTuningAsString () <<
+      "' to part " <<
+      getPartCombinedName () <<
+      endl;
+
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+    i != fPartStavesMap.end();
+    i++) {
+    (*i).second->
+      appendHarpPedalsTuningToStaff (
+        harpPedalsTuning);
   } // for
 }
 

@@ -16525,6 +16525,24 @@ void musicXMLTree2MsrTranslator::visitStart (S_harp_pedals& elt )
         </direction-type>
 
 */
+
+  // create the harp pedals tuning
+  if (gGeneralOptions->fTraceHarpPedalsTuning) {
+    cerr <<
+      idtr <<
+        "Creating harp pedals tuning:" <<
+        endl;
+  }
+    
+  fCurrentHarpPedalsTuning =
+    msrHarpPedalsTuning::create (
+      elt->getInputLineNumber ());
+
+
+  // add it to the current part
+  fCurrentPart->
+    appendHarpPedalsTuningToPart (
+      fCurrentHarpPedalsTuning);
 }
 
 void musicXMLTree2MsrTranslator::visitStart (S_pedal_tuning& elt )
@@ -16596,7 +16614,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
         inputLineNumber,
         fStaffDetailsStaffNumber); // test its value??? JMI
 
-  // create the harp pedal tuning
+  // create a harp pedals tuning
   if (gGeneralOptions->fTraceStaffTuning) {
     cerr <<
       idtr <<
@@ -16605,7 +16623,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
 
     idtr++;
 
-    const int fieldWidth = 32;
+    const int fieldWidth = 31;
 
     cerr <<
       idtr <<
@@ -16620,20 +16638,13 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
         "fCurrentHarpPedalAlteration" << " = " <<
         msrAlterationAsString (
           fCurrentHarpPedalAlteration) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "quarterTonesPitch" << " = " <<
-        msrQuarterTonesPitchAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-          quarterTonesPitch) <<
         endl;
 
     idtr--;
   }
     
-  fCurrentPedalTuning =
-    msrPedalTuning::create (
+  fCurrentHarpPedalsTuning->
+    addPedalTuning (
       inputLineNumber,
       fCurrentHarpPedalDiatonicPitch,
       fCurrentHarpPedalAlteration);

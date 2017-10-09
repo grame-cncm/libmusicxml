@@ -300,6 +300,24 @@ R"()",
     // credits
     fTraceCredits = boolOptionsInitialValue;
       
+    // dynamics
+    fTraceDynamics = boolOptionsInitialValue;
+
+    // slurs
+    fTraceSlurs = boolOptionsInitialValue;
+
+    // ligatures
+    fTraceLigatures = boolOptionsInitialValue;
+
+    // wedges
+    fTraceWedges = boolOptionsInitialValue;
+
+    // staff tuning
+    fTraceStaffTuning = boolOptionsInitialValue;
+    
+    // harp pedals tuning
+    fTraceHarpPedalsTuning = boolOptionsInitialValue;
+    
     // options
   
     S_msrOptionsSubGroup specificTraceSubGroup =
@@ -544,6 +562,60 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
 R"(credits)",
           "traceCredits",
           fTraceCredits,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsTwoBooleansItem::create (
+          "tdynamics", "traceDynamics",
+R"(dynamics)",
+          "traceDynamics",
+          fTraceDynamics,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsTwoBooleansItem::create (
+          "tslurs", "traceSlurs",
+R"(slurs)",
+          "fTraceSlurs",
+          fTraceSlurs,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsTwoBooleansItem::create (
+          "tligatures", "traceLigatures",
+R"(ligatures)",
+          "traceLigatures",
+          fTraceLigatures,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsTwoBooleansItem::create (
+          "twedges", "traceWedges",
+R"(wedges)",
+          "traceWedges",
+          fTraceWedges,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsTwoBooleansItem::create (
+          "traceStaffTuning", "",
+R"(staff tuning)",
+          "traceStaffTuning",
+          fTraceStaffTuning,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsTwoBooleansItem::create (
+          "traceHarpPedalsTuning", "",
+R"(harp pedals tuning)",
+          "traceHarpPedalsTuning",
+          fTraceHarpPedalsTuning,
           fTraceGeneral));
   }
       

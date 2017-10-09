@@ -1438,6 +1438,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
     msrDiatonicPitch          fCurrentHarpPedalDiatonicPitch;
     msrAlteration             fCurrentHarpPedalAlteration;
+    S_msrHarpPedalsTuning     fCurrentHarpPedalsTuning;
 
     // backup handling
     // ------------------------------------------------------

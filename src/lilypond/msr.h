@@ -561,7 +561,74 @@ typedef SMARTP<msrAccordionRegistration> S_msrAccordionRegistration;
 EXP ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt);
 
 //______________________________________________________________________________
+class EXP msrHarpPedalsTuning : public msrElement
+{
+  public:
 
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrHarpPedalsTuning> create (
+      int inputLineNumber);
+    
+    SMARTP<msrHarpPedalsTuning> createHarpPedalTuningNewbornClone ();
+
+    SMARTP<msrHarpPedalsTuning> createHarpPedalTuningDeepCopy ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHarpPedalsTuning (
+      int inputLineNumber);
+         
+    ~ msrHarpPedalsTuning ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const map<msrDiatonicPitch, msrAlteration>&
+                          getfHarpPedalsAlterationsMap ()
+                              { return fHarpPedalsAlterationsMap; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  addPedalTuning (
+                            int              intputLineNumber,
+                            msrDiatonicPitch diatonicPitch,
+                            msrAlteration    alteration);
+                            
+    string                harpPedalTuningAsString () const;
+         
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+    
+  public:
+  
+    // fields
+    // ------------------------------------------------------
+    
+    map<msrDiatonicPitch, msrAlteration>
+                          fHarpPedalsAlterationsMap;
+};
+typedef SMARTP<msrHarpPedalsTuning> S_msrHarpPedalsTuning;
+EXP ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt);
+
+//______________________________________________________________________________
 class EXP msrStem : public msrElement
 {
   public:
@@ -3170,6 +3237,12 @@ class EXP msrMeasure : public msrElement
                             S_msrAccordionRegistration
                               accordionRegistration);
 
+    // harp pedals tuning
+    
+    void                  appendHarpPedalsTuningToMeasure (
+                            S_msrHarpPedalsTuning
+                              harpPedalsTuning);
+
     // bar lines
     
     void                  appendBarlineToMeasure (S_msrBarline barline);
@@ -3481,6 +3554,12 @@ class EXP msrSegment : public msrElement
     void                  appendAccordionRegistrationToSegment (
                             S_msrAccordionRegistration
                               accordionRegistration);
+
+    // harp pedals tuning
+    
+    void                  appendHarpPedalsTuningToSegment (
+                            S_msrHarpPedalsTuning
+                              harpPedalsTuning);
 
     // harmonies
     
@@ -8494,82 +8573,6 @@ class EXP msrRepeatCoda : public msrElement
 typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
 
-//______________________________________________________________________________
-class EXP msrHarpPedalsTuning : public msrElement
-{
-  public:
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrHarpPedalsTuning> create (
-      int                  inputLineNumber);
-    
-    SMARTP<msrHarpPedalsTuning> createHarpPedalTuningNewbornClone ();
-
-    SMARTP<msrHarpPedalsTuning> createHarpPedalTuningDeepCopy ();
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrHarpPedalsTuning (
-      int                  inputLineNumber,
-      int                  HarpPedalTuningLineNumber,
-      msrQuarterTonesPitch quarterTonesPitch,
-      int                  HarpPedalTuningOctave);
-         
-    ~ msrHarpPedalsTuning ();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    int                   getHarpPedalTuningLineNumber () const
-                              { return fHarpPedalTuningLineNumber; }
-
-    msrQuarterTonesPitch  getHarpPedalTuningQuarterTonesPitch () const
-                              { return fHarpPedalTuningQuarterTonesPitch; }
-
-    int                   getHarpPedalTuningOctave () const
-                              { return fHarpPedalTuningOctave; }
-
-    // services
-    // ------------------------------------------------------
-
-    string                HarpPedalTuningAsString () const;
-         
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-    
-  public:
-  
-    // fields
-    // ------------------------------------------------------
-    
-    map<msrDiatonicPitch, msrAlteration>
-                          fHarpPedalAlteration;
-                 fCurrentHarpPedalAlteration;
-;
-    
-    msrQuarterTonesPitch  fHarpPedalTuningQuarterTonesPitch;
-    int                   fHarpPedalTuningOctave;
-};
-typedef SMARTP<msrHarpPedalsTuning> S_msrHarpPedalsTuning;
-EXP ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt);
-
 /*!
 \brief A msr voice representation.
 
@@ -8835,6 +8838,12 @@ class EXP msrVoice : public msrElement
     void                  appendAccordionRegistrationToVoice (
                             S_msrAccordionRegistration
                               accordionRegistration);
+
+    // harp pedals tuning
+    
+    void                  appendHarpPedalsTuningToVoice (
+                            S_msrHarpPedalsTuning
+                              harpPedalsTuning);
 
     // staff change
     
@@ -9670,6 +9679,12 @@ class EXP msrStaff : public msrElement
                             S_msrAccordionRegistration
                               accordionRegistration);
 
+    // harp pedals tuning
+    
+    void                  appendHarpPedalsTuningToStaff (
+                            S_msrHarpPedalsTuning
+                              harpPedalsTuning);
+
     // finalization
 
     void                  finalizeCurrentMeasureInStaff (
@@ -10180,6 +10195,12 @@ class EXP msrPart : public msrElement
     void                  appendAccordionRegistrationToPart (
                             S_msrAccordionRegistration
                               accordionRegistration);
+
+    // harp pedals tuning
+    
+    void                  appendHarpPedalsTuningToPart (
+                            S_msrHarpPedalsTuning
+                              harpPedalsTuning);
 
     // backup
     
