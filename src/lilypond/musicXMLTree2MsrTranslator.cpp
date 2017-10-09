@@ -16548,7 +16548,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_pedal_step& elt )
     elt->getInputLineNumber (),
     tuningStep);
 
-  fCurrentHarpPedalTuningDiatonicPitch =
+  fCurrentHarpPedalDiatonicPitch =
     msrDiatonicPitchFromString (
       tuningStep [0]);
 }
@@ -16562,11 +16562,11 @@ void musicXMLTree2MsrTranslator::visitStart (S_pedal_alter& elt )
 
   float tuningAlter = (float)(*elt);
 
-  fCurrentHarpPedalTuningAlteration =
+  fCurrentHarpPedalAlteration =
     msrAlterationFromMusicXMLAlter (
       tuningAlter);
       
-  if (fCurrentPedalTuningAlteration == k_NoAlteration) {
+  if (fCurrentHarpPedalAlteration == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -16596,18 +16596,11 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
         inputLineNumber,
         fStaffDetailsStaffNumber); // test its value??? JMI
 
-  msrQuarterTonesPitch
-    quarterTonesPitch =
-      quarterTonesPitchFromDiatonicPitchAndAlteration (
-        inputLineNumber,
-        fCurrentHarpPedalTuningDiatonicPitch,
-        fCurrentHarpPedalTuningAlteration);
-
-  // create the staff tuning
+  // create the harp pedal tuning
   if (gGeneralOptions->fTraceStaffTuning) {
     cerr <<
       idtr <<
-        "Creating pedal tuning:" <<
+        "Creating harp pedal tuning:" <<
         endl;
 
     idtr++;
@@ -16617,16 +16610,16 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
     cerr <<
       idtr <<
         setw (fieldWidth) <<
-        "fCurrentHarpPedalTuningDiatonicPitch" << " = " <<
+        "fCurrentHarpPedalDiatonicPitch" << " = " <<
         msrDiatonicPitchAsString (
           gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-          fCurrentPedalTuningDiatonicPitch) <<
+          fCurrentHarpPedalDiatonicPitch) <<
         endl <<
       idtr <<
         setw (fieldWidth) <<
-        "fCurrentHarpPedalTuningAlteration" << " = " <<
+        "fCurrentHarpPedalAlteration" << " = " <<
         msrAlterationAsString (
-          fCurrentPedalTuningAlteration) <<
+          fCurrentHarpPedalAlteration) <<
         endl <<
       idtr <<
         setw (fieldWidth) <<
@@ -16642,8 +16635,8 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
   fCurrentPedalTuning =
     msrPedalTuning::create (
       inputLineNumber,
-      quarterTonesPitch,
-      fCurrentHarpPedalTuningOctave);
+      fCurrentHarpPedalDiatonicPitch,
+      fCurrentHarpPedalAlteration);
 }
 
 //________________________________________________________________________

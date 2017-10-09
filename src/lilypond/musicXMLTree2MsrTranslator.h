@@ -348,6 +348,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_harp_pedals>,
   public visitor<S_pedal_tuning>,
   public visitor<S_pedal_step>,
+  public visitor<S_pedal_alter>,
 
   public visitor<S_sound>,
   
@@ -703,7 +704,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     virtual void visitStart ( S_harp_pedals& elt);
     virtual void visitStart ( S_pedal_tuning& elt);
+    virtual void visitEnd   ( S_pedal_tuning& elt);
     virtual void visitStart ( S_pedal_step& elt);
+    virtual void visitStart ( S_pedal_alter& elt);
 
     virtual void visitStart ( S_sound& elt);
     virtual void visitEnd   ( S_sound& elt);
