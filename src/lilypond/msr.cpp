@@ -21264,13 +21264,14 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
       
     for ( ; ; ) {
       // print the pedal and its alteration
-      s << idtr <<
+      s <<
         msrDiatonicPitchAsString (
           (*i).first) <<
+        " " <<
         msrAlterationAsString (
           (*i).second);
       if (++i == iEnd) break;
-      s << " ";
+      s << ", ";
     } // for
 
     idtr--;
@@ -21286,7 +21287,7 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
 
 void msrHarpPedalsTuning::print (ostream& os)
 {
-  os << idtr <<
+  os <<
     harpPedalsTuningAsString () <<
     endl;
 }
