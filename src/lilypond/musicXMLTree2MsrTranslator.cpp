@@ -11632,6 +11632,120 @@ void musicXMLTree2MsrTranslator::visitStart( S_other_dynamics& elt)
 }
 
 //______________________________________________________________________________
+/*
+  The damper-pedal, soft-pedal, and sostenuto-pedal 
+  attributes effect playback of the three common piano
+  pedals and their MIDI controller equivalents. The yes
+  value indicates the pedal is depressed; no indicates 
+  the pedal is released. A numeric value from 0 to 100
+  may also be used for half pedaling. This value is the
+  percentage that the pedal is depressed. A value of 0 is
+  equivalent to no, and a value of 100 is equivalent to yes.
+
+    damper-pedal %yes-no-number; #IMPLIED
+    soft-pedal %yes-no-number; #IMPLIED
+    sostenuto-pedal %yes-no-number; #IMPLIED
+*/
+
+void musicXMLTree2MsrTranslator::visitStart( S_damper_pedal& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_damper_pedal" <<
+      endl;
+
+  string damperPedalValue = elt->getValue ();
+  
+  // check damper pedal value
+  if      (damperPedalValue == "yes")
+    fCurrentDamperPedalVal
+      msrDamperPedal::kDamperPedalValueYes;
+    
+  else if (damperPedalValue == "no")
+    fCurrentDamperPedalValue =
+      msrDamperPedal::kDamperPedalValueNo;
+    
+  else {
+    istringstream inputStream (damperPedalValue);
+
+    inputStream >> fCurrentDamperPedalIntegerValue;
+    
+    if (
+      fCurrentDamperPedalIntegerValue < 0
+        &&
+      fCurrentDamperPedalIntegerValue > 100) {
+      stringstream s;
+  
+      s <<
+        "damper pedal integer value \"" <<
+        fCurrentDamperPedalIntegerValue <<
+        "\" should be between 0 and 100";
+        
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+
+    fCurrentDamperPedalValue =
+      msrDamperPedal::kDamperPedalValueZeroToAHundred;
+
+/* JMI
+    if (damperPedalValue.size ()) {
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        "unknown damper pedal \"" +
+          damperPedalValue +
+          "\", should be 'yes', 'no' or a number from 0 to 100");
+    }
+    */
+  }
+
+
+  S_msrDamperPedal
+    damperPedal =
+      msrDamperPedal::create (
+        elt->getInputLineNumber (),
+        otherDynamicsValue);
+        
+}
+
+void musicXMLTree2MsrTranslator::visitStart( S_soft_pedal& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_soft_pedal" <<
+      endl;
+
+  string softPedalValue = elt->getValue ();
+  
+  S_msrOtherDynamics
+    otherDynamics =
+      msrOtherDynamics::create (
+        elt->getInputLineNumber (),
+        otherDynamicsValue);
+        
+  fPendingOtherDynamics.push_back(otherDynamics);
+}
+
+void musicXMLTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_sostenuto_pedal" <<
+      endl;
+
+  string sostenutoPedalValue = elt->getValue ();
+  
+  S_msrOtherDynamics
+    otherDynamics =
+      msrOtherDynamics::create (
+        elt->getInputLineNumber (),
+        otherDynamicsValue);
+        
+  fPendingOtherDynamics.push_back(otherDynamics);
+}
+
+//______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_grace& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)

@@ -315,6 +315,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_sffz>,
   
   public visitor<S_other_dynamics>,
+  
+  public visitor<S_damper_pedal>,
+  public visitor<S_soft_pedal>,
+  public visitor<S_sostenuto_pedal>,
 
   public visitor<S_wedge>,
   
@@ -669,6 +673,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_sffz& elt);
     
     virtual void visitStart ( S_other_dynamics& elt);
+    
+    virtual void visitStart ( S_damper_pedal& elt);
+    virtual void visitStart ( S_soft_pedal& elt);
+    virtual void visitStart ( S_sostenuto_pedal& elt);
 
     virtual void visitStart ( S_wedge& elt);
 
@@ -1302,6 +1310,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteTechnicalWithStringsToChord (
                                 S_msrNote note, S_msrChord chord);
+
+    // piano pedals handling
+    // ------------------------------------------------------
 
     // ornaments handling
     // ------------------------------------------------------
