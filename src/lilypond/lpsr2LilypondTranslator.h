@@ -495,6 +495,11 @@ class lpsr2LilypondTranslator :
     string                singleTremoloDurationAsLilypondString (
                             S_msrSingleTremolo singleTremolo);
 
+    // dynamics
+    
+    string                dynamicsAsLilypondString (
+                            S_msrDynamics dynamics);
+
     // transpose
     
     void                  transposeDiatonicError (

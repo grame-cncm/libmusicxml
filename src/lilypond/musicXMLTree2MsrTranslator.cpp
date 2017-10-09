@@ -6282,16 +6282,13 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
   msrPedal::msrPedalType pedalType;
 
   if       (type == "start") {
-    pedalType =
-      msrPedal::kPedalStart;
+    pedalType = msrPedal::kPedalStart;
   }
   else  if (type == "continue") {
-    pedalType =
-      msrPedal::kPedalContinue;
+    pedalType = msrPedal::kPedalContinue;
   }
   else  if (type == "change") {
-    pedalType =
-      msrPedal::kPedalChange;
+    pedalType = msrPedal::kPedalChange;
   }
   else  if (type == "stop") {
     pedalType =
@@ -6300,7 +6297,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
   else {
     stringstream s;
     
-    s << "pedal type " << type << " is unknown";
+    s << "pedal type '" << type << "' is unknown";
     
     msrMusicXMLError (
       elt->getInputLineNumber (),
@@ -6311,21 +6308,19 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
   
   string line = elt->getAttributeValue ("line");
     
-  msrPedal::msrPedalLine pedalLine;
+  msrPedal::msrPedalLine pedalLine = msrPedal::kPedalLineNo;
 
   if       (line == "yes") {
-    pedalLine =
-      msrPedal::kPedalLineYes;
+    pedalLine = msrPedal::kPedalLineYes;
   }
   else  if (line == "no") {
-    pedalLine =
-      msrPedal::kPedalLineNo;
+    pedalLine = msrPedal::kPedalLineNo;
   }
   else {
-    if (! line.size ()) {
+    if (line.size ()) {
       stringstream s;
       
-      s << "pedal line " << line << " is unknown";
+      s << "pedal line '" << line << "' is unknown";
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
@@ -6337,21 +6332,19 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
   
   string sign = elt->getAttributeValue ("sign");
     
-  msrPedal::msrPedalSign pedalSign;
+  msrPedal::msrPedalSign pedalSign = msrPedal::kPedalSignNo;
 
   if       (sign == "yes") {
-    pedalSign =
-      msrPedal::kPedalSignYes;
+    pedalSign = msrPedal::kPedalSignYes;
   }
   else  if (sign == "no") {
-    pedalSign =
-      msrPedal::kPedalSignNo;
+    pedalSign = msrPedal::kPedalSignNo;
   }
   else {
-    if (! sign.size ()) {
+    if (sign.size ()) {
       stringstream s;
       
-      s << "pedal sign " << sign << " is unknown";
+      s << "pedal sign '" << sign << "' is unknown";
       
       msrMusicXMLError (
         elt->getInputLineNumber (),

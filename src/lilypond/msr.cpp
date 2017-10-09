@@ -2505,96 +2505,86 @@ msrDynamics::~msrDynamics()
 string msrDynamics::dynamicsKindAsString (
   msrDynamicsKind dynamicsKind)
 {
-  stringstream s;
+  string result;
   
   switch (dynamicsKind) {
-    case kF:
-      s << "f";
+    case msrDynamics::kF:
+      result = "f";
       break;
-    case kFF:
-      s << "ff";
+    case msrDynamics::kFF:
+      result = "ff";
       break;
-    case kFFF:
-      s << "fff";
+    case msrDynamics::kFFF:
+      result = "fff";
       break;
-    case kFFFF:
-      s << "ffff";
+    case msrDynamics::kFFFF:
+      result = "ffff";
       break;
-    case kFFFFF:
-      s << "fffff";
+    case msrDynamics::kFFFFF:
+      result = "fffff";
       break;
-    case kFFFFFF:
-      s << "ffffff";
-      break;
-
-    case kP:
-      s << "p";
-      break;
-    case kPP:
-      s << "pp";
-      break;
-    case kPPP:
-      s << "ppp";
-      break;
-    case kPPPP:
-      s << "pppp";
-      break;
-    case kPPPPP:
-      s << "ppppp";
-      break;
-    case kPPPPPP:
-      s << "pppppp";
+    case msrDynamics::kFFFFFF:
+      result = "ffffff";
       break;
 
-    case kMF:
-      s << "mf";
+    case msrDynamics::kP:
+      result = "p";
       break;
-    case kMP:
-      s << "mp";
+    case msrDynamics::kPP:
+      result = "pp";
       break;
-    case kFP:
-      s << "fp";
+    case msrDynamics::kPPP:
+      result = "ppp";
       break;
-    case kFZ:
-      s << "fz";
+    case msrDynamics::kPPPP:
+      result = "pppp";
       break;
-    case kRF:
-      s << "rf";
+    case msrDynamics::kPPPPP:
+      result = "ppppp";
       break;
-    case kSF:
-      s << "sf";
+    case msrDynamics::kPPPPPP:
+      result = "pppppp";
       break;
 
-    case kRFZ:
-      s << "rfz";
+    case msrDynamics::kMF:
+      result = "mf";
       break;
-    case kSFZ:
-      s << "sfz";
+    case msrDynamics::kMP:
+      result = "mp";
       break;
-    case kSFP:
-      s << "sfp";
+    case msrDynamics::kFP:
+      result = "fp";
       break;
-    case kSFPP:
-      s << "sfpp";
+    case msrDynamics::kFZ:
+      result = "fz";
       break;
-    case kSFFZ:
-      s << "sffz";
+    case msrDynamics::kRF:
+      result = "rf";
       break;
-/* JMI
-    default:
-      {
-        stringstream s;
-        
-        s << "Dynamics " << dynamicsKind << " is unknown";
-        
-        msrMusicXMLError (
-          fInputLineNumber,
-          s.str ());
-      }
-      */
+    case msrDynamics::kSF:
+      result = "sf";
+      break;
+
+    case msrDynamics::kRFZ:
+      result = "rfz";
+      break;
+    case msrDynamics::kSFZ:
+      result = "sfz";
+      break;
+    case msrDynamics::kSFP:
+      result = "sfp";
+      break;
+    case msrDynamics::kSFPP:
+      result = "sfpp";
+      break;
+    case msrDynamics::kSFFZ:
+      result = "sffz";
+      break;
+    case msrDynamics::k_NoDynamics:
+      result = "k_NoDynamics???";
   } // switch
   
-  return s.str ();
+  return result;
 }
 
 string msrDynamics::dynamicsKindAsString () const

@@ -1366,6 +1366,63 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::dynamicsAsLilypondString (
+  S_msrDynamics dynamics)
+{
+/*
+rf = #(make-dynamic-script "rf")
+sfpp = #(make-dynamic-script "sfpp")
+sffz = #(make-dynamic-script "sffz")
+ppppp = #(make-dynamic-script "ppppp")
+pppppp = #(make-dynamic-script "pppppp")
+fffff = #(make-dynamic-script "fffff")
+ffffff = #(make-dynamic-script "ffffff")
+*/
+  string result =
+    "\\" + dynamics->dynamicsKindAsString ();
+
+  bool knownToLilyPondNatively = true;
+  
+  switch (dynamics->getDynamicsKind ()) {
+    case msrDynamics::kFFFFF:
+      knownToLilyPondNatively = false;
+      break;
+    case msrDynamics::kFFFFFF:
+      knownToLilyPondNatively = false;
+      break;
+
+    case msrDynamics::kPPPPP:
+      knownToLilyPondNatively = false;
+      break;
+    case msrDynamics::kPPPPPP:
+      knownToLilyPondNatively = false;
+      break;
+
+    case msrDynamics::kRF:
+      knownToLilyPondNatively = false;
+      break;
+
+    case msrDynamics::kSFPP:
+      knownToLilyPondNatively = false;
+      break;
+    case msrDynamics::kSFFZ:
+      knownToLilyPondNatively = false;
+      break;
+    case msrDynamics::k_NoDynamics:
+      knownToLilyPondNatively = false;
+
+    default:
+      ;
+  } // switch
+
+  if (! knownToLilyPondNatively) {
+    
+  }
+
+  return result;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::transposeDiatonicError (
   int inputLineNumber,
   int transposeDiatonic,
@@ -5972,7 +6029,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       fOstream << "%{kNoteHeadBackSlashed%} ";
       break;
     case msrNote::kNoteHeadNormal:
-      fOstream << "%{kNoteHeadNormal%} ";
+ // JMI     fOstream << "%{kNoteHeadNormal%} ";
       break;
     case msrNote::kNoteHeadCluster:
       fOstream << "%{kNoteHeadCluster%} ";
@@ -6342,7 +6399,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       } // switch
 
       fOstream <<
-        "\\" << dynamics->dynamicsKindAsString () << " ";
+        dynamicsAsLilypondString (dynamics) << " ";
       fMusicOlec++;
     } // for
   }
@@ -6904,7 +6961,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       } // switch
 
       fOstream <<
-        "\\" << dynamics->dynamicsKindAsString () << " ";
+        dynamicsAsLilypondString (dynamics) << " ";
       fMusicOlec++;
     } // for
   }
@@ -7225,7 +7282,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrEyeGlasses& elt)
       endl;
 
   fOstream <<
-    "\\eyeglasses ";
+    "^\\markup {\\eyeglasses} ";
   fMusicOlec++;
 }
 
