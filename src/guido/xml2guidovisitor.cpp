@@ -228,6 +228,8 @@ namespace MusicXML2
                 notesOnly = false;
                 targetStaff = mainstaff;
                 fCurrentStaffIndex++;
+                /// Clear timePositions so that we only track voices on a specific Staff
+                timePositions.clear();
             }
             
             Sguidoelement seq = guidoseq::create();
@@ -305,6 +307,7 @@ namespace MusicXML2
             
             ////
             
+            //// Browse XML and convert
             xmlpart2guido pv(fGenerateComments, fGenerateStem, fGenerateBars);
             pv.generatePositions (fGeneratePositions);
             xml_tree_browser browser(&pv);
