@@ -21179,9 +21179,17 @@ void msrHarpPedalsTuning::addPedalTuning (
     it =
       fHarpPedalsAlterationsMap.find (diatonicPitch);
         
-  if (it == fHarpPedalsAlterationsMap.end ()) {
+  if (it != fHarpPedalsAlterationsMap.end ()) {
     stringstream s;
 
+    s <<
+      "pedal tuning '" <<
+      msrDiatonicPitchAsString (
+        diatonicPitch) <<
+      msrAlterationAsString (
+        alteration);
+      "' has already been specified";
+      
     msrMusicXMLError (
       intputLineNumber,
       s.str ());
@@ -21244,7 +21252,7 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
   s <<
     "HarpPedalsTuning" <<
     ", line " << fInputLineNumber <<
-    endl;
+    ", ";
     
   if (fHarpPedalsAlterationsMap.size ()) {
     idtr++;
@@ -21267,7 +21275,11 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
 
     idtr--;
   }
-  s << endl;
+
+  else {
+    s <<
+      "empty";
+  }
    
   return s.str ();
 }
@@ -25295,7 +25307,7 @@ void msrStaff::initializeStaff ()
       
     case msrStaff::kRegularStaff:
       // the staff number should not be negative
-      // (K_SILENT_VOICE_NUMBER is used for hidden staff
+      // (K_SILENT_VOICE_NUMBER is used for the hidden staff
       // containing the staves silent voices)
       if (fStaffNumber < 0) {
         stringstream s;

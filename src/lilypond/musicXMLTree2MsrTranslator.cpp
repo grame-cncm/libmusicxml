@@ -16607,13 +16607,6 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-  // fetch relevant staff
-  S_msrStaff
-    staff =
-      createStaffInCurrentPartIfNotYetDone (
-        inputLineNumber,
-        fStaffDetailsStaffNumber); // test its value??? JMI
-
   // create a harp pedals tuning
   if (gGeneralOptions->fTraceStaffTuning) {
     cerr <<
