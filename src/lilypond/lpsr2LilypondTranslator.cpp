@@ -7252,10 +7252,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
       fOstream << "<> \\sustainOn ";
       break;
     case msrPedal::kPedalContinue:
-      fOstream << "\\continue pedal"; // JMI
+      fOstream << "%{\\continue pedal???%} "; // JMI
       break;
     case msrPedal::kPedalChange:
-      fOstream << "\\change pedal"; // JMI
+      fOstream << "%{\\change pedal???%} "; // JMI
       break;
     case msrPedal::kPedalStop:
       fOstream << "<> \\sustainOff ";

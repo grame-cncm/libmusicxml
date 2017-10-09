@@ -8494,6 +8494,82 @@ class EXP msrRepeatCoda : public msrElement
 typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
 
+//______________________________________________________________________________
+class EXP msrHarpPedalTuning : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrHarpPedalTuning> create (
+      int                  inputLineNumber,
+      int                  HarpPedalTuningLineNumber,
+      msrQuarterTonesPitch quarterTonesPitch,
+      int                  HarpPedalTuningOctave);
+    
+    SMARTP<msrHarpPedalTuning> createHarpPedalTuningNewbornClone ();
+
+    SMARTP<msrHarpPedalTuning> createHarpPedalTuningDeepCopy ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrHarpPedalTuning (
+      int                  inputLineNumber,
+      int                  HarpPedalTuningLineNumber,
+      msrQuarterTonesPitch quarterTonesPitch,
+      int                  HarpPedalTuningOctave);
+         
+    ~ msrHarpPedalTuning ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getHarpPedalTuningLineNumber () const
+                              { return fHarpPedalTuningLineNumber; }
+
+    msrQuarterTonesPitch  getHarpPedalTuningQuarterTonesPitch () const
+                              { return fHarpPedalTuningQuarterTonesPitch; }
+
+    int                   getHarpPedalTuningOctave () const
+                              { return fHarpPedalTuningOctave; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                HarpPedalTuningAsString () const;
+         
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+    
+  public:
+  
+    // fields
+    // ------------------------------------------------------
+    
+    int                   fHarpPedalTuningLineNumber;
+    
+    msrQuarterTonesPitch  fHarpPedalTuningQuarterTonesPitch;
+    int                   fHarpPedalTuningOctave;
+};
+typedef SMARTP<msrHarpPedalTuning> S_msrHarpPedalTuning;
+EXP ostream& operator<< (ostream& os, const S_msrHarpPedalTuning& elt);
+
 /*!
 \brief A msr voice representation.
 

@@ -4283,91 +4283,6 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
       quarterTonesPitch,
       fCurrentStaffTuningOctave);
 }
-    
-void musicXMLTree2MsrTranslator::visitStart (S_capo& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
-    cerr << idtr <<
-      "--> Start visiting S_capo" <<
-      endl;
-
-  fCurrentStaffDetailsCapo = (int)(*elt);
-}
-
-void musicXMLTree2MsrTranslator::visitStart (S_staff_size& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
-    cerr << idtr <<
-      "--> Start visiting S_staff_size" <<
-      endl;
-
-  fCurrentStaffDetailsStaffSize = (int)(*elt);
-  // JMI not used
-}
-
-void musicXMLTree2MsrTranslator::visitEnd (S_staff_details& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
-    cerr << idtr <<
-      "--> End visiting S_staff_details" <<
-      endl;
-
-  if (gGeneralOptions->fTraceStaves) {
-    const int fieldWidth = 29;
-
-    cerr << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentStaffLinesNumber" << " = " <<
-        fCurrentStaffLinesNumber->staffLinesNumberAsString () <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "StaffDetailsStaffNumber" << " = " <<
-        fStaffDetailsStaffNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentStaffDetailsCapo" << " = " <<
-        fCurrentStaffDetailsCapo <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentStaffDetailsStaffSize" << " = " <<
-        fCurrentStaffDetailsStaffSize <<
-        endl;
-  }
-
-  idtr--;
-  
-  // create the staff details
-  S_msrStaffDetails
-    staffDetails =
-      msrStaffDetails::create (
-        elt->getInputLineNumber (),
-        fCurrentStaffTypeKind,
-        fCurrentStaffLinesNumber,
-        fCurrentStaffTuning,
-        fCurrentShowFretsKind,
-        fCurrentPrintObjectKind,
-        fCurrentPrintSpacingKind);
-
-  // append staff details in part or staff
-  if (fStaffDetailsStaffNumber == 0)
-    fCurrentPart->
-      appendStaffDetailsToPart (staffDetails);
-    
-  else {
-    S_msrStaff
-      staff =
-        createStaffInCurrentPartIfNotYetDone (
-          elt->getInputLineNumber (),
-          fStaffDetailsStaffNumber);
-    
-    staff->
-      appendStaffDetailsToStaff (staffDetails);
-  }
-}
 
 //________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart (S_voice& elt )
@@ -16539,6 +16454,282 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
   }
 
   fOnGoingFiguredBass = false;
+}
+
+//________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart (S_harp_pedals& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_staff_lines" <<
+      endl;
+
+/*
+<!-- 
+  The harp-pedals element is used to create harp pedal
+  diagrams. The pedal-step and pedal-alter elements use
+  the same values as the step and alter elements. For
+  easiest reading, the pedal-tuning elements should follow
+  standard harp pedal order, with pedal-step values of
+  D, C, B, E, F, G, and A.
+-->
+<!ELEMENT harp-pedals (pedal-tuning)+>
+<!ATTLIST harp-pedals
+    %print-style-align; 
+>
+<!ELEMENT pedal-tuning (pedal-step, pedal-alter)>
+<!ELEMENT pedal-step (#PCDATA)>
+<!ELEMENT pedal-alter (#PCDATA)>
+
+<!-- Harp damping marks -->
+<!ELEMENT damp EMPTY>
+<!ATTLIST damp
+    %print-style-align; 
+>
+<!ELEMENT damp-all EMPTY>
+<!ATTLIST damp-all
+    %print-style-align; 
+>
+
+        <direction-type>
+          <harp-pedals>
+            <pedal-tuning>
+              <pedal-step>D</pedal-step>
+              <pedal-alter>0</pedal-alter>
+            </pedal-tuning>
+            <pedal-tuning>
+              <pedal-step>C</pedal-step>
+              <pedal-alter>-1</pedal-alter>
+            </pedal-tuning>
+            <pedal-tuning>
+              <pedal-step>B</pedal-step>
+              <pedal-alter>-1</pedal-alter>
+            </pedal-tuning>
+            <pedal-tuning>
+              <pedal-step>E</pedal-step>
+              <pedal-alter>0</pedal-alter>
+            </pedal-tuning>
+            <pedal-tuning>
+              <pedal-step>F</pedal-step>
+              <pedal-alter>0</pedal-alter>
+            </pedal-tuning>
+            <pedal-tuning>
+              <pedal-step>G</pedal-step>
+              <pedal-alter>1</pedal-alter>
+            </pedal-tuning>
+            <pedal-tuning>
+              <pedal-step>A</pedal-step>
+              <pedal-alter>-1</pedal-alter>
+            </pedal-tuning>
+          </harp-pedals>
+        </direction-type>
+
+*/
+}
+
+void musicXMLTree2MsrTranslator::visitStart (S_pedal_tuning& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_pedal_tuning" <<
+      endl;
+}
+    
+void musicXMLTree2MsrTranslator::visitStart (S_pedal_step& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_pedal_step" <<
+      endl;
+
+  string tuningStep = elt->getValue();
+
+  checkStep (
+    elt->getInputLineNumber (),
+    tuningStep);
+
+  fCurrentHarpPedalTuningDiatonicPitch =
+    msrDiatonicPitchFromString (
+      tuningStep [0]);
+}
+
+void musicXMLTree2MsrTranslator::visitStart (S_pedal_alter& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_pedal_alter" <<
+      endl;
+
+  float tuningAlter = (float)(*elt);
+
+  fCurrentHarpPedalTuningAlteration =
+    msrAlterationFromMusicXMLAlter (
+      tuningAlter);
+      
+  if (fCurrentPedalTuningAlteration == k_NoAlteration) {
+    stringstream s;
+
+    s <<
+      "tuning alter '" << tuningAlter << "'"
+      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str ());
+  }
+}
+
+void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> End visiting S_pedal_tuning" <<
+      endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  // fetch relevant staff
+  S_msrStaff
+    staff =
+      createStaffInCurrentPartIfNotYetDone (
+        inputLineNumber,
+        fStaffDetailsStaffNumber); // test its value??? JMI
+
+  msrQuarterTonesPitch
+    quarterTonesPitch =
+      quarterTonesPitchFromDiatonicPitchAndAlteration (
+        inputLineNumber,
+        fCurrentHarpPedalTuningDiatonicPitch,
+        fCurrentHarpPedalTuningAlteration);
+
+  // create the staff tuning
+  if (gGeneralOptions->fTraceStaffTuning) {
+    cerr <<
+      idtr <<
+        "Creating pedal tuning:" <<
+        endl;
+
+    idtr++;
+
+    const int fieldWidth = 32;
+
+    cerr <<
+      idtr <<
+        setw (fieldWidth) <<
+        "fCurrentHarpPedalTuningDiatonicPitch" << " = " <<
+        msrDiatonicPitchAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+          fCurrentPedalTuningDiatonicPitch) <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "fCurrentHarpPedalTuningAlteration" << " = " <<
+        msrAlterationAsString (
+          fCurrentPedalTuningAlteration) <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "quarterTonesPitch" << " = " <<
+        msrQuarterTonesPitchAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+          quarterTonesPitch) <<
+        endl;
+
+    idtr--;
+  }
+    
+  fCurrentPedalTuning =
+    msrPedalTuning::create (
+      inputLineNumber,
+      quarterTonesPitch,
+      fCurrentHarpPedalTuningOctave);
+}
+
+//________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart (S_capo& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_capo" <<
+      endl;
+
+  fCurrentStaffDetailsCapo = (int)(*elt);
+}
+
+void musicXMLTree2MsrTranslator::visitStart (S_staff_size& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_staff_size" <<
+      endl;
+
+  fCurrentStaffDetailsStaffSize = (int)(*elt);
+  // JMI not used
+}
+
+void musicXMLTree2MsrTranslator::visitEnd (S_staff_details& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> End visiting S_staff_details" <<
+      endl;
+
+  if (gGeneralOptions->fTraceStaves) {
+    const int fieldWidth = 29;
+
+    cerr << left <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentStaffLinesNumber" << " = " <<
+        fCurrentStaffLinesNumber->staffLinesNumberAsString () <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "StaffDetailsStaffNumber" << " = " <<
+        fStaffDetailsStaffNumber <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentStaffDetailsCapo" << " = " <<
+        fCurrentStaffDetailsCapo <<
+        endl <<
+      idtr <<
+        setw (fieldWidth) <<
+        "CurrentStaffDetailsStaffSize" << " = " <<
+        fCurrentStaffDetailsStaffSize <<
+        endl;
+  }
+
+  idtr--;
+  
+  // create the staff details
+  S_msrStaffDetails
+    staffDetails =
+      msrStaffDetails::create (
+        elt->getInputLineNumber (),
+        fCurrentStaffTypeKind,
+        fCurrentStaffLinesNumber,
+        fCurrentStaffTuning,
+        fCurrentShowFretsKind,
+        fCurrentPrintObjectKind,
+        fCurrentPrintSpacingKind);
+
+  // append staff details in part or staff
+  if (fStaffDetailsStaffNumber == 0)
+    fCurrentPart->
+      appendStaffDetailsToPart (staffDetails);
+    
+  else {
+    S_msrStaff
+      staff =
+        createStaffInCurrentPartIfNotYetDone (
+          elt->getInputLineNumber (),
+          fStaffDetailsStaffNumber);
+    
+    staff->
+      appendStaffDetailsToStaff (staffDetails);
+  }
 }
 
 //______________________________________________________________________________

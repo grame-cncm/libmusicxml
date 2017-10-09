@@ -345,6 +345,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   
   public visitor<S_rehearsal>,
   
+  public visitor<S_harp_pedals>,
+  public visitor<S_pedal_tuning>,
+  public visitor<S_pedal_step>,
+
   public visitor<S_sound>,
   
   public visitor<S_instrument_sound>,
@@ -696,7 +700,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_tuplet_type& elt);
 
     virtual void visitStart ( S_rehearsal& elt);
-
+    
+    virtual void visitStart ( S_harp_pedals& elt);
+    virtual void visitStart ( S_pedal_tuning& elt);
+    virtual void visitStart ( S_pedal_step& elt);
 
     virtual void visitStart ( S_sound& elt);
     virtual void visitEnd   ( S_sound& elt);
@@ -1422,6 +1429,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                               fCurrentLigatureKind;
     bool                      fOnGoingLigature;
     bool                      fOnGoingLigatureHasStanza;
+
+    // harp pedals
+    // ------------------------------------------------------
+
+    msrDiatonicPitch          fCurrentHarpPedalDiatonicPitch;
+    msrAlteration             fCurrentHarpPedalAlteration;
 
     // backup handling
     // ------------------------------------------------------
