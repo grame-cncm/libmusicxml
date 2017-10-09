@@ -2071,7 +2071,7 @@ void msrOptionsSubGroup::printOptionsValues (
     endl;
 
   // underline the options subgroup header
- // JMI underlineHeader (os);
+// JMI  underlineHeader (os);
 
   // print the options items values
   if (fOptionsSubGroupItemsList.size ()) {    
@@ -2465,6 +2465,8 @@ void msrOptionsGroup::printOptionsValues (
 
   // underline the options group header
   underlineHeader (os);
+  os <<
+    endl;
 
   // print the options subgroups values
   if (fOptionsGroupSubGroupsList.size ()) {    
@@ -2480,7 +2482,7 @@ void msrOptionsGroup::printOptionsValues (
         printOptionsValues (
           os, valueFieldWidth);
       if (++i == iEnd) break;
-// JMI      cerr << endl;
+      cerr << endl;
     } // for
 
     idtr--;
