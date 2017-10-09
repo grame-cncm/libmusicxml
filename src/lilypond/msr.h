@@ -571,9 +571,9 @@ class EXP msrHarpPedalsTuning : public msrElement
     static SMARTP<msrHarpPedalsTuning> create (
       int inputLineNumber);
     
-    SMARTP<msrHarpPedalsTuning> createHarpPedalTuningNewbornClone ();
+    SMARTP<msrHarpPedalsTuning> createHarpPedalsTuningNewbornClone ();
 
-    SMARTP<msrHarpPedalsTuning> createHarpPedalTuningDeepCopy ();
+    SMARTP<msrHarpPedalsTuning> createHarpPedalsTuningDeepCopy ();
 
   protected:
 
@@ -602,7 +602,7 @@ class EXP msrHarpPedalsTuning : public msrElement
                             msrDiatonicPitch diatonicPitch,
                             msrAlteration    alteration);
                             
-    string                harpPedalTuningAsString () const;
+    string                harpPedalsTuningAsString () const;
          
     // visitors
     // ------------------------------------------------------

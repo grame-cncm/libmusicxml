@@ -21155,7 +21155,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
   return newbornClone;
 }
 
-S_msrHarpPedalsTuning msrHarpPedalsTuning::createRepeatCodaDeepCopy ()
+S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
   if (gGeneralOptions->fTraceRepeats)
     cerr << idtr <<
@@ -21164,9 +21164,9 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createRepeatCodaDeepCopy ()
       endl;
   
   S_msrHarpPedalsTuning
-    repeatCodaDeepCopy = 0; // JMI
+    harpPedalsTuningDeepCopy = 0; // JMI
 
-  return repeatCodaDeepCopy;
+  return harpPedalsTuningDeepCopy;
 }
 
 void msrHarpPedalsTuning::addPedalTuning (
@@ -21256,18 +21256,18 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
       
     for ( ; ; ) {
       // print the pedal and its alteration
-      os << idtr <<
-        msrDiatonicPitchAsString
+      s << idtr <<
+        msrDiatonicPitchAsString (
           (*i).first) <<
         msrAlterationAsString (
           (*i).second);
       if (++i == iEnd) break;
-      os << " ";
+      s << " ";
     } // for
 
     idtr--;
   }
-  os << endl;
+  s << endl;
    
   return s.str ();
 }
