@@ -55,6 +55,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
  */
 
+  // rights
+  
   public visitor<S_work_number>,
   public visitor<S_work_title>,
   public visitor<S_movement_number>,
@@ -64,12 +66,16 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_software>,
   public visitor<S_encoding_date>,
   
+  // geometry
+  
   public visitor<S_millimeters>,
   public visitor<S_tenths>,
   public visitor<S_scaling>,
  
   public visitor<S_system_distance>,
   public visitor<S_top_system_distance>,
+  
+  // layout
   
   public visitor<S_page_layout>,
   public visitor<S_page_height>,
@@ -81,6 +87,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
   public visitor<S_credit>,
   public visitor<S_credit_words>,
+  
+  // parts & part groups
   
   public visitor<S_part_list>,
   
@@ -101,12 +109,16 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   
   public visitor<S_part>,
   
+  // ?
+  
   public visitor<S_attributes>,
   
   public visitor<S_divisions>,
 
   public visitor<S_staves>,
   public visitor<S_staff>,
+  
+  // staff details
   
   public visitor<S_staff_details>,
   public visitor<S_staff_type>,
@@ -117,17 +129,26 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_tuning_alter>,
   public visitor<S_capo>,
   public visitor<S_staff_size>,
+  public visitor<S_scordatura>,
 
+  // ?
+  
   public visitor<S_voice>,
 
+  // backup & forward
+  
   public visitor<S_backup>,
   public visitor<S_forward>,
+  
+  // clefs
   
   public visitor<S_clef>,
   public visitor<S_sign>,
   public visitor<S_line>,
   public visitor<S_clef_octave_change>,
 
+  // keys
+  
   public visitor<S_key>,
   public visitor<S_cancel>,
   public visitor<S_fifths>,
@@ -136,6 +157,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_key_alter>,
   public visitor<S_key_octave>,
 
+  // times
+  
   public visitor<S_time>,
   public visitor<S_beats>,
   public visitor<S_beat_type>,
@@ -144,39 +167,56 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_interchangeable>,
   public visitor<S_time_relation>,
   
+  // ?
+  
   public visitor<S_instruments>,
 
+  // transpose
+  
   public visitor<S_transpose>,
   public visitor<S_diatonic>,
   public visitor<S_chromatic>,
   public visitor<S_octave_change>,
   public visitor<S_double>,
 
+  // ?
+  
   public visitor<S_direction>,
   public visitor<S_direction_type>,
   public visitor<S_offset>,
   public visitor<S_words>,
   public visitor<S_octave_shift>,
+
+  // accordion registration
+  
   public visitor<S_accordion_registration>,
   public visitor<S_accordion_high>,
   public visitor<S_accordion_middle>,
   public visitor<S_accordion_low>,
+
+  // tempo
   
   public visitor<S_metronome>,
   public visitor<S_beat_unit>,
   public visitor<S_beat_unit_dot>,
   public visitor<S_per_minute>,
 
+  // ties, slurs, brackets & beams
+  
   public visitor<S_tied>,
   public visitor<S_slur>,
   public visitor<S_bracket>,
   public visitor<S_beam>,
 
+  // lyrics
+  
   public visitor<S_lyric>,
   public visitor<S_syllabic>,
   public visitor<S_text>,
   public visitor<S_elision>,
   public visitor<S_extend>,
+  
+  // harmonies
   
   public visitor<S_degree>,
   public visitor<S_degree_value>,
@@ -191,14 +231,20 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_bass_step>,
   public visitor<S_bass_alter>,
   
+  // figured bass
+  
   public visitor<S_figured_bass>,
   public visitor<S_figure>,
   public visitor<S_prefix>,
   public visitor<S_figure_number>,
   public visitor<S_suffix>,
 
+  // measures
+  
   public visitor<S_measure>,
   public visitor<S_print>,
+  
+  // ?
   
   public visitor<S_barline>,
   public visitor<S_segno>,
@@ -209,6 +255,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_repeat>,
   public visitor<S_ending>,
 
+  // notes
+  
   public visitor<S_note>,
   public visitor<S_step>,
   public visitor<S_alter>,
@@ -216,6 +264,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_duration>,
   public visitor<S_instrument>,
   public visitor<S_dot>,
+
+  // repeats
   
   public visitor<S_measure_style>,
   public visitor<S_beat_repeat>,
@@ -223,6 +273,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_multiple_rest>,
   public visitor<S_slash>,
  
+  // articulations
+  
   public visitor<S_articulations>,
   public visitor<S_accent>,
   public visitor<S_breath_mark>,
@@ -242,6 +294,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_falloff>,
   public visitor<S_plop>,
   public visitor<S_scoop>,
+  
+  // technicals
   
   public visitor<S_technical>,
   public visitor<S_arrow>,
@@ -270,6 +324,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_triple_tongue>,
   public visitor<S_up_bow>,
 
+  // ornaments
+  
   public visitor<S_ornaments>,
   public visitor<S_trill_mark>,
   public visitor<S_wavy_line>,
@@ -284,8 +340,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_shake>,
   public visitor<S_accidental_mark>,
 
+  // tremolos
+  
   public visitor<S_tremolo>,
 
+  // dynamics
+  
   public visitor<S_f>,
   public visitor<S_ff>,
   public visitor<S_fff>,
@@ -316,19 +376,21 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   
   public visitor<S_other_dynamics>,
   
-  public visitor<S_damper_pedal>,
-  public visitor<S_soft_pedal>,
-  public visitor<S_sostenuto_pedal>,
-
   public visitor<S_wedge>,
+  
+  // grace notes
   
   public visitor<S_grace>,
 
+  // note heads
+  
   public visitor<S_type>,
   public visitor<S_notehead>,
   public visitor<S_accidental>,
   
   public visitor<S_stem>,
+  
+  // notes
   
   public visitor<S_rest>,
   
@@ -336,25 +398,42 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_display_step>,
   public visitor<S_display_octave>,
 
+  // chords
+  
   public visitor<S_chord>,
 
+  // times
+  
   public visitor<S_time_modification>,
   public visitor<S_actual_notes>,
   public visitor<S_normal_notes>,
   public visitor<S_normal_type>,
 
+  // tuplets
+  
   public visitor<S_tuplet>,
   public visitor<S_tuplet_number>,
   public visitor<S_tuplet_type>,
   
+  // rehearsal
+  
   public visitor<S_rehearsal>,
+  
+  // harp pedals tuning
   
   public visitor<S_harp_pedals>,
   public visitor<S_pedal_tuning>,
   public visitor<S_pedal_step>,
   public visitor<S_pedal_alter>,
+  
+  public visitor<S_damp>,
+  public visitor<S_damp_all>,
 
+  // sound
+  
   public visitor<S_sound>,
+
+  // midi
   
   public visitor<S_instrument_sound>,
   public visitor<S_virtual_instrument>,
@@ -381,6 +460,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_processing_instruction& elt);
     */
     
+    // rights
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_work_number& elt);
     virtual void visitStart ( S_work_title& elt);
     virtual void visitStart ( S_movement_number& elt);
@@ -390,12 +472,18 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_software& elt);
     virtual void visitStart ( S_encoding_date& elt);
 
+    // geometry
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_millimeters& elt);
     virtual void visitStart ( S_tenths& elt);
     virtual void visitEnd   ( S_scaling& elt);
 
     virtual void visitStart ( S_system_distance& elt);
     virtual void visitStart ( S_top_system_distance& elt);
+
+    // layout
+    // ------------------------------------------------------
 
     virtual void visitStart ( S_page_layout& elt);
     virtual void visitEnd   ( S_page_layout& elt);
@@ -406,10 +494,16 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_top_margin& elt);
     virtual void visitStart ( S_bottom_margin& elt);
     
+    // credits
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_credit& elt);
     virtual void visitEnd   ( S_credit& elt);
     virtual void visitStart ( S_credit_words& elt);
         
+    // parts & part groups
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_part_list& elt);
     virtual void visitEnd   ( S_part_list& elt);
     
@@ -433,15 +527,24 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_part& elt);
     virtual void visitEnd   ( S_part& elt);
     
+    // ?
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_attributes& elt);
     virtual void visitEnd   ( S_attributes& elt);
     
     virtual void visitStart ( S_divisions& elt);
   
+    // staves
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_staves& elt);
     
     virtual void visitStart ( S_staff& elt);
     
+    // staff details
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_staff_details& elt);
     virtual void visitEnd   ( S_staff_details& elt);
     virtual void visitStart ( S_staff_type& elt);
@@ -453,19 +556,29 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_tuning_alter& elt);
     virtual void visitStart ( S_capo& elt);
     virtual void visitStart ( S_staff_size& elt);
+    virtual void visitStart ( S_scordatura& elt);
 
     virtual void visitStart ( S_voice& elt );
     
+    // backup & forward
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_backup& elt );
     virtual void visitEnd   ( S_backup& elt );
     virtual void visitStart ( S_forward& elt );
     virtual void visitEnd   ( S_forward& elt );
     
+    // clefs
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_clef& elt );
     virtual void visitEnd   ( S_clef& elt );
     virtual void visitStart ( S_sign& elt );
     virtual void visitStart ( S_line& elt );
     virtual void visitStart ( S_clef_octave_change& elt );
+
+    // keys
+    // ------------------------------------------------------
 
     virtual void visitStart ( S_key& elt );
     virtual void visitEnd   ( S_key& elt );
@@ -476,6 +589,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_key_alter& elt );
     virtual void visitStart ( S_key_octave& elt );
 
+    // times
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_time& elt );
     virtual void visitEnd   ( S_time& elt );
     virtual void visitStart ( S_beats& elt );
@@ -485,7 +601,13 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_interchangeable& elt );
     virtual void visitStart ( S_time_relation& elt );
 
+    // ?
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_instruments& elt );
+
+    // transpose
+    // ------------------------------------------------------
 
     virtual void visitStart ( S_transpose& elt );
     virtual void visitEnd   ( S_transpose& elt );
@@ -494,6 +616,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_octave_change& elt );
     virtual void visitStart ( S_double& elt );
 
+    // ?
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_direction& elt );
     virtual void visitEnd   ( S_direction& elt );
     virtual void visitStart ( S_direction_type& elt );
@@ -501,11 +626,18 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_offset& elt );
     virtual void visitStart ( S_words& elt );
     virtual void visitStart ( S_octave_shift& elt );
+
+    // accordion registration
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_accordion_registration& elt );
     virtual void visitEnd   ( S_accordion_registration& elt );
     virtual void visitStart ( S_accordion_high& elt );
     virtual void visitStart ( S_accordion_middle& elt );
     virtual void visitStart ( S_accordion_low& elt );
+
+    // tempo
+    // ------------------------------------------------------
 
     virtual void visitStart ( S_metronome& elt );
     virtual void visitEnd   ( S_metronome& elt );
@@ -513,11 +645,17 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_beat_unit_dot& elt );
     virtual void visitStart ( S_per_minute& elt );
 
+    // ties, slurs, brackets & beams
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_tied& elt);
     virtual void visitStart ( S_slur& elt);
     virtual void visitStart ( S_bracket& elt);
     virtual void visitStart ( S_beam& elt);
 
+    // lyrics
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_lyric& elt);
     virtual void visitEnd   ( S_lyric& elt);
     virtual void visitStart ( S_syllabic& elt);
@@ -525,12 +663,18 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_elision& elt );
     virtual void visitStart ( S_extend& elt);
 
+    // ?
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_degree& elt);
     virtual void visitEnd   ( S_degree& elt);
     virtual void visitStart ( S_degree_value& elt);
     virtual void visitStart ( S_degree_alter& elt);
     virtual void visitStart ( S_degree_type& elt);
 
+    // harmonies
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_harmony& elt);
     virtual void visitEnd   ( S_harmony& elt);
     virtual void visitStart ( S_root_step& elt);
@@ -540,6 +684,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_bass_step& elt);
     virtual void visitStart ( S_bass_alter& elt);
     
+    // figured bass
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_figured_bass& elt);
     virtual void visitEnd   ( S_figured_bass& elt);
     virtual void visitStart ( S_figure& elt);
@@ -548,9 +695,15 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_figure_number& elt);
     virtual void visitStart ( S_suffix& elt);
 
+    // measures
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_measure& elt);
     virtual void visitEnd   ( S_measure& elt);
     
+    // ?
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_print& elt);
     
     virtual void visitStart ( S_barline& elt);
@@ -563,6 +716,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_ending& elt);
     virtual void visitEnd   ( S_barline& elt);
 
+    // notes
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_note& elt);
     virtual void visitStart ( S_step& elt);
     virtual void visitStart ( S_alter& elt);
@@ -571,11 +727,17 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_instrument& elt);
     virtual void visitStart ( S_dot& elt );
     
+    // repeats
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_measure_style& elt );
     virtual void visitStart ( S_beat_repeat& elt );
     virtual void visitStart ( S_measure_repeat& elt );
     virtual void visitStart ( S_multiple_rest& elt );
     virtual void visitStart ( S_slash& elt );
+
+    // atticulations
+    // ------------------------------------------------------
 
     virtual void visitStart ( S_articulations& elt );
     virtual void visitEnd   ( S_articulations& elt );
@@ -598,6 +760,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_plop& elt );
     virtual void visitStart ( S_scoop& elt );
         
+    // technicals
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_technical& elt );
     virtual void visitEnd   ( S_technical& elt );
     virtual void visitStart ( S_arrow& elt );
@@ -627,6 +792,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_triple_tongue& elt );
     virtual void visitStart ( S_up_bow& elt );
 
+    // ornaments
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_ornaments& elt );
     virtual void visitEnd   ( S_ornaments& elt );
     virtual void visitStart ( S_trill_mark& elt );
@@ -642,8 +810,14 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_shake& elt );
     virtual void visitStart ( S_accidental_mark& elt );
 
+    // tremolos
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_tremolo& elt );
 
+    // dynamics
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_f& elt);
     virtual void visitStart ( S_ff& elt);
     virtual void visitStart ( S_fff& elt);
@@ -674,18 +848,41 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     virtual void visitStart ( S_other_dynamics& elt);
     
-    virtual void visitStart ( S_damper_pedal& elt);
-    virtual void visitStart ( S_soft_pedal& elt);
-    virtual void visitStart ( S_sostenuto_pedal& elt);
-
     virtual void visitStart ( S_wedge& elt);
 
+    // harp pedals tuning
+    // ------------------------------------------------------
+    
+    virtual void visitStart ( S_harp_pedals& elt);
+    virtual void visitStart ( S_pedal_tuning& elt);
+    virtual void visitEnd   ( S_pedal_tuning& elt);
+    virtual void visitStart ( S_pedal_step& elt);
+    virtual void visitStart ( S_pedal_alter& elt);
+
+    virtual void visitStart ( S_damp& elt);
+    virtual void visitStart ( S_damp_all& elt);
+
+    // grace notes
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_grace& elt );
     
 //    virtual void visitStart ( S_voice& elt);
 
+    // ?
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_type& elt);
+
+    // note heads
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_notehead& elt);
+
+
+    // notes
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_accidental& elt);
     
     virtual void visitStart ( S_stem& elt);
@@ -698,24 +895,34 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_display_step& elt);
     virtual void visitStart ( S_display_octave& elt);
 
+    // chords
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_chord& elt);
+
+    // time
+    // ------------------------------------------------------
     
     virtual void visitStart ( S_time_modification& elt);
     virtual void visitStart ( S_actual_notes& elt);
     virtual void visitStart ( S_normal_notes& elt);
     virtual void visitStart ( S_normal_type& elt);
+    
+    // tuplets
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_tuplet& elt);
     virtual void visitStart ( S_tuplet_number& elt);
     virtual void visitStart ( S_tuplet_type& elt);
 
+    // rehearsals
+    // ------------------------------------------------------
+
     virtual void visitStart ( S_rehearsal& elt);
     
-    virtual void visitStart ( S_harp_pedals& elt);
-    virtual void visitStart ( S_pedal_tuning& elt);
-    virtual void visitEnd   ( S_pedal_tuning& elt);
-    virtual void visitStart ( S_pedal_step& elt);
-    virtual void visitStart ( S_pedal_alter& elt);
-
+    // sound & MIDI
+    // ------------------------------------------------------
+    
     virtual void visitStart ( S_sound& elt);
     virtual void visitEnd   ( S_sound& elt);
 
@@ -1311,9 +1518,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     void                      copyNoteTechnicalWithStringsToChord (
                                 S_msrNote note, S_msrChord chord);
 
-    // piano pedals handling
-    // ------------------------------------------------------
-
     // ornaments handling
     // ------------------------------------------------------
     
@@ -1444,7 +1648,24 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     bool                      fOnGoingLigature;
     bool                      fOnGoingLigatureHasStanza;
 
-    // harp pedals
+    // piano pedals handling
+    // ------------------------------------------------------
+
+/* JMI
+    msrDamperPedal::damperPedalKind
+                              fCurrentDamperPedalKind;
+    int                       fCurrentDamperPedalIntegerValue;
+
+    msrDamperPedal::damperPedalKind
+                              fCurrentDamperPedalKind;
+    int                       fCurrentDamperPedalIntegerValue;
+
+    msrDamperPedal::damperPedalKind
+                              fCurrentDamperPedalKind;
+    int                       fCurrentDamperPedalIntegerValue;
+*/
+
+    // harp pedals handling
     // ------------------------------------------------------
 
     msrDiatonicPitch          fCurrentHarpPedalDiatonicPitch;

@@ -11647,6 +11647,7 @@ void musicXMLTree2MsrTranslator::visitStart( S_other_dynamics& elt)
     sostenuto-pedal %yes-no-number; #IMPLIED
 */
 
+/*
 void musicXMLTree2MsrTranslator::visitStart( S_damper_pedal& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
@@ -11658,11 +11659,11 @@ void musicXMLTree2MsrTranslator::visitStart( S_damper_pedal& elt)
   
   // check damper pedal value
   if      (damperPedalValue == "yes")
-    fCurrentDamperPedalVal
+    fCurrentDamperPedalKind
       msrDamperPedal::kDamperPedalValueYes;
     
   else if (damperPedalValue == "no")
-    fCurrentDamperPedalValue =
+    fCurrentDamperPedalKind =
       msrDamperPedal::kDamperPedalValueNo;
     
   else {
@@ -11686,10 +11687,10 @@ void musicXMLTree2MsrTranslator::visitStart( S_damper_pedal& elt)
         s.str ());
     }
 
-    fCurrentDamperPedalValue =
+    fCurrentDamperPedalKind =
       msrDamperPedal::kDamperPedalValueZeroToAHundred;
 
-/* JMI
+/ * JMI
     if (damperPedalValue.size ()) {
       msrMusicXMLError (
         elt->getInputLineNumber (),
@@ -11697,7 +11698,7 @@ void musicXMLTree2MsrTranslator::visitStart( S_damper_pedal& elt)
           damperPedalValue +
           "\", should be 'yes', 'no' or a number from 0 to 100");
     }
-    */
+    * /
   }
 
 
@@ -11743,6 +11744,27 @@ void musicXMLTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
         otherDynamicsValue);
         
   fPendingOtherDynamics.push_back(otherDynamics);
+}
+*/
+
+void musicXMLTree2MsrTranslator::visitStart( S_damp& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_damp" <<
+      endl;
+
+  // JMI
+}
+
+void musicXMLTree2MsrTranslator::visitStart( S_damp_all& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_damp_all" <<
+      endl;
+
+  // JMI
 }
 
 //______________________________________________________________________________
@@ -16841,6 +16863,28 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_details& elt )
     staff->
       appendStaffDetailsToStaff (staffDetails);
   }
+}
+
+void musicXMLTree2MsrTranslator::visitStart (S_scordatura& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_scordatura" <<
+      endl;
+
+/*
+      <direction>
+        <direction-type>
+          <scordatura>
+              <accord string="3"><tuning-step>C</tuning-step><tuning-octave>3</tuning-octave></accord>
+              <accord string="2"><tuning-step>G</tuning-step><tuning-octave>5</tuning-octave></accord>
+              <accord string="1"><tuning-step>E</tuning-step><tuning-octave>5</tuning-octave></accord>
+          </scordatura>
+        </direction-type>
+      </direction>
+*/
+
+  // JMI not used
 }
 
 //______________________________________________________________________________
