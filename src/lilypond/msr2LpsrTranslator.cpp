@@ -2863,6 +2863,20 @@ void msr2LpsrTranslator::visitStart (S_msrAccordionRegistration& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrHarpPedalsTuning& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrHarpPedalsTuning" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+
+  // append the harp pedals tuning to the voice clone
+  fCurrentVoiceClone->
+    appendHarpPedalsTuningToVoice (elt);
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStem& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)

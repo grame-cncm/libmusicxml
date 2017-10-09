@@ -21257,7 +21257,7 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
   if (fHarpPedalsAlterationsMap.size ()) {
     idtr++;
 
-     map<msrDiatonicPitch, msrAlteration>::const_iterator
+    map<msrDiatonicPitch, msrAlteration>::const_iterator
       iBegin = fHarpPedalsAlterationsMap.begin(),
       iEnd   = fHarpPedalsAlterationsMap.end(),
       i      = iBegin;
@@ -21288,7 +21288,43 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
 void msrHarpPedalsTuning::print (ostream& os)
 {
   os <<
-    harpPedalsTuningAsString () <<
+    "HarpPedalsTuning" <<
+    ", line " << fInputLineNumber;
+    
+  if (fHarpPedalsAlterationsMap.size ()) {
+    idtr++;
+
+    os <<
+      endl <<
+      idtr;
+      
+    map<msrDiatonicPitch, msrAlteration>::const_iterator
+      iBegin = fHarpPedalsAlterationsMap.begin(),
+      iEnd   = fHarpPedalsAlterationsMap.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      // print the pedal and its alteration
+      os <<
+        msrDiatonicPitchAsString (
+          (*i).first) <<
+        " " <<
+        msrAlterationAsString (
+          (*i).second);
+      if (++i == iEnd) break;
+      os << ", ";
+    } // for
+
+    idtr--;
+  }
+
+  else {
+    os <<
+      " empty" <<
+      endl;
+  }
+
+  os <<
     endl;
 }
 

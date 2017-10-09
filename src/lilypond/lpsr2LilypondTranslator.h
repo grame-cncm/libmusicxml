@@ -132,6 +132,8 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_msrAccordionRegistration>,
   
+  public visitor<S_msrHarpPedalsTuning>,
+  
   public visitor<S_msrStem>,
   public visitor<S_msrBeam>,
     
@@ -366,6 +368,8 @@ class lpsr2LilypondTranslator :
     virtual void visitEnd   (S_msrOctaveShift& elt);
 
     virtual void visitStart (S_msrAccordionRegistration& elt);
+    
+    virtual void visitStart (S_msrHarpPedalsTuning& elt);
 
     virtual void visitStart (S_msrStem& elt);
     virtual void visitEnd   (S_msrStem& elt);
@@ -497,6 +501,11 @@ class lpsr2LilypondTranslator :
     string                dynamicsAsLilypondString (
                             S_msrDynamics dynamics);
 
+    // harp pedals tuning
+    
+    string                harpPedalTuningAsLilypondString (
+                            msrAlteration alteration);
+   
     // transpose
     
     void                  transposeDiatonicError (

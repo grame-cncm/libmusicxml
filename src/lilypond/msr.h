@@ -591,7 +591,7 @@ class EXP msrHarpPedalsTuning : public msrElement
     // ------------------------------------------------------
 
     const map<msrDiatonicPitch, msrAlteration>&
-                          getfHarpPedalsAlterationsMap ()
+                          getHarpPedalsAlterationsMap ()
                               { return fHarpPedalsAlterationsMap; }
 
     // services

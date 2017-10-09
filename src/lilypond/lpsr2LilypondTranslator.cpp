@@ -1376,6 +1376,48 @@ string lpsr2LilypondTranslator::dynamicsAsLilypondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::harpPedalTuningAsLilypondString (
+  msrAlteration alteration)
+{
+  string result;
+  
+  switch (alteration) {
+    case kDoubleFlat:
+      result = "?";
+      break;
+    case kSesquiFlat:
+      result = "?";
+      break;
+    case kFlat:
+      result = "^";
+      break;
+    case kSemiFlat:
+      result = "?";
+      break;
+    case kNatural:
+      result = "-";
+      break;
+    case kSemiSharp:
+      result = "?";
+      break;
+    case kSharp:
+      result = "v";
+      break;
+    case kSesquiSharp:
+      result = "?";
+      break;
+    case kDoubleSharp:
+      result = "?";
+      break;
+    case k_NoAlteration:
+      result = "alteration???";
+      break;
+  } // switch
+
+  return result;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::transposeDiatonicError (
   int inputLineNumber,
   int transposeDiatonic,
@@ -6635,6 +6677,48 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
     numbersToBeUsed <<
     "\" ";
   
+  fMusicOlec++;
+  fMusicOlec++;
+}
+
+void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrHarpPedalsTuning" <<
+      endl;
+
+  map<msrDiatonicPitch, msrAlteration>
+    harpPedalsAlterationsMap =
+      elt->getHarpPedalsAlterationsMap ();
+      
+  if (harpPedalsAlterationsMap.size ()) {
+    idtr++;
+
+    fOstream <<
+      "_\\markup { \\harp-pedal #\"" <<
+      harpPedalTuningAsLilypondString (
+        harpPedalsAlterationsMap [kD]) <<
+      harpPedalTuningAsLilypondString (
+        harpPedalsAlterationsMap [kC]) <<
+      harpPedalTuningAsLilypondString (
+        harpPedalsAlterationsMap [kB]) <<
+      "|" <<
+      harpPedalTuningAsLilypondString (
+        harpPedalsAlterationsMap [kE]) <<
+      harpPedalTuningAsLilypondString (
+        harpPedalsAlterationsMap [kF]) <<
+      harpPedalTuningAsLilypondString (
+        harpPedalsAlterationsMap [kG]) <<
+      harpPedalTuningAsLilypondString (
+        harpPedalsAlterationsMap [kA]) <<
+      "\" } ";
+  }
+  else {
+    fOstream <<
+      "%{empty harp pedals tuning???%} "; // JMI
+  }
+        
   fMusicOlec++;
   fMusicOlec++;
 }
