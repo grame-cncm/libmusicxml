@@ -8495,35 +8495,32 @@ typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
 
 //______________________________________________________________________________
-class EXP msrHarpPedalTuning : public msrElement
+class EXP msrHarpPedalsTuning : public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrHarpPedalTuning> create (
-      int                  inputLineNumber,
-      int                  HarpPedalTuningLineNumber,
-      msrQuarterTonesPitch quarterTonesPitch,
-      int                  HarpPedalTuningOctave);
+    static SMARTP<msrHarpPedalsTuning> create (
+      int                  inputLineNumber);
     
-    SMARTP<msrHarpPedalTuning> createHarpPedalTuningNewbornClone ();
+    SMARTP<msrHarpPedalsTuning> createHarpPedalTuningNewbornClone ();
 
-    SMARTP<msrHarpPedalTuning> createHarpPedalTuningDeepCopy ();
+    SMARTP<msrHarpPedalsTuning> createHarpPedalTuningDeepCopy ();
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrHarpPedalTuning (
+    msrHarpPedalsTuning (
       int                  inputLineNumber,
       int                  HarpPedalTuningLineNumber,
       msrQuarterTonesPitch quarterTonesPitch,
       int                  HarpPedalTuningOctave);
          
-    ~ msrHarpPedalTuning ();
+    ~ msrHarpPedalsTuning ();
   
   public:
 
@@ -8562,13 +8559,16 @@ class EXP msrHarpPedalTuning : public msrElement
     // fields
     // ------------------------------------------------------
     
-    int                   fHarpPedalTuningLineNumber;
+    map<msrDiatonicPitch, msrAlteration>
+                          fHarpPedalAlteration;
+                 fCurrentHarpPedalAlteration;
+;
     
     msrQuarterTonesPitch  fHarpPedalTuningQuarterTonesPitch;
     int                   fHarpPedalTuningOctave;
 };
-typedef SMARTP<msrHarpPedalTuning> S_msrHarpPedalTuning;
-EXP ostream& operator<< (ostream& os, const S_msrHarpPedalTuning& elt);
+typedef SMARTP<msrHarpPedalsTuning> S_msrHarpPedalsTuning;
+EXP ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt);
 
 /*!
 \brief A msr voice representation.
