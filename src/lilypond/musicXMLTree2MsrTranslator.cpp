@@ -3376,15 +3376,35 @@ void musicXMLTree2MsrTranslator::visitStart (S_octave_shift& elt)
         <offset>-2</offset>
         <staff>1</staff>
       </direction>
-*/
-  int    size = elt->getAttributeIntValue ("size", 0);
 
-  if (size != 8 && size != 15) {
+      <octave-shift type="up"/>
+*/
+  
+  string octaveShiftSizeString = elt->getAttributeValue ("size");
+
+  if (! octaveShiftSizeString.size ()) {
     stringstream s;
-    
+
     s <<
-      "octave shift size \"" << size <<
-      "\"" << "is unknown";
+      "octave shift size absent, assuming 0";
+      
+    msrMusicXMLWarning (
+      elt->getInputLineNumber (),
+      s.str ());
+  }
+  
+  int octaveShiftSize;
+
+  istringstream inputStream (octaveShiftSizeString);
+
+  inputStream >> octaveShiftSize;
+  
+  if (octaveShiftSize != 8 && octaveShiftSize != 15) {
+    stringstream s;
+
+    s <<
+      "octave shift size \"" << octaveShiftSize <<
+      "\" is unknown";
       
     msrMusicXMLError (
       elt->getInputLineNumber (),
@@ -3422,7 +3442,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_octave_shift& elt)
       msrOctaveShift::create (
         elt->getInputLineNumber (),
         octaveShiftKind,
-        size);
+        octaveShiftSize);
 
   // fetch current voice
   S_msrVoice
@@ -9610,7 +9630,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_string& elt )
 
   string stringValue = elt->getValue();
 
-  int stringIntegerValue = atoi (stringValue.c_str());
+  int stringIntegerValue;
+
+  istringstream inputStream (stringValue);
+
+  inputStream >> stringIntegerValue;
 
   if (! stringValue.size ()) {
     stringstream s;

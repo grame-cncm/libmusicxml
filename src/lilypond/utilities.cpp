@@ -505,10 +505,18 @@ string stringNumbersToEnglishWords (string str)
   string result = "";
 
   for (unsigned int i = 0; i < chunks.size(); i++) {
-    if (states[i] == kWorkingOnDigits)
-      result += int2EnglishWord(atoi(chunks[i].c_str()));
-    else
+    if (states[i] == kWorkingOnDigits) {
+      int integerValue;
+    
+      istringstream inputStream (chunks[i]);
+    
+      inputStream >> integerValue;
+      
+      result += int2EnglishWord (integerValue);
+    }
+    else {
       result += chunks[i];
+    }
   } // for
     
   return result;
