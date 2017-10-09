@@ -54,6 +54,7 @@ void notevisitor::reset ()
     fTenuto		= (void*)0;
     fTrill		= (void*)0;
 	fTurn		= (void*)0;
+    fTremolo    = (void*)0;
     fInvertedTurn = (void*)0;
     fAccidentalMark = (void*)0;
     fMordent	= (void*)0;

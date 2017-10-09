@@ -1533,7 +1533,8 @@ namespace MusicXML2
                     Sguidoelement tag = guidotag::create("tuplet");
                     /// Add number visualiser
                     stringstream tuplet;
-                    tuplet << (withBracket? "-" : "") << numberOfEventsInTuplet << (withBracket? "-" : "");
+                    if (numberOfEventsInTuplet>1)   // workaround for pianistic Tremolos that come out of Finale as Tuplets!
+                        tuplet << (withBracket? "-" : "") << numberOfEventsInTuplet << (withBracket? "-" : "");                    
                     tag->add (guidoparam::create(tuplet.str()));
                     
                     /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
@@ -1919,6 +1920,26 @@ namespace MusicXML2
             //if (fGeneratePositions) xml2guidovisitor::addPlacement(note.fInvertedMordent, tag);
             push(tag);
             n++;
+        }
+        
+        if (note.fTremolo) {
+            std::string tremType = note.fTremolo->getAttributeValue("type");
+            if (tremType == "single") {
+                tag = guidotag::create("trem");
+                // trem style is the number int value
+                int numDashes = int(*(note.fTremolo));
+                stringstream ss;
+                ss << "style=\"";
+                for (int id=0; id<numDashes;id++) {
+                    ss << "/";
+                }
+                ss << "\"";
+                tag->add (guidoparam::create(ss.str(), false));
+                
+                push(tag);
+                n++;
+            }
+
         }
         
         if (note.fTrill) {
