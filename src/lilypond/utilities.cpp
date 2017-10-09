@@ -235,17 +235,17 @@ string indenter::indentMultiLineString (string value)
 {
   stringstream  s;
   
-  // add indentation before all end of lines inside 'value'
-  istringstream ss (value);
+  // add indentation ahead of all lines inside 'value'
+  istringstream inputStream (value);
   string        line;
   
-  while (getline (ss, line)) {
-    s <<  line;
+  while (getline (inputStream, line)) {
+    this->print (s);
+    s << line;
 
-    if (ss.eof()) break;
+    if (inputStream.eof()) break;
 
     s << endl;
-    this->print (s);
   } // while
 
   return s.str ();

@@ -181,10 +181,9 @@ void msrOptionsElement::printHeader (ostream& os) const
   idtr++; idtr++; idtr++;
   
   os <<
-    idtr <<
-      idtr.indentMultiLineString (
-        fOptionsElementDescription) <<
-      endl;
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
 
   idtr--; idtr--; idtr--;
 }
@@ -236,7 +235,7 @@ void msrOptionsElement::printHelp (ostream& os) const
   // indent a bit more for readability
   idtr++; idtr++; idtr++;
   
-  os << idtr <<
+  os <<
     idtr.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
@@ -359,10 +358,9 @@ void msrOptionsVersionItem::print (ostream& os) const
 
   idtr++;
   os <<
-    idtr <<
-      idtr.indentMultiLineString (
-        fOptionsElementDescription) <<
-      endl;
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
   idtr--;
 
   idtr--;
@@ -435,10 +433,9 @@ void msrOptionsBooleanItem::print (ostream& os) const
 
   idtr++;
   os <<
-    idtr <<
-      idtr.indentMultiLineString (
-        fOptionsElementDescription) <<
-      endl;
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
   idtr--;
 
   os << left <<
@@ -535,10 +532,9 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
 
   idtr++;
   os <<
-    idtr <<
-      idtr.indentMultiLineString (
-        fOptionsElementDescription) <<
-      endl;
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
   idtr--;
 
   os << left <<
@@ -663,7 +659,7 @@ void msrOptionsValuedItem::printHelp (ostream& os) const
   // indent a bit more for readability
   idtr++; idtr++; idtr++;
   
-  os << idtr <<
+  os <<
     idtr.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
@@ -1893,7 +1889,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     idtr++;
-    os << idtr <<
+    os <<
       idtr.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
@@ -1968,7 +1964,7 @@ void msrOptionsSubGroup::printForcedHelp (ostream& os) const
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     idtr++;
-    os << idtr <<
+    os <<
       idtr.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
@@ -2037,14 +2033,11 @@ void msrOptionsSubGroup::printHelpSummary (
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     idtr++;
-    os << idtr <<
+    os <<
       idtr.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
     idtr--;
-
-    os <<
-      endl;  
   }
 }
 
@@ -2072,6 +2065,8 @@ void msrOptionsSubGroup::printOptionsValues (
   // print the header
   os << idtr <<
     fOptionsSubGroupHelpHeader <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2263,7 +2258,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     idtr++;
-    os << idtr <<
+    os <<
       idtr.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
@@ -2312,7 +2307,7 @@ void msrOptionsGroup::printForcedHelp (
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     idtr++;
-    os << idtr <<
+    os <<
       idtr.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
@@ -2369,7 +2364,7 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     idtr++;
-    os << idtr <<
+    os <<
       idtr.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
@@ -2393,11 +2388,8 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
       (*i)->
         printHelpSummary (os);
       if (++i == iEnd) break;
-      cerr << endl;
+ //     cerr << endl;
     } // for
-
-    os <<
-      endl;
       
     idtr--;
   }
@@ -2425,7 +2417,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
   // print the description if any
   if (fOptionsElementDescription.size ()) {
     idtr++;
-    os << idtr <<
+    os <<
       idtr.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
@@ -2466,6 +2458,8 @@ void msrOptionsGroup::printOptionsValues (
   // print the header
   os << idtr <<
     fOptionsGroupHelpHeader <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -2730,7 +2724,7 @@ void msrOptionsHandler::print (ostream& os) const
 
 void msrOptionsHandler::printHelp (ostream& os) const
 {
-  os << idtr <<
+  os <<
     idtr.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
@@ -2791,9 +2785,6 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
       if (++i == iEnd) break;
       cerr << endl;
     } // for
-
-    os <<
-      endl;
 
     idtr--;
   }

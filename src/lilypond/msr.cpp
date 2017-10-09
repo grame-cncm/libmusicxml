@@ -24301,7 +24301,7 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 
 void msrVoice::print (ostream& os)
 {
-  os <<
+  os << idtr <<
     "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
     endl;
