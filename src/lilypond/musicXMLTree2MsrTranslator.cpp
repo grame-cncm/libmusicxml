@@ -3381,6 +3381,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_octave_shift& elt)
 */
   
   string octaveShiftSizeString = elt->getAttributeValue ("size");
+  int    octaveShiftSize = 0;
 
   if (! octaveShiftSizeString.size ()) {
     stringstream s;
@@ -3393,24 +3394,24 @@ void musicXMLTree2MsrTranslator::visitStart (S_octave_shift& elt)
       s.str ());
   }
   
-  int octaveShiftSize;
-
-  istringstream inputStream (octaveShiftSizeString);
-
-  inputStream >> octaveShiftSize;
+  else {
+    istringstream inputStream (octaveShiftSizeString);
   
-  if (octaveShiftSize != 8 && octaveShiftSize != 15) {
-    stringstream s;
-
-    s <<
-      "octave shift size \"" << octaveShiftSize <<
-      "\" is unknown";
-      
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());
+    inputStream >> octaveShiftSize;
+    
+    if (octaveShiftSize != 8 && octaveShiftSize != 15) {
+      stringstream s;
+  
+      s <<
+        "octave shift size \"" << octaveShiftSize <<
+        "\" is unknown";
+        
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
   }
-
+  
   string type = elt->getAttributeValue ("type");
 
   msrOctaveShift::msrOctaveShiftKind octaveShiftKind;
@@ -6239,18 +6240,46 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
 
   /* start-stop-change-continue */
   /*
+  Piano pedal marks. The line attribute is yes if pedal
+  lines are used. The sign attribute is yes if Ped and *
+  signs are used. For MusicXML 2.0 compatibility, the sign
+  attribute is yes by default if the line attribute is no,
+  and is no by default if the line attribute is yes. The
+  change and continue types are used when the line attribute
+  is yes. The change type indicates a pedal lift and retake
+  indicated with an inverted V marking. The continue type
+  allows more precise formatting across system breaks and for
+  more complex pedaling lines. The alignment attributes are
+  ignored if the line attribute is yes.
+-->
+<!ELEMENT pedal EMPTY>
+<!ATTLIST pedal
+    type (start | stop | continue | change) #REQUIRED
+    line %yes-no; #IMPLIED
+    sign %yes-no; #IMPLIED
+    %print-style-align; 
+>
+
     The pedal type represents piano pedal marks. The change and continue types are used when the line attribute is yes. The change type indicates a pedal lift and retake indicated with an inverted V marking. The continue type allows more precise formatting across system breaks and for more complex pedaling lines. The alignment attributes are ignored if the line attribute is yes.
     
     The line attribute is yes if pedal lines are used. The change and continue types are used when the line attribute is yes.
     
     The sign attribute is yes if Ped and signs are used. For MusicXML 2.0 compatibility, the sign attribute is yes by default if the line attribute is no, and is no by default if the line attribute is yes. 
+
+      <direction>
+        <direction-type>
+          <pedal type="start"/>
+        </direction-type>
+      </direction>
+
+
     */
 
-  string
-    type = elt->getAttributeValue ("type");
+  // type
+  
+  string type = elt->getAttributeValue ("type");
     
-  msrPedal::msrPedalType
-    pedalType;
+  msrPedal::msrPedalType pedalType;
 
   if       (type == "start") {
     pedalType =
@@ -6278,11 +6307,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
       s.str ());
   }
 
-  string
-    line = elt->getAttributeValue ("line");
+  // line
+  
+  string line = elt->getAttributeValue ("line");
     
-  msrPedal::msrPedalLine
-    pedalLine;
+  msrPedal::msrPedalLine pedalLine;
 
   if       (line == "yes") {
     pedalLine =
@@ -6293,15 +6322,43 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
       msrPedal::kPedalLineNo;
   }
   else {
-    stringstream s;
-    
-    s << "pedal line " << line << " is unknown";
-    
-    msrMusicXMLError (
-      elt->getInputLineNumber (),
-      s.str ());
+    if (! line.size ()) {
+      stringstream s;
+      
+      s << "pedal line " << line << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
   }
+  
+  // sign
+  
+  string sign = elt->getAttributeValue ("sign");
+    
+  msrPedal::msrPedalSign pedalSign;
 
+  if       (sign == "yes") {
+    pedalSign =
+      msrPedal::kPedalSignYes;
+  }
+  else  if (sign == "no") {
+    pedalSign =
+      msrPedal::kPedalSignNo;
+  }
+  else {
+    if (! sign.size ()) {
+      stringstream s;
+      
+      s << "pedal sign " << sign << " is unknown";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+  }
+  
   if (fOnGoingDirectionType) {
     int inputLineNumber =
       elt->getInputLineNumber ();
@@ -6320,7 +6377,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_pedal& elt )
         msrPedal::create (
           inputLineNumber,
           pedalType,
-          pedalLine);
+          pedalLine,
+          pedalSign);
 
     // append it to the current voice
     currentVoice->

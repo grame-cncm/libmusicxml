@@ -7312,13 +7312,20 @@ class EXP msrPedal : public msrElement
     static string pedalLineAsString (
       msrPedalLine pedalLine);
       
+    enum msrPedalSign {
+      kPedalSignYes, kPedalSignNo};
+      
+    static string pedalSignAsString (
+      msrPedalSign pedalSign);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrPedal> create (
-      int              inputLineNumber,
+      int          inputLineNumber,
       msrPedalType pedaTypeKind,
-      msrPedalLine pedalLine);
+      msrPedalLine pedalLine,
+      msrPedalSign pedalSign);
 
   protected:
 
@@ -7326,9 +7333,10 @@ class EXP msrPedal : public msrElement
     // ------------------------------------------------------
 
     msrPedal (
-      int              inputLineNumber,
+      int          inputLineNumber,
       msrPedalType pedaTypeKind,
-      msrPedalLine pedalLine);
+      msrPedalLine pedalLine,
+      msrPedalSign pedalSign);
       
     virtual ~msrPedal();
   
@@ -7342,6 +7350,9 @@ class EXP msrPedal : public msrElement
                     
     msrPedalLine          getPedalLine () const
                               { return fPedalLine; }
+                    
+    msrPedalSign          getPedalSign () const
+                              { return fPedalSign; }
                     
     // services
     // ------------------------------------------------------
@@ -7369,6 +7380,7 @@ class EXP msrPedal : public msrElement
 
     msrPedalType        fPedalType;
     msrPedalLine        fPedalLine;
+    msrPedalSign        fPedalSign;
 };
 typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);

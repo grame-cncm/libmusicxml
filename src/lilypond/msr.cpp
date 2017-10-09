@@ -14502,9 +14502,10 @@ void msrEyeGlasses::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrPedal msrPedal::create (
-  int              inputLineNumber,
-  msrPedalType     pedalType,
-  msrPedalLine     pedalLine)
+  int          inputLineNumber,
+  msrPedalType pedaTypeKind,
+  msrPedalLine pedalLine,
+  msrPedalSign pedalSign)
 {
   msrPedal* o =
     new msrPedal (
@@ -14515,13 +14516,15 @@ S_msrPedal msrPedal::create (
 }
 
 msrPedal::msrPedal (
-  int              inputLineNumber,
-  msrPedalType     pedalType,
-  msrPedalLine     pedalLine)
+  int          inputLineNumber,
+  msrPedalType pedaTypeKind,
+  msrPedalLine pedalLine,
+  msrPedalSign pedalSign)
     : msrElement (inputLineNumber)
 {
   fPedalType = pedalType;
   fPedalLine = pedalLine;
+  fPedalSign = pedalSign;
 }
 
 msrPedal::~msrPedal()
@@ -14559,6 +14562,22 @@ string msrPedal::pedalLineAsString ()
       break;
     case msrPedal::kPedalLineNo:
       result = "pedal line: no";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrPedal::pedalSignAsString ()
+{
+  string result;
+  
+  switch (fPedalSign) {
+    case msrPedal::kPedalSignYes:
+      result = "pedal sign: yes";
+      break;
+    case msrPedal::kPedalSignNo:
+      result = "pedal sign: no";
       break;
   } // switch
 
@@ -14617,8 +14636,11 @@ void msrPedal::print (ostream& os)
   os <<
     "Pedal" <<
     ", line " << fInputLineNumber <<
-    pedalTypeAsString () << ", " <<
+    pedalTypeAsString () <<
+    ", " <<
     pedalLineAsString () <<
+    ", " <<
+    pedalSignAsString () <<
     endl;
 }
 
