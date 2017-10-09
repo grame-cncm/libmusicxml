@@ -1534,7 +1534,7 @@ namespace MusicXML2
                     /// Add number visualiser
                     stringstream tuplet;
                     if (numberOfEventsInTuplet>1)   // workaround for pianistic Tremolos that come out of Finale as Tuplets!
-                        tuplet << (withBracket? "-" : "") << numberOfEventsInTuplet << (withBracket? "-" : "");                    
+                        tuplet << (withBracket? "-" : "") << numberOfEventsInTuplet << (withBracket? "-" : "");
                     tag->add (guidoparam::create(tuplet.str()));
                     
                     /// set dispNote, Possible values : "/1", "/2" "/4", "/8", "/16"
@@ -2270,6 +2270,7 @@ namespace MusicXML2
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
             //////// Track all voice default-x parameters, as positions in measures
+            if (fNotesOnly) {
             int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
             auto timePos4measure = timePositions.find(measureNum);
             if ( timePos4measure !=  timePositions.end())
@@ -2288,6 +2289,7 @@ namespace MusicXML2
                 std::map<rational, std::vector<int> > inner;
                 inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
                 timePositions.insert(std::make_pair(measureNum, inner));
+            }
             }
             //////////
             //cout<<"\t Measure "<< measureNum<<"TimePosition moved to "<<fCurrentVoicePosition.toString()<<" with default-x="<<elt->getAttributeIntValue("default-x", 0)<<endl;
