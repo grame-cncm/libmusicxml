@@ -380,12 +380,12 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-          fOstream << "\\[" " ";
+          fOstream << "\\[ ";
           break;
         case msrLigature::kContinueLigature:
           break;
         case msrLigature::kStopLigature:
-   // JMI       fOstream << "\\]" " ";
+   // JMI       fOstream << "\\] ";
           break;
       } // switch
       fMusicOlec++;
@@ -418,7 +418,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           fOstream <<
             endl <<
             idtr <<
-            "\\stemNeutral" " "; // JMI ""\\once\\omit Stem" " ";
+            "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
         }
 
         // should stem direction be generated?
@@ -429,13 +429,13 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             if (stemKind != fCurrentStemKind) {
               switch (stemKind) {
                 case msrStem::k_NoStem:
-                  fOstream << "\\stemNeutral" " ";
+                  fOstream << "\\stemNeutral ";
                   break;
                 case msrStem::kStemUp:
-                  fOstream << "\\stemUp" " ";
+                  fOstream << "\\stemUp ";
                   break;
                 case msrStem::kStemDown:
-                  fOstream << "\\stemDown" " ";
+                  fOstream << "\\stemDown ";
                   break;
                 case msrStem::kStemNone:
                   break;
@@ -460,7 +460,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           fOstream <<
             endl <<
             idtr <<
-            "\\stemNeutral"; // JMI ""\\once\\omit Stem" " ";
+            "\\stemNeutral"; // JMI ""\\once\\omit Stem ";
         }
 
         // should stem direction be generated?
@@ -471,13 +471,13 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             if (stemKind != fCurrentStemKind) {
               switch (stemKind) {
                 case msrStem::k_NoStem:
-                  fOstream << "\\stemNeutral" " ";
+                  fOstream << "\\stemNeutral ";
                   break;
                 case msrStem::kStemUp:
-                  fOstream << "\\stemUp" " ";
+                  fOstream << "\\stemUp ";
                   break;
                 case msrStem::kStemDown:
-                  fOstream << "\\stemDown" " ";
+                  fOstream << "\\stemDown ";
                   break;
                 case msrStem::kStemNone:
                   break;
@@ -542,7 +542,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         // is the rest pitched?
         if (noteIsAPitchedRest) {
           fOstream <<
-            " " "\\rest";
+            " \\rest";
 
           // this note is the new relative octave reference
           // (the display quarter tone pitch and octave
@@ -1184,13 +1184,13 @@ string lpsr2LilypondTranslator::technicalWithIntegerAsLilypondString (
   switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
     case msrTechnicalWithInteger::kBend:
       s <<
-        "\\bendAfter" " " <<
+        "\\bendAfter " <<
        technicalWithInteger->
           getTechnicalWithIntegerValue ();
       break;
     case msrTechnicalWithInteger::kFingering:
       s <<
-        "-" " " <<
+        "- " <<
        technicalWithInteger->
           getTechnicalWithIntegerValue ();
       break;
@@ -1495,7 +1495,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
   switch (harmony->getHarmonyKind ()) {
     case kPowerHarmony:
       if (! fPowerChordHaveAlreadyBeenGenerated) {
-        s << "\\powerChords" " ";
+        s << "\\powerChords ";
         fPowerChordHaveAlreadyBeenGenerated = true;
       }
       break;
@@ -2232,7 +2232,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
   if (gLilypondOptions->fRepeatBrackets) {
     fOstream <<
       idtr <<
-      "\\context" " " "{" <<
+      "\\context " "{" <<
       endl;
     
     idtr++;
@@ -2265,7 +2265,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
   if (true) { // JMI XXL
     fOstream <<
       idtr <<
-      "\\context" " " "{" <<
+      "\\context {" <<
       endl;
   
     idtr++;
@@ -2471,7 +2471,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   
     fOstream << idtr <<
       setw (commentFieldWidth) <<
-      partGroupContextName + " " "<<";
+      partGroupContextName + " <<";
       
     if (gLilypondOptions->fComments)
       fOstream <<
@@ -2580,7 +2580,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     }
     else {
       fOstream << idtr <<
-        "\\new PianoStaff" <<  " " "<<";      
+        "\\new PianoStaff <<";      
     }
     fOstream <<
       endl;
@@ -2706,7 +2706,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     fOstream << left <<
       idtr <<
         setw (commentFieldWidth) <<
-        newContext + " " "<<" <<
+        newContext + " <<" <<
         " % staff \"" << staff->getStaffName () << "\"";
   }
   else {
@@ -2962,7 +2962,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
     fOstream <<
       idtr <<
       /* JMI
-        "\\lyricsto" " " <<
+        "\\lyricsto " <<
         "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
         endl <<
         */
@@ -3027,7 +3027,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
       elt->getContextName ();
     
   fOstream << idtr <<
-    "\\context" " " << contextTypeAsString <<
+    "\\context " << contextTypeAsString <<
     " = \"" << contextName << "\"" <<
     endl;
 
@@ -3104,10 +3104,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
 
   switch (elt->getMelismaKind ()) {
     case lpsrMelismaCommand::kMelismaStart:
-// JMI      fOstream << "\\melisma" " ";
+// JMI      fOstream << "\\melisma ";
       break;
     case lpsrMelismaCommand::kMelismaEnd:
-// JMI      fOstream << "\\melismaEnd" " ";
+// JMI      fOstream << "\\melismaEnd ";
       break;
   } // switch
 
@@ -3357,19 +3357,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
           endl;
       else
         fOstream <<
-          "\\relative" " " "{" <<
+          "\\relative {" <<
           endl;
       break;
       
     case msrVoice::kHarmonyVoice:
       fOstream <<
-        "\\chordmode" " " "{" <<
+        "\\chordmode {" <<
         endl;
       break;
       
     case msrVoice::kFiguredBassVoice:
       fOstream <<
-        "\\figuremode" " " "{" <<
+        "\\figuremode {" <<
         endl;
       break;
       
@@ -3969,7 +3969,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
               elt->getMeasureLength ());
 
         fOstream << idtr <<
-          "\\partial" " " << upbeatDuration <<
+          "\\partial " << upbeatDuration <<
           endl;
       }
       break;
@@ -4343,10 +4343,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           // LilyPond ignores the skip duration
           // when \lyricsto is used
           fOstream <<
- //           "%{rest" << elt->syllableWholeNotesAsMsrString () << "%}" " ";
+ //           "%{rest" << elt->syllableWholeNotesAsMsrString () << "%} ";
             "\\skip" <<
             elt->syllableWholeNotesAsMsrString () <<
-            " %{rest%}" " ";
+            " %{rest%} ";
 
           fStanzaOlec++; // for the comment
           */ 
@@ -4491,7 +4491,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kStandaloneSyllableExtend:
           // generate a lyric extender after this syllable
           fOstream <<
-            "__" " ";
+            "__ ";
           fStanzaOlec++;            
           break;
         case msrSyllable::kStartSyllableExtend:
@@ -4874,7 +4874,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
   
          */
         fOstream <<
-          "\\time" " " <<
+          "\\time " <<
           beatsNumbersVector [0] << // the only element
           "/" <<
           timeItem->getTimeBeatValue () <<
@@ -5853,7 +5853,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotes& elt)
 
  // JMI exists? if (elt->getGraceNotesIsSlashed ())
   fOstream <<
-    "\\afterGrace" " ";
+    "\\afterGrace ";
 
 /* JMI
   printNoteAsLilypondString (
@@ -6370,7 +6370,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i++) {
       fOstream <<
         "-\\markup { "
-        "\\dynamic \" " << (*i)->getOtherDynamicsString () << "\"} ";
+        "\\dynamic \"" << (*i)->getOtherDynamicsString () << "\" } ";
       fMusicOlec++;
     } // for
   }
@@ -6425,7 +6425,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             break;
           case msrWords::KItalicStyle:
             s <<
-              "\\" "italic" " ";
+              "\\italic ";
             break;
         } // switch
 
@@ -6435,12 +6435,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             break;
           case msrWords::kBoldWeight:
             s <<
-              "\\" "bold" " ";
+              "\\bold ";
             break;
         } // switch
 
         s <<
-          quoteStringIfNonAlpha (wordsContents) <<
+ // JMI         quoteStringIfNonAlpha (wordsContents) <<
+          "\"" << wordsContents << "\"" <<
           " } ";
 
         markup = s.str ();
@@ -6471,12 +6472,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kStartSlur:
-          fOstream << "(" " ";
+          fOstream << "( ";
           break;
         case msrSlur::kContinueSlur:
           break;
         case msrSlur::kStopSlur:
-          fOstream << ")" " ";
+          fOstream << ") ";
           break;
       } // switch
       fMusicOlec++;
@@ -6499,12 +6500,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-   // JMI       fOstream << "\\[" " ";
+   // JMI       fOstream << "\\[ ";
           break;
         case msrLigature::kContinueLigature:
           break;
         case msrLigature::kStopLigature:
-          fOstream << "\\]" " ";
+          fOstream << "\\] ";
           break;
       } // switch
       fMusicOlec++;
@@ -6525,13 +6526,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         
       switch ((*i)->getWedgeKind ()) {
         case msrWedge::kCrescendoWedge:
-          fOstream << "\\<" " ";
+          fOstream << "\\< ";
           break;
         case msrWedge::kDecrescendoWedge:
-          fOstream << "\\>" " ";
+          fOstream << "\\> ";
           break;
         case msrWedge::kStopWedge:
-          fOstream << "\\!" " ";
+          fOstream << "\\! ";
           break;
       } // switch
       fMusicOlec++;
@@ -6731,12 +6732,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-          fOstream << "\\[" " ";
+          fOstream << "\\[ ";
           break;
         case msrLigature::kContinueLigature:
           break;
         case msrLigature::kStopLigature:
-  // JMI        fOstream << "\\]" " ";
+  // JMI        fOstream << "\\] ";
           break;
       } // switch
       fMusicOlec++;
@@ -7006,12 +7007,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kStartSlur:
-          fOstream << "(" " ";
+          fOstream << "( ";
           break;
         case msrSlur::kContinueSlur:
           break;
         case msrSlur::kStopSlur:
-          fOstream << ")" " ";
+          fOstream << ") ";
           break;
       } // switch
       fMusicOlec++;
@@ -7034,12 +7035,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-  // JMI        fOstream << "\\[" " ";
+  // JMI        fOstream << "\\[ ";
           break;
         case msrLigature::kContinueLigature:
           break;
         case msrLigature::kStopLigature:
-          fOstream << "\\]" " ";
+          fOstream << "\\] ";
           break;
       } // switch
       fMusicOlec++;
@@ -7060,13 +7061,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         
       switch ((*i)->getWedgeKind ()) {
         case msrWedge::kCrescendoWedge:
-          fOstream << "\\<" " ";
+          fOstream << "\\< ";
           break;
         case msrWedge::kDecrescendoWedge:
-          fOstream << "\\>" " ";
+          fOstream << "\\> ";
           break;
         case msrWedge::kStopWedge:
-          fOstream << "\\!" " ";
+          fOstream << "\\! ";
           break;
       } // switch
       fMusicOlec++;
@@ -7184,7 +7185,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
     case msrTie::k_NoTie:
       break;
     case msrTie::kStartTie:
-      fOstream << "~" " ";
+      fOstream << "~ ";
       break;
     case msrTie::kContinueTie:
       break;
@@ -7604,7 +7605,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         endl <<
         idtr <<
         setw (commentFieldWidth) <<
-        "\\alternative" " " "{" <<
+        "\\alternative {" <<
         "% start of alternative" <<
         endl;
     }
@@ -7612,7 +7613,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       fOstream <<
         endl <<
         idtr <<
-        "\\alternative" " " "{" <<
+        "\\alternative {" <<
         endl;
     }
 
@@ -8136,7 +8137,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
       "% ";
   
   fOstream <<
-    "\\tempo" " " <<
+    "\\tempo " <<
     elt->getMidiTempoDuration () <<
     " = " <<
     elt->getMidiTempoPerSecond () <<
