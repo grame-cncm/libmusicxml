@@ -6511,9 +6511,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           case kLargeFontSize:
             s <<
               "\\larger ";
+            break;
           case kMediumFontSize:
             s <<
               "\\large ";
+            break;
           case kSmallFontSize:
             s <<
               "\\small ";
