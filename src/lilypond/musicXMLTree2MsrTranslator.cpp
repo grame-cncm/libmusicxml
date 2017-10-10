@@ -1007,8 +1007,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_credit_words& elt )
   string creditWordsFontFamily =
     elt->getAttributeValue ("font-family");
 
-  int creditWordsFontSize =
-    elt->getAttributeIntValue ("font-size", 0);
+  float creditWordsFontSize =
+    elt->getAttributeFloatValue ("font-size", 0.0);
 
   string creditWordsFontWeight =
     elt->getAttributeValue ("font-weight"); // JMI etc
@@ -3473,16 +3473,14 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 
   // font style
 
-  string wordsFontStyle   = elt->getAttributeValue ("font-style");
+  string wordsFontStyle = elt->getAttributeValue ("font-style");
 
-  msrWords::msrWordsFontStyleKind
-    wordsFontStyleKind =
-      msrWords::kNormalStyle; // default value
+  msrFontStyle fontStyle = kNormalFontStyle; // default value
 
   if      (wordsFontStyle == "normal")
-    wordsFontStyleKind = msrWords::kNormalStyle;
+    fontStyle = kNormalFontStyle;
   else if (wordsFontStyle == "italic")
-    wordsFontStyleKind = msrWords::KItalicStyle;
+    fontStyle = KItalicFontStyle;
   else {
     if (wordsFontStyle.size ()) {
       stringstream s;
@@ -3529,12 +3527,12 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsFontWeight = elt->getAttributeValue ("font-weight");
   
-  msrFontWeight fontWeighg = kNormalFontWeight; // default value
+  msrFontWeight fontWeight = kNormalFontWeight; // default value
 
   if      (wordsFontWeight == "normal")
-    fontWeighg = msrWords::kNormalWeight;
+    fontWeight = kNormalFontWeight;
   else if (wordsFontWeight == "bold")
-    fontWeighg = msrWords::kBoldWeight;
+    fontWeight = kBoldFontWeight;
   else {
     if (wordsFontWeight.size ()) {
       stringstream s;
@@ -3549,6 +3547,8 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
     }
   }
   
+  // XML language
+
   string wordsXMLLang = elt->getAttributeValue ("xml:lang");
 
   msrWords::msrWordsXMLLangKind
@@ -3581,6 +3581,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
     }
   }
 
+  // create the words
   if (fCurrentWordsContents.size ()) {
     if (gGeneralOptions->fTraceWords)
       cerr << idtr <<

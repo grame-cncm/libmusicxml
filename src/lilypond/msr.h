@@ -6177,7 +6177,7 @@ class EXP msrCreditWords : public msrElement
       int         inputLineNumber,
       string      creditWordsContents,
       string      creditWordsFontFamily,
-      msrFontSize creditWordsFontSize,
+      float       creditWordsFontSize,
       string      creditWordsFontWeight,
       string      creditWordsFontJustify,
       string      creditWordsFontHAlign,
@@ -6193,7 +6193,7 @@ class EXP msrCreditWords : public msrElement
       int         inputLineNumber,
       string      creditWordsContents,
       string      creditWordsFontFamily,
-      msrFontSize creditWordsFontSize,
+      float       creditWordsFontSize,
       string      creditWordsFontWeight,
       string      creditWordsFontJustify,
       string      creditWordsFontHAlign,
@@ -6209,7 +6209,7 @@ class EXP msrCreditWords : public msrElement
     string                getCreditWordsContents () const
                               { return fCreditWordsContents; }
 
-    int                   getCreditWordsFontSize () const
+    float                 getCreditWordsFontSize () const
                               { return fCreditWordsFontSize; }
 
     // services
@@ -6240,7 +6240,7 @@ class EXP msrCreditWords : public msrElement
     string                  fCreditWordsContents;
 
     string                  fCreditWordsFontFamily;
-    msrFontSize             fCreditWordsFontSize;
+    float                   fCreditWordsFontSize;
     string                  fCreditWordsFontWeight;
     string                  fCreditWordsFontJustify;
     string                  fCreditWordsFontHAlign;
