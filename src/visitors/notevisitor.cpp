@@ -11,6 +11,7 @@
 */
 
 #include <iostream>
+#include <sstream>
 #include "notevisitor.h"
 
 //#define PRINTNOTE
@@ -192,7 +193,18 @@ void notevisitor::print (ostream& out) const
         
         /// Get content information:
         fSyllabic = elt->getValue(k_syllabic);
-        fLyricText = elt->getValue(k_text);
+        
+        /// Browse inside and take into account elision which translates to "~"
+        auto lyrText = elt->find(k_text);
+        stringstream lyrStream;
+        while (lyrText != elt->end()) {
+            lyrStream << lyrText->getValue();
+            if (elt->find(k_elision, lyrText) != elt->end()) {
+                lyrStream << "~";
+            }
+            lyrText = elt->find(k_text, lyrText++);
+        }        
+        fLyricText = lyrStream.str();
     }
     
 //________________________________________________________________________
