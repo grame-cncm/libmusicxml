@@ -9571,7 +9571,7 @@ S_msrCreditWords msrCreditWords::create (
   int         inputLineNumber,
   string      creditWordsContents,
   string      creditWordsFontFamily,
-  msrFontSize creditWordsFontSize,
+  float       creditWordsFontSize,
   string      creditWordsFontWeight,
   string      creditWordsFontJustify,
   string      creditWordsFontHAlign,
@@ -9597,12 +9597,12 @@ msrCreditWords::msrCreditWords (
   int         inputLineNumber,
   string      creditWordsContents,
   string      creditWordsFontFamily,
-  msrFontSize creditWordsFontSize,
+  float       creditWordsFontSize,
   string      creditWordsFontWeight,
   string      creditWordsFontJustify,
   string      creditWordsFontHAlign,
   string      creditWordsFontVAlign,
-  string      creditWordsFontXMLLanguagee)
+  string      creditWordsFontXMLLanguage)
     : msrElement (inputLineNumber)
 {
   fCreditWordsContents        = creditWordsContents;
@@ -11459,7 +11459,7 @@ S_msrWords msrWords::create (
   int                   inputLineNumber,
   msrWordsPlacementKind wordsPlacementKind,
   string                wordsContents,
-  msrFontStyle          wordFontStyle,
+  msrFontStyle          wordsFontStyle,
   msrFontSize           wordsFontSize,
   msrFontWeight         wordsFontWeight,
   msrWordsXMLLangKind   wordsXMLLangKind)
@@ -11481,7 +11481,7 @@ msrWords::msrWords (
   int                   inputLineNumber,
   msrWordsPlacementKind wordsPlacementKind,
   string                wordsContents,
-  msrFontStyle          wordFontStyle,
+  msrFontStyle          wordsFontStyle,
   msrFontSize           wordsFontSize,
   msrFontWeight         wordsFontWeight,
   msrWordsXMLLangKind   wordsXMLLangKind)
@@ -11565,12 +11565,17 @@ string msrWords::wordsPlacementKindAsString (
   return result;
 }
 
-string msrWords::wordsFontStyleAsString ()
+string msrWords::wordsFontStyleAsString () const
 {
   return msrFontStyleAsString (fWordsFontStyle);
 }
 
-string msrWords::wordsFontWeightAsString ()
+string msrWords::wordsFontSizeAsString () const
+{
+  return msrFontSizeAsString (fWordsFontSize);
+}
+
+string msrWords::wordsFontWeightAsString () const
 {
   return msrFontWeightAsString (fWordsFontWeight);
 }
@@ -11636,16 +11641,17 @@ void msrWords::print (ostream& os)
     idtr <<
       setw (fieldWidth) <<
       "WordsFontStyle" << " = " <<
-      wordsFontStyleKindAsString (fWordsFontStyleKind) <<
+      msrFontStyleAsString (fWordsFontStyle) <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "WordsFontSize" << " = " << fWordsFontSize <<
+      "WordsFontSize" << " = " <<
+      msrFontSizeAsString (fWordsFontSize) <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
       "WordsFontWeight" << " = " <<
-      msrWordsFontWeightKindAsString (fWordsFontWeightKind) <<
+      msrFontWeightAsString (fWordsFontWeight) <<
       endl <<
     idtr <<
       setw (fieldWidth) <<

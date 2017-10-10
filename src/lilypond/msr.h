@@ -3944,7 +3944,7 @@ class EXP msrWords : public msrElement
       int                   inputLineNumber,
       msrWordsPlacementKind wordsPlacementKind,
       string                wordsContents,
-      msrFontStyle          wordFontStyle,
+      msrFontStyle          wordsFontStyle,
       msrFontSize           wordsFontSize,
       msrFontWeight         wordsFontWeight,
       msrWordsXMLLangKind   wordsXMLLangKind);
@@ -3958,7 +3958,7 @@ class EXP msrWords : public msrElement
       int                   inputLineNumber,
       msrWordsPlacementKind wordsPlacementKind,
       string                wordsContents,
-      msrFontStyle          wordFontStyle,
+      msrFontStyle          wordsFontStyle,
       msrFontSize           wordsFontSize,
       msrFontWeight         wordsFontWeight,
       msrWordsXMLLangKind   wordsXMLLangKind);
@@ -3990,6 +3990,12 @@ class EXP msrWords : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    string                wordsFontStyleAsString () const;
+    
+    string                wordsFontSizeAsString () const;
+    
+    string                wordsFontWeightAsString () const;
 
     string                wordsAsString () const;
     
