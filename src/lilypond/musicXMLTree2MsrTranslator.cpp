@@ -3529,14 +3529,12 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsFontWeight = elt->getAttributeValue ("font-weight");
   
-  msrWords::msrWordsFontWeightKind
-    wordsFontWeightKind =
-      msrWords::kNormalWeight; // default value
+  msrFontWeight fontWeighg = kNormalFontWeight; // default value
 
   if      (wordsFontWeight == "normal")
-    wordsFontWeightKind = msrWords::kNormalWeight;
+    fontWeighg = msrWords::kNormalWeight;
   else if (wordsFontWeight == "bold")
-    wordsFontWeightKind = msrWords::kBoldWeight;
+    fontWeighg = msrWords::kBoldWeight;
   else {
     if (wordsFontWeight.size ()) {
       stringstream s;
@@ -3596,9 +3594,9 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
           elt->getInputLineNumber (),
           fCurrentWordsPlacementKind,
           fCurrentWordsContents,
-          wordsFontStyleKind,
+          fontStyle,
           fontSize,
-          wordsFontWeightKind,
+          fontWeight,
           wordsXMLLangKind);
 
     fPendingWords.push_back (words);

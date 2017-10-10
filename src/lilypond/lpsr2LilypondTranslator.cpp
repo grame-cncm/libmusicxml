@@ -6454,13 +6454,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       string wordsContents =
         (*i)->getWordsContents ();
 
-      msrWords::msrWordsFontStyleKind
-        wordsFontStyleKind =
-          (*i)->getWordsFontStyleKind ();
+      msrFontStyle
+        wordsFontStyle =
+          (*i)->getWordsFontStyle ();
         
-      msrWords::msrWordsFontWeightKind
-        wordsFontWeightKind =
-          (*i)->getWordsFontWeightKind ();
+      msrFontSize
+        wordsFontSize =
+          (*i)->getWordsFontSize ();
+        
+      msrFontWeight
+        wordsFontWeight =
+          (*i)->getWordsFontWeight ();
 
       string markup;
       
@@ -6480,37 +6484,41 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         s <<
           "\\markup" << " { ";
 
-        switch (wordsFontStyleKind) {
-          case msrWords::kNormalStyle:
+        switch (wordsFontStyle) {
+          case kNormalFontStyle:
             // LilyPond produces 'normal style' text by default
             break;
-          case msrWords::KItalicStyle:
+          case KItalicFontStyle:
             s <<
               "\\italic ";
             break;
         } // switch
 
-        switch (wordsFontWeightKind) {
-          case msrWords::kNormalWeight:
+        switch (wordsFontWeight) {
+          case kNormalFontWeight:
             // LilyPond produces 'normal weight' text by default
             break;
-          case msrWords::kBoldWeight:
+          case kBoldFontWeight:
             s <<
               "\\bold ";
             break;
         } // switch
 
-/* JMI
-        switch (msrWordsFontWeightKind) {
-          case msrWords::kNormalStyle:
-            // LilyPond produces 'normal style' text by default
+        switch (wordsFontSize) {
+          case kNormalFontSize:
+            // LilyPond produces 'normal size' text by default
             break;
-          case msrWords::KItalicStyle:
+          case kLargeFontSize:
             s <<
-              "\\italic ";
+              "\\larger ";
+          case kMediumFontSize:
+            s <<
+              "\\large ";
+          case kSmallFontSize:
+            s <<
+              "\\small ";
             break;
         } // switch
-*/
 
         s <<
  // JMI         quoteStringIfNonAlpha (wordsContents) <<

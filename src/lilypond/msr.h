@@ -3941,13 +3941,13 @@ class EXP msrWords : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrWords> create (
-      int                    inputLineNumber,
-      msrWordsPlacementKind  wordsPlacementKind,
-      string                 wordsContents,
-      msrWordsFontStyleKind  wordsFontStyleKind,
-      string                 wordsFontSize,
-      msrWordsFontWeightKind wordsFontWeightKind,
-      msrWordsXMLLangKind    wordsXMLLangKind);
+      int                   inputLineNumber,
+      msrWordsPlacementKind wordsPlacementKind,
+      string                wordsContents,
+      msrFontStyle          wordFontStyle,
+      msrFontSize           wordsFontSize,
+      msrFontWeight         wordsFontWeight,
+      msrWordsXMLLangKind   wordsXMLLangKind);
 
   protected:
 
@@ -3955,13 +3955,13 @@ class EXP msrWords : public msrElement
     // ------------------------------------------------------
 
     msrWords (
-      int                    inputLineNumber,
-      msrWordsPlacementKind  wordsPlacementKind,
-      string                 wordsContents,
-      msrWordsFontStyleKind  wordsFontStyleKind,
-      string                 wordsFontSize,
-      msrWordsFontWeightKind wordsFontWeightKind,
-      msrWordsXMLLangKind    wordsXMLLangKind);
+      int                   inputLineNumber,
+      msrWordsPlacementKind wordsPlacementKind,
+      string                wordsContents,
+      msrFontStyle          wordFontStyle,
+      msrFontSize           wordsFontSize,
+      msrFontWeight         wordsFontWeight,
+      msrWordsXMLLangKind   wordsXMLLangKind);
       
     virtual ~msrWords();
   
@@ -3976,14 +3976,14 @@ class EXP msrWords : public msrElement
     string                  getWordsContents () const
                                 { return fWordsContents; }
 
-    msrWordsFontStyleKind   getWordsFontStyleKind () const
-                                { return fWordsFontStyleKind; }
+    msrFontStyle            getWordsFontStyle () const
+                                { return fWordsFontStyle; }
 
-    string                  getWordsFontSize () const
+    msrFontSize             getWordsFontSize () const
                                 { return fWordsFontSize; }
 
-    msrWordsFontWeightKind  getWordsFontWeightKind () const
-                                { return fWordsFontWeightKind; }
+    msrFontWeight           getWordsFontWeight () const
+                                { return fWordsFontWeight; }
 
     msrWordsXMLLangKind     getWordsXMLLangKind () const
                                 { return fWordsXMLLangKind; }
@@ -3991,7 +3991,7 @@ class EXP msrWords : public msrElement
     // services
     // ------------------------------------------------------
 
-    string    wordsAsString () const;
+    string                wordsAsString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -4015,10 +4015,9 @@ class EXP msrWords : public msrElement
     
     string                fWordsContents;
   
-    msrWordsFontStyleKind fWordsFontStyleKind;
-    string                fWordsFontSize;
-    msrWordsFontWeightKind
-                          fWordsFontWeightKind;
+    msrFontStyle          fWordsFontStyle;
+    msrFontSize           fWordsFontSize;
+    msrFontWeight         fWordsFontWeight;
     
     msrWordsXMLLangKind   fWordsXMLLangKind;
 };

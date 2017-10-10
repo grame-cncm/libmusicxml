@@ -11456,44 +11456,44 @@ void msrTranspose::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrWords msrWords::create (
-  int                    inputLineNumber,
-  msrWordsPlacementKind  wordsPlacementKind,
-  string                 wordsContents,
-  msrWordsFontStyleKind  wordsFontStyleKind,
-  string                 wordsFontSize,
-  msrWordsFontWeightKind wordsFontWeightKind,
-  msrWordsXMLLangKind    wordsXMLLangKind)
+  int                   inputLineNumber,
+  msrWordsPlacementKind wordsPlacementKind,
+  string                wordsContents,
+  msrFontStyle          wordFontStyle,
+  msrFontSize           wordsFontSize,
+  msrFontWeight         wordsFontWeight,
+  msrWordsXMLLangKind   wordsXMLLangKind)
 {
   msrWords* o =
     new msrWords (
       inputLineNumber,
       wordsPlacementKind,
       wordsContents,
-      wordsFontStyleKind,
+      wordsFontStyle,
       wordsFontSize,
-      wordsFontWeightKind,
+      wordsFontWeight,
       wordsXMLLangKind);
   assert(o!=0);
   return o;
 }
 
 msrWords::msrWords (
-  int                    inputLineNumber,
-  msrWordsPlacementKind  wordsPlacementKind,
-  string                 wordsContents,
-  msrWordsFontStyleKind  wordsFontStyleKind,
-  string                 wordsFontSize,
-  msrWordsFontWeightKind wordsFontWeightKind,
-  msrWordsXMLLangKind    wordsXMLLangKind)
+  int                   inputLineNumber,
+  msrWordsPlacementKind wordsPlacementKind,
+  string                wordsContents,
+  msrFontStyle          wordFontStyle,
+  msrFontSize           wordsFontSize,
+  msrFontWeight         wordsFontWeight,
+  msrWordsXMLLangKind   wordsXMLLangKind)
     : msrElement (inputLineNumber)
 {
   fWordsPlacementKind  = wordsPlacementKind;
   
   fWordsContents       = wordsContents;
 
-  fWordsFontStyleKind  = wordsFontStyleKind;
+  fWordsFontStyle      = wordsFontStyle;
   fWordsFontSize       = wordsFontSize;
-  fWordsFontWeightKind = wordsFontWeightKind;
+  fWordsFontWeight     = wordsFontWeight;
   
   fWordsXMLLangKind    = wordsXMLLangKind;
 }
@@ -11539,7 +11539,6 @@ void msrWords::acceptOut (basevisitor* v) {
   }
 }
 
-
 void msrWords::browseData (basevisitor* v)
 {}
 
@@ -11566,38 +11565,14 @@ string msrWords::wordsPlacementKindAsString (
   return result;
 }
 
-string msrWords::wordsFontStyleKindAsString (
-  msrWordsFontStyleKind wordsFontStyleKind)
+string msrWords::wordsFontStyleAsString ()
 {
-  string result;
-
-  switch (wordsFontStyleKind) {
-    case kNormalStyle:
-      result = "NormalStyle";
-      break;
-    case KItalicStyle:
-      result = "ItalicStyle";
-      break;
-  } // switch
-
-  return result;
+  return msrFontStyleAsString (fWordsFontStyle);
 }
 
-string msrWords::msrWordsFontWeightKindAsString (
-  msrWordsFontWeightKind wordsFontWeightKind)
+string msrWords::wordsFontWeightAsString ()
 {
-  string result;
-
-  switch (wordsFontWeightKind) {
-    case kNormalWeight:
-      result = "NormalWeight";
-      break;
-    case kBoldWeight:
-      result = "BoldWeight";
-      break;
-  } // switch
-
-  return result;
+  return msrFontWeightAsString (fWordsFontWeight);
 }
 
 string msrWords::msrWordsXMLLangKindAsString (
