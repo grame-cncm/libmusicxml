@@ -3223,7 +3223,7 @@ string msrFontWeightAsString (
 
 // alignement
 //______________________________________________________________________________
-string msrJustifyAsString (
+string msrJustifyKindAsString (
   msrJustifyKind justifyKind)
 {
   string result;

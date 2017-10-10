@@ -540,7 +540,7 @@ string msrFontWeightAsString (
 enum msrJustifyKind {
   kLeftJustify, kCenterJustify, kRightJustify };
 
-string msrJustifyAsString (
+string msrJustifyKindAsString (
   msrJustifyKind justifyKind);
 
 enum msrVerticalAlignmentKind {

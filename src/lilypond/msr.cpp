@@ -11576,7 +11576,7 @@ string msrWords::wordsPlacementKindAsString (
 
 string msrWords::wordsJustifyKindAsString () const
 {
-  return msrJustifyAsString (fWordsJustifyKind);
+  return msrJustifyKindAsString (fWordsJustifyKind);
 }
 
 string msrWords::wordsVerticalAlignmentKindAsString () const
@@ -11656,6 +11656,16 @@ void msrWords::print (ostream& os)
       setw (fieldWidth) <<
       "Placement" << " = " <<
       wordsPlacementKindAsString (fWordsPlacementKind) <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "WordsJustifyKind" << " = " <<
+      msrJustifyKindAsString (fWordsJustifyKind) <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "WordsVerticalAlignmentKind" << " = " <<
+      msrVerticalAlignmentKindAsString (fWordsVerticalAlignmentKind) <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
