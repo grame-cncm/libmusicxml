@@ -1081,7 +1081,7 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
         endl;
       break;
     case msrArticulation::kSpiccato:
-      s << "spiccato";
+      s << "\\staccatissimo"; // JMI
       break;
     case msrArticulation::kStaccato:
       s << "\\staccato"; // JMI "-.";
@@ -1090,10 +1090,10 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       s << "-!";
       break;
     case msrArticulation::kStress:
-      s << "stress";
+      s << "%{stress%}";
       break;
     case msrArticulation::kUnstress:
-      s << "unstress";
+      s << "%{unstress%}";
       break;
     case msrArticulation::kDetachedLegato:
       s << "-_"; // portato
@@ -1138,7 +1138,7 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       s << "\\arpeggio";
       break;
     case msrArticulation::kNonArpeggiato:
-      s << "\\kNonArpeggiato???"; // JMI
+      s << "\\arpeggioBracket"; // JMI
       break;
     case msrArticulation::kDoit:
       s << "\\bendAfter #+4";
@@ -5607,7 +5607,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       // no markup needed
       break;
     case msrFermata::kInvertedFermataType:
-      fOstream << "\\markup {\\override #`(direction . ,DOWN) ";
+      fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
       break;
   } // switch
 
