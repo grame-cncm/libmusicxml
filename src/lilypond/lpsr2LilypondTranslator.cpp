@@ -1147,10 +1147,10 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       s << "\\bendAfter #-4";
       break;
     case msrArticulation::kPlop:
-      s << "plop";
+      s << "%{plop%}";
       break;
     case msrArticulation::kScoop:
-      s << "scoop";
+      s << "%{scoop%}";
       break;
   } // switch
 
@@ -6499,6 +6499,18 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               "\\bold ";
             break;
         } // switch
+
+/* JMI
+        switch (msrWordsFontWeightKind) {
+          case msrWords::kNormalStyle:
+            // LilyPond produces 'normal style' text by default
+            break;
+          case msrWords::KItalicStyle:
+            s <<
+              "\\italic ";
+            break;
+        } // switch
+*/
 
         s <<
  // JMI         quoteStringIfNonAlpha (wordsContents) <<
