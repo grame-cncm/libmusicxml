@@ -3471,6 +3471,8 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 
   fCurrentWordsContents = elt->getValue ();
 
+  // font style
+
   string wordsFontStyle   = elt->getAttributeValue ("font-style");
 
   msrWords::msrWordsFontStyleKind
@@ -3494,9 +3496,37 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
         s.str ());
     }
   }
+
+  // font size
   
   string wordsFontSize = elt->getAttributeValue ("font-size");
   
+  msrFontSize fontSize = kNormalFontSize; // default value
+
+  if      (wordsFontSize == "normal")
+    fontSize = kNormalFontSize;
+  else if (wordsFontSize == "large")
+    fontSize = kLargeFontSize;
+  else if (wordsFontSize == "medium")
+    fontSize = kMediumFontSize;
+  else if (wordsFontSize == "small")
+    fontSize = kSmallFontSize;
+  else {
+    if (wordsFontSize.size ()) {
+      stringstream s;
+      
+      s <<
+        "font-weight value " << wordsFontSize <<
+        " should be 'normal' or 'bold'";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+  }
+  
+  // font weight
+
   string wordsFontWeight = elt->getAttributeValue ("font-weight");
   
   msrWords::msrWordsFontWeightKind
@@ -3567,7 +3597,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
           fCurrentWordsPlacementKind,
           fCurrentWordsContents,
           wordsFontStyleKind,
-          wordsFontSize,
+          fontSize,
           wordsFontWeightKind,
           wordsXMLLangKind);
 

@@ -9568,15 +9568,15 @@ void msrPageGeometry::print (ostream& os) {
 
 //______________________________________________________________________________
 S_msrCreditWords msrCreditWords::create (
-  int    inputLineNumber,
-  string creditWordsContents,
-  string creditWordsFontFamily,
-  int    creditWordsFontSize,
-  string creditWordsFontWeight,
-  string creditWordsFontJustify,
-  string creditWordsFontHAlign,
-  string creditWordsFontVAlign,
-  string creditWordsFontXMLLanguage)
+  int         inputLineNumber,
+  string      creditWordsContents,
+  string      creditWordsFontFamily,
+  msrFontSize creditWordsFontSize,
+  string      creditWordsFontWeight,
+  string      creditWordsFontJustify,
+  string      creditWordsFontHAlign,
+  string      creditWordsFontVAlign,
+  string      creditWordsFontXMLLanguage)
 {
   msrCreditWords* o =
     new msrCreditWords (
@@ -9594,15 +9594,15 @@ S_msrCreditWords msrCreditWords::create (
 }
 
 msrCreditWords::msrCreditWords (
-  int    inputLineNumber,
-  string creditWordsContents,
-  string creditWordsFontFamily,
-  int    creditWordsFontSize,
-  string creditWordsFontWeight,
-  string creditWordsFontJustify,
-  string creditWordsFontHAlign,
-  string creditWordsFontVAlign,
-  string creditWordsFontXMLLanguage)
+  int         inputLineNumber,
+  string      creditWordsContents,
+  string      creditWordsFontFamily,
+  msrFontSize creditWordsFontSize,
+  string      creditWordsFontWeight,
+  string      creditWordsFontJustify,
+  string      creditWordsFontHAlign,
+  string      creditWordsFontVAlign,
+  string      creditWordsFontXMLLanguagee)
     : msrElement (inputLineNumber)
 {
   fCreditWordsContents        = creditWordsContents;

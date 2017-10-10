@@ -6175,15 +6175,15 @@ class EXP msrCreditWords : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrCreditWords> create (
-      int    inputLineNumber,
-      string creditWordsContents,
-      string creditWordsFontFamily,
-      int    creditWordsFontSize,
-      string creditWordsFontWeight,
-      string creditWordsFontJustify,
-      string creditWordsFontHAlign,
-      string creditWordsFontVAlign,
-      string creditWordsFontXMLLanguage);
+      int         inputLineNumber,
+      string      creditWordsContents,
+      string      creditWordsFontFamily,
+      msrFontSize creditWordsFontSize,
+      string      creditWordsFontWeight,
+      string      creditWordsFontJustify,
+      string      creditWordsFontHAlign,
+      string      creditWordsFontVAlign,
+      string      creditWordsFontXMLLanguage);
 
   protected:
 
@@ -6191,15 +6191,15 @@ class EXP msrCreditWords : public msrElement
     // ------------------------------------------------------
 
     msrCreditWords (
-      int    inputLineNumber,
-      string creditWordsContents,
-      string creditWordsFontFamily,
-      int    creditWordsFontSize,
-      string creditWordsFontWeight,
-      string creditWordsFontJustify,
-      string creditWordsFontHAlign,
-      string creditWordsFontVAlign,
-      string creditWordsFontXMLLanguage);
+      int         inputLineNumber,
+      string      creditWordsContents,
+      string      creditWordsFontFamily,
+      msrFontSize creditWordsFontSize,
+      string      creditWordsFontWeight,
+      string      creditWordsFontJustify,
+      string      creditWordsFontHAlign,
+      string      creditWordsFontVAlign,
+      string      creditWordsFontXMLLanguage);
       
     virtual ~msrCreditWords();
   
@@ -6241,7 +6241,7 @@ class EXP msrCreditWords : public msrElement
     string                  fCreditWordsContents;
 
     string                  fCreditWordsFontFamily;
-    int                     fCreditWordsFontSize;
+    msrFontSize             fCreditWordsFontSize;
     string                  fCreditWordsFontWeight;
     string                  fCreditWordsFontJustify;
     string                  fCreditWordsFontHAlign;

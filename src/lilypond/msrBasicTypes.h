@@ -515,6 +515,35 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
   msrSemiTonesPitch       semiTonesPitch,
   msrAlterationPreference alterationPreference);
 
+// fonts
+//______________________________________________________________________________
+enum msrFontSize {
+  kNormalFontSize, kLargeFontSize, kMediumFontSize, kSmallFontSize };
+
+string msrFontSizeAsString (
+  msrFontSize fontSize);
+
+enum msrFontStyle {
+  kNormalFontStyle, KItalicFontStyle };
+
+string msrFontStyleAsString (
+  msrFontStyle fontStyle);
+
+enum msrFontWeight {
+  kNormalFontWeight, kBoldFontWeight };
+
+string msrFontWeightAsString (
+  msrFontWeight tontWeight);
+
+// placements
+//______________________________________________________________________________
+enum msrPlacement {
+  k_NoPlacement,
+  kAbovePlacement, kBelowPlacement };
+
+string msrPlacementAsString (
+  msrPlacement placement);
+
 // global variables
 //______________________________________________________________________________
 

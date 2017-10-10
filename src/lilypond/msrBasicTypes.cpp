@@ -3161,6 +3161,88 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
   return result;
 }
 
+// fonts
+//______________________________________________________________________________
+
+string msrFontSizeAsString (
+  msrFontSize fontSize)
+{
+  string result;
+  
+  switch (fontSize) {
+    case kNormalFontSize:
+      result = "font size: normal";
+      break;
+    case kLargeFontSize:
+      result = "font size: large";
+      break;
+    case kMediumFontSize:
+      result = "font size: medium";
+      break;
+    case kSmallFontSize:
+      result = "font size: small";
+      break;
+    } // switch
+
+  return result;
+}
+
+string msrFontStyleAsString (
+  msrFontStyle fontStyle)
+{
+  string result;
+  
+  switch (fontStyle) {
+    case kNormalFontStyle:
+      result = "font style: normal";
+      break;
+    case KItalicFontStyle:
+      result = "font style: italic";
+      break;
+    } // switch
+
+  return result;
+}
+
+string msrFontWeightAsString (
+  msrFontWeight fontWeight)
+{
+  string result;
+  
+  switch (fontWeight) {
+    case kNormalFontWeight:
+      result = "font weight: normal";
+      break;
+    case kBoldFontWeight:
+      result = "font weight: bold";
+      break;
+    } // switch
+
+  return result;
+}
+
+// placements
+//______________________________________________________________________________
+string msrPlacementAsString (
+  msrPlacement placement)
+{
+  string result;
+  
+  switch (placement) {
+    case k_NoPlacement:
+      result = "placement: none";
+      break;
+    case kAbovePlacement:
+      result = "placement: above";
+      break;
+    case kBelowPlacement:
+      result = "placement: below";
+      break;
+    } // switch
+
+  return result;
+}
+
 // durations
 //______________________________________________________________________________
 rational msrDurationAsWholeNotes (msrDuration duration)
