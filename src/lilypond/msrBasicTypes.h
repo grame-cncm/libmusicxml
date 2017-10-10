@@ -535,7 +535,21 @@ enum msrFontWeight {
 string msrFontWeightAsString (
   msrFontWeight tontWeight);
 
-// placements
+// alignement
+//______________________________________________________________________________
+enum msrJustifyKind {
+  kLeftJustify, kCenterJustify, kRightJustify };
+
+string msrJustifyAsString (
+  msrJustifyKind justifyKind);
+
+enum msrVerticalAlignmentKind {
+  kTopVerticalAlignment, kMiddleVerticalAlignment, kBottomVerticalAlignment };
+
+string msrVerticalAlignmentKindAsString (
+  msrVerticalAlignmentKind verticalAlignmentKind);
+
+// placement
 //______________________________________________________________________________
 enum msrPlacement {
   k_NoPlacement,

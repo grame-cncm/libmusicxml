@@ -3221,7 +3221,49 @@ string msrFontWeightAsString (
   return result;
 }
 
-// placements
+// alignement
+//______________________________________________________________________________
+string msrJustifyAsString (
+  msrJustifyKind justifyKind)
+{
+  string result;
+  
+  switch (justifyKind) {
+    case kLeftJustify:
+      result = "justify: left";
+      break;
+    case kCenterJustify:
+      result = "justify: center";
+      break;
+    case kRightJustify:
+      result = "justify: right";
+      break;
+    } // switch
+
+  return result;
+}
+
+string msrVerticalAlignmentKindAsString (
+  msrVerticalAlignmentKind verticalAlignmentKind)
+{
+  string result;
+  
+  switch (verticalAlignmentKind) {
+    case kTopVerticalAlignment:
+      result = "vertical alignment: top";
+      break;
+    case kMiddleVerticalAlignment:
+      result = "vertical alignment: middle";
+      break;
+    case kBottomVerticalAlignment:
+      result = "vertical alignment: bottom";
+      break;
+    } // switch
+
+  return result;
+}
+
+// placement
 //______________________________________________________________________________
 string msrPlacementAsString (
   msrPlacement placement)

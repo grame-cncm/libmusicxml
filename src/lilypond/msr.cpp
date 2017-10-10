@@ -11456,19 +11456,23 @@ void msrTranspose::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrWords msrWords::create (
-  int                   inputLineNumber,
-  msrWordsPlacementKind wordsPlacementKind,
-  string                wordsContents,
-  msrFontStyle          wordsFontStyle,
-  msrFontSize           wordsFontSize,
-  msrFontWeight         wordsFontWeight,
-  msrWordsXMLLangKind   wordsXMLLangKind)
+  int                      inputLineNumber,
+  msrWordsPlacementKind    wordsPlacementKind,
+  string                   wordsContents,
+  msrJustifyKind           wordsJustifyKind,
+  msrVerticalAlignmentKind wordsVerticalAlignmentKind,
+  msrFontStyle             wordsFontStyle,
+  msrFontSize              wordsFontSize,
+  msrFontWeight            wordsFontWeight,
+  msrWordsXMLLangKind      wordsXMLLangKind)
 {
   msrWords* o =
     new msrWords (
       inputLineNumber,
       wordsPlacementKind,
       wordsContents,
+      wordsJustifyKind,
+      wordsVerticalAlignmentKind,
       wordsFontStyle,
       wordsFontSize,
       wordsFontWeight,
@@ -11478,18 +11482,23 @@ S_msrWords msrWords::create (
 }
 
 msrWords::msrWords (
-  int                   inputLineNumber,
-  msrWordsPlacementKind wordsPlacementKind,
-  string                wordsContents,
-  msrFontStyle          wordsFontStyle,
-  msrFontSize           wordsFontSize,
-  msrFontWeight         wordsFontWeight,
-  msrWordsXMLLangKind   wordsXMLLangKind)
+  int                      inputLineNumber,
+  msrWordsPlacementKind    wordsPlacementKind,
+  string                   wordsContents,
+  msrJustifyKind           wordsJustifyKind,
+  msrVerticalAlignmentKind wordsVerticalAlignmentKind,
+  msrFontStyle             wordsFontStyle,
+  msrFontSize              wordsFontSize,
+  msrFontWeight            wordsFontWeight,
+  msrWordsXMLLangKind      wordsXMLLangKind)
     : msrElement (inputLineNumber)
 {
   fWordsPlacementKind  = wordsPlacementKind;
   
   fWordsContents       = wordsContents;
+  
+  fWordsJustifyKind    = wordsJustifyKind;
+  fWordsVerticalAlignmentKind = wordsVerticalAlignmentKind;
 
   fWordsFontStyle      = wordsFontStyle;
   fWordsFontSize       = wordsFontSize;
@@ -11563,6 +11572,16 @@ string msrWords::wordsPlacementKindAsString (
   } // switch
 
   return result;
+}
+
+string msrWords::wordsJustifyKindAsString () const
+{
+  return msrJustifyAsString (fWordsJustifyKind);
+}
+
+string msrWords::wordsVerticalAlignmentKindAsString () const
+{
+  return msrVerticalAlignmentKindAsString (fWordsVerticalAlignmentKind);
 }
 
 string msrWords::wordsFontStyleAsString () const

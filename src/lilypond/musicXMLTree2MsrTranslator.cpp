@@ -3471,6 +3471,59 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 
   fCurrentWordsContents = elt->getValue ();
 
+  // justify
+
+  string wordsJustify = elt->getAttributeValue ("justify");
+
+  msrJustifyKind justifyKind = kLeftJustify; // default value
+
+  if      (wordsJustify == "left")
+    justifyKind = kLeftJustify;
+  else if (wordsJustify == "center")
+    justifyKind = kCenterJustify;
+  else if (wordsJustify == "right")
+    justifyKind = kRightJustify;
+  else {
+    if (wordsJustify.size ()) {
+      stringstream s;
+      
+      s <<
+        "justify value " << wordsJustify <<
+        " should be 'left', 'center' or 'right'";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+  }
+
+  // valign
+
+  string wordsVerticalAlignment = elt->getAttributeValue ("valign");
+
+  msrVerticalAlignmentKind
+    verticalAlignmentKind = kTopVerticalAlignment; // default value
+
+  if      (wordsVerticalAlignment == "top")
+    verticalAlignmentKind = kTopVerticalAlignment;
+  else if (wordsVerticalAlignment == "middle")
+    verticalAlignmentKind = kMiddleVerticalAlignment;
+  else if (wordsVerticalAlignment == "bottom")
+    verticalAlignmentKind = kBottomVerticalAlignment;
+  else {
+    if (wordsVerticalAlignment.size ()) {
+      stringstream s;
+      
+      s <<
+        "valign value " << wordsVerticalAlignment <<
+        " should be 'top', 'middle' or 'bottom'";
+      
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+  }
+
   // font style
 
   string wordsFontStyle = elt->getAttributeValue ("font-style");
@@ -3515,7 +3568,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
       
       s <<
         "font-weight value " << wordsFontSize <<
-        " should be 'normal' or 'bold'";
+        " should be 'normal', 'large', 'medium' or 'small'";
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
@@ -3595,6 +3648,8 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
           elt->getInputLineNumber (),
           fCurrentWordsPlacementKind,
           fCurrentWordsContents,
+          justifyKind,
+          verticalAlignmentKind,
           fontStyle,
           fontSize,
           fontWeight,
@@ -13593,6 +13648,25 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 
       dots--;
     } // while
+  }
+
+  // check <duration/> and <type/> consistency if relevant
+  if (
+    fCurrentNoteSoundingWholeNotesFromDuration
+      !=
+    fCurrentNoteDisplayWholeNotesFromType) {
+    stringstream s;
+
+    s <<
+      "note duration inconsistency: divisions indicates " <<
+      fCurrentNoteSoundingWholeNotesFromDuration <<
+      " while type indicates " <<
+      fCurrentNoteDisplayWholeNotesFromType <<
+      ", using the former";
+
+    msrMusicXMLWarning (
+      inputLineNumber,
+      s.str ());
   }
 
   // store voice and staff numbers in MusicXML note data
