@@ -451,6 +451,9 @@ class lpsr2LilypondTranslator :
     string                alterationAsLilypondString (
                             msrAlteration alteration);
 
+    string                alterationAsLilypondAccidentalMark (
+                            msrAlteration alteration);
+
     // durations
     
     rational              fLastMetWholeNotes;

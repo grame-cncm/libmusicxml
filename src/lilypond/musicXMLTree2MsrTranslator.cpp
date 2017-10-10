@@ -10406,35 +10406,35 @@ void musicXMLTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
   string accidentalMark =
     elt->getValue ();
 
-  msrOrnament::msrOrnamentAccidentalMarkKind
-    currentOrnamentAccidentalMarkKind;
+  msrAlteration
+    currentOrnamentAccidentalMark;
     
   if      (accidentalMark == "double-flat")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleFlat;
+    currentOrnamentAccidentalMark = kDoubleFlat;
     
   else if (accidentalMark == "three-quarters-flat")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSesquiFlat;
+    currentOrnamentAccidentalMark = kSesquiFlat;
     
   else if (accidentalMark == "flat")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kFlat;
+    currentOrnamentAccidentalMark = kFlat;
     
   else if (accidentalMark == "quarter-flat")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSemiFlat;
+    currentOrnamentAccidentalMark = kSemiFlat;
     
   else if (accidentalMark == "natural")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kNatural;
+    currentOrnamentAccidentalMark = kNatural;
     
   else if (accidentalMark == "quarter-sharp")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSemiSharp;
+    currentOrnamentAccidentalMark = kSemiSharp;
     
   else if (accidentalMark == "sharp")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSharp;
+    currentOrnamentAccidentalMark = kSharp;
     
   else if (accidentalMark == "three-quarters-sharp")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kSesquiSharp;
+    currentOrnamentAccidentalMark = kSesquiSharp;
     
   else if (accidentalMark == "double-sharp")
-    currentOrnamentAccidentalMarkKind = msrOrnament::kDoubleSharp;
+    currentOrnamentAccidentalMark = kDoubleSharp;
         
   else if (accidentalMark.size ()) {
     stringstream s;
@@ -10475,13 +10475,18 @@ void musicXMLTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
       s.str ());    
   }
 
+  fCurrentOrnament =
+    msrOrnament::create (
+      elt->getInputLineNumber (),
+      msrOrnament::kAccidentalMark);
+      
   fCurrentOrnament->
     setOrnamentPlacementKind (
       fCurrentOrnamentPlacementKind);
       
   fCurrentOrnament->
     setOrnamentAccidentalMarkKind (
-      currentOrnamentAccidentalMarkKind);
+      currentOrnamentAccidentalMark);
 }
 
 void musicXMLTree2MsrTranslator::visitEnd ( S_ornaments& elt )

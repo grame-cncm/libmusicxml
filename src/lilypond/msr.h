@@ -1375,7 +1375,8 @@ class EXP msrOrnament : public msrElement
         kTurn, kInvertedTurn, kDelayedTurn,
         kDelayedInvertedTurn, kVerticalTurn,
         kMordent, kInvertedMordent,
-        kSchleifer, kShake};
+        kSchleifer, kShake,
+        kAccidentalMark };
 
     static string ornamentKindAsString (
       msrOrnamentKind ornamentKind);
@@ -1386,15 +1387,7 @@ class EXP msrOrnament : public msrElement
 
     static string ornamentPlacementKindAsString (
       msrOrnamentPlacementKind ornamentPlacementKind);
-      
-    enum msrOrnamentAccidentalMarkKind { // JMI msrAlteration ?
-      kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
-      kNatural,
-      kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp};
-
-    static string ornamentAccidentalMarkKindAsString (
-      msrOrnamentAccidentalMarkKind ornamentAccidentalMarkKind);
-      
+            
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1418,6 +1411,12 @@ class EXP msrOrnament : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setOrnamentNoteUplink (S_msrNote note)
+                              { fOrnamentNoteUplink = note; }
+
+    S_msrNote             getOrnamentNoteUplink () const
+                              { return fOrnamentNoteUplink; }
+
     msrOrnamentKind       getOrnamentKind () const
                               { return fOrnamentKind; }
         
@@ -1433,22 +1432,15 @@ class EXP msrOrnament : public msrElement
                               { return fOrnamentPlacementKind; }
         
     void                  setOrnamentAccidentalMarkKind (
-                            msrOrnamentAccidentalMarkKind
-                              ornamentAccidentalMarkKind)
+                            msrAlteration
+                              ornamentAccidentalMark)
                               {
-                                fOrnamentAccidentalMarkKind =
-                                  ornamentAccidentalMarkKind;
+                                fOrnamentAccidentalMark =
+                                  ornamentAccidentalMark;
                               }
         
-    msrOrnamentAccidentalMarkKind
-                          getOrnamentAccidentalMarkKind () const
-                              { return fOrnamentAccidentalMarkKind; }
-
-    void                  setOrnamentNoteUplink (S_msrNote note)
-                              { fOrnamentNoteUplink = note; }
-
-    S_msrNote             getOrnamentNoteUplink () const
-                              { return fOrnamentNoteUplink; }
+    msrAlteration         getOrnamentAccidentalMark () const
+                              { return fOrnamentAccidentalMark; }
         
     // services
     // ------------------------------------------------------
@@ -1457,7 +1449,7 @@ class EXP msrOrnament : public msrElement
 
     string                ornamentPlacementKindAsString () const;
 
-    string                ornamentAccidentalMarkKindAsString () const;
+    string                ornamentAccidentalMarkAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1477,13 +1469,14 @@ class EXP msrOrnament : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrOrnamentKind               fOrnamentKind;
+    S_msrNote             fOrnamentNoteUplink;
 
-    msrOrnamentPlacementKind      fOrnamentPlacementKind;
+    msrOrnamentKind       fOrnamentKind;
+
+    msrOrnamentPlacementKind
+                          fOrnamentPlacementKind;
     
-    msrOrnamentAccidentalMarkKind fOrnamentAccidentalMarkKind;
-
-    S_msrNote                     fOrnamentNoteUplink;
+    msrAlteration         fOrnamentAccidentalMark;
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);

@@ -1418,7 +1418,7 @@ msrOrnament::msrOrnament (
 
   fOrnamentPlacementKind = k_NoOrnamentPlacement;
 
-  fOrnamentAccidentalMarkKind = kNatural;
+  fOrnamentAccidentalMark = kNatural;
 }
 
 msrOrnament::~msrOrnament()
@@ -1462,6 +1462,9 @@ string msrOrnament::ornamentKindAsString () const
     case msrOrnament::kShake:
       result = "shake";
       break;
+    case msrOrnament::kAccidentalMark:
+      result = "accidental mark";
+      break;
   } // switch
 
   return result;
@@ -1486,36 +1489,36 @@ string msrOrnament::ornamentPlacementKindAsString () const
   return result;
 }
 
-string msrOrnament::ornamentAccidentalMarkKindAsString () const
+string msrOrnament::ornamentAccidentalMarkAsString () const
 {
   string result;
   
-  switch (fOrnamentAccidentalMarkKind) {
-    case msrOrnament::kDoubleFlat:
+  switch (fOrnamentAccidentalMark) {
+    case kDoubleFlat:
       result = "doubleFlat";
       break;
-    case msrOrnament::kSesquiFlat:
+    case kSesquiFlat:
       result = "sesquiFlat";
       break;
-    case msrOrnament::kFlat:
+    case kFlat:
       result = "flat";
       break;
-    case msrOrnament::kSemiFlat:
+    case kSemiFlat:
       result = "semiFlat";
       break;
-    case msrOrnament::kNatural:
+    case kNatural:
       result = "natural";
       break;
-    case msrOrnament::kSemiSharp:
+    case kSemiSharp:
       result = "semiSharp";
       break;
-    case msrOrnament::kSharp:
+    case kSharp:
       result = "sharp";
       break;
-    case msrOrnament::kSesquiSharp:
+    case kSesquiSharp:
       result = "sesquiSharp";
       break;
-    case msrOrnament::kDoubleSharp:
+    case kDoubleSharp:
       result = "doubleSharp";
       break;
   } // switch
@@ -1577,7 +1580,7 @@ void msrOrnament::print (ostream& os)
     ornamentKindAsString () <<
     ", line " << fInputLineNumber <<
     ", placement" << " = " << ornamentPlacementKindAsString () <<
-    ", accidental mark" << " = " << ornamentAccidentalMarkKindAsString () <<
+    ", accidental mark" << " = " << ornamentAccidentalMarkAsString () <<
     ", note uplink" << " = " << fOrnamentNoteUplink->noteAsShortString () <<
     endl;
 }

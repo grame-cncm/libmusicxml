@@ -244,6 +244,45 @@ string lpsr2LilypondTranslator::alterationAsLilypondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::alterationAsLilypondAccidentalMark (
+  msrAlteration alteration)
+{
+  string result;
+  
+  switch (alteration) {
+    case kDoubleFlat:
+      result = " ^\\markup { \\doubleflat } ";
+      break;
+    case kSesquiFlat:
+      result = " ^\\markup { \\sesquiflat } ";
+      break;
+    case kFlat:
+      result = " ^\\markup { \\flat } ";
+      break;
+    case kSemiFlat:
+      result = " ^\\markup { \\semiflat } ";
+      break;
+    case kNatural:
+      result = " ^\\markup { \\natural } ";
+      break;
+    case kSemiSharp:
+      result = " ^\\markup { \\semisharp } ";
+      break;
+    case kSharp:
+      result = " ^\\markup { \\sharp } ";
+      break;
+    case kSesquiSharp:
+      result = " ^\\markup { \\sesquisharp } ";
+      break;
+    case kDoubleSharp:
+      result = " ^\\markup { \\doublesharp } ";
+      break;
+  } // switch
+
+  return result;
+}
+
+//________________________________________________________________________
 string lpsr2LilypondTranslator::lilypondRelativeOctave (
   S_msrNote note)
 {
@@ -1255,19 +1294,19 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrillMark:
-      result = "\\trill";
+      result = "\\trill ";
       break;
       
     case msrOrnament::kWavyLine:
-      result = "%{\\wavy line???%}";
+      result = "%{\\wavy line???%} ";
       break;
       
     case msrOrnament::kTurn:
-      result = "\\turn";
+      result = "\\turn ";
       break;
       
     case msrOrnament::kInvertedTurn:
-      result = "\\reverseturn";
+      result = "\\reverseturn ";
       break;
       
     case msrOrnament::kDelayedTurn:
@@ -1294,7 +1333,7 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
             numerator <<
           "/" <<
             denominator <<
-          "\\turn";
+          "\\turn ";
           
         result = s.str ();
       }
@@ -1322,7 +1361,7 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
         s <<
           "s" <<
           noteUplinkDuration <<
-          "*1/3" "\\reverseturn";
+          "*1/3" "\\reverseturn ";
           
         result = s.str ();
       }
@@ -1330,7 +1369,7 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
       
     case msrOrnament::kVerticalTurn:
       result =
-        "^\\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" }";
+        "^\\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" } ";
           /* JMI
       {
         string message =
@@ -1346,19 +1385,25 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
       break;
       
     case msrOrnament::kMordent:
-      result = "\\mordent";
+      result = "\\mordent ";
       break;
       
     case msrOrnament::kInvertedMordent:
-      result = "%{\\inverted mordent???%}";
+      result = "%{\\inverted mordent???%} ";
       break;
       \
     case msrOrnament::kSchleifer:
-      result = "%{\\schleifer???%}";
+      result = "%{\\schleifer???%} ";
       break;
       
     case msrOrnament::kShake:
-      result = "%{\\shake???%}";
+      result = "%{\\shake???%} ";
+      break;
+      
+    case msrOrnament::kAccidentalMark:
+      result =
+        alterationAsLilypondAccidentalMark (
+          ornament->getOrnamentAccidentalMark ());
       break;
   } // switch
 
@@ -6335,37 +6380,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
       fMusicOlec++;
 
-      switch ((*i)->getOrnamentAccidentalMarkKind ()) {
-        case msrOrnament::kDoubleFlat:
-          fOstream << " ^" "\\markup { \\doubleflat }";
-          break;
-        case msrOrnament::kSesquiFlat:
-          fOstream << " ^" "\\markup { \\sesquiflat }";
-          break;
-        case msrOrnament::kFlat:
-          fOstream << " ^" "\\markup { \\flat }";
-          break;
-        case msrOrnament::kSemiFlat:
-          fOstream << " ^" "\\markup { \\semiflat }";
-          break;
-        case msrOrnament::kNatural:
-          fOstream << " ^" "\\markup { \\natural }";
-          break;
-        case msrOrnament::kSemiSharp:
-          fOstream << " ^" "\\markup { \\semisharp }";
-          break;
-        case msrOrnament::kSharp:
-          fOstream << " ^" "\\markup { \\sharp }";
-          break;
-        case msrOrnament::kSesquiSharp:
-          fOstream << " ^" "\\markup { \\sesquisharp }";
-          break;
-        case msrOrnament::kDoubleSharp:
-          fOstream << " ^" "\\markup { \\doublesharp }";
-          break;
-      } // switch
-
-      fOstream << " ";
+      fOstream <<
+        alterationAsLilypondAccidentalMark (
+          (*i)->getOrnamentAccidentalMark ()) <<
+        " ";
+        
       fMusicOlec++;
     } // for
   }
