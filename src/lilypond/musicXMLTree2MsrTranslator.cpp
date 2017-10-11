@@ -8513,14 +8513,36 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
       "--> Start visiting S_arpeggiate" <<
       endl;
 
+/*
+<!--
+  The arpeggiate element indicates that this note is part of
+  an arpeggiated chord. The number attribute can be used to
+  distinguish between two simultaneous chords arpeggiated
+  separately (different numbers) or together (same number).
+  The up-down attribute is used if there is an arrow on the
+  arpeggio sign. By default, arpeggios go from the lowest to
+  highest note.
+-->
+<!ELEMENT arpeggiate EMPTY>
+<!ATTLIST arpeggiate
+    number %number-level; #IMPLIED
+    direction %up-down; #IMPLIED
+    %position; 
+    %placement;
+    %color; 
+>
+*/
+
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
+  // placement
+  
   string placement = elt->getAttributeValue ("placement");
 
   msrArticulation::msrArticulationPlacementKind
     articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
+      msrArticulation::k_NoArticulationPlacement; // default value
 
   if      (placement == "above")
     articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
@@ -8541,12 +8563,47 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
       s.str ());    
   }
 
+  // number
+
+  int number = elt->getAttributeIntValue ("number", 0);
+
+  // direction
+  
+  string direction = elt->getAttributeValue ("direction");
+
+  msrArticulation::msrArticulationDirectionKind
+    articulationDirectionKind =
+      msrArticulation::k_NoArticulationDirection; // default value
+  
+  if      (direction == "up")
+    octaveShiftKind = msrOctaveShift::kOctaveShiftUp;
+    
+  else if (direction == "down")
+    octaveShiftKind = msrOctaveShift::kOctaveShiftDown;
+        
+  else {
+    if (direction.size ()) {
+      stringstream s;
+      
+      s <<
+        "arpeggiate direction \"" << direction <<
+        "\"" << "is unknown";
+        
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+  }
+  
+  // create the articulation  
   S_msrArticulation
     articulation =
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kArpeggiato,
-        articulationPlacementKind);
+        articulationPlacementKind,
+        articulationDirectionKind,
+        number);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8558,34 +8615,61 @@ void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
       "--> Start visiting S_non_arpeggiate" << // JMI
       endl;
 
+/*
+<!-- 
+  The non-arpeggiate element indicates that this note is at
+  the top or bottom of a bracket indicating to not arpeggiate
+  these notes. Since this does not involve playback, it is
+  only used on the top or bottom notes, not on each note
+  as for the arpeggiate element.
+-->
+<!ELEMENT non-arpeggiate EMPTY>
+<!ATTLIST non-arpeggiate
+    type %top-bottom; #REQUIRED
+    number %number-level; #IMPLIED
+    %position; 
+    %placement;
+    %color; 
+>
+*/
+
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-  string placement = elt->getAttributeValue ("placement");
+  // type
+
+  string type = elt->getAttributeValue ("type");
 
   msrArticulation::msrArticulationPlacementKind
     articulationPlacementKind =
-      msrArticulation::k_NoArticulationPlacement;
+      msrArticulation::k_NoArticulationPlacement; // default value
 
-  if      (placement == "above")
+  if      (type == "top")
     articulationPlacementKind = msrArticulation::kArticulationPlacementAbove;
     
-  else if (placement == "below")
+  else if (type == "bottom")
     articulationPlacementKind = msrArticulation::kArticulationPlacementBelow;
     
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
+  else {
+    if (placement.size ()) {
+      
+      stringstream s;
+      
+      s <<
+        "non-arpeggiate type \"" << type <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str ());    
+    }
   }
 
+  // number
+
+  int number = elt->getAttributeIntValue ("number", 0);
+
+  // create the articulation  
   S_msrArticulation
     articulation =
       msrArticulation::create (

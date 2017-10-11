@@ -804,6 +804,13 @@ class EXP msrArticulation : public msrElement
     static string articulationPlacementKindAsString (
       msrArticulationPlacementKind articulationPlacementKind);
       
+    enum msrArticulationDirectionKind {
+      k_NoArticulationDirection,
+      kArticulationDirectionUp, kArticulationDirectionDown};
+
+    static string articulationDirectionKindAsString (
+      msrArticulationDirectionKind articulationDirectionKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -812,6 +819,9 @@ class EXP msrArticulation : public msrElement
       msrArticulationKind articulationKind,
       msrArticulationPlacementKind
                           articulationPlacementKind);
+      msrArticulationDirectionKind
+                          articulationDirectionKind,
+      int                 articulationNumber);
 
   protected:
 
@@ -823,6 +833,9 @@ class EXP msrArticulation : public msrElement
       msrArticulationKind articulationKind,
       msrArticulationPlacementKind
                           articulationPlacementKind);
+      msrArticulationDirectionKind
+                          articulationDirectionKind,
+      int                 articulationNumber);
       
     virtual ~msrArticulation();
   
@@ -838,12 +851,21 @@ class EXP msrArticulation : public msrElement
                           getArticulationPlacementKind () const
                               { return fArticulationPlacementKind; }
         
+    msrArticulationDirectionKind
+                          getArticulationDirectionKind () const
+                              { return fArticulationDirectionKind; }
+        
+    int                   getArticulationNumber () const
+                              { return fArticulationNumber; }
+        
     // services
     // ------------------------------------------------------
 
     virtual string        articulationKindAsString () const;
 
     virtual string        articulationPlacementKindAsString () const;
+
+    virtual string        articulationDirectionKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -868,6 +890,11 @@ class EXP msrArticulation : public msrElement
 
     msrArticulationPlacementKind
                           fArticulationPlacementKind;
+                          
+    msrArticulationDirectionKind
+                          fArticulationDirectionKind;
+
+    int                   fArticulationNumber; // for <arpeggiate/>
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);

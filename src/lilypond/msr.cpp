@@ -568,13 +568,18 @@ S_msrArticulation msrArticulation::create (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
   msrArticulationPlacementKind
-                      articulationPlacementKind)
+                      articulationPlacementKind);
+  msrArticulationDirectionKind
+                      articulationDirectionKind,
+  int                 articulationNumber)
 {
   msrArticulation* o =
     new msrArticulation (
       inputLineNumber,
       articulationKind,
-      articulationPlacementKind);
+      articulationPlacementKind,
+      articulationDirectionKind,
+      articulationNumber);
   assert (o!=0);
   return o;
 }
@@ -583,12 +588,19 @@ msrArticulation::msrArticulation (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
   msrArticulationPlacementKind
-                      articulationPlacementKind)
+                      articulationPlacementKind);
+  msrArticulationDirectionKind
+                      articulationDirectionKind,
+  int                 articulationNumber)
     : msrElement (inputLineNumber)
 {
   fArticulationKind = articulationKind;
 
   fArticulationPlacementKind = articulationPlacementKind;
+  
+  farticulationDirectionKind = articulationDirectionKind;
+  
+  fArticulationNumber = articulationNumber;
 }
 
 msrArticulation::~msrArticulation()
