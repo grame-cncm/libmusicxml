@@ -567,10 +567,8 @@ void msrBeam::print (ostream& os)
 S_msrArticulation msrArticulation::create (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
-  msrArticulationPlacementKind
-                      articulationPlacementKind,
-  msrArticulationDirectionKind
-                      articulationDirectionKind,
+  msrPlacement        articulationPlacement,
+  msrDirection        articulationDirection,
   int                 articulationNumber)
 {
   msrArticulation* o =
@@ -587,10 +585,8 @@ S_msrArticulation msrArticulation::create (
 msrArticulation::msrArticulation (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
-  msrArticulationPlacementKind
-                      articulationPlacementKind,
-  msrArticulationDirectionKind
-                      articulationDirectionKind,
+  msrPlacement        articulationPlacement,
+  msrDirection        articulationDirection,
   int                 articulationNumber)
     : msrElement (inputLineNumber)
 {
@@ -902,6 +898,210 @@ void msrFermata::print (ostream& os)
     fermataAsString () <<
     endl;
 }
+
+
+
+
+
+
+
+
+//______________________________________________________________________________
+S_msrArpeggiato msrArpeggiato::create (
+  int          inputLineNumber,
+  msrPlacement arpeggiatoPlacement,
+  msrDirection arpeggiatoDirection,
+  int          arpeggiatoNumber)
+{
+  msrArpeggiato* o =
+    new msrArpeggiato (
+      inputLineNumber,
+      articulationKind,
+      articulationPlacementKind,
+      articulationDirectionKind,
+      articulationNumber);
+  assert (o!=0);
+  return o;
+}
+
+msrArpeggiato::msrArpeggiato (
+  int          inputLineNumber,
+  msrPlacement arpeggiatoPlacement,
+  msrDirection arpeggiatoDirection,
+  int          arpeggiatoNumber)
+    : msrElement (inputLineNumber)
+{
+  fArpeggiatoKind = articulationKind;
+
+  fArpeggiatoPlacementKind = articulationPlacementKind;
+  
+  farticulationDirectionKind = articulationDirectionKind;
+  
+  fArpeggiatoNumber = articulationNumber;
+}
+
+msrArpeggiato::~msrArpeggiato()
+{}
+
+void msrArpeggiato::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrArpeggiato::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrArpeggiato>*
+    p =
+      dynamic_cast<visitor<S_msrArpeggiato>*> (v)) {
+        S_msrArpeggiato elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrArpeggiato::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrArpeggiato::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrArpeggiato::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrArpeggiato>*
+    p =
+      dynamic_cast<visitor<S_msrArpeggiato>*> (v)) {
+        S_msrArpeggiato elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrArpeggiato::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrArpeggiato::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrArpeggiato& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrArpeggiato::print (ostream& os)
+{
+  os <<
+    "Arpeggiato" " " <<
+    articulationKindAsString () <<
+    ", " <<
+    articulationPlacementKindAsString () <<
+    ", line " << fInputLineNumber <<
+    endl;
+}
+
+
+
+//______________________________________________________________________________
+S_msrNonArpeggiato msrNonArpeggiato::create (
+  int                 inputLineNumber,
+  msrNonArpeggiatoKind articulationKind,
+  msrPlacement        articulationPlacement,
+  msrDirection        articulationDirection,
+  int                 articulationNumber)
+{
+  msrNonArpeggiato* o =
+    new msrNonArpeggiato (
+      inputLineNumber,
+      articulationKind,
+      articulationPlacementKind,
+      articulationDirectionKind,
+      articulationNumber);
+  assert (o!=0);
+  return o;
+}
+
+msrNonArpeggiato::msrNonArpeggiato (
+  int                 inputLineNumber,
+  msrNonArpeggiatoKind articulationKind,
+  msrPlacement        articulationPlacement,
+  msrDirection        articulationDirection,
+  int                 articulationNumber)
+    : msrElement (inputLineNumber)
+{
+  fNonArpeggiatoKind = articulationKind;
+
+  fNonArpeggiatoPlacementKind = articulationPlacementKind;
+  
+  farticulationDirectionKind = articulationDirectionKind;
+  
+  fNonArpeggiatoNumber = articulationNumber;
+}
+
+msrNonArpeggiato::~msrNonArpeggiato()
+{}
+
+void msrNonArpeggiato::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrNonArpeggiato::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrNonArpeggiato>*
+    p =
+      dynamic_cast<visitor<S_msrNonArpeggiato>*> (v)) {
+        S_msrNonArpeggiato elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrNonArpeggiato::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrNonArpeggiato::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrNonArpeggiato::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrNonArpeggiato>*
+    p =
+      dynamic_cast<visitor<S_msrNonArpeggiato>*> (v)) {
+        S_msrNonArpeggiato elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrNonArpeggiato::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrNonArpeggiato::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrNonArpeggiato& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrNonArpeggiato::print (ostream& os)
+{
+  os <<
+    "NonArpeggiato" " " <<
+    articulationKindAsString () <<
+    ", " <<
+    articulationPlacementKindAsString () <<
+    ", line " << fInputLineNumber <<
+    endl;
+}
+
+
+
 
 //______________________________________________________________________________
 S_msrTechnical msrTechnical::create (

@@ -554,6 +554,15 @@ enum msrVerticalAlignmentKind {
 string msrVerticalAlignmentKindAsString (
   msrVerticalAlignmentKind verticalAlignmentKind);
 
+// direction
+//______________________________________________________________________________
+enum msrDirection{
+  k_NoDirection,
+  kUpDirection, kDownDirection};
+
+string msrDirectionAsString (
+  msrDirection direction);
+
 // placement
 //______________________________________________________________________________
 enum msrPlacement {

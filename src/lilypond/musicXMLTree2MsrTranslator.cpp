@@ -8590,22 +8590,21 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
         "\"" << "is unknown";
         
       msrMusicXMLError (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         s.str ());
     }
   }
   
   // create the articulation  
-  S_msrArticulation
-    articulation =
-      msrArticulation::create (
-        elt->getInputLineNumber (),
-        msrArticulation::kArpeggiato,
+  S_msrArpeggiato
+    arpeggiato =
+      msrArpeggiato::create (
+        inputLineNumber,
         articulationPlacementKind,
         articulationDirectionKind,
         number);
       
-  fCurrentArticulations.push_back (articulation);
+  fCurrentArticulations.push_back (arpeggiato);
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
@@ -8670,14 +8669,14 @@ void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
   int number = elt->getAttributeIntValue ("number", 0);
 
   // create the articulation  
-  S_msrArticulation
-    articulation =
-      msrArticulation::create (
-        elt->getInputLineNumber (),
-        msrArticulation::kNonArpeggiato,
-        articulationPlacementKind);
+  S_msrNonArpeggiato
+    nonArpeggiato =
+      msrNonArpeggiato::create (
+        inputLineNumber,
+        articulationPlacementKind,
+        number);
       
-  fCurrentArticulations.push_back (articulation);
+  fCurrentArticulations.push_back (nonArpeggiato);
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_doit& elt )

@@ -796,31 +796,15 @@ class EXP msrArticulation : public msrElement
 
     static string articulationKindAsString (
       msrArticulationKind articulationKind);
-      
-    enum msrArticulationPlacementKind {
-      k_NoArticulationPlacement,
-      kArticulationPlacementAbove, kArticulationPlacementBelow};
-
-    static string articulationPlacementKindAsString (
-      msrArticulationPlacementKind articulationPlacementKind);
-      
-    enum msrArticulationDirectionKind {
-      k_NoArticulationDirection,
-      kArticulationDirectionUp, kArticulationDirectionDown};
-
-    static string articulationDirectionKindAsString (
-      msrArticulationDirectionKind articulationDirectionKind);
-      
+            
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrArticulation> create (
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
-      msrArticulationPlacementKind
-                          articulationPlacementKind,
-      msrArticulationDirectionKind
-                          articulationDirectionKind,
+      msrPlacement        articulationPlacement,
+      msrDirection        articulationDirection,
       int                 articulationNumber);
 
   protected:
@@ -831,10 +815,8 @@ class EXP msrArticulation : public msrElement
     msrArticulation (
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
-      msrArticulationPlacementKind
-                          articulationPlacementKind,
-      msrArticulationDirectionKind
-                          articulationDirectionKind,
+      msrPlacement        articulationPlacement,
+      msrDirection        articulationDirection,
       int                 articulationNumber);
       
     virtual ~msrArticulation();
@@ -847,11 +829,11 @@ class EXP msrArticulation : public msrElement
     msrArticulationKind   getArticulationKind () const
                               { return fArticulationKind; }
         
-    msrArticulationPlacementKind
+    msrPlacement
                           getArticulationPlacementKind () const
                               { return fArticulationPlacementKind; }
         
-    msrArticulationDirectionKind
+    msrDirection
                           getArticulationDirectionKind () const
                               { return fArticulationDirectionKind; }
         
@@ -880,7 +862,6 @@ class EXP msrArticulation : public msrElement
 
     virtual void          print (ostream& os);
 
-//  private:
   protected:
 
     // fields
@@ -888,13 +869,10 @@ class EXP msrArticulation : public msrElement
 
     msrArticulationKind   fArticulationKind;
 
-    msrArticulationPlacementKind
-                          fArticulationPlacementKind;
+    msrPlacement          fArticulationPlacement;
                           
-    msrArticulationDirectionKind
-                          fArticulationDirectionKind;
+    msrDirection          fArticulationDirection;
 
-    int                   fArticulationNumber; // for <arpeggiate/>
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
@@ -931,8 +909,7 @@ class EXP msrFermata : public msrArticulation
       int            inputLineNumber,
       msrFermataKind fermataKind,
       msrFermataType fermataType,
-      msrArticulationPlacementKind
-                     articulationPlacementKind);
+      msrPlacement   articulationPlacement);
 
   protected:
 
@@ -943,8 +920,7 @@ class EXP msrFermata : public msrArticulation
       int            inputLineNumber,
       msrFermataKind fermataKind,
       msrFermataType fermataType,
-      msrArticulationPlacementKind
-                     articulationPlacementKind);
+      msrPlacement   articulationPlacement);
       
     virtual ~msrFermata();
   
@@ -987,6 +963,173 @@ class EXP msrFermata : public msrArticulation
 };
 typedef SMARTP<msrFermata> S_msrFermata;
 EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
+
+/*!
+\brief A msr articulation representation.
+
+  An articulation is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrArpeggiato : public msrArticulation
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrArpeggiato> create (
+      int          inputLineNumber,
+      msrPlacement arpeggiatoPlacement,
+      msrDirection arpeggiatoDirection,
+      int          arpeggiatoNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrArpeggiato (
+      int          inputLineNumber,
+      msrPlacement arpeggiatoPlacement,
+      msrDirection arpeggiatoDirection,
+      int          arpeggiatoNumber);
+      
+    virtual ~msrArpeggiato();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrDirection
+                          getArpeggiatoDirectionKind () const
+                              { return fArpeggiatoDirectionKind; }
+        
+    int                   getArpeggiatoNumber () const
+                              { return fArpeggiatoNumber; }
+        
+    // services
+    // ------------------------------------------------------
+
+    virtual string        arpeggiatoDirectionKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrDirection
+                          fArpeggiatoDirectionKind;
+
+    int                   fArpeggiatoNumber;
+};
+typedef SMARTP<msrArpeggiato> S_msrArpeggiato;
+EXP ostream& operator<< (ostream& os, const S_msrArpeggiato& elt);
+
+/*!
+\brief A msr Arpeggiato representation.
+
+  An Arpeggiato is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrNonArpeggiato : public msrArticulation
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrNonArpeggiatoTypeKind {
+      k_NoNonArpeggiatoType,
+      kNonArpeggiatoTypeUp, kNonArpeggiatoTypeDown};
+
+    static string NonArpeggiatoTypeKindAsString (
+      msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrNonArpeggiato> create (
+      int                 inputLineNumber,
+      msrNonArpeggiatoPlacementKind
+                          nonArpeggiatoPlacementKind,
+      msrNonArpeggiatoTypeKind
+                          nonArpeggiatoTypeKind,
+      int                 nonArpeggiatoNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrNonArpeggiato (
+      int                 inputLineNumber,
+      msrNonArpeggiatoPlacementKind
+                          nonArpeggiatoPlacementKind,
+      msrNonArpeggiatoTypeKind
+                          nonArpeggiatoTypeKind,
+      int                 nonArpeggiatoNumber);
+      
+    virtual ~msrNonArpeggiato();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrNonArpeggiatoTypeKind
+                          getNonArpeggiatoTypeKind () const
+                              { return fNonArpeggiatoTypeKind; }
+        
+    int                   getNonArpeggiatoNumber () const
+                              { return fNonArpeggiatoNumber; }
+        
+    // services
+    // ------------------------------------------------------
+
+    virtual string        nonArpeggiatoTypeKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrNonArpeggiatoPlacementKind
+                          fNonArpeggiatoPlacementKind;
+                          
+    msrNonArpeggiatoTypeKind
+                          fNonArpeggiatoTypeKind;
+
+    int                   fNonArpeggiatoNumber;
+};
+typedef SMARTP<msrNonArpeggiato> S_msrNonArpeggiato;
+EXP ostream& operator<< (ostream& os, const S_msrNonArpeggiato& elt);
 
 /*!
 \brief A msr technical representation.

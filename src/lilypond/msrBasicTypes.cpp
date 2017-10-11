@@ -3278,6 +3278,29 @@ string msrVerticalAlignmentKindAsString (
   return result;
 }
 
+// direction
+//______________________________________________________________________________
+string msrDirectionAsString (
+  msrDirection direction)
+{
+  string result;
+  
+  switch (direction) {
+    case k_NoDirection:
+      result = "directino: none";
+      break;
+    case kUpDirection:
+      result = "directino: up";
+      break;
+    case kDownDirection:
+      result = "directino: down";
+      break;
+    } // switch
+
+  return result;
+}
+
+
 // placement
 //______________________________________________________________________________
 string msrPlacementAsString (
