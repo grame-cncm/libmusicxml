@@ -296,52 +296,6 @@ namespace MusicXML2
             Sguidoelement elt = guidoelement ::create(comment);
             add (elt);
         }
-        
-        // Add STAFF Layout here, if any
-        //// MusicXML Note: Staff layout includes the vertical distance from the bottom line of the previous staff in this system to the top line of the staff specified by the number attribute. The optional number attribute refers to staff numbers within the part, from top to bottom on the system. A value of 1 is assumed if not present. When used in the defaults element, the values apply to all parts. This value is ignored for the first staff in a system.
-        if (!fNotesOnly) {
-            ctree<xmlelement>::iterator staffLayout = elt->find(k_staff_layout);
-            if (staffLayout != elt->end()) {
-                /// MusicXML Note: The optional number attribute refers to staff numbers within the part, from top to bottom on the system. A value of 1 is assumed if not present. When used in the defaults element, the values apply to all parts. This value is ignored for the first staff in a system.
-                /// Guido's default staff-distance seems to be 10HS or 50 tenths
-                // Check staff number and act accordingly
-                int staffNumber = staffLayout->getAttributeIntValue("number", 1);
-                if (staffNumber == fTargetStaff) {
-                    float xmlDistance = staffLayout->getFloatValue(k_staff_distance, 0.0) - 50.0;
-                    float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
-                    if (HalfSpaceDistance<0.0) {    // prefer increasing!
-                        Sguidoelement tag = guidotag::create("staffFormat");
-                        stringstream s;
-                        s << "dy=" << HalfSpaceDistance << "hs";
-                        tag->add (guidoparam::create(s.str(), false));
-                        add(tag);
-                        //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
-                        fStaffDistance.insert(std::pair<int, float>(fTargetStaff, HalfSpaceDistance));
-                    }else {
-                        // Put it back to zero if it exists
-                        if (fStaffDistance.find(fTargetStaff) != fStaffDistance.end())
-                        {
-                            fStaffDistance.find(fTargetStaff)->second = 0.0;
-                            //cout<<"\tStaffFormat for "<<fTargetStaff<<" measure:"<<fMeasNum<<" set to zero "<<HalfSpaceDistance<<endl;
-                        }
-                    }
-                }
-            }else {
-                // Repeat StaffFormat (if any prior) so that it would propagate to all pages!
-                // Comment if you don't want this!
-                if (fStaffDistance.find(fTargetStaff) != fStaffDistance.end())
-                {
-                    Sguidoelement tag = guidotag::create("staffFormat");
-                    if (fStaffDistance.find(fTargetStaff)->second != 0.0) {
-                        stringstream s;
-                        s << "dy=" << fStaffDistance.find(fTargetStaff)->second << "hs";
-                        tag->add (guidoparam::create(s.str(), false));
-                        add(tag);
-                        //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
-                    }
-                }
-            }
-        }
     }
     
     //______________________________________________________________________________
@@ -2079,12 +2033,12 @@ namespace MusicXML2
     guidonoteduration xmlpart2guido::noteDuration ( const notevisitor& nv )
     {
         guidonoteduration dur(0,0);
-        if (nv.getType() == kRest) {
+        /*if (nv.getType() == kRest) {
             rational r(nv.getDuration(), fCurrentDivision*4);
             r.rationalise();
             dur.set (r.getNumerator(), r.getDenominator());
         }
-        else {
+        else {*/
             rational r = NoteType::type2rational(NoteType::xml(nv.getGraphicType()));
             if (r.getNumerator() == 0) // graphic type missing or unknown
                 r.set (nv.getDuration(), fCurrentDivision*4);
@@ -2093,7 +2047,7 @@ namespace MusicXML2
             r *= tm;
             r.rationalise();
             dur.set (r.getNumerator(), r.getDenominator(), nv.getDots());
-        }
+        //}
         return dur;
     }
     
@@ -2106,6 +2060,9 @@ namespace MusicXML2
         string accident = alter2accident(nv.getAlter());
         string name = noteName(nv);
         guidonoteduration dur = noteDuration(nv);
+        
+        //if (fMeasNum==47)
+        //    cout<<"\tNEWNOTE "<<name<<" dur="<<dur.fNum<<"/"<<dur.fDenom<" "<<endl;
         
         Sguidoelement note = guidonote::create(fTargetVoice, name, octave, dur, accident);
         
