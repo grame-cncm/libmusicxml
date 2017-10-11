@@ -1005,36 +1005,33 @@ void msrArpeggiato::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrNonArpeggiato msrNonArpeggiato::create (
-  int                 inputLineNumber,
-  msrNonArpeggiatoKind articulationKind,
-  msrPlacement        articulationPlacement,
-  msrDirection        articulationDirection,
-  int                 articulationNumber)
+  int                      inputLineNumber,
+  msrPlacement             nonArpeggiatoPlacement,
+  msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
+  int                      nonArpeggiatoNumber)
 {
   msrNonArpeggiato* o =
     new msrNonArpeggiato (
       inputLineNumber,
-      articulationKind,
-      articulationPlacementKind,
-      articulationDirectionKind,
-      articulationNumber);
+      articulationPlacement,
+      nonArpeggiatoTypeKind,
+      nonArpeggiatoNumber);
   assert (o!=0);
   return o;
 }
 
 msrNonArpeggiato::msrNonArpeggiato (
-  int                 inputLineNumber,
-  msrNonArpeggiatoKind articulationKind,
-  msrPlacement        articulationPlacement,
-  msrDirection        articulationDirection,
-  int                 articulationNumber)
+  int                      inputLineNumber,
+  msrPlacement             nonArpeggiatoPlacement,
+  msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
+  int                      nonArpeggiatoNumber)
     : msrElement (inputLineNumber)
 {
   fNonArpeggiatoKind = articulationKind;
 
   fNonArpeggiatoPlacementKind = articulationPlacementKind;
   
-  farticulationDirectionKind = articulationDirectionKind;
+  fNonArpeggiatoTypeKind = nonArpeggiatoTypeKind;
   
   fNonArpeggiatoNumber = articulationNumber;
 }

@@ -108,6 +108,9 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_msrFermata>,
   
+  public visitor<S_msrArpeggiato>,
+  public visitor<S_msrNonArpeggiato>,
+  
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
   public visitor<S_msrTechnicalWithString>,
@@ -327,6 +330,11 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrFermata& elt);
     virtual void visitEnd   (S_msrFermata& elt);
+    
+    virtual void visitStart (S_msrArpeggiato& elt);
+    virtual void visitEnd   (S_msrArpeggiato& elt);
+    virtual void visitStart (S_msrNonArpeggiato& elt);
+    virtual void visitEnd   (S_msrNonArpeggiato& elt);
     
     virtual void visitStart (S_msrTechnical& elt);
     virtual void visitEnd   (S_msrTechnical& elt);

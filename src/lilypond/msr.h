@@ -829,25 +829,20 @@ class EXP msrArticulation : public msrElement
     msrArticulationKind   getArticulationKind () const
                               { return fArticulationKind; }
         
-    msrPlacement
-                          getArticulationPlacementKind () const
-                              { return fArticulationPlacementKind; }
+    msrPlacement          getArticulationPlacement () const
+                              { return fArticulationPlacement; }
         
-    msrDirection
-                          getArticulationDirectionKind () const
-                              { return fArticulationDirectionKind; }
-        
-    int                   getArticulationNumber () const
-                              { return fArticulationNumber; }
-        
+    msrDirection          getArticulationDirection () const
+                              { return fArticulationDirection; }
+                
     // services
     // ------------------------------------------------------
 
     virtual string        articulationKindAsString () const;
 
-    virtual string        articulationPlacementKindAsString () const;
+    virtual string        articulationPlacementAsString () const;
 
-    virtual string        articulationDirectionKindAsString () const;
+    virtual string        articulationDirectionAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1002,8 +997,8 @@ class EXP msrArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     msrDirection
-                          getArpeggiatoDirectionKind () const
-                              { return fArpeggiatoDirectionKind; }
+                          getArpeggiatoDirection () const
+                              { return fArpeggiatoDirection; }
         
     int                   getArpeggiatoNumber () const
                               { return fArpeggiatoNumber; }
@@ -1011,7 +1006,7 @@ class EXP msrArpeggiato : public msrArticulation
     // services
     // ------------------------------------------------------
 
-    virtual string        arpeggiatoDirectionKindAsString () const;
+    virtual string        arpeggiatoDirectionAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1032,7 +1027,7 @@ class EXP msrArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     msrDirection
-                          fArpeggiatoDirectionKind;
+                          fArpeggiatoDirection;
 
     int                   fArpeggiatoNumber;
 };
@@ -1063,12 +1058,10 @@ class EXP msrNonArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     static SMARTP<msrNonArpeggiato> create (
-      int                 inputLineNumber,
-      msrNonArpeggiatoPlacementKind
-                          nonArpeggiatoPlacementKind,
-      msrNonArpeggiatoTypeKind
-                          nonArpeggiatoTypeKind,
-      int                 nonArpeggiatoNumber);
+      int                      inputLineNumber,
+      msrPlacement             nonArpeggiatoPlacement,
+      msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
+      int                      nonArpeggiatoNumber);
 
   protected:
 
@@ -1076,12 +1069,10 @@ class EXP msrNonArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     msrNonArpeggiato (
-      int                 inputLineNumber,
-      msrNonArpeggiatoPlacementKind
-                          nonArpeggiatoPlacementKind,
-      msrNonArpeggiatoTypeKind
-                          nonArpeggiatoTypeKind,
-      int                 nonArpeggiatoNumber);
+      int                      inputLineNumber,
+      msrPlacement             nonArpeggiatoPlacement,
+      msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
+      int                      nonArpeggiatoNumber);
       
     virtual ~msrNonArpeggiato();
   
@@ -1119,9 +1110,6 @@ class EXP msrNonArpeggiato : public msrArticulation
 
     // fields
     // ------------------------------------------------------
-
-    msrNonArpeggiatoPlacementKind
-                          fNonArpeggiatoPlacementKind;
                           
     msrNonArpeggiatoTypeKind
                           fNonArpeggiatoTypeKind;

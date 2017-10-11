@@ -1135,9 +1135,11 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       break;
       
     case msrArticulation::kArpeggiato:
+      // this is handled in visitStart (S_msrArpeggiato&)
       s << "\\arpeggio";
       break;
     case msrArticulation::kNonArpeggiato:
+      // this is handled in visitStart (S_msrNonArpeggiato&)
       s << "\\arpeggioBracket"; // JMI
       break;
     case msrArticulation::kDoit:
@@ -5589,11 +5591,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       "% --> Start visiting msrFermata" <<
       endl;
       
-  switch (elt->getArticulationPlacementKind ()) {
-    case msrArticulation::kArticulationPlacementAbove:
+  switch (elt->getArticulationPlacement ()) {
+    case k_NoPlacement:
       // no prefix needed
       break;
-    case msrArticulation::kArticulationPlacementBelow:
+    case kAbovePlacement:
+      // no prefix needed
+      break;
+    case kBelowPlacement:
       fOstream << "_";
       break;
   } // switch
@@ -5638,6 +5643,69 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "% --> End visiting msrFermata" <<
+      endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrArpeggiato" <<
+      endl;
+      
+  switch (elt->getArticulationPlacement ()) {
+    case k_NoPlacement:
+      // no prefix needed
+      break;
+    case kAbovePlacement:
+      // no prefix needed
+      break;
+    case kBelowPlacement:
+      fOstream << "_";
+      break;
+  } // switch
+
+  msrArpeggiato::msrArpeggiatoType
+    ArpeggiatoType =
+      elt->getArpeggiatoType ();
+      
+  switch (ArpeggiatoType) {
+    case msrArpeggiato::kUprightArpeggiatoType:
+      // no markup needed
+      break;
+    case msrArpeggiato::kInvertedArpeggiatoType:
+      fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
+      break;
+  } // switch
+
+  switch (elt->getArpeggiatoKind ()) {
+    case msrArpeggiato::kNormalArpeggiatoKind:
+      fOstream << "\\Arpeggiato";
+      break;
+    case msrArpeggiato::kAngledArpeggiatoKind:
+      fOstream << "\\shortArpeggiato";
+      break;
+    case msrArpeggiato::kSquareArpeggiatoKind:
+      fOstream << "\\longArpeggiato";
+      break;
+  } // switch
+
+  switch (ArpeggiatoType) {
+    case msrArpeggiato::kUprightArpeggiatoType:
+      // no markup needed
+      break;
+    case msrArpeggiato::kInvertedArpeggiatoType:
+      fOstream << "} ";
+      break;
+  } // switch
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrArpeggiato& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrArpeggiato" <<
       endl;
 }
 

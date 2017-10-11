@@ -1940,6 +1940,52 @@ void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrArpeggiato" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+
+  // an arpeggiato is an articulation
+  
+  if (fOnGoingNote) {
+    // don't add articulations to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addArticulationToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addArticulationToChord (elt);
+  }
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "--> Start visiting msrNonArpeggiato" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+
+  // an nonArpeggiato is an articulation
+  
+  if (fOnGoingNote) {
+    // don't add articulations to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addArticulationToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addArticulationToChord (elt);
+  }
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
