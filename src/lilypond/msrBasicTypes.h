@@ -518,18 +518,21 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
 // fonts
 //______________________________________________________________________________
 enum msrFontSize {
+  k_NoFontSize,
   kNormalFontSize, kLargeFontSize, kMediumFontSize, kSmallFontSize };
 
 string msrFontSizeAsString (
   msrFontSize fontSize);
 
 enum msrFontStyle {
+  k_NoFontStyle,
   kNormalFontStyle, KItalicFontStyle };
 
 string msrFontStyleAsString (
   msrFontStyle fontStyle);
 
 enum msrFontWeight {
+  k_NoFontWeight,
   kNormalFontWeight, kBoldFontWeight };
 
 string msrFontWeightAsString (
@@ -538,12 +541,14 @@ string msrFontWeightAsString (
 // alignement
 //______________________________________________________________________________
 enum msrJustifyKind {
+  k_NoJustify,
   kLeftJustify, kCenterJustify, kRightJustify };
 
 string msrJustifyKindAsString (
   msrJustifyKind justifyKind);
 
 enum msrVerticalAlignmentKind {
+  k_NoVerticalAlignment,
   kTopVerticalAlignment, kMiddleVerticalAlignment, kBottomVerticalAlignment };
 
 string msrVerticalAlignmentKindAsString (

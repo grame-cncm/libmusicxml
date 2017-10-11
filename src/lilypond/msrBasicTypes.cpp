@@ -3170,6 +3170,9 @@ string msrFontSizeAsString (
   string result;
   
   switch (fontSize) {
+    case k_NoFontSize:
+      result = "font size: none";
+      break;
     case kNormalFontSize:
       result = "font size: normal";
       break;
@@ -3193,6 +3196,9 @@ string msrFontStyleAsString (
   string result;
   
   switch (fontStyle) {
+    case k_NoFontStyle:
+      result = "font style: none";
+      break;
     case kNormalFontStyle:
       result = "font style: normal";
       break;
@@ -3210,6 +3216,9 @@ string msrFontWeightAsString (
   string result;
   
   switch (fontWeight) {
+    case k_NoFontWeight:
+      result = "font weight: none";
+      break;
     case kNormalFontWeight:
       result = "font weight: normal";
       break;
@@ -3229,6 +3238,9 @@ string msrJustifyKindAsString (
   string result;
   
   switch (justifyKind) {
+    case k_NoJustify:
+      result = "justify: none";
+      break;
     case kLeftJustify:
       result = "justify: left";
       break;
@@ -3249,6 +3261,9 @@ string msrVerticalAlignmentKindAsString (
   string result;
   
   switch (verticalAlignmentKind) {
+    case k_NoVerticalAlignment:
+      result = "vertical alignment: none";
+      break;
     case kTopVerticalAlignment:
       result = "vertical alignment: top";
       break;

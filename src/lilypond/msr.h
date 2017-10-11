@@ -818,7 +818,7 @@ class EXP msrArticulation : public msrElement
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
       msrArticulationPlacementKind
-                          articulationPlacementKind);
+                          articulationPlacementKind,
       msrArticulationDirectionKind
                           articulationDirectionKind,
       int                 articulationNumber);
@@ -832,7 +832,7 @@ class EXP msrArticulation : public msrElement
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
       msrArticulationPlacementKind
-                          articulationPlacementKind);
+                          articulationPlacementKind,
       msrArticulationDirectionKind
                           articulationDirectionKind,
       int                 articulationNumber);

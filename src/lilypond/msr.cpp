@@ -568,7 +568,7 @@ S_msrArticulation msrArticulation::create (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
   msrArticulationPlacementKind
-                      articulationPlacementKind);
+                      articulationPlacementKind,
   msrArticulationDirectionKind
                       articulationDirectionKind,
   int                 articulationNumber)
@@ -588,7 +588,7 @@ msrArticulation::msrArticulation (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
   msrArticulationPlacementKind
-                      articulationPlacementKind);
+                      articulationPlacementKind,
   msrArticulationDirectionKind
                       articulationDirectionKind,
   int                 articulationNumber)

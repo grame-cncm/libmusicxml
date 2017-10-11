@@ -3475,7 +3475,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsJustify = elt->getAttributeValue ("justify");
 
-  msrJustifyKind justifyKind = kLeftJustify; // default value
+  msrJustifyKind justifyKind = k_NoJustify; // default value
 
   if      (wordsJustify == "left")
     justifyKind = kLeftJustify;
@@ -3502,7 +3502,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
   string wordsVerticalAlignment = elt->getAttributeValue ("valign");
 
   msrVerticalAlignmentKind
-    verticalAlignmentKind = kTopVerticalAlignment; // default value
+    verticalAlignmentKind = k_NoVerticalAlignment; // default value
 
   if      (wordsVerticalAlignment == "top")
     verticalAlignmentKind = kTopVerticalAlignment;
@@ -3528,7 +3528,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsFontStyle = elt->getAttributeValue ("font-style");
 
-  msrFontStyle fontStyle = kNormalFontStyle; // default value
+  msrFontStyle fontStyle = k_NoFontStyle; // default value
 
   if      (wordsFontStyle == "normal")
     fontStyle = kNormalFontStyle;
@@ -3552,7 +3552,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
   
   string wordsFontSize = elt->getAttributeValue ("font-size");
   
-  msrFontSize fontSize = kNormalFontSize; // default value
+  msrFontSize fontSize = k_NoFontSize; // default value
 
   if      (wordsFontSize == "normal")
     fontSize = kNormalFontSize;
@@ -3580,7 +3580,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsFontWeight = elt->getAttributeValue ("font-weight");
   
-  msrFontWeight fontWeight = kNormalFontWeight; // default value
+  msrFontWeight fontWeight = k_NoFontWeight; // default value
 
   if      (wordsFontWeight == "normal")
     fontWeight = kNormalFontWeight;
