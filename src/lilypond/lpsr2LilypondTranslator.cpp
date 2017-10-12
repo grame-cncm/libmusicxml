@@ -1136,11 +1136,9 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       
     case msrArticulation::kArpeggiato:
       // this is handled in visitStart (S_msrArpeggiato&)
-      s << "\\arpeggio";
       break;
     case msrArticulation::kNonArpeggiato:
       // this is handled in visitStart (S_msrNonArpeggiato&)
-      s << "\\arpeggioBracket"; // JMI
       break;
     case msrArticulation::kDoit:
       s << "\\bendAfter #+4";
@@ -5653,7 +5651,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
     fOstream << idtr <<
       "% --> Start visiting msrArpeggiato" <<
       endl;
-      
+
+  int arpeggiatoNumber = elt->getArpeggiatoNumber (); // use it? JMI
+  
   switch (elt->getArticulationPlacement ()) {
     case k_NoPlacement:
       // no prefix needed
@@ -5662,41 +5662,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
       // no prefix needed
       break;
     case kBelowPlacement:
-      fOstream << "_";
+ // JMI ???     fOstream << "_";
       break;
   } // switch
-
-  msrArpeggiato::msrArpeggiatoType
-    ArpeggiatoType =
-      elt->getArpeggiatoType ();
       
-  switch (ArpeggiatoType) {
-    case msrArpeggiato::kUprightArpeggiatoType:
-      // no markup needed
+  switch (elt->getArpeggiatoDirection ()) {
+    case k_NoDirection:
+      fOstream << "\\arpeggio";
       break;
-    case msrArpeggiato::kInvertedArpeggiatoType:
-      fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
+    case kUpDirection:
+      fOstream << "\\arpeggioArrowUp";
+ //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
       break;
-  } // switch
-
-  switch (elt->getArpeggiatoKind ()) {
-    case msrArpeggiato::kNormalArpeggiatoKind:
-      fOstream << "\\Arpeggiato";
-      break;
-    case msrArpeggiato::kAngledArpeggiatoKind:
-      fOstream << "\\shortArpeggiato";
-      break;
-    case msrArpeggiato::kSquareArpeggiatoKind:
-      fOstream << "\\longArpeggiato";
-      break;
-  } // switch
-
-  switch (ArpeggiatoType) {
-    case msrArpeggiato::kUprightArpeggiatoType:
-      // no markup needed
-      break;
-    case msrArpeggiato::kInvertedArpeggiatoType:
-      fOstream << "} ";
+    case kDownDirection:
+      fOstream << "\\arpeggioArrowDown";
+ //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
       break;
   } // switch
 }
@@ -5706,6 +5686,51 @@ void lpsr2LilypondTranslator::visitEnd (S_msrArpeggiato& elt)
   if (gLpsrOptions->fTraceLpsrVisitors)
     fOstream << idtr <<
       "% --> End visiting msrArpeggiato" <<
+      endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> Start visiting msrNonArpeggiato" <<
+      endl;
+
+  int NonArpeggiatoNumber = elt->getNonArpeggiatoNumber (); // use it? JMI
+  
+  switch (elt->getArticulationPlacement ()) {
+    case k_NoPlacement:
+      // no prefix needed
+      break;
+    case kAbovePlacement:
+      // no prefix needed
+      break;
+    case kBelowPlacement:
+ // JMI ???     fOstream << "_";
+      break;
+  } // switch
+      
+  switch (elt->getNonArpeggiatoTypeKind ()) { // JMI
+    case msrNonArpeggiato::k_NoNonArpeggiatoType:
+      fOstream << "\\arpeggioBracket";
+      break;
+    case msrNonArpeggiato::kNonArpeggiatoTypeTop:
+      fOstream << "\\arpeggioBracket";
+ //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
+      break;
+    case msrNonArpeggiato::kNonArpeggiatoTypeBottom:
+      fOstream << "\\arpeggioBracket";
+ //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
+      break;
+  } // switch
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrNonArpeggiato& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors)
+    fOstream << idtr <<
+      "% --> End visiting msrNonArpeggiato" <<
       endl;
 }
 

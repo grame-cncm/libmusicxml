@@ -567,16 +567,13 @@ void msrBeam::print (ostream& os)
 S_msrArticulation msrArticulation::create (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
-  msrPlacement        articulationPlacement,
-  msrDirection        articulationDirection,
-  int                 articulationNumber)
+  msrPlacement        articulationPlacement)
 {
   msrArticulation* o =
     new msrArticulation (
       inputLineNumber,
       articulationKind,
       articulationPlacementKind,
-      articulationDirectionKind,
       articulationNumber);
   assert (o!=0);
   return o;
@@ -585,18 +582,13 @@ S_msrArticulation msrArticulation::create (
 msrArticulation::msrArticulation (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
-  msrPlacement        articulationPlacement,
-  msrDirection        articulationDirection,
-  int                 articulationNumber)
+  msrPlacement        articulationPlacement)
     : msrElement (inputLineNumber)
 {
   fArticulationKind = articulationKind;
 
   fArticulationPlacementKind = articulationPlacementKind;
-  
-  farticulationDirectionKind = articulationDirectionKind;
-  
-  fArticulationNumber = articulationNumber;
+}
 }
 
 msrArticulation::~msrArticulation()
@@ -674,31 +666,11 @@ string msrArticulation::articulationKindAsString () const
       fArticulationKind);
 }
 
-string msrArticulation::articulationPlacementKindAsString (
-  msrArticulationPlacementKind articulationPlacementKind)
-{
-  string result;
-  
-  switch (articulationPlacementKind) {
-    case msrArticulation::k_NoArticulationPlacement:
-      result = "none";
-      break;
-    case msrArticulation::kArticulationPlacementAbove:
-      result = "above";
-      break;
-    case msrArticulation::kArticulationPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrArticulation::articulationPlacementKindAsString () const
+string msrArticulation::articulationPlacementAsString () const
 {
   return
-    articulationPlacementKindAsString (
-      fArticulationPlacementKind);
+    articulationPlacementAsString (
+      fArticulationPlacement);
 }
 
 void msrArticulation::acceptIn (basevisitor* v) {
@@ -899,13 +871,6 @@ void msrFermata::print (ostream& os)
     endl;
 }
 
-
-
-
-
-
-
-
 //______________________________________________________________________________
 S_msrArpeggiato msrArpeggiato::create (
   int          inputLineNumber,
@@ -1001,8 +966,6 @@ void msrArpeggiato::print (ostream& os)
     endl;
 }
 
-
-
 //______________________________________________________________________________
 S_msrNonArpeggiato msrNonArpeggiato::create (
   int                      inputLineNumber,
@@ -1038,6 +1001,26 @@ msrNonArpeggiato::msrNonArpeggiato (
 
 msrNonArpeggiato::~msrNonArpeggiato()
 {}
+
+static string NonArpeggiatoTypeKindAsString (
+  msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind)
+{
+  string result;
+  
+  switch (nonArpeggiatoTypeKind) {
+    case msrNonArpeggiato::k_NoNonArpeggiatoType:
+      result = "nonArpeggiatoType: none";
+      break;
+    case msrNonArpeggiato::kNonArpeggiatoTypeTop:
+      result = "nonArpeggiatoType: top";
+      break;
+    case msrNonArpeggiato::kNonArpeggiatoTypeBottom:
+      result = "nonArpeggiatoType: bottom";
+      break;
+  } // switch
+
+  return result;
+}
 
 void msrNonArpeggiato::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
@@ -1096,9 +1079,6 @@ void msrNonArpeggiato::print (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 }
-
-
-
 
 //______________________________________________________________________________
 S_msrTechnical msrTechnical::create (

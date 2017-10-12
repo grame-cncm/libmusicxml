@@ -803,9 +803,7 @@ class EXP msrArticulation : public msrElement
     static SMARTP<msrArticulation> create (
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
-      msrPlacement        articulationPlacement,
-      msrDirection        articulationDirection,
-      int                 articulationNumber);
+      msrPlacement        articulationPlacement);
 
   protected:
 
@@ -815,9 +813,7 @@ class EXP msrArticulation : public msrElement
     msrArticulation (
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
-      msrPlacement        articulationPlacement,
-      msrDirection        articulationDirection,
-      int                 articulationNumber);
+      msrPlacement        articulationPlacement);
       
     virtual ~msrArticulation();
   
@@ -831,18 +827,13 @@ class EXP msrArticulation : public msrElement
         
     msrPlacement          getArticulationPlacement () const
                               { return fArticulationPlacement; }
-        
-    msrDirection          getArticulationDirection () const
-                              { return fArticulationDirection; }
-                
+                        
     // services
     // ------------------------------------------------------
 
     virtual string        articulationKindAsString () const;
 
     virtual string        articulationPlacementAsString () const;
-
-    virtual string        articulationDirectionAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -865,9 +856,6 @@ class EXP msrArticulation : public msrElement
     msrArticulationKind   fArticulationKind;
 
     msrPlacement          fArticulationPlacement;
-                          
-    msrDirection          fArticulationDirection;
-
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
@@ -996,8 +984,7 @@ class EXP msrArpeggiato : public msrArticulation
     // set and get
     // ------------------------------------------------------
 
-    msrDirection
-                          getArpeggiatoDirection () const
+    msrDirection          getArpeggiatoDirection () const
                               { return fArpeggiatoDirection; }
         
     int                   getArpeggiatoNumber () const
@@ -1049,7 +1036,7 @@ class EXP msrNonArpeggiato : public msrArticulation
 
     enum msrNonArpeggiatoTypeKind {
       k_NoNonArpeggiatoType,
-      kNonArpeggiatoTypeUp, kNonArpeggiatoTypeDown};
+      kNonArpeggiatoTypeTop, kNonArpeggiatoTypeBottom };
 
     static string NonArpeggiatoTypeKindAsString (
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind);
