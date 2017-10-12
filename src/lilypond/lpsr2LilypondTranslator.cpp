@@ -1081,7 +1081,7 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
         endl;
       break;
     case msrArticulation::kSpiccato:
-      s << "%{spiccato%}";
+      s << "%{spiccato???%}";
       break;
     case msrArticulation::kStaccato:
       s << "\\staccato"; // JMI "-.";
@@ -1090,10 +1090,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       s << "-!";
       break;
     case msrArticulation::kStress:
-      s << "%{stress%}";
+      s << "%{stress???%}";
       break;
     case msrArticulation::kUnstress:
-      s << "%{unstress%}";
+      s << "%{unstress???%}";
       break;
     case msrArticulation::kDetachedLegato:
       s << "-_"; // portato
@@ -1122,10 +1122,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       s << "\\bendAfter #-4";
       break;
     case msrArticulation::kPlop:
-      s << "%{plop%}";
+      s << "%{plop???%}";
       break;
     case msrArticulation::kScoop:
-      s << "%{scoop%}";
+      s << "%{scoop???%}";
       break;
   } // switch
   
@@ -1165,7 +1165,7 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
         endl;
       break;
     case msrArticulation::kSpiccato:
-      s << "%{spiccato%}";
+      s << "%{spiccato???%}";
       break;
     case msrArticulation::kStaccato:
       s << "\\staccato"; // JMI "-.";
@@ -1174,7 +1174,7 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
       s << "-!";
       break;
     case msrArticulation::kStress:
-      s << "%{stress%}";
+      s << "%{stress???%}";
       break;
     case msrArticulation::kUnstress:
       s << "%{unstress%}";
@@ -5719,33 +5719,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
       endl;
 
 /* VIRER JMI
-  int arpeggiatoNumber = elt->getArpeggiatoNumber (); // use it? JMI
-  
-  switch (elt->getArticulationPlacement ()) {
-    case k_NoPlacement:
-      // no prefix needed
-      break;
-    case kAbovePlacement:
-      // no prefix needed
-      break;
-    case kBelowPlacement:
- // JMI ???     fOstream << "_";
-      break;
-  } // switch
-      
-  switch (elt->getArpeggiatoDirection ()) {
-    case k_NoDirection:
-      fOstream << "\\arpeggio";
-      break;
-    case kUpDirection:
-      fOstream << "\\arpeggioArrowUp FOO";
- //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
-      break;
-    case kDownDirection:
-      fOstream << "\\arpeggioArrowDown";
- //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
-      break;
-  } // switch
   */
 }
 
@@ -5765,33 +5738,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
       "% --> Start visiting msrNonArpeggiato" <<
       endl;
 /* VIRER JMI
-  int NonArpeggiatoNumber = elt->getNonArpeggiatoNumber (); // use it? JMI
-  
-  switch (elt->getArticulationPlacement ()) {
-    case k_NoPlacement:
-      // no prefix needed
-      break;
-    case kAbovePlacement:
-      // no prefix needed
-      break;
-    case kBelowPlacement:
- // JMI ???     fOstream << "_";
-      break;
-  } // switch
-      
-  switch (elt->getNonArpeggiatoTypeKind ()) { // JMI
-    case msrNonArpeggiato::k_NoNonArpeggiatoType:
-      fOstream << "\\arpeggioBracket";
-      break;
-    case msrNonArpeggiato::kNonArpeggiatoTypeTop:
-      fOstream << "\\arpeggioBracket";
- //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
-      break;
-    case msrNonArpeggiato::kNonArpeggiatoTypeBottom:
-      fOstream << "\\arpeggioBracket";
- //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
-      break;
-  } // switch
   */
 }
 
@@ -6996,6 +6942,28 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
             break;
           case kDownDirection:
             fOstream << "\\arpeggioArrowDown";
+            break;
+        } // switch
+          
+        fOstream << " ";
+        fMusicOlec++;
+      }
+      
+      else if (
+        // non arpeggiato?
+        S_msrNonArpeggiato
+          nonArpeggiato =
+            dynamic_cast<msrNonArpeggiato*>(&(*articulation))
+        ) {    
+        switch (nonArpeggiato->getNonArpeggiatoTypeKind ()) {
+          case msrNonArpeggiato::k_NoNonArpeggiatoType:
+            fOstream << "%{\\k_NoNonArpeggiatoType???%}";
+            break;
+          case msrNonArpeggiato::kNonArpeggiatoTypeTop:
+            fOstream << "%{\\kNonArpeggiatoTypeTop???%}";
+            break;
+          case msrNonArpeggiato::kNonArpeggiatoTypeBottom:
+            fOstream << "%{\\kNonArpeggiatoTypeBottom???%}";
             break;
         } // switch
           
