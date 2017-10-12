@@ -3287,13 +3287,13 @@ string msrDirectionAsString (
   
   switch (direction) {
     case k_NoDirection:
-      result = "directino: none";
+      result = "direction: none";
       break;
     case kUpDirection:
-      result = "directino: up";
+      result = "direction: up";
       break;
     case kDownDirection:
-      result = "directino: down";
+      result = "direction: down";
       break;
     } // switch
 

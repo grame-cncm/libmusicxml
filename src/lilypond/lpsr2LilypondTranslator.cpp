@@ -1055,85 +1055,27 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
   stringstream s;
   
   switch (articulation->getArticulationKind ()) {
-
-    case msrArticulation::kAccent:
-      s << "->";
-      break;
-    case msrArticulation::kBreathMark:
-      s << "\\breathe";
-      break;
-    case msrArticulation::kCaesura:
-    /* JMI
-          fOstream <<
-            endl <<
-            R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
-            endl <<
-            idtr;
-     */
-      s <<
-        endl <<
-        idtr <<
-          "\\override BreathingSign.text = \\markup {"
-          "\\musicglyph #\"scripts.caesura.curved\"}" <<
-        endl <<
-      idtr <<
-        "\\breathe" <<
-        endl;
-      break;
-    case msrArticulation::kSpiccato:
-      s << "\\staccatissimo"; // JMI
-      break;
-    case msrArticulation::kStaccato:
-      s << "\\staccato"; // JMI "-.";
-      break;
-    case msrArticulation::kStaccatissimo:
-      s << "-!";
-      break;
-    case msrArticulation::kStress:
-      s << "%{stress%}";
-      break;
-    case msrArticulation::kUnstress:
-      s << "%{unstress%}";
-      break;
-    case msrArticulation::kDetachedLegato:
-      s << "-_"; // portato
-      break;
-    case msrArticulation::kStrongAccent:
-      s << "-^"; // marcato
-      break;
-    case msrArticulation::kTenuto:
-      s << "--";
-      break;
       
-    case msrArticulation::kFermata:
-      // this is handled in visitStart (S_msrFermata&)
-      /* JMI
-      if (
-        S_msrFermata fermata = dynamic_cast<msrFermata*>(&(*this))
-        ) {
-        msrFermata::msrFermataType
-          fermataType =
-            fermata->getFermataType ();
-            
-        switch (fermataType) {
-          case msrFermata::kUprightFermataType:
-            // no prefix needed
-            break;
-          case msrFermata::kInvertedFermataType:
-            s << "_";
-            break;
-        } // switch
-
-        s << "\\fermata";
-      }
-      else {
-        msrInternalError (
-          articulation->getInputLineNumber (),
-          "msrArticulation::kFermata is handled outdside of a msrFermata");
-      }
-      */
+    case msrArticulation::kArpeggiato:
+      // this is handled in visitStart (S_msrArpeggiato&)
       break;
-      
+     default:
+      ;
+  } // switch
+
+  return s.str ();
+}
+
+
+//________________________________________________________________________
+string lpsr2LilypondTranslator::arpeggioDirectionAsLilyponString (
+  S_msrArticulation articulation)
+{
+  stringstream s;
+  
+  switch (articulation->getArticulationKind ()) {
+
+ 
     case msrArticulation::kArpeggiato:
       // this is handled in visitStart (S_msrArpeggiato&)
       break;
@@ -6971,6 +6913,43 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
 
   // don't take the chord into account for line breaking ??? JMI
   
+  // print the chord arpeggios directions if any
+  list<S_msrArticulation>
+    chordArticulations =
+      elt->getChordArticulations ();
+      
+  if (chordArticulations.size()) {
+    list<S_msrArticulation>::const_iterator i;
+    for (
+      i=chordArticulations.begin();
+      i!=chordArticulations.end();
+      i++) {
+      S_msrArticulation articulation = (*i);
+        
+      if (
+        // arpeggiato?
+        S_msrArpeggiato
+          arpeggiato =
+            dynamic_cast<msrArpeggiato*>(&(*articulation))
+        ) {    
+        switch (arpeggiato->getArpeggiatoDirection ()) {
+          case k_NoDirection:
+            fOstream << "\\arpeggioNormal";
+            break;
+          case kUpDirection:
+            fOstream << "\\arpeggioArrowUp";
+            break;
+          case kDownDirection:
+            fOstream << "\\arpeggioArrowDown";
+            break;
+        } // switch
+          
+        fOstream << " ";
+        fMusicOlec++;
+      }
+   } // for
+  }
+
   fOstream << "<";
   fMusicOlec++;
 }
