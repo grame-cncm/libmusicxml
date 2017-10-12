@@ -1039,7 +1039,7 @@ class EXP msrNonArpeggiato : public msrArticulation
       k_NoNonArpeggiatoType,
       kNonArpeggiatoTypeTop, kNonArpeggiatoTypeBottom };
 
-    static string NonArpeggiatoTypeKindAsString (
+    static string nonArpeggiatoTypeKindAsString (
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind);
       
     // creation from MusicXML

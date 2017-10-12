@@ -573,8 +573,7 @@ S_msrArticulation msrArticulation::create (
     new msrArticulation (
       inputLineNumber,
       articulationKind,
-      articulationPlacementKind,
-      articulationNumber);
+      articulationPlacement);
   assert (o!=0);
   return o;
 }
@@ -587,8 +586,7 @@ msrArticulation::msrArticulation (
 {
   fArticulationKind = articulationKind;
 
-  fArticulationPlacementKind = articulationPlacementKind;
-}
+  fArticulationPlacement = articulationPlacement;
 }
 
 msrArticulation::~msrArticulation()
@@ -669,7 +667,7 @@ string msrArticulation::articulationKindAsString () const
 string msrArticulation::articulationPlacementAsString () const
 {
   return
-    articulationPlacementAsString (
+    msrPlacementAsString (
       fArticulationPlacement);
 }
 
@@ -726,7 +724,7 @@ void msrArticulation::print (ostream& os)
     "Articulation" " " <<
     articulationKindAsString () <<
     ", " <<
-    articulationPlacementKindAsString () <<
+    articulationPlacementAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 }
@@ -736,29 +734,27 @@ S_msrFermata msrFermata::create (
   int            inputLineNumber,
   msrFermataKind fermataKind,
   msrFermataType fermataType,
-  msrArticulationPlacementKind
-                 articulationPlacementKind)
+  msrPlacement   articulationPlacement)
 {
   msrFermata* o =
     new msrFermata (
       inputLineNumber,
       fermataKind,
       fermataType,
-      articulationPlacementKind);
+      articulationPlacement);
   assert (o!=0);
   return o;
 }
 
 msrFermata::msrFermata (
-  int            inputLineNumber,
-  msrFermataKind fermataKind,
-  msrFermataType fermataType,
-      msrArticulationPlacementKind
-                     articulationPlacementKind)
+    int            inputLineNumber,
+    msrFermataKind fermataKind,
+    msrFermataType fermataType,
+    msrPlacement   articulationPlacement)
     : msrArticulation (
       inputLineNumber,
       msrArticulation::kFermata,
-      articulationPlacementKind)
+      articulationPlacement)
 {
   fFermataKind = fermataKind;
   fFermataType = fermataType;
@@ -884,10 +880,9 @@ S_msrArpeggiato msrArpeggiato::create (
   msrArpeggiato* o =
     new msrArpeggiato (
       inputLineNumber,
-      articulationKind,
-      articulationPlacementKind,
-      articulationDirectionKind,
-      articulationNumber);
+      arpeggiatoPlacement,
+      arpeggiatoDirection,
+      arpeggiatoNumber);
   assert (o!=0);
   return o;
 }
@@ -897,15 +892,14 @@ msrArpeggiato::msrArpeggiato (
   msrPlacement arpeggiatoPlacement,
   msrDirection arpeggiatoDirection,
   int          arpeggiatoNumber)
-    : msrElement (inputLineNumber)
-{
-  fArpeggiatoKind = articulationKind;
-
-  fArpeggiatoPlacementKind = articulationPlacementKind;
+    : msrArticulation (
+      inputLineNumber,
+      kArpeggiato,
+      arpeggiatoPlacement)
+{  
+  fArpeggiatoDirection = arpeggiatoDirection;
   
-  farticulationDirectionKind = articulationDirectionKind;
-  
-  fArpeggiatoNumber = articulationNumber;
+  fArpeggiatoNumber = arpeggiatoNumber;
 }
 
 msrArpeggiato::~msrArpeggiato()
@@ -964,7 +958,7 @@ void msrArpeggiato::print (ostream& os)
     "Arpeggiato" " " <<
     articulationKindAsString () <<
     ", " <<
-    articulationPlacementKindAsString () <<
+    articulationPlacementAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 }
@@ -979,7 +973,7 @@ S_msrNonArpeggiato msrNonArpeggiato::create (
   msrNonArpeggiato* o =
     new msrNonArpeggiato (
       inputLineNumber,
-      articulationPlacement,
+      nonArpeggiatoPlacement,
       nonArpeggiatoTypeKind,
       nonArpeggiatoNumber);
   assert (o!=0);
@@ -991,21 +985,20 @@ msrNonArpeggiato::msrNonArpeggiato (
   msrPlacement             nonArpeggiatoPlacement,
   msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
   int                      nonArpeggiatoNumber)
-    : msrElement (inputLineNumber)
-{
-  fNonArpeggiatoKind = articulationKind;
-
-  fNonArpeggiatoPlacementKind = articulationPlacementKind;
-  
+    : msrArticulation (
+      inputLineNumber,
+      kNonArpeggiato,
+      nonArpeggiatoPlacement)
+{  
   fNonArpeggiatoTypeKind = nonArpeggiatoTypeKind;
   
-  fNonArpeggiatoNumber = articulationNumber;
+  fNonArpeggiatoNumber = nonArpeggiatoNumber;
 }
 
 msrNonArpeggiato::~msrNonArpeggiato()
 {}
 
-static string NonArpeggiatoTypeKindAsString (
+string msrNonArpeggiato::nonArpeggiatoTypeKindAsString (
   msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind)
 {
   string result;
