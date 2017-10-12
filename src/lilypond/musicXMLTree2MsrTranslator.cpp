@@ -8653,7 +8653,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
   
   msrFermata::msrFermataType
     fermataType =
-      msrFermata::kUprightFermataType; // default value
+      msrFermata::k_NoFermataType; // default value
 
   if      (fermataTypeValue == "upright")
     fermataType = msrFermata::kUprightFermataType;
@@ -8743,29 +8743,26 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
 
   // placement
   
-  string placement = elt->getAttributeValue ("placement");
+  string placementString = elt->getAttributeValue ("placement");
 
-  msrArticulation::msrplacement
-    placement =
-      msrArticulation::k_NoArticulationPlacement; // default value
+  msrPlacement placement = k_NoPlacement; // default value
 
-  if      (placement == "above")
-    placement = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (placement == "below")
-    placement = msrArticulation::kArticulationPlacementBelow;
-    
-  else if (placement.size ()) {
-    
-    stringstream s;
-    
-    s <<
-      "placement \"" << placement <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());    
+  if      (placementString == "above")
+    placement = kAbovePlacement;
+  else if (placementString == "below")
+    placement = kBelowPlacement;
+  else {
+    if (placementString.size ()) {
+      stringstream s;
+      
+      s <<
+        "arpeggiate placement \"" << placementString <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str ());    
+    }
   }
 
   // number
@@ -8774,24 +8771,20 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
 
   // direction
   
-  string direction = elt->getAttributeValue ("direction");
+  string directionString = elt->getAttributeValue ("direction");
 
-  msrArticulation::msrArticulationDirectionKind
-    articulationDirectionKind =
-      msrArticulation::k_NoArticulationDirection; // default value
+  msrDirection direction = k_NoDirection; // default value
   
-  if      (direction == "up")
-    octaveShiftKind = msrOctaveShift::kOctaveShiftUp;
-    
-  else if (direction == "down")
-    octaveShiftKind = msrOctaveShift::kOctaveShiftDown;
-        
+  if      (directionString == "up")
+    direction = kUpDirection;
+  else if (directionString == "down")
+    direction = kDownDirection;
   else {
-    if (direction.size ()) {
+    if (directionString.size ()) {
       stringstream s;
       
       s <<
-        "arpeggiate direction \"" << direction <<
+        "arpeggiate direction \"" << directionString <<
         "\"" << "is unknown";
         
       msrMusicXMLError (
@@ -8806,7 +8799,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
       msrArpeggiato::create (
         inputLineNumber,
         placement,
-        articulationDirectionKind,
+        direction,
         number);
       
   fCurrentArticulations.push_back (arpeggiato);
@@ -8841,27 +8834,51 @@ void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
+  // placement
+  
+  string placementString = elt->getAttributeValue ("placement");
+
+  msrPlacement placement = k_NoPlacement; // default value
+
+  if      (placementString == "above")
+    placement = kAbovePlacement;
+  else if (placementString == "below")
+    placement = kBelowPlacement;
+  else {
+    if (placementString.size ()) {
+      stringstream s;
+      
+      s <<
+        "non-arpeggiate placement \"" << placementString <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str ());    
+    }
+  }
+
   // type
 
-  string type = elt->getAttributeValue ("type");
+  string typeString = elt->getAttributeValue ("type");
 
-  msrArticulation::msrplacement
-    placement =
-      msrArticulation::k_NoArticulationPlacement; // default value
+  msrNonArpeggiato::msrNonArpeggiatoTypeKind
+    nonArpeggiatoTypeKind =
+      msrNonArpeggiato::k_NoNonArpeggiatoType; // default value
 
-  if      (type == "top")
-    placement = msrArticulation::kArticulationPlacementAbove;
-    
-  else if (type == "bottom")
-    placement = msrArticulation::kArticulationPlacementBelow;
-    
+  if      (typeString == "top")
+    nonArpeggiatoTypeKind =
+      msrNonArpeggiato::kNonArpeggiatoTypeTop;
+  else if (typeString == "bottom")
+    nonArpeggiatoTypeKind =
+      msrNonArpeggiato::kNonArpeggiatoTypeBottom;
   else {
-    if (placement.size ()) {
+    if (typeString.size ()) {
       
       stringstream s;
       
       s <<
-        "non-arpeggiate type \"" << type <<
+        "non-arpeggiate type \"" << typeString <<
         "\" is unknown";
       
       msrMusicXMLError (
@@ -8880,6 +8897,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
       msrNonArpeggiato::create (
         inputLineNumber,
         placement,
+        nonArpeggiatoTypeKind,
         number);
       
   fCurrentArticulations.push_back (nonArpeggiato);

@@ -5588,7 +5588,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
     fOstream << idtr <<
       "% --> Start visiting msrFermata" <<
       endl;
-      
+
+/*
+Articulations can be attached to rests as well as notes but they cannot be attached to multi-measure rests. A special predefined command, \fermataMarkup, is available for at- taching a fermata to a multi-measure rest (and only a multi-measure rest). This creates a MultiMeasureRestText object.
+*/
+ 
   switch (elt->getArticulationPlacement ()) {
     case k_NoPlacement:
       // no prefix needed
@@ -5606,6 +5610,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
       elt->getFermataType ();
       
   switch (fermataType) {
+    case msrFermata::k_NoFermataType:
+      // no markup needed
+      break;
     case msrFermata::kUprightFermataType:
       // no markup needed
       break;

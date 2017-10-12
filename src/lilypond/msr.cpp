@@ -834,11 +834,14 @@ string msrFermata::fermataTypeAsString (
   string result;
   
   switch (fermataType) {
+    case msrFermata::k_NoFermataType:
+      result = "fermata type: none";
+      break;
     case msrFermata::kUprightFermataType:
-      result = "upright";
+      result = "fermata type: upright";
       break;
     case msrFermata::kInvertedFermataType:
-      result = "inverted";
+      result = "fermata type: inverted";
       break;
   } // switch
 
