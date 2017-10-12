@@ -893,7 +893,7 @@ class EXP msrFermata : public msrArticulation
       int            inputLineNumber,
       msrFermataKind fermataKind,
       msrFermataType fermataType,
-      msrPlacement   articulationPlacement);
+      msrPlacement   fermataPlacement);
 
   protected:
 
@@ -904,7 +904,7 @@ class EXP msrFermata : public msrArticulation
       int            inputLineNumber,
       msrFermataKind fermataKind,
       msrFermataType fermataType,
-      msrPlacement   articulationPlacement);
+      msrPlacement   fermataPlacement);
       
     virtual ~msrFermata();
   
@@ -943,6 +943,7 @@ class EXP msrFermata : public msrArticulation
     // ------------------------------------------------------
 
     msrFermataKind        fFermataKind;
+    
     msrFermataType        fFermataType;
 };
 typedef SMARTP<msrFermata> S_msrFermata;

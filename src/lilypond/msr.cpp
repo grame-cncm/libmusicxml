@@ -734,14 +734,14 @@ S_msrFermata msrFermata::create (
   int            inputLineNumber,
   msrFermataKind fermataKind,
   msrFermataType fermataType,
-  msrPlacement   articulationPlacement)
+  msrPlacement   fermataPlacement)
 {
   msrFermata* o =
     new msrFermata (
       inputLineNumber,
       fermataKind,
       fermataType,
-      articulationPlacement);
+      fermataPlacement);
   assert (o!=0);
   return o;
 }
@@ -750,11 +750,11 @@ msrFermata::msrFermata (
     int            inputLineNumber,
     msrFermataKind fermataKind,
     msrFermataType fermataType,
-    msrPlacement   articulationPlacement)
+    msrPlacement   fermataPlacement)
     : msrArticulation (
       inputLineNumber,
       msrArticulation::kFermata,
-      articulationPlacement)
+      fermataPlacement)
 {
   fFermataKind = fermataKind;
   fFermataType = fermataType;
@@ -811,13 +811,13 @@ string msrFermata::fermataKindAsString (
   
   switch (fermataKind) {
     case msrFermata::kNormalFermataKind:
-      result = "normal";
+      result = "fermata kind: normal";
       break;
     case msrFermata::kAngledFermataKind:
-      result = "angled";
+      result = "fermata kind: angled";
       break;
     case msrFermata::kSquareFermataKind:
-      result = "square";
+      result = "fermata kind: square";
       break;
   } // switch
 
@@ -856,8 +856,13 @@ string msrFermata::fermataAsString () const
 
   s <<
     "Fermata" <<
-    ", " <<fermataKindAsString (fFermataKind) <<
-    ", " <<fermataTypeAsString (fFermataType) <<
+    articulationKindAsString () <<
+    ", " <<
+    articulationPlacementAsString () <<
+    ", " <<
+    fermataKindAsString (fFermataKind) <<
+    ", " <<
+    fermataTypeAsString (fFermataType) <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -965,6 +970,10 @@ void msrArpeggiato::print (ostream& os)
     articulationKindAsString () <<
     ", " <<
     articulationPlacementAsString () <<
+    ", " <<
+    arpeggiatoDirectionAsString () <<
+    ", number: " <<
+    fArpeggiatoNumber <<
     ", line " << fInputLineNumber <<
     endl;
 }
@@ -1084,6 +1093,10 @@ void msrNonArpeggiato::print (ostream& os)
     articulationKindAsString () <<
     ", " <<
     articulationPlacementAsString () <<
+    ", " <<
+    nonArpeggiatoTypeKindAsString () <<
+    ", number: " <<
+    fNonArpeggiatoNumber <<
     ", line " << fInputLineNumber <<
     endl;
 }
