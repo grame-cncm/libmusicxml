@@ -5718,6 +5718,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
       "% --> Start visiting msrArpeggiato" <<
       endl;
 
+/* VIRER JMI
   int arpeggiatoNumber = elt->getArpeggiatoNumber (); // use it? JMI
   
   switch (elt->getArticulationPlacement ()) {
@@ -5737,7 +5738,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
       fOstream << "\\arpeggio";
       break;
     case kUpDirection:
-      fOstream << "\\arpeggioArrowUp";
+      fOstream << "\\arpeggioArrowUp FOO";
  //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
       break;
     case kDownDirection:
@@ -5745,6 +5746,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
  //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
       break;
   } // switch
+  */
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrArpeggiato& elt)
@@ -5762,7 +5764,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
     fOstream << idtr <<
       "% --> Start visiting msrNonArpeggiato" <<
       endl;
-
+/* VIRER JMI
   int NonArpeggiatoNumber = elt->getNonArpeggiatoNumber (); // use it? JMI
   
   switch (elt->getArticulationPlacement ()) {
@@ -5790,6 +5792,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
  //     fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
       break;
   } // switch
+  */
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrNonArpeggiato& elt)
@@ -7070,6 +7073,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       fOstream <<
         chordArticulationAsLilyponString ((*i)) <<          
         " ";
+
+        fOstream << endl; // TEMP JMI
       fMusicOlec++;
     } // for
   }
