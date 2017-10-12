@@ -1110,10 +1110,10 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
       break;
       
     case msrArticulation::kArpeggiato:
-      s << "\\arpeggio";
+      // this is handled in visitStart (S_msrFermata&) JMI
       break;
     case msrArticulation::kNonArpeggiato:
-      s << "\\arpeggio";
+      // this is handled in visitStart (S_msrFermata&) JMI
       break;
     case msrArticulation::kDoit:
       s << "\\bendAfter #+4";
