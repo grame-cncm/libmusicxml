@@ -1055,32 +1055,65 @@ string lpsr2LilypondTranslator::articulationAsLilyponString (
   stringstream s;
   
   switch (articulation->getArticulationKind ()) {
+
+    case msrArticulation::kAccent:
+      s << "->";
+      break;
+    case msrArticulation::kBreathMark:
+      s << "\\breathe";
+      break;
+    case msrArticulation::kCaesura:
+    /* JMI
+          fOstream <<
+            endl <<
+            R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
+            endl <<
+            idtr;
+     */
+      s <<
+        endl <<
+        idtr <<
+          "\\override BreathingSign.text = \\markup {"
+          "\\musicglyph #\"scripts.caesura.curved\"}" <<
+        endl <<
+      idtr <<
+        "\\breathe" <<
+        endl;
+      break;
+    case msrArticulation::kSpiccato:
+      s << "%{spiccato%}";
+      break;
+    case msrArticulation::kStaccato:
+      s << "\\staccato"; // JMI "-.";
+      break;
+    case msrArticulation::kStaccatissimo:
+      s << "-!";
+      break;
+    case msrArticulation::kStress:
+      s << "%{stress%}";
+      break;
+    case msrArticulation::kUnstress:
+      s << "%{unstress%}";
+      break;
+    case msrArticulation::kDetachedLegato:
+      s << "-_"; // portato
+      break;
+    case msrArticulation::kStrongAccent:
+      s << "-^"; // marcato
+      break;
+    case msrArticulation::kTenuto:
+      s << "--";
+      break;
+      
+    case msrArticulation::kFermata:
+      // this is handled in visitStart (S_msrFermata&)
+      break;
       
     case msrArticulation::kArpeggiato:
-      // this is handled in visitStart (S_msrArpeggiato&)
-      break;
-     default:
-      ;
-  } // switch
-
-  return s.str ();
-}
-
-
-//________________________________________________________________________
-string lpsr2LilypondTranslator::arpeggioDirectionAsLilyponString (
-  S_msrArticulation articulation)
-{
-  stringstream s;
-  
-  switch (articulation->getArticulationKind ()) {
-
- 
-    case msrArticulation::kArpeggiato:
-      // this is handled in visitStart (S_msrArpeggiato&)
+      s << "\\arpeggio";
       break;
     case msrArticulation::kNonArpeggiato:
-      // this is handled in visitStart (S_msrNonArpeggiato&)
+      s << "\\arpeggio";
       break;
     case msrArticulation::kDoit:
       s << "\\bendAfter #+4";
@@ -1096,6 +1129,8 @@ string lpsr2LilypondTranslator::arpeggioDirectionAsLilyponString (
       break;
   } // switch
 
+  s << " ";
+  
   return s.str ();
 }
 

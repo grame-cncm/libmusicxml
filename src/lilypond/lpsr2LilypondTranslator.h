@@ -486,9 +486,6 @@ class lpsr2LilypondTranslator :
     string                articulationAsLilyponString (
                             S_msrArticulation articulation);
 
-    string                arpeggioDirectionAsLilyponString (
-                            S_msrArticulation articulation);
-
     // technicals
     
     string                technicalAsLilypondString (
