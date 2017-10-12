@@ -1125,10 +1125,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       break;
       
     case msrArticulation::kArpeggiato:
-      // this is handled in visitStart (S_msrFermata&) JMI
+      // this is handled in chordArticulationAsLilyponString ()
       break;
     case msrArticulation::kNonArpeggiato:
-      // this is handled in visitStart (S_msrFermata&) JMI
+      // this is handled in chordArticulationAsLilyponString ()
       break;
     case msrArticulation::kDoit:
       s << "\\bendAfter #+4";
@@ -1166,7 +1166,6 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
   } // switch
 
   switch (articulation->getArticulationKind ()) {
-
     case msrArticulation::kAccent:
       s << ">";
       break;
@@ -5678,18 +5677,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
 /*
 Articulations can be attached to rests as well as notes but they cannot be attached to multi-measure rests. A special predefined command, \fermataMarkup, is available for at- taching a fermata to a multi-measure rest (and only a multi-measure rest). This creates a MultiMeasureRestText object.
 */
- 
+
+/* JMI
   switch (elt->getArticulationPlacement ()) {
     case k_NoPlacement:
-      // no prefix needed
+      // nothing needed
       break;
     case kAbovePlacement:
-      // no prefix needed
+      fOstream << "^";
       break;
     case kBelowPlacement:
       fOstream << "_";
       break;
   } // switch
+*/
 
   msrFermata::msrFermataType
     fermataType =
@@ -5703,7 +5704,7 @@ Articulations can be attached to rests as well as notes but they cannot be attac
       // no markup needed
       break;
     case msrFermata::kInvertedFermataType:
-      fOstream << "-\\markup {\\override #`(direction . ,DOWN) "; // JMI
+      fOstream << "_";
       break;
   } // switch
 

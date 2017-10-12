@@ -8580,137 +8580,6 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_articulations& elt )
 }
 
 //______________________________________________________________________________
-void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
-    cerr << idtr <<
-      "--> Start visiting S_fermata" <<
-      endl;
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
-/*
-  Fermata and wavy-line elements can be applied both to
-  notes and to measures, so they are defined here. Wavy
-  lines are one way to indicate trills; when used with a
-  measure element, they should always have type="continue"
-  set. The fermata text content represents the shape of the
-  fermata sign and may be normal, angled, or square.
-  An empty fermata element represents a normal fermata.
-  The fermata type is upright if not specified.
--->
-<!ELEMENT fermata  (#PCDATA)>
-<!ATTLIST fermata
-    type (upright | inverted) #IMPLIED
-    %print-style;
->
-<!ELEMENT wavy-line EMPTY>
-<!ATTLIST wavy-line
-    type %start-stop-continue; #REQUIRED
-    number %number-level; #IMPLIED
-    %position;
-    %placement; 
-    %color;
-    %trill-sound; 
->
- */
-
-  string fermataTextValue = elt->getValue ();
-
-  // kind
-  
-  msrFermata::msrFermataKind
-    fermataKind =
-      msrFermata::kNormalFermataKind; // default value
-
-  if      (fermataTextValue == "normal")
-    fermataKind = msrFermata::kNormalFermataKind;
-    
-  else if (fermataTextValue == "angled")
-    fermataKind = msrFermata::kAngledFermataKind;
-    
-  else if (fermataTextValue == "square")
-    fermataKind = msrFermata::kSquareFermataKind;
-    
-  else {
-    if (fermataTextValue.size ()) {
-      stringstream s;
-      
-      s <<
-        "fermata kind \"" << fermataTextValue <<
-        "\" is unknown";
-      
-      msrMusicXMLError (
-        inputLineNumber,
-        s.str ());
-    }   
-  }
-
-  // type
-  
-  string fermataTypeValue = elt->getAttributeValue ("type");
-  
-  msrFermata::msrFermataType
-    fermataType =
-      msrFermata::k_NoFermataType; // default value
-
-  if      (fermataTypeValue == "upright")
-    fermataType = msrFermata::kUprightFermataType;
-    
-  else if (fermataTypeValue == "inverted")
-    fermataType = msrFermata::kInvertedFermataType;
-    
-  else {
-    if (fermataTypeValue.size ()) {
-      stringstream s;
-      
-      s <<
-        "fermata type \"" << fermataTypeValue <<
-        "\" is unknown";
-      
-      msrMusicXMLError (
-        inputLineNumber,
-        s.str ());
-    }   
-  }
-
-  // placement
-  
-  string placementString = elt->getAttributeValue ("placement");
-
-  msrPlacement placement = k_NoPlacement;
-
-  if      (placementString == "above")
-    placement = kAbovePlacement;
-  else if (placementString == "below")
-    placement = kAbovePlacement;    
-  else {
-    if (placementString.size ()) {
-      stringstream s;
-      
-      s <<
-        "fermata placement \"" << placementString <<
-        "\" is unknown";
-      
-      msrMusicXMLError (
-        inputLineNumber,
-        s.str ());    
-    }
-  }
-
-  S_msrFermata
-    fermata =
-      msrFermata::create (
-        inputLineNumber,
-        fermataKind,
-        fermataType,
-        placement);
-        
-  fCurrentArticulations.push_back (fermata);
-}
-
-//______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
@@ -8793,7 +8662,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
     }
   }
   
-  // create the articulation  
+  // create the arpeggiato  
   S_msrArpeggiato
     arpeggiato =
       msrArpeggiato::create (
@@ -8891,7 +8760,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
 
   int number = elt->getAttributeIntValue ("number", 0);
 
-  // create the articulation  
+  // create the non arpeggiato  
   S_msrNonArpeggiato
     nonArpeggiato =
       msrNonArpeggiato::create (
@@ -10120,6 +9989,113 @@ void musicXMLTree2MsrTranslator::visitStart ( S_up_bow& elt )
         upBowPlacementKind);
       
   fCurrentTechnicalsList.push_back (technical);
+}
+
+//______________________________________________________________________________
+void musicXMLTree2MsrTranslator::visitStart ( S_fermata& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+    cerr << idtr <<
+      "--> Start visiting S_fermata" <<
+      endl;
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+/*
+  Fermata and wavy-line elements can be applied both to
+  notes and to measures, so they are defined here. Wavy
+  lines are one way to indicate trills; when used with a
+  measure element, they should always have type="continue"
+  set. The fermata text content represents the shape of the
+  fermata sign and may be normal, angled, or square.
+  An empty fermata element represents a normal fermata.
+  The fermata type is upright if not specified.
+-->
+<!ELEMENT fermata  (#PCDATA)>
+<!ATTLIST fermata
+    type (upright | inverted) #IMPLIED
+    %print-style;
+>
+<!ELEMENT wavy-line EMPTY>
+<!ATTLIST wavy-line
+    type %start-stop-continue; #REQUIRED
+    number %number-level; #IMPLIED
+    %position;
+    %placement; 
+    %color;
+    %trill-sound; 
+>
+ */
+
+  string fermataTextValue = elt->getValue ();
+
+  // kind
+  
+  msrFermata::msrFermataKind
+    fermataKind =
+      msrFermata::kNormalFermataKind; // default value
+
+  if      (fermataTextValue == "normal")
+    fermataKind = msrFermata::kNormalFermataKind;
+    
+  else if (fermataTextValue == "angled")
+    fermataKind = msrFermata::kAngledFermataKind;
+    
+  else if (fermataTextValue == "square")
+    fermataKind = msrFermata::kSquareFermataKind;
+    
+  else {
+    if (fermataTextValue.size ()) {
+      stringstream s;
+      
+      s <<
+        "fermata kind \"" << fermataTextValue <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str ());
+    }   
+  }
+
+  // type
+  
+  string fermataTypeValue = elt->getAttributeValue ("type");
+  
+  msrFermata::msrFermataType
+    fermataType =
+      msrFermata::k_NoFermataType; // default value
+
+  if      (fermataTypeValue == "upright")
+    fermataType = msrFermata::kUprightFermataType;
+    
+  else if (fermataTypeValue == "inverted")
+    fermataType = msrFermata::kInvertedFermataType;
+    
+  else {
+    if (fermataTypeValue.size ()) {
+      stringstream s;
+      
+      s <<
+        "fermata type \"" << fermataTypeValue <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str ());
+    }   
+  }
+
+  // create the fermata
+  S_msrFermata
+    fermata =
+      msrFermata::create (
+        inputLineNumber,
+        fermataKind,
+        fermataType);
+        
+  fCurrentArticulations.push_back (fermata);
 }
 
 //______________________________________________________________________________

@@ -730,152 +730,6 @@ void msrArticulation::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrFermata msrFermata::create (
-  int            inputLineNumber,
-  msrFermataKind fermataKind,
-  msrFermataType fermataType,
-  msrPlacement   fermataPlacement)
-{
-  msrFermata* o =
-    new msrFermata (
-      inputLineNumber,
-      fermataKind,
-      fermataType,
-      fermataPlacement);
-  assert (o!=0);
-  return o;
-}
-
-msrFermata::msrFermata (
-    int            inputLineNumber,
-    msrFermataKind fermataKind,
-    msrFermataType fermataType,
-    msrPlacement   fermataPlacement)
-    : msrArticulation (
-      inputLineNumber,
-      msrArticulation::kFermata,
-      fermataPlacement)
-{
-  fFermataKind = fermataKind;
-  fFermataType = fermataType;
-}
-
-msrFermata::~msrFermata()
-{}
-
-void msrFermata::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% ==> msrFermata::acceptIn()" <<
-      endl;
-      
-  if (visitor<S_msrFermata>*
-    p =
-      dynamic_cast<visitor<S_msrFermata>*> (v)) {
-        S_msrFermata elem = this;
-        
-        if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
-            "% ==> Launching msrFermata::visitStart()" <<
-             endl;
-        p->visitStart (elem);
-  }
-}
-
-void msrFermata::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
-      "% ==> msrFermata::acceptOut()" <<
-      endl;
-
-  if (visitor<S_msrFermata>*
-    p =
-      dynamic_cast<visitor<S_msrFermata>*> (v)) {
-        S_msrFermata elem = this;
-      
-        if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
-            "% ==> Launching msrFermata::visitEnd()" <<
-            endl;
-        p->visitEnd (elem);
-  }
-}
-
-void msrFermata::browseData (basevisitor* v)
-{}
-
-string msrFermata::fermataKindAsString (
-  msrFermataKind fermataKind)
-{
-  string result;
-  
-  switch (fermataKind) {
-    case msrFermata::kNormalFermataKind:
-      result = "fermata kind: normal";
-      break;
-    case msrFermata::kAngledFermataKind:
-      result = "fermata kind: angled";
-      break;
-    case msrFermata::kSquareFermataKind:
-      result = "fermata kind: square";
-      break;
-  } // switch
-
-  return result;
-}
-      
-string msrFermata::fermataTypeAsString (
-  msrFermataType fermataType)
-{
-  string result;
-  
-  switch (fermataType) {
-    case msrFermata::k_NoFermataType:
-      result = "fermata type: none";
-      break;
-    case msrFermata::kUprightFermataType:
-      result = "fermata type: upright";
-      break;
-    case msrFermata::kInvertedFermataType:
-      result = "fermata type: inverted";
-      break;
-  } // switch
-
-  return result;
-}
-      
-ostream& operator<< (ostream& os, const S_msrFermata& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-string msrFermata::fermataAsString () const
-{
-  stringstream s;
-
-  s <<
-    "Fermata" <<
-    articulationKindAsString () <<
-    ", " <<
-    articulationPlacementAsString () <<
-    ", " <<
-    fermataKindAsString (fFermataKind) <<
-    ", " <<
-    fermataTypeAsString (fFermataType) <<
-    ", line " << fInputLineNumber;
-
-  return s.str ();
-}
-
-void msrFermata::print (ostream& os)
-{
-  os <<
-    fermataAsString () <<
-    endl;
-}
-
-//______________________________________________________________________________
 S_msrArpeggiato msrArpeggiato::create (
   int          inputLineNumber,
   msrPlacement arpeggiatoPlacement,
@@ -1604,6 +1458,146 @@ void msrTechnicalWithString::print (ostream& os)
     ", line " << fInputLineNumber <<
     ", note uplink" << " = " <<
     fTechnicalWithStringNoteUplink->noteAsShortString () <<
+    endl;
+}
+
+//______________________________________________________________________________
+S_msrFermata msrFermata::create (
+  int            inputLineNumber,
+  msrFermataKind fermataKind,
+  msrFermataType fermataType,
+  msrPlacement   fermataPlacement)
+{
+  msrFermata* o =
+    new msrFermata (
+      inputLineNumber,
+      fermataKind,
+      fermataType,
+      fermataPlacement);
+  assert (o!=0);
+  return o;
+}
+
+msrFermata::msrFermata (
+    int            inputLineNumber,
+    msrFermataKind fermataKind,
+    msrFermataType fermataType)
+    : msrElement (
+      inputLineNumber)
+{
+  fFermataKind = fermataKind;
+  fFermataType = fermataType;
+}
+
+msrFermata::~msrFermata()
+{}
+
+void msrFermata::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrFermata::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrFermata>*
+    p =
+      dynamic_cast<visitor<S_msrFermata>*> (v)) {
+        S_msrFermata elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrFermata::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrFermata::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    cerr << idtr <<
+      "% ==> msrFermata::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrFermata>*
+    p =
+      dynamic_cast<visitor<S_msrFermata>*> (v)) {
+        S_msrFermata elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          cerr << idtr <<
+            "% ==> Launching msrFermata::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrFermata::browseData (basevisitor* v)
+{}
+
+string msrFermata::fermataKindAsString (
+  msrFermataKind fermataKind)
+{
+  string result;
+  
+  switch (fermataKind) {
+    case msrFermata::kNormalFermataKind:
+      result = "fermata kind: normal";
+      break;
+    case msrFermata::kAngledFermataKind:
+      result = "fermata kind: angled";
+      break;
+    case msrFermata::kSquareFermataKind:
+      result = "fermata kind: square";
+      break;
+  } // switch
+
+  return result;
+}
+      
+string msrFermata::fermataTypeAsString (
+  msrFermataType fermataType)
+{
+  string result;
+  
+  switch (fermataType) {
+    case msrFermata::k_NoFermataType:
+      result = "fermata type: none";
+      break;
+    case msrFermata::kUprightFermataType:
+      result = "fermata type: upright";
+      break;
+    case msrFermata::kInvertedFermataType:
+      result = "fermata type: inverted";
+      break;
+  } // switch
+
+  return result;
+}
+      
+ostream& operator<< (ostream& os, const S_msrFermata& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrFermata::fermataAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Fermata" <<
+    ", " <<
+    fermataKindAsString (fFermataKind) <<
+    ", " <<
+    fermataTypeAsString (fFermataType) <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
+void msrFermata::print (ostream& os)
+{
+  os <<
+    fermataAsString () <<
     endl;
 }
 

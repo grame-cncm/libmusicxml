@@ -866,95 +866,6 @@ EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
   An articulation is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrFermata : public msrArticulation
-{
-  public:
-          
-    // data types
-    // ------------------------------------------------------
-
-    enum msrFermataKind {
-        kNormalFermataKind, kAngledFermataKind, kSquareFermataKind};
-
-    static string fermataKindAsString (
-      msrFermataKind fermataKind);
-
-    enum msrFermataType {
-        k_NoFermataType,
-        kUprightFermataType, kInvertedFermataType};
-
-    static string fermataTypeAsString (
-      msrFermataType fermataType);
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<msrFermata> create (
-      int            inputLineNumber,
-      msrFermataKind fermataKind,
-      msrFermataType fermataType,
-      msrPlacement   fermataPlacement);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    msrFermata (
-      int            inputLineNumber,
-      msrFermataKind fermataKind,
-      msrFermataType fermataType,
-      msrPlacement   fermataPlacement);
-      
-    virtual ~msrFermata();
-  
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    msrFermataKind        getFermataKind () const
-                              { return fFermataKind; }
-        
-    msrFermataType        getFermataType () const
-                              { return fFermataType; }
-        
-    // services
-    // ------------------------------------------------------
-
-    string                fermataAsString () const;
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-
-    // fields
-    // ------------------------------------------------------
-
-    msrFermataKind        fFermataKind;
-    
-    msrFermataType        fFermataType;
-};
-typedef SMARTP<msrFermata> S_msrFermata;
-EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
-
-/*!
-\brief A msr articulation representation.
-
-  An articulation is represented by the numerator and denominator
-*/
-//______________________________________________________________________________
 class EXP msrArpeggiato : public msrArticulation
 {
   public:
@@ -1627,6 +1538,93 @@ class EXP msrOrnament : public msrElement
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
+
+/*!
+\brief A msr articulation representation.
+
+  An articulation is represented by the numerator and denominator
+*/
+//______________________________________________________________________________
+class EXP msrFermata : public msrElement
+{
+  public:
+          
+    // data types
+    // ------------------------------------------------------
+
+    enum msrFermataKind {
+        kNormalFermataKind, kAngledFermataKind, kSquareFermataKind};
+
+    static string fermataKindAsString (
+      msrFermataKind fermataKind);
+
+    enum msrFermataType {
+        k_NoFermataType,
+        kUprightFermataType, kInvertedFermataType};
+
+    static string fermataTypeAsString (
+      msrFermataType fermataType);
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrFermata> create (
+      int            inputLineNumber,
+      msrFermataKind fermataKind,
+      msrFermataType fermataType);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFermata (
+      int            inputLineNumber,
+      msrFermataKind fermataKind,
+      msrFermataType fermataType);
+      
+    virtual ~msrFermata();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrFermataKind        getFermataKind () const
+                              { return fFermataKind; }
+        
+    msrFermataType        getFermataType () const
+                              { return fFermataType; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string                fermataAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrFermataKind        fFermataKind;
+    
+    msrFermataType        fFermataType;
+};
+typedef SMARTP<msrFermata> S_msrFermata;
+EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
 
 /*!
 \brief A msr singleTremolo representation.
