@@ -482,6 +482,8 @@ class lpsr2LilypondTranslator :
     void                  printNoteAsLilypondString (S_msrNote note);
 
     // articulations
+
+    msrDirection          fCurrentArpeggioDirection;
     
     string                noteArticulationAsLilyponString (
                             S_msrArticulation articulation);

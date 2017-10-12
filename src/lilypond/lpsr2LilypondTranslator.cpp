@@ -96,6 +96,9 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // notes
   fOnGoingNote = false;
 
+  // articulations
+  fCurrentArpeggioDirection = k_NoDirection;
+
   // stems
   fCurrentStemKind = msrStem::k_NoStem;
 //  fOnGoingStemNone = false; JMI
@@ -1054,10 +1057,22 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
 {
   stringstream s;
   
+  switch (articulation->getArticulationPlacement ()) {
+    case k_NoPlacement:
+      fOstream << "-";
+      break;
+    case kAbovePlacement:
+      fOstream << "^";
+      break;
+    case kBelowPlacement:
+      fOstream << "_";
+      break;
+  } // switch
+
   switch (articulation->getArticulationKind ()) {
 
     case msrArticulation::kAccent:
-      s << "->";
+      s << ">";
       break;
     case msrArticulation::kBreathMark:
       s << "\\breathe";
@@ -1084,10 +1099,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       s << "%{spiccato???%}";
       break;
     case msrArticulation::kStaccato:
-      s << "\\staccato"; // JMI "-.";
+      s << ".";
       break;
     case msrArticulation::kStaccatissimo:
-      s << "-!";
+      s << "!";
       break;
     case msrArticulation::kStress:
       s << "%{stress???%}";
@@ -1096,13 +1111,13 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       s << "%{unstress???%}";
       break;
     case msrArticulation::kDetachedLegato:
-      s << "-_"; // portato
+      s << "_"; // portato
       break;
     case msrArticulation::kStrongAccent:
-      s << "-^"; // marcato
+      s << "^"; // marcato
       break;
     case msrArticulation::kTenuto:
-      s << "--";
+      s << "-";
       break;
       
     case msrArticulation::kFermata:
@@ -1138,10 +1153,22 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
 {
   stringstream s;
   
+  switch (articulation->getArticulationPlacement ()) {
+    case k_NoPlacement:
+      fOstream << "-";
+      break;
+    case kAbovePlacement:
+      fOstream << "^";
+      break;
+    case kBelowPlacement:
+      fOstream << "_";
+      break;
+  } // switch
+
   switch (articulation->getArticulationKind ()) {
 
     case msrArticulation::kAccent:
-      s << "->";
+      s << ">";
       break;
     case msrArticulation::kBreathMark:
       s << "\\breathe";
@@ -1171,7 +1198,7 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
       s << "\\staccato"; // JMI "-.";
       break;
     case msrArticulation::kStaccatissimo:
-      s << "-!";
+      s << "!";
       break;
     case msrArticulation::kStress:
       s << "%{stress???%}";
@@ -1180,13 +1207,13 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
       s << "%{unstress%}";
       break;
     case msrArticulation::kDetachedLegato:
-      s << "-_"; // portato
+      s << "_"; // portato
       break;
     case msrArticulation::kStrongAccent:
-      s << "-^"; // marcato
+      s << "^"; // marcato
       break;
     case msrArticulation::kTenuto:
-      s << "--";
+      s << "-";
       break;
       
     case msrArticulation::kFermata:
@@ -6932,10 +6959,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         S_msrArpeggiato
           arpeggiato =
             dynamic_cast<msrArpeggiato*>(&(*articulation))
-        ) {    
-        switch (arpeggiato->getArpeggiatoDirection ()) {
+        ) {
+        msrDirection
+          direction =
+            arpeggiato->getArpeggiatoDirection ();
+        
+        switch (direction) {
           case k_NoDirection:
-            fOstream << "\\arpeggioNormal";
+            if (fCurrentArpeggioDirection != k_NoDirection)
+              fOstream << "\\arpeggioNormal";
             break;
           case kUpDirection:
             fOstream << "\\arpeggioArrowUp";
@@ -6947,6 +6979,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
           
         fOstream << " ";
         fMusicOlec++;
+
+        fCurrentArpeggioDirection = direction;
       }
       
       else if (
@@ -6954,7 +6988,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         S_msrNonArpeggiato
           nonArpeggiato =
             dynamic_cast<msrNonArpeggiato*>(&(*articulation))
-        ) {    
+        ) {
+        fOstream << "\\arpeggioBracket";
+        
         switch (nonArpeggiato->getNonArpeggiatoTypeKind ()) {
           case msrNonArpeggiato::k_NoNonArpeggiatoType:
             fOstream << "%{\\k_NoNonArpeggiatoType???%}";
@@ -7041,8 +7077,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       fOstream <<
         chordArticulationAsLilyponString ((*i)) <<          
         " ";
-
-        fOstream << endl; // TEMP JMI
       fMusicOlec++;
     } // for
   }
