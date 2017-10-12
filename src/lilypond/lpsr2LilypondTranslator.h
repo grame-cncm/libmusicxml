@@ -483,7 +483,10 @@ class lpsr2LilypondTranslator :
 
     // articulations
     
-    string                articulationAsLilyponString (
+    string                noteArticulationAsLilyponString (
+                            S_msrArticulation articulation);
+
+    string                chordArticulationAsLilyponString (
                             S_msrArticulation articulation);
 
     // technicals
