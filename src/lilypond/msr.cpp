@@ -905,6 +905,12 @@ msrArpeggiato::msrArpeggiato (
 msrArpeggiato::~msrArpeggiato()
 {}
 
+string msrArpeggiato::arpeggiatoDirectionAsString () const
+{
+  return
+    msrDirectionAsString (fArpeggiatoDirection);
+}
+
 void msrArpeggiato::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -1018,6 +1024,12 @@ string msrNonArpeggiato::nonArpeggiatoTypeKindAsString (
   return result;
 }
 
+string msrNonArpeggiato::nonArpeggiatoTypeKindAsString () const
+{
+  return
+    nonArpeggiatoTypeKindAsString (fNonArpeggiatoTypeKind);
+}
+
 void msrNonArpeggiato::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     cerr << idtr <<
@@ -1071,7 +1083,7 @@ void msrNonArpeggiato::print (ostream& os)
     "NonArpeggiato" " " <<
     articulationKindAsString () <<
     ", " <<
-    articulationPlacementKindAsString () <<
+    articulationPlacementAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 }
