@@ -3805,11 +3805,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   }
 
   else if (fOnGoingHarmonyVoice) {
-    // indent before the fist harmony of the msrSegment if needed
-    if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
-      fLilypondOutputStream <<
-        gIdtr;
-
     fLilypondOutputStream <<
       harmonyAsLilypondString (elt) <<
       " ";
@@ -5513,7 +5508,7 @@ If the double element is present, it indicates that the music is doubled one oct
 
 /* JMI
   if (gGeneralOptions->fTraceTranspositions) {
-    cerr << gIdtr << // JMI
+    cerr << // JMI
       "Handlling transpose '" <<
       elt->transposeAsString () <<
       "' ignored because it is already present in voice \"" <<
@@ -8049,10 +8044,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
   fLilypondOutputStream <<
     endl <<
     endl <<
-    gIdtr <<
     " }" <<
-    endl <<
-    gIdtr;
+    endl;
 
   if (gLilypondOptions->fComments) {
     fLilypondOutputStream <<

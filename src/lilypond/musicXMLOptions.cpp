@@ -149,7 +149,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 
 void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 {  
-  cerr << gIdtr <<
+  gLogIos <<
     "The MusicXML options are:" <<
     endl;
 
@@ -158,39 +158,36 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   // trace and display
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Trace and display:" <<
+  gLogIos <<
+    "Trace and display:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr <<
-      setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
-      booleanAsString (fTraceMusicXMLTreeVisitors) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
+    booleanAsString (fTraceMusicXMLTreeVisitors) <<
+    endl;
 
   gIdtr--;
       
   // other
   // --------------------------------------
 
-  cerr <<
-    gIdtr << "Other:" <<
+  gLogIos <<
+    "Other:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr <<
-      setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
-      booleanAsString (fIgnoreMusicXMLErrors) <<
-      endl <<
-      
-    gIdtr <<
-      setw (fieldWidth) << "loopToMusicXML" << " : " <<
-      booleanAsString (fLoopToMusicXML) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
+    booleanAsString (fIgnoreMusicXMLErrors) <<
+    endl <<
+    
+    setw (fieldWidth) << "loopToMusicXML" << " : " <<
+    booleanAsString (fLoopToMusicXML) <<
+    endl;
 
   gIdtr--;
 

@@ -250,7 +250,6 @@ void writeNoteAsLilypondString (
         if (note->getNoteIsStemless ()) {
           os <<
             endl <<
-            gIdtr <<
             "\\stemNeutral" " "; // JMI ""\\once\\omit Stem" " ";
         }
 
@@ -292,7 +291,6 @@ void writeNoteAsLilypondString (
         if (note->getNoteIsStemless ()) {
           os <<
             endl <<
-            gIdtr <<
             "\\stemNeutral"; // JMI ""\\once\\omit Stem" " ";
         }
 
@@ -520,8 +518,7 @@ void writeNoteAsLilypondString (
     case msrNote::kTupletMemberNote:
       if (! gLilypondOptions->fTupletsOnALine) {
         os <<
-          endl <<
-          gIdtr;
+          endl;
       }
         
       // print the note name
@@ -781,7 +778,7 @@ string existingLpsrAccidentalStyles ()
       iEnd   = gLpsrAccidentalStylesMap.end(),
       i      = iBegin;
     for ( ; ; ) {
-      cerr <<
+      gLogIos <<
         (*i).first <<
         endl;
       if ((*i).second != kDefaultStyle)

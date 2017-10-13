@@ -6185,10 +6185,7 @@ void msrNote::print (ostream& os)
       endl;
   
     gIdtr++;
-  
-    os <<
-      gIdtr;
-      
+        
     switch (fNoteKind) {
       case msrNote::k_NoNoteKind:
       case msrNote::kRestNote:
@@ -21320,8 +21317,7 @@ void msrHarpPedalsTuning::print (ostream& os)
     gIdtr++;
 
     os <<
-      endl <<
-      gIdtr;
+      endl;
       
     map<msrDiatonicPitch, msrAlteration>::const_iterator
       iBegin = fHarpPedalsAlterationsMap.begin(),
@@ -23254,8 +23250,6 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             endl;
 
         gIdtr++;
-        gLogIos <<
-          gIdtr;
         print (gLogIos);
         gIdtr--;
 
@@ -23382,8 +23376,6 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             endl;
 
         gIdtr++;
-        gLogIos <<
-          gIdtr;
         print (gLogIos);
         gIdtr--;
 
@@ -23409,8 +23401,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           gLogIos <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl <<
-            gIdtr;
+            endl;
 
         gIdtr++;
         print (gLogIos);
@@ -23531,8 +23522,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           gLogIos <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl <<
-            gIdtr;
+            endl;
 
         gIdtr++;
         print (gLogIos);
@@ -23709,8 +23699,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
           gLogIos <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl <<
-            gIdtr;
+            endl;
 
         gIdtr++;
         print (gLogIos);
@@ -23814,8 +23803,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
           gLogIos <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl <<
-            gIdtr;
+            endl;
 
         gIdtr++;
         print (gLogIos);
@@ -23887,9 +23875,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
           gLogIos <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
-            endl <<
-            gIdtr;
-
+            endl;
         gIdtr++;
         print (gLogIos);
         gIdtr--;
@@ -25619,8 +25605,7 @@ void msrStaff::createStaffSilentVoice (
     "*****************" <<
     endl <<
     "msrStaff::createStaffSilentVoice, this =" <<
-    endl <<
-    gIdtr;
+    endl;
   print (gLogIos);
   gLogIos <<
     "*****************" <<
@@ -25669,8 +25654,7 @@ else
   gLogIos <<
     endl <<
     "**********" <<
-    endl <<
-    gIdtr;
+    endl;
   print (gLogIos);
   gLogIos <<
     endl <<
@@ -27388,8 +27372,7 @@ void msrPart::createPartMasterStaffAndVoice (
       endl <<
       "***********" <<
       endl <<
-      endl <<
-      gIdtr;
+      endl;
     print (gLogIos);
     gLogIos <<
       "***********" <<
@@ -27497,8 +27480,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
     endl <<
     "***********" <<
     endl <<
-    endl <<
-    gIdtr;
+    endl;
   print (gLogIos);
   gLogIos <<
     "***********" <<
@@ -27573,8 +27555,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
     endl <<
     "***********" <<
     endl <<
-    endl <<
-    gIdtr;
+    endl;
   print (gLogIos);
   gLogIos <<
     "***********" <<
@@ -29113,8 +29094,6 @@ void msrPart::printStructure (ostream& os)
       i      = iBegin;
           
     for ( ; ; ) {
-      os <<
-        gIdtr;
       (*i).second->printStructure (os);
       if (++i == iEnd) break;
       os << endl;

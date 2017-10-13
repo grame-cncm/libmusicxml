@@ -204,8 +204,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     endl << \
 \
     message << \
-    endl << endl << \
-    gIdtr; \
+    endl << endl; \
 \
   if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
     assert(false); \
@@ -227,8 +226,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     endl << \
 \
     message << \
-    endl << endl << \
-    gIdtr; \
+    endl << endl; \
 \
   assert(false); \
 }
@@ -249,8 +247,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     endl << \
 \
     message << \
-    endl << endl << \
-    gIdtr; \
+    endl << endl; \
 }
 
 /*!

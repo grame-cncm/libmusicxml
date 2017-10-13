@@ -992,15 +992,12 @@ void lpsrSchemeFunction::print (ostream& os)
 
   // print resulting strings
   os <<
-    gIdtr <<
-      "function name : \"" << fFunctionName << "\"" <<
-      endl <<
-    gIdtr <<
-      "function description: \"" << fFunctionDescription << "\"" <<
-      endl <<
-    gIdtr <<
-      "function code: \"" << fFunctionCode << "\"" <<
-      endl;
+    "function name : \"" << fFunctionName << "\"" <<
+    endl <<
+    "function description: \"" << fFunctionDescription << "\"" <<
+    endl <<
+    "function code: \"" << fFunctionCode << "\"" <<
+    endl;
 
   gIdtr--;
 }
@@ -2677,16 +2674,14 @@ void lpsrStaffBlock::print (ostream& os)
   const int fieldWidth = 31;
   
   os << left <<
-    gIdtr <<
-      setw (fieldWidth) <<
-      "(StaffBlockInstrumentName" << " = \"" << fStaffBlockInstrumentName <<
-      "\")" <<
-      endl <<
-    gIdtr <<
-      setw (fieldWidth) <<
-      "(StaffBlockShortInstrumentName" << " = \"" << fStaffBlockShortInstrumentName <<
-      "\")" <<
-      endl <<
+    setw (fieldWidth) <<
+    "(StaffBlockInstrumentName" << " = \"" << fStaffBlockInstrumentName <<
+    "\")" <<
+    endl <<
+    setw (fieldWidth) <<
+    "(StaffBlockShortInstrumentName" << " = \"" << fStaffBlockShortInstrumentName <<
+    "\")" <<
+    endl <<
     endl;
 
   if (fStaffBlockElements.size()) {  
@@ -2818,25 +2813,21 @@ void lpsrPartBlock::print (ostream& os)
   const int fieldWidth = 28;
 
   os << left <<
-    gIdtr <<
-      setw (fieldWidth) << string ("(") + "PartName" << " = \"" <<
-      fPart->getPartName () << "\")" <<
-      endl <<
-    gIdtr <<
-      setw (fieldWidth) << string ("(") + "PartAbbreviation" << " = \"" <<
-      fPart->getPartAbbreviation () << "\")" <<
-      endl <<
+    setw (fieldWidth) << string ("(") + "PartName" << " = \"" <<
+    fPart->getPartName () << "\")" <<
+    endl <<
+    setw (fieldWidth) << string ("(") + "PartAbbreviation" << " = \"" <<
+    fPart->getPartAbbreviation () << "\")" <<
+    endl <<
 
-    gIdtr <<
-      setw (fieldWidth) << "PartBlockInstrumentName" << " = \"" <<
-      fPartBlockInstrumentName <<
-      "\"" <<
-      endl <<
-    gIdtr <<
-      setw (fieldWidth) << "PartBlockShortInstrumentName" << " = \"" <<
-      fPartBlockShortInstrumentName <<
-      "\"" <<
-      endl;
+    setw (fieldWidth) << "PartBlockInstrumentName" << " = \"" <<
+    fPartBlockInstrumentName <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) << "PartBlockShortInstrumentName" << " = \"" <<
+    fPartBlockShortInstrumentName <<
+    "\"" <<
+    endl;
 
   os << endl;
 
@@ -2945,7 +2936,6 @@ void lpsrPartGroupBlock::print (ostream& os)
 {
   os <<
     endl <<
-    gIdtr <<
     "PartGroupBlock" << " " <<
     "for partGroup \"" <<
     fPartGroup->getPartGroupCombinedName () <<
@@ -3227,7 +3217,6 @@ lpsrScore::lpsrScore (
     stringstream s;
     
     s <<
-      gIdtr <<
       "% Translation command was:";
         
     fTranslationDateComment =
