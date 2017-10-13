@@ -3348,6 +3348,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrScore& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrScore" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrScore& elt)
@@ -3356,6 +3357,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrScore& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrScore" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -3365,6 +3367,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrCredit& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrCredit" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrCredit& elt)
@@ -3373,6 +3376,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrCredit& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrCredit" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrCreditWords& elt)
@@ -3381,6 +3385,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrCreditWords& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrCreditWords" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrCreditWords& elt)
@@ -3389,6 +3394,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrCreditWords& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrCreditWords" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -3399,6 +3405,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPartGroup& elt)
       "% --> Start visiting msrPartGroup" <<
       elt->getPartGroupCombinedName () <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrPartGroup& elt)
@@ -3408,6 +3415,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPartGroup& elt)
       "% --> End visiting msrPartGroup" <<
       elt->getPartGroupCombinedName () <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -3418,6 +3426,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
       "% --> Start visiting msrPart" <<
       elt->getPartCombinedName () <<
       endl;
+  }
 
   fCurrentPart = elt;
 }
@@ -3429,6 +3438,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPart& elt)
       "% --> End visiting msrPart" <<
       elt->getPartCombinedName () <<
       endl;
+  }
 
   fCurrentPart = 0;
 }
@@ -3442,6 +3452,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaff& elt)
       elt->getStaffName () <<
       "\"" <<
       endl;
+  }
   
   fOnGoingStaff = true;
 }
@@ -3454,6 +3465,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStaff& elt)
       elt->getStaffName () <<
       "\"" <<
       endl;
+  }
   
   fOnGoingStaff = false;
 }
@@ -3465,6 +3477,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
     fLilypondOutputStream <<
       "%--> Start visiting msrStaffLinesNumber" <<
       endl;
+  }
 
   // fetch staff lines number
   int
@@ -3488,6 +3501,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
     fLilypondOutputStream <<
       "%--> Start visiting msrStaffTuning" <<
       endl;
+  }
 
 /* JMI
   list<S_msrStaffTuning>
@@ -3531,6 +3545,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
     fLilypondOutputStream <<
       "%--> Start visiting msrStaffDetails" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -3542,6 +3557,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       elt->getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   fCurrentVoice = elt;
   
@@ -3689,6 +3705,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       elt->getVoiceName () <<
       "\"" <<
       endl;
+  }
   
   if (gLilypondOptions->fDisplayMusic) {
     fLilypondOutputStream <<
@@ -3769,6 +3786,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
       "% --> Start visiting msrVoiceStaffChange '" <<
       elt->voiceStaffChangeAsString () << "'" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     endl <<
@@ -3787,6 +3805,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       elt->harmonyAsString () <<
       "'" <<
       endl;
+  }
 
   if (fOnGoingNote) {
     if (gGeneralOptions->fTraceHarmonies) {
@@ -3838,6 +3857,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
       elt->figuredBassAsString () <<
       "'" <<
       endl;
+  }
 
   fCurrentFiguredBass = elt;
   
@@ -3884,6 +3904,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
       elt->figureAsString () <<
       "'" <<
       endl;
+  }
 
   fCurrentFiguredBassFiguresCounter++;
   
@@ -3987,6 +4008,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
       elt->figuredBassAsString () <<
       "'" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     ">" <<
@@ -4005,6 +4027,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegment& elt)
       "%--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
+  }
 
   if (gLilypondOptions->fComments) {
     fLilypondOutputStream <<
@@ -4025,6 +4048,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
       "%--> End visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
+  }
 
   if (gLilypondOptions->fComments) {
     idtr--;
@@ -4270,6 +4294,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       msrMeasure::measureKindAsString (measureKind) <<
       ", line " << elt->getInputLineNumber () <<
       endl;
+  }
 
   // handle the measure
   switch (measureKind) {
@@ -4363,6 +4388,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
       elt->getStanzaName () <<
       "\"" <<
       endl;
+  }
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
     // don't generate code for the stanza inside the code for the voice
@@ -4387,6 +4413,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
       elt->getStanzaName () <<
       "\"" <<
       endl;
+  }
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
     if (fOngoingNonEmptyStanza) {
@@ -4412,6 +4439,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       elt->syllableAsString () <<
       "'" <<
       endl;
+  }
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
     if (
@@ -4632,6 +4660,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSyllable& elt)
       elt->syllableAsString () <<
       "'" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -4643,6 +4672,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
       elt->clefAsString () <<
       "'" <<
       endl;
+  }
 
   msrClef::msrClefKind
     clefKind =
@@ -4749,6 +4779,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrClef& elt)
       elt->clefAsString () <<
       "'" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -4760,6 +4791,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
       elt->keyAsString () <<
       "'" <<
       endl;
+  }
 
   switch (elt->getKeyKind ()) {
     case msrKey::kTraditionalKind:
@@ -4853,6 +4885,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrKey& elt)
       elt->keyAsString () <<
       "'"  <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -4863,6 +4896,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       "% --> Start visiting msrTime " <<
       elt->timeAsString () <<
       endl;
+  }
 
   msrTime::msrTimeSymbolKind
     timeSymbolKind =
@@ -5057,6 +5091,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)
       "% --> End visiting msrTime " <<
       elt->timeAsString () <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5066,6 +5101,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTranspose& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrTranspose" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -5532,6 +5568,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrTranspose" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5541,6 +5578,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrTempo" <<
       endl;
+  }
 
   string tempoIndication = elt->getTempoIndication ();
   
@@ -5568,6 +5606,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTempo& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrTempo" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5577,6 +5616,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArticulation& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrArticulation" <<
       endl;
+  }
 
   // don't generate the articulation here,
   // the note or chord will do it in its visitEnd() method
@@ -5588,6 +5628,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrArticulation& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrArticulation" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5597,6 +5638,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrFermata" <<
       endl;
+  }
 
 /*
 Articulations can be attached to rests as well as notes but they cannot be attached to multi-measure rests. A special predefined command, \fermataMarkup, is available for at- taching a fermata to a multi-measure rest (and only a multi-measure rest). This creates a MultiMeasureRestText object.
@@ -5647,6 +5689,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrFermata" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5656,6 +5699,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrArpeggiato" <<
       endl;
+  }
 
 /* VIRER JMI
   */
@@ -5667,6 +5711,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrArpeggiato& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrArpeggiato" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5676,6 +5721,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrNonArpeggiato" <<
       endl;
+  }
+
 /* VIRER JMI
   */
 }
@@ -5686,6 +5733,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNonArpeggiato& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrNonArpeggiato" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5695,6 +5743,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnical& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrTechnical" <<
       endl;
+  }
 
   // don't generate the technical here,
   // the note or chord will do it in its visitEnd() method
@@ -5706,6 +5755,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnical& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrTechnical" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5715,6 +5765,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrTechnicalWithInteger" <<
       endl;
+  }
 
   // don't generate the technicalWithInteger here,
   // the note or chord will do it in its visitEnd() method
@@ -5726,6 +5777,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrTechnicalWithInteger" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5735,6 +5787,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithString& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrTechnicalWithString" <<
       endl;
+  }
 
   // don't generate the technicalWithString here,
   // the note or chord will do it in its visitEnd() method
@@ -5746,6 +5799,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithString& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrTechnicalWithString" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5755,6 +5809,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOrnament& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrOrnament" <<
       endl;
+  }
 
   // don't generate the ornament here,
   // the note or chord will do it in its visitEnd() method
@@ -5766,6 +5821,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOrnament& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrOrnament" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5775,6 +5831,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSingleTremolo& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrSingleTremolo" <<
       endl;
+  }
 
   // don't generate the singleTremolo here,
   // the note or chord will do it in its visitEnd() method
@@ -5786,6 +5843,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSingleTremolo& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrSingleTremolo" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5795,6 +5853,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrDoubleTremolo" <<
       endl;
+  }
 
   // get double tremolo number of repeats
   int numberOfRepeats =
@@ -5836,6 +5895,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrDoubleTremolo" <<
       endl;
+  }
 
   idtr--;
   
@@ -5852,6 +5912,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDynamics& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrDynamics" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrDynamics& elt)
@@ -5860,6 +5921,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDynamics& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrDynamics" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5869,6 +5931,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOtherDynamics& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrOtherDynamics" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrOtherDynamics& elt)
@@ -5877,6 +5940,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOtherDynamics& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrOtherDynamics" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5886,6 +5950,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrWords& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrWords" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrWords& elt)
@@ -5894,6 +5959,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrWords& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrWords" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5903,6 +5969,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSlur& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrSlur" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrSlur& elt)
@@ -5911,6 +5978,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSlur& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrSlur" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5920,6 +5988,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrLigature& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrLigature" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrLigature& elt)
@@ -5928,6 +5997,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrLigature& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrLigature" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5937,6 +6007,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrWedge& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrWedge" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrWedge& elt)
@@ -5945,6 +6016,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrWedge& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrWedge" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -5954,6 +6026,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrGraceNotes& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrGraceNotes" <<
       endl;
+  }
 
   if (elt->getGraceNotesIsSlashed ())
     fLilypondOutputStream <<
@@ -5970,6 +6043,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrGraceNotes& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrGraceNotes" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "} ";
@@ -5982,6 +6056,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotes& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrAfterGraceNotes" <<
       endl;
+  }
 
  // JMI exists? if (elt->getGraceNotesIsSlashed ())
   fLilypondOutputStream <<
@@ -6002,6 +6077,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotes& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrAfterGraceNotes" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "} ";
@@ -6013,6 +6089,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondOutputStream <<
       "% --> Start visiting ";
+  }
       
     switch (elt->getNoteKind ()) {
 
@@ -6604,6 +6681,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrOctaveShift" <<
       endl;
+  }
 
   int octaveShiftSize =
     elt->getOctaveShiftSize (); // 8 or 15
@@ -6632,6 +6710,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOctaveShift& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrOctaveShift" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -6641,6 +6720,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrAccordionRegistration" <<
       endl;
+  }
 
   int highDotsNumber =
     elt->getHighDotsNumber ();
@@ -6687,6 +6767,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrHarpPedalsTuning" <<
       endl;
+  }
 
   map<msrDiatonicPitch, msrAlteration>
     harpPedalsAlterationsMap =
@@ -6727,6 +6808,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStem& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrStem" <<
       endl;
+  }
 
   fCurrentStem = elt;
 }
@@ -6737,6 +6819,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStem& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrStem" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -6746,6 +6829,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBeam& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrBeam" <<
       endl;
+  }
 
   // LilyPond will take care of multiple beams automatically,
   // so we need only generate code for the first number (level)
@@ -6781,6 +6865,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBeam& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrBeam" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
