@@ -10888,8 +10888,8 @@ class EXP msrMidi : public msrElement
     // fields
     // ------------------------------------------------------
 
-    string          fMidiTempoDuration;
-    int             fMidiTempoPerSecond;
+    string                fMidiTempoDuration;
+    int                   fMidiTempoPerSecond;
 };
 typedef SMARTP<msrMidi> S_msrMidi;
 EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);

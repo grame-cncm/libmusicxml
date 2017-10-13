@@ -130,14 +130,14 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 
   if (TRACE_OPTIONS) {
     // print the options handler initial state
-    cerr << idtr <<
+    fLogOutputStream <<
       "xml2lilypondOptionsHandler has been initialized as:" <<
       endl;
   
     idtr++;
   
-    print (cerr);
-    cerr <<
+    print (fLogOutputStream);
+    fLogOutputStream <<
       endl <<
       endl;
     
@@ -150,12 +150,13 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
     registerOptionsHandlerInItself ();
 
   if (TRACE_OPTIONS) {
-    cerr << idtr <<
+    fLogOutputStream <<
       "xml2lilypondOptionsHandler help:" <<
       endl;
 
     this->
-      printHelp (cerr);
+      printHelp (
+        fLogOutputStream);
   }
 }
 
@@ -166,7 +167,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
 
   if (TRACE_OPTIONS) {    
     if (argumentsNumber > 0) {
-      cerr << idtr <<
+      fLogOutputStream <<
         singularOrPluralWithoutNumber (
           argumentsNumber, "There is", "There are") <<
         " " <<
@@ -180,18 +181,18 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
       idtr++;
       
       for (unsigned int i = 0; i < argumentsNumber; i++) {
-        cerr << idtr <<
+        fLogOutputStream <<
           i << " : " << fArgumentsVector [i] <<
             endl;
       } // for
 
-      cerr <<
+      fLogOutputStream <<
         endl;
 
       idtr--;
     }
     else {
-      cerr << idtr <<
+      fLogOutputStream <<
         "There are no arguments" <<
         endl;
     }
@@ -208,13 +209,14 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
       break;
 
     default:
-      cerr <<
+      fLogOutputStream <<
         endl <<
         "Input file name or '-' for standard input expected" <<
         endl <<
         endl;
 
-      printHelpSummary (cerr);
+      printHelpSummary (
+        fLogOutputStream);
 
       exit (1);
       break;
@@ -296,28 +298,25 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
   
-  os << idtr <<
+  os <<
     "xml2lilypondOptionsHandler:" <<
     endl;
 
   idtr++;
 
-  os <<
-    idtr << left <<
-      setw (fieldWidth) <<
-      "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
-      endl <<
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsElementShortName" << " : " << fOptionsElementShortName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsElementLongName" << " : " << fOptionsElementLongName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsElementDescription" << " : " << fOptionsElementDescription <<
+    endl <<
     endl;
 
-  os << idtr <<
+  os <<
     "Options groups (" <<
     singularOrPlural (
       fOptionsHandlerOptionsGroupsList.size (), "element",  "elements") <<
@@ -337,7 +336,7 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
       // print the element
       os << (*i);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     idtr--;

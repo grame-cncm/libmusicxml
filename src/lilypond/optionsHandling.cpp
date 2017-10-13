@@ -3027,7 +3027,8 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
         // this is the stdin indicator
         if (TRACE_OPTIONS) {
           fLogOutputStream <<
-            "'" << currentElement << "' is the '-' stdin indicator" <<
+            "'" << currentElement <<
+              "' is the '-' stdin indicator" <<
             endl;
         }
         
