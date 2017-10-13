@@ -37,9 +37,9 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msr2LpsrTranslator::msr2LpsrTranslator (
-  ostream&       os,
-  S_msrScore     mScore)
-    : fOstream (os)
+  indentedOutputStream& ios,
+  S_msrScore            mScore)
+    : fLogOutputStream (ios)
 {
   // the MSR score we're visiting
   fVisitedMsrScore = mScore;
@@ -448,7 +448,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 
     // pop current partGroup from this visitors's stack
     if (gGeneralOptions->fTracePartGroups)
-      fOstream << idtr <<
+      fLogOutputStream << idtr <<
         "--> popping part group clone " <<
         fPartGroupsStack.top ()->getPartGroupCombinedName () <<
         " from stack" <<
@@ -500,7 +500,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
   else {
     // pop current partGroup block from this visitors's stack
     if (gGeneralOptions->fTracePartGroups)
-      fOstream << idtr <<
+      fLogOutputStream << idtr <<
         "--> popping part group block clone for part group " <<
         currentPartGroupBlock->
           getPartGroup ()->
@@ -1657,7 +1657,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
 void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream <<
+    fLogOutputStream <<
       endl << endl <<
       idtr <<
         "--> Start visiting msrStanza \"" <<

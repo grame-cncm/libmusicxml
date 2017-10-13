@@ -16957,26 +16957,22 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_details& elt )
     const int fieldWidth = 29;
 
     fLogOutputStream << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentStaffLinesNumber" << " = " <<
-        fCurrentStaffLinesNumber->staffLinesNumberAsString () <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "StaffDetailsStaffNumber" << " = " <<
-        fStaffDetailsStaffNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentStaffDetailsCapo" << " = " <<
-        fCurrentStaffDetailsCapo <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentStaffDetailsStaffSize" << " = " <<
-        fCurrentStaffDetailsStaffSize <<
-        endl;
+      setw (fieldWidth) <<
+      "CurrentStaffLinesNumber" << " = " <<
+      fCurrentStaffLinesNumber->staffLinesNumberAsString () <<
+      endl <<
+      setw (fieldWidth) <<
+      "StaffDetailsStaffNumber" << " = " <<
+      fStaffDetailsStaffNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "CurrentStaffDetailsCapo" << " = " <<
+      fCurrentStaffDetailsCapo <<
+      endl <<
+      setw (fieldWidth) <<
+      "CurrentStaffDetailsStaffSize" << " = " <<
+      fCurrentStaffDetailsStaffSize <<
+      endl;
   }
 
   idtr--;

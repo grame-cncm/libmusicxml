@@ -69,26 +69,30 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 {
   clock_t startClock = clock();
       
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      cerr, idtr);
+  
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
   
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
-      idtr <<
-        separator <<
-        endl <<
-      idtr <<
-        "Pass 3: translating the MSR into a LPSR" <<
-        endl <<
-      idtr <<
-        separator <<
-        endl <<
-        endl;
+      separator <<
+      endl <<
+      "Pass 3: translating the MSR into a LPSR" <<
+      endl <<
+      separator <<
+      endl <<
+      endl;
   }
   
   // create an msr2LpsrTranslator
-  msr2LpsrTranslator translator (os, mScore);
+  msr2LpsrTranslator translator (
+    logIndentedOutputStream,
+    mScore);
       
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();
