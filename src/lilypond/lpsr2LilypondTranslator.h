@@ -713,12 +713,14 @@ class lpsr2LilypondTranslator :
     // score blocks
     // ------------------------------------------------------
     bool                  fOnGoingScoreBlock; // JMI
-    
+
+    /* JMI
     // limiting output line size
     outputLineElementsCounter
                           fMusicOlec;
     outputLineElementsCounter
                           fStanzaOlec;
+                          */
 };
 
 
