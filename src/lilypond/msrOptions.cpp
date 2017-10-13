@@ -546,7 +546,7 @@ bool msrOptions::setMsrQuarterTonesPitchesLanguage (string language)
 
 void msrOptions::printMsrOptionsValues (int fieldWidth)
 {
-  cerr << gIdtr <<
+  gLogIos <<
     "The MSR options are:" <<
     endl;
 
@@ -555,65 +555,63 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // trace and display
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Trace and display:" <<
+  gLogIos <<
+    "Trace and display:" <<
     endl;
 
   gIdtr++;
   
-  cerr << left <<
-    gIdtr <<
-      setw (fieldWidth) << "traceMsr" << " : " <<
-      booleanAsString (fTraceMsr) <<
-      endl <<
-    
-    gIdtr <<
-      setw (fieldWidth) << "traceMsrVisitors" << " : " <<
-      booleanAsString (fTraceMsrVisitors) <<
-      endl <<
+  gLogIos << left <<
+    setw (fieldWidth) << "traceMsr" << " : " <<
+    booleanAsString (fTraceMsr) <<
+    endl <<
+  
+    setw (fieldWidth) << "traceMsrVisitors" << " : " <<
+    booleanAsString (fTraceMsrVisitors) <<
+    endl <<
 
-    gIdtr << setw (fieldWidth) << "displayMsr" << " : " <<
-      booleanAsString (fDisplayMsr) <<
-      endl <<
+    setw (fieldWidth) << "displayMsr" << " : " <<
+    booleanAsString (fDisplayMsr) <<
+    endl <<
 
-    gIdtr << setw (fieldWidth) << "displayMsrSummary" << " : " <<
-      booleanAsString (fDisplayMsrSummary) <<
-      endl;    
+    setw (fieldWidth) << "displayMsrSummary" << " : " <<
+    booleanAsString (fDisplayMsrSummary) <<
+    endl;    
 
   gIdtr--;
 
   // languages
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Languages:" <<
+  gLogIos <<
+     "Languages:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
-      msrQuarterTonesPitchesLanguageAsString (
-        fMsrQuarterTonesPitchesLanguage) <<
-        "\"" <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
+    msrQuarterTonesPitchesLanguageAsString (
+      fMsrQuarterTonesPitchesLanguage) <<
+      "\"" <<
+    endl;
 
   gIdtr--;
 
   // parts
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Parts:" <<
+  gLogIos <<
+     "Parts:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "parts renaming" << " : ";
+  gLogIos << left <<
+    setw (fieldWidth) << "parts renaming" << " : ";
 
   if (fPartsRenamingMap.empty ()) {
-    cerr <<
+    gLogIos <<
       "none";
   }
   
@@ -623,12 +621,12 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
         fPartsRenamingMap.begin();
       i != fPartsRenamingMap.end();
       i++) {
-        cerr <<
+        gLogIos <<
           "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";
     } // for
   }
 
-  cerr <<
+  gLogIos <<
     endl;
 
   gIdtr--;
@@ -636,23 +634,23 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // voices
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Voices:" <<
+  gLogIos <<
+    "Voices:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) <<
-      "createVoicesStaffRelativeNumbers" << " : " <<
-      booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
-      endl <<
-    
-    gIdtr << setw (fieldWidth) <<
+  gLogIos << left <<
+    setw (fieldWidth) <<
+    "createVoicesStaffRelativeNumbers" << " : " <<
+    booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
+    endl <<
+  
+    setw (fieldWidth) <<
     "showSilentVoices" << " : " <<
       booleanAsString (fShowSilentVoices) <<
       endl <<
-    gIdtr << setw (fieldWidth) <<
+    setw (fieldWidth) <<
       "keepSilentVoices" << " : " <<
       booleanAsString (fKeepSilentVoices) <<
       endl;
@@ -662,90 +660,90 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   // notes
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Notes:" <<
+  gLogIos <<
+     "Notes:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<    
-    gIdtr << setw (fieldWidth) << "delayRestsDynamics" << " : " <<
-      booleanAsString (fDelayRestsDynamics) <<
-      endl <<
-      
-    gIdtr << setw (fieldWidth) << "delayRestsWords" << " : " <<
-      booleanAsString (fDelayRestsWords) <<
-      endl <<
-      
-    gIdtr << setw (fieldWidth) << "delayRestsSlurs" << " : " <<
-      booleanAsString (fDelayRestsSlurs) <<
-      endl <<
-      
-    gIdtr << setw (fieldWidth) << "delayRestsLigatures" << " : " <<
-      booleanAsString (fDelayRestsLigatures) <<
-      endl <<
-      
-    gIdtr << setw (fieldWidth) << "delayRestsWedges" << " : " <<
-      booleanAsString (fDelayRestsWedges) <<
-      endl;
+  gLogIos << left << 
+    setw (fieldWidth) << "delayRestsDynamics" << " : " <<
+    booleanAsString (fDelayRestsDynamics) <<
+    endl <<
+    
+    setw (fieldWidth) << "delayRestsWords" << " : " <<
+    booleanAsString (fDelayRestsWords) <<
+    endl <<
+    
+    setw (fieldWidth) << "delayRestsSlurs" << " : " <<
+    booleanAsString (fDelayRestsSlurs) <<
+    endl <<
+    
+    setw (fieldWidth) << "delayRestsLigatures" << " : " <<
+    booleanAsString (fDelayRestsLigatures) <<
+    endl <<
+    
+    setw (fieldWidth) << "delayRestsWedges" << " : " <<
+    booleanAsString (fDelayRestsWedges) <<
+    endl;
 
   gIdtr--;
    
   // lyrics
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Lyrics:" <<
+  gLogIos <<
+    "Lyrics:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "showMsrStanzas" << " : " <<
-      booleanAsString (fShowMsrStanzas) <<
-      endl <<
+  gLogIos <<
+    setw (fieldWidth) << "showMsrStanzas" << " : " <<
+    booleanAsString (fShowMsrStanzas) <<
+    endl <<
 
-    gIdtr << setw (fieldWidth) << "keepMuteStanzas" << " : " <<
-      booleanAsString (fKeepMuteStanzas) <<
-      endl;
+    setw (fieldWidth) << "keepMuteStanzas" << " : " <<
+    booleanAsString (fKeepMuteStanzas) <<
+    endl;
 
   gIdtr--;
 
   // harmonies
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Harmonies:" <<
+  gLogIos <<
+    "Harmonies:" <<
     endl;
 
   gIdtr++;    
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "showHarmonyVoices" << " : " <<
-      booleanAsString (fShowHarmonyVoices) <<
-      endl <<
-    gIdtr << setw (fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
-      booleanAsString (fKeepEmptyHarmonyVoices) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "showHarmonyVoices" << " : " <<
+    booleanAsString (fShowHarmonyVoices) <<
+    endl <<
+    setw (fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
+    booleanAsString (fKeepEmptyHarmonyVoices) <<
+    endl;
   
   gIdtr--;
   
   // figured bass
   // --------------------------------------
   
-  cerr <<
-    gIdtr << "Figured bass:" <<
+  gLogIos <<
+    "Figured bass:" <<
     endl;
 
   gIdtr++;    
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
-      booleanAsString (fShowFiguredBassVoices) <<
-      endl <<
-    gIdtr << setw (fieldWidth) << "keepEmptyFiguredBassVoices" << " : " <<
-      booleanAsString (fKeepEmptyFiguredBassVoices) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
+    booleanAsString (fShowFiguredBassVoices) <<
+    endl <<
+    setw (fieldWidth) << "keepEmptyFiguredBassVoices" << " : " <<
+    booleanAsString (fKeepEmptyFiguredBassVoices) <<
+    endl;
   
   gIdtr--;
   
