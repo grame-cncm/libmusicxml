@@ -94,7 +94,10 @@ What it does:
     provided item values immediately follow the corresponding items.
     
     The activity log and warning/error messages go to standard error.
-)"
+)",
+R"(
+Options '-h, -help' print the full help,
+while '-hs, -helpSummary' only print a help summary.)"
       )
 {
   initializeOptionsHandler ();
@@ -140,7 +143,7 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
   // register options handler in itself,
   // so that the 'global' help options can be handled
   this->
-    registerOptionsHandlerInSelf ();
+    registerOptionsHandlerInItself ();
 
   if (TRACE_OPTIONS) {
     cerr << idtr <<

@@ -2508,6 +2508,7 @@ S_msrOptionsHandler msrOptionsHandler::create (
   string optionHandlerHelpLongName,
   string optionHandlerHelpSummaryShortName,
   string optionHandlerHelpSummaryLongName,
+  string optionHandlerPreamble,
   string optionHandlerDescription)
 {
   msrOptionsHandler* o = new
@@ -2518,6 +2519,7 @@ S_msrOptionsHandler msrOptionsHandler::create (
       optionHandlerHelpLongName,
       optionHandlerHelpSummaryShortName,
       optionHandlerHelpSummaryLongName,
+      optionHandlerPreamble,
       optionHandlerDescription);
   assert(o!=0);
   return o;
@@ -2531,6 +2533,7 @@ msrOptionsHandler::msrOptionsHandler (
   string optionHandlerHelpLongName,
   string optionHandlerHelpSummaryShortName,
   string optionHandlerHelpSummaryLongName,
+  string optionHandlerPreamble,
   string optionHandlerDescription)
   : msrOptionsElement (
       optionHandlerHelpShortName,
@@ -2547,6 +2550,9 @@ msrOptionsHandler::msrOptionsHandler (
     optionHandlerHelpSummaryShortName;
   fOptionHandlerHelpSummaryLongName =
     optionHandlerHelpSummaryLongName;
+
+  fOptionHandlerPreamble =
+    optionHandlerPreamble;
     
   fMaximumSubGroupsHelpHeadersSize = 1;
 
@@ -2559,10 +2565,16 @@ msrOptionsHandler::msrOptionsHandler (
 msrOptionsHandler::~msrOptionsHandler()
 {}
 
-void msrOptionsHandler::registerOptionsHandlerInSelf ()
+void msrOptionsHandler::registerOptionsHandlerInItself ()
 {
   this->
     registerOptionsElementInHandler (this);
+
+  // register the help summary names in handler
+  registerOptionsNamesInHandler (
+    fOptionHandlerHelpSummaryShortName,
+    fOptionHandlerHelpSummaryLongName,
+    this);
 
   for (
     list<S_msrOptionsGroup>::const_iterator
@@ -2613,20 +2625,16 @@ string msrOptionsHandler::helpNamesBetweenParentheses () const
   return s.str ();
 }
 
-void msrOptionsHandler::registerOptionsElementInHandler (
+void msrOptionsHandler::registerOptionsNamesInHandler (
+  string              optionShortName,
+  string              optionLongName,
   S_msrOptionsElement optionsElement)
 {
-  string
-    optionLongName =
-      optionsElement->getOptionsElementLongName (),
-    optionShortName =
-      optionsElement->getOptionsElementShortName ();
-
   int
-    optionLongNameSize =
-      optionLongName.size (),
     optionShortNameSize =
-      optionShortName.size ();
+      optionShortName.size (),
+    optionLongNameSize =
+      optionLongName.size ();
 
   if (
     optionShortNameSize == 0
@@ -2686,27 +2694,6 @@ void msrOptionsHandler::registerOptionsElementInHandler (
       }
     }
   } // for
-
-  if (
-    // options subgroup?
-    S_msrOptionsSubGroup
-      optionsSubGroup =
-        dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
-    ) {    
-
-    string
-      optionHelpHeader=
-        optionsSubGroup->getOptionsSubGroupHelpHeader ();
-    int
-      optionHelpHeaderSize =
-        optionHelpHeader.size ();
-          
-    // account for optionsSubGroup's description size
-    if (optionHelpHeaderSize > fMaximumSubGroupsHelpHeadersSize) {
-      fMaximumSubGroupsHelpHeadersSize =
-        optionHelpHeaderSize;
-    }
-  }
     
   // register optionsElement's names size
   if (optionLongNameSize) {
@@ -2729,6 +2716,43 @@ void msrOptionsHandler::registerOptionsElementInHandler (
     
     if (optionShortNameSize > fMaximumDisplayNameWidth)
       fMaximumDisplayNameWidth = optionShortNameSize;
+  }
+}
+
+void msrOptionsHandler::registerOptionsElementInHandler (
+  S_msrOptionsElement optionsElement)
+{
+  string
+    optionShortName =
+      optionsElement->getOptionsElementShortName (),
+    optionLongName =
+      optionsElement->getOptionsElementLongName ();
+
+  // register the option names in handler
+  registerOptionsNamesInHandler (
+    optionShortName,
+    optionLongName,
+    optionsElement);
+    
+  if (
+    // options subgroup?
+    S_msrOptionsSubGroup
+      optionsSubGroup =
+        dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
+    ) {    
+
+    string
+      optionHelpHeader=
+        optionsSubGroup->getOptionsSubGroupHelpHeader ();
+    int
+      optionHelpHeaderSize =
+        optionHelpHeader.size ();
+          
+    // account for optionsSubGroup's header size
+    if (optionHelpHeaderSize > fMaximumSubGroupsHelpHeadersSize) {
+      fMaximumSubGroupsHelpHeadersSize =
+        optionHelpHeaderSize;
+    }
   }
 }
 
@@ -2793,10 +2817,11 @@ void msrOptionsHandler::print (ostream& os) const
 
 void msrOptionsHandler::printHelp (ostream& os) const
 {
+  // print the options handler preamble
   os <<
     idtr.indentMultiLineString (
-      fOptionsElementDescription) <<
-    endl;
+      fOptionHandlerPreamble) <<
+      endl;
     
   // print versions history
   printVersionsHistory (os);
@@ -2807,9 +2832,17 @@ void msrOptionsHandler::printHelp (ostream& os) const
     " " <<
     helpNamesBetweenParentheses () <<
     ":" <<
-    endl <<
     endl;
   
+  // print the options handler description
+  idtr++;
+  os <<
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+      endl <<
+    endl;
+  idtr--;
+    
   // print the options groups helps
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
     idtr++;
@@ -2831,15 +2864,30 @@ void msrOptionsHandler::printHelp (ostream& os) const
 
 void msrOptionsHandler::printHelpSummary (ostream& os) const
 {
+  // print the options handler preamble
   os <<
-    idtr <<
-      fOptionsHandlerHelpHeader <<
-      " " <<
-      helpNamesBetweenParentheses () <<
-      ":" <<
-      endl <<
+    idtr.indentMultiLineString (
+      fOptionHandlerPreamble) <<
+      endl;
+    
+  // print the options handler help header and element names
+  os <<
+    fOptionsHandlerHelpHeader <<
+    " " <<
+    helpNamesBetweenParentheses () <<
+    ":" <<
     endl;
 
+  // print the options handler description
+  idtr++;
+  os <<
+    idtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+      endl <<
+    endl;
+  idtr--;
+    
+  // print the options groups help summaries
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
     idtr++;
 
@@ -2850,8 +2898,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
     for ( ; ; ) {
       // print the options group summary
       os << idtr;
-      (*i)->
-        printHelpSummary (os);
+      (*i)->printHelpSummary (os);
       if (++i == iEnd) break;
       cerr << endl;
     } // for
@@ -2865,14 +2912,15 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
   S_msrOptionsSubGroup
            optionsSubGroup) const
 {
-  os << idtr <<
-    fOptionsHandlerValuesHeader <<
+  // print the options handler help header and element names
+  os <<
+    fOptionsHandlerHelpHeader <<
     " " <<
     helpNamesBetweenParentheses () <<
     ":" <<
-    endl <<
     endl;
 
+  // print the optons group subgroups specific help
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
     idtr++;
 

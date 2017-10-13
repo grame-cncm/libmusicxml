@@ -1445,7 +1445,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
       string optionHandlerHelpLongName,
       string optionHandlerHelpSummaryShortName,
       string optionHandlerHelpSummaryLongName,
-      string optionHandlerDescriptionr);
+      string optionHandlerPreamble,
+      string optionHandlerDescription);
 */
 
   protected:
@@ -1460,6 +1461,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
       string optionHandlerHelpLongName,
       string optionHandlerHelpSummaryShortName,
       string optionHandlerHelpSummaryLongName,
+      string optionHandlerPreamble,
       string optionHandlerDescription);
       
     virtual ~msrOptionsHandler();
@@ -1487,6 +1489,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     string                getOptionHandlerHelpSummaryLongName () const
                               { return fOptionHandlerHelpSummaryLongName; }
+
+    string                getOptionHandlerPreamble () const
+                              { return fOptionHandlerPreamble; }
 
     string                getProgramName () const
                               { return fProgramName; }
@@ -1520,7 +1525,12 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     string                helpNamesBetweenParentheses () const;
 
-    void                  registerOptionsHandlerInSelf ();
+    void                  registerOptionsNamesInHandler (
+                            string              optionShortName,
+                            string              optionLongName,
+                            S_msrOptionsElement optionsElement);
+      
+    void                  registerOptionsHandlerInItself ();
 
     void                  registerOptionsElementInHandler (
                             S_msrOptionsElement optionsElement);
@@ -1570,6 +1580,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     
     string                fOptionHandlerHelpSummaryShortName;
     string                fOptionHandlerHelpSummaryLongName;
+
+    string                fOptionHandlerPreamble;
 
     S_msrOptionsItem      fPendingOptionsItem;
 
