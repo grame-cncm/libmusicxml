@@ -17076,15 +17076,13 @@ void msrMeasure::finalizeMeasure (
     const int fieldWidth = 26;
     
     gLogIos << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "measureLength" << " = " << fMeasureLength <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "partMeasureLengthHighTide" << " = " <<
-        partMeasureLengthHighTide <<
-        endl;
+      setw (fieldWidth) <<
+      "measureLength" << " = " << fMeasureLength <<
+      endl <<
+      setw (fieldWidth) <<
+      "partMeasureLengthHighTide" << " = " <<
+      partMeasureLengthHighTide <<
+      endl;
         
     idtr--;
   }
@@ -17371,37 +17369,33 @@ void msrMeasure::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
-      "Measure " << fMeasureNumber <<
-      ", " << measureKindAsString () <<
+    "Measure " << fMeasureNumber <<
+    ", " << measureKindAsString () <<
 /* JMI
-      ", measureLengthAsMSRString: " <<
-      measureLengthAsMSRString () <<
-      ", measureFullMeasureLengthAsMSRString: " <<
-      measureFullMeasureLengthAsMSRString () <<
-      ", " << fMeasureFullMeasureLength << " per full measure" <<
-      */
-      ", " <<
-      msrMeasure::measureFirstInSegmentKindAsString (
-        fMeasureFirstInSegmentKind) << 
-      ", " <<
-      singularOrPlural (
-        fMeasureElementsList.size (), "element", "elements") <<
-      ", line " << fInputLineNumber <<
-      endl;
+    ", measureLengthAsMSRString: " <<
+    measureLengthAsMSRString () <<
+    ", measureFullMeasureLengthAsMSRString: " <<
+    measureFullMeasureLengthAsMSRString () <<
+    ", " << fMeasureFullMeasureLength << " per full measure" <<
+    */
+    ", " <<
+    msrMeasure::measureFirstInSegmentKindAsString (
+      fMeasureFirstInSegmentKind) << 
+    ", " <<
+    singularOrPlural (
+      fMeasureElementsList.size (), "element", "elements") <<
+    ", line " << fInputLineNumber <<
+    endl;
 
   idtr++;
   os <<
-    idtr <<
-      "MeasureSegmentUplink: " <<
-      fMeasureSegmentUplink->segmentAsShortString () <<
-      endl <<
-    idtr <<
-      "Length: " << fMeasureLength << " whole notes" <<
-      endl <<
-    idtr <<
-      "Full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
-      endl;
+    "MeasureSegmentUplink: " <<
+    fMeasureSegmentUplink->segmentAsShortString () <<
+    endl <<
+    "Length: " << fMeasureLength << " whole notes" <<
+    endl <<
+    "Full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
+    endl;
   idtr--;
 
   if (fMeasureElementsList.size ()) {
@@ -17414,8 +17408,7 @@ void msrMeasure::print (ostream& os)
       iEnd   = fMeasureElementsList.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os <<
-        idtr << (*i);
+      os << (*i);
         // JMI << endl;
       if (++i == iEnd) break;
   //    os << idtr;
@@ -17784,9 +17777,8 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceSegments) {
     gLogIos <<
-      idtr <<
-        "Appending clef '" << clef->clefAsString () <<
-        "' to segment " << segmentAsString () <<
+      "Appending clef '" << clef->clefAsString () <<
+      "' to segment " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -17811,12 +17803,10 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       "\"";
 
     gLogIos <<
-      idtr <<
       "SegmentVoiceUplink:" <<
       endl;
     idtr++;
     gLogIos <<
-      idtr <<
       fSegmentVoiceUplink <<
       endl;
     idtr--;
@@ -17840,13 +17830,12 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceSegments) {
     gLogIos <<
-      idtr <<
-        "Appending key '" << key->keyAsString () <<
-        "' to segment " << segmentAsString () <<
-      ", in voice \"" <<
-      fSegmentVoiceUplink->getVoiceName () <<
-      "\"" <<
-        endl;
+      "Appending key '" << key->keyAsString () <<
+      "' to segment " << segmentAsString () <<
+    ", in voice \"" <<
+    fSegmentVoiceUplink->getVoiceName () <<
+    "\"" <<
+      endl;
   }
       
   // register key in segment
@@ -17866,9 +17855,8 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments) {
     gLogIos <<
-      idtr <<
-        "Appending time:" <<
-        endl;
+      "Appending time:" <<
+      endl;
 
     idtr++;
 
@@ -17878,12 +17866,11 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
     idtr--;
 
     gLogIos <<
-      idtr <<
-        "to segment " << segmentAsString () <<
-        ", in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "to segment " << segmentAsString () <<
+      ", in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
   }
       
   // sanity check
@@ -17900,9 +17887,8 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments) {
     gLogIos <<
-      idtr <<
-        "Appending time:" <<
-        endl;
+      "Appending time:" <<
+      endl;
 
     idtr++;
 
@@ -17912,12 +17898,11 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
     idtr--;
 
     gLogIos <<
-      idtr <<
-        "to segment clone " << segmentAsString () <<
-        ", in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "to segment clone " << segmentAsString () <<
+      ", in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
   }
       
   // sanity check
@@ -17934,13 +17919,12 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending harmony " << harmony->harmonyAsString () <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending harmony " << harmony->harmonyAsString () <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -17956,13 +17940,12 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending harmony " << harmony->harmonyAsString () <<
-        " to segment clone " << segmentAsString () <<
-        "' in voice clone \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending harmony " << harmony->harmonyAsString () <<
+      " to segment clone " << segmentAsString () <<
+      "' in voice clone \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -17979,13 +17962,12 @@ void msrSegment::appendFiguredBassToSegment (
 {
   if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending figured bass " << figuredBass->figuredBassAsString () <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending figured bass " << figuredBass->figuredBassAsString () <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18002,13 +17984,12 @@ void msrSegment::appendFiguredBassToSegmentClone (
 {
   if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending figured bass " << figuredBass->figuredBassAsString () <<
-        " to segment clone " << segmentAsString () <<
-        "' in voice clone \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending figured bass " << figuredBass->figuredBassAsString () <<
+      " to segment clone " << segmentAsString () <<
+      "' in voice clone \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
