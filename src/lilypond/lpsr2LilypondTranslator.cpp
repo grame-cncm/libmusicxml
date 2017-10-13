@@ -136,7 +136,6 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   if (gGeneralOptions->fTraceNotes) {
     fIndentedOutputStream <<
       endl <<
-      idtr <<
       "%{ absoluteOctave = " << absoluteOctave << " %}" <<
       endl;
   }
@@ -326,38 +325,33 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
 
     fIndentedOutputStream << left <<
 /*
-      idtr <<
-        setw (fieldWidth) <<
-        "% referenceDiatonicPitch" <<
-        " = " <<
-        referenceDiatonicPitch <<
-        endl <<
-*/
-      idtr <<
-        setw (fieldWidth) <<
-        "% referenceDiatonicPitchAsString" <<
-        " = " <<
-        referenceDiatonicPitchAsString <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% referenceAbsoluteOctave" <<
-         " = " <<
-         referenceAbsoluteOctave <<
-         endl <<
+      setw (fieldWidth) <<
+      "% referenceDiatonicPitch" <<
+      " = " <<
+      referenceDiatonicPitch <<
       endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% referenceAboluteDiatonicOrdinal" <<
-        " = " <<
-        referenceAboluteDiatonicOrdinal <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% noteAboluteDiatonicOrdinal" <<
-        " = " <<
-        noteAboluteDiatonicOrdinal <<
-        endl <<
+*/
+      setw (fieldWidth) <<
+      "% referenceDiatonicPitchAsString" <<
+      " = " <<
+      referenceDiatonicPitchAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% referenceAbsoluteOctave" <<
+       " = " <<
+      referenceAbsoluteOctave <<
+      endl <<
+      endl <<
+      setw (fieldWidth) <<
+      "% referenceAboluteDiatonicOrdinal" <<
+      " = " <<
+      referenceAboluteDiatonicOrdinal <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAboluteDiatonicOrdinal" <<
+      " = " <<
+      noteAboluteDiatonicOrdinal <<
+      endl <<
       endl;
   }
 
@@ -441,7 +435,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         if (note->getNoteIsStemless ()) {
           fIndentedOutputStream <<
             endl <<
-            idtr <<
             "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
         }
 
@@ -482,7 +475,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         if (note->getNoteIsStemless ()) {
           fIndentedOutputStream <<
             endl <<
-            idtr <<
             "\\stemNeutral"; // JMI ""\\once\\omit Stem ";
         }
 
@@ -707,8 +699,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     case msrNote::kTupletMemberNote:
       if (! gLilypondOptions->fTupletsOnALine) {
         fIndentedOutputStream <<
-          endl <<
-          idtr;
+          endl;
       }
         
       // print the note name
@@ -837,37 +828,32 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
     fIndentedOutputStream << left <<
       endl <<
-      idtr <<
-          setw (fieldWidth) <<
-          "% line" <<
-          " = " <<
-          note->getInputLineNumber () <<
-          endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% msrQuarterTonesPitch" <<
-        " = " <<
-        quarterTonesPitchAsString <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% quarterTonesDisplayPitch" <<
-        " = " <<
-        quarterTonesDisplayPitchAsString <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% noteAbsoluteOctave" <<
-        " = " <<
-        noteAbsoluteOctave <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% noteAbsoluteDisplayOctave" <<
-        " = " <<
-        noteAbsoluteDisplayOctave <<
-        endl <<
-      endl;
+      setw (fieldWidth) <<
+      "% line" <<
+      " = " <<
+      note->getInputLineNumber () <<
+      endl <<
+      setw (fieldWidth) <<
+      "% msrQuarterTonesPitch" <<
+      " = " <<
+      quarterTonesPitchAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% quarterTonesDisplayPitch" <<
+      " = " <<
+      quarterTonesDisplayPitchAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteOctave" <<
+      " = " <<
+      noteAbsoluteOctave <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteDisplayOctave" <<
+      " = " <<
+      noteAbsoluteDisplayOctave <<
+      endl <<
+    endl;
   }
 
   if (generateAbsoluteOctave) {
@@ -980,36 +966,31 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 
     fIndentedOutputStream << left <<
       endl <<
-      idtr <<
-          setw (fieldWidth) <<
-          "% line" <<
-          " = " <<
-          note->getInputLineNumber () <<
-          endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% msrQuarterTonesPitch" <<
-        " = " <<
-        quarterTonesPitchAsString <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% quarterTonesDisplayPitch" <<
-        " = " <<
-        quarterTonesDisplayPitchAsString <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% noteAbsoluteOctave" <<
-        " = " <<
-        noteAbsoluteOctave <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% noteAbsoluteDisplayOctave" <<
-        " = " <<
-        noteAbsoluteDisplayOctave <<
-        endl <<
+      setw (fieldWidth) <<
+      "% line" <<
+      " = " <<
+      note->getInputLineNumber () <<
+      endl <<
+      setw (fieldWidth) <<
+      "% msrQuarterTonesPitch" <<
+      " = " <<
+      quarterTonesPitchAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% quarterTonesDisplayPitch" <<
+      " = " <<
+      quarterTonesDisplayPitchAsString <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteOctave" <<
+      " = " <<
+      noteAbsoluteOctave <<
+      endl <<
+      setw (fieldWidth) <<
+      "% noteAbsoluteDisplayOctave" <<
+      " = " <<
+      noteAbsoluteDisplayOctave <<
+      endl <<
       endl;
   }
 
@@ -1059,16 +1040,13 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
           fIndentedOutputStream <<
             endl <<
             R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
-            endl <<
-            idtr;
+            endl;
      */
       s <<
         endl <<
-        idtr <<
-          "\\override BreathingSign.text = \\markup {"
-          "\\musicglyph #\"scripts.caesura.curved\"}" <<
+        "\\override BreathingSign.text = \\markup {"
+        "\\musicglyph #\"scripts.caesura.curved\"}" <<
         endl <<
-      idtr <<
         "\\breathe" <<
         endl;
       break;
@@ -1153,17 +1131,14 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
           fIndentedOutputStream <<
             endl <<
             R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
-            endl <<
-            idtr;
+            endl;
      */
       s <<
         endl <<
-        idtr <<
-          "\\override BreathingSign.text = \\markup {"
-          "\\musicglyph #\"scripts.caesura.curved\"}" <<
+        "\\override BreathingSign.text = \\markup {"
+        "\\musicglyph #\"scripts.caesura.curved\"}" <<
         endl <<
-      idtr <<
-        "\\breathe" <<
+      "\\breathe" <<
         endl;
       break;
     case msrArticulation::kSpiccato:
@@ -1954,8 +1929,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
 
   if (elt->getComment ().size())
     fIndentedOutputStream <<
-      "% " << elt->getComment () << endl <<
-      idtr;
+      "% " << elt->getComment () <<
+      endl;
 
   if (elt->getCommentedKind () == lpsrLilypondVarValAssoc::kCommented)
     fIndentedOutputStream << "\%";
@@ -2030,12 +2005,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVarValAssoc& elt)
       "% --> Start visiting lpsrSchemeVarValAssoc" <<
       endl;
 
-  fIndentedOutputStream << idtr;
-
   if (elt->getComment ().size())
     fIndentedOutputStream <<
-      "% " << elt->getComment () << endl <<
-      idtr;
+      "% " << elt->getComment () <<
+      endl;
 
   if (elt->getCommentedKind () == lpsrSchemeVarValAssoc::kCommented)
     fIndentedOutputStream << "\% ";
@@ -2384,28 +2357,22 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
     idtr++;
 
     fIndentedOutputStream <<
-      idtr <<
-        "\\Score" <<
-        endl <<
-      idtr <<
-        "% defaultBarType = #\"!\"" <<
-        endl <<
-      idtr <<
-        "startRepeatType = #\"[|:\"" <<
-        endl <<
-      idtr <<
-        "endRepeatType = #\":|]\"" <<
-        endl <<
-      idtr <<
-        "doubleRepeatType = #\":|][|:\"" <<
-        endl;
+      "\\Score" <<
+      endl <<
+      "% defaultBarType = #\"!\"" <<
+      endl <<
+      "startRepeatType = #\"[|:\"" <<
+      endl <<
+      "endRepeatType = #\":|]\"" <<
+      endl <<
+      "doubleRepeatType = #\":|][|:\"" <<
+      endl;
 
     idtr--;
         
     fIndentedOutputStream <<
-      idtr <<
-        "}" <<
-        endl;
+      "}" <<
+      endl;
   }
 
   if (true) { // JMI XXL
@@ -2424,9 +2391,8 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
     idtr--;
 
     fIndentedOutputStream <<
-      idtr <<
-        "}" <<
-        endl;
+      "}" <<
+      endl;
   }
     
   idtr--;
@@ -2453,7 +2419,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
 /* JMI
   if (elt->getScoreBlockElements ().size()) {
     fIndentedOutputStream <<
-      idtr << "<<" <<
+      "<<" <<
       endl;
   
     idtr++;
@@ -2473,8 +2439,9 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
     idtr--;
     
     fIndentedOutputStream <<
-      idtr << ">>" <<
-      endl << endl;
+      ">>" <<
+      endl <<
+      * endl;
   }
 */
   idtr--;
@@ -2526,10 +2493,9 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
     
     if (gLilypondOptions->fComments) {
       fIndentedOutputStream << left <<
-        idtr <<
-          setw (commentFieldWidth) <<
-          ">>" <<
-          "% parallel music";
+        setw (commentFieldWidth) <<
+        ">>" <<
+        "% parallel music";
     }
 
     else {
@@ -2671,7 +2637,6 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
   // don't generate code for a for the top-most part group block
   if (partGroup->getPartGroupPartGroupUplink ()) {
     fIndentedOutputStream <<
-      idtr <<
       setw (commentFieldWidth) << ">>";
       
     if (gLilypondOptions->fComments)
@@ -2776,14 +2741,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
   
     if (gLilypondOptions->fComments) {
       fIndentedOutputStream <<
-        idtr <<
         setw (commentFieldWidth) << ">>" <<    
         "% part " <<
         part->getPartCombinedName ();
     }
     else {
       fIndentedOutputStream <<
-        idtr <<
         ">>";
     }
     
@@ -2845,7 +2808,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       
   if (gLilypondOptions->fComments) {
     fIndentedOutputStream << left <<
-      idtr <<
         setw (commentFieldWidth) <<
         newContext + " <<" <<
         " % staff \"" << staff->getStaffName () << "\"";
