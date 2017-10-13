@@ -2047,8 +2047,9 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
   else
     fieldWidth = elt->getVariableName ().size();
     
-  fLilypondOutputStream <<
-    left<< setw (fieldWidth) << elt->getVariableName ();
+  fLilypondOutputStream << left<<
+    setw (fieldWidth) <<
+    elt->getVariableName ();
   
   if (elt->getVarValSeparator () == lpsrLilypondVarValAssoc::kEqualSign)
     fLilypondOutputStream << " = ";
@@ -2198,12 +2199,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getPaperWidth ();
       
     if (paperWidth > 0) {
-      fLilypondOutputStream <<
-        left <<
-          setw (fieldWidth) <<
-          "paper-width" << " = " <<
-          setprecision(4) << paperWidth << "\\cm" <<
-          endl;
+      fLilypondOutputStream << left <<
+        setw (fieldWidth) <<
+        "paper-width" << " = " <<
+        setprecision(4) << paperWidth << "\\cm" <<
+        endl;
     }
   }
   
@@ -2212,12 +2212,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getPaperHeight ();
       
     if (paperHeight > 0) {
-      fLilypondOutputStream <<
-        left <<
-          setw (fieldWidth) <<
-          "paper-height" << " = " <<
-          setprecision(4) << paperHeight << "\\cm" <<
-          endl;
+      fLilypondOutputStream << left <<
+        setw (fieldWidth) <<
+        "paper-height" << " = " <<
+        setprecision(4) << paperHeight << "\\cm" <<
+        endl;
     }
   }
   
@@ -2226,12 +2225,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getTopMargin ();
       
     if (topMargin > 0) {
-      fLilypondOutputStream <<
-        left <<
-          setw (fieldWidth) <<
-          "top-margin" << " = " <<
-          setprecision(4) << topMargin << "\\cm" <<
-          endl;
+      fLilypondOutputStream << left <<
+        setw (fieldWidth) <<
+        "top-margin" << " = " <<
+        setprecision(4) << topMargin << "\\cm" <<
+        endl;
     }
   }
 
@@ -2240,12 +2238,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getBottomMargin ();
       
     if (bottomMargin > 0) {
-      fLilypondOutputStream <<
-        left <<
-          setw (fieldWidth) <<
-          "bottom-margin" << " = " <<
-          setprecision(4) << bottomMargin << "\\cm" <<
-          endl;
+      fLilypondOutputStream << left <<
+        setw (fieldWidth) <<
+        "bottom-margin" << " = " <<
+        setprecision(4) << bottomMargin << "\\cm" <<
+        endl;
     }
   }
 
@@ -2254,12 +2251,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getLeftMargin ();
       
     if (leftMargin > 0) {
-      fLilypondOutputStream <<
-        left <<
-          setw (fieldWidth) <<
-          "left-margin" << " = " <<
-          setprecision(4) << leftMargin << "\\cm" <<
-          endl;
+      fLilypondOutputStream << left <<
+        setw (fieldWidth) <<
+        "left-margin" << " = " <<
+        setprecision(4) << leftMargin << "\\cm" <<
+        endl;
     }
   }
 
@@ -2268,12 +2264,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getRightMargin ();
       
     if (rightMargin > 0) {
-      fLilypondOutputStream <<
-        left <<
-          setw (fieldWidth) <<
-          "right-margin" << " = " <<
-        setprecision(4) << rightMargin << "\\cm" <<
-        endl;
+      fLilypondOutputStream << left <<
+        setw (fieldWidth) <<
+        "right-margin" << " = " <<
+      setprecision(4) << rightMargin << "\\cm" <<
+      endl;
     }
   }
 
@@ -2284,8 +2279,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getBetweenSystemSpace ();
       
     if (betweenSystemSpace > 0) {
-      fLilypondOutputStream <<
-        left <<
+      fLilypondOutputStream << left <<
         setw (fieldWidth) <<
         "between-system-space" << " = " <<
         setprecision(4) << betweenSystemSpace << "\\cm" <<
@@ -2298,8 +2292,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getPageTopSpace ();
       
     if (pageTopSpace > 0) {
-      fLilypondOutputStream <<
-        left <<
+      fLilypondOutputStream << left <<
         setw (fieldWidth) <<
         "page-top-space" << " = " <<
         setprecision(4) << pageTopSpace << "\\cm" <<
@@ -2314,8 +2307,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getOddHeaderMarkup ();
       
     if (oddHeaderMarkup.size ()) {
-      fLilypondOutputStream <<
-        left <<
+      fLilypondOutputStream << left <<
         setw (fieldWidth) <<
         "oddHeaderMarkup" << " = " <<
         oddHeaderMarkup <<
@@ -2328,8 +2320,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getEvenHeaderMarkup ();
       
     if (evenHeaderMarkup.size ()) {
-      fLilypondOutputStream <<
-        left <<
+      fLilypondOutputStream << left <<
         setw (fieldWidth) <<
         "evenHeaderMarkup" << " = " <<
         evenHeaderMarkup <<
@@ -2342,8 +2333,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getOddFooterMarkup ();
       
     if (oddFooterMarkup.size ()) {
-      fLilypondOutputStream <<
-        left <<
+      fLilypondOutputStream << left <<
         setw (fieldWidth) <<
         "oddFooterMarkup" << " = " <<
         oddFooterMarkup <<
@@ -2356,8 +2346,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getEvenFooterMarkup ();
       
     if (evenFooterMarkup.size ()) {
-      fLilypondOutputStream <<
-        left <<
+      fLilypondOutputStream << left <<
         setw (fieldWidth) <<
         "evenFooterMarkup" << " = " <<
         evenFooterMarkup <<
@@ -2366,16 +2355,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   }
 
   // generate the default 'indent' setting ready for the user
-  fLilypondOutputStream <<
-    left <<
+  fLilypondOutputStream << left <<
     setw (fieldWidth) <<
     "indent" << " = " <<
     setprecision(4) << 1.5 << "\\cm" <<
     endl;
 
   // generate the default 'short-indent' setting ready for the user
-  fLilypondOutputStream <<
-    left <<
+  fLilypondOutputStream << left <<
     setw (fieldWidth) <<
     "short-indent" << " = " <<
     setprecision(4) << 1.0 << "\\cm" <<
@@ -2384,16 +2371,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   fLilypondOutputStream << endl;
 
   // generate a 'page-count' comment ready for the user
-  fLilypondOutputStream <<
-    left <<
+  fLilypondOutputStream << left <<
     setw (fieldWidth) <<
     "%" "page-count" << " = " <<
     setprecision(4) << 1 <<
     endl;
 
   // generate a 'system-count' comment ready for the user
-  fLilypondOutputStream <<
-    left <<
+  fLilypondOutputStream << left <<
     setw (fieldWidth) <<
     "%" "system-count" << " = " <<
     setprecision(4) << 1 <<
@@ -2688,7 +2673,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         break;
     } // switch
   
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       partGroupContextName + " <<";
       
@@ -2748,7 +2733,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
 
   // don't generate code for a for the top-most part group block
   if (partGroup->getPartGroupPartGroupUplink ()) {
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) << ">>";
       
     if (gLilypondOptions->fComments)
@@ -2854,7 +2839,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
     idtr--;
   
     if (gLilypondOptions->fComments) {
-      fLilypondOutputStream <<
+      fLilypondOutputStream << left <<
         setw (commentFieldWidth) << ">>" <<    
         "% part " <<
         part->getPartCombinedName ();
@@ -2978,7 +2963,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
   idtr--;
 
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) << ">>" <<    
       "% staff " <<
       elt->getStaff ()->getStaffName ();
@@ -4030,7 +4015,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegment& elt)
   }
 
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       "% start of segment" <<
       endl;
@@ -4053,7 +4038,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
   if (gLilypondOptions->fComments) {
     idtr--;
     
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       "% end of segment" <<
       endl;
@@ -4097,7 +4082,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   }
 
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       "% start of measure \"" << measureNumber << "\"" <<
       ", line " << inputLineNumber <<
@@ -4353,7 +4338,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   if (gLilypondOptions->fComments) {
     idtr--;
 
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       "% end of measure " <<
       measureNumber <<
@@ -7695,7 +7680,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     "\\repeat volta " << fCurrentRepeatEndingsNumber << " {";
   
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       s.str () << "% start of repeat" <<
       endl;
@@ -7729,7 +7714,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
     idtr--;
 
     if (gLilypondOptions->fComments) {      
-      fLilypondOutputStream <<
+      fLilypondOutputStream << left <<
         setw (commentFieldWidth) <<
         "}" << "% end of repeat" <<
         endl;
@@ -7781,7 +7766,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     // outputting the end of the repeat
     if (gLilypondOptions->fComments) {      
       fLilypondOutputStream <<
-        setw (commentFieldWidth) <<
+        setw (commentFieldWidth) << left <<
         "}" << "% end of repeat" <<
         endl;
     }
@@ -7795,7 +7780,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     // first repeat ending is in charge of
     // outputting the start of the alternative
     if (gLilypondOptions->fComments) {      
-      fLilypondOutputStream <<
+      fLilypondOutputStream << left <<
         endl <<
         setw (commentFieldWidth) <<
         "\\alternative {" <<
@@ -7816,7 +7801,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
   switch (elt->getRepeatEndingKind ()) {
     case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {  
-        fLilypondOutputStream <<
+        fLilypondOutputStream << left <<
           setw (commentFieldWidth) <<
           "{" << "% start of repeat hooked ending" <<
           endl;
@@ -7831,7 +7816,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       
     case msrRepeatEnding::kHooklessEnding:
       if (gLilypondOptions->fComments)    
-        fLilypondOutputStream <<
+        fLilypondOutputStream << left <<
           setw (commentFieldWidth) <<
           "{" << "% start of repeat hookless ending" <<
           endl;
@@ -7858,7 +7843,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
   switch (elt->getRepeatEndingKind ()) {
     case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {
-        fLilypondOutputStream <<
+        fLilypondOutputStream << left <<
           setw (commentFieldWidth) <<
           "}" << "% end of repeat hooked ending" <<
           endl;
@@ -7873,7 +7858,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       
     case msrRepeatEnding::kHooklessEnding:
       if (gLilypondOptions->fComments)   { 
-        fLilypondOutputStream <<
+        fLilypondOutputStream << left <<
           setw (commentFieldWidth) <<
           "}" << "% end of repeat hookless ending" <<
           endl;
@@ -7897,7 +7882,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     // last repeat ending is in charge of
     // outputting the end of the alternative
     if (gLilypondOptions->fComments)   { 
-      fLilypondOutputStream <<
+      fLilypondOutputStream << left <<
         setw (commentFieldWidth) <<
         "}" << "% end of alternative" <<
         endl;
@@ -8033,7 +8018,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
   }
   
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       "% start of measure repeat" <<
       singularOrPlural (
@@ -8075,7 +8060,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
 
   if (gLilypondOptions->fComments) {
     fLilypondOutputStream <<
-      setw (commentFieldWidth) <<
+      setw (commentFieldWidth) << left <<
       "% end of measure repeat" <<
       singularOrPlural (
         elt->measureRepeatReplicasNumber (),
@@ -8171,7 +8156,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   }
   
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       "% start of multiple rest" <<
       singularOrPlural (
@@ -8211,7 +8196,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
   if (gLilypondOptions->fComments) {
     idtr--;
 
-    fLilypondOutputStream <<
+    fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
       "% end of multiple rest" <<
       singularOrPlural (
