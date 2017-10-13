@@ -15,10 +15,14 @@
 
 #include <string>
 #include <cassert>
+
 #include <iostream>
+#include <sstream>
+
 #include <set>
 #include <list>
 #include <algorithm> 
+
 
 #include "smartpointer.h"
 
@@ -115,6 +119,9 @@ class indenter
     // decrease the indentation by 1
     indenter&             operator-- (const int value);
 
+    indenter&             increment (int value);
+    indenter&             decrement (int value);
+
     // reset the indentation
     void                  resetToZero ()
                               { fIndent = 0; }
@@ -138,6 +145,63 @@ class indenter
     string                fSpacer;
 };
 ostream& operator<< (ostream& os, const indenter& idtr);
+
+//______________________________________________________________________________
+class indentedStream: public ostream
+{
+/*
+Reference:
+
+ https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
+
+Usage:
+ 
+  MyStream myStream (std::cout);
+   
+  myStream <<
+    1 << 2 << 3 << std::endl <<
+    5 << 6 << std::endl <<
+    7 << 8 << std::endl;
+*/
+ 
+  // a stream buffer that prefixes each line
+  // with the current indentation
+  class indentedStreamBuf: public stringbuf
+  {
+    private:
+    
+      ostream&   output;
+
+    public:
+
+      indentedStreamBuf (ostream& str)
+        :output (str)
+      {}
+
+      // When we sync the stream with the output:
+      // 1) Output Plop then the buffer
+      // 2) Reset the buffer
+      // 3) flush the actual output stream we are using.
+      virtual int sync ( )
+      {
+        output << "[blah]" << str();
+        str ("");
+        output.flush ();
+        return 0;
+      }
+  };
+
+  // indentedStream just uses a version of indentedStreamBuf
+  indentedStreamBuf buffer;
+  
+  public:
+
+    // constructor
+    indentedStream (ostream& str)
+      : ostream (&buffer),
+        buffer (str)
+    {}
+};
 
 //______________________________________________________________________________
 /*!

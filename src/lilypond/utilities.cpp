@@ -231,6 +231,58 @@ indenter& indenter::operator-- (const int value)
   return *this;
 }
 
+indenter& indenter::increment (int value)
+{
+  fIndent += value;
+
+  if (fIndent < 0) {
+    cerr <<
+      endl <<
+      "% ### Indentation has become negative: " <<  fIndent <<
+      endl << endl;
+
+#ifdef DEBUG_INDENTER
+    assert(false);
+#endif
+  }
+
+#ifdef DEBUG_INDENTER
+  else {
+    cerr <<
+      "% INDENTER: " << fIndent <<
+      endl;
+  }
+#endif
+
+  return *this;
+}
+
+indenter& indenter::decrement (int value)
+{
+  fIndent -= value;
+
+  if (fIndent < 0) {
+    cerr <<
+      endl <<
+      "% ### Indentation has become negative: " <<  fIndent <<
+      endl << endl;
+
+#ifdef DEBUG_INDENTER
+    assert(false);
+#endif
+  }
+
+#ifdef DEBUG_INDENTER
+  else {
+    cerr <<
+      "% INDENTER: " << fIndent <<
+      endl;
+  }
+#endif
+
+  return *this;
+}
+
 string indenter::indentMultiLineString (string value)
 {
   stringstream  s;
