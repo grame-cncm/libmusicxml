@@ -34,6 +34,9 @@ namespace MusicXML2
 
 #define TRACE_OPTIONS 0
 
+#define OPTIONS_ELEMENTS_IDTR_OFFSET 3
+  // indent a bit more for readability
+
 #define FIELD_WIDTH 40
 
 //______________________________________________________________________________
@@ -178,14 +181,15 @@ void msrOptionsElement::printHeader (ostream& os) const
       "-" << fOptionsElementLongName <<
       endl;
 
-  idtr++; idtr++; idtr++;
+  // indent a bit more for readability
+  idtr.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
   
   os <<
     idtr.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  idtr--; idtr--; idtr--;
+  idtr.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
 }
 
 void msrOptionsElement::printEssentials (
@@ -233,14 +237,14 @@ void msrOptionsElement::printHelp (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  idtr++; idtr++; idtr++;
+  idtr.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
   
   os <<
     idtr.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  idtr--; idtr--; idtr--;
+  idtr.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
@@ -657,14 +661,14 @@ void msrOptionsValuedItem::printHelp (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  idtr++; idtr++; idtr++;
+  idtr.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
   
   os <<
     idtr.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  idtr--; idtr--; idtr--;
+  idtr.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
 }
 
 void msrOptionsValuedItem::printOptionsValues (
@@ -2500,17 +2504,21 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
 S_msrOptionsHandler msrOptionsHandler::create (
   string optionsHandlerHelpHeader,
   string optionsHandlerValuesHeader,
-  string optionHandlerShortName,
-  string optionHandlerLongName,
+  string optionHandlerHelpShortName,
+  string optionHandlerHelpLongName,
+  string optionHandlerHelpSummaryShortName,
+  string optionHandlerHelpSummaryLongName,
   string optionHandlerDescription)
 {
   msrOptionsHandler* o = new
     msrOptionsHandler (
-      string optionsHandlerHelpHeader,
-      string optionsHandlerValuesHeader,
-      string optionHandlerShortName,
-      string optionHandlerLongName,
-      string optionHandlerDescription);
+      optionsHandlerHelpHeader,
+      optionsHandlerValuesHeader,
+      optionHandlerHelpShortName,
+      optionHandlerHelpLongName,
+      optionHandlerHelpSummaryShortName,
+      optionHandlerHelpSummaryLongName,
+      optionHandlerDescription);
   assert(o!=0);
   return o;
 }
@@ -2519,17 +2527,27 @@ S_msrOptionsHandler msrOptionsHandler::create (
 msrOptionsHandler::msrOptionsHandler (
   string optionsHandlerHelpHeader,
   string optionsHandlerValuesHeader,
-  string optionHandlerShortName,
-  string optionHandlerLongName,
+  string optionHandlerHelpShortName,
+  string optionHandlerHelpLongName,
+  string optionHandlerHelpSummaryShortName,
+  string optionHandlerHelpSummaryLongName,
   string optionHandlerDescription)
   : msrOptionsElement (
-      optionHandlerShortName,
-      optionHandlerLongName,
+      optionHandlerHelpShortName,
+      optionHandlerHelpLongName,
       optionHandlerDescription)
 {
-  fOptionsHandlerHelpHeader   = optionsHandlerHelpHeader;
-  fOptionsHandlerValuesHeader = optionsHandlerValuesHeader;
-  
+  fOptionsHandlerHelpHeader =
+    optionsHandlerHelpHeader;
+    
+  fOptionsHandlerValuesHeader =
+    optionsHandlerValuesHeader;
+
+  fOptionHandlerHelpSummaryShortName =
+    optionHandlerHelpSummaryShortName;
+  fOptionHandlerHelpSummaryLongName =
+    optionHandlerHelpSummaryLongName;
+    
   fMaximumSubGroupsHelpHeadersSize = 1;
 
   fMaximumShortNameWidth   = 1;
@@ -2688,19 +2706,31 @@ void msrOptionsHandler::print (ostream& os) const
 
   idtr++;
   
+  printEssentials (os, fieldWidth);
+
   os << left <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsHandlerHelpHeader" << " : " <<
-      fOptionsHandlerHelpHeader <<
+      "fOptionHandlerHelpSummaryShortName" << " : " <<
+      fOptionHandlerHelpSummaryShortName <<
       endl <<
     idtr <<
       setw (fieldWidth) <<
-      "fOptionsHandlerValuesHeader" << " : " <<
-      fOptionsHandlerValuesHeader <<
+      "fOptionHandlerHelpSummaryLongName" << " : " <<
+      fOptionHandlerHelpSummaryLongName <<
       endl;
 
-  printEssentials (os, fieldWidth);
+  os << left <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementShortName" << " : " <<
+      fOptionsElementShortName <<
+      endl <<
+    idtr <<
+      setw (fieldWidth) <<
+      "fOptionsElementLongName" << " : " <<
+      fOptionsElementLongName <<
+      endl;
 
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os << endl;

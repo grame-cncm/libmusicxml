@@ -51,6 +51,7 @@ xml2lilypondOptionsHandler::xml2lilypondOptionsHandler ()
     "Available options",
     "Options values",
     "h", "help",
+    "hs", "helpSummary",
 R"(
                 Welcome to xml2lilypond v0.1.0, 
               the MusicXML to LilyPond translator

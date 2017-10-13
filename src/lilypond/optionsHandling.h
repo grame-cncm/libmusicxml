@@ -1441,8 +1441,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
     static SMARTP<msrOptionsHandler> create (
       string optionsHandlerHelpHeader,
       string optionsHandlerValuesHeader,
-      string optionHandlerShortName,
-      string optionHandlerLongName,
+      string optionHandlerHelpShortName,
+      string optionHandlerHelpLongName,
+      string optionHandlerHelpSummaryShortName,
+      string optionHandlerHelpSummaryLongName,
       string optionHandlerDescriptionr);
 */
 
@@ -1454,8 +1456,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
     msrOptionsHandler (
       string optionsHandlerHelpHeader,
       string optionsHandlerValuesHeader,
-      string optionHandlerShortName,
-      string optionHandlerLongName,
+      string optionHandlerHelpShortName,
+      string optionHandlerHelpLongName,
+      string optionHandlerHelpSummaryShortName,
+      string optionHandlerHelpSummaryLongName,
       string optionHandlerDescription);
       
     virtual ~msrOptionsHandler();
@@ -1475,6 +1479,15 @@ class EXP msrOptionsHandler : public msrOptionsElement
     string                getOptionsHandlerHelpHeader () const
                               { return fOptionsHandlerHelpHeader; }
                               
+    string                getOptionsHandlerValuesHeader () const
+                              { return fOptionsHandlerValuesHeader; }
+
+    string                getOptionHandlerHelpSummaryShortName () const
+                              { return fOptionHandlerHelpSummaryShortName; }
+
+    string                getOptionHandlerHelpSummaryLongName () const
+                              { return fOptionHandlerHelpSummaryLongName; }
+
     string                getProgramName () const
                               { return fProgramName; }
                               
@@ -1488,9 +1501,6 @@ class EXP msrOptionsHandler : public msrOptionsElement
     string                getCommandLineWithLongOptions () const
                               { return fCommandLineWithLongOptions; }
                               
-    string                getOptionsHandlerValuesHeader () const
-                              { return fOptionsHandlerValuesHeader; }
-
     int                   getMaximumSubGroupsHelpHeadersSize () const
                               { return fMaximumSubGroupsHelpHeadersSize; }
 
@@ -1555,6 +1565,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     string                fOptionsHandlerHelpHeader;
     string                fOptionsHandlerValuesHeader;
+    
+    string                fOptionHandlerHelpSummaryShortName;
+    string                fOptionHandlerHelpSummaryLongName;
 
     S_msrOptionsItem      fPendingOptionsItem;
 

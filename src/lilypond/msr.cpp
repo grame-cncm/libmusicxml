@@ -1465,15 +1465,13 @@ void msrTechnicalWithString::print (ostream& os)
 S_msrFermata msrFermata::create (
   int            inputLineNumber,
   msrFermataKind fermataKind,
-  msrFermataType fermataType,
-  msrPlacement   fermataPlacement)
+  msrFermataType fermataType)
 {
   msrFermata* o =
     new msrFermata (
       inputLineNumber,
       fermataKind,
-      fermataType,
-      fermataPlacement);
+      fermataType);
   assert (o!=0);
   return o;
 }
@@ -1482,8 +1480,10 @@ msrFermata::msrFermata (
     int            inputLineNumber,
     msrFermataKind fermataKind,
     msrFermataType fermataType)
-    : msrElement (
-      inputLineNumber)
+    : msrArticulation (
+      inputLineNumber,
+      msrArticulation::kFermata,
+      k_NoPlacement) // temporary, JMI TEMP
 {
   fFermataKind = fermataKind;
   fFermataType = fermataType;

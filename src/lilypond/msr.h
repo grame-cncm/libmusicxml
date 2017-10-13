@@ -1545,7 +1545,7 @@ EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
   An articulation is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrFermata : public msrElement
+class EXP msrFermata : public msrArticulation
 {
   public:
           
