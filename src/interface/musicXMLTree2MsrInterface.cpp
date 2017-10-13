@@ -380,7 +380,8 @@ void displayMSRSummary (
       "%{" <<
       endl;
   
-  visitor.printSummaryFromMsrScore (mScore);
+  visitor.printSummaryFromMsrScore (
+    mScore);
   
   if (gGeneralOptions->fTraceGeneral)
     logIndentedOutputStream <<

@@ -10808,21 +10808,21 @@ class EXP msrScore : public msrElement
     // fields
     // ------------------------------------------------------
 
-    S_msrIdentification  fIdentification;
+    S_msrIdentification   fIdentification;
 
-    S_msrPageGeometry    fPageGeometry;
+    S_msrPageGeometry     fPageGeometry;
     
-    list<S_msrCredit>    fCreditsList;
+    list<S_msrCredit>     fCreditsList;
 
-    list<S_msrPartGroup> fPartGroupsList;
+    list<S_msrPartGroup>  fPartGroupsList;
 
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure
-    bool                 fInhibitMeasureRepeatReplicasBrowsing;
+    bool                  fInhibitMeasureRepeatReplicasBrowsing;
 
     // in <multiple-rest/>, the rest measures are explicit,
     // whereas LilyPond only needs the number of rest measures
-    bool                 fInhibitMultipleRestMeasuresBrowsing;
+    bool                  fInhibitMultipleRestMeasuresBrowsing;
 };
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
