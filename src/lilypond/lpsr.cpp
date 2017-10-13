@@ -54,7 +54,7 @@ lpsrElement::~lpsrElement()
 
 void lpsrElement::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrElement::acceptIn()" <<
       endl;
       
@@ -64,7 +64,7 @@ void lpsrElement::acceptIn (basevisitor* v) {
         S_lpsrElement elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrElement::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -73,7 +73,7 @@ void lpsrElement::acceptIn (basevisitor* v) {
 
 void lpsrElement::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrElement::acceptOut()" <<
       endl;
 
@@ -83,7 +83,7 @@ void lpsrElement::acceptOut (basevisitor* v) {
         S_lpsrElement elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrElement::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -118,7 +118,7 @@ lpsrParallelMusic::~lpsrParallelMusic()
 
 void lpsrParallelMusic::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrParallelMusic::acceptIn()" <<
       endl;
       
@@ -128,7 +128,7 @@ void lpsrParallelMusic::acceptIn (basevisitor* v) {
         S_lpsrParallelMusic elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrParallelMusic::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -137,7 +137,7 @@ void lpsrParallelMusic::acceptIn (basevisitor* v) {
 
 void lpsrParallelMusic::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrParallelMusic::acceptOut()" <<
       endl;
 
@@ -147,7 +147,7 @@ void lpsrParallelMusic::acceptOut (basevisitor* v) {
         S_lpsrParallelMusic elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrParallelMusic::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -157,7 +157,7 @@ void lpsrParallelMusic::acceptOut (basevisitor* v) {
 void lpsrParallelMusic::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrParallelMusic::browseData()" <<
       endl;
   
@@ -171,7 +171,7 @@ void lpsrParallelMusic::browseData (basevisitor* v)
   } // for
 
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% <== lpsrParallelMusic::browseData()" <<
       endl;
 }
@@ -197,13 +197,13 @@ void lpsrParallelMusic::print (ostream& os)
     vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin();
     i != fParallelMusicElements.end();
     i++) {
-    os << idtr << (*i);
+    os << (*i);
   } // for
 /* JMI
   int size = fParallelMusicElements.size();
   
   for (int i = 0; i < size; i++ ) {
-    os << idtr << fParallelMusicElements [i];
+    os << fParallelMusicElements [i];
   } // for
 */ 
   idtr--;
@@ -237,7 +237,7 @@ lpsrComment::~lpsrComment()
 
 void lpsrComment::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrComment::acceptIn()" <<
       endl;
       
@@ -247,7 +247,7 @@ void lpsrComment::acceptIn (basevisitor* v) {
         S_lpsrComment elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrComment::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -256,7 +256,7 @@ void lpsrComment::acceptIn (basevisitor* v) {
 
 void lpsrComment::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrComment::acceptOut()" <<
       endl;
 
@@ -266,7 +266,7 @@ void lpsrComment::acceptOut (basevisitor* v) {
         S_lpsrComment elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrComment::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -290,7 +290,7 @@ void lpsrComment::print (ostream& os)
   
   idtr++;
   
-  os << idtr <<
+  os <<
     "% " << fContents <<
     endl;
 
@@ -326,7 +326,7 @@ lpsrBarNumberCheck::~lpsrBarNumberCheck()
 
 void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrBarNumberCheck::acceptIn()" <<
       endl;
       
@@ -336,7 +336,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
         S_lpsrBarNumberCheck elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrBarNumberCheck::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -345,7 +345,7 @@ void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
 
 void lpsrBarNumberCheck::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrBarNumberCheck::acceptOut()" <<
       endl;
 
@@ -355,7 +355,7 @@ void lpsrBarNumberCheck::acceptOut (basevisitor* v) {
         S_lpsrBarNumberCheck elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrBarNumberCheck::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -404,7 +404,7 @@ lpsrUseVoiceCommand::~lpsrUseVoiceCommand()
 
 void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrUseVoiceCommand::acceptIn()" <<
       endl;
       
@@ -414,7 +414,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
         S_lpsrUseVoiceCommand elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrUseVoiceCommand::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -423,7 +423,7 @@ void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
 
 void lpsrUseVoiceCommand::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrUseVoiceCommand::acceptOut()" <<
       endl;
 
@@ -433,7 +433,7 @@ void lpsrUseVoiceCommand::acceptOut (basevisitor* v) {
         S_lpsrUseVoiceCommand elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrUseVoiceCommand::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -489,7 +489,7 @@ lpsrNewLyricsBlock::~lpsrNewLyricsBlock()
 
 void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrNewLyricsBlock::acceptIn()" <<
       endl;
       
@@ -499,7 +499,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
         S_lpsrNewLyricsBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrNewLyricsBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -508,7 +508,7 @@ void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
 
 void lpsrNewLyricsBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrNewLyricsBlock::acceptOut()" <<
       endl;
 
@@ -518,7 +518,7 @@ void lpsrNewLyricsBlock::acceptOut (basevisitor* v) {
         S_lpsrNewLyricsBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrNewLyricsBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -604,7 +604,7 @@ string const lpsrLilypondVarValAssoc::g_VarValAssocNoComment = "";
 
 void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrLilypondVarValAssoc::acceptIn()" <<
       endl;
       
@@ -614,7 +614,7 @@ void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
         S_lpsrLilypondVarValAssoc elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrLilypondVarValAssoc::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -623,7 +623,7 @@ void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
 
 void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrLilypondVarValAssoc::acceptOut()" <<
       endl;
 
@@ -633,7 +633,7 @@ void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v) {
         S_lpsrLilypondVarValAssoc elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrLilypondVarValAssoc::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -706,7 +706,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
       break;
   } // switch
   os << " separator";
-  os << idtr << endl;
+  os << endl;
 
   os << idtr;
   switch (fQuotesKind) {
@@ -718,7 +718,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
       break;
   } // switch
   os << " around value";
-  os << idtr << endl;
+  os << endl;
 
   os <<
     idtr << "variable value: \"" << variableValue << "\"" <<
@@ -804,7 +804,7 @@ string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment = "";
 
 void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrSchemeVarValAssoc::acceptIn()" <<
       endl;
       
@@ -814,7 +814,7 @@ void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
         S_lpsrSchemeVarValAssoc elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrSchemeVarValAssoc::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -823,7 +823,7 @@ void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
 
 void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrSchemeVarValAssoc::acceptOut()" <<
       endl;
 
@@ -833,7 +833,7 @@ void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v) {
         S_lpsrSchemeVarValAssoc elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrSchemeVarValAssoc::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -948,7 +948,7 @@ lpsrSchemeFunction::~lpsrSchemeFunction()
 
 void lpsrSchemeFunction::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrSchemeFunction::acceptIn()" <<
       endl;
       
@@ -958,7 +958,7 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v) {
         S_lpsrSchemeFunction elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrSchemeFunction::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -967,7 +967,7 @@ void lpsrSchemeFunction::acceptIn (basevisitor* v) {
 
 void lpsrSchemeFunction::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrSchemeFunction::acceptOut()" <<
       endl;
 
@@ -977,7 +977,7 @@ void lpsrSchemeFunction::acceptOut (basevisitor* v) {
         S_lpsrSchemeFunction elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrSchemeFunction::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1037,7 +1037,7 @@ lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock()
 
 void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrNewStaffgroupBlock::acceptIn()" <<
       endl;
       
@@ -1047,7 +1047,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
         S_lpsrNewStaffgroupBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1056,7 +1056,7 @@ void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
 
 void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrNewStaffgroupBlock::acceptOut()" <<
       endl;
 
@@ -1066,7 +1066,7 @@ void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v) {
         S_lpsrNewStaffgroupBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1091,7 +1091,7 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
   int size = fNewStaffgroupElements.size();
 
   for (int i = 0; i < size; i++ ) {
-    os << idtr << fNewStaffgroupElements[i];
+    os << fNewStaffgroupElements[i];
   } // for
   
   idtr--;
@@ -1122,7 +1122,7 @@ lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock()
 
 void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrNewStaffTuningBlock::acceptIn()" <<
       endl;
       
@@ -1132,7 +1132,7 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v) {
         S_lpsrNewStaffTuningBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1141,7 +1141,7 @@ void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v) {
 
 void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrNewStaffTuningBlock::acceptOut()" <<
       endl;
 
@@ -1151,7 +1151,7 @@ void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v) {
         S_lpsrNewStaffTuningBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1200,7 +1200,7 @@ lpsrNewStaffBlock::~lpsrNewStaffBlock()
 
 void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrNewStaffBlock::acceptIn()" <<
       endl;
       
@@ -1210,7 +1210,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
         S_lpsrNewStaffBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrNewStaffBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1219,7 +1219,7 @@ void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
 
 void lpsrNewStaffBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrNewStaffBlock::acceptOut()" <<
       endl;
 
@@ -1229,7 +1229,7 @@ void lpsrNewStaffBlock::acceptOut (basevisitor* v) {
         S_lpsrNewStaffBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrNewStaffBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1254,7 +1254,7 @@ void lpsrNewStaffBlock::print (ostream& os)
   int size = fNewStaffElements.size();
 
   for (int i = 0; i < size; i++ ) {
-    os << idtr << fNewStaffElements[i];
+    os << fNewStaffElements[i];
   } // for
   
   idtr--;
@@ -1285,7 +1285,7 @@ lpsrVariableUseCommand::~lpsrVariableUseCommand()
 
 void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrVariableUseCommand::acceptIn()" <<
       endl;
       
@@ -1295,7 +1295,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
         S_lpsrVariableUseCommand elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrVariableUseCommand::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1304,7 +1304,7 @@ void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
 
 void lpsrVariableUseCommand::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrVariableUseCommand::acceptOut()" <<
       endl;
 
@@ -1314,7 +1314,7 @@ void lpsrVariableUseCommand::acceptOut (basevisitor* v) {
         S_lpsrVariableUseCommand elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrVariableUseCommand::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1334,7 +1334,7 @@ void lpsrVariableUseCommand::print (ostream& os)
 {
   os << "VariableUseCommand" << endl;
   idtr++;
-  os << idtr << fVariableName << endl;
+  os << fVariableName << endl;
   idtr--;
 }
 
@@ -1372,7 +1372,7 @@ lpsrContext::~lpsrContext()
 
 void lpsrContext::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrContext::acceptIn()" <<
       endl;
       
@@ -1382,7 +1382,7 @@ void lpsrContext::acceptIn (basevisitor* v) {
         S_lpsrContext elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrContext::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1391,7 +1391,7 @@ void lpsrContext::acceptIn (basevisitor* v) {
 
 void lpsrContext::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrContext::acceptOut()" <<
       endl;
 
@@ -1401,7 +1401,7 @@ void lpsrContext::acceptOut (basevisitor* v) {
         S_lpsrContext elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrContext::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1467,7 +1467,7 @@ void lpsrContext::print (ostream& os)
   int size = fContextElements.size();
 
   for (int i = 0; i < size; i++ ) {
-    os << idtr << fContextElements[i];
+    os << fContextElements[i];
   } // for
 
   idtr--;
@@ -1494,7 +1494,7 @@ lpsrBarCommand::~lpsrBarCommand()
 
 void lpsrBarCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrBarCommand::acceptIn()" <<
       endl;
       
@@ -1504,7 +1504,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v) {
         S_lpsrBarCommand elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrBarCommand::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1513,7 +1513,7 @@ void lpsrBarCommand::acceptIn (basevisitor* v) {
 
 void lpsrBarCommand::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrBarCommand::acceptOut()" <<
       endl;
 
@@ -1523,7 +1523,7 @@ void lpsrBarCommand::acceptOut (basevisitor* v) {
         S_lpsrBarCommand elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrBarCommand::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1564,7 +1564,7 @@ lpsrMelismaCommand::lpsrMelismaCommand (
     : lpsrElement (inputLineNumber)
 {
   if (gGeneralOptions->fTraceLyrics)
-    cerr << idtr <<
+    gLogIos <<
       "--> creating lpsrMelismaCommand " <<
       melismaKindAsString (melismaKind) <<
       endl;
@@ -1577,7 +1577,7 @@ lpsrMelismaCommand::~lpsrMelismaCommand()
 
 void lpsrMelismaCommand::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrMelismaCommand::acceptIn()" <<
       endl;
       
@@ -1587,7 +1587,7 @@ void lpsrMelismaCommand::acceptIn (basevisitor* v) {
         S_lpsrMelismaCommand elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrMelismaCommand::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1596,7 +1596,7 @@ void lpsrMelismaCommand::acceptIn (basevisitor* v) {
 
 void lpsrMelismaCommand::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrMelismaCommand::acceptOut()" <<
       endl;
 
@@ -1606,7 +1606,7 @@ void lpsrMelismaCommand::acceptOut (basevisitor* v) {
         S_lpsrMelismaCommand elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrMelismaCommand::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1991,7 +1991,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
 
 void lpsrHeader::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrHeader::acceptIn()" <<
       endl;
       
@@ -2001,7 +2001,7 @@ void lpsrHeader::acceptIn (basevisitor* v) {
         S_lpsrHeader elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrHeader::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2010,7 +2010,7 @@ void lpsrHeader::acceptIn (basevisitor* v) {
 
 void lpsrHeader::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrHeader::acceptOut()" <<
       endl;
 
@@ -2020,7 +2020,7 @@ void lpsrHeader::acceptOut (basevisitor* v) {
         S_lpsrHeader elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrHeader::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2125,22 +2125,22 @@ void lpsrHeader::print (ostream& os)
   idtr++;
   
   if (fWorkNumber) {
-    os << idtr << fWorkNumber;
+    os << fWorkNumber;
     emptyHeader = false;
   }
   
   if (fWorkTitle) {
-    os << idtr << fWorkTitle;
+    os << fWorkTitle;
     emptyHeader = false;
   }
     
   if (fMovementNumber) {
-    os << idtr << fMovementNumber;
+    os << fMovementNumber;
     emptyHeader = false;
   }
     
   if (fMovementTitle) {
-    os << idtr << fMovementTitle;
+    os << fMovementTitle;
     emptyHeader = false;
   }
     
@@ -2150,7 +2150,7 @@ void lpsrHeader::print (ostream& os)
       iEnd   = fComposers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2164,7 +2164,7 @@ void lpsrHeader::print (ostream& os)
       iEnd   = fArrangers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2178,7 +2178,7 @@ void lpsrHeader::print (ostream& os)
       iEnd   = fLyricists.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2187,7 +2187,7 @@ void lpsrHeader::print (ostream& os)
   }
     
   if (fRights) {
-    os << idtr << fRights;
+    os << fRights;
     emptyHeader = false;
   }
     
@@ -2197,7 +2197,7 @@ void lpsrHeader::print (ostream& os)
       iEnd   = fSoftwares.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2207,12 +2207,12 @@ void lpsrHeader::print (ostream& os)
   }
     
   if (fEncodingDate) {
-    os << idtr << fEncodingDate;
+    os << fEncodingDate;
     emptyHeader = false;
   }
   
   if (emptyHeader)
-    os << idtr <<
+    os <<
       " " << "nothing specified" << endl; // JMI
   
   idtr--;
@@ -2250,7 +2250,7 @@ lpsrPaper::~lpsrPaper()
 
 void lpsrPaper::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrPaper::acceptIn()" <<
       endl;
       
@@ -2260,7 +2260,7 @@ void lpsrPaper::acceptIn (basevisitor* v) {
         S_lpsrPaper elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrPaper::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2269,7 +2269,7 @@ void lpsrPaper::acceptIn (basevisitor* v) {
 
 void lpsrPaper::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrPaper::acceptOut()" <<
       endl;
 
@@ -2279,7 +2279,7 @@ void lpsrPaper::acceptOut (basevisitor* v) {
         S_lpsrPaper elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrPaper::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2306,7 +2306,7 @@ void lpsrPaper::print (ostream& os) {
   // page width, height and margins
 
   if (fPaperWidth > 0) {
-    os << idtr << left <<
+    os << left <<
       setw (fieldWidth) <<
       "paper-width" << " = " <<
       setprecision(4) << fPaperWidth << "\\cm" <<
@@ -2316,7 +2316,7 @@ void lpsrPaper::print (ostream& os) {
   }
   
   if (fPaperHeight > 0) {
-    os << idtr << left <<
+    os << left <<
       setw (fieldWidth) <<
       "paper-height" << " = " <<
       setprecision(4) << fPaperHeight << "\\cm" <<
@@ -2326,7 +2326,7 @@ void lpsrPaper::print (ostream& os) {
   }
   
   if (fTopMargin > 0) {
-    os << idtr << left <<
+    os << left <<
       setw (fieldWidth) <<
       "top-margin" << " = " <<
       setprecision(4) << fTopMargin << "\\cm" <<
@@ -2336,7 +2336,7 @@ void lpsrPaper::print (ostream& os) {
   }
   
   if (fBottomMargin > 0) {
-    os << idtr << left <<
+    os << left <<
       setw (fieldWidth) <<
       "bottom-margin" << " = " <<
       setprecision(4) << fBottomMargin << "\\cm" <<
@@ -2346,7 +2346,7 @@ void lpsrPaper::print (ostream& os) {
   }
   
   if (fLeftMargin > 0) {
-    os << idtr << left <<
+    os << left <<
       setw (fieldWidth) <<
       "left-margin" << " = " <<
       setprecision(4) << fLeftMargin << "\\cm" <<
@@ -2356,7 +2356,7 @@ void lpsrPaper::print (ostream& os) {
   }
   
   if (fRightMargin > 0) {
-    os << idtr << left <<
+    os << left <<
       setw (fieldWidth) <<
       "right-margin" << " = " <<
       setprecision(4) << fRightMargin << "\\cm" <<
@@ -2368,7 +2368,7 @@ void lpsrPaper::print (ostream& os) {
   // spaces
 
   if (fBetweenSystemSpace > 0) {
-    os << idtr << left <<
+    os << left <<
     setw (fieldWidth) <<
     "between-system-space" << " = " <<
     setprecision(4) << fBetweenSystemSpace << "\\cm" <<
@@ -2378,7 +2378,7 @@ void lpsrPaper::print (ostream& os) {
   }
 
   if (fPageTopSpace > 0) {
-    os << idtr << left <<
+    os << left <<
     setw (fieldWidth) <<
     "page-top-space" << " = " <<
     setprecision(4) << fPageTopSpace << "\\cm" <<
@@ -2390,7 +2390,7 @@ void lpsrPaper::print (ostream& os) {
   // headers and footers
 
   if (fOddHeaderMarkup.size ()) {
-    os << idtr << left <<
+    os << left <<
     setw (fieldWidth) <<
     "oddHeaderMarkup" << " = " <<
     fOddHeaderMarkup <<
@@ -2400,7 +2400,7 @@ void lpsrPaper::print (ostream& os) {
   }
 
   if (fEvenHeaderMarkup.size ()) {
-    os << idtr << left <<
+    os << left <<
     setw (fieldWidth) <<
     "evenHeaderMarkup" << " = " <<
     fEvenHeaderMarkup <<
@@ -2410,7 +2410,7 @@ void lpsrPaper::print (ostream& os) {
   }
 
   if (fOddFooterMarkup.size ()) {
-    os << idtr << left <<
+    os << left <<
     setw (fieldWidth) <<
     "oddFooterMarkup" << " = " <<
     fOddFooterMarkup <<
@@ -2420,7 +2420,7 @@ void lpsrPaper::print (ostream& os) {
   }
 
   if (fEvenFooterMarkup.size ()) {
-    os << idtr << left <<
+    os << left <<
     setw (fieldWidth) <<
     "evenFooterMarkup" << " = " <<
     fEvenFooterMarkup <<
@@ -2432,7 +2432,7 @@ void lpsrPaper::print (ostream& os) {
   // otherwise
   
   if (emptyPaper) {
-    os << idtr <<
+    os <<
       " " << "nothing specified" <<
       endl;
   }
@@ -2463,7 +2463,7 @@ lpsrLayout::~lpsrLayout()
 
 void lpsrLayout::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrLayout::acceptIn()" <<
       endl;
       
@@ -2473,7 +2473,7 @@ void lpsrLayout::acceptIn (basevisitor* v) {
         S_lpsrLayout elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrLayout::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2482,7 +2482,7 @@ void lpsrLayout::acceptIn (basevisitor* v) {
 
 void lpsrLayout::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrLayout::acceptOut()" <<
       endl;
 
@@ -2492,7 +2492,7 @@ void lpsrLayout::acceptOut (basevisitor* v) {
         S_lpsrLayout elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrLayout::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2531,20 +2531,20 @@ void lpsrLayout::print (ostream& os)
 
   idtr++;
 
-  os << idtr <<
+  os <<
     "StaffSize: " << fStaffSize <<
     endl;
     
   int lilypondAssocs = flpsrLilypondVarValAssocs.size();
   
   for (int i = 0; i < lilypondAssocs; i++ ) {
-    os << idtr << flpsrLilypondVarValAssocs [i];
+    os << flpsrLilypondVarValAssocs [i];
   } // for
 
   int schemeAssocs = fLpsrSchemeVarValAssocs.size();
   
   for (int i = 0; i < schemeAssocs; i++ ) {
-    os << idtr << fLpsrSchemeVarValAssocs[i];
+    os << fLpsrSchemeVarValAssocs[i];
   } // for
   
   idtr--;
@@ -2608,7 +2608,7 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
 
 void lpsrStaffBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrStaffBlock::acceptIn()" <<
       endl;
       
@@ -2618,7 +2618,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v) {
         S_lpsrStaffBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrStaffBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2627,7 +2627,7 @@ void lpsrStaffBlock::acceptIn (basevisitor* v) {
 
 void lpsrStaffBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrStaffBlock::acceptOut()" <<
       endl;
 
@@ -2637,7 +2637,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v) {
         S_lpsrStaffBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrStaffBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2647,7 +2647,7 @@ void lpsrStaffBlock::acceptOut (basevisitor* v) {
 void lpsrStaffBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrStaffBlock::browseData()" <<
       endl;
 
@@ -2661,7 +2661,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
   } // for
 
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% <== lpsrStaffBlock::browseData()" <<
       endl;
 }
@@ -2706,7 +2706,7 @@ void lpsrStaffBlock::print (ostream& os)
       iEnd   = fStaffBlockElements.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -2750,7 +2750,7 @@ lpsrPartBlock::~lpsrPartBlock()
 
 void lpsrPartBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrPartBlock::acceptIn()" <<
       endl;
       
@@ -2760,7 +2760,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v) {
         S_lpsrPartBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrPartBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2769,7 +2769,7 @@ void lpsrPartBlock::acceptIn (basevisitor* v) {
 
 void lpsrPartBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrPartBlock::acceptOut()" <<
       endl;
 
@@ -2779,7 +2779,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v) {
         S_lpsrPartBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrPartBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2789,7 +2789,7 @@ void lpsrPartBlock::acceptOut (basevisitor* v) {
 void lpsrPartBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrPartBlock::browseData()" <<
       endl;
 
@@ -2803,7 +2803,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
   } // for
 
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% <== lpsrPartBlock::browseData()" <<
       endl;
 }
@@ -2857,7 +2857,7 @@ void lpsrPartBlock::print (ostream& os)
       iEnd   = fPartBlockElements.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -2888,7 +2888,7 @@ lpsrPartGroupBlock::~lpsrPartGroupBlock()
 
 void lpsrPartGroupBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrPartGroupBlock::acceptIn()" <<
       endl;
       
@@ -2898,7 +2898,7 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v) {
         S_lpsrPartGroupBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrPartGroupBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2907,7 +2907,7 @@ void lpsrPartGroupBlock::acceptIn (basevisitor* v) {
 
 void lpsrPartGroupBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrPartGroupBlock::acceptOut()" <<
       endl;
 
@@ -2917,7 +2917,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v) {
         S_lpsrPartGroupBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrPartGroupBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2927,7 +2927,7 @@ void lpsrPartGroupBlock::acceptOut (basevisitor* v) {
 void lpsrPartGroupBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrPartGroupBlock::browseData()" <<
       endl;
 
@@ -2941,7 +2941,7 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
   } // for
 
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% <== lpsrPartGroupBlock::browseData()" <<
       endl;
 }
@@ -2974,7 +2974,7 @@ void lpsrPartGroupBlock::print (ostream& os)
       iEnd   = fPartGroupBlockElements.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -3026,7 +3026,7 @@ void lpsrScoreBlock::appendPartGroupBlockToParallelMusic (
   S_lpsrPartGroupBlock partGroupBlock)
 {
   if (gGeneralOptions->fTracePartGroups)
-    cerr << idtr <<
+    gLogIos <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName() <<
        " to LPSR score" <<
@@ -3042,7 +3042,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusic (
   S_lpsrUseVoiceCommand voiceUse)
 {
   if (gGeneralOptions->fTraceVoices)
-    cerr << idtr <<
+    gLogIos <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName() <<
        "\" to LPSR score" <<
@@ -3058,7 +3058,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusic (
   S_lpsrNewLyricsBlock lyricsUse)
 {
   if (gGeneralOptions->fTraceLyrics)
-    cerr << idtr <<
+    gLogIos <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName() <<
        " to LPSR score" <<
@@ -3070,7 +3070,7 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusic (
 
 void lpsrScoreBlock::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrScoreBlock::acceptIn()" <<
       endl;
       
@@ -3080,7 +3080,7 @@ void lpsrScoreBlock::acceptIn (basevisitor* v) {
         S_lpsrScoreBlock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrScoreBlock::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3089,7 +3089,7 @@ void lpsrScoreBlock::acceptIn (basevisitor* v) {
 
 void lpsrScoreBlock::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrScoreBlock::acceptOut()" <<
       endl;
 
@@ -3099,7 +3099,7 @@ void lpsrScoreBlock::acceptOut (basevisitor* v) {
         S_lpsrScoreBlock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrScoreBlock::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3109,7 +3109,7 @@ void lpsrScoreBlock::acceptOut (basevisitor* v) {
 void lpsrScoreBlock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrScoreBlock::browseData()" <<
       endl;
 
@@ -3142,7 +3142,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
   }
 
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% <== lpsrScoreBlock::browseData()" <<
       endl;
 }
@@ -3159,15 +3159,15 @@ void lpsrScoreBlock::print (ostream& os)
 
   idtr++;
 
-  os << idtr <<
+  os <<
     fScoreBlockParallelMusic <<
     endl;
     
-  os << idtr <<
+  os <<
     fScoreBlockLayout <<
     endl;
   
-  os << idtr <<
+  os <<
     fScoreBlockMidi <<
     endl;
 
@@ -3547,7 +3547,7 @@ R"(
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    cerr << idtr <<
+    gLogIos <<
       "Using Scheme modules '" << schemeModulesName << "'" <<
       endl;
   }
@@ -3619,7 +3619,7 @@ R"(
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    cerr << idtr <<
+    gLogIos <<
       "Creating Scheme functions for '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -3670,7 +3670,7 @@ tongue =
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    cerr << idtr <<
+    gLogIos <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -3715,7 +3715,7 @@ editorialAccidental =
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    cerr << idtr <<
+    gLogIos <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -3757,7 +3757,7 @@ ffffff = #(make-dynamic-script "ffffff")
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
-    cerr << idtr <<
+    gLogIos <<
       "Creating Scheme function '" << schemeFunctionName << "'" <<
       endl;
   }
@@ -3803,7 +3803,7 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
 
 void lpsrScore::acceptIn (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrScore::acceptIn()" <<
       endl;
       
@@ -3813,7 +3813,7 @@ void lpsrScore::acceptIn (basevisitor* v) {
         S_lpsrScore elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrScore::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3822,7 +3822,7 @@ void lpsrScore::acceptIn (basevisitor* v) {
 
 void lpsrScore::acceptOut (basevisitor* v) {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrScore::acceptOut()" <<
       endl;
 
@@ -3832,7 +3832,7 @@ void lpsrScore::acceptOut (basevisitor* v) {
         S_lpsrScore elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors)
-          cerr << idtr <<
+          gLogIos <<
             "% ==> Launching lpsrScore::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3842,7 +3842,7 @@ void lpsrScore::acceptOut (basevisitor* v) {
 void lpsrScore::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% ==> lpsrScore::browseData()" <<
       endl;
 
@@ -3960,7 +3960,7 @@ void lpsrScore::browseData (basevisitor* v)
   }
 
   if (gLpsrOptions->fTraceLpsrVisitors)
-    cerr << idtr <<
+    gLogIos <<
       "% <== lpsrScore::browseData()" <<
       endl;
 }
@@ -3973,7 +3973,7 @@ ostream& operator<< (ostream& os, const S_lpsrScore& scr)
 
 void lpsrScore::print (ostream& os)
 {
-  os << idtr <<
+  os <<
     "LPSR Structure" <<
     endl << endl;
 
@@ -4029,7 +4029,7 @@ void lpsrScore::print (ostream& os)
       iEnd   = fScoreElements.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for

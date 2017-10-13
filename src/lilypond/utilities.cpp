@@ -315,7 +315,7 @@ void indenter::print (ostream& os) const
   while (i-- > 0) os << fSpacer;
 }
 
-indenter indenter::gIndenter ("  ");
+indenter indenter::gIndenter;
 
 //______________________________________________________________________________
 indentedOutputStream indentedOutputStream::gLogIndentedOutputStream;

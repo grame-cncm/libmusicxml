@@ -218,6 +218,9 @@ Usage:
                           gLogIndentedOutputStream; 
 };
 
+// useful shortcut macro
+#define gLogIos indentedOutputStream::gLogIndentedOutputStream
+
 //______________________________________________________________________________
 /*!
 \internal
