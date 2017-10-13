@@ -253,7 +253,6 @@ class lpsr2LilypondTranslator :
     lpsr2LilypondTranslator (
       S_msrOptions&         msrOpts,
       S_lpsrOptions&        lpsrOpts,
-      ostream&              os,
       indentedOutputStream& ios,
       S_lpsrScore           lpsrScoree);
         
@@ -713,14 +712,6 @@ class lpsr2LilypondTranslator :
     // score blocks
     // ------------------------------------------------------
     bool                  fOnGoingScoreBlock; // JMI
-
-    /* JMI
-    // limiting output line size
-    outputLineElementsCounter
-                          fMusicOlec;
-    outputLineElementsCounter
-                          fStanzaOlec;
-                          */
 };
 
 

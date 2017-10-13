@@ -81,7 +81,6 @@ void generateLilypondCodeFromLpsrScore (
   lpsr2LilypondTranslator translator (
     msrOpts,
     lpsrOpts,
-    os,
     lilypondIndentedOutputStream,
     lpScore);
   

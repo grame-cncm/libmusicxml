@@ -39,13 +39,9 @@ const int commentFieldWidth = 30;
 lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  ostream&              os,
   indentedOutputStream& ios,
   S_lpsrScore           lpsrScore)
     : fOstream (ios)
-    /*,
-      fMusicOlec (os),
-      fStanzaOlec (os) */
 {
   fMsrOptions  = msrOpts;
   fLpsrOptions = lpsrOpts;
@@ -116,16 +112,6 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // score blocks
   fOnGoingScoreBlock = false;
-
-/* JMI
-  // limiting output line size
-  fStanzaOlec.setMaxElementsPerLine (10);
-  
-  fMusicOlec.setMaxElementsPerLine (
-    gLilypondOptions->fNoteInputLineNumbers
-      ?  5
-      : 10);
-      */
 };
   
 lpsr2LilypondTranslator::~lpsr2LilypondTranslator ()
@@ -434,7 +420,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
    // JMI       fOstream << "\\] ";
           break;
       } // switch
-   //   fMusicOlec++;
     } // for
   }
 
@@ -489,7 +474,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                   break;
               } // switch
             }
-       //     fMusicOlec++;
       
             // is there a stem kind change?
             if (stemKind != fCurrentStemKind)
@@ -531,7 +515,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                   break;
               } // switch
             }
-      //      fMusicOlec++;
       
             // is there a stem kind change?
             if (stemKind != fCurrentStemKind)
@@ -774,8 +757,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
   } // switch
 
   fOstream << " ";
-
- // fMusicOlec++;
 
   // was there an unmetered (stemless) section?
   if (stemKind != fCurrentStemKind) {
@@ -3286,8 +3267,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
 // JMI      fOstream << "\\melismaEnd ";
       break;
   } // switch
-
- // fMusicOlec++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
@@ -3625,8 +3604,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl;
 
   fRelativeOctaveReference = 0;
-
- // fMusicOlec.resetToZero ();
 
   fVoiceIsCurrentlySenzaMisura = false;
   
@@ -4357,27 +4334,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   if (gLilypondOptions->fComments) {
     idtr--;
 
-    if (false) { //fMusicOlec > 0) {
-      fOstream <<
+    fOstream <<
+      idtr <<
+        setw (commentFieldWidth) <<
+        "% end of measure " <<
+        measureNumber <<
+        ", line " << inputLineNumber <<
         endl <<
-        idtr <<
-          setw (commentFieldWidth) <<
-           "% end of measure " <<
-          measureNumber <<
-          ", line " << inputLineNumber <<
-          endl <<
-          endl;
-    }
-    else {
-      fOstream <<
-        idtr <<
-          setw (commentFieldWidth) <<
-          "% end of measure " <<
-          measureNumber <<
-          ", line " << inputLineNumber <<
-          endl <<
-          endl;      
-    }
+      endl;      
   }
 
   if (gLilypondOptions->fSeparatorLineEveryNMeasures > 0) {
@@ -4422,8 +4386,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
       idtr++;
       
       fOstream << idtr; // JMI
-      
-  //    fStanzaOlec.resetToZero ();
     }
   }
 }
@@ -4523,8 +4485,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             "\\skip" <<
             elt->syllableWholeNotesAsMsrString () <<
             " %{rest%} ";
-
-          fStanzaOlec++; // for the comment
           */ 
           break;
           
@@ -4615,8 +4575,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " %}" <<
             endl <<
             idtr;
-
-   //       fStanzaOlec.resetToZero ();
           break;
     
         case msrSyllable::kBarNumberCheckSyllable:
@@ -4629,8 +4587,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " %}" <<
             endl <<
             idtr;
-
-   //       fStanzaOlec.resetToZero ();
           break;
     
         case msrSyllable::kLineBreakSyllable:
@@ -4661,14 +4617,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
       } // switch
 
- //    fStanzaOlec++;
-
       switch (elt->getSyllableExtendKind ()) {
         case msrSyllable::kStandaloneSyllableExtend:
           // generate a lyric extender after this syllable
           fOstream <<
             "__ ";
-      //    fStanzaOlec++;            
           break;
         case msrSyllable::kStartSyllableExtend:
           break;
