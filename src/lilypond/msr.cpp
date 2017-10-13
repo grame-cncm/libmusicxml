@@ -27707,13 +27707,12 @@ void msrPart::createMeasureAndAppendItToPart (
 {
   if (gGeneralOptions->fTraceMeasures)
     gLogIos <<
-      idtr <<
-        "==> Creating and appending measure '" <<
-        measureNumber <<
-        "'to part " <<
-        getPartCombinedName () <<
-        "', line " << inputLineNumber <<
-        endl;
+      "==> Creating and appending measure '" <<
+      measureNumber <<
+      "'to part " <<
+      getPartCombinedName () <<
+      "', line " << inputLineNumber <<
+      endl;
 
   // set part current measure number
   fPartCurrentMeasureNumber = measureNumber;
@@ -27746,11 +27745,10 @@ void msrPart::complementPartVoicesUpToMeasure (
 {
   if (gGeneralOptions->fTraceMeasures)
     gLogIos <<
-      idtr <<
-        "Complement part voices up to measure number " << measureNumber <<
-        ", line " << inputLineNumber <<
-        ", in part " << getPartCombinedName () <<
-        endl;
+      "Complement part voices up to measure number " << measureNumber <<
+      ", line " << inputLineNumber <<
+      ", in part " << getPartCombinedName () <<
+      endl;
 
   // propagate to all staves
   for (
@@ -28895,37 +28893,31 @@ void msrPart::print (ostream& os)
   const int fieldWidth = 19;
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartPartGroupUplink" << ": \"" <<
-      fPartPartGroupUplink->getPartGroupName () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartMsrName" << ": \"" <<
-      fPartMsrName << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartName" << ": \"" <<
-      fPartName << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartAbbrevation" << ": \"" <<
-      fPartAbbreviation << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-       "PartInstrumentName" << ": \"" <<
-      fPartInstrumentName << "\"" <<
-      endl <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-       "PartInstrumentAbbreviation" << ": \"" <<
-      fPartInstrumentAbbreviation << "\"" <<
-      endl <<
+    setw (fieldWidth) <<
+    "PartPartGroupUplink" << ": \"" <<
+    fPartPartGroupUplink->getPartGroupName () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartMsrName" << ": \"" <<
+    fPartMsrName << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartName" << ": \"" <<
+    fPartName << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartAbbrevation" << ": \"" <<
+    fPartAbbreviation << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+     "PartInstrumentName" << ": \"" <<
+    fPartInstrumentName << "\"" <<
+    endl <<
+    endl <<
+    setw (fieldWidth) <<
+     "PartInstrumentAbbreviation" << ": \"" <<
+    fPartInstrumentAbbreviation << "\"" <<
+    endl <<
     endl;
 
 /* JMI not specifically
@@ -28933,8 +28925,7 @@ void msrPart::print (ostream& os)
   if (fPartHarmonyStaff) {
     os <<
       endl <<
-      idtr <<
-        "Harmony staff:" <<
+      "Harmony staff:" <<
       endl;
             
     idtr++;
@@ -29066,56 +29057,48 @@ void msrPart::printStructure (ostream& os)
   const int fieldWidth = 27;
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartMsrName" << ": \"" <<
-      fPartMsrName << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartName" << ": \"" <<
-      fPartName << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartAbbrevation" << ": \"" <<
-      fPartAbbreviation << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartInstrumentName" << ": \"" <<
-      fPartInstrumentName << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-       "PartInstrumentAbbreviation" << ": \"" <<
-      fPartInstrumentAbbreviation << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-       "PartInstrumentAbbreviation" << ": \"" <<
-      fPartInstrumentAbbreviation << "\"" <<
-      endl <<
+    setw (fieldWidth) <<
+    "PartMsrName" << ": \"" <<
+    fPartMsrName << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartName" << ": \"" <<
+    fPartName << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartAbbrevation" << ": \"" <<
+    fPartAbbreviation << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartInstrumentName" << ": \"" <<
+    fPartInstrumentName << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+     "PartInstrumentAbbreviation" << ": \"" <<
+    fPartInstrumentAbbreviation << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+     "PartInstrumentAbbreviation" << ": \"" <<
+    fPartInstrumentAbbreviation << "\"" <<
+    endl <<
     endl;
 
   // print the master staff specifically
   if (fPartMasterStaff) {
     os <<
-      idtr <<
-        "Master staff" <<
+      "Master staff" <<
       endl;
             
     idtr++;
     os <<
-      idtr << fPartMasterStaff;
+      fPartMasterStaff;
     idtr--;
   }
 
   // print the harmony staff // JMI specifically?
   if (fPartHarmonyStaff) {
     os <<
-      idtr <<
-        "Harmony staff" <<
+      "Harmony staff" <<
       endl;
             
     idtr++;
@@ -29221,10 +29204,8 @@ msrPartGroup::msrPartGroup (
   
   if (gGeneralOptions->fTracePartGroups)
     gLogIos <<
-      idtr <<
       "--------------------------------------------" <<
       endl <<
-      idtr <<
       "==> Creating part group " << fPartGroupNumber <<
       endl;
 }
@@ -29238,10 +29219,8 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
 {
   if (gGeneralOptions->fTracePartGroups)
     gLogIos <<
-      idtr <<
       "--------------------------------------------" <<
       endl <<
-      idtr <<
       "==> Creating a newborn clone part group " <<
       getPartGroupCombinedName () <<
       endl;
@@ -29333,9 +29312,8 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
   if (gGeneralOptions->fTracePartGroups) {
     gLogIos <<
       endl <<
-      idtr <<
-        "After addPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
-        endl;
+      "After addPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
+      endl;
         
     idtr++;
     
@@ -29355,9 +29333,8 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
  // JMI     "% ==> addPartToPartGroup" <<
       endl << endl <<
 
-    idtr <<
-      "After addPartToPartGroupByItsID, fPartGroupPartsList contains:" <<
-      endl;
+    "After addPartToPartGroupByItsID, fPartGroupPartsList contains:" <<
+    endl;
       
     if (fPartGroupElements.size()) {
       list<S_msrElement>::const_iterator
@@ -29375,7 +29352,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
     }
     
     gLogIos <<
-  // JMI    idtr << "% ==> addPartToPartGroupByItsID" <<
+  // JMI    "% ==> addPartToPartGroupByItsID" <<
       endl << endl;
   }
   
@@ -29558,37 +29535,30 @@ void msrPartGroup::print (ostream& os)
   const int fieldWidth = 23;
   
   os << left <<
-    idtr <<
-      setw (fieldWidth) << "PartGroupName" << " : \"" <<
-      fPartGroupName <<
-      "\"" <<
+    setw (fieldWidth) << "PartGroupName" << " : \"" <<
+    fPartGroupName <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) << "PartGroupDisplayText" << " : \"" <<
+    fPartGroupDisplayText <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) << "PartGroupAccidentalText" << " : \"" <<
+    fPartGroupAccidentalText <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
+    fPartGroupAbbreviation <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) << "PartGroupSymbolDefaultX" << " : " <<
+    fPartGroupSymbolDefaultX <<
       endl <<
-    idtr <<
-      setw (fieldWidth) << "PartGroupDisplayText" << " : \"" <<
-      fPartGroupDisplayText <<
-      "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "PartGroupAccidentalText" << " : \"" <<
-      fPartGroupAccidentalText <<
-      "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
-      fPartGroupAbbreviation <<
-      "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "PartGroupSymbolDefaultX" << " : " <<
-      fPartGroupSymbolDefaultX <<
-        endl <<
-    idtr <<
-      setw (fieldWidth) << "PartGroupSymbolKind" << " : " <<
-      partGroupSymbolKindAsString (fPartGroupSymbolKind) <<
-      endl;
+    setw (fieldWidth) << "PartGroupSymbolKind" << " : " <<
+    partGroupSymbolKindAsString (fPartGroupSymbolKind) <<
+    endl;
     
-  os <<
-    idtr <<
+  os << left <<
     setw (fieldWidth) << "PartGroupBarline" << " : ";
   if (fPartGroupBarline)
     os << "true";
@@ -29596,8 +29566,7 @@ void msrPartGroup::print (ostream& os)
     os << "false";
   os << endl;
 
-  os <<
-    idtr <<
+  os << left <<
     setw (fieldWidth) << "PartGroupPartGroupUplink" << " : ";
   if (fPartGroupPartGroupUplink)
     os <<
@@ -29641,28 +29610,24 @@ void msrPartGroup::printStructure (ostream& os)
   const int fieldWidth = 24;
   
   os << left <<
-    idtr <<
-      setw (fieldWidth) << "PartGroupName" << " : \"" <<
-      fPartGroupName <<
-      "\"" <<
+    setw (fieldWidth) << "PartGroupName" << " : \"" <<
+    fPartGroupName <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
+    fPartGroupAbbreviation <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) << "fPartGroupSymbolDefaultX" << " : " <<
+    fPartGroupSymbolDefaultX <<
       endl <<
-    idtr <<
-      setw (fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
-      fPartGroupAbbreviation <<
-      "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "fPartGroupSymbolDefaultX" << " : " <<
-      fPartGroupSymbolDefaultX <<
-        endl <<
-    idtr <<
-      setw (fieldWidth) << "fPartGroupSymbolKind" << " : \"" <<
-      partGroupSymbolKindAsString (fPartGroupSymbolKind) <<
-      "\"" <<
-      endl;
+    setw (fieldWidth) << "fPartGroupSymbolKind" << " : \"" <<
+    partGroupSymbolKindAsString (fPartGroupSymbolKind) <<
+    "\"" <<
+    endl;
     
   os <<
-    idtr << "PartGroupBarline         : ";
+    "PartGroupBarline         : ";
   if (fPartGroupBarline)
     os << "true";
   else
@@ -30309,14 +30274,12 @@ void msrScore::print (ostream& os)
   // print the identification if any
   if (fIdentification) {
     os <<
-      idtr <<
       fIdentification;
   }
   
   // print the geometry if any
   if (fPageGeometry) {
     os <<
-      idtr <<
       fPageGeometry;
   }
 
@@ -30478,15 +30441,13 @@ void msrMidi::print (ostream& os)
 
   const int fieldWidth = 18;
 
-  os <<
-    idtr <<
-      setw (fieldWidth) <<
-      "MidiTempoDuration" << " = " << fMidiTempoDuration <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "MidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
-      endl <<
+  os << left <<
+    setw (fieldWidth) <<
+    "MidiTempoDuration" << " = " << fMidiTempoDuration <<
+    endl <<
+    setw (fieldWidth) <<
+    "MidiTempoPerSecond" << " = " << fMidiTempoPerSecond <<
+    endl <<
     endl;
       
   idtr--;
