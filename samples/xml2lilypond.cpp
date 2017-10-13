@@ -43,10 +43,10 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
-S_xml2lilypondOptionsHandler
-                 optionsHandler,
-  int            argc,
-  char*          argv [])
+S_xml2lilypondOptionsHandler optionsHandler,
+  int                        argc,
+  char*                      argv [],
+  indentedOutputStream&      logIndentedOutputStream)
 {
   // analyse the options
   vector<string>
@@ -57,16 +57,17 @@ S_xml2lilypondOptionsHandler
 
   if (TRACE_OPTIONS) {
     // print the options values
-    cerr <<
+    logIndentedOutputStream <<
       "Options values:" <<
       endl;
 
     idtr++;
     
     optionsHandler->
-      printOptionsValues (cerr);
+      printOptionsValues (
+        logIndentedOutputStream);
         
-    cerr <<
+    logIndentedOutputStream <<
       endl;
 
     idtr--;
@@ -85,6 +86,11 @@ int main (int argc, char *argv[])
   }
   */
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      cerr, idtr);
+    
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 
@@ -105,11 +111,12 @@ int main (int argc, char *argv[])
     argumentsVector =
       handleOptionsAndArguments (
         optionsHandler,
-        argc, argv);
+        argc, argv,
+        logIndentedOutputStream);
 
   // print the resulting options
   if (TRACE_OPTIONS) {
-    cerr <<
+    logIndentedOutputStream <<
       optionsHandler <<
       endl <<
       endl;
@@ -131,60 +138,63 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (gGeneralOptions->fTraceGeneral) {
-    cerr <<  idtr <<
+    logIndentedOutputStream <<  idtr <<
       "This is xml2Lilypond v" << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
-    cerr << idtr <<
+    logIndentedOutputStream << idtr <<
       "Launching conversion of ";
 
     if (inputSourceName == "-")
-      cerr << "standard input";
+      logIndentedOutputStream <<
+        "standard input";
     else
-      cerr << "\"" << inputSourceName << "\"";
+      logIndentedOutputStream <<
+        "\"" << inputSourceName << "\"";
 
-    cerr <<
+    logIndentedOutputStream <<
       " to LilyPond" <<
       endl;
 
-    cerr << idtr <<
+    logIndentedOutputStream << idtr <<
       "Time is " << gGeneralOptions->fTranslationDate <<
       endl;      
 
-    cerr << idtr <<
+    logIndentedOutputStream << idtr <<
       "LilyPond code will be written to ";
     if (outputFileNameSize) {
-      cerr <<
+      logIndentedOutputStream <<
         outputFileName;
     }
     else {
-      cerr << "standard output";
+      logIndentedOutputStream <<
+        "standard output";
     }
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
       endl;
     
-    cerr << idtr <<
+    logIndentedOutputStream << idtr <<
       "The command line is:" <<
       endl;
 
     idtr++;
     
-    cerr <<
+    logIndentedOutputStream <<
       idtr <<
         optionsHandler->
           getCommandLineWithLongOptions () <<
       endl;
 
     idtr--;
-    cerr <<
+    logIndentedOutputStream <<
       idtr <<
         "or:" <<
         endl;
     idtr++;
     
-    cerr <<
+    logIndentedOutputStream <<
       idtr <<
         optionsHandler->
           getCommandLineWithShortOptions () <<
@@ -199,14 +209,14 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fTraceGeneral) {
     optionsHandler->
-      printOptionsValues (cerr);
+      printOptionsValues (logIndentedOutputStream);
   }
 
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
   if (gGeneralOptions->fTraceGeneral) {
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
       idtr <<
         "The command line options and arguments have been analyzed" <<
@@ -220,7 +230,7 @@ int main (int argc, char *argv[])
 
   if (outputFileNameSize) {
     if (gGeneralOptions->fTraceGeneral)
-      cerr << idtr <<
+      logIndentedOutputStream << idtr <<
         "Opening file '" << outputFileName << "' for writing" <<
         endl;
         
@@ -261,7 +271,7 @@ int main (int argc, char *argv[])
   }
     
   if (! mScore) {
-    cerr <<
+    logIndentedOutputStream <<
       "### Conversion from MusicCML to MSR failed ###" <<
       endl <<
       endl;
@@ -286,7 +296,7 @@ int main (int argc, char *argv[])
     }
     
     if (! lpScore) {
-      cerr <<
+      logIndentedOutputStream <<
         "### Conversion from MSR to LPSR failed ###" <<
         endl <<
         endl;
@@ -307,7 +317,7 @@ int main (int argc, char *argv[])
     
     if (outputFileNameSize) {
       if (gGeneralOptions->fTraceGeneral)
-        cerr <<
+        logIndentedOutputStream <<
           endl <<
           idtr <<
             "Closing file '" << outputFileName << "'" <<
@@ -321,14 +331,15 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (gGeneralOptions->fDisplayCPUusage)
-    timing::gTiming.print (cerr);
+    timing::gTiming.print (
+      logIndentedOutputStream);
   
 
   // over!
   // ------------------------------------------------------
 
   if (! true) { // JMI
-    cerr <<
+    logIndentedOutputStream <<
       "### Conversion from LPSR to LilyPond code failed ###" <<
       endl <<
       endl;
