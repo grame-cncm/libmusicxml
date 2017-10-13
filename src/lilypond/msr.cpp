@@ -2544,7 +2544,7 @@ void msrDoubleTremolo::print (ostream& os)
       endl;
       
     idtr++;
-    os << idtr <<
+    os <<
       fDoubleTremoloFirstElement;
     idtr--;
   }
@@ -2562,7 +2562,7 @@ void msrDoubleTremolo::print (ostream& os)
       endl;
 
     idtr++;
-    os << idtr <<
+    os <<
       fDoubleTremoloSecondElement;
     idtr--;
   }
@@ -3628,7 +3628,7 @@ void msrGraceNotes::print (ostream& os)
     i      = iBegin;
     
   for ( ; ; ) {
-    os << idtr << (*i);
+    os << (*i);
     if (++i == iEnd) break;
     os << endl;
   } // for
@@ -3860,7 +3860,7 @@ void msrAfterGraceNotes::print (ostream& os)
     i      = iBegin;
     
   for ( ; ; ) {
-    os << idtr << (*i);
+    os << (*i);
     if (++i == iEnd) break;
  // JMI   os << endl;
   } // for
@@ -4039,7 +4039,6 @@ void msrNote::initializeNote ()
   if (gGeneralOptions->fTraceNotesDetails) {
     cerr <<
       endl <<
-      idtr <<
       "==> Initializing a note" <<
       ", kind: ";
     if (fNoteKind == k_NoNoteKind)
@@ -4057,7 +4056,7 @@ void msrNote::initializeNote ()
     const int fieldWidth = 30;
     
     cerr <<
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteQuarterTonesPitch" << " = " <<
         msrQuarterTonesPitchAsString (
@@ -4066,27 +4065,27 @@ void msrNote::initializeNote ()
         endl;
 
     cerr <<
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteSoundingWholeNotes" << " = " <<
         fNoteSoundingWholeNotes <<
         endl;
       
     cerr <<
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
         endl;
       
     cerr <<
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteDotsNumber" << " = " <<
         fNoteDotsNumber <<
         endl <<
 
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteGraphicDuration" << " = ";
       if (fNoteGraphicDuration != k_NoDuration)
@@ -4097,54 +4096,54 @@ void msrNote::initializeNote ()
         cerr << "none";
 
     cerr <<
-        endl <<
+      endl <<
 
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteOctave" << " = " <<
         fNoteOctave <<
         endl <<
 
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteDisplayOctave" << " = " <<
         fNoteDisplayOctave <<
         endl <<
 
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteIsARest" << " = " <<
         booleanAsString (fNoteIsARest) <<
         endl <<
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteIsUnpitched" << " = " <<
          booleanAsString (fNoteIsUnpitched) <<
         endl <<
 
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteIsAGraceNote" << " = " <<
          booleanAsString (fNoteIsAGraceNote) <<
         endl <<
 
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNotePrintKind" << " = " <<
          notePrintKindAsString (fNotePrintKind) <<
         endl <<
 
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteHeadKind" << " = " <<
          noteHeadKindAsString (fNoteHeadKind) <<
         endl <<
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteHeadFilledKind" << " = " <<
          noteHeadFilledKindAsString (fNoteHeadFilledKind) <<
         endl <<
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteHeadParenthesesKind" << " = " <<
          noteHeadParenthesesKindAsString (fNoteHeadParenthesesKind) <<
@@ -4153,20 +4152,20 @@ void msrNote::initializeNote ()
         // fNoteOctaveShift JMI ???
 
       // accidentals
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteEditorialAccidentalKind" << " = " <<
         noteEditorialAccidentalKindAsString (
           fNoteEditorialAccidentalKind) <<
         endl <<
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteCautionaryAccidentalKind" << " = " <<
         noteCautionaryAccidentalKindAsString (
           fNoteCautionaryAccidentalKind) <<
         endl <<
             
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fStaffNumber" << " = " <<
         fNoteStaffNumber <<
@@ -4177,19 +4176,19 @@ void msrNote::initializeNote ()
         fNoteVoiceNumber <<
         endl <<
 
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteBelongsToAChord" << " = " <<
          booleanAsString (fNoteBelongsToAChord) <<
         endl <<
             
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteBelongsToATuplet" << " = " <<
          booleanAsString (fNoteBelongsToATuplet) <<
         endl <<
           
-      idtr << left <<
+      left <<
         setw (fieldWidth) <<
         "fNoteSyllableExtendKind" << " = " <<
         msrSyllable::syllableExtendKindAsString (
@@ -6259,7 +6258,7 @@ void msrNote::print (ostream& os)
 
     // print kind
 
-    os << idtr <<
+    os <<
       notePrintKindAsString ();
 
     // note head
@@ -6275,7 +6274,7 @@ void msrNote::print (ostream& os)
       endl;
       
     // accidentals
-    os << idtr <<
+    os <<
       noteEditorialAccidentalKindAsString (
         fNoteEditorialAccidentalKind) <<
       ", " <<
@@ -6604,7 +6603,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteBeams.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -6621,7 +6620,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteArticulations.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
 // JMI      os << endl;
     } // for
@@ -6638,7 +6637,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteTechnicals.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -6655,7 +6654,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteTechnicalWithIntegers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -6672,7 +6671,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteTechnicalWithStrings.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
 // JMI      os << endl;
     } // for
@@ -6689,7 +6688,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteOrnaments.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -6700,7 +6699,7 @@ void msrNote::print (ostream& os)
   // print the singleTremolo if any
   if (fNoteSingleTremolo) {
     idtr++;
-    os << idtr << fNoteSingleTremolo;
+    os << fNoteSingleTremolo;
     idtr--;
   }
   
@@ -6721,7 +6720,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteDynamics.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -6739,7 +6738,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteOtherDynamics.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
 // JMI      os << endl;
     } // for
@@ -6757,7 +6756,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteWords.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
 // JMI      os << endl;
     } // for
@@ -6775,7 +6774,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteSlurs.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -6793,7 +6792,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteLigatures.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -6811,7 +6810,7 @@ void msrNote::print (ostream& os)
       iEnd   = fNoteWedges.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -7514,7 +7513,7 @@ void msrChord::print (ostream& os)
   if (fChordNotes.size()) {
     vector<S_msrNote>::const_iterator i;
     for (i=fChordNotes.begin(); i!=fChordNotes.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
 
 /* JMI   vector<S_msrNote>::const_iterator
@@ -7523,7 +7522,7 @@ void msrChord::print (ostream& os)
       i      = iBegin;
     for ( ; ; ) {
    //   os << (*i)->notePitchAsString (); JMI
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  //     os << endl;
     } // for
@@ -7534,7 +7533,7 @@ void msrChord::print (ostream& os)
   if (fChordArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
     for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7542,7 +7541,7 @@ void msrChord::print (ostream& os)
   if (fChordTechnicals.size()) {
     list<S_msrTechnical>::const_iterator i;
     for (i=fChordTechnicals.begin(); i!=fChordTechnicals.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7550,7 +7549,7 @@ void msrChord::print (ostream& os)
   if (fChordOrnaments.size()) {
     list<S_msrOrnament>::const_iterator i;
     for (i=fChordOrnaments.begin(); i!=fChordOrnaments.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7558,7 +7557,7 @@ void msrChord::print (ostream& os)
   if (fChordDynamics.size()) {
     list<S_msrDynamics>::const_iterator i;
     for (i=fChordDynamics.begin(); i!=fChordDynamics.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7566,7 +7565,7 @@ void msrChord::print (ostream& os)
   if (fChordOtherDynamics.size()) {
     list<S_msrOtherDynamics>::const_iterator i;
     for (i=fChordOtherDynamics.begin(); i!=fChordOtherDynamics.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7574,7 +7573,7 @@ void msrChord::print (ostream& os)
   if (fChordBeams.size()) {
     list<S_msrBeam>::const_iterator i;
     for (i=fChordBeams.begin(); i!=fChordBeams.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7582,7 +7581,7 @@ void msrChord::print (ostream& os)
   if (fChordWords.size()) {
     list<S_msrWords>::const_iterator i;
     for (i=fChordWords.begin(); i!=fChordWords.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7590,7 +7589,7 @@ void msrChord::print (ostream& os)
   if (fChordSlurs.size()) {
     list<S_msrSlur>::const_iterator i;
     for (i=fChordSlurs.begin(); i!=fChordSlurs.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7598,7 +7597,7 @@ void msrChord::print (ostream& os)
   if (fChordLigatures.size()) {
     list<S_msrLigature>::const_iterator i;
     for (i=fChordLigatures.begin(); i!=fChordLigatures.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
@@ -7606,19 +7605,19 @@ void msrChord::print (ostream& os)
   if (fChordWedges.size()) {
     list<S_msrWedge>::const_iterator i;
     for (i=fChordWedges.begin(); i!=fChordWedges.end(); i++) {
-      os << idtr << (*i);
+      os << (*i);
     } // for
   }
 
   // print the harmony if any
   if (fChordHarmony) {
-    os << idtr <<
+    os <<
       "Chord harmony: " <<
       endl;
         
     idtr++;
 
-    os << idtr <<
+    os <<
       fChordHarmony->harmonyAsString () <<
       endl;
       
@@ -7627,13 +7626,13 @@ void msrChord::print (ostream& os)
 
   // print the figured bass if any
   if (fChordFiguredBass) {
-    os << idtr <<
+    os <<
       "Chord fibured bass: " <<
       endl;
         
     idtr++;
 
-    os << idtr <<
+    os <<
       fChordFiguredBass->figuredBassAsString () <<
       endl;
       
@@ -7779,7 +7778,7 @@ int msrDivisions::durationAsDivisions (
 
 void msrDivisions::printDurationsDivisions (ostream& os)
 {
-  os << idtr <<
+  os <<
     "The mapping of durations to divisions with " <<
     fDivisionsPerQuarterNote << " divisions per quarter note" <<
     " is:" <<
@@ -7794,7 +7793,7 @@ void msrDivisions::printDurationsDivisions (ostream& os)
       i      = iBegin;
           
     for ( ; ; ) {
-      os << idtr <<
+      os <<
         setw (6) << left <<
         msrDurationAsString (msrDuration((*i).first)) <<
         ": " <<
@@ -7813,7 +7812,7 @@ void msrDivisions::printDurationsDivisions (ostream& os)
         fDurationsToDivisions.begin();
       i != fDurationsToDivisions.end ();
       i++) {
-      os << idtr <<
+      os <<
         setw (6) << left <<
         msrDurationAsString (msrDuration((*i).first)) <<
         ": " <<
@@ -7825,7 +7824,7 @@ void msrDivisions::printDurationsDivisions (ostream& os)
   }
   
   else
-    os << idtr <<
+    os <<
       "an empty list";
 
   os << endl;
@@ -9531,7 +9530,7 @@ void msrTuplet::print (ostream& os)
       iEnd   = fTupletElements.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
@@ -9759,7 +9758,7 @@ void msrPageGeometry::print (ostream& os) {
   }
 
   if (emptyGeometry)
-    os << idtr <<
+    os <<
       " " << "nothing specified" <<
       endl;
   
@@ -9771,13 +9770,13 @@ void msrPageGeometry::print (ostream& os) {
 
 /*
   if (fBetweenSystemSpace > 0) {
-    os << idtr <<
+    os <<
       "between-system-space = " <<
       setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
   }
 
   if (fPageTopSpace > 0) {
-    os << idtr <<
+    os <<
       "page-top-space = " <<
       setprecision(4) << fPageTopSpace << "\\cm" << endl;
   }
@@ -10082,7 +10081,7 @@ void msrCredit::print (ostream& os)
     i      = iBegin;
 
   for ( ; ; ) {
-    os << idtr << (*i);
+    os << (*i);
     if (++i == iEnd) break;
 // JMI    os << endl;
   } // for
@@ -10282,13 +10281,13 @@ void msrLayout::print (ostream& os)
   int n1 = fVarValAssocs.size();
   
   for (int i = 0; i < n1; i++ ) {
-    os << idtr << fVarValAssocs [i];
+    os << fVarValAssocs [i];
   } // for
 
     /* JMI
   int n2 = fMsrSchemeVarValAssocs.size();
   for (int i = 0; i < n2; i++ ) {
-    os << idtr << fMsrSchemeVarValAssocs[i];
+    os << fMsrSchemeVarValAssocs[i];
   } // for
   */
   
@@ -10917,7 +10916,7 @@ void msrKey::print (ostream& os)
           i      = iBegin;
           
         for ( ; ; ) {
-          os << idtr << (*i);
+          os << (*i);
           if (++i == iEnd) break;
     // JMI     os << endl;
         } // for
@@ -11501,7 +11500,7 @@ void msrTime::print (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -11869,7 +11868,7 @@ void msrWords::print (ostream& os)
   const int fieldWidth = 16;
 
   os <<
-    idtr << left <<
+    left <<
       setw (fieldWidth) <<
       "Placement" << " = " <<
       wordsPlacementKindAsString (fWordsPlacementKind) <<
@@ -13305,7 +13304,7 @@ void msrStanza::print (ostream& os)
 
     int n = fSyllables.size();
     for (int i = 0; i < n; i++) {
-      os << idtr << fSyllables [i];
+      os << fSyllables [i];
     } // for
     os << endl;
 
@@ -13919,7 +13918,7 @@ void msrHarmony::print (ostream& os)
         fHarmonyBassQuarterTonesPitch) <<
       endl;
 
-  os << idtr <<
+  os <<
     "inversion: ";
   if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
     os << "none";
@@ -13929,7 +13928,7 @@ void msrHarmony::print (ostream& os)
 
   // print harmony degrees if any
   if (fHarmonyDegreesList.size ()) {
-    os << idtr <<
+    os <<
       "Harmony degrees:" <<
       endl;
 
@@ -15178,7 +15177,7 @@ void msrBarline::print (ostream& os)
   const int fieldWidth = 15;
 
   os <<
-    idtr << left <<
+    left <<
       setw (fieldWidth) <<
       "Location" << " : " <<
       barlineLocationAsString (fLocation) <<
@@ -19192,7 +19191,7 @@ ostream& operator<< (ostream& os, const S_msrSegment& elt)
 
 void msrSegment::print (ostream& os)
 {  
-  os << idtr <<
+  os <<
     "Segment '" <<
     fSegmentAbsoluteNumber <<
     "', " <<
@@ -19204,7 +19203,7 @@ void msrSegment::print (ostream& os)
 
   const int fieldWidth = 20;
   
-  os << idtr <<
+  os <<
     setw (fieldWidth) << "SegmentVoiceUplink" << " : " <<
     "\"" <<
     fSegmentVoiceUplink->getVoiceName () <<
@@ -19212,7 +19211,7 @@ void msrSegment::print (ostream& os)
     endl;
 
   if (! fSegmentMeasuresList.size ()) {
-    os << idtr <<
+    os <<
       setw (fieldWidth) << "Measures" << " : " << "none" <<
       endl;
   }
@@ -19224,7 +19223,7 @@ void msrSegment::print (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
  // JMI     os << endl;
     } // for
@@ -19925,7 +19924,7 @@ void msrRepeat::print (ostream& os)
   
   // print the repeat common part
   if (! fRepeatCommonPart) {
-    os << idtr <<
+    os <<
       "Common part: none" <<
       endl;
   }
@@ -19937,7 +19936,7 @@ void msrRepeat::print (ostream& os)
   
 /* JMI
   // print the repeat common segment
-  os << idtr <<
+  os <<
     "Common segment: ";
   if (! fRepeatCommonSegment)
     os << "none";
@@ -19976,7 +19975,7 @@ void msrRepeat::print (ostream& os)
       
     for ( ; ; ) {
       // print the repeat ending
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
   // JMI    os << endl;
     } // for
@@ -20194,7 +20193,7 @@ void msrMeasureRepeatPattern::print (ostream& os)
   idtr++;
   
   // print the pattern segment
-  os << idtr <<
+  os <<
     "Pattern segment:";
 
   if (! fMeasureRepeatPatternSegment) {
@@ -20424,7 +20423,7 @@ void msrMeasureRepeatReplicas::print (ostream& os)
   idtr++;
   
   // print the replicas segment
-  os << idtr <<
+  os <<
     "Replicas segment:";
 
   if (! fMeasureRepeatReplicasSegment) {
@@ -20740,7 +20739,7 @@ void msrMeasureRepeat::print (ostream& os)
   
   // print the measure repeat pattern
   if (! fMeasureRepeatPattern) {
-    os << idtr <<
+    os <<
       "Measure repeat pattern: none" <<
       endl;
   }
@@ -20754,7 +20753,7 @@ void msrMeasureRepeat::print (ostream& os)
   
   // print the measure repeat replicas
   if (! fMeasureRepeatReplicas) {
-    os << idtr <<
+    os <<
       "Measure repeat replicas: none" <<
       endl;
   }
@@ -20937,7 +20936,7 @@ void msrMultipleRestContents::print (ostream& os)
   idtr++;
   
   // print the pattern segment
-  os << idtr <<
+  os <<
     "Contents segment:";
 
   if (! fMultipleRestContentsSegment) {
@@ -21140,7 +21139,7 @@ void msrMultipleRest::print (ostream& os)
   
   // print the rests contents
   if (! fMultipleRestContents) {
-    os << idtr <<
+    os <<
       "Multiple rests contents: none" <<
       endl;
   }
@@ -24803,14 +24802,14 @@ ostream& operator<< (ostream& os, const S_msrVoice& elt)
 
 void msrVoice::print (ostream& os)
 {
-  os << idtr <<
+  os <<
     "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
     endl;
 
   idtr++;
 
-  os << idtr <<
+  os <<
     "(" <<
     singularOrPlural (
       fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<
@@ -24863,7 +24862,7 @@ void msrVoice::print (ostream& os)
   int initialRepeatsAndSegmentsNumber =
     fVoiceInitialRepeatsAndSegments.size ();
     
-  os << idtr <<
+  os <<
     "Initial repeats and segments: ";
   if (initialRepeatsAndSegmentsNumber)
     os << "(" << initialRepeatsAndSegmentsNumber << ")";
@@ -24882,7 +24881,7 @@ void msrVoice::print (ostream& os)
       
     for ( ; ; ) {
       // print the element
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -24900,7 +24899,7 @@ void msrVoice::print (ostream& os)
 
   // print the last segment
   if (fVoiceLastSegment) {
-    os << idtr <<
+    os <<
       "Voice last segment:" <<
       endl;
       
@@ -24911,21 +24910,21 @@ void msrVoice::print (ostream& os)
     idtr--;
   }
   else {
-    os << idtr <<
+    os <<
       "*** Last segment is null ***" << // JMI
       endl;
   }
   
   if (gGeneralOptions->fTraceLyrics) {
     // print the mute stanza
-    os << idtr <<
+    os <<
       fVoiceMuteStanza <<
       endl;    
   }
   
   if (gMsrOptions->fShowMsrStanzas) {
     // print the voice mute stanza
-    os << idtr <<
+    os <<
       fVoiceMuteStanza;
     
     // print the stanzas
@@ -24936,7 +24935,7 @@ void msrVoice::print (ostream& os)
         i      = iBegin;
         
       for ( ; ; ) {
-        os << idtr << (*i).second;
+        os << (*i).second;
         if (++i == iEnd) break;
         os << endl;
       } // for
@@ -25452,7 +25451,7 @@ void msrStaffDetails::print (ostream& os)
 
   // print the staff lines number if any
   if (fStaffLinesNumber)
-    os << idtr <<
+    os <<
       fStaffLinesNumber;
   else
     os <<
@@ -25461,10 +25460,10 @@ void msrStaffDetails::print (ostream& os)
 
   // print the staff tuning if any
   if (fStaffTuning)
-    os << idtr <<
+    os <<
       fStaffTuning;
   else
-    os << idtr <<
+    os <<
       "StaffTuning: none" <<
       endl;
 
@@ -27080,7 +27079,7 @@ void msrStaff::print (ostream& os)
 
 /*
   // print the staff staff datails if any
-  os << idtr <<
+  os <<
     "Staff details: ";
   if (fCurrentStaffStaffDetails) {
     os << fCurrentStaffStaffDetails;
@@ -27105,7 +27104,7 @@ void msrStaff::print (ostream& os)
       
     idtr++;
     for ( ; ; ) {
-      os << idtr <<
+      os <<
         (*i)->staffTuningAsString ();
       if (++i == iEnd) break;
       os << endl;
@@ -27139,12 +27138,12 @@ os <<
 
       switch (voice->getVoiceKind ()) {
         case msrVoice::kMasterVoice:
-          os << idtr <<
+          os <<
             voice;
           break;
 
         case msrVoice::kRegularVoice:
-          os << idtr <<
+          os <<
             voice;
           break;
 
@@ -27153,7 +27152,7 @@ os <<
             gMsrOptions->fShowHarmonyVoices
               ||
             voice->getMusicHasBeenInsertedInVoice ())
-            os << idtr <<
+            os <<
               voice;
           break;
           
@@ -27162,13 +27161,13 @@ os <<
             gMsrOptions->fShowFiguredBassVoices
               ||
             voice->getMusicHasBeenInsertedInVoice ())
-            os << idtr <<
+            os <<
               voice;
           break;
           
         case msrVoice::kSilentVoice:
           if (gMsrOptions->fShowSilentVoices)
-            os << idtr <<
+            os <<
               voice;
           break;
       } // switch
@@ -27247,7 +27246,7 @@ void msrStaff::printStructure (ostream& os)
       
     idtr++;
     for ( ; ; ) {
-      os << idtr << (*i)->staffTuningAsString ();
+      os << (*i)->staffTuningAsString ();
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -27258,7 +27257,7 @@ void msrStaff::printStructure (ostream& os)
 
   // print the registered voices names
   if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
-    os << idtr <<
+    os <<
       "Voices:" <<
       endl;
   
@@ -27275,7 +27274,7 @@ void msrStaff::printStructure (ostream& os)
           (*i).second;
           
       os <<
-        idtr << left <<
+        left <<
           voice->getVoiceName () <<
           " (" <<
           singularOrPlural (
@@ -29153,24 +29152,24 @@ void msrPart::print (ostream& os)
       endl;
             
     idtr++;
-    os << idtr << fPartHarmonyStaff;
+    os << fPartHarmonyStaff;
     idtr--;
   }
 */
 
   // print the master staff specifically
-  os << idtr <<
+  os <<
     "Part master staff:" <<
     endl <<
     endl;
   idtr++;
-  os << idtr <<
+  os <<
     fPartMasterStaff;
   idtr--;
 
   // print the registered staves
   if (fPartStavesMap.size()) {
-    os << idtr <<
+    os <<
       "Other staves:" <<
       endl <<
       endl;
@@ -29191,34 +29190,34 @@ void msrPart::print (ostream& os)
 
       switch (staffKind) { // JMI
         case msrStaff::kMasterStaff:
-          os << idtr <<
+          os <<
             staff;
           break;
           
         case msrStaff::kRegularStaff:
-          os << idtr <<
+          os <<
             staff;
           break;
           
         case msrStaff::kTablatureStaff:
-          os << idtr <<
+          os <<
             staff;
           break;
           
         case msrStaff::kPercussionStaff:
-          os << idtr <<
+          os <<
             staff;
           break;
           
         case msrStaff::kHarmonyStaff:
     // JMI      if (gMsrOptions->fShowHarmonyVoices)
-          os << idtr <<
+          os <<
             staff;
           break;
           
         case msrStaff::kFiguredBassStaff:
     // JMI      if (gMsrOptions->fShowHarmonyVoices)
-          os << idtr <<
+          os <<
             staff;
           break;
       } // switch
@@ -29340,7 +29339,7 @@ void msrPart::printStructure (ostream& os)
       endl;
             
     idtr++;
-    os << idtr <<
+    os <<
       fPartHarmonyStaff;
     idtr--;
   }
@@ -29839,7 +29838,7 @@ void msrPartGroup::print (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30204,22 +30203,22 @@ void msrIdentification::print (ostream& os)
   idtr++;
   
   if (fWorkNumber) {
-    os << idtr << fWorkNumber;
+    os << fWorkNumber;
     emptyIdentification = false;
   }
   
   if (fWorkTitle) {
-    os << idtr << fWorkTitle;
+    os << fWorkTitle;
     emptyIdentification = false;
   }
     
   if (fMovementNumber) {
-    os << idtr << fMovementNumber;
+    os << fMovementNumber;
     emptyIdentification = false;
   }
     
   if (fMovementTitle) {
-    os << idtr << fMovementTitle;
+    os << fMovementTitle;
     emptyIdentification = false;
   }
 
@@ -30229,7 +30228,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fComposers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30243,7 +30242,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fArrangers.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30257,7 +30256,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fPoets.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30271,7 +30270,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fLyricists.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30280,7 +30279,7 @@ void msrIdentification::print (ostream& os)
   }
     
   if (fRights) {
-    os << idtr << fRights;
+    os << fRights;
     emptyIdentification = false;
   }
     
@@ -30290,7 +30289,7 @@ void msrIdentification::print (ostream& os)
       iEnd   = fSoftwares.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30299,12 +30298,12 @@ void msrIdentification::print (ostream& os)
   }
     
   if (fEncodingDate) {
-    os << idtr << fEncodingDate;
+    os << fEncodingDate;
     emptyIdentification = false;
   }
 
   if (emptyIdentification)
-    os << idtr <<
+    os <<
       " " << "nothing specified" << endl;
 
 // JMI  os << endl;
@@ -30549,7 +30548,7 @@ void msrScore::print (ostream& os)
       iEnd   = fCreditsList.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30561,7 +30560,7 @@ void msrScore::print (ostream& os)
     iEnd   = fPartGroupsList.end(),
     i      = iBegin;
   for ( ; ; ) {
-    os << idtr << (*i);
+    os << (*i);
     if (++i == iEnd) break;
     os << endl;
   } // for
@@ -30585,11 +30584,11 @@ void msrScore::printStructure (ostream& os)
   idtr++;
   
   if (fIdentification) {
-    os << idtr << fIdentification;
+    os << fIdentification;
   }
   
   if (fPageGeometry) {
-    os << idtr << fPageGeometry;
+    os << fPageGeometry;
   }
   
   // print the credits if any
@@ -30599,7 +30598,7 @@ void msrScore::printStructure (ostream& os)
       iEnd   = fCreditsList.end(),
       i      = iBegin;
     for ( ; ; ) {
-      os << idtr << (*i);
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for
