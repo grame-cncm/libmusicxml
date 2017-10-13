@@ -26,10 +26,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 /*
  * The method that converts the file contents to LilyPond code
@@ -58,7 +54,7 @@ void generateLilypondCodeFromLpsrScore (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
     
   string separator =
     "%--------------------------------------------------------------";
@@ -77,7 +73,7 @@ void generateLilypondCodeFromLpsrScore (
   // create an indented output stream for the LilyPond code
   indentedOutputStream
     lilypondIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
   
   // create an lpsr2LilypondTranslator
   lpsr2LilypondTranslator translator (

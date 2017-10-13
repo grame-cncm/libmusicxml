@@ -31,10 +31,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 /*
  * The method that converts the file contents to LilyPond code
@@ -49,7 +45,7 @@ S_lpsrScore msr2Lpsr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
     
   // build LPSR score from MSR score
   S_lpsrScore
@@ -83,7 +79,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -132,39 +128,33 @@ void displayLpsrScore (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
 
   string separator =
     "%--------------------------------------------------------------";
 
   logIndentedOutputStream <<
     endl <<
-    idtr <<
-      separator <<
-      endl <<
-    idtr <<
-      "Optional pass: displaying the LPSR as text" <<
-      endl <<
-    idtr <<
-      separator <<
-      endl <<
-      endl;  
+    separator <<
+    endl <<
+    "Optional pass: displaying the LPSR as text" <<
+    endl <<
+    separator <<
+    endl <<
+    endl;  
 
   logIndentedOutputStream <<
-    idtr <<
-      "%{" <<
-      endl <<
+    "%{" <<
+    endl <<
     
     lpScore <<
     
-    idtr <<
-      "%}" <<
-      endl;
+    "%}" <<
+    endl;
   
   logIndentedOutputStream <<
-    idtr <<
-      separator <<
-      endl;
+    separator <<
+    endl;
 
   clock_t endClock = clock();
 

@@ -3964,7 +3964,8 @@ void lpsrScore::print (ostream& os)
 {
   os <<
     "LPSR Structure" <<
-    endl << endl;
+    endl <<
+    endl;
 
   gIdtr++;
 

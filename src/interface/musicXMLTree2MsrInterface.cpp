@@ -35,10 +35,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 static S_msrScore xml2Msr (
   SXMLFile&     xmlfile,
@@ -61,7 +57,7 @@ static S_msrScore xml2Msr (
     // create an indented output stream for the log
     indentedOutputStream
       logIndentedOutputStream (
-        cerr, idtr);
+        cerr, gIdtr);
     
     if (msrOpts->fDisplayMsr)
       // display the MSR
@@ -92,7 +88,7 @@ EXP S_msrScore musicxmlFile2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -147,7 +143,7 @@ EXP S_msrScore musicxmlFd2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -203,7 +199,7 @@ EXP S_msrScore musicxmlString2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -256,7 +252,7 @@ S_msrScore buildMSRFromElementsTree (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      cerr, idtr);
+      cerr, gIdtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -309,7 +305,7 @@ void displayMSR (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
   
   string separator =
     "%--------------------------------------------------------------";
@@ -354,7 +350,7 @@ void displayMSRSummary (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, idtr);
+      os, gIdtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
