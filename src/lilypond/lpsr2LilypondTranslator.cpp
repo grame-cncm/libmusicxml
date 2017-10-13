@@ -1952,8 +1952,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
       "% --> Start visiting lpsrLilypondVarValAssoc" <<
       endl;
 
-  fIndentedOutputStream << idtr;
-
   if (elt->getComment ().size())
     fIndentedOutputStream <<
       "% " << elt->getComment () << endl <<
@@ -2126,7 +2124,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (paperWidth > 0) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
           setw (fieldWidth) <<
           "paper-width" << " = " <<
           setprecision(4) << paperWidth << "\\cm" <<
@@ -2140,7 +2138,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (paperHeight > 0) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
           setw (fieldWidth) <<
           "paper-height" << " = " <<
           setprecision(4) << paperHeight << "\\cm" <<
@@ -2154,7 +2152,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (topMargin > 0) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
           setw (fieldWidth) <<
           "top-margin" << " = " <<
           setprecision(4) << topMargin << "\\cm" <<
@@ -2168,7 +2166,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (bottomMargin > 0) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
           setw (fieldWidth) <<
           "bottom-margin" << " = " <<
           setprecision(4) << bottomMargin << "\\cm" <<
@@ -2182,7 +2180,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (leftMargin > 0) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
           setw (fieldWidth) <<
           "left-margin" << " = " <<
           setprecision(4) << leftMargin << "\\cm" <<
@@ -2196,7 +2194,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (rightMargin > 0) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
           setw (fieldWidth) <<
           "right-margin" << " = " <<
         setprecision(4) << rightMargin << "\\cm" <<
@@ -2212,7 +2210,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (betweenSystemSpace > 0) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
         setw (fieldWidth) <<
         "between-system-space" << " = " <<
         setprecision(4) << betweenSystemSpace << "\\cm" <<
@@ -2226,7 +2224,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (pageTopSpace > 0) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
         setw (fieldWidth) <<
         "page-top-space" << " = " <<
         setprecision(4) << pageTopSpace << "\\cm" <<
@@ -2242,7 +2240,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (oddHeaderMarkup.size ()) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
         setw (fieldWidth) <<
         "oddHeaderMarkup" << " = " <<
         oddHeaderMarkup <<
@@ -2256,7 +2254,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (evenHeaderMarkup.size ()) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
         setw (fieldWidth) <<
         "evenHeaderMarkup" << " = " <<
         evenHeaderMarkup <<
@@ -2270,7 +2268,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (oddFooterMarkup.size ()) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
         setw (fieldWidth) <<
         "oddFooterMarkup" << " = " <<
         oddFooterMarkup <<
@@ -2284,7 +2282,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       
     if (evenFooterMarkup.size ()) {
       fIndentedOutputStream <<
-        idtr << left <<
+        left <<
         setw (fieldWidth) <<
         "evenFooterMarkup" << " = " <<
         evenFooterMarkup <<
@@ -2294,17 +2292,17 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
 
   // generate the default 'indent' setting ready for the user
   fIndentedOutputStream <<
-    idtr << left <<
-      setw (fieldWidth) <<
-      "indent" << " = " <<
+    left <<
+    setw (fieldWidth) <<
+    "indent" << " = " <<
     setprecision(4) << 1.5 << "\\cm" <<
     endl;
 
   // generate the default 'short-indent' setting ready for the user
   fIndentedOutputStream <<
-    idtr << left <<
-      setw (fieldWidth) <<
-      "short-indent" << " = " <<
+    left <<
+    setw (fieldWidth) <<
+    "short-indent" << " = " <<
     setprecision(4) << 1.0 << "\\cm" <<
     endl;
 
@@ -2312,17 +2310,17 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
 
   // generate a 'page-count' comment ready for the user
   fIndentedOutputStream <<
-    idtr << left <<
-      setw (fieldWidth) <<
-      "%" "page-count" << " = " <<
+    left <<
+    setw (fieldWidth) <<
+    "%" "page-count" << " = " <<
     setprecision(4) << 1 <<
     endl;
 
   // generate a 'system-count' comment ready for the user
   fIndentedOutputStream <<
-    idtr << left <<
-      setw (fieldWidth) <<
-      "%" "system-count" << " = " <<
+    left <<
+    setw (fieldWidth) <<
+    "%" "system-count" << " = " <<
     setprecision(4) << 1 <<
     endl;
 
@@ -5505,7 +5503,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     fIndentedOutputStream <<
       " " << tempoUnit << " = " << perMinute;
 
-  fIndentedOutputStream << endl;
+  fIndentedOutputStream <<
+    endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTempo& elt)
