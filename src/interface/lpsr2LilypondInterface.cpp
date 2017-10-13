@@ -55,21 +55,23 @@ void generateLilypondCodeFromLpsrScore (
 {
   clock_t startClock = clock();
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      os, idtr);
+    
   string separator =
     "%--------------------------------------------------------------";
 
   if (gGeneralOptions->fTraceGeneral) {
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
-      idtr <<
-        separator <<
-        endl <<
-      idtr <<
-        "Pass 4: writing the LPSR as LilyPond code" <<
-        endl <<
-      idtr <<
-        separator <<
-        endl;
+      separator <<
+      endl <<
+      "Pass 4: writing the LPSR as LilyPond code" <<
+      endl <<
+      separator <<
+      endl;
   }
 
   // create an indented output stream for the LilyPond code
