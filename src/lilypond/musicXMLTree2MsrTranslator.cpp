@@ -5307,104 +5307,90 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentLyricTextsList,
         fLogOutputStream);
   
-      fLogOutputStream <<
-          endl <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fCurrentLyricElision" << " = " <<
-          booleanAsString (fCurrentLyricElision) <<
-          endl <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fCurrentSyllableExtendKind" << " = " <<
-          msrSyllable::syllableExtendKindAsString (
-            fCurrentSyllableExtendKind) <<
-          endl <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fCurrentNoteIsARest" << " = " <<
-          booleanAsString (fCurrentNoteIsARest) <<
-          endl <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fCurrentRestMeasure" << " = " <<
-          booleanAsString (fCurrentRestMeasure) <<
-          endl;
+      fLogOutputStream << left <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentLyricElision" << " = " <<
+        booleanAsString (fCurrentLyricElision) <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentSyllableExtendKind" << " = " <<
+        msrSyllable::syllableExtendKindAsString (
+          fCurrentSyllableExtendKind) <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentNoteIsARest" << " = " <<
+        booleanAsString (fCurrentNoteIsARest) <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentRestMeasure" << " = " <<
+        booleanAsString (fCurrentRestMeasure) <<
+        endl;
   
       fLogOutputStream <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fCurrentTieKind" << " = \"" <<
-          msrTie::tieKindAsString (fCurrentTieKind) <<
-          "\"" <<
+        setw (fieldwidth) <<
+        "fCurrentTieKind" << " = \"" <<
+        msrTie::tieKindAsString (fCurrentTieKind) <<
+        "\"" <<
         endl;
           
       fLogOutputStream <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fCurrentSlurKind" << " = \"" <<
-          msrSlur::slurKindAsString (fCurrentSlurKind) <<
-          "\"" <<
-          endl;
+        setw (fieldwidth) <<
+        "fCurrentSlurKind" << " = \"" <<
+        msrSlur::slurKindAsString (fCurrentSlurKind) <<
+        "\"" <<
+        endl;
   
       fLogOutputStream <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fCurrentLigatureKind" << " = \"" <<
-          msrLigature::ligatureKindAsString (
-            fCurrentLigatureKind) <<
-          "\"" <<
-          endl;
+        setw (fieldwidth) <<
+        "fCurrentLigatureKind" << " = \"" <<
+        msrLigature::ligatureKindAsString (
+          fCurrentLigatureKind) <<
+        "\"" <<
+        endl;
   
       fLogOutputStream <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fOnGoingSlur" << " = " <<
-          booleanAsString (fOnGoingSlur) <<
-          endl <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fOnGoingSlurHasStanza" << " = " <<
-          booleanAsString (fOnGoingSlurHasStanza) <<
-          endl;
+        setw (fieldwidth) <<
+        "fOnGoingSlur" << " = " <<
+        booleanAsString (fOnGoingSlur) <<
+        endl <<
+        setw (fieldwidth) <<
+        "fOnGoingSlurHasStanza" << " = " <<
+        booleanAsString (fOnGoingSlurHasStanza) <<
+        endl;
   
       fLogOutputStream <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fOnGoingLigature" << " = " <<
-          booleanAsString (fOnGoingLigature) <<
-          endl <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fOnGoingLigatureHasStanza" << " = " <<
-          booleanAsString (fOnGoingLigatureHasStanza) <<
-          endl;
+        setw (fieldwidth) <<
+        "fOnGoingLigature" << " = " <<
+        booleanAsString (fOnGoingLigature) <<
+        endl <<
+        setw (fieldwidth) <<
+        "fOnGoingLigatureHasStanza" << " = " <<
+        booleanAsString (fOnGoingLigatureHasStanza) <<
+        endl;
   
       fLogOutputStream <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fFirstSyllableInSlurKind" << " = \"" <<
-          msrSyllable::syllableKindAsString (
-            fFirstSyllableInSlurKind) <<
-          "\"" <<
+        setw (fieldwidth) <<
+        "fFirstSyllableInSlurKind" << " = \"" <<
+        msrSyllable::syllableKindAsString (
+          fFirstSyllableInSlurKind) <<
+        "\"" <<
+        endl;
+  
+      fLogOutputStream <<
+        setw (fieldwidth) <<
+        "fFirstSyllableInLigatureKind" << " = \"" <<
+        msrSyllable::syllableKindAsString (
+          fFirstSyllableInLigatureKind) <<
+        "\"" <<
       endl;
   
       fLogOutputStream <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fFirstSyllableInLigatureKind" << " = \"" <<
-          msrSyllable::syllableKindAsString (
-            fFirstSyllableInLigatureKind) <<
-          "\"" <<
-      endl;
-  
-      fLogOutputStream <<
-        idtr <<
-          setw (fieldwidth) <<
-          "fCurrentSyllableKind" << " = \""<<
-          msrSyllable::syllableKindAsString (
-            fCurrentSyllableKind) <<
-          "\"" <<
+        setw (fieldwidth) <<
+        "fCurrentSyllableKind" << " = \""<<
+        msrSyllable::syllableKindAsString (
+          fCurrentSyllableKind) <<
+        "\"" <<
       endl;
           
       idtr--;
@@ -5489,19 +5475,18 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
   if (gGeneralOptions->fTraceLyrics) {   
     fLogOutputStream <<
-      idtr <<
-        "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
-        msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
-        endl;
+      "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
+      msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
+      endl;
   }
 
   //     fCurrentLyricElision ??? JMI
   if (gGeneralOptions->fTraceLyrics) {      
     fLogOutputStream <<
-      idtr <<
       "Creating a \"" <<
       msrSyllable::syllableKindAsString (
-        fCurrentSyllableKind) << "\"" <<
+        fCurrentSyllableKind) <<
+      "\"" <<
       " syllable"
       ", text = \"";
 
@@ -5592,10 +5577,9 @@ void musicXMLTree2MsrTranslator::visitStart (S_measure& elt)
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
     fLogOutputStream <<
       endl <<
-      idtr << 
-        "<!--=== measure " << fCurrentMeasureNumber <<
-        ", line " << inputLineNumber << " ===-->" <<
-        endl;
+      "<!--=== measure " << fCurrentMeasureNumber <<
+      ", line " << inputLineNumber << " ===-->" <<
+      endl;
   }
 
   // Measures with an implicit attribute set to "yes"
@@ -6743,9 +6727,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineLocation == msrBarline::msrBarline::kRight) {
    //       if (gGeneralOptions->fDebug)
             fLogOutputStream <<
-              idtr << "--> input line " << inputLineNumber <<
+              "--> input line " << inputLineNumber <<
               endl <<
-              idtr <<
               "--> barline, right:" <<
       endl;
             }
@@ -6859,11 +6842,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
             * /
      //       if (gGeneralOptions->fDebug)
               fLogOutputStream <<
-                idtr << "--> input line " << inputLineNumber <<
+                "--> input line " << inputLineNumber <<
                 endl <<
-                idtr <<
                 "--> barline with right and stop:" << endl <<
-                idtr <<
                 "    end of an hooked ending" <<
                 endl;
       
@@ -6904,13 +6885,19 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
     stringstream s;
     
     s << left <<
-      "cannot handle a barline containing:" << endl <<
-      idtr << "location = " << fCurrentBarlineLocation << endl <<
-      idtr << "style = " << fCurrentBarlineStyle << endl <<
-      idtr << "ending type = " << fCurrentBarlineEndingType << endl <<
-      idtr << "ending number = " << fCurrentBarlineEndingNumber << endl <<
-      idtr << "repeat direction = " << fCurrentBarlineRepeatDirection << endl <<
-      idtr << "repeat winged = " << fCurrentBarlineRepeatWinged;
+      "cannot handle a barline containing:" <<
+      endl <<
+      "location = " << fCurrentBarlineLocation <<
+      endl <<
+      "style = " << fCurrentBarlineStyle <<
+      endl <<
+      "ending type = " << fCurrentBarlineEndingType <<
+      endl <<
+      "ending number = " << fCurrentBarlineEndingNumber <<
+      endl <<
+      "repeat direction = " << fCurrentBarlineRepeatDirection <<
+      endl <<
+      "repeat winged = " << fCurrentBarlineRepeatWinged;
       
     msrMusicXMLError (
       inputLineNumber,
@@ -7310,16 +7297,14 @@ void musicXMLTree2MsrTranslator::visitStart ( S_type& elt )
   if (gGeneralOptions->fTraceNotesDetails) {
     /* JMI
     fLogOutputStream <<
-      idtr <<
-        "noteType: \"" <<
-        noteType <<
-        "\"" <<
-        endl <<
-      idtr <<
-        "noteTypeSize: \"" <<
-        noteTypeSize <<
-        "\"" <<
-        endl;
+      "noteType: \"" <<
+      noteType <<
+      "\"" <<
+      endl <<
+      "noteTypeSize: \"" <<
+      noteTypeSize <<
+      "\"" <<
+      endl;
         */
   }
 }
@@ -13745,43 +13730,36 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
     const int fieldWidth = 42;
     
     fLogOutputStream << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteSoundingWholeNotesFromDuration" << " = " << 
-        fCurrentNoteSoundingWholeNotesFromDuration <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNoteGraphicDuration" << " : " <<
-          msrDurationAsString (
-            fCurrentNoteGraphicDuration) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNoteDotsNumber" << " : " <<
-          fCurrentNoteDotsNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteDisplayWholeNotesFromType" << " = " << 
-        fCurrentNoteDisplayWholeNotesFromType <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentNoteIsARest" << " = " << 
-        booleanAsString (fCurrentNoteIsARest) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "CurrentDivisionsPerQuarterNote" << " = " <<
-        fCurrentDivisionsPerQuarterNote <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentNotePrintKind" << " = " <<
-        msrNote::notePrintKindAsString (
-          fCurrentNotePrintKind) <<
-        endl;
+      setw (fieldWidth) <<
+      "CurrentNoteSoundingWholeNotesFromDuration" << " = " << 
+      fCurrentNoteSoundingWholeNotesFromDuration <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentNoteGraphicDuration" << " : " <<
+        msrDurationAsString (
+          fCurrentNoteGraphicDuration) <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentNoteDotsNumber" << " : " <<
+        fCurrentNoteDotsNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "CurrentNoteDisplayWholeNotesFromType" << " = " << 
+      fCurrentNoteDisplayWholeNotesFromType <<
+      endl <<
+      setw (fieldWidth) <<
+      "CurrentNoteIsARest" << " = " << 
+      booleanAsString (fCurrentNoteIsARest) <<
+      endl <<
+      setw (fieldWidth) <<
+      "CurrentDivisionsPerQuarterNote" << " = " <<
+      fCurrentDivisionsPerQuarterNote <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentNotePrintKind" << " = " <<
+      msrNote::notePrintKindAsString (
+        fCurrentNotePrintKind) <<
+      endl;
 
     idtr--;
   }
@@ -13798,36 +13776,32 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   if (gGeneralOptions->fTraceNotes) { // JMI
     fLogOutputStream <<
       endl <<
-      idtr <<
-        "==> BEFORE visitEnd (S_note&)" <<
-        ", line " << inputLineNumber <<
-        " we have:" <<
-        endl;
+      "==> BEFORE visitEnd (S_note&)" <<
+      ", line " << inputLineNumber <<
+      " we have:" <<
+      endl;
 
     idtr++;
 
     const int fieldWidth = 27;
 
     fLogOutputStream <<
-      idtr <<
-        setw (fieldWidth) << "--> fCurrentNoteStaffNumber" << " = " <<
-        fCurrentNoteStaffNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) << "--> fCurrentNoteVoiceNumber" << " = " <<
-        fCurrentNoteVoiceNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) << "--> current voice" << " = \"" <<
-        currentVoice->getVoiceName () << "\"" <<
+      setw (fieldWidth) << "--> fCurrentNoteStaffNumber" << " = " <<
+      fCurrentNoteStaffNumber <<
+      endl <<
+      setw (fieldWidth) << "--> fCurrentNoteVoiceNumber" << " = " <<
+      fCurrentNoteVoiceNumber <<
+      endl <<
+      setw (fieldWidth) << "--> current voice" << " = \"" <<
+      currentVoice->getVoiceName () << "\"" <<
       endl;
 
     idtr--;
 
     fLogOutputStream <<
-      idtr <<
-        "<==" <<
-        endl << endl;
+      "<==" <<
+      endl <<
+      * endl;
   }
 */
 
@@ -13981,41 +13955,34 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       const int fieldWidth = 31;
       
       fLogOutputStream <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentPart" << " = " <<
-          fCurrentPart->getPartCombinedName () <<
-          endl <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
-          msrDiatonicPitchAsString (
-            gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-            fCurrentHarmonyRootDiatonicPitch) <<
-          endl <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentHarmonyRootAlteration" << " = " <<
-          msrAlterationAsString(
-            fCurrentHarmonyRootAlteration) <<
-          endl <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentHarmonyKind" << " = " <<
-          harmonyKindAsString (
-            fCurrentHarmonyKind) <<
-          endl <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentHarmonyKindText" << " = " <<
-          fCurrentHarmonyKindText <<
-          endl <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
-          msrDiatonicPitchAsString (
-            gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-            fCurrentHarmonyBassDiatonicPitch) <<
-          endl <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentHarmonyBassAlteration" << " = " <<
-          msrAlterationAsString(
-            fCurrentHarmonyBassAlteration) <<
-          endl;
+        setw (fieldWidth) << "fCurrentPart" << " = " <<
+        fCurrentPart->getPartCombinedName () <<
+        endl <<
+        setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
+        msrDiatonicPitchAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+          fCurrentHarmonyRootDiatonicPitch) <<
+        endl <<
+        setw (fieldWidth) << "fCurrentHarmonyRootAlteration" << " = " <<
+        msrAlterationAsString(
+          fCurrentHarmonyRootAlteration) <<
+        endl <<
+        setw (fieldWidth) << "fCurrentHarmonyKind" << " = " <<
+        harmonyKindAsString (
+          fCurrentHarmonyKind) <<
+        endl <<
+        setw (fieldWidth) << "fCurrentHarmonyKindText" << " = " <<
+        fCurrentHarmonyKindText <<
+        endl <<
+        setw (fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
+        msrDiatonicPitchAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+          fCurrentHarmonyBassDiatonicPitch) <<
+        endl <<
+        setw (fieldWidth) << "fCurrentHarmonyBassAlteration" << " = " <<
+        msrAlterationAsString(
+          fCurrentHarmonyBassAlteration) <<
+        endl;
           
       idtr--;
     }
@@ -14084,14 +14051,12 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       const int fieldWidth = 31;
       
       fLogOutputStream <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentPart" << " = " <<
-          fCurrentPart->getPartCombinedName () <<
-          endl <<
-        idtr <<
-          setw (fieldWidth) << "fCurrentFiguredBassSoundingWholeNotes" << " = " <<
-          fCurrentFiguredBassSoundingWholeNotes <<
-          endl;
+        setw (fieldWidth) << "fCurrentPart" << " = " <<
+        fCurrentPart->getPartCombinedName () <<
+        endl <<
+        setw (fieldWidth) << "fCurrentFiguredBassSoundingWholeNotes" << " = " <<
+        fCurrentFiguredBassSoundingWholeNotes <<
+        endl;
           
       idtr--;
     }
@@ -14223,30 +14188,25 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 
     fLogOutputStream <<
       endl <<
-      idtr <<
-        "==> AFTER visitEnd (S_note&) " <<
-        newNote->noteAsString () <<
-        ", line " << inputLineNumber <<
-        " we have:" <<
-        endl <<
-        
-      idtr <<
-        setw (fieldWidth) <<
-        "--> fCurrentNoteStaffNumber" << " = " <<
-        fCurrentNoteStaffNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "--> fCurrentNoteVoiceNumber" << " = " <<
-        fCurrentNoteVoiceNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "--> current voice" << " = \"" <<
-        currentVoice->getVoiceName () << "\"" <<
-        endl <<
-        "<==" <<
-        endl <<
+      "==> AFTER visitEnd (S_note&) " <<
+      newNote->noteAsString () <<
+      ", line " << inputLineNumber <<
+      " we have:" <<
+      endl <<
+      setw (fieldWidth) <<
+      "--> fCurrentNoteStaffNumber" << " = " <<
+      fCurrentNoteStaffNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "--> fCurrentNoteVoiceNumber" << " = " <<
+      fCurrentNoteVoiceNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "--> current voice" << " = \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl <<
+      "<==" <<
+      endl <<
       endl;
   }
 */
@@ -14346,35 +14306,29 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
     
   if (gGeneralOptions->fTraceNotes) {    
     fLogOutputStream <<
-      idtr <<
-        "Handling standalone, double tremolo or grace note or rest:" <<
-        endl;
+      "Handling standalone, double tremolo or grace note or rest:" <<
+      endl;
 
       idtr++;
 
     fLogOutputStream <<
-      idtr <<
-        newNote->noteAsString () <<
-        endl;
+      newNote->noteAsString () <<
+      endl;
 
     const int fieldWidth = 25;
 
     fLogOutputStream <<
-      idtr <<
-        setw (fieldWidth) << "voice" << " : \"" <<
-        currentVoice->getVoiceName () << "\"" <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) << "line:" << " : " <<
-        inputLineNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) << "fCurrentNoteIsAGraceNote" << " : " <<
-        booleanAsString (fCurrentNoteIsAGraceNote) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) << "fCurrentGraceNotes" << " : ";
-        
+      setw (fieldWidth) << "voice" << " : \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl <<
+      setw (fieldWidth) << "line:" << " : " <<
+      inputLineNumber <<
+      endl <<
+      setw (fieldWidth) << "fCurrentNoteIsAGraceNote" << " : " <<
+      booleanAsString (fCurrentNoteIsAGraceNote) <<
+      endl <<
+      setw (fieldWidth) << "fCurrentGraceNotes" << " : ";
+      
     if (fCurrentGraceNotes)
       fLogOutputStream << fCurrentGraceNotes;
     else
@@ -14395,7 +14349,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
       // this is the first grace note in grace notes
 
       if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGraceNotes) {
-        fLogOutputStream <<  idtr <<
+        fLogOutputStream <<
           "Creating grace notes for note " <<
           newNote->noteAsString () <<
           " in voice \"" <<
@@ -14427,7 +14381,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
 
     // append newNote to the current grace notes
     if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGraceNotes) {
-      fLogOutputStream <<  idtr <<
+      fLogOutputStream <<
         "Appending note " <<
         newNote->noteAsString () <<
         " to the grace notes in voice \"" <<
@@ -14453,7 +14407,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
       case kSingleTremolo:
         // append newNote to the current voice
         if (gGeneralOptions->fTraceNotes) {
-          fLogOutputStream <<  idtr <<
+          fLogOutputStream <<
             "Appending standalone " <<
             newNote->noteAsString () <<
             ", line " << newNote->getInputLineNumber () <<
@@ -14472,7 +14426,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
       case kStartTremolo:
         // register newNote as first element of the current double tremolo
         if (gGeneralOptions->fTraceNotes) {
-          fLogOutputStream <<  idtr <<
+          fLogOutputStream <<
             "Setting standalone note '" <<
             newNote->noteAsString () <<
             "', line " << newNote->getInputLineNumber () <<
@@ -14491,7 +14445,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
       case kStopTremolo:
         // register newNote as second element of the current double tremolo
         if (gGeneralOptions->fTraceNotes) {
-          fLogOutputStream <<  idtr <<
+          fLogOutputStream <<
             "Setting standalone note '" <<
             newNote->noteAsString () <<
             "', line " << newNote->getInputLineNumber () <<
@@ -14531,7 +14485,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
   
     // append newNote to the current voice
     if (gGeneralOptions->fTraceNotes) {
-      fLogOutputStream <<  idtr <<
+      fLogOutputStream <<
         "Appending standalone " <<
         newNote->noteAsString () <<
         ", line " << newNote->getInputLineNumber () <<
@@ -14824,9 +14778,8 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
       s <<
         "handleNoteBelongingToAChord():" <<
         endl <<
-        idtr <<
-          "chordFirstNote is null on " <<
-          newChordNote->noteAsString ();
+        "chordFirstNote is null on " <<
+        newChordNote->noteAsString ();
         
       msrInternalError (
         inputLineNumber,
@@ -14936,14 +14889,13 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
           // updating chord's divisions // JMI
           if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
             fLogOutputStream <<
-              idtr <<
-                "Updating sounding divisions for double tremolo chord '" <<
-                "' " << fCurrentChord->chordAsString () <<
-                " to '" << chordFirstNoteSoundingWholeNotes <<
-                "' in voice \"" <<
-                currentVoice->getVoiceName () <<
-                "\"" <<
-                endl;
+              "Updating sounding divisions for double tremolo chord '" <<
+              "' " << fCurrentChord->chordAsString () <<
+              " to '" << chordFirstNoteSoundingWholeNotes <<
+              "' in voice \"" <<
+              currentVoice->getVoiceName () <<
+              "\"" <<
+              endl;
           }
           
           fCurrentChord->
@@ -15265,9 +15217,8 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       s <<
         "handleNoteBelongingToAChordInATuplet():" <<
         endl <<
-        idtr <<
-          "lastHandledNoteInVoice is null on " <<
-          newChordNote->noteAsString ();
+        "lastHandledNoteInVoice is null on " <<
+        newChordNote->noteAsString ();
         
       msrInternalError (
         inputLineNumber,
@@ -15459,7 +15410,8 @@ void musicXMLTree2MsrTranslator::displayLastHandledNoteInVoice (string header)
 {
   fLogOutputStream <<
     endl <<
-    idtr << header << ", fLastHandledNoteInVoice contains:";
+    header <<
+    ", fLastHandledNoteInVoice contains:";
 
   if (! fLastHandledNoteInVoice.size ()) {
     fLogOutputStream <<
@@ -15496,7 +15448,8 @@ void musicXMLTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
 {
   fLogOutputStream <<
     endl <<
-    idtr << header << ", fLastHandledTupletInVoice contains:";
+    header <<
+    ", fLastHandledTupletInVoice contains:";
 
   if (! fLastHandledTupletInVoice.size ()) {
     fLogOutputStream <<
@@ -15539,14 +15492,13 @@ void musicXMLTree2MsrTranslator::handleRepeatStart (
 
   if (gGeneralOptions->fTraceRepeats)
     fLogOutputStream <<
-      idtr <<
-        "Handling repeat start" <<
-        ", line " << inputLineNumber <<
-        ", measure '" <<
-          barline->getBarlineMeasureNumber () <<
-        "', position " <<
-        barline->getBarlinePositionInMeasure () <<
-        ", [barline: left and forward: repeat start]" <<
+      "Handling repeat start" <<
+      ", line " << inputLineNumber <<
+      ", measure '" <<
+        barline->getBarlineMeasureNumber () <<
+      "', position " <<
+      barline->getBarlinePositionInMeasure () <<
+      ", [barline: left and forward: repeat start]" <<
       endl;
 
 /* JMI
@@ -15609,14 +15561,13 @@ void musicXMLTree2MsrTranslator::handleRepeatEnd (
 
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      idtr <<
-        "Handling repeat end" <<
-        ", line " << inputLineNumber <<
-        ", measure '" <<
-          barline->getBarlineMeasureNumber () <<
-        "', position " <<
-        barline->getBarlinePositionInMeasure () <<
-        ", [barline: right and backward: repeat end]" <<
+      "Handling repeat end" <<
+      ", line " << inputLineNumber <<
+      ", measure '" <<
+        barline->getBarlineMeasureNumber () <<
+      "', position " <<
+      barline->getBarlinePositionInMeasure () <<
+      ", [barline: right and backward: repeat end]" <<
       endl;
   }
 
@@ -15640,7 +15591,6 @@ void musicXMLTree2MsrTranslator::handleRepeatEnd (
   if (fPendingBarlines.empty ()) {
     if (gGeneralOptions->fTraceRepeats) {
       fLogOutputStream <<
-        idtr <<
         "There is an implicit repeat start at the beginning of part" <<
         fCurrentPart->getPartCombinedName () <<
         endl;
@@ -15708,14 +15658,13 @@ void musicXMLTree2MsrTranslator::handleHookedEndingStart (
 
   if (gGeneralOptions->fTraceRepeats)
     fLogOutputStream <<
-      idtr <<
-        "Handling repeat hooked ending start" <<
-        ", line " << inputLineNumber <<
-        ", measure '" <<
-          barline->getBarlineMeasureNumber () <<
-        "', position " <<
-        barline->getBarlinePositionInMeasure () <<
-        ", [barline: left, start and forward: hooked ending start]" <<
+      "Handling repeat hooked ending start" <<
+      ", line " << inputLineNumber <<
+      ", measure '" <<
+        barline->getBarlineMeasureNumber () <<
+      "', position " <<
+      barline->getBarlinePositionInMeasure () <<
+      ", [barline: left, start and forward: hooked ending start]" <<
       endl;
 
   // fetch current voice
@@ -15775,15 +15724,14 @@ void musicXMLTree2MsrTranslator::handleHookedEndingEnd (
 
   if (gGeneralOptions->fTraceRepeats)
     fLogOutputStream <<
-      idtr <<
-        "Handling repeat hooked ending end" <<
-        ", line " << inputLineNumber <<
-        ", measure '" <<
-          barline->getBarlineMeasureNumber () <<
-        "', position " <<
-        barline->getBarlinePositionInMeasure () <<
-        "', [barline: right, stop, backward: hooked ending end]" <<
-        endl;
+      "Handling repeat hooked ending end" <<
+      ", line " << inputLineNumber <<
+      ", measure '" <<
+        barline->getBarlineMeasureNumber () <<
+      "', position " <<
+      barline->getBarlinePositionInMeasure () <<
+      "', [barline: right, stop, backward: hooked ending end]" <<
+      endl;
 
   // fetch current voice
   S_msrVoice
@@ -15826,14 +15774,13 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingStart (
 
   if (gGeneralOptions->fTraceRepeats)
     fLogOutputStream <<
-      idtr <<
-        "Handling repeat hookless ending start" <<
-        ", line " << inputLineNumber <<
-        ", measure '" <<
-          barline->getBarlineMeasureNumber () <<
-        "', position " <<
-        barline->getBarlinePositionInMeasure () <<
-        ", [barline: left and start: hookless ending start]" <<
+      "Handling repeat hookless ending start" <<
+      ", line " << inputLineNumber <<
+      ", measure '" <<
+        barline->getBarlineMeasureNumber () <<
+      "', position " <<
+      barline->getBarlinePositionInMeasure () <<
+      ", [barline: left and start: hookless ending start]" <<
       endl;
 
   // fetch current voice
@@ -15876,14 +15823,13 @@ void musicXMLTree2MsrTranslator::handleHooklessEndingEnd (
   
   if (gGeneralOptions->fTraceRepeats)
     fLogOutputStream <<
-      idtr <<
-        "Handling repeat hookless ending end" <<
-        ", line " << inputLineNumber <<
-        ", measure '" <<
-          barline->getBarlineMeasureNumber () <<
-        "', position " <<
-        barline->getBarlinePositionInMeasure () <<
-        ", [barline: right and discontinue: hookless ending end]" <<
+      "Handling repeat hookless ending end" <<
+      ", line " << inputLineNumber <<
+      ", measure '" <<
+        barline->getBarlineMeasureNumber () <<
+      "', position " <<
+      barline->getBarlinePositionInMeasure () <<
+      ", [barline: right and discontinue: hookless ending end]" <<
       endl;
 
   // fetch current voice
@@ -16868,9 +16814,8 @@ void musicXMLTree2MsrTranslator::visitStart (S_harp_pedals& elt )
   // create the harp pedals tuning
   if (gGeneralOptions->fTraceHarpPedalsTuning) {
     fLogOutputStream <<
-      idtr <<
-        "Creating harp pedals tuning:" <<
-        endl;
+      "Creating harp pedals tuning:" <<
+      endl;
   }
     
   fCurrentHarpPedalsTuning =
@@ -16949,28 +16894,25 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
   // create a harp pedals tuning
   if (gGeneralOptions->fTraceStaffTuning) {
     fLogOutputStream <<
-      idtr <<
-        "Creating harp pedal tuning:" <<
-        endl;
+      "Creating harp pedal tuning:" <<
+      endl;
 
     idtr++;
 
     const int fieldWidth = 31;
 
     fLogOutputStream <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentHarpPedalDiatonicPitch" << " = " <<
-        msrDiatonicPitchAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-          fCurrentHarpPedalDiatonicPitch) <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "fCurrentHarpPedalAlteration" << " = " <<
-        msrAlterationAsString (
-          fCurrentHarpPedalAlteration) <<
-        endl;
+      setw (fieldWidth) <<
+      "fCurrentHarpPedalDiatonicPitch" << " = " <<
+      msrDiatonicPitchAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+        fCurrentHarpPedalDiatonicPitch) <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentHarpPedalAlteration" << " = " <<
+      msrAlterationAsString (
+        fCurrentHarpPedalAlteration) <<
+      endl;
 
     idtr--;
   }
