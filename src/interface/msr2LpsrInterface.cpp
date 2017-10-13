@@ -46,16 +46,27 @@ S_lpsrScore msr2Lpsr (
   S_lpsrOptions&   lpsrOpts,
   ostream&         os) 
 {  
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      os, idtr);
+    
   // build LPSR score from MSR score
   S_lpsrScore
     lpScore =
       buildLpsrScoreFromMsrScore (
-        mScore, msrOpts, lpsrOpts, os);
+        mScore,
+        msrOpts,
+        lpsrOpts,
+        logIndentedOutputStream);
 
   // display it
   if (lpsrOpts->fDisplayLpsr)
     displayLpsrScore (
-      lpScore, msrOpts, lpsrOpts, cerr);
+      lpScore,
+      msrOpts,
+      lpsrOpts,
+      logIndentedOutputStream);
 
   return lpScore;
 }
@@ -72,7 +83,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      cerr, idtr);
+      os, idtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -118,10 +129,15 @@ void displayLpsrScore (
 {
   clock_t startClock = clock();
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      os, idtr);
+
   string separator =
     "%--------------------------------------------------------------";
 
-  cerr <<
+  logIndentedOutputStream <<
     endl <<
     idtr <<
       separator <<
@@ -134,7 +150,7 @@ void displayLpsrScore (
       endl <<
       endl;  
 
-  os <<
+  logIndentedOutputStream <<
     idtr <<
       "%{" <<
       endl <<
@@ -145,7 +161,7 @@ void displayLpsrScore (
       "%}" <<
       endl;
   
-  os <<
+  logIndentedOutputStream <<
     idtr <<
       separator <<
       endl;

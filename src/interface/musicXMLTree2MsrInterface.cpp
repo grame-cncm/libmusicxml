@@ -92,7 +92,7 @@ EXP S_msrScore musicxmlFile2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      cerr, idtr);
+      os, idtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -100,11 +100,11 @@ EXP S_msrScore musicxmlFile2Msr (
     
     logIndentedOutputStream <<
       endl <<
-      idtr << separator <<
+      separator <<
       endl <<
       "Pass 1: building the xmlelement tree from \"" << file << "\"" <<
       endl <<
-      idtr << separator <<
+      separator <<
       endl;
   }
 
@@ -130,7 +130,7 @@ EXP S_msrScore musicxmlFile2Msr (
       xml2Msr (
         xmlFile,
         msrOpts,
-        os,
+        logIndentedOutputStream,
         file);  
 
   return mScore;
@@ -147,7 +147,7 @@ EXP S_msrScore musicxmlFd2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      cerr, idtr);
+      os, idtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -155,11 +155,11 @@ EXP S_msrScore musicxmlFd2Msr (
     
     logIndentedOutputStream <<
       endl <<
-      idtr << separator <<
+      separator <<
       endl <<
       "Pass 1: building the xmlelement tree from standard input" <<
       endl <<
-      idtr << separator <<
+      separator <<
       endl;
   }
 
@@ -185,7 +185,7 @@ EXP S_msrScore musicxmlFd2Msr (
       xml2Msr (
         xmlFile,
         msrOpts,
-        os,
+        logIndentedOutputStream,
         0);
   }
   
@@ -203,7 +203,7 @@ EXP S_msrScore musicxmlString2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      cerr, idtr);
+      os, idtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -211,11 +211,11 @@ EXP S_msrScore musicxmlString2Msr (
     
     logIndentedOutputStream <<
       endl <<
-      idtr << separator <<
+      separator <<
       endl <<
-      idtr << "Pass 1: building the xmlelement tree from a buffer" <<
+      "Pass 1: building the xmlelement tree from a buffer" <<
       endl <<
-      idtr << separator <<
+      separator <<
       endl;
   }
   
@@ -240,7 +240,7 @@ EXP S_msrScore musicxmlString2Msr (
       xml2Msr (
         xmlFile,
         msrOpts,
-        os,
+        logIndentedOutputStream,
         0);
   }
   return mScore;
@@ -264,22 +264,15 @@ S_msrScore buildMSRFromElementsTree (
   
     logIndentedOutputStream <<
       endl <<
-      idtr <<
-        separator <<
-        endl <<
-      idtr <<
-        "Pass 2: translating the xmlelement tree into a MSR" <<
-        endl;
-  
-    idtr++;
-  
-    idtr--;
-  
+      separator <<
+      endl <<
+      "Pass 2: translating the xmlelement tree into a MSR" <<
+      endl;
+    
     logIndentedOutputStream <<
-      idtr <<
-        separator <<
-        endl <<
-        endl;
+      separator <<
+      endl <<
+      endl;
   }
   
   // create an musicXMLTree2MsrTranslator
@@ -323,27 +316,22 @@ void displayMSR (
   
   logIndentedOutputStream <<
     endl <<
-    idtr <<
-      separator <<
-      endl <<
-    idtr <<
-      "Optional pass: displaying the MSR as text" <<
-      endl <<
-    idtr <<
-      separator <<
-      endl <<
-      endl;
+    separator <<
+    endl <<
+    "Optional pass: displaying the MSR as text" <<
+    endl <<
+    separator <<
+    endl <<
+    endl;
 
-  os <<
-    idtr <<
-      "%{" <<
-      endl <<
+  logIndentedOutputStream <<
+    "%{" <<
+    endl <<
       
     mScore <<
 
-    idtr <<
-      "%}" <<
-      endl;
+    "%}" <<
+    endl;
 
   clock_t endClock = clock();
 
@@ -366,7 +354,7 @@ void displayMSRSummary (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      cerr, idtr);
+      os, idtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -374,26 +362,28 @@ void displayMSRSummary (
     
     logIndentedOutputStream <<
       endl <<
-      idtr << separator <<
+      separator <<
       endl <<
       "Optional pass: outputting a summary of the MSR" <<
       endl <<
-      idtr << separator <<
+      separator <<
       endl;
   }
    
   // create an msr2SummaryVisitor visitor
-  msr2SummaryVisitor visitor (msrOpts, os);
+  msr2SummaryVisitor visitor (
+    msrOpts,
+    logIndentedOutputStream);
 
   if (gGeneralOptions->fTraceGeneral)
-    os <<
+    logIndentedOutputStream <<
       "%{" <<
       endl;
   
   visitor.printSummaryFromMsrScore (mScore);
   
   if (gGeneralOptions->fTraceGeneral)
-    os <<
+    logIndentedOutputStream <<
       "%}" <<
       endl;
 
