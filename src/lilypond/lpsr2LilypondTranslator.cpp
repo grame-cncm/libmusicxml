@@ -270,6 +270,9 @@ string lpsr2LilypondTranslator::alterationAsLilypondAccidentalMark (
     case kDoubleSharp:
       result = " ^\\markup { \\doublesharp } ";
       break;
+    case k_NoAlteration:
+      result = " ^\\markup {%{k_NoAlteration???%} } ";
+      break;
   } // switch
 
   return result;
@@ -1044,7 +1047,7 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
   
   switch (articulation->getArticulationPlacement ()) {
     case k_NoPlacement:
-      fIndentedOutputStream << "-";
+      fIndentedOutputStream << "-1";
       break;
     case kAbovePlacement:
       fIndentedOutputStream << "^";
@@ -1140,7 +1143,7 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
   
   switch (articulation->getArticulationPlacement ()) {
     case k_NoPlacement:
-      fIndentedOutputStream << "-";
+      fIndentedOutputStream << "-2";
       break;
     case kAbovePlacement:
       fIndentedOutputStream << "^";
@@ -5678,6 +5681,9 @@ Articulations can be attached to rests as well as notes but they cannot be attac
   } // switch
 
   switch (fermataType) {
+    case msrFermata::k_NoFermataType:
+      // no markup needed
+      break;
     case msrFermata::kUprightFermataType:
       // no markup needed
       break;
@@ -6411,6 +6417,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         dynamics = (*i);
         
       switch (dynamics->getDynamicsPlacementKind ()) {
+        case msrDynamics::k_NoDynamicsPlacement:
+          fIndentedOutputStream << "-3";
+          break;
         case msrDynamics::kDynamicsPlacementAbove:
           fIndentedOutputStream << "^";
           break;
@@ -6490,6 +6499,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           "\\markup" << " { ";
 
         switch (wordsFontStyle) {
+          case k_NoFontStyle:
+            break;
           case kNormalFontStyle:
             // LilyPond produces 'normal style' text by default
             break;
@@ -7075,11 +7086,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         dynamics = (*i);
         
       switch (dynamics->getDynamicsPlacementKind ()) {
+        case msrDynamics::k_NoDynamicsPlacement:
+          fIndentedOutputStream << "-";
+          break;
         case msrDynamics::kDynamicsPlacementAbove:
           fIndentedOutputStream << "^";
           break;
         case msrDynamics::kDynamicsPlacementBelow:
-    // JMI      fIndentedOutputStream << "_";
+          fIndentedOutputStream << "_";
           break;
       } // switch
 

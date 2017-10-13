@@ -1725,6 +1725,9 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
     case kDoubleSharp:
       result = "doubleSharp";
       break;
+    case k_NoAlteration:
+      result = "k_NoAlteration???";
+      break;
   } // switch
 
   return result;
@@ -2806,6 +2809,9 @@ string msrDynamics::dynamicsPlacementKindAsString (
   string result;
 
   switch (dynamicsPlacementKind) {
+    case msrDynamics::k_NoDynamicsPlacement:
+      result = "none";
+      break;
     case msrDynamics::kDynamicsPlacementAbove:
       result = "above";
       break;
