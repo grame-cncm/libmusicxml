@@ -1518,6 +1518,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
+    string                helpNamesBetweenParentheses () const;
+
     void                  registerOptionsHandlerInSelf ();
 
     void                  registerOptionsElementInHandler (
@@ -1543,8 +1545,6 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     // print
     // ------------------------------------------------------
-
-    string                helpSummaryNames () const;
 
     void                  print (ostream& os) const;
 

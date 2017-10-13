@@ -2576,6 +2576,43 @@ void msrOptionsHandler::registerOptionsHandlerInSelf ()
   } // for
 }
 
+string msrOptionsHandler::helpNamesBetweenParentheses () const
+{
+  stringstream s;
+  
+  s <<
+    "(" <<
+    optionsElementNames () <<
+    ", ";
+
+  if (
+    fOptionHandlerHelpSummaryShortName.size ()
+        &&
+    fOptionHandlerHelpSummaryLongName.size ()
+    ) {
+      s <<
+        "-" << fOptionHandlerHelpSummaryShortName <<
+        ", " <<
+        "-" << fOptionHandlerHelpSummaryLongName;
+  }
+  
+  else {
+    if (fOptionHandlerHelpSummaryShortName.size ()) {
+      s <<
+      "-" << fOptionHandlerHelpSummaryShortName;
+    }
+    if (fOptionHandlerHelpSummaryLongName.size ()) {
+      s <<
+      "-" << fOptionHandlerHelpSummaryLongName;
+    }
+  }
+
+  s <<
+    ")";
+    
+  return s.str ();
+}
+
 void msrOptionsHandler::registerOptionsElementInHandler (
   S_msrOptionsElement optionsElement)
 {
@@ -2754,39 +2791,6 @@ void msrOptionsHandler::print (ostream& os) const
   idtr--;
 }
 
-string msrOptionsHandler::helpSummaryNames () const
-{
-  stringstream s;
-  
-  s <<
-    optionsElementNames () <<
-    " ";
-
-  if (
-    fOptionHandlerHelpSummaryShortName.size ()
-        &&
-    fOptionHandlerHelpSummaryLongName.size ()
-    ) {
-      s <<
-        "-" << fOptionHandlerHelpSummaryShortName <<
-        ", " <<
-        "-" << fOptionHandlerHelpSummaryLongName;
-  }
-  
-  else {
-    if (fOptionHandlerHelpSummaryShortName.size ()) {
-      s <<
-      "-" << fOptionHandlerHelpSummaryShortName;
-    }
-    if (fOptionHandlerHelpSummaryLongName.size ()) {
-      s <<
-      "-" << fOptionHandlerHelpSummaryLongName;
-    }
-  }
-
-  return s.str ();
-}
-
 void msrOptionsHandler::printHelp (ostream& os) const
 {
   os <<
@@ -2801,7 +2805,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
   os <<
     fOptionsHandlerHelpHeader <<
     " " <<
-    helpSummaryNames () <<
+    helpNamesBetweenParentheses () <<
     ":" <<
     endl <<
     endl;
@@ -2831,7 +2835,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
     idtr <<
       fOptionsHandlerHelpHeader <<
       " " <<
-      optionsElementNamesBetweenParentheses () <<
+      helpNamesBetweenParentheses () <<
       ":" <<
       endl <<
     endl;
@@ -2864,7 +2868,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
   os << idtr <<
     fOptionsHandlerValuesHeader <<
     " " <<
-    optionsElementNamesBetweenParentheses () <<
+    helpNamesBetweenParentheses () <<
     ":" <<
     endl <<
     endl;
@@ -2899,6 +2903,8 @@ void msrOptionsHandler::printOptionsValues (
   // print the options handler values header
   os << idtr <<
     fOptionsHandlerValuesHeader <<
+    " " <<
+    helpNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -3221,12 +3227,27 @@ void msrOptionsHandler::handleOptionsItemName (
 
     // handle the option element
     if (
+      // options handler?
       S_msrOptionsHandler
         optionsHandler =
           dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
       ) {
-      // print the option handler help
-      optionsHandler->printHelp (cerr);
+      // print the option handler help or help summary
+      if (
+        optionsItemName ==
+          optionsHandler->
+            getOptionHandlerHelpSummaryShortName ()
+          ||
+        optionsItemName ==
+          optionsHandler->
+            getOptionHandlerHelpSummaryLongName ()
+         ) {
+        optionsHandler->printHelpSummary (cerr);
+      }
+      else {
+        optionsHandler->printHelp (cerr);
+      }
+      
       cerr <<
         endl;
     }
