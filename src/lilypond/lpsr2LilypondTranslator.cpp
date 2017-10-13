@@ -3782,7 +3782,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLogOutputStream <<
+    fLilypondOutputStream <<
       "% --> Start visiting msrVoiceStaffChange '" <<
       elt->voiceStaffChangeAsString () << "'" <<
       endl;
@@ -6089,7 +6089,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondOutputStream <<
       "% --> Start visiting ";
-  }
       
     switch (elt->getNoteKind ()) {
 
@@ -6875,6 +6874,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrChord" <<
       endl;
+  }
 
   // print the chord ligatures if any
   list<S_msrLigature>
@@ -6980,6 +6980,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrChord" <<
       endl;
+  }
 
   int chordInputLineNumber =
     elt->getInputLineNumber ();
@@ -7311,6 +7312,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrTuplet" <<
       endl;
+  }
 
   if (fTupletsStack.size ()) {
     // elt is a nested tuplet
@@ -7357,6 +7359,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrTuplet" <<
       endl;
+  }
 
   idtr--;
 
@@ -7382,6 +7385,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrTie" <<
       endl;
+  }
   
   switch (elt->getTieKind ()) {
     case msrTie::k_NoTie:
@@ -7402,6 +7406,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTie& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrTie" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7411,6 +7416,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegno& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrSegno" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
@@ -7423,6 +7429,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrCoda" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
@@ -7436,6 +7443,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrEyeGlasses& elt)
     fLilypondOutputStream <<
       "% --> Start visiting eyeGlasses" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "^\\markup {\\eyeglasses} ";
@@ -7447,6 +7455,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
     fLilypondOutputStream <<
       "% --> Start visiting pedal" <<
       endl;
+  }
       
   switch (elt->getPedalType ()) {
     case msrPedal::kPedalStart:
@@ -7472,6 +7481,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       endl <<
       "% --> Start visiting msrBarline" <<
       endl;
+  }
 
   switch (elt->getBarlineCategory ()) {
     
@@ -7564,6 +7574,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarline& elt)
       endl <<
       "% --> End visiting msrBarline" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7573,6 +7584,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrBarCheck" <<
       endl;
+  }
       
   string nextBarNumber =
     elt->getNextBarNumber ();
@@ -7589,6 +7601,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrBarCheck" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7598,6 +7611,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrBarNumberCheck" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
@@ -7610,6 +7624,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrBarNumberCheck" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7619,6 +7634,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrLineBreak& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrLineBreak" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "\\myBreak | % " << elt->getNextBarNumber () <<
@@ -7632,6 +7648,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrLineBreak& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrLineBreak" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7641,6 +7658,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPageBreak& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrPageBreak" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "\\myPageBreak " <<
@@ -7654,6 +7672,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPageBreak& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrPageBreak" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7663,6 +7682,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrRepeat" <<
       endl;
+  }
 
   fCurrentRepeatEndingsNumber =
     elt->getRepeatEndings ().size();
@@ -7695,6 +7715,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrRepeat" <<
       endl;
+  }
 
   /*
     CAUTION:
@@ -7731,6 +7752,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatCommonPart& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrRepeatCommonPart" <<
       endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrRepeatCommonPart& elt)
@@ -7739,6 +7761,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatCommonPart& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrRepeatCommonPart" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7748,6 +7771,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrRepeatEnding" <<
       endl;
+  }
 
   if (elt->getRepeatEndingInternalNumber () == 1) {
     
@@ -7828,6 +7852,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrRepeatEnding" <<
       endl;
+  }
 
   // output the end of the ending
   switch (elt->getRepeatEndingKind ()) {
@@ -7895,6 +7920,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrComment& elt)
     fLilypondOutputStream <<
       "% --> Start visiting lpsrComment" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     "% " << elt->getContents () <<
@@ -7910,6 +7936,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrComment& elt)
     fLilypondOutputStream <<
       "% --> End visiting lpsrComment" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7919,6 +7946,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeFunction& elt)
     fLilypondOutputStream <<
       "% --> Start visiting lpsrSchemeFunction" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     endl <<
@@ -7937,6 +7965,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeFunction& elt)
     fLilypondOutputStream <<
       "% --> End visiting lpsrSchemeFunction" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7946,6 +7975,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrRehearsal" <<
       endl;
+  }
 
   fLilypondOutputStream <<
     endl <<
@@ -7962,6 +7992,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRehearsal& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrRehearsal" <<
       endl;
+  }
 }
 
 //________________________________________________________________________
@@ -7971,6 +8002,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrMeasureRepeat" <<
       endl;
+  }
 
   int repeatMeasuresNumber =
     elt->measureRepeatPatternMeasuresNumber ();
@@ -8029,6 +8061,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrMeasureRepeat" <<
       endl;
+  }
 
   idtr--;
   
@@ -8060,6 +8093,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
     fLilypondOutputStream <<
       "%--> Start visiting msrMeasureRepeatPattern" <<
       endl;
+  }
 
   idtr++;
 
@@ -8072,6 +8106,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
     fLilypondOutputStream <<
       "%--> End visiting msrMeasureRepeatPattern" <<
       endl;
+  }
 
   idtr--;
 }
@@ -8082,6 +8117,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
     fLilypondOutputStream <<
       "%--> Start visiting msrMeasureRepeatReplicas" <<
       endl;
+  }
 
   idtr++;
 
@@ -8094,6 +8130,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
     fLilypondOutputStream <<
       "%--> End visiting msrMeasureRepeatReplicas" <<
       endl;
+  }
 
   idtr--;
 }
@@ -8105,6 +8142,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrMultipleRest" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -8168,6 +8206,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrMultipleRest" <<
       endl;
+  }
     
   if (gLilypondOptions->fComments) {
     idtr--;
@@ -8191,6 +8230,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
     fLilypondOutputStream <<
       "%--> Start visiting msrMultipleRestContents" <<
       endl;
+  }
 
   idtr++;
 
@@ -8203,6 +8243,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestContents& elt)
     fLilypondOutputStream <<
       "%--> End visiting msrMultipleRestContents" <<
       endl;
+  }
 
   idtr--;
 
@@ -8216,6 +8257,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
     fLilypondOutputStream <<
       "% --> Start visiting msrMidi" <<
       endl;
+  }
 
   if (gLilypondOptions->fNoMidi) {
     fLilypondOutputStream <<
@@ -8263,6 +8305,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
     fLilypondOutputStream <<
       "% --> End visiting msrMidi" <<
       endl;
+  }
 }
 
 
