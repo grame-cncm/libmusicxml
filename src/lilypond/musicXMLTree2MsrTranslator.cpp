@@ -387,12 +387,13 @@ S_msrPartGroup musicXMLTree2MsrTranslator::createImplicitMsrPartGroupIfNotYetDon
     // create an implicit part group
     fCurrentPartGroupNumber = 1;
     
-    if (gGeneralOptions->fTracePartGroups)
+    if (gGeneralOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Creating an implicit part group with number " <<
         fCurrentPartGroupNumber <<
         ", line " << inputLineNumber <<
         endl;
+    }
   
     fImplicitPartGroup =
       msrPartGroup::create (
@@ -409,12 +410,13 @@ S_msrPartGroup musicXMLTree2MsrTranslator::createImplicitMsrPartGroupIfNotYetDon
         fMsrScore);
   
     // append it to the MSR score
-    if (gGeneralOptions->fTracePartGroups)
+    if (gGeneralOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Appending implicit part group " <<
         fImplicitPartGroup->getPartGroupNumber () <<
         " to MSR score" <<
         endl;
+    }
         
     fMsrScore->
       addPartGroupToScore (fImplicitPartGroup);
@@ -426,11 +428,12 @@ S_msrPartGroup musicXMLTree2MsrTranslator::createImplicitMsrPartGroupIfNotYetDon
   }
 
   // add implicit part group to the map of this visitor
-  if (gGeneralOptions->fTracePartGroups)
+  if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Adding implicit part group " << fCurrentPartGroupNumber <<
       " to visitor's data" <<
       endl;
+  }
       
   fPartGroupsMap [fCurrentPartGroupNumber] = fImplicitPartGroup;
   fPartGroupsList.push_front (fImplicitPartGroup);
@@ -541,12 +544,13 @@ S_msrVoice musicXMLTree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDo
       // from staff 'voiceDisplayingStaffNumber'
       // to staff 'staffNumber'
 
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
+      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
         fLogOutputStream <<
           "Voice \"" <<  voice->getVoiceName () << "\"" <<
           " changes from staff " << voiceDisplayingStaffNumber <<
           " to staff " << staffNumber <<
           endl;
+      }
 
       // create the voice staff change
       S_msrVoiceStaffChange
@@ -574,10 +578,11 @@ S_msrVoice musicXMLTree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDo
 //______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_comment& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_comment" <<
       endl;
+  }
 
   string comment = elt->getValue();
   
@@ -591,10 +596,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_comment& elt )
 //______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_processing_instruction& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_processing_instruction" <<
       endl;
+  }
 
   string processingInstruction = elt->getValue();
   
@@ -609,10 +615,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_processing_instruction& elt )
 //______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_work_number& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_work_number" <<
       endl;
+  }
 
   fMsrScore->getIdentification () ->
     setWorkNumber (
@@ -622,10 +629,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_work_number& elt )
 
 void musicXMLTree2MsrTranslator::visitStart ( S_work_title& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_work_title" <<
       endl;
+  }
 
   fMsrScore->getIdentification () ->
     setWorkTitle (
@@ -635,10 +643,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_work_title& elt )
   
 void musicXMLTree2MsrTranslator::visitStart ( S_movement_number& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_movement_number" <<
       endl;
+  }
 
   fMsrScore->getIdentification () ->
     setMovementNumber (
@@ -648,10 +657,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_movement_number& elt )
 
 void musicXMLTree2MsrTranslator::visitStart ( S_movement_title& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_movement_title" <<
       endl;
+  }
 
   string movementTitle = elt->getValue ();
 
@@ -667,10 +677,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_movement_title& elt )
 
 void musicXMLTree2MsrTranslator::visitStart ( S_creator& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_creator" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -724,10 +735,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_creator& elt )
 
 void musicXMLTree2MsrTranslator::visitStart ( S_rights& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_rights" <<
       endl;
+  }
 
   fMsrScore->getIdentification () ->
     setRights (
@@ -737,10 +749,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_rights& elt )
 
 void musicXMLTree2MsrTranslator::visitStart ( S_software& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_software" <<
       endl;
+  }
 
   fMsrScore->getIdentification () ->
     addSoftware (
@@ -750,10 +763,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_software& elt )
 
 void musicXMLTree2MsrTranslator::visitStart ( S_encoding_date& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_encoding_date" <<
       endl;
+  }
 
   fMsrScore->getIdentification () ->
     setEncodingDate (
@@ -764,10 +778,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_encoding_date& elt )
 //______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_millimeters& elt )
 { 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_millimeters" <<
       endl;
+  }
 
   fCurrentMillimeters = (float)(*elt);
   
@@ -777,10 +792,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_millimeters& elt )
 
 void musicXMLTree2MsrTranslator::visitStart ( S_tenths& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_tenths" <<
       endl;
+  }
 
   fCurrentTenths = (int)(*elt);
 
@@ -790,10 +806,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_tenths& elt )
 
 void musicXMLTree2MsrTranslator::visitEnd ( S_scaling& elt)
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_scaling" <<
       endl;
+  }
 
   if (gGeneralOptions->fTraceGeometry)
     fLogOutputStream <<
@@ -807,10 +824,11 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_scaling& elt)
 //______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_system_distance& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_system_distance" <<
       endl;
+  }
 
   int systemDistance = (int)(*elt);
   
@@ -822,10 +840,11 @@ void musicXMLTree2MsrTranslator::visitStart ( S_system_distance& elt )
 
 void musicXMLTree2MsrTranslator::visitStart ( S_top_system_distance& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_top_system_distance" <<
       endl;
+  }
 
   int topSystemDistance = (int)(*elt);
   
@@ -838,29 +857,32 @@ void musicXMLTree2MsrTranslator::visitStart ( S_top_system_distance& elt )
 //______________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitStart ( S_page_layout& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_layout" <<
       endl;
+  }
 
   fOnGoingPageLayout = true;
 }
 void musicXMLTree2MsrTranslator::visitEnd ( S_page_layout& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> End visiting S_page_layout" <<
       endl;
+  }
 
   fOnGoingPageLayout = false;
 }
 
 void musicXMLTree2MsrTranslator::visitStart ( S_page_height& elt )
 {
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors)
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_page_height" <<
       endl;
+  }
 
   if (fOnGoingPageLayout) {
     int pageHeight = (int)(*elt);
@@ -878,6 +900,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_page_width& elt )
     fLogOutputStream <<
       "--> Start visiting S_page_width" <<
       endl;
+  }
 
   if (fOnGoingPageLayout) {
     int pageWidth = (int)(*elt);
@@ -895,6 +918,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_left_margin& elt )
     fLogOutputStream <<
       "--> Start visiting S_left_margin" <<
       endl;
+  }
 
   if (fOnGoingPageLayout) {
     int leftMargin = (int)(*elt);
@@ -912,6 +936,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_right_margin& elt )
     fLogOutputStream <<
       "--> Start visiting S_right_margin" <<
       endl;
+  }
 
   if (fOnGoingPageLayout) {
     int rightMargin = (int)(*elt);
@@ -929,6 +954,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_top_margin& elt )
     fLogOutputStream <<
       "--> Start visiting S_top_margin" <<
       endl;
+  }
 
   if (fOnGoingPageLayout) {
     int topMargin = (int)(*elt);
@@ -946,6 +972,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_bottom_margin& elt )
     fLogOutputStream <<
       "--> Start visiting S_bottom_margin" <<
       endl;
+  }
 
   if (fOnGoingPageLayout) {
     int bottomMargin = (int)(*elt);
@@ -986,6 +1013,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
     fLogOutputStream <<
       "--> Start visiting S_credit" <<
       endl;
+  }
 
   int creditPageNumber =
     elt->getAttributeIntValue ("page", 0);
@@ -1002,6 +1030,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_credit_words& elt )
     fLogOutputStream <<
       "--> Start visiting S_credit_words" <<
       endl;
+  }
 
   string creditWordsContents =
     elt->getValue ();
@@ -1053,6 +1082,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_credit& elt )
     fLogOutputStream <<
       "--> End visiting S_credit" <<
       endl;
+  }
 
   fMsrScore->
     appendCreditToScore (fCurrentCredit);
@@ -1067,6 +1097,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_part_list& elt)
     fLogOutputStream <<
       "--> Start visiting S_part_list" <<
       endl;
+  }
 
   if (gGeneralOptions->fTraceParts)
     fLogOutputStream <<
@@ -1106,6 +1137,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_part_list& elt)
     fLogOutputStream <<
       "--> End visiting S_part_list" <<
       endl;
+  }
 
   idtr--;
 
@@ -1158,6 +1190,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_part_group& elt)
     fLogOutputStream <<
       "--> Start visiting S_part_group" <<
       endl;
+  }
 
   fCurrentPartGroupNumber =
     elt->getAttributeIntValue ("number", 0);
@@ -1180,6 +1213,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_group_name& elt)
     fLogOutputStream <<
       "--> Start visiting S_group_name" <<
       endl;
+  }
 
   fCurrentPartGroupName = elt->getValue();
 }
@@ -1190,6 +1224,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_group_name_display& elt)
     fLogOutputStream <<
       "--> Start visiting S_group_name_display" <<
       endl;
+  }
 
   fOnGoingGroupNameDisplay = true;
 }
@@ -1200,6 +1235,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_display_text& elt)
     fLogOutputStream <<
       "--> Start visiting S_display_text" <<
       endl;
+  }
 
   if (fOnGoingGroupNameDisplay)
     fCurrentPartGroupDisplayText = elt->getValue();
@@ -1211,6 +1247,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_accidental_text& elt)
     fLogOutputStream <<
       "--> Start visiting S_accidental_text" <<
       endl;
+  }
 
     fCurrentPartGroupAccidentalText = elt->getValue();
 }
@@ -1221,6 +1258,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_group_abbreviation& elt)
     fLogOutputStream <<
       "--> Start visiting S_group_abbreviation" <<
       endl;
+  }
 
   fCurrentPartGroupAbbreviation = elt->getValue ();
 }
@@ -1231,6 +1269,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_group_symbol& elt)
     fLogOutputStream <<
       "--> Start visiting S_group_symbol" <<
       endl;
+  }
 
   fCurrentPartGroupSymbol = elt->getValue ();
 
@@ -1244,6 +1283,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_group_barline& elt)
     fLogOutputStream <<
       "--> Start visiting S_group_barline" <<
       endl;
+  }
 
   fCurrentPartGroupBarline = elt->getValue ();
 }
@@ -1542,6 +1582,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_part_group& elt)
     fLogOutputStream <<
       "--> End visiting S_part_group" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -1647,6 +1688,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_score_part& elt)
     fLogOutputStream <<
       "--> Start visiting S_score_part" <<
       endl;
+  }
 
   fCurrentPartID = elt->getAttributeValue ("id");
 
@@ -1668,6 +1710,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_part_name& elt)
     fLogOutputStream <<
       "--> Start visiting S_part_name" <<
       endl;
+  }
 
   fCurrentPartName = elt->getValue ();
 }
@@ -1678,6 +1721,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_part_abbreviation& elt)
     fLogOutputStream <<
       "--> Start visiting S_part_abbreviation" <<
       endl;
+  }
 
   fCurrentPartAbbreviation = elt->getValue ();
 }
@@ -1688,6 +1732,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_instrument_name& elt)
     fLogOutputStream <<
       "--> Start visiting S_instrument_name" <<
       endl;
+  }
 
   fCurrentPartInstrumentName = elt->getValue();
 }
@@ -1698,6 +1743,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_instrument_abbreviation& elt)
     fLogOutputStream <<
       "--> Start visiting S_instrument_abbreviation" <<
       endl;
+  }
 
   fCurrentPartInstrumentAbbreviation = elt->getValue();
 }
@@ -1708,6 +1754,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_score_part& elt)
     fLogOutputStream <<
       "--> End visiting S_score_part" <<
       endl;
+  }
 
   string partID = elt->getAttributeValue ("id");
 
@@ -1796,6 +1843,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_part& elt)
     fLogOutputStream <<
       "--> Start visiting S_score_part" <<
       endl;
+  }
 
   // fCurrentPartID is used throughout
   fCurrentPartID = elt->getAttributeValue ("id");
@@ -1839,6 +1887,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_part& elt)
     fLogOutputStream <<
       "--> End visiting S_part" <<
       endl;
+  }
 
   idtr--;
 
@@ -1863,6 +1912,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_attributes& elt)
     fLogOutputStream <<
       "--> Start visiting S_attributes" <<
       endl;
+  }
 
   fCurrentTime = 0;
 }
@@ -1873,6 +1923,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_attributes& elt)
     fLogOutputStream <<
       "--> End visiting S_attributes" <<
       endl;
+  }
 
 /* JMI
   // time is crucially needed for measures management,
@@ -1897,6 +1948,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_divisions& elt )
     fLogOutputStream <<
       "--> Start visiting S_divisions" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -1940,6 +1992,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_clef& elt )
     fLogOutputStream <<
       "--> Start visiting S_clef" <<
       endl;
+  }
 
   // https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-clef.htm
 
@@ -1960,6 +2013,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_sign& elt )
     fLogOutputStream <<
       "--> Start visiting S_sign" <<
       endl;
+  }
 
   fCurrentClefSign = elt->getValue();
 }
@@ -1970,6 +2024,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_line& elt )
     fLogOutputStream <<
       "--> Start visiting S_line" <<
       endl;
+  }
 
   fCurrentClefLine = (int)(*elt);
 }
@@ -1980,6 +2035,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
     fLogOutputStream <<
       "--> Start visiting S_clef_octave_change" <<
       endl;
+  }
 
   fCurrentClefOctaveChange = (int)(*elt);
 
@@ -2002,6 +2058,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt )
     fLogOutputStream <<
       "--> End visiting S_clef" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -2238,6 +2295,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_key& elt )
     fLogOutputStream <<
       "--> Start visiting S_clef" <<
       endl;
+  }
 
   // The optional number attribute refers to staff numbers.
   // If absent (0), apply to all part staves.
@@ -2263,6 +2321,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_cancel& elt )
     fLogOutputStream <<
       "--> Start visiting S_cancel" <<
       endl;
+  }
 
   fCurrentKeyCancelFifths = (int)(*elt);
 }
@@ -2273,6 +2332,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_fifths& elt )
     fLogOutputStream <<
       "--> Start visiting S_fifths" <<
       endl;
+  }
 
   fCurrentKeyKind = msrKey::kTraditionalKind;
 
@@ -2285,6 +2345,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_mode& elt )
     fLogOutputStream <<
       "--> Start visiting S_mode" <<
       endl;
+  }
 
   string mode = elt->getValue();
 
@@ -2353,6 +2414,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_key_step& elt )
     fLogOutputStream <<
       "--> Start visiting S_key_step" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -2399,6 +2461,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_key_alter& elt )
     fLogOutputStream <<
       "--> Start visiting S_key_alter" <<
       endl;
+  }
 
   if (! fCurrentHumdrumScotKeyItem) {
     msrMusicXMLError (
@@ -2441,6 +2504,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_key_octave& elt )
     fLogOutputStream <<
       "--> Start visiting S_key_octave" <<
       endl;
+  }
 
   int keyOctave = (int)(*elt);
 
@@ -2511,6 +2575,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_key& elt )
     fLogOutputStream <<
       "--> End visiting S_key" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -2698,6 +2763,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_time& elt )
     fLogOutputStream <<
       "--> Start visiting S_time" <<
       endl;
+  }
 
   /* JMI
   The time-symbol entity indicates how to display a time
@@ -2785,6 +2851,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_beats& elt )
     fLogOutputStream <<
       "--> Start visiting S_beats" <<
       endl;
+  }
 
   fCurrentTimeBeats = elt->getValue (); // can be a string such as 3+2
 }
@@ -2795,6 +2862,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_beat_type& elt )
     fLogOutputStream <<
       "--> Start visiting S_beat_type" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -2848,6 +2916,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_senza_misura& elt )
     fLogOutputStream <<
       "--> Start visiting S_senza_misura" <<
       endl;
+  }
 
   fCurrentTimeSymbolKind = msrTime::kTimeSymbolSenzaMisura;
 }
@@ -2858,6 +2927,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_interchangeable& elt )
     fLogOutputStream <<
       "--> Start visiting S_interchangeable" <<
       endl;
+  }
 
   string interchangeableSymbol =
     elt->getAttributeValue ("symbol");
@@ -2938,6 +3008,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_time_relation& elt )
     fLogOutputStream <<
       "--> Start visiting S_time_relation" <<
       endl;
+  }
 
  //             <time-relation>parentheses</time-relation>
 
@@ -2985,6 +3056,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_time& elt )
     fLogOutputStream <<
       "--> End visiting S_time" <<
       endl;
+  }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -3041,6 +3113,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_instruments& elt )
     fLogOutputStream <<
       "--> Start visiting S_time" <<
       endl;
+  }
 
 /*
         <instruments>2</instruments>
@@ -3056,6 +3129,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_transpose& elt )
     fLogOutputStream <<
       "--> Start visiting S_transpose" <<
       endl;
+  }
 
   /*
   https://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-transpose.htm
