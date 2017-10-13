@@ -311,10 +311,14 @@ ostream& operator<< (ostream& os, const indenter& idtr) {
 void indenter::print (ostream& os) const
 { 
   int i = fIndent;
+  
   while (i-- > 0) os << fSpacer;
 }
 
-indenter indenter::gIndenter;
+indenter indenter::gIndenter ("  ");
+
+//______________________________________________________________________________
+indentedOutputStream indentedOutputStream::gLogIndentedOutputStream;
 
 //______________________________________________________________________________
 //#define DEBUG_OLEC
@@ -997,9 +1001,9 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
   conversionMap ["<"] = "&lt;";
   conversionMap [">"] = "&gt;";
 
-  map<string, string>::const_iterator i = conversionMap.begin();
+  map<string, string>::const_iterator i;
 
-  for (i; i != conversionMap.end(); ++i) {
+  for (i = conversionMap.begin(); i != conversionMap.end(); ++i) {
     string
       lookedFor = i->second,
       ersatz    = i->first;

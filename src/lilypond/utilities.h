@@ -76,7 +76,7 @@ class timing {
 
     timing ();
       
-    virtual ~timing();
+    virtual ~timing ();
 
     // global variable for general use
     static timing gTiming; 
@@ -107,7 +107,7 @@ class indenter
   public:
 
     indenter (string spacer = "  ");
-    virtual ~indenter();
+    virtual ~indenter ();
 
     // get the indent
     int                   getIndent () const
@@ -151,11 +151,9 @@ class indentedOutputStream: public ostream
 {
 /*
 Reference:
-
  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:
- 
   indentedOutputStream myStream (std::cout);
    
   myStream <<
@@ -195,19 +193,29 @@ Usage:
       }
   };
 
-  // indentedOutputStream just uses a version of indentedStreamBuf
-  indentedStreamBuf fIndentedStreamBuf;
+  private:
+  
+    // indentedOutputStream just uses a version of indentedStreamBuf
+    indentedStreamBuf     fIndentedStreamBuf;
   
   public:
 
     // constructor
     indentedOutputStream (
-      ostream&  str,
-      indenter& idtr)
+      ostream&  str  = cerr,
+      indenter& idtr = indenter::gIndenter)
       : ostream (&fIndentedStreamBuf),
         fIndentedStreamBuf (
           str, idtr)
     {}
+
+    // destructor
+    virtual ~indentedOutputStream ()
+    {};
+
+    // global variable for general use
+    static indentedOutputStream
+                          gLogIndentedOutputStream; 
 };
 
 //______________________________________________________________________________
@@ -223,7 +231,7 @@ class outputLineElementsCounter
       ostream& ostream,
       int      maxElementsPerLine = 10);
       
-    virtual ~outputLineElementsCounter();
+    virtual ~outputLineElementsCounter ();
 
     // get the counter
     int                   getElementsCounter () const
