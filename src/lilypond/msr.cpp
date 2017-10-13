@@ -18005,13 +18005,12 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending segno " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending segno " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18027,13 +18026,12 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending coda " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending coda " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18050,13 +18048,12 @@ void msrSegment::appendEyeGlassesToSegment (
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending eyeglasses " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending eyeglasses " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18072,13 +18069,12 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending pedal " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending pedal " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18095,13 +18091,12 @@ void msrSegment::appendTransposeToSegment (
 {
   if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceSegments) {
     gLogIos <<
-      idtr <<
-        "Appending transpose " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending transpose " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
   }
       
   // sanity check
@@ -18119,13 +18114,12 @@ void msrSegment::appendStaffDetailsToSegment (
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending staff details " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending staff details " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18141,13 +18135,12 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending break " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending break " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18163,13 +18156,12 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending break " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending break " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18186,13 +18178,12 @@ void msrSegment::appendBarNumberCheckToSegment (
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending bar number check " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending bar number check " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18209,13 +18200,12 @@ void msrSegment::appendTempoToSegment (
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending tempo " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending tempo " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18232,13 +18222,12 @@ void msrSegment::appendRehearsalToSegment (
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending rehearsal " <<
-        " to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending rehearsal " <<
+      " to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18255,14 +18244,13 @@ void msrSegment::appendOctaveShiftToSegment (
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending octave shift '" <<
-        octaveShift->octaveShiftKindAsString () <<
-        "' to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending octave shift '" <<
+      octaveShift->octaveShiftKindAsString () <<
+      "' to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18280,14 +18268,13 @@ void msrSegment::appendAccordionRegistrationToSegment (
 {
   if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending accordion registration '" <<
-        accordionRegistration->accordionRegistrationAsString () <<
-        "' to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending accordion registration '" <<
+      accordionRegistration->accordionRegistrationAsString () <<
+      "' to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18306,14 +18293,13 @@ void msrSegment::appendHarpPedalsTuningToSegment (
 {
   if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending staff pedals tuning '" <<
-        harpPedalsTuning->harpPedalsTuningAsString () <<
-        "' to segment " << segmentAsString () <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"" <<
-        endl;
+      "Appending staff pedals tuning '" <<
+      harpPedalsTuning->harpPedalsTuningAsString () <<
+      "' to segment " << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
       
   // sanity check
   msrAssert (
@@ -18353,23 +18339,19 @@ void msrSegment::bringSegmentToMeasureLength (
       "\"";
 
     gLogIos <<
-      idtr <<
       "SegmentVoiceUplink:" <<
       endl;
     idtr++;
     gLogIos <<
-      idtr <<
       fSegmentVoiceUplink <<
       endl;
     idtr--;
     
     gLogIos <<
-      idtr <<
       "Part:" <<
       endl;
     idtr++;
     gLogIos <<
-      idtr <<
       fSegmentVoiceUplink->fetchVoicePartUplink () <<
       endl;
     idtr--;
@@ -18536,12 +18518,11 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Prepending barline '" << barline->barlineAsString () <<
-        "' to segment '" << segmentAsString () << "'" <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"," <<
+      "Prepending barline '" << barline->barlineAsString () <<
+      "' to segment '" << segmentAsString () << "'" <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
       endl;
 
   // sanity check
@@ -18558,12 +18539,11 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending barline '" << barline->barlineAsString () <<
-        "' to segment '" << segmentAsString () << "'" <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"," <<
+      "Appending barline '" << barline->barlineAsString () <<
+      "' to segment '" << segmentAsString () << "'" <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
       endl;
 
   if (! fSegmentMeasuresList.size ()) {// JMI
@@ -18583,12 +18563,11 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending bar check " << barCheck->barCheckAsString () <<
-        " to segment '" << segmentAsString () << "'" <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"," <<
+      "Appending bar check " << barCheck->barCheckAsString () <<
+      " to segment '" << segmentAsString () << "'" <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
       endl;
       
   // sanity check
@@ -18653,13 +18632,12 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending double tremolo " <<
-        doubleTremolo->doubleTremoloAsShortString () <<
-        " to segment '" << segmentAsString () << "'" <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"," <<
+      "Appending double tremolo " <<
+      doubleTremolo->doubleTremoloAsShortString () <<
+      " to segment '" << segmentAsString () << "'" <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
       endl;
       
   // sanity check
@@ -18676,13 +18654,12 @@ void msrSegment::appendMeasureRepeatToSegment (
 {
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending measure repeat '" <<
-        measureRepeat->measureRepeatAsString () <<
-        "' to segment '" << segmentAsString () << "'" <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"," <<
+      "Appending measure repeat '" <<
+      measureRepeat->measureRepeatAsString () <<
+      "' to segment '" << segmentAsString () << "'" <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
       endl;
       
   // sanity check
@@ -18699,13 +18676,12 @@ void msrSegment::appendMultipleRestToSegment (
 {
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
     gLogIos <<
-      idtr <<
-        "Appending multiple rest '" <<
-        multipleRest->multipleRestAsString () <<
-        "' to segment '" << segmentAsString () << "'" <<
-        "' in voice \"" <<
-        fSegmentVoiceUplink->getVoiceName () <<
-        "\"," <<
+      "Appending multiple rest '" <<
+      multipleRest->multipleRestAsString () <<
+      "' to segment '" << segmentAsString () << "'" <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
       endl;
       
   // sanity check
@@ -18961,7 +18937,7 @@ void msrSegment::browseData (basevisitor* v)
 
 /* JMI
   gLogIos <<
-    idtr << tab <<
+    tab <<
     "==========>>> " <<
     fSegmentMeasuresList.size () << " measures" << endl;
     */
@@ -19251,7 +19227,6 @@ void msrRepeatCommonPart::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
     repeatCommonPartAsString () <<
     endl;
  
@@ -19492,7 +19467,6 @@ void msrRepeatEnding::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
     repeatEndingAsString () <<
     endl;
  
@@ -19748,14 +19722,13 @@ void msrRepeat::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
-      "Repeat" <<
-      ", line " << fInputLineNumber <<
-      " (" <<
-      singularOrPlural (
-        fRepeatEndings.size(), "repeat ending", "repeat endings") <<
-      ")" <<
-      endl;
+    "Repeat" <<
+    ", line " << fInputLineNumber <<
+    " (" <<
+    singularOrPlural (
+      fRepeatEndings.size(), "repeat ending", "repeat endings") <<
+    ")" <<
+    endl;
   
   idtr++;
   
@@ -19794,7 +19767,6 @@ void msrRepeat::print (ostream& os)
     fRepeatEndings.size ();
     
   os <<
-    idtr <<
     "Repeat endings: ";
   if (endingsNumber)
     os << "(" << endingsNumber << ")";
@@ -20021,7 +19993,6 @@ void msrMeasureRepeatPattern::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
     measureRepeatPatternAsString () <<
     "MeasureRepeatPattern" <<
     endl <<
@@ -20252,7 +20223,6 @@ void msrMeasureRepeatReplicas::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
     measureRepeatReplicasAsString () <<
     endl <<
     endl;
@@ -20554,7 +20524,7 @@ void msrMeasureRepeat::print (ostream& os)
 {
   os <<
     endl <<
-    idtr << "MeasureRepeat" <<
+    "MeasureRepeat" <<
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
@@ -20764,7 +20734,6 @@ void msrMultipleRestContents::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
     multipleRestContentsAsString () <<
     "MultipleRestContents" <<
     endl <<
@@ -20968,7 +20937,6 @@ void msrMultipleRest::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
     multipleRestAsString () <<
     endl;
   
@@ -21175,7 +21143,6 @@ void msrRepeatCoda::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
     repeatCodaAsString () <<
     endl;
  
@@ -22741,9 +22708,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
     idtr++;
     
     gLogIos <<
-      idtr <<
-        note <<
-      idtr <<
+      note <<
         "to voice \"" << getVoiceName () << "\"" <<
         endl;
 
@@ -22833,9 +22798,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
     idtr++;
     
     gLogIos <<
-      idtr <<
-        note <<
-      idtr <<
+      note <<
         "to voice clone \"" << getVoiceName () << "\"" <<
         endl;
 
@@ -24311,12 +24274,11 @@ void msrVoice::finalizeCurrentMeasureInVoice (
     const int fieldWidth = 26;
     
     gLogIos << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "partMeasureLengthHighTide" << " = " <<
-        fetchVoicePartUplink ()->
-          getPartMeasureLengthHighTide () <<
-        endl;
+      setw (fieldWidth) <<
+      "partMeasureLengthHighTide" << " = " <<
+      fetchVoicePartUplink ()->
+        getPartMeasureLengthHighTide () <<
+      endl;
         
     idtr--;
   }
@@ -24668,30 +24630,24 @@ void msrVoice::print (ostream& os)
   const int fieldWidth = 28;
 
   os <<
-    idtr <<
-      setw (fieldWidth) << "VoiceStaffUplink" << " : " <<
-      fVoiceStaffUplink->getStaffName () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
-      fVoiceAbsoluteNumber <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "VoicePartRelativeID" << " : " <<
-      voicePartRelativeIDAsString () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "VoiceStaffRelativeNumber" << " : " <<
-      voiceStaffRelativeNumberAsString () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
-      booleanAsString (fMusicHasBeenInsertedInVoice) <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) << "VoiceContainsMultipleRests" << " : " <<
-      booleanAsString (fVoiceContainsMultipleRests) <<
-      endl;
+    setw (fieldWidth) << "VoiceStaffUplink" << " : " <<
+    fVoiceStaffUplink->getStaffName () <<
+    endl <<
+    setw (fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
+    fVoiceAbsoluteNumber <<
+    endl <<
+    setw (fieldWidth) << "VoicePartRelativeID" << " : " <<
+    voicePartRelativeIDAsString () <<
+    endl <<
+    setw (fieldWidth) << "VoiceStaffRelativeNumber" << " : " <<
+    voiceStaffRelativeNumberAsString () <<
+    endl <<
+    setw (fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
+    booleanAsString (fMusicHasBeenInsertedInVoice) <<
+    endl <<
+    setw (fieldWidth) << "VoiceContainsMultipleRests" << " : " <<
+    booleanAsString (fVoiceContainsMultipleRests) <<
+    endl;
 
   os << endl;
   
@@ -25022,23 +24978,20 @@ void msrStaffTuning::print (ostream& os)
   const int fieldWidth = 29;
 
   os << left <<  
-    idtr <<
-      setw (fieldWidth) <<
-      "StaffTuningLineNumber" << " = " <<
-      fStaffTuningLineNumber <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fStaffTuningQuarterTonesPitch" << " = " <<
-      msrQuarterTonesPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fStaffTuningQuarterTonesPitch) <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "StaffTuningOctave" << " = " <<
-      fStaffTuningOctave <<
-      endl;
+    setw (fieldWidth) <<
+    "StaffTuningLineNumber" << " = " <<
+    fStaffTuningLineNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "fStaffTuningQuarterTonesPitch" << " = " <<
+    msrQuarterTonesPitchAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
+      fStaffTuningQuarterTonesPitch) <<
+    endl <<
+    setw (fieldWidth) <<
+    "StaffTuningOctave" << " = " <<
+    fStaffTuningOctave <<
+    endl;
 
   idtr--;
 }
@@ -25671,14 +25624,14 @@ void msrStaff::createStaffSilentVoice (
 /* JMI
   gLogIos <<
     endl <<
-    idtr << "*****************" <<
+    "*****************" <<
     endl <<
-    idtr << "msrStaff::createStaffSilentVoice, this =" <<
+    "msrStaff::createStaffSilentVoice, this =" <<
     endl <<
     idtr;
   print (gLogIos);
   gLogIos <<
-    idtr << "*****************" <<
+    "*****************" <<
     endl <<
     endl;
     
@@ -25723,13 +25676,13 @@ else
 /* JMI
   gLogIos <<
     endl <<
-    idtr << "**********" <<
+    "**********" <<
     endl <<
     idtr;
   print (gLogIos);
   gLogIos <<
     endl <<
-    idtr << "**********" <<
+    "**********" <<
     endl <<
     endl;
     */
@@ -26889,28 +26842,24 @@ void msrStaff::print (ostream& os)
   const int fieldwidth = 28;
   
   os <<
-    idtr <<
-      setw (fieldwidth) << "StaffPartUplink" << " : " <<
-      fStaffPartUplink->getPartCombinedName () <<
-      endl <<
-    idtr <<
-      setw (fieldwidth) << "StaffNumber" << " : " <<
-      staffNumberAsString () <<
-      endl <<
-    idtr <<
-      setw (fieldwidth) << "StaffInstrumentName" << " : \"" <<
-      fStaffInstrumentName <<
-      "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldwidth) << "StaffInstrumentAbbreviation" << " : \"" <<
-      fStaffInstrumentAbbreviation <<
-      "\"" <<
-      endl;
+    setw (fieldwidth) << "StaffPartUplink" << " : " <<
+    fStaffPartUplink->getPartCombinedName () <<
+    endl <<
+    setw (fieldwidth) << "StaffNumber" << " : " <<
+    staffNumberAsString () <<
+    endl <<
+    setw (fieldwidth) << "StaffInstrumentName" << " : \"" <<
+    fStaffInstrumentName <<
+    "\"" <<
+    endl <<
+    setw (fieldwidth) << "StaffInstrumentAbbreviation" << " : \"" <<
+    fStaffInstrumentAbbreviation <<
+    "\"" <<
+    endl;
 
 /* JMI
   os <<
-    idtr << "StaffInstrumentName: \"" <<
+    "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
 */
 
@@ -26931,7 +26880,7 @@ void msrStaff::print (ostream& os)
   /* JMI
   if (fStaffTuningsList.size ()) {
     os <<
-      idtr << "Staff tunings:" <<
+      "Staff tunings:" <<
       endl;
       
     list<S_msrStaffTuning>::const_iterator
@@ -27066,14 +27015,14 @@ void msrStaff::printStructure (ostream& os)
 
 /* JMI
   os <<
-    idtr << "StaffInstrumentName: \"" <<
+    "StaffInstrumentName: \"" <<
     fStaffInstrumentName << "\"" << endl;
 */
 
 /* JMI
   if (fStaffTuningsList.size ()) {
     os <<
-      idtr << "Staff tunings:" <<
+      "Staff tunings:" <<
       endl;
       
     list<S_msrStaffTuning>::const_iterator
@@ -27445,13 +27394,13 @@ void msrPart::createPartMasterStaffAndVoice (
   if (false && gGeneralOptions->fTraceParts) { // JMI
     gLogIos <<
       endl <<
-      idtr << "***********" <<
+      "***********" <<
       endl <<
       endl <<
       idtr;
     print (gLogIos);
     gLogIos <<
-      idtr << "***********" <<
+      "***********" <<
       endl <<
       endl;
   }
@@ -27554,13 +27503,13 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
 /* JMI
   gLogIos <<
     endl <<
-    idtr << "***********" <<
+    "***********" <<
     endl <<
     endl <<
     idtr;
   print (gLogIos);
   gLogIos <<
-    idtr << "***********" <<
+    "***********" <<
     endl <<
     endl;
   */  
@@ -27630,13 +27579,13 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
 /* JMI
   gLogIos <<
     endl <<
-    idtr << "***********" <<
+    "***********" <<
     endl <<
     endl <<
     idtr;
   print (gLogIos);
   gLogIos <<
-    idtr << "***********" <<
+    "***********" <<
     endl <<
     endl;
   */  
