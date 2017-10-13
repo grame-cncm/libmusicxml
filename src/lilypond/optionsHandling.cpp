@@ -174,12 +174,10 @@ string msrOptionsElement::optionsElementNamesInColumnsBetweenParentheses (
 void msrOptionsElement::printHeader (ostream& os) const
 {
   os <<
-    idtr <<
-      "-" << fOptionsElementShortName <<
-      endl <<
-    idtr <<
-      "-" << fOptionsElementLongName <<
-      endl;
+    "-" << fOptionsElementShortName <<
+    endl <<
+    "-" << fOptionsElementLongName <<
+    endl;
 
   // indent a bit more for readability
   idtr.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
@@ -197,27 +195,23 @@ void msrOptionsElement::printEssentials (
   int      fieldWidth) const
 {
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementShortName" << " : " <<
-      fOptionsElementShortName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementLongName" << " : " <<
-      fOptionsElementLongName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementDescription" << " : " <<
-      fOptionsElementDescription <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsElementIsHidden" << " : " <<
-      booleanAsString (
-        fOptionsElementIsHidden) <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsElementShortName" << " : " <<
+    fOptionsElementShortName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsElementLongName" << " : " <<
+    fOptionsElementLongName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsElementDescription" << " : " <<
+    fOptionsElementDescription <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsElementIsHidden" << " : " <<
+    booleanAsString (
+      fOptionsElementIsHidden) <<
+    endl;
 }
 
 void msrOptionsElement::print (ostream& os) const
@@ -231,7 +225,7 @@ void msrOptionsElement::print (ostream& os) const
 
 void msrOptionsElement::printHelp (ostream& os) const
 {
-  os << idtr <<
+  os <<
     optionsElementNames () <<
     endl <<
     endl;
@@ -294,8 +288,7 @@ void msrOptionsItem::print (ostream& os) const
   const int fieldWidth = 19;
   
   os <<
-    idtr <<
-      "OptionsItem ???:" <<
+    "OptionsItem ???:" <<
       endl;
 
   idtr++;
@@ -308,9 +301,8 @@ void msrOptionsItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os <<
-    idtr <<
-      "OptionsItem values ???:" <<
-      endl;
+    "OptionsItem values ???:" <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsItem& elt)
@@ -352,9 +344,8 @@ void msrOptionsVersionItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsVersionItem:" <<
-      endl;
+    "OptionsVersionItem:" <<
+    endl;
 
   idtr++;
 
@@ -372,7 +363,7 @@ void msrOptionsVersionItem::print (ostream& os) const
 
 void msrOptionsVersionItem::printVersion (ostream& os) const
 {  
-  os << idtr <<
+  os <<
     "xml2lilypond" " "<<
     currentVersionNumber () <<
     endl;
@@ -427,9 +418,8 @@ void msrOptionsBooleanItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsBooleanItem:" <<
-      endl;
+    "OptionsBooleanItem:" <<
+    endl;
 
   idtr++;
 
@@ -443,17 +433,15 @@ void msrOptionsBooleanItem::print (ostream& os) const
   idtr--;
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsBooleanItemVariableDisplayName" << " : " <<
-      fOptionsBooleanItemVariableDisplayName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsBooleanItemVariable" << " : " <<
-      booleanAsString (
-        fOptionsBooleanItemVariable) <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsBooleanItemVariableDisplayName" << " : " <<
+    fOptionsBooleanItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsBooleanItemVariable" << " : " <<
+    booleanAsString (
+      fOptionsBooleanItemVariable) <<
+    endl;
 
   idtr--;
 }
@@ -463,13 +451,12 @@ void msrOptionsBooleanItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsBooleanItemVariableDisplayName <<
-      " : " <<
-      booleanAsString (
-        fOptionsBooleanItemVariable) <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsBooleanItemVariableDisplayName <<
+    " : " <<
+    booleanAsString (
+      fOptionsBooleanItemVariable) <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsBooleanItem& elt)
@@ -526,9 +513,8 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsTwoBooleansItem:" <<
-      endl;
+    "OptionsTwoBooleansItem:" <<
+    endl;
 
   idtr++;
 
@@ -542,17 +528,15 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
   idtr--;
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsTwoBooleansItemVariableDisplayName" << " : " <<
-      fOptionsTwoBooleansItemVariableDisplayName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsTwoBooleansItemVariable" << " : " <<
-      booleanAsString (
-        fOptionsTwoBooleansItemVariable) <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsTwoBooleansItemVariableDisplayName" << " : " <<
+    fOptionsTwoBooleansItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsTwoBooleansItemVariable" << " : " <<
+    booleanAsString (
+      fOptionsTwoBooleansItemVariable) <<
+    endl;
 
   idtr--;
 }
@@ -562,13 +546,12 @@ void msrOptionsTwoBooleansItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsTwoBooleansItemVariableDisplayName <<
-      " : " <<
-      booleanAsString (
-        fOptionsTwoBooleansItemVariable) <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsTwoBooleansItemVariableDisplayName <<
+    " : " <<
+    booleanAsString (
+      fOptionsTwoBooleansItemVariable) <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsTwoBooleansItem& elt)
@@ -642,9 +625,8 @@ void msrOptionsValuedItem::print (ostream& os) const
   const int fieldWidth = 19;
   
   os <<
-    idtr <<
-      "OptionsValuedItem ???:" <<
-      endl;
+    "OptionsValuedItem ???:" <<
+    endl;
 
   idtr++;
 
@@ -653,7 +635,7 @@ void msrOptionsValuedItem::print (ostream& os) const
 
 void msrOptionsValuedItem::printHelp (ostream& os) const
 {
-  os << idtr <<
+  os <<
     optionsElementNames () <<
     " " <<
     fOptionsValueSpecification <<
@@ -676,9 +658,8 @@ void msrOptionsValuedItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os <<
-    idtr <<
-      "OptionsItem values ???:" <<
-      endl;
+    "OptionsItem values ???:" <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt)
@@ -734,25 +715,22 @@ void msrOptionsIntegerItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsIntegerItem:" <<
-      endl;
+    "OptionsIntegerItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsIntegerItemVariableDisplayName" << " : " <<
-      fOptionsIntegerItemVariableDisplayName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsIntegerItemVariable" << " : " <<
-      fOptionsIntegerItemVariable <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsIntegerItemVariableDisplayName" << " : " <<
+    fOptionsIntegerItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsIntegerItemVariable" << " : " <<
+    fOptionsIntegerItemVariable <<
+    endl;
 
   idtr--;
 }
@@ -762,12 +740,11 @@ void msrOptionsIntegerItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsIntegerItemVariableDisplayName <<
-      " : " <<
-      fOptionsIntegerItemVariable <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsIntegerItemVariableDisplayName <<
+    " : " <<
+    fOptionsIntegerItemVariable <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsIntegerItem& elt)
@@ -823,25 +800,22 @@ void msrOptionsFloatItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsFloatItem:" <<
-      endl;
+    "OptionsFloatItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsFloatItemVariableDisplayName" << " : " <<
-      fOptionsFloatItemVariableDisplayName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsFloatItemVariable" << " : " <<
-      fOptionsFloatItemVariable <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsFloatItemVariableDisplayName" << " : " <<
+    fOptionsFloatItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsFloatItemVariable" << " : " <<
+    fOptionsFloatItemVariable <<
+    endl;
 
   idtr--;
 }
@@ -851,12 +825,11 @@ void msrOptionsFloatItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsFloatItemVariableDisplayName <<
-      " : " <<
-      fOptionsFloatItemVariable <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsFloatItemVariableDisplayName <<
+    " : " <<
+    fOptionsFloatItemVariable <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt)
@@ -912,30 +885,26 @@ void msrOptionsStringItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsStringItem:" <<
-      endl;
+    "OptionsStringItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsValueSpecification" << " : " <<
-      fOptionsValueSpecification <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsStringItemVariableDisplayName" << " : " <<
-      fOptionsStringItemVariableDisplayName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsStringItemVariable" << " : " <<
-      fOptionsStringItemVariable <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsValueSpecification" << " : " <<
+    fOptionsValueSpecification <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsStringItemVariableDisplayName" << " : " <<
+    fOptionsStringItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsStringItemVariable" << " : " <<
+    fOptionsStringItemVariable <<
+    endl;
 }
 
 void msrOptionsStringItem::printOptionsValues (
@@ -943,13 +912,12 @@ void msrOptionsStringItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsStringItemVariableDisplayName <<
-      " : \"" <<
-      fOptionsStringItemVariable <<
-      "\"" <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsStringItemVariableDisplayName <<
+    " : \"" <<
+    fOptionsStringItemVariable <<
+    "\"" <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt)
@@ -1008,25 +976,22 @@ void msrOptionsRationalItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsRationalItem:" <<
-      endl;
+    "OptionsRationalItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsRationalItemVariableDisplayName" << " : " <<
-      fOptionsRationalItemVariableDisplayName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsRationalItemVariable" << " : " <<
-      fOptionsRationalItemVariable <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsRationalItemVariableDisplayName" << " : " <<
+    fOptionsRationalItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsRationalItemVariable" << " : " <<
+    fOptionsRationalItemVariable <<
+    endl;
 }
 
 void msrOptionsRationalItem::printOptionsValues (
@@ -1034,12 +999,11 @@ void msrOptionsRationalItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsRationalItemVariableDisplayName <<
-      " : " <<
-      fOptionsRationalItemVariable <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsRationalItemVariableDisplayName <<
+    " : " <<
+    fOptionsRationalItemVariable <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsRationalItem& elt)
@@ -1095,30 +1059,28 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsNumbersSetItem:" <<
-      endl;
+    "OptionsNumbersSetItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsNumbersSetItemVariableDisplayName" << " : " <<
-      fOptionsNumbersSetItemVariableDisplayName <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsNumbersSetItemVariable" << " : " <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsNumbersSetItemVariableDisplayName" << " : " <<
+    fOptionsNumbersSetItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsNumbersSetItemVariable" << " : " <<
+    endl;
 
     if (fOptionsNumbersSetItemVariable.empty ()) {
-      cerr << "none";
+      fLogOutputStream <<
+        "none";
     }
       
     else {
-      cerr <<
+      fLogOutputStream <<
         "'";
         
       set<int>::const_iterator
@@ -1127,16 +1089,16 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
         i      = iBegin;
         
       for ( ; ; ) {
-        cerr << (*i);
+        fLogOutputStream << (*i);
         if (++i == iEnd) break;
-        cerr << " ";
+        fLogOutputStream << " ";
       } // for
     
-      cerr <<
+      fLogOutputStream <<
         "'";
     }
 
-    cerr <<
+    fLogOutputStream <<
       endl;
 }
 
@@ -1145,17 +1107,17 @@ void msrOptionsNumbersSetItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsNumbersSetItemVariableDisplayName <<
-      " : ";
+    setw (valueFieldWidth) <<
+    fOptionsNumbersSetItemVariableDisplayName <<
+    " : ";
 
   if (fOptionsNumbersSetItemVariable.empty ()) {
-    cerr << "none";
+    fLogOutputStream <<
+      "none";
   }
     
   else {
-    cerr <<
+    fLogOutputStream <<
       "'";
       
     set<int>::const_iterator
@@ -1164,16 +1126,16 @@ void msrOptionsNumbersSetItem::printOptionsValues (
       i      = iBegin;
       
     for ( ; ; ) {
-      cerr << (*i);
+      fLogOutputStream << (*i);
       if (++i == iEnd) break;
-      cerr << " ";
+      fLogOutputStream << " ";
     } // for
   
-    cerr <<
+    fLogOutputStream <<
       "'";
   }
 
-  cerr <<
+  fLogOutputStream <<
     endl;
 }
 
@@ -1232,27 +1194,24 @@ void msrOptionsPitchesLanguageItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsPitchesLanguageItem:" <<
-      endl;
+    "OptionsPitchesLanguageItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsPitchesLanguageItemVariableDisplayName" << " : " <<
-      fOptionsPitchesLanguageItemVariableDisplayName <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsPitchesLanguageItemVariable" << " : \"" <<
-      msrQuarterTonesPitchesLanguageAsString (
-        fOptionsPitchesLanguageItemVariable) <<
-        "\"" <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsPitchesLanguageItemVariableDisplayName" << " : " <<
+    fOptionsPitchesLanguageItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsPitchesLanguageItemVariable" << " : \"" <<
+    msrQuarterTonesPitchesLanguageAsString (
+      fOptionsPitchesLanguageItemVariable) <<
+      "\"" <<
+    endl;
 }
 
 void msrOptionsPitchesLanguageItem::printOptionsValues (
@@ -1260,14 +1219,13 @@ void msrOptionsPitchesLanguageItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsPitchesLanguageItemVariableDisplayName <<
-      " : \"" <<
-      msrQuarterTonesPitchesLanguageAsString (
-        fOptionsPitchesLanguageItemVariable) <<
-      "\"" <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsPitchesLanguageItemVariableDisplayName <<
+    " : \"" <<
+    msrQuarterTonesPitchesLanguageAsString (
+      fOptionsPitchesLanguageItemVariable) <<
+    "\"" <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt)
@@ -1325,26 +1283,24 @@ void msrOptionsAccidentalStyleItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsAccidentalStyleItem:" <<
-      endl;
+    "OptionsAccidentalStyleItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsAccidentalStyleItemVariableDisplayName" << " : " <<
-      fOptionsAccidentalStyleItemVariableDisplayName <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsAccidentalStyleItemVariable" << " : \"" <<
-      lpsrAccidentalStyleAsString (
-        fOptionsAccidentalStyleItemVariable) <<
-        "\"" <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsAccidentalStyleItemVariableDisplayName" << " : " <<
+    fOptionsAccidentalStyleItemVariableDisplayName <<
+    end <<
+    setw (fieldWidth) <<
+    "fOptionsAccidentalStyleItemVariable" << " : \"" <<
+    lpsrAccidentalStyleAsString (
+      fOptionsAccidentalStyleItemVariable) <<
+      "\"" <<
+    endl;
 }
 
 void msrOptionsAccidentalStyleItem::printOptionsValues (
@@ -1352,14 +1308,13 @@ void msrOptionsAccidentalStyleItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsAccidentalStyleItemVariableDisplayName <<
-      " : \"" <<
-      lpsrAccidentalStyleAsString (
-        fOptionsAccidentalStyleItemVariable) <<
-      "\"" <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsAccidentalStyleItemVariableDisplayName <<
+    " : \"" <<
+    lpsrAccidentalStyleAsString (
+      fOptionsAccidentalStyleItemVariable) <<
+    "\"" <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsAccidentalStyleItem& elt)
@@ -1417,26 +1372,23 @@ void msrOptionsChordsLanguageItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsChordsLanguageItem:" <<
-      endl;
+    "OptionsChordsLanguageItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsChordsLanguageItemVariableDisplayName" << " : " <<
-      fOptionsChordsLanguageItemVariableDisplayName <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsChordsLanguageItemVariable" << " : \"" <<
-      lpsrChordsLanguageAsString (
-        fOptionsChordsLanguageItemVariable) <<
-        "\"" <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsChordsLanguageItemVariableDisplayName" << " : " <<
+    fOptionsChordsLanguageItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsChordsLanguageItemVariable" << " : \"" <<
+    lpsrChordsLanguageAsString (
+      fOptionsChordsLanguageItemVariable) <<
+      "\"" <<
+    endl;
 }
 
 void msrOptionsChordsLanguageItem::printOptionsValues (
@@ -1444,14 +1396,13 @@ void msrOptionsChordsLanguageItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsChordsLanguageItemVariableDisplayName <<
-      " : \"" <<
-      lpsrChordsLanguageAsString (
-        fOptionsChordsLanguageItemVariable) <<
-      "\"" <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsChordsLanguageItemVariableDisplayName <<
+    " : \"" <<
+    lpsrChordsLanguageAsString (
+      fOptionsChordsLanguageItemVariable) <<
+    "\"" <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt)
@@ -1509,23 +1460,20 @@ void msrOptionsPartRenameItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsPartRenameItem:" <<
-      endl;
+    "OptionsPartRenameItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsPartRenameItemVariableDisplayName" << " : " <<
-      fOptionsPartRenameItemVariableDisplayName <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsPartRenameItemVariable" << " : " <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsPartRenameItemVariableDisplayName" << " : " <<
+    fOptionsPartRenameItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsPartRenameItemVariable" << " : " <<
+    endl;
 
   if (! fOptionsPartRenameItemVariable.size ()) {
     os << "none";
@@ -1551,10 +1499,9 @@ void msrOptionsPartRenameItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsPartRenameItemVariableDisplayName <<
-      " : ";
+    setw (valueFieldWidth) <<
+    fOptionsPartRenameItemVariableDisplayName <<
+    " : ";
       
   if (! fOptionsPartRenameItemVariable.size ()) {
     os << "none";
@@ -1571,14 +1518,13 @@ void msrOptionsPartRenameItem::printOptionsValues (
       i      = iBegin;
     for ( ; ; ) {
       os << left <<
-        idtr <<
-          setw (valueFieldWidth) <<
-          " " <<
-          " \"" <<
-          (*i).first <<
-          "\" --> \"" <<
-          (*i).second <<
-          "\"";
+        setw (valueFieldWidth) <<
+        " " <<
+        " \"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"";
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -1645,27 +1591,24 @@ void msrOptionsMidiTempoItem::print (ostream& os) const
   const int fieldWidth = FIELD_WIDTH;
   
   os <<
-    idtr <<
-      "OptionsMidiTempoItem:" <<
-      endl;
+    "OptionsMidiTempoItem:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsMidiTempoItemVariableDisplayName" << " : " <<
-      fOptionsMidiTempoItemVariableDisplayName <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsMidiTempoItemVariable" << " : '" <<
-      fOptionsMidiTempoItemVariable.first <<
-      " = " <<
-      fOptionsMidiTempoItemVariable.second <<
-      "'" <<
-      endl;
+    setw (fieldWidth) <<
+    "fOptionsMidiTempoItemVariableDisplayName" << " : " <<
+    fOptionsMidiTempoItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsMidiTempoItemVariable" << " : '" <<
+    fOptionsMidiTempoItemVariable.first <<
+    " = " <<
+    fOptionsMidiTempoItemVariable.second <<
+    "'" <<
+    endl;
 }
 
 void msrOptionsMidiTempoItem::printOptionsValues (
@@ -1673,15 +1616,14 @@ void msrOptionsMidiTempoItem::printOptionsValues (
   int      valueFieldWidth) const
 {  
   os << left <<
-    idtr <<
-      setw (valueFieldWidth) <<
-      fOptionsMidiTempoItemVariableDisplayName <<
-      " : '" <<
-      fOptionsMidiTempoItemVariable.first <<
-      " = " <<
-      fOptionsMidiTempoItemVariable.second <<
-      "'" <<
-      endl;
+    setw (valueFieldWidth) <<
+    fOptionsMidiTempoItemVariableDisplayName <<
+    " : '" <<
+    fOptionsMidiTempoItemVariable.first <<
+    " = " <<
+    fOptionsMidiTempoItemVariable.second <<
+    "'" <<
+    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsMidiTempoItem& elt)
@@ -1753,8 +1695,6 @@ string msrOptionsSubGroup::optionsSubGroupDescriptionVisibilityAsString (
 
 void msrOptionsSubGroup::underlineHeader (ostream& os) const
 {
-  os <<
-    idtr;
   for (unsigned int i = 0; i < fOptionsSubGroupHelpHeader.size (); i++) {
     os << "-";
   } // for
@@ -1817,24 +1757,22 @@ void msrOptionsSubGroup::print (ostream& os) const
   const int fieldWidth = 27;
   
   os <<
-      idtr <<
-     "OptionsSubGroup:" <<
-      endl;
+   "OptionsSubGroup:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fOptionsSubGroupDescriptionVisibility" << " : " <<
-        optionsSubGroupDescriptionVisibilityAsString (
-          fOptionsSubGroupDescriptionVisibility) <<
-      endl <<
+    setw (fieldWidth) <<
+    "fOptionsSubGroupDescriptionVisibility" << " : " <<
+      optionsSubGroupDescriptionVisibilityAsString (
+        fOptionsSubGroupDescriptionVisibility) <<
+    endl <<
     endl;
 
-  os << idtr <<
+  os <<
     "Options items (" <<
     singularOrPlural (
       fOptionsSubGroupItemsList.size (), "element",  "elements") <<
@@ -1854,7 +1792,7 @@ void msrOptionsSubGroup::print (ostream& os) const
       // print the options item
       os << (*i);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     idtr--;
@@ -1867,7 +1805,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
 {
   
   // print the header and option names
-  os << idtr <<
+  os <<
     fOptionsSubGroupHelpHeader;
     
   os <<
@@ -1925,7 +1863,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
           }
           if (++i == iEnd) break;
           if (! optionsItemIsHidden) {
-            cerr <<
+            fLogOutputStream <<
               endl;
           }
         } // for
@@ -1943,7 +1881,7 @@ void msrOptionsSubGroup::printForcedHelp (ostream& os) const
 {
   
   // print the header and option names
-  os << idtr <<
+  os <<
     fOptionsSubGroupHelpHeader;
     
   os <<
@@ -1989,7 +1927,7 @@ void msrOptionsSubGroup::printForcedHelp (ostream& os) const
       // print the options item help
       (*i)->printHelp (os);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
       
     idtr--;
@@ -2013,12 +1951,11 @@ void msrOptionsSubGroup::printHelpSummary (
 
   // print the summary
   os << left <<
-    idtr <<
-      setw (maximumSubGroupsHelpHeadersSize) <<
-      fOptionsSubGroupHelpHeader <<
-      " " <<
-      optionsElementNamesInColumnsBetweenParentheses (
-        maximumShortNameWidth);
+    setw (maximumSubGroupsHelpHeadersSize) <<
+    fOptionsSubGroupHelpHeader <<
+    " " <<
+    optionsElementNamesInColumnsBetweenParentheses (
+      maximumShortNameWidth);
 
   switch (fOptionsSubGroupDescriptionVisibility) {
     case kAlwaysShowDescription:
@@ -2067,7 +2004,7 @@ void msrOptionsSubGroup::printOptionsValues (
   int      valueFieldWidth) const
 {
   // print the header
-  os << idtr <<
+  os <<
     fOptionsSubGroupHelpHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
@@ -2091,7 +2028,7 @@ void msrOptionsSubGroup::printOptionsValues (
         printOptionsValues (
           os, valueFieldWidth);
       if (++i == iEnd) break;
-  //    cerr << endl;
+  //    os << endl;
     } // for
 
     idtr--;
@@ -2139,8 +2076,6 @@ msrOptionsGroup::~msrOptionsGroup()
 
 void msrOptionsGroup::underlineHeader (ostream& os) const
 {
-  os <<
-    idtr;
   for (unsigned int i = 0; i < fOptionsGroupHelpHeader.size (); i++) {
     os << "-";
   } // for
@@ -2207,15 +2142,14 @@ void msrOptionsGroup::print (ostream& os) const
   const int fieldWidth = 27;
   
   os <<
-    idtr <<
-      "OptionsGroup:" <<
-      endl;
+    "OptionsGroup:" <<
+    endl;
 
   idtr++;
 
   msrOptionsElement::printEssentials (os, fieldWidth);
 
-  os << idtr <<
+  os <<
     "Options subgroups (" <<
     singularOrPlural (
       fOptionsGroupSubGroupsList.size (), "element",  "elements") <<
@@ -2235,7 +2169,7 @@ void msrOptionsGroup::print (ostream& os) const
       // print the options subgroup
       os << (*i);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     idtr--;
@@ -2247,7 +2181,7 @@ void msrOptionsGroup::print (ostream& os) const
 void msrOptionsGroup::printHelp (ostream& os) const
 {
   // print the header and option names
-  os << idtr <<
+  os <<
     fOptionsGroupHelpHeader <<
     " " <<
     optionsElementNamesBetweenParentheses () <<
@@ -2284,7 +2218,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
       // print the options subgroup help
       (*i)->printHelp (os);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
       
     idtr--;
@@ -2339,7 +2273,7 @@ void msrOptionsGroup::printForcedHelp (
       }
       if (++i == iEnd) break;
       if (optionsSubGroup == targetOptionsSubGroup) {
-        cerr <<
+        os <<
           endl;
       }
     } // for
@@ -2392,7 +2326,7 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
       (*i)->
         printHelpSummary (os);
       if (++i == iEnd) break;
- //     cerr << endl;
+ //     os << endl;
     } // for
       
     idtr--;
@@ -2445,7 +2379,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
         printSpecificSubGroupHelp (
           os, optionsSubGroup);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     os <<
@@ -2486,7 +2420,7 @@ void msrOptionsGroup::printOptionsValues (
         printOptionsValues (
           os, valueFieldWidth);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     idtr--;
@@ -2810,7 +2744,7 @@ void msrOptionsHandler::print (ostream& os) const
       // print the options group
       os << (*i);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     idtr--;
@@ -2859,7 +2793,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
       // print the options group help
       (*i)->printHelp (os);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
     
     idtr--;
@@ -2904,7 +2838,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
       os << idtr;
       (*i)->printHelpSummary (os);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     idtr--;
@@ -2939,7 +2873,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
           os,
           optionsSubGroup);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     os <<
@@ -2976,7 +2910,7 @@ void msrOptionsHandler::printOptionsValues (
         printOptionsValues (
           os, fMaximumDisplayNameWidth);
       if (++i == iEnd) break;
-      cerr << endl;
+      os << endl;
     } // for
 
     idtr--;
@@ -3023,7 +2957,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
 {
   if (TRACE_OPTIONS) {
     // print the options elements map  
-    cerr << idtr <<
+    fLogOutputStream << idtr <<
       "Options elements map (" <<
       fOptionsElementsMap.size () <<
       " elements):" <<
@@ -3036,19 +2970,20 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
         iEnd   = fOptionsElementsMap.end(),
         i      = iBegin;
       for ( ; ; ) {
-        cerr << idtr <<
+        fLogOutputStream << idtr <<
           (*i).first << "-->" <<
           endl;
         idtr++;
-        (*i).second->printHeader (cerr);
+        (*i).second->
+          printHeader (fLogOutputStream);
         if (++i == iEnd) break;
-        cerr << endl;
+        fLogOutputStream << endl;
         idtr--;
       } // for
       
       idtr--;
     }
-    cerr <<
+    fLogOutputStream <<
       endl;
   }
 
@@ -3071,7 +3006,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     
     if (TRACE_OPTIONS) {
       // print current element
-      cerr <<
+      fLogOutputStream <<
         "Command line element " << n <<
         ": " <<currentElement << " "<<
         endl;
@@ -3084,7 +3019,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
       if (currentElement.size () == 1) {
         // this is the stdin indicator
         if (TRACE_OPTIONS) {
-          cerr <<
+          fLogOutputStream <<
             "'" << currentElement << "' is the '-' stdin indicator" <<
             endl;
         }
@@ -3106,7 +3041,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
           currentElement.substr (1, string::npos);
   
         /* JMI
-        cerr <<
+        fLogOutputStream <<
           "elementTrailer '" << elementTrailer << "' is preceded by a dash" <<
           endl;
         */
@@ -3118,7 +3053,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
               elementTrailer.substr (1, string::npos);
             
             if (TRACE_OPTIONS) {
-              cerr <<
+              fLogOutputStream <<
                 "'" << currentOptionName << "' is a double-dashed option" <<
                 endl;
             }
@@ -3129,7 +3064,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
               elementTrailer; //.substr (1, string::npos);
             
             if (TRACE_OPTIONS) {
-              cerr <<
+              fLogOutputStream <<
                 "'" << currentOptionName << "' is a single-dashed option" <<
                 endl;
             }
@@ -3138,7 +3073,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
         
         else {
           if (TRACE_OPTIONS) {
-            cerr <<
+            fLogOutputStream <<
               "'-' is the minimal single-dashed option" <<
               endl;
           }
@@ -3163,7 +3098,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
 
   // exit if this is a pure help run
   if (fPureHelpRun) {
-    cerr << idtr <<
+    fLogOutputStream << idtr <<
       "--- This is a pure help run, exiting. ---" <<
       endl;
 
@@ -3175,7 +3110,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
 
   if (TRACE_OPTIONS) {
     // print the arguments vector
-    cerr << idtr <<
+    fLogOutputStream << idtr <<
       "Arguments vector (" <<
       argumentsVectorSize <<
       " elements):" <<
@@ -3184,7 +3119,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     if (argumentsVectorSize) {
       idtr++;
       for (unsigned int i = 0; i < argumentsVectorSize; i++) {
-        cerr << idtr <<
+        fLogOutputStream << idtr <<
           fArgumentsVector [i] <<
           endl;
       } // for
@@ -3227,7 +3162,7 @@ void msrOptionsHandler::handleOptionsItemName (
       
     optionError (s.str ());
 
-    printHelpSummary (cerr);
+    printHelpSummary (fLogOutputStream);
 
     exit (2);
   }
@@ -3294,13 +3229,17 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsHandler->
             getOptionHandlerHelpSummaryLongName ()
          ) {
-        optionsHandler->printHelpSummary (cerr);
+        optionsHandler->
+          printHelpSummary (
+            fLogOutputStream);
       }
       else {
-        optionsHandler->printHelp (cerr);
+        optionsHandler->
+          printHelp (
+            fLogOutputStream);
       }
       
-      cerr <<
+      fLogOutputStream <<
         endl;
     }
     
@@ -3311,7 +3250,7 @@ void msrOptionsHandler::handleOptionsItemName (
           dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
       ) {
       // print the help
-      cerr << idtr <<
+      fLogOutputStream << idtr <<
         "--- Help for group \"" <<
         optionsGroup->
           getOptionsGroupHelpHeader () <<
@@ -3320,9 +3259,10 @@ void msrOptionsHandler::handleOptionsItemName (
         endl;
         
       optionsGroup->
-        printHelp (cerr);
+        printHelp (
+          fLogOutputStream);
       
-      cerr <<
+      fLogOutputStream <<
         endl;
     }
     
@@ -3338,7 +3278,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsSubGroup-> getOptionsGroupUplink ();
           
       // print the help
-      cerr << idtr <<
+      fLogOutputStream << idtr <<
         "--- Help for subgroup \"" <<
         optionsSubGroup->
           getOptionsSubGroupHelpHeader () <<
@@ -3352,7 +3292,8 @@ void msrOptionsHandler::handleOptionsItemName (
 
       optionsGroup->
         printForcedHelp (
-          cerr, optionsSubGroup);
+          fLogOutputStream,
+          optionsSubGroup);
     }
     
     else {
@@ -3366,7 +3307,8 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // handle it at once
         optionsVersionItem->
-          printVersion (cerr);
+          printVersion (
+            fLogOutputStream);
 
         // exit
         exit (0);
@@ -3589,7 +3531,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       if (sm.size ()) {
         if (TRACE_OPTIONS) {
-          cerr <<
+          fLogOutputStream <<
             "There are " << sm.size() << " matches" <<
             " for rational string '" << theString <<
             "' with regex '" << regularExpression <<
@@ -3597,10 +3539,11 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
             endl;
        
           for (unsigned i = 0; i < sm.size (); ++i) {
-            cerr << "[" << sm [i] << "] ";
+            fLogOutputStream <<
+              "[" << sm [i] << "] ";
           } // for
           
-          cerr <<
+          fLogOutputStream <<
             endl;
         }
       }
@@ -3615,7 +3558,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printSpecificSubGroupHelp (
-          cerr,
+          fLogOutputStream,
           optionsRationalItem->
             getOptionsSubGroupUplink ());
             
@@ -3642,7 +3585,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           rational (numerator, denominator);     
 
       if (TRACE_OPTIONS) {
-        cerr << // JMI
+        fLogOutputStream << // JMI
           "rationalValue = " <<
           rationalValue <<
           endl;
@@ -3707,7 +3650,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
         optionError (s.str ());
         
-        printHelpSummary (cerr);
+        printHelpSummary (
+          fLogOutputStream);
         
         exit (4);
       }
@@ -3754,7 +3698,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
         optionError (s.str ());
         
-        printHelpSummary (cerr);
+        printHelpSummary (
+          fLogOutputStream);
         
         exit (4);
       }
@@ -3800,7 +3745,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
         optionError (s.str ());
         
-        printHelpSummary (cerr);
+        printHelpSummary (
+          fLogOutputStream);
         
         exit (4);
       }
@@ -3831,7 +3777,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       regex_match (theString, sm, e);
 
       if (TRACE_OPTIONS) {
-        cerr <<
+        fLogOutputStream <<
           "There are " << sm.size() << " matches" <<
           " for MIDI tempo string '" << theString <<
           "' with regex '" << regularExpression <<
@@ -3841,9 +3787,10 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
       if (sm.size ()) {
         for (unsigned i = 0; i < sm.size (); ++i) {
-          cerr << "[" << sm [i] << "] ";
+          fLogOutputStream <<
+            "[" << sm [i] << "] ";
         } // for
-        cerr <<
+        fLogOutputStream <<
           endl;
       }
       
@@ -3857,7 +3804,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printSpecificSubGroupHelp (
-          cerr,
+          fLogOutputStream,
           optionsPartRenameItem->
             getOptionsSubGroupUplink ());
             
@@ -3869,7 +3816,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         newPartName = sm [2];
         
       if (TRACE_OPTIONS) {
-        cerr <<
+        fLogOutputStream <<
           "--> oldPartName = \"" << oldPartName << "\", " <<
           "--> newPartName = \"" << newPartName << "\"" <<
           endl;
@@ -3925,7 +3872,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       regex_match (theString, sm, e);
 
       if (TRACE_OPTIONS) {
-        cerr <<
+        fLogOutputStream <<
           "There are " << sm.size() << " matches" <<
           " for MIDI tempo string '" << theString <<
           "' with regex '" << regularExpression <<
@@ -3935,9 +3882,10 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
       if (sm.size ()) {
         for (unsigned i = 0; i < sm.size (); ++i) {
-          cerr << "[" << sm [i] << "] ";
+          fLogOutputStream <<
+            "[" << sm [i] << "] ";
         } // for
-        cerr <<
+        fLogOutputStream <<
           endl;
       }
       
@@ -3951,7 +3899,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printSpecificSubGroupHelp (
-          cerr,
+          fLogOutputStream,
           optionsMidiTempoItem->
             getOptionsSubGroupUplink ());
             
@@ -3968,7 +3916,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       }
       
       if (true || TRACE_OPTIONS) {
-        cerr <<
+        fLogOutputStream <<
           "midiTempoDuration  = " <<
           midiTempoDuration <<
           endl <<
