@@ -665,7 +665,6 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
     fVariableValue.end(),
     stringQuoteEscaper (variableValue));
 
-  os << gIdtr;
   switch (fCommentedKind) {
     case kCommented:
       os << "commented";
@@ -676,7 +675,6 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   } // switch
   os << endl;
 
-  os << gIdtr;
   switch (fBackslashKind) {
     case kWithBackslash:
       os << "with backslash";
@@ -689,10 +687,9 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << endl;
   
   os <<
-    gIdtr << "variable name: \"" << variableName << "\"" <<
+    "variable name: \"" << variableName << "\"" <<
     endl;
   
-  os << gIdtr;
   switch (fVarValSeparator) {
     case kSpace:
       os << "space";
@@ -704,7 +701,6 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << " separator";
   os << endl;
 
-  os << gIdtr;
   switch (fQuotesKind) {
     case kQuotesAroundValue:
       os << "quotes";
@@ -717,11 +713,11 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << endl;
 
   os <<
-    gIdtr << "variable value: \"" << variableValue << "\"" <<
+    "variable value: \"" << variableValue << "\"" <<
     endl;
 
   os <<
-    gIdtr << "unit: ";
+    "unit: ";
   if (fUnit.size())
     os << "\"" << fUnit << "\"";
   else
@@ -729,14 +725,13 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << endl;
   
   os <<
-    gIdtr << "comment: ";
+    "comment: ";
   if (fComment.size())
     os << "\"" << fComment << "\"";
   else
     os << "none";
   os << endl;
 
-  os << gIdtr;
   switch (fEndlKind) {
     case kWithEndl:
       os << "with end line";
@@ -866,7 +861,6 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
     fVariableValue.end(),
     stringQuoteEscaper (variableValue));
 
-  os << gIdtr;
   switch (fCommentedKind) {
     case kCommented:
       os << "commented";
@@ -879,20 +873,19 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
 
   // print resulting strings
   os <<
-    gIdtr << "variable name : \"" << variableName << "\"" <<
+    "variable name : \"" << variableName << "\"" <<
     endl <<
-    gIdtr << "variable value: \"" << variableValue << "\"" <<
+    "variable value: \"" << variableValue << "\"" <<
     endl;
 
   os <<
-    gIdtr << "comment: ";
+    "comment: ";
   if (fComment.size())
     os << "\"" << fComment << "\"";
   else
     os << "none";
   os << endl;
 
-  os << gIdtr;
   switch (fEndlKind) {
     case kWithEndl:
       os << "with end line";
@@ -1170,7 +1163,7 @@ void lpsrNewStaffTuningBlock::print (ostream& os)
   gIdtr++;
   
   os <<
-    gIdtr << fStaffTuning;
+    fStaffTuning;
   
   gIdtr--;
 }
@@ -3976,7 +3969,6 @@ void lpsrScore::print (ostream& os)
   gIdtr++;
 
   // print the MSR structure (without the voices)
-  os << gIdtr;
   fMsrScore->
     printStructure (os);
   os << endl;
@@ -3984,36 +3976,34 @@ void lpsrScore::print (ostream& os)
   // are some Scheme functions needed?
   const int fieldWidth = 42;
   
-  os <<
-    gIdtr << left <<
-      setw (fieldWidth) <<
-      "TongueSchemeFunctionIsNeeded" << " : " <<
-      booleanAsString (
-        fTongueSchemeFunctionIsNeeded) <<
-      endl <<
-    gIdtr << left <<
-      setw (fieldWidth) <<
-      "EditorialAccidentalSchemeFunctionIsNeeded" << " : " <<
-      booleanAsString (
-        fEditorialAccidentalSchemeFunctionIsNeeded) <<
-      endl <<
+  os << left <<
+    setw (fieldWidth) <<
+    "TongueSchemeFunctionIsNeeded" << " : " <<
+    booleanAsString (
+      fTongueSchemeFunctionIsNeeded) <<
+    endl <<
+    setw (fieldWidth) <<
+    "EditorialAccidentalSchemeFunctionIsNeeded" << " : " <<
+    booleanAsString (
+      fEditorialAccidentalSchemeFunctionIsNeeded) <<
+    endl <<
     endl;
 
   // print LPSR basic information
   os <<
-    gIdtr << fLilypondVersion <<
+    fLilypondVersion <<
     endl;
   os <<
-    gIdtr << fGlobalStaffSizeAssoc <<
+    fGlobalStaffSizeAssoc <<
     endl;
   os <<
-    gIdtr << fHeader <<
+    fHeader <<
     endl;
   os <<
-    gIdtr << fPaper <<
+    fPaper <<
     endl;
   os <<
-    gIdtr << fScoreLayout <<
+    fScoreLayout <<
     endl;
 
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
@@ -4033,7 +4023,6 @@ void lpsrScore::print (ostream& os)
 
   // print the score block
   os <<
-    gIdtr <<
     fScoreBlock;
 
   gIdtr--;
