@@ -156,7 +156,7 @@ Reference:
 
 Usage:
  
-  MyStream myStream (std::cout);
+  indentedStream myStream (std::cout);
    
   myStream <<
     1 << 2 << 3 << std::endl <<
@@ -184,7 +184,7 @@ Usage:
       // 3) flush the actual output stream we are using.
       virtual int sync ( )
       {
-        output << "[blah]" << str();
+        output << "[blah] " << str ();
         str ("");
         output.flush ();
         return 0;

@@ -31,15 +31,33 @@ class msr2LpsrTranslator :
 
   public visitor<S_msrScore>,
   
+  // rights
+
   public visitor<S_msrIdentification>,
   
   public visitor<S_msrCredit>,
   public visitor<S_msrCreditWords>,
   
+  // variable-value associations
+  
+  public visitor<S_msrVarValAssoc>,
+  
+  // geometry
+
+  public visitor<S_msrPageGeometry>,
+
+  // layout
+
+  public visitor<S_msrLayout>,
+  
+  // parts & part groups
+
   public visitor<S_msrPartGroup>,
   
   public visitor<S_msrPart>,
   
+  // staff details
+
   public visitor<S_msrStaffLinesNumber>,
   public visitor<S_msrStaffTuning>,
   public visitor<S_msrStaffDetails>,
@@ -50,28 +68,52 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrVoiceStaffChange>,
 
+  // lyrics
+
   public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
   
+  // clefs
+
   public visitor<S_msrClef>,
+
+  // keys
+
   public visitor<S_msrKey>,
+
+  // times
+
   public visitor<S_msrTime>,
   
+  // transpose
+
   public visitor<S_msrTranspose>,
   
+  // words
+
   public visitor<S_msrWords>,
   
+  // tempo
+
   public visitor<S_msrTempo>,
   
   public visitor<S_msrSegment>,
   
+  // harmonies
+
   public visitor<S_msrHarmony>,
   
+  // figured bass
+
   public visitor<S_msrFiguredBass>,
   public visitor<S_msrFigure>,
 
+  // measures
+
   public visitor<S_msrMeasure>,
     
+  // articulations
+
   public visitor<S_msrArticulation>,
   
   public visitor<S_msrFermata>,
@@ -79,15 +121,23 @@ class msr2LpsrTranslator :
   public visitor<S_msrArpeggiato>,
   public visitor<S_msrNonArpeggiato>,
   
+  // technicals
+
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
   public visitor<S_msrTechnicalWithString>,
   
+  // ornaments
+
   public visitor<S_msrOrnament>,
   
+  // tremolos
+
   public visitor<S_msrSingleTremolo>,
   
   public visitor<S_msrDoubleTremolo>,
+
+  // dynamics
 
   public visitor<S_msrDynamics>,
   
@@ -97,24 +147,41 @@ class msr2LpsrTranslator :
   public visitor<S_msrLigature>,
   public visitor<S_msrWedge>,
   
+  // grace notes
+
   public visitor<S_msrGraceNotes>,
   
+  // notes
+
   public visitor<S_msrNote>,
   public visitor<S_msrOctaveShift>,
   
+  // accordion registration
+
   public visitor<S_msrAccordionRegistration>,
   
+  // harp pedals tuning
+
   public visitor<S_msrHarpPedalsTuning>,
   
   public visitor<S_msrStem>,
-  public visitor<S_msrBeam>,
     
+  // chords
+
   public visitor<S_msrChord>,
   
+  // tuplets
+
   public visitor<S_msrTuplet>,
   
+  // ties, slurs, brackets & beams
+
   public visitor<S_msrTie>,
+
+  public visitor<S_msrBeam>,
     
+  // ?
+
   public visitor<S_msrBarline>,
   
   public visitor<S_msrSegno>,
@@ -130,6 +197,8 @@ class msr2LpsrTranslator :
 
   public visitor<S_msrPageBreak>,
   
+  // repeats
+
   public visitor<S_msrRepeat>,
   public visitor<S_msrRepeatCommonPart>,
   public visitor<S_msrRepeatEnding>,
@@ -141,14 +210,12 @@ class msr2LpsrTranslator :
   public visitor<S_msrMultipleRest>,
   public visitor<S_msrMultipleRestContents>,
   
- 
-  public visitor<S_msrVarValAssoc>,
-  
-  public visitor<S_msrPageGeometry>,
-  public visitor<S_msrLayout>,
-  
+  // rehearsal
+
   public visitor<S_msrRehearsal>,
   
+  // midi
+
   public visitor<S_msrMidi>
 
 {
@@ -177,6 +244,8 @@ class msr2LpsrTranslator :
     virtual void visitEnd   (S_msrCredit& elt);
     virtual void visitStart (S_msrCreditWords& elt);
     virtual void visitEnd   (S_msrCreditWords& elt);
+
+  // parts & part groups
 
     virtual void visitStart (S_msrPartGroup& elt);
     virtual void visitEnd   (S_msrPartGroup& elt);
