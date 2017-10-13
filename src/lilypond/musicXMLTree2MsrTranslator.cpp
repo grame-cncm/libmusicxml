@@ -5296,7 +5296,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
       const int fieldwidth = 28;
   
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
         endl <<
@@ -5327,21 +5327,21 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         booleanAsString (fCurrentRestMeasure) <<
         endl;
   
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fCurrentTieKind" << " = \"" <<
         msrTie::tieKindAsString (fCurrentTieKind) <<
         "\"" <<
         endl;
           
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fCurrentSlurKind" << " = \"" <<
         msrSlur::slurKindAsString (fCurrentSlurKind) <<
         "\"" <<
         endl;
   
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fCurrentLigatureKind" << " = \"" <<
         msrLigature::ligatureKindAsString (
@@ -5349,7 +5349,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         "\"" <<
         endl;
   
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fOnGoingSlur" << " = " <<
         booleanAsString (fOnGoingSlur) <<
@@ -5359,7 +5359,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         booleanAsString (fOnGoingSlurHasStanza) <<
         endl;
   
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fOnGoingLigature" << " = " <<
         booleanAsString (fOnGoingLigature) <<
@@ -5369,7 +5369,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         booleanAsString (fOnGoingLigatureHasStanza) <<
         endl;
   
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fFirstSyllableInSlurKind" << " = \"" <<
         msrSyllable::syllableKindAsString (
@@ -5377,7 +5377,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         "\"" <<
         endl;
   
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fFirstSyllableInLigatureKind" << " = \"" <<
         msrSyllable::syllableKindAsString (
@@ -5385,7 +5385,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         "\"" <<
       endl;
   
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldwidth) <<
         "fCurrentSyllableKind" << " = \""<<
         msrSyllable::syllableKindAsString (
@@ -13785,7 +13785,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 
     const int fieldWidth = 27;
 
-    fLogOutputStream <<
+    fLogOutputStream << left <<
       setw (fieldWidth) << "--> fCurrentNoteStaffNumber" << " = " <<
       fCurrentNoteStaffNumber <<
       endl <<
@@ -13954,7 +13954,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 
       const int fieldWidth = 31;
       
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldWidth) << "fCurrentPart" << " = " <<
         fCurrentPart->getPartCombinedName () <<
         endl <<
@@ -14050,7 +14050,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
 
       const int fieldWidth = 31;
       
-      fLogOutputStream <<
+      fLogOutputStream << left <<
         setw (fieldWidth) << "fCurrentPart" << " = " <<
         fCurrentPart->getPartCombinedName () <<
         endl <<
@@ -14186,7 +14186,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   if (gGeneralOptions->fTraceNotes) { // JMI
      const int fieldWidth = 27;
 
-    fLogOutputStream <<
+    fLogOutputStream << left <<
       endl <<
       "==> AFTER visitEnd (S_note&) " <<
       newNote->noteAsString () <<
@@ -14317,7 +14317,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
 
     const int fieldWidth = 25;
 
-    fLogOutputStream <<
+    fLogOutputStream << left <<
       setw (fieldWidth) << "voice" << " : \"" <<
       currentVoice->getVoiceName () << "\"" <<
       endl <<
@@ -16901,7 +16901,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
 
     const int fieldWidth = 31;
 
-    fLogOutputStream <<
+    fLogOutputStream << left <<
       setw (fieldWidth) <<
       "fCurrentHarpPedalDiatonicPitch" << " = " <<
       msrDiatonicPitchAsString (
