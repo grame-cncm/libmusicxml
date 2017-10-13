@@ -660,7 +660,7 @@ R"(Generate the '\midi' block as a comment instead of active code.)",
     set<string>::const_iterator i=fLilypondAccidentalStyles.begin();
     i!=fLilypondAccidentalStyles.end();
     i++) {
-      cerr << (*i) << endl;
+      gLogIos << (*i) << endl;
   } // for
   */
 }
@@ -831,7 +831,7 @@ string lilypondOptions::scoreNotationKindAsString (
 
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 {
-  cerr << gIdtr <<
+  gLogIos <<
     "The LilyPond options are:" <<
     endl;
 
@@ -839,14 +839,14 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // time
   // --------------------------------------
-  cerr <<
-    gIdtr << "Time:" <<
+  gLogIos <<
+    "Time:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "numericalTime" << " : " <<
+  gLogIos << left <<
+    setw (fieldWidth) << "numericalTime" << " : " <<
       booleanAsString (fNumericalTime) <<
       endl;
 
@@ -854,46 +854,46 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // notes
   // --------------------------------------
-  cerr <<
-    gIdtr << "Notes:" <<
+  gLogIos <<
+    "Notes:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "absoluteOctaves" << " : " <<
+  gLogIos << left <<
+    setw (fieldWidth) << "absoluteOctaves" << " : " <<
       booleanAsString (fAbsoluteOctaves) <<
       endl <<
     
-    gIdtr << setw (fieldWidth) << "allDurations" << " : " <<
+    setw (fieldWidth) << "allDurations" << " : " <<
       booleanAsString (fAllDurations) <<
       endl <<
     
-    gIdtr << setw (fieldWidth) << "stems" << " : " <<
+    setw (fieldWidth) << "stems" << " : " <<
       booleanAsString (fStems) <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "noAutoBeaming" << " : " <<
+    
+    setw (fieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (fNoAutoBeaming) <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "romanStringNumbers" << " : " <<
+    
+    setw (fieldWidth) << "romanStringNumbers" << " : " <<
       booleanAsString (fRomanStringNumbers) <<
       endl <<
       
-    gIdtr << setw (fieldWidth) << "avoidOpenString" << " : " <<
+    setw (fieldWidth) << "avoidOpenString" << " : " <<
       booleanAsString (fAvoidOpenStrings) <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "accidentalStyle" << " : " <<
+    
+    setw (fieldWidth) << "accidentalStyle" << " : " <<
       fAccidentalStyle <<
       endl <<
     
-    gIdtr << setw (fieldWidth) << "compressMultiMeasureRests" << " : " <<
+    setw (fieldWidth) << "compressMultiMeasureRests" << " : " <<
       booleanAsString (fCompressMultiMeasureRests) <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "inputLineNumbers" << " : " <<
+    
+    setw (fieldWidth) << "inputLineNumbers" << " : " <<
       booleanAsString (fNoteInputLineNumbers) <<
       endl;
 
@@ -901,37 +901,37 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // bars
   // --------------------------------------
-  cerr <<
-    gIdtr << "Bars:" <<
+  gLogIos <<
+    "Bars:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "showAllBarNumbers" << " : " <<
-      booleanAsString (fShowAllBarNumbers) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "showAllBarNumbers" << " : " <<
+    booleanAsString (fShowAllBarNumbers) <<
+    endl;
 
   gIdtr--;
 
   // line breaks
   // --------------------------------------
-  cerr <<
-    gIdtr << "Line breaks:" <<
+  gLogIos <<
+    "Line breaks:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
+  gLogIos << left <<
+    setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
       booleanAsString (fIgnoreLineBreaks) <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
+    
+    setw (fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
       booleanAsString (fBreakLinesAtIncompleteRightMeasures) <<
       endl <<
     
-    gIdtr << setw (fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
+    setw (fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
       booleanAsString (fSeparatorLineEveryNMeasures) <<
       endl;
 
@@ -939,125 +939,125 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // page breaks
   // --------------------------------------
-  cerr <<
-    gIdtr << "Page breaks:" <<
+  gLogIos <<
+    "Page breaks:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "ignorePageBreaks" << " : " <<
-      booleanAsString (fIgnorePageBreaks) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "ignorePageBreaks" << " : " <<
+    booleanAsString (fIgnorePageBreaks) <<
+    endl;
 
   gIdtr--;
   
   // staves
   // --------------------------------------
-  cerr <<
-    gIdtr << "Staves:" <<
+  gLogIos <<
+    "Staves:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "modernTab" << " : " <<
-      booleanAsString (fModernTab) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "modernTab" << " : " <<
+    booleanAsString (fModernTab) <<
+    endl;
 
   gIdtr--;
   
   // tuplets
   // --------------------------------------
 
-  cerr <<
-    gIdtr << "Tuplets:" <<
+  gLogIos <<
+    "Tuplets:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "tupletsOnALine" << " : " <<
-      booleanAsString (fTupletsOnALine) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "tupletsOnALine" << " : " <<
+    booleanAsString (fTupletsOnALine) <<
+    endl;
     
   gIdtr--;
 
   // repeats
   // --------------------------------------
 
-  cerr <<
-    gIdtr << "Repeats:" <<
+  gLogIos <<
+    "Repeats:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "repeatBrackets" << " : " <<
-      booleanAsString (fRepeatBrackets) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "repeatBrackets" << " : " <<
+    booleanAsString (fRepeatBrackets) <<
+    endl;
     
   gIdtr--;
 
   // ornaments
   // --------------------------------------
 
-  cerr <<
-    gIdtr << "Ornaments:" <<
+  gLogIos <<
+    "Ornaments:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
-      fDelayedOrnamentsFraction <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
+    fDelayedOrnamentsFraction <<
+    endl;
 
   gIdtr--;
 
   // fonts
   // --------------------------------------
 
-  cerr <<
-    gIdtr << "Fonts:" <<
+  gLogIos <<
+    "Fonts:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "jazzFonts" << " : " <<
-      booleanAsString (fJazzFonts) <<
-      endl;
+  gLogIos << left <<
+    setw (fieldWidth) << "jazzFonts" << " : " <<
+    booleanAsString (fJazzFonts) <<
+    endl;
 
   gIdtr--;
 
   // code generation
   // --------------------------------------
 
-  cerr <<
-    gIdtr << "LilyPond code generation:" <<
+  gLogIos <<
+    "LilyPond code generation:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "comments" << " : " <<
+  gLogIos << left <<
+    setw (fieldWidth) << "comments" << " : " <<
       booleanAsString (fComments) <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "global" << " : " <<
+    
+    setw (fieldWidth) << "global" << " : " <<
       booleanAsString (fGlobal) <<
       endl <<
     
-    gIdtr << setw (fieldWidth) << "noLilypondCode" << " : " <<
+    setw (fieldWidth) << "noLilypondCode" << " : " <<
       booleanAsString (fNoLilypondCode) <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "noLilypondLyrics" << " : " <<
+    
+    setw (fieldWidth) << "noLilypondLyrics" << " : " <<
       booleanAsString (fNoLilypondLyrics) <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "lilypondCompileDate" << " : " <<
+    
+    setw (fieldWidth) << "lilypondCompileDate" << " : " <<
       booleanAsString (fLilypondCompileDate) <<
       endl;
 
@@ -1066,15 +1066,15 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // score notation
   // --------------------------------------
     
-  cerr <<
-    gIdtr << "Score notation:" <<
+  gLogIos <<
+    "Score notation:" <<
     endl;
 
   gIdtr++;
 
 /*
-  cerr <<
-    gIdtr << setw (fieldWidth) << "scoreNotationKind" << " : " <<
+  gLogIos << left <<
+    setw (fieldWidth) << "scoreNotationKind" << " : " <<
       scoreNotationKindAsString (
         fScoreNotationKind) <<
       endl;
@@ -1083,22 +1083,22 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // midi
   // --------------------------------------
-  cerr <<
-    gIdtr << "Midi:" <<
+  gLogIos <<
+    "Midi:" <<
     endl;
 
   gIdtr++;
 
-  cerr <<
-    gIdtr << setw (fieldWidth) << "midiTempoDuration" << " : " <<
- //     fMidiTempoDuration <<
+  gLogIos << left <<
+    setw (fieldWidth) << "midiTempoDuration" << " : " <<
+    //     fMidiTempoDuration <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "midiTempoPerSecond" << " : " <<
-  //    fMidiTempoPerSecond <<
+    
+    setw (fieldWidth) << "midiTempoPerSecond" << " : " <<
+    //    fMidiTempoPerSecond <<
       endl <<
-
-    gIdtr << setw (fieldWidth) << "noMidiCommand" << " : " <<
+    
+    setw (fieldWidth) << "noMidiCommand" << " : " <<
       booleanAsString (fNoMidi) <<
       endl;
 
