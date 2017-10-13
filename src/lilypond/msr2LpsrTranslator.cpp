@@ -1485,7 +1485,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
         getMeasureFullMeasureLength ();
     
   if (gGeneralOptions->fTraceMeasures) {
-    cerr <<
+    fLogOutputStream <<
       "Finalizing measure " << measureNumber <<
       " in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -1630,13 +1630,13 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
         inputLineNumber);
 
            /* JMI   
-  cerr <<
+  fLogOutputStream <<
     endl <<
     "***********" <<
     endl <<
     endl;
-  fCurrentPartClone->print (cerr);
-  cerr <<
+  fCurrentPartClone->print (fLogOutputStream);
+  fLogOutputStream <<
     "***********" <<
     endl <<
     endl;
@@ -1731,11 +1731,11 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
   if (eltNoteUplink) {
     // set syllable clone's note uplink to the clone of elt's note uplink
     if (gGeneralOptions->fTraceLyrics)
-      cerr <<
-      "--> setting syllable note uplink " <<
-      fCurrentSyllableClone->syllableAsString () <<
-      " to " << eltNoteUplink->noteAsShortString () <<
-      endl;
+      fLogOutputStream <<
+        "--> setting syllable note uplink " <<
+        fCurrentSyllableClone->syllableAsString () <<
+        " to " << eltNoteUplink->noteAsShortString () <<
+        endl;
 
     fCurrentSyllableClone->
       setSyllableNoteUplink (
@@ -3363,25 +3363,25 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       endl;
 
            /* JMI   
-  cerr <<
+  fLogOutputStream <<
     endl <<
     "*********** fCurrentPartClone" <<
     endl <<
     endl;
-  fCurrentPartClone->print (cerr);
-  cerr <<
+  fCurrentPartClone->print (fLogOutputStream);
+  fLogOutputStream <<
     "*********** fCurrentPartClone" <<
     endl <<
     endl;
     */
 /* JMI
-  cerr <<
+  fLogOutputStream <<
     endl <<
     "*********** fCurrentRepeatClone" <<
     endl <<
     endl;
-  fCurrentRepeatClone->print (cerr);
-  cerr <<
+  fCurrentRepeatClone->print (fLogOutputStream);
+  fLogOutputStream <<
     "*********** fCurrentRepeatClone" <<
     endl <<
     endl;
@@ -3704,13 +3704,13 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       endl;
 
            /* JMI   
-  cerr <<
+  fLogOutputStream <<
     endl <<
     "***********" <<
     endl <<
     endl;
-  fCurrentPartClone->print (cerr);
-  cerr <<
+  fCurrentPartClone->print (fLogOutputStream);
+  fLogOutputStream <<
     "***********" <<
     endl <<
     endl;
