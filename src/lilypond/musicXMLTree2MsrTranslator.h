@@ -189,13 +189,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_words>,
   public visitor<S_octave_shift>,
 
-  // accordion registration
-  
-  public visitor<S_accordion_registration>,
-  public visitor<S_accordion_high>,
-  public visitor<S_accordion_middle>,
-  public visitor<S_accordion_low>,
-
   // tempo
   
   public visitor<S_metronome>,
@@ -421,6 +414,13 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   
   public visitor<S_rehearsal>,
   
+  // accordion registration
+  
+  public visitor<S_accordion_registration>,
+  public visitor<S_accordion_high>,
+  public visitor<S_accordion_middle>,
+  public visitor<S_accordion_low>,
+
   // harp pedals tuning
   
   public visitor<S_harp_pedals>,

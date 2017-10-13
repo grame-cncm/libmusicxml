@@ -147,7 +147,7 @@ class indenter
 ostream& operator<< (ostream& os, const indenter& idtr);
 
 //______________________________________________________________________________
-class indentedStream: public ostream
+class indentedOutputStream: public ostream
 {
 /*
 Reference:
@@ -156,7 +156,7 @@ Reference:
 
 Usage:
  
-  indentedStream myStream (std::cout);
+  indentedOutputStream myStream (std::cout);
    
   myStream <<
     1 << 2 << 3 << std::endl <<
@@ -191,13 +191,13 @@ Usage:
       }
   };
 
-  // indentedStream just uses a version of indentedStreamBuf
+  // indentedOutputStream just uses a version of indentedStreamBuf
   indentedStreamBuf buffer;
   
   public:
 
     // constructor
-    indentedStream (ostream& str)
+    indentedOutputStream (ostream& str)
       : ostream (&buffer),
         buffer (str)
     {}

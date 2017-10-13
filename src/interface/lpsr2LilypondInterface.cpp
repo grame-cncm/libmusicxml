@@ -71,9 +71,17 @@ void generateLilypondCodeFromLpsrScore (
         separator <<
         endl;
   }
+
+  // create an indented output stream for the LilyPond code
+  indentedOutputStream lilypondIndentedOutputStream (os);
   
   // create an lpsr2LilypondTranslator
-  lpsr2LilypondTranslator translator (msrOpts, lpsrOpts, os, lpScore);
+  lpsr2LilypondTranslator translator (
+    msrOpts,
+    lpsrOpts,
+    os,
+    lilypondIndentedOutputStream,
+    lpScore);
   
   // build the LPSR score    
   translator.generateLilypondCodeFromLpsrScore ();

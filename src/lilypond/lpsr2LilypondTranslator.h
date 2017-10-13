@@ -33,13 +33,25 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_lpsrScore>,
   
+  // variable-value associations
+
   public visitor<S_lpsrLilypondVarValAssoc>,
   public visitor<S_lpsrSchemeVarValAssoc>,
 
+  // header
+
   public visitor<S_lpsrHeader>,
+
+  // paper
+
   public visitor<S_lpsrPaper>,
+
+  // layout
+
   public visitor<S_lpsrLayout>,
   
+  // score blocks
+
   public visitor<S_lpsrParallelMusic>,
 
   public visitor<S_lpsrScoreBlock>,
@@ -66,16 +78,24 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_msrScore>,
   
+  // rights
+
   public visitor<S_msrCredit>,
   public visitor<S_msrCreditWords>,
   
+  // parts & part groups
+
   public visitor<S_msrPartGroup>,
   
   public visitor<S_msrPart>,
   
+  // staff details
+
   public visitor<S_msrStaffLinesNumber>,
   public visitor<S_msrStaffTuning>,
   public visitor<S_msrStaffDetails>,
+
+  // staves and voices
   
   public visitor<S_msrStaff>,
   
@@ -83,8 +103,12 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_msrVoiceStaffChange>,
   
+  // harmonies
+
   public visitor<S_msrHarmony>,
   
+  // figured bass
+
   public visitor<S_msrFiguredBass>,
   public visitor<S_msrFigure>,
 
@@ -94,16 +118,32 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
   
+  // clefs
+
   public visitor<S_msrClef>,
+
+  // keys
+
   public visitor<S_msrKey>,
+
+  // times
+
   public visitor<S_msrTime>,
   
+  // transpose
+
   public visitor<S_msrTranspose>,
   
+  // words
+
   public visitor<S_msrWords>,
       
+  // tempo
+
   public visitor<S_msrTempo>,
       
+  // articulations
+
   public visitor<S_msrArticulation>,
   
   public visitor<S_msrFermata>,
@@ -111,15 +151,23 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrArpeggiato>,
   public visitor<S_msrNonArpeggiato>,
   
+  // technicals
+
   public visitor<S_msrTechnical>,
   public visitor<S_msrTechnicalWithInteger>,
   public visitor<S_msrTechnicalWithString>,
   
+  // ornaments
+
   public visitor<S_msrOrnament>,
   
+  // tremolos
+
   public visitor<S_msrSingleTremolo>,
   
   public visitor<S_msrDoubleTremolo>,
+
+  // dynamics
 
   public visitor<S_msrDynamics>,
   
@@ -127,19 +175,29 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_msrWedge>,
     
+  // grace notes
+
   public visitor<S_msrGraceNotes>,
   public visitor<S_msrAfterGraceNotes>,
   
+  // notes
+
   public visitor<S_msrNote>,
   public visitor<S_msrOctaveShift>,
   
+  // accordion registration
+
   public visitor<S_msrAccordionRegistration>,
   
+  // harp pedals tuning
+
   public visitor<S_msrHarpPedalsTuning>,
   
   public visitor<S_msrStem>,
   public visitor<S_msrBeam>,
     
+  // chords
+
   public visitor<S_msrChord>,
   
   public visitor<S_msrTuplet>,
@@ -150,6 +208,8 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_msrLigature>,
   
+  // ?
+
   public visitor<S_msrBarline>,
   
   public visitor<S_msrSegno>,
@@ -166,6 +226,8 @@ class lpsr2LilypondTranslator :
   
   public visitor<S_msrPageBreak>,
    
+  // repeats
+
   public visitor<S_msrRepeat>,
   public visitor<S_msrRepeatCommonPart>,
   public visitor<S_msrRepeatEnding>,
@@ -177,18 +239,23 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrMultipleRest>,
   public visitor<S_msrMultipleRestContents>,
       
+  // rehearsal
+
   public visitor<S_msrRehearsal>,
   
+  // midi
+
   public visitor<S_msrMidi>
 
 {
   public:
   
     lpsr2LilypondTranslator (
-      S_msrOptions&  msrOpts,
-      S_lpsrOptions& lpsrOpts,
-      ostream&       os,
-      S_lpsrScore    lpsrScore);
+      S_msrOptions&         msrOpts,
+      S_lpsrOptions&        lpsrOpts,
+      ostream&              os,
+      indentedOutputStream& ios,
+      S_lpsrScore           lpsrScoree);
         
     virtual ~lpsr2LilypondTranslator ();
 
@@ -551,7 +618,7 @@ class lpsr2LilypondTranslator :
     S_lpsrOptions         fLpsrOptions;
     
  //   ostream&              fOstream;
-    indentedStream&       fOstream;
+    indentedOutputStream& fOstream;
     
     // the LPSR score we're visiting
     // ------------------------------------------------------
