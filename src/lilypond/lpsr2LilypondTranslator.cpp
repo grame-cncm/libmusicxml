@@ -134,21 +134,11 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   string result;
 
   if (gGeneralOptions->fTraceNotes) {
-    int saveIndent =
-      idtr.getIndent ();
-    
     fIndentedOutputStream <<
       endl <<
       idtr <<
       "%{ absoluteOctave = " << absoluteOctave << " %}" <<
       endl;
-
-    if (saveIndent > 0) {      
-      for (int i = 0; i < saveIndent; i++) {
-        fIndentedOutputStream <<
-          idtr;
-      } // for
-    }
   }
 
   // generate LilyPond absolute octave
@@ -1047,7 +1037,6 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
   
   switch (articulation->getArticulationPlacement ()) {
     case k_NoPlacement:
-      fIndentedOutputStream << "-1";
       break;
     case kAbovePlacement:
       fIndentedOutputStream << "^";
@@ -1143,7 +1132,6 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
   
   switch (articulation->getArticulationPlacement ()) {
     case k_NoPlacement:
-      fIndentedOutputStream << "-2";
       break;
     case kAbovePlacement:
       fIndentedOutputStream << "^";
@@ -3411,9 +3399,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
       elt->getLinesNumber ();
 
   if (linesNumber != 5) { // default value
-    int saveIndent =
-      idtr.getIndent ();
-    
     fIndentedOutputStream <<
       endl <<
       idtr <<
@@ -3422,13 +3407,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
       linesNumber <<
       " \\startStaff" <<
       endl;
-
-    if (saveIndent > 0) {      
-      for (int i = 0; i < saveIndent; i++) {
-        fIndentedOutputStream <<
-          idtr;
-      } // for
-    }
   }
 }
 
@@ -3558,12 +3536,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   }
     
   fIndentedOutputStream <<
-    idtr <<
-      "\\language \"" <<
-      msrQuarterTonesPitchesLanguageAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage) <<
-      "\"" <<
-      endl;
+    "\\language \"" <<
+    msrQuarterTonesPitchesLanguageAsString (
+      gLpsrOptions->fLpsrQuarterTonesPitchesLanguage) <<
+    "\"" <<
+    endl;
 
   if (gLpsrOptions->fLpsrChordsLanguage != k_IgnatzekChords)
     fIndentedOutputStream <<
@@ -3730,23 +3707,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
       elt->voiceStaffChangeAsString () << "'" <<
       endl;
 
-  int saveIndent =
-    idtr.getIndent ();
-
   fIndentedOutputStream <<
     endl <<
-    idtr <<
     "\\change Staff=\"" <<
     elt->getNewStaff ()->getStaffNumber () <<
     "\"" <<
     endl;
-    
-  if (saveIndent > 0) {      
-    for (int i = 0; i < saveIndent; i++) {
-      fIndentedOutputStream <<
-        idtr; // ??? JMI
-    } // for
-  }
 }
 
 //________________________________________________________________________
@@ -4064,10 +4030,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     fOnGoingVoiceCadenza
       &&
     measureKind != msrMeasure::kOverfullMeasureKind) {
-    int saveIndent =
-      idtr.getIndent ();
-    
-    fIndentedOutputStream << idtr <<
+    fIndentedOutputStream <<
       "\\cadenzaOff";
 
     if (gLilypondOptions->fComments)
@@ -4076,13 +4039,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
     fIndentedOutputStream<<
       endl;
-
-    if (saveIndent > 0) {      
-      for (int i = 0; i < saveIndent; i++) {
-        fIndentedOutputStream <<
-          idtr;
-      } // for
-    }
 
     fOnGoingVoiceCadenza = false;
   }
@@ -4191,10 +4147,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
     case msrMeasure::kOverfullMeasureKind:
       if (! fOnGoingVoiceCadenza) {
-        int saveIndent =
-          idtr.getIndent ();
-        
-        fIndentedOutputStream << idtr <<
+        fIndentedOutputStream <<
           "\\cadenzaOn";
 
         if (gLilypondOptions->fComments) {
@@ -4203,13 +4156,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
         fIndentedOutputStream <<
           endl;
-          
-        if (saveIndent > 0) {          
-          for (int i = 0; i < saveIndent; i++) {
-            fIndentedOutputStream <<
-              idtr;
-          } // for
-        }
 
         fOnGoingVoiceCadenza = true;
       }
@@ -4217,10 +4163,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kSenzaMisuraMeasureKind:
       if (! fOnGoingVoiceCadenza) {
-        int saveIndent =
-          idtr.getIndent ();
-        
-        fIndentedOutputStream << idtr <<
+        fIndentedOutputStream <<
           "\\cadenzaOn";
 
         if (gLilypondOptions->fComments) {
@@ -4229,13 +4172,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
         fIndentedOutputStream <<
           endl;
-          
-        if (saveIndent > 0) {          
-          for (int i = 0; i < saveIndent; i++) {
-            fIndentedOutputStream <<
-              idtr;
-          } // for
-        }
 
         fOnGoingVoiceCadenza = true;
       }
@@ -4302,9 +4238,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     case msrMeasure::kOverfullMeasureKind:
       fIndentedOutputStream <<
         endl <<
-        idtr <<
-          "\\cadenzaOff" <<
-          endl;
+        "\\cadenzaOff" <<
+        endl;
 
       fOnGoingVoiceCadenza = false;
       
@@ -4320,10 +4255,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
 
     case msrMeasure::kSenzaMisuraMeasureKind:
       fIndentedOutputStream <<
-        idtr <<
           "\\cadenzaOff" <<
           endl <<
-        idtr<<
           "\\bar \"|\"" <<
           endl;
 
@@ -4669,7 +4602,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
       elt->getClefKind ();
 
   if (clefKind != msrClef::k_NoClef) {
-    fIndentedOutputStream << idtr <<
+    fIndentedOutputStream <<
       "\\clef" " \"";
   
     switch (clefKind) {
@@ -4784,7 +4717,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
   switch (elt->getKeyKind ()) {
     case msrKey::kTraditionalKind:
       fIndentedOutputStream <<
-        idtr <<
         "\\key " <<
         msrQuarterTonesPitchAsString (
           gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
@@ -5545,22 +5477,12 @@ If the double element is present, it indicates that the music is doubled one oct
     }
 
   // now we can generate the transpostion command
-  int saveIndent =
-    idtr.getIndent ();
-    
   fIndentedOutputStream << idtr <<
     "\\transposition " <<
     transpositionPitchAsString <<
     transitionOctaveAsString <<
     " " <<
     endl;
-
-  if (saveIndent > 0) {
-    for (int i = 0; i < saveIndent - 1 /* JMI */; i++) {
-      fIndentedOutputStream <<
-        idtr;
-    } // for
-  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)
@@ -5651,12 +5573,8 @@ Articulations can be attached to rests as well as notes but they cannot be attac
       break;
   } // switch
 */
-
-  msrFermata::msrFermataType
-    fermataType =
-      elt->getFermataType ();
       
-  switch (fermataType) {
+  switch (elt->getFermataType ()) {
     case msrFermata::k_NoFermataType:
       // no markup needed
       break;
@@ -5677,18 +5595,6 @@ Articulations can be attached to rests as well as notes but they cannot be attac
       break;
     case msrFermata::kSquareFermataKind:
       fIndentedOutputStream << "\\longfermata";
-      break;
-  } // switch
-
-  switch (fermataType) {
-    case msrFermata::k_NoFermataType:
-      // no markup needed
-      break;
-    case msrFermata::kUprightFermataType:
-      // no markup needed
-      break;
-    case msrFermata::kInvertedFermataType:
-      fIndentedOutputStream << "} ";
       break;
   } // switch
 }
@@ -6511,6 +6417,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         } // switch
 
         switch (wordsFontWeight) {
+          case k_NoFontWeight:
+            break;
           case kNormalFontWeight:
             // LilyPond produces 'normal weight' text by default
             break;
@@ -6521,6 +6429,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         } // switch
 
         switch (wordsFontSize) {
+          case k_NoFontSize:
+            break;
           case kNormalFontSize:
             // LilyPond produces 'normal size' text by default
             break;
@@ -7545,22 +7455,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
     elt->getNextBarNumber ();
 
   // don't generate a bar check before the end of measure 1 // JMI ???
-      
-  int saveIndent =
-    idtr.getIndent ();
-    
   fIndentedOutputStream <<
     "| % " << nextBarNumber << " % bar check" <<
-    ", saveIndent = " << saveIndent <<
     endl;
-
-  if (saveIndent > 0) {
-    
-    for (int i = 0; i < saveIndent - 1 /* JMI */; i++) {
-      fIndentedOutputStream <<
-        idtr;
-    } // for
-  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
@@ -7943,9 +7840,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
       "% --> Start visiting msrRehearsal" <<
       endl;
 
-  int saveIndent =
-    idtr.getIndent ();
-
   fIndentedOutputStream <<
     endl <<
     endl <<
@@ -7954,13 +7848,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
     elt->getRehearsalText () <<
     "\"" "}}" <<
     endl;
-  
-  if (saveIndent > 0) {      
-    for (int i = 0; i < saveIndent; i++) {
-      fIndentedOutputStream <<
-        idtr;
-    } // for
-  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrRehearsal& elt)
