@@ -21,6 +21,8 @@
 #include "smartpointer.h"
 #include "rational.h"
 
+#include "utilities.h"
+
 #include "msrBasicTypes.h"
 #include "lpsrBasicTypes.h"
 
@@ -1446,7 +1448,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
       string optionHandlerHelpSummaryShortName,
       string optionHandlerHelpSummaryLongName,
       string optionHandlerPreamble,
-      string optionHandlerDescription);
+      string optionHandlerDescription,
+      indentedOutputStream& ios);
 */
 
   protected:
@@ -1462,7 +1465,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
       string optionHandlerHelpSummaryShortName,
       string optionHandlerHelpSummaryLongName,
       string optionHandlerPreamble,
-      string optionHandlerDescription);
+      string optionHandlerDescription,
+      indentedOutputStream& ios);
       
     virtual ~msrOptionsHandler();
 
@@ -1613,6 +1617,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     string                fOutputFileName;
     
     bool                  fPureHelpRun;
+
+    indentedOutputStream& fLogOutputStream;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);

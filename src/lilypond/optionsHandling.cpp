@@ -2509,7 +2509,8 @@ S_msrOptionsHandler msrOptionsHandler::create (
   string optionHandlerHelpSummaryShortName,
   string optionHandlerHelpSummaryLongName,
   string optionHandlerPreamble,
-  string optionHandlerDescription)
+  string optionHandlerDescription,
+  indentedOutputStream& ios)
 {
   msrOptionsHandler* o = new
     msrOptionsHandler (
@@ -2520,7 +2521,8 @@ S_msrOptionsHandler msrOptionsHandler::create (
       optionHandlerHelpSummaryShortName,
       optionHandlerHelpSummaryLongName,
       optionHandlerPreamble,
-      optionHandlerDescription);
+      optionHandlerDescription,
+      ios);
   assert(o!=0);
   return o;
 }
@@ -2534,11 +2536,13 @@ msrOptionsHandler::msrOptionsHandler (
   string optionHandlerHelpSummaryShortName,
   string optionHandlerHelpSummaryLongName,
   string optionHandlerPreamble,
-  string optionHandlerDescription)
+  string optionHandlerDescription,
+  indentedOutputStream& ios)
   : msrOptionsElement (
       optionHandlerHelpShortName,
       optionHandlerHelpLongName,
-      optionHandlerDescription)
+      optionHandlerDescription),
+    fLogOutputStream (ios)
 {
   fOptionsHandlerHelpHeader =
     optionsHandlerHelpHeader;

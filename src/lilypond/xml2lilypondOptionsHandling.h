@@ -28,14 +28,16 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lilypondOptionsHandler> create ();
+    static SMARTP<xml2lilypondOptionsHandler> create (
+      indentedOutputStream& ios);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lilypondOptionsHandler ();
+    xml2lilypondOptionsHandler (
+      indentedOutputStream& ios);
       
     virtual ~xml2lilypondOptionsHandler();
 

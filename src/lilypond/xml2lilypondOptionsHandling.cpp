@@ -38,15 +38,18 @@ namespace MusicXML2
 #define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
-S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create ()
+S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
+  indentedOutputStream& ios)
 {
   xml2lilypondOptionsHandler* o = new
-    xml2lilypondOptionsHandler ();
+    xml2lilypondOptionsHandler (
+      ios);
   assert(o!=0);
   return o;
 }
 
-xml2lilypondOptionsHandler::xml2lilypondOptionsHandler ()
+xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
+  indentedOutputStream& ios)
   : msrOptionsHandler (
     "Available options",
     "Options values",
@@ -97,8 +100,9 @@ What it does:
 )",
 R"(
 Options '-h, -help' print the full help,
-while '-hs, -helpSummary' only print a help summary.)"
-      )
+while '-hs, -helpSummary' only print a help summary.)",
+    ios
+    )
 {
   initializeOptionsHandler ();
 }

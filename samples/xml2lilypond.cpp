@@ -102,7 +102,8 @@ int main (int argc, char *argv[])
 
   S_xml2lilypondOptionsHandler
     optionsHandler =
-      xml2lilypondOptionsHandler::create ();
+      xml2lilypondOptionsHandler::create (
+        logIndentedOutputStream);
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
