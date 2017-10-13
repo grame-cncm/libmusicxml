@@ -8039,33 +8039,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
     idtr;
 
   if (gLilypondOptions->fComments) {
-    if (false) { // fMusicOlec > 0) {
-      fOstream <<
+    fOstream <<
+      idtr <<
+        setw (commentFieldWidth) <<
+        "% end of measure repeat" <<
+        singularOrPlural (
+          elt->measureRepeatReplicasNumber (),
+          "replica",
+          "replicas") <<
+        ", line " << elt->getInputLineNumber () <<
         endl <<
-        idtr <<
-          setw (commentFieldWidth) <<
-          "% end of measure repeat " <<
-          singularOrPlural (
-            elt->measureRepeatReplicasNumber (),
-            "replica",
-              "replicas") <<
-          ", line " << elt->getInputLineNumber () <<
-          endl <<
-          endl;
-    }
-    else {
-      fOstream <<
-        idtr <<
-          setw (commentFieldWidth) <<
-          "% end of measure repeat" <<
-          singularOrPlural (
-            elt->measureRepeatReplicasNumber (),
-            "replica",
-            "replicas") <<
-          ", line " << elt->getInputLineNumber () <<
-          endl <<
-          endl;      
-    }
+        endl;      
   }
 }
 
@@ -8189,33 +8173,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
   if (gLilypondOptions->fComments) {
     idtr--;
 
-    if (false) { // fMusicOlec > 0) {
-      fOstream <<
+    fOstream <<
+      idtr <<
+        setw (commentFieldWidth) <<
+        "% end of multiple rest" <<
+        singularOrPlural (
+          elt->getMultipleRestMeasuresNumber (),
+          "measure",
+          "measures") <<
+        ", line " << elt->getInputLineNumber () <<
         endl <<
-        idtr <<
-          setw (commentFieldWidth) <<
-          "% end of multiple rest " <<
-          singularOrPlural (
-            elt->getMultipleRestMeasuresNumber (),
-            "measure",
-            "measures") <<
-          ", line " << elt->getInputLineNumber () <<
-          endl <<
-          endl;
-    }
-    else {
-      fOstream <<
-        idtr <<
-          setw (commentFieldWidth) <<
-          "% end of multiple rest" <<
-          singularOrPlural (
-            elt->getMultipleRestMeasuresNumber (),
-            "measure",
-            "measures") <<
-          ", line " << elt->getInputLineNumber () <<
-          endl <<
-          endl;      
-    }
+      endl;      
   }
 }
 
@@ -8330,8 +8298,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
             endl << //JMI
             idtr;
 
-          fMusicOlec.resetToZero ();
-
           fOnGoingStemNone = true;
         }
         else {
@@ -8349,8 +8315,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
               endl <<
             endl << //JMI
             idtr;
-
-          fMusicOlec.resetToZero ();
         }
         break;
         
