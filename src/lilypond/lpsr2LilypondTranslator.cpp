@@ -5354,6 +5354,7 @@ If the double element is present, it indicates that the music is doubled one oct
       absoluteOctaveAsLilypondString (
         transpositionOctave);
 
+/* JMI
   if (gGeneralOptions->fTraceTranspositions) {
     cerr << idtr << // JMI
       "Handlling transpose '" <<
@@ -5361,11 +5362,11 @@ If the double element is present, it indicates that the music is doubled one oct
       "' ignored because it is already present in voice \"" <<
       fCurrentVoice->getVoiceName () <<
       "\"" <<
-      /* JMI
+      / * JMI
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
-      */
+      * /
       endl <<
       ", transpositionPitch: " <<
       transpositionPitchAsString <<
@@ -5374,6 +5375,7 @@ If the double element is present, it indicates that the music is doubled one oct
       "(" << transpositionOctave << ")" <<
       endl;
     }
+*/
 
   // now we can generate the transpostion command
   fIndentedOutputStream <<
@@ -7979,7 +7981,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
 
   if (gLilypondOptions->fNoMidi) {
     fIndentedOutputStream <<
-      idtr <<
       "%{" <<
       endl;
 
@@ -7992,8 +7993,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
   
   idtr++;
   
-  fIndentedOutputStream << idtr;
-
   if (gLilypondOptions->fNoMidi)
     fIndentedOutputStream <<
       "% ";
@@ -8015,7 +8014,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
     idtr--;
 
     fIndentedOutputStream <<
-      idtr <<
       "%}" <<
       endl;
   }
@@ -8044,17 +8042,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
           fIndentedOutputStream <<
             endl <<
             endl << //JMI
-            idtr <<
-              "\\temporary\\omit Stem" <<
-              endl <<
-            idtr <<
-              "\\once\\omit Staff.TimeSignature" <<
-              endl <<
-            idtr <<
-              "\\cadenzaOn" <<
-              endl <<
-            endl << //JMI
-            idtr;
+            "\\temporary\\omit Stem" <<
+            endl <<
+            "\\once\\omit Staff.TimeSignature" <<
+            endl <<
+            "\\cadenzaOn" <<
+            endl <<
+            endl; //JMI
 
           fOnGoingStemNone = true;
         }
@@ -8062,17 +8056,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
           fIndentedOutputStream <<
             endl <<
             endl << //JMI
-            idtr <<
-              "\\cadenzaOff" <<
-              endl <<
-            idtr <<
-              "\\bar \"|\"" <<
-              endl <<
-            idtr <<
-              "\\undo\\omit Stem" <<
-              endl <<
-            endl << //JMI
-            idtr;
+            "\\cadenzaOff" <<
+            endl <<
+            "\\bar \"|\"" <<
+            endl <<
+            "\\undo\\omit Stem" <<
+            endl <<
+            endl; //JMI
         }
         break;
         
