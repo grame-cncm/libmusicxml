@@ -1637,28 +1637,28 @@ string msrOrnament::ornamentKindAsString () const
       result = "trill";
       break;
     case msrOrnament::kWavyLine:
-      result = "wayvy line";
+      result = "wayvyLine";
       break;
     case msrOrnament::kTurn:
       result = "turn";
       break;
     case msrOrnament::kInvertedTurn:
-      result = "inverted turn";
+      result = "invertedTurn";
       break;
     case msrOrnament::kDelayedTurn:
-      result = "delayed turn";
+      result = "delayedTurn";
       break;
     case msrOrnament::kDelayedInvertedTurn:
-      result = "delayed inverted turn";
+      result = "delayedInvertedTurn";
       break;
     case msrOrnament::kVerticalTurn:
-      result = "vertical turn";
+      result = "verticTurn";
       break;
     case msrOrnament::kMordent:
       result = "mordent";
       break;
     case msrOrnament::kInvertedMordent:
-      result = "inverted mordent";
+      result = "invertedMordent";
       break;
     case msrOrnament::kSchleifer:
       result = "schleifer";
@@ -1667,7 +1667,7 @@ string msrOrnament::ornamentKindAsString () const
       result = "shake";
       break;
     case msrOrnament::kAccidentalMark:
-      result = "accidental mark";
+      result = "accidentalMark";
       break;
   } // switch
 
@@ -1786,10 +1786,17 @@ void msrOrnament::print (ostream& os)
     "Ornament" " " <<
     ornamentKindAsString () <<
     ", line " << fInputLineNumber <<
+    endl;
+
+  idtr++;
+  
+  os <<
     ", placement" << " = " << ornamentPlacementKindAsString () <<
     ", accidental mark" << " = " << ornamentAccidentalMarkAsString () <<
     ", note uplink" << " = " << fOrnamentNoteUplink->noteAsShortString () <<
     endl;
+
+  idtr--;
 }
 
 //______________________________________________________________________________

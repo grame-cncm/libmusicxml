@@ -588,38 +588,49 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       break;
       
     case msrNote::kStandaloneNote:
-      // print the note name
-      fIndentedOutputStream <<
-        notePitchAsLilypondString (note);
-      
-      // print the note duration
-      fIndentedOutputStream <<
-        durationAsLilypondString (
-          inputLineNumber,
-          note->
-            getNoteSoundingWholeNotes ());
-
-      // handle delayed ornaments if any
-      if (note->getNoteHasADelayedOrnament ())
-        // c2*2/3 ( s2*1/3\turn JMI
-        fIndentedOutputStream <<
-          "*" <<
-          gLilypondOptions->
-            fDelayedOrnamentsFraction;
-      
-      // print the tie if any
       {
-        S_msrTie noteTie = note->getNoteTie ();
-      
-        if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kStartTie) {
-            fIndentedOutputStream << " ~";
+        // print the note name
+        fIndentedOutputStream <<
+          notePitchAsLilypondString (note);
+  
+        rational
+          noteSoundingWholeNotes =
+            note->
+              getNoteSoundingWholeNotes ();
+          
+        // print the note duration
+        fIndentedOutputStream <<
+          durationAsLilypondString (
+            inputLineNumber,
+            noteSoundingWholeNotes);
+  
+        // handle delayed ornaments if any
+        if (note->getNoteHasADelayedOrnament ())
+          // c2*2/3 ( s2*1/3\turn) JMI
+          // we need the explicit duration in all cases,
+          // regardless of gGeneralOptions->fAllDurations
+          fIndentedOutputStream <<
+            wholeNotesAsLilypondString (
+              inputLineNumber,
+              noteSoundingWholeNotes) <<
+            "*" <<
+            gLilypondOptions->
+              fDelayedOrnamentsFraction;
+        
+        // print the tie if any
+        {
+          S_msrTie noteTie = note->getNoteTie ();
+        
+          if (noteTie) {
+            if (noteTie->getTieKind () == msrTie::kStartTie) {
+              fIndentedOutputStream << " ~";
+            }
           }
         }
+  
+        // this note is the new relative octave reference
+        fRelativeOctaveReference = note;
       }
-
-      // this note is the new relative octave reference
-      fRelativeOctaveReference = note;
       break;
 
     case msrNote::kDoubleTremoloMemberNote:
@@ -910,6 +921,21 @@ string lpsr2LilypondTranslator::durationAsLilypondString (
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::durationAsExplicitLilypondString (
+  int      inputLineNumber,
+  rational wholeNotes)
+{
+  string result;
+  
+  result =
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      wholeNotes);
+
+  return result;
+}
+
+//________________________________________________________________________
 string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   S_msrNote note)
 {
@@ -1015,20 +1041,87 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
   S_msrArticulation articulation)
 {
   stringstream s;
-  
-  switch (articulation->getArticulationPlacement ()) {
-    case k_NoPlacement:
+
+  // should the placement be generated?
+  bool doGeneratePlacement = true;
+
+  // generate note articulation preamble if any
+  switch (articulation->getArticulationKind ()) {
+    case msrArticulation::kAccent:
+       break;
+    case msrArticulation::kBreathMark:
+      doGeneratePlacement = false;
       break;
-    case kAbovePlacement:
-      fIndentedOutputStream << "^";
+    case msrArticulation::kCaesura:
+      s <<
+        endl <<
+        "\\override BreathingSign.text = \\markup {"
+        "\\musicglyph #\"scripts.caesura.curved\"}" <<
+        endl;
+      doGeneratePlacement = false;
       break;
-    case kBelowPlacement:
-      fIndentedOutputStream << "_";
+    case msrArticulation::kSpiccato:
+      doGeneratePlacement = false;;
+      break;
+    case msrArticulation::kStaccato:
+      break;
+    case msrArticulation::kStaccatissimo:
+      break;
+    case msrArticulation::kStress:
+      doGeneratePlacement = false;;
+      break;
+    case msrArticulation::kUnstress:
+      doGeneratePlacement = false;;
+      break;
+    case msrArticulation::kDetachedLegato:
+      break;
+    case msrArticulation::kStrongAccent:
+      break;
+    case msrArticulation::kTenuto:
+      break;
+      
+    case msrArticulation::kFermata:
+      // this is handled in visitStart (S_msrFermata&)
+      doGeneratePlacement = false;;
+      break;
+      
+    case msrArticulation::kArpeggiato:
+      // this is handled in chordArticulationAsLilyponString ()
+      doGeneratePlacement = false;;
+      break;
+    case msrArticulation::kNonArpeggiato:
+      // this is handled in chordArticulationAsLilyponString ()
+      doGeneratePlacement = false;;
+      break;
+
+    case msrArticulation::kDoit:
+      break;
+    case msrArticulation::kFalloff:
+      break;
+    case msrArticulation::kPlop:
+      doGeneratePlacement = false;;
+      break;
+    case msrArticulation::kScoop:
+      doGeneratePlacement = false;;
       break;
   } // switch
 
-  switch (articulation->getArticulationKind ()) {
+  if (doGeneratePlacement) {
+    switch (articulation->getArticulationPlacement ()) {
+      case k_NoPlacement:
+        fIndentedOutputStream << "-";
+        break;
+      case kAbovePlacement:
+        fIndentedOutputStream << "^";
+        break;
+      case kBelowPlacement:
+        fIndentedOutputStream << "_";
+        break;
+    } // switch
+  }
 
+  // generate note articulation itself
+  switch (articulation->getArticulationKind ()) {
     case msrArticulation::kAccent:
       s << ">";
       break;
@@ -1836,7 +1929,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       } // switch
     } // for
     
-    // then print degrees to be removed if any
+    // then print harmony degrees to be removed if any
     if (thereAreDegreesToBeRemoved) {
       s << "^";
 
@@ -3682,10 +3775,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       harmonyAsLilypondString (elt) <<
       " ";
       
-    if (gLilypondOptions->fNoteInputLineNumbers)
+    if (gLilypondOptions->fNoteInputLineNumbers) {
       // print the harmony line number as a comment
       fIndentedOutputStream <<
-        "%{ " << elt->getInputLineNumber () << " %} ";  
+        " %{ " << elt->getInputLineNumber () << " %} ";
+    }
   }
 
 /* JMI
@@ -3726,10 +3820,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
     fIndentedOutputStream <<
       "<";
       
-    if (gLilypondOptions->fNoteInputLineNumbers)
+    if (gLilypondOptions->fNoteInputLineNumbers) {
       // print the figured bass line number as a comment
       fIndentedOutputStream <<
-        "%{ " << fCurrentFiguredBass->getInputLineNumber () << " %} ";  
+        " %{ " << fCurrentFiguredBass->getInputLineNumber () << " %} ";
+    }
   }
 
 /* JMI
@@ -4186,6 +4281,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
   } // switch
     
+  fIndentedOutputStream <<
+    "| % " << measureNumber <<
+    endl <<
+    endl;
+
   if (gLilypondOptions->fComments) {
     idtr--;
 
@@ -4476,10 +4576,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           break;
       } // switch
       
-      if (gLilypondOptions->fNoteInputLineNumbers)
+      if (gLilypondOptions->fNoteInputLineNumbers) {
         // print the note line number as a comment
         fIndentedOutputStream <<
-          "%{ " << elt->getInputLineNumber () << " %} ";  
+          " %{ " << elt->getInputLineNumber () << " %} ";
+      } 
     }
   }
 }
@@ -5490,13 +5591,13 @@ Articulations can be attached to rests as well as notes but they cannot be attac
 
   switch (elt->getFermataKind ()) {
     case msrFermata::kNormalFermataKind:
-      fIndentedOutputStream << "\\fermata";
+      fIndentedOutputStream << "\\fermata ";
       break;
     case msrFermata::kAngledFermataKind:
-      fIndentedOutputStream << "\\shortfermata";
+      fIndentedOutputStream << "\\shortfermata ";
       break;
     case msrFermata::kSquareFermataKind:
-      fIndentedOutputStream << "\\longfermata";
+      fIndentedOutputStream << "\\longfermata ";
       break;
   } // switch
 }
@@ -6014,6 +6115,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   // print the note as a LilyPond string
   printNoteAsLilypondString (elt);
 
+  if (gLilypondOptions->fNoteInputLineNumbers) {
+    // print the note line number as a comment
+    fIndentedOutputStream <<
+      " %{ " << elt->getInputLineNumber () << " %} ";
+  }
+  
   fOnGoingNote = true;
 }
 
@@ -6058,11 +6165,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
   */
   
-  if (gLilypondOptions->fNoteInputLineNumbers)
-    // print the note line number as a comment
-    fIndentedOutputStream <<
-      "%{ " << elt->getInputLineNumber () << " %} ";
-  
   // print the note articulations if any
   list<S_msrArticulation>
     noteArticulations =
@@ -6074,9 +6176,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i=noteArticulations.begin();
       i!=noteArticulations.end();
       i++) {
-      fIndentedOutputStream <<
-        noteArticulationAsLilyponString ((*i)) <<    
-        " ";
+      S_msrArticulation articulation = (*i);
+      switch (articulation->getArticulationKind ()) {
+        case msrArticulation::kFermata:
+          // this is handled in visitStart (S_msrFermata&)
+          break;
+          
+        default:
+          fIndentedOutputStream <<
+            noteArticulationAsLilyponString ((*i)) <<    
+            " ";
+      } // switch
     } // for
   }
 
@@ -6099,10 +6209,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrTechnical::k_NoTechnicalPlacement:
           break;
         case msrTechnical::kTechnicalPlacementAbove:
- // JMI         fIndentedOutputStream << "^";
+          fIndentedOutputStream << "^";
           break;
         case msrTechnical::kTechnicalPlacementBelow:
- // JMI         fIndentedOutputStream << "_";
+          fIndentedOutputStream << "_";
           break;
       } // switch
 
@@ -6129,10 +6239,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement:
           break;
         case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove:
- // JMI         fIndentedOutputStream << "^";
+          fIndentedOutputStream << "^";
           break;
         case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow:
- // JMI         fIndentedOutputStream << "_";
+          fIndentedOutputStream << "_";
           break;
       } // switch
 
@@ -6159,10 +6269,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrTechnicalWithString::k_NoTechnicalWithStringPlacement:
           break;
         case msrTechnicalWithString::kTechnicalWithStringPlacementAbove:
- // JMI         fIndentedOutputStream << "^";
+          fIndentedOutputStream << "^";
           break;
         case msrTechnicalWithString::kTechnicalWithStringPlacementBelow:
- // JMI         fIndentedOutputStream << "_";
+          fIndentedOutputStream << "_";
           break;
       } // switch
 
@@ -6190,10 +6300,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrOrnament::k_NoOrnamentPlacement:
           break;
         case msrOrnament::kOrnamentPlacementAbove:
- // JMI         fIndentedOutputStream << "^";
+          fIndentedOutputStream << "^";
           break;
         case msrOrnament::kOrnamentPlacementBelow:
- // JMI         fIndentedOutputStream << "_";
+          fIndentedOutputStream << "_";
           break;
       } // switch
 
@@ -6226,7 +6336,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           fIndentedOutputStream << "^";
           break;
         case msrDynamics::kDynamicsPlacementBelow:
-      // JMI    fIndentedOutputStream << "_";
+          // this is done by LilyPond by default
           break;
       } // switch
 
@@ -6722,13 +6832,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         
         switch (nonArpeggiato->getNonArpeggiatoTypeKind ()) {
           case msrNonArpeggiato::k_NoNonArpeggiatoType:
-            fIndentedOutputStream << "%{\\k_NoNonArpeggiatoType???%}";
+            fIndentedOutputStream << " %{\\k_NoNonArpeggiatoType???%}";
             break;
           case msrNonArpeggiato::kNonArpeggiatoTypeTop:
-            fIndentedOutputStream << "%{\\kNonArpeggiatoTypeTop???%}";
+            fIndentedOutputStream << " %{\\kNonArpeggiatoTypeTop???%}";
             break;
           case msrNonArpeggiato::kNonArpeggiatoTypeBottom:
-            fIndentedOutputStream << "%{\\kNonArpeggiatoTypeBottom???%}";
+            fIndentedOutputStream << " %{\\kNonArpeggiatoTypeBottom???%}";
             break;
         } // switch
           
@@ -6893,7 +7003,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
           fIndentedOutputStream << "^";
           break;
         case msrDynamics::kDynamicsPlacementBelow:
-          fIndentedOutputStream << "_";
+          // this is done by LilyPond by default
           break;
       } // switch
 
@@ -7243,7 +7353,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
     
     case msrBarline::kStandaloneBarline:
       fIndentedOutputStream <<
-        endl;
+        endl <<
+        endl; // JMI
       
       switch (elt->getStyle ()) {
         case msrBarline::k_NoStyle:
@@ -7290,9 +7401,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           break;
       } // switch
 
+      if (gLilypondOptions->fNoteInputLineNumbers) {
+        // print the barline line number as a comment
+        fIndentedOutputStream <<
+          " %{ " << elt->getInputLineNumber () << " %} ";
+      }
+
+/* JMI
       fIndentedOutputStream <<
         endl <<
         endl;
+*/
 
       if (elt->getBarlineHasSegno ())
         fIndentedOutputStream <<
@@ -7300,11 +7419,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       if (elt->getBarlineHasCoda ())
         fIndentedOutputStream <<
           "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
-
-      if (gLilypondOptions->fNoteInputLineNumbers)
-        // print the barline line number as a comment
-        fIndentedOutputStream <<
-          "%{ " << elt->getInputLineNumber () << " %} ";
       break;
 
     case msrBarline::kRepeatStartBarline:
@@ -7316,7 +7430,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       // should not occur, since
       // LilyPond will take care of displaying the repeat
       break;
-
   } // switch
 }
 
@@ -7912,10 +8025,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     endl <<
     "R1";
 
-  if (gLilypondOptions->fNoteInputLineNumbers)
+  if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the multiple rest line number as a comment
     fIndentedOutputStream <<
-      " %{ " << inputLineNumber << " %} ";  
+      " %{ " << inputLineNumber << " %} ";
+  }
 
   fIndentedOutputStream <<    
     "*" <<
