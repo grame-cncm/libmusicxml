@@ -170,36 +170,43 @@ Usage:
   {
     private:
     
-      ostream&   output;
+      ostream&  fOutput;
+      indenter& fIndenter;
 
     public:
 
-      indentedStreamBuf (ostream& str)
-        :output (str)
+      indentedStreamBuf (
+        ostream& str,
+        indenter& idtr)
+        : fOutput (str),
+          fIndenter (idtr)
       {}
 
-      // When we sync the stream with the output:
-      // 1) Output Plop then the buffer
-      // 2) Reset the buffer
+      // When we sync the stream with fOutput:
+      // 1) uutput the indentation then the buffer
+      // 2) reset the buffer
       // 3) flush the actual output stream we are using.
       virtual int sync ( )
       {
-        output << "[blah] " << str ();
+        fOutput << fIndenter << str ();
         str ("");
-        output.flush ();
+        fOutput.flush ();
         return 0;
       }
   };
 
   // indentedOutputStream just uses a version of indentedStreamBuf
-  indentedStreamBuf buffer;
+  indentedStreamBuf fIndentedStreamBuf;
   
   public:
 
     // constructor
-    indentedOutputStream (ostream& str)
-      : ostream (&buffer),
-        buffer (str)
+    indentedOutputStream (
+      ostream&  str,
+      indenter& idtr)
+      : ostream (&fIndentedStreamBuf),
+        fIndentedStreamBuf (
+          str, idtr)
     {}
 };
 
