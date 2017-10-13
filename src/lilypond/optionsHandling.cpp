@@ -2754,6 +2754,39 @@ void msrOptionsHandler::print (ostream& os) const
   idtr--;
 }
 
+string msrOptionsHandler::helpSummaryNames () const
+{
+  stringstream s;
+  
+  s <<
+    optionsElementNames () <<
+    " ";
+
+  if (
+    fOptionHandlerHelpSummaryShortName.size ()
+        &&
+    fOptionHandlerHelpSummaryLongName.size ()
+    ) {
+      s <<
+        "-" << fOptionHandlerHelpSummaryShortName <<
+        ", " <<
+        "-" << fOptionHandlerHelpSummaryLongName;
+  }
+  
+  else {
+    if (fOptionHandlerHelpSummaryShortName.size ()) {
+      s <<
+      "-" << fOptionHandlerHelpSummaryShortName;
+    }
+    if (fOptionHandlerHelpSummaryLongName.size ()) {
+      s <<
+      "-" << fOptionHandlerHelpSummaryLongName;
+    }
+  }
+
+  return s.str ();
+}
+
 void msrOptionsHandler::printHelp (ostream& os) const
 {
   os <<
@@ -2768,11 +2801,12 @@ void msrOptionsHandler::printHelp (ostream& os) const
   os <<
     fOptionsHandlerHelpHeader <<
     " " <<
-    optionsElementNamesBetweenParentheses () <<
+    helpSummaryNames () <<
     ":" <<
     endl <<
     endl;
-
+  
+  // print the options groups helps
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
     idtr++;
 
@@ -3072,7 +3106,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
   // exit if this is a pure help run
   if (fPureHelpRun) {
     cerr << idtr <<
-      "This is a pure help run, exiting." <<
+      "--- This is a pure help run, exiting. ---" <<
       endl;
 
     exit (1);

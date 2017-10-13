@@ -1544,6 +1544,8 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // print
     // ------------------------------------------------------
 
+    string                helpSummaryNames () const;
+
     void                  print (ostream& os) const;
 
     void                  printHelp (ostream& os) const;
