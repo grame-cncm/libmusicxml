@@ -97,14 +97,12 @@ void msrPolyphony::print (ostream& os)
 
 /* JMI
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fBeatUnit" << " = " << fBeatUnit <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fDots" << " = " << fDots <<
-      endl;
+    setw (fieldWidth) <<
+    "fBeatUnit" << " = " << fBeatUnit <<
+    endl <<
+    setw (fieldWidth) <<
+    "fDots" << " = " << fDots <<
+    endl;
       */
 };
 
@@ -114,14 +112,12 @@ void msrBeatData::print (ostream& os)
   const int fieldWidth = 9;
 
   os << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fBeatUnit" << " = " << fBeatUnit <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fDots" << " = " << fDots <<
-      endl;
+    setw (fieldWidth) <<
+    "fBeatUnit" << " = " << fBeatUnit <<
+    endl <<
+    setw (fieldWidth) <<
+    "fDots" << " = " << fDots <<
+    endl;
 };
 
 //______________________________________________________________________________
@@ -6392,10 +6388,10 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 46;
 
           os << left <<
-            idtr << setw (fieldWidth) <<
-              "noteSoundingWholeNotesAsMsrString" << " = \"" <<
-              noteSoundingWholeNotesAsMsrString () <<
-              "\"" <<
+            setw (fieldWidth) <<
+            "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+            noteSoundingWholeNotesAsMsrString () <<
+            "\"" <<
             endl;
         }
         break;
@@ -6405,11 +6401,11 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 46;
 
           os << left <<
-            idtr << setw (fieldWidth) <<
-              "noteSoundingWholeNotesAsMsrString" << " = \"" <<
-              noteSoundingWholeNotesAsMsrString () <<
-              "\"" <<
-              endl;
+            setw (fieldWidth) <<
+            "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+            noteSoundingWholeNotesAsMsrString () <<
+            "\"" <<
+            endl;
         }
         break;
         
@@ -6418,21 +6414,21 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 36;
 
           os << left <<
-            idtr << setw (fieldWidth) <<
-              "noteSoundingWholeNotesAsMsrString" << " = \"" <<
-              noteSoundingWholeNotesAsMsrString () <<
-              "\"" <<
-              endl <<
-            idtr << setw (fieldWidth) <<
-              "noteDisplayWholeNotesAsMsrString" << " = \"" <<
-              noteDisplayWholeNotesAsMsrString () <<
-              "\"" <<
-              endl <<
-            idtr << setw (fieldWidth) <<
-              "noteGraphicDurationAsMsrString" << " = \"" <<
-              noteGraphicDurationAsMsrString () <<
-              "\"" <<
-              endl;
+            setw (fieldWidth) <<
+            "noteSoundingWholeNotesAsMsrString" << " = \"" <<
+            noteSoundingWholeNotesAsMsrString () <<
+            "\"" <<
+            endl <<
+            setw (fieldWidth) <<
+            "noteDisplayWholeNotesAsMsrString" << " = \"" <<
+            noteDisplayWholeNotesAsMsrString () <<
+            "\"" <<
+            endl <<
+            setw (fieldWidth) <<
+            "noteGraphicDurationAsMsrString" << " = \"" <<
+            noteGraphicDurationAsMsrString () <<
+            "\"" <<
+            endl;
         }
         break;
         
@@ -6448,11 +6444,11 @@ void msrNote::print (ostream& os)
           const int fieldWidth = 46;
 
           os << left <<
-            idtr << setw (fieldWidth) <<
-              "noteGraphicDurationAsMsrString" << " = \"" <<
-              noteGraphicDurationAsMsrString () <<
-              "\"" <<
-              endl;
+            setw (fieldWidth) <<
+            "noteGraphicDurationAsMsrString" << " = \"" <<
+            noteGraphicDurationAsMsrString () <<
+            "\"" <<
+            endl;
         }
         break;
         
@@ -6469,26 +6465,25 @@ void msrNote::print (ostream& os)
 
           os << left <<
           /* JMI
-            idtr << setw (fieldWidth) <<
-              "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
-              fNoteTupletNoteGraphicDurationAsMsrString <<
-              "\"" <<
-              endl <<
-              */
-            idtr << setw (fieldWidth) <<
-              "noteTupletNoteSoundingWholeNotes" << " = \"" <<
-              wholeNotesAsMsrString (
-                fInputLineNumber,
-                getNoteTupletUplink ()->
-                  getTupletSoundingWholeNotes ()) <<
-              "\"" <<
+            setw (fieldWidth) <<
+            "noteTupletNoteGraphicDurationAsMsrString" << " = \"" <<
+            fNoteTupletNoteGraphicDurationAsMsrString <<
+            "\"" <<
             endl <<
-      
-            idtr << setw (fieldWidth) <<
-              "noteGraphicDurationAsMsrString" << " = \"" <<
-              noteGraphicDurationAsMsrString () <<
-              "\"" <<
-              endl;
+              */
+            setw (fieldWidth) <<
+            "noteTupletNoteSoundingWholeNotes" << " = \"" <<
+            wholeNotesAsMsrString (
+              fInputLineNumber,
+              getNoteTupletUplink ()->
+                getTupletSoundingWholeNotes ()) <<
+            "\"" <<
+            endl <<
+            setw (fieldWidth) <<
+            "noteGraphicDurationAsMsrString" << " = \"" <<
+            noteGraphicDurationAsMsrString () <<
+            "\"" <<
+            endl;
         }
         break;
       } // switch
