@@ -664,7 +664,7 @@ R"(Generate the '\midi' block as a comment instead of active code.)",
     set<string>::const_iterator i=fLilypondAccidentalStyles.begin();
     i!=fLilypondAccidentalStyles.end();
     i++) {
-      cout << (*i) << endl;
+      cerr << (*i) << endl;
   } // for
   */
 }

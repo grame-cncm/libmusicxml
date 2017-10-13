@@ -208,11 +208,16 @@ S_msrScore buildMSRFromElementsTree (
 {
   clock_t startClock = clock();
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      cerr, idtr);
+  
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
   
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
       idtr <<
         separator <<
@@ -225,7 +230,7 @@ S_msrScore buildMSRFromElementsTree (
   
     idtr--;
   
-    cerr <<
+    logIndentedOutputStream <<
       idtr <<
         separator <<
         endl <<
@@ -233,12 +238,15 @@ S_msrScore buildMSRFromElementsTree (
   }
   
   // create an musicXMLTree2MsrTranslator
-  musicXMLTree2MsrTranslator translator;
+  musicXMLTree2MsrTranslator
+    translator (
+      logIndentedOutputStream);
 
   // build the MSR score
   S_msrScore
     mScore =
-      translator.buildMsrScoreFromXMLElementTree (xmlTree);
+      translator.buildMsrScoreFromXMLElementTree (
+        xmlTree);
 
   clock_t endClock = clock();
 

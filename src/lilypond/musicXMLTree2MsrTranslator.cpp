@@ -99,7 +99,9 @@ void musicXMLTree2MsrTranslator::initializeNoteData ()
 // JMI  fCurrentNoteSyllableExtendKind = k_NoSyllableExtend;
 }
 
-musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator ()
+musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator (
+  indentedOutputStream& ios)
+  : fLogOutputStream (ios)
 {
   // initialize note data to a neutral state
   initializeNoteData ();
