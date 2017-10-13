@@ -87,7 +87,7 @@ namespace MusicXML2
 \
     message << \
     endl << endl << \
-    idtr; \
+    gIdtr; \
 \
   if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
     assert(false); \
@@ -110,7 +110,7 @@ namespace MusicXML2
 \
     message << \
     endl << endl << \
-    idtr; \
+    gIdtr; \
 \
   assert(false); \
 }
@@ -132,7 +132,7 @@ namespace MusicXML2
 \
     message << \
     endl << endl << \
-    idtr; \
+    gIdtr; \
 }
 
 

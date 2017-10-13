@@ -34,11 +34,6 @@ using namespace std;
 
 using namespace MusicXML2;
 
-
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 #define TRACE_OPTIONS 0
 
 //_______________________________________________________________________________
@@ -61,7 +56,7 @@ S_xml2lilypondOptionsHandler optionsHandler,
       "Options values:" <<
       endl;
 
-    idtr++;
+    gIdtr++;
     
     optionsHandler->
       printOptionsValues (
@@ -70,7 +65,7 @@ S_xml2lilypondOptionsHandler optionsHandler,
     logIndentedOutputStream <<
       endl;
 
-    idtr--;
+    gIdtr--;
   }
   
   return argumentsVector;
@@ -89,7 +84,7 @@ int main (int argc, char *argv[])
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      cerr, idtr);
+      cerr, gIdtr);
     
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
@@ -180,18 +175,18 @@ int main (int argc, char *argv[])
       "The command line is:" <<
       endl;
 
-    idtr++;
+    gIdtr++;
     
     logIndentedOutputStream <<
       optionsHandler->
         getCommandLineWithLongOptions () <<
       endl;
 
-    idtr--;
+    gIdtr--;
     logIndentedOutputStream <<
     "or:" <<
     endl;
-    idtr++;
+    gIdtr++;
     
     logIndentedOutputStream <<
       optionsHandler->
@@ -199,7 +194,7 @@ int main (int argc, char *argv[])
       endl <<
       endl;
 
-    idtr--;
+    gIdtr--;
   }
 
   // print the chosen LilyPond options

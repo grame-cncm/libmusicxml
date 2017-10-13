@@ -23,10 +23,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 S_lilypondOptions gLilypondOptions;
 S_lilypondOptions gLilypondOptionsUserChoices;
@@ -835,281 +831,281 @@ string lilypondOptions::scoreNotationKindAsString (
 
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 {
-  cerr << idtr <<
+  cerr << gIdtr <<
     "The LilyPond options are:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
   
   // time
   // --------------------------------------
   cerr <<
-    idtr << "Time:" <<
+    gIdtr << "Time:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "numericalTime" << " : " <<
+    gIdtr << setw (fieldWidth) << "numericalTime" << " : " <<
       booleanAsString (fNumericalTime) <<
       endl;
 
-  idtr--;
+  gIdtr--;
   
   // notes
   // --------------------------------------
   cerr <<
-    idtr << "Notes:" <<
+    gIdtr << "Notes:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "absoluteOctaves" << " : " <<
+    gIdtr << setw (fieldWidth) << "absoluteOctaves" << " : " <<
       booleanAsString (fAbsoluteOctaves) <<
       endl <<
     
-    idtr << setw (fieldWidth) << "allDurations" << " : " <<
+    gIdtr << setw (fieldWidth) << "allDurations" << " : " <<
       booleanAsString (fAllDurations) <<
       endl <<
     
-    idtr << setw (fieldWidth) << "stems" << " : " <<
+    gIdtr << setw (fieldWidth) << "stems" << " : " <<
       booleanAsString (fStems) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "noAutoBeaming" << " : " <<
+    gIdtr << setw (fieldWidth) << "noAutoBeaming" << " : " <<
       booleanAsString (fNoAutoBeaming) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "romanStringNumbers" << " : " <<
+    gIdtr << setw (fieldWidth) << "romanStringNumbers" << " : " <<
       booleanAsString (fRomanStringNumbers) <<
       endl <<
       
-    idtr << setw (fieldWidth) << "avoidOpenString" << " : " <<
+    gIdtr << setw (fieldWidth) << "avoidOpenString" << " : " <<
       booleanAsString (fAvoidOpenStrings) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "accidentalStyle" << " : " <<
+    gIdtr << setw (fieldWidth) << "accidentalStyle" << " : " <<
       fAccidentalStyle <<
       endl <<
     
-    idtr << setw (fieldWidth) << "compressMultiMeasureRests" << " : " <<
+    gIdtr << setw (fieldWidth) << "compressMultiMeasureRests" << " : " <<
       booleanAsString (fCompressMultiMeasureRests) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "inputLineNumbers" << " : " <<
+    gIdtr << setw (fieldWidth) << "inputLineNumbers" << " : " <<
       booleanAsString (fNoteInputLineNumbers) <<
       endl;
 
-  idtr--;
+  gIdtr--;
   
   // bars
   // --------------------------------------
   cerr <<
-    idtr << "Bars:" <<
+    gIdtr << "Bars:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "showAllBarNumbers" << " : " <<
+    gIdtr << setw (fieldWidth) << "showAllBarNumbers" << " : " <<
       booleanAsString (fShowAllBarNumbers) <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // line breaks
   // --------------------------------------
   cerr <<
-    idtr << "Line breaks:" <<
+    gIdtr << "Line breaks:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
+    gIdtr << setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
       booleanAsString (fIgnoreLineBreaks) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
+    gIdtr << setw (fieldWidth) << "breakLinesAtIncompleteRightMeasures" << " : " <<
       booleanAsString (fBreakLinesAtIncompleteRightMeasures) <<
       endl <<
     
-    idtr << setw (fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
+    gIdtr << setw (fieldWidth) << "separatorLineEveryNMeasures" << " : " <<
       booleanAsString (fSeparatorLineEveryNMeasures) <<
       endl;
 
-  idtr--;
+  gIdtr--;
   
   // page breaks
   // --------------------------------------
   cerr <<
-    idtr << "Page breaks:" <<
+    gIdtr << "Page breaks:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "ignorePageBreaks" << " : " <<
+    gIdtr << setw (fieldWidth) << "ignorePageBreaks" << " : " <<
       booleanAsString (fIgnorePageBreaks) <<
       endl;
 
-  idtr--;
+  gIdtr--;
   
   // staves
   // --------------------------------------
   cerr <<
-    idtr << "Staves:" <<
+    gIdtr << "Staves:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "modernTab" << " : " <<
+    gIdtr << setw (fieldWidth) << "modernTab" << " : " <<
       booleanAsString (fModernTab) <<
       endl;
 
-  idtr--;
+  gIdtr--;
   
   // tuplets
   // --------------------------------------
 
   cerr <<
-    idtr << "Tuplets:" <<
+    gIdtr << "Tuplets:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "tupletsOnALine" << " : " <<
+    gIdtr << setw (fieldWidth) << "tupletsOnALine" << " : " <<
       booleanAsString (fTupletsOnALine) <<
       endl;
     
-  idtr--;
+  gIdtr--;
 
   // repeats
   // --------------------------------------
 
   cerr <<
-    idtr << "Repeats:" <<
+    gIdtr << "Repeats:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "repeatBrackets" << " : " <<
+    gIdtr << setw (fieldWidth) << "repeatBrackets" << " : " <<
       booleanAsString (fRepeatBrackets) <<
       endl;
     
-  idtr--;
+  gIdtr--;
 
   // ornaments
   // --------------------------------------
 
   cerr <<
-    idtr << "Ornaments:" <<
+    gIdtr << "Ornaments:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
+    gIdtr << setw (fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
       fDelayedOrnamentsFraction <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // fonts
   // --------------------------------------
 
   cerr <<
-    idtr << "Fonts:" <<
+    gIdtr << "Fonts:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "jazzFonts" << " : " <<
+    gIdtr << setw (fieldWidth) << "jazzFonts" << " : " <<
       booleanAsString (fJazzFonts) <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // code generation
   // --------------------------------------
 
   cerr <<
-    idtr << "LilyPond code generation:" <<
+    gIdtr << "LilyPond code generation:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "comments" << " : " <<
+    gIdtr << setw (fieldWidth) << "comments" << " : " <<
       booleanAsString (fComments) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "global" << " : " <<
+    gIdtr << setw (fieldWidth) << "global" << " : " <<
       booleanAsString (fGlobal) <<
       endl <<
     
-    idtr << setw (fieldWidth) << "noLilypondCode" << " : " <<
+    gIdtr << setw (fieldWidth) << "noLilypondCode" << " : " <<
       booleanAsString (fNoLilypondCode) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "noLilypondLyrics" << " : " <<
+    gIdtr << setw (fieldWidth) << "noLilypondLyrics" << " : " <<
       booleanAsString (fNoLilypondLyrics) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "lilypondCompileDate" << " : " <<
+    gIdtr << setw (fieldWidth) << "lilypondCompileDate" << " : " <<
       booleanAsString (fLilypondCompileDate) <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // score notation
   // --------------------------------------
     
   cerr <<
-    idtr << "Score notation:" <<
+    gIdtr << "Score notation:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
 /*
   cerr <<
-    idtr << setw (fieldWidth) << "scoreNotationKind" << " : " <<
+    gIdtr << setw (fieldWidth) << "scoreNotationKind" << " : " <<
       scoreNotationKindAsString (
         fScoreNotationKind) <<
       endl;
 */
-  idtr--;
+  gIdtr--;
   
   // midi
   // --------------------------------------
   cerr <<
-    idtr << "Midi:" <<
+    gIdtr << "Midi:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "midiTempoDuration" << " : " <<
+    gIdtr << setw (fieldWidth) << "midiTempoDuration" << " : " <<
  //     fMidiTempoDuration <<
       endl <<
 
-    idtr << setw (fieldWidth) << "midiTempoPerSecond" << " : " <<
+    gIdtr << setw (fieldWidth) << "midiTempoPerSecond" << " : " <<
   //    fMidiTempoPerSecond <<
       endl <<
 
-    idtr << setw (fieldWidth) << "noMidiCommand" << " : " <<
+    gIdtr << setw (fieldWidth) << "noMidiCommand" << " : " <<
       booleanAsString (fNoMidi) <<
       endl;
 
-  idtr--;
+  gIdtr--;
   
 
-  idtr--;
+  gIdtr--;
 }
 
 ostream& operator<< (ostream& os, const S_lilypondOptions& elt)

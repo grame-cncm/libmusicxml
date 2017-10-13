@@ -23,10 +23,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 S_lpsrOptions gLpsrOptions;
 S_lpsrOptions gLpsrOptionsUserChoices;
@@ -133,12 +129,12 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
         " known LPSR pitches languages are:" <<
         endl;
   
-      idtr++;
+      gIdtr++;
     
       s <<
         existingQuarterTonesPitchesLanguages ();
   
-      idtr--;
+      gIdtr--;
   
       optionError (s.str ());
     }
@@ -254,68 +250,68 @@ bool lpsrOptions::setLpsrChordsLanguage (string language)
 
 void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 {
-  cerr << idtr <<
+  cerr << gIdtr <<
     "The LPSR options are:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
   
   // trace and display
   // --------------------------------------
   cerr <<
-    idtr << "Trace and display:" <<
+    gIdtr << "Trace and display:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
   
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceLpsr" << " : " <<
       booleanAsString (fTraceLpsr) <<
       endl <<
     
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceLpsrVisitors" << " : " <<
       booleanAsString (fTraceLpsrVisitors) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "displayLpsr" << " : " <<
+    gIdtr << setw (fieldWidth) << "displayLpsr" << " : " <<
       booleanAsString (fDisplayLpsr) <<
       endl <<
       
     // Scheme functions
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceSchemeFunctions" << " : " <<
       booleanAsString (fTraceSchemeFunctions) <<
       endl;
 
-  idtr--;
+  gIdtr--;
   
   // languages
   // --------------------------------------
   cerr <<
-    idtr << "Languages:" <<
+    gIdtr << "Languages:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
+    gIdtr << setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
       msrQuarterTonesPitchesLanguageAsString (
         fLpsrQuarterTonesPitchesLanguage) <<
         "\"" <<
       endl <<
 
-    idtr << setw (fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
+    gIdtr << setw (fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
       lpsrChordsLanguageAsString (
         fLpsrChordsLanguage) <<
         "\"" <<
       endl;  
 
-  idtr--;
+  gIdtr--;
 
   
-  idtr--;
+  gIdtr--;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrOptions& elt)

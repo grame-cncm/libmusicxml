@@ -31,10 +31,6 @@ using namespace std;
 namespace MusicXML2
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //________________________________________________________________________
 msr2LpsrTranslator::msr2LpsrTranslator (
   indentedOutputStream& ios,
@@ -198,7 +194,7 @@ void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   fOnGoingIdentification = true;
 }
@@ -207,7 +203,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 {
   fOnGoingIdentification = false;
   
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -226,7 +222,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // get LPSR score paper
   S_lpsrPaper
@@ -302,7 +298,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 {  
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -540,7 +536,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // create a part clone
   fCurrentPartClone =
@@ -586,7 +582,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -693,7 +689,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   switch (elt->getStaffKind ()) {
     case msrStaff::kMasterStaff:
@@ -960,7 +956,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -1008,7 +1004,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-  idtr++;
+  gIdtr++;
 
   switch (elt->getVoiceKind ()) {
     
@@ -1212,7 +1208,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -1693,7 +1689,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
 //  if (elt->getStanzaTextPresent ()) { // JMI
     fCurrentStanzaClone =
@@ -1716,7 +1712,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 {
-  idtr--;
+  gIdtr--;
   
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -3551,7 +3547,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeat& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // JMI
 }
@@ -3564,7 +3560,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
   
   // create the measure repeat clone
   S_msrMeasureRepeat
@@ -3655,7 +3651,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // create a measure repeat pattern clone
   fCurrentMeasureRepeatPatternClone =
@@ -3671,7 +3667,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 
   // forget about the current measure repeat pattern clone
   fCurrentMeasureRepeatPatternClone = 0;
@@ -3686,7 +3682,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // create a measure repeat replicas clone
   fCurrentMeasureRepeatReplicasClone =
@@ -3702,7 +3698,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 
   // forget about the current measure repeat replicas clone
   fCurrentMeasureRepeatReplicasClone = 0;
@@ -3768,7 +3764,7 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // create a new last segment to collect the multiple rest contents
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -3790,7 +3786,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 
   // create a multiple rest contents clone
   fCurrentMultipleRestContentsClone =
@@ -4138,12 +4134,12 @@ void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<

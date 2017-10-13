@@ -35,9 +35,6 @@ using namespace std;
 
 namespace MusicXML2 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
 
 #define TRACE_MSR_BASIC_TYPES 0
 
@@ -959,24 +956,24 @@ void initializeChordIntervalsMap ()
 
 void printChordIntervalsMap ()
 {
-  cerr << idtr <<
+  cerr << gIdtr <<
     "Harmonies chord intervals:" <<
     " (" << gChordIntervalsMap.size () << ")" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
     msrHarmonyKind
       harmonyKind =
         msrHarmonyKind (i);
 
-    cerr << idtr <<
+    cerr << gIdtr <<
 // JMI      "i:" << i << " " <<
       harmonyKindAsString (harmonyKind) << ":" <<
       endl;
 
-    idtr++;
+    gIdtr++;
     
     S_msrChordIntervals
       chordIntervals =
@@ -988,18 +985,18 @@ void printChordIntervalsMap ()
         endl;
     }
     else {
-      cerr << idtr <<
+      cerr << gIdtr <<
         "no intervals" <<
         endl;
     }
 
-    idtr--;
+    gIdtr--;
     
     cerr <<
       endl;
   } // for
 
-  idtr--;
+  gIdtr--;
 
   cerr <<
     endl;
@@ -3693,7 +3690,7 @@ msrChordItem::msrChordItem (
   fChordItemInterval = chordItemInterval;
 
   if (TRACE_MSR_BASIC_TYPES) {
-    cerr << idtr <<
+    cerr << gIdtr <<
       "==> Creating chord item '" <<
       chordItemAsString () <<
       "'" <<
@@ -3709,7 +3706,7 @@ S_msrChordItem msrChordItem::createHarmonyNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    cerr << idtr <<
+    cerr << gIdtr <<
       "==> Creating a newborn clone of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -3736,7 +3733,7 @@ S_msrChordItem msrChordItem::createHarmonyDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    cerr << idtr <<
+    cerr << gIdtr <<
       "==> Creating a deep copy of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -3775,7 +3772,7 @@ string msrChordItem::chordItemAsString () const
 /* JMI
 void msrChordItem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
+    cerr << gIdtr <<
       "% ==> msrChordItem::acceptIn()" <<
       endl;
       
@@ -3785,7 +3782,7 @@ void msrChordItem::acceptIn (basevisitor* v) {
         S_msrChordItem elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
+          cerr << gIdtr <<
             "% ==> Launching msrChordItem::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3794,7 +3791,7 @@ void msrChordItem::acceptIn (basevisitor* v) {
 
 void msrChordItem::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
+    cerr << gIdtr <<
       "% ==> msrChordItem::acceptOut()" <<
       endl;
 
@@ -3804,7 +3801,7 @@ void msrChordItem::acceptOut (basevisitor* v) {
         S_msrChordItem elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
+          cerr << gIdtr <<
             "% ==> Launching msrChordItem::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3857,7 +3854,7 @@ msrChordIntervals::msrChordIntervals (
   fChordIntervalsHarmonyKind = chordIntervalsHarmonyKind;
 
   if (TRACE_MSR_BASIC_TYPES) {
-    cerr << idtr <<
+    cerr << gIdtr <<
       "==> Creating chord intervals '" <<
       chordIntervalsAsString () <<
       "'" <<
@@ -3897,11 +3894,11 @@ void msrChordIntervals::initializeChordIntervals ()
 /* JMI
         cerr <<
           endl <<
-          idtr << "*****************" <<
+          gIdtr << "*****************" <<
           endl <<
-          idtr << "msrChordIntervals::initializeChordIntervals(), this =" <<
+          gIdtr << "msrChordIntervals::initializeChordIntervals(), this =" <<
           endl <<
-          idtr;
+          gIdtr;
         print (cerr);
         cerr <<
           endl;
@@ -4844,7 +4841,7 @@ S_msrChordIntervals msrChordIntervals::createHarmonyNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    cerr << idtr <<
+    cerr << gIdtr <<
       "==> Creating a newborn clone of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -4871,7 +4868,7 @@ S_msrChordIntervals msrChordIntervals::createHarmonyDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    cerr << idtr <<
+    cerr << gIdtr <<
       "==> Creating a deep copy of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -4913,7 +4910,7 @@ string msrChordIntervals::chordIntervalsAsString () const
 /* JMI
 void msrChordIntervals::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
+    cerr << gIdtr <<
       "% ==> msrChordIntervals::acceptIn()" <<
       endl;
       
@@ -4923,7 +4920,7 @@ void msrChordIntervals::acceptIn (basevisitor* v) {
         S_msrChordIntervals elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
+          cerr << gIdtr <<
             "% ==> Launching msrChordIntervals::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -4932,7 +4929,7 @@ void msrChordIntervals::acceptIn (basevisitor* v) {
 
 void msrChordIntervals::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    cerr << idtr <<
+    cerr << gIdtr <<
       "% ==> msrChordIntervals::acceptOut()" <<
       endl;
 
@@ -4942,7 +4939,7 @@ void msrChordIntervals::acceptOut (basevisitor* v) {
         S_msrChordIntervals elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          cerr << idtr <<
+          cerr << gIdtr <<
             "% ==> Launching msrChordIntervals::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -4961,7 +4958,7 @@ ostream& operator<< (ostream& os, const S_msrChordIntervals& elt)
 
 void msrChordIntervals::print (ostream& os)
 {  
-  os << idtr <<
+  os << gIdtr <<
     "ChordIntervals" <<
     ", harmonyKind: " <<
     harmonyKindAsString (fChordIntervalsHarmonyKind) <<
@@ -4979,13 +4976,13 @@ void msrChordIntervals::print (ostream& os)
         chordItem =
           fChordIntervalsItems [i];
 
-      cerr << idtr <<
+      cerr << gIdtr <<
         chordItem->chordItemAsString () <<
         endl;
     } // for
   }
   else {
-    cerr << idtr <<
+    cerr << gIdtr <<
       "no intervals" <<
       endl;
   }

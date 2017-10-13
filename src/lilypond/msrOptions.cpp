@@ -24,10 +24,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 S_msrOptions gMsrOptions;
 S_msrOptions gMsrOptionsUserChoices;
@@ -135,12 +131,12 @@ This implies that no LilyPond code is generated.)",
         " known MSR pitches languages are:" <<
         endl;
   
-      idtr++;
+      gIdtr++;
     
       s <<
         existingQuarterTonesPitchesLanguages ();
   
-      idtr--;
+      gIdtr--;
   
       optionError (s.str ());
     }
@@ -550,71 +546,71 @@ bool msrOptions::setMsrQuarterTonesPitchesLanguage (string language)
 
 void msrOptions::printMsrOptionsValues (int fieldWidth)
 {
-  cerr << idtr <<
+  cerr << gIdtr <<
     "The MSR options are:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
   
   // trace and display
   // --------------------------------------
   
   cerr <<
-    idtr << "Trace and display:" <<
+    gIdtr << "Trace and display:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
   
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceMsr" << " : " <<
       booleanAsString (fTraceMsr) <<
       endl <<
     
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceMsrVisitors" << " : " <<
       booleanAsString (fTraceMsrVisitors) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "displayMsr" << " : " <<
+    gIdtr << setw (fieldWidth) << "displayMsr" << " : " <<
       booleanAsString (fDisplayMsr) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "displayMsrSummary" << " : " <<
+    gIdtr << setw (fieldWidth) << "displayMsrSummary" << " : " <<
       booleanAsString (fDisplayMsrSummary) <<
       endl;    
 
-  idtr--;
+  gIdtr--;
 
   // languages
   // --------------------------------------
   
   cerr <<
-    idtr << "Languages:" <<
+    gIdtr << "Languages:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
+    gIdtr << setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
       msrQuarterTonesPitchesLanguageAsString (
         fMsrQuarterTonesPitchesLanguage) <<
         "\"" <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // parts
   // --------------------------------------
   
   cerr <<
-    idtr << "Parts:" <<
+    gIdtr << "Parts:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "parts renaming" << " : ";
+    gIdtr << setw (fieldWidth) << "parts renaming" << " : ";
 
   if (fPartsRenamingMap.empty ()) {
     cerr <<
@@ -635,125 +631,125 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   cerr <<
     endl;
 
-  idtr--;
+  gIdtr--;
 
   // voices
   // --------------------------------------
   
   cerr <<
-    idtr << "Voices:" <<
+    gIdtr << "Voices:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) <<
+    gIdtr << setw (fieldWidth) <<
       "createVoicesStaffRelativeNumbers" << " : " <<
       booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
       endl <<
     
-    idtr << setw (fieldWidth) <<
+    gIdtr << setw (fieldWidth) <<
     "showSilentVoices" << " : " <<
       booleanAsString (fShowSilentVoices) <<
       endl <<
-    idtr << setw (fieldWidth) <<
+    gIdtr << setw (fieldWidth) <<
       "keepSilentVoices" << " : " <<
       booleanAsString (fKeepSilentVoices) <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // notes
   // --------------------------------------
   
   cerr <<
-    idtr << "Notes:" <<
+    gIdtr << "Notes:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<    
-    idtr << setw (fieldWidth) << "delayRestsDynamics" << " : " <<
+    gIdtr << setw (fieldWidth) << "delayRestsDynamics" << " : " <<
       booleanAsString (fDelayRestsDynamics) <<
       endl <<
       
-    idtr << setw (fieldWidth) << "delayRestsWords" << " : " <<
+    gIdtr << setw (fieldWidth) << "delayRestsWords" << " : " <<
       booleanAsString (fDelayRestsWords) <<
       endl <<
       
-    idtr << setw (fieldWidth) << "delayRestsSlurs" << " : " <<
+    gIdtr << setw (fieldWidth) << "delayRestsSlurs" << " : " <<
       booleanAsString (fDelayRestsSlurs) <<
       endl <<
       
-    idtr << setw (fieldWidth) << "delayRestsLigatures" << " : " <<
+    gIdtr << setw (fieldWidth) << "delayRestsLigatures" << " : " <<
       booleanAsString (fDelayRestsLigatures) <<
       endl <<
       
-    idtr << setw (fieldWidth) << "delayRestsWedges" << " : " <<
+    gIdtr << setw (fieldWidth) << "delayRestsWedges" << " : " <<
       booleanAsString (fDelayRestsWedges) <<
       endl;
 
-  idtr--;
+  gIdtr--;
    
   // lyrics
   // --------------------------------------
   
   cerr <<
-    idtr << "Lyrics:" <<
+    gIdtr << "Lyrics:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr << setw (fieldWidth) << "showMsrStanzas" << " : " <<
+    gIdtr << setw (fieldWidth) << "showMsrStanzas" << " : " <<
       booleanAsString (fShowMsrStanzas) <<
       endl <<
 
-    idtr << setw (fieldWidth) << "keepMuteStanzas" << " : " <<
+    gIdtr << setw (fieldWidth) << "keepMuteStanzas" << " : " <<
       booleanAsString (fKeepMuteStanzas) <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // harmonies
   // --------------------------------------
   
   cerr <<
-    idtr << "Harmonies:" <<
+    gIdtr << "Harmonies:" <<
     endl;
 
-  idtr++;    
+  gIdtr++;    
 
   cerr <<
-    idtr << setw (fieldWidth) << "showHarmonyVoices" << " : " <<
+    gIdtr << setw (fieldWidth) << "showHarmonyVoices" << " : " <<
       booleanAsString (fShowHarmonyVoices) <<
       endl <<
-    idtr << setw (fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
+    gIdtr << setw (fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
       booleanAsString (fKeepEmptyHarmonyVoices) <<
       endl;
   
-  idtr--;
+  gIdtr--;
   
   // figured bass
   // --------------------------------------
   
   cerr <<
-    idtr << "Figured bass:" <<
+    gIdtr << "Figured bass:" <<
     endl;
 
-  idtr++;    
+  gIdtr++;    
 
   cerr <<
-    idtr << setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
+    gIdtr << setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
       booleanAsString (fShowFiguredBassVoices) <<
       endl <<
-    idtr << setw (fieldWidth) << "keepEmptyFiguredBassVoices" << " : " <<
+    gIdtr << setw (fieldWidth) << "keepEmptyFiguredBassVoices" << " : " <<
       booleanAsString (fKeepEmptyFiguredBassVoices) <<
       endl;
   
-  idtr--;
+  gIdtr--;
   
-  idtr--;
+  gIdtr--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptions& elt)

@@ -28,10 +28,6 @@ using namespace std;
 namespace MusicXML2
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 // for comments highlighting in the generated Lilypond code
 const int commentFieldWidth = 30;
 
@@ -2153,7 +2149,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
     "\\header" << " {" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   fOnGoingHeader = true;
 }
@@ -2162,7 +2158,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrHeader& elt)
 {
   fOnGoingHeader = false;
 
-  idtr--;
+  gIdtr--;
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondOutputStream <<
@@ -2188,7 +2184,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     "\\paper" << " {" <<
     endl;
 
-  idtr++;
+  gIdtr++;
   
   const int fieldWidth = 20;
 
@@ -2402,7 +2398,7 @@ R"(
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondOutputStream <<
@@ -2428,7 +2424,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
     "\\layout" << " {" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
@@ -2444,7 +2440,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
       "\\context " "{" <<
       endl;
     
-    idtr++;
+    gIdtr++;
 
     fLilypondOutputStream <<
       "\\Score" <<
@@ -2458,7 +2454,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
       "doubleRepeatType = #\":|][|:\"" <<
       endl;
 
-    idtr--;
+    gIdtr--;
         
     fLilypondOutputStream <<
       "}" <<
@@ -2470,7 +2466,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
       "\\context {" <<
       endl;
   
-    idtr++;
+    gIdtr++;
   
     fLilypondOutputStream <<
       "\\Staff" <<
@@ -2478,14 +2474,14 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
       "\\consists \"Span_arpeggio_engraver\"" <<
       endl;
 
-    idtr--;
+    gIdtr--;
 
     fLilypondOutputStream <<
       "}" <<
       endl;
   }
     
-  idtr--;
+  gIdtr--;
 
   fLilypondOutputStream <<
     "}" <<
@@ -2506,14 +2502,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
     "\\score {" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 /* JMI
   if (elt->getScoreBlockElements ().size()) {
     fLilypondOutputStream <<
       "<<" <<
       endl;
   
-    idtr++;
+    gIdtr++;
   }
 */
   fOnGoingScoreBlock = true;
@@ -2529,7 +2525,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
 
 /* JMI
   if (elt->getScoreBlockElements ().size()) {
-    idtr--;
+    gIdtr--;
     
     fLilypondOutputStream <<
       ">>" <<
@@ -2537,7 +2533,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
       * endl;
   }
 */
-  idtr--;
+  gIdtr--;
   
   fLilypondOutputStream <<
     "}" <<
@@ -2571,7 +2567,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusic& elt)
     fLilypondOutputStream <<
       endl;
   
-    idtr++;
+    gIdtr++;
   }
 }
 
@@ -2584,7 +2580,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
   }
 
   if (elt->getParallelMusicElements ().size()) { // JMI
-    idtr--;
+    gIdtr--;
     
     if (gLilypondOptions->fComments) {
       fLilypondOutputStream << left <<
@@ -2701,18 +2697,18 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         endl;
   
     if (partGroupSymbolKind == msrPartGroup::kSquarePartGroupSymbol) {
-      idtr++;
+      gIdtr++;
       fLilypondOutputStream <<
         "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
         endl;
-      idtr--;
+      gIdtr--;
     }
        
   fLilypondOutputStream <<
     endl;
 
   if (elt->getPartGroupBlockElements ().size () > 1)
-    idtr++;
+    gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
@@ -2729,7 +2725,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
       elt->getPartGroup ();
       
   if (elt->getPartGroupBlockElements ().size () > 1)
-    idtr--;
+    gIdtr--;
 
   // don't generate code for a for the top-most part group block
   if (partGroup->getPartGroupPartGroupUplink ()) {
@@ -2789,7 +2785,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     fLilypondOutputStream <<
       endl;
     
-    idtr++;
+    gIdtr++;
 
     if (partName.size ()) {
       fLilypondOutputStream <<
@@ -2836,7 +2832,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
   if (part->getPartStavesMap ().size () > 1) {
     // don't generate code for a part with only one stave
 
-    idtr--;
+    gIdtr--;
   
     if (gLilypondOptions->fComments) {
       fLilypondOutputStream << left <<
@@ -2920,7 +2916,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   fLilypondOutputStream <<
     endl;
  
-  idtr++;
+  gIdtr++;
 
 /* JMI
   // fetch part
@@ -2960,7 +2956,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 
   if (gLilypondOptions->fComments) {
     fLilypondOutputStream << left <<
@@ -2992,7 +2988,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewStaffgroupBlock& elt)
      "\\new StaffGroup" << " " << "{" <<
       endl;
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
@@ -3003,7 +2999,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 
   fLilypondOutputStream <<
     " }" <<
@@ -3019,7 +3015,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewStaffBlock& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
@@ -3030,7 +3026,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 }
 */
 
@@ -3095,7 +3091,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       voice->getVoiceName () << "\"" << " <<" <<
        endl;
   
-    idtr++;
+    gIdtr++;
   
     if (gLilypondOptions->fNoAutoBeaming)
       fLilypondOutputStream <<
@@ -3133,7 +3129,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
     fLilypondOutputStream <<
       "\\" << voice->getVoiceName () << endl;
   
-    idtr--;
+    gIdtr--;
     
     fLilypondOutputStream <<
       ">>" <<
@@ -3164,7 +3160,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "\\new Lyrics" <<
       endl;
 
-    idtr++;
+    gIdtr++;
     
     fLilypondOutputStream <<
       /* JMI
@@ -3180,7 +3176,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
       "\\" << elt->getStanza ()->getStanzaName () <<
       endl;
 
-    idtr--;
+    gIdtr--;
   }
 }
 
@@ -3206,7 +3202,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVariableUseCommand& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
@@ -3217,7 +3213,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 }
 
 //________________________________________________________________________
@@ -3245,7 +3241,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
       "\\with {" <<
       endl;
 
-    idtr++;
+    gIdtr++;
     
     fLilypondOutputStream <<
       "\\override BarLine.bar-extent = #'(-2 . 2)" <<
@@ -3253,7 +3249,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
       "\\consists \"Bar_engraver\"" <<
       endl;
         
-    idtr--;
+    gIdtr--;
         
     fLilypondOutputStream <<
       "}" <<
@@ -3284,7 +3280,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBarCommand& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
@@ -3295,7 +3291,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 }
 
 //________________________________________________________________________
@@ -3588,7 +3584,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       break;
   } // switch
 
-  idtr++;
+  gIdtr++;
 
   if (gLilypondOptions->fGlobal) {
     fLilypondOutputStream <<
@@ -3602,7 +3598,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       "\\displayMusic {" <<
       endl;
 
-    idtr++;
+    gIdtr++;
   }
     
   fLilypondOutputStream <<
@@ -3682,7 +3678,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
 void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondOutputStream <<
@@ -3697,7 +3693,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       "}" <<
       endl;
 
-    idtr--;
+    gIdtr--;
   }
     
   // generate the end of the voice definition
@@ -3812,7 +3808,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
     // indent before the fist harmony of the msrSegment if needed
     if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
       fLilypondOutputStream <<
-        idtr;
+        gIdtr;
 
     fLilypondOutputStream <<
       harmonyAsLilypondString (elt) <<
@@ -4020,7 +4016,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegment& elt)
       "% start of segment" <<
       endl;
 
-    idtr++;
+    gIdtr++;
   }
 
   fSegmentNotesAndChordsCountersStack.push (0);
@@ -4036,7 +4032,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
   }
 
   if (gLilypondOptions->fComments) {
-    idtr--;
+    gIdtr--;
     
     fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
@@ -4088,7 +4084,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       ", line " << inputLineNumber <<
       endl;
 
-    idtr++;
+    gIdtr++;
   }
 
   // is this the end of a cadenza?
@@ -4307,7 +4303,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       fOnGoingVoiceCadenza = false;
       
 /* JMI
-      idtr--;
+      gIdtr--;
       fLilypondOutputStream <<
         "}" <<
         endl <<
@@ -4336,7 +4332,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     endl;
 
   if (gLilypondOptions->fComments) {
-    idtr--;
+    gIdtr--;
 
     fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
@@ -4385,7 +4381,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
         elt->getStanzaName () << " = " << "\\lyricmode" << " {" <<
         endl;
         
-      idtr++;
+      gIdtr++;
     }
   }
 }
@@ -4402,7 +4398,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
     if (fOngoingNonEmptyStanza) {
-      idtr--;
+      gIdtr--;
     
       fLilypondOutputStream <<
         endl <<
@@ -5517,7 +5513,7 @@ If the double element is present, it indicates that the music is doubled one oct
 
 /* JMI
   if (gGeneralOptions->fTraceTranspositions) {
-    cerr << idtr << // JMI
+    cerr << gIdtr << // JMI
       "Handlling transpose '" <<
       elt->transposeAsString () <<
       "' ignored because it is already present in voice \"" <<
@@ -5856,13 +5852,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     fLilypondOutputStream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
-      tab << "% doubleTremoloSoundingWholeNotes = " <<
+      gTab << "% doubleTremoloSoundingWholeNotes = " <<
         elt->getDoubleTremoloNumberOfRepeats () <<
         endl <<
-      tab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
+      gTab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
         fCurrentDoubleTremoloElementsLpsrDuration <<
         endl <<
-      tab << "% numberOfRepeats = " << numberOfRepeats <<
+      gTab << "% numberOfRepeats = " << numberOfRepeats <<
       endl;
   }
   
@@ -5871,7 +5867,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     " {" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
@@ -5882,7 +5878,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
   
   fLilypondOutputStream <<
     endl <<
@@ -6758,7 +6754,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
       elt->getHarpPedalsAlterationsMap ();
       
   if (harpPedalsAlterationsMap.size ()) {
-    idtr++;
+    gIdtr++;
 
     fLilypondOutputStream <<
       "_\\markup { \\harp-pedal #\"" <<
@@ -7335,7 +7331,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
 
   fTupletsStack.push (elt);
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
@@ -7346,7 +7342,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 
   if (gLilypondOptions->fTupletsOnALine) {
     fLilypondOutputStream <<
@@ -7691,7 +7687,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
@@ -7711,7 +7707,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
   if (elt->getRepeatEndings ().size() == 0) {
     // the end of the repeat has not been generated yet
 
-    idtr--;
+    gIdtr--;
 
     if (gLilypondOptions->fComments) {      
       fLilypondOutputStream << left <<
@@ -7760,7 +7756,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 
   if (elt->getRepeatEndingInternalNumber () == 1) {
     
-    idtr--;
+    gIdtr--;
     
     // first repeat ending is in charge of
     // outputting the end of the repeat
@@ -7794,7 +7790,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         endl;
     }
 
-    idtr++;
+    gIdtr++;
   }
 
   // output the start of the ending
@@ -7828,7 +7824,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       break;
   } // switch
 
-  idtr++;
+  gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
@@ -7877,7 +7873,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       ==
     fCurrentRepeatEndingsNumber) {
       
-    idtr--;
+    gIdtr--;
     
     // last repeat ending is in charge of
     // outputting the end of the alternative
@@ -7895,7 +7891,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     }
   }
 
-  idtr--;
+  gIdtr--;
 }
 
 //________________________________________________________________________
@@ -8037,7 +8033,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
      " { " <<
     endl;
 
-    idtr++;
+    gIdtr++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
@@ -8048,15 +8044,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
   
   fLilypondOutputStream <<
     endl <<
     endl <<
-    idtr <<
+    gIdtr <<
     " }" <<
     endl <<
-    idtr;
+    gIdtr;
 
   if (gLilypondOptions->fComments) {
     fLilypondOutputStream <<
@@ -8080,7 +8076,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // JMI
 }
@@ -8093,7 +8089,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 }
   
 void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
@@ -8104,7 +8100,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // JMI
 }
@@ -8117,7 +8113,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 }
 
 //________________________________________________________________________
@@ -8194,7 +8190,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
   }
     
   if (gLilypondOptions->fComments) {
-    idtr--;
+    gIdtr--;
 
     fLilypondOutputStream << left <<
       setw (commentFieldWidth) <<
@@ -8217,7 +8213,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
       endl;
   }
 
-  idtr++;
+  gIdtr++;
 
   // JMI
 }
@@ -8230,7 +8226,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestContents& elt)
       endl;
   }
 
-  idtr--;
+  gIdtr--;
 
   // JMI
 }
@@ -8249,14 +8245,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
       "%{" <<
       endl;
 
-     idtr++;
+     gIdtr++;
   }
 
   fLilypondOutputStream <<
     "\\midi" << " {" <<
     endl;
   
-  idtr++;
+  gIdtr++;
   
   if (gLilypondOptions->fNoMidi)
     fLilypondOutputStream <<
@@ -8269,14 +8265,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
     elt->getMidiTempoPerSecond () <<
     endl;
   
-  idtr--;
+  gIdtr--;
   
   fLilypondOutputStream <<
     "}" <<
     endl;
 
   if (gLilypondOptions->fNoMidi) {
-    idtr--;
+    gIdtr--;
 
     fLilypondOutputStream <<
       "%}" <<

@@ -31,10 +31,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 #define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
@@ -134,14 +130,14 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
       "xml2lilypondOptionsHandler has been initialized as:" <<
       endl;
   
-    idtr++;
+    gIdtr++;
   
     print (fLogOutputStream);
     fLogOutputStream <<
       endl <<
       endl;
     
-    idtr--;
+    gIdtr--;
   }
 
   // register options handler in itself,
@@ -178,7 +174,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
         ":" <<
         endl;
 
-      idtr++;
+      gIdtr++;
       
       for (unsigned int i = 0; i < argumentsNumber; i++) {
         fLogOutputStream <<
@@ -189,7 +185,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
       fLogOutputStream <<
         endl;
 
-      idtr--;
+      gIdtr--;
     }
     else {
       fLogOutputStream <<
@@ -302,7 +298,7 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
     "xml2lilypondOptionsHandler:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   os << left <<
     setw (fieldWidth) <<
@@ -326,7 +322,7 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os << endl;
     
-    idtr++;
+    gIdtr++;
 
     list<S_msrOptionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin(),
@@ -339,10 +335,10 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    idtr--;
+    gIdtr--;
   }
 
-  idtr--;
+  gIdtr--;
   
   os << endl;
 }

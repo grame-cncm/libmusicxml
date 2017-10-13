@@ -39,10 +39,6 @@ using namespace std;
 
 namespace MusicXML2 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 #define TRACE_LPSR_BASIC_TYPES 0
 
 //_______________________________________________________________________________
@@ -254,7 +250,7 @@ void writeNoteAsLilypondString (
         if (note->getNoteIsStemless ()) {
           os <<
             endl <<
-            idtr <<
+            gIdtr <<
             "\\stemNeutral" " "; // JMI ""\\once\\omit Stem" " ";
         }
 
@@ -296,7 +292,7 @@ void writeNoteAsLilypondString (
         if (note->getNoteIsStemless ()) {
           os <<
             endl <<
-            idtr <<
+            gIdtr <<
             "\\stemNeutral"; // JMI ""\\once\\omit Stem" " ";
         }
 
@@ -525,7 +521,7 @@ void writeNoteAsLilypondString (
       if (! gLilypondOptions->fTupletsOnALine) {
         os <<
           endl <<
-          idtr;
+          gIdtr;
       }
         
       // print the note name

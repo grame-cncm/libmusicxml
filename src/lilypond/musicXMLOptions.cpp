@@ -23,10 +23,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 
 S_musicXMLOptions gMusicXMLOptions;
@@ -153,53 +149,53 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 
 void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 {  
-  cerr << idtr <<
+  cerr << gIdtr <<
     "The MusicXML options are:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   // trace and display
   // --------------------------------------
   
   cerr <<
-    idtr << "Trace and display:" <<
+    gIdtr << "Trace and display:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
       booleanAsString (fTraceMusicXMLTreeVisitors) <<
       endl;
 
-  idtr--;
+  gIdtr--;
       
   // other
   // --------------------------------------
 
   cerr <<
-    idtr << "Other:" <<
+    gIdtr << "Other:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
       booleanAsString (fIgnoreMusicXMLErrors) <<
       endl <<
       
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "loopToMusicXML" << " : " <<
       booleanAsString (fLoopToMusicXML) <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
 
-  idtr--;
+  gIdtr--;
 }
 
 ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)

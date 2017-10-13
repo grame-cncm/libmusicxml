@@ -64,7 +64,7 @@ namespace MusicXML2
 \
     message << \
     endl << endl << \
-    idtr; \
+    gIdtr; \
 \
   assert(false); \
 }

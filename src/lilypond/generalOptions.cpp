@@ -22,10 +22,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 S_generalOptions gGeneralOptions;
 S_generalOptions gGeneralOptionsUserChoices;
@@ -791,74 +787,74 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
 
 void generalOptions::printGeneralOptionsValues (int fieldWidth)
 {  
-  cerr << idtr <<
+  cerr << gIdtr <<
     "The general options are:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   // command line
   // --------------------------------------
 
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "Command line:" <<
       endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "input source name" << " : " <<
       fInputSourceName <<
       endl <<
       
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "translation date" << " : " <<
       fTranslationDate <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // output file
   // --------------------------------------
 
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "Output file:" <<
       endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr << left <<        
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "outputFileName" << " : \"" <<
       fOutputFileName <<
       "\"" <<
       endl <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "autoOutputFile" << " : " <<
       booleanAsString (fAutoOutputFile) <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // trace and display
   // --------------------------------------
 
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "Trace and display:" <<
       endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceGeneral" << " : " <<
       booleanAsString (fTraceGeneral) <<
        endl <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceDetailedMeasureNumbersSet" << " : ";
         
     if (fTraceDetailedMeasureNumbersSet.empty ())
@@ -886,196 +882,196 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     cerr <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
   // CPU usage
   // --------------------------------------
 
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "CPU usage:" <<
       endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "displayCPUusage" << " : " <<
       booleanAsString (fDisplayCPUusage) <<
       endl;
 
-  idtr--;
+  gIdtr--;
   
   // specific trace    
   // --------------------------------------
 
   cerr << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "Specific trace:" <<
       endl;
 
-  idtr++;
+  gIdtr++;
 
   cerr << left <<
     // divisions
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceDivisions" << " : " <<
       booleanAsString (fTraceDivisions) <<
       endl <<
         
     // geometry
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceGeometry" << " : " <<
       booleanAsString (fTraceGeometry) <<
       endl <<
         
     // part groups
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "tracePartGroups" << " : " <<
       booleanAsString (fTracePartGroups) <<
       endl <<
       
     // parts
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceParts" << " : " <<
       booleanAsString (fTraceParts) <<
       endl <<
       
     // staves
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceStaves" << " : " <<
       booleanAsString (fTraceStaves) <<
       endl <<
       
     // voices
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceVoices" << " : " <<
       booleanAsString (fTraceVoices) <<
       endl <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceVoicesDetails" << " : " <<
       booleanAsString (fTraceVoicesDetails) <<
       endl <<
 
     // clefs
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceClefs" << " : " <<
       booleanAsString (fTraceClefs) <<
       endl <<
     // keys
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceKeys" << " : " <<
       booleanAsString (fTraceKeys) <<
       endl <<
     // times
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceTimes" << " : " <<
       booleanAsString (fTraceTimes) <<
       endl <<
 
     // transpositions
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceTranspositions" << " : " <<
       booleanAsString (fTraceTranspositions) <<
       endl <<
 
     // segments
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceSegments" << " : " <<
       booleanAsString (fTraceSegments) <<
       endl <<
 
     // repeats
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceRepeats" << " : " <<
       booleanAsString (fTraceRepeats) <<
       endl <<
 
     // measures
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceMeasures" << " : " <<
       booleanAsString (fTraceMeasures) <<
       endl <<
       
     // notes
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceNotes" << " : " <<
       booleanAsString (fTraceNotes) <<
       endl <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceNotesDetails" << " : " <<
       booleanAsString (fTraceNotesDetails) <<
       endl <<
 
     // beams
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceBeams" << " : " <<
       booleanAsString (fTraceBeams) <<
       endl <<
 
     // technicals
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceTechnicals" << " : " <<
       booleanAsString (fTraceTechnicals) <<
       endl <<
 
     // words
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceWords" << " : " <<
       booleanAsString (fTraceWords) <<
       endl <<
 
     // tremolos
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceTremolos" << " : " <<
       booleanAsString (fTraceTremolos) <<
       endl <<
 
     // chords
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceChords" << " : " <<
       booleanAsString (fTraceChords) <<
       endl <<
 
     // tuplets
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceTuplets" << " : " <<
       booleanAsString (fTraceTuplets) <<
       endl <<
 
     // grace notes
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceGraceNotes" << " : " <<
       booleanAsString (fTraceGraceNotes) <<
       endl <<
 
     // lyrics
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceLyrics" << " : " <<
       booleanAsString (fTraceLyrics) <<
       endl <<
       
     // harmonies
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceHarmonies" << " : " <<
       booleanAsString (fTraceHarmonies) <<
       endl <<
       
     // figured bass
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceFiguredBass" << " : " <<
       booleanAsString (fTraceFiguredBass) <<
       endl <<
       
     // credits
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "traceCredits" << " : " <<
       booleanAsString (fTraceCredits) <<
       endl;
 
-  idtr--;
+  gIdtr--;
 
-  idtr--;
+  gIdtr--;
 }
 
 ostream& operator<< (ostream& os, const S_generalOptions& elt)

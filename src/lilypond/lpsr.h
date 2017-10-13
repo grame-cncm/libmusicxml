@@ -92,7 +92,7 @@ namespace MusicXML2
     "%}" << \
     endl << \
     endl << \
-    idtr; \
+    gIdtr; \
 \
   assert(false); \
 }

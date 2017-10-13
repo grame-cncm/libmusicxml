@@ -26,10 +26,6 @@ using namespace std;
 namespace MusicXML2
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //________________________________________________________________________
 msr2SummaryVisitor::msr2SummaryVisitor (
   S_msrOptions&         msrOpts,
@@ -90,12 +86,12 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
     endl <<
     endl;
 
-  idtr++;
+  gIdtr++;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
@@ -107,7 +103,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
     "The score contains:" <<
     endl;
 
-  idtr++;
+  gIdtr++;
   
   fMsrSummaryOutputStream <<
     fScoreStandaloneNotesCounter <<" standalone notes" <<
@@ -127,7 +123,7 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
     fScoreChordsCounter << " chords" <<
     endl;
 
-  idtr--;
+  gIdtr--;
 }
 
 //________________________________________________________________________
@@ -150,7 +146,7 @@ void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
       " parts or sub part groups") <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   const int fieldWidth = 24;
   
@@ -199,7 +195,7 @@ void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrPartGroup& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
@@ -226,7 +222,7 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
       partStavesMapSize, "staff", "staves") <<
     endl;
     
-  idtr++;
+  gIdtr++;
   
   const int fieldWidth = 28;
   
@@ -262,7 +258,7 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
@@ -289,7 +285,7 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
       staffAllVoicesMapSize, "voice", "voices") <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   
   const int fieldWidth = 17;
@@ -314,7 +310,7 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
@@ -343,7 +339,7 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
       voiceStanzasMapSize, "stanza", "stanzas") <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   const int fieldWidth = 30;
   
@@ -382,7 +378,7 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 
 void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
@@ -907,7 +903,7 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
     "VarValAssoc" <<
     endl;
   
-  idtr++;
+  gIdtr++;
   
   fMsrSummaryOutputStream <<
     "variable name : " <<
@@ -918,7 +914,7 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
     endl <<
     endl;
   
-  idtr--;
+  gIdtr--;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
@@ -963,12 +959,12 @@ void msr2SummaryVisitor::visitStart (S_msrLayout& elt)
 
   fMsrSummaryOutputStream << "Layout" << endl;
 
-  idtr++;
+  gIdtr++;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrLayout& elt)
 {
-  idtr--;
+  gIdtr--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<

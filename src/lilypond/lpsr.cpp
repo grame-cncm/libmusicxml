@@ -29,10 +29,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-// useful shortcut macros
-#define idtr indenter::gIndenter
-#define tab  indenter::gIndenter.getSpacer ()
-
 //_______________________________________________________________________________
 S_lpsrElement lpsrElement::create (
   int            inputLineNumber)
@@ -191,7 +187,7 @@ void lpsrParallelMusic::print (ostream& os)
       fParallelMusicElements.size(), "element", "elements") <<
     endl;
   
-  idtr++;
+  gIdtr++;
   
   for (
     vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin();
@@ -206,7 +202,7 @@ void lpsrParallelMusic::print (ostream& os)
     os << fParallelMusicElements [i];
   } // for
 */ 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -288,7 +284,7 @@ void lpsrComment::print (ostream& os)
     "Comment" <<
     endl;
   
-  idtr++;
+  gIdtr++;
   
   os <<
     "% " << fContents <<
@@ -298,7 +294,7 @@ void lpsrComment::print (ostream& os)
     os <<
       endl;
   
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -654,7 +650,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
     "LilypondVarValAssoc" <<
     endl;
   
-  idtr++;
+  gIdtr++;
 
   // escape quotes if any
   string variableName;
@@ -669,7 +665,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
     fVariableValue.end(),
     stringQuoteEscaper (variableValue));
 
-  os << idtr;
+  os << gIdtr;
   switch (fCommentedKind) {
     case kCommented:
       os << "commented";
@@ -680,7 +676,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   } // switch
   os << endl;
 
-  os << idtr;
+  os << gIdtr;
   switch (fBackslashKind) {
     case kWithBackslash:
       os << "with backslash";
@@ -693,10 +689,10 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << "variable name: \"" << variableName << "\"" <<
+    gIdtr << "variable name: \"" << variableName << "\"" <<
     endl;
   
-  os << idtr;
+  os << gIdtr;
   switch (fVarValSeparator) {
     case kSpace:
       os << "space";
@@ -708,7 +704,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << " separator";
   os << endl;
 
-  os << idtr;
+  os << gIdtr;
   switch (fQuotesKind) {
     case kQuotesAroundValue:
       os << "quotes";
@@ -721,11 +717,11 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << endl;
 
   os <<
-    idtr << "variable value: \"" << variableValue << "\"" <<
+    gIdtr << "variable value: \"" << variableValue << "\"" <<
     endl;
 
   os <<
-    idtr << "unit: ";
+    gIdtr << "unit: ";
   if (fUnit.size())
     os << "\"" << fUnit << "\"";
   else
@@ -733,14 +729,14 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   os << endl;
   
   os <<
-    idtr << "comment: ";
+    gIdtr << "comment: ";
   if (fComment.size())
     os << "\"" << fComment << "\"";
   else
     os << "none";
   os << endl;
 
-  os << idtr;
+  os << gIdtr;
   switch (fEndlKind) {
     case kWithEndl:
       os << "with end line";
@@ -757,7 +753,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   
 // JMI  os << endl;
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -855,7 +851,7 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
     "SchemeVarValAssoc" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   // escape quotes if any
   string variableName;
@@ -870,7 +866,7 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
     fVariableValue.end(),
     stringQuoteEscaper (variableValue));
 
-  os << idtr;
+  os << gIdtr;
   switch (fCommentedKind) {
     case kCommented:
       os << "commented";
@@ -883,20 +879,20 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
 
   // print resulting strings
   os <<
-    idtr << "variable name : \"" << variableName << "\"" <<
+    gIdtr << "variable name : \"" << variableName << "\"" <<
     endl <<
-    idtr << "variable value: \"" << variableValue << "\"" <<
+    gIdtr << "variable value: \"" << variableValue << "\"" <<
     endl;
 
   os <<
-    idtr << "comment: ";
+    gIdtr << "comment: ";
   if (fComment.size())
     os << "\"" << fComment << "\"";
   else
     os << "none";
   os << endl;
 
-  os << idtr;
+  os << gIdtr;
   switch (fEndlKind) {
     case kWithEndl:
       os << "with end line";
@@ -913,7 +909,7 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   
  // JMI os << endl;
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -999,21 +995,21 @@ void lpsrSchemeFunction::print (ostream& os)
     "SchemeFunction" <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   // print resulting strings
   os <<
-    idtr <<
+    gIdtr <<
       "function name : \"" << fFunctionName << "\"" <<
       endl <<
-    idtr <<
+    gIdtr <<
       "function description: \"" << fFunctionDescription << "\"" <<
       endl <<
-    idtr <<
+    gIdtr <<
       "function code: \"" << fFunctionCode << "\"" <<
       endl;
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -1086,7 +1082,7 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
 {
   os << "NewStaffgroupBlock" << endl;
 
-  idtr++;
+  gIdtr++;
   
   int size = fNewStaffgroupElements.size();
 
@@ -1094,7 +1090,7 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
     os << fNewStaffgroupElements[i];
   } // for
   
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -1171,12 +1167,12 @@ void lpsrNewStaffTuningBlock::print (ostream& os)
 {
   os << "NewStaffTuningBlock" << endl;
 
-  idtr++;
+  gIdtr++;
   
   os <<
-    idtr << fStaffTuning;
+    gIdtr << fStaffTuning;
   
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -1249,7 +1245,7 @@ void lpsrNewStaffBlock::print (ostream& os)
 {
   os << "NewStaffBlock" << endl;
 
-  idtr++;
+  gIdtr++;
   
   int size = fNewStaffElements.size();
 
@@ -1257,7 +1253,7 @@ void lpsrNewStaffBlock::print (ostream& os)
     os << fNewStaffElements[i];
   } // for
   
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -1333,9 +1329,9 @@ ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& nstf)
 void lpsrVariableUseCommand::print (ostream& os)
 {
   os << "VariableUseCommand" << endl;
-  idtr++;
+  gIdtr++;
   os << fVariableName << endl;
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -1462,7 +1458,7 @@ void lpsrContext::print (ostream& os)
   os <<
   endl;
   
-  idtr++;
+  gIdtr++;
 
   int size = fContextElements.size();
 
@@ -1470,7 +1466,7 @@ void lpsrContext::print (ostream& os)
     os << fContextElements[i];
   } // for
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -2122,7 +2118,7 @@ void lpsrHeader::print (ostream& os)
 
   bool emptyHeader = true;
   
-  idtr++;
+  gIdtr++;
   
   if (fWorkNumber) {
     os << fWorkNumber;
@@ -2215,7 +2211,7 @@ void lpsrHeader::print (ostream& os)
     os <<
       " " << "nothing specified" << endl; // JMI
   
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -2299,7 +2295,7 @@ void lpsrPaper::print (ostream& os) {
 
   bool emptyPaper = true;
 
-  idtr++;
+  gIdtr++;
 
   const int fieldWidth = 20;
   
@@ -2437,7 +2433,7 @@ void lpsrPaper::print (ostream& os) {
       endl;
   }
   
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -2529,7 +2525,7 @@ void lpsrLayout::print (ostream& os)
 {
   os << "Layout" << endl;
 
-  idtr++;
+  gIdtr++;
 
   os <<
     "StaffSize: " << fStaffSize <<
@@ -2547,7 +2543,7 @@ void lpsrLayout::print (ostream& os)
     os << fLpsrSchemeVarValAssocs[i];
   } // for
   
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -2683,17 +2679,17 @@ void lpsrStaffBlock::print (ostream& os)
       fStaffBlockElements.size(), "element", "elements") <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   const int fieldWidth = 31;
   
   os << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) <<
       "(StaffBlockInstrumentName" << " = \"" << fStaffBlockInstrumentName <<
       "\")" <<
       endl <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) <<
       "(StaffBlockShortInstrumentName" << " = \"" << fStaffBlockShortInstrumentName <<
       "\")" <<
@@ -2712,7 +2708,7 @@ void lpsrStaffBlock::print (ostream& os)
     } // for
   }
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -2824,26 +2820,26 @@ void lpsrPartBlock::print (ostream& os)
       fPartBlockElements.size(), "element", "elements") <<
     endl;
 
-  idtr++;
+  gIdtr++;
 
   const int fieldWidth = 28;
 
   os << left <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << string ("(") + "PartName" << " = \"" <<
       fPart->getPartName () << "\")" <<
       endl <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << string ("(") + "PartAbbreviation" << " = \"" <<
       fPart->getPartAbbreviation () << "\")" <<
       endl <<
 
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "PartBlockInstrumentName" << " = \"" <<
       fPartBlockInstrumentName <<
       "\"" <<
       endl <<
-    idtr <<
+    gIdtr <<
       setw (fieldWidth) << "PartBlockShortInstrumentName" << " = \"" <<
       fPartBlockShortInstrumentName <<
       "\"" <<
@@ -2863,7 +2859,7 @@ void lpsrPartBlock::print (ostream& os)
     } // for
   }
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -2956,7 +2952,7 @@ void lpsrPartGroupBlock::print (ostream& os)
 {
   os <<
     endl <<
-    idtr <<
+    gIdtr <<
     "PartGroupBlock" << " " <<
     "for partGroup \"" <<
     fPartGroup->getPartGroupCombinedName () <<
@@ -2966,7 +2962,7 @@ void lpsrPartGroupBlock::print (ostream& os)
       fPartGroupBlockElements.size(), "element", "elements") <<
     endl << endl;
 
-  idtr++;
+  gIdtr++;
 
   if (fPartGroupBlockElements.size()) {  
     list<S_msrElement>::const_iterator
@@ -2980,7 +2976,7 @@ void lpsrPartGroupBlock::print (ostream& os)
     } // for
   }
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -3157,7 +3153,7 @@ void lpsrScoreBlock::print (ostream& os)
 {
   os << "ScoreBlock" << endl << endl;
 
-  idtr++;
+  gIdtr++;
 
   os <<
     fScoreBlockParallelMusic <<
@@ -3171,7 +3167,7 @@ void lpsrScoreBlock::print (ostream& os)
     fScoreBlockMidi <<
     endl;
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________
@@ -3238,7 +3234,7 @@ lpsrScore::lpsrScore (
     stringstream s;
     
     s <<
-      idtr <<
+      gIdtr <<
       "% Translation command was:";
         
     fTranslationDateComment =
@@ -3261,7 +3257,7 @@ lpsrScore::lpsrScore (
     stringstream s;
     
     s <<
-      tab <<
+      gTab <<
       gGeneralOptions->fCommandLineWithLongOptions;
   
     if (longAndShortOptionsDiffer)
@@ -3283,7 +3279,7 @@ lpsrScore::lpsrScore (
     stringstream s;
     
     s <<
-      tab <<
+      gTab <<
       gGeneralOptions->fCommandLineWithShortOptions;
     
     fCommandLineShortOptionsComment =
@@ -3977,10 +3973,10 @@ void lpsrScore::print (ostream& os)
     "LPSR Structure" <<
     endl << endl;
 
-  idtr++;
+  gIdtr++;
 
   // print the MSR structure (without the voices)
-  os << idtr;
+  os << gIdtr;
   fMsrScore->
     printStructure (os);
   os << endl;
@@ -3989,13 +3985,13 @@ void lpsrScore::print (ostream& os)
   const int fieldWidth = 42;
   
   os <<
-    idtr << left <<
+    gIdtr << left <<
       setw (fieldWidth) <<
       "TongueSchemeFunctionIsNeeded" << " : " <<
       booleanAsString (
         fTongueSchemeFunctionIsNeeded) <<
       endl <<
-    idtr << left <<
+    gIdtr << left <<
       setw (fieldWidth) <<
       "EditorialAccidentalSchemeFunctionIsNeeded" << " : " <<
       booleanAsString (
@@ -4005,19 +4001,19 @@ void lpsrScore::print (ostream& os)
 
   // print LPSR basic information
   os <<
-    idtr << fLilypondVersion <<
+    gIdtr << fLilypondVersion <<
     endl;
   os <<
-    idtr << fGlobalStaffSizeAssoc <<
+    gIdtr << fGlobalStaffSizeAssoc <<
     endl;
   os <<
-    idtr << fHeader <<
+    gIdtr << fHeader <<
     endl;
   os <<
-    idtr << fPaper <<
+    gIdtr << fPaper <<
     endl;
   os <<
-    idtr << fScoreLayout <<
+    gIdtr << fScoreLayout <<
     endl;
 
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
@@ -4037,10 +4033,10 @@ void lpsrScore::print (ostream& os)
 
   // print the score block
   os <<
-    idtr <<
+    gIdtr <<
     fScoreBlock;
 
-  idtr--;
+  gIdtr--;
 }
 
 //______________________________________________________________________________

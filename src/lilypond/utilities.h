@@ -146,6 +146,10 @@ class indenter
 };
 ostream& operator<< (ostream& os, const indenter& idtr);
 
+// useful shortcut macros
+#define gIdtr indenter::gIndenter
+#define gTab  indenter::gIndenter.getSpacer ()
+
 //______________________________________________________________________________
 class indentedOutputStream: public ostream
 {
