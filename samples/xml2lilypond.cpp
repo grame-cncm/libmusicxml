@@ -139,12 +139,12 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (gGeneralOptions->fTraceGeneral) {
-    logIndentedOutputStream <<  idtr <<
+    logIndentedOutputStream <<
       "This is xml2Lilypond v" << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
-    logIndentedOutputStream << idtr <<
+    logIndentedOutputStream <<
       "Launching conversion of ";
 
     if (inputSourceName == "-")
@@ -158,11 +158,11 @@ int main (int argc, char *argv[])
       " to LilyPond" <<
       endl;
 
-    logIndentedOutputStream << idtr <<
+    logIndentedOutputStream <<
       "Time is " << gGeneralOptions->fTranslationDate <<
       endl;      
 
-    logIndentedOutputStream << idtr <<
+    logIndentedOutputStream <<
       "LilyPond code will be written to ";
     if (outputFileNameSize) {
       logIndentedOutputStream <<
@@ -176,30 +176,27 @@ int main (int argc, char *argv[])
       endl <<
       endl;
     
-    logIndentedOutputStream << idtr <<
+    logIndentedOutputStream <<
       "The command line is:" <<
       endl;
 
     idtr++;
     
     logIndentedOutputStream <<
-      idtr <<
-        optionsHandler->
-          getCommandLineWithLongOptions () <<
+      optionsHandler->
+        getCommandLineWithLongOptions () <<
       endl;
 
     idtr--;
     logIndentedOutputStream <<
-      idtr <<
-        "or:" <<
-        endl;
+    "or:" <<
+    endl;
     idtr++;
     
     logIndentedOutputStream <<
-      idtr <<
-        optionsHandler->
-          getCommandLineWithShortOptions () <<
-        endl <<
+      optionsHandler->
+        getCommandLineWithShortOptions () <<
+      endl <<
       endl;
 
     idtr--;
@@ -210,7 +207,8 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fTraceGeneral) {
     optionsHandler->
-      printOptionsValues (logIndentedOutputStream);
+      printOptionsValues (
+        logIndentedOutputStream);
   }
 
   // acknoledge end of command line analysis
@@ -219,9 +217,8 @@ int main (int argc, char *argv[])
   if (gGeneralOptions->fTraceGeneral) {
     logIndentedOutputStream <<
       endl <<
-      idtr <<
-        "The command line options and arguments have been analyzed" <<
-        endl;
+      "The command line options and arguments have been analyzed" <<
+      endl;
   }
 
   // open output file if need be
@@ -231,7 +228,7 @@ int main (int argc, char *argv[])
 
   if (outputFileNameSize) {
     if (gGeneralOptions->fTraceGeneral)
-      logIndentedOutputStream << idtr <<
+      logIndentedOutputStream <<
         "Opening file '" << outputFileName << "' for writing" <<
         endl;
         
@@ -250,7 +247,9 @@ int main (int argc, char *argv[])
     if (outputFileNameSize)
       mScore =
         musicxmlFd2Msr (
-          stdin, gMsrOptions, outStream);
+          stdin,
+          gMsrOptions,
+          outStream);
     else
       mScore =
         musicxmlFd2Msr (
@@ -262,12 +261,16 @@ int main (int argc, char *argv[])
     if (outputFileNameSize) {
       mScore =
         musicxmlFile2Msr (
-          inputSourceName.c_str(), gMsrOptions, outStream);
+          inputSourceName.c_str(),
+          gMsrOptions,
+          outStream);
     }
     else {
       mScore =
         musicxmlFile2Msr (
-          inputSourceName.c_str(), gMsrOptions, cout);
+          inputSourceName.c_str(),
+          gMsrOptions,
+          cout);
     }
   }
     
@@ -288,12 +291,18 @@ int main (int argc, char *argv[])
     if (outputFileNameSize) {
       lpScore =
         msr2Lpsr (
-          mScore, gMsrOptions, gLpsrOptions, outStream);
+          mScore,
+          gMsrOptions,
+          gLpsrOptions,
+          outStream);
     }
     else {
       lpScore =
         msr2Lpsr (
-          mScore, gMsrOptions, gLpsrOptions, cout);
+          mScore,
+          gMsrOptions,
+          gLpsrOptions,
+          cout);
     }
     
     if (! lpScore) {
@@ -311,18 +320,23 @@ int main (int argc, char *argv[])
   if (! gLilypondOptions->fNoLilypondCode) {
     if (outputFileNameSize)
       lpsr2Lilypond (
-        lpScore, gMsrOptions, gLpsrOptions, outStream);
+        lpScore,
+        gMsrOptions,
+        gLpsrOptions,
+        outStream);
     else
       lpsr2Lilypond (
-        lpScore, gMsrOptions, gLpsrOptions, cout);
+        lpScore,
+        gMsrOptions,
+        gLpsrOptions,
+        cout);
     
     if (outputFileNameSize) {
       if (gGeneralOptions->fTraceGeneral)
         logIndentedOutputStream <<
           endl <<
-          idtr <<
-            "Closing file '" << outputFileName << "'" <<
-            endl;
+          "Closing file '" << outputFileName << "'" <<
+          endl;
           
       outStream.close ();
     }
