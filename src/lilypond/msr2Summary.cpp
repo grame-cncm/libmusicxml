@@ -32,9 +32,9 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msr2SummaryVisitor::msr2SummaryVisitor (
-  S_msrOptions& msrOpts,
-  ostream&      fOstream)
-    : fOstream (fOstream)
+  S_msrOptions&         msrOpts,
+  indentedOutputStream& ios)
+    : fMsrSummaryOutputStream (fMsrSummaryOutputStream)
 {
   fMsrOptions = msrOpts;
 
@@ -76,13 +76,13 @@ void msr2SummaryVisitor::printSummaryFromMsrScore (
 void msr2SummaryVisitor::visitStart (S_msrScore& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrScore" <<
       endl;
 
   int partGroupsListSize = elt->getPartGroupsList ().size();
   
-  fOstream << idtr <<
+  fMsrSummaryOutputStream <<
     "Score contains " <<
     singularOrPlural (
       partGroupsListSize, "part group", "part groups") <<
@@ -97,41 +97,33 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
   idtr--;
 
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrScore" <<
       endl;
   
-  fOstream <<
-    idtr << "The score contains:" <<
+  fMsrSummaryOutputStream <<
+    "The score contains:" <<
     endl;
 
   idtr++;
   
-  fOstream <<
-    idtr <<
-      fScoreStandaloneNotesCounter <<" standalone notes" <<
-      endl <<
-    idtr <<
-      fScoreRestNotesCounter << " rest notes" <<
-      endl <<
-    idtr <<
-      fScoreSkipNotesCounter << " skip notes" <<
-      endl <<
-    idtr <<
-      fScoreDoubleTremoloNotesCounter << " double tremolo notes" <<
-      endl <<
-    idtr <<
-      fScoreGraceNotesCounter << " grace notes" <<
-      endl <<
-    idtr <<
-      fScoreChordNotesCounter << " chord notes" <<
-      endl <<
-    idtr <<
-      fScoreTupletNotesCounter << " tuplet notes" <<
-      endl <<
-    idtr <<
-      fScoreChordsCounter << " chords" <<
-      endl;
+  fMsrSummaryOutputStream <<
+    fScoreStandaloneNotesCounter <<" standalone notes" <<
+    endl <<
+    fScoreRestNotesCounter << " rest notes" <<
+    endl <<
+    fScoreSkipNotesCounter << " skip notes" <<
+    endl <<
+    fScoreDoubleTremoloNotesCounter << " double tremolo notes" <<
+    endl <<
+    fScoreGraceNotesCounter << " grace notes" <<
+    endl <<
+    fScoreChordNotesCounter << " chord notes" <<
+    endl <<
+    fScoreTupletNotesCounter << " tuplet notes" <<
+    endl <<
+    fScoreChordsCounter << " chords" <<
+    endl;
 
   idtr--;
 }
@@ -140,13 +132,13 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
 void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrPartGroup" <<
       endl;
 
   int partGroupElementsSize = elt->getPartGroupElements ().size();
   
-  fOstream << idtr <<
+  fMsrSummaryOutputStream <<
     "PartGroup" << " " << elt->getPartGroupCombinedName () <<
     " contains " <<
     singularOrPlural (
@@ -159,55 +151,46 @@ void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
 
   const int fieldWidth = 24;
   
-  fOstream << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartGroupAbsoluteNumber" << " : \"" <<
-      elt->getPartGroupAbsoluteNumber  () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartGroupName" << " : \"" <<
-      elt->getPartGroupName  () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartGroupDisplayText" << " : \"" <<
-      elt->getPartGroupDisplayText  () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartGroupAccidentalText" << " : \"" <<
-      elt->getPartGroupAccidentalText  () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartGroupAbbrevation" << " : \"" <<
-      elt->getPartGroupAbbreviation  () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartGroupSymbolKind" << " : " <<
-      msrPartGroup::partGroupSymbolKindAsString (
-        elt->getPartGroupSymbolKind  ()) <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartGroupSymbolDefaultX" << " : " <<
-      elt->getPartGroupSymbolDefaultX  () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "fPartGroupBarline" << " : \"" <<
-      booleanAsString (
-        elt->getPartGroupBarline ()) <<
-      "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartGroupInstrumentName" << " : \"" <<
-        elt->getPartGroupInstrumentName () << "\"" <<
-      endl <<
+  fMsrSummaryOutputStream << left <<
+    setw (fieldWidth) <<
+    "PartGroupAbsoluteNumber" << " : \"" <<
+    elt->getPartGroupAbsoluteNumber  () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartGroupName" << " : \"" <<
+    elt->getPartGroupName  () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartGroupDisplayText" << " : \"" <<
+    elt->getPartGroupDisplayText  () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartGroupAccidentalText" << " : \"" <<
+    elt->getPartGroupAccidentalText  () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartGroupAbbrevation" << " : \"" <<
+    elt->getPartGroupAbbreviation  () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartGroupSymbolKind" << " : " <<
+    msrPartGroup::partGroupSymbolKindAsString (
+      elt->getPartGroupSymbolKind  ()) <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartGroupSymbolDefaultX" << " : " <<
+    elt->getPartGroupSymbolDefaultX  () <<
+    endl <<
+    setw (fieldWidth) <<
+    "fPartGroupBarline" << " : \"" <<
+    booleanAsString (
+      elt->getPartGroupBarline ()) <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartGroupInstrumentName" << " : \"" <<
+      elt->getPartGroupInstrumentName () << "\"" <<
+    endl <<
     endl;
 }
 
@@ -216,7 +199,7 @@ void msr2SummaryVisitor::visitEnd (S_msrPartGroup& elt)
   idtr--;
 
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrPartGroup" <<
       endl;
 }
@@ -225,13 +208,13 @@ void msr2SummaryVisitor::visitEnd (S_msrPartGroup& elt)
 void msr2SummaryVisitor::visitStart (S_msrPart& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrPart" <<
       endl;
 
   int partStavesMapSize = elt->getPartStavesMap ().size();
   
-  fOstream << idtr <<
+  fMsrSummaryOutputStream <<
     "Part " << elt->getPartCombinedName () <<
     " contains " <<
     singularOrPlural (
@@ -242,39 +225,33 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
   
   const int fieldWidth = 28;
   
-  fOstream << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartID" << " : \"" <<
-      elt->getPartID () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartMsrName" << " : \"" <<
-      elt->getPartMsrName () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartName" << " : \"" <<
-      elt->getPartName  () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartAbbrevation" << " : \"" <<
-      elt->getPartAbbreviation () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartInstrumentName" << " : \"" <<
-      elt->getPartInstrumentName () << "\"" <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "PartInstrumentAbbreviation" << " : \"" <<
-      elt->getPartInstrumentAbbreviation () << "\"" <<
-      endl;
+  fMsrSummaryOutputStream << left <<
+    setw (fieldWidth) <<
+    "PartID" << " : \"" <<
+    elt->getPartID () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartMsrName" << " : \"" <<
+    elt->getPartMsrName () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartName" << " : \"" <<
+    elt->getPartName  () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartAbbrevation" << " : \"" <<
+    elt->getPartAbbreviation () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartInstrumentName" << " : \"" <<
+    elt->getPartInstrumentName () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartInstrumentAbbreviation" << " : \"" <<
+    elt->getPartInstrumentAbbreviation () << "\"" <<
+    endl;
 
-  fOstream <<
+  fMsrSummaryOutputStream <<
     endl;
 }
 
@@ -283,7 +260,7 @@ void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
   idtr--;
 
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrPart" <<
       endl;
 }
@@ -292,13 +269,13 @@ void msr2SummaryVisitor::visitEnd (S_msrPart& elt)
 void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrStaff" <<
       endl;
 
   int staffAllVoicesMapSize = elt->getStaffAllVoicesMap ().size();
     
-  fOstream << idtr <<
+  fMsrSummaryOutputStream <<
     "Staff" << " " << elt->getStaffName () <<
     " contains " <<
     singularOrPlural (
@@ -311,20 +288,19 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
   const int fieldWidth = 17;
 
   // print the staff number
-  fOstream << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "StaffNumber" << " : " <<
-      elt->getStaffNumber () <<
-      endl;
+  fMsrSummaryOutputStream << left <<
+    setw (fieldWidth) <<
+    "StaffNumber" << " : " <<
+    elt->getStaffNumber () <<
+    endl;
 
 /* JMI
-  fOstream <<
-    idtr << "StaffInstrumentName: \"" <<
+  fMsrSummaryOutputStream <<
+    "StaffInstrumentName: \"" <<
     elt->getStaffInstrumentName () << "\"" << endl;
 */
 
-  fOstream << endl;
+  fMsrSummaryOutputStream << endl;
 
   fOnGoingStaff = true;
 }
@@ -334,7 +310,7 @@ void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
   idtr--;
 
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrStaff" <<
       endl;
 
@@ -345,13 +321,13 @@ void msr2SummaryVisitor::visitEnd (S_msrStaff& elt)
 void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrVoice" <<
       endl;
 
   int voiceStanzasMapSize = elt->getVoiceStanzasMap ().size();
 
-  fOstream << idtr <<
+  fMsrSummaryOutputStream <<
     "Voice" << " " << elt->getVoiceName () <<
     " has " <<
     singularOrPlural (
@@ -362,40 +338,34 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
 
   const int fieldWidth = 30;
   
-  fOstream << left <<
-    idtr <<
-      setw (fieldWidth) <<
-      "VoiceAbsoluteNumber" << " : " <<
-      elt->getVoiceAbsoluteNumber () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "VoicePartRelativeID" << " : " <<
-      elt->getVoicePartRelativeID () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "VoiceStaffRelativeNumber" << " : " <<
-      elt->getVoiceStaffRelativeNumber () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "VoiceActualNotesCounter" << " : " <<
-      elt->getVoiceActualNotesCounter () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "VoiceActualHarmoniesCounter" << " : " <<
-      elt->getVoiceActualHarmoniesCounter () <<
-      endl <<
-    idtr <<
-      setw (fieldWidth) <<
-      "MusicHasBeenInsertedInVoice" << " : " <<
-      booleanAsString (
-        elt->getMusicHasBeenInsertedInVoice ()) <<
+  fMsrSummaryOutputStream << left <<
+    setw (fieldWidth) <<
+    "VoiceAbsoluteNumber" << " : " <<
+    elt->getVoiceAbsoluteNumber () <<
+    endl <<
+    setw (fieldWidth) <<
+    "VoicePartRelativeID" << " : " <<
+    elt->getVoicePartRelativeID () <<
+    endl <<
+    setw (fieldWidth) <<
+    "VoiceStaffRelativeNumber" << " : " <<
+    elt->getVoiceStaffRelativeNumber () <<
+    endl <<
+    setw (fieldWidth) <<
+    "VoiceActualNotesCounter" << " : " <<
+    elt->getVoiceActualNotesCounter () <<
+    endl <<
+    setw (fieldWidth) <<
+    "VoiceActualHarmoniesCounter" << " : " <<
+    elt->getVoiceActualHarmoniesCounter () <<
+    endl <<
+    setw (fieldWidth) <<
+    "MusicHasBeenInsertedInVoice" << " : " <<
+    booleanAsString (
+      elt->getMusicHasBeenInsertedInVoice ()) <<
     endl;
 
-  fOstream <<
+  fMsrSummaryOutputStream <<
     endl;
 
   // don't show fVoiceMuteStanza in the summary
@@ -406,7 +376,7 @@ void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
   idtr--;
 
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrVoice" <<
       endl;
 }
@@ -415,28 +385,28 @@ void msr2SummaryVisitor::visitEnd (S_msrVoice& elt)
 void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrStanza" <<
       endl;
 
   int syllablesSize = elt->getSyllables ().size();
 
-  fOstream << idtr <<
+  fMsrSummaryOutputStream <<
     "Stanza" << " " << elt->getStanzaName () <<
     " contains " <<
     singularOrPlural (
       syllablesSize, "syllable", "syllables");
 
   if (! elt->getStanzaTextPresent ())
-    fOstream << " (No actual text)";
+    fMsrSummaryOutputStream << " (No actual text)";
     
-  fOstream << endl << endl;
+  fMsrSummaryOutputStream << endl << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrStanza& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrStanza" <<
       endl;
 }
@@ -445,7 +415,7 @@ void msr2SummaryVisitor::visitEnd (S_msrStanza& elt)
 void msr2SummaryVisitor::visitStart (S_msrSyllable& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrSyllable" <<
       endl;
 }
@@ -453,7 +423,7 @@ void msr2SummaryVisitor::visitStart (S_msrSyllable& elt)
 void msr2SummaryVisitor::visitEnd (S_msrSyllable& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrSyllable" <<
       endl;
 }
@@ -462,13 +432,12 @@ void msr2SummaryVisitor::visitEnd (S_msrSyllable& elt)
 void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrClef" <<
       endl;
 
   if (! fOnGoingStaff) {
-    fOstream <<
-      idtr <<
+    fMsrSummaryOutputStream <<
       elt->clefAsString () <<
       endl;
   }
@@ -477,7 +446,7 @@ void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrClef" <<
       endl;
 }
@@ -486,13 +455,12 @@ void msr2SummaryVisitor::visitEnd (S_msrClef& elt)
 void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrKey" <<
       endl;
 
   if (! fOnGoingStaff) {
-    fOstream <<
-      idtr <<
+    fMsrSummaryOutputStream <<
       elt->keyAsString () <<
       endl;
   }
@@ -501,7 +469,7 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrKey" <<
       endl;
 }
@@ -510,13 +478,12 @@ void msr2SummaryVisitor::visitEnd (S_msrKey& elt)
 void msr2SummaryVisitor::visitStart (S_msrTime& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrTime" <<
       endl;
 
   if (! fOnGoingStaff) {    
-    fOstream <<
-      idtr <<
+    fMsrSummaryOutputStream <<
       elt->timeAsString () <<
       endl;
   }
@@ -525,7 +492,7 @@ void msr2SummaryVisitor::visitStart (S_msrTime& elt)
 void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrTime" <<
     endl;
 }
@@ -534,11 +501,11 @@ void msr2SummaryVisitor::visitEnd (S_msrTime& elt)
 void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrTempo" <<
        endl;
 
-  fOstream << idtr <<
+  fMsrSummaryOutputStream <<
     "Tempo" << " " <<
     elt->getTempoUnit () << " " << elt->getPerMinute () <<
     endl;
@@ -547,7 +514,7 @@ void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
 void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrTempo" <<
     endl;
 }
@@ -556,7 +523,7 @@ void msr2SummaryVisitor::visitEnd (S_msrTempo& elt)
 void msr2SummaryVisitor::visitStart (S_msrSegment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrSegment" <<
       endl;
 }
@@ -564,7 +531,7 @@ void msr2SummaryVisitor::visitStart (S_msrSegment& elt)
 void msr2SummaryVisitor::visitEnd (S_msrSegment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrSegment" <<
       endl;
 }
@@ -573,7 +540,7 @@ void msr2SummaryVisitor::visitEnd (S_msrSegment& elt)
 void msr2SummaryVisitor::visitStart (S_msrArticulation& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrArticulation" <<
       endl;
 }
@@ -581,7 +548,7 @@ void msr2SummaryVisitor::visitStart (S_msrArticulation& elt)
 void msr2SummaryVisitor::visitEnd (S_msrArticulation& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrArticulation" <<
       endl;
 }
@@ -590,7 +557,7 @@ void msr2SummaryVisitor::visitEnd (S_msrArticulation& elt)
 void msr2SummaryVisitor::visitStart (S_msrDynamics& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrDynamics" <<
       endl;
 }
@@ -598,7 +565,7 @@ void msr2SummaryVisitor::visitStart (S_msrDynamics& elt)
 void msr2SummaryVisitor::visitEnd (S_msrDynamics& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrDynamics" <<
       endl;
 }
@@ -607,14 +574,14 @@ void msr2SummaryVisitor::visitEnd (S_msrDynamics& elt)
 void msr2SummaryVisitor::visitStart (S_msrWedge& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrWedge" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrWedge" << endl;
 }
 
@@ -622,14 +589,14 @@ void msr2SummaryVisitor::visitEnd (S_msrWedge& elt)
 void msr2SummaryVisitor::visitStart (S_msrGraceNotes& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrGraceNotes" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrGraceNotes& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrGraceNotes" << endl;
 }
 
@@ -637,7 +604,7 @@ void msr2SummaryVisitor::visitEnd (S_msrGraceNotes& elt)
 void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting " <<
       msrNote::noteKindAsString (
         elt->getNoteKind ()) <<
@@ -675,7 +642,7 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
 void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting " <<
       msrNote::noteKindAsString (
         elt->getNoteKind ()) <<
@@ -707,14 +674,14 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
 void msr2SummaryVisitor::visitStart (S_msrStem& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrStem" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrStem& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrStem" <<
       endl;
 }
@@ -723,14 +690,14 @@ void msr2SummaryVisitor::visitEnd (S_msrStem& elt)
 void msr2SummaryVisitor::visitStart (S_msrBeam& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrBeam" << endl;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrBeam& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrBeam" <<
       endl;
 }
@@ -739,7 +706,7 @@ void msr2SummaryVisitor::visitEnd (S_msrBeam& elt)
 void msr2SummaryVisitor::visitStart (S_msrChord& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrChord" <<
       endl;
 
@@ -749,7 +716,7 @@ void msr2SummaryVisitor::visitStart (S_msrChord& elt)
 void msr2SummaryVisitor::visitEnd (S_msrChord& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrChord" <<
       endl;
 }
@@ -758,7 +725,7 @@ void msr2SummaryVisitor::visitEnd (S_msrChord& elt)
 void msr2SummaryVisitor::visitStart (S_msrTuplet& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrTuplet" <<
       endl;
 }
@@ -766,7 +733,7 @@ void msr2SummaryVisitor::visitStart (S_msrTuplet& elt)
 void msr2SummaryVisitor::visitEnd (S_msrTuplet& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrTuplet" <<
       endl;
 }
@@ -775,7 +742,7 @@ void msr2SummaryVisitor::visitEnd (S_msrTuplet& elt)
 void msr2SummaryVisitor::visitStart (S_msrSlur& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrSlur" <<
       endl;
 }
@@ -783,7 +750,7 @@ void msr2SummaryVisitor::visitStart (S_msrSlur& elt)
 void msr2SummaryVisitor::visitEnd (S_msrSlur& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrSlur" <<
       endl;
 }
@@ -792,7 +759,7 @@ void msr2SummaryVisitor::visitEnd (S_msrSlur& elt)
 void msr2SummaryVisitor::visitStart (S_msrBarline& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrBarline" <<
       endl;
 }
@@ -800,7 +767,7 @@ void msr2SummaryVisitor::visitStart (S_msrBarline& elt)
 void msr2SummaryVisitor::visitEnd (S_msrBarline& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrBarline" <<
       endl;
 }
@@ -809,7 +776,7 @@ void msr2SummaryVisitor::visitEnd (S_msrBarline& elt)
 void msr2SummaryVisitor::visitStart (S_msrBarNumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrBarNumberCheck" <<
       endl;
 }
@@ -817,7 +784,7 @@ void msr2SummaryVisitor::visitStart (S_msrBarNumberCheck& elt)
 void msr2SummaryVisitor::visitEnd (S_msrBarNumberCheck& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrBarNumberCheck" <<
       endl;
 }
@@ -826,7 +793,7 @@ void msr2SummaryVisitor::visitEnd (S_msrBarNumberCheck& elt)
 void msr2SummaryVisitor::visitStart (S_msrLineBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrLineBreak" <<
       endl;
 }
@@ -834,7 +801,7 @@ void msr2SummaryVisitor::visitStart (S_msrLineBreak& elt)
 void msr2SummaryVisitor::visitEnd (S_msrLineBreak& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrLineBreak" <<
       endl;
 }
@@ -843,7 +810,7 @@ void msr2SummaryVisitor::visitEnd (S_msrLineBreak& elt)
 void msr2SummaryVisitor::visitStart (S_msrRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrRepeat" <<
       endl;
 }
@@ -851,7 +818,7 @@ void msr2SummaryVisitor::visitStart (S_msrRepeat& elt)
 void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrRepeat" <<
       endl;
 }
@@ -861,7 +828,7 @@ void msr2SummaryVisitor::visitEnd (S_msrRepeat& elt)
 void msr2SummaryVisitor::visitStart (S_msrComment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrComment" <<
       endl;
 }
@@ -869,7 +836,7 @@ void msr2SummaryVisitor::visitStart (S_msrComment& elt)
 void msr2SummaryVisitor::visitEnd (S_msrComment& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrComment" <<
       endl;
 }
@@ -879,25 +846,23 @@ void msr2SummaryVisitor::visitEnd (S_msrComment& elt)
 void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrVarValAssoc" <<
       endl;
 
-  fOstream << idtr <<
+  fMsrSummaryOutputStream <<
     "VarValAssoc" <<
     endl;
   
   idtr++;
   
-  fOstream <<
-    idtr <<
-      "variable name : " <<
-      "\"" << elt->getVariableName () << "\"" <<
-      endl <<
-    idtr <<
-      "variable value: " <<
-      "\"" << elt->getVariableValue () << "\"" <<
-      endl <<
+  fMsrSummaryOutputStream <<
+    "variable name : " <<
+    "\"" << elt->getVariableName () << "\"" <<
+    endl <<
+    "variable value: " <<
+    "\"" << elt->getVariableValue () << "\"" <<
+    endl <<
     endl;
   
   idtr--;
@@ -906,7 +871,7 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
 void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrVarValAssoc" <<
       endl;
 }
@@ -915,18 +880,18 @@ void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
 void msr2SummaryVisitor::visitStart (S_msrPageGeometry& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrPageGeometry" <<
       endl;
 
-  fOstream <<
-    idtr << elt;
+  fMsrSummaryOutputStream <<
+    elt;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrPageGeometry& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrPageGeometry" <<
       endl;
 }
@@ -935,11 +900,11 @@ void msr2SummaryVisitor::visitEnd (S_msrPageGeometry& elt)
 void msr2SummaryVisitor::visitStart (S_msrLayout& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrLayout" <<
       endl;
 
-  fOstream << "Layout" << endl;
+  fMsrSummaryOutputStream << "Layout" << endl;
 
   idtr++;
 }
@@ -949,7 +914,7 @@ void msr2SummaryVisitor::visitEnd (S_msrLayout& elt)
   idtr--;
 
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrLayout" <<
       endl;
 }
@@ -958,7 +923,7 @@ void msr2SummaryVisitor::visitEnd (S_msrLayout& elt)
 void msr2SummaryVisitor::visitStart (S_msrMidi& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> Start visiting msrMidi" <<
       endl;
 }
@@ -966,7 +931,7 @@ void msr2SummaryVisitor::visitStart (S_msrMidi& elt)
 void msr2SummaryVisitor::visitEnd (S_msrMidi& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    fOstream << idtr <<
+    fMsrSummaryOutputStream <<
       "--> End visiting msrMidi" <<
       endl;
 }

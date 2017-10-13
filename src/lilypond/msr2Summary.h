@@ -82,8 +82,8 @@ class msr2SummaryVisitor :
   public:
   
     msr2SummaryVisitor (
-      S_msrOptions& msrOpts,
-      ostream&      os);
+      S_msrOptions&         msrOpts,
+      indentedOutputStream& ios);
         
     virtual ~msr2SummaryVisitor ();
 
@@ -187,8 +187,8 @@ class msr2SummaryVisitor :
 
   private:
                      
-    S_msrOptions   fMsrOptions;
-    ostream&       fOstream;
+    S_msrOptions          fMsrOptions;
+    indentedOutputStream& fMsrSummaryOutputStream;
 
     // score
     // ------------------------------------------------------
@@ -205,7 +205,7 @@ class msr2SummaryVisitor :
     // ------------------------------------------------------
  // JMI   int            fStavesCounter;
     // prevent clef, key and time from being handled twice
-    bool           fOnGoingStaff;
+    bool                  fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
@@ -217,20 +217,20 @@ class msr2SummaryVisitor :
 
     // notes
     // ------------------------------------------------------
-    int            fScoreStandaloneNotesCounter;
-    int            fScoreRestNotesCounter;
-    int            fScoreSkipNotesCounter;
-    int            fScoreDoubleTremoloNotesCounter;
-    int            fScoreGraceNotesCounter;
+    int                   fScoreStandaloneNotesCounter;
+    int                   fScoreRestNotesCounter;
+    int                   fScoreSkipNotesCounter;
+    int                   fScoreDoubleTremoloNotesCounter;
+    int                   fScoreGraceNotesCounter;
 
     // chords
     // ------------------------------------------------------
-    int            fScoreChordNotesCounter;
-    int            fScoreChordsCounter;
+    int                   fScoreChordNotesCounter;
+    int                   fScoreChordsCounter;
 
     // tuplets
     // ------------------------------------------------------
-    int            fScoreTupletNotesCounter;
+    int                   fScoreTupletNotesCounter;
 };
 
 
