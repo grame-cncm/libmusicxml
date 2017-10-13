@@ -6098,7 +6098,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     
     fOstream << " msrNote" <<
       endl;
- //   fMusicOlec++;
   }
 
   // indent before the fist note of the msrSegment if needed
@@ -6234,8 +6233,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       fOstream <<
         singleTremoloDurationAsLilypondString (
           noteSingleTremolo);
-
- //     fMusicOlec++;
     }
   }
 
@@ -6272,7 +6269,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       fOstream <<
         noteArticulationAsLilyponString ((*i)) <<    
         " ";
- //     fMusicOlec++;
     } // for
   }
 
@@ -6290,7 +6286,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         
       fOstream <<
         technicalAsLilypondString ((*i));
-   //   fMusicOlec++;
 
       switch ((*i)->getTechnicalPlacementKind ()) {
         case msrTechnical::k_NoTechnicalPlacement:
@@ -6303,10 +6298,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           break;
       } // switch
 
-  //    fMusicOlec++;
-
       fOstream << " ";
-  //    fMusicOlec++;
     } // for
   }
 
@@ -6324,7 +6316,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         
       fOstream <<
         technicalWithIntegerAsLilypondString ((*i));
-   //   fMusicOlec++;
 
       switch ((*i)->getTechnicalWithIntegerPlacementKind ()) {
         case msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement:
@@ -6337,10 +6328,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           break;
       } // switch
 
-  //    fMusicOlec++;
-
       fOstream << " ";
-  //    fMusicOlec++;
     } // for
   }
 
@@ -6358,7 +6346,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         
       fOstream <<
         technicalWithStringAsLilypondString ((*i));
-   //   fMusicOlec++;
 
       switch ((*i)->getTechnicalWithStringPlacementKind ()) {
         case msrTechnicalWithString::k_NoTechnicalWithStringPlacement:
@@ -6371,10 +6358,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           break;
       } // switch
 
-   //   fMusicOlec++;
-
       fOstream << " ";
-   //   fMusicOlec++;
     } // for
   }
 
@@ -6393,7 +6377,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         ornamentAsLilypondString ((*i)); // some ornaments are not yet supported
           // <<
         // JMI " ";
-    //  fMusicOlec++;
 
       switch ((*i)->getOrnamentPlacementKind ()) {
         case msrOrnament::k_NoOrnamentPlacement:
@@ -6406,14 +6389,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           break;
       } // switch
 
-   //   fMusicOlec++;
-
       fOstream <<
         alterationAsLilypondAccidentalMark (
           (*i)->getOrnamentAccidentalMark ()) <<
         " ";
-        
-    //  fMusicOlec++;
     } // for
   }
 
@@ -6442,7 +6421,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
       fOstream <<
         dynamicsAsLilypondString (dynamics) << " ";
-   //   fMusicOlec++;
     } // for
   }
   
@@ -6460,7 +6438,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       fOstream <<
         "-\\markup { "
         "\\dynamic \"" << (*i)->getOtherDynamicsString () << "\" } ";
-   //   fMusicOlec++;
     } // for
   }
 
@@ -6560,12 +6537,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
       fOstream <<
         markup;
-
-/* JMI
-      // don't allow too long a line
-      for (string::size_type i = 1; i <= markup.size () / 4; i++)
-        fMusicOlec++;
-    */
     } // for
   }
 
