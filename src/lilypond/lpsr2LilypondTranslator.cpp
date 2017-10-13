@@ -2863,14 +2863,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
 
   if (gLilypondOptions->fComments) {
     fIndentedOutputStream <<
-      idtr <<
       setw (commentFieldWidth) << ">>" <<    
       "% staff " <<
       elt->getStaff ()->getStaffName ();
   }
   else {
     fIndentedOutputStream <<
-      idtr <<
       ">>";
   }
 
@@ -3000,7 +2998,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   
     if (staffKind == msrStaff::kRegularStaff) {
       if (staff->getStaffNumberOfMusicVoices () > 1) {
-        fIndentedOutputStream << idtr;
         switch (voice->getVoiceStaffRelativeNumber ()) {
           case 1:
             fIndentedOutputStream << "\\voiceOne ";
@@ -3028,12 +3025,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
     }
   
     fIndentedOutputStream <<
-      idtr << "\\" << voice->getVoiceName () << endl;
+      "\\" << voice->getVoiceName () << endl;
   
     idtr--;
     
     fIndentedOutputStream <<
-      idtr << ">>" <<
+      ">>" <<
       endl;
  // }
 }
@@ -3151,14 +3148,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
       endl;
   }
         
-// JMI  idtr++;
-
   fIndentedOutputStream <<
     "\\" << contextName <<
     endl <<
     endl;
-    
-// JMI  idtr--;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrContext& elt)
@@ -3349,7 +3342,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
   if (linesNumber != 5) { // default value
     fIndentedOutputStream <<
       endl <<
-      idtr <<
       "\\stopStaff " <<
       "\\override Staff.StaffSymbol.line-count = " <<
       linesNumber <<
@@ -3422,7 +3414,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   fCurrentVoice = elt;
   
   fIndentedOutputStream <<
-    idtr <<
     fCurrentVoice->getVoiceName () << " = ";
 
   // generate the beginning of the voice definition
@@ -3468,17 +3459,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   if (gLilypondOptions->fGlobal) {
     fIndentedOutputStream <<
-      idtr <<
-        "\\global" <<
-        endl <<
-        endl;
+      "\\global" <<
+      endl <<
+      endl;
   }
     
   if (gLilypondOptions->fDisplayMusic) {
     fIndentedOutputStream <<
-      idtr <<
-        "\\displayMusic {" <<
-        endl;
+      "\\displayMusic {" <<
+      endl;
 
     idtr++;
   }
@@ -3492,21 +3481,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   if (gLpsrOptions->fLpsrChordsLanguage != k_IgnatzekChords)
     fIndentedOutputStream <<
-      idtr <<
-        "\\" <<
-        lpsrChordsLanguageAsString (
-          gLpsrOptions->fLpsrChordsLanguage) <<
-        "Chords" <<
-        endl;
+      "\\" <<
+      lpsrChordsLanguageAsString (
+        gLpsrOptions->fLpsrChordsLanguage) <<
+      "Chords" <<
+      endl;
 
   if (gLilypondOptions->fShowAllBarNumbers)
     fIndentedOutputStream <<
-      idtr <<
-        "\\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
-        endl <<
-      idtr <<
-        "\\override Score.BarNumber.break-visibility = ##(#f #t #t)" <<
-        endl <<
+      "\\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
+      endl <<
+      "\\override Score.BarNumber.break-visibility = ##(#f #t #t)" <<
+      endl <<
       endl;
 
 // JMI   \set Score.alternativeNumberingStyle = #'numbers-with-letters
@@ -3517,18 +3503,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       ||
     gLilypondOptions->fCompressMultiMeasureRests)
     fIndentedOutputStream <<
-      idtr <<
-        "\\compressMMRests" <<
-        endl <<
+      "\\compressMMRests" <<
+      endl <<
       endl;
 
   if (gLilypondOptions->fAccidentalStyle != kDefaultStyle)
     fIndentedOutputStream <<
-      idtr <<
-        "\\accidentalStyle Score." <<
-        lpsrAccidentalStyleAsString (
-          gLilypondOptions->fAccidentalStyle) <<
-        endl <<
+      "\\accidentalStyle Score." <<
+      lpsrAccidentalStyleAsString (
+        gLilypondOptions->fAccidentalStyle) <<
+      endl <<
       endl;
 
   fRelativeOctaveReference = 0;
@@ -3576,9 +3560,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   
   if (gLilypondOptions->fDisplayMusic) {
     fIndentedOutputStream <<
-      idtr <<
-        "}" <<
-        endl;
+      "}" <<
+      endl;
 
     idtr--;
   }
@@ -3677,8 +3660,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
     if (gGeneralOptions->fTraceHarmonies) {
       fIndentedOutputStream <<
         "%{ " << elt->harmonyAsString () << " %}" <<
-        endl <<
-        idtr;
+        endl;
     }
   }
   
@@ -3729,8 +3711,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
   if (fOnGoingNote) {
     fIndentedOutputStream <<
       "%{ " << fCurrentFiguredBass->figuredBassAsString () << " %}" <<
-      endl <<
-      idtr;
+      endl;
   }
   
   else if (fOnGoingChord) { // JMI
@@ -3742,11 +3723,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
   }
 
   else if (fOnGoingFiguredBassVoice) {
-    // indent before the fist figured bass of the msrSegment if needed
-    if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
-      fIndentedOutputStream <<
-        idtr;
-
     fIndentedOutputStream <<
       "<";
       
@@ -3920,7 +3896,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
     idtr--;
     
     fIndentedOutputStream <<
-      idtr <<
       setw (commentFieldWidth) <<
       "% end of segment" <<
       endl;
@@ -4054,20 +4029,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           const int fieldWidth = 27;
           
           fIndentedOutputStream <<
-            idtr <<
-              "% Setting the measure length for measure " <<
-              measureNumber <<
-              ", line = " << inputLineNumber <<
-              endl <<
-            idtr <<
-              "% measureLength" << " = " << measureLength <<
-              endl <<
-            idtr <<
-              "% measureFullMeasureLength" << " = " << measureFullMeasureLength <<
-              endl <<
-            idtr <<
-              "% ratioToFullLength" << " = " << ratioToFullLength <<
-              endl <<
+            "% Setting the measure length for measure " <<
+            measureNumber <<
+            ", line = " << inputLineNumber <<
+            endl <<
+            "% measureLength" << " = " << measureLength <<
+            endl <<
+            "% measureFullMeasureLength" << " = " << measureFullMeasureLength <<
+            endl <<
+            "% ratioToFullLength" << " = " << ratioToFullLength <<
+            endl <<
             endl;
         }
 
@@ -4219,12 +4190,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     idtr--;
 
     fIndentedOutputStream <<
-      idtr <<
-        setw (commentFieldWidth) <<
-        "% end of measure " <<
-        measureNumber <<
-        ", line " << inputLineNumber <<
-        endl <<
+      setw (commentFieldWidth) <<
+      "% end of measure " <<
+      measureNumber <<
+      ", line " << inputLineNumber <<
+      endl <<
       endl;      
   }
 
@@ -4237,11 +4207,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       0)
       fIndentedOutputStream <<
         endl <<
-        idtr <<
         "% ============================= " <<
         endl <<
-        endl <<
-        idtr;
+        endl;
   }
   
   fSegmentNotesAndChordsCountersStack.pop ();
@@ -4268,8 +4236,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
         endl;
         
       idtr++;
-      
-      fIndentedOutputStream << idtr; // JMI
     }
   }
 }
@@ -4289,7 +4255,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
     
       fIndentedOutputStream <<
         endl <<
-        idtr << "}" <<
+        "}" <<
         endl <<
         endl;
     }
@@ -4411,8 +4377,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fIndentedOutputStream);
           fIndentedOutputStream <<
             "\"" << " %}" <<
-            endl <<
-            idtr;
+            endl;
           break;
           
         case msrSyllable::kSlurSyllable:
@@ -4423,8 +4388,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fIndentedOutputStream);
           fIndentedOutputStream <<
             "\"" << " %}" <<
-            endl <<
-            idtr;
+            endl;
           break;
   
         case msrSyllable::kSlurBeyondEndSyllable:
@@ -4440,8 +4404,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fIndentedOutputStream);
           fIndentedOutputStream <<
             "\"" << " %}" <<
-            endl <<
-            idtr;
+            endl;
           break;
   
         case msrSyllable::kLigatureBeyondEndSyllable:
@@ -4457,8 +4420,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fIndentedOutputStream);
           fIndentedOutputStream <<
             " %}" <<
-            endl <<
-            idtr;
+            endl;
           break;
     
         case msrSyllable::kBarNumberCheckSyllable:
@@ -4469,8 +4431,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fIndentedOutputStream);
           fIndentedOutputStream <<
             " %}" <<
-            endl <<
-            idtr;
+            endl;
           break;
     
         case msrSyllable::kLineBreakSyllable:
@@ -4481,8 +4442,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fIndentedOutputStream);
           fIndentedOutputStream <<
             "\"" << " %}" <<
-            endl <<
-            idtr;
+            endl;
           break;
     
         case msrSyllable::kPageBreakSyllable:
@@ -4493,8 +4453,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             fIndentedOutputStream);
           fIndentedOutputStream <<
             "\"" << " %}" <<
-            endl <<
-            idtr;
+            endl;
           break;
     
         case msrSyllable::k_NoSyllable: // JMI
@@ -4684,7 +4643,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
         if (humdrumScotKeyItemsVector.size ()) {
           fIndentedOutputStream <<
             endl <<
-            idtr <<
             "\\set Staff.keyAlterations = #`(";
 
           vector<S_msrHumdrumScotKeyItem>::const_iterator
@@ -4780,8 +4738,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       &&
     timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
     fIndentedOutputStream <<
-      idtr <<
-        "\\undo\\omit Staff.TimeSignature" <<
+      "\\undo\\omit Staff.TimeSignature" <<
       endl;
 
     fVoiceIsCurrentlySenzaMisura = false;
@@ -4793,8 +4750,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     // senza misura time
     
     fIndentedOutputStream <<
-      idtr <<
-        "\\omit Staff.TimeSignature" <<
+      "\\omit Staff.TimeSignature" <<
       endl;
 
     fVoiceIsCurrentlySenzaMisura = true;
@@ -4815,9 +4771,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         // \time "3/4" for 3/4
         // or senza misura
         
-        fIndentedOutputStream <<
-          idtr;
-  
         S_msrTimeItem
           timeItem =
             timeItemsVector [0]; // the only element;
@@ -4850,8 +4803,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
           case msrTime::kTimeSymbolSingleNumber:
             fIndentedOutputStream <<
               "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
-              endl <<
-              idtr;
+              endl;
             break;
           case msrTime::kTimeSymbolSenzaMisura:
             break;
@@ -4901,7 +4853,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
     
         fIndentedOutputStream <<
-          idtr <<
           "\\compoundMeter #`(";
         
         // handle all the time items in the vector
@@ -5404,7 +5355,7 @@ If the double element is present, it indicates that the music is doubled one oct
         transpositionOctave);
 
   if (gGeneralOptions->fTraceTranspositions) {
-    cerr << idtr <<
+    cerr << idtr << // JMI
       "Handlling transpose '" <<
       elt->transposeAsString () <<
       "' ignored because it is already present in voice \"" <<
@@ -5730,7 +5681,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
   }
   
   fIndentedOutputStream <<
-    idtr <<
     "\\repeat tremolo " << numberOfRepeats <<
     " {" <<
     endl;
@@ -5749,7 +5699,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
   
   fIndentedOutputStream <<
     endl <<
-    idtr <<
     "}" <<
     endl;
 }
@@ -5961,11 +5910,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 
-  // indent before the fist note of the msrSegment if needed
-  if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
-    fIndentedOutputStream <<
-      idtr;
-
   // should the note be parenthesized?
   msrNote::msrNoteHeadParenthesesKind
     noteHeadParenthesesKind =
@@ -6104,12 +6048,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         ? fCurrentStem->getStemKind ()
         : msrStem::k_NoStem;
 
+/* JMI
   // has the stem been omitted?
   if (elt->getNoteIsStemless ()) {
     fIndentedOutputStream <<
-      endl <<
-      idtr;
+      endl;
   }
+  */
   
   if (gLilypondOptions->fNoteInputLineNumbers)
     // print the note line number as a comment
@@ -6695,12 +6640,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       "% --> Start visiting msrChord" <<
       endl;
 
-/* JMI ???
-  // indent before the fist chord of the msrSegment if needed
-  if (++ fSegmentNotesAndChordsCountersStack.top () == 1)
-    fIndentedOutputStream << idtr;
-    */
-
   // print the chord ligatures if any
   list<S_msrLigature>
     chordLigatures =
@@ -7165,7 +7104,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
   else {
     fIndentedOutputStream <<
       endl <<
-      idtr <<
       "\\tuplet " <<
       elt->getTupletActualNotes () <<
       "/" <<
@@ -7194,10 +7132,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
   else {
     fIndentedOutputStream <<
       endl <<
-      idtr <<
       "}" <<
-      endl <<
-      idtr;
+      endl;
   }
 
   fTupletsStack.pop ();
@@ -7298,7 +7234,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
   if (gLpsrOptions->fTraceLpsrVisitors)
     fIndentedOutputStream <<
       endl <<
-      idtr << "% --> Start visiting msrBarline" <<
+      "% --> Start visiting msrBarline" <<
       endl;
 
   switch (elt->getBarlineCategory ()) {
@@ -7387,7 +7323,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarline& elt)
   if (gLpsrOptions->fTraceLpsrVisitors)
     fIndentedOutputStream <<
       endl <<
-      idtr << "% --> End visiting msrBarline" <<
+      "% --> End visiting msrBarline" <<
       endl;
 }
 
@@ -7534,7 +7470,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
 
     if (gLilypondOptions->fComments) {      
       fIndentedOutputStream <<
-        idtr <<
         setw (commentFieldWidth) <<
         "}" << "% end of repeat" <<
         endl;
@@ -7542,7 +7477,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
     else {
       fIndentedOutputStream <<
         endl <<
-        idtr <<
         "}" <<
         endl;
     }
@@ -7584,7 +7518,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     // outputting the end of the repeat
     if (gLilypondOptions->fComments) {      
       fIndentedOutputStream <<
-        idtr <<
         setw (commentFieldWidth) <<
         "}" << "% end of repeat" <<
         endl;
@@ -7592,7 +7525,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     else {
       fIndentedOutputStream <<
         endl <<
-        idtr <<
         "}" <<
         endl;
     }
@@ -7602,7 +7534,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     if (gLilypondOptions->fComments) {      
       fIndentedOutputStream <<
         endl <<
-        idtr <<
         setw (commentFieldWidth) <<
         "\\alternative {" <<
         "% start of alternative" <<
@@ -7611,7 +7542,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     else {
       fIndentedOutputStream <<
         endl <<
-        idtr <<
         "\\alternative {" <<
         endl;
     }
@@ -7624,7 +7554,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {  
         fIndentedOutputStream <<
-          idtr <<
           setw (commentFieldWidth) <<
           "{" << "% start of repeat hooked ending" <<
           endl;
@@ -7632,7 +7561,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       else {
         fIndentedOutputStream <<
           endl <<
-          idtr <<
           "{" <<
           endl;
       }
@@ -7641,14 +7569,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     case msrRepeatEnding::kHooklessEnding:
       if (gLilypondOptions->fComments)    
         fIndentedOutputStream <<
-          idtr <<
           setw (commentFieldWidth) <<
           "{" << "% start of repeat hookless ending" <<
           endl;
       else
         fIndentedOutputStream <<
           endl <<
-          idtr <<
           "{" <<
           endl;
       break;
@@ -7669,7 +7595,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {
         fIndentedOutputStream <<
-          idtr <<
           setw (commentFieldWidth) <<
           "}" << "% end of repeat hooked ending" <<
           endl;
@@ -7677,7 +7602,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       else {
         fIndentedOutputStream <<
           endl <<
-          idtr <<
           "}" <<
           endl;
       }
@@ -7686,7 +7610,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     case msrRepeatEnding::kHooklessEnding:
       if (gLilypondOptions->fComments)   { 
         fIndentedOutputStream <<
-          idtr <<
           setw (commentFieldWidth) <<
           "}" << "% end of repeat hookless ending" <<
           endl;
@@ -7694,7 +7617,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       else {
         fIndentedOutputStream <<
           endl <<
-          idtr <<
           "}" <<
           endl;
       }
@@ -7712,7 +7634,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     // outputting the end of the alternative
     if (gLilypondOptions->fComments)   { 
       fIndentedOutputStream <<
-        idtr <<
         setw (commentFieldWidth) <<
         "}" << "% end of alternative" <<
         endl;
@@ -7720,7 +7641,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     else {
       fIndentedOutputStream <<
         endl <<
-        idtr <<
         "}" <<
         endl;
     }
@@ -7791,7 +7711,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
   fIndentedOutputStream <<
     endl <<
     endl <<
-    idtr <<
     "\\mark" "\\markup " "{" "\\box {"  "\""<<
     elt->getRehearsalText () <<
     "\"" "}}" <<
@@ -7831,18 +7750,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
     const int fieldWidth = 24;
 
     fIndentedOutputStream << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% repeatMeasuresNumber" << " = " << repeatMeasuresNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% replicasMeasuresNumber" << " = " << replicasMeasuresNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% replicasNumber" << " = " << replicasNumber <<
-        endl;
+      setw (fieldWidth) <<
+      "% repeatMeasuresNumber" << " = " << repeatMeasuresNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "% replicasMeasuresNumber" << " = " << replicasMeasuresNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "% replicasNumber" << " = " << replicasNumber <<
+      endl;
   }
   
   if (gLilypondOptions->fComments) {
@@ -7860,12 +7776,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
   fIndentedOutputStream <<
     endl <<
     endl <<
-    idtr <<
     "\\repeat" "percent " <<
     replicasNumber + 1 <<
      " { " <<
-    endl <<
-    idtr;
+    endl;
 
     idtr++;
 }
@@ -7889,16 +7803,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
 
   if (gLilypondOptions->fComments) {
     fIndentedOutputStream <<
-      idtr <<
-        setw (commentFieldWidth) <<
-        "% end of measure repeat" <<
-        singularOrPlural (
-          elt->measureRepeatReplicasNumber (),
-          "replica",
-          "replicas") <<
-        ", line " << elt->getInputLineNumber () <<
-        endl <<
-        endl;      
+      setw (commentFieldWidth) <<
+      "% end of measure repeat" <<
+      singularOrPlural (
+        elt->measureRepeatReplicasNumber (),
+        "replica",
+        "replicas") <<
+      ", line " << elt->getInputLineNumber () <<
+      endl <<
+      endl;      
   }
 }
 
@@ -7971,14 +7884,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     const int fieldWidth = 24;
 
     fIndentedOutputStream << left <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% restMeasuresNumber" << " = " << restMeasuresNumber <<
-        endl <<
-      idtr <<
-        setw (fieldWidth) <<
-        "% restSegmentMeasuresNumber" << " = " << restSegmentMeasuresNumber <<
-        endl <<
+      setw (fieldWidth) <<
+      "% restMeasuresNumber" << " = " << restMeasuresNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "% restSegmentMeasuresNumber" << " = " << restSegmentMeasuresNumber <<
+      endl <<
       endl;
   }
   
@@ -7997,7 +7908,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   fIndentedOutputStream <<
     endl <<
     endl <<
-    idtr <<
     "R1";
 
   if (gLilypondOptions->fNoteInputLineNumbers)
@@ -8023,15 +7933,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
     idtr--;
 
     fIndentedOutputStream <<
-      idtr <<
-        setw (commentFieldWidth) <<
-        "% end of multiple rest" <<
-        singularOrPlural (
-          elt->getMultipleRestMeasuresNumber (),
-          "measure",
-          "measures") <<
-        ", line " << elt->getInputLineNumber () <<
-        endl <<
+      setw (commentFieldWidth) <<
+      "% end of multiple rest" <<
+      singularOrPlural (
+        elt->getMultipleRestMeasuresNumber (),
+        "measure",
+        "measures") <<
+      ", line " << elt->getInputLineNumber () <<
+      endl <<
       endl;      
   }
 }
