@@ -54,15 +54,28 @@ static S_msrScore xml2Msr (
   if (elemsTree) {
     // build the MSR
     mScore =
-      buildMSRFromElementsTree (msrOpts, elemsTree);
+      buildMSRFromElementsTree (
+        msrOpts,
+        elemsTree);
 
+    // create an indented output stream for the log
+    indentedOutputStream
+      logIndentedOutputStream (
+        cerr, idtr);
+    
     if (msrOpts->fDisplayMsr)
       // display the MSR
-      displayMSR (msrOpts, mScore, cerr);
+      displayMSR (
+        msrOpts,
+        mScore,
+        logIndentedOutputStream);
 
     if (msrOpts->fDisplayMsrSummary)
       // display the MSR summary
-      displayMSRSummary (msrOpts, mScore, cerr);
+      displayMSRSummary (
+        msrOpts,
+        mScore,
+        logIndentedOutputStream);
   }
 
   return mScore;
@@ -76,11 +89,16 @@ EXP S_msrScore musicxmlFile2Msr (
 {
   clock_t startClock = clock();
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      cerr, idtr);
+  
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
       idtr << separator <<
       endl <<
@@ -91,6 +109,7 @@ EXP S_msrScore musicxmlFile2Msr (
   }
 
   xmlreader r;
+  
   SXMLFile  xmlFile;
 
   xmlFile = r.read (file);
@@ -107,7 +126,12 @@ EXP S_msrScore musicxmlFile2Msr (
   S_msrScore mScore;
 
   if (xmlFile)
-    mScore = xml2Msr (xmlFile, msrOpts, os, file);  
+    mScore =
+      xml2Msr (
+        xmlFile,
+        msrOpts,
+        os,
+        file);  
 
   return mScore;
 }
@@ -120,11 +144,16 @@ EXP S_msrScore musicxmlFd2Msr (
 {
   clock_t startClock = clock();
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      cerr, idtr);
+  
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
       idtr << separator <<
       endl <<
@@ -135,6 +164,7 @@ EXP S_msrScore musicxmlFd2Msr (
   }
 
   xmlreader r;
+  
   SXMLFile  xmlFile;
 
   xmlFile = r.read (fd);
@@ -151,7 +181,12 @@ EXP S_msrScore musicxmlFd2Msr (
   S_msrScore mScore;
 
   if (xmlFile) {
-    mScore = xml2Msr (xmlFile, msrOpts, os, 0);
+    mScore =
+      xml2Msr (
+        xmlFile,
+        msrOpts,
+        os,
+        0);
   }
   
   return mScore;
@@ -165,11 +200,16 @@ EXP S_msrScore musicxmlString2Msr (
 {
   clock_t startClock = clock();
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      cerr, idtr);
+  
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
       idtr << separator <<
       endl <<
@@ -196,7 +236,12 @@ EXP S_msrScore musicxmlString2Msr (
   S_msrScore mScore;
 
   if (xmlFile) {
-    mScore = xml2Msr (xmlFile, msrOpts, os, 0);
+    mScore =
+      xml2Msr (
+        xmlFile,
+        msrOpts,
+        os,
+        0);
   }
   return mScore;
 }
@@ -268,10 +313,15 @@ void displayMSR (
 {
   clock_t startClock = clock();
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      os, idtr);
+  
   string separator =
     "%--------------------------------------------------------------";
   
-  cerr <<
+  logIndentedOutputStream <<
     endl <<
     idtr <<
       separator <<
@@ -313,11 +363,16 @@ void displayMSRSummary (
 {
   clock_t startClock = clock();
 
+  // create an indented output stream for the log
+  indentedOutputStream
+    logIndentedOutputStream (
+      cerr, idtr);
+  
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    cerr <<
+    logIndentedOutputStream <<
       endl <<
       idtr << separator <<
       endl <<
