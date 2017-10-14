@@ -292,12 +292,12 @@ string indenter::indentMultiLineString (string value)
   string        line;
   
   while (getline (inputStream, line)) {
-    this->print (s);
     s << line;
 
     if (inputStream.eof()) break;
 
     s << endl;
+    this->print (s);
   } // while
 
   return s.str ();
