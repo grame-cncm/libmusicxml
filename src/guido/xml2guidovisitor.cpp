@@ -238,17 +238,28 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("staff");
             tag->add (guidoparam::create(fCurrentStaffIndex, false));
             add (tag);
-            
+                        
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
             int stafflines = elt->getIntValue(k_staff_lines, 0);
             
-            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance)
+            if ((previousStaffHasLyrics)||stafflines||defaultGuidoStaffDistance||ps.fStaffDistances.size())
             {
                 Sguidoelement tag2 = guidotag::create("staffFormat");
                 if (previousStaffHasLyrics)
                 {
                     tag2->add (guidoparam::create("dy=-5", false));
+                }else if (ps.fStaffDistances.size()> (targetStaff-1)) {
+                    
+                    if (ps.fStaffDistances[targetStaff-1] > 0) {
+                        float xmlDistance = ps.fStaffDistances[targetStaff-1] - 50.0;
+                        float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+                    
+                        stringstream s;
+                        s << "dy="<< HalfSpaceDistance;
+                        tag2->add (guidoparam::create(s.str().c_str(), false));
+                        //cout<<"\t";tag2->print(cout);cout<<endl;
+                    }
                 }else if (defaultGuidoStaffDistance) {
                     stringstream s;
                     s << "dy="<< defaultGuidoStaffDistance;

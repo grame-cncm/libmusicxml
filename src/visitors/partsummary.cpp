@@ -35,6 +35,29 @@ void partsummary::visitStart ( S_staves& elt)
 {
 	fStavesCount = int(*elt);
 }
+    
+    //________________________________________________________________________
+    void partsummary::visitStart ( S_print& elt)
+    {
+        auto sLayout = elt->find(k_staff_layout);
+        
+        while (sLayout != elt->end() )
+        {
+            int number = sLayout->getAttributeIntValue("number", 0);
+            //if (number> fStaffDistances.size())
+            //    fStaffDistances.reserve(number+1);
+            int thisDistance = sLayout->getIntValue(k_staff_distance, 0);
+            if (fStaffDistances.find(number-1) != fStaffDistances.end()) {
+                if (fStaffDistances[number-1] < thisDistance)
+                {
+                    fStaffDistances[number-1] = thisDistance;
+                }
+            }else {
+                fStaffDistances.insert(std::pair<int, int>(number-1, thisDistance));
+            }
+            sLayout = elt->find(k_staff_layout, sLayout++);
+        }
+    }
 
 //________________________________________________________________________
 void partsummary::visitEnd ( S_note& elt)

@@ -38,7 +38,8 @@ namespace MusicXML2
 class EXP partsummary : 
 	public notevisitor,
 	public visitor<S_part>,
-	public visitor<S_staves>
+    public visitor<S_staves>,
+	public visitor<S_print>
 {
 	public:
 				 partsummary() : fStavesCount(1) {};
@@ -68,10 +69,13 @@ class EXP partsummary :
 		int getVoiceNotes (int voiceid) const;
 		//! returns the count of notes on a voice and a staff
 		int getVoiceNotes (int staffid, int voiceid) const;
+    // staff distance from S_print
+    std::map<int, int> fStaffDistances;
 		
 	protected:
 		virtual void visitStart ( S_part& elt);
-		virtual void visitStart ( S_staves& elt);
+        virtual void visitStart ( S_staves& elt);
+		virtual void visitStart ( S_print& elt);
 		virtual void visitEnd   ( S_note& elt);
 		
 	private:
@@ -83,6 +87,7 @@ class EXP partsummary :
 		std::map<int, int>	fVoices;
 		// staves and corresponding voices + count of notes
 		std::map<int, std::map<int, int> >	fStaffVoices;
+    
 };
 
 /*! @} */
