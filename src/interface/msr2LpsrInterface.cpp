@@ -37,16 +37,11 @@ namespace MusicXML2
  * and  writes the result to the output stream
 */
 S_lpsrScore msr2Lpsr (
-  const S_msrScore mScore,
-  S_msrOptions&    msrOpts,
-  S_lpsrOptions&   lpsrOpts,
-  ostream&         os) // JMI ???
+  const S_msrScore      mScore,
+  S_msrOptions&         msrOpts,
+  S_lpsrOptions&        lpsrOpts,
+  indentedOutputStream& ios)
 {  
-  // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream ( // JMI ???
-      os, gIdtr);
-    
   // build LPSR score from MSR score
   S_lpsrScore
     lpScore =
@@ -69,23 +64,18 @@ S_lpsrScore msr2Lpsr (
 
 //_______________________________________________________________________________
 S_lpsrScore buildLpsrScoreFromMsrScore (
-  const S_msrScore mScore,
-  S_msrOptions&    msrOpts,
-  S_lpsrOptions&   lpsrOpts,
-  ostream&         os)
+  const S_msrScore      mScore,
+  S_msrOptions&         msrOpts,
+  S_lpsrOptions&        lpsrOpts,
+  indentedOutputStream& ios)
 {
   clock_t startClock = clock();
       
-  // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream (
-      os, gIdtr);
-  
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
   
-    logIndentedOutputStream <<
+    ios <<
       endl <<
       separator <<
       endl <<
@@ -97,9 +87,10 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   }
   
   // create an msr2LpsrTranslator
-  msr2LpsrTranslator translator (
-    logIndentedOutputStream,
-    mScore);
+  msr2LpsrTranslator
+    translator (
+      ios,
+      mScore);
       
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();
@@ -118,22 +109,17 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 
 //_______________________________________________________________________________
 void displayLpsrScore (
-  const S_lpsrScore lpScore,
-  S_msrOptions&     msrOpts,
-  S_lpsrOptions&    lpsrOpts,
-  ostream&          os)
+  const S_lpsrScore     lpScore,
+  S_msrOptions&         msrOpts,
+  S_lpsrOptions&        lpsrOpts,
+  indentedOutputStream& ios)
 {
   clock_t startClock = clock();
-
-  // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream (
-      os, gIdtr);
 
   string separator =
     "%--------------------------------------------------------------";
 
-  logIndentedOutputStream <<
+  ios <<
     endl <<
     separator <<
     endl <<
@@ -143,7 +129,7 @@ void displayLpsrScore (
     endl <<
     endl;  
 
-  logIndentedOutputStream <<
+  ios <<
     "%{" <<
     endl <<
     
@@ -152,7 +138,7 @@ void displayLpsrScore (
     "%}" <<
     endl;
   
-  logIndentedOutputStream <<
+  ios <<
     separator <<
     endl;
 

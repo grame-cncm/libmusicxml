@@ -248,7 +248,9 @@ int main (int argc, char *argv[])
     else
       mScore =
         musicxmlFd2Msr (
-          stdin, gMsrOptions, cout);
+          stdin,
+          gMsrOptions,
+          cout);
   }
   
   else {
@@ -258,14 +260,14 @@ int main (int argc, char *argv[])
         musicxmlFile2Msr (
           inputSourceName.c_str(),
           gMsrOptions,
-          outStream);
+          gLogIos);
     }
     else {
       mScore =
         musicxmlFile2Msr (
           inputSourceName.c_str(),
           gMsrOptions,
-          cout);
+          gLogIos);
     }
   }
     
@@ -289,7 +291,7 @@ int main (int argc, char *argv[])
           mScore,
           gMsrOptions,
           gLpsrOptions,
-          outStream);
+          gLogIos);
     }
     else {
       lpScore =
@@ -297,7 +299,7 @@ int main (int argc, char *argv[])
           mScore,
           gMsrOptions,
           gLpsrOptions,
-          cout);
+          gLogIos);
     }
     
     if (! lpScore) {
