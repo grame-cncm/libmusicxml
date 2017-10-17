@@ -33,18 +33,18 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 /*
- * The method that converts the file contents to LilyPond code
+ * The method that converts an MSR to an LPSR
  * and  writes the result to the output stream
 */
 S_lpsrScore msr2Lpsr (
   const S_msrScore mScore,
   S_msrOptions&    msrOpts,
   S_lpsrOptions&   lpsrOpts,
-  ostream&         os) 
+  ostream&         os) // JMI ???
 {  
   // create an indented output stream for the log
   indentedOutputStream
-    logIndentedOutputStream (
+    logIndentedOutputStream ( // JMI ???
       os, gIdtr);
     
   // build LPSR score from MSR score
@@ -54,7 +54,7 @@ S_lpsrScore msr2Lpsr (
         mScore,
         msrOpts,
         lpsrOpts,
-        logIndentedOutputStream);
+        gLogIos);
 
   // display it
   if (lpsrOpts->fDisplayLpsr)
@@ -62,7 +62,7 @@ S_lpsrScore msr2Lpsr (
       lpScore,
       msrOpts,
       lpsrOpts,
-      logIndentedOutputStream);
+      gLogIos);
 
   return lpScore;
 }

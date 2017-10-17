@@ -2084,6 +2084,7 @@ void msrOptionsSubGroup::printOptionsItemForcedHelp (
     " " <<
     optionsElementNamesBetweenParentheses () <<
     ":" <<
+    endl <<
     endl;
 
   // underline the options subgroup header
@@ -3450,15 +3451,6 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     n++;
   } // while
 
-  // exit if this is a pure help run
-  if (fPureHelpRun) {
-    fLogOutputStream <<
-      "--- This is a pure help run, exiting. ---" <<
-      endl;
-
-    exit (1);
-  }
-
   unsigned int argumentsVectorSize =
     fArgumentsVector.size ();
 
@@ -3479,6 +3471,15 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
       } // for
       gIdtr--;
     }
+  }
+
+  // exit if this is a pure help run
+  if (argumentsVectorSize == 0) {
+    fLogOutputStream <<
+      "---No arguments have been supplied, exiting. ---" <<
+      endl;
+
+    exit (1);
   }
 
   // register option element names in command line strings

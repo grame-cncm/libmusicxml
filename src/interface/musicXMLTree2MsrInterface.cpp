@@ -87,14 +87,14 @@ EXP S_msrScore musicxmlFile2Msr (
 
   // create an indented output stream for the log
   indentedOutputStream
-    logIndentedOutputStream (
+    logIndentedOutputStream ( // JMI ???
       os, gIdtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    logIndentedOutputStream <<
+    gLogIos <<
       endl <<
       separator <<
       endl <<
@@ -296,21 +296,16 @@ S_msrScore buildMSRFromElementsTree (
 
 //_______________________________________________________________________________
 void displayMSR (
-  S_msrOptions& msrOpts,
-  S_msrScore    mScore,
-  ostream&      os)
+  S_msrOptions&         msrOpts,
+  S_msrScore            mScore,
+  indentedOutputStream& ios)
 {
   clock_t startClock = clock();
-
-  // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream (
-      os, gIdtr);
   
   string separator =
     "%--------------------------------------------------------------";
   
-  logIndentedOutputStream <<
+  ios <<
     endl <<
     separator <<
     endl <<
@@ -320,7 +315,7 @@ void displayMSR (
     endl <<
     endl;
 
-  logIndentedOutputStream <<
+  ios <<
     "%{" <<
     endl <<
       
@@ -341,22 +336,17 @@ void displayMSR (
 
 //_______________________________________________________________________________
 void displayMSRSummary (
-  S_msrOptions& msrOpts,
-  S_msrScore    mScore,
-  ostream&      os)
+  S_msrOptions&         msrOpts,
+  S_msrScore            mScore,
+  indentedOutputStream& ios)
 {
   clock_t startClock = clock();
-
-  // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream (
-      os, gIdtr);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    logIndentedOutputStream <<
+    ios <<
       endl <<
       separator <<
       endl <<
@@ -367,12 +357,13 @@ void displayMSRSummary (
   }
    
   // create an msr2SummaryVisitor visitor
-  msr2SummaryVisitor visitor (
-    msrOpts,
-    logIndentedOutputStream);
+  msr2SummaryVisitor
+    visitor (
+      msrOpts,
+      ios);
 
   if (gGeneralOptions->fTraceGeneral)
-    logIndentedOutputStream <<
+    ios <<
       "%{" <<
       endl;
   
@@ -380,7 +371,7 @@ void displayMSRSummary (
     mScore);
   
   if (gGeneralOptions->fTraceGeneral)
-    logIndentedOutputStream <<
+    ios <<
       "%}" <<
       endl;
 
