@@ -527,9 +527,6 @@ class EXP msrOptionsItemHelpItem : public msrOptionsValuedItem
 
     void                  print (ostream& os) const;
 
-    void                  printItemHelp (
-                            ostream& os,
-                            string   itemName) const;
   private:
   
     // fields
@@ -1632,6 +1629,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
                             ostream& os,
                             S_msrOptionsSubGroup
                                      optionsSubGroup) const;
+
+    void                  printSpecificItemHelp (
+                            ostream& os,
+                            string   optionsItemName) const;
 
     void                  printOptionsValues (
                             ostream& os) const;

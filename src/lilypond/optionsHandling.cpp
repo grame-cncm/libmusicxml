@@ -731,21 +731,6 @@ void msrOptionsItemHelpItem::print (ostream& os) const
   gIdtr--;
 }
 
-void msrOptionsItemHelpItem::printItemHelp (
-  ostream& os,
-  string   itemName) const
-{  
-/* 
-  os << left <<
-  
-    setw (valueFieldWidth) <<
-    fOptionsItemHelpItemVariableDisplayName <<
-    " : " <<
-    fOptionsItemHelpItemVariable <<
-    endl;
-    */
-}
-
 ostream& operator<< (ostream& os, const S_msrOptionsItemHelpItem& elt)
 {
   elt->print (os);
@@ -2965,6 +2950,302 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
   }
 }
 
+void msrOptionsHandler::printSpecificItemHelp (
+  ostream& os,
+  string   optionsItemName) const
+{  
+ // is optionsItemName known in options elements map?
+  map<string, S_msrOptionsElement>::const_iterator
+    it =
+      fOptionsElementsMap.find (optionsItemName);
+        
+  if (it == fOptionsElementsMap.end ()) {
+    // no, optionsItemName is unknown in the map    
+    stringstream s;
+
+    s <<
+      "option name '" << optionsItemName <<
+      "' is unknown";
+      
+    optionError (s.str ());
+
+    printHelpSummary (fLogOutputStream);
+
+    exit (2);
+  }
+
+  S_msrOptionsElement
+    optionsElement = (*it).second;
+      
+  if (! optionsElement) {
+    // optionsItemName is is not well handled by this options handler
+    stringstream s;
+
+    s <<
+      "option name '" << optionsItemName <<
+      "' is not well handled";
+      
+    optionError (s.str ());
+    abort ();
+  }
+
+  else {
+    // optionsItemName is known, let's handle it
+    if (
+      // options handler?
+      S_msrOptionsHandler
+        optionsHandler =
+          dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
+      ) {
+      // print the option handler help or help summary
+      if (
+        optionsItemName ==
+          optionsHandler->
+            getOptionHandlerHelpSummaryShortName ()
+          ||
+        optionsItemName ==
+          optionsHandler->
+            getOptionHandlerHelpSummaryLongName ()
+         ) {
+        optionsHandler->
+          printHelpSummary (
+            fLogOutputStream);
+      }
+      else {
+        optionsHandler->
+          printHelp (
+            fLogOutputStream);
+      }
+      
+      fLogOutputStream <<
+        endl;
+    }
+    
+    else if (
+      // options group?
+      S_msrOptionsGroup
+        optionsGroup =
+          dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
+      ) {
+      // print the help
+      fLogOutputStream <<
+        "--- Help for group \"" <<
+        optionsGroup->
+          getOptionsGroupHelpHeader () <<
+        "\" ---" <<
+        endl <<
+        endl;
+        
+      optionsGroup->
+        printHelp (
+          fLogOutputStream);
+      
+      fLogOutputStream <<
+        endl;
+    }
+    
+    else if (
+      // options subgroup?
+      S_msrOptionsSubGroup
+        optionsSubGroup =
+          dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
+      ) {
+      // get the options group uplink
+      S_msrOptionsGroup
+        optionsGroup =
+          optionsSubGroup-> getOptionsGroupUplink ();
+          
+      // print the help
+      fLogOutputStream <<
+        "--- Help for subgroup \"" <<
+        optionsSubGroup->
+          getOptionsSubGroupHelpHeader () <<
+        "\"" <<
+        " in group \"" <<
+        optionsGroup->
+          getOptionsGroupHelpHeader () <<
+        "\" ---" <<
+        endl <<
+        endl;
+
+      optionsGroup->
+        printForcedHelp (
+          fLogOutputStream,
+          optionsSubGroup);
+    }
+    
+    else {
+      // this is an options item, handle it
+      
+      if (
+        // version item?
+        S_msrOptionsVersionItem
+          optionsVersionItem =
+            dynamic_cast<msrOptionsVersionItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsVersionItem->
+          printVersion (
+            fLogOutputStream);
+
+        // exit
+        exit (0);
+      }
+      
+      else if (
+        // boolean item?
+        S_msrOptionsBooleanItem
+          optionsBooleanItem =
+            dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsBooleanItem->
+          setBooleanItemVariableValue (true);              
+      }
+      
+      else if (
+        // two booleans item?
+        S_msrOptionsTwoBooleansItem
+          optionsTwoBooleansItem =
+            dynamic_cast<msrOptionsTwoBooleansItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsTwoBooleansItem->
+          setTwoBooleansItemVariableValue (true);              
+      }
+      
+      else if (
+        // item help item?
+        S_msrOptionsItemHelpItem
+          optionsItemHelpItem =
+            dynamic_cast<msrOptionsItemHelpItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsItemHelpItem;
+      }
+      
+      else if (
+        // integer item?
+        S_msrOptionsIntegerItem
+          optionsIntegerItem =
+            dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsIntegerItem;
+      }
+      
+      else if (
+        // float item?
+        S_msrOptionsFloatItem
+          optionsFloatItem =
+            dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
+        ) {              
+        // wait until the value is met
+        fPendingOptionsItem = optionsFloatItem;
+      }
+      
+      else if (
+        // string item?
+        S_msrOptionsStringItem
+          optionsStringItem =
+            dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsStringItem;
+      }
+      
+      else if (
+        // rational item?
+        S_msrOptionsRationalItem
+          optionsRationalItem =
+            dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsRationalItem;
+      }
+
+      else if (
+        // numbers set item?
+        S_msrOptionsNumbersSetItem
+          optionsNumbersSetItem =
+            dynamic_cast<msrOptionsNumbersSetItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsNumbersSetItem;
+      }
+
+      else if (
+        // pitches language item?
+        S_msrOptionsPitchesLanguageItem
+          optionsPitchesLanguageItem =
+            dynamic_cast<msrOptionsPitchesLanguageItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsPitchesLanguageItem;
+      }
+
+      else if (
+        // acccidentals style item?
+        S_msrOptionsAccidentalStyleItem
+          optionsAccidentalStyleItem =
+            dynamic_cast<msrOptionsAccidentalStyleItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsAccidentalStyleItem;
+      }
+
+      else if (
+        // chords language item?
+        S_msrOptionsChordsLanguageItem
+          optionsChordsLanguageItem =
+            dynamic_cast<msrOptionsChordsLanguageItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsChordsLanguageItem;
+      }
+
+      else if (
+        // part rename item?
+        S_msrOptionsPartRenameItem
+          optionsPartRenameItem =
+            dynamic_cast<msrOptionsPartRenameItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsPartRenameItem;
+      }
+
+      else if (
+        // midi tempo item?
+        S_msrOptionsMidiTempoItem
+          optionsMidiTempoItem =
+            dynamic_cast<msrOptionsMidiTempoItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsMidiTempoItem;
+      }
+
+      else {
+        stringstream s;
+    
+        s <<
+          "option item is of unknown type";
+          
+        optionError (s.str ());
+        abort ();
+      }
+    }
+  }
+/* 
+  os << left <<
+  
+    setw (valueFieldWidth) <<
+    fOptionsItemHelpItemVariableDisplayName <<
+    " : " <<
+    fOptionsItemHelpItemVariable <<
+    endl;
+    */
+}
+
 void msrOptionsHandler::printOptionsValues (
   ostream& os) const
 {
@@ -3557,7 +3838,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       // handle the option item
 
       optionsItemHelpItem->
-        printItemHelp (
+        printSpecificItemHelp (
           fLogOutputStream,
           theString);
 
