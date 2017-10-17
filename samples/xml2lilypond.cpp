@@ -81,11 +81,6 @@ int main (int argc, char *argv[])
   }
   */
 
-  // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream (
-      cerr, gIdtr);
-    
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 
@@ -98,7 +93,7 @@ int main (int argc, char *argv[])
   S_xml2lilypondOptionsHandler
     optionsHandler =
       xml2lilypondOptionsHandler::create (
-        logIndentedOutputStream);
+        gLogIos);
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
@@ -108,11 +103,11 @@ int main (int argc, char *argv[])
       handleOptionsAndArguments (
         optionsHandler,
         argc, argv,
-        logIndentedOutputStream);
+        gLogIos);
 
   // print the resulting options
   if (TRACE_OPTIONS) {
-    logIndentedOutputStream <<
+    gLogIos <<
       optionsHandler <<
       endl <<
       endl;
@@ -134,61 +129,61 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (gGeneralOptions->fTraceGeneral) {
-    logIndentedOutputStream <<
+    gLogIos <<
       "This is xml2Lilypond v" << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
-    logIndentedOutputStream <<
+    gLogIos <<
       "Launching conversion of ";
 
     if (inputSourceName == "-")
-      logIndentedOutputStream <<
+      gLogIos <<
         "standard input";
     else
-      logIndentedOutputStream <<
+      gLogIos <<
         "\"" << inputSourceName << "\"";
 
-    logIndentedOutputStream <<
+    gLogIos <<
       " to LilyPond" <<
       endl;
 
-    logIndentedOutputStream <<
+    gLogIos <<
       "Time is " << gGeneralOptions->fTranslationDate <<
       endl;      
 
-    logIndentedOutputStream <<
+    gLogIos <<
       "LilyPond code will be written to ";
     if (outputFileNameSize) {
-      logIndentedOutputStream <<
+      gLogIos <<
         outputFileName;
     }
     else {
-      logIndentedOutputStream <<
+      gLogIos <<
         "standard output";
     }
-    logIndentedOutputStream <<
+    gLogIos <<
       endl <<
       endl;
     
-    logIndentedOutputStream <<
+    gLogIos <<
       "The command line is:" <<
       endl;
 
     gIdtr++;
     
-    logIndentedOutputStream <<
+    gLogIos <<
       optionsHandler->
         getCommandLineWithLongOptions () <<
       endl;
 
     gIdtr--;
-    logIndentedOutputStream <<
-    "or:" <<
-    endl;
+    gLogIos <<
+      "or:" <<
+      endl;
     gIdtr++;
     
-    logIndentedOutputStream <<
+    gLogIos <<
       optionsHandler->
         getCommandLineWithShortOptions () <<
       endl <<
@@ -203,14 +198,14 @@ int main (int argc, char *argv[])
   if (gGeneralOptions->fTraceGeneral) {
     optionsHandler->
       printOptionsValues (
-        logIndentedOutputStream);
+        gLogIos);
   }
 
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
   if (gGeneralOptions->fTraceGeneral) {
-    logIndentedOutputStream <<
+    gLogIos <<
       endl <<
       "The command line options and arguments have been analyzed" <<
       endl;
@@ -219,15 +214,15 @@ int main (int argc, char *argv[])
   // open output file if need be
   // ------------------------------------------------------
 
-  ofstream outStream;
+  ofstream outFileStream;
 
   if (outputFileNameSize) {
     if (gGeneralOptions->fTraceGeneral)
-      logIndentedOutputStream <<
+      gLogIos <<
         "Opening file '" << outputFileName << "' for writing" <<
         endl;
         
-    outStream.open (
+    outFileStream.open (
       outputFileName.c_str(),
       ofstream::out);
   }
@@ -244,7 +239,7 @@ int main (int argc, char *argv[])
         musicxmlFd2Msr (
           stdin,
           gMsrOptions,
-          outStream);
+          outFileStream);
     else
       mScore =
         musicxmlFd2Msr (
@@ -272,7 +267,7 @@ int main (int argc, char *argv[])
   }
     
   if (! mScore) {
-    logIndentedOutputStream <<
+    gLogIos <<
       "### Conversion from MusicCML to MSR failed ###" <<
       endl <<
       endl;
@@ -303,7 +298,7 @@ int main (int argc, char *argv[])
     }
     
     if (! lpScore) {
-      logIndentedOutputStream <<
+      gLogIos <<
         "### Conversion from MSR to LPSR failed ###" <<
         endl <<
         endl;
@@ -315,27 +310,43 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (! gLilypondOptions->fNoLilypondCode) {
-    if (outputFileNameSize)
+    if (outputFileNameSize) {
+      // create an indented output stream for the LilyPond code
+      // to be written to outFileStream
+      indentedOutputStream
+        lilypondCodeFileOutputStream (
+          outFileStream, gIdtr);
+
+      // convert the LPSR score to LilyPond code
       lpsr2Lilypond (
         lpScore,
         gMsrOptions,
         gLpsrOptions,
-        outStream);
-    else
+        lilypondCodeFileOutputStream);
+    }
+    
+    else {
+      // create an indented output stream for the LilyPond code
+      // to be written to cout
+      indentedOutputStream
+        lilypondCodeCoutOutputStream (
+          cout, gIdtr);
+
       lpsr2Lilypond (
         lpScore,
         gMsrOptions,
         gLpsrOptions,
-        cout);
+        lilypondCodeCoutOutputStream);
+    }
     
     if (outputFileNameSize) {
       if (gGeneralOptions->fTraceGeneral)
-        logIndentedOutputStream <<
+        gLogIos <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
           endl;
           
-      outStream.close ();
+      outFileStream.close ();
     }
   }
 
@@ -344,14 +355,14 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fDisplayCPUusage)
     timing::gTiming.print (
-      logIndentedOutputStream);
+      gLogIos);
   
 
   // over!
   // ------------------------------------------------------
 
   if (! true) { // JMI
-    logIndentedOutputStream <<
+    gLogIos <<
       "### Conversion from LPSR to LilyPond code failed ###" <<
       endl <<
       endl;
