@@ -2078,6 +2078,45 @@ void msrOptionsSubGroup::printOptionsItemForcedHelp (
   ostream&             os,
   S_msrOptionsItem     targetOptionsItem) const
 {
+  // print the header
+  os <<
+    fOptionsSubGroupHelpHeader <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
+    ":" <<
+    endl;
+
+  // underline the options subgroup header
+// JMI  underlineHeader (os);
+
+  // print the options items
+  if (fOptionsSubGroupItemsList.size ()) {    
+    gIdtr++;
+
+    list<S_msrOptionsItem>::const_iterator
+      iBegin = fOptionsSubGroupItemsList.begin(),
+      iEnd   = fOptionsSubGroupItemsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrOptionsItem
+        optionsItem = (*i);
+        
+      if (optionsItem == targetOptionsItem) {
+        // print the target options item's help
+        // target options item's help
+        (*i)->
+          printHelp (
+            os);
+      }
+      if (++i == iEnd) break;
+      if (optionsItem == targetOptionsItem) {
+        os <<
+          endl;
+      }
+    } // for
+    
+    gIdtr--;
+  }
 }
 
 void msrOptionsSubGroup::printOptionsValues (
