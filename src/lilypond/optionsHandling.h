@@ -114,7 +114,7 @@ class EXP msrOptionsElement : public smartable
     
     virtual void          printHeader (ostream& os) const;
     
-    void                  printElementEssentials (
+    virtual void          printElementEssentials (
                             ostream& os,
                             int      fieldWidth) const;
     
@@ -453,7 +453,7 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
     // print
     // ------------------------------------------------------
 
-    void                  printValuedItemEssentials (
+    virtual void          printValuedItemEssentials (
                             ostream& os,
                             int      fieldWidth) const;
 
