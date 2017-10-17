@@ -2305,7 +2305,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
   }
 }
 
-void msrOptionsGroup::printOptionsGroupForcedHelp (
+void msrOptionsGroup::printOptionsSubGroupForcedHelp (
   ostream&             os,
   S_msrOptionsSubGroup targetOptionsSubGroup) const
 {
@@ -3076,7 +3076,7 @@ void msrOptionsHandler::printSpecificItemHelp (
         endl;
 
       optionsGroup->
-        printOptionsGroupForcedHelp (
+        printOptionsSubGroupForcedHelp (
           fLogOutputStream,
           optionsSubGroup);
     }
@@ -3525,7 +3525,7 @@ void msrOptionsHandler::handleOptionsItemName (
         endl;
 
       optionsGroup->
-        printOptionsGroupForcedHelp (
+        printOptionsSubGroupForcedHelp (
           fLogOutputStream,
           optionsSubGroup);
     }

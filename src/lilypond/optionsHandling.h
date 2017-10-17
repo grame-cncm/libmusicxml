@@ -1464,7 +1464,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printOptionsGroupForcedHelp (
+    void                  printOptionsSubGroupForcedHelp (
                             ostream&             os,
                             S_msrOptionsSubGroup targetOptionsSubGroup) const;
 
