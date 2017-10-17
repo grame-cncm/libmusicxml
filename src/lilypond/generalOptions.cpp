@@ -116,7 +116,7 @@ R"()",
         msrOptionsItemHelpItem::create (
         "ih", "itemHelp",
 R"(Print help about 'itemName'.)",
-        "intemName"));
+        "itemName"));
   }
 
 

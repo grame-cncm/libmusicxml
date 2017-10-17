@@ -529,7 +529,7 @@ class EXP msrOptionsItemHelpItem : public msrOptionsValuedItem
 
     void                  printItemHelp (
                             ostream& os,
-                            int      valueFieldWidth) const;
+                            string   itemName) const;
   private:
   
     // fields

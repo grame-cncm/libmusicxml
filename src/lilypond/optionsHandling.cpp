@@ -733,7 +733,7 @@ void msrOptionsItemHelpItem::print (ostream& os) const
 
 void msrOptionsItemHelpItem::printItemHelp (
   ostream& os,
-  int      valueFieldWidth) const
+  string   itemName) const
 {  
 /* 
   os << left <<
@@ -3291,9 +3291,9 @@ void msrOptionsHandler::handleOptionsItemName (
 
     // register option element names in command line strings
     fCommandLineWithShortOptions +=
-      " " + shortNameToBeUsed;
+      " -" + shortNameToBeUsed;
     fCommandLineWithLongOptions +=
-      " " + longNameToBeUsed;
+      " -" + longNameToBeUsed;
 
     // handle the option element
     if (
@@ -3420,6 +3420,16 @@ void msrOptionsHandler::handleOptionsItemName (
       }
       
       else if (
+        // item help item?
+        S_msrOptionsItemHelpItem
+          optionsItemHelpItem =
+            dynamic_cast<msrOptionsItemHelpItem*>(&(*optionsElement))
+        ) {
+        // wait until the value is met
+        fPendingOptionsItem = optionsItemHelpItem;
+      }
+      
+      else if (
         // integer item?
         S_msrOptionsIntegerItem
           optionsIntegerItem =
@@ -3539,6 +3549,22 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     // theString is the value for the pending options item
 
     if (
+      // item help item?
+      S_msrOptionsItemHelpItem
+        optionsItemHelpItem =
+          dynamic_cast<msrOptionsItemHelpItem*>(&(*fPendingOptionsItem))
+      ) {
+      // handle the option item
+
+      optionsItemHelpItem->
+        printItemHelp (
+          fLogOutputStream,
+          theString);
+
+      fPendingOptionsItem = 0;
+      }
+    
+    else if (
       // integer item?
       S_msrOptionsIntegerItem
         optionsIntegerItem =
@@ -3552,6 +3578,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         s << theString;
         s >> integerValue;
       }
+      
       optionsIntegerItem->
         setIntegerItemVariableValue (
           integerValue);
@@ -3572,6 +3599,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         s << theString;
         s >> floatValue;
       }
+      
       optionsFloatItem->
         setFloatItemVariableValue (
           floatValue);
