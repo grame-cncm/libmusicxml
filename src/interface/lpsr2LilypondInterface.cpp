@@ -60,7 +60,7 @@ void generateLilypondCodeFromLpsrScore (
     "%--------------------------------------------------------------";
 
   if (gGeneralOptions->fTraceGeneral) {
-    logIndentedOutputStream <<
+    gLogIos <<
       endl <<
       separator <<
       endl <<

@@ -93,6 +93,33 @@ R"(Display xml2lilypond's version number and exit.)"));
   }
 
 
+  // item help
+  // --------------------------------------
+
+  {
+    // variables  
+    
+    // options
+  
+    S_msrOptionsSubGroup versionSubGroup =
+      msrOptionsSubGroup::create (
+        "Item help",
+        "hih", "helpItemHelp",
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
+      );
+  
+    appendOptionsSubGroup (versionSubGroup);
+  
+    versionSubGroup->
+      appendOptionsItem (
+        msrOptionsItemHelpItem::create (
+        "ih", "itemHelp",
+R"(Print help about 'itemName'.)",
+        "intemName"));
+  }
+
+
   // output file
   // --------------------------------------
 

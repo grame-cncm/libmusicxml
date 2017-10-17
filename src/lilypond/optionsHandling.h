@@ -114,7 +114,7 @@ class EXP msrOptionsElement : public smartable
     
     virtual void          printHeader (ostream& os) const;
     
-    virtual void          printEssentials (
+    void                  printElementEssentials (
                             ostream& os,
                             int      fieldWidth) const;
     
@@ -231,7 +231,6 @@ class EXP msrOptionsVersionItem : public msrOptionsItem
     // set and get
     // ------------------------------------------------------
 
-
     // services
     // ------------------------------------------------------
 
@@ -246,7 +245,6 @@ class EXP msrOptionsVersionItem : public msrOptionsItem
   
     // fields
     // ------------------------------------------------------
-
 };
 typedef SMARTP<msrOptionsVersionItem> S_msrOptionsVersionItem;
 ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt);
@@ -455,6 +453,10 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
     // print
     // ------------------------------------------------------
 
+    void                  printValuedItemEssentials (
+                            ostream& os,
+                            int      fieldWidth) const;
+
     void                  print (ostream& os) const;
 
     void                  printHelp (ostream& os) const;
@@ -475,6 +477,66 @@ class EXP msrOptionsValuedItem : public msrOptionsItem
 };
 typedef SMARTP<msrOptionsValuedItem> S_msrOptionsValuedItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt);
+
+//______________________________________________________________________________
+/*!
+\brief An option to provide help on any option.
+
+  An element is represented by its name and the
+  list of its enclosed elements plus optional parameters.
+*/
+class EXP msrOptionsItemHelpItem : public msrOptionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsItemHelpItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsItemHelpItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification);
+           
+  protected:
+
+
+    virtual ~msrOptionsItemHelpItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printItemHelp (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msrOptionsItemHelpItem> S_msrOptionsItemHelpItem;
+ostream& operator<< (ostream& os, const S_msrOptionsItemHelpItem& elt);
 
 //______________________________________________________________________________
 class EXP msrOptionsIntegerItem : public msrOptionsValuedItem

@@ -186,7 +186,7 @@ void msrOptionsElement::printHeader (ostream& os) const
   gIdtr.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
 }
 
-void msrOptionsElement::printEssentials (
+void msrOptionsElement::printElementEssentials (
   ostream& os,
   int      fieldWidth) const
 {
@@ -216,7 +216,7 @@ void msrOptionsElement::print (ostream& os) const
     "??? msrOptionsElement ???" <<
     endl;
 
-  printEssentials (os, 35);  
+  printElementEssentials (os, 35);  
 }
 
 void msrOptionsElement::printHelp (ostream& os) const
@@ -289,7 +289,7 @@ void msrOptionsItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 }
 
@@ -346,7 +346,7 @@ void msrOptionsVersionItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIdtr++;
@@ -421,7 +421,7 @@ void msrOptionsBooleanItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIdtr++;
@@ -517,7 +517,7 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIdtr++;
@@ -620,6 +620,20 @@ void msrOptionsValuedItem::registerOptionsItemInHandler (
     registerOptionsElementInHandler (this);
 }
 
+void msrOptionsValuedItem::printValuedItemEssentials (
+  ostream& os,
+  int      fieldWidth) const
+{
+  msrOptionsElement::printElementEssentials (
+    os, fieldWidth);
+    
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsValueSpecification" << " : " <<
+    fOptionsValueSpecification <<
+    endl;
+}
+
 void msrOptionsValuedItem::print (ostream& os) const
 {
   const int fieldWidth = 19;
@@ -630,7 +644,7 @@ void msrOptionsValuedItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 }
 
@@ -664,6 +678,75 @@ void msrOptionsValuedItem::printOptionsValues (
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrOptionsItemHelpItem msrOptionsItemHelpItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification)
+{
+  msrOptionsItemHelpItem* o = new
+    msrOptionsItemHelpItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsItemHelpItem::msrOptionsItemHelpItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification)
+  : msrOptionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification)
+{}
+
+msrOptionsItemHelpItem::~msrOptionsItemHelpItem()
+{}
+
+void msrOptionsItemHelpItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    "OptionsItemHelpItem:" <<
+    endl;
+
+  gIdtr++;
+
+  msrOptionsItemHelpItem::printValuedItemEssentials (
+    os, fieldWidth);
+
+  gIdtr--;
+}
+
+void msrOptionsItemHelpItem::printItemHelp (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+/* 
+  os << left <<
+  
+    setw (valueFieldWidth) <<
+    fOptionsItemHelpItemVariableDisplayName <<
+    " : " <<
+    fOptionsItemHelpItemVariable <<
+    endl;
+    */
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsItemHelpItem& elt)
 {
   elt->print (os);
   return os;
@@ -721,7 +804,7 @@ void msrOptionsIntegerItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -807,7 +890,7 @@ void msrOptionsFloatItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -893,14 +976,10 @@ void msrOptionsStringItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
-    setw (fieldWidth) <<
-    "fOptionsValueSpecification" << " : " <<
-    fOptionsValueSpecification <<
-    endl <<
     setw (fieldWidth) <<
     "fOptionsStringItemVariableDisplayName" << " : " <<
     fOptionsStringItemVariableDisplayName <<
@@ -985,7 +1064,7 @@ void msrOptionsRationalItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1069,7 +1148,7 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1205,7 +1284,7 @@ void msrOptionsPitchesLanguageItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1295,7 +1374,7 @@ void msrOptionsAccidentalStyleItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1385,7 +1464,7 @@ void msrOptionsChordsLanguageItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1474,7 +1553,7 @@ void msrOptionsPartRenameItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1606,7 +1685,7 @@ void msrOptionsMidiTempoItem::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsValuedItem::printValuedItemEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -1773,7 +1852,7 @@ void msrOptionsSubGroup::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -2159,7 +2238,7 @@ void msrOptionsGroup::print (ostream& os) const
 
   gIdtr++;
 
-  msrOptionsElement::printEssentials (
+  msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
   os <<
@@ -2714,7 +2793,7 @@ void msrOptionsHandler::print (ostream& os) const
 
   gIdtr++;
   
-  printEssentials (os, fieldWidth);
+  printElementEssentials (os, fieldWidth);
 
   os << left <<
     setw (fieldWidth) <<
