@@ -187,6 +187,8 @@ class EXP msrOptionsItem : public msrOptionsElement
 
     void                  print (ostream& os) const;
 
+    void                  printOptionsItemForcedHelp (ostream& os) const;
+
     virtual void          printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
@@ -1364,7 +1366,8 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printForcedHelp (ostream& os) const;
+    void                  printOptionsSubGroupForcedHelp (
+                            ostream& os) const;
 
     void                  printHelpSummary (ostream& os) const;
 
@@ -1461,7 +1464,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
 
     void                  printHelp (ostream& os) const;
 
-    void                  printForcedHelp (
+    void                  printOptionsGroupForcedHelp (
                             ostream&             os,
                             S_msrOptionsSubGroup targetOptionsSubGroup) const;
 
