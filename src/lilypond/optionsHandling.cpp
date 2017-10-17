@@ -3032,7 +3032,9 @@ void msrOptionsHandler::printSpecificItemHelp (
       ) {
       // print the help
       fLogOutputStream <<
-        "--- Help for group \"" <<
+        "--- Help for options item name '" <<
+        optionsItemName <<
+        "' for group \"" <<
         optionsGroup->
           getOptionsGroupHelpHeader () <<
         "\" ---" <<
@@ -3060,7 +3062,9 @@ void msrOptionsHandler::printSpecificItemHelp (
           
       // print the help
       fLogOutputStream <<
-        "--- Help for subgroup \"" <<
+        "--- Help for options item name '" <<
+        optionsItemName <<
+        "' for subgroup \"" <<
         optionsSubGroup->
           getOptionsSubGroupHelpHeader () <<
         "\"" <<
@@ -3084,8 +3088,17 @@ void msrOptionsHandler::printSpecificItemHelp (
           dynamic_cast<msrOptionsItem*>(&(*optionsElement))
       ) {
 
+      // print the help
+      fLogOutputStream <<
+        "--- Help for options item name '" <<
+        optionsItemName <<
+        "' ---" <<
+        endl <<
+        endl;
+
       optionsItem->
-        printOptionsItemForcedHelp (
+    //    printOptionsItemForcedHelp ( JMI
+        printHelp (
           fLogOutputStream);
     }
     
