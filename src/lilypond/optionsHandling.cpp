@@ -293,10 +293,6 @@ void msrOptionsItem::print (ostream& os) const
     os, fieldWidth);
 }
 
-void msrOptionsItem::printOptionsItemForcedHelp (ostream& os) const
-{
-}
-
 void msrOptionsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
@@ -2078,6 +2074,12 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
   }
  }
 
+void msrOptionsSubGroup::printOptionsItemForcedHelp (
+  ostream&             os,
+  S_msrOptionsItem     targetOptionsItem) const
+{
+}
+
 void msrOptionsSubGroup::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
@@ -2350,6 +2352,68 @@ void msrOptionsGroup::printOptionsSubGroupForcedHelp (
       if (optionsSubGroup == targetOptionsSubGroup) {
         // print the target options subgroup help
         (*i)->printHelp (os);
+      }
+      if (++i == iEnd) break;
+      if (optionsSubGroup == targetOptionsSubGroup) {
+        os <<
+          endl;
+      }
+    } // for
+      
+    gIdtr--;
+  }
+}
+
+void msrOptionsGroup::printOptionsItemForcedHelp (
+  ostream&             os,
+  S_msrOptionsSubGroup targetOptionsSubGroup,
+  S_msrOptionsItem     targetOptionsItem) const
+{
+  // print the header and option names
+  os <<
+    fOptionsGroupHelpHeader <<
+    " " <<
+    optionsElementNamesBetweenParentheses () <<
+    ":" <<
+    endl;
+
+  // underline the options group header
+  underlineHeader (os);
+  os <<
+    endl;
+
+  // print the description if any
+  if (fOptionsElementDescription.size ()) {
+    gIdtr++;
+    os <<
+      gIdtr.indentMultiLineString (
+        fOptionsElementDescription) <<
+      endl;
+    gIdtr--;
+
+    os <<
+      endl;  
+  }
+    
+  // print the target options subgroup
+  if (fOptionsGroupSubGroupsList.size ()) {    
+    gIdtr++;
+
+    list<S_msrOptionsSubGroup>::const_iterator
+      iBegin = fOptionsGroupSubGroupsList.begin(),
+      iEnd   = fOptionsGroupSubGroupsList.end(),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrOptionsSubGroup
+        optionsSubGroup = (*i);
+        
+      if (optionsSubGroup == targetOptionsSubGroup) {
+        // print the target options subgroup's
+        // target options item's help
+        (*i)->
+          printOptionsItemForcedHelp (
+            os,
+            targetOptionsItem);
       }
       if (++i == iEnd) break;
       if (optionsSubGroup == targetOptionsSubGroup) {
@@ -3087,19 +3151,36 @@ void msrOptionsHandler::printSpecificItemHelp (
         optionsItem =
           dynamic_cast<msrOptionsItem*>(&(*optionsElement))
       ) {
+      // get the options subgroup uplink
+      S_msrOptionsSubGroup
+        optionsSubGroup =
+          optionsItem-> getOptionsSubGroupUplink ();
+          
+      // get the options group uplink
+      S_msrOptionsGroup
+        optionsGroup =
+          optionsSubGroup-> getOptionsGroupUplink ();
 
       // print the help
       fLogOutputStream <<
         "--- Help for options item name '" <<
         optionsItemName <<
-        "' ---" <<
+        "' in subgroup \"" <<
+        optionsSubGroup->
+          getOptionsSubGroupHelpHeader () <<
+        "\"" <<
+        " in group \"" <<
+        optionsGroup->
+          getOptionsGroupHelpHeader () <<
+        "\" ---" <<
         endl <<
         endl;
 
-      optionsItem->
-    //    printOptionsItemForcedHelp ( JMI
-        printHelp (
-          fLogOutputStream);
+      optionsGroup->
+        printOptionsItemForcedHelp (
+          fLogOutputStream,
+          optionsSubGroup,
+          optionsItem);
     }
     
     else {
