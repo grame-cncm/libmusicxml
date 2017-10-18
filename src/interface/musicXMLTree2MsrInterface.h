@@ -84,8 +84,9 @@ EXP S_msrScore musicxmlString2Msr (
 
 //______________________________________________________________________________
 S_msrScore buildMSRFromElementsTree (
-  S_msrOptions& msrOpts,
-  Sxmlelement   xmlTree);
+  S_msrOptions&    msrOpts,
+  Sxmlelement      xmlTree,
+  indentedOstream& logIOstream);
 
 //______________________________________________________________________________
 void displayMSR (

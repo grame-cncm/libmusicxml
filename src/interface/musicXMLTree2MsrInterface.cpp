@@ -51,7 +51,8 @@ static S_msrScore xml2Msr (
     mScore =
       buildMSRFromElementsTree (
         msrOpts,
-        elemsTree);
+        elemsTree,
+        logIOstream);
     
     if (msrOpts->fDisplayMsr)
       // display the MSR
@@ -218,16 +219,12 @@ EXP S_msrScore musicxmlString2Msr (
 
 //_______________________________________________________________________________
 S_msrScore buildMSRFromElementsTree (
-  S_msrOptions& msrOpts,
-  Sxmlelement   xmlTree)
+  S_msrOptions&    msrOpts,
+  Sxmlelement      xmlTree,
+  indentedOstream& logIOstream)
 {
   clock_t startClock = clock();
 
-  // create an indented output stream for the log
-  indentedOstream
-    logIOstream (
-      cerr, gIndenter);
-  
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";

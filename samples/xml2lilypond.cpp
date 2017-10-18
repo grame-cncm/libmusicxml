@@ -223,13 +223,13 @@ int main (int argc, char *argv[])
         musicxmlFd2Msr (
           stdin,
           gMsrOptions,
-          outFileStream);
+          gLogIOstream);
     else
       mScore =
         musicxmlFd2Msr (
           stdin,
           gMsrOptions,
-          cout);
+          gLogIOstream);
   }
   
   else {
