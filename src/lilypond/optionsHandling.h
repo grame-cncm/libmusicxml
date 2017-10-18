@@ -1737,8 +1737,6 @@ class EXP msrOptionsHandler : public msrOptionsElement
     
     string                fOutputFileName;
     
-    bool                  fPureHelpRun;
-
     indentedOstream&      fOptionsHandlerLogIOstream;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;

@@ -46,17 +46,17 @@ The library includes a high level API to convert
   \return an error code (\c kNoErr when success)
 */
 EXP void lpsr2Lilypond (
-  const S_lpsrScore     lpScore,
-  S_msrOptions&         msrOpts,
-  S_lpsrOptions&        lpsrOpts,
-  indentedOstream& ios);
+  const S_lpsrScore lpScore,
+  S_msrOptions&     msrOpts,
+  S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  lilypondCodeIOstream);
 
 //______________________________________________________________________________
 void generateLilypondCodeFromLpsrScore (
-  const S_lpsrScore     lpScore,
-  S_msrOptions&         msrOpts,
-  S_lpsrOptions&        lpsrOpts,
-  indentedOstream& ios);
+  const S_lpsrScore lpScore,
+  S_msrOptions&     msrOpts,
+  S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  lilypondCodeIOstream);
 
 /*! @} */
 

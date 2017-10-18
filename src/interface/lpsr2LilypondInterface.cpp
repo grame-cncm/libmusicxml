@@ -32,25 +32,25 @@ namespace MusicXML2
  * and  writes the result to the output stream
 */
 void lpsr2Lilypond (
-  const S_lpsrScore     lpScore,
-  S_msrOptions&         msrOpts,
-  S_lpsrOptions&        lpsrOpts,
-  indentedOstream& ios) 
+  const S_lpsrScore lpScore,
+  S_msrOptions&     msrOpts,
+  S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  lilypondCodeIOstream) 
 {  
   // generate LilyPond code from LPSR score
   generateLilypondCodeFromLpsrScore (
     lpScore,
     msrOpts,
     lpsrOpts,
-    ios);
+    lilypondCodeIOstream);
 }
 
 //_______________________________________________________________________________
 void generateLilypondCodeFromLpsrScore (
-  const S_lpsrScore     lpScore,
-  S_msrOptions&         msrOpts,
-  S_lpsrOptions&        lpsrOpts,
-  indentedOstream& ios)
+  const S_lpsrScore lpScore,
+  S_msrOptions&     msrOpts,
+  S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  lilypondCodeIOstream)
 {
   clock_t startClock = clock();
 
@@ -69,24 +69,19 @@ void generateLilypondCodeFromLpsrScore (
       endl;
   }
 
-  // create an indented output stream for the LilyPond code
-  indentedOstream
-    lilypondIndentedOutputStream (
-      cout, gIndenter);
-  
   // create an lpsr2LilypondTranslator
   lpsr2LilypondTranslator
     translator (
       msrOpts,
       lpsrOpts,
-      lilypondIndentedOutputStream,
+      lilypondCodeIOstream,
       lpScore);
   
   // build the LPSR score    
   translator.generateLilypondCodeFromLpsrScore ();
   
   if (gGeneralOptions->fTraceGeneral)
-    ios <<
+    lilypondCodeIOstream <<
       separator <<
       endl;
 

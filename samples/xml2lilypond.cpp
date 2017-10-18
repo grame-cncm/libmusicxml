@@ -93,7 +93,7 @@ int main (int argc, char *argv[])
   S_xml2lilypondOptionsHandler
     optionsHandler =
       xml2lilypondOptionsHandler::create (
-        gLogIos);
+        gLogIOstream);
 
   // analyze the command line options and arguments
   // ------------------------------------------------------
@@ -103,11 +103,11 @@ int main (int argc, char *argv[])
       handleOptionsAndArguments (
         optionsHandler,
         argc, argv,
-        gLogIos);
+        gLogIOstream);
 
   // print the resulting options
   if (TRACE_OPTIONS) {
-    gLogIos <<
+    gLogIOstream <<
       optionsHandler <<
       endl <<
       endl;
@@ -129,61 +129,61 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (gGeneralOptions->fTraceGeneral) {
-    gLogIos <<
+    gLogIOstream <<
       "This is xml2Lilypond v" << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 
-    gLogIos <<
+    gLogIOstream <<
       "Launching conversion of ";
 
     if (inputSourceName == "-")
-      gLogIos <<
+      gLogIOstream <<
         "standard input";
     else
-      gLogIos <<
+      gLogIOstream <<
         "\"" << inputSourceName << "\"";
 
-    gLogIos <<
+    gLogIOstream <<
       " to LilyPond" <<
       endl;
 
-    gLogIos <<
+    gLogIOstream <<
       "Time is " << gGeneralOptions->fTranslationDate <<
       endl;      
 
-    gLogIos <<
+    gLogIOstream <<
       "LilyPond code will be written to ";
     if (outputFileNameSize) {
-      gLogIos <<
+      gLogIOstream <<
         outputFileName;
     }
     else {
-      gLogIos <<
+      gLogIOstream <<
         "standard output";
     }
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       endl;
     
-    gLogIos <<
+    gLogIOstream <<
       "The command line is:" <<
       endl;
 
     gIndenter++;
     
-    gLogIos <<
+    gLogIOstream <<
       optionsHandler->
         getCommandLineWithLongOptions () <<
       endl;
 
     gIndenter--;
-    gLogIos <<
+    gLogIOstream <<
       "or:" <<
       endl;
     gIndenter++;
     
-    gLogIos <<
+    gLogIOstream <<
       optionsHandler->
         getCommandLineWithShortOptions () <<
       endl <<
@@ -198,35 +198,19 @@ int main (int argc, char *argv[])
   if (gGeneralOptions->fTraceGeneral) {
     optionsHandler->
       printOptionsValues (
-        gLogIos);
+        gLogIOstream);
   }
 
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
   if (gGeneralOptions->fTraceGeneral) {
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       "The command line options and arguments have been analyzed" <<
       endl;
   }
 
-  // open output file if need be
-  // ------------------------------------------------------
-
-  ofstream outFileStream;
-
-  if (outputFileNameSize) {
-    if (gGeneralOptions->fTraceGeneral)
-      gLogIos <<
-        "Opening file '" << outputFileName << "' for writing" <<
-        endl;
-        
-    outFileStream.open (
-      outputFileName.c_str(),
-      ofstream::out);
-  }
-      
   // create MSR from MusicXML contents
   // ------------------------------------------------------
 
@@ -255,19 +239,19 @@ int main (int argc, char *argv[])
         musicxmlFile2Msr (
           inputSourceName.c_str(),
           gMsrOptions,
-          gLogIos);
+          gLogIOstream);
     }
     else {
       mScore =
         musicxmlFile2Msr (
           inputSourceName.c_str(),
           gMsrOptions,
-          gLogIos);
+          gLogIOstream);
     }
   }
     
   if (! mScore) {
-    gLogIos <<
+    gLogIOstream <<
       "### Conversion from MusicCML to MSR failed ###" <<
       endl <<
       endl;
@@ -286,7 +270,7 @@ int main (int argc, char *argv[])
           mScore,
           gMsrOptions,
           gLpsrOptions,
-          gLogIos);
+          gLogIOstream);
     }
     else {
       lpScore =
@@ -294,11 +278,11 @@ int main (int argc, char *argv[])
           mScore,
           gMsrOptions,
           gLpsrOptions,
-          gLogIos);
+          gLogIOstream);
     }
     
     if (! lpScore) {
-      gLogIos <<
+      gLogIOstream <<
         "### Conversion from MSR to LPSR failed ###" <<
         endl <<
         endl;
@@ -310,8 +294,22 @@ int main (int argc, char *argv[])
   // ------------------------------------------------------
 
   if (! gLilypondOptions->fNoLilypondCode) {
+    // open output file if need be
+    // ------------------------------------------------------
+  
+    ofstream outFileStream;
+        
     if (outputFileNameSize) {
-      // create an indented output stream for the LilyPond code
+      if (gGeneralOptions->fTraceGeneral)
+        gLogIOstream <<
+          "Opening file '" << outputFileName << "' for writing" <<
+          endl;
+          
+      outFileStream.open (
+        outputFileName.c_str(),
+        ofstream::out);
+
+     // create an indented output stream for the LilyPond code
       // to be written to outFileStream
       indentedOstream
         lilypondCodeFileOutputStream (
@@ -341,7 +339,7 @@ int main (int argc, char *argv[])
     
     if (outputFileNameSize) {
       if (gGeneralOptions->fTraceGeneral)
-        gLogIos <<
+        gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
           endl;
@@ -355,14 +353,14 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fDisplayCPUusage)
     timing::gTiming.print (
-      gLogIos);
+      gLogIOstream);
   
 
   // over!
   // ------------------------------------------------------
 
   if (! true) { // JMI
-    gLogIos <<
+    gLogIOstream <<
       "### Conversion from LPSR to LilyPond code failed ###" <<
       endl <<
       endl;

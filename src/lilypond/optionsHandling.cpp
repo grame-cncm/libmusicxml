@@ -2725,7 +2725,7 @@ msrOptionsHandler::msrOptionsHandler (
       optionHandlerHelpShortName,
       optionHandlerHelpLongName,
       optionHandlerDescription),
-    fLogOutputStream (
+    fOptionsHandlerLogIOstream (
       optionsHandlerLogIOstream)
 {
   fOptionsHandlerHelpHeader =
@@ -3147,7 +3147,8 @@ void msrOptionsHandler::printSpecificItemHelp (
       
     optionError (s.str ());
 
-    printHelpSummary (fLogOutputStream);
+    printHelpSummary (
+      fOptionsHandlerLogIOstream);
 
     exit (2);
   }
@@ -3187,15 +3188,15 @@ void msrOptionsHandler::printSpecificItemHelp (
          ) {
         optionsHandler->
           printHelpSummary (
-            fLogOutputStream);
+            fOptionsHandlerLogIOstream);
       }
       else {
         optionsHandler->
           printHelp (
-            fLogOutputStream);
+            fOptionsHandlerLogIOstream);
       }
       
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         endl;
     }
     
@@ -3206,7 +3207,7 @@ void msrOptionsHandler::printSpecificItemHelp (
           dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
       ) {
       // print the help
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         "--- Help for options item name '" <<
         optionsItemName <<
         "' for group \"" <<
@@ -3218,9 +3219,9 @@ void msrOptionsHandler::printSpecificItemHelp (
         
       optionsGroup->
         printHelp (
-          fLogOutputStream);
+          fOptionsHandlerLogIOstream);
       
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         endl;
     }
     
@@ -3236,7 +3237,7 @@ void msrOptionsHandler::printSpecificItemHelp (
           optionsSubGroup-> getOptionsGroupUplink ();
           
       // print the help
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         "--- Help for options item name '" <<
         optionsItemName <<
         "' for subgroup \"" <<
@@ -3252,7 +3253,7 @@ void msrOptionsHandler::printSpecificItemHelp (
 
       optionsGroup->
         printOptionsSubGroupForcedHelp (
-          fLogOutputStream,
+          fOptionsHandlerLogIOstream,
           optionsSubGroup);
     }
     
@@ -3273,7 +3274,7 @@ void msrOptionsHandler::printSpecificItemHelp (
           optionsSubGroup-> getOptionsGroupUplink ();
 
       // print the help
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         "--- Help for options item name '" <<
         optionsItemName <<
         "' in subgroup \"" <<
@@ -3289,7 +3290,7 @@ void msrOptionsHandler::printSpecificItemHelp (
 
       optionsGroup->
         printOptionsItemForcedHelp (
-          fLogOutputStream,
+          fOptionsHandlerLogIOstream,
           optionsSubGroup,
           optionsItem);
     }
@@ -3382,7 +3383,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
 {
   if (TRACE_OPTIONS) {
     // print the options elements map  
-    fLogOutputStream <<
+    fOptionsHandlerLogIOstream <<
       "Options elements map (" <<
       fOptionsElementsMap.size () <<
       " elements):" <<
@@ -3395,20 +3396,24 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
         iEnd   = fOptionsElementsMap.end(),
         i      = iBegin;
       for ( ; ; ) {
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           (*i).first << "-->" <<
           endl;
         gIndenter++;
         (*i).second->
-          printHeader (fLogOutputStream);
+          printHeader (
+            fOptionsHandlerLogIOstream);
+            
         if (++i == iEnd) break;
-        fLogOutputStream << endl;
+        
+        fOptionsHandlerLogIOstream <<
+          endl;
         gIndenter--;
       } // for
       
       gIndenter--;
     }
-    fLogOutputStream <<
+    fOptionsHandlerLogIOstream <<
       endl;
   }
 
@@ -3429,7 +3434,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     
     if (TRACE_OPTIONS) {
       // print current element
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         "Command line element " << n <<
         ": " <<currentElement << " "<<
         endl;
@@ -3442,7 +3447,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
       if (currentElement.size () == 1) {
         // this is the stdin indicator
         if (TRACE_OPTIONS) {
-          fLogOutputStream <<
+          fOptionsHandlerLogIOstream <<
             "'" << currentElement <<
               "' is the '-' stdin indicator" <<
             endl;
@@ -3464,7 +3469,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
           currentElement.substr (1, string::npos);
   
         /* JMI
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           "elementTrailer '" << elementTrailer << "' is preceded by a dash" <<
           endl;
         */
@@ -3476,7 +3481,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
               elementTrailer.substr (1, string::npos);
             
             if (TRACE_OPTIONS) {
-              fLogOutputStream <<
+              fOptionsHandlerLogIOstream <<
                 "'" << currentOptionName << "' is a double-dashed option" <<
                 endl;
             }
@@ -3487,7 +3492,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
               elementTrailer; //.substr (1, string::npos);
             
             if (TRACE_OPTIONS) {
-              fLogOutputStream <<
+              fOptionsHandlerLogIOstream <<
                 "'" << currentOptionName << "' is a single-dashed option" <<
                 endl;
             }
@@ -3496,7 +3501,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
         
         else {
           if (TRACE_OPTIONS) {
-            fLogOutputStream <<
+            fOptionsHandlerLogIOstream <<
               "'-' is the minimal single-dashed option" <<
               endl;
           }
@@ -3522,7 +3527,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
 
   if (TRACE_OPTIONS) {
     // print the arguments vector
-    fLogOutputStream <<
+    fOptionsHandlerLogIOstream <<
       "Arguments vector (" <<
       argumentsVectorSize <<
       " elements):" <<
@@ -3531,7 +3536,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     if (argumentsVectorSize) {
       gIndenter++;
       for (unsigned int i = 0; i < argumentsVectorSize; i++) {
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           fArgumentsVector [i] <<
           endl;
       } // for
@@ -3541,7 +3546,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
 
   // exit if there are no arguments
   if (argumentsVectorSize == 0) {
-    fLogOutputStream <<
+    fOptionsHandlerLogIOstream <<
       "---No arguments have been supplied, exiting. ---" <<
       endl;
 
@@ -3583,7 +3588,8 @@ void msrOptionsHandler::handleOptionsItemName (
       
     optionError (s.str ());
 
-    printHelpSummary (fLogOutputStream);
+    printHelpSummary (
+      fOptionsHandlerLogIOstream);
 
     exit (2);
   }
@@ -3652,15 +3658,15 @@ void msrOptionsHandler::handleOptionsItemName (
          ) {
         optionsHandler->
           printHelpSummary (
-            fLogOutputStream);
+            fOptionsHandlerLogIOstream);
       }
       else {
         optionsHandler->
           printHelp (
-            fLogOutputStream);
+            fOptionsHandlerLogIOstream);
       }
       
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         endl;
     }
     
@@ -3671,7 +3677,7 @@ void msrOptionsHandler::handleOptionsItemName (
           dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
       ) {
       // print the help
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         "--- Help for group \"" <<
         optionsGroup->
           getOptionsGroupHelpHeader () <<
@@ -3681,9 +3687,9 @@ void msrOptionsHandler::handleOptionsItemName (
         
       optionsGroup->
         printHelp (
-          fLogOutputStream);
+          fOptionsHandlerLogIOstream);
       
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         endl;
     }
     
@@ -3699,7 +3705,7 @@ void msrOptionsHandler::handleOptionsItemName (
           optionsSubGroup-> getOptionsGroupUplink ();
           
       // print the help
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         "--- Help for subgroup \"" <<
         optionsSubGroup->
           getOptionsSubGroupHelpHeader () <<
@@ -3713,7 +3719,7 @@ void msrOptionsHandler::handleOptionsItemName (
 
       optionsGroup->
         printOptionsSubGroupForcedHelp (
-          fLogOutputStream,
+          fOptionsHandlerLogIOstream,
           optionsSubGroup);
     }
     
@@ -3729,7 +3735,7 @@ void msrOptionsHandler::handleOptionsItemName (
         // handle it at once
         optionsVersionItem->
           printVersion (
-            fLogOutputStream);
+            fOptionsHandlerLogIOstream);
 
         // exit
         exit (0);
@@ -3743,7 +3749,7 @@ void msrOptionsHandler::handleOptionsItemName (
         ) {
         // handle it at once
         printHelpSummary (
-          fLogOutputStream);
+          fOptionsHandlerLogIOstream);
 
         // exit
         exit (0);
@@ -3909,7 +3915,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       // handle the option item
 
       printSpecificItemHelp (
-        fLogOutputStream,
+        fOptionsHandlerLogIOstream,
         theString);
 
       fPendingOptionsItem = 0;
@@ -3993,7 +3999,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       if (sm.size ()) {
         if (TRACE_OPTIONS) {
-          fLogOutputStream <<
+          fOptionsHandlerLogIOstream <<
             "There are " << sm.size() << " matches" <<
             " for rational string '" << theString <<
             "' with regex '" << regularExpression <<
@@ -4001,11 +4007,11 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
             endl;
        
           for (unsigned i = 0; i < sm.size (); ++i) {
-            fLogOutputStream <<
+            fOptionsHandlerLogIOstream <<
               "[" << sm [i] << "] ";
           } // for
           
-          fLogOutputStream <<
+          fOptionsHandlerLogIOstream <<
             endl;
         }
       }
@@ -4020,7 +4026,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printSpecificSubGroupHelp (
-          fLogOutputStream,
+          fOptionsHandlerLogIOstream,
           optionsRationalItem->
             getOptionsSubGroupUplink ());
             
@@ -4047,7 +4053,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           rational (numerator, denominator);     
 
       if (TRACE_OPTIONS) {
-        fLogOutputStream << // JMI
+        fOptionsHandlerLogIOstream << // JMI
           "rationalValue = " <<
           rationalValue <<
           endl;
@@ -4113,7 +4119,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printHelpSummary (
-          fLogOutputStream);
+          fOptionsHandlerLogIOstream);
         
         exit (4);
       }
@@ -4161,7 +4167,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printHelpSummary (
-          fLogOutputStream);
+          fOptionsHandlerLogIOstream);
         
         exit (4);
       }
@@ -4208,7 +4214,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printHelpSummary (
-          fLogOutputStream);
+          fOptionsHandlerLogIOstream);
         
         exit (4);
       }
@@ -4239,7 +4245,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       regex_match (theString, sm, e);
 
       if (TRACE_OPTIONS) {
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           "There are " << sm.size() << " matches" <<
           " for MIDI tempo string '" << theString <<
           "' with regex '" << regularExpression <<
@@ -4249,10 +4255,10 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
       if (sm.size ()) {
         for (unsigned i = 0; i < sm.size (); ++i) {
-          fLogOutputStream <<
+          fOptionsHandlerLogIOstream <<
             "[" << sm [i] << "] ";
         } // for
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           endl;
       }
       
@@ -4266,7 +4272,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printSpecificSubGroupHelp (
-          fLogOutputStream,
+          fOptionsHandlerLogIOstream,
           optionsPartRenameItem->
             getOptionsSubGroupUplink ());
             
@@ -4278,7 +4284,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         newPartName = sm [2];
         
       if (TRACE_OPTIONS) {
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           "--> oldPartName = \"" << oldPartName << "\", " <<
           "--> newPartName = \"" << newPartName << "\"" <<
           endl;
@@ -4334,7 +4340,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       regex_match (theString, sm, e);
 
       if (TRACE_OPTIONS) {
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           "There are " << sm.size() << " matches" <<
           " for MIDI tempo string '" << theString <<
           "' with regex '" << regularExpression <<
@@ -4344,10 +4350,10 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
       if (sm.size ()) {
         for (unsigned i = 0; i < sm.size (); ++i) {
-          fLogOutputStream <<
+          fOptionsHandlerLogIOstream <<
             "[" << sm [i] << "] ";
         } // for
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           endl;
       }
       
@@ -4361,7 +4367,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         optionError (s.str ());
         
         printSpecificSubGroupHelp (
-          fLogOutputStream,
+          fOptionsHandlerLogIOstream,
           optionsMidiTempoItem->
             getOptionsSubGroupUplink ());
             
@@ -4378,7 +4384,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       }
       
       if (true || TRACE_OPTIONS) {
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           "midiTempoDuration  = " <<
           midiTempoDuration <<
           endl <<

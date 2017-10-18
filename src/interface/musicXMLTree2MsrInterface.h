@@ -47,34 +47,40 @@ The library includes a high level API to convert
 
 //______________________________________________________________________________
 /*!
-  \brief Converts a MusicXML representation to the LilyPond format.
+  \brief Converts a MusicXML representation to an MSR.
   \param file a file name 
   \param msrOpts the MSR options to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
 EXP S_msrScore musicxmlFile2Msr (
-  const char *file, S_msrOptions& msrOpts, ostream& out);
+  const char*      fileName,
+  S_msrOptions&    msrOpts,
+  indentedOstream& logIOstream);
 
 /*!
-  \brief Converts a MusicXML representation to the LilyPond format.
+  \brief Converts a MusicXML representation to an MSR.
   \param fd a file descriptor 
   \param msrOpts the MSR options to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
 EXP S_msrScore musicxmlFd2Msr (
-  FILE* fd, S_msrOptions& msrOpts, ostream& out);
+  FILE*            fd,
+  S_msrOptions&    msrOpts,
+  indentedOstream& logIOstream);
 
 /*!
-  \brief Converts a MusicXML representation to the LilyPond format.
+  \brief Converts a MusicXML representation to an MSR.
   \param buff a string containing MusicXML code
   \param msrOpts the MSR options to be used
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
 EXP S_msrScore musicxmlString2Msr (
-  const char *buff, S_msrOptions& msrOpts, ostream& out);
+  const char*      buffer,
+  S_msrOptions&    msrOpts,
+  indentedOstream& logIOstream);
 
 //______________________________________________________________________________
 S_msrScore buildMSRFromElementsTree (
@@ -83,15 +89,15 @@ S_msrScore buildMSRFromElementsTree (
 
 //______________________________________________________________________________
 void displayMSR (
-  S_msrOptions&         msrOpts,
-  S_msrScore            mScore,
-  indentedOstream& ios);
+  S_msrOptions&    msrOpts,
+  S_msrScore       mScore,
+  indentedOstream& logIOstream);
 
 //______________________________________________________________________________
 void displayMSRSummary (
-  S_msrOptions&         msrOpts,
-  S_msrScore            mScore,
-  indentedOstream& ios);
+  S_msrOptions&    msrOpts,
+  S_msrScore       mScore,
+  indentedOstream& logIOstream);
 
 /*! @} */
 

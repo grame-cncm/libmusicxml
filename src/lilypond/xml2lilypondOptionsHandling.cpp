@@ -127,14 +127,15 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 
   if (TRACE_OPTIONS) {
     // print the options handler initial state
-    fLogOutputStream <<
+    fOptionsHandlerLogIOstream <<
       "xml2lilypondOptionsHandler has been initialized as:" <<
       endl;
   
     gIndenter++;
   
-    print (fLogOutputStream);
-    fLogOutputStream <<
+    print (
+      fOptionsHandlerLogIOstream);
+    fOptionsHandlerLogIOstream <<
       endl <<
       endl;
     
@@ -147,13 +148,13 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
     registerOptionsHandlerInItself ();
 
   if (TRACE_OPTIONS) {
-    fLogOutputStream <<
+    fOptionsHandlerLogIOstream <<
       "xml2lilypondOptionsHandler help:" <<
       endl;
 
     this->
       printHelp (
-        fLogOutputStream);
+        fOptionsHandlerLogIOstream);
   }
 }
 
@@ -164,7 +165,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
 
   if (TRACE_OPTIONS) {    
     if (argumentsNumber > 0) {
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         singularOrPluralWithoutNumber (
           argumentsNumber, "There is", "There are") <<
         " " <<
@@ -178,18 +179,18 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
       gIndenter++;
       
       for (unsigned int i = 0; i < argumentsNumber; i++) {
-        fLogOutputStream <<
+        fOptionsHandlerLogIOstream <<
           i << " : " << fArgumentsVector [i] <<
             endl;
       } // for
 
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         endl;
 
       gIndenter--;
     }
     else {
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         "There are no arguments" <<
         endl;
     }
@@ -206,14 +207,14 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
       break;
 
     default:
-      fLogOutputStream <<
+      fOptionsHandlerLogIOstream <<
         endl <<
         "Input file name or '-' for standard input expected" <<
         endl <<
         endl;
 
       printHelpSummary (
-        fLogOutputStream);
+        fOptionsHandlerLogIOstream);
 
       exit (1);
       break;
