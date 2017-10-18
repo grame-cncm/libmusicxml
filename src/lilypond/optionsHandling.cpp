@@ -374,6 +374,71 @@ ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsHelpSummaryItem msrOptionsHelpSummaryItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  msrOptionsHelpSummaryItem* o = new
+    msrOptionsHelpSummaryItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsHelpSummaryItem::msrOptionsHelpSummaryItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+msrOptionsHelpSummaryItem::~msrOptionsHelpSummaryItem()
+{}
+
+void msrOptionsHelpSummaryItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    "OptionsHelpSummaryItem:" <<
+    endl;
+
+  gIdtr++;
+
+  msrOptionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIdtr++;
+  os <<
+    gIdtr.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIdtr--;
+
+  gIdtr--;
+}
+
+void msrOptionsHelpSummaryItem::printHelpSummary (ostream& os) const
+{  
+  os <<
+    "xml2lilypond" " "<<
+ // ??? JMI   currentHelpSummaryNumber () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsBooleanItem msrOptionsBooleanItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
@@ -2461,6 +2526,9 @@ void msrOptionsGroup::printOptionsItemForcedHelp (
           endl;
       }
     } // for
+
+    os <<
+      endl;  
       
     gIdtr--;
   }
@@ -2689,11 +2757,13 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
   this->
     registerOptionsElementInHandler (this);
 
+/* JMI ???
   // register the help summary names in handler
   registerOptionsNamesInHandler (
     fOptionHandlerHelpSummaryShortName,
     fOptionHandlerHelpSummaryLongName,
     this);
+*/
 
   for (
     list<S_msrOptionsGroup>::const_iterator
@@ -2943,7 +3013,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
   os <<
     fOptionsHandlerHelpHeader <<
     " " <<
-    helpNamesBetweenParentheses () <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
   
@@ -2987,7 +3057,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
   os <<
     fOptionsHandlerHelpHeader <<
     " " <<
-    helpNamesBetweenParentheses () <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -3028,7 +3098,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
   os <<
     fOptionsHandlerHelpHeader <<
     " " <<
-    helpNamesBetweenParentheses () <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -3244,7 +3314,7 @@ void msrOptionsHandler::printOptionsValues (
   os <<
     fOptionsHandlerValuesHeader <<
     " " <<
-    helpNamesBetweenParentheses () <<
+    optionsElementNamesBetweenParentheses () <<
     ":" <<
     endl;
 
@@ -3350,8 +3420,6 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
   // decipher the command options and arguments
   int n = 1;
   
-  fPureHelpRun = true;
-
   while (true) { 
     if (argv [n] == 0)
       break;
@@ -3380,7 +3448,6 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
         }
         
         fArgumentsVector.push_back (currentElement);
-        fPureHelpRun = false;
 
         fCommandLineWithShortOptions +=
           " " + currentElement;
@@ -3443,8 +3510,6 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
       // currentElement is no options item,
       // i.e. it is an item value or an argument
       handleOptionsItemValueOrArgument (currentElement);
-
-      fPureHelpRun = false;
     }
     
     // next please
@@ -3473,7 +3538,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     }
   }
 
-  // exit if this is a pure help run
+  // exit if there are no arguments
   if (argumentsVectorSize == 0) {
     fLogOutputStream <<
       "---No arguments have been supplied, exiting. ---" <<
@@ -3664,6 +3729,20 @@ void msrOptionsHandler::handleOptionsItemName (
         optionsVersionItem->
           printVersion (
             fLogOutputStream);
+
+        // exit
+        exit (0);
+      }
+      
+      else if (
+        // help summary item?
+        S_msrOptionsHelpSummaryItem
+          optionsHelpSummaryItem =
+            dynamic_cast<msrOptionsHelpSummaryItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        printHelpSummary (
+          fLogOutputStream);
 
         // exit
         exit (0);
@@ -4319,7 +4398,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
   else {
     // theString is an argument
     fArgumentsVector.push_back (theString);
-    fPureHelpRun = false;
   }
 }
 

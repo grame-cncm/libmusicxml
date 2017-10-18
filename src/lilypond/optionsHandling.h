@@ -250,6 +250,54 @@ typedef SMARTP<msrOptionsVersionItem> S_msrOptionsVersionItem;
 ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt);
 
 //______________________________________________________________________________
+class EXP msrOptionsHelpSummaryItem : public msrOptionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsHelpSummaryItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsHelpSummaryItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~msrOptionsHelpSummaryItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printHelpSummary (ostream& os) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msrOptionsHelpSummaryItem> S_msrOptionsHelpSummaryItem;
+ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt);
+
+//______________________________________________________________________________
 class EXP msrOptionsBooleanItem : public msrOptionsItem
 {
   public:
@@ -1596,7 +1644,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
-    string                helpNamesBetweenParentheses () const;
+    string                helpNamesBetweenParentheses () const; // JMI ???
 
     void                  registerOptionsNamesInHandler (
                             string              optionShortName,

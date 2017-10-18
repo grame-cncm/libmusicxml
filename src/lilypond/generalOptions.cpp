@@ -93,6 +93,32 @@ R"(Display xml2lilypond's version number and exit.)"));
   }
 
 
+  // help summary
+  // --------------------------------------
+
+  {
+    // variables  
+    
+    // options
+  
+    S_msrOptionsSubGroup helpSummarySubGroup =
+      msrOptionsSubGroup::create (
+        "Help summary",
+        "hghs", "helpGeneralHelpSummary",
+R"()",
+      msrOptionsSubGroup::kAlwaysShowDescription
+      );
+  
+    appendOptionsSubGroup (helpSummarySubGroup);
+  
+    helpSummarySubGroup->
+      appendOptionsItem (
+        msrOptionsHelpSummaryItem::create (
+          "hs", "helpSummary",
+R"(Display xml2lilypond's help summary and exit.)"));
+  }
+
+
   // item help
   // --------------------------------------
 
