@@ -3580,16 +3580,18 @@ void msrOptionsHandler::handleOptionsItemName (
         
   if (it == fOptionsElementsMap.end ()) {
     // no, optionsItemName is unknown in the map    
+    printHelpSummary (
+      fOptionsHandlerLogIOstream);
+
     stringstream s;
 
     s <<
       "option name '" << optionsItemName <<
-      "' is unknown";
+      "' is unknown" <<
+      endl <<
+      "the above help summary may help you";
       
     optionError (s.str ());
-
-    printHelpSummary (
-      fOptionsHandlerLogIOstream);
 
     exit (2);
   }
@@ -3891,7 +3893,7 @@ void msrOptionsHandler::handleOptionsItemName (
         stringstream s;
     
         s <<
-          "option item is of unknown type";
+          "INTERNAL ERROR: option item is of unknown type";
           
         optionError (s.str ());
         abort ();
@@ -4098,6 +4100,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
             
       if (it == gQuarterTonesPitchesLanguagesMap.end ()) {
         // no, language is unknown in the map
+        
+        printHelpSummary (
+          fOptionsHandlerLogIOstream);
         stringstream s;
     
         s <<
@@ -4117,9 +4122,6 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         gIndenter--;
     
         optionError (s.str ());
-        
-        printHelpSummary (
-          fOptionsHandlerLogIOstream);
         
         exit (4);
       }
