@@ -250,7 +250,7 @@ bool lpsrOptions::setLpsrChordsLanguage (string language)
 
 void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 {
-  gLogIos <<
+  gLogIOstream <<
     "The LPSR options are:" <<
     endl;
 
@@ -258,13 +258,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   
   // trace and display
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Trace and display:" <<
     endl;
 
   gIndenter++;
   
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "traceLpsr" << " : " <<
     booleanAsString (fTraceLpsr) <<
     endl <<
@@ -286,13 +286,13 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
   
   // languages
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Languages:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
     msrQuarterTonesPitchesLanguageAsString (
       fLpsrQuarterTonesPitchesLanguage) <<

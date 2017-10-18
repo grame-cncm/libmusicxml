@@ -39,7 +39,7 @@ msrElement::~msrElement()
 
 void msrElement::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrElement::acceptIn()" <<
       endl;
       
@@ -49,7 +49,7 @@ void msrElement::acceptIn (basevisitor* v) {
         S_msrElement elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrElement::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -58,7 +58,7 @@ void msrElement::acceptIn (basevisitor* v) {
 
 void msrElement::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrElement::acceptOut()" <<
       endl;
 
@@ -68,7 +68,7 @@ void msrElement::acceptOut (basevisitor* v) {
         S_msrElement elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrElement::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -145,7 +145,7 @@ msrOctaveShift::~msrOctaveShift()
 
 void msrOctaveShift::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrOctaveShift::acceptIn()" <<
       endl;
       
@@ -155,7 +155,7 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
         S_msrOctaveShift elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrOctaveShift::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -164,7 +164,7 @@ void msrOctaveShift::acceptIn (basevisitor* v) {
 
 void msrOctaveShift::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrOctaveShift::acceptOut()" <<
       endl;
 
@@ -174,7 +174,7 @@ void msrOctaveShift::acceptOut (basevisitor* v) {
         S_msrOctaveShift elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrOctaveShift::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -254,7 +254,7 @@ msrAccordionRegistration::~msrAccordionRegistration()
 
 void msrAccordionRegistration::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrAccordionRegistration::acceptIn()" <<
       endl;
       
@@ -264,7 +264,7 @@ void msrAccordionRegistration::acceptIn (basevisitor* v) {
         S_msrAccordionRegistration elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrAccordionRegistration::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -273,7 +273,7 @@ void msrAccordionRegistration::acceptIn (basevisitor* v) {
 
 void msrAccordionRegistration::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrAccordionRegistration::acceptOut()" <<
       endl;
 
@@ -283,7 +283,7 @@ void msrAccordionRegistration::acceptOut (basevisitor* v) {
         S_msrAccordionRegistration elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrAccordionRegistration::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -349,7 +349,7 @@ msrStem::~msrStem()
 
 void msrStem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStem::acceptIn()" <<
       endl;
       
@@ -359,7 +359,7 @@ void msrStem::acceptIn (basevisitor* v) {
         S_msrStem elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStem::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -368,7 +368,7 @@ void msrStem::acceptIn (basevisitor* v) {
 
 void msrStem::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStem::acceptOut()" <<
       endl;
 
@@ -378,7 +378,7 @@ void msrStem::acceptOut (basevisitor* v) {
         S_msrStem elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStem::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -461,7 +461,7 @@ msrBeam::~msrBeam()
 
 void msrBeam::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrBeam::acceptIn()" <<
       endl;
       
@@ -471,7 +471,7 @@ void msrBeam::acceptIn (basevisitor* v) {
         S_msrBeam elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrBeam::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -480,7 +480,7 @@ void msrBeam::acceptIn (basevisitor* v) {
 
 void msrBeam::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrBeam::acceptOut()" <<
       endl;
 
@@ -490,7 +490,7 @@ void msrBeam::acceptOut (basevisitor* v) {
         S_msrBeam elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrBeam::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -665,7 +665,7 @@ string msrArticulation::articulationPlacementAsString () const
 
 void msrArticulation::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrArticulation::acceptIn()" <<
       endl;
       
@@ -675,7 +675,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
         S_msrArticulation elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrArticulation::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -684,7 +684,7 @@ void msrArticulation::acceptIn (basevisitor* v) {
 
 void msrArticulation::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrArticulation::acceptOut()" <<
       endl;
 
@@ -694,7 +694,7 @@ void msrArticulation::acceptOut (basevisitor* v) {
         S_msrArticulation elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrArticulation::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -764,7 +764,7 @@ string msrArpeggiato::arpeggiatoDirectionAsString () const
 
 void msrArpeggiato::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrArpeggiato::acceptIn()" <<
       endl;
       
@@ -774,7 +774,7 @@ void msrArpeggiato::acceptIn (basevisitor* v) {
         S_msrArpeggiato elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrArpeggiato::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -783,7 +783,7 @@ void msrArpeggiato::acceptIn (basevisitor* v) {
 
 void msrArpeggiato::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrArpeggiato::acceptOut()" <<
       endl;
 
@@ -793,7 +793,7 @@ void msrArpeggiato::acceptOut (basevisitor* v) {
         S_msrArpeggiato elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrArpeggiato::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -887,7 +887,7 @@ string msrNonArpeggiato::nonArpeggiatoTypeKindAsString () const
 
 void msrNonArpeggiato::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrNonArpeggiato::acceptIn()" <<
       endl;
       
@@ -897,7 +897,7 @@ void msrNonArpeggiato::acceptIn (basevisitor* v) {
         S_msrNonArpeggiato elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrNonArpeggiato::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -906,7 +906,7 @@ void msrNonArpeggiato::acceptIn (basevisitor* v) {
 
 void msrNonArpeggiato::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrNonArpeggiato::acceptOut()" <<
       endl;
 
@@ -916,7 +916,7 @@ void msrNonArpeggiato::acceptOut (basevisitor* v) {
         S_msrNonArpeggiato elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrNonArpeggiato::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1073,7 +1073,7 @@ string msrTechnical::technicalAccidentalMarkKindAsString () const
 
 void msrTechnical::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTechnical::acceptIn()" <<
       endl;
       
@@ -1083,7 +1083,7 @@ void msrTechnical::acceptIn (basevisitor* v) {
         S_msrTechnical elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTechnical::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1092,7 +1092,7 @@ void msrTechnical::acceptIn (basevisitor* v) {
 
 void msrTechnical::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTechnical::acceptOut()" <<
       endl;
 
@@ -1102,7 +1102,7 @@ void msrTechnical::acceptOut (basevisitor* v) {
         S_msrTechnical elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTechnical::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1228,7 +1228,7 @@ string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () con
 
 void msrTechnicalWithInteger::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithInteger::acceptIn()" <<
       endl;
       
@@ -1238,7 +1238,7 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v) {
         S_msrTechnicalWithInteger elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithInteger::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1247,7 +1247,7 @@ void msrTechnicalWithInteger::acceptIn (basevisitor* v) {
 
 void msrTechnicalWithInteger::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithInteger::acceptOut()" <<
       endl;
 
@@ -1257,7 +1257,7 @@ void msrTechnicalWithInteger::acceptOut (basevisitor* v) {
         S_msrTechnicalWithInteger elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithInteger::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1383,7 +1383,7 @@ string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
 
 void msrTechnicalWithString::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithString::acceptIn()" <<
       endl;
       
@@ -1393,7 +1393,7 @@ void msrTechnicalWithString::acceptIn (basevisitor* v) {
         S_msrTechnicalWithString elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithString::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1402,7 +1402,7 @@ void msrTechnicalWithString::acceptIn (basevisitor* v) {
 
 void msrTechnicalWithString::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTechnicalWithString::acceptOut()" <<
       endl;
 
@@ -1412,7 +1412,7 @@ void msrTechnicalWithString::acceptOut (basevisitor* v) {
         S_msrTechnicalWithString elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTechnicalWithString::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1486,7 +1486,7 @@ msrFermata::~msrFermata()
 
 void msrFermata::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrFermata::acceptIn()" <<
       endl;
       
@@ -1496,7 +1496,7 @@ void msrFermata::acceptIn (basevisitor* v) {
         S_msrFermata elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrFermata::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1505,7 +1505,7 @@ void msrFermata::acceptIn (basevisitor* v) {
 
 void msrFermata::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrFermata::acceptOut()" <<
       endl;
 
@@ -1515,7 +1515,7 @@ void msrFermata::acceptOut (basevisitor* v) {
         S_msrFermata elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrFermata::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1727,7 +1727,7 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
 
 void msrOrnament::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrOrnament::acceptIn()" <<
       endl;
       
@@ -1737,7 +1737,7 @@ void msrOrnament::acceptIn (basevisitor* v) {
         S_msrOrnament elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrOrnament::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1746,7 +1746,7 @@ void msrOrnament::acceptIn (basevisitor* v) {
 
 void msrOrnament::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrOrnament::acceptOut()" <<
       endl;
 
@@ -1756,7 +1756,7 @@ void msrOrnament::acceptOut (basevisitor* v) {
         S_msrOrnament elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrOrnament::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -1810,7 +1810,7 @@ S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
   S_msrNote noteUplink)
 {
   if (gGeneralOptions->fTraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of single tremolo " <<
       singleTremoloAsString () <<
       " in note '" <<
@@ -1881,7 +1881,7 @@ string msrSingleTremolo::singleTremoloPlacementKindAsString () const
 
 void msrSingleTremolo::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSingleTremolo::acceptIn()" <<
       endl;
       
@@ -1891,7 +1891,7 @@ void msrSingleTremolo::acceptIn (basevisitor* v) {
         S_msrSingleTremolo elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSingleTremolo::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -1900,7 +1900,7 @@ void msrSingleTremolo::acceptIn (basevisitor* v) {
 
 void msrSingleTremolo::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSingleTremolo::acceptOut()" <<
       endl;
 
@@ -1910,7 +1910,7 @@ void msrSingleTremolo::acceptOut (basevisitor* v) {
         S_msrSingleTremolo elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSingleTremolo::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2056,7 +2056,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceTremolos)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a double tremolo" <<
       endl;
   
@@ -2086,7 +2086,7 @@ msrDoubleTremolo::~msrDoubleTremolo()
 void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 {
   if (gGeneralOptions->fTraceTremolos) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting note " << note->noteAsShortString () <<
       " as first element of double tremolo " <<
       doubleTremoloAsShortString () <<
@@ -2142,7 +2142,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting chord " << chord->chordAsString () <<
       " as first element of double tremolo " <<
       doubleTremoloAsShortString () <<
@@ -2198,7 +2198,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
 void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
 {
   if (gGeneralOptions->fTraceTremolos) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting note " << note->noteAsShortString () <<
       " as second element of double tremolo " <<
       doubleTremoloAsShortString () <<
@@ -2254,7 +2254,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
 void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting chord " << chord->chordAsString () <<
       " as second element of double tremolo " <<
       doubleTremoloAsShortString () <<
@@ -2353,7 +2353,7 @@ string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
 
 void msrDoubleTremolo::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrDoubleTremolo::acceptIn()" <<
       endl;
       
@@ -2363,7 +2363,7 @@ void msrDoubleTremolo::acceptIn (basevisitor* v) {
         S_msrDoubleTremolo elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrDoubleTremolo::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2372,7 +2372,7 @@ void msrDoubleTremolo::acceptIn (basevisitor* v) {
 
 void msrDoubleTremolo::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrDoubleTremolo::acceptOut()" <<
       endl;
 
@@ -2382,7 +2382,7 @@ void msrDoubleTremolo::acceptOut (basevisitor* v) {
         S_msrDoubleTremolo elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrDoubleTremolo::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2594,7 +2594,7 @@ msrRehearsal::~msrRehearsal()
 
 void msrRehearsal::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRehearsal::acceptIn()" <<
       endl;
       
@@ -2604,7 +2604,7 @@ void msrRehearsal::acceptIn (basevisitor* v) {
         S_msrRehearsal elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRehearsal::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2613,7 +2613,7 @@ void msrRehearsal::acceptIn (basevisitor* v) {
 
 void msrRehearsal::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRehearsal::acceptOut()" <<
       endl;
 
@@ -2623,7 +2623,7 @@ void msrRehearsal::acceptOut (basevisitor* v) {
         S_msrRehearsal elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRehearsal::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2829,7 +2829,7 @@ string msrDynamics::dynamicsPlacementKindAsString () const
 
 void msrDynamics::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrDynamics::acceptIn()" <<
       endl;
       
@@ -2839,7 +2839,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
         S_msrDynamics elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrDynamics::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2848,7 +2848,7 @@ void msrDynamics::acceptIn (basevisitor* v) {
 
 void msrDynamics::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrDynamics::acceptOut()" <<
       endl;
 
@@ -2858,7 +2858,7 @@ void msrDynamics::acceptOut (basevisitor* v) {
         S_msrDynamics elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrDynamics::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -2911,7 +2911,7 @@ msrOtherDynamics::~msrOtherDynamics()
 
 void msrOtherDynamics::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrOtherDynamics::acceptIn()" <<
       endl;
       
@@ -2921,7 +2921,7 @@ void msrOtherDynamics::acceptIn (basevisitor* v) {
         S_msrOtherDynamics elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrOtherDynamics::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -2930,7 +2930,7 @@ void msrOtherDynamics::acceptIn (basevisitor* v) {
 
 void msrOtherDynamics::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrOtherDynamics::acceptOut()" <<
       endl;
 
@@ -2940,7 +2940,7 @@ void msrOtherDynamics::acceptOut (basevisitor* v) {
         S_msrOtherDynamics elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrOtherDynamics::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3019,7 +3019,7 @@ string msrWedge::wedgeKindAsString ()
 
 void msrWedge::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrWedge::acceptIn()" <<
       endl;
       
@@ -3029,7 +3029,7 @@ void msrWedge::acceptIn (basevisitor* v) {
         S_msrWedge elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrWedge::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3038,7 +3038,7 @@ void msrWedge::acceptIn (basevisitor* v) {
 
 void msrWedge::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrWedge::acceptOut()" <<
       endl;
 
@@ -3048,7 +3048,7 @@ void msrWedge::acceptOut (basevisitor* v) {
         S_msrWedge elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrWedge::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3118,7 +3118,7 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
 
 void msrTie::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTie::acceptIn()" <<
       endl;
       
@@ -3128,7 +3128,7 @@ void msrTie::acceptIn (basevisitor* v) {
         S_msrTie elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTie::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3137,7 +3137,7 @@ void msrTie::acceptIn (basevisitor* v) {
 
 void msrTie::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTie::acceptOut()" <<
       endl;
 
@@ -3147,7 +3147,7 @@ void msrTie::acceptOut (basevisitor* v) {
         S_msrTie elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTie::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3198,7 +3198,7 @@ msrSlur::~msrSlur()
 
 void msrSlur::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSlur::acceptIn()" <<
       endl;
       
@@ -3208,7 +3208,7 @@ void msrSlur::acceptIn (basevisitor* v) {
         S_msrSlur elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSlur::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3217,7 +3217,7 @@ void msrSlur::acceptIn (basevisitor* v) {
 
 void msrSlur::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSlur::acceptOut()" <<
       endl;
 
@@ -3227,7 +3227,7 @@ void msrSlur::acceptOut (basevisitor* v) {
         S_msrSlur elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSlur::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3346,7 +3346,7 @@ string msrLigature::ligatureKindAsString ()
 
 void msrLigature::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrLigature::acceptIn()" <<
       endl;
       
@@ -3356,7 +3356,7 @@ void msrLigature::acceptIn (basevisitor* v) {
         S_msrLigature elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrLigature::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3365,7 +3365,7 @@ void msrLigature::acceptIn (basevisitor* v) {
 
 void msrLigature::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrLigature::acceptOut()" <<
       endl;
 
@@ -3375,7 +3375,7 @@ void msrLigature::acceptOut (basevisitor* v) {
         S_msrLigature elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrLigature::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3439,7 +3439,7 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of grace notes" <<
       graceNotesAsShortString () <<
       endl;
@@ -3474,7 +3474,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a skip clone of grace notes" <<
       graceNotesAsShortString () <<
       endl;
@@ -3522,7 +3522,7 @@ void msrGraceNotes::appendNoteToGraceNotes (S_msrNote note)
 
 void msrGraceNotes::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrGraceNotes::acceptIn()" <<
       endl;
       
@@ -3532,7 +3532,7 @@ void msrGraceNotes::acceptIn (basevisitor* v) {
         S_msrGraceNotes elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrGraceNotes::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3541,7 +3541,7 @@ void msrGraceNotes::acceptIn (basevisitor* v) {
 
 void msrGraceNotes::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrGraceNotes::acceptOut()" <<
       endl;
 
@@ -3551,7 +3551,7 @@ void msrGraceNotes::acceptOut (basevisitor* v) {
         S_msrGraceNotes elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrGraceNotes::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3688,7 +3688,7 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of after grace notes" <<
       endl;
   }
@@ -3730,7 +3730,7 @@ void msrAfterGraceNotes::appendNoteToAfterGraceNotes (S_msrNote note)
 
 void msrAfterGraceNotes::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrAfterGraceNotes::acceptIn()" <<
       endl;
       
@@ -3740,7 +3740,7 @@ void msrAfterGraceNotes::acceptIn (basevisitor* v) {
         S_msrAfterGraceNotes elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrAfterGraceNotes::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3749,7 +3749,7 @@ void msrAfterGraceNotes::acceptIn (basevisitor* v) {
 
 void msrAfterGraceNotes::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrAfterGraceNotes::acceptOut()" <<
       endl;
 
@@ -3759,7 +3759,7 @@ void msrAfterGraceNotes::acceptOut (basevisitor* v) {
         S_msrAfterGraceNotes elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrAfterGraceNotes::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -4024,17 +4024,17 @@ void msrNote::initializeNote ()
     msrSyllable::k_NoSyllableExtend;
   
   if (gGeneralOptions->fTraceNotesDetails) {
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       "==> Initializing a note" <<
       ", kind: ";
     if (fNoteKind == k_NoNoteKind)
-      gLogIos <<
+      gLogIOstream <<
         "not yet known";
     else
-      gLogIos <<
+      gLogIOstream <<
         noteKindAsString (fNoteKind);
-    gLogIos <<
+    gLogIOstream <<
       ", line " << fInputLineNumber << ":" <<
       endl;
 
@@ -4042,7 +4042,7 @@ void msrNote::initializeNote ()
     
     const int fieldWidth = 30;
     
-    gLogIos <<
+    gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteQuarterTonesPitch" << " = " <<
@@ -4051,21 +4051,21 @@ void msrNote::initializeNote ()
           fNoteQuarterTonesPitch) <<
         endl;
 
-    gLogIos <<
+    gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteSoundingWholeNotes" << " = " <<
         fNoteSoundingWholeNotes <<
         endl;
       
-    gLogIos <<
+    gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteDisplayWholeNotes" << " = " <<
         fNoteDisplayWholeNotes <<
         endl;
       
-    gLogIos <<
+    gLogIOstream <<
       left <<
         setw (fieldWidth) <<
         "fNoteDotsNumber" << " = " <<
@@ -4076,13 +4076,13 @@ void msrNote::initializeNote ()
         setw (fieldWidth) <<
         "fNoteGraphicDuration" << " = ";
       if (fNoteGraphicDuration != k_NoDuration)
-        gLogIos <<
+        gLogIOstream <<
           msrDurationAsString (
             fNoteGraphicDuration);
       else
-        gLogIos << "none";
+        gLogIOstream << "none";
 
-    gLogIos <<
+    gLogIOstream <<
       endl <<
 
       left <<
@@ -4186,7 +4186,7 @@ void msrNote::initializeNote ()
     gIndenter--;
 
 /*
-    gLogIos <<
+    gLogIOstream <<
       "% <==" <<
       endl << endl;
 */
@@ -4221,7 +4221,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of note " <<
       noteAsString () <<
       " in part " <<
@@ -4441,7 +4441,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of note " <<
       noteAsString () <<
       /* JMI
@@ -5158,7 +5158,7 @@ void msrNote::setNoteStem (S_msrStem stem)
 void msrNote::setNoteBelongsToAChord ()
 {
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Setting note '" <<
       noteAsShortStringWithRawWholeNotes () <<
       "' to belong to a chord"
@@ -5195,7 +5195,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
   */
 
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
-    gLogIos <<
+    gLogIOstream <<
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
       noteAsShortString () <<
@@ -5215,7 +5215,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
   fNoteSoundingWholeNotes.rationalise ();
 
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
-    gLogIos <<
+    gLogIOstream <<
       "The result is: '" <<
       noteAsShortString () <<
       endl;
@@ -5234,7 +5234,7 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
 void msrNote::addTechnicalToNote (S_msrTechnical technical)
 {
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
-    gLogIos <<
+    gLogIOstream <<
       "Adding technical '" <<
       technical->technicalAsString () <<
       "' to note '" << noteAsShortString () <<
@@ -5253,7 +5253,7 @@ void msrNote::addTechnicalWithIntegerToNote (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
-    gLogIos <<
+    gLogIOstream <<
       "Adding technical with integer '" <<
       technicalWithInteger->technicalWithIntegerAsString () <<
       "' to note '" << noteAsShortString () <<
@@ -5272,7 +5272,7 @@ void msrNote::addTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
-    gLogIos <<
+    gLogIOstream <<
       "Adding technical with string'" <<
       technicalWithString->technicalWithStringAsString () <<
       "' to note '" << noteAsShortString () <<
@@ -5314,7 +5314,7 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
 void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
 {
   if (gGeneralOptions->fTraceTremolos)
-    gLogIos <<
+    gLogIOstream <<
       "Adding singleTremolo " << trem->singleTremoloAsString () <<
       " to note " << noteAsShortString () <<
       ", line " << trem->getInputLineNumber () <<
@@ -5345,7 +5345,7 @@ void msrNote::addWordsToNote (S_msrWords words)
 void msrNote::addSlurToNote (S_msrSlur slur)
 {
   if (gGeneralOptions->fTraceSlurs)
-    gLogIos <<
+    gLogIOstream <<
       "Adding slur " << slur << " to note " << noteAsString ()
        << endl;
 
@@ -5389,7 +5389,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 void msrNote::addLigatureToNote (S_msrLigature ligature)
 {
   if (gGeneralOptions->fTraceLigatures)
-    gLogIos <<
+    gLogIOstream <<
       "Adding ligature " << ligature << " to note " << noteAsString ()
        << endl;
 
@@ -5462,7 +5462,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
   if (gGeneralOptions->fTraceLyrics)
-    gLogIos <<
+    gLogIOstream <<
       "Appending syllable '" <<
       syllable->syllableAsString () <<
       "' to note " << noteAsString () <<
@@ -5474,7 +5474,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies)
-    gLogIos <<
+    gLogIOstream <<
       "Setting note '" << noteAsShortString ()  << "'" <<
       " harmony to '" << harmony->harmonyAsString () << "'" <<
       endl;
@@ -5485,7 +5485,7 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
 void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 {
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies)
-    gLogIos <<
+    gLogIOstream <<
       "Setting note '" << noteAsShortString ()  << "'" <<
       " figured bass to '" << figuredBass->figuredBassAsString () << "'" <<
       endl;
@@ -5496,7 +5496,7 @@ void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 void msrNote::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrNote::acceptIn()" <<
       endl;
       
@@ -5506,7 +5506,7 @@ void msrNote::acceptIn (basevisitor* v)
         S_msrNote elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrNote::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -5516,7 +5516,7 @@ void msrNote::acceptIn (basevisitor* v)
 void msrNote::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrNote::acceptOut()" <<
       endl;
 
@@ -5526,7 +5526,7 @@ void msrNote::acceptOut (basevisitor* v)
         S_msrNote elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrNote::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -5742,7 +5742,7 @@ string msrNote::notePitchAsString () const
   stringstream s;
   
   /*
-  gLogIos << "msrNote::notePitchAsString (), isRest = " <<
+  gLogIOstream << "msrNote::notePitchAsString (), isRest = " <<
     fNoteIsARest <<
     ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
   */
@@ -5775,7 +5775,7 @@ string msrNote::noteDisplayPitchAsString () const
   stringstream s;
   
   /* JMI
-  gLogIos << "msrNote::notePitchAsString (), isRest = " <<
+  gLogIOstream << "msrNote::notePitchAsString (), isRest = " <<
     fNoteIsARest <<
     ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
 
@@ -6823,7 +6823,7 @@ S_msrChord msrChord::create (
   msrDuration chordGraphicDuration)
 {
   if (gGeneralOptions->fTraceChords) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a chord" <<
       ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
       ", chordDisplayWholeNotes = " << chordDisplayWholeNotes <<
@@ -6865,7 +6865,7 @@ S_msrChord msrChord::createChordNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceChords) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of chord '" <<
       chordAsString () <<
       "'" <<
@@ -6907,7 +6907,7 @@ void msrChord::setChordSoundingWholeNotes (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Setting chord sounding whole notes to '" <<
       wholeNotes <<
       "' for chord '" <<
@@ -6922,7 +6922,7 @@ void msrChord::setChordDisplayWholeNotes (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Setting chord displayed whole notes to '" <<
       wholeNotes <<
       "' for chord '" <<
@@ -6965,7 +6965,7 @@ string msrChord::chordGraphicDurationAsMsrString () const
 void msrChord::addFirstNoteToChord (S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Adding first note '" <<
       note->noteAsString () <<
       "' to chord '" <<
@@ -6991,7 +6991,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
 void msrChord::addAnotherNoteToChord (S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Adding another note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
       "' to chord '" <<
@@ -7055,7 +7055,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
   } // for
 
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) // JMI
-    gLogIos <<
+    gLogIOstream <<
       "Adding articulation '" <<
       art->articulationKindAsString () <<
       "' to chord" <<
@@ -7067,7 +7067,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
 void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Adding singleTremolo '" <<
       trem->singleTremoloAsString () <<
       "' to chord" <<
@@ -7094,7 +7094,7 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
   } // for
 
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Adding technical '" <<
       tech->technicalAsString () <<
       "' to chord" <<
@@ -7122,7 +7122,7 @@ void msrChord::addTechnicalWithIntegerToChord (
   } // for
 
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Adding technical with integer '" <<
       tech->technicalWithIntegerAsString () <<
       "' to chord" <<
@@ -7150,7 +7150,7 @@ void msrChord::addTechnicalWithStringToChord (
   } // for
 
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Adding technical with integer '" <<
       tech->technicalWithStringAsString () <<
       "' to chord" <<
@@ -7176,7 +7176,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
   } // for
 
   if (gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Adding ornament '" <<
       orn->ornamentKindAsString () <<
       "' to chord" <<
@@ -7187,7 +7187,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 
 void msrChord::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrChord::acceptIn()" <<
       endl;
       
@@ -7197,7 +7197,7 @@ void msrChord::acceptIn (basevisitor* v) {
         S_msrChord elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrChord::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -7206,7 +7206,7 @@ void msrChord::acceptIn (basevisitor* v) {
 
 void msrChord::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrChord::acceptOut()" <<
       endl;
 
@@ -7216,7 +7216,7 @@ void msrChord::acceptOut (basevisitor* v) {
         S_msrChord elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrChord::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -7340,7 +7340,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceChords)
-    gLogIos <<
+    gLogIOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
       "' to the members of chord '" << chordAsStringwithRawDivisions () <<
@@ -7631,7 +7631,7 @@ S_msrDivisions msrDivisions::create (
 S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
  if (gGeneralOptions->fTraceDivisions) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
       "'" <<
@@ -7662,7 +7662,7 @@ msrDivisions::msrDivisions (
 void msrDivisions::initializeDivisions ()
 {
   if (gGeneralOptions->fTraceDivisions) {
-  gLogIos <<
+  gLogIOstream <<
     "==> Initializing divisions" <<
     ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
     ", line " << fInputLineNumber <<
@@ -7677,7 +7677,7 @@ void msrDivisions::initializeDivisions ()
   
   for (int i = kQuarter; i >= kMaxima; i--) {
     /*
-    gLogIos <<
+    gLogIOstream <<
       msrDurationAsString (msrDuration (i)) <<
       " -> " <<
       bigDivisions <<
@@ -7701,7 +7701,7 @@ void msrDivisions::initializeDivisions ()
     
     while (smallDivisions >= 1) {
       /*
-      gLogIos <<
+      gLogIOstream <<
         msrDurationAsString (currentDuration) <<
         " % --> " <<
         smallDivisions <<
@@ -7718,7 +7718,7 @@ void msrDivisions::initializeDivisions ()
 
   // print the durations divisions if needed
   if (gGeneralOptions->fTraceDivisions) {
-    printDurationsDivisions (gLogIos);
+    printDurationsDivisions (gLogIOstream);
   }
 }
 
@@ -7819,7 +7819,7 @@ string msrDivisions::divisionsAsMsrString (
   const int fieldWidth = 22;
   
   if (gGeneralOptions->fTraceDivisions) {
-    gLogIos <<
+    gLogIOstream <<
      "--> divisionsAsMsrString ():" <<
       endl <<
       gTab << setw (fieldWidth) <<
@@ -7848,7 +7848,7 @@ string msrDivisions::divisionsAsMsrString (
         " could not be handled by divisionsAsMsrString () with:" <<
         endl;
 
-      printDurationsDivisions (gLogIos);
+      printDurationsDivisions (gLogIOstream);
 
       msrInternalError (
         inputLineNumber, s.str ());
@@ -7864,7 +7864,7 @@ string msrDivisions::divisionsAsMsrString (
         msrDurationAsString (baseDuration);
       
       if (gGeneralOptions->fTraceDivisions) {
-        gLogIos <<
+        gLogIOstream <<
             gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -7897,7 +7897,7 @@ string msrDivisions::divisionsAsMsrString (
       baseDurationDivisions / 2;
 
     if (gGeneralOptions->fTraceDivisions) {
-      gLogIos <<
+      gLogIOstream <<
         gTab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
         endl <<
@@ -7921,7 +7921,7 @@ string msrDivisions::divisionsAsMsrString (
       r.rationalise ();
 
       if (gGeneralOptions->fTraceDivisions) { // JMI
-        gLogIos <<
+        gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -7947,7 +7947,7 @@ string msrDivisions::divisionsAsMsrString (
         nextDivisionsInList /= 2;
   
         if (gGeneralOptions->fTraceDivisions) {
-          gLogIos <<
+          gLogIOstream <<
             gTab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
             endl <<
@@ -7971,7 +7971,7 @@ string msrDivisions::divisionsAsMsrString (
       } // while
   
       if (gGeneralOptions->fTraceDivisions) {
-        gLogIos <<
+        gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -8001,7 +8001,7 @@ string msrDivisions::divisionsAsMsrString (
   numberOfDotsNeeded = dotsNumber;
 
   if (gGeneralOptions->fTraceDivisions) {
-    gLogIos <<
+    gLogIOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl <<
       endl;
@@ -8023,7 +8023,7 @@ string msrDivisions::wholeNotesAsMsrString (
   const int fieldWidth = 22;
   
   if (gGeneralOptions->fTraceDivisions) {
-    gLogIos << left <<
+    gLogIOstream << left <<
       endl <<
       "--> wholeNotesAsMsrString ():" <<
       endl <<
@@ -8049,7 +8049,7 @@ string msrDivisions::wholeNotesAsMsrString (
     wholeNotes.getDenominator ();      
   
   if (gGeneralOptions->fTraceDivisions) {
-    gLogIos << left <<
+    gLogIOstream << left <<
       gTab << "divisions" << " = " << divisions <<
       endl;
   }
@@ -8072,7 +8072,7 @@ string msrDivisions::wholeNotesAsMsrString (
         " could not be handled by wholeNotesAsMsrString () with:" <<
         endl;
 
-      printDurationsDivisions (gLogIos);
+      printDurationsDivisions (gLogIOstream);
 
       msrInternalError (
         inputLineNumber, s.str ());
@@ -8088,7 +8088,7 @@ string msrDivisions::wholeNotesAsMsrString (
         msrDurationAsString (baseDuration);
       
       if (gGeneralOptions->fTraceDivisions) {
-        gLogIos << left <<
+        gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -8122,7 +8122,7 @@ string msrDivisions::wholeNotesAsMsrString (
       baseDurationDivisions / 2;
 
     if (gGeneralOptions->fTraceDivisions) {
-      gLogIos << left <<
+      gLogIOstream << left <<
         gTab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
         endl <<
@@ -8146,7 +8146,7 @@ string msrDivisions::wholeNotesAsMsrString (
       r.rationalise ();
 
       if (gGeneralOptions->fTraceDivisions) {
-        gLogIos << left <<
+        gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -8172,7 +8172,7 @@ string msrDivisions::wholeNotesAsMsrString (
         nextDivisionsInList /= 2;
   
         if (gGeneralOptions->fTraceDivisions) {
-          gLogIos << left <<
+          gLogIOstream << left <<
             gTab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
             endl <<
@@ -8196,7 +8196,7 @@ string msrDivisions::wholeNotesAsMsrString (
       } // while
   
       if (gGeneralOptions->fTraceDivisions) {
-        gLogIos << left <<
+        gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
           endl <<
@@ -8226,7 +8226,7 @@ string msrDivisions::wholeNotesAsMsrString (
   numberOfDotsNeeded = dotsNumber;
 
   if (gGeneralOptions->fTraceDivisions) {
-    gLogIos <<
+    gLogIOstream <<
       "<-- wholeNotesAsMsrString (): returns " << result <<
       endl <<
       endl;
@@ -8292,7 +8292,7 @@ msrDivisions::~msrDivisions()
 
 void msrDivisions::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrDivisions::acceptIn()" <<
       endl;
       
@@ -8302,7 +8302,7 @@ void msrDivisions::acceptIn (basevisitor* v) {
         S_msrDivisions elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrDivisions::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -8311,7 +8311,7 @@ void msrDivisions::acceptIn (basevisitor* v) {
 
 void msrDivisions::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrDivisions::acceptOut()" <<
       endl;
 
@@ -8321,7 +8321,7 @@ void msrDivisions::acceptOut (basevisitor* v) {
         S_msrDivisions elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrDivisions::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -8383,7 +8383,7 @@ msrBarCheck::msrBarCheck (
     : msrElement (inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a bar check without next bar number" <<
       endl;
   }
@@ -8397,7 +8397,7 @@ msrBarCheck::msrBarCheck (
   fNextBarNumber = nextBarNumber; 
 
   if (gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a bar check with next bar number '" <<
       fNextBarNumber <<
       "'" <<
@@ -8411,7 +8411,7 @@ msrBarCheck::~msrBarCheck()
 void msrBarCheck::setNextBarNumber (string number)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Setting bar check next bar number to '" <<
       number <<
       "'" <<
@@ -8434,7 +8434,7 @@ string msrBarCheck::barCheckAsString () const
 
 void msrBarCheck::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrBarCheck::acceptIn()" <<
       endl;
       
@@ -8444,7 +8444,7 @@ void msrBarCheck::acceptIn (basevisitor* v) {
         S_msrBarCheck elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrBarCheck::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -8453,7 +8453,7 @@ void msrBarCheck::acceptIn (basevisitor* v) {
 
 void msrBarCheck::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrBarCheck::acceptOut()" <<
       endl;
 
@@ -8463,7 +8463,7 @@ void msrBarCheck::acceptOut (basevisitor* v) {
         S_msrBarCheck elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrBarCheck::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -8522,7 +8522,7 @@ string msrBarNumberCheck::barNumberCheckAsString () const
 
 void msrBarNumberCheck::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrBarNumberCheck::acceptIn()" <<
       endl;
       
@@ -8532,7 +8532,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v) {
         S_msrBarNumberCheck elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrBarNumberCheck::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -8541,7 +8541,7 @@ void msrBarNumberCheck::acceptIn (basevisitor* v) {
 
 void msrBarNumberCheck::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrBarNumberCheck::acceptOut()" <<
       endl;
 
@@ -8551,7 +8551,7 @@ void msrBarNumberCheck::acceptOut (basevisitor* v) {
         S_msrBarNumberCheck elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrBarNumberCheck::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -8593,7 +8593,7 @@ msrLineBreak::msrLineBreak (
   fNextBarNumber = nextBarNumber; 
 
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a break before measure " << fNextBarNumber <<
       endl;
 }
@@ -8614,7 +8614,7 @@ string msrLineBreak::lineBreakAsString () const
 
 void msrLineBreak::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrLineBreak::acceptIn()" <<
       endl;
       
@@ -8624,7 +8624,7 @@ void msrLineBreak::acceptIn (basevisitor* v) {
         S_msrLineBreak elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrLineBreak::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -8633,7 +8633,7 @@ void msrLineBreak::acceptIn (basevisitor* v) {
 
 void msrLineBreak::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrLineBreak::acceptOut()" <<
       endl;
 
@@ -8643,7 +8643,7 @@ void msrLineBreak::acceptOut (basevisitor* v) {
         S_msrLineBreak elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrLineBreak::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -8682,7 +8682,7 @@ msrPageBreak::msrPageBreak (
     : msrElement (inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a page break" <<
       endl;
 }
@@ -8702,7 +8702,7 @@ string msrPageBreak::pageBreakAsString () const
 
 void msrPageBreak::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPageBreak::acceptIn()" <<
       endl;
       
@@ -8712,7 +8712,7 @@ void msrPageBreak::acceptIn (basevisitor* v) {
         S_msrPageBreak elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPageBreak::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -8721,7 +8721,7 @@ void msrPageBreak::acceptIn (basevisitor* v) {
 
 void msrPageBreak::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPageBreak::acceptOut()" <<
       endl;
 
@@ -8731,7 +8731,7 @@ void msrPageBreak::acceptOut (basevisitor* v) {
         S_msrPageBreak elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPageBreak::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -8796,7 +8796,7 @@ msrTuplet::~msrTuplet()
 S_msrTuplet msrTuplet::createTupletNewbornClone ()
 {
   if (gGeneralOptions->fTraceTuplets) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of tuplet '" <<
       tupletAsShortString () <<
       "'" <<
@@ -8827,7 +8827,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
 void msrTuplet::addNoteToTuplet (S_msrNote note)
 {
   if (gGeneralOptions->fTraceTuplets)
-    gLogIos <<
+    gLogIOstream <<
       "Adding note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
       // the information is missing to display it the normal way
@@ -8863,7 +8863,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
 void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
-    gLogIos <<
+    gLogIOstream <<
       "Adding chord '" <<
       chord->chordAsString () <<
       "' to tuplet '" <<
@@ -8894,7 +8894,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets)
-    gLogIos <<
+    gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->tupletAsString () <<
       "' to tuplet '" <<
@@ -8943,7 +8943,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets)
-    gLogIos <<
+    gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->tupletAsString () <<
       "' to tuplet '" <<
@@ -8972,7 +8972,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
   S_msrNote note)
 {
   if (gGeneralOptions->fTraceTuplets)
-    gLogIos <<
+    gLogIOstream <<
       "Removing first note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
       "' from tuplet '" <<
@@ -9141,13 +9141,13 @@ rational msrTuplet::setTupletPositionInMeasure (
 void msrTuplet::applyDisplayFactorToTupletMembers ()
 {
   if (gGeneralOptions->fTraceTuplets) {
-    gLogIos <<
+    gLogIOstream <<
       "% ==> applyDisplayFactorToTupletMembers()" <<
       endl;
 
     gIndenter++;
     
-    gLogIos <<
+    gLogIOstream <<
       "% fTupletActualNotes = " <<
       fTupletActualNotes <<
       ", fTupletNormalNotes = " <<
@@ -9203,13 +9203,13 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
   int containingTupletNormalNotes)
 {
   if (gGeneralOptions->fTraceTuplets) {
-    gLogIos <<
+    gLogIOstream <<
       "unapplySoundingFactorToTupletMembers()" <<
       endl;
 
     gIndenter++;
     
-    gLogIos <<
+    gLogIOstream <<
       "% fTupletActualNotes = " <<
       fTupletActualNotes <<
       ", fTupletNormalNotes = " <<
@@ -9233,7 +9233,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
 
 void msrTuplet::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTuplet::acceptIn()" <<
       endl;
       
@@ -9243,7 +9243,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
         S_msrTuplet elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTuplet::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -9252,7 +9252,7 @@ void msrTuplet::acceptIn (basevisitor* v) {
 
 void msrTuplet::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTuplet::acceptOut()" <<
       endl;
 
@@ -9262,7 +9262,7 @@ void msrTuplet::acceptOut (basevisitor* v) {
         S_msrTuplet elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTuplet::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -9497,7 +9497,7 @@ float msrPageGeometry::globalStaffSize () const
 
 void msrPageGeometry::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPageGeometry::acceptIn()" <<
       endl;
       
@@ -9507,7 +9507,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
         S_msrPageGeometry elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPageGeometry::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -9516,7 +9516,7 @@ void msrPageGeometry::acceptIn (basevisitor* v) {
 
 void msrPageGeometry::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPageGeometry::acceptOut()" <<
       endl;
 
@@ -9526,7 +9526,7 @@ void msrPageGeometry::acceptOut (basevisitor* v) {
         S_msrPageGeometry elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPageGeometry::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -9743,7 +9743,7 @@ msrCreditWords::~msrCreditWords()
 
 void msrCreditWords::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrCreditWords::acceptIn()" <<
       endl;
       
@@ -9753,7 +9753,7 @@ void msrCreditWords::acceptIn (basevisitor* v) {
         S_msrCreditWords elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrCreditWords::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -9762,7 +9762,7 @@ void msrCreditWords::acceptIn (basevisitor* v) {
 
 void msrCreditWords::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrCreditWords::acceptOut()" <<
       endl;
 
@@ -9772,7 +9772,7 @@ void msrCreditWords::acceptOut (basevisitor* v) {
         S_msrCreditWords elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrCreditWords::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -9874,7 +9874,7 @@ void msrCredit::appendCreditWordsToCredit (
 
 void msrCredit::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrCredit::acceptIn()" <<
       endl;
       
@@ -9884,7 +9884,7 @@ void msrCredit::acceptIn (basevisitor* v) {
         S_msrCredit elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrCredit::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -9893,7 +9893,7 @@ void msrCredit::acceptIn (basevisitor* v) {
 
 void msrCredit::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrCredit::acceptOut()" <<
       endl;
 
@@ -9903,7 +9903,7 @@ void msrCredit::acceptOut (basevisitor* v) {
         S_msrCredit elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrCredit::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -10015,7 +10015,7 @@ msrVarValAssoc::~msrVarValAssoc()
 
 void msrVarValAssoc::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrVarValAssoc::acceptIn()" <<
       endl;
       
@@ -10025,7 +10025,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
         S_msrVarValAssoc elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrVarValAssoc::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -10034,7 +10034,7 @@ void msrVarValAssoc::acceptIn (basevisitor* v) {
 
 void msrVarValAssoc::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrVarValAssoc::acceptOut()" <<
       endl;
 
@@ -10044,7 +10044,7 @@ void msrVarValAssoc::acceptOut (basevisitor* v) {
         S_msrVarValAssoc elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrVarValAssoc::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -10117,7 +10117,7 @@ msrLayout::~msrLayout()
 
 void msrLayout::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrLayout::acceptIn()" <<
       endl;
       
@@ -10127,7 +10127,7 @@ void msrLayout::acceptIn (basevisitor* v) {
         S_msrLayout elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrLayout::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -10136,7 +10136,7 @@ void msrLayout::acceptIn (basevisitor* v) {
 
 void msrLayout::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrLayout::acceptOut()" <<
       endl;
 
@@ -10146,7 +10146,7 @@ void msrLayout::acceptOut (basevisitor* v) {
         S_msrLayout elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrLayout::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -10259,7 +10259,7 @@ bool msrClef::isEqualTo (S_msrClef otherClef) const // JMI
 
 void msrClef::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrClef::acceptIn()" <<
       endl;
       
@@ -10269,7 +10269,7 @@ void msrClef::acceptIn (basevisitor* v) {
         S_msrClef elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrClef::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -10278,7 +10278,7 @@ void msrClef::acceptIn (basevisitor* v) {
 
 void msrClef::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrClef::acceptOut()" <<
       endl;
 
@@ -10288,7 +10288,7 @@ void msrClef::acceptOut (basevisitor* v) {
         S_msrClef elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrClef::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -10413,7 +10413,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
     : msrElement (inputLineNumber)
 {
   if (gGeneralOptions->fTraceKeys) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
       endl;
@@ -10431,7 +10431,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitch (
   msrDiatonicPitch diatonicPitch)
 {
   if (gGeneralOptions->fTraceKeys) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
       msrDiatonicPitchAsString (diatonicPitch) <<
       "'" <<
@@ -10445,7 +10445,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlteration (
   msrAlteration alteration)
 {
   if (gGeneralOptions->fTraceKeys) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
       msrAlterationAsString (alteration) <<
       "'" <<
@@ -10458,7 +10458,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlteration (
 void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
   if (gGeneralOptions->fTraceKeys) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting Humdrum/Scot key item octave to '" <<
       keyOctave <<
       "'" <<
@@ -10470,7 +10470,7 @@ void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 
 void msrHumdrumScotKeyItem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptIn()" <<
       endl;
       
@@ -10480,7 +10480,7 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v) {
         S_msrHumdrumScotKeyItem elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -10489,7 +10489,7 @@ void msrHumdrumScotKeyItem::acceptIn (basevisitor* v) {
 
 void msrHumdrumScotKeyItem::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptOut()" <<
       endl;
 
@@ -10499,7 +10499,7 @@ void msrHumdrumScotKeyItem::acceptOut (basevisitor* v) {
         S_msrHumdrumScotKeyItem elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -10618,7 +10618,7 @@ void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
 {
   if (gGeneralOptions->fTraceKeys) {
-    gLogIos <<
+    gLogIOstream <<
       "Append item '" <<
       item->humdrumScotKeyItemAsString () <<
       "' to key '" <<
@@ -10637,7 +10637,7 @@ void msrKey::appendHumdrumScotKeyItem (
 
 void msrKey::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrKey::acceptIn()" <<
       endl;
       
@@ -10647,7 +10647,7 @@ void msrKey::acceptIn (basevisitor* v) {
         S_msrKey elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrKey::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -10656,7 +10656,7 @@ void msrKey::acceptIn (basevisitor* v) {
 
 void msrKey::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrKey::acceptOut()" <<
       endl;
 
@@ -10666,7 +10666,7 @@ void msrKey::acceptOut (basevisitor* v) {
         S_msrKey elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrKey::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -10850,7 +10850,7 @@ msrTimeItem::msrTimeItem (
   fTimeBeatValue = -1;
   
   if (gGeneralOptions->fTraceTimes) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
@@ -10863,7 +10863,7 @@ msrTimeItem::~msrTimeItem()
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
   if (gGeneralOptions->fTraceTimes) {
-    gLogIos <<
+    gLogIOstream <<
       "Append beat number '" <<
       beatsNumber <<
       "' to time '" << // JMI
@@ -10890,7 +10890,7 @@ int msrTimeItem::getTimeBeatsNumber () const
 
 void msrTimeItem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTimeItem::acceptIn()" <<
       endl;
       
@@ -10900,7 +10900,7 @@ void msrTimeItem::acceptIn (basevisitor* v) {
         S_msrTimeItem elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTimeItem::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -10909,7 +10909,7 @@ void msrTimeItem::acceptIn (basevisitor* v) {
 
 void msrTimeItem::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTimeItem::acceptOut()" <<
       endl;
 
@@ -10919,7 +10919,7 @@ void msrTimeItem::acceptOut (basevisitor* v) {
         S_msrTimeItem elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTimeItem::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -11076,7 +11076,7 @@ void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
 {
   if (gGeneralOptions->fTraceTimes) {
-    gLogIos <<
+    gLogIOstream <<
       "Append item '" <<
       timeItem->timeItemAsString () <<
       "' to time '" <<
@@ -11123,7 +11123,7 @@ rational msrTime::wholeNotesPerMeasure () const
 */
 
 /* JMI
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       endl <<
       "result1 = " <<
@@ -11142,7 +11142,7 @@ rational msrTime::wholeNotesPerMeasure () const
           fTimeItemsVector [i]->getTimeBeatValue ());
 
 /* JMI
-      gLogIos <<
+      gLogIOstream <<
         endl <<
         endl <<
         "result2 = " <<
@@ -11171,7 +11171,7 @@ rational msrTime::wholeNotesPerMeasure () const
 
 void msrTime::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTime::acceptIn()" <<
       endl;
       
@@ -11181,7 +11181,7 @@ void msrTime::acceptIn (basevisitor* v) {
         S_msrTime elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTime::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -11190,7 +11190,7 @@ void msrTime::acceptIn (basevisitor* v) {
 
 void msrTime::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTime::acceptOut()" <<
       endl;
 
@@ -11200,7 +11200,7 @@ void msrTime::acceptOut (basevisitor* v) {
         S_msrTime elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTime::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -11446,7 +11446,7 @@ msrTranspose::msrTranspose (
   fTransposeDouble       = transposeDouble;
 
   if (gGeneralOptions->fTraceTranspositions) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating transpose '" <<
       transposeAsString () <<
       "'" <<
@@ -11475,7 +11475,7 @@ bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
 
 void msrTranspose::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTranspose::acceptIn()" <<
       endl;
       
@@ -11485,7 +11485,7 @@ void msrTranspose::acceptIn (basevisitor* v) {
         S_msrTranspose elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTranspose::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -11494,7 +11494,7 @@ void msrTranspose::acceptIn (basevisitor* v) {
 
 void msrTranspose::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTranspose::acceptOut()" <<
       endl;
 
@@ -11504,7 +11504,7 @@ void msrTranspose::acceptOut (basevisitor* v) {
         S_msrTranspose elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTranspose::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -11622,7 +11622,7 @@ msrWords::~msrWords()
 
 void msrWords::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrWords::acceptIn()" <<
       endl;
       
@@ -11632,7 +11632,7 @@ void msrWords::acceptIn (basevisitor* v) {
         S_msrWords elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrWords::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -11641,7 +11641,7 @@ void msrWords::acceptIn (basevisitor* v) {
 
 void msrWords::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrWords::acceptOut()" <<
       endl;
 
@@ -11651,7 +11651,7 @@ void msrWords::acceptOut (basevisitor* v) {
         S_msrWords elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrWords::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -11825,7 +11825,7 @@ msrTempo::~msrTempo()
 void msrTempo::setTempoIndication (string indication)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "Setting indication of tempo " <<
       fTempoUnit << " = " << fPerMinute <<
       " to \"" << indication << "\"" <<
@@ -11836,7 +11836,7 @@ void msrTempo::setTempoIndication (string indication)
 
 void msrTempo::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTempo::acceptIn()" <<
       endl;
       
@@ -11846,7 +11846,7 @@ void msrTempo::acceptIn (basevisitor* v) {
         S_msrTempo elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTempo::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -11855,7 +11855,7 @@ void msrTempo::acceptIn (basevisitor* v) {
 
 void msrTempo::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrTempo::acceptOut()" <<
       endl;
 
@@ -11865,7 +11865,7 @@ void msrTempo::acceptOut (basevisitor* v) {
         S_msrTempo elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrTempo::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -11952,7 +11952,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of syllable '" <<
       syllableAsString () <<
       "'" <<
@@ -11996,7 +11996,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of syllable '" <<
       syllableAsString () <<
       "'" <<
@@ -12061,7 +12061,7 @@ void msrSyllable::writeTextsList (
 void msrSyllable::appendLyricTextToSyllable (string text)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending text '" <<
       text <<
       "' to the texts list of syllable '" <<
@@ -12084,13 +12084,13 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
       appendSyllableToNote (this); // JMI
   
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting syllable note uplink for:" <<
       endl;
 
     gIndenter++;
     
-    gLogIos <<
+    gLogIOstream <<
       syllableAsString () <<
     // JMI    "to '" << note->noteAsString () <<
       ", line " << note->getInputLineNumber () <<
@@ -12100,15 +12100,15 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
       
 /*
     if (note) { // JMI
-      gLogIos <<
+      gLogIOstream <<
         note->noteAsString () <<
         ", line " << note->getInputLineNumber ();
     }
     else {
-      gLogIos << "none";
+      gLogIOstream << "none";
     }
     
-    gLogIos <<
+    gLogIOstream <<
       endl;
       */
   }
@@ -12124,7 +12124,7 @@ string msrSyllable::syllableWholeNotesAsMsrString ()
 
 void msrSyllable::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSyllable::acceptIn()" <<
       endl;
       
@@ -12134,7 +12134,7 @@ void msrSyllable::acceptIn (basevisitor* v) {
         S_msrSyllable elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSyllable::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -12143,7 +12143,7 @@ void msrSyllable::acceptIn (basevisitor* v) {
 
 void msrSyllable::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSyllable::acceptOut()" <<
       endl;
 
@@ -12153,7 +12153,7 @@ void msrSyllable::acceptOut (basevisitor* v) {
         S_msrSyllable elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSyllable::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -12581,7 +12581,7 @@ void msrStanza::initializeStanza ()
   } // switch
  
   if (gGeneralOptions->fTraceLyrics)
-    gLogIos <<
+    gLogIOstream <<
       "==> Initializing stanza " << getStanzaName () <<
       endl;
 
@@ -12600,7 +12600,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
@@ -12645,7 +12645,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
@@ -12699,7 +12699,7 @@ void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
   if (gGeneralOptions->fTraceLyrics)
-    gLogIos <<
+    gLogIOstream <<
       "Appending syllable '" << syllable->syllableAsString () <<
       "' to stanza " << getStanzaName () <<
       endl;
@@ -12747,7 +12747,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -12777,7 +12777,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending 'Skip' syllable " <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -12809,7 +12809,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   rational        wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending '" <<
       msrSyllable::syllableKindAsString (syllableKind) <<
       "' syllable" <<
@@ -12841,7 +12841,7 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending 'Tied' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -12871,7 +12871,7 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending 'Slur' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -12901,7 +12901,7 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending a 'SlurBeyondEnd' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -12931,7 +12931,7 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending 'Ligature' syllable:" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -12961,7 +12961,7 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
   rational wholeNotes)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending a 'LigatureBeyondEnd' syllable" <<
       " to stanza " << getStanzaName () <<
       ", whole notes = " << wholeNotes <<
@@ -12991,7 +12991,7 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
   string nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending a 'barcheck' syllable" <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
@@ -13021,7 +13021,7 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
   string nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending a 'bar number check' syllable" <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
@@ -13051,7 +13051,7 @@ S_msrSyllable msrStanza::appendLineLineBreakSyllableToStanza (
   string nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending a 'Break' syllable" <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
@@ -13078,7 +13078,7 @@ S_msrSyllable msrStanza::appendLineLineBreakSyllableToStanza (
 
 void msrStanza::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStanza::acceptIn()" <<
       endl;
       
@@ -13088,7 +13088,7 @@ void msrStanza::acceptIn (basevisitor* v) {
         S_msrStanza elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStanza::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -13097,7 +13097,7 @@ void msrStanza::acceptIn (basevisitor* v) {
 
 void msrStanza::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStanza::acceptOut()" <<
       endl;
 
@@ -13107,7 +13107,7 @@ void msrStanza::acceptOut (basevisitor* v) {
         S_msrStanza elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStanza::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -13117,7 +13117,7 @@ void msrStanza::acceptOut (basevisitor* v) {
 void msrStanza::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStanza::browseData()" <<
       endl;
 
@@ -13130,13 +13130,13 @@ void msrStanza::browseData (basevisitor* v)
     msrBrowser<msrSyllable> browser (v);
     browser.browse (*fSyllables [i]);
   } // for
-  gLogIos <<
+  gLogIOstream <<
     endl;
 
   gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% <== msrStanza::browseData()" <<
       endl;
 }
@@ -13225,7 +13225,7 @@ msrHarmonyDegree::msrHarmonyDegree (
   fHarmonyDegreeTypeKind   = harmonyDegreeTypeKind;
 
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating harmony degree '" <<
       harmonyDegreeAsString () <<
       "'" <<
@@ -13253,7 +13253,7 @@ S_msrHarmonyDegree msrHarmonyDegree::createHarmonyNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -13280,7 +13280,7 @@ S_msrHarmonyDegree msrHarmonyDegree::createHarmonyDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -13467,7 +13467,7 @@ string msrHarmonyDegree::harmonyDegreeAsString () const
 
 void msrHarmonyDegree::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrHarmonyDegree::acceptIn()" <<
       endl;
       
@@ -13477,7 +13477,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v) {
         S_msrHarmonyDegree elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrHarmonyDegree::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -13486,7 +13486,7 @@ void msrHarmonyDegree::acceptIn (basevisitor* v) {
 
 void msrHarmonyDegree::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrHarmonyDegree::acceptOut()" <<
       endl;
 
@@ -13496,7 +13496,7 @@ void msrHarmonyDegree::acceptOut (basevisitor* v) {
         S_msrHarmonyDegree elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrHarmonyDegree::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -13579,7 +13579,7 @@ msrHarmony::msrHarmony (
     harmonySoundingWholeNotes;
 
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating harmony '" <<
       harmonyAsString () <<
       "'" <<
@@ -13594,7 +13594,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of harmony '" <<
       harmonyKindAsShortString (fHarmonyKind) <<
       "'" <<
@@ -13624,7 +13624,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of harmony '" <<
       harmonyKindAsShortString (fHarmonyKind) <<
       "'" <<
@@ -13701,7 +13701,7 @@ string msrHarmony::harmonyAsString () const
 
 void msrHarmony::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrHarmony::acceptIn()" <<
       endl;
       
@@ -13711,7 +13711,7 @@ void msrHarmony::acceptIn (basevisitor* v) {
         S_msrHarmony elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrHarmony::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -13720,7 +13720,7 @@ void msrHarmony::acceptIn (basevisitor* v) {
 
 void msrHarmony::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrHarmony::acceptOut()" <<
       endl;
 
@@ -13730,7 +13730,7 @@ void msrHarmony::acceptOut (basevisitor* v) {
         S_msrHarmony elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrHarmony::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -13873,7 +13873,7 @@ msrFigure::msrFigure (
   fFigureSuffixKind = figureSuffixKind;
  
   if (gGeneralOptions->fTraceFiguredBass) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating figure '" <<
       figureAsString () <<
       "'" <<
@@ -13888,7 +13888,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceFiguredBass) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of figure '" <<
       figureAsString () <<
       "'" <<
@@ -13916,7 +13916,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceFiguredBass) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of figure '" <<
       figureAsString () <<
       "'" <<
@@ -14041,7 +14041,7 @@ string msrFigure::figureAsString () const
 
 void msrFigure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrFigure::acceptIn()" <<
       endl;
       
@@ -14051,7 +14051,7 @@ void msrFigure::acceptIn (basevisitor* v) {
         S_msrFigure elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrFigure::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -14060,7 +14060,7 @@ void msrFigure::acceptIn (basevisitor* v) {
 
 void msrFigure::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrFigure::acceptOut()" <<
       endl;
 
@@ -14070,7 +14070,7 @@ void msrFigure::acceptOut (basevisitor* v) {
         S_msrFigure elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrFigure::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -14144,7 +14144,7 @@ msrFiguredBass::msrFiguredBass (
     figuredBassParenthesesKind;
     
   if (gGeneralOptions->fTraceFiguredBass) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating figuredBass '" <<
       figuredBassAsString () <<
       "'" <<
@@ -14159,7 +14159,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceFiguredBass) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of figuredBass '" <<
       figuredBassAsString () <<
       "'" <<
@@ -14186,7 +14186,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceFiguredBass) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of figuredBass '" <<
       figuredBassAsString () <<
       "'" <<
@@ -14213,7 +14213,7 @@ void msrFiguredBass::appendFiguredFigureToFiguredBass (
   S_msrFigure figure)
 {
   if (gGeneralOptions->fTraceFiguredBass) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending figure'" << figure->figureAsString () <<
       "' to figuredBass '" <<
       figuredBassAsString () <<
@@ -14286,7 +14286,7 @@ string msrFiguredBass::figuredBassAsString () const
 
 void msrFiguredBass::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrFiguredBass::acceptIn()" <<
       endl;
       
@@ -14296,7 +14296,7 @@ void msrFiguredBass::acceptIn (basevisitor* v) {
         S_msrFiguredBass elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrFiguredBass::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -14305,7 +14305,7 @@ void msrFiguredBass::acceptIn (basevisitor* v) {
 
 void msrFiguredBass::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrFiguredBass::acceptOut()" <<
       endl;
 
@@ -14315,7 +14315,7 @@ void msrFiguredBass::acceptOut (basevisitor* v) {
         S_msrFiguredBass elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrFiguredBass::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -14394,7 +14394,7 @@ msrSegno::~msrSegno()
 
 void msrSegno::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSegno::acceptIn()" <<
       endl;
       
@@ -14404,7 +14404,7 @@ void msrSegno::acceptIn (basevisitor* v) {
         S_msrSegno elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSegno::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -14413,7 +14413,7 @@ void msrSegno::acceptIn (basevisitor* v) {
 
 void msrSegno::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSegno::acceptOut()" <<
       endl;
 
@@ -14423,7 +14423,7 @@ void msrSegno::acceptOut (basevisitor* v) {
         S_msrSegno elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSegno::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -14468,7 +14468,7 @@ msrCoda::~msrCoda()
 
 void msrCoda::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrCoda::acceptIn()" <<
       endl;
       
@@ -14478,7 +14478,7 @@ void msrCoda::acceptIn (basevisitor* v) {
         S_msrCoda elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrCoda::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -14487,7 +14487,7 @@ void msrCoda::acceptIn (basevisitor* v) {
 
 void msrCoda::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrCoda::acceptOut()" <<
       endl;
 
@@ -14497,7 +14497,7 @@ void msrCoda::acceptOut (basevisitor* v) {
         S_msrCoda elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrCoda::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -14542,7 +14542,7 @@ msrEyeGlasses::~msrEyeGlasses()
 
 void msrEyeGlasses::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrEyeGlasses::acceptIn()" <<
       endl;
       
@@ -14552,7 +14552,7 @@ void msrEyeGlasses::acceptIn (basevisitor* v) {
         S_msrEyeGlasses elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrEyeGlasses::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -14561,7 +14561,7 @@ void msrEyeGlasses::acceptIn (basevisitor* v) {
 
 void msrEyeGlasses::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrEyeGlasses::acceptOut()" <<
       endl;
 
@@ -14571,7 +14571,7 @@ void msrEyeGlasses::acceptOut (basevisitor* v) {
         S_msrEyeGlasses elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrEyeGlasses::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -14681,7 +14681,7 @@ string msrPedal::pedalSignAsString ()
 
 void msrPedal::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPedal::acceptIn()" <<
       endl;
       
@@ -14691,7 +14691,7 @@ void msrPedal::acceptIn (basevisitor* v) {
         S_msrPedal elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPedal::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -14700,7 +14700,7 @@ void msrPedal::acceptIn (basevisitor* v) {
 
 void msrPedal::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPedal::acceptOut()" <<
       endl;
 
@@ -14710,7 +14710,7 @@ void msrPedal::acceptOut (basevisitor* v) {
         S_msrPedal elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPedal::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -14784,7 +14784,7 @@ msrBarline::msrBarline (
   fRepeatDirection = repeatDirection;
   fRepeatWinged    = repeatWinged;
   
-  // JMI gLogIos << "fEndingNumber = " << fEndingNumber << endl;
+  // JMI gLogIOstream << "fEndingNumber = " << fEndingNumber << endl;
   
   // extract individual numbers from fEndingNumber
   // that may contain "1, 2"
@@ -14798,7 +14798,7 @@ msrBarline::~msrBarline()
 
 void msrBarline::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrBarline::acceptIn()" <<
       endl;
       
@@ -14808,7 +14808,7 @@ void msrBarline::acceptIn (basevisitor* v) {
         S_msrBarline elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrBarline::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -14817,7 +14817,7 @@ void msrBarline::acceptIn (basevisitor* v) {
 
 void msrBarline::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrBarline::acceptOut()" <<
       endl;
 
@@ -14827,7 +14827,7 @@ void msrBarline::acceptOut (basevisitor* v) {
         S_msrBarline elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrBarline::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -15134,7 +15134,7 @@ msrMeasure::msrMeasure (
 void msrMeasure::initializeMeasure ()
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "==> Initializing measure " << fMeasureNumber <<
       " in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
@@ -15184,7 +15184,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of measure '" <<
       fMeasureNumber <<
       "'" <<
@@ -15239,7 +15239,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   S_msrSegment containingSegment)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of measure '" <<
       fMeasureNumber <<
       "'" <<
@@ -15287,7 +15287,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 
   if (numberOfMeasureElements) {
      if (gGeneralOptions->fTraceMeasures) {
-      gLogIos <<
+      gLogIOstream <<
         singularOrPluralWithoutNumber (
           numberOfMeasureElements, "There is", "There are") <<
         " " <<
@@ -15336,7 +15336,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         S_msrTime time = dynamic_cast<msrTime*>(&(*element))
         ) {
         if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
-          gLogIos <<
+          gLogIOstream <<
             "Sharing time '" <<
             time->timeAsShortString () <<
             "' in measure '" <<
@@ -15364,7 +15364,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   
   else {
     if (gGeneralOptions->fTraceMeasures) {
-      gLogIos <<
+      gLogIOstream <<
         "There are no elements in measure to be deep copied" <<
         " in segment " <<
         containingSegment->segmentAsString () <<
@@ -15401,7 +15401,7 @@ void msrMeasure::setMeasureLength (
   rationalisedMeasureLength.rationalise ();
   
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting measure " << fMeasureNumber <<
       " measure length to '"  << rationalisedMeasureLength << "'";
 
@@ -15409,11 +15409,11 @@ void msrMeasure::setMeasureLength (
       rationalisedMeasureLength.getDenominator ()
         !=
       measureLength.getDenominator ()) {
-      gLogIos <<
+      gLogIOstream <<
         " (was '" << measureLength << "')";
     }
 
-    gLogIos <<
+    gLogIOstream <<
       " in voice \"" <<
       fMeasureSegmentUplink->
         getSegmentVoiceUplink ()->
@@ -15438,7 +15438,7 @@ string msrMeasure::measureLengthAsMSRString ()
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending clef '" << clef->clefAsString () <<
       "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
@@ -15454,7 +15454,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
 void msrMeasure::appendKeyToMeasure (S_msrKey key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending key '" << key->keyAsString () <<
       "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
@@ -15474,18 +15474,18 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     time != 0, "time is null");
 
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    gLogIos <<
+    gLogIOstream <<
       time;
 
     gIndenter--;
 
-    gLogIos <<
+    gLogIOstream <<
       "to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -15508,7 +15508,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     // this measure is senza misura
     
     if (gGeneralOptions->fTraceMeasures) {
-      gLogIos <<
+      gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
         fMeasureSegmentUplink->
@@ -15538,10 +15538,10 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         time->wholeNotesPerMeasure ();
         
     if (gGeneralOptions->fTraceTimes) {
-      gLogIos <<
+      gLogIOstream <<
         time;
   
-      gLogIos <<
+      gLogIOstream <<
         "has " <<
         wholeNotesPerMeasure.getNumerator () <<
         "/" <<
@@ -15560,7 +15560,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     
   
     if (gGeneralOptions->fTraceMeasures)
-      gLogIos <<
+      gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
         fMeasureSegmentUplink->
@@ -15584,18 +15584,18 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
     time != 0, "time is null");
 
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    gLogIos <<
+    gLogIOstream <<
       time;
 
     gIndenter--;
 
-    gLogIos <<
+    gLogIOstream <<
       "to measure clone '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -15623,19 +15623,19 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     gGeneralOptions->fTraceTimes
       ||
     gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting measure full measure length from time" <<
       ", line " << fInputLineNumber <<
       endl;
 
     gIndenter++;
 
-    gLogIos <<
+    gLogIOstream <<
       time;
 
     gIndenter--;
 
-    gLogIos <<
+    gLogIOstream <<
       "for measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -15655,7 +15655,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
       gGeneralOptions->fTraceTimes
         ||
       gGeneralOptions->fTraceMeasures) {
-      gLogIos <<
+      gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
         fMeasureSegmentUplink->
@@ -15688,7 +15688,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
       gGeneralOptions->fTraceTimes
         ||
       gGeneralOptions->fTraceMeasures) {
-      gLogIos <<
+      gLogIOstream <<
         "There are " <<
         wholeNotesPerMeasure <<
         " whole note(s) per measure in time:" <<
@@ -15696,12 +15696,12 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
 
       gIndenter++;
       
-      gLogIos <<
+      gLogIOstream <<
         time;
                   
       gIndenter--;
 
-      gLogIos <<
+      gLogIOstream <<
         "in measure '" << fMeasureNumber << "'" <<
         ", line " << fInputLineNumber <<
         "' in voice \"" <<
@@ -15722,7 +15722,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
       gGeneralOptions->fTraceTimes
         ||
       gGeneralOptions->fTraceMeasures) {
-      gLogIos <<
+      gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
         fMeasureSegmentUplink->
@@ -15800,7 +15800,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     note->getInputLineNumber ();
 
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending note '" << note->noteAsShortString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
@@ -15876,7 +15876,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   if (! noteHarmony) {
     if (partHarmoniesSupplierVoice) {
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-        gLogIos <<
+        gLogIOstream <<
           "measureVoiceUplink = \"" <<
           fetchMeasureVoiceUplink ()->getVoiceName () <<
           "\"" <<
@@ -15915,7 +15915,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   
         // append the skip to the part harmony voice
         if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-          gLogIos <<
+          gLogIOstream <<
             "Appending skip '" << skipNote->noteAsShortString () <<
             "' to measure '" << fMeasureNumber <<
             "' in harmony voice \"" <<
@@ -15944,7 +15944,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     note->getInputLineNumber ();
 
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending note '" << note->noteAsShortString () <<
       "' to measure clone '" << fMeasureNumber <<
       "' in voice clone \"" <<
@@ -16023,7 +16023,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     if (noteHarmony) {
       // append the harmony to the harmony voice
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-        gLogIos <<
+        gLogIOstream <<
           "Appending harmony '" << noteHarmony->harmonyAsString () <<
           "' to measure '" << fMeasureNumber <<
           "' in harmony voice \"" <<
@@ -16058,7 +16058,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   
         // append the skip to the part harmony voice
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-          gLogIos <<
+          gLogIOstream <<
             "Appending skip '" << skipNote->noteAsShortString () <<
             "' to measure '" << fMeasureNumber <<
             "' in harmony voice \"" <<
@@ -16087,7 +16087,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   doubleTremolo->setDoubleTremoloMeasureUplink (this);
 
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending double tremolo '" <<
       doubleTremolo->doubleTremoloAsShortString () <<
       "' to measure '" << fMeasureNumber <<
@@ -16164,7 +16164,7 @@ void msrMeasure::appendMeasureRepeatToMeasure (
 */
 
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending multiple rest '" <<
       measureRepeat->measureRepeatAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -16239,7 +16239,7 @@ void msrMeasure::appendMultipleRestToMeasure (
 */
 
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -16311,7 +16311,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   chord->setChordMeasureUplink (this);
 
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending chord '" << chord->chordAsString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
@@ -16380,7 +16380,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     tuplet->getInputLineNumber ();
     
   if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
@@ -16461,7 +16461,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     harmony->getInputLineNumber ();
     
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
@@ -16549,7 +16549,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   // regular insertion in current measure
   
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to measure clone '" << fMeasureNumber <<
       "' in voice clone \"" <<
@@ -16588,7 +16588,7 @@ void msrMeasure::appendFiguredBassToMeasure (
     figuredBass->getInputLineNumber ();
     
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
@@ -16629,7 +16629,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   // regular insertion in current measure
   
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to measure clone '" << fMeasureNumber <<
       "' in voice clone \"" <<
@@ -16666,7 +16666,7 @@ void msrMeasure::bringMeasureToMeasureLength (
   rational measureLength)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Bringing measure length for measure '" <<
       fMeasureNumber <<
       "' in segment " <<
@@ -16713,7 +16713,7 @@ void msrMeasure::bringMeasureToMeasureLength (
         fMeasureLength);
            
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
-      gLogIos <<
+      gLogIOstream <<
        "Appending " << skip->noteAsString () <<
        " (" << skipDuration <<
        " whole notes) to bring voice \"" << voice->getVoiceName () <<
@@ -16892,16 +16892,16 @@ void msrMeasure::removeNoteFromMeasure (
   S_msrNote note)
 {  
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Removing note:" <<
       endl;
 
     gIndenter++;
-    gLogIos <<
+    gLogIOstream <<
       note->noteAsShortString ();
     gIndenter--;
     
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       " from measure '" << fMeasureNumber <<
       "' in voice \"" <<
@@ -16912,7 +16912,7 @@ void msrMeasure::removeNoteFromMeasure (
       endl;
 
     gIndenter++;
-    gLogIos <<
+    gLogIOstream <<
       "fMeasureLastHandledNote:" <<
       endl <<
       fMeasureLastHandledNote <<
@@ -16964,16 +16964,16 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
       
   if (gGeneralOptions->fDebug) {
 //  if (gGeneralOptions->fDebug) {
-    gLogIos <<
+    gLogIOstream <<
       "% --> removing last element:" <<
       endl;
 
     gIndenter++;
-    gLogIos <<
+    gLogIOstream <<
       measureLastElement;
     gIndenter--;
     
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       " from measure '" <<
       fMeasureNumber <<
@@ -16985,7 +16985,7 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
       endl;
 
     gIndenter++;
-    gLogIos <<
+    gLogIOstream <<
       "fMeasureLastHandledNote:" <<
       endl <<
       fMeasureLastHandledNote <<
@@ -17056,7 +17056,7 @@ void msrMeasure::finalizeMeasure (
         getPartMeasureLengthHighTide ();
     
   if (gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Finalizing measure " << fMeasureNumber <<
       " in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -17066,7 +17066,7 @@ void msrMeasure::finalizeMeasure (
 
     const int fieldWidth = 26;
     
-    gLogIos << left <<
+    gLogIOstream << left <<
       setw (fieldWidth) <<
       "measureLength" << " = " << fMeasureLength <<
       endl <<
@@ -17116,7 +17116,7 @@ void msrMeasure::finalizeMeasure (
         setNotePositionInMeasure (fMeasureLength);
              
       if (gGeneralOptions->fTraceMeasures)
-        gLogIos <<
+        gLogIOstream <<
          "Appending '" << skip->noteAsString () <<
          " (" << skipDuration << " whole notes)'" <<
          " to finalize \"" << voice->getVoiceName () <<
@@ -17136,7 +17136,7 @@ void msrMeasure::finalizeMeasure (
     if (fMeasureLength == fMeasureFullMeasureLength) {
       // full measure
       if (gGeneralOptions->fTraceMeasures) {
-        gLogIos <<
+        gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" << voice->getVoiceName () <<
         "\", is full" <<
@@ -17151,7 +17151,7 @@ void msrMeasure::finalizeMeasure (
     else if (fMeasureLength.getNumerator () == 0) { // JMI
       // empty measure
       if (gGeneralOptions->fTraceMeasures) {
-        gLogIos <<
+        gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" << voice->getVoiceName () <<
         "\", is **empty**" <<
@@ -17168,7 +17168,7 @@ void msrMeasure::finalizeMeasure (
       switch (fMeasureFirstInSegmentKind) {
         case msrMeasure::kMeasureFirstInSegmentYes:
           if (gGeneralOptions->fTraceMeasures) {
-            gLogIos <<
+            gLogIOstream <<
             "Measure '" << fMeasureNumber <<
             "' in voice \"" << voice->getVoiceName () <<
             "\", is **incomplete left**" <<
@@ -17182,7 +17182,7 @@ void msrMeasure::finalizeMeasure (
           
         case msrMeasure::kMeasureFirstInSegmentNo:
           if (gGeneralOptions->fTraceMeasures) {
-            gLogIos <<
+            gLogIOstream <<
             "Measure '" << fMeasureNumber <<
             "' in voice \"" << voice->getVoiceName () <<
             "\", is **underfull**" <<
@@ -17199,7 +17199,7 @@ void msrMeasure::finalizeMeasure (
     else if (fMeasureLength > fMeasureFullMeasureLength) {
       // overfull measure
       if (gGeneralOptions->fTraceMeasures) {
-        gLogIos <<
+        gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" << voice->getVoiceName () <<
         "\", is **overfull**" <<
@@ -17219,7 +17219,7 @@ void msrMeasure::finalizeMeasure (
 
 void msrMeasure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasure::acceptIn()" <<
       endl;
       
@@ -17229,7 +17229,7 @@ void msrMeasure::acceptIn (basevisitor* v) {
         S_msrMeasure elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMeasure::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -17238,7 +17238,7 @@ void msrMeasure::acceptIn (basevisitor* v) {
 
 void msrMeasure::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasure::acceptOut()" <<
       endl;
 
@@ -17248,7 +17248,7 @@ void msrMeasure::acceptOut (basevisitor* v) {
         S_msrMeasure elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMeasure::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -17258,7 +17258,7 @@ void msrMeasure::acceptOut (basevisitor* v) {
 void msrMeasure::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasure::browseData()" <<
       endl;
 
@@ -17272,7 +17272,7 @@ void msrMeasure::browseData (basevisitor* v)
   } // for
 
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% <== msrMeasure::browseData()" <<
       endl;
 }
@@ -17450,7 +17450,7 @@ void msrSegment::initializeSegment ()
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
   
   if (gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "% ==> Initializing new segment, gets absolute number '" <<
       fSegmentAbsoluteNumber <<
       "'" <<
@@ -17488,7 +17488,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of segment " <<
       segmentAsString () <<
       endl;
@@ -17526,7 +17526,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of segment " <<
       segmentAsString () <<
       endl;
@@ -17559,7 +17559,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 
   if (numberOfSegmentMeasures) {
      if (gGeneralOptions->fTraceVoices) {
-      gLogIos <<
+      gLogIOstream <<
         "There are " <<
         numberOfSegmentMeasures <<
         " measures in segment to be deep copied" <<
@@ -17581,7 +17581,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   
   else {
     if (gGeneralOptions->fTraceSegments) {
-      gLogIos <<
+      gLogIOstream <<
         "There are no measures in segment to be deep copied" <<
         endl;
     }
@@ -17599,7 +17599,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   string measureNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating and appending a measure '" << measureNumber <<
       "', to segment '" << segmentAsString () <<
       "' in voice \"" <<
@@ -17640,7 +17640,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
       
   // create a measure
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating measure '" << measureNumber <<
       "' in segment " << segmentAsString () <<
       ", in voice \"" <<
@@ -17696,7 +17696,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         getPartCurrentMeasureNumber ();
       
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Finalizing current measure '" <<
       currentMeasureNumber <<
       "'in segment " <<
@@ -17748,7 +17748,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       */
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) { // JMI
-    gLogIos <<
+    gLogIOstream <<
       "Current measure '" <<
       currentMeasureNumber <<
       "'in segment " <<
@@ -17766,7 +17766,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending clef '" << clef->clefAsString () <<
       "' to segment " << segmentAsString () <<
       ", in voice \"" <<
@@ -17777,7 +17777,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
       /* JMI
   fetchSegmentPartUplink ()->
-    print (gLogIos);
+    print (gLogIOstream);
 */
 
   if (fSegmentMeasuresList.size () == 0) {
@@ -17791,11 +17791,11 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
 
-    gLogIos <<
+    gLogIOstream <<
       "SegmentVoiceUplink:" <<
       endl;
     gIndenter++;
-    gLogIos <<
+    gLogIOstream <<
       fSegmentVoiceUplink <<
       endl;
     gIndenter--;
@@ -17818,7 +17818,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 void msrSegment::appendKeyToSegment (S_msrKey key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending key '" << key->keyAsString () <<
       "' to segment " << segmentAsString () <<
     ", in voice \"" <<
@@ -17843,18 +17843,18 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 void msrSegment::appendTimeToSegment (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    gLogIos <<
+    gLogIOstream <<
       time;
 
     gIndenter--;
 
-    gLogIos <<
+    gLogIOstream <<
       "to segment " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -17875,18 +17875,18 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time:" <<
       endl;
 
     gIndenter++;
 
-    gLogIos <<
+    gLogIOstream <<
       time;
 
     gIndenter--;
 
-    gLogIos <<
+    gLogIOstream <<
       "to segment clone " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -17907,7 +17907,7 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending harmony " << harmony->harmonyAsString () <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -17928,7 +17928,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending harmony " << harmony->harmonyAsString () <<
       " to segment clone " << segmentAsString () <<
       "' in voice clone \"" <<
@@ -17950,7 +17950,7 @@ void msrSegment::appendFiguredBassToSegment (
   S_msrFiguredBass figuredBass)
 {
   if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending figured bass " << figuredBass->figuredBassAsString () <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -17972,7 +17972,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
   S_msrFiguredBass figuredBass)
 {
   if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending figured bass " << figuredBass->figuredBassAsString () <<
       " to segment clone " << segmentAsString () <<
       "' in voice clone \"" <<
@@ -17993,7 +17993,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending segno " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18014,7 +18014,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending coda " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18036,7 +18036,7 @@ void msrSegment::appendEyeGlassesToSegment (
   S_msrEyeGlasses eyeGlasses)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending eyeglasses " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18057,7 +18057,7 @@ void msrSegment::appendEyeGlassesToSegment (
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending pedal " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18079,7 +18079,7 @@ void msrSegment::appendTransposeToSegment (
   S_msrTranspose transpose)
 {
   if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending transpose " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18102,7 +18102,7 @@ void msrSegment::appendStaffDetailsToSegment (
   S_msrStaffDetails staffDetails)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending staff details " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18123,7 +18123,7 @@ void msrSegment::appendStaffDetailsToSegment (
 void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending break " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18144,7 +18144,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending break " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18166,7 +18166,7 @@ void msrSegment::appendBarNumberCheckToSegment (
   S_msrBarNumberCheck barNumberCheck)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending bar number check " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18188,7 +18188,7 @@ void msrSegment::appendTempoToSegment (
   S_msrTempo tempo)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending tempo " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18210,7 +18210,7 @@ void msrSegment::appendRehearsalToSegment (
   S_msrRehearsal rehearsal)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending rehearsal " <<
       " to segment " << segmentAsString () <<
       "' in voice \"" <<
@@ -18232,7 +18232,7 @@ void msrSegment::appendOctaveShiftToSegment (
   S_msrOctaveShift octaveShift)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
       "' to segment " << segmentAsString () <<
@@ -18256,7 +18256,7 @@ void msrSegment::appendAccordionRegistrationToSegment (
     accordionRegistration)
 {
   if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
       "' to segment " << segmentAsString () <<
@@ -18281,7 +18281,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
     harpPedalsTuning)
 {
   if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending staff pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
       "' to segment " << segmentAsString () <<
@@ -18306,7 +18306,7 @@ void msrSegment::bringSegmentToMeasureLength (
   rational measureLength)
 {
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Bringing measure length for segment '" <<
       fSegmentAbsoluteNumber <<
       "' in voice \"" <<
@@ -18327,20 +18327,20 @@ void msrSegment::bringSegmentToMeasureLength (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"";
 
-    gLogIos <<
+    gLogIOstream <<
       "SegmentVoiceUplink:" <<
       endl;
     gIndenter++;
-    gLogIos <<
+    gLogIOstream <<
       fSegmentVoiceUplink <<
       endl;
     gIndenter--;
     
-    gLogIos <<
+    gLogIOstream <<
       "Part:" <<
       endl;
     gIndenter++;
-    gLogIos <<
+    gLogIOstream <<
       fSegmentVoiceUplink->fetchVoicePartUplink () <<
       endl;
     gIndenter--;
@@ -18379,18 +18379,18 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
     
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending measure " << measureNumber <<
       " to segment " << segmentAsString ();
 
     if (fSegmentMeasuresList.size () == 0)
-      gLogIos <<
+      gLogIOstream <<
         ", as first measure";
     else
-      gLogIos <<
+      gLogIOstream <<
       ", after measure number '" << currentMeasureNumber << "'";
 
-    gLogIos <<
+    gLogIOstream <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -18431,20 +18431,20 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
     
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Prepending measure " << measureNumber <<
       " to segment " << segmentAsString ();
 
     if (fSegmentMeasuresList.size () == 0)
-      gLogIos <<
+      gLogIOstream <<
         ", as first measure";
 /* JMI
     else
-      gLogIos <<
+      gLogIOstream <<
       ", after measure number '" << currentMeasureNumber << "'";
 */
 
-    gLogIos <<
+    gLogIOstream <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -18479,7 +18479,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
   if (! fSegmentMeasuresList.size ()) {
     // create a new measure
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-      gLogIos <<
+      gLogIOstream <<
         "Appending a new measure '" << measureNumber <<
         "' to segment '" << segmentAsString () << "'" <<
         "' in voice \"" <<
@@ -18506,7 +18506,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Prepending barline '" << barline->barlineAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
       "' in voice \"" <<
@@ -18527,7 +18527,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending barline '" << barline->barlineAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
       "' in voice \"" <<
@@ -18551,7 +18551,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending bar check " << barCheck->barCheckAsString () <<
       " to segment '" << segmentAsString () << "'" <<
       "' in voice \"" <<
@@ -18577,7 +18577,7 @@ void msrSegment::appendVoiceStaffChangeToSegment (
     gGeneralOptions->fTraceStaves
       ||
     gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Append voice staff change " <<
       voiceStaffChange->getNewStaff () <<
       " to segment " <<
@@ -18620,7 +18620,7 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
   S_msrDoubleTremolo doubleTremolo)
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending double tremolo " <<
       doubleTremolo->doubleTremoloAsShortString () <<
       " to segment '" << segmentAsString () << "'" <<
@@ -18642,7 +18642,7 @@ void msrSegment::appendMeasureRepeatToSegment (
   S_msrMeasureRepeat measureRepeat)
 {
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending measure repeat '" <<
       measureRepeat->measureRepeatAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
@@ -18664,7 +18664,7 @@ void msrSegment::appendMultipleRestToSegment (
   S_msrMultipleRest multipleRest)
 {
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
@@ -18836,7 +18836,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "Removing last measure from segment '" <<
       fSegmentAbsoluteNumber <<
       "'" <<
@@ -18863,12 +18863,12 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       fSegmentMeasuresList.back ();
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
-    gLogIos <<
+    gLogIOstream <<
       "This measure contains:";
 
     gIndenter++;
 
-    gLogIos <<
+    gLogIOstream <<
       result;
 
     gIndenter--;
@@ -18881,7 +18881,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
 
 void msrSegment::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSegment::acceptIn()" <<
       endl;
       
@@ -18891,7 +18891,7 @@ void msrSegment::acceptIn (basevisitor* v) {
         S_msrSegment elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSegment::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -18900,7 +18900,7 @@ void msrSegment::acceptIn (basevisitor* v) {
 
 void msrSegment::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSegment::acceptOut()" <<
       endl;
 
@@ -18910,7 +18910,7 @@ void msrSegment::acceptOut (basevisitor* v) {
         S_msrSegment elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrSegment::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -18920,12 +18920,12 @@ void msrSegment::acceptOut (basevisitor* v) {
 void msrSegment::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrSegment::browseData()" <<
       endl;
 
 /* JMI
-  gLogIos <<
+  gLogIOstream <<
     gTab <<
     "==========>>> " <<
     fSegmentMeasuresList.size () << " measures" << endl;
@@ -18941,7 +18941,7 @@ void msrSegment::browseData (basevisitor* v)
   } // for
 
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% <== msrSegment::browseData()" <<
       endl;
 }
@@ -19077,7 +19077,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
   S_msrRepeat containingRepeat)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a " <<
       repeatCommonPartAsString () <<
       endl;
@@ -19107,7 +19107,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
   S_msrRepeat containingRepeat)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a " <<
       repeatCommonPartAsString () <<
       endl;
@@ -19151,7 +19151,7 @@ void msrRepeatCommonPart::appendElementToRepeatCommonPart (
 
 void msrRepeatCommonPart::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRepeatCommonPart::acceptIn()" <<
       endl;
       
@@ -19161,7 +19161,7 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v) {
         S_msrRepeatCommonPart elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRepeatCommonPart::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -19170,7 +19170,7 @@ void msrRepeatCommonPart::acceptIn (basevisitor* v) {
 
 void msrRepeatCommonPart::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRepeatCommonPart::acceptOut()" <<
       endl;
 
@@ -19180,7 +19180,7 @@ void msrRepeatCommonPart::acceptOut (basevisitor* v) {
         S_msrRepeatCommonPart elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRepeatCommonPart::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -19273,7 +19273,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
   S_msrRepeat containingRepeat)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a " <<
       repeatEndingAsString () <<
       endl;
@@ -19316,7 +19316,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
   S_msrRepeat containingRepeat)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a " <<
       repeatEndingAsString () <<
       endl;
@@ -19370,7 +19370,7 @@ void msrRepeatEnding::appendElementToRepeatEnding (
 
 void msrRepeatEnding::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRepeatEnding::acceptIn()" <<
       endl;
       
@@ -19380,7 +19380,7 @@ void msrRepeatEnding::acceptIn (basevisitor* v) {
         S_msrRepeatEnding elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRepeatEnding::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -19389,7 +19389,7 @@ void msrRepeatEnding::acceptIn (basevisitor* v) {
 
 void msrRepeatEnding::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRepeatEnding::acceptOut()" <<
       endl;
 
@@ -19399,7 +19399,7 @@ void msrRepeatEnding::acceptOut (basevisitor* v) {
         S_msrRepeatEnding elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRepeatEnding::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -19501,7 +19501,7 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a repeat" <<
       endl;
   
@@ -19531,7 +19531,7 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of a repeat" <<
       endl;
   
@@ -19586,7 +19586,7 @@ void msrRepeat::setRepeatCommonPart (
     "repeatCommonPart is null");
     
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Setting repeat common part with segment containing " <<
       singularOrPlural (
         repeatCommonPart->
@@ -19603,7 +19603,7 @@ void msrRepeat::setRepeatCommonSegment (
   S_msrSegment repeatCommonSegment)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Setting repeat common segment containing " <<
       singularOrPlural (
         repeatCommonSegment->
@@ -19630,7 +19630,7 @@ void msrRepeat::addRepeatEnding (
     "repeatEnding is null");
     
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Adding ending '" <<
       repeatEnding->repeatEndingAsString () <<
       "' to repeat" <<
@@ -19646,7 +19646,7 @@ void msrRepeat::addRepeatEnding (
 
 void msrRepeat::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRepeat::acceptIn()" <<
       endl;
       
@@ -19656,7 +19656,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
         S_msrRepeat elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRepeat::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -19665,7 +19665,7 @@ void msrRepeat::acceptIn (basevisitor* v) {
 
 void msrRepeat::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRepeat::acceptOut()" <<
       endl;
 
@@ -19675,7 +19675,7 @@ void msrRepeat::acceptOut (basevisitor* v) {
         S_msrRepeat elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRepeat::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -19814,7 +19814,7 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternNew
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a measure repeat pattern" <<
       endl;
   
@@ -19842,7 +19842,7 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternDee
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a measure repeat pattern" <<
       endl;
   
@@ -19871,7 +19871,7 @@ void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
     S_msrSegment measureRepeatPatternSegment)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Setting measure repeat pattern segment containing " <<
       singularOrPlural (
           measureRepeatPatternMeasuresNumber (),
@@ -19904,7 +19904,7 @@ int msrMeasureRepeatPattern::measureRepeatPatternMeasuresNumber () const
 
 void msrMeasureRepeatPattern::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeatPattern::acceptIn()" <<
       endl;
       
@@ -19914,7 +19914,7 @@ void msrMeasureRepeatPattern::acceptIn (basevisitor* v) {
         S_msrMeasureRepeatPattern elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMeasureRepeatPattern::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -19923,7 +19923,7 @@ void msrMeasureRepeatPattern::acceptIn (basevisitor* v) {
 
 void msrMeasureRepeatPattern::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeatPattern::acceptOut()" <<
       endl;
 
@@ -19933,7 +19933,7 @@ void msrMeasureRepeatPattern::acceptOut (basevisitor* v) {
         S_msrMeasureRepeatPattern elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMeasureRepeatPattern::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -19943,7 +19943,7 @@ void msrMeasureRepeatPattern::acceptOut (basevisitor* v) {
 void msrMeasureRepeatPattern::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeatPattern::browseData()" <<
       endl;
 
@@ -20041,7 +20041,7 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a measure repeat replicas" <<
       endl;
   
@@ -20069,7 +20069,7 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of a measure repeat replicas" <<
       endl;
   
@@ -20101,7 +20101,7 @@ void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
     S_msrSegment measureRepeatReplicasSegment)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
           measureRepeatReplicasMeasuresNumber (),
@@ -20134,7 +20134,7 @@ int msrMeasureRepeatReplicas::measureRepeatReplicasMeasuresNumber () const
 
 void msrMeasureRepeatReplicas::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeatReplicas::acceptIn()" <<
       endl;
       
@@ -20144,7 +20144,7 @@ void msrMeasureRepeatReplicas::acceptIn (basevisitor* v) {
         S_msrMeasureRepeatReplicas elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMeasureRepeatReplicas::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -20153,7 +20153,7 @@ void msrMeasureRepeatReplicas::acceptIn (basevisitor* v) {
 
 void msrMeasureRepeatReplicas::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeatReplicas::acceptOut()" <<
       endl;
 
@@ -20163,7 +20163,7 @@ void msrMeasureRepeatReplicas::acceptOut (basevisitor* v) {
         S_msrMeasureRepeatReplicas elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMeasureRepeatReplicas::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -20173,7 +20173,7 @@ void msrMeasureRepeatReplicas::acceptOut (basevisitor* v) {
 void msrMeasureRepeatReplicas::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeatReplicas::browseData()" <<
       endl;
 
@@ -20278,7 +20278,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a measure repeat" <<
       endl;
   
@@ -20310,7 +20310,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of a measure repeat" <<
       endl;
   
@@ -20353,7 +20353,7 @@ void msrMeasureRepeat::setMeasureRepeatPattern (
   S_msrMeasureRepeatPattern measureRepeatPattern)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Setting measure repeat pattern containing " <<
       singularOrPlural (
         measureRepeatPattern->
@@ -20374,7 +20374,7 @@ void msrMeasureRepeat::setMeasureRepeatReplicas (
   S_msrMeasureRepeatReplicas measureRepeatReplicas)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Setting measure repeat replicas containing " <<
       singularOrPlural (
         measureRepeatReplicas->
@@ -20402,7 +20402,7 @@ int msrMeasureRepeat::measureRepeatReplicasNumber () const
 
 void msrMeasureRepeat::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeat::acceptIn()" <<
       endl;
       
@@ -20412,7 +20412,7 @@ void msrMeasureRepeat::acceptIn (basevisitor* v) {
         S_msrMeasureRepeat elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMeasureRepeat::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -20421,7 +20421,7 @@ void msrMeasureRepeat::acceptIn (basevisitor* v) {
 
 void msrMeasureRepeat::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeat::acceptOut()" <<
       endl;
 
@@ -20431,7 +20431,7 @@ void msrMeasureRepeat::acceptOut (basevisitor* v) {
         S_msrMeasureRepeat elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMeasureRepeat::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -20441,7 +20441,7 @@ void msrMeasureRepeat::acceptOut (basevisitor* v) {
 void msrMeasureRepeat::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMeasureRepeat::browseData()" <<
       endl;
 
@@ -20464,7 +20464,7 @@ void msrMeasureRepeat::browseData (basevisitor* v)
 
   if (inhibitMeasureRepeatReplicasBrowsing) {
     if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats)
-      gLogIos <<
+      gLogIOstream <<
         "% ==> visiting measure repeat replicas is inhibited" <<
         endl;
   }
@@ -20590,7 +20590,7 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNew
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a multiple rest contents" <<
       endl;
   
@@ -20612,7 +20612,7 @@ void msrMultipleRestContents::setMultipleRestContentsSegment (
     S_msrSegment multipleRestContentsSegment)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Setting multiple rest contents segment containing " <<
       singularOrPlural (
           multipleRestContentsMeasuresNumber (),
@@ -20645,7 +20645,7 @@ int msrMultipleRestContents::multipleRestContentsMeasuresNumber () const
 
 void msrMultipleRestContents::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMultipleRestContents::acceptIn()" <<
       endl;
       
@@ -20655,7 +20655,7 @@ void msrMultipleRestContents::acceptIn (basevisitor* v) {
         S_msrMultipleRestContents elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMultipleRestContents::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -20664,7 +20664,7 @@ void msrMultipleRestContents::acceptIn (basevisitor* v) {
 
 void msrMultipleRestContents::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMultipleRestContents::acceptOut()" <<
       endl;
 
@@ -20674,7 +20674,7 @@ void msrMultipleRestContents::acceptOut (basevisitor* v) {
         S_msrMultipleRestContents elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMultipleRestContents::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -20684,7 +20684,7 @@ void msrMultipleRestContents::acceptOut (basevisitor* v) {
 void msrMultipleRestContents::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMultipleRestContents::browseData()" <<
       endl;
 
@@ -20787,7 +20787,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of multiple rest " <<
       multipleRestAsString () <<
       endl;
@@ -20811,7 +20811,7 @@ void msrMultipleRest::setMultipleRestContents (
   S_msrMultipleRestContents multipleRestContents)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Setting multiple rest segment containing " <<
       singularOrPlural (
         multipleRestContents->
@@ -20830,7 +20830,7 @@ void msrMultipleRest::setMultipleRestContents (
 
 void msrMultipleRest::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMultipleRest::acceptIn()" <<
       endl;
       
@@ -20840,7 +20840,7 @@ void msrMultipleRest::acceptIn (basevisitor* v) {
         S_msrMultipleRest elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMultipleRest::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -20849,7 +20849,7 @@ void msrMultipleRest::acceptIn (basevisitor* v) {
 
 void msrMultipleRest::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMultipleRest::acceptOut()" <<
       endl;
 
@@ -20859,7 +20859,7 @@ void msrMultipleRest::acceptOut (basevisitor* v) {
         S_msrMultipleRest elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMultipleRest::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -20869,7 +20869,7 @@ void msrMultipleRest::acceptOut (basevisitor* v) {
 void msrMultipleRest::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMultipleRest::browseData()" <<
       endl;
 
@@ -20886,7 +20886,7 @@ void msrMultipleRest::browseData (basevisitor* v)
 
   if (inhibitMultipleRestMeasuresBrowsing) {
     if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats)
-      gLogIos <<
+      gLogIOstream <<
         "% ==> visiting multiple rest measures is inhibited" <<
         endl;
   }
@@ -20989,7 +20989,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
   S_msrRepeat containingRepeat)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a " <<
       repeatCodaAsString () <<
       endl;
@@ -21021,7 +21021,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   S_msrRepeat containingRepeat)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a " <<
       repeatCodaAsString () <<
       endl;
@@ -21067,7 +21067,7 @@ void msrRepeatCoda::appendElementToRepeatCoda (
 
 void msrRepeatCoda::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRepeatCoda::acceptIn()" <<
       endl;
       
@@ -21077,7 +21077,7 @@ void msrRepeatCoda::acceptIn (basevisitor* v) {
         S_msrRepeatCoda elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRepeatCoda::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -21086,7 +21086,7 @@ void msrRepeatCoda::acceptIn (basevisitor* v) {
 
 void msrRepeatCoda::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrRepeatCoda::acceptOut()" <<
       endl;
 
@@ -21096,7 +21096,7 @@ void msrRepeatCoda::acceptOut (basevisitor* v) {
         S_msrRepeatCoda elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrRepeatCoda::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -21166,7 +21166,7 @@ msrHarpPedalsTuning::~msrHarpPedalsTuning()
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a " <<
       harpPedalsTuningAsString () <<
       endl;
@@ -21180,7 +21180,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a " <<
       harpPedalsTuningAsString () <<
       endl;
@@ -21222,7 +21222,7 @@ void msrHarpPedalsTuning::addPedalTuning (
 
 void msrHarpPedalsTuning::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrHarpPedalsTuning::acceptIn()" <<
       endl;
       
@@ -21232,7 +21232,7 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v) {
         S_msrHarpPedalsTuning elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrHarpPedalsTuning::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -21241,7 +21241,7 @@ void msrHarpPedalsTuning::acceptIn (basevisitor* v) {
 
 void msrHarpPedalsTuning::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrHarpPedalsTuning::acceptOut()" <<
       endl;
 
@@ -21251,7 +21251,7 @@ void msrHarpPedalsTuning::acceptOut (basevisitor* v) {
         S_msrHarpPedalsTuning elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrHarpPedalsTuning::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -21417,7 +21417,7 @@ void msrVoice::setVoiceNameFromNumber (
   int voiceNumber)
 {
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting the name of '" <<
       voiceKindAsString () <<
       "' voice \"" <<
@@ -21511,7 +21511,7 @@ void msrVoice::initializeVoice (
   } // switch
   
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Initializing voice \"" << fVoiceName <<
       "\" in staff \"" <<
       fVoiceStaffUplink->getStaffName () <<
@@ -21593,7 +21593,7 @@ void msrVoice::initializeVoice (
   switch (voiceCreateInitialLastSegment) {
     case msrVoice::kCreateInitialLastSegmentYes:
       if (gGeneralOptions->fTraceVoices) {
-        gLogIos <<
+        gLogIOstream <<
           "==> Creating and initial voice last segment for voice \"" <<
           fVoiceName <<
           "\" in staff \"" <<
@@ -21650,7 +21650,7 @@ void msrVoice::changeVoiceIdentity ( // after a deep copy
   int voicePartRelativeID)
 {
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Changing identity of voice \"" <<
       getVoiceName () <<
       "\"" <<
@@ -21676,7 +21676,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
   S_msrStaff staffClone)
 {
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of voice \"" <<
       getVoiceName () <<
       "\"" <<
@@ -21754,7 +21754,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   S_msrStaff   containingStaff)
 {
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of voice \"" <<
       getVoiceName () <<
       "\"" <<
@@ -21770,14 +21770,14 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     "containingStaff is null");
     
   if (gGeneralOptions->fTraceVoicesDetails) {
-    gLogIos <<
+    gLogIOstream <<
       "****" <<
       " BEFORE voiceDeepCopy = " <<
       endl;
   
-    print (gLogIos);
+    print (gLogIOstream);
     
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       "****" <<
       endl;
@@ -21838,7 +21838,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     
   if (numberOfInitialRepeatsAndSegments) {
      if (gGeneralOptions->fTraceVoices) {
-      gLogIos <<
+      gLogIOstream <<
         "There are " <<
         numberOfInitialRepeatsAndSegments <<
         " initial repeats and segments in voice \"" <<
@@ -21894,7 +21894,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 
   else {    
     if (gGeneralOptions->fTraceVoices) {
-      gLogIos <<
+      gLogIOstream <<
         "There are no initial repeats and segments in voice \"" <<
         getVoiceName () <<
         "\" to be deep copied" <<
@@ -21911,7 +21911,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   }
   else {    
     if (gGeneralOptions->fTraceVoices) {
-      gLogIos <<
+      gLogIOstream <<
         "There is no last segment in voice \"" <<
         getVoiceName () <<
         "\" to be deep copied" <<
@@ -21954,7 +21954,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     containingStaff;
 
   if (gGeneralOptions->fTraceVoicesDetails) {
-    gLogIos <<
+    gLogIOstream <<
       "****" <<
       " AFTER voiceDeepCopy = " <<
       endl <<
@@ -22018,7 +22018,7 @@ void msrVoice::createNewLastSegmentForVoice (
 {
   // create the segment
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a new segment for voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
@@ -22037,7 +22037,7 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
 {
   // create the segment
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a new segment with first measure '" <<
       firstMeasure->getMeasureNumber () <<
       "'for voice \"" <<
@@ -22070,7 +22070,7 @@ void msrVoice::createNewLastSegmentAndANewMeasureForVoice (
 
   // create the segment
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a new segment containing a new measure '" <<
       fVoiceCurrentMeasureNumber <<
       "'for voice \"" <<
@@ -22141,7 +22141,7 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
     
   // register stanza in this voice
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
       ") to voice \"" << getVoiceName () << "\"" <<
@@ -22161,7 +22161,7 @@ void msrVoice::catchUpWithVoiceMuteStanza (S_msrStanza stanza)
 
   if (muteSyllables.size()) {
     if (gGeneralOptions->fTraceLyrics)
-      gLogIos <<
+      gLogIOstream <<
         "Copying current contents of voice mute stanza to " <<
         stanza->getStanzaName () <<
         endl;
@@ -22185,7 +22185,7 @@ void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
     
   // register stanza in this voice
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
       ") to voice \"" << getVoiceName () << "\"" <<
@@ -22215,7 +22215,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
   else {
     // no, create it and add it to the voice
     if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics)
-      gLogIos <<
+      gLogIOstream <<
         "==> Creating stanza " << stanzaNumber <<
         " in voice \"" << getVoiceName () << "\"" <<
         ", line " << inputLineNumber <<
@@ -22233,7 +22233,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending clef '" << clef->clefAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22251,7 +22251,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 void msrVoice::appendKeyToVoice (S_msrKey key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending key '" << key->keyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22269,7 +22269,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 void msrVoice::appendTimeToVoice (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time '" << time->timeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22287,7 +22287,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 void msrVoice::appendTimeToVoiceClone (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time '" << time->timeAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
@@ -22305,7 +22305,7 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time)
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22349,7 +22349,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 {
   if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
@@ -22396,7 +22396,7 @@ void msrVoice::appendFiguredBassToVoice (
   S_msrFiguredBass figuredBass)
 {
   if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22440,7 +22440,7 @@ void msrVoice::appendFiguredBassToVoice (
 void msrVoice::appendFiguredBassToVoiceClone (S_msrFiguredBass figuredBass)
 {
   if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
@@ -22488,7 +22488,7 @@ void msrVoice::fillVoiceWithSkipsUpToMeasure (
   string measureNumber)
 {
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions)
-    gLogIos <<
+    gLogIOstream <<
       "Filling voice \"" <<
       getVoiceName () <<
       "\" with skips up to measure '" <<
@@ -22510,7 +22510,7 @@ void msrVoice::bringVoiceToMeasureLength (
   rational measureLength)
 {
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Bringing measure length for voice \"" <<
       getVoiceName () <<
       "\" to " << measureLength <<
@@ -22526,7 +22526,7 @@ void msrVoice::bringVoiceToMeasureLength (
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 {
   if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending transpose '" <<
       transpose->transposeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -22545,7 +22545,7 @@ void msrVoice::appendStaffDetailsToVoice (
   S_msrStaffDetails staffDetails)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Appending staff details '" <<
       staffDetails->staffDetailsAsShortString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -22568,7 +22568,7 @@ void msrVoice::appendStaffDetailsToVoice (
 void msrVoice::appendWordsToVoice (S_msrWords words)
 {
   if (gGeneralOptions->fTraceWords)
-    gLogIos <<
+    gLogIOstream <<
       "Appending words '" << words->wordsAsString () <<
       "' to voice " << getVoiceName () << endl;
 
@@ -22581,7 +22581,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
   if (gMsrOptions->fTraceMsr)
-    gLogIos <<
+    gLogIOstream <<
       "Appending tempo '" << tempo->tempoAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22597,7 +22597,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 {
   if (gMsrOptions->fTraceMsr)
-    gLogIos <<
+    gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
       "', size: " << octaveShift->getOctaveShiftSize () <<
@@ -22617,7 +22617,7 @@ void msrVoice::appendAccordionRegistrationToVoice (
     accordionRegistration)
 {
   if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -22637,7 +22637,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
     harpPedalsTuning)
 {
   if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -22655,7 +22655,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending rehearsal '" << rehearsal->getRehearsalText () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22672,7 +22672,7 @@ void msrVoice::appendVoiceStaffChangeToVoice (
   S_msrVoiceStaffChange voiceStaffChange)
 {
   if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves)
-    gLogIos <<
+    gLogIOstream <<
       "Append voice staff change " <<
       voiceStaffChange->voiceStaffChangeAsString () <<
       " to voice " <<
@@ -22689,13 +22689,13 @@ void msrVoice::appendVoiceStaffChangeToVoice (
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
   if (gGeneralOptions->fTraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending note:" <<
       endl;
 
     gIndenter++;
     
-    gLogIos <<
+    gLogIOstream <<
       note <<
         "to voice \"" << getVoiceName () << "\"" <<
         endl;
@@ -22779,13 +22779,13 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   if (gGeneralOptions->fTraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending note:" <<
       endl;
 
     gIndenter++;
     
-    gLogIos <<
+    gLogIOstream <<
       note <<
         "to voice clone \"" << getVoiceName () << "\"" <<
         endl;
@@ -22868,7 +22868,7 @@ void msrVoice::appendDoubleTremoloToVoice (
 
 {
   if (gGeneralOptions->fTraceTremolos) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending double tremolo '" <<
       doubleTremolo->doubleTremoloAsShortString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -22888,7 +22888,7 @@ void msrVoice::appendDoubleTremoloToVoice (
 void msrVoice::appendChordToVoice (S_msrChord chord)
 {
   if (gGeneralOptions->fTraceChords) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending chord '" << chord->chordAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22907,7 +22907,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
 {
   if (gGeneralOptions->fTraceTuplets) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22925,7 +22925,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
 
 void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending other element '" << elem <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22942,7 +22942,7 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
 void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending grace notes " << // JMI graceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22961,7 +22961,7 @@ void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "Prepending grace notes " << // JMI graceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -22981,7 +22981,7 @@ void msrVoice::appendAfterGraceNotesToVoice (
   S_msrAfterGraceNotes afterGraceNotes)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending after grace notes " << // JMI AfterGraceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -23001,7 +23001,7 @@ void msrVoice::prependAfterGraceNotesToVoice (
   S_msrAfterGraceNotes afterGraceNotes)
 {
   if (gGeneralOptions->fTraceGraceNotes) {
-    gLogIos <<
+    gLogIOstream <<
       "Prepending after grace notes " << // JMI AfterGraceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -23024,7 +23024,7 @@ void msrVoice::appendSyllableToVoice (
 {
   // append syllable to this voice
   if (gGeneralOptions->fTraceLyrics) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending syllable '" <<
       syllable->syllableAsString () <<
       "' to voice \"" << fVoiceName << "\"" <<
@@ -23046,7 +23046,7 @@ void msrVoice::appendSyllableToVoice (
 void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending bar check '" << barCheck->barCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
@@ -23069,7 +23069,7 @@ void msrVoice::appendBarNumberCheckToVoice (
   S_msrBarNumberCheck barNumberCheck)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending barnumber check '" <<
       barNumberCheck->barNumberCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
@@ -23092,7 +23092,7 @@ void msrVoice::appendBarNumberCheckToVoice (
 void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending line break '" << lineBreak->lineBreakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -23114,7 +23114,7 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending page break '" << pageBreak->pageBreakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -23142,7 +23142,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
           
         // create a repeat
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating and appending a repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23157,7 +23157,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
 
         // create a repeat common part from current last segment
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a repeat common part from current last segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23173,7 +23173,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
 
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Setting repeat common part in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23189,7 +23189,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
           
         // register repeat as the (new) current repeat
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Registering repeat as the new current repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23204,7 +23204,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
       
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
@@ -23230,7 +23230,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
       {
         // create a measure repeat
         if (gGeneralOptions->fTraceRepeats) {
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a '" <<
             measureRepeatMeasuresNumber <<
             "' measure, '" <<
@@ -23244,13 +23244,13 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
       
         // print current voice contents
         if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 
         // this occurs after a measure has just been created,
@@ -23317,7 +23317,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             
         // create the measure pattern
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
@@ -23359,7 +23359,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // create a new last segment to collect the measure repeat replicas,
         // containing the first, yet incomplete, replica
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a new last segment with the first replica for voice \"" <<
             fVoiceName << "\"" <<
             endl;
@@ -23370,13 +23370,13 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
 
         // print resulting voice contents
         if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 
         // keep the measure repeat pending
@@ -23398,13 +23398,13 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         /* JMI
         // print current voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 */
 
@@ -23444,14 +23444,14 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             voiceLastSegmentMeasureList.back ();
 
             /* JMI
-        gLogIos <<
+        gLogIOstream <<
           endl <<
           "==========> nextMeasureAfterMeasureRepeat:" <<
           endl;
           
-        nextMeasureAfterMeasureRepeat->print (gLogIos);
+        nextMeasureAfterMeasureRepeat->print (gLogIOstream);
           
-        gLogIos <<
+        gLogIOstream <<
           endl;
 */
 
@@ -23460,7 +23460,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 
          // create the measure repeat replicas contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a measure repeat replicas contents for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
@@ -23485,7 +23485,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 /* JMI BOF
        // set last segment as the measure repeat replicas segment
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Setting current last segment as measure repeat replicas segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23501,7 +23501,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 
         // set multipleRestContents as the multiple rest contents
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23519,20 +23519,20 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 /* JMI
         // print current voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
         */
 
         // create a new last segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a new last segment with the measure repeat next measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
@@ -23543,13 +23543,13 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 
         // forget about this pending measure repeat
@@ -23563,7 +23563,7 @@ void msrVoice::setVoiceContainsMultipleRests (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats) {
-    gLogIos <<
+    gLogIOstream <<
       "Voice \"" <<
       getVoiceName () <<
       "\"" <<
@@ -23588,7 +23588,7 @@ void msrVoice::createMultipleRestInVoice (
       {
         // create a multiple rest
         if (gGeneralOptions->fTraceRepeats) {
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a multiple rest in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23637,7 +23637,7 @@ void msrVoice::createMultipleRestInVoice (
         // create a new segment to collect the multiple rest measures,
         // containing the first, rest measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a new last segment containing the first rest measure in voice \"" <<
             fVoiceName << "\"" <<
             endl;
@@ -23659,13 +23659,13 @@ void msrVoice::createMultipleRestInVoice (
             
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 
         // keep the multiple rest pending
@@ -23685,7 +23685,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
     case msrVoice::kSilentVoice:
       {
         if (gGeneralOptions->fTraceRepeats) {
-          gLogIos <<
+          gLogIOstream <<
             "Appending the pending multiple rest to voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23696,13 +23696,13 @@ void msrVoice::appendPendingMultipleRestToVoice (
 /*
         // print current voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 */
 
@@ -23740,16 +23740,16 @@ void msrVoice::appendPendingMultipleRestToVoice (
             voiceLastSegmentMeasureList.back ();
 
         /* JMI
-        gLogIos <<
+        gLogIOstream <<
           endl <<
           "==========> nextMeasureAfterMultipleRest:" <<
           endl;
 
           
         nextMeasureAfterMultipleRest->
-          print (gLogIos);
+          print (gLogIOstream);
           
-        gLogIos <<
+        gLogIOstream <<
           endl;
           */
           
@@ -23758,7 +23758,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
         // create the multiple rest contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
@@ -23771,7 +23771,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
         // set voice last segment as the multiple rest segment
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23783,7 +23783,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
         // set multipleRestContents as the multiple rest contents
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23800,20 +23800,20 @@ void msrVoice::appendPendingMultipleRestToVoice (
 /* JMI
         // print current voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 */
 
         // create a new segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a new last segment with the measure after the multiple rests for voice \"" <<
             fVoiceName << "\"" <<
             endl;
@@ -23831,13 +23831,13 @@ void msrVoice::appendPendingMultipleRestToVoice (
 */
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 
         // forget about this pending multiple rest
@@ -23859,7 +23859,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
     case msrVoice::kSilentVoice:
       {
         if (gGeneralOptions->fTraceRepeats) {
-          gLogIos <<
+          gLogIOstream <<
             "Appending multiple rest '" <<
             multipleRest->multipleRestAsString () <<
             " to voice clone \"" <<
@@ -23872,12 +23872,12 @@ void msrVoice::appendMultipleRestCloneToVoice (
 /*
         // print current voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
 */
 
@@ -23887,13 +23887,13 @@ void msrVoice::appendMultipleRestCloneToVoice (
 
         // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
         gIndenter++;
-        print (gLogIos);
+        print (gLogIOstream);
         gIndenter--;
       }
       break;
@@ -23917,14 +23917,14 @@ void msrVoice::appendRepeatCloneToVoice (
     case msrVoice::kSilentVoice:
       {
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Appending repeat clone to voice clone \"" <<
             getVoiceName () <<  "\"" <<
             endl;
       
         // create a repeat common part from current last segment
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a repeat clone common part from current last segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23940,7 +23940,7 @@ void msrVoice::appendRepeatCloneToVoice (
 
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Setting repeat common part in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23957,7 +23957,7 @@ void msrVoice::appendRepeatCloneToVoice (
 /*
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Segging current last segment as repeat common segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23969,7 +23969,7 @@ void msrVoice::appendRepeatCloneToVoice (
  */         
         // register repeat clone as the (new) current repeat
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Registering repeat clone as the new current repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -23984,7 +23984,7 @@ void msrVoice::appendRepeatCloneToVoice (
       
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a new last segment for voice BOF JMI \"" <<
             fVoiceName << "\"" <<
             endl;
@@ -24010,7 +24010,7 @@ void msrVoice::appendRepeatEndingToVoice (
     case msrVoice::kSilentVoice:
       {
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Appending a repeat ending to voice \"" <<
             getVoiceName () <<  "\"" <<
             ", line " << inputLineNumber <<
@@ -24027,7 +24027,7 @@ void msrVoice::appendRepeatEndingToVoice (
       
         // add the repeat ending it to the voice current repeat
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Appending repeat ending to current repeat in voice \"" <<
             fVoiceName <<
             "\"" <<
@@ -24039,7 +24039,7 @@ void msrVoice::appendRepeatEndingToVoice (
       
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
@@ -24063,7 +24063,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
       {
         // add the repeat ending it to the voice current repeat
         if (gGeneralOptions->fTraceRepeats)
-          gLogIos <<
+          gLogIOstream <<
             "Appending repeat ending clone to current repeat in voice \"" <<
             fVoiceName <<
             "\"" <<
@@ -24079,7 +24079,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
       
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
-          gLogIos <<
+          gLogIOstream <<
             "==> Creating a new last segment for voice \"" <<
             fVoiceName <<
             "\"" <<
@@ -24095,7 +24095,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Prepending barline '" <<
       barline->barlineAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -24112,7 +24112,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending barline '" <<
       barline->barlineAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -24129,7 +24129,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending a segno to voice \"" << getVoiceName () << "\"" <<
       endl;
 
@@ -24144,7 +24144,7 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 void msrVoice::appendCodaToVoice (S_msrCoda coda)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending a coda to voice \"" << getVoiceName () << "\"" <<
       ":" << endl;
 
@@ -24159,7 +24159,7 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda)
 void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 {
   if (gGeneralOptions->fTraceNotes)
-    gLogIos <<
+    gLogIOstream <<
       "Appending a eyeGlasses to voice \"" << getVoiceName () << "\"" <<
       endl;
 
@@ -24174,7 +24174,7 @@ void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 {
   if (gGeneralOptions->fTraceNotes)
-    gLogIos <<
+    gLogIOstream <<
       "Appending a pedal to voice \"" << getVoiceName () << "\"" <<
       endl;
 
@@ -24191,7 +24191,7 @@ S_msrElement msrVoice::removeLastElementFromVoice (  // JMI
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Removing last note" <<
       " from voice " << getVoiceName () <<
       endl;
@@ -24207,7 +24207,7 @@ void msrVoice::removeNoteFromVoice (
   S_msrNote note)
 {
   if (gGeneralOptions->fTraceChords) {
-    gLogIos <<
+    gLogIOstream <<
       "Removing first chord note '" <<
       note->noteAsShortString () <<
       "' from voice \"" << getVoiceName () << "\"" <<
@@ -24224,7 +24224,7 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Removing last measure from voice \"" <<
       getVoiceName () <<
       "\"" <<
@@ -24241,7 +24241,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   int    inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Finalizing current measure in voice \"" <<
       getVoiceName () <<
       "\"" <<
@@ -24251,7 +24251,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
 
     const int fieldWidth = 26;
     
-    gLogIos << left <<
+    gLogIOstream << left <<
       setw (fieldWidth) <<
       "partMeasureLengthHighTide" << " = " <<
       fetchVoicePartUplink ()->
@@ -24279,7 +24279,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
       msrVoice::kKeepVoice;
   
   if (gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "Finalizing voice \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -24291,7 +24291,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
     case msrVoice::kMasterVoice:
       if (! getMusicHasBeenInsertedInVoice ()) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIos <<
+          gLogIOstream <<
             "Erasing empty master voice \"" << // JMI
             getVoiceName () <<
             "\" in staff " <<
@@ -24307,7 +24307,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
     case msrVoice::kRegularVoice:
       if (! getMusicHasBeenInsertedInVoice ()) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIos <<
+          gLogIOstream <<
             "Erasing empty regular voice \"" <<
             getVoiceName () <<
             "\" in staff " <<
@@ -24330,7 +24330,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
           )
         ) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIos <<
+          gLogIOstream <<
             "Erasing empty harmony voice \"" <<
             getVoiceName () <<
             "\" in staff " <<
@@ -24353,7 +24353,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
           )
         ) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIos <<
+          gLogIOstream <<
             "Erasing empty figured bass voice \"" <<
             getVoiceName () <<
             "\" in staff " <<
@@ -24376,7 +24376,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
           )
         ) {
         if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIos <<
+          gLogIOstream <<
             "Erasing silent voice \"" <<
             getVoiceName () <<
             "\" in staff " <<
@@ -24400,7 +24400,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
 
 void msrVoice::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrVoice::acceptIn()" <<
       endl;
       
@@ -24410,7 +24410,7 @@ void msrVoice::acceptIn (basevisitor* v) {
         S_msrVoice elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrVoice::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -24419,7 +24419,7 @@ void msrVoice::acceptIn (basevisitor* v) {
 
 void msrVoice::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrVoice::acceptOut()" <<
       endl;
 
@@ -24429,7 +24429,7 @@ void msrVoice::acceptOut (basevisitor* v) {
         S_msrVoice elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrVoice::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -24439,7 +24439,7 @@ void msrVoice::acceptOut (basevisitor* v) {
 void msrVoice::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrVoice::browseData()" <<
       endl;
 
@@ -24476,7 +24476,7 @@ void msrVoice::browseData (basevisitor* v)
   }
 
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% <== msrVoice::browseData()" <<
       endl;
 }
@@ -24742,7 +24742,7 @@ msrStaffLinesNumber::~msrStaffLinesNumber()
 S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberNewbornClone ()
 {
  if (gGeneralOptions->fTraceStaffTuning) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of staff lines number '" <<
       staffLinesNumberAsString () <<
       "'" <<
@@ -24760,7 +24760,7 @@ S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberNewbornClone ()
 
 void msrStaffLinesNumber::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaffLinesNumber::acceptIn()" <<
       endl;
       
@@ -24770,7 +24770,7 @@ void msrStaffLinesNumber::acceptIn (basevisitor* v) {
         S_msrStaffLinesNumber elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStaffLinesNumber::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -24779,7 +24779,7 @@ void msrStaffLinesNumber::acceptIn (basevisitor* v) {
 
 void msrStaffLinesNumber::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaffLinesNumber::acceptOut()" <<
       endl;
 
@@ -24789,7 +24789,7 @@ void msrStaffLinesNumber::acceptOut (basevisitor* v) {
         S_msrStaffLinesNumber elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStaffLinesNumber::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -24860,7 +24860,7 @@ msrStaffTuning::~ msrStaffTuning ()
 S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
   if (gGeneralOptions->fTraceStaffTuning) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of staff tuning '" <<
       staffTuningAsString () <<
       "'" <<
@@ -24881,7 +24881,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 void msrStaffTuning::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaffTuning::acceptIn()" <<
       endl;
   }
@@ -24892,7 +24892,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
         S_msrStaffTuning elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStaffTuning::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -24901,7 +24901,7 @@ void msrStaffTuning::acceptIn (basevisitor* v)
 
 void msrStaffTuning::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaffTuning::acceptOut()" <<
       endl;
 
@@ -24911,7 +24911,7 @@ void msrStaffTuning::acceptOut (basevisitor* v) {
         S_msrStaffTuning elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStaffTuning::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -25023,7 +25023,7 @@ S_msrStaffDetails msrStaffDetails::createStaffDetailsNewbornClone (
   S_msrStaffTuning      staffTuningClone)
 {
   if (gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of staff details \"" <<
       staffDetailsAsShortString () <<
       "\"" <<
@@ -25046,7 +25046,7 @@ S_msrStaffDetails msrStaffDetails::createStaffDetailsNewbornClone (
 
 void msrStaffDetails::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaffDetails::acceptIn()" <<
       endl;
       
@@ -25056,7 +25056,7 @@ void msrStaffDetails::acceptIn (basevisitor* v) {
         S_msrStaffDetails elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStaffDetails::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -25065,7 +25065,7 @@ void msrStaffDetails::acceptIn (basevisitor* v) {
 
 void msrStaffDetails::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaffDetails::acceptOut()" <<
       endl;
 
@@ -25075,7 +25075,7 @@ void msrStaffDetails::acceptOut (basevisitor* v) {
         S_msrStaffDetails elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStaffDetails::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -25327,7 +25327,7 @@ void msrStaff::initializeStaff ()
   } // switch
 
   if (gGeneralOptions->fTraceStaves)
-    gLogIos <<
+    gLogIOstream <<
       "==> Initializing staff \"" << fStaffName <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
@@ -25427,7 +25427,7 @@ void msrStaff::initializeStaff ()
   
     if (clef) {
       if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
-        gLogIos <<
+        gLogIOstream <<
           "Appending part clef '" << clef->clefAsString () <<
           "' as initial clef to staff \"" <<
           getStaffName () <<
@@ -25441,7 +25441,7 @@ void msrStaff::initializeStaff ()
     /* JMI
     else {
       if (gGeneralOptions->fTraceStaves)
-        gLogIos <<
+        gLogIOstream <<
           "Appending default treble clef " <<
           " to staff \"" <<
           getStaffName () <<
@@ -25468,7 +25468,7 @@ void msrStaff::initializeStaff ()
   
     if (key) {
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceKeys) {
-        gLogIos <<
+        gLogIOstream <<
           "Appending part key '" << key->keyAsString () <<
           "' as initial key to staff \"" <<
           getStaffName () <<
@@ -25482,7 +25482,7 @@ void msrStaff::initializeStaff ()
       /* JMI
     else {
       if (gGeneralOptions->fTraceStaves)
-        gLogIos <<
+        gLogIOstream <<
           "Appending default C major key " <<
           " to staff \"" <<
           getStaffName () <<
@@ -25514,7 +25514,7 @@ void msrStaff::initializeStaff ()
 
     if (time) {
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes) {
-        gLogIos <<
+        gLogIOstream <<
           "Appending part time '" << time->timeAsString () <<
           "' as initial time to staff \"" <<
           getStaffName () <<
@@ -25533,7 +25533,7 @@ void msrStaff::initializeStaff ()
       // we cannot stay without any
 
       if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
-        gLogIos <<
+        gLogIOstream <<
           "Appending default 4/4 time " <<
           " to staff \"" <<
           getStaffName () <<
@@ -25558,7 +25558,7 @@ void msrStaff::initializeStaff ()
         
     if (transpose) {
       if (gGeneralOptions->fTraceStaves /* JMI || gGeneralOptions->fTraceTransposes */) {
-        gLogIos <<
+        gLogIOstream <<
           "Appending part transpose '" << transpose->transposeAsString () <<
           "' as initial transpose to staff \"" <<
           getStaffName () <<
@@ -25592,7 +25592,7 @@ void msrStaff::createStaffSilentVoice (
 {
   // create the staff silent voice  
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating the silent voice for staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
@@ -25600,19 +25600,19 @@ void msrStaff::createStaffSilentVoice (
   }
 
 /* JMI
-  gLogIos <<
+  gLogIOstream <<
     endl <<
     "*****************" <<
     endl <<
     "msrStaff::createStaffSilentVoice, this =" <<
     endl;
-  print (gLogIos);
-  gLogIos <<
+  print (gLogIOstream);
+  gLogIOstream <<
     "*****************" <<
     endl <<
     endl;
     
-  gLogIos <<
+  gLogIOstream <<
     endl <<
     "*****************" <<
     endl <<
@@ -25651,12 +25651,12 @@ else
     */
 
 /* JMI
-  gLogIos <<
+  gLogIOstream <<
     endl <<
     "**********" <<
     endl;
-  print (gLogIos);
-  gLogIos <<
+  print (gLogIOstream);
+  gLogIOstream <<
     endl <<
     "**********" <<
     endl <<
@@ -25668,7 +25668,7 @@ S_msrStaff msrStaff::createStaffNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of staff \"" <<
       fStaffName <<
       "\"" <<
@@ -25778,7 +25778,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
   string measureNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating and appending measure '" <<
       measureNumber <<
       "', line " << inputLineNumber <<
@@ -25799,7 +25799,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
       "voice is null");
     
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
-      gLogIos <<
+      gLogIOstream <<
         "==> Propagating the creation and appending of measure '" <<
         measureNumber <<
         "', line " << inputLineNumber <<
@@ -25825,7 +25825,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   fStaffRegisteredVoicesCounter++;
 
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating voice with part-relative ID '" <<
       voicePartRelativeID <<
       "' as relative voice '" <<
@@ -25904,7 +25904,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
           
   // register the voice by its relative number
   if (gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Voice " << voicePartRelativeID <<
       " in staff " << getStaffName () <<
       " gets staff relative number " <<
@@ -25931,7 +25931,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
   S_msrVoice result; // JMI avoid repetivite messages!
 
   if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceStaves)
-    gLogIos <<
+    gLogIOstream <<
       "Fetching part-relative voice ID " <<
       voicePartRelativeID <<
      " in staff \"" << getStaffName () <<
@@ -25950,7 +25950,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
         ==
       voicePartRelativeID) {
       if (gGeneralOptions->fTraceVoices) {
-        gLogIos <<
+        gLogIOstream <<
           "Voice " << voicePartRelativeID <<
           " in staff \"" << getStaffName () << "\"" <<
           " has staff relative number " << (*i).first <<
@@ -25999,7 +25999,7 @@ void msrStaff::registerVoiceInStaff (
 
   // register voice in this staff
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " << fStaffRegisteredVoicesCounter <<
       " of staff \"" << getStaffName () <<
@@ -26021,7 +26021,7 @@ void msrStaff::bringStaffToMeasureLength (
   rational measureLength)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Bringing measure length for staff \"" <<
       getStaffName () <<
       "\" to " << measureLength <<
@@ -26043,7 +26043,7 @@ void msrStaff::bringStaffToMeasureLength (
 void msrStaff::appendClefToStaff (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending clef '" << clef->clefAsString () <<
       "' to staff \"" <<
       getStaffName () <<
@@ -26095,7 +26095,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 void msrStaff::appendKeyToStaff (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending key '" << key->keyAsString () <<
       "' to staff \"" <<
       getStaffName () <<
@@ -26117,7 +26117,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
   else {
     if (key->isEqualTo (fStaffCurrentKey)) {
       if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
-        gLogIos <<
+        gLogIOstream <<
           "Key '" <<
           key->keyAsString () <<
           "' ignored because it is already present in staff " <<
@@ -26149,7 +26149,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 void msrStaff::appendTimeToStaff (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time '" << time->timeAsString () <<
       "' to staff \"" <<
       getStaffName () <<
@@ -26176,7 +26176,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 void msrStaff::appendTimeToStaffClone (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time '" << time->timeAsString () <<
       "' to staff clone \"" <<
       getStaffName () <<
@@ -26201,7 +26201,7 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
 void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating and appending a repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -26224,7 +26224,7 @@ void msrStaff::appendRepeatEndingToStaff (
             repeatEndingKind)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending repeat ending to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -26249,7 +26249,7 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
   int measureRepeatSlashes)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a measure repeat from it's first measure in staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -26272,7 +26272,7 @@ void msrStaff::appendPendingMeasureRepeatToStaff (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending the pending measure repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -26294,7 +26294,7 @@ void msrStaff::createMultipleRestInStaff (
   int multipleRestMeasuresNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a multiple rest in staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -26319,7 +26319,7 @@ void msrStaff::appendPendingMultipleRestToStaff (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending the pending multiple rest to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -26341,7 +26341,7 @@ void msrStaff::appendMultipleRestCloneToStaff (
   S_msrMultipleRest multipleRest)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
       "' to staff clone \"" <<
@@ -26365,7 +26365,7 @@ void msrStaff::appendRepeatCloneToStaff (
   S_msrRepeat repeatCLone)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending repeat clone to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -26386,7 +26386,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
   S_msrRepeatEnding repeatEndingClone)
 {
   if (gGeneralOptions->fTraceRepeats)
-    gLogIos <<
+    gLogIOstream <<
       "Appending repeat ending clone to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -26405,7 +26405,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Appending barline '" << barline->barlineAsString () <<
       "' to staff " <<
       getStaffName () <<
@@ -26425,7 +26425,7 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
 {
   if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "Setting transpose '" <<
       transpose->transposeAsString () <<
       "' in staff " <<
@@ -26445,7 +26445,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
   else {
     if (transpose->isEqualTo (fStaffCurrentTranspose)) {
       if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
-        gLogIos <<
+        gLogIOstream <<
           "Transpose '" <<
           transpose->transposeAsString () <<
           "' ignored because it is already present in staff " <<
@@ -26472,7 +26472,7 @@ void msrStaff::appendStaffDetailsToStaff (
   S_msrStaffDetails staffDetails)
 {
   if (gGeneralOptions->fTraceStaves)
-    gLogIos <<
+    gLogIOstream <<
       "Appending staff details '" <<
       staffDetails->staffDetailsAsShortString () <<
       "' to staff \"" <<
@@ -26554,7 +26554,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
               getPartMeasureLengthHighTide ();
             
         if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
-          gLogIos <<
+          gLogIOstream <<
             "Finalizing current measure in staff \"" <<
             getStaffName () <<
             "\", line " << inputLineNumber <<
@@ -26614,7 +26614,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 void msrStaff::finalizeStaff (int inputLineNumber)
 {  
   if (gGeneralOptions->fTraceStaves) {
-    gLogIos <<
+    gLogIOstream <<
       "Finalizing staff \"" <<
       getStaffName () << "\"" <<
       ", line " << inputLineNumber <<
@@ -26636,7 +26636,7 @@ void msrStaff::finalizeStaff (int inputLineNumber)
     switch (voiceFinalizationStatus) {
       case msrVoice::kKeepVoice:
         if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
-          gLogIos <<
+          gLogIOstream <<
             "Keeping voice \"" <<
             voice->getVoiceName () << "\"" <<
             " if staff \"" <<getStaffName () << "\"" <<
@@ -26660,7 +26660,7 @@ void msrStaff::finalizeStaff (int inputLineNumber)
         
       case msrVoice::kEraseVoice:
         if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
-          gLogIos <<
+          gLogIOstream <<
             "Erasing voice \"" <<
             voice->getVoiceName () << "\"" <<
             " if staff \"" <<getStaffName () << "\"" <<
@@ -26676,7 +26676,7 @@ void msrStaff::finalizeStaff (int inputLineNumber)
 
 void msrStaff::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaff::acceptIn()" <<
       endl;
       
@@ -26686,7 +26686,7 @@ void msrStaff::acceptIn (basevisitor* v) {
         S_msrStaff elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStaff::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -26695,7 +26695,7 @@ void msrStaff::acceptIn (basevisitor* v) {
 
 void msrStaff::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaff::acceptOut()" <<
       endl;
 
@@ -26705,7 +26705,7 @@ void msrStaff::acceptOut (basevisitor* v) {
         S_msrStaff elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrStaff::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -26715,7 +26715,7 @@ void msrStaff::acceptOut (basevisitor* v) {
 void msrStaff::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrStaff::browseData()" <<
       endl;
 
@@ -26756,7 +26756,7 @@ void msrStaff::browseData (basevisitor* v)
   }
 
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% <== msrStaff::browseData()" <<
       endl;
 }
@@ -27088,7 +27088,7 @@ msrVoiceStaffChange::~msrVoiceStaffChange()
 S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
  if (gGeneralOptions->fTraceStaffTuning) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of staff change '" <<
       voiceStaffChangeAsString () <<
       "'" <<
@@ -27106,7 +27106,7 @@ S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 
 void msrVoiceStaffChange::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrVoiceStaffChange::acceptIn()" <<
       endl;
       
@@ -27116,7 +27116,7 @@ void msrVoiceStaffChange::acceptIn (basevisitor* v) {
         S_msrVoiceStaffChange elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrVoiceStaffChange::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -27125,7 +27125,7 @@ void msrVoiceStaffChange::acceptIn (basevisitor* v) {
 
 void msrVoiceStaffChange::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrVoiceStaffChange::acceptOut()" <<
       endl;
 
@@ -27135,7 +27135,7 @@ void msrVoiceStaffChange::acceptOut (basevisitor* v) {
         S_msrVoiceStaffChange elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrVoiceStaffChange::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -27213,7 +27213,7 @@ msrPart::msrPart (
 void msrPart::initializePart ()
 {
   if (gGeneralOptions->fTraceParts)
-    gLogIos <<
+    gLogIOstream <<
       "==> Initializing part \"" << getPartCombinedName () <<
       endl;
 
@@ -27233,7 +27233,7 @@ void msrPart::initializePart ()
   }
   
   if (gGeneralOptions->fTraceParts)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating part " << getPartCombinedName () << endl;
   
   setPartMeasureLengthHighTide (
@@ -27257,7 +27257,7 @@ msrPart::~msrPart()
 S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 {
   if (gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of part " <<
       getPartCombinedName () <<
       endl;
@@ -27315,7 +27315,7 @@ void msrPart::createPartMasterStaffAndVoice (
     gGeneralOptions->fTraceStaves
       ||
     gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating the master staff" <<
       " with number " << K_PART_MASTER_STAFF_NUMBER <<
       " for part " <<
@@ -27337,7 +27337,7 @@ void msrPart::createPartMasterStaffAndVoice (
     gGeneralOptions->fTraceStaves
       ||
     gGeneralOptions->fTraceVoices) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating the master voice " <<
       " with number " << K_PART_MASTER_VOICE_NUMBER <<
       " for part " <<
@@ -27368,13 +27368,13 @@ void msrPart::createPartMasterStaffAndVoice (
   }
 
   if (false && gGeneralOptions->fTraceParts) { // JMI
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       "***********" <<
       endl <<
       endl;
-    print (gLogIos);
-    gLogIos <<
+    print (gLogIOstream);
+    gLogIOstream <<
       "***********" <<
       endl <<
       endl;
@@ -27427,7 +27427,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
       gGeneralOptions->fTraceStaves
         ||
       gGeneralOptions->fTraceVoices) {
-      gLogIos <<
+      gLogIOstream <<
         "==> Creating the harmony staff" <<
         " with number " << K_PART_HARMONY_STAFF_NUMBER <<
         " for part " <<
@@ -27444,7 +27444,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
       
     // create the part harmony voice  
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
-      gLogIos <<
+      gLogIOstream <<
         "==> Creating the harmony voice " <<
         " with number " << K_PART_HARMONY_VOICE_NUMBER <<
         " for part " <<
@@ -27476,13 +27476,13 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
   }
 
 /* JMI
-  gLogIos <<
+  gLogIOstream <<
     endl <<
     "***********" <<
     endl <<
     endl;
-  print (gLogIos);
-  gLogIos <<
+  print (gLogIOstream);
+  gLogIOstream <<
     "***********" <<
     endl <<
     endl;
@@ -27502,7 +27502,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
       gGeneralOptions->fTraceStaves
         ||
       gGeneralOptions->fTraceVoices) {
-      gLogIos <<
+      gLogIOstream <<
         "==> Creating the figured bass staff" <<
         " with number " << K_PART_FIGURED_BASS_STAFF_NUMBER <<
         " for part " <<
@@ -27519,7 +27519,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
       
     // create the part figured bass voice  
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
-      gLogIos <<
+      gLogIOstream <<
         "==> Creating the figured bass voice " <<
         " with number " << K_PART_FIGURED_BASS_VOICE_NUMBER <<
         " for part " <<
@@ -27551,13 +27551,13 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
   }
 
 /* JMI
-  gLogIos <<
+  gLogIOstream <<
     endl <<
     "***********" <<
     endl <<
     endl;
-  print (gLogIos);
-  gLogIos <<
+  print (gLogIOstream);
+  gLogIOstream <<
     "***********" <<
     endl <<
     endl;
@@ -27569,7 +27569,7 @@ void msrPart::setPartMeasureLengthHighTide (
   rational measureLength)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Setting measure length high tide for part \"" <<
       getPartCombinedName () <<
       "\" to " << measureLength <<
@@ -27585,7 +27585,7 @@ void msrPart::updatePartMeasureLengthHighTide (
 {
   if (measureLength > fPartMeasureLengthHighTide) {
     if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
-        gLogIos <<
+        gLogIOstream <<
           "Updating measure length high tide for part \"" <<
           getPartCombinedName () <<
           "\" to " << measureLength <<
@@ -27601,7 +27601,7 @@ void msrPart::bringPartToMeasureLength (
   rational measureLength)
 {
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Bringing measure length for part \"" <<
       getPartCombinedName () <<
       "\" to " << measureLength <<
@@ -27639,7 +27639,7 @@ void msrPart::setPartMsrName (string partMsrName)
     fPartMsrName = (*it).second;
 
     if (gGeneralOptions->fTraceParts)
-      gLogIos <<
+      gLogIOstream <<
         "Setting part name of " << getPartCombinedName () <<
         " to \"" << fPartMsrName << "\"" <<
          endl;
@@ -27649,7 +27649,7 @@ void msrPart::setPartMsrName (string partMsrName)
     fPartMsrName = partMsrName;
 
     if (gGeneralOptions->fTraceParts)
-      gLogIos <<
+      gLogIOstream <<
         "Keeping partID \"" << partMsrName <<
         "\" as part name  for " << getPartCombinedName () <<
       endl;
@@ -27679,7 +27679,7 @@ void msrPart::createMeasureAndAppendItToPart (
   string measureNumber)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating and appending measure '" <<
       measureNumber <<
       "'to part " <<
@@ -27717,7 +27717,7 @@ void msrPart::complementPartVoicesUpToMeasure (
   string measureNumber)
 {
   if (gGeneralOptions->fTraceMeasures)
-    gLogIos <<
+    gLogIOstream <<
       "Complement part voices up to measure number " << measureNumber <<
       ", line " << inputLineNumber <<
       ", in part " << getPartCombinedName () <<
@@ -27742,7 +27742,7 @@ void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts)
-    gLogIos <<
+    gLogIOstream <<
       "Appending staff details\"" <<
       staffDetails->staffDetailsAsShortString () <<
       "\" to part " << getPartCombinedName () <<
@@ -27773,7 +27773,7 @@ void msrPart::appendStaffDetailsToPart (
 void msrPart::appendClefToPart (S_msrClef clef)
 {
   if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceClefs) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending clef '" <<
       clef->clefAsString () <<
       "' to part " << getPartCombinedName () <<
@@ -27797,7 +27797,7 @@ void msrPart::appendClefToPart (S_msrClef clef)
 void msrPart::appendKeyToPart  (S_msrKey  key)
 {
   if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending key '" <<
       key->keyAsString () <<
       "' to part " << getPartCombinedName () <<
@@ -27824,7 +27824,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 void msrPart::appendTimeToPart (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time '" <<
       time->timeAsString () <<
       "' to part " << getPartCombinedName () <<
@@ -27857,7 +27857,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
 void msrPart::appendTimeToPartClone (S_msrTime time)
 {
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending time '" <<
       time->timeAsString () <<
       "' to part clone " << getPartCombinedName () <<
@@ -27883,7 +27883,7 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
 void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 {
   if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceParts)
-    gLogIos <<
+    gLogIOstream <<
       "Appending transpose \"" <<
       transpose->transposeAsString () <<
       "\" to part " << getPartCombinedName () <<
@@ -28047,7 +28047,7 @@ void msrPart::createMultipleRestInPart (
   int multipleRestMeasuresNumber)
 {
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a multiple rest in part " <<
       getPartCombinedName () <<
       ", " <<
@@ -28078,7 +28078,7 @@ void msrPart::appendPendingMultipleRestToPart (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending the pending multiple rest to part " <<
       getPartCombinedName () <<
       endl;
@@ -28105,7 +28105,7 @@ void msrPart::appendMultipleRestCloneToPart (
   S_msrMultipleRest multipleRest)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
       "' to part clone " <<
@@ -28159,7 +28159,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
   }
 
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
       " staff " << staffNumber <<
@@ -28215,7 +28215,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 void msrPart::addStaffToPartCloneByItsNumber (S_msrStaff staff)
 {
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Adding staff \"" << staff->getStaffName () <<
       "\" to part clone " << getPartCombinedName () <<
       endl;
@@ -28247,7 +28247,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
         // first harmonies supplier voice met in this part,
         // set part harmonies supplier voice accordingly
         if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
-          gLogIos <<
+          gLogIOstream <<
             "Setting voice \"" <<
             partHarmoniesSupplierVoice->
               getVoiceName () <<
@@ -28326,7 +28326,7 @@ void msrPart::appendHarmonyToPart (
     
       // append the harmony to the part harmony voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
-        gLogIos <<
+        gLogIOstream <<
           "Appending harmony '" <<
           harmony->harmonyAsString () <<
           "' to part " <<
@@ -28383,7 +28383,7 @@ void msrPart::appendHarmonyToPartClone (
     
       // append the harmony to the part harmony voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
-        gLogIos <<
+        gLogIOstream <<
           "Appending harmony '" <<
           harmony->harmonyAsString () <<
           "' to part clone " <<
@@ -28438,7 +28438,7 @@ void msrPart::appendFiguredBassToPart (
     
       // append the figured bass to the part figured bass voice
       if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
-        gLogIos <<
+        gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->figuredBassAsString () <<
           "' to part " <<
@@ -28495,7 +28495,7 @@ void msrPart::appendFiguredBassToPartClone (
     
       // append the figured bass to the part figured bass voice
       if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceParts)
-        gLogIos <<
+        gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->figuredBassAsString () <<
           "' to part clone " <<
@@ -28535,7 +28535,7 @@ void msrPart::appendAccordionRegistrationToPart (
     accordionRegistration)
 {
   if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts)
-    gLogIos <<
+    gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
       "' to part " <<
@@ -28557,7 +28557,7 @@ void msrPart::appendHarpPedalsTuningToPart (
     harpPedalsTuning)
 {
   if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts)
-    gLogIos <<
+    gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
       "' to part " <<
@@ -28585,7 +28585,7 @@ void msrPart:: handleBackup (
     gGeneralOptions->fTraceDivisions
       ||
     gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Handling backup, divisions = '" <<
       divisions <<
       "' in part " <<
@@ -28626,7 +28626,7 @@ void msrPart:: handleForward (
     gGeneralOptions->fTraceDivisions
       ||
     gGeneralOptions->fTraceMeasures) {
-    gLogIos <<
+    gLogIOstream <<
       "Handling forward, divisions = '" <<
       divisions <<
       " in voice \"" << voice->getVoiceName () << "\"" <<
@@ -28714,7 +28714,7 @@ void msrPart::finalizeCurrentMeasureInPart (
   int    inputLineNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Finalizing current measure in part " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -28745,7 +28745,7 @@ void msrPart::finalizeCurrentMeasureInPart (
 void msrPart::finalizePart (int inputLineNumber)
 {
   if (gGeneralOptions->fTraceParts) {
-    gLogIos <<
+    gLogIOstream <<
       "Finalizing part " <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -28770,7 +28770,7 @@ void msrPart::finalizePart (int inputLineNumber)
 
 void msrPart::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPart::acceptIn()" <<
       endl;
       
@@ -28780,7 +28780,7 @@ void msrPart::acceptIn (basevisitor* v) {
         S_msrPart elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPart::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -28789,7 +28789,7 @@ void msrPart::acceptIn (basevisitor* v) {
 
 void msrPart::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPart::acceptOut()" <<
       endl;
 
@@ -28799,7 +28799,7 @@ void msrPart::acceptOut (basevisitor* v) {
         S_msrPart elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPart::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -28809,7 +28809,7 @@ void msrPart::acceptOut (basevisitor* v) {
 void msrPart::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPart::browseData()" <<
       endl;
 
@@ -29174,7 +29174,7 @@ msrPartGroup::msrPartGroup (
   fPartGroupScoreUplink = partGroupScoreUplink;
   
   if (gGeneralOptions->fTracePartGroups)
-    gLogIos <<
+    gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
       "==> Creating part group " << fPartGroupNumber <<
@@ -29189,7 +29189,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   S_msrScore     scoreClone)
 {
   if (gGeneralOptions->fTracePartGroups)
-    gLogIos <<
+    gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
       "==> Creating a newborn clone part group " <<
@@ -29270,7 +29270,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
 
   // register it in this part group
   if (gGeneralOptions->fTracePartGroups) {
-    gLogIos <<
+    gLogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
       " to part group " << fPartGroupNumber <<
@@ -29281,7 +29281,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
   fPartGroupElements.push_back (part);
 
   if (gGeneralOptions->fTracePartGroups) {
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       "After addPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
       endl;
@@ -29292,7 +29292,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
         map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin();
         i != fPartGroupPartsMap.end();
         i++) {
-      gLogIos <<
+      gLogIOstream <<
         "\"" << (*i).first << "\" --% --> " <<
         (*i).second->getPartCombinedName() <<
         endl;
@@ -29300,7 +29300,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
     
     gIndenter--;
     
-    gLogIos <<
+    gLogIOstream <<
  // JMI     "% ==> addPartToPartGroup" <<
       endl << endl <<
 
@@ -29315,14 +29315,14 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
         
       gIndenter++;
       for ( ; ; ) {
-        gLogIos << (*i);
+        gLogIOstream << (*i);
         if (++i == iEnd) break;
-        gLogIos << endl;
+        gLogIOstream << endl;
       } // for
       gIndenter--;
     }
     
-    gLogIos <<
+    gLogIOstream <<
   // JMI    "% ==> addPartToPartGroupByItsID" <<
       endl << endl;
   }
@@ -29335,7 +29335,7 @@ void msrPartGroup::addPartToPartGroup (S_msrPart part)
 {
   // register part in this part group
   if (gGeneralOptions->fTracePartGroups) {
-    gLogIos <<
+    gLogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
       " to part group " << fPartGroupNumber <<
@@ -29350,7 +29350,7 @@ void msrPartGroup::prependSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
   if (gGeneralOptions->fTracePartGroups)
-    gLogIos <<
+    gLogIOstream <<
       "Prepending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
 
@@ -29362,7 +29362,7 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
   if (gGeneralOptions->fTracePartGroups)
-    gLogIos <<
+    gLogIOstream <<
       "Appending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
 
@@ -29374,18 +29374,18 @@ S_msrPart msrPartGroup::fetchPartFromPartGroup (
   string partID)
 {
   if (gGeneralOptions->fTracePartGroups) {
-    gLogIos <<
+    gLogIOstream <<
       "fetchPartFromPartGroup(), fPartGroupPartsMap contains:" << endl;
     for (
         map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin();
         i != fPartGroupPartsMap.end();
         i++) {
-      gLogIos <<
+      gLogIOstream <<
         (*i).first << " --% --> " <<
         (*i).second->getPartCombinedName() <<
         endl;
     } // for
-    gLogIos <<
+    gLogIOstream <<
   // JMI    "% ==> fetchPartFromPartGroup" <<
       endl;
   }
@@ -29401,7 +29401,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroup (
 
 void msrPartGroup::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPartGroup::acceptIn()" <<
       endl;
       
@@ -29411,7 +29411,7 @@ void msrPartGroup::acceptIn (basevisitor* v) {
         S_msrPartGroup elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPartGroup::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -29420,7 +29420,7 @@ void msrPartGroup::acceptIn (basevisitor* v) {
 
 void msrPartGroup::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPartGroup::acceptOut()" <<
       endl;
 
@@ -29430,7 +29430,7 @@ void msrPartGroup::acceptOut (basevisitor* v) {
         S_msrPartGroup elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrPartGroup::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -29440,7 +29440,7 @@ void msrPartGroup::acceptOut (basevisitor* v) {
 void msrPartGroup::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrPartGroup::browseData()" <<
       endl;
   
@@ -29454,7 +29454,7 @@ void msrPartGroup::browseData (basevisitor* v)
   } // for
 
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% <== msrPartGroup::browseData()" <<
       endl;
 }
@@ -29774,7 +29774,7 @@ void msrIdentification::setScoreInstrumentAssoc (
 
 void msrIdentification::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrIdentification::acceptIn()" <<
       endl;
       
@@ -29784,7 +29784,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
         S_msrIdentification elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrIdentification::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -29793,7 +29793,7 @@ void msrIdentification::acceptIn (basevisitor* v) {
 
 void msrIdentification::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrIdentification::acceptOut()" <<
       endl;
 
@@ -29803,7 +29803,7 @@ void msrIdentification::acceptOut (basevisitor* v) {
         S_msrIdentification elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrIdentification::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -30063,7 +30063,7 @@ msrScore::~msrScore()
 S_msrScore msrScore::createScoreNewbornClone ()
 {
   if (gGeneralOptions->fTraceScore) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of a score" <<
       endl;
   }
@@ -30116,7 +30116,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 void msrScore::appendCreditToScore (S_msrCredit credit)
 {
   if (gGeneralOptions->fTraceCredits) {
-    gLogIos <<
+    gLogIOstream <<
       "Appending credit '" <<
       credit->creditAsString () <<
       "' to score" <<
@@ -30142,7 +30142,7 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
 
 void msrScore::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrScore::acceptIn()" <<
       endl;
       
@@ -30152,7 +30152,7 @@ void msrScore::acceptIn (basevisitor* v) {
         S_msrScore elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrScore::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -30161,7 +30161,7 @@ void msrScore::acceptIn (basevisitor* v) {
 
 void msrScore::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrScore::acceptOut()" <<
       endl;
 
@@ -30171,7 +30171,7 @@ void msrScore::acceptOut (basevisitor* v) {
         S_msrScore elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrScore::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -30181,7 +30181,7 @@ void msrScore::acceptOut (basevisitor* v) {
 void msrScore::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrScore::browseData()" <<
       endl;
     
@@ -30216,7 +30216,7 @@ void msrScore::browseData (basevisitor* v)
   } // for
 
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% <== msrScore::browseData()" <<
       endl;
   }
@@ -30357,7 +30357,7 @@ msrMidi::~msrMidi()
 
 void msrMidi::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMidi::acceptIn()" <<
       endl;
       
@@ -30367,7 +30367,7 @@ void msrMidi::acceptIn (basevisitor* v) {
         S_msrMidi elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMidi::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -30376,7 +30376,7 @@ void msrMidi::acceptIn (basevisitor* v) {
 
 void msrMidi::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrMidi::acceptOut()" <<
       endl;
 
@@ -30386,7 +30386,7 @@ void msrMidi::acceptOut (basevisitor* v) {
         S_msrMidi elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrMidi::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -30428,7 +30428,7 @@ void msrStaff::appendDivisionsToStaff (
   S_msrDivisions divisions)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceStaves)
-    gLogIos <<
+    gLogIOstream <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
       "' to staff \"" <<
@@ -30451,7 +30451,7 @@ void msrVoice::appendDivisionsToVoice (
   S_msrDivisions divisions)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceVoices)
-    gLogIos <<
+    gLogIOstream <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -30470,7 +30470,7 @@ void msrSegment::appendDivisionsToSegment (
   S_msrDivisions divisions)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
       " to segment " << segmentAsString () <<
@@ -30485,7 +30485,7 @@ void msrMeasure::appendDivisionsToMeasure (
   S_msrDivisions divisions)
 {
   if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
-    gLogIos <<
+    gLogIOstream <<
       "Appending divisions '" <<
       divisions->divisionsAsString () <<
       " to measure '" << fMeasureNumber << "'" <<

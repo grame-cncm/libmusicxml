@@ -35,7 +35,7 @@ namespace MusicXML2
 
 //______________________________________________________________________________
 S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
-  indentedOutputStream& ios)
+  indentedOstream& ios)
 {
   xml2lilypondOptionsHandler* o = new
     xml2lilypondOptionsHandler (
@@ -45,7 +45,7 @@ S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
 }
 
 xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
-  indentedOutputStream& ios)
+  indentedOstream& ios)
   : msrOptionsHandler (
     "Available options",
     "Options values",

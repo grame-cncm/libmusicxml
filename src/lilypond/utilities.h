@@ -151,14 +151,14 @@ ostream& operator<< (ostream& os, const indenter& idtr);
 #define gTab      indenter::gIndenter.getSpacer ()
 
 //______________________________________________________________________________
-class indentedOutputStream: public ostream
+class indentedOstream: public ostream
 {
 /*
 Reference:
  https://stackoverflow.com/questions/2212776/overload-handling-of-stdendl
 
 Usage:
-  indentedOutputStream myStream (std::cout);
+  indentedOstream myStream (std::cout);
    
   myStream <<
     1 << 2 << 3 << std::endl <<
@@ -199,13 +199,13 @@ Usage:
 
   private:
   
-    // indentedOutputStream just uses a version of indentedStreamBuf
+    // indentedOstream just uses a version of indentedStreamBuf
     indentedStreamBuf     fIndentedStreamBuf;
   
   public:
 
     // constructor
-    indentedOutputStream (
+    indentedOstream (
       ostream&  str  = cerr,
       indenter& idtr = indenter::gIndenter)
       : ostream (&fIndentedStreamBuf),
@@ -214,16 +214,16 @@ Usage:
     {}
 
     // destructor
-    virtual ~indentedOutputStream ()
+    virtual ~indentedOstream ()
     {};
 
     // global variable for general use
-    static indentedOutputStream
-                          gLogIndentedOutputStream; 
+    static indentedOstream
+                          gLogIndentedOstream; 
 };
 
 // useful shortcut macro
-#define gLogIos indentedOutputStream::gLogIndentedOutputStream
+#define gLogIOstream indentedOstream::gLogIndentedOstream
 
 //______________________________________________________________________________
 /*!

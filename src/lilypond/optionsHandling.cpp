@@ -2685,15 +2685,15 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
 //______________________________________________________________________________
 /* JMI
 S_msrOptionsHandler msrOptionsHandler::create (
-  string optionsHandlerHelpHeader,
-  string optionsHandlerValuesHeader,
-  string optionHandlerHelpShortName,
-  string optionHandlerHelpLongName,
-  string optionHandlerHelpSummaryShortName,
-  string optionHandlerHelpSummaryLongName,
-  string optionHandlerPreamble,
-  string optionHandlerDescription,
-  indentedOutputStream& ios)
+  string           optionsHandlerHelpHeader,
+  string           optionsHandlerValuesHeader,
+  string           optionHandlerHelpShortName,
+  string           optionHandlerHelpLongName,
+  string           optionHandlerHelpSummaryShortName,
+  string           optionHandlerHelpSummaryLongName,
+  string           optionHandlerPreamble,
+  string           optionHandlerDescription,
+  indentedOstream& optionsHandlerLogIOstream)
 {
   msrOptionsHandler* o = new
     msrOptionsHandler (
@@ -2705,27 +2705,28 @@ S_msrOptionsHandler msrOptionsHandler::create (
       optionHandlerHelpSummaryLongName,
       optionHandlerPreamble,
       optionHandlerDescription,
-      ios);
+      optionsHandlerLogIOstream);
   assert(o!=0);
   return o;
 }
 */
 
 msrOptionsHandler::msrOptionsHandler (
-  string optionsHandlerHelpHeader,
-  string optionsHandlerValuesHeader,
-  string optionHandlerHelpShortName,
-  string optionHandlerHelpLongName,
-  string optionHandlerHelpSummaryShortName,
-  string optionHandlerHelpSummaryLongName,
-  string optionHandlerPreamble,
-  string optionHandlerDescription,
-  indentedOutputStream& ios)
+  string           optionsHandlerHelpHeader,
+  string           optionsHandlerValuesHeader,
+  string           optionHandlerHelpShortName,
+  string           optionHandlerHelpLongName,
+  string           optionHandlerHelpSummaryShortName,
+  string           optionHandlerHelpSummaryLongName,
+  string           optionHandlerPreamble,
+  string           optionHandlerDescription,
+  indentedOstream& optionsHandlerLogIOstream)
   : msrOptionsElement (
       optionHandlerHelpShortName,
       optionHandlerHelpLongName,
       optionHandlerDescription),
-    fLogOutputStream (ios)
+    fLogOutputStream (
+      optionsHandlerLogIOstream)
 {
   fOptionsHandlerHelpHeader =
     optionsHandlerHelpHeader;

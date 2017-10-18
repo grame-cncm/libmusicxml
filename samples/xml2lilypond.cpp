@@ -41,7 +41,7 @@ vector<string> handleOptionsAndArguments (
 S_xml2lilypondOptionsHandler optionsHandler,
   int                        argc,
   char*                      argv [],
-  indentedOutputStream&      logIndentedOutputStream)
+  indentedOstream&      logIndentedOutputStream)
 {
   // analyse the options
   vector<string>
@@ -313,7 +313,7 @@ int main (int argc, char *argv[])
     if (outputFileNameSize) {
       // create an indented output stream for the LilyPond code
       // to be written to outFileStream
-      indentedOutputStream
+      indentedOstream
         lilypondCodeFileOutputStream (
           outFileStream, gIndenter);
 
@@ -328,7 +328,7 @@ int main (int argc, char *argv[])
     else {
       // create an indented output stream for the LilyPond code
       // to be written to cout
-      indentedOutputStream
+      indentedOstream
         lilypondCodeCoutOutputStream (
           cout, gIndenter);
 

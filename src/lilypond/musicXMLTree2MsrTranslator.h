@@ -446,7 +446,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public:
   
     musicXMLTree2MsrTranslator (
-      indentedOutputStream& ios);
+      indentedOstream& ios);
 
     virtual ~musicXMLTree2MsrTranslator ();
 
@@ -941,7 +941,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
   private:
                      
-    indentedOutputStream&     fLogOutputStream;
+    indentedOstream&          fLogOutputStream;
     
     // divisions per quarter note
     // ------------------------------------------------------

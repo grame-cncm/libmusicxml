@@ -318,7 +318,7 @@ void indenter::print (ostream& os) const
 indenter indenter::gIndenter;
 
 //______________________________________________________________________________
-indentedOutputStream indentedOutputStream::gLogIndentedOutputStream;
+indentedOstream indentedOstream::gLogIndentedOstream;
 
 //______________________________________________________________________________
 //#define DEBUG_OLEC

@@ -149,7 +149,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 
 void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 {  
-  gLogIos <<
+  gLogIOstream <<
     "The MusicXML options are:" <<
     endl;
 
@@ -158,13 +158,13 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   // trace and display
   // --------------------------------------
   
-  gLogIos <<
+  gLogIOstream <<
     "Trace and display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
     booleanAsString (fTraceMusicXMLTreeVisitors) <<
     endl;
@@ -174,13 +174,13 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   // other
   // --------------------------------------
 
-  gLogIos <<
+  gLogIOstream <<
     "Other:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
     booleanAsString (fIgnoreMusicXMLErrors) <<
     endl <<

@@ -40,7 +40,7 @@ S_lpsrScore msr2Lpsr (
   const S_msrScore      mScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios)
+  indentedOstream& ios)
 {  
   // build LPSR score from MSR score
   S_lpsrScore
@@ -49,7 +49,7 @@ S_lpsrScore msr2Lpsr (
         mScore,
         msrOpts,
         lpsrOpts,
-        gLogIos);
+        gLogIOstream);
 
   // display it
   if (lpsrOpts->fDisplayLpsr)
@@ -57,7 +57,7 @@ S_lpsrScore msr2Lpsr (
       lpScore,
       msrOpts,
       lpsrOpts,
-      gLogIos);
+      gLogIOstream);
 
   return lpScore;
 }
@@ -67,7 +67,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore      mScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios)
+  indentedOstream& ios)
 {
   clock_t startClock = clock();
       
@@ -113,7 +113,7 @@ void displayLpsrScore (
   const S_lpsrScore     lpScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios)
+  indentedOstream& ios)
 {
   clock_t startClock = clock();
 

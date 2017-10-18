@@ -29,7 +29,7 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     // ------------------------------------------------------
 
     static SMARTP<xml2lilypondOptionsHandler> create (
-      indentedOutputStream& ios);
+      indentedOstream& ios);
      
   protected:
 
@@ -37,7 +37,7 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     // ------------------------------------------------------
 
     xml2lilypondOptionsHandler (
-      indentedOutputStream& ios);
+      indentedOstream& ios);
       
     virtual ~xml2lilypondOptionsHandler();
 

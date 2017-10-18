@@ -35,7 +35,7 @@ void lpsr2Lilypond (
   const S_lpsrScore     lpScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios) 
+  indentedOstream& ios) 
 {  
   // generate LilyPond code from LPSR score
   generateLilypondCodeFromLpsrScore (
@@ -50,7 +50,7 @@ void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore     lpScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios)
+  indentedOstream& ios)
 {
   clock_t startClock = clock();
 
@@ -58,7 +58,7 @@ void generateLilypondCodeFromLpsrScore (
     "%--------------------------------------------------------------";
 
   if (gGeneralOptions->fTraceGeneral) {
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       separator <<
       endl <<
@@ -70,7 +70,7 @@ void generateLilypondCodeFromLpsrScore (
   }
 
   // create an indented output stream for the LilyPond code
-  indentedOutputStream
+  indentedOstream
     lilypondIndentedOutputStream (
       cout, gIndenter);
   

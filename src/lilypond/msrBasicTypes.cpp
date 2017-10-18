@@ -956,7 +956,7 @@ void initializeChordIntervalsMap ()
 
 void printChordIntervalsMap ()
 {
-  gLogIos <<
+  gLogIOstream <<
     "Harmonies chord intervals:" <<
     " (" << gChordIntervalsMap.size () << ")" <<
     endl;
@@ -968,7 +968,7 @@ void printChordIntervalsMap ()
       harmonyKind =
         msrHarmonyKind (i);
 
-    gLogIos <<
+    gLogIOstream <<
 // JMI      "i:" << i << " " <<
       harmonyKindAsString (harmonyKind) << ":" <<
       endl;
@@ -980,25 +980,25 @@ void printChordIntervalsMap ()
         gChordIntervalsMap [harmonyKind];
 
     if (chordIntervals) {
-      gLogIos <<
+      gLogIOstream <<
         chordIntervals <<
         endl;
     }
     else {
-      gLogIos <<
+      gLogIOstream <<
         "no intervals" <<
         endl;
     }
 
     gIndenter--;
     
-    gLogIos <<
+    gLogIOstream <<
       endl;
   } // for
 
   gIndenter--;
 
-  gLogIos <<
+  gLogIOstream <<
     endl;
 }
 
@@ -3450,7 +3450,7 @@ string wholeNotesAsMsrString (
   wholeNotes.rationalise ();
 
 #ifdef DEBUG_WHOLE_NOTES
-  gLogIos <<
+  gLogIOstream <<
     "--> wholeNotes rationalised: " << wholeNotes <<
     endl;
 #endif
@@ -3460,7 +3460,7 @@ string wholeNotesAsMsrString (
     denominator  = wholeNotes.getDenominator ();
 
 #ifdef DEBUG_WHOLE_NOTES
-  gLogIos <<
+  gLogIOstream <<
     "--> numerator: " << numerator <<
     endl <<
     "--> denominator: " << denominator <<
@@ -3690,7 +3690,7 @@ msrChordItem::msrChordItem (
   fChordItemInterval = chordItemInterval;
 
   if (TRACE_MSR_BASIC_TYPES) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating chord item '" <<
       chordItemAsString () <<
       "'" <<
@@ -3706,7 +3706,7 @@ S_msrChordItem msrChordItem::createHarmonyNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -3733,7 +3733,7 @@ S_msrChordItem msrChordItem::createHarmonyDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -3772,7 +3772,7 @@ string msrChordItem::chordItemAsString () const
 /* JMI
 void msrChordItem::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrChordItem::acceptIn()" <<
       endl;
       
@@ -3782,7 +3782,7 @@ void msrChordItem::acceptIn (basevisitor* v) {
         S_msrChordItem elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrChordItem::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -3791,7 +3791,7 @@ void msrChordItem::acceptIn (basevisitor* v) {
 
 void msrChordItem::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrChordItem::acceptOut()" <<
       endl;
 
@@ -3801,7 +3801,7 @@ void msrChordItem::acceptOut (basevisitor* v) {
         S_msrChordItem elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrChordItem::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -3854,7 +3854,7 @@ msrChordIntervals::msrChordIntervals (
   fChordIntervalsHarmonyKind = chordIntervalsHarmonyKind;
 
   if (TRACE_MSR_BASIC_TYPES) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating chord intervals '" <<
       chordIntervalsAsString () <<
       "'" <<
@@ -3892,14 +3892,14 @@ void msrChordIntervals::initializeChordIntervals ()
             kPerFifth)
           );
 /* JMI
-        gLogIos <<
+        gLogIOstream <<
           endl <<
           "*****************" <<
           endl <<
           "msrChordIntervals::initializeChordIntervals(), this =" <<
           endl;
-        print (gLogIos);
-        gLogIos <<
+        print (gLogIOstream);
+        gLogIOstream <<
           endl;
           */
       }
@@ -4840,7 +4840,7 @@ S_msrChordIntervals msrChordIntervals::createHarmonyNewbornClone (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a newborn clone of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -4867,7 +4867,7 @@ S_msrChordIntervals msrChordIntervals::createHarmonyDeepCopy (
   S_msrPart containingPart)
 {
   if (gGeneralOptions->fTraceHarmonies) {
-    gLogIos <<
+    gLogIOstream <<
       "==> Creating a deep copy of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
@@ -4909,7 +4909,7 @@ string msrChordIntervals::chordIntervalsAsString () const
 /* JMI
 void msrChordIntervals::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrChordIntervals::acceptIn()" <<
       endl;
       
@@ -4919,7 +4919,7 @@ void msrChordIntervals::acceptIn (basevisitor* v) {
         S_msrChordIntervals elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrChordIntervals::visitStart()" <<
              endl;
         p->visitStart (elem);
@@ -4928,7 +4928,7 @@ void msrChordIntervals::acceptIn (basevisitor* v) {
 
 void msrChordIntervals::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
-    gLogIos <<
+    gLogIOstream <<
       "% ==> msrChordIntervals::acceptOut()" <<
       endl;
 
@@ -4938,7 +4938,7 @@ void msrChordIntervals::acceptOut (basevisitor* v) {
         S_msrChordIntervals elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors)
-          gLogIos <<
+          gLogIOstream <<
             "% ==> Launching msrChordIntervals::visitEnd()" <<
             endl;
         p->visitEnd (elem);
@@ -4975,13 +4975,13 @@ void msrChordIntervals::print (ostream& os)
         chordItem =
           fChordIntervalsItems [i];
 
-      gLogIos <<
+      gLogIOstream <<
         chordItem->chordItemAsString () <<
         endl;
     } // for
   }
   else {
-    gLogIos <<
+    gLogIOstream <<
       "no intervals" <<
       endl;
   }

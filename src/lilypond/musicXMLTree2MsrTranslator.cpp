@@ -96,7 +96,7 @@ void musicXMLTree2MsrTranslator::initializeNoteData ()
 }
 
 musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator (
-  indentedOutputStream& ios)
+  indentedOstream& ios)
   : fLogOutputStream (ios)
 {
   // initialize note data to a neutral state

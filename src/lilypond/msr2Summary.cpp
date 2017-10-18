@@ -29,7 +29,7 @@ namespace MusicXML2
 //________________________________________________________________________
 msr2SummaryVisitor::msr2SummaryVisitor (
   S_msrOptions&         msrOpts,
-  indentedOutputStream& ios)
+  indentedOstream& ios)
     : fMsrSummaryOutputStream (ios)
 {
   fMsrOptions = msrOpts;

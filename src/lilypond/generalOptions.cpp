@@ -840,7 +840,7 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
 
 void generalOptions::printGeneralOptionsValues (int fieldWidth)
 {  
-  gLogIos <<
+  gLogIOstream <<
     "The general options are:" <<
     endl;
 
@@ -849,11 +849,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // command line
   // --------------------------------------
 
-  gLogIos << left <<
+  gLogIOstream << left <<
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "input source name" << " : " <<
     fInputSourceName <<
     endl <<
@@ -867,13 +867,13 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // output file
   // --------------------------------------
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "Output file:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<        
+  gLogIOstream << left <<        
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<
@@ -884,23 +884,23 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // trace and display
   // --------------------------------------
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "Trace and display:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "traceGeneral" << " : " <<
     booleanAsString (fTraceGeneral) <<
      endl <<
     setw (fieldWidth) << "traceDetailedMeasureNumbersSet" << " : ";
         
   if (fTraceDetailedMeasureNumbersSet.empty ())
-    gLogIos << "none";
+    gLogIOstream << "none";
     
   else {
-    gLogIos <<
+    gLogIOstream <<
       "'";
       
     set<int>::const_iterator
@@ -909,16 +909,16 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
       i      = iBegin;
       
     for ( ; ; ) {
-      gLogIos << (*i);
+      gLogIOstream << (*i);
       if (++i == iEnd) break;
-      gLogIos << " ";
+      gLogIOstream << " ";
     } // for
   
-    gLogIos <<
+    gLogIOstream <<
       "'";
   }
     
-  gLogIos <<
+  gLogIOstream <<
     endl;
 
   gIndenter--;
@@ -926,13 +926,13 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // CPU usage
   // --------------------------------------
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "CPU usage:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos <<
+  gLogIOstream <<
     setw (fieldWidth) << "displayCPUusage" << " : " <<
     booleanAsString (fDisplayCPUusage) <<
     endl;
@@ -942,13 +942,13 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   // specific trace    
   // --------------------------------------
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "Specific trace:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     // divisions
     setw (fieldWidth) << "traceDivisions" << " : " <<
     booleanAsString (fTraceDivisions) <<

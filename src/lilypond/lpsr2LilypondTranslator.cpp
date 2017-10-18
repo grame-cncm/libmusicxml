@@ -35,7 +35,7 @@ const int commentFieldWidth = 30;
 lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios,
+  indentedOstream& ios,
   S_lpsrScore           lpsrScore)
     : fLilypondOutputStream (ios)
 {

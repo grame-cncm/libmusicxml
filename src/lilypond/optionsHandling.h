@@ -1558,15 +1558,15 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // ------------------------------------------------------
 /* JMI this a pure virtual class
     static SMARTP<msrOptionsHandler> create (
-      string optionsHandlerHelpHeader,
-      string optionsHandlerValuesHeader,
-      string optionHandlerHelpShortName,
-      string optionHandlerHelpLongName,
-      string optionHandlerHelpSummaryShortName,
-      string optionHandlerHelpSummaryLongName,
-      string optionHandlerPreamble,
-      string optionHandlerDescription,
-      indentedOutputStream& ios);
+      string           optionsHandlerHelpHeader,
+      string           optionsHandlerValuesHeader,
+      string           optionHandlerHelpShortName,
+      string           optionHandlerHelpLongName,
+      string           optionHandlerHelpSummaryShortName,
+      string           optionHandlerHelpSummaryLongName,
+      string           optionHandlerPreamble,
+      string           optionHandlerDescription,
+      indentedOstream& optionsHandlerLogIOstream);
 */
 
   protected:
@@ -1575,15 +1575,15 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // ------------------------------------------------------
 
     msrOptionsHandler (
-      string optionsHandlerHelpHeader,
-      string optionsHandlerValuesHeader,
-      string optionHandlerHelpShortName,
-      string optionHandlerHelpLongName,
-      string optionHandlerHelpSummaryShortName,
-      string optionHandlerHelpSummaryLongName,
-      string optionHandlerPreamble,
-      string optionHandlerDescription,
-      indentedOutputStream& ios);
+      string           optionsHandlerHelpHeader,
+      string           optionsHandlerValuesHeader,
+      string           optionHandlerHelpShortName,
+      string           optionHandlerHelpLongName,
+      string           optionHandlerHelpSummaryShortName,
+      string           optionHandlerHelpSummaryLongName,
+      string           optionHandlerPreamble,
+      string           optionHandlerDescription,
+      indentedOstream& optionsHandlerLogIOstream);
       
     virtual ~msrOptionsHandler();
 
@@ -1739,7 +1739,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     
     bool                  fPureHelpRun;
 
-    indentedOutputStream& fLogOutputStream;
+    indentedOstream&      fOptionsHandlerLogIOstream;
 };
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);

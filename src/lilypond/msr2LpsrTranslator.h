@@ -222,7 +222,7 @@ class msr2LpsrTranslator :
   public:
   
     msr2LpsrTranslator (
-      indentedOutputStream& ios,
+      indentedOstream& ios,
       S_msrScore            mScore);
         
     virtual ~msr2LpsrTranslator ();
@@ -428,7 +428,7 @@ class msr2LpsrTranslator :
 
   private:
                      
-    indentedOutputStream&     fLogOutputStream;
+    indentedOstream&     fLogOutputStream;
 
     // the MSR score we're visiting
     // ------------------------------------------------------

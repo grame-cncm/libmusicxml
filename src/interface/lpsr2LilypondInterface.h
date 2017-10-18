@@ -49,14 +49,14 @@ EXP void lpsr2Lilypond (
   const S_lpsrScore     lpScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios);
+  indentedOstream& ios);
 
 //______________________________________________________________________________
 void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore     lpScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios);
+  indentedOstream& ios);
 
 /*! @} */
 

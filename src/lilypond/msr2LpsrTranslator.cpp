@@ -33,7 +33,7 @@ namespace MusicXML2
 
 //________________________________________________________________________
 msr2LpsrTranslator::msr2LpsrTranslator (
-  indentedOutputStream& ios,
+  indentedOstream& ios,
   S_msrScore            mScore)
     : fLogOutputStream (ios)
 {

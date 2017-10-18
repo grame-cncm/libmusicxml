@@ -85,13 +85,13 @@ S_msrScore buildMSRFromElementsTree (
 void displayMSR (
   S_msrOptions&         msrOpts,
   S_msrScore            mScore,
-  indentedOutputStream& ios);
+  indentedOstream& ios);
 
 //______________________________________________________________________________
 void displayMSRSummary (
   S_msrOptions&         msrOpts,
   S_msrScore            mScore,
-  indentedOutputStream& ios);
+  indentedOstream& ios);
 
 /*! @} */
 

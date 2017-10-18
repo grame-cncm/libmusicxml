@@ -660,7 +660,7 @@ R"(Generate the '\midi' block as a comment instead of active code.)",
     set<string>::const_iterator i=fLilypondAccidentalStyles.begin();
     i!=fLilypondAccidentalStyles.end();
     i++) {
-      gLogIos << (*i) << endl;
+      gLogIOstream << (*i) << endl;
   } // for
   */
 }
@@ -831,7 +831,7 @@ string lilypondOptions::scoreNotationKindAsString (
 
 void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 {
-  gLogIos <<
+  gLogIOstream <<
     "The LilyPond options are:" <<
     endl;
 
@@ -839,13 +839,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // time
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Time:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "numericalTime" << " : " <<
       booleanAsString (fNumericalTime) <<
       endl;
@@ -854,13 +854,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // notes
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Notes:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "absoluteOctaves" << " : " <<
       booleanAsString (fAbsoluteOctaves) <<
       endl <<
@@ -901,13 +901,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // bars
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Bars:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "showAllBarNumbers" << " : " <<
     booleanAsString (fShowAllBarNumbers) <<
     endl;
@@ -916,13 +916,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   // line breaks
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Line breaks:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "ignoreLineBreaks" << " : " <<
       booleanAsString (fIgnoreLineBreaks) <<
       endl <<
@@ -939,13 +939,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // page breaks
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Page breaks:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "ignorePageBreaks" << " : " <<
     booleanAsString (fIgnorePageBreaks) <<
     endl;
@@ -954,13 +954,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // staves
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Staves:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "modernTab" << " : " <<
     booleanAsString (fModernTab) <<
     endl;
@@ -970,13 +970,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // tuplets
   // --------------------------------------
 
-  gLogIos <<
+  gLogIOstream <<
     "Tuplets:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "tupletsOnALine" << " : " <<
     booleanAsString (fTupletsOnALine) <<
     endl;
@@ -986,13 +986,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // repeats
   // --------------------------------------
 
-  gLogIos <<
+  gLogIOstream <<
     "Repeats:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "repeatBrackets" << " : " <<
     booleanAsString (fRepeatBrackets) <<
     endl;
@@ -1002,13 +1002,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // ornaments
   // --------------------------------------
 
-  gLogIos <<
+  gLogIOstream <<
     "Ornaments:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "fDelayedOrnamentsFraction" << " : " <<
     fDelayedOrnamentsFraction <<
     endl;
@@ -1018,13 +1018,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // fonts
   // --------------------------------------
 
-  gLogIos <<
+  gLogIOstream <<
     "Fonts:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "jazzFonts" << " : " <<
     booleanAsString (fJazzFonts) <<
     endl;
@@ -1034,13 +1034,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // code generation
   // --------------------------------------
 
-  gLogIos <<
+  gLogIOstream <<
     "LilyPond code generation:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "comments" << " : " <<
       booleanAsString (fComments) <<
       endl <<
@@ -1066,14 +1066,14 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   // score notation
   // --------------------------------------
     
-  gLogIos <<
+  gLogIOstream <<
     "Score notation:" <<
     endl;
 
   gIndenter++;
 
 /*
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "scoreNotationKind" << " : " <<
       scoreNotationKindAsString (
         fScoreNotationKind) <<
@@ -1083,13 +1083,13 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
   // midi
   // --------------------------------------
-  gLogIos <<
+  gLogIOstream <<
     "Midi:" <<
     endl;
 
   gIndenter++;
 
-  gLogIos << left <<
+  gLogIOstream << left <<
     setw (fieldWidth) << "midiTempoDuration" << " : " <<
     //     fMidiTempoDuration <<
       endl <<

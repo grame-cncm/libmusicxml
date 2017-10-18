@@ -778,7 +778,7 @@ string existingLpsrAccidentalStyles ()
       iEnd   = gLpsrAccidentalStylesMap.end(),
       i      = iBegin;
     for ( ; ; ) {
-      gLogIos <<
+      gLogIOstream <<
         (*i).first <<
         endl;
       if ((*i).second != kDefaultStyle)

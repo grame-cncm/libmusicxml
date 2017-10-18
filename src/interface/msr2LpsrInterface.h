@@ -53,21 +53,21 @@ EXP S_lpsrScore msr2Lpsr (
   const S_msrScore      mScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios);
+  indentedOstream& ios);
 
 //_______________________________________________________________________________
 S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore      mScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios);
+  indentedOstream& ios);
 
 //_______________________________________________________________________________
 void displayLpsrScore (
   const S_lpsrScore     lpScore,
   S_msrOptions&         msrOpts,
   S_lpsrOptions&        lpsrOpts,
-  indentedOutputStream& ios);
+  indentedOstream& ios);
 
 /*! @} */
 

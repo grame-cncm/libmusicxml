@@ -253,7 +253,7 @@ class lpsr2LilypondTranslator :
     lpsr2LilypondTranslator (
       S_msrOptions&         msrOpts,
       S_lpsrOptions&        lpsrOpts,
-      indentedOutputStream& ios,
+      indentedOstream& ios,
       S_lpsrScore           lpsrScoree);
         
     virtual ~lpsr2LilypondTranslator ();
@@ -620,7 +620,7 @@ class lpsr2LilypondTranslator :
     S_msrOptions          fMsrOptions;
     S_lpsrOptions         fLpsrOptions;
     
-    indentedOutputStream& fLilypondOutputStream;
+    indentedOstream&      fLilypondOutputStream;
     
     // the LPSR score we're visiting
     // ------------------------------------------------------

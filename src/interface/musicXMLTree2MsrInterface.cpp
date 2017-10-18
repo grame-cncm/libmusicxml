@@ -55,8 +55,8 @@ static S_msrScore xml2Msr (
         elemsTree);
 
     // create an indented output stream for the log
-    indentedOutputStream
-      logIndentedOutputStream (
+    indentedOstream
+      logindentedOstream (
         cerr, gIndenter);
     
     if (msrOpts->fDisplayMsr)
@@ -64,14 +64,14 @@ static S_msrScore xml2Msr (
       displayMSR (
         msrOpts,
         mScore,
-        logIndentedOutputStream);
+        logindentedOstream);
 
     if (msrOpts->fDisplayMsrSummary)
       // display the MSR summary
       displayMSRSummary (
         msrOpts,
         mScore,
-        logIndentedOutputStream);
+        logindentedOstream);
   }
 
   return mScore;
@@ -86,15 +86,15 @@ EXP S_msrScore musicxmlFile2Msr (
   clock_t startClock = clock();
 
   // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream ( // JMI ???
+  indentedOstream
+    logindentedOstream ( // JMI ???
       os, gIndenter);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    gLogIos <<
+    gLogIOstream <<
       endl <<
       separator <<
       endl <<
@@ -127,7 +127,7 @@ EXP S_msrScore musicxmlFile2Msr (
       xml2Msr (
         xmlFile,
         msrOpts,
-        logIndentedOutputStream,
+        logindentedOstream,
         file);  
 
   return mScore;
@@ -142,15 +142,15 @@ EXP S_msrScore musicxmlFd2Msr (
   clock_t startClock = clock();
 
   // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream (
+  indentedOstream
+    logindentedOstream (
       os, gIndenter);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    logIndentedOutputStream <<
+    logindentedOstream <<
       endl <<
       separator <<
       endl <<
@@ -183,7 +183,7 @@ EXP S_msrScore musicxmlFd2Msr (
       xml2Msr (
         xmlFile,
         msrOpts,
-        logIndentedOutputStream,
+        logindentedOstream,
         0);
   }
   
@@ -199,15 +199,15 @@ EXP S_msrScore musicxmlString2Msr (
   clock_t startClock = clock();
 
   // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream (
+  indentedOstream
+    logindentedOstream (
       os, gIndenter);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
     
-    logIndentedOutputStream <<
+    logindentedOstream <<
       endl <<
       separator <<
       endl <<
@@ -239,7 +239,7 @@ EXP S_msrScore musicxmlString2Msr (
       xml2Msr (
         xmlFile,
         msrOpts,
-        logIndentedOutputStream,
+        logindentedOstream,
         0);
   }
   return mScore;
@@ -253,15 +253,15 @@ S_msrScore buildMSRFromElementsTree (
   clock_t startClock = clock();
 
   // create an indented output stream for the log
-  indentedOutputStream
-    logIndentedOutputStream (
+  indentedOstream
+    logindentedOstream (
       cerr, gIndenter);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
       "%--------------------------------------------------------------";
   
-    logIndentedOutputStream <<
+    logindentedOstream <<
       endl <<
       separator <<
       endl <<
@@ -269,7 +269,7 @@ S_msrScore buildMSRFromElementsTree (
       "Pass 2: translating the xmlelement tree into a MSR" <<
       endl;
     
-    logIndentedOutputStream <<
+    logindentedOstream <<
       separator <<
       endl <<
       endl;
@@ -278,7 +278,7 @@ S_msrScore buildMSRFromElementsTree (
   // create an musicXMLTree2MsrTranslator
   musicXMLTree2MsrTranslator
     translator (
-      logIndentedOutputStream);
+      logindentedOstream);
 
   // build the MSR score
   S_msrScore
@@ -302,7 +302,7 @@ S_msrScore buildMSRFromElementsTree (
 void displayMSR (
   S_msrOptions&         msrOpts,
   S_msrScore            mScore,
-  indentedOutputStream& ios)
+  indentedOstream& ios)
 {
   clock_t startClock = clock();
   
@@ -343,7 +343,7 @@ void displayMSR (
 void displayMSRSummary (
   S_msrOptions&         msrOpts,
   S_msrScore            mScore,
-  indentedOutputStream& ios)
+  indentedOstream& ios)
 {
   clock_t startClock = clock();
   
