@@ -321,6 +321,7 @@ int main (int argc, char *argv[])
         lpScore,
         gMsrOptions,
         gLpsrOptions,
+        gLogIOstream,
         lilypondCodeFileOutputStream);
     }
     
@@ -335,6 +336,7 @@ int main (int argc, char *argv[])
         lpScore,
         gMsrOptions,
         gLpsrOptions,
+        gLogIOstream,
         lilypondCodeCoutOutputStream);
     }
     

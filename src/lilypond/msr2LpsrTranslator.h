@@ -428,7 +428,7 @@ class msr2LpsrTranslator :
 
   private:
                      
-    indentedOstream&     fLogOutputStream;
+    indentedOstream&          fLogOutputStream;
 
     // the MSR score we're visiting
     // ------------------------------------------------------

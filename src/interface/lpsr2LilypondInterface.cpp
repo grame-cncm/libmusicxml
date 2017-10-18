@@ -35,6 +35,7 @@ void lpsr2Lilypond (
   const S_lpsrScore lpScore,
   S_msrOptions&     msrOpts,
   S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  logIOstream,
   indentedOstream&  lilypondCodeIOstream) 
 {  
   // generate LilyPond code from LPSR score
@@ -42,6 +43,7 @@ void lpsr2Lilypond (
     lpScore,
     msrOpts,
     lpsrOpts,
+    logIOstream,
     lilypondCodeIOstream);
 }
 
@@ -50,6 +52,7 @@ void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOptions&     msrOpts,
   S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  logIOstream,
   indentedOstream&  lilypondCodeIOstream)
 {
   clock_t startClock = clock();
@@ -58,7 +61,7 @@ void generateLilypondCodeFromLpsrScore (
     "%--------------------------------------------------------------";
 
   if (gGeneralOptions->fTraceGeneral) {
-    gLogIOstream <<
+    logIOstream <<
       endl <<
       separator <<
       endl <<
@@ -81,7 +84,7 @@ void generateLilypondCodeFromLpsrScore (
   translator.generateLilypondCodeFromLpsrScore ();
   
   if (gGeneralOptions->fTraceGeneral)
-    lilypondCodeIOstream <<
+    logIOstream <<
       separator <<
       endl;
 

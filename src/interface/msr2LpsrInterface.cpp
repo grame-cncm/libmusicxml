@@ -37,10 +37,10 @@ namespace MusicXML2
  * and  writes the result to the output stream
 */
 S_lpsrScore msr2Lpsr (
-  const S_msrScore      mScore,
-  S_msrOptions&         msrOpts,
-  S_lpsrOptions&        lpsrOpts,
-  indentedOstream& ios)
+  const S_msrScore mScore,
+  S_msrOptions&    msrOpts,
+  S_lpsrOptions&   lpsrOpts,
+  indentedOstream& logIOstream)
 {  
   // build LPSR score from MSR score
   S_lpsrScore
@@ -49,7 +49,7 @@ S_lpsrScore msr2Lpsr (
         mScore,
         msrOpts,
         lpsrOpts,
-        gLogIOstream);
+        logIOstream);
 
   // display it
   if (lpsrOpts->fDisplayLpsr)
@@ -57,17 +57,17 @@ S_lpsrScore msr2Lpsr (
       lpScore,
       msrOpts,
       lpsrOpts,
-      gLogIOstream);
+      logIOstream);
 
   return lpScore;
 }
 
 //_______________________________________________________________________________
 S_lpsrScore buildLpsrScoreFromMsrScore (
-  const S_msrScore      mScore,
-  S_msrOptions&         msrOpts,
-  S_lpsrOptions&        lpsrOpts,
-  indentedOstream& ios)
+  const S_msrScore mScore,
+  S_msrOptions&    msrOpts,
+  S_lpsrOptions&   lpsrOpts,
+  indentedOstream& logIOstream)
 {
   clock_t startClock = clock();
       
@@ -75,7 +75,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     string separator =
       "%--------------------------------------------------------------";
   
-    ios <<
+    logIOstream <<
       endl <<
       separator <<
       endl <<
@@ -90,7 +90,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   // create an msr2LpsrTranslator
   msr2LpsrTranslator
     translator (
-      ios,
+      logIOstream,
       mScore);
       
   // build the LPSR score
@@ -110,17 +110,17 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 
 //_______________________________________________________________________________
 void displayLpsrScore (
-  const S_lpsrScore     lpScore,
-  S_msrOptions&         msrOpts,
-  S_lpsrOptions&        lpsrOpts,
-  indentedOstream& ios)
+  const S_lpsrScore lpScore,
+  S_msrOptions&     msrOpts,
+  S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  logIOstream)
 {
   clock_t startClock = clock();
 
   string separator =
     "%--------------------------------------------------------------";
 
-  ios <<
+  logIOstream <<
     endl <<
     separator <<
     endl <<
@@ -131,7 +131,7 @@ void displayLpsrScore (
     endl <<
     endl;  
 
-  ios <<
+  logIOstream <<
     "%{" <<
     endl <<
     
@@ -140,7 +140,7 @@ void displayLpsrScore (
     "%}" <<
     endl;
   
-  ios <<
+  logIOstream <<
     separator <<
     endl;
 

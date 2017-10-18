@@ -49,6 +49,7 @@ EXP void lpsr2Lilypond (
   const S_lpsrScore lpScore,
   S_msrOptions&     msrOpts,
   S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  logIOstream,
   indentedOstream&  lilypondCodeIOstream);
 
 //______________________________________________________________________________
@@ -56,6 +57,7 @@ void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOptions&     msrOpts,
   S_lpsrOptions&    lpsrOpts,
+  indentedOstream&  logIOstream,
   indentedOstream&  lilypondCodeIOstream);
 
 /*! @} */
