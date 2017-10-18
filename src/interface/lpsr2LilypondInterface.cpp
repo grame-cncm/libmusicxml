@@ -62,6 +62,7 @@ void generateLilypondCodeFromLpsrScore (
       endl <<
       separator <<
       endl <<
+      gTab <<
       "Pass 4: writing the LPSR as LilyPond code" <<
       endl <<
       separator <<

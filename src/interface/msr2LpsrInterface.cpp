@@ -79,6 +79,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       endl <<
       separator <<
       endl <<
+      gTab <<
       "Pass 3: translating the MSR into a LPSR" <<
       endl <<
       separator <<
@@ -123,6 +124,7 @@ void displayLpsrScore (
     endl <<
     separator <<
     endl <<
+    gTab <<
     "Optional pass: displaying the LPSR as text" <<
     endl <<
     separator <<

@@ -98,6 +98,7 @@ EXP S_msrScore musicxmlFile2Msr (
       endl <<
       separator <<
       endl <<
+      gTab <<
       "Pass 1: building the xmlelement tree from \"" << file << "\"" <<
       endl <<
       separator <<
@@ -153,6 +154,7 @@ EXP S_msrScore musicxmlFd2Msr (
       endl <<
       separator <<
       endl <<
+      gTab <<
       "Pass 1: building the xmlelement tree from standard input" <<
       endl <<
       separator <<
@@ -209,6 +211,7 @@ EXP S_msrScore musicxmlString2Msr (
       endl <<
       separator <<
       endl <<
+      gTab <<
       "Pass 1: building the xmlelement tree from a buffer" <<
       endl <<
       separator <<
@@ -262,6 +265,7 @@ S_msrScore buildMSRFromElementsTree (
       endl <<
       separator <<
       endl <<
+      gTab <<
       "Pass 2: translating the xmlelement tree into a MSR" <<
       endl;
     
@@ -309,6 +313,7 @@ void displayMSR (
     endl <<
     separator <<
     endl <<
+    gTab <<
     "Optional pass: displaying the MSR as text" <<
     endl <<
     separator <<
@@ -350,6 +355,7 @@ void displayMSRSummary (
       endl <<
       separator <<
       endl <<
+      gTab <<
       "Optional pass: outputting a summary of the MSR" <<
       endl <<
       separator <<
