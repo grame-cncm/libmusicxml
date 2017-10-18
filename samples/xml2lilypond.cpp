@@ -302,6 +302,7 @@ int main (int argc, char *argv[])
     if (outputFileNameSize) {
       if (gGeneralOptions->fTraceGeneral)
         gLogIOstream <<
+          endl <<
           "Opening file '" << outputFileName << "' for writing" <<
           endl;
           
