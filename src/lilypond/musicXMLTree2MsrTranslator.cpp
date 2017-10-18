@@ -3621,31 +3621,49 @@ void musicXMLTree2MsrTranslator::visitStart (S_words& elt)
   }
 
   // font size
-  
+
+/*
+The
+  font-size can be one of the CSS sizes (xx-small, x-small,
+  small, medium, large, x-large, xx-large) or a numeric
+  point size.
+*/
   string wordsFontSize = elt->getAttributeValue ("font-size");
   
   msrFontSize fontSize = k_NoFontSize; // default value
 
-  if      (wordsFontSize == "normal")
-    fontSize = kNormalFontSize;
-  else if (wordsFontSize == "large")
-    fontSize = kLargeFontSize;
-  else if (wordsFontSize == "medium")
-    fontSize = kMediumFontSize;
+  if      (wordsFontSize == "xx-smal")
+    fontSize = kXXSmallFontSize;
+  else if (wordsFontSize == "x-small")
+    fontSize = kXSmallFontSize;
   else if (wordsFontSize == "small")
     fontSize = kSmallFontSize;
+  else if (wordsFontSize == "medium")
+    fontSize = kMediumFontSize;
+  else if (wordsFontSize == "large")
+    fontSize = kLargeFontSize;
+  else if (wordsFontSize == "x-large")
+    fontSize = kXLargeFontSize;
+  else if (wordsFontSize == "xx-large")
+    fontSize = kXXLargeFontSize;
   else {
+    float fontSizeFloatValue =
+      elt->getAttributeFloatValue ("font-size", 0.0);
+      
+    fontSize = kNumericFontSize;
+/* JMI
     if (wordsFontSize.size ()) {
       stringstream s;
       
       s <<
-        "font-weight value " << wordsFontSize <<
+        "font-size value " << wordsFontSize <<
         " should be 'normal', 'large', 'medium' or 'small'";
       
       msrMusicXMLError (
         elt->getInputLineNumber (),
         s.str ());
     }
+*/
   }
   
   // font weight

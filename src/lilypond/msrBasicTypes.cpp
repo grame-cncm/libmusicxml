@@ -3165,22 +3165,34 @@ string msrFontSizeAsString (
   msrFontSize fontSize)
 {
   string result;
-  
+
   switch (fontSize) {
     case k_NoFontSize:
       result = "font size: none";
       break;
-    case kNormalFontSize:
-      result = "font size: normal";
+    case kXXSmallFontSize:
+      result = "font size: xx-small";
       break;
-    case kLargeFontSize:
-      result = "font size: large";
+    case kXSmallFontSize:
+      result = "font size: x-small";
+      break;
+    case kSmallFontSize:
+      result = "font size: small";
       break;
     case kMediumFontSize:
       result = "font size: medium";
       break;
-    case kSmallFontSize:
-      result = "font size: small";
+    case kLargeFontSize:
+      result = "font size: large";
+      break;
+    case kXLargeFontSize:
+      result = "font size: x-large";
+      break;
+    case kXXLargeFontSize:
+      result = "font size: xx-large";
+      break;
+    case kNumericFontSize:
+      result = "font size: numeric";
       break;
     } // switch
 

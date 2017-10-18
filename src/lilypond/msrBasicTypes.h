@@ -516,7 +516,10 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
 //______________________________________________________________________________
 enum msrFontSize {
   k_NoFontSize,
-  kNormalFontSize, kLargeFontSize, kMediumFontSize, kSmallFontSize };
+  kXXSmallFontSize, kXSmallFontSize, kSmallFontSize,
+  kMediumFontSize,
+  kLargeFontSize, kXLargeFontSize, kXXLargeFontSize,
+  kNumericFontSize };
 
 string msrFontSizeAsString (
   msrFontSize fontSize);

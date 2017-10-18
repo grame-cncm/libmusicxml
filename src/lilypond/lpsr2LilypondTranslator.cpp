@@ -6525,23 +6525,42 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             break;
         } // switch
 
+// JMI \teeny, \tiny, \small, \normalsize, \large, \huge, \smaller, \larger.
+
         switch (wordsFontSize) {
           case k_NoFontSize:
             break;
-          case kNormalFontSize:
-            // LilyPond produces 'normal size' text by default
-            break;
-          case kLargeFontSize:
+          case kXXSmallFontSize:
             s <<
-              "\\larger ";
+              "\\tiny ";
             break;
-          case kMediumFontSize:
+          case kXSmallFontSize:
             s <<
-              "\\large ";
+              "\\smaller ";
             break;
           case kSmallFontSize:
             s <<
               "\\small ";
+            break;
+          case kMediumFontSize:
+            s <<
+              "\\normalsize ";
+            break;
+          case kLargeFontSize:
+            s <<
+              "\\large ";
+            break;
+          case kXLargeFontSize:
+            s <<
+              "\\larger ";
+            break;
+          case kXXLargeFontSize:
+            s <<
+              "\\huge ";
+            break;
+          case kNumericFontSize:
+            s <<
+              "%{ ??? points %} ";
             break;
         } // switch
 
