@@ -56,7 +56,7 @@ S_xml2lilypondOptionsHandler optionsHandler,
       "Options values:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     optionsHandler->
       printOptionsValues (
@@ -65,7 +65,7 @@ S_xml2lilypondOptionsHandler optionsHandler,
     logIndentedOutputStream <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
   
   return argumentsVector;
@@ -170,18 +170,18 @@ int main (int argc, char *argv[])
       "The command line is:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     gLogIos <<
       optionsHandler->
         getCommandLineWithLongOptions () <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
     gLogIos <<
       "or:" <<
       endl;
-    gIdtr++;
+    gIndenter++;
     
     gLogIos <<
       optionsHandler->
@@ -189,7 +189,7 @@ int main (int argc, char *argv[])
       endl <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the chosen LilyPond options
@@ -315,7 +315,7 @@ int main (int argc, char *argv[])
       // to be written to outFileStream
       indentedOutputStream
         lilypondCodeFileOutputStream (
-          outFileStream, gIdtr);
+          outFileStream, gIndenter);
 
       // convert the LPSR score to LilyPond code
       lpsr2Lilypond (
@@ -330,7 +330,7 @@ int main (int argc, char *argv[])
       // to be written to cout
       indentedOutputStream
         lilypondCodeCoutOutputStream (
-          cout, gIdtr);
+          cout, gIndenter);
 
       lpsr2Lilypond (
         lpScore,

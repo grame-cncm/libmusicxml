@@ -129,12 +129,12 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
         " known LPSR pitches languages are:" <<
         endl;
   
-      gIdtr++;
+      gIndenter++;
     
       s <<
         existingQuarterTonesPitchesLanguages ();
   
-      gIdtr--;
+      gIndenter--;
   
       optionError (s.str ());
     }
@@ -254,7 +254,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     "The LPSR options are:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   // trace and display
   // --------------------------------------
@@ -262,7 +262,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     "Trace and display:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   gLogIos << left <<
     setw (fieldWidth) << "traceLpsr" << " : " <<
@@ -282,7 +282,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     booleanAsString (fTraceSchemeFunctions) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
   
   // languages
   // --------------------------------------
@@ -290,7 +290,7 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     "Languages:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
@@ -305,10 +305,10 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
     "\"" <<
     endl;  
 
-  gIdtr--;
+  gIndenter--;
 
   
-  gIdtr--;
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_lpsrOptions& elt)

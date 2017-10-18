@@ -1100,7 +1100,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_part_list& elt)
       "Analysing part list" <<
       endl;
 
-  gIdtr++;
+  gIndenter++;
 }
 /*
   <part-list>
@@ -1135,7 +1135,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_part_list& elt)
       endl;
   }
 
-  gIdtr--;
+  gIndenter--;
 
   if (fCurrentPartUsesImplicitPartGroup) {
     // force an implicit part group "stop" on it,
@@ -1298,14 +1298,14 @@ void musicXMLTree2MsrTranslator::showPartGroupsData (string context)
         iEnd   = fPartGroupsMap.end(),
         i      = iBegin;
         
-      gIdtr++;
+      gIndenter++;
       for ( ; ; ) {
         fLogOutputStream <<
           "\"" << (*i).first << "\" ----> " << (*i).second;
         if (++i == iEnd) break;
         fLogOutputStream << endl;
       } // for
-      gIdtr--;
+      gIndenter--;
     }
     fLogOutputStream <<
       "<== fPartGroupsMap" <<
@@ -1320,13 +1320,13 @@ void musicXMLTree2MsrTranslator::showPartGroupsData (string context)
         iEnd   = fPartGroupsList.end(),
         i      = iBegin;
         
-      gIdtr++;
+      gIndenter++;
       for ( ; ; ) {
         fLogOutputStream << (*i);
         if (++i == iEnd) break;
         fLogOutputStream << endl;
       } // for
-      gIdtr--;
+      gIndenter--;
     }
     fLogOutputStream <<
       "<== fPartGroupsList" <<
@@ -1589,7 +1589,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_part_group& elt)
       ", type: \"" << fCurrentPartGroupType << "\""  <<
       endl;
 
-  gIdtr++;
+  gIndenter++;
   
   msrPartGroup::msrPartGroupTypeKind partGroupTypeKind;
 
@@ -1674,7 +1674,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_part_group& elt)
       break;
   } // switch
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //________________________________________________________________________
@@ -1764,7 +1764,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_score_part& elt)
     "Handling part \"" << fCurrentPartID << "\"" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   S_msrPartGroup partGroup;
 
@@ -1829,7 +1829,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_score_part& elt)
 
   showPartGroupsData (
     "AFTER handling part \"" + partID + "\"");
-  gIdtr--;
+  gIndenter--;
 }
 
 //________________________________________________________________________
@@ -1866,7 +1866,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_part& elt)
       "Analyzing part \"" << fCurrentPartID << "\" -- start" <<
       endl;
 
-  gIdtr++;
+  gIndenter++;
 
   fCurrentStaffNumber = 1; // default if there are no <staff> element
   fCurrentVoiceNumber = 1; // default if there are no <voice> element
@@ -1885,7 +1885,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_part& elt)
       endl;
   }
 
-  gIdtr--;
+  gIndenter--;
 
   if (gGeneralOptions->fTraceParts)
     fLogOutputStream <<
@@ -4269,7 +4269,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_staff_details& elt )
   
   fCurrentStaffDetailsCapo = 0;
 
-  gIdtr++;
+  gIndenter++;
 }
 
 void musicXMLTree2MsrTranslator::visitStart (S_staff_type& elt )
@@ -4444,7 +4444,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
       "Creating staff tuning:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     const int fieldWidth = 32;
 
@@ -4475,7 +4475,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
       fCurrentStaffTuningOctave <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
     
   fCurrentStaffTuning =
@@ -5272,7 +5272,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_text& elt )
   fCurrentStanzaHasText = true;
 
   if (gGeneralOptions->fTraceLyrics) {
-    gIdtr++;
+    gIndenter++;
     
     const int fieldWidth = 20;
 
@@ -5296,7 +5296,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_text& elt )
     fLogOutputStream <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -5403,14 +5403,14 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
       ", line = " << inputLineNumber << ", with:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     fLogOutputStream <<
       "Lyric data:" <<
       endl;
 
     {
-      gIdtr++;
+      gIndenter++;
 
       const int fieldwidth = 28;
   
@@ -5511,10 +5511,10 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
         "\"" <<
       endl;
           
-      gIdtr--;
+      gIndenter--;
     }
     
-    gIdtr--;
+    gIndenter--;
   }
 
   // fetch current voice
@@ -7005,9 +7005,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_barline& elt )
       "Creating a barline in voice " <<
       currentVoice->getVoiceName () << ":" <<
       endl;
-    gIdtr++;
+    gIndenter++;
     fLogOutputStream << barline;
-    gIdtr--;
+    gIndenter--;
   }
 
   // has this barline been handled?
@@ -13978,7 +13978,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       "--> Gathered note information:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     const int fieldWidth = 42;
     
@@ -14014,7 +14014,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNotePrintKind) <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   // fetch current voice
@@ -14034,7 +14034,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       " we have:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     const int fieldWidth = 27;
 
@@ -14049,7 +14049,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
       currentVoice->getVoiceName () << "\"" <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
 
     fLogOutputStream <<
       "<==" <<
@@ -14203,7 +14203,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         ", line " << inputLineNumber << ":" <<
         endl;
   
-      gIdtr++;
+      gIndenter++;
 
       const int fieldWidth = 31;
       
@@ -14237,7 +14237,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
           fCurrentHarmonyBassAlteration) <<
         endl;
           
-      gIdtr--;
+      gIndenter--;
     }
   
     S_msrHarmony
@@ -14299,7 +14299,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         ", line " << inputLineNumber << ":" <<
         endl;
   
-      gIdtr++;
+      gIndenter++;
 
       const int fieldWidth = 31;
       
@@ -14311,7 +14311,7 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentFiguredBassSoundingWholeNotes <<
         endl;
           
-      gIdtr--;
+      gIndenter--;
     }
   
     if (fCurrentFiguredBassSoundingWholeNotes.getNumerator () == 0) {
@@ -14562,7 +14562,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
       "Handling standalone, double tremolo or grace note or rest:" <<
       endl;
 
-      gIdtr++;
+      gIndenter++;
 
     fLogOutputStream <<
       newNote->noteAsString () <<
@@ -14590,7 +14590,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
     fLogOutputStream <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   // handle the pending tuplets if any ??? JMI XXL
@@ -14990,12 +14990,12 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
       ", newChordNote:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     fLogOutputStream << newChordNote <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   int inputLineNumber =
@@ -15045,13 +15045,13 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
         ", chordFirstNote:" <<
         endl;
 
-      gIdtr++;
+      gIndenter++;
 
       fLogOutputStream <<
         chordFirstNote <<
         endl;
 
-      gIdtr--;
+      gIndenter--;
     }
 
     // fetch chord first note's kind before createChordFromItsFirstNote(),
@@ -15067,13 +15067,13 @@ void musicXMLTree2MsrTranslator::handleNoteBelongingToAChord (
         msrNote::noteKindAsString (savedChordFirstNoteKind) <<
         endl;
 
-      gIdtr++;
+      gIndenter++;
 
       fLogOutputStream <<
         chordFirstNote <<
         endl;
 
-      gIdtr--;
+      gIndenter--;
     }
 
     // create the chord from its first note
@@ -15680,7 +15680,7 @@ void musicXMLTree2MsrTranslator::displayLastHandledNoteInVoice (string header)
       
     fLogOutputStream << endl;
     
-    gIdtr++;
+    gIndenter++;
     for ( ; ; ) {
       fLogOutputStream <<
         "\"" << (*i).first->getVoiceName () <<
@@ -15690,7 +15690,7 @@ void musicXMLTree2MsrTranslator::displayLastHandledNoteInVoice (string header)
     } // for
     fLogOutputStream <<
       endl;
-    gIdtr--;
+    gIndenter--;
   }
 
   fLogOutputStream <<
@@ -15718,7 +15718,7 @@ void musicXMLTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
       
     fLogOutputStream << endl;
     
-    gIdtr++;
+    gIndenter++;
     for ( ; ; ) {
       fLogOutputStream <<
         "\"" << (*i).first->getVoiceName () <<
@@ -15728,7 +15728,7 @@ void musicXMLTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
     } // for
     fLogOutputStream <<
       endl;
-    gIdtr--;
+    gIndenter--;
   }
 
   fLogOutputStream <<
@@ -17176,7 +17176,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
       "Creating harp pedal tuning:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     const int fieldWidth = 31;
 
@@ -17193,7 +17193,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
         fCurrentHarpPedalAlteration) <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
     
   fCurrentHarpPedalsTuning->
@@ -17257,7 +17257,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_staff_details& elt )
       endl;
   }
 
-  gIdtr--;
+  gIndenter--;
   
   // create the staff details
   S_msrStaffDetails

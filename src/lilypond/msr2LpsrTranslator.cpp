@@ -194,7 +194,7 @@ void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
   fOnGoingIdentification = true;
 }
@@ -203,7 +203,7 @@ void msr2LpsrTranslator::visitEnd (S_msrIdentification& elt)
 {
   fOnGoingIdentification = false;
   
-  gIdtr--;
+  gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -222,7 +222,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
   // get LPSR score paper
   S_lpsrPaper
@@ -298,7 +298,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrPageGeometry& elt)
 {  
-  gIdtr--;
+  gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -536,7 +536,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
   // create a part clone
   fCurrentPartClone =
@@ -582,7 +582,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 {
-  gIdtr--;
+  gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -689,7 +689,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
   switch (elt->getStaffKind ()) {
     case msrStaff::kMasterStaff:
@@ -956,7 +956,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
 {
-  gIdtr--;
+  gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -1004,7 +1004,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-  gIdtr++;
+  gIndenter++;
 
   switch (elt->getVoiceKind ()) {
     
@@ -1208,7 +1208,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
 {
-  gIdtr--;
+  gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -1689,7 +1689,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
 //  if (elt->getStanzaTextPresent ()) { // JMI
     fCurrentStanzaClone =
@@ -1712,7 +1712,7 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
 
 void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
 {
-  gIdtr--;
+  gIndenter--;
   
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
@@ -3547,7 +3547,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeat& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
   // JMI
 }
@@ -3560,7 +3560,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
       endl;
   }
 
-  gIdtr--;
+  gIndenter--;
   
   // create the measure repeat clone
   S_msrMeasureRepeat
@@ -3651,7 +3651,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
   // create a measure repeat pattern clone
   fCurrentMeasureRepeatPatternClone =
@@ -3667,7 +3667,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
       endl;
   }
 
-  gIdtr--;
+  gIndenter--;
 
   // forget about the current measure repeat pattern clone
   fCurrentMeasureRepeatPatternClone = 0;
@@ -3682,7 +3682,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
   // create a measure repeat replicas clone
   fCurrentMeasureRepeatReplicasClone =
@@ -3698,7 +3698,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
       endl;
   }
 
-  gIdtr--;
+  gIndenter--;
 
   // forget about the current measure repeat replicas clone
   fCurrentMeasureRepeatReplicasClone = 0;
@@ -3764,7 +3764,7 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 
   // create a new last segment to collect the multiple rest contents
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
@@ -3786,7 +3786,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
       endl;
   }
 
-  gIdtr--;
+  gIndenter--;
 
   // create a multiple rest contents clone
   fCurrentMultipleRestContentsClone =
@@ -4134,12 +4134,12 @@ void msr2LpsrTranslator::visitStart (S_msrLayout& elt)
       endl;
   }
 
-  gIdtr++;
+  gIndenter++;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrLayout& elt)
 {
-  gIdtr--;
+  gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<

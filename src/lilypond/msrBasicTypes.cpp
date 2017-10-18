@@ -961,7 +961,7 @@ void printChordIntervalsMap ()
     " (" << gChordIntervalsMap.size () << ")" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
     msrHarmonyKind
@@ -973,7 +973,7 @@ void printChordIntervalsMap ()
       harmonyKindAsString (harmonyKind) << ":" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     S_msrChordIntervals
       chordIntervals =
@@ -990,13 +990,13 @@ void printChordIntervalsMap ()
         endl;
     }
 
-    gIdtr--;
+    gIndenter--;
     
     gLogIos <<
       endl;
   } // for
 
-  gIdtr--;
+  gIndenter--;
 
   gLogIos <<
     endl;

@@ -131,14 +131,14 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
       "xml2lilypondOptionsHandler has been initialized as:" <<
       endl;
   
-    gIdtr++;
+    gIndenter++;
   
     print (fLogOutputStream);
     fLogOutputStream <<
       endl <<
       endl;
     
-    gIdtr--;
+    gIndenter--;
   }
 
   // register options handler in itself,
@@ -175,7 +175,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
         ":" <<
         endl;
 
-      gIdtr++;
+      gIndenter++;
       
       for (unsigned int i = 0; i < argumentsNumber; i++) {
         fLogOutputStream <<
@@ -186,7 +186,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
       fLogOutputStream <<
         endl;
 
-      gIdtr--;
+      gIndenter--;
     }
     else {
       fLogOutputStream <<
@@ -299,7 +299,7 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
     "xml2lilypondOptionsHandler:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   os << left <<
     setw (fieldWidth) <<
@@ -323,7 +323,7 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os << endl;
     
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin(),
@@ -336,10 +336,10 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
   
   os << endl;
 }

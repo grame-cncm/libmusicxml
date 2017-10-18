@@ -211,7 +211,7 @@ string msrOctaveShift::octaveShiftKindAsString () const
 
 void msrOctaveShift::print (ostream& os)
 {
-  gIdtr++;
+  gIndenter++;
   
   os <<
     "OctaveShift" <<
@@ -219,7 +219,7 @@ void msrOctaveShift::print (ostream& os)
     ", size: " << fOctaveShiftSize <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -315,13 +315,13 @@ string msrAccordionRegistration::accordionRegistrationAsString () const
 
 void msrAccordionRegistration::print (ostream& os)
 {
-  gIdtr++;
+  gIndenter++;
   
   os <<
     accordionRegistrationAsString () <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -422,7 +422,7 @@ string msrStem::stemKindAsString (
 
 void msrStem::print (ostream& os)
 {
-  gIdtr++;
+  gIndenter++;
   
   os <<
     "Stem" " " <<
@@ -430,7 +430,7 @@ void msrStem::print (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -1780,7 +1780,7 @@ void msrOrnament::print (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   os <<
     ", placement" << " = " << ornamentPlacementKindAsString () <<
@@ -1788,7 +1788,7 @@ void msrOrnament::print (ostream& os)
     ", note uplink" << " = " << fOrnamentNoteUplink->noteAsShortString () <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2119,13 +2119,13 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
         " on note first element:" << " (note)" <<
         endl;
 
-      gIdtr++;
+      gIndenter++;
 
       s <<
         note <<
         endl;
       
-      gIdtr--;
+      gIndenter--;
         
       msrInternalError (
         note->getInputLineNumber (),
@@ -2175,13 +2175,13 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
         " on chord first element:" <<
         endl;
 
-      gIdtr++;
+      gIndenter++;
 
       s <<
         chord <<
         endl;
       
-      gIdtr--;
+      gIndenter--;
                 
       msrInternalError (
         chord->getInputLineNumber (),
@@ -2231,13 +2231,13 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
         " on note second element:" << " (note)" <<
         endl;
 
-      gIdtr++;
+      gIndenter++;
 
       s <<
         note <<
         endl;
       
-      gIdtr--;
+      gIndenter--;
         
       msrInternalError (
         note->getInputLineNumber (),
@@ -2287,13 +2287,13 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
         " on chord second element:" << " (chord)" <<
         endl;
 
-      gIdtr++;
+      gIndenter++;
 
       s <<
         chord <<
         endl;
       
-      gIdtr--;
+      gIndenter--;
         
       msrInternalError (
         chord->getInputLineNumber (),
@@ -2526,7 +2526,7 @@ void msrDoubleTremolo::print (ostream& os)
     ", " << fDoubleTremoloSoundingWholeNotes << " sound whole notes" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   os <<
     "First element:";
@@ -2534,10 +2534,10 @@ void msrDoubleTremolo::print (ostream& os)
     os <<
       endl;
       
-    gIdtr++;
+    gIndenter++;
     os <<
       fDoubleTremoloFirstElement;
-    gIdtr--;
+    gIndenter--;
   }
   else {
     os <<
@@ -2551,10 +2551,10 @@ void msrDoubleTremolo::print (ostream& os)
     os <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     os <<
       fDoubleTremoloSecondElement;
-    gIdtr--;
+    gIndenter--;
   }
   else {
     os <<
@@ -2562,7 +2562,7 @@ void msrDoubleTremolo::print (ostream& os)
       endl;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -3610,7 +3610,7 @@ void msrGraceNotes::print (ostream& os)
     booleanAsString (fGraceNotesIsSlashed) <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
             
   list<S_msrNote>::const_iterator
     iBegin = fGraceNotesNotesList.begin(),
@@ -3623,7 +3623,7 @@ void msrGraceNotes::print (ostream& os)
     os << endl;
   } // for
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -3823,23 +3823,23 @@ void msrAfterGraceNotes::print (ostream& os)
     booleanAsString (fAfterGraceNotesIsSlashed) <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
 
   // print the afterGraceNotes note
   os <<
     "Note:" <<
     endl;
-  gIdtr++;
+  gIndenter++;
   os <<
     fAfterGraceNotesNote;
-  gIdtr--;
+  gIndenter--;
 
   // print the afterGraceNotes contents
   os <<
     "Contents:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   list<S_msrNote>::const_iterator
     iBegin = fAfterGraceNotesNotesList.begin(),
@@ -3852,9 +3852,9 @@ void msrAfterGraceNotes::print (ostream& os)
  // JMI   os << endl;
   } // for
 
-  gIdtr--;
+  gIndenter--;
       
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -4038,7 +4038,7 @@ void msrNote::initializeNote ()
       ", line " << fInputLineNumber << ":" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     const int fieldWidth = 30;
     
@@ -4183,7 +4183,7 @@ void msrNote::initializeNote ()
         endl <<
       endl;
           
-    gIdtr--;
+    gIndenter--;
 
 /*
     gLogIos <<
@@ -5549,31 +5549,31 @@ void msrNote::browseData (basevisitor* v)
 
   // browse the beams if any
   if (fNoteBeams.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrBeam>::const_iterator i;
     for (i=fNoteBeams.begin(); i!=fNoteBeams.end(); i++) {
       // browse the beam
       msrBrowser<msrBeam> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
   
   // browse the articulations if any
   if (fNoteArticulations.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrArticulation>::const_iterator i;
     for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
       // browse the articulation
       msrBrowser<msrArticulation> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
   
   // browse the technicals if any
   if (fNoteTechnicals.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrTechnical>::const_iterator i;
     for (
       i=fNoteTechnicals.begin();
@@ -5583,12 +5583,12 @@ void msrNote::browseData (basevisitor* v)
       msrBrowser<msrTechnical> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
   
   // browse the technicals with integer if any
   if (fNoteTechnicalWithIntegers.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
       i=fNoteTechnicalWithIntegers.begin();
@@ -5598,12 +5598,12 @@ void msrNote::browseData (basevisitor* v)
       msrBrowser<msrTechnicalWithInteger> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
   
   // browse the technicals with string if any
   if (fNoteTechnicalWithStrings.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
       i=fNoteTechnicalWithStrings.begin();
@@ -5613,19 +5613,19 @@ void msrNote::browseData (basevisitor* v)
       msrBrowser<msrTechnicalWithString> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
   
   // browse the ornaments if any
   if (fNoteOrnaments.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrOrnament>::const_iterator i;
     for (i=fNoteOrnaments.begin(); i!=fNoteOrnaments.end(); i++) {
       // browse the ornament
       msrBrowser<msrOrnament> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
   
   if (fNoteSingleTremolo) {
@@ -5642,86 +5642,86 @@ void msrNote::browseData (basevisitor* v)
 
   // browse the dynamics if any
   if (fNoteDynamics.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrDynamics>::const_iterator i;
     for (i=fNoteDynamics.begin(); i!=fNoteDynamics.end(); i++) {
       // browse the dynamics
       msrBrowser<msrDynamics> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
 
   // browse the other dynamics if any
   if (fNoteOtherDynamics.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrOtherDynamics>::const_iterator i;
     for (i=fNoteOtherDynamics.begin(); i!=fNoteOtherDynamics.end(); i++) {
       // browse the other dynamics
       msrBrowser<msrOtherDynamics> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
 
   // browse the words if any
   if (fNoteWords.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrWords>::const_iterator i;
     for (i=fNoteWords.begin(); i!=fNoteWords.end(); i++) {
       // browse the words
       msrBrowser<msrWords> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
   
   // browse the slurs if any
   if (fNoteSlurs.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrSlur>::const_iterator i;
     for (i=fNoteSlurs.begin(); i!=fNoteSlurs.end(); i++) {
       // browse the slur
       msrBrowser<msrSlur> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
 
   // browse the ligatures if any
   if (fNoteLigatures.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrLigature>::const_iterator i;
     for (i=fNoteLigatures.begin(); i!=fNoteLigatures.end(); i++) {
       // browse the ligature
       msrBrowser<msrLigature> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
 
   // browse the wedges if any
   if (fNoteWedges.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrWedge>::const_iterator i;
     for (i=fNoteWedges.begin(); i!=fNoteWedges.end(); i++) {
       // browse the wedge
       msrBrowser<msrWedge> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
 
   // browse the syllables if any
   if (fNoteSyllables.size()) {
-    gIdtr++;
+    gIndenter++;
     list<S_msrSyllable>::const_iterator i;
     for (i=fNoteSyllables.begin(); i!=fNoteSyllables.end(); i++) {
       // browse the syllable
       msrBrowser<msrSyllable> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
 
   if (fNoteHarmony) {
@@ -6184,7 +6184,7 @@ void msrNote::print (ostream& os)
     os <<
       endl;
   
-    gIdtr++;
+    gIndenter++;
         
     switch (fNoteKind) {
       case msrNote::k_NoNoteKind:
@@ -6309,7 +6309,7 @@ void msrNote::print (ostream& os)
     os <<
       endl ;
       
-    gIdtr--;
+    gIndenter--;
   }
 
   {
@@ -6317,7 +6317,7 @@ void msrNote::print (ostream& os)
 
     stringstream s;
     
-    gIdtr++;
+    gIndenter++;
 
     if (fNoteIsStemless)
       s <<
@@ -6354,13 +6354,13 @@ void msrNote::print (ostream& os)
         result;
     }
         
-    gIdtr--;
+    gIndenter--;
   }
   
   {
     // note MSR strings
 
-    gIdtr++;
+    gIndenter++;
     
     // print whole notes durations as MSR string
     switch (fNoteKind) {
@@ -6474,18 +6474,18 @@ void msrNote::print (ostream& os)
         break;
       } // switch
   
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the syllables associated to this note if any
   if (fNoteSyllables.size ()) {
-    gIdtr++;
+    gIndenter++;
 
     os <<
       "Syllables:" <<
       endl;
       
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrSyllable>::const_iterator
       iBegin = fNoteSyllables.begin(),
@@ -6517,22 +6517,22 @@ void msrNote::print (ostream& os)
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
     
     os <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
 /*
   // print the note's voice uplink JMI
-  gIdtr++;
+  gIndenter++;
   os <<
     "NoteVoiceUplink" " = " <<
     fNoteMeasureUplink->fetchMeasureVoiceUplink () <<
     endl;
-  gIdtr--;
+  gIndenter--;
 */
 
   // print the extend kind if relevant
@@ -6542,13 +6542,13 @@ void msrNote::print (ostream& os)
     case msrSyllable::kStartSyllableExtend:
     case msrSyllable::kContinueSyllableExtend:
     case msrSyllable::kStopSyllableExtend:
-      gIdtr++;
+      gIndenter++;
       os <<
         "NoteSyllableExtendKind" " = " <<
         msrSyllable::syllableExtendKindAsString (
           fNoteSyllableExtendKind) <<
         endl;
-      gIdtr--;
+      gIndenter--;
       break;
       
     case msrSyllable::k_NoSyllableExtend:
@@ -6557,23 +6557,23 @@ void msrNote::print (ostream& os)
 
   // print the octave shift if any
   if (fNoteOctaveShift) {
-    gIdtr++;
+    gIndenter++;
     os <<
       fNoteOctaveShift;
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the stem if any
   if (fNoteStem) {
-    gIdtr++;
+    gIndenter++;
     os <<
       fNoteStem;
-    gIdtr--;
+    gIndenter--;
   }
     
   // print the beams if any
   if (fNoteBeams.size()) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrBeam>::const_iterator
       iBegin = fNoteBeams.begin(),
@@ -6585,12 +6585,12 @@ void msrNote::print (ostream& os)
       os << endl;
     } // for
         
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the articulations if any
   if (fNoteArticulations.size()) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrArticulation>::const_iterator
       iBegin = fNoteArticulations.begin(),
@@ -6602,12 +6602,12 @@ void msrNote::print (ostream& os)
 // JMI      os << endl;
     } // for
         
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the technicals if any
   if (fNoteTechnicals.size()) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrTechnical>::const_iterator
       iBegin = fNoteTechnicals.begin(),
@@ -6619,12 +6619,12 @@ void msrNote::print (ostream& os)
  // JMI     os << endl;
     } // for
         
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the technicals with integer if any
   if (fNoteTechnicalWithIntegers.size()) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrTechnicalWithInteger>::const_iterator
       iBegin = fNoteTechnicalWithIntegers.begin(),
@@ -6636,12 +6636,12 @@ void msrNote::print (ostream& os)
  // JMI     os << endl;
     } // for
         
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the technicals with string if any
   if (fNoteTechnicalWithStrings.size()) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrTechnicalWithString>::const_iterator
       iBegin = fNoteTechnicalWithStrings.begin(),
@@ -6653,12 +6653,12 @@ void msrNote::print (ostream& os)
 // JMI      os << endl;
     } // for
         
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the ornaments if any
   if (fNoteOrnaments.size()) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOrnament>::const_iterator
       iBegin = fNoteOrnaments.begin(),
@@ -6670,27 +6670,27 @@ void msrNote::print (ostream& os)
  // JMI     os << endl;
     } // for
         
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the singleTremolo if any
   if (fNoteSingleTremolo) {
-    gIdtr++;
+    gIndenter++;
     os << fNoteSingleTremolo;
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the tie if any
   if (fNoteTie) {
-    gIdtr++;
+    gIndenter++;
     os <<
       fNoteTie;
-    gIdtr--;
+    gIndenter--;
   }
     
   // print the dynamics if any
   if (fNoteDynamics.size()) {
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrDynamics>::const_iterator
       iBegin = fNoteDynamics.begin(),
@@ -6703,12 +6703,12 @@ void msrNote::print (ostream& os)
     } // for
 // JMI    os << endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the other dynamics if any
   if (fNoteOtherDynamics.size()) {
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrOtherDynamics>::const_iterator
       iBegin = fNoteOtherDynamics.begin(),
@@ -6721,12 +6721,12 @@ void msrNote::print (ostream& os)
     } // for
 // JMI    os << endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the words if any
   if (fNoteWords.size()) {
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrWords>::const_iterator
       iBegin = fNoteWords.begin(),
@@ -6739,12 +6739,12 @@ void msrNote::print (ostream& os)
     } // for
 // JMI    os << endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the slurs if any
   if (fNoteSlurs.size()) {
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrSlur>::const_iterator
       iBegin = fNoteSlurs.begin(),
@@ -6757,12 +6757,12 @@ void msrNote::print (ostream& os)
     } // for
 // JMI    os << endl;
     
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the ligatures if any
   if (fNoteLigatures.size()) {
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrLigature>::const_iterator
       iBegin = fNoteLigatures.begin(),
@@ -6775,12 +6775,12 @@ void msrNote::print (ostream& os)
     } // for
 // JMI    os << endl;
     
-    gIdtr--;
+    gIndenter--;
   }
   
   // print the wedges if any
   if (fNoteWedges.size()) {
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrWedge>::const_iterator
       iBegin = fNoteWedges.begin(),
@@ -6793,25 +6793,25 @@ void msrNote::print (ostream& os)
     } // for
 // JMI    os << endl;
     
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the harmony if any
   if (fNoteHarmony) {
-    gIdtr++;
+    gIndenter++;
     os <<
       fNoteHarmony <<
       endl;
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the figured bass if any
   if (fNoteFiguredBass) {
-    gIdtr++;
+    gIndenter++;
     os <<
       fNoteFiguredBass <<
       endl;
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -7481,7 +7481,7 @@ void msrChord::print (ostream& os)
   os <<
     endl;
     
-  gIdtr++;
+  gIndenter++;
   
   // print the member notes if any
   if (fChordNotes.size()) {
@@ -7589,13 +7589,13 @@ void msrChord::print (ostream& os)
       "Chord harmony: " <<
       endl;
         
-    gIdtr++;
+    gIndenter++;
 
     os <<
       fChordHarmony->harmonyAsString () <<
       endl;
       
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the figured bass if any
@@ -7604,16 +7604,16 @@ void msrChord::print (ostream& os)
       "Chord fibured bass: " <<
       endl;
         
-    gIdtr++;
+    gIndenter++;
 
     os <<
       fChordFiguredBass->figuredBassAsString () <<
       endl;
       
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -7758,7 +7758,7 @@ void msrDivisions::printDurationsDivisions (ostream& os)
     " is:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   if (fDurationsToDivisions.size ()) {
     list<pair<msrDuration, int> >::const_iterator
@@ -7803,7 +7803,7 @@ void msrDivisions::printDurationsDivisions (ostream& os)
 
   os << endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 string msrDivisions::divisionsAsMsrString (
@@ -9145,7 +9145,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
       "% ==> applyDisplayFactorToTupletMembers()" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     gLogIos <<
       "% fTupletActualNotes = " <<
@@ -9155,7 +9155,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
       endl <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   for (
@@ -9207,7 +9207,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
       "unapplySoundingFactorToTupletMembers()" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     gLogIos <<
       "% fTupletActualNotes = " <<
@@ -9222,7 +9222,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
       endl <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   fTupletActualNotes /=
@@ -9437,7 +9437,7 @@ void msrTuplet::print (ostream& os)
     endl;
   
   if (fTupletElements.size ()) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrElement>::const_iterator
       iBegin = fTupletElements.begin(),
@@ -9449,7 +9449,7 @@ void msrTuplet::print (ostream& os)
   // JMI    os << endl;
     } // for
     
-    gIdtr--;
+    gIndenter--;
     
   // JMI  os << endl;
   }
@@ -9586,7 +9586,7 @@ void msrPageGeometry::print (ostream& os) {
 
   bool emptyGeometry = true;
   
-  gIdtr++;
+  gIndenter++;
   
     const int fieldWidth = 12;
 
@@ -9671,7 +9671,7 @@ void msrPageGeometry::print (ostream& os) {
   os <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 /*
@@ -9794,7 +9794,7 @@ void msrCreditWords::print (ostream& os)
     "CreditWords" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 26;
   
@@ -9840,7 +9840,7 @@ void msrCreditWords::print (ostream& os)
     endl <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -9964,7 +9964,7 @@ void msrCredit::print (ostream& os)
     "Credit" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   os <<
     "fCreditPageNumber" << " = " << fCreditPageNumber <<
@@ -9982,7 +9982,7 @@ void msrCredit::print (ostream& os)
 // JMI    os << endl;
   } // for
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -10066,7 +10066,7 @@ void msrVarValAssoc::print (ostream& os)
     "MSR VarValAssoc" <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
 
   // escape quotes if any
   string variableName;
@@ -10093,7 +10093,7 @@ void msrVarValAssoc::print (ostream& os)
     endl <<
     endl;
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -10174,7 +10174,7 @@ void msrLayout::print (ostream& os)
 {
   os << "Layout" << endl;
 
-  gIdtr++;
+  gIndenter++;
 
   int n1 = fVarValAssocs.size();
   
@@ -10189,7 +10189,7 @@ void msrLayout::print (ostream& os)
   } // for
   */
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -10806,7 +10806,7 @@ void msrKey::print (ostream& os)
         os <<
           endl;
           
-        gIdtr++;
+        gIndenter++;
         
         vector<S_msrHumdrumScotKeyItem>::const_iterator
           iBegin = fHumdrumScotKeyItemsVector.begin(),
@@ -10819,7 +10819,7 @@ void msrKey::print (ostream& os)
     // JMI     os << endl;
         } // for
         
-        gIdtr--;
+        gIndenter--;
       }
       
       else
@@ -11390,7 +11390,7 @@ void msrTime::print (ostream& os)
     os <<
       endl;
       
-    gIdtr++;
+    gIndenter++;
     
     vector<S_msrTimeItem>::const_iterator
       iBegin = fTimeItemsVector.begin(),
@@ -11403,7 +11403,7 @@ void msrTime::print (ostream& os)
  // JMI     os << endl;
     } // for
     
-    gIdtr--;
+    gIndenter--;
   }
   
   else
@@ -11544,7 +11544,7 @@ void msrTranspose::print (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   os << left <<
     setw (fieldWidth) <<
@@ -11561,7 +11561,7 @@ void msrTranspose::print (ostream& os)
     endl <<
     endl;
     
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -11757,7 +11757,7 @@ void msrWords::print (ostream& os)
     "Words" " \"" << fWordsContents << "\"" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 16;
 
@@ -11791,7 +11791,7 @@ void msrWords::print (ostream& os)
     msrWordsXMLLangKindAsString (fWordsXMLLangKind) <<
     endl;
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -12088,7 +12088,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
       "Setting syllable note uplink for:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     gLogIos <<
       syllableAsString () <<
@@ -12096,7 +12096,7 @@ void msrSyllable::setSyllableNoteUplink (S_msrNote note)
       ", line " << note->getInputLineNumber () <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
       
 /*
     if (note) { // JMI
@@ -13121,7 +13121,7 @@ void msrStanza::browseData (basevisitor* v)
       "% ==> msrStanza::browseData()" <<
       endl;
 
-  gIdtr++;
+  gIndenter++;
   
   // browse the syllables
   int n = fSyllables.size ();
@@ -13133,7 +13133,7 @@ void msrStanza::browseData (basevisitor* v)
   gLogIos <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 
   if (gMsrOptions->fTraceMsrVisitors)
     gLogIos <<
@@ -13183,7 +13183,7 @@ void msrStanza::print (ostream& os)
   os << endl;
 
 //  if (fStanzaTextPresent) {  JMI
-    gIdtr++;
+    gIndenter++;
 
     int n = fSyllables.size();
     for (int i = 0; i < n; i++) {
@@ -13191,7 +13191,7 @@ void msrStanza::print (ostream& os)
     } // for
     os << endl;
 
-    gIdtr--;
+    gIndenter--;
  // }
 }
 
@@ -13769,7 +13769,7 @@ void msrHarmony::print (ostream& os)
      ", line " << fInputLineNumber <<
     endl;
     
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 15;
 
@@ -13810,7 +13810,7 @@ void msrHarmony::print (ostream& os)
       "Harmony degrees:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin(),
@@ -13825,10 +13825,10 @@ void msrHarmony::print (ostream& os)
     } // for
     os << endl;
     
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -14356,7 +14356,7 @@ void msrFiguredBass::print (ostream& os)
     endl;
 
   if (fFiguredBassFiguresList.size ()) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrFigure>::const_iterator
       iBegin = fFiguredBassFiguresList.begin(),
@@ -14369,7 +14369,7 @@ void msrFiguredBass::print (ostream& os)
  // JMI     os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -15048,7 +15048,7 @@ void msrBarline::print (ostream& os)
   os <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 15;
 
@@ -15090,7 +15090,7 @@ void msrBarline::print (ostream& os)
     barlineRepeatWingedAsString (fRepeatWinged) <<
     endl;
      
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -15478,12 +15478,12 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
       "Appending time:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     gLogIos <<
       time;
 
-    gIdtr--;
+    gIndenter--;
 
     gLogIos <<
       "to measure '" << fMeasureNumber <<
@@ -15588,12 +15588,12 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
       "Appending time:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     gLogIos <<
       time;
 
-    gIdtr--;
+    gIndenter--;
 
     gLogIos <<
       "to measure clone '" << fMeasureNumber <<
@@ -15628,12 +15628,12 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
       ", line " << fInputLineNumber <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     gLogIos <<
       time;
 
-    gIdtr--;
+    gIndenter--;
 
     gLogIos <<
       "for measure '" << fMeasureNumber <<
@@ -15694,12 +15694,12 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
         " whole note(s) per measure in time:" <<
         endl;
 
-      gIdtr++;
+      gIndenter++;
       
       gLogIos <<
         time;
                   
-      gIdtr--;
+      gIndenter--;
 
       gLogIos <<
         "in measure '" << fMeasureNumber << "'" <<
@@ -16896,10 +16896,10 @@ void msrMeasure::removeNoteFromMeasure (
       "Removing note:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     gLogIos <<
       note->noteAsShortString ();
-    gIdtr--;
+    gIndenter--;
     
     gLogIos <<
       endl <<
@@ -16911,13 +16911,13 @@ void msrMeasure::removeNoteFromMeasure (
       "\"," <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     gLogIos <<
       "fMeasureLastHandledNote:" <<
       endl <<
       fMeasureLastHandledNote <<
       endl;
-    gIdtr--;
+    gIndenter--;
   }
 
   for (
@@ -16968,10 +16968,10 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
       "% --> removing last element:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     gLogIos <<
       measureLastElement;
-    gIdtr--;
+    gIndenter--;
     
     gLogIos <<
       endl <<
@@ -16984,13 +16984,13 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
       "\"," <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     gLogIos <<
       "fMeasureLastHandledNote:" <<
       endl <<
       fMeasureLastHandledNote <<
       endl;
-    gIdtr--;
+    gIndenter--;
   }
   
   if (fMeasureElementsList.size ()) {
@@ -17062,7 +17062,7 @@ void msrMeasure::finalizeMeasure (
       "\", line " << inputLineNumber <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     const int fieldWidth = 26;
     
@@ -17075,7 +17075,7 @@ void msrMeasure::finalizeMeasure (
       partMeasureLengthHighTide <<
       endl;
         
-    gIdtr--;
+    gIndenter--;
   }
 
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
@@ -17378,7 +17378,7 @@ void msrMeasure::print (ostream& os)
     ", line " << fInputLineNumber <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   os <<
     "MeasureSegmentUplink: " <<
     fMeasureSegmentUplink->segmentAsShortString () <<
@@ -17387,12 +17387,12 @@ void msrMeasure::print (ostream& os)
     endl <<
     "Full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
     endl;
-  gIdtr--;
+  gIndenter--;
 
   if (fMeasureElementsList.size ()) {
     os << endl;
     
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrElement>::const_iterator
       iBegin = fMeasureElementsList.begin(),
@@ -17404,7 +17404,7 @@ void msrMeasure::print (ostream& os)
       if (++i == iEnd) break;
     } // for
     
-    gIdtr--;
+    gIndenter--;
   }
 } 
 
@@ -17794,11 +17794,11 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     gLogIos <<
       "SegmentVoiceUplink:" <<
       endl;
-    gIdtr++;
+    gIndenter++;
     gLogIos <<
       fSegmentVoiceUplink <<
       endl;
-    gIdtr--;
+    gIndenter--;
     
     msrInternalError (
       clef->getInputLineNumber (),
@@ -17847,12 +17847,12 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
       "Appending time:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     gLogIos <<
       time;
 
-    gIdtr--;
+    gIndenter--;
 
     gLogIos <<
       "to segment " << segmentAsString () <<
@@ -17879,12 +17879,12 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
       "Appending time:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
 
     gLogIos <<
       time;
 
-    gIdtr--;
+    gIndenter--;
 
     gLogIos <<
       "to segment clone " << segmentAsString () <<
@@ -18330,20 +18330,20 @@ void msrSegment::bringSegmentToMeasureLength (
     gLogIos <<
       "SegmentVoiceUplink:" <<
       endl;
-    gIdtr++;
+    gIndenter++;
     gLogIos <<
       fSegmentVoiceUplink <<
       endl;
-    gIdtr--;
+    gIndenter--;
     
     gLogIos <<
       "Part:" <<
       endl;
-    gIdtr++;
+    gIndenter++;
     gLogIos <<
       fSegmentVoiceUplink->fetchVoicePartUplink () <<
       endl;
-    gIdtr--;
+    gIndenter--;
     
     msrInternalError (
       inputLineNumber,
@@ -18866,12 +18866,12 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     gLogIos <<
       "This measure contains:";
 
-    gIdtr++;
+    gIndenter++;
 
     gLogIos <<
       result;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   fSegmentMeasuresList.pop_back ();
@@ -19001,7 +19001,7 @@ void msrSegment::print (ostream& os)
       fSegmentMeasuresList.size(), "measure", "measures") <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 20;
   
@@ -19031,7 +19031,7 @@ void msrSegment::print (ostream& os)
     } // for
   }
     
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -19219,12 +19219,12 @@ void msrRepeatCommonPart::print (ostream& os)
     repeatCommonPartAsString () <<
     endl;
  
-  gIdtr++;
+  gIndenter++;
 
   os <<
     fRepeatCommonPartSegment;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -19459,12 +19459,12 @@ void msrRepeatEnding::print (ostream& os)
     repeatEndingAsString () <<
     endl;
  
-  gIdtr++;
+  gIndenter++;
 
   os <<
     fRepeatEndingSegment;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -19719,7 +19719,7 @@ void msrRepeat::print (ostream& os)
     ")" <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
   
   // print the repeat common part
   if (! fRepeatCommonPart) {
@@ -19742,13 +19742,13 @@ void msrRepeat::print (ostream& os)
   os << endl;
 
   if (fRepeatCommonSegment) {
-    gIdtr++;
+    gIndenter++;
     
     os <<
       fRepeatCommonSegment <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 */
   // print the repeat endings
@@ -19764,7 +19764,7 @@ void msrRepeat::print (ostream& os)
   os << endl;
     
   if (endingsNumber) {
-    gIdtr++;
+    gIndenter++;
     
     vector<S_msrRepeatEnding>::const_iterator
       iBegin = fRepeatEndings.begin(),
@@ -19778,12 +19778,12 @@ void msrRepeat::print (ostream& os)
   // JMI    os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
  // JMI os << endl;
       
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -19987,7 +19987,7 @@ void msrMeasureRepeatPattern::print (ostream& os)
     endl <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
   
   // print the pattern segment
   os <<
@@ -20002,15 +20002,15 @@ void msrMeasureRepeatPattern::print (ostream& os)
     os <<
       endl;
       
-    gIdtr++;
+    gIndenter++;
     
     os <<
       fMeasureRepeatPatternSegment;
 
-    gIdtr--;
+    gIndenter--;
   }
       
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -20216,7 +20216,7 @@ void msrMeasureRepeatReplicas::print (ostream& os)
     endl <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
   
   // print the replicas segment
   os <<
@@ -20231,15 +20231,15 @@ void msrMeasureRepeatReplicas::print (ostream& os)
     os <<
       endl;
       
-    gIdtr++;
+    gIndenter++;
     
     os <<
       fMeasureRepeatReplicasSegment;
 
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -20531,7 +20531,7 @@ void msrMeasureRepeat::print (ostream& os)
     endl <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
   
   // print the measure repeat pattern
   if (! fMeasureRepeatPattern) {
@@ -20559,7 +20559,7 @@ void msrMeasureRepeat::print (ostream& os)
       fMeasureRepeatReplicas;
   }
       
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -20728,7 +20728,7 @@ void msrMultipleRestContents::print (ostream& os)
     endl <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
   
   // print the pattern segment
   os <<
@@ -20743,15 +20743,15 @@ void msrMultipleRestContents::print (ostream& os)
     os <<
       endl;
       
-    gIdtr++;
+    gIndenter++;
     
     os <<
       fMultipleRestContentsSegment;
 
-    gIdtr--;
+    gIndenter--;
   }
       
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -20929,7 +20929,7 @@ void msrMultipleRest::print (ostream& os)
     multipleRestAsString () <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
   
   // print the rests contents
   if (! fMultipleRestContents) {
@@ -20943,7 +20943,7 @@ void msrMultipleRest::print (ostream& os)
       fMultipleRestContents;
   }
       
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -21135,12 +21135,12 @@ void msrRepeatCoda::print (ostream& os)
     repeatCodaAsString () <<
     endl;
  
-  gIdtr++;
+  gIndenter++;
 
   os <<
     fRepeatCodaSegment;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -21277,7 +21277,7 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
     ", ";
     
   if (fHarpPedalsAlterationsMap.size ()) {
-    gIdtr++;
+    gIndenter++;
 
     map<msrDiatonicPitch, msrAlteration>::const_iterator
       iBegin = fHarpPedalsAlterationsMap.begin(),
@@ -21296,7 +21296,7 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
       s << ", ";
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
   else {
@@ -21314,7 +21314,7 @@ void msrHarpPedalsTuning::print (ostream& os)
     ", line " << fInputLineNumber;
     
   if (fHarpPedalsAlterationsMap.size ()) {
-    gIdtr++;
+    gIndenter++;
 
     os <<
       endl;
@@ -21336,7 +21336,7 @@ void msrHarpPedalsTuning::print (ostream& os)
       os << ", ";
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
   else {
@@ -22693,14 +22693,14 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       "Appending note:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     gLogIos <<
       note <<
         "to voice \"" << getVoiceName () << "\"" <<
         endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   // register whether music (i.e. not just skips)
@@ -22783,14 +22783,14 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       "Appending note:" <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     gLogIos <<
       note <<
         "to voice clone \"" << getVoiceName () << "\"" <<
         endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 
   // register whether music (i.e. not just skips)
@@ -23249,9 +23249,9 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 
         // this occurs after a measure has just been created,
         // hence the repeated measure/measures is/are the
@@ -23375,9 +23375,9 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 
         // keep the measure repeat pending
       }
@@ -23403,9 +23403,9 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 */
 
         // does the pending measure repeat exist?
@@ -23524,9 +23524,9 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
         */
 
         // create a new last segment to collect the remainder of the voice,
@@ -23548,9 +23548,9 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 
         // forget about this pending measure repeat
         fVoicePendingMeasureRepeat = 0;
@@ -23664,9 +23664,9 @@ void msrVoice::createMultipleRestInVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 
         // keep the multiple rest pending
       }
@@ -23701,9 +23701,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 */
 
         // does the pending multiple rest exist?
@@ -23805,9 +23805,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 */
 
         // create a new segment to collect the remainder of the voice,
@@ -23836,9 +23836,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 
         // forget about this pending multiple rest
         fVoicePendingMultipleRest = 0;
@@ -23876,9 +23876,9 @@ void msrVoice::appendMultipleRestCloneToVoice (
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
 */
 
         // append pending multiple rest to the list of repeats and segments
@@ -23892,9 +23892,9 @@ void msrVoice::appendMultipleRestCloneToVoice (
             fVoiceName << "\" is:" <<
             endl;
 
-        gIdtr++;
+        gIndenter++;
         print (gLogIos);
-        gIdtr--;
+        gIndenter--;
       }
       break;
   } // switch
@@ -24247,7 +24247,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       "\"" <<
       endl;
       
-    gIdtr++;
+    gIndenter++;
 
     const int fieldWidth = 26;
     
@@ -24258,7 +24258,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
         getPartMeasureLengthHighTide () <<
       endl;
         
-    gIdtr--;
+    gIndenter--;
   }
 
   // make sure the voice's last segment exists
@@ -24584,7 +24584,7 @@ void msrVoice::print (ostream& os)
     voiceKindAsString (fVoiceKind) <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   os <<
     "(" <<
@@ -24643,7 +24643,7 @@ void msrVoice::print (ostream& os)
     endl;
     
   if (initialRepeatsAndSegmentsNumber) {
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrElement>::const_iterator
       iBegin = fVoiceInitialRepeatsAndSegments.begin(),
@@ -24657,7 +24657,7 @@ void msrVoice::print (ostream& os)
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
   os << endl;
 
@@ -24674,11 +24674,11 @@ void msrVoice::print (ostream& os)
       "Voice last segment:" <<
       endl;
       
-    gIdtr++;
+    gIndenter++;
     os <<
       fVoiceLastSegment <<
       endl;
-    gIdtr--;
+    gIndenter--;
   }
   else {
     os <<
@@ -24713,7 +24713,7 @@ void msrVoice::print (ostream& os)
     }
   }
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -24951,7 +24951,7 @@ void msrStaffTuning::print (ostream& os)
     ", " <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 29;
 
@@ -24971,7 +24971,7 @@ void msrStaffTuning::print (ostream& os)
     fStaffTuningOctave <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -25215,7 +25215,7 @@ void msrStaffDetails::print (ostream& os)
     "StaffDetails:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   // print the staff lines number if any
   if (fStaffLinesNumber)
@@ -25235,7 +25235,7 @@ void msrStaffDetails::print (ostream& os)
       "StaffTuning: none" <<
       endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -26741,7 +26741,7 @@ void msrStaff::browseData (basevisitor* v)
       msrBrowser<msrStaffTuning> browser (v);
       browser.browse (*(*i));
     } // for
-    gIdtr--;
+    gIndenter--;
   }
 */
 
@@ -26813,7 +26813,7 @@ void msrStaff::print (ostream& os)
     ")" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldwidth = 28;
   
@@ -26864,7 +26864,7 @@ void msrStaff::print (ostream& os)
       iEnd   = fStaffTuningsList.end(),
       i      = iBegin;
       
-    gIdtr++;
+    gIndenter++;
     for ( ; ; ) {
       os <<
         (*i)->staffTuningAsString ();
@@ -26872,7 +26872,7 @@ void msrStaff::print (ostream& os)
       os << endl;
     } // for
     os << endl;
-    gIdtr--;
+    gIndenter--;
   }
 
 */
@@ -26973,7 +26973,7 @@ os <<
     } // for
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrStaff::printStructure (ostream& os)
@@ -26987,7 +26987,7 @@ void msrStaff::printStructure (ostream& os)
     ")" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
 /* JMI
   os <<
@@ -27006,14 +27006,14 @@ void msrStaff::printStructure (ostream& os)
       iEnd   = fStaffTuningsList.end(),
       i      = iBegin;
       
-    gIdtr++;
+    gIndenter++;
     for ( ; ; ) {
       os << (*i)->staffTuningAsString ();
       if (++i == iEnd) break;
       os << endl;
     } // for
     os << endl;
-    gIdtr--;
+    gIndenter--;
   }
 */
 
@@ -27023,7 +27023,7 @@ void msrStaff::printStructure (ostream& os)
       "Voices:" <<
       endl;
   
-    gIdtr++;
+    gIndenter++;
     
     map<int, S_msrVoice>::const_iterator
       iBegin = fStaffVoiceRelativeNumberToVoiceMap.begin(),
@@ -27053,10 +27053,10 @@ void msrStaff::printStructure (ostream& os)
       os << endl;
     } // for
 
-    gIdtr --;
+    gIndenter --;
   }
 
-  gIdtr--;
+  gIndenter--;
 
   os <<
     endl;
@@ -28861,7 +28861,7 @@ void msrPart::print (ostream& os)
     ")" <<
     endl;
     
-  gIdtr++;
+  gIndenter++;
   
   const int fieldWidth = 19;
 
@@ -28901,9 +28901,9 @@ void msrPart::print (ostream& os)
       "Harmony staff:" <<
       endl;
             
-    gIdtr++;
+    gIndenter++;
     os << fPartHarmonyStaff;
-    gIdtr--;
+    gIndenter--;
   }
 */
 
@@ -28912,10 +28912,10 @@ void msrPart::print (ostream& os)
     "Part master staff:" <<
     endl <<
     endl;
-  gIdtr++;
+  gIndenter++;
   os <<
     fPartMasterStaff;
-  gIdtr--;
+  gIndenter--;
 
   // print the registered staves
   if (fPartStavesMap.size()) {
@@ -28924,7 +28924,7 @@ void msrPart::print (ostream& os)
       endl <<
       endl;
 
-    gIdtr++;
+    gIndenter++;
     
     for (
       map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
@@ -29008,10 +29008,10 @@ void msrPart::print (ostream& os)
         } // switch
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrPart::printStructure (ostream& os)
@@ -29025,7 +29025,7 @@ void msrPart::printStructure (ostream& os)
     ")" <<
     endl;
     
-  gIdtr++;
+  gIndenter++;
   
   const int fieldWidth = 27;
 
@@ -29062,10 +29062,10 @@ void msrPart::printStructure (ostream& os)
       "Master staff" <<
       endl;
             
-    gIdtr++;
+    gIndenter++;
     os <<
       fPartMasterStaff;
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the harmony staff // JMI specifically?
@@ -29074,10 +29074,10 @@ void msrPart::printStructure (ostream& os)
       "Harmony staff" <<
       endl;
             
-    gIdtr++;
+    gIndenter++;
     os <<
       fPartHarmonyStaff;
-    gIdtr--;
+    gIndenter--;
   }
 
   // print the staves
@@ -29086,7 +29086,7 @@ void msrPart::printStructure (ostream& os)
       "Other staves" <<
       endl;
               
-    gIdtr++;
+    gIndenter++;
   
     map<int, S_msrStaff>::const_iterator
       iBegin = fPartStavesMap.begin(),
@@ -29099,10 +29099,10 @@ void msrPart::printStructure (ostream& os)
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -29286,7 +29286,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
       "After addPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
       endl;
         
-    gIdtr++;
+    gIndenter++;
     
     for (
         map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin();
@@ -29298,7 +29298,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
         endl;
     } // for
     
-    gIdtr--;
+    gIndenter--;
     
     gLogIos <<
  // JMI     "% ==> addPartToPartGroup" <<
@@ -29313,13 +29313,13 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
         iEnd   = fPartGroupElements.end(),
         i      = iBegin;
         
-      gIdtr++;
+      gIndenter++;
       for ( ; ; ) {
         gLogIos << (*i);
         if (++i == iEnd) break;
         gLogIos << endl;
       } // for
-      gIdtr--;
+      gIndenter--;
     }
     
     gLogIos <<
@@ -29501,7 +29501,7 @@ void msrPartGroup::print (ostream& os)
     ")" <<
     endl;
     
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 23;
   
@@ -29563,7 +29563,7 @@ void msrPartGroup::print (ostream& os)
     } // for
   }
   
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrPartGroup::printStructure (ostream& os)
@@ -29576,7 +29576,7 @@ void msrPartGroup::printStructure (ostream& os)
     ")" <<
     endl;
     
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 24;
   
@@ -29612,16 +29612,16 @@ void msrPartGroup::printStructure (ostream& os)
       iEnd   = fPartGroupElements.end(),
       i      = iBegin;
       
-    gIdtr++;
+    gIndenter++;
     for ( ; ; ) {
       (*i)->printStructure (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
-    gIdtr--;
+    gIndenter--;
   }
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -29914,7 +29914,7 @@ void msrIdentification::print (ostream& os)
 
   bool emptyIdentification = true;
 
-  gIdtr++;
+  gIndenter++;
   
   if (fWorkNumber) {
     os << fWorkNumber;
@@ -30022,7 +30022,7 @@ void msrIdentification::print (ostream& os)
 
 // JMI  os << endl;
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -30239,7 +30239,7 @@ void msrScore::print (ostream& os)
     ")" <<
     endl << endl;
 
-  gIdtr++;
+  gIndenter++;
   
   // print the identification if any
   if (fIdentification) {
@@ -30277,7 +30277,7 @@ void msrScore::print (ostream& os)
     os << endl;
   } // for
   
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrScore::printStructure (ostream& os)
@@ -30293,7 +30293,7 @@ void msrScore::printStructure (ostream& os)
     ", parts and staves not shown" <<
     endl << endl;
 
-  gIdtr++;
+  gIndenter++;
   
   if (fIdentification) {
     os << fIdentification;
@@ -30324,7 +30324,7 @@ void msrScore::printStructure (ostream& os)
       printStructure (os);
   } // for
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -30406,7 +30406,7 @@ void msrMidi::print (ostream& os)
 {
   os << "Midi" << endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 18;
 
@@ -30419,7 +30419,7 @@ void msrMidi::print (ostream& os)
     endl <<
     endl;
       
-  gIdtr--;
+  gIndenter--;
 }    
 
 

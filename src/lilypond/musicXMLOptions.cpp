@@ -153,7 +153,7 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
     "The MusicXML options are:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   // trace and display
   // --------------------------------------
@@ -162,14 +162,14 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
     "Trace and display:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     setw (fieldWidth) << "traceMusicXMLTreeVisitors" << " : " <<
     booleanAsString (fTraceMusicXMLTreeVisitors) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
       
   // other
   // --------------------------------------
@@ -178,7 +178,7 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
     "Other:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
@@ -189,10 +189,10 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
     booleanAsString (fLoopToMusicXML) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 
 
-  gIdtr--;
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)

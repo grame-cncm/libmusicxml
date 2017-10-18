@@ -176,14 +176,14 @@ void msrOptionsElement::printHeader (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  gIdtr.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
   
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  gIdtr.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
 }
 
 void msrOptionsElement::printElementEssentials (
@@ -227,14 +227,14 @@ void msrOptionsElement::printHelp (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  gIdtr.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
   
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  gIdtr.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
@@ -287,7 +287,7 @@ void msrOptionsItem::print (ostream& os) const
     "OptionsItem ???:" <<
       endl;
 
-  gIdtr++;
+  gIndenter++;
 
   msrOptionsElement::printElementEssentials (
     os, fieldWidth);
@@ -344,19 +344,19 @@ void msrOptionsVersionItem::print (ostream& os) const
     "OptionsVersionItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
-  gIdtr++;
+  gIndenter++;
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
-  gIdtr--;
+  gIndenter--;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsVersionItem::printVersion (ostream& os) const
@@ -409,19 +409,19 @@ void msrOptionsHelpSummaryItem::print (ostream& os) const
     "OptionsHelpSummaryItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
-  gIdtr++;
+  gIndenter++;
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
-  gIdtr--;
+  gIndenter--;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsHelpSummaryItem::printHelpSummary (ostream& os) const
@@ -484,17 +484,17 @@ void msrOptionsBooleanItem::print (ostream& os) const
     "OptionsBooleanItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
-  gIdtr++;
+  gIndenter++;
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
-  gIdtr--;
+  gIndenter--;
 
   os << left <<
     setw (fieldWidth) <<
@@ -507,7 +507,7 @@ void msrOptionsBooleanItem::print (ostream& os) const
       fOptionsBooleanItemVariable) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsBooleanItem::printOptionsValues (
@@ -580,17 +580,17 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
     "OptionsTwoBooleansItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   msrOptionsElement::printElementEssentials (
     os, fieldWidth);
 
-  gIdtr++;
+  gIndenter++;
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
-  gIdtr--;
+  gIndenter--;
 
   os << left <<
     setw (fieldWidth) <<
@@ -603,7 +603,7 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
       fOptionsTwoBooleansItemVariable) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsTwoBooleansItem::printOptionsValues (
@@ -707,7 +707,7 @@ void msrOptionsValuedItem::print (ostream& os) const
     "OptionsValuedItem ???:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -723,14 +723,14 @@ void msrOptionsValuedItem::printHelp (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  gIdtr.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
   
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  gIdtr.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
 }
 
 void msrOptionsValuedItem::printOptionsValues (
@@ -788,12 +788,12 @@ void msrOptionsItemHelpItem::print (ostream& os) const
     "OptionsItemHelpItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   msrOptionsItemHelpItem::printValuedItemEssentials (
     os, fieldWidth);
 
-  gIdtr--;
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsItemHelpItem& elt)
@@ -852,7 +852,7 @@ void msrOptionsIntegerItem::print (ostream& os) const
     "OptionsIntegerItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -867,7 +867,7 @@ void msrOptionsIntegerItem::print (ostream& os) const
     fOptionsIntegerItemVariable <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsIntegerItem::printOptionsValues (
@@ -938,7 +938,7 @@ void msrOptionsFloatItem::print (ostream& os) const
     "OptionsFloatItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -953,7 +953,7 @@ void msrOptionsFloatItem::print (ostream& os) const
     fOptionsFloatItemVariable <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsFloatItem::printOptionsValues (
@@ -1024,7 +1024,7 @@ void msrOptionsStringItem::print (ostream& os) const
     "OptionsStringItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -1112,7 +1112,7 @@ void msrOptionsRationalItem::print (ostream& os) const
     "OptionsRationalItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -1196,7 +1196,7 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
     "OptionsNumbersSetItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -1332,7 +1332,7 @@ void msrOptionsPitchesLanguageItem::print (ostream& os) const
     "OptionsPitchesLanguageItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -1422,7 +1422,7 @@ void msrOptionsAccidentalStyleItem::print (ostream& os) const
     "OptionsAccidentalStyleItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -1512,7 +1512,7 @@ void msrOptionsChordsLanguageItem::print (ostream& os) const
     "OptionsChordsLanguageItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -1601,7 +1601,7 @@ void msrOptionsPartRenameItem::print (ostream& os) const
     "OptionsPartRenameItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -1646,7 +1646,7 @@ void msrOptionsPartRenameItem::printOptionsValues (
     os << "none";
   }
   else {
-    gIdtr++;
+    gIndenter++;
     
     os <<
       endl;
@@ -1668,7 +1668,7 @@ void msrOptionsPartRenameItem::printOptionsValues (
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
   
   os <<
@@ -1733,7 +1733,7 @@ void msrOptionsMidiTempoItem::print (ostream& os) const
     "OptionsMidiTempoItem:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   printValuedItemEssentials (
     os, fieldWidth);
@@ -1900,7 +1900,7 @@ void msrOptionsSubGroup::print (ostream& os) const
    "OptionsSubGroup:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   msrOptionsElement::printElementEssentials (
     os, fieldWidth);
@@ -1923,7 +1923,7 @@ void msrOptionsSubGroup::print (ostream& os) const
   if (fOptionsSubGroupItemsList.size ()) {
     os << endl;
     
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrOptionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin(),
@@ -1936,10 +1936,10 @@ void msrOptionsSubGroup::print (ostream& os) const
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsSubGroup::printHelp (ostream& os) const
@@ -1971,12 +1971,12 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
-    gIdtr++;
+    gIndenter++;
     os <<
-      gIdtr.indentMultiLineString (
+      gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-    gIdtr--;
+    gIndenter--;
 
     os <<
       endl;  
@@ -1985,7 +1985,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   switch (fOptionsSubGroupDescriptionVisibility) {
     case kAlwaysShowDescription:
       if (fOptionsSubGroupItemsList.size ()) {    
-        gIdtr++;
+        gIndenter++;
     
         list<S_msrOptionsItem>::const_iterator
           iBegin = fOptionsSubGroupItemsList.begin(),
@@ -2009,7 +2009,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
           }
         } // for
           
-        gIdtr--;
+        gIndenter--;
       }
       break;
       
@@ -2045,19 +2045,19 @@ void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
-    gIdtr++;
+    gIndenter++;
     os <<
-      gIdtr.indentMultiLineString (
+      gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-    gIdtr--;
+    gIndenter--;
 
     os <<
       endl;  
   }
       
   if (fOptionsSubGroupItemsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin(),
@@ -2070,7 +2070,7 @@ void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
       os << endl;
     } // for
       
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2113,12 +2113,12 @@ void msrOptionsSubGroup::printHelpSummary (
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
-    gIdtr++;
+    gIndenter++;
     os <<
-      gIdtr.indentMultiLineString (
+      gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2157,7 +2157,7 @@ void msrOptionsSubGroup::printOptionsItemForcedHelp (
 
   // print the options items
   if (fOptionsSubGroupItemsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin(),
@@ -2181,7 +2181,7 @@ void msrOptionsSubGroup::printOptionsItemForcedHelp (
       }
     } // for
     
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2202,7 +2202,7 @@ void msrOptionsSubGroup::printOptionsValues (
 
   // print the options items values
   if (fOptionsSubGroupItemsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin(),
@@ -2217,7 +2217,7 @@ void msrOptionsSubGroup::printOptionsValues (
   //    os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2331,7 +2331,7 @@ void msrOptionsGroup::print (ostream& os) const
     "OptionsGroup:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   msrOptionsElement::printElementEssentials (
     os, fieldWidth);
@@ -2346,7 +2346,7 @@ void msrOptionsGroup::print (ostream& os) const
   if (fOptionsGroupSubGroupsList.size ()) {
     os << endl;
     
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrOptionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin(),
@@ -2359,10 +2359,10 @@ void msrOptionsGroup::print (ostream& os) const
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsGroup::printHelp (ostream& os) const
@@ -2382,12 +2382,12 @@ void msrOptionsGroup::printHelp (ostream& os) const
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
-    gIdtr++;
+    gIndenter++;
     os <<
-      gIdtr.indentMultiLineString (
+      gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-    gIdtr--;
+    gIndenter--;
 
     os <<
       endl;  
@@ -2395,7 +2395,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
     
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin(),
@@ -2408,7 +2408,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
       os << endl;
     } // for
       
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2431,12 +2431,12 @@ void msrOptionsGroup::printOptionsSubGroupForcedHelp (
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
-    gIdtr++;
+    gIndenter++;
     os <<
-      gIdtr.indentMultiLineString (
+      gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-    gIdtr--;
+    gIndenter--;
 
     os <<
       endl;  
@@ -2444,7 +2444,7 @@ void msrOptionsGroup::printOptionsSubGroupForcedHelp (
     
   // print the target options subgroup
   if (fOptionsGroupSubGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin(),
@@ -2465,7 +2465,7 @@ void msrOptionsGroup::printOptionsSubGroupForcedHelp (
       }
     } // for
       
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2489,12 +2489,12 @@ void msrOptionsGroup::printOptionsItemForcedHelp (
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
-    gIdtr++;
+    gIndenter++;
     os <<
-      gIdtr.indentMultiLineString (
+      gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-    gIdtr--;
+    gIndenter--;
 
     os <<
       endl;  
@@ -2502,7 +2502,7 @@ void msrOptionsGroup::printOptionsItemForcedHelp (
     
   // print the target options subgroup
   if (fOptionsGroupSubGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin(),
@@ -2530,7 +2530,7 @@ void msrOptionsGroup::printOptionsItemForcedHelp (
     os <<
       endl;  
       
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2551,12 +2551,12 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
-    gIdtr++;
+    gIndenter++;
     os <<
-      gIdtr.indentMultiLineString (
+      gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-    gIdtr--;
+    gIndenter--;
 
     os <<
       endl;  
@@ -2564,7 +2564,7 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
     
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin(),
@@ -2578,7 +2578,7 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
  //     os << endl;
     } // for
       
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2603,12 +2603,12 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
 
   // print the description if any
   if (fOptionsElementDescription.size ()) {
-    gIdtr++;
+    gIndenter++;
     os <<
-      gIdtr.indentMultiLineString (
+      gIndenter.indentMultiLineString (
         fOptionsElementDescription) <<
       endl;
-    gIdtr--;
+    gIndenter--;
 
     os <<
       endl;  
@@ -2616,7 +2616,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
     
   // print the options subgroups
   if (fOptionsGroupSubGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin(),
@@ -2634,7 +2634,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
     os <<
       endl;
 
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2657,7 +2657,7 @@ void msrOptionsGroup::printOptionsValues (
 
   // print the options subgroups values
   if (fOptionsGroupSubGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin(),
@@ -2672,7 +2672,7 @@ void msrOptionsGroup::printOptionsValues (
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -2953,7 +2953,7 @@ void msrOptionsHandler::print (ostream& os) const
     "OptionsHandler:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   printElementEssentials (os, fieldWidth);
 
@@ -2979,7 +2979,7 @@ void msrOptionsHandler::print (ostream& os) const
     os <<
       endl;
     
-    gIdtr++;
+    gIndenter++;
     
     list<S_msrOptionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin(),
@@ -2992,17 +2992,17 @@ void msrOptionsHandler::print (ostream& os) const
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 void msrOptionsHandler::printHelp (ostream& os) const
 {
   // print the options handler preamble
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionHandlerPreamble) <<
       endl;
     
@@ -3018,17 +3018,17 @@ void msrOptionsHandler::printHelp (ostream& os) const
     endl;
   
   // print the options handler description
-  gIdtr++;
+  gIndenter++;
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
       endl <<
     endl;
-  gIdtr--;
+  gIndenter--;
     
   // print the options groups helps
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin(),
@@ -3041,7 +3041,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
       os << endl;
     } // for
     
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -3049,7 +3049,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
 {
   // print the options handler preamble
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionHandlerPreamble) <<
       endl;
     
@@ -3062,17 +3062,17 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
     endl;
 
   // print the options handler description
-  gIdtr++;
+  gIndenter++;
   os <<
-    gIdtr.indentMultiLineString (
+    gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
       endl <<
     endl;
-  gIdtr--;
+  gIndenter--;
     
   // print the options groups help summaries
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin(),
@@ -3085,7 +3085,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -3104,7 +3104,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
 
   // print the optons group subgroups specific help
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin(),
@@ -3123,7 +3123,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
     os <<
       endl;
       
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -3322,7 +3322,7 @@ void msrOptionsHandler::printOptionsValues (
   if (fOptionsHandlerOptionsGroupsList.size ()) {
     os << endl;
     
-    gIdtr++;
+    gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin(),
@@ -3337,7 +3337,7 @@ void msrOptionsHandler::printOptionsValues (
       os << endl;
     } // for
 
-    gIdtr--;
+    gIndenter--;
   }
 }
 
@@ -3387,7 +3387,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
       " elements):" <<
       endl;
     if (fOptionsElementsMap.size ()) {
-      gIdtr++;
+      gIndenter++;
       
       map<string, S_msrOptionsElement>::const_iterator
         iBegin = fOptionsElementsMap.begin(),
@@ -3397,15 +3397,15 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
         fLogOutputStream <<
           (*i).first << "-->" <<
           endl;
-        gIdtr++;
+        gIndenter++;
         (*i).second->
           printHeader (fLogOutputStream);
         if (++i == iEnd) break;
         fLogOutputStream << endl;
-        gIdtr--;
+        gIndenter--;
       } // for
       
-      gIdtr--;
+      gIndenter--;
     }
     fLogOutputStream <<
       endl;
@@ -3528,13 +3528,13 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
       endl;
   
     if (argumentsVectorSize) {
-      gIdtr++;
+      gIndenter++;
       for (unsigned int i = 0; i < argumentsVectorSize; i++) {
         fLogOutputStream <<
           fArgumentsVector [i] <<
           endl;
       } // for
-      gIdtr--;
+      gIndenter--;
     }
   }
 
@@ -4102,12 +4102,12 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " known MSR pitches languages are:" <<
           endl;
     
-        gIdtr++;
+        gIndenter++;
       
         s <<
           existingQuarterTonesPitchesLanguages ();
     
-        gIdtr--;
+        gIndenter--;
     
         optionError (s.str ());
         
@@ -4150,12 +4150,12 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " known LPSR accidental styles are:" <<
           endl;
     
-        gIdtr++;
+        gIndenter++;
       
         s <<
           existingLpsrAccidentalStyles ();
     
-        gIdtr--;
+        gIndenter--;
     
         optionError (s.str ());
         
@@ -4197,12 +4197,12 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " known LPSR chords languages apart from the default Ignatzek are:" <<
           endl;
     
-        gIdtr++;
+        gIndenter++;
       
         s <<
           existingLpsrChordsLanguages ();
     
-        gIdtr--;
+        gIndenter--;
     
         optionError (s.str ());
         

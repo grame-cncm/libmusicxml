@@ -131,12 +131,12 @@ This implies that no LilyPond code is generated.)",
         " known MSR pitches languages are:" <<
         endl;
   
-      gIdtr++;
+      gIndenter++;
     
       s <<
         existingQuarterTonesPitchesLanguages ();
   
-      gIdtr--;
+      gIndenter--;
   
       optionError (s.str ());
     }
@@ -550,7 +550,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     "The MSR options are:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   // trace and display
   // --------------------------------------
@@ -559,7 +559,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     "Trace and display:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
   
   gLogIos << left <<
     setw (fieldWidth) << "traceMsr" << " : " <<
@@ -578,7 +578,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     booleanAsString (fDisplayMsrSummary) <<
     endl;    
 
-  gIdtr--;
+  gIndenter--;
 
   // languages
   // --------------------------------------
@@ -587,7 +587,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
      "Languages:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
@@ -596,7 +596,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       "\"" <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 
   // parts
   // --------------------------------------
@@ -605,7 +605,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
      "Parts:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     setw (fieldWidth) << "parts renaming" << " : ";
@@ -629,7 +629,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gLogIos <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 
   // voices
   // --------------------------------------
@@ -638,7 +638,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     "Voices:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     setw (fieldWidth) <<
@@ -655,7 +655,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
       booleanAsString (fKeepSilentVoices) <<
       endl;
 
-  gIdtr--;
+  gIndenter--;
 
   // notes
   // --------------------------------------
@@ -664,7 +664,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
      "Notes:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left << 
     setw (fieldWidth) << "delayRestsDynamics" << " : " <<
@@ -687,7 +687,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     booleanAsString (fDelayRestsWedges) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
    
   // lyrics
   // --------------------------------------
@@ -696,7 +696,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     "Lyrics:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos <<
     setw (fieldWidth) << "showMsrStanzas" << " : " <<
@@ -707,7 +707,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     booleanAsString (fKeepMuteStanzas) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 
   // harmonies
   // --------------------------------------
@@ -716,7 +716,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     "Harmonies:" <<
     endl;
 
-  gIdtr++;    
+  gIndenter++;    
 
   gLogIos << left <<
     setw (fieldWidth) << "showHarmonyVoices" << " : " <<
@@ -726,7 +726,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     booleanAsString (fKeepEmptyHarmonyVoices) <<
     endl;
   
-  gIdtr--;
+  gIndenter--;
   
   // figured bass
   // --------------------------------------
@@ -735,7 +735,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     "Figured bass:" <<
     endl;
 
-  gIdtr++;    
+  gIndenter++;    
 
   gLogIos << left <<
     setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
@@ -745,9 +745,9 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     booleanAsString (fKeepEmptyFiguredBassVoices) <<
     endl;
   
-  gIdtr--;
+  gIndenter--;
   
-  gIdtr--;
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptions& elt)

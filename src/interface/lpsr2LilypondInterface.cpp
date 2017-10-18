@@ -71,7 +71,7 @@ void generateLilypondCodeFromLpsrScore (
   // create an indented output stream for the LilyPond code
   indentedOutputStream
     lilypondIndentedOutputStream (
-      cout, gIdtr);
+      cout, gIndenter);
   
   // create an lpsr2LilypondTranslator
   lpsr2LilypondTranslator

@@ -187,7 +187,7 @@ void lpsrParallelMusic::print (ostream& os)
       fParallelMusicElements.size(), "element", "elements") <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
   
   for (
     vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin();
@@ -202,7 +202,7 @@ void lpsrParallelMusic::print (ostream& os)
     os << fParallelMusicElements [i];
   } // for
 */ 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -284,7 +284,7 @@ void lpsrComment::print (ostream& os)
     "Comment" <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
   
   os <<
     "% " << fContents <<
@@ -294,7 +294,7 @@ void lpsrComment::print (ostream& os)
     os <<
       endl;
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -650,7 +650,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
     "LilypondVarValAssoc" <<
     endl;
   
-  gIdtr++;
+  gIndenter++;
 
   // escape quotes if any
   string variableName;
@@ -748,7 +748,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   
 // JMI  os << endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -846,7 +846,7 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
     "SchemeVarValAssoc" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   // escape quotes if any
   string variableName;
@@ -902,7 +902,7 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
   
  // JMI os << endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -988,7 +988,7 @@ void lpsrSchemeFunction::print (ostream& os)
     "SchemeFunction" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   // print resulting strings
   os <<
@@ -999,7 +999,7 @@ void lpsrSchemeFunction::print (ostream& os)
     "function code: \"" << fFunctionCode << "\"" <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -1072,7 +1072,7 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
 {
   os << "NewStaffgroupBlock" << endl;
 
-  gIdtr++;
+  gIndenter++;
   
   int size = fNewStaffgroupElements.size();
 
@@ -1080,7 +1080,7 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
     os << fNewStaffgroupElements[i];
   } // for
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -1157,12 +1157,12 @@ void lpsrNewStaffTuningBlock::print (ostream& os)
 {
   os << "NewStaffTuningBlock" << endl;
 
-  gIdtr++;
+  gIndenter++;
   
   os <<
     fStaffTuning;
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -1235,7 +1235,7 @@ void lpsrNewStaffBlock::print (ostream& os)
 {
   os << "NewStaffBlock" << endl;
 
-  gIdtr++;
+  gIndenter++;
   
   int size = fNewStaffElements.size();
 
@@ -1243,7 +1243,7 @@ void lpsrNewStaffBlock::print (ostream& os)
     os << fNewStaffElements[i];
   } // for
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -1319,9 +1319,9 @@ ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& nstf)
 void lpsrVariableUseCommand::print (ostream& os)
 {
   os << "VariableUseCommand" << endl;
-  gIdtr++;
+  gIndenter++;
   os << fVariableName << endl;
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -1448,7 +1448,7 @@ void lpsrContext::print (ostream& os)
   os <<
   endl;
   
-  gIdtr++;
+  gIndenter++;
 
   int size = fContextElements.size();
 
@@ -1456,7 +1456,7 @@ void lpsrContext::print (ostream& os)
     os << fContextElements[i];
   } // for
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2108,7 +2108,7 @@ void lpsrHeader::print (ostream& os)
 
   bool emptyHeader = true;
   
-  gIdtr++;
+  gIndenter++;
   
   if (fWorkNumber) {
     os << fWorkNumber;
@@ -2201,7 +2201,7 @@ void lpsrHeader::print (ostream& os)
     os <<
       " " << "nothing specified" << endl; // JMI
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2285,7 +2285,7 @@ void lpsrPaper::print (ostream& os) {
 
   bool emptyPaper = true;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 20;
   
@@ -2423,7 +2423,7 @@ void lpsrPaper::print (ostream& os) {
       endl;
   }
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2515,7 +2515,7 @@ void lpsrLayout::print (ostream& os)
 {
   os << "Layout" << endl;
 
-  gIdtr++;
+  gIndenter++;
 
   os <<
     "StaffSize: " << fStaffSize <<
@@ -2533,7 +2533,7 @@ void lpsrLayout::print (ostream& os)
     os << fLpsrSchemeVarValAssocs[i];
   } // for
   
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2669,7 +2669,7 @@ void lpsrStaffBlock::print (ostream& os)
       fStaffBlockElements.size(), "element", "elements") <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 31;
   
@@ -2696,7 +2696,7 @@ void lpsrStaffBlock::print (ostream& os)
     } // for
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2808,7 +2808,7 @@ void lpsrPartBlock::print (ostream& os)
       fPartBlockElements.size(), "element", "elements") <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   const int fieldWidth = 28;
 
@@ -2843,7 +2843,7 @@ void lpsrPartBlock::print (ostream& os)
     } // for
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2945,7 +2945,7 @@ void lpsrPartGroupBlock::print (ostream& os)
       fPartGroupBlockElements.size(), "element", "elements") <<
     endl << endl;
 
-  gIdtr++;
+  gIndenter++;
 
   if (fPartGroupBlockElements.size()) {  
     list<S_msrElement>::const_iterator
@@ -2959,7 +2959,7 @@ void lpsrPartGroupBlock::print (ostream& os)
     } // for
   }
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -3136,7 +3136,7 @@ void lpsrScoreBlock::print (ostream& os)
 {
   os << "ScoreBlock" << endl << endl;
 
-  gIdtr++;
+  gIndenter++;
 
   os <<
     fScoreBlockParallelMusic <<
@@ -3150,7 +3150,7 @@ void lpsrScoreBlock::print (ostream& os)
     fScoreBlockMidi <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -3956,7 +3956,7 @@ void lpsrScore::print (ostream& os)
     endl <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   // print the MSR structure (without the voices)
   fMsrScore->
@@ -4015,7 +4015,7 @@ void lpsrScore::print (ostream& os)
   os <<
     fScoreBlock;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________

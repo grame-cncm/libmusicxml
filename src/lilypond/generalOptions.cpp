@@ -844,14 +844,14 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     "The general options are:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   // command line
   // --------------------------------------
 
   gLogIos << left <<
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     setw (fieldWidth) << "input source name" << " : " <<
@@ -862,7 +862,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     fTranslationDate <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 
   // output file
   // --------------------------------------
@@ -871,7 +871,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     setw (fieldWidth) << "Output file:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<        
     setw (fieldWidth) << "outputFileName" << " : \"" <<
@@ -879,7 +879,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     "\"" <<
     endl <<
 
-  gIdtr--;
+  gIndenter--;
 
   // trace and display
   // --------------------------------------
@@ -888,7 +888,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     setw (fieldWidth) << "Trace and display:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     setw (fieldWidth) << "traceGeneral" << " : " <<
@@ -921,7 +921,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gLogIos <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 
   // CPU usage
   // --------------------------------------
@@ -930,14 +930,14 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     setw (fieldWidth) << "CPU usage:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos <<
     setw (fieldWidth) << "displayCPUusage" << " : " <<
     booleanAsString (fDisplayCPUusage) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
   
   // specific trace    
   // --------------------------------------
@@ -946,7 +946,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     setw (fieldWidth) << "Specific trace:" <<
     endl;
 
-  gIdtr++;
+  gIndenter++;
 
   gLogIos << left <<
     // divisions
@@ -1080,9 +1080,9 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     booleanAsString (fTraceCredits) <<
     endl;
 
-  gIdtr--;
+  gIndenter--;
 
-  gIdtr--;
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_generalOptions& elt)

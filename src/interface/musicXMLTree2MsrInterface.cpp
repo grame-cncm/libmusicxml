@@ -57,7 +57,7 @@ static S_msrScore xml2Msr (
     // create an indented output stream for the log
     indentedOutputStream
       logIndentedOutputStream (
-        cerr, gIdtr);
+        cerr, gIndenter);
     
     if (msrOpts->fDisplayMsr)
       // display the MSR
@@ -88,7 +88,7 @@ EXP S_msrScore musicxmlFile2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream ( // JMI ???
-      os, gIdtr);
+      os, gIndenter);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -143,7 +143,7 @@ EXP S_msrScore musicxmlFd2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, gIdtr);
+      os, gIndenter);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -199,7 +199,7 @@ EXP S_msrScore musicxmlString2Msr (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      os, gIdtr);
+      os, gIndenter);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
@@ -252,7 +252,7 @@ S_msrScore buildMSRFromElementsTree (
   // create an indented output stream for the log
   indentedOutputStream
     logIndentedOutputStream (
-      cerr, gIdtr);
+      cerr, gIndenter);
   
   if (gGeneralOptions->fTraceGeneral) {
     string separator =
