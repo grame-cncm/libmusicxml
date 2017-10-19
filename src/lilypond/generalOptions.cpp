@@ -27,20 +27,23 @@ S_generalOptions gGeneralOptions;
 S_generalOptions gGeneralOptionsUserChoices;
 S_generalOptions gGeneralOptionsWithDetailedTrace;
 
-S_generalOptions generalOptions::create ()
+S_generalOptions generalOptions::create (
+  S_msrOptionsHandler optionsHandler)
 {
-  generalOptions* o = new generalOptions();
+  generalOptions* o = new generalOptions (
+    optionsHandler);
   assert(o!=0);
   return o;
 }
 
-generalOptions::generalOptions ()
+generalOptions::generalOptions (
+  S_msrOptionsHandler optionsHandler)
   : msrOptionsGroup (
     "General",
     "hg", "helpGeneral",
 R"(Options that are used by various components of the library
-are grouped here.)"
-    )
+are grouped here.)",
+    optionsHandler)
 {
   // register translation date
   // ------------------------------------------------------
@@ -75,14 +78,15 @@ void generalOptions::initializeGeneralOptions (
     
     // options
   
-    S_msrOptionsSubGroup versionSubGroup =
-      msrOptionsSubGroup::create (
-        "Version",
-        "hgb", "helpGeneralVersion",
-R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
-  
+    S_msrOptionsSubGroup
+      versionSubGroup =
+        msrOptionsSubGroup::create (
+          "Version",
+          "hgb", "helpGeneralVersion",
+  R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
+    
     appendOptionsSubGroup (versionSubGroup);
   
     versionSubGroup->
@@ -101,13 +105,14 @@ R"(Display xml2lilypond's version number and exit.)"));
     
     // options
   
-    S_msrOptionsSubGroup helpSummarySubGroup =
-      msrOptionsSubGroup::create (
-        "Help summary",
-        "hghs", "helpGeneralHelpSummary",
-R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+    S_msrOptionsSubGroup
+      helpSummarySubGroup =
+        msrOptionsSubGroup::create (
+          "Help summary",
+          "hghs", "helpGeneralHelpSummary",
+  R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (helpSummarySubGroup);
   
@@ -127,13 +132,14 @@ R"(Display xml2lilypond's help summary and exit.)"));
     
     // options
   
-    S_msrOptionsSubGroup versionSubGroup =
-      msrOptionsSubGroup::create (
-        "Item help",
-        "hih", "helpItemHelp",
-R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+    S_msrOptionsSubGroup
+      versionSubGroup =
+        msrOptionsSubGroup::create (
+          "Item help",
+          "hih", "helpItemHelp",
+  R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (versionSubGroup);
   
@@ -156,13 +162,14 @@ R"(Print help about 'itemName'.)",
     
     // options
   
-    S_msrOptionsSubGroup outputFileSubGroup =
-      msrOptionsSubGroup::create (
-        "Output file",
-        "hgof", "helpGeneralOutputFile",
-R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+    S_msrOptionsSubGroup
+      outputFileSubGroup =
+        msrOptionsSubGroup::create (
+          "Output file",
+          "hgof", "helpGeneralOutputFile",
+  R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
             
     appendOptionsSubGroup (outputFileSubGroup);
     
@@ -201,13 +208,14 @@ or adding '.ly' if none is present.)",
     
     // options
     
-      S_msrOptionsSubGroup traceAndDisplaySubGroup =
-        msrOptionsSubGroup::create (
-          "Trace and display",
-          "hgtd", "helpGeneralTraceDansDisplay",
-R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-        );
+      S_msrOptionsSubGroup
+        traceAndDisplaySubGroup =
+          msrOptionsSubGroup::create (
+            "Trace and display",
+            "hgtd", "helpGeneralTraceDansDisplay",
+  R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
     
       appendOptionsSubGroup (traceAndDisplaySubGroup);
           
@@ -246,13 +254,14 @@ debugging information to standard error for the specified measures.)",
       
     // options
   
-    S_msrOptionsSubGroup CPUUsageSubGroup =
-      msrOptionsSubGroup::create (
-        "CPU usage",
-        "hgcu", "helpGeneralCPUUsage",
-R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+    S_msrOptionsSubGroup
+      CPUUsageSubGroup =
+        msrOptionsSubGroup::create (
+          "CPU usage",
+          "hgcu", "helpGeneralCPUUsage",
+  R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (CPUUsageSubGroup);
         
@@ -369,13 +378,14 @@ R"()",
     
     // options
   
-    S_msrOptionsSubGroup specificTraceSubGroup =
-      msrOptionsSubGroup::create (
-        "Specific trace",
-        "hgst", "helpGeneralSpecificTrace",
-R"(Note: the options in this group imply '-t, -traceGeneral'.)",
-      msrOptionsSubGroup::kHideDescriptionByDefault
-      );
+    S_msrOptionsSubGroup
+      specificTraceSubGroup =
+        msrOptionsSubGroup::create (
+          "Specific trace",
+          "hgst", "helpGeneralSpecificTrace",
+  R"(Note: the options in this group imply '-t, -traceGeneral'.)",
+        msrOptionsSubGroup::kHideDescriptionByDefault,
+        this);
   
     appendOptionsSubGroup (specificTraceSubGroup);
 
@@ -689,7 +699,8 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
 {
   S_generalOptions
     clone =
-      generalOptions::create ();
+      generalOptions::create (
+        fOptionsHandlerUplink);
 
 
   // command line
@@ -1092,9 +1103,11 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializeGeneralOptions ()
+void initializeGeneralOptions (
+  S_msrOptionsHandler optionsHandler)
 {  
-  gGeneralOptionsUserChoices = generalOptions::create ();
+  gGeneralOptionsUserChoices = generalOptions::create (
+    optionsHandler);
   assert(gGeneralOptionsUserChoices != 0);
 
   gGeneralOptions =

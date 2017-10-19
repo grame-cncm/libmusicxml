@@ -100,8 +100,8 @@ extern S_lpsrOptions gLpsrOptions;
 extern S_lpsrOptions gLpsrOptionsUserChoices;
 extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
-
-void initializeLilypondOptions (
+//______________________________________________________________________________
+void initializeLpsrOptions (
   S_msrOptionsHandler optionsHandler);
 
 

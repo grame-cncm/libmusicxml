@@ -20,7 +20,10 @@
 
 #include "utilities.h"
 
+#include "generalOptions.h"
 #include "musicXMLOptions.h"
+#include "msrOptions.h"
+#include "lpsrOptions.h"
 #include "lilypondOptions.h"
 
 #include "xml2lilypondOptionsHandling.h"
@@ -102,30 +105,13 @@ int main (int argc, char *argv[])
     optionsHandler);
   initializeMusicXMLOptions (
     optionsHandler);
-  initializeMSROptions (
+  initializeMsrOptions (
     optionsHandler);
-  initializeLPSROptions (
+  initializeLpsrOptions (
     optionsHandler);
   initializeLilypondOptions (
     optionsHandler);
     
-  // create the options variables
-  // ------------------------------------------------------
-
-  // MSR options
-  
-  gMsrOptionsUserChoices = msrOptions::create ();
-  assert(gMsrOptionsUserChoices != 0);
-
-  gMsrOptions =
-    gMsrOptionsUserChoices;
-
-  // prepare for measure detailed trace
-
-  gMsrOptionsWithDetailedTrace =
-    gMsrOptions->
-      createCloneWithDetailedTrace ();
-
   // analyze the command line options and arguments
   // ------------------------------------------------------
 

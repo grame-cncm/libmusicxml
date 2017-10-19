@@ -324,7 +324,7 @@ ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializeLilypondOptions (
+void initializeLpsrOptions (
   S_msrOptionsHandler optionsHandler)
 {
   // create the options variables

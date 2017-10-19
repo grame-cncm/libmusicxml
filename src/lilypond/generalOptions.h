@@ -26,7 +26,8 @@ class EXP generalOptions : public msrOptionsGroup
 {
   public:
 
-    static SMARTP<generalOptions> create ();
+    static SMARTP<generalOptions> create (
+      S_msrOptionsHandler optionsHandler);
     
     SMARTP<generalOptions>        createCloneWithDetailedTrace ();
   public:
@@ -46,9 +47,10 @@ class EXP generalOptions : public msrOptionsGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    generalOptions();
+    generalOptions (
+      S_msrOptionsHandler optionsHandler);
   
-    virtual ~generalOptions();
+    virtual ~generalOptions ();
 
   public:
 
@@ -217,7 +219,8 @@ extern S_generalOptions gGeneralOptionsWithDetailedTrace;
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-void initializeGeneralOptions ();
+void initializeGeneralOptions (
+  S_msrOptionsHandler optionsHandler);
 
 
 /*! @} */
