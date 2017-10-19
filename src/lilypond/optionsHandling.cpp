@@ -562,6 +562,33 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
   }
 }
 
+void msrOptionsCombinedItemsItem::setCombinedItemsVariablesValue (
+  bool value)
+{
+  if (fOptionsCombinedItemsList.size ()) {
+    list<S_msrOptionsItem>::const_iterator
+      iBegin = fOptionsCombinedItemsList.begin(),
+      iEnd   = fOptionsCombinedItemsList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      S_msrOptionsItem
+        optionItem = (*i);
+
+      if (
+        // boolean item?
+        S_msrOptionsBooleanItem
+          optionsBooleanItem =
+            dynamic_cast<msrOptionsBooleanItem*>(&(*optionItem))
+        ) {
+        // set the boolean value
+        optionsBooleanItem->
+          setBooleanItemVariableValue (value);
+      }          
+    } // for
+  }
+}
+
 void msrOptionsCombinedItemsItem::print (ostream& os) const
 {
   const int fieldWidth = FIELD_WIDTH;
@@ -3027,7 +3054,7 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
     this);
 */
 
-/* JMI
+//* JMI
   for (
     list<S_msrOptionsGroup>::const_iterator
       i = fOptionsHandlerOptionsGroupsList.begin();
@@ -3038,7 +3065,7 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
       registerOptionsGroupInHandler (
         this);
   } // for
-  */
+ // */
 }
 
 S_msrOptionsElement msrOptionsHandler::fetchOptionsElementFromMap (
@@ -4007,6 +4034,17 @@ void msrOptionsHandler::handleOptionsItemName (
 
         // exit
         exit (0);
+      }
+      
+      else if (
+        // combined items item?
+        S_msrOptionsCombinedItemsItem
+          optionsCombinedItemsItem =
+            dynamic_cast<msrOptionsCombinedItemsItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsCombinedItemsItem->
+          setCombinedItemsVariablesValue (true);
       }
       
       else if (

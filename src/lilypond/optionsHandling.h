@@ -346,6 +346,9 @@ class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
     void                  appendOptionsItemToCombinedItemsList (
                             string optionsItemName);
 
+    void                  setCombinedItemsVariablesValue (
+                            bool value);
+
     // print
     // ------------------------------------------------------
 
@@ -354,7 +357,7 @@ class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
-
+  
   private:
   
     // fields
