@@ -511,8 +511,28 @@ void msrOptionsCombinedItemsItem::appendOptionsItem (
   else {
     // optionsItemName is known, let's handle it
 
-    fOptionsCombinedItemsList.push_back (
-      optionsElement);
+    if (
+      // options item?
+      S_msrOptionsItem
+        optionsItem =
+          dynamic_cast<msrOptionsItem*>(&(*optionsElement))
+      ) {
+      // handle the option item
+      fOptionsCombinedItemsList.push_back (
+        optionsItem);
+    }
+
+    else {
+      stringstream s;
+  
+      s <<
+        "option name '" << optionsItemName <<
+        "' is not that of an item";
+        
+      optionError (s.str ());
+  
+      exit (2);
+    }
   }
 }
 
