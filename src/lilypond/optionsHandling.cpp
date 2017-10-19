@@ -20,6 +20,8 @@
 #include "version.h"
 #include "utilities.h"
 
+#include "messagesHandling.h"
+
 #include "optionsHandling.h"
 
 
@@ -484,6 +486,11 @@ void msrOptionsCombinedItemsItem::appendOptionsItem (
         getOptionsGroupUplink ()->
           getOptionsHandlerUplink ();
 
+  // sanity check
+  msrAssert (
+    optionsHandler != 0,
+    "optionsHandler is null");
+    
   // is optionsItemName known in options elements map?
   S_msrOptionsElement
     optionsElement =

@@ -13,8 +13,6 @@
 #ifndef __msrMessages__
 #define __msrMessages__
 
-//#include "lpsr.h"
-
 
 using namespace std;
 
