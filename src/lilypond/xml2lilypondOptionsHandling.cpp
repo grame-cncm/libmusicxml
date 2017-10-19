@@ -126,7 +126,8 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
     
   initializeLilypondOptionsHandling (
     this);
-    
+
+    /* JMI
   // append the various options groups
   // ------------------------------------------------------
   
@@ -144,6 +145,7 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
     
   appendOptionsGroup (
     gLilypondOptions);
+*/
 
   if (TRACE_OPTIONS) {
     // print the options handler initial state
@@ -164,8 +166,8 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 
   // register options handler in itself,
   // so that the 'global' help options can be handled
-  this->
-    registerOptionsHandlerInItself ();
+//  this->
+//    registerOptionsHandlerInItself ();
 
   if (TRACE_OPTIONS) {
     fOptionsHandlerLogIOstream <<

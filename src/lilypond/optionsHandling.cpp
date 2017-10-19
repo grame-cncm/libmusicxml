@@ -455,9 +455,9 @@ ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt)
 
 //______________________________________________________________________________
 S_msrOptionsCombinedItemsItem msrOptionsCombinedItemsItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription)
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
 {
   msrOptionsCombinedItemsItem* o = new
     msrOptionsCombinedItemsItem (
@@ -469,9 +469,9 @@ S_msrOptionsCombinedItemsItem msrOptionsCombinedItemsItem::create (
 }
 
 msrOptionsCombinedItemsItem::msrOptionsCombinedItemsItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription)
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
@@ -523,14 +523,15 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
     stringstream s;
 
     s <<
-      "option name '" << optionsItemName <<
-      "' is unknown" <<
-      endl <<
-      "the above help summary may help you";
+      "INTERNAL ERROR: option name '" << optionsItemName <<
+      "' is unknown";
       
     optionError (s.str ());
 
-    exit (2);
+ //   optionsHandler->
+ //     print (cout);
+      
+//    abort ();
   }
 
   else {
@@ -576,11 +577,7 @@ void msrOptionsCombinedItemsItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsCombinedItemsItemVariableDisplayName" << " : " <<
- //   fOptionsCombinedItemsItemVariableDisplayName <<
-    setw (fieldWidth) <<
- //   "fOptionsCombinedItemsItemVariable" << " : " <<
-    endl;
+    "fOptionsCombinedItemsList" << " : ";
 
     if (fOptionsCombinedItemsList.empty ()) {
       os <<
@@ -589,6 +586,11 @@ void msrOptionsCombinedItemsItem::print (ostream& os) const
       
     else {
       os <<
+        endl;
+
+    gIndenter++;
+
+    os <<
         "'";
         
       list<S_msrOptionsItem>::const_iterator
@@ -606,6 +608,8 @@ void msrOptionsCombinedItemsItem::print (ostream& os) const
         "'";
     }
 
+    gIndenter--;
+    
     os <<
       endl;
 }
@@ -3023,6 +3027,7 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
     this);
 */
 
+/* JMI
   for (
     list<S_msrOptionsGroup>::const_iterator
       i = fOptionsHandlerOptionsGroupsList.begin();
@@ -3033,6 +3038,7 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
       registerOptionsGroupInHandler (
         this);
   } // for
+  */
 }
 
 S_msrOptionsElement msrOptionsHandler::fetchOptionsElementFromMap (
@@ -3142,7 +3148,7 @@ void msrOptionsHandler::registerOptionsNamesInHandler (
         " is specified more that once";
         
       optionError (s.str ());
-      abort ();
+ // JMI     abort ();
     }
 
     // is optionShortName already in the options names map?
@@ -3156,7 +3162,7 @@ void msrOptionsHandler::registerOptionsNamesInHandler (
           " is specified more that once";
           
         optionError (s.str ());
-        abort ();
+  // JMI      abort ();
       }
     }
   } // for

@@ -97,26 +97,6 @@ int main (int argc, char *argv[])
     optionsHandler =
       xml2lilypondOptionsHandler::create (
         gLogIOstream);
-
-/* JMI
-  // initialize options handling
-  // ------------------------------------------------------
-
-  initializeGeneralOptionsHandling (
-    optionsHandler);
-    
-  initializeMusicXMLOptionsHandling (
-    optionsHandler);
-    
-  initializeMsrOptionsHandling (
-    optionsHandler);
-    
-  initializeLpsrOptionsHandling (
-    optionsHandler);
-    
-  initializeLilypondOptionsHandling (
-    optionsHandler);
-    */
     
   // analyze the command line options and arguments
   // ------------------------------------------------------
