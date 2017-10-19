@@ -3812,9 +3812,6 @@ void msrOptionsHandler::handleOptionsItemName (
       optionsGroup->
         printHelp (
           fOptionsHandlerLogIOstream);
-      
-      fOptionsHandlerLogIOstream <<
-        endl;
     }
     
     else if (
