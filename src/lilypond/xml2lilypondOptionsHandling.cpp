@@ -133,8 +133,8 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
   appendOptionsGroup (
     gGeneralOptions);
     
-  appendOptionsGroup (
-    gMusicXMLOptions);
+ // appendOptionsGroup (
+//    gMusicXMLOptions);
     
   appendOptionsGroup (
     gMsrOptions);

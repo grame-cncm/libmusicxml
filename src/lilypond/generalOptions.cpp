@@ -45,6 +45,20 @@ R"(Options that are used by various components of the library
 are grouped here.)",
     optionsHandler)
 {
+  // append this options group to the options handler
+  optionsHandler->
+    appendOptionsGroup (this);
+
+  // initialize it
+  initializeGeneralOptions (false);
+}
+
+generalOptions::~generalOptions ()
+{}
+
+void generalOptions::initializeGeneralOptions (
+  bool boolOptionsInitialValue)
+{
   // register translation date
   // ------------------------------------------------------
 
@@ -60,16 +74,7 @@ are grouped here.)",
     fTranslationDate = buffer;
   }
 
-  // initialize options
-  initializeGeneralOptions (false);
-}
 
-generalOptions::~generalOptions ()
-{}
-
-void generalOptions::initializeGeneralOptions (
-  bool boolOptionsInitialValue)
-{
   // version
   // --------------------------------------
 
@@ -83,7 +88,7 @@ void generalOptions::initializeGeneralOptions (
         msrOptionsSubGroup::create (
           "Version",
           "hgb", "helpGeneralVersion",
-  R"()",
+R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
     
@@ -110,7 +115,7 @@ R"(Display xml2lilypond's version number and exit.)"));
         msrOptionsSubGroup::create (
           "Help summary",
           "hghs", "helpGeneralHelpSummary",
-  R"()",
+R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
   
@@ -137,7 +142,7 @@ R"(Display xml2lilypond's help summary and exit.)"));
         msrOptionsSubGroup::create (
           "Item help",
           "hih", "helpItemHelp",
-  R"()",
+R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
   
@@ -167,7 +172,7 @@ R"(Print help about 'itemName'.)",
         msrOptionsSubGroup::create (
           "Output file",
           "hgof", "helpGeneralOutputFile",
-  R"()",
+R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
             
@@ -213,7 +218,7 @@ or adding '.ly' if none is present.)",
           msrOptionsSubGroup::create (
             "Trace and display",
             "hgtd", "helpGeneralTraceDansDisplay",
-  R"()",
+R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
     
@@ -259,7 +264,7 @@ debugging information to standard error for the specified measures.)",
         msrOptionsSubGroup::create (
           "CPU usage",
           "hgcu", "helpGeneralCPUUsage",
-  R"()",
+R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
   
@@ -269,7 +274,7 @@ debugging information to standard error for the specified measures.)",
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "dCPU", "displayCPUusage",
-  R"(Write a trace of the general activity to standard error.)",
+R"(Write a trace of the general activity to standard error.)",
           "displayCPUusage",
           fDisplayCPUusage));
   }
@@ -383,7 +388,7 @@ debugging information to standard error for the specified measures.)",
         msrOptionsSubGroup::create (
           "Specific trace",
           "hgst", "helpGeneralSpecificTrace",
-  R"(Note: the options in this group imply '-t, -traceGeneral'.)",
+R"(Note: the options in this group imply '-t, -traceGeneral'.)",
         msrOptionsSubGroup::kHideDescriptionByDefault,
         this);
   

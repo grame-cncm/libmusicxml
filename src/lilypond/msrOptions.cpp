@@ -46,6 +46,11 @@ msrOptions::msrOptions (
 R"(These options control the way MSR data is handled.)",
     optionsHandler)
 {
+  // append this options group to the options handler
+  optionsHandler->
+    appendOptionsGroup (this);
+
+  // initialize it
   initializeMsrOptions (false);
 }
 

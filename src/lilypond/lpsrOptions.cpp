@@ -45,6 +45,11 @@ lpsrOptions::lpsrOptions (
 R"(These options control the way LPSR data is handled.)",
     optionsHandler)
 {
+  // append this options group to the options handler
+  optionsHandler->
+    appendOptionsGroup (this);
+
+  // initialize it
   initializeLpsrOptions (false);
 }
 

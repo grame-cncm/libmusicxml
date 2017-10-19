@@ -45,6 +45,11 @@ lilypondOptions::lilypondOptions (
 R"(These options control which LilyPond code is generated.)",
     optionsHandler)
 {
+  // append this options group to the options handler
+  optionsHandler->
+    appendOptionsGroup (this);
+
+  // initialize it
   initializeLilypondOptions (false);
 }
 

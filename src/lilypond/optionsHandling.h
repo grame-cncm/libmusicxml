@@ -340,10 +340,10 @@ class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
     // services
     // ------------------------------------------------------
 
-    void                  appendOptionsItem (
+    void                  appendOptionsItemToCombinedItemsList (
                             S_msrOptionsItem optionsItem);
 
-    void                  appendOptionsItem (
+    void                  appendOptionsItemToCombinedItemsList (
                             string optionsItemName);
 
     // print

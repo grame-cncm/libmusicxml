@@ -46,6 +46,11 @@ musicXMLOptions::musicXMLOptions (
 R"(These options control the way MusicXML data is translated.)",
     optionsHandler)
 {
+  // append this options group to the options handler
+  optionsHandler->
+    appendOptionsGroup (this);
+
+  // initialize it
   initializeMusicXMLOptions (false);
 }
 
@@ -223,13 +228,13 @@ R"(Useful settings for MusicXML data exported from Cubase.)");
         cubaseCombinedItemsItem);
 
     cubaseCombinedItemsItem->
-      appendOptionsItem (
+      appendOptionsItemToCombinedItemsList (
         "ignoreRedundantClefs");
     cubaseCombinedItemsItem->
-      appendOptionsItem (
+      appendOptionsItemToCombinedItemsList (
         "ignoreRedundantKeys");
     cubaseCombinedItemsItem->
-      appendOptionsItem (
+      appendOptionsItemToCombinedItemsList (
         "ignoreRedundantTimes");
   }
 }
@@ -353,7 +358,7 @@ ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)
 void initializeMusicXMLOptionsHandling (
   S_msrOptionsHandler optionsHandler)
 {
-  // MusicXML options
+  // create the MusicXML options
   // ------------------------------------------------------
   
   gMusicXMLOptionsUserChoices = musicXMLOptions::create (

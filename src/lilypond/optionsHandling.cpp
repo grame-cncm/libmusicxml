@@ -481,7 +481,7 @@ msrOptionsCombinedItemsItem::msrOptionsCombinedItemsItem (
 msrOptionsCombinedItemsItem::~msrOptionsCombinedItemsItem()
 {}
 
-void msrOptionsCombinedItemsItem::appendOptionsItem (
+void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
   S_msrOptionsItem optionsItem)
 {
   // sanity check
@@ -493,7 +493,7 @@ void msrOptionsCombinedItemsItem::appendOptionsItem (
     optionsItem);
 }
 
-void msrOptionsCombinedItemsItem::appendOptionsItem (
+void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
   string optionsItemName)
 {
   // get the options handler
