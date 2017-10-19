@@ -3423,7 +3423,7 @@ void msrOptionsHandler::printSpecificItemHelp (
 
     s <<
       "option name '" << optionsItemName <<
-      "' is not well handled";
+      "' is not well handled in msrOptionsHandler::printSpecificItemHelp()";
       
     optionError (s.str ());
     abort ();
@@ -3859,7 +3859,7 @@ void msrOptionsHandler::handleOptionsItemName (
 
     s <<
       "option name '" << optionsItemName <<
-      "' is not well handled";
+      "' is not well handled in msrOptionsHandler::handleOptionsItemName()";
       
     optionError (s.str ());
     abort ();

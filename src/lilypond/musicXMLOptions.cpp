@@ -230,6 +230,7 @@ R"(Useful settings for MusicXML data exported from Cubase.)");
       appendOptionsItem (
         cubaseCombinedItemsItem);
 
+/* JMI
     cubaseCombinedItemsItem->
       appendOptionsItemToCombinedItemsList (
         "ignoreRedundantClefs");
@@ -239,6 +240,7 @@ R"(Useful settings for MusicXML data exported from Cubase.)");
     cubaseCombinedItemsItem->
       appendOptionsItemToCombinedItemsList (
         "ignoreRedundantTimes");
+        */
   }
 }
 
