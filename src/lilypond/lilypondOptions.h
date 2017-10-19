@@ -42,7 +42,8 @@ class EXP lilypondOptions : public msrOptionsGroup
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<lilypondOptions> create ();
+    static SMARTP<lilypondOptions> create (
+      S_msrOptionsHandler optionsHandler);
     
     SMARTP<lilypondOptions>        createCloneWithDetailedTrace ();
 
@@ -63,9 +64,10 @@ class EXP lilypondOptions : public msrOptionsGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    lilypondOptions();
+    lilypondOptions (
+      S_msrOptionsHandler optionsHandler);
     
-    virtual ~lilypondOptions();
+    virtual ~lilypondOptions ();
 
     // set and get
     // ------------------------------------------------------
@@ -194,6 +196,15 @@ EXP ostream& operator<< (ostream& os, const S_lilypondOptions& elt);
 extern S_lilypondOptions gLilypondOptions;
 extern S_lilypondOptions gLilypondOptionsUserChoices;
 extern S_lilypondOptions gLilypondOptionsWithDetailedTrace;
+
+/*!
+\brief A msr midi representation.
+
+  A midi is represented by variable/value pairs
+*/
+//______________________________________________________________________________
+void initializeLilypondOptions (
+  S_msrOptionsHandler optionsHandler);
 
 
 /*! @} */

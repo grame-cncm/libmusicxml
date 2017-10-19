@@ -50,7 +50,7 @@ class EXP msrOptions : public msrOptionsGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptions(
+    msrOptions (
       S_msrOptionsHandler optionsHandler);
   
     virtual ~msrOptions ();

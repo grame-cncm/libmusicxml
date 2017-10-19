@@ -423,7 +423,7 @@ It is thrown away in such a case by default.)",
       msrOptionsSubGroup::create (
         "Figured bass",
         "hmsrfb", "helpMsrFiguredBass",
-  R"()",
+R"()",
       msrOptionsSubGroup::kAlwaysShowDescription,
       this);
   

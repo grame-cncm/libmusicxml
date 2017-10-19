@@ -102,7 +102,13 @@ int main (int argc, char *argv[])
     optionsHandler);
   initializeMusicXMLOptions (
     optionsHandler);
-
+  initializeMSROptions (
+    optionsHandler);
+  initializeLPSROptions (
+    optionsHandler);
+  initializeLilypondOptions (
+    optionsHandler);
+    
   // create the options variables
   // ------------------------------------------------------
 

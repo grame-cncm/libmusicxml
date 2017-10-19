@@ -28,7 +28,8 @@ class EXP lpsrOptions : public msrOptionsGroup
 {
   public:
 
-    static SMARTP<lpsrOptions> create ();
+    static SMARTP<lpsrOptions> create (
+      S_msrOptionsHandler optionsHandler);
     
     SMARTP<lpsrOptions>        createCloneWithDetailedTrace ();
 
@@ -49,9 +50,10 @@ class EXP lpsrOptions : public msrOptionsGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrOptions();
+    lpsrOptions (
+      S_msrOptionsHandler optionsHandler);
     
-    virtual ~lpsrOptions();
+    virtual ~lpsrOptions ();
 
     // set and get
     // ------------------------------------------------------
@@ -97,6 +99,10 @@ EXP ostream& operator<< (ostream& os, const S_lpsrOptions& elt);
 extern S_lpsrOptions gLpsrOptions;
 extern S_lpsrOptions gLpsrOptionsUserChoices;
 extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
+
+
+void initializeLilypondOptions (
+  S_msrOptionsHandler optionsHandler);
 
 
 /*! @} */

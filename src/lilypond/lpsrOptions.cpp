@@ -28,24 +28,27 @@ S_lpsrOptions gLpsrOptions;
 S_lpsrOptions gLpsrOptionsUserChoices;
 S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
-S_lpsrOptions lpsrOptions::create ()
+S_lpsrOptions lpsrOptions::create (
+  S_msrOptionsHandler optionsHandler)
 {
-  lpsrOptions* o = new lpsrOptions();
+  lpsrOptions* o = new lpsrOptions (
+    optionsHandler);
   assert(o!=0);
   return o;
 }
 
-lpsrOptions::lpsrOptions()
+lpsrOptions::lpsrOptions (
+  S_msrOptionsHandler optionsHandler)
   : msrOptionsGroup (
     "LPSR",
     "hlpsr", "helpLPSR",
-R"(These options control the way LPSR data is handled.)"
-    )
+R"(These options control the way LPSR data is handled.)",
+    optionsHandler)
 {
   initializeLpsrOptions (false);
 }
 
-lpsrOptions::~lpsrOptions()
+lpsrOptions::~lpsrOptions ()
 {}
 
 void lpsrOptions::initializeLpsrOptions (
@@ -68,13 +71,14 @@ void lpsrOptions::initializeLpsrOptions (
   
     // options
   
-    S_msrOptionsSubGroup traceAndDisplaySubGroup =
-      msrOptionsSubGroup::create (
-        "Trace and display",
-        "hlpsrtd", "helpLpsrTraceAndDisplay",
+    S_msrOptionsSubGroup
+      traceAndDisplaySubGroup =
+        msrOptionsSubGroup::create (
+          "Trace and display",
+          "hlpsrtd", "helpLpsrTraceAndDisplay",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
         
@@ -141,13 +145,14 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
   
     // options
     
-    S_msrOptionsSubGroup languagesSubGroup =
-      msrOptionsSubGroup::create (
-        "Languages",
-        "hlpsrl", "helpLpsrlanguages",
+    S_msrOptionsSubGroup
+      languagesSubGroup =
+        msrOptionsSubGroup::create (
+          "Languages",
+          "hlpsrl", "helpLpsrlanguages",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (languagesSubGroup);
       
@@ -184,7 +189,8 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 {
   S_lpsrOptions
     clone =
-      lpsrOptions::create ();
+      lpsrOptions::create (
+        fOptionsHandlerUplink);
 
   // trace and display
   // --------------------------------------
@@ -315,6 +321,27 @@ ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
 {
   elt->print (os);
   return os;
+}
+
+//______________________________________________________________________________
+void initializeLilypondOptions (
+  S_msrOptionsHandler optionsHandler)
+{
+  // create the options variables
+  // ------------------------------------------------------
+
+  // LPSR options
+  
+  gLpsrOptionsUserChoices = lpsrOptions::create (
+    optionsHandler);
+  assert(gLpsrOptionsUserChoices != 0);
+  
+  gLpsrOptions =
+    gLpsrOptionsUserChoices;
+
+  gLpsrOptionsWithDetailedTrace =
+    gLpsrOptions->
+      createCloneWithDetailedTrace ();
 }
 
 

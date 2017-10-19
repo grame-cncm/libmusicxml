@@ -28,24 +28,27 @@ S_lilypondOptions gLilypondOptions;
 S_lilypondOptions gLilypondOptionsUserChoices;
 S_lilypondOptions gLilypondOptionsWithDetailedTrace;
 
-S_lilypondOptions lilypondOptions::create ()
+S_lilypondOptions lilypondOptions::create (
+  S_msrOptionsHandler optionsHandler)
 {
-  lilypondOptions* o = new lilypondOptions();
+  lilypondOptions* o = new lilypondOptions (
+    optionsHandler);
   assert(o!=0);
   return o;
 }
 
-lilypondOptions::lilypondOptions()
+lilypondOptions::lilypondOptions (
+  S_msrOptionsHandler optionsHandler)
   : msrOptionsGroup (
     "LilyPond",
     "hlp", "helpLilypond",
-R"(These options control which LilyPond code is generated.)"
-    )
+R"(These options control which LilyPond code is generated.)",
+    optionsHandler)
 {
   initializeLilypondOptions (false);
 }
 
-lilypondOptions::~lilypondOptions()
+lilypondOptions::~lilypondOptions ()
 {}
 
 void lilypondOptions::initializeLilypondOptions (
@@ -59,13 +62,14 @@ void lilypondOptions::initializeLilypondOptions (
     
     fNumericalTime = boolOptionsInitialValue;
   
-    S_msrOptionsSubGroup timeSubGroup =
-      msrOptionsSubGroup::create (
-        "Time",
-        "hlilyti", "helpLilypondtime",
+    S_msrOptionsSubGroup
+      timeSubGroup =
+        msrOptionsSubGroup::create (
+          "Time",
+          "hlilyti", "helpLilypondtime",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (timeSubGroup);
 
@@ -101,13 +105,14 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
   
     fNoteInputLineNumbers = boolOptionsInitialValue;
   
-    S_msrOptionsSubGroup notesSubGroup =
-      msrOptionsSubGroup::create (
-        "Notes",
-        "hlilyn", "helpLilypondNotes",
+    S_msrOptionsSubGroup
+      notesSubGroup =
+        msrOptionsSubGroup::create (
+          "Notes",
+          "hlilyn", "helpLilypondNotes",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (notesSubGroup);
 
@@ -211,13 +216,14 @@ its MusicXML input line number.)",
   
     // options
   
-    S_msrOptionsSubGroup barsSubGroup =
-      msrOptionsSubGroup::create (
-        "Bars",
-        "hlilyb", "helpLilypondBars",
+    S_msrOptionsSubGroup
+      barsSubGroup =
+        msrOptionsSubGroup::create (
+          "Bars",
+          "hlilyb", "helpLilypondBars",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (barsSubGroup);
 
@@ -245,13 +251,14 @@ R"(Generate LilyPond code to show all bar numbers.)",
     
     // options
   
-    S_msrOptionsSubGroup lineBreaksSubGroup =
-      msrOptionsSubGroup::create (
-        "Line breaks",
-        "hlilylb", "helpLilypondLineBreaks",
+    S_msrOptionsSubGroup
+      lineBreaksSubGroup =
+        msrOptionsSubGroup::create (
+          "Line breaks",
+          "hlilylb", "helpLilypondLineBreaks",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (lineBreaksSubGroup);
 
@@ -296,13 +303,14 @@ Nothing special is done by default.)",
   
     // options
   
-    S_msrOptionsSubGroup pageBreaksSubGroup =
-      msrOptionsSubGroup::create (
-        "Page breaks",
-        "hlilypb", "helpLilypondPageBreaks",
+    S_msrOptionsSubGroup
+      pageBreaksSubGroup =
+        msrOptionsSubGroup::create (
+          "Page breaks",
+          "hlilypb", "helpLilypondPageBreaks",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (pageBreaksSubGroup);
 
@@ -327,13 +335,14 @@ and let LilyPond decide about them.)",
   
     // options
   
-    S_msrOptionsSubGroup stavesSubGroup =
-      msrOptionsSubGroup::create (
-        "Staves",
-        "hlilys", "helpLilypondStaves",
+    S_msrOptionsSubGroup
+      stavesSubGroup =
+        msrOptionsSubGroup::create (
+          "Staves",
+          "hlilys", "helpLilypondStaves",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (stavesSubGroup);
 
@@ -357,13 +366,14 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
     
     // options
   
-    S_msrOptionsSubGroup tupletsSubGroup =
-      msrOptionsSubGroup::create (
-        "Tuplets",
-        "hlilytu", "helpLilypondTuplets",
+    S_msrOptionsSubGroup
+      tupletsSubGroup =
+        msrOptionsSubGroup::create (
+          "Tuplets",
+          "hlilytu", "helpLilypondTuplets",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (tupletsSubGroup);
 
@@ -388,13 +398,14 @@ R"(Keep tuplets notes on the same line, instead of
   
     // options
   
-    S_msrOptionsSubGroup repeatsSubGroup =
-      msrOptionsSubGroup::create (
-        "Repeats",
-        "hlilyr", "helpLilypondRepeats",
+    S_msrOptionsSubGroup
+      repeatsSubGroup =
+        msrOptionsSubGroup::create (
+          "Repeats",
+          "hlilyr", "helpLilypondRepeats",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (repeatsSubGroup);
 
@@ -417,13 +428,14 @@ R"(Generate repeats with brackets instead of regular bar lines)",
   
     // options
   
-    S_msrOptionsSubGroup ornamentsSubGroup =
-      msrOptionsSubGroup::create (
-        "Ornaments",
-        "hlilyo", "helpLilypondOrnaments",
+    S_msrOptionsSubGroup
+      ornamentsSubGroup =
+        msrOptionsSubGroup::create (
+          "Ornaments",
+          "hlilyo", "helpLilypondOrnaments",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (ornamentsSubGroup);
 
@@ -450,13 +462,14 @@ The default value is '2/3'.)",
   
     // options
   
-    S_msrOptionsSubGroup fontsSubGroup =
-      msrOptionsSubGroup::create (
-        "Fonts",
-        "hfonts", "helpFonts",
+    S_msrOptionsSubGroup
+      fontsSubGroup =
+        msrOptionsSubGroup::create (
+          "Fonts",
+          "hfonts", "helpFonts",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (fontsSubGroup);
 
@@ -491,13 +504,14 @@ This font should be installed so that LilyPond can use it.)",
   
     // options
   
-    S_msrOptionsSubGroup codeGenerationSubGroup =
-      msrOptionsSubGroup::create (
-        "Code generation",
-        "hlilycg", "helpLilypondCodeGeneration",
+    S_msrOptionsSubGroup
+      codeGenerationSubGroup =
+        msrOptionsSubGroup::create (
+          "Code generation",
+          "hlilycg", "helpLilypondCodeGeneration",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (codeGenerationSubGroup);
 
@@ -569,13 +583,14 @@ when LilyPond creates the score.)",
     
     // options
   
-    S_msrOptionsSubGroup scoreNotationSubGroup =
-      msrOptionsSubGroup::create (
-        "Score notation",
-        "hlilysn", "helpLilypondScoreNotation",
+    S_msrOptionsSubGroup
+      scoreNotationSubGroup =
+        msrOptionsSubGroup::create (
+          "Score notation",
+          "hlilysn", "helpLilypondScoreNotation",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (scoreNotationSubGroup);
 
@@ -608,13 +623,14 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
     
     // options
   
-    S_msrOptionsSubGroup midiSubGroup =
-      msrOptionsSubGroup::create (
-        "Midi",
-        "hlilym", "helpLilypondMidi",
+    S_msrOptionsSubGroup
+      midiSubGroup =
+        msrOptionsSubGroup::create (
+          "Midi",
+          "hlilym", "helpLilypondMidi",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
   
     appendOptionsSubGroup (midiSubGroup);
 
@@ -669,7 +685,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 {
   S_lilypondOptions
     clone =
-      lilypondOptions::create ();
+      lilypondOptions::create (
+        fOptionsHandlerUplink);
 
   // time
   
@@ -1112,6 +1129,30 @@ ostream& operator<< (ostream& os, const S_lilypondOptions& elt)
 {
   elt->print (os);
   return os;
+}
+
+//______________________________________________________________________________
+void initializeLilypondOptions (
+  S_msrOptionsHandler optionsHandler)
+{
+  // create the options variables
+  // ------------------------------------------------------
+
+  // LilyPond options
+  
+  gLilypondOptionsUserChoices = lilypondOptions::create (
+    optionsHandler);
+  assert(gLilypondOptionsUserChoices != 0);
+  
+  gLilypondOptions =
+    gLilypondOptionsUserChoices;
+
+  // prepare for measure detailed trace
+  // ------------------------------------------------------
+
+  gLilypondOptionsWithDetailedTrace =
+    gLilypondOptions->
+      createCloneWithDetailedTrace ();
 }
 
 

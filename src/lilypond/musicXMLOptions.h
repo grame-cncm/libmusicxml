@@ -103,6 +103,7 @@ extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 void initializeMusicXMLOptions (
   S_msrOptionsHandler optionsHandler);
 
+
 /*! @} */
 
 }
