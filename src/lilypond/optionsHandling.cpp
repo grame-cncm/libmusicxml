@@ -525,6 +525,7 @@ void msrOptionsCombinedItemsItem::appendOptionsItem (
     s <<
       "option name '" << optionsItemName <<
       "' is unknown" <<
+      endl <<
       "the above help summary may help you";
       
     optionError (s.str ());
