@@ -1419,7 +1419,9 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
       string optionsSubGroupLongName,
       string optionsSubGroupDescription,
       msrOptionsSubGroupDescriptionVisibility
-             optionsSubGroupDescriptionVisibility);
+             optionsSubGroupDescriptionVisibility,
+      S_msrOptionsGroup
+             optionsGroupUplink);
      
   protected:
 
@@ -1432,7 +1434,9 @@ class EXP msrOptionsSubGroup : public msrOptionsElement
       string optionsSubGroupLongName,
       string optionsSubGroupDescription,
       msrOptionsSubGroupDescriptionVisibility
-             optionsSubGroupDescriptionVisibility);
+             optionsSubGroupDescriptionVisibility,
+      S_msrOptionsGroup
+             optionsGroupUplink);
     
     virtual ~msrOptionsSubGroup();
 
@@ -1530,7 +1534,9 @@ class EXP msrOptionsGroup : public msrOptionsElement
       string optionsGroupHelpHeader,
       string optionGroupShortName,
       string optionGroupLongName,
-      string optionGroupDescription);
+      string optionGroupDescription,
+      S_msrOptionsHandler
+             optionsHandlerUplink);
      
   protected:
 
@@ -1541,7 +1547,9 @@ class EXP msrOptionsGroup : public msrOptionsElement
       string optionsGroupHelpHeader,
       string optionGroupShortName,
       string optionGroupLongName,
-      string optionGroupDescription);
+      string optionGroupDescription,
+      S_msrOptionsHandler
+             optionsHandlerUplink);
       
     virtual ~msrOptionsGroup();
 
@@ -1600,13 +1608,18 @@ class EXP msrOptionsGroup : public msrOptionsElement
                             ostream& os,
                             int      valueFieldWidth) const;
 
+  protected:
+
+    // uplink
+    // ------------------------------------------------------
+
+    S_msrOptionsHandler   fOptionsHandlerUplink;
+    
   private:
 
     // fields
     // ------------------------------------------------------
 
-    S_msrOptionsHandler   fOptionsHandlerUplink;
-    
     string                fOptionsGroupHelpHeader;
 
     list<S_msrOptionsSubGroup>

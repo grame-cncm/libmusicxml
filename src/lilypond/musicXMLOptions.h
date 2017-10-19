@@ -27,7 +27,8 @@ class EXP musicXMLOptions : public msrOptionsGroup
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<musicXMLOptions> create ();
+    static SMARTP<musicXMLOptions> create (
+      S_msrOptionsHandler optionsHandler);
     
     SMARTP<musicXMLOptions>        createCloneWithDetailedTrace ();
     
@@ -44,9 +45,10 @@ class EXP musicXMLOptions : public msrOptionsGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    musicXMLOptions();
+    musicXMLOptions (
+      S_msrOptionsHandler optionsHandler);
   
-    virtual ~musicXMLOptions();
+    virtual ~musicXMLOptions ();
  
   public:
 
@@ -98,7 +100,8 @@ extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-void initializeMusicXMLOptions ();
+void initializeMusicXMLOptions (
+  S_msrOptionsHandler optionsHandler);
 
 /*! @} */
 

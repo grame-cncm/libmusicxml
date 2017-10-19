@@ -29,19 +29,22 @@ S_musicXMLOptions gMusicXMLOptions;
 S_musicXMLOptions gMusicXMLOptionsUserChoices;
 S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
-S_musicXMLOptions musicXMLOptions::create ()
+S_musicXMLOptions musicXMLOptions::create (
+  S_msrOptionsHandler optionsHandler)
 {
-  musicXMLOptions* o = new musicXMLOptions();
+  musicXMLOptions* o = new musicXMLOptions(
+    optionsHandler);
   assert(o!=0);
   return o;
 }
 
-musicXMLOptions::musicXMLOptions ()
+musicXMLOptions::musicXMLOptions (
+  S_msrOptionsHandler optionsHandler)
   : msrOptionsGroup (
     "MusicXML",
     "hmxml", "helpMusicXML",
-R"(These options control the way MusicXML data is translated.)"
-    )
+R"(These options control the way MusicXML data is translated.)",
+    optionsHandler)
 {
   initializeMusicXMLOptions (false);
 }
@@ -62,13 +65,14 @@ void musicXMLOptions::initializeMusicXMLOptions (
   
     // options
   
-    S_msrOptionsSubGroup traceAndDisplaySubGroup =
-      msrOptionsSubGroup::create (
-        "Trace and display",
-        "hmxmltd", "helpMusicXMLTraceAndDisplay",
+    S_msrOptionsSubGroup
+      traceAndDisplaySubGroup =
+        msrOptionsSubGroup::create (
+          "Trace and display",
+          "hmxmltd", "helpMusicXMLTraceAndDisplay",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription
-      );
+          msrOptionsSubGroup::kAlwaysShowDescription,
+          this);
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
         
@@ -92,13 +96,14 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
   
     // options
   
-    S_msrOptionsSubGroup errorHandlingSubGroup =
-      msrOptionsSubGroup::create (
-        "Error handling",
-        "hmxmleh", "helpMusicXMLErrorHandling",
+    S_msrOptionsSubGroup
+      errorHandlingSubGroup =
+        msrOptionsSubGroup::create (
+          "Error handling",
+          "hmxmleh", "helpMusicXMLErrorHandling",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription
-      );
+          msrOptionsSubGroup::kAlwaysShowDescription,
+          this);
   
     appendOptionsSubGroup (errorHandlingSubGroup);
   
@@ -126,13 +131,14 @@ R"(Don't stop the translation after issuing a MusicXML error message.)",
   
     // options
   
-    S_msrOptionsSubGroup clefsKeysTimesSubGroup =
-      msrOptionsSubGroup::create (
-        "Clefs, keys, times",
-        "hmxmlckt", "helpMusicXMLClefsKeysTimes",
+    S_msrOptionsSubGroup
+      clefsKeysTimesSubGroup =
+        msrOptionsSubGroup::create (
+          "Clefs, keys, times",
+          "hmxmlckt", "helpMusicXMLClefsKeysTimes",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription
-      );
+          msrOptionsSubGroup::kAlwaysShowDescription,
+          this);
   
     appendOptionsSubGroup (clefsKeysTimesSubGroup);
   
@@ -194,13 +200,14 @@ The file name receives a '_loop' suffix. Currently under development.)",
   
     // options
   
-    S_msrOptionsSubGroup combinedOptionsSubGroup =
-      msrOptionsSubGroup::create (
-        "Combined options",
-        "hmxmlco", "helpMusicXMLCombinedOptions",
+    S_msrOptionsSubGroup
+      combinedOptionsSubGroup =
+        msrOptionsSubGroup::create (
+          "Combined options",
+          "hmxmlco", "helpMusicXMLCombinedOptions",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription
-      );
+          msrOptionsSubGroup::kAlwaysShowDescription,
+          this);
   
     appendOptionsSubGroup (combinedOptionsSubGroup);
 
@@ -231,7 +238,8 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
 {
   S_musicXMLOptions
     clone =
-      musicXMLOptions::create ();
+      musicXMLOptions::create (
+        fOptionsHandlerUplink);
 
   // trace and display
   // --------------------------------------
@@ -246,6 +254,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
     fIgnoreMusicXMLErrors;
     
   // clefs, keys, times
+  // --------------------------------------
     
   clone->fIgnoreRedundantClefs =
     fIgnoreRedundantClefs;
@@ -341,11 +350,13 @@ ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializeMusicXMLOptions ()
+void initializeMusicXMLOptions (
+  S_msrOptionsHandler optionsHandler)
 {
   // MusicXML options
   
-  gMusicXMLOptionsUserChoices = musicXMLOptions::create ();
+  gMusicXMLOptionsUserChoices = musicXMLOptions::create (
+    optionsHandler);
   assert(gMusicXMLOptionsUserChoices != 0);
 
   gMusicXMLOptions =

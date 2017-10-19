@@ -484,7 +484,11 @@ msrOptionsCombinedItemsItem::~msrOptionsCombinedItemsItem()
 void msrOptionsCombinedItemsItem::appendOptionsItem (
   S_msrOptionsItem optionsItem)
 {
-
+  // sanity check
+  msrAssert (
+    optionsItem != 0,
+    "optionsItem is null");
+    
   fOptionsCombinedItemsList.push_back (
     optionsItem);
 }
@@ -1989,7 +1993,9 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
   string optionsSubGroupLongName,
   string optionsSubGroupDescription,
   msrOptionsSubGroupDescriptionVisibility
-         optionsSubGroupDescriptionVisibility)
+         optionsSubGroupDescriptionVisibility,
+  S_msrOptionsGroup
+         optionsGroupUplink)
 {
   msrOptionsSubGroup* o = new
     msrOptionsSubGroup (
@@ -1997,7 +2003,8 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription,
-      optionsSubGroupDescriptionVisibility);
+      optionsSubGroupDescriptionVisibility,
+      optionsGroupUplink);
   assert(o!=0);
   return o;
 }
@@ -2008,12 +2015,17 @@ msrOptionsSubGroup::msrOptionsSubGroup (
   string optionsSubGroupLongName,
   string optionsSubGroupDescription,
   msrOptionsSubGroupDescriptionVisibility
-         optionsSubGroupDescriptionVisibility)
+         optionsSubGroupDescriptionVisibility,
+  S_msrOptionsGroup
+         optionsGroupUplink)
   : msrOptionsElement (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
 {
+  fOptionsGroupUplink =
+    optionsGroupUplink;
+  
   fOptionsSubGroupHelpHeader =
     optionsSubGroupHelpHeader;
 
@@ -2073,6 +2085,12 @@ void msrOptionsSubGroup::registerOptionsSubGroupInHandler (
 void msrOptionsSubGroup::appendOptionsItem (
   S_msrOptionsItem optionsItem)
 {
+  // sanity check
+  msrAssert (
+    optionsItem != 0,
+    "optionsItem is null");
+
+  // append options item
   fOptionsSubGroupItemsList.push_back (
     optionsItem);
 
@@ -2442,7 +2460,9 @@ S_msrOptionsGroup msrOptionsGroup::create (
   string optionsGroupHelpHeader,
   string optionGroupShortName,
   string optionGroupLongName,
-  string optionGroupDescription)
+  string optionGroupDescription,
+  S_msrOptionsHandler
+         optionsHandlerUplink)
 {
   msrOptionsGroup* o = new
     msrOptionsGroup (
@@ -2458,12 +2478,16 @@ msrOptionsGroup::msrOptionsGroup (
   string optionsGroupHelpHeader,
   string optionGroupShortName,
   string optionGroupLongName,
-  string optionGroupDescription)
+  string optionGroupDescription,
+  S_msrOptionsHandler
+         optionsHandlerUplink)
   : msrOptionsElement (
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription)
 {
+  fOptionsHandlerUplink = optionsHandlerUplink;
+  
   fOptionsGroupHelpHeader = optionsGroupHelpHeader;
 }
 
@@ -2495,6 +2519,11 @@ void msrOptionsGroup::underlineHeader (ostream& os) const
 void msrOptionsGroup::registerOptionsGroupInHandler (
   S_msrOptionsHandler optionsHandler)
 {
+  // sanity check
+  msrAssert (
+    optionsHandler != 0,
+    "optionsHandler is null");
+
   // set options handler uplink
   setOptionsHandlerUplink (optionsHandler);
 
@@ -2517,6 +2546,12 @@ void msrOptionsGroup::registerOptionsGroupInHandler (
 void  msrOptionsGroup::appendOptionsSubGroup (
   S_msrOptionsSubGroup optionsSubGroup)
 {
+  // sanity check
+  msrAssert (
+    optionsSubGroup != 0,
+    "optionsSubGroup is null");
+
+  // append options subgroup
   fOptionsGroupSubGroupsList.push_back (
     optionsSubGroup);
 
@@ -3452,7 +3487,8 @@ void msrOptionsHandler::printSpecificItemHelp (
       // get the options group uplink
       S_msrOptionsGroup
         optionsGroup =
-          optionsSubGroup-> getOptionsGroupUplink ();
+          optionsSubGroup->
+            getOptionsGroupUplink ();
           
       // print the help
       fOptionsHandlerLogIOstream <<
@@ -3484,12 +3520,14 @@ void msrOptionsHandler::printSpecificItemHelp (
       // get the options subgroup uplink
       S_msrOptionsSubGroup
         optionsSubGroup =
-          optionsItem-> getOptionsSubGroupUplink ();
+          optionsItem->
+            getOptionsSubGroupUplink ();
           
       // get the options group uplink
       S_msrOptionsGroup
         optionsGroup =
-          optionsSubGroup-> getOptionsGroupUplink ();
+          optionsSubGroup->
+            getOptionsGroupUplink ();
 
       // print the help
       fOptionsHandlerLogIOstream <<
@@ -3570,14 +3608,19 @@ ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
 void msrOptionsHandler::appendOptionsGroup (
   S_msrOptionsGroup optionsGroup)
 {
-  // set the uplink
-  optionsGroup->
-    setOptionsHandlerUplink (this);
-  
+  // sanity check
+  msrAssert (
+    optionsGroup != 0,
+    "optionsGroup is null");
+
   // append the options group
   fOptionsHandlerOptionsGroupsList.push_back (
     optionsGroup);
-}
+
+  // set the uplink
+  optionsGroup->
+    setOptionsHandlerUplink (this);
+  }
 
 S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
   string optiontElementName)
@@ -3904,7 +3947,8 @@ void msrOptionsHandler::handleOptionsItemName (
       // get the options group uplink
       S_msrOptionsGroup
         optionsGroup =
-          optionsSubGroup-> getOptionsGroupUplink ();
+          optionsSubGroup->
+            getOptionsGroupUplink ();
           
       // print the help
       fOptionsHandlerLogIOstream <<
