@@ -28,7 +28,8 @@ class EXP msrOptions : public msrOptionsGroup
 {
   public:
 
-    static SMARTP<msrOptions> create ();
+    static SMARTP<msrOptions> create (
+      S_msrOptionsHandler optionsHandler);
       
     SMARTP<msrOptions>        createCloneWithDetailedTrace ();
 
@@ -49,9 +50,10 @@ class EXP msrOptions : public msrOptionsGroup
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptions();
+    msrOptions(
+      S_msrOptionsHandler optionsHandler);
   
-    virtual ~msrOptions();
+    virtual ~msrOptions ();
  
     // set and get
     // ------------------------------------------------------

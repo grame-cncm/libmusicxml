@@ -29,19 +29,22 @@ S_msrOptions gMsrOptions;
 S_msrOptions gMsrOptionsUserChoices;
 S_msrOptions gMsrOptionsWithDetailedTrace;
 
-S_msrOptions msrOptions::create ()
+S_msrOptions msrOptions::create (
+  S_msrOptionsHandler optionsHandler)
 {
-  msrOptions* o = new msrOptions();
+  msrOptions* o = new msrOptions(
+    optionsHandler);
   assert(o!=0);
   return o;
 }
 
-msrOptions::msrOptions ()
+msrOptions::msrOptions (
+  S_msrOptionsHandler optionsHandler)
   : msrOptionsGroup (
     "MSR",
     "hmsr", "helpMSR",
-R"(These options control the way MSR data is handled.)"
-    )
+R"(These options control the way MSR data is handled.)",
+    optionsHandler)
 {
   initializeMsrOptions (false);
 }
@@ -73,8 +76,8 @@ void msrOptions::initializeMsrOptions (
         "Trace and display",
         "hmsrtd", "helpMsrTraceAndDisplay",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+      msrOptionsSubGroup::kAlwaysShowDescription,
+      this);
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
       
@@ -148,8 +151,8 @@ This implies that no LilyPond code is generated.)",
         "Languages",
         "hmsrlang", "helpMsrLanguages",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+      msrOptionsSubGroup::kAlwaysShowDescription,
+      this);
   
     appendOptionsSubGroup (languagesSubGroup);
 
@@ -181,8 +184,8 @@ The default is to use 'nederlands'.)",
         "Parts",
         "hmsrp", "helpMsrParts",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+      msrOptionsSubGroup::kAlwaysShowDescription,
+      this);
   
     appendOptionsSubGroup (partsSubGroup);
 
@@ -226,8 +229,8 @@ There can be several occurrences of this option.)",
         "Voices",
         "hmsrv", "helpMsrVoices",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+      msrOptionsSubGroup::kAlwaysShowDescription,
+      this);
   
     appendOptionsSubGroup (voicesSubGroup);
 
@@ -279,8 +282,8 @@ By default, there are removed after usage.)",
         "Notes",
         "hmsrn", "helpMsrNotes",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+      msrOptionsSubGroup::kAlwaysShowDescription,
+      this);
   
     appendOptionsSubGroup (notesSubGroup);
 
@@ -341,8 +344,8 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
         "Lyrics",
         "hmsrlyrd", "helpMsrLyrics",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+      msrOptionsSubGroup::kAlwaysShowDescription,
+      this);
   
     appendOptionsSubGroup (lyricsSubGroup);
 
@@ -380,8 +383,8 @@ By default, there are removed after usage.)",
         "Harmonies",
         "hmsrh", "helpMsrHarmonies",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+      msrOptionsSubGroup::kAlwaysShowDescription,
+      this);
   
     appendOptionsSubGroup (harmoniesSubGroup);
 
@@ -421,8 +424,8 @@ It is thrown away in such a case by default.)",
         "Figured bass",
         "hmsrfb", "helpMsrFiguredBass",
   R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-      );
+      msrOptionsSubGroup::kAlwaysShowDescription,
+      this);
   
     appendOptionsSubGroup (figuredBassSubGroup);
 
@@ -451,7 +454,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 {
   S_msrOptions
     clone =
-      msrOptions::create ();
+      msrOptions::create (
+        fOptionsHandlerUplink);
 
   // trace and display
   // --------------------------------------

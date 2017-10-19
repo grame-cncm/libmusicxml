@@ -95,6 +95,31 @@ int main (int argc, char *argv[])
       xml2lilypondOptionsHandler::create (
         gLogIOstream);
 
+  // initialize options handling
+  // ------------------------------------------------------
+
+  initializeGeneralOptions (
+    optionsHandler);
+  initializeMusicXMLOptions (
+    optionsHandler);
+
+  // create the options variables
+  // ------------------------------------------------------
+
+  // MSR options
+  
+  gMsrOptionsUserChoices = msrOptions::create ();
+  assert(gMsrOptionsUserChoices != 0);
+
+  gMsrOptions =
+    gMsrOptionsUserChoices;
+
+  // prepare for measure detailed trace
+
+  gMsrOptionsWithDetailedTrace =
+    gMsrOptions->
+      createCloneWithDetailedTrace ();
+
   // analyze the command line options and arguments
   // ------------------------------------------------------
 

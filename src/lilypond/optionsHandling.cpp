@@ -2469,7 +2469,8 @@ S_msrOptionsGroup msrOptionsGroup::create (
       optionsGroupHelpHeader,
       optionGroupShortName,
       optionGroupLongName,
-      optionGroupDescription);
+      optionGroupDescription,
+      optionsHandlerUplink);
   assert(o!=0);
   return o;
 }

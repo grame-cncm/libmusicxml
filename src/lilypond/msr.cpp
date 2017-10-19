@@ -30515,29 +30515,6 @@ void initializeMSR ()
 
   initializeQuarterTonesPitchesLanguages ();
   
-  // options handling
-  // ------------------------------------------------------
-
-  initializeGeneralOptions ();
-  initializeMusicXMLOptions ();
-
-  // create the options variables
-  // ------------------------------------------------------
-
-  // MSR options
-  
-  gMsrOptionsUserChoices = msrOptions::create ();
-  assert(gMsrOptionsUserChoices != 0);
-
-  gMsrOptions =
-    gMsrOptionsUserChoices;
-
-  // prepare for measure detailed trace
-
-  gMsrOptionsWithDetailedTrace =
-    gMsrOptions->
-      createCloneWithDetailedTrace ();
-
   // harmony handling
   // ------------------------------------------------------
 
