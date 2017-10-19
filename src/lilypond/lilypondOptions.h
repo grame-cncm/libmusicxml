@@ -203,7 +203,7 @@ extern S_lilypondOptions gLilypondOptionsWithDetailedTrace;
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-void initializeLilypondOptions (
+void initializeLilypondOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
 

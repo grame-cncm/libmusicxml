@@ -761,14 +761,12 @@ ostream& operator<< (ostream& os, const S_msrOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializeMsrOptions (
+void initializeMsrOptionsHandling (
   S_msrOptionsHandler optionsHandler)
 {
-  // create the options variables
-  // ------------------------------------------------------
-
   // MSR options
-  
+  // ------------------------------------------------------
+ 
   gMsrOptionsUserChoices = msrOptions::create (
     optionsHandler);
   assert(gMsrOptionsUserChoices != 0);
@@ -777,6 +775,7 @@ void initializeMsrOptions (
     gMsrOptionsUserChoices;
 
   // prepare for measure detailed trace
+  // ------------------------------------------------------
 
   gMsrOptionsWithDetailedTrace =
     gMsrOptions->

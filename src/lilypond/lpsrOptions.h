@@ -101,7 +101,7 @@ extern S_lpsrOptions gLpsrOptionsUserChoices;
 extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeLpsrOptions (
+void initializeLpsrOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
 

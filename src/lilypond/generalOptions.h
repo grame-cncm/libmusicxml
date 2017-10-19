@@ -219,7 +219,7 @@ extern S_generalOptions gGeneralOptionsWithDetailedTrace;
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-void initializeGeneralOptions (
+void initializeGeneralOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
 

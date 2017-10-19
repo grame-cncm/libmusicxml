@@ -1103,15 +1103,21 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializeGeneralOptions (
+void initializeGeneralOptionsHandling (
   S_msrOptionsHandler optionsHandler)
 {  
+  // create the options variables
+  // ------------------------------------------------------
+  
   gGeneralOptionsUserChoices = generalOptions::create (
     optionsHandler);
   assert(gGeneralOptionsUserChoices != 0);
 
   gGeneralOptions =
     gGeneralOptionsUserChoices;
+
+  // prepare for measure detailed trace
+  // ------------------------------------------------------
 
   gGeneralOptionsWithDetailedTrace =
     gGeneralOptions->

@@ -100,7 +100,7 @@ extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-void initializeMusicXMLOptions (
+void initializeMusicXMLOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
 

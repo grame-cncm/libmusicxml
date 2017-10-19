@@ -135,7 +135,7 @@ extern S_msrOptions gMsrOptionsUserChoices;
 extern S_msrOptions gMsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeMsrOptions (
+void initializeMsrOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
 

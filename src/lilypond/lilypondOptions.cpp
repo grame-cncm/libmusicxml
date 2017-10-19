@@ -1132,13 +1132,11 @@ ostream& operator<< (ostream& os, const S_lilypondOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializeLilypondOptions (
+void initializeLilypondOptionsHandling (
   S_msrOptionsHandler optionsHandler)
 {
   // create the options variables
   // ------------------------------------------------------
-
-  // LilyPond options
   
   gLilypondOptionsUserChoices = lilypondOptions::create (
     optionsHandler);

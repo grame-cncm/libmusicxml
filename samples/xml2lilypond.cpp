@@ -101,15 +101,19 @@ int main (int argc, char *argv[])
   // initialize options handling
   // ------------------------------------------------------
 
-  initializeGeneralOptions (
+  initializeGeneralOptionsHandling (
     optionsHandler);
-  initializeMusicXMLOptions (
+    
+  initializeMusicXMLOptionsHandling (
     optionsHandler);
-  initializeMsrOptions (
+    
+  initializeMsrOptionsHandling (
     optionsHandler);
-  initializeLpsrOptions (
+    
+  initializeLpsrOptionsHandling (
     optionsHandler);
-  initializeLilypondOptions (
+    
+  initializeLilypondOptionsHandling (
     optionsHandler);
     
   // analyze the command line options and arguments

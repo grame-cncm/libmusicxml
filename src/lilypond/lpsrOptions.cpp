@@ -324,14 +324,12 @@ ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializeLpsrOptions (
+void initializeLpsrOptionsHandling (
   S_msrOptionsHandler optionsHandler)
 {
   // create the options variables
   // ------------------------------------------------------
 
-  // LPSR options
-  
   gLpsrOptionsUserChoices = lpsrOptions::create (
     optionsHandler);
   assert(gLpsrOptionsUserChoices != 0);
@@ -339,6 +337,8 @@ void initializeLpsrOptions (
   gLpsrOptions =
     gLpsrOptionsUserChoices;
 
+  // prepare for measure detailed trace
+  // ------------------------------------------------------
   gLpsrOptionsWithDetailedTrace =
     gLpsrOptions->
       createCloneWithDetailedTrace ();

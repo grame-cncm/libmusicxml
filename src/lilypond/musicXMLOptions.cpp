@@ -350,10 +350,11 @@ ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)
 }
 
 //______________________________________________________________________________
-void initializeMusicXMLOptions (
+void initializeMusicXMLOptionsHandling (
   S_msrOptionsHandler optionsHandler)
 {
   // MusicXML options
+  // ------------------------------------------------------
   
   gMusicXMLOptionsUserChoices = musicXMLOptions::create (
     optionsHandler);
