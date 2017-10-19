@@ -77,6 +77,12 @@ class EXP musicXMLOptions : public msrOptionsGroup
       
     bool                  fIgnoreMusicXMLErrors;
     
+    // clefs, keys, times
+
+    bool                  fIgnoreRedundantClefs;
+    bool                  fIgnoreRedundantKeys;
+    bool                  fIgnoreRedundantTimes;
+    
     bool                  fLoopToMusicXML;
 };
 typedef SMARTP<musicXMLOptions> S_musicXMLOptions;

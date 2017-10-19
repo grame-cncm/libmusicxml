@@ -55,73 +55,127 @@ void musicXMLOptions::initializeMusicXMLOptions (
   // trace and display
   // --------------------------------------
 
-  // variables
+  {
+    // variables
+    
+    fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
   
-  fTraceMusicXMLTreeVisitors = boolOptionsInitialValue;
-
-  // options
-
-  S_msrOptionsSubGroup traceAndDisplaySubGroup =
-    msrOptionsSubGroup::create (
-      "Trace and display",
-      "hmxmltd", "helpMusicXMLTraceAndDisplay",
+    // options
+  
+    S_msrOptionsSubGroup traceAndDisplaySubGroup =
+      msrOptionsSubGroup::create (
+        "Trace and display",
+        "hmxmltd", "helpMusicXMLTraceAndDisplay",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-    );
-
-  appendOptionsSubGroup (traceAndDisplaySubGroup);
-      
-  traceAndDisplaySubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "tmxmltv", "traceMusicXMLTreeVisitors",
+        msrOptionsSubGroup::kAlwaysShowDescription
+      );
+  
+    appendOptionsSubGroup (traceAndDisplaySubGroup);
+        
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "tmxmltv", "traceMusicXMLTreeVisitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
-        "traceMusicXMLTreeVisitors",
-        fTraceMusicXMLTreeVisitors));
-
+          "traceMusicXMLTreeVisitors",
+          fTraceMusicXMLTreeVisitors));
+  }
+  
   // error handling
   // --------------------------------------
 
-  // variables
+  {
+    // variables
+    
+    fIgnoreMusicXMLErrors = boolOptionsInitialValue;
   
-  fIgnoreMusicXMLErrors = boolOptionsInitialValue;
-  fLoopToMusicXML = boolOptionsInitialValue;
-
-  // options
-
-  S_msrOptionsSubGroup errorHandlingSubGroup =
-    msrOptionsSubGroup::create (
-      "Error handling",
-      "hmxmleh", "helpMusicXMLErrorHandling",
+    // options
+  
+    S_msrOptionsSubGroup errorHandlingSubGroup =
+      msrOptionsSubGroup::create (
+        "Error handling",
+        "hmxmleh", "helpMusicXMLErrorHandling",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription
-    );
-
-  appendOptionsSubGroup (errorHandlingSubGroup);
-
-  errorHandlingSubGroup->
-    appendOptionsItem (
-      msrOptionsBooleanItem::create (
-        "ime", "ignoreMusicXMLErrors",
+        msrOptionsSubGroup::kAlwaysShowDescription
+      );
+  
+    appendOptionsSubGroup (errorHandlingSubGroup);
+  
+    errorHandlingSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "ime", "ignoreMusicXMLErrors",
 R"(Don't stop the translation after issuing a MusicXML error message.)",
-        "ignoreMusicXMLErrors",
-        fIgnoreMusicXMLErrors));
+          "ignoreMusicXMLErrors",
+          fIgnoreMusicXMLErrors));
+  }
+  
+  // clefs, keys, times
+  // --------------------------------------
 
-  // loop is hidden...
-  S_msrOptionsBooleanItem
-    loopOptionsBooleanItem =
-      msrOptionsBooleanItem::create (
-        "loop", "loopToMusicXML",
+  {
+    // variables
+    
+    fIgnoreRedundantClefs = boolOptionsInitialValue;
+    fIgnoreRedundantKeys  = boolOptionsInitialValue;
+    fIgnoreRedundantTimes = boolOptionsInitialValue;
+    
+    fLoopToMusicXML = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup clefsKeysTimesSubGroup =
+      msrOptionsSubGroup::create (
+        "Clefs, keys, times",
+        "hmxmleh", "helpMusicXMLClefsKeysTimes",
+R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription
+      );
+  
+    appendOptionsSubGroup (clefsKeysTimesSubGroup);
+  
+    clefsKeysTimesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "irc", "ignoreRedundantClefs",
+R"(Ignore clefs that are the same as the current one.)",
+          "ignoreMusicXMLErrors",
+          fIgnoreMusicXMLErrors));
+
+  
+    clefsKeysTimesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "irk", "ignoreRedundantKeys",
+R"(Ignore keys that are the same as the current one.)",
+          "ignoreMusicXMLErrors",
+          fIgnoreMusicXMLErrors));
+
+  
+    clefsKeysTimesSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "irt", "ignoreRedundantTimes",
+R"(Ignore times that are the same as the current one.)",
+          "ignoreMusicXMLErrors",
+          fIgnoreMusicXMLErrors));
+
+    // '-loop' is hidden...
+    S_msrOptionsBooleanItem
+      loopOptionsBooleanItem =
+        msrOptionsBooleanItem::create (
+          "loop", "loopToMusicXML",
 R"(Close the loop, generating a MusicXML file from the MSR. 
 The file name receives a '_loop' suffix. Currently under development.)",
-        "loopToMusicXML",
-        fLoopToMusicXML);
-  loopOptionsBooleanItem->
-    setOptionsElementIsHidden ();
-    
-  errorHandlingSubGroup->
-    appendOptionsItem (
-      loopOptionsBooleanItem);
+          "loopToMusicXML",
+          fLoopToMusicXML);
+    loopOptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    clefsKeysTimesSubGroup->
+      appendOptionsItem (
+        loopOptionsBooleanItem);
+  }
 }
 
 S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
@@ -142,6 +196,17 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
   clone->fIgnoreMusicXMLErrors =
     fIgnoreMusicXMLErrors;
     
+  // clefs, keys, times
+    
+  clone->fIgnoreRedundantClefs =
+    fIgnoreRedundantClefs;
+
+  clone->fIgnoreRedundantKeys =
+    fIgnoreRedundantKeys;
+
+  clone->fIgnoreRedundantTimes =
+    fIgnoreRedundantTimes;
+
   clone->fLoopToMusicXML =
     fLoopToMusicXML;
 
@@ -184,6 +249,30 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   gLogIOstream << left <<
     setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
     booleanAsString (fIgnoreMusicXMLErrors) <<
+    endl <<
+    
+  gIndenter--;
+
+  // clefs, keys, times
+  // --------------------------------------
+
+  gLogIOstream <<
+    "Clefs, keys, times:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "ignoreRedundantClefs" << " : " <<
+    booleanAsString (fIgnoreRedundantClefs) <<
+    endl <<
+    
+    setw (fieldWidth) << "ignoreRedundantKeys" << " : " <<
+    booleanAsString (fIgnoreRedundantKeys) <<
+    endl <<
+    
+    setw (fieldWidth) << "ignoreRedundantTimes" << " : " <<
+    booleanAsString (fIgnoreRedundantTimes) <<
     endl <<
     
     setw (fieldWidth) << "loopToMusicXML" << " : " <<
