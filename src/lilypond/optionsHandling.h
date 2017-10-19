@@ -167,11 +167,7 @@ class EXP msrOptionsItem : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  setOptionsSubGroupUplink (
-                            S_msrOptionsSubGroup optionsSubGroup)
-                              {
-                                fOptionsSubGroupUplink =
-                                  optionsSubGroup;
-                              }
+                            S_msrOptionsSubGroup optionsSubGroup);
 
     S_msrOptionsSubGroup  getOptionsSubGroupUplink () const
                               { return fOptionsSubGroupUplink; }
@@ -1555,11 +1551,7 @@ class EXP msrOptionsGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  setOptionsHandlerUplink (
-                            S_msrOptionsHandler optionsHandler)
-                              {
-                                fOptionsHandlerUplink =
-                                  optionsHandler;
-                              }
+                            S_msrOptionsHandler optionsHandler);
 
     S_msrOptionsHandler   getOptionsHandlerUplink () const
                               { return fOptionsHandlerUplink; }

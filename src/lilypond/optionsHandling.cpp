@@ -274,6 +274,19 @@ msrOptionsItem::msrOptionsItem (
 msrOptionsItem::~msrOptionsItem()
 {}
 
+void msrOptionsItem::setOptionsSubGroupUplink (
+  S_msrOptionsSubGroup optionsSubGroup)
+{
+  // sanity check
+  msrAssert (
+    optionsSubGroup != 0,
+    "optionsSubGroup is null");
+
+  // set the uplink
+  fOptionsSubGroupUplink =
+    optionsSubGroup;
+}
+
 void msrOptionsItem::registerOptionsItemInHandler (
   S_msrOptionsHandler optionsHandler)
 {
@@ -2457,6 +2470,19 @@ msrOptionsGroup::msrOptionsGroup (
 msrOptionsGroup::~msrOptionsGroup()
 {}
 
+void msrOptionsGroup::setOptionsHandlerUplink (
+  S_msrOptionsHandler optionsHandler)
+{
+  // sanity check
+  msrAssert (
+    optionsHandler != 0,
+    "optionsHandler is null");
+
+  // set the uplink
+  fOptionsHandlerUplink =
+    optionsHandler;
+}
+
 void msrOptionsGroup::underlineHeader (ostream& os) const
 {
   for (unsigned int i = 0; i < fOptionsGroupHelpHeader.size (); i++) {
@@ -3544,6 +3570,11 @@ ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
 void msrOptionsHandler::appendOptionsGroup (
   S_msrOptionsGroup optionsGroup)
 {
+  // set the uplink
+  optionsGroup->
+    setOptionsHandlerUplink (this);
+  
+  // append the options group
   fOptionsHandlerOptionsGroupsList.push_back (
     optionsGroup);
 }
