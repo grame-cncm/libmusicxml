@@ -33,6 +33,7 @@ S_generalOptions generalOptions::create (
   generalOptions* o = new generalOptions (
     optionsHandler);
   assert(o!=0);
+
   return o;
 }
 
@@ -46,8 +47,11 @@ are grouped here.)",
     optionsHandler)
 {
   // append this options group to the options handler
-  optionsHandler->
-    appendOptionsGroup (this);
+  // if relevant
+  if (optionsHandler) {
+    optionsHandler->
+      appendOptionsGroup (this);
+  }
 
   // initialize it
   initializeGeneralOptions (false);
@@ -704,8 +708,13 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
 {
   S_generalOptions
     clone =
-      generalOptions::create (
-        fOptionsHandlerUplink);
+      generalOptions::create (0);
+      // 0 not to have it inserted twice in teh option handler
+
+  // set the options handler uplink
+  clone->
+    setOptionsHandlerUplink (
+      fOptionsHandlerUplink);
 
 
   // command line

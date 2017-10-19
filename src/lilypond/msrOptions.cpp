@@ -47,8 +47,11 @@ R"(These options control the way MSR data is handled.)",
     optionsHandler)
 {
   // append this options group to the options handler
-  optionsHandler->
-    appendOptionsGroup (this);
+  // if relevant
+  if (optionsHandler) {
+    optionsHandler->
+      appendOptionsGroup (this);
+  }
 
   // initialize it
   initializeMsrOptions (false);
@@ -459,8 +462,14 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 {
   S_msrOptions
     clone =
-      msrOptions::create (
-        fOptionsHandlerUplink);
+      msrOptions::create (0);
+      // 0 not to have it inserted twice in teh option handler
+
+  // set the options handler uplink
+  clone->
+    setOptionsHandlerUplink (
+      fOptionsHandlerUplink);
+
 
   // trace and display
   // --------------------------------------
@@ -477,17 +486,23 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fDisplayMsrSummary =
     fDisplayMsrSummary;
 
+
   // languages
+  // --------------------------------------
     
   clone->fMsrQuarterTonesPitchesLanguage =
     fMsrQuarterTonesPitchesLanguage;
 
+
   // parts
+  // --------------------------------------
 
   clone->fPartsRenamingMap =
     fPartsRenamingMap;
 
+
   // voices
+  // --------------------------------------
   
   clone->fCreateVoicesStaffRelativeNumbers =
     fCreateVoicesStaffRelativeNumbers;
@@ -497,7 +512,9 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fKeepSilentVoices =
     fKeepSilentVoices;
 
+
   // notes
+  // --------------------------------------
 
   clone->fDelayRestsDynamics =
     fDelayRestsDynamics;
@@ -510,7 +527,9 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fDelayRestsWedges =
     fDelayRestsWedges;
 
+
   // lyrics
+  // --------------------------------------
     
   clone->fShowMsrStanzas =
     fShowMsrStanzas;
@@ -518,7 +537,9 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fKeepMuteStanzas =
     fKeepMuteStanzas;
 
+
   // harmonies
+  // --------------------------------------
 
   clone->fShowHarmonyVoices =
     fShowHarmonyVoices;
@@ -527,6 +548,7 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
 
   // figured bass
+  // --------------------------------------
   
   clone->fShowFiguredBassVoices =
     fShowFiguredBassVoices;

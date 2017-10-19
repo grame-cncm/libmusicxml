@@ -28,7 +28,7 @@ class EXP generalOptions : public msrOptionsGroup
 
     static SMARTP<generalOptions> create (
       S_msrOptionsHandler optionsHandler);
-    
+        
     SMARTP<generalOptions>        createCloneWithDetailedTrace ();
   public:
 

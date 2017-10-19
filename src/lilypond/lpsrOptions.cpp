@@ -46,8 +46,11 @@ R"(These options control the way LPSR data is handled.)",
     optionsHandler)
 {
   // append this options group to the options handler
-  optionsHandler->
-    appendOptionsGroup (this);
+  // if relevant
+  if (optionsHandler) {
+    optionsHandler->
+      appendOptionsGroup (this);
+  }
 
   // initialize it
   initializeLpsrOptions (false);
@@ -194,8 +197,14 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 {
   S_lpsrOptions
     clone =
-      lpsrOptions::create (
-        fOptionsHandlerUplink);
+      lpsrOptions::create (0);
+      // 0 not to have it inserted twice in teh option handler
+
+  // set the options handler uplink
+  clone->
+    setOptionsHandlerUplink (
+      fOptionsHandlerUplink);
+
 
   // trace and display
   // --------------------------------------
@@ -208,10 +217,14 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 
   clone->fDisplayLpsr =
     true;
+
     
   // Scheme functions
+  // --------------------------------------
+
   clone->fTraceSchemeFunctions =
     true;
+
   
   // languages
   // --------------------------------------

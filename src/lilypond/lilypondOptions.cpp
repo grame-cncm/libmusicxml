@@ -46,8 +46,11 @@ R"(These options control which LilyPond code is generated.)",
     optionsHandler)
 {
   // append this options group to the options handler
-  optionsHandler->
-    appendOptionsGroup (this);
+  // if relevant
+  if (optionsHandler) {
+    optionsHandler->
+      appendOptionsGroup (this);
+  }
 
   // initialize it
   initializeLilypondOptions (false);
@@ -690,15 +693,24 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
 {
   S_lilypondOptions
     clone =
-      lilypondOptions::create (
-        fOptionsHandlerUplink);
+      lilypondOptions::create (0);
+      // 0 not to have it inserted twice in teh option handler
+
+  // set the options handler uplink
+  clone->
+    setOptionsHandlerUplink (
+      fOptionsHandlerUplink);
+
 
   // time
+  // --------------------------------------
   
   clone->fNumericalTime =
     fNumericalTime;
 
+
   // notes
+  // --------------------------------------
   
   clone->fAbsoluteOctaves =
     fAbsoluteOctaves;
@@ -727,12 +739,16 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fNoteInputLineNumbers =
     true;
 
+
   // bars
+  // --------------------------------------
   
   clone->fShowAllBarNumbers =
     true;
 
+
   // line breaks
+  // --------------------------------------
 
   clone->fIgnoreLineBreaks =
     fIgnoreLineBreaks;
@@ -743,32 +759,44 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fSeparatorLineEveryNMeasures =
     fSeparatorLineEveryNMeasures;
 
+
   // page breaks
+  // --------------------------------------
 
   clone->fIgnorePageBreaks =
     fIgnorePageBreaks;
 
+
   // staves
+  // --------------------------------------
   
   clone->fModernTab =
     fModernTab;
+
   
   // tuplets
+  // --------------------------------------
     
   clone->fTupletsOnALine =
     fTupletsOnALine;
+
   
   // repeats
+  // --------------------------------------
   
   clone->fRepeatBrackets =
     fRepeatBrackets;
+
   
   // ornaments
+  // --------------------------------------
   
   clone->fDelayedOrnamentsFraction =
     fDelayedOrnamentsFraction;
+
   
   // code generation
+  // --------------------------------------
 
   clone->fComments =
     true;
@@ -787,13 +815,17 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     
   clone->fLilypondCompileDate =
     fLilypondCompileDate;
+
     
   // score notation
+  // --------------------------------------
 
   clone->fJianpu =
     fJianpu;
+
         
   // midi
+  // --------------------------------------
   
   clone->fMidiTempo =
     fMidiTempo;
