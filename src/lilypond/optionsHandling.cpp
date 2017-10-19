@@ -477,40 +477,35 @@ void msrOptionsCombinedItemsItem::appendOptionsItem (
 void msrOptionsCombinedItemsItem::appendOptionsItem (
   string optionsItemName)
 {
- // is optionsItemName known in options elements map?
-  map<string, S_msrOptionsElement>::const_iterator
-    it =
-      fOptionsElementsMap.find (optionsItemName);
-        
-  if (it == fOptionsElementsMap.end ()) {
-    // no, optionsItemName is unknown in the map    
+  // get the options handler
+  S_msrOptionsHandler
+    optionsHandler =
+      getOptionsSubGroupUplink ()->
+        getOptionsGroupUplink ()->
+          getOptionsHandlerUplink ();
+
+  // is optionsItemName known in options elements map?
+  S_msrOptionsElement
+    optionsElement =
+      optionsHandler->
+        fetchOptionsElementFromMap (
+          optionsItemName);
+
+  if (! optionsElement) {
+    // no, optionsItemName is unknown in the map
+    optionsHandler->
+      printHelpSummary ();
+
     stringstream s;
 
     s <<
       "option name '" << optionsItemName <<
-      "' is unknown";
+      "' is unknown" <<
+      "the above help summary may help you";
       
     optionError (s.str ());
-
-    printHelpSummary (
-      fOptionsHandlerLogIOstream);
 
     exit (2);
-  }
-
-  S_msrOptionsElement
-    optionsElement = (*it).second;
-      
-  if (! optionsElement) {
-    // optionsItemName is is not well handled by this options handler
-    stringstream s;
-
-    s <<
-      "option name '" << optionsItemName <<
-      "' is not well handled";
-      
-    optionError (s.str ());
-    abort ();
   }
 
   else {
@@ -518,7 +513,7 @@ void msrOptionsCombinedItemsItem::appendOptionsItem (
 
     fOptionsCombinedItemsList.push_back (
       optionsElement);
-    }
+  }
 }
 
 void msrOptionsCombinedItemsItem::print (ostream& os) const
@@ -2950,7 +2945,7 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
   } // for
 }
 
-S_msrOptionsElement msrOptionsHandler::fetchOptionsElementInMap (
+S_msrOptionsElement msrOptionsHandler::fetchOptionsElementFromMap (
   string optionsElementName) const
 {
   S_msrOptionsElement result;
@@ -2958,25 +2953,13 @@ S_msrOptionsElement msrOptionsHandler::fetchOptionsElementInMap (
   // is optionsItemName known in options elements map?
   map<string, S_msrOptionsElement>::const_iterator
     it =
-      fOptionsElementsMap.find (optionsItemName);
+      fOptionsElementsMap.find (
+        optionsElementName);
         
-  if (it == fOptionsElementsMap.end ()) {
-    // no, optionsItemName is unknown in the map    
-    stringstream s;
-
-    s <<
-      "option name '" << optionsItemName <<
-      "' is unknown";
-      
-    optionError (s.str ());
-
-    printHelpSummary (
-      fOptionsHandlerLogIOstream);
-
-    exit (2);
-  }
-
-  result = (*it).second;
+  if (it != fOptionsElementsMap.end ()) {
+    // yes, optionsItemName it is unknown in the map    
+    result = (*it).second;
+  }    
 
   return result;
 }
@@ -3333,29 +3316,11 @@ void msrOptionsHandler::printSpecificItemHelp (
   string   optionsItemName) const
 {  
   // is optionsItemName known in options elements map?
-  map<string, S_msrOptionsElement>::const_iterator
-    it =
-      fOptionsElementsMap.find (optionsItemName);
-        
-  if (it == fOptionsElementsMap.end ()) {
-    // no, optionsItemName is unknown in the map    
-    stringstream s;
-
-    s <<
-      "option name '" << optionsItemName <<
-      "' is unknown";
-      
-    optionError (s.str ());
-
-    printHelpSummary (
-      fOptionsHandlerLogIOstream);
-
-    exit (2);
-  }
-
   S_msrOptionsElement
-    optionsElement = (*it).second;
-      
+    optionsElement =
+      fetchOptionsElementFromMap (
+        optionsItemName);
+                      
   if (! optionsElement) {
     // optionsItemName is is not well handled by this options handler
     stringstream s;
@@ -3774,31 +3739,11 @@ void msrOptionsHandler::handleOptionsItemName (
   string optionsItemName)
 {
   // is optionsItemName known in options elements map?
-  map<string, S_msrOptionsElement>::const_iterator
-    it =
-      fOptionsElementsMap.find (optionsItemName);
-        
-  if (it == fOptionsElementsMap.end ()) {
-    // no, optionsItemName is unknown in the map    
-    printHelpSummary (
-      fOptionsHandlerLogIOstream);
-
-    stringstream s;
-
-    s <<
-      "option name '" << optionsItemName <<
-      "' is unknown" <<
-      endl <<
-      "the above help summary may help you";
-      
-    optionError (s.str ());
-
-    exit (2);
-  }
-
   S_msrOptionsElement
-    optionsElement = (*it).second;
-      
+    optionsElement =
+      fetchOptionsElementFromMap (
+        optionsItemName);
+
   if (! optionsElement) {
     // optionsItemName is is not well handled by this options handler
     stringstream s;

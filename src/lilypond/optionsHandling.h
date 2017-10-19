@@ -1688,6 +1688,10 @@ class EXP msrOptionsHandler : public msrOptionsElement
     string                getOptionHandlerPreamble () const
                               { return fOptionHandlerPreamble; }
 
+    const indentedOstream&
+                          getOptionsHandlerLogIOstream ()
+                              { return fOptionsHandlerLogIOstream; }
+
     string                getProgramName () const
                               { return fProgramName; }
                               
@@ -1718,7 +1722,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
-    S_msrOptionsElement   fetchOptionsElementInMap (
+    S_msrOptionsElement   fetchOptionsElementFromMap (
                             string optionsElementName) const;
 
     string                helpNamesBetweenParentheses () const; // JMI ???
@@ -1759,6 +1763,11 @@ class EXP msrOptionsHandler : public msrOptionsElement
     void                  printHelp (ostream& os) const;
 
     void                  printHelpSummary (ostream& os) const;
+    void                  printHelpSummary () const
+                              {
+                                printHelpSummary (
+                                  fOptionsHandlerLogIOstream);
+                              }
     
     void                  printSpecificSubGroupHelp (
                             ostream& os,
