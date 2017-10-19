@@ -166,8 +166,8 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 
   // register options handler in itself,
   // so that the 'global' help options can be handled
-//  this->
-//    registerOptionsHandlerInItself ();
+  this->
+    registerOptionsHandlerInItself ();
 
   if (TRACE_OPTIONS) {
     fOptionsHandlerLogIOstream <<
