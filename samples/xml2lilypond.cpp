@@ -41,10 +41,10 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
-S_xml2lilypondOptionsHandler optionsHandler,
-  int                        argc,
-  char*                      argv [],
-  indentedOstream&      logIndentedOutputStream)
+  S_xml2lilypondOptionsHandler optionsHandler,
+  int                          argc,
+  char*                        argv [],
+  indentedOstream&             logIndentedOutputStream)
 {
   // analyse the options
   vector<string>
@@ -98,6 +98,7 @@ int main (int argc, char *argv[])
       xml2lilypondOptionsHandler::create (
         gLogIOstream);
 
+/* JMI
   // initialize options handling
   // ------------------------------------------------------
 
@@ -115,6 +116,7 @@ int main (int argc, char *argv[])
     
   initializeLilypondOptionsHandling (
     optionsHandler);
+    */
     
   // analyze the command line options and arguments
   // ------------------------------------------------------

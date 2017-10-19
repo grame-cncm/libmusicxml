@@ -104,12 +104,32 @@ while '-hs, -helpSummary' only print a help summary.)",
   initializeOptionsHandler ();
 }
 
-xml2lilypondOptionsHandler::~xml2lilypondOptionsHandler()
+xml2lilypondOptionsHandler::~xml2lilypondOptionsHandler ()
 {}
 
 void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 {
+  // initialize options handling
+  // ------------------------------------------------------
+
+  initializeGeneralOptionsHandling (
+    this);
+    
+  initializeMusicXMLOptionsHandling (
+    this);
+    
+  initializeMsrOptionsHandling (
+    this);
+    
+  initializeLpsrOptionsHandling (
+    this);
+    
+  initializeLilypondOptionsHandling (
+    this);
+    
   // append the various options groups
+  // ------------------------------------------------------
+  
   appendOptionsGroup (
     gGeneralOptions);
     
