@@ -73,7 +73,7 @@ class EXP musicXMLOptions : public msrOptionsGroup
     
     bool                  fTraceMusicXMLTreeVisitors;
 
-    // other
+    // error handling
       
     bool                  fIgnoreMusicXMLErrors;
     

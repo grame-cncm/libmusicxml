@@ -3651,19 +3651,6 @@ The
       elt->getAttributeFloatValue ("font-size", 0.0);
       
     fontSize = kNumericFontSize;
-/* JMI
-    if (wordsFontSize.size ()) {
-      stringstream s;
-      
-      s <<
-        "font-size value " << wordsFontSize <<
-        " should be 'normal', 'large', 'medium' or 'small'";
-      
-      msrMusicXMLError (
-        elt->getInputLineNumber (),
-        s.str ());
-    }
-*/
   }
   
   // font weight

@@ -2631,9 +2631,6 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
       os << endl;
     } // for
 
-    os <<
-      endl;
-
     gIndenter--;
   }
 }
@@ -3120,9 +3117,6 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
       if (++i == iEnd) break;
       os << endl;
     } // for
-
-    os <<
-      endl;
       
     gIndenter--;
   }

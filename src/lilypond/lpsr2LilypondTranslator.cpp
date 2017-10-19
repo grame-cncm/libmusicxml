@@ -1598,7 +1598,7 @@ void lpsr2LilypondTranslator::transposeDiatonicError (
   s <<
     "diatonic '" << transposeDiatonic <<
     "' is not consistent with " <<
-    "chromaticic '" << transposeChromatic <<
+    "chromatic '" << transposeChromatic <<
     "'";
     
   msrMusicXMLError (
@@ -5471,10 +5471,10 @@ If the double element is present, it indicates that the music is doubled one oct
         stringstream s;
       
         s <<
-          "transpose chromaticic '" << transposeChromatic <<
-          "' is not between -11 and 11";
+          "transpose chromatic '" << transposeChromatic <<
+          "' is not between -11 and 11, ignored";
           
-        msrMusicXMLError (
+        msrMusicXMLWarning ( // JMI
           inputLineNumber,
           s.str ());
       }

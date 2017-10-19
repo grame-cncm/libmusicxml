@@ -79,7 +79,7 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
         "traceMusicXMLTreeVisitors",
         fTraceMusicXMLTreeVisitors));
 
-  // other
+  // error handling
   // --------------------------------------
 
   // variables
@@ -89,17 +89,17 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
 
   // options
 
-  S_msrOptionsSubGroup otherSubGroup =
+  S_msrOptionsSubGroup errorHandlingSubGroup =
     msrOptionsSubGroup::create (
-      "Other",
-      "hmxmlo", "helpMusicXMLOther",
+      "Error handling",
+      "hmxmleh", "helpMusicXMLErrorHandling",
 R"()",
       msrOptionsSubGroup::kAlwaysShowDescription
     );
 
-  appendOptionsSubGroup (otherSubGroup);
+  appendOptionsSubGroup (errorHandlingSubGroup);
 
-  otherSubGroup->
+  errorHandlingSubGroup->
     appendOptionsItem (
       msrOptionsBooleanItem::create (
         "ime", "ignoreMusicXMLErrors",
@@ -107,6 +107,7 @@ R"(Don't stop the translation after issuing a MusicXML error message.)",
         "ignoreMusicXMLErrors",
         fIgnoreMusicXMLErrors));
 
+  // loop is hidden...
   S_msrOptionsBooleanItem
     loopOptionsBooleanItem =
       msrOptionsBooleanItem::create (
@@ -118,7 +119,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
   loopOptionsBooleanItem->
     setOptionsElementIsHidden ();
     
-  otherSubGroup->
+  errorHandlingSubGroup->
     appendOptionsItem (
       loopOptionsBooleanItem);
 }
@@ -135,7 +136,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
   clone->fTraceMusicXMLTreeVisitors =
     true;
 
-  // other
+  // error handling
   // --------------------------------------
 
   clone->fIgnoreMusicXMLErrors =
@@ -171,7 +172,7 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   gIndenter--;
       
-  // other
+  // error handling
   // --------------------------------------
 
   gLogIOstream <<
