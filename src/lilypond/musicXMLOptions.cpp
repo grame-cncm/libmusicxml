@@ -81,6 +81,7 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
           fTraceMusicXMLTreeVisitors));
   }
   
+  
   // error handling
   // --------------------------------------
 
@@ -109,6 +110,7 @@ R"(Don't stop the translation after issuing a MusicXML error message.)",
           "ignoreMusicXMLErrors",
           fIgnoreMusicXMLErrors));
   }
+
   
   // clefs, keys, times
   // --------------------------------------
@@ -175,6 +177,53 @@ The file name receives a '_loop' suffix. Currently under development.)",
     clefsKeysTimesSubGroup->
       appendOptionsItem (
         loopOptionsBooleanItem);
+  }
+  
+
+  // combined options
+  // --------------------------------------
+
+  {
+    // variables
+    
+    fIgnoreRedundantClefs = boolOptionsInitialValue;
+    fIgnoreRedundantKeys  = boolOptionsInitialValue;
+    fIgnoreRedundantTimes = boolOptionsInitialValue;
+    
+    fLoopToMusicXML = boolOptionsInitialValue;
+  
+    // options
+  
+    S_msrOptionsSubGroup combinedOptionsSubGroup =
+      msrOptionsSubGroup::create (
+        "Combined options",
+        "hmxmlco", "helpMusicXMLCombinedOptions",
+R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription
+      );
+  
+    appendOptionsSubGroup (combinedOptionsSubGroup);
+
+  
+    S_msrOptionsCombinedItemsItem
+      cubaseCombinedItemsItem =
+        msrOptionsCombinedItemsItem::create (
+          "cubase", "",
+R"(Useful settings for MusicXML data exported from Cubase.)");
+
+    combinedOptionsSubGroup->
+      appendOptionsItem (
+        cubaseCombinedItemsItem);
+
+    cubaseCombinedItemsItem->
+      appendOptionsItem (
+        "ignoreRedundantClefs");
+    cubaseCombinedItemsItem->
+      appendOptionsItem (
+        "ignoreRedundantKeys");
+    cubaseCombinedItemsItem->
+      appendOptionsItem (
+        "ignoreRedundantTimes");
   }
 }
 

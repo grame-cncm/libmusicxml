@@ -474,6 +474,53 @@ void msrOptionsCombinedItemsItem::appendOptionsItem (
     optionsItem);
 }
 
+void msrOptionsCombinedItemsItem::appendOptionsItem (
+  string optionsItemName)
+{
+ // is optionsItemName known in options elements map?
+  map<string, S_msrOptionsElement>::const_iterator
+    it =
+      fOptionsElementsMap.find (optionsItemName);
+        
+  if (it == fOptionsElementsMap.end ()) {
+    // no, optionsItemName is unknown in the map    
+    stringstream s;
+
+    s <<
+      "option name '" << optionsItemName <<
+      "' is unknown";
+      
+    optionError (s.str ());
+
+    printHelpSummary (
+      fOptionsHandlerLogIOstream);
+
+    exit (2);
+  }
+
+  S_msrOptionsElement
+    optionsElement = (*it).second;
+      
+  if (! optionsElement) {
+    // optionsItemName is is not well handled by this options handler
+    stringstream s;
+
+    s <<
+      "option name '" << optionsItemName <<
+      "' is not well handled";
+      
+    optionError (s.str ());
+    abort ();
+  }
+
+  else {
+    // optionsItemName is known, let's handle it
+
+    fOptionsCombinedItemsList.push_back (
+      optionsElement);
+    }
+}
+
 void msrOptionsCombinedItemsItem::print (ostream& os) const
 {
   const int fieldWidth = FIELD_WIDTH;
@@ -2903,6 +2950,37 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
   } // for
 }
 
+S_msrOptionsElement msrOptionsHandler::fetchOptionsElementInMap (
+  string optionsElementName) const
+{
+  S_msrOptionsElement result;
+  
+  // is optionsItemName known in options elements map?
+  map<string, S_msrOptionsElement>::const_iterator
+    it =
+      fOptionsElementsMap.find (optionsItemName);
+        
+  if (it == fOptionsElementsMap.end ()) {
+    // no, optionsItemName is unknown in the map    
+    stringstream s;
+
+    s <<
+      "option name '" << optionsItemName <<
+      "' is unknown";
+      
+    optionError (s.str ());
+
+    printHelpSummary (
+      fOptionsHandlerLogIOstream);
+
+    exit (2);
+  }
+
+  result = (*it).second;
+
+  return result;
+}
+
 string msrOptionsHandler::helpNamesBetweenParentheses () const
 {
   stringstream s;
@@ -3254,7 +3332,7 @@ void msrOptionsHandler::printSpecificItemHelp (
   ostream& os,
   string   optionsItemName) const
 {  
- // is optionsItemName known in options elements map?
+  // is optionsItemName known in options elements map?
   map<string, S_msrOptionsElement>::const_iterator
     it =
       fOptionsElementsMap.find (optionsItemName);

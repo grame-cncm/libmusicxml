@@ -347,6 +347,9 @@ class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
     void                  appendOptionsItem (
                             S_msrOptionsItem optionsItem);
 
+    void                  appendOptionsItem (
+                            string optionsItemName);
+
     // print
     // ------------------------------------------------------
 
@@ -1714,6 +1717,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
   
     // services
     // ------------------------------------------------------
+
+    S_msrOptionsElement   fetchOptionsElementInMap (
+                            string optionsElementName) const;
 
     string                helpNamesBetweenParentheses () const; // JMI ???
 
