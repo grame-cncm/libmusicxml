@@ -641,6 +641,50 @@ void msrOptionsCombinedItemsItem::print (ostream& os) const
       endl;
 }
 
+void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
+{
+  // print basic help
+  msrOptionsElement::printHelp (os);
+
+  // indent a bit more for readability
+  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
+
+  os <<
+    "This combined option is equivalent to :" <<
+    endl;
+
+  if (fOptionsCombinedItemsList.size ()) {
+    os <<
+      "none";
+  }
+    
+  else {
+    os <<
+      endl;
+
+    gIndenter++;
+          
+    list<S_msrOptionsItem>::const_iterator
+      iBegin = fOptionsCombinedItemsList.begin(),
+      iEnd   = fOptionsCombinedItemsList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os <<
+        (*i)-> optionsElementNames ();
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  
+    gIndenter--;
+    
+    os <<
+      endl;
+  }
+
+  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
+}
+
 void msrOptionsCombinedItemsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const

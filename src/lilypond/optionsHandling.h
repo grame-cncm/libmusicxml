@@ -354,6 +354,8 @@ class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
 
     void                  print (ostream& os) const;
 
+    void                  printHelp (ostream& os) const;
+
     void                  printOptionsValues (
                             ostream& os,
                             int      valueFieldWidth) const;
