@@ -298,6 +298,77 @@ typedef SMARTP<msrOptionsHelpSummaryItem> S_msrOptionsHelpSummaryItem;
 ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt);
 
 //______________________________________________________________________________
+class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsCombinedItemsItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsCombinedItemsItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription);
+      
+    virtual ~msrOptionsCombinedItemsItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    const list<S_msrOptionsItem>&
+                          getOptionsCombinedItemsList ()
+                              {
+                                return
+                                  fOptionsCombinedItemsList;
+                              }
+                              
+/*
+    void                  setCombinedItemsItemVariableValue (
+                            set<int> value)
+                              {
+                                fOptionsCombinedItemsItemVariable = value;
+                              }
+*/
+    // services
+    // ------------------------------------------------------
+
+    void                  appendOptionsItem (
+                            S_msrOptionsItem optionsItem);
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+//    string                fOptionsCombinedItemsItemVariableDisplayName;
+    list<S_msrOptionsItem>
+                          fOptionsCombinedItemsList;
+};
+typedef SMARTP<msrOptionsCombinedItemsItem> S_msrOptionsCombinedItemsItem;
+ostream& operator<< (ostream& os, const S_msrOptionsCombinedItemsItem& elt);
+
+//______________________________________________________________________________
 class EXP msrOptionsBooleanItem : public msrOptionsItem
 {
   public:

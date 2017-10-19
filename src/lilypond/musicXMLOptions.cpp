@@ -127,7 +127,7 @@ R"(Don't stop the translation after issuing a MusicXML error message.)",
     S_msrOptionsSubGroup clefsKeysTimesSubGroup =
       msrOptionsSubGroup::create (
         "Clefs, keys, times",
-        "hmxmleh", "helpMusicXMLClefsKeysTimes",
+        "hmxmlckt", "helpMusicXMLClefsKeysTimes",
 R"()",
         msrOptionsSubGroup::kAlwaysShowDescription
       );

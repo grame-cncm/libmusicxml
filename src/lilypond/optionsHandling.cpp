@@ -439,6 +439,134 @@ ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsCombinedItemsItem msrOptionsCombinedItemsItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription)
+{
+  msrOptionsCombinedItemsItem* o = new
+    msrOptionsCombinedItemsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsCombinedItemsItem::msrOptionsCombinedItemsItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+msrOptionsCombinedItemsItem::~msrOptionsCombinedItemsItem()
+{}
+
+void msrOptionsCombinedItemsItem::appendOptionsItem (
+  S_msrOptionsItem optionsItem)
+{
+
+  fOptionsCombinedItemsList.push_back (
+    optionsItem);
+}
+
+void msrOptionsCombinedItemsItem::print (ostream& os) const
+{
+  const int fieldWidth = FIELD_WIDTH;
+  
+  os <<
+    "OptionsCombinedItemsItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printElementEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsCombinedItemsItemVariableDisplayName" << " : " <<
+ //   fOptionsCombinedItemsItemVariableDisplayName <<
+    setw (fieldWidth) <<
+ //   "fOptionsCombinedItemsItemVariable" << " : " <<
+    endl;
+
+    if (fOptionsCombinedItemsList.empty ()) {
+      os <<
+        "none";
+    }
+      
+    else {
+      os <<
+        "'";
+        
+      list<S_msrOptionsItem>::const_iterator
+        iBegin = fOptionsCombinedItemsList.begin(),
+        iEnd   = fOptionsCombinedItemsList.end(),
+        i      = iBegin;
+        
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << " ";
+      } // for
+    
+      os <<
+        "'";
+    }
+
+    os <<
+      endl;
+}
+
+void msrOptionsCombinedItemsItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+ //   fOptionsCombinedItemsItemVariableDisplayName <<
+    " : ";
+
+  if (fOptionsCombinedItemsList.empty ()) {
+    os <<
+      "none";
+  }
+    
+  else {
+    os <<
+      "'";
+      
+    list<S_msrOptionsItem>::const_iterator
+      iBegin = fOptionsCombinedItemsList.begin(),
+      iEnd   = fOptionsCombinedItemsList.end(),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << " ";
+    } // for
+  
+    os <<
+      "'";
+  }
+
+  os <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsCombinedItemsItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsBooleanItem msrOptionsBooleanItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
