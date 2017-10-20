@@ -656,7 +656,6 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
       fOptionsElementDescription) <<
     endl;
 
-  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
   os <<
     "This combined option is equivalent to: ";
 
@@ -686,7 +685,6 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
     gIndenter--;
   }
 
-  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
   gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
     
   os <<
