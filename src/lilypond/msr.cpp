@@ -25220,6 +25220,8 @@ string msrStaffDetails::staffDetailsAsShortString ()
 
   s <<
     "StaffDetails" <<
+    ", staffTypeKind" <<
+    staffTypeKindAsString (fStaffTypeKind) <<
     ", line " << fInputLineNumber;
 
   // print the staff lines number if any
@@ -25235,10 +25237,18 @@ string msrStaffDetails::staffDetailsAsShortString ()
   s << ", StaffTuning: ";
   if (fStaffTuning)
     s <<
-      "present";
+      fStaffTuning;
   else
     s <<
       "none";
+
+  s <<
+    ", showFretsKind = " <<
+    showFretsKindAsString (fShowFretsKind) <<
+    ", printObjectKind = " <<
+    printObjectKindKindAsString (fPrintObjectKind) <<
+    ", printSpacingKind = " <<
+    printSpacingKindKindAsString (fPrintSpacingKind);
 
   return s.str ();
 }
