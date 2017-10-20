@@ -24,9 +24,9 @@
 
 #include "generalOptions.h"
 
-#include "musicXMLTree2MsrTranslatorInterface.h"
+#include "musicXMLTree2MsrSkeletonInterface.h"
 
-#include "musicXMLTree2MsrTranslator.h"
+#include "musicXMLTree2MsrSkeleton.h"
 
 #include "msr2Summary.h"
 
@@ -243,15 +243,15 @@ S_msrScore buildMSRFromElementsTree (
       endl;
   }
   
-  // create an musicXMLTree2MsrTranslator
-  musicXMLTree2MsrTranslator
-    translator (
+  // create an musicXMLTree2MsrSkeleton
+  musicXMLTree2MsrSkeleton
+    skeletonBuilder (
       logIOstream);
 
   // build the MSR score
   S_msrScore
     mScore =
-      translator.buildMsrSkeletonFromXMLElementTree (
+      skeletonBuilder.buildMsrScoreFromXMLElementTree (
         xmlTree);
 
   clock_t endClock = clock();
