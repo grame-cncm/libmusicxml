@@ -212,9 +212,6 @@ musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator (
   fCurrentTimeStaffNumber = -2;
   fCurrentTimeBeats = "";
 
-  // measures
-  fMeasuresCounter = 0;
-    
   // lyrics handling
   fOnGoingLyric = false;
   fCurrentStanzaNumber = -1; // JMI
@@ -5843,9 +5840,6 @@ void musicXMLTree2MsrTranslator::visitStart (S_measure& elt)
         s.str ());
     }
   }
-
-  // take this measure into account
-  fMeasuresCounter++;
   
   // append a new measure to the current part
   fCurrentPart->
@@ -14896,7 +14890,7 @@ void musicXMLTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteO
 //______________________________________________________________________________
 void musicXMLTree2MsrTranslator::handleLyrics (
   S_msrVoice currentVoice,
-  S_msrNote newNote)
+  S_msrNote  newNote)
 {
   int inputLineNumber =
     newNote->getInputLineNumber ();

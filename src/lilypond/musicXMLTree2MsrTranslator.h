@@ -996,10 +996,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // in which case a part group "stop" has to be forced later
     S_msrPartGroup            fImplicitPartGroup;
     
-    void                      checkStep (
-                                int    inputLineNumber,
-                                string stepValue);
-                                
     S_msrPartGroup            createImplicitMsrPartGroupIfNotYetDone (
                                 int inputLineNumber);
                                 
@@ -1050,7 +1046,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // we need to count the measures for option fSeparatorLineEveryNMeasures,
     // since measure numbers are actually strings
     string                    fCurrentMeasureNumber;
-    int                       fMeasuresCounter;
     
     // measure style handling
     // ------------------------------------------------------
@@ -1252,7 +1247,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     void                      handleLyrics (
                                 S_msrVoice currentVoice,
-                                S_msrNote newNote);
+                                S_msrNote  newNote);
 
     // harmonies handling
     // ------------------------------------------------------
@@ -1357,6 +1352,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // notes/rests handling
     // ------------------------------------------------------
     
+    void                      checkStep (
+                                int    inputLineNumber,
+                                string stepValue);
+                                
     // notes
     msrDiatonicPitch          fCurrentNoteDiatonicPitch;
     msrAlteration             fCurrentNoteAlteration;
