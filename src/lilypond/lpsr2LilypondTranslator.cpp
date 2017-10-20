@@ -33,11 +33,12 @@ const int commentFieldWidth = 30;
 
 //________________________________________________________________________
 lpsr2LilypondTranslator::lpsr2LilypondTranslator (
-  S_msrOptions&         msrOpts,
-  S_lpsrOptions&        lpsrOpts,
-  indentedOstream& ios,
-  S_lpsrScore           lpsrScore)
-    : fLilypondOutputStream (ios)
+  S_msrOptions&    msrOpts,
+  S_lpsrOptions&   lpsrOpts,
+  indentedOstream& lilypondOutputStream,
+  S_lpsrScore      lpsrScore)
+    : fLilypondOutputStream (
+        lilypondOutputStream)
 {
   fMsrOptions  = msrOpts;
   fLpsrOptions = lpsrOpts;
@@ -4053,6 +4054,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   string
     measureNumber =
       elt->getMeasureNumber ();
+
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
+    fLilypondOutputStream <<
+      endl <<
+      "<!--=== measure " << measureNumber <<
+      ", line " << inputLineNumber << " ===-->" <<
+      endl;
+  }
 
   // take this measure into account
   fMeasuresCounter++;

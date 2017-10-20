@@ -251,10 +251,10 @@ class lpsr2LilypondTranslator :
   public:
   
     lpsr2LilypondTranslator (
-      S_msrOptions&         msrOpts,
-      S_lpsrOptions&        lpsrOpts,
-      indentedOstream& ios,
-      S_lpsrScore           lpsrScoree);
+      S_msrOptions&    msrOpts,
+      S_lpsrOptions&   lpsrOpts,
+      indentedOstream& lilypondOutputStream,
+      S_lpsrScore      lpsrScore);
         
     virtual ~lpsr2LilypondTranslator ();
 

@@ -1430,16 +1430,32 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
 {    
+  int
+    inputLineNumber =
+      elt->getInputLineNumber ();
+
+  string
+    measureNumber =
+      elt->getMeasureNumber ();
+
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrMeasure '" <<
-      elt->getMeasureNumber () <<
+      measureNumber <<
       "'" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
-  // measure 1 is created by default initially
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
+    fLogOutputStream <<
+      endl <<
+      "<!--=== measure " << measureNumber <<
+      ", line " << inputLineNumber << " ===-->" <<
+      endl;
+  }
+
+  // measure 1 is created by default initially ??? JMI
   
   // create a clone of the measure
   fCurrentMeasureClone =
@@ -1451,11 +1467,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
   fCurrentSegmentClonesStack.top ()->
     appendMeasureToSegment (
       fCurrentMeasureClone);
-
-  string
-    measureNumber =
-      fCurrentMeasureClone->
-        getMeasureNumber ();
       
 // JMI utile???
   fCurrentPartClone->
