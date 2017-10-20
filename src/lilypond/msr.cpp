@@ -18118,6 +18118,23 @@ void msrSegment::appendStaffDetailsToSegment (
       endl;
       
   // sanity check
+  if (fSegmentMeasuresList.size () == 0) { // JMI
+    stringstream s;
+
+    s <<
+      "fSegmentMeasuresList is empty" <<
+      " while appending staff details:" <<
+      endl <<
+      staffDetails <<
+      "segment contains:";
+
+    this->print (s);
+    
+    msrAssert (
+      fSegmentMeasuresList.size () > 0,
+      s.str ());
+  }
+  
   msrAssert (
     fSegmentMeasuresList.size () > 0,
     "fSegmentMeasuresList is empty");
