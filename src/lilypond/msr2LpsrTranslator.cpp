@@ -2678,7 +2678,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     fFirstNoteCloneInVoice =
       fCurrentNoteClone;
 
-  // can we optiomize graceNotes into afterGraceNotes?
+  // can we optimize graceNotes into afterGraceNotes?
   if (
     elt->getNoteHasATrill ()
       &&
@@ -2715,12 +2715,28 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kRestNote:
+      if (gGeneralOptions->fTraceNotes) {
+        fLogOutputStream <<
+          "Appending " <<
+          fCurrentNoteClone->noteAsString () << " to voice clone " <<
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
+      }
+          
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
           fCurrentNoteClone);
       break;
       
     case msrNote::kSkipNote: // JMI
+      if (gGeneralOptions->fTraceNotes) {
+        fLogOutputStream <<
+          "Appending " <<
+          fCurrentNoteClone->noteAsString () << " to voice clone " <<
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
+      }
+          
       fCurrentVoiceClone->
         appendNoteToVoiceClone (
           fCurrentNoteClone);
@@ -2875,6 +2891,14 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kTupletMemberNote:
+      if (gGeneralOptions->fTraceNotes) {
+        fLogOutputStream <<
+          "Appending " <<
+          fCurrentNoteClone->noteAsString () << " to voice clone " <<
+          fCurrentVoiceClone->getVoiceName () <<
+          endl;
+      }
+          
       fTupletClonesStack.top ()->
         addNoteToTuplet (fCurrentNoteClone);
       break;
