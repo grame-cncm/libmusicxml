@@ -25225,7 +25225,7 @@ string msrStaffDetails::staffDetailsAsShortString ()
     ", line " << fInputLineNumber;
 
   // print the staff lines number if any
-  s << ", StaffLinesNumber: ";
+  s << ", staffLinesNumber: ";
   if (fStaffLinesNumber)
     s <<
       fStaffLinesNumber->getLinesNumber ();
@@ -25256,28 +25256,57 @@ string msrStaffDetails::staffDetailsAsShortString ()
 void msrStaffDetails::print (ostream& os)
 {
   os <<
-    "StaffDetails:" <<
+    "StaffDetails" <<
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
 
+  const int fieldWidth = 17;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "staffTypeKind" << " = " <<
+    staffTypeKindAsString (fStaffTypeKind) <<
+
   // print the staff lines number if any
+  os << left <<
+    setw (fieldWidth) <<
+    "staffTypeKind" << " = ";
   if (fStaffLinesNumber)
     os <<
       fStaffLinesNumber;
   else
     os <<
-      "StaffLinesNumber: none" <<
+      "none" <<
       endl;
 
   // print the staff tuning if any
+  os << left <<
+    setw (fieldWidth) <<
+    "staffTuning" << " = ";
   if (fStaffTuning)
     os <<
       fStaffTuning;
   else
     os <<
-      "StaffTuning: none" <<
+      "none";
+  os <<
       endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "showFretsKind" << " = " <<
+    showFretsKindAsString (fShowFretsKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "printObjectKind" << " = " <<
+    printObjectKindKindAsString (fPrintObjectKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "printSpacingKind" << " = " <<
+    printSpacingKindKindAsString (fPrintSpacingKind) <<
+    endl;
 
   gIndenter--;
 }
