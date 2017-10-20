@@ -1568,7 +1568,6 @@ void musicXMLTree2MsrTranslator::handlePartGroupStop (int inputLineNumber)
   showPartGroupsData ("AFTER STOP");
 }
 
-//________________________________________________________________________
 void musicXMLTree2MsrTranslator::visitEnd (S_part_group& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -5801,7 +5800,7 @@ void musicXMLTree2MsrTranslator::visitStart (S_measure& elt)
     elt->getInputLineNumber ();
 
   fCurrentMeasureNumber = // JMI local variable???
-      elt->getAttributeValue ("number");
+    elt->getAttributeValue ("number");
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
     fLogOutputStream <<
