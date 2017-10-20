@@ -35,9 +35,12 @@ const int commentFieldWidth = 30;
 lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   S_msrOptions&    msrOpts,
   S_lpsrOptions&   lpsrOpts,
+  indentedOstream& logIOstream,
   indentedOstream& lilypondOutputStream,
   S_lpsrScore      lpsrScore)
-    : fLilypondOutputStream (
+    : fLogIOstream (
+        logIOstream),
+      fLilypondIOstream (
         lilypondOutputStream)
 {
   fMsrOptions  = msrOpts;
@@ -131,7 +134,7 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
   string result;
 
   if (gGeneralOptions->fTraceNotes) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       "%{ absoluteOctave = " << absoluteOctave << " %} " <<
       endl;
@@ -320,7 +323,7 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
   if (gGeneralOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
 /*
       setw (fieldWidth) <<
       "% referenceDiatonicPitch" <<
@@ -396,12 +399,12 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-          fLilypondOutputStream << "\\[ ";
+          fLilypondIOstream << "\\[ ";
           break;
         case msrLigature::kContinueLigature:
           break;
         case msrLigature::kStopLigature:
-   // JMI       fLilypondOutputStream << "\\] ";
+   // JMI       fLilypondIOstream << "\\] ";
           break;
       } // switch
     } // for
@@ -430,7 +433,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       {
         // should the stem be omitted?
         if (note->getNoteIsStemless ()) {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             endl <<
             "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
         }
@@ -443,13 +446,13 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             if (stemKind != fCurrentStemKind) {
               switch (stemKind) {
                 case msrStem::k_NoStem:
-                  fLilypondOutputStream << "\\stemNeutral ";
+                  fLilypondIOstream << "\\stemNeutral ";
                   break;
                 case msrStem::kStemUp:
-                  fLilypondOutputStream << "\\stemUp ";
+                  fLilypondIOstream << "\\stemUp ";
                   break;
                 case msrStem::kStemDown:
-                  fLilypondOutputStream << "\\stemDown ";
+                  fLilypondIOstream << "\\stemDown ";
                   break;
                 case msrStem::kStemNone:
                   break;
@@ -470,7 +473,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       {
         // should the stem be omitted?
         if (note->getNoteIsStemless ()) {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             endl <<
             "\\stemNeutral"; // JMI ""\\once\\omit Stem ";
         }
@@ -483,13 +486,13 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             if (stemKind != fCurrentStemKind) {
               switch (stemKind) {
                 case msrStem::k_NoStem:
-                  fLilypondOutputStream << "\\stemNeutral ";
+                  fLilypondIOstream << "\\stemNeutral ";
                   break;
                 case msrStem::kStemUp:
-                  fLilypondOutputStream << "\\stemUp ";
+                  fLilypondIOstream << "\\stemUp ";
                   break;
                 case msrStem::kStemDown:
-                  fLilypondOutputStream << "\\stemDown ";
+                  fLilypondIOstream << "\\stemDown ";
                   break;
                 case msrStem::kStemNone:
                   break;
@@ -530,13 +533,13 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           note->noteIsAPitchedRest ();
   
         if (noteIsAPitchedRest) {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             pitchedRestAsLilypondString (note);
         }
   
         else {
           // print the rest name
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             string (
               note->getNoteOccupiesAFullMeasure ()
                 ? "R"
@@ -544,7 +547,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         }
           
         // print the rest duration
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           durationAsLilypondString (
             inputLineNumber,
             note->
@@ -552,7 +555,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
   
         // is the rest pitched?
         if (noteIsAPitchedRest) {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             " \\rest";
 
           // this note is the new relative octave reference
@@ -571,10 +574,10 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
     case msrNote::kSkipNote:      
       // print the skip name
-      fLilypondOutputStream << "s";
+      fLilypondIOstream << "s";
       
       // print the skip duration
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         durationAsLilypondString (
           inputLineNumber,
           note->
@@ -587,7 +590,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     case msrNote::kStandaloneNote:
       {
         // print the note name
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           notePitchAsLilypondString (note);
   
         rational
@@ -596,7 +599,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
               getNoteSoundingWholeNotes ();
           
         // print the note duration
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           durationAsLilypondString (
             inputLineNumber,
             noteSoundingWholeNotes);
@@ -606,7 +609,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           // c2*2/3 ( s2*1/3\turn) JMI
           // we need the explicit duration in all cases,
           // regardless of gGeneralOptions->fAllDurations
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             wholeNotesAsLilypondString (
               inputLineNumber,
               noteSoundingWholeNotes) <<
@@ -620,7 +623,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         
           if (noteTie) {
             if (noteTie->getTieKind () == msrTie::kStartTie) {
-              fLilypondOutputStream << " ~";
+              fLilypondIOstream << " ~";
             }
           }
         }
@@ -632,17 +635,17 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
 
     case msrNote::kDoubleTremoloMemberNote:
       // print the note name
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         notePitchAsLilypondString (note);
       
       // print the note duration, i.e. the double tremolo elements duration
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         fCurrentDoubleTremoloElementsLpsrDuration; // JMI
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
         // c2*2/3 ( s2*1/3\turn JMI
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "*" <<
           gLilypondOptions->fDelayedOrnamentsFraction;
       
@@ -652,7 +655,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kStartTie) {
-            fLilypondOutputStream << " ~";
+            fLilypondIOstream << " ~";
           }
         }
       }
@@ -663,18 +666,18 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
 
     case msrNote::kGraceNote:
       // print the note name
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         notePitchAsLilypondString (note);
       
       // print the grace note's graphic duration
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         msrDurationAsString (
           note->
             getNoteGraphicDuration ());
 
       // print the dots if any JMI ???
       for (int i = 0; i < note->getNoteDotsNumber (); i++) {
-        fLilypondOutputStream << ".";
+        fLilypondIOstream << ".";
       } // for
       
       // print the tie if any
@@ -683,7 +686,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kStartTie) {
-            fLilypondOutputStream << "~ ";
+            fLilypondIOstream << "~ ";
           }
         }
       }
@@ -694,7 +697,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
     case msrNote::kChordMemberNote:
       // print the note name
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         notePitchAsLilypondString (note);
       
       // don't print the note duration,
@@ -706,25 +709,25 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
     case msrNote::kTupletMemberNote:
       if (! gLilypondOptions->fTupletsOnALine) {
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           endl;
       }
         
       // print the note name
       if (note->getNoteIsARest ()) {
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           string (
             note->getNoteOccupiesAFullMeasure ()
               ? "R"
               : "r");
       }
       else {
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           notePitchAsLilypondString (note);
       }
       
       // print the note (display) duration
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         durationAsLilypondString (
           inputLineNumber,
           note->
@@ -736,7 +739,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
         if (noteTie) {
           if (noteTie->getTieKind () == msrTie::kStartTie) {
-            fLilypondOutputStream << "~ ";
+            fLilypondIOstream << "~ ";
           }
         }
       }
@@ -748,7 +751,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       break;
   } // switch
 
-  fLilypondOutputStream << " ";
+  fLilypondIOstream << " ";
 
   // was there an unmetered (stemless) section?
   if (stemKind != fCurrentStemKind) {
@@ -834,7 +837,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   if (gGeneralOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       endl <<
       setw (fieldWidth) <<
       "% line" <<
@@ -987,7 +990,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   if (gGeneralOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       endl <<
       setw (fieldWidth) <<
       "% line" <<
@@ -1106,13 +1109,13 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
   if (doGeneratePlacement) {
     switch (articulation->getArticulationPlacement ()) {
       case k_NoPlacement:
-        fLilypondOutputStream << "-";
+        fLilypondIOstream << "-";
         break;
       case kAbovePlacement:
-        fLilypondOutputStream << "^";
+        fLilypondIOstream << "^";
         break;
       case kBelowPlacement:
-        fLilypondOutputStream << "_";
+        fLilypondIOstream << "_";
         break;
     } // switch
   }
@@ -1127,7 +1130,7 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       break;
     case msrArticulation::kCaesura:
     /* JMI
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             endl <<
             R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
             endl;
@@ -1202,10 +1205,10 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
     case k_NoPlacement:
       break;
     case kAbovePlacement:
-      fLilypondOutputStream << "^";
+      fLilypondIOstream << "^";
       break;
     case kBelowPlacement:
-      fLilypondOutputStream << "_";
+      fLilypondIOstream << "_";
       break;
   } // switch
 
@@ -1218,7 +1221,7 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
       break;
     case msrArticulation::kCaesura:
     /* JMI
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             endl <<
             R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
             endl;
@@ -1987,27 +1990,27 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrScore" <<
       endl;
   }
   
   // initial empty line in LilyPond code
   // to help copy/paste it
-// JMI  fLilypondOutputStream << endl;
+// JMI  fLilypondIOstream << endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrScore& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrScore" <<
       endl;
   }
 
   // final empty line in LilyPond code
   // to help copy/paste it
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl;
 }
 
@@ -2015,22 +2018,22 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScore& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrLilypondVarValAssoc" <<
       endl;
   }
 
   if (elt->getComment ().size())
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% " << elt->getComment () <<
       endl;
 
   if (elt->getCommentedKind () == lpsrLilypondVarValAssoc::kCommented)
-    fLilypondOutputStream << "\%";
+    fLilypondIOstream << "\%";
   
   switch (elt->getBackslashKind ()) {
     case lpsrLilypondVarValAssoc::kWithBackslash:
-      fLilypondOutputStream << "\\";
+      fLilypondIOstream << "\\";
       break;
     case lpsrLilypondVarValAssoc::kWithoutBackslash:
       break;
@@ -2044,38 +2047,38 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
   else
     fieldWidth = elt->getVariableName ().size();
     
-  fLilypondOutputStream << left<<
+  fLilypondIOstream << left<<
     setw (fieldWidth) <<
     elt->getVariableName ();
   
   if (elt->getVarValSeparator () == lpsrLilypondVarValAssoc::kEqualSign)
-    fLilypondOutputStream << " = ";
+    fLilypondIOstream << " = ";
   else
-    fLilypondOutputStream << " ";
+    fLilypondIOstream << " ";
   
   if (elt->getQuotesKind () == lpsrLilypondVarValAssoc::kQuotesAroundValue)
-    fLilypondOutputStream << "\"";
+    fLilypondIOstream << "\"";
     
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     elt->getVariableValue ();
 
   if (elt->getUnit ().size())
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\" <<
       elt->getUnit ();
   
   if (elt->getQuotesKind () == lpsrLilypondVarValAssoc::kQuotesAroundValue)
-    fLilypondOutputStream << "\"";
+    fLilypondIOstream << "\"";
   
-  fLilypondOutputStream << endl;
+  fLilypondIOstream << endl;
 
   switch (elt->getEndlKind ()) {
     case lpsrLilypondVarValAssoc::kWithEndl:
-      fLilypondOutputStream << endl;
+      fLilypondIOstream << endl;
       break;
       
     case lpsrLilypondVarValAssoc::kWithEndlTwice:
-      fLilypondOutputStream << endl << endl;
+      fLilypondIOstream << endl << endl;
       break;
       
     case lpsrLilypondVarValAssoc::kWithoutEndl:
@@ -2086,7 +2089,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrLilypondVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrLilypondVarValAssoc" <<
       endl;
   }
@@ -2096,20 +2099,20 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLilypondVarValAssoc& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrSchemeVarValAssoc" <<
       endl;
   }
 
   if (elt->getComment ().size())
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% " << elt->getComment () <<
       endl;
 
   if (elt->getCommentedKind () == lpsrSchemeVarValAssoc::kCommented)
-    fLilypondOutputStream << "\% ";
+    fLilypondIOstream << "\% ";
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "#(" <<
     elt->getVariableName () <<
     " " <<
@@ -2118,10 +2121,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVarValAssoc& elt)
     
   switch (elt->getEndlKind ()) {
     case lpsrSchemeVarValAssoc::kWithEndl:
-      fLilypondOutputStream << endl;
+      fLilypondIOstream << endl;
       break;
     case lpsrSchemeVarValAssoc::kWithEndlTwice:
-      fLilypondOutputStream << endl << endl;
+      fLilypondIOstream << endl << endl;
       break;
     case lpsrSchemeVarValAssoc::kWithoutEndl:
       break;
@@ -2131,7 +2134,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVarValAssoc& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrSchemeVarValAssoc" <<
       endl;
   }
@@ -2141,12 +2144,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeVarValAssoc& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrHeader& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrHeader" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\header" << " {" <<
     endl;
 
@@ -2162,12 +2165,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrHeader& elt)
   gIndenter--;
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrHeader" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "}" <<
     endl << endl;
 }
@@ -2176,12 +2179,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrHeader& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrPaper" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\paper" << " {" <<
     endl;
 
@@ -2196,7 +2199,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getPaperWidth ();
       
     if (paperWidth > 0) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "paper-width" << " = " <<
         setprecision(4) << paperWidth << "\\cm" <<
@@ -2209,7 +2212,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getPaperHeight ();
       
     if (paperHeight > 0) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "paper-height" << " = " <<
         setprecision(4) << paperHeight << "\\cm" <<
@@ -2222,7 +2225,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getTopMargin ();
       
     if (topMargin > 0) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "top-margin" << " = " <<
         setprecision(4) << topMargin << "\\cm" <<
@@ -2235,7 +2238,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getBottomMargin ();
       
     if (bottomMargin > 0) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "bottom-margin" << " = " <<
         setprecision(4) << bottomMargin << "\\cm" <<
@@ -2248,7 +2251,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getLeftMargin ();
       
     if (leftMargin > 0) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "left-margin" << " = " <<
         setprecision(4) << leftMargin << "\\cm" <<
@@ -2261,7 +2264,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getRightMargin ();
       
     if (rightMargin > 0) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "right-margin" << " = " <<
       setprecision(4) << rightMargin << "\\cm" <<
@@ -2276,7 +2279,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getBetweenSystemSpace ();
       
     if (betweenSystemSpace > 0) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "between-system-space" << " = " <<
         setprecision(4) << betweenSystemSpace << "\\cm" <<
@@ -2289,7 +2292,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getPageTopSpace ();
       
     if (pageTopSpace > 0) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "page-top-space" << " = " <<
         setprecision(4) << pageTopSpace << "\\cm" <<
@@ -2304,7 +2307,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getOddHeaderMarkup ();
       
     if (oddHeaderMarkup.size ()) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "oddHeaderMarkup" << " = " <<
         oddHeaderMarkup <<
@@ -2317,7 +2320,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getEvenHeaderMarkup ();
       
     if (evenHeaderMarkup.size ()) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "evenHeaderMarkup" << " = " <<
         evenHeaderMarkup <<
@@ -2330,7 +2333,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getOddFooterMarkup ();
       
     if (oddFooterMarkup.size ()) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "oddFooterMarkup" << " = " <<
         oddFooterMarkup <<
@@ -2343,7 +2346,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       elt->getEvenFooterMarkup ();
       
     if (evenFooterMarkup.size ()) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (fieldWidth) <<
         "evenFooterMarkup" << " = " <<
         evenFooterMarkup <<
@@ -2352,30 +2355,30 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   }
 
   // generate the default 'indent' setting ready for the user
-  fLilypondOutputStream << left <<
+  fLilypondIOstream << left <<
     setw (fieldWidth) <<
     "indent" << " = " <<
     setprecision(4) << 1.5 << "\\cm" <<
     endl;
 
   // generate the default 'short-indent' setting ready for the user
-  fLilypondOutputStream << left <<
+  fLilypondIOstream << left <<
     setw (fieldWidth) <<
     "short-indent" << " = " <<
     setprecision(4) << 1.0 << "\\cm" <<
     endl;
 
-  fLilypondOutputStream << endl;
+  fLilypondIOstream << endl;
 
   // generate a 'page-count' comment ready for the user
-  fLilypondOutputStream << left <<
+  fLilypondIOstream << left <<
     setw (fieldWidth) <<
     "%" "page-count" << " = " <<
     setprecision(4) << 1 <<
     endl;
 
   // generate a 'system-count' comment ready for the user
-  fLilypondOutputStream << left <<
+  fLilypondIOstream << left <<
     setw (fieldWidth) <<
     "%" "system-count" << " = " <<
     setprecision(4) << 1 <<
@@ -2383,7 +2386,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
 
   // fonts
   if (gLilypondOptions->fJazzFonts) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
 R"(
   #(define fonts
      (set-global-fonts
@@ -2402,12 +2405,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
   gIndenter--;
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrPaper" <<
       endl;
   }
       
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "}" <<
     endl << endl;
 }
@@ -2416,12 +2419,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPaper& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrLayout" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\layout" << " {" <<
     endl;
 
@@ -2431,19 +2434,19 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrLayout" <<
       endl;
   }
 
   if (gLilypondOptions->fRepeatBrackets) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\context " "{" <<
       endl;
     
     gIndenter++;
 
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\Score" <<
       endl <<
       "% defaultBarType = #\"!\"" <<
@@ -2457,19 +2460,19 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
 
     gIndenter--;
         
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "}" <<
       endl;
   }
 
   if (true) { // JMI XXL
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\context {" <<
       endl;
   
     gIndenter++;
   
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\Staff" <<
       endl <<
       "\\consists \"Span_arpeggio_engraver\"" <<
@@ -2477,14 +2480,14 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
 
     gIndenter--;
 
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "}" <<
       endl;
   }
     
   gIndenter--;
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "}" <<
     endl <<
     endl;
@@ -2494,19 +2497,19 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrScoreBlock" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\score {" <<
     endl;
 
   gIndenter++;
 /* JMI
   if (elt->getScoreBlockElements ().size()) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "<<" <<
       endl;
   
@@ -2519,7 +2522,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrScoreBlock& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrScoreBlock" <<
       endl;
   }
@@ -2528,7 +2531,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
   if (elt->getScoreBlockElements ().size()) {
     gIndenter--;
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       ">>" <<
       endl <<
       * endl;
@@ -2536,7 +2539,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
 */
   gIndenter--;
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "}" <<
     endl;
 
@@ -2547,25 +2550,25 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusic& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrParallelMusic" <<
       endl;
   }
 
   if (elt->getParallelMusicElements ().size()) { // JMI
     if (gLilypondOptions->fComments) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (commentFieldWidth) <<
         "<<" <<
         "% parallel music";
     }
     
     else {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "<<";
     }
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl;
   
     gIndenter++;
@@ -2575,7 +2578,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusic& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrParallelMusic" <<
       endl;
   }
@@ -2584,18 +2587,18 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
     gIndenter--;
     
     if (gLilypondOptions->fComments) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (commentFieldWidth) <<
         ">>" <<
         "% parallel music";
     }
 
     else {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         ">>";
     }
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       endl;
   }
@@ -2605,7 +2608,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrPartGroupBlock" <<
       endl;
   }
@@ -2670,21 +2673,21 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         break;
     } // switch
   
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       partGroupContextName + " <<";
       
     if (gLilypondOptions->fComments)
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "% part group " <<
         partGroup->getPartGroupCombinedName ();
         
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl;
   }
 
   if (partGroupInstrumentName.size ())
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\set PianoStaff.instrumentName = \"" <<
       partGroupInstrumentName <<
       "\"" <<
@@ -2693,19 +2696,19 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
     bool doConnectArpeggios = true; // JMI
     
     if (doConnectArpeggios)
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\set PianoStaff.connectArpeggios = ##t" <<
         endl;
   
     if (partGroupSymbolKind == msrPartGroup::kSquarePartGroupSymbol) {
       gIndenter++;
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
         endl;
       gIndenter--;
     }
        
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl;
 
   if (elt->getPartGroupBlockElements ().size () > 1)
@@ -2715,7 +2718,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrPartGroupBlock" <<
       endl;
   }
@@ -2730,15 +2733,15 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
 
   // don't generate code for a for the top-most part group block
   if (partGroup->getPartGroupPartGroupUplink ()) {
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) << ">>";
       
     if (gLilypondOptions->fComments)
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "% part group " <<
         partGroup->getPartGroupCombinedName ();
         
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       endl;
   }
@@ -2748,7 +2751,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrPartBlock" <<
       endl;
   }
@@ -2774,22 +2777,22 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
         */
   
     if (gLilypondOptions->fComments) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (commentFieldWidth) <<
         "\\new PianoStaff <<" <<
         "% part " << part->getPartCombinedName ();
     }
     else {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\new PianoStaff <<";      
     }
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl;
     
     gIndenter++;
 
     if (partName.size ()) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\set PianoStaff.instrumentName = \"" <<
         partName <<
         "\"" <<
@@ -2797,7 +2800,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     }
     
     if (partAbbreviation.size ()) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\set PianoStaff.shortInstrumentName = \"" <<
         partAbbreviation <<
         "\"" <<
@@ -2807,12 +2810,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     bool doConnectArpeggios = true; // JMI
     
     if (doConnectArpeggios) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\set PianoStaff.connectArpeggios = ##t" <<
         endl;
     }
        
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl;
   }
 }
@@ -2825,7 +2828,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
       elt->getPart ();
       
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrPartBlock" <<
       endl;
   }
@@ -2836,17 +2839,17 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
     gIndenter--;
   
     if (gLilypondOptions->fComments) {
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (commentFieldWidth) << ">>" <<    
         "% part " <<
         part->getPartCombinedName ();
     }
     else {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         ">>";
     }
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       endl;
   }
@@ -2856,7 +2859,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrStaffBlock" <<
       endl;
   }
@@ -2904,17 +2907,17 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   string newContext = s.str ();
       
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
         setw (commentFieldWidth) <<
         newContext + " <<" <<
         " % staff \"" << staff->getStaffName () << "\"";
   }
   else {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       newContext << " <<";    
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl;
  
   gIndenter++;
@@ -2933,7 +2936,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       elt->getStaffBlockShortInstrumentName ();
 
   if (staffBlockInstrumentName.size ()) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\set Staff.instrumentName = \"" <<
       staffBlockInstrumentName <<
       "\"" <<
@@ -2941,7 +2944,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   }
 
   if (staffBlockShortInstrumentName.size ()) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\set Staff.shortInstrumentName = \"" <<
       staffBlockShortInstrumentName <<
       "\"" <<
@@ -2952,7 +2955,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrStaffBlock" <<
       endl;
   }
@@ -2960,17 +2963,17 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
   gIndenter--;
 
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) << ">>" <<    
       "% staff " <<
       elt->getStaff ()->getStaffName ();
   }
   else {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       ">>";
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl <<
     endl;
 }
@@ -2980,12 +2983,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrNewStaffgroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrNewStaffgroupBlock" <<
       endl;
   }
 
-   fLilypondOutputStream <<
+   fLilypondIOstream <<
      "\\new StaffGroup" << " " << "{" <<
       endl;
 
@@ -2995,14 +2998,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewStaffgroupBlock& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrNewStaffgroupBlock" <<
       endl;
   }
 
   gIndenter--;
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     " }" <<
     endl << endl;
 }
@@ -3011,7 +3014,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffgroupBlock& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrNewStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrNewStaffBlock" <<
       endl;
   }
@@ -3022,7 +3025,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewStaffBlock& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrNewStaffBlock" <<
       endl;
   }
@@ -3035,7 +3038,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewStaffBlock& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrUseVoiceCommand" <<
       endl;
   }
@@ -3087,7 +3090,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
  // if (voice->getStaffRelativeVoiceNumber () > 0) { JMI
     // don't include the silent voice in the staff by default
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\context " << voiceContextName << " = " "\"" <<
       voice->getVoiceName () << "\"" << " <<" <<
        endl;
@@ -3095,7 +3098,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
     gIndenter++;
   
     if (gLilypondOptions->fNoAutoBeaming)
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\set " << staffContextName << ".autoBeaming = ##f" <<
         endl;
   
@@ -3103,22 +3106,22 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       if (staff->getStaffNumberOfMusicVoices () > 1) {
         switch (voice->getVoiceStaffRelativeNumber ()) {
           case 1:
-            fLilypondOutputStream << "\\voiceOne ";
+            fLilypondIOstream << "\\voiceOne ";
             break;
           case 2:
-            fLilypondOutputStream << "\\voiceTwo ";
+            fLilypondIOstream << "\\voiceTwo ";
             break;
           case 3:
-            fLilypondOutputStream << "\\voiceThree ";
+            fLilypondIOstream << "\\voiceThree ";
             break;
           case 4:
-            fLilypondOutputStream << "\\voiceFour ";
+            fLilypondIOstream << "\\voiceFour ";
             break;
           default:
             {}
         } // switch
 
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "% " <<
           staff->getStaffNumberOfMusicVoices () <<
           " music voices" <<
@@ -3127,12 +3130,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       }
     }
   
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\" << voice->getVoiceName () << endl;
   
     gIndenter--;
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       ">>" <<
       endl;
  // }
@@ -3141,7 +3144,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrUseVoiceCommand" <<
       endl;
   }
@@ -3151,19 +3154,19 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrUseVoiceCommand& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrNewLyricsBlock" <<
       endl;
   }
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\new Lyrics" <<
       endl;
 
     gIndenter++;
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       /* JMI
         "\\lyricsto " <<
         "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
@@ -3184,7 +3187,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrNewLyricsBlock" <<
       endl;
   }
@@ -3198,7 +3201,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrNewLyricsBlock& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrVariableUseCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrVariableUseCommand" <<
       endl;
   }
@@ -3209,7 +3212,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVariableUseCommand& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrVariableUseCommand" <<
       endl;
   }
@@ -3221,7 +3224,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrContext" <<
       endl;
   }
@@ -3232,19 +3235,19 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
     contextName =
       elt->getContextName ();
     
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\context " << contextTypeAsString <<
     " = \"" << contextName << "\"" <<
     endl;
 
   if (false) { //option JMI
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\with {" <<
       endl;
 
     gIndenter++;
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\override BarLine.bar-extent = #'(-2 . 2)" <<
       endl <<
       "\\consists \"Bar_engraver\"" <<
@@ -3252,12 +3255,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
         
     gIndenter--;
         
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "}" <<
       endl;
   }
         
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\" << contextName <<
     endl <<
     endl;
@@ -3266,7 +3269,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrContext& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrContext" <<
       endl;
   }
@@ -3276,7 +3279,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrContext& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrBarCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrBarCommand" <<
       endl;
   }
@@ -3287,7 +3290,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrBarCommand& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrBarCommand" <<
       endl;
   }
@@ -3299,17 +3302,17 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrBarCommand& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrMelismaCommand" <<
       endl;
   }
 
   switch (elt->getMelismaKind ()) {
     case lpsrMelismaCommand::kMelismaStart:
-// JMI      fLilypondOutputStream << "\\melisma ";
+// JMI      fLilypondIOstream << "\\melisma ";
       break;
     case lpsrMelismaCommand::kMelismaEnd:
-// JMI      fLilypondOutputStream << "\\melismaEnd ";
+// JMI      fLilypondIOstream << "\\melismaEnd ";
       break;
   } // switch
 }
@@ -3317,7 +3320,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrMelismaCommand& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrMelismaCommand" <<
       endl;
   }
@@ -3327,7 +3330,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrMelismaCommand& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrScore& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrScore" <<
       endl;
   }
@@ -3336,7 +3339,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrScore& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrScore& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrScore" <<
       endl;
   }
@@ -3346,7 +3349,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrScore& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrCredit& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrCredit" <<
       endl;
   }
@@ -3355,7 +3358,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrCredit& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrCredit& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrCredit" <<
       endl;
   }
@@ -3364,7 +3367,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrCredit& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrCreditWords& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrCreditWords" <<
       endl;
   }
@@ -3373,7 +3376,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrCreditWords& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrCreditWords& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrCreditWords" <<
       endl;
   }
@@ -3383,7 +3386,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrCreditWords& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrPartGroup& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrPartGroup" <<
       elt->getPartGroupCombinedName () <<
       endl;
@@ -3393,7 +3396,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPartGroup& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrPartGroup& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrPartGroup" <<
       elt->getPartGroupCombinedName () <<
       endl;
@@ -3404,7 +3407,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPartGroup& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrPart" <<
       elt->getPartCombinedName () <<
       endl;
@@ -3416,7 +3419,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrPart& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrPart" <<
       elt->getPartCombinedName () <<
       endl;
@@ -3429,7 +3432,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPart& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStaff& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrStaff \"" <<
       elt->getStaffName () <<
       "\"" <<
@@ -3442,7 +3445,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaff& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrStaff& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrStaff \"" <<
       elt->getStaffName () <<
       "\"" <<
@@ -3456,7 +3459,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStaff& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> Start visiting msrStaffLinesNumber" <<
       endl;
   }
@@ -3467,7 +3470,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
       elt->getLinesNumber ();
 
   if (linesNumber != 5) { // default value
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       "\\stopStaff " <<
       "\\override Staff.StaffSymbol.line-count = " <<
@@ -3480,7 +3483,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> Start visiting msrStaffTuning" <<
       endl;
   }
@@ -3493,7 +3496,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
   if (staffTuningsList.size ()) {
     // \set TabStaff.stringTunings = \stringTuning <c' g' d'' a''>
 
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\set TabStaff.stringTunings = \\stringTuning <";
 
     list<S_msrStaffTuning>::const_iterator
@@ -3502,7 +3505,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
       i      = iBegin;
       
     for ( ; ; ) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         msrQuarterTonesPitchAsString (
           gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
  // JMI            elt->getInputLineNumber (),
@@ -3511,10 +3514,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
         absoluteOctaveAsLilypondString (
           (*i)->getStaffTuningOctave ());
       if (++i == iEnd) break;
-      fLilypondOutputStream << " ";
+      fLilypondIOstream << " ";
     } // for
 
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       ">" <<
       endl;
   }
@@ -3524,7 +3527,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> Start visiting msrStaffDetails" <<
       endl;
   }
@@ -3534,7 +3537,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffDetails& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrVoice \"" <<
       elt->getVoiceName () <<
       "\"" <<
@@ -3543,7 +3546,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
 
   fCurrentVoice = elt;
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     fCurrentVoice->getVoiceName () << " = ";
 
   // generate the beginning of the voice definition
@@ -3557,29 +3560,29 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     
     case msrVoice::kRegularVoice:
       if (gLilypondOptions->fAbsoluteOctaves)
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "{" <<
           endl;
       else
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "\\relative {" <<
           endl;
       break;
       
     case msrVoice::kHarmonyVoice:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\chordmode {" <<
         endl;
       break;
       
     case msrVoice::kFiguredBassVoice:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\figuremode {" <<
         endl;
       break;
       
     case msrVoice::kSilentVoice:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "{" <<
         endl;
       break;
@@ -3588,21 +3591,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   gIndenter++;
 
   if (gLilypondOptions->fGlobal) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\global" <<
       endl <<
       endl;
   }
     
   if (gLilypondOptions->fDisplayMusic) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\displayMusic {" <<
       endl;
 
     gIndenter++;
   }
     
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\language \"" <<
     msrQuarterTonesPitchesLanguageAsString (
       gLpsrOptions->fLpsrQuarterTonesPitchesLanguage) <<
@@ -3610,7 +3613,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     endl;
 
   if (gLpsrOptions->fLpsrChordsLanguage != k_IgnatzekChords)
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\" <<
       lpsrChordsLanguageAsString (
         gLpsrOptions->fLpsrChordsLanguage) <<
@@ -3618,7 +3621,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl;
 
   if (gLilypondOptions->fShowAllBarNumbers)
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\set Score.barNumberVisibility = #all-bar-numbers-visible" <<
       endl <<
       "\\override Score.BarNumber.break-visibility = ##(#f #t #t)" <<
@@ -3632,13 +3635,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     fCurrentVoice->getVoiceContainsMultipleRests ()
       ||
     gLilypondOptions->fCompressMultiMeasureRests)
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\compressMMRests" <<
       endl <<
       endl;
 
   if (gLilypondOptions->fAccidentalStyle != kDefaultStyle)
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\accidentalStyle Score." <<
       lpsrAccidentalStyleAsString (
         gLilypondOptions->fAccidentalStyle) <<
@@ -3682,7 +3685,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   gIndenter--;
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrVoice \"" <<
       elt->getVoiceName () <<
       "\"" <<
@@ -3690,7 +3693,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   }
   
   if (gLilypondOptions->fDisplayMusic) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "}" <<
       endl;
 
@@ -3706,28 +3709,28 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       break;      
     
     case msrVoice::kRegularVoice:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "}" <<
         endl <<
         endl;
       break;
       
     case msrVoice::kHarmonyVoice:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "}" <<
         endl <<
         endl;
       break;
       
     case msrVoice::kFiguredBassVoice:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "}" <<
         endl <<
         endl;
       break;
       
     case msrVoice::kSilentVoice:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "}" <<
         endl <<
         endl;
@@ -3764,13 +3767,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrVoiceStaffChange '" <<
       elt->voiceStaffChangeAsString () << "'" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl <<
     "\\change Staff=\"" <<
     elt->getNewStaff ()->getStaffNumber () <<
@@ -3782,7 +3785,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrHarmony '" <<
       elt->harmonyAsString () <<
       "'" <<
@@ -3791,7 +3794,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 
   if (fOnGoingNote) {
     if (gGeneralOptions->fTraceHarmonies) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "%{ " << elt->harmonyAsString () << " %}" <<
         endl;
     }
@@ -3806,13 +3809,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   }
 
   else if (fOnGoingHarmonyVoice) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       harmonyAsLilypondString (elt) <<
       " ";
       
     if (gLilypondOptions->fNoteInputLineNumbers) {
       // print the harmony line number as a comment
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         " %{ " << elt->getInputLineNumber () << " %} ";
     }
   }
@@ -3829,7 +3832,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrFiguredBass '" <<
       elt->figuredBassAsString () <<
       "'" <<
@@ -3839,7 +3842,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
   fCurrentFiguredBass = elt;
   
   if (fOnGoingNote) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%{ " << fCurrentFiguredBass->figuredBassAsString () << " %}" <<
       endl;
   }
@@ -3853,12 +3856,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
   }
 
   else if (fOnGoingFiguredBassVoice) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "<";
       
     if (gLilypondOptions->fNoteInputLineNumbers) {
       // print the figured bass line number as a comment
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         " %{ " << fCurrentFiguredBass->getInputLineNumber () << " %} ";
     }
   }
@@ -3876,7 +3879,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrFigure '" <<
       elt->figureAsString () <<
       "'" <<
@@ -3894,18 +3897,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
   // generate the figure number
   switch (figuredBassParenthesesKind) {
     case msrFiguredBass::kFiguredBassParenthesesYes:
-      fLilypondOutputStream << "[";
+      fLilypondIOstream << "[";
       break;
     case msrFiguredBass::kFiguredBassParenthesesNo:
       break;
   } // switch
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     elt->getFigureNumber ();
     
   switch (figuredBassParenthesesKind) {
     case msrFiguredBass::kFiguredBassParenthesesYes:
-      fLilypondOutputStream << "]";
+      fLilypondIOstream << "]";
       break;
     case msrFiguredBass::kFiguredBassParenthesesNo:
       break;
@@ -3916,25 +3919,25 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
     case msrFigure::k_NoFigurePrefix:
       break;
     case msrFigure::kDoubleFlatPrefix:
-      fLilypondOutputStream << "--";
+      fLilypondIOstream << "--";
       break;
     case msrFigure::kFlatPrefix:
-      fLilypondOutputStream << "-";
+      fLilypondIOstream << "-";
       break;
     case msrFigure::kFlatFlatPrefix:
-      fLilypondOutputStream << "flat flat";
+      fLilypondIOstream << "flat flat";
       break;
     case msrFigure::kNaturalPrefix:
-      fLilypondOutputStream << "!";
+      fLilypondIOstream << "!";
       break;
     case msrFigure::kSharpSharpPrefix:
-      fLilypondOutputStream << "sharp sharp";
+      fLilypondIOstream << "sharp sharp";
       break;
     case msrFigure::kSharpPrefix:
-      fLilypondOutputStream << "+";
+      fLilypondIOstream << "+";
       break;
     case msrFigure::kDoubleSharpPrefix:
-      fLilypondOutputStream << "++";
+      fLilypondIOstream << "++";
       break;
   } // switch
 
@@ -3943,28 +3946,28 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
     case msrFigure::k_NoFigureSuffix:
       break;
     case msrFigure::kDoubleFlatSuffix:
-      fLilypondOutputStream << "double flat";
+      fLilypondIOstream << "double flat";
       break;
     case msrFigure::kFlatSuffix:
-      fLilypondOutputStream << "flat";
+      fLilypondIOstream << "flat";
       break;
     case msrFigure::kFlatFlatSuffix:
-      fLilypondOutputStream << "flat flat";
+      fLilypondIOstream << "flat flat";
       break;
     case msrFigure::kNaturalSuffix:
-      fLilypondOutputStream << "natural";
+      fLilypondIOstream << "natural";
       break;
     case msrFigure::kSharpSharpSuffix:
-      fLilypondOutputStream << "sharp sharp";
+      fLilypondIOstream << "sharp sharp";
       break;
     case msrFigure::kSharpSuffix:
-      fLilypondOutputStream << "sharp";
+      fLilypondIOstream << "sharp";
       break;
     case msrFigure::kDoubleSharpSuffix:
-      fLilypondOutputStream << "souble sharp";
+      fLilypondIOstream << "souble sharp";
       break;
     case msrFigure::kSlashSuffix:
-      fLilypondOutputStream << "/";
+      fLilypondIOstream << "/";
       break;
   } // switch
 
@@ -3973,21 +3976,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
     fCurrentFiguredBassFiguresCounter
       <
     fCurrentFiguredBass->getFiguredBassFiguresList ().size ()) {
-    fLilypondOutputStream << " ";
+    fLilypondIOstream << " ";
   }
   }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrFiguredBass '" <<
       elt->figuredBassAsString () <<
       "'" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     ">" <<
     wholeNotesAsLilypondString (
       elt->getInputLineNumber (),
@@ -4000,14 +4003,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrSegment& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> Start visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
   }
 
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       "% start of segment" <<
       endl;
@@ -4021,7 +4024,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegment& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> End visiting msrSegment '" <<
       elt->getSegmentAbsoluteNumber () << "'" <<
       endl;
@@ -4030,14 +4033,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSegment& elt)
   if (gLilypondOptions->fComments) {
     gIndenter--;
     
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       "% end of segment" <<
       endl;
   }
   /* JMI
   else
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl;
 */
 
@@ -4056,9 +4059,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasureNumber ();
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
-    fLilypondOutputStream <<
+    fLogIOstream <<
       endl <<
-      "<!--=== measure " << measureNumber <<
+      "% <!--=== measure " << measureNumber <<
       ", line " << inputLineNumber << " ===-->" <<
       endl;
   }
@@ -4072,7 +4075,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasureKind ();
       
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrMeasure " <<
       measureNumber <<
       ", measureKind:" <<
@@ -4082,7 +4085,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   }
 
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       "% start of measure \"" << measureNumber << "\"" <<
       ", line " << inputLineNumber <<
@@ -4096,14 +4099,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     fOnGoingVoiceCadenza
       &&
     measureKind != msrMeasure::kOverfullMeasureKind) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\cadenzaOff";
 
     if (gLilypondOptions->fComments)
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         " % kOverfullMeasureKind End";
 
-    fLilypondOutputStream<<
+    fLilypondIOstream<<
       endl;
 
     fOnGoingVoiceCadenza = false;
@@ -4136,7 +4139,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
             elt->getMeasureLength ();
 
 /* JMI
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "%{ measureLength: " << measureLength << " %}";
 */
 
@@ -4146,7 +4149,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
               inputLineNumber,
               elt->getMeasureLength ());
 
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "\\partial " << upbeatDuration <<
           endl;
       }
@@ -4171,7 +4174,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         if (gGeneralOptions->fTraceMeasures) {
           const int fieldWidth = 27;
           
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "% Setting the measure length for measure " <<
             measureNumber <<
             ", line = " << inputLineNumber <<
@@ -4192,7 +4195,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         }
 
         else {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "\\set Score.measureLength = #(ly:make-moment " <<
             ratioToFullLength.toString () <<
             ")" <<
@@ -4200,7 +4203,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     
           // should we generate a break?
           if (gLilypondOptions->fBreakLinesAtIncompleteRightMeasures)
-            fLilypondOutputStream <<
+            fLilypondIOstream <<
               "\\break" <<
               endl;
         }
@@ -4209,14 +4212,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
     case msrMeasure::kOverfullMeasureKind:
       if (! fOnGoingVoiceCadenza) {
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "\\cadenzaOn";
 
         if (gLilypondOptions->fComments) {
-          fLilypondOutputStream << " % kOverfullMeasureKind Start";
+          fLilypondIOstream << " % kOverfullMeasureKind Start";
         }
 
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           endl;
 
         fOnGoingVoiceCadenza = true;
@@ -4225,14 +4228,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kSenzaMisuraMeasureKind:
       if (! fOnGoingVoiceCadenza) {
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "\\cadenzaOn";
 
         if (gLilypondOptions->fComments) {
-          fLilypondOutputStream << " % kSenzaMisuraMeasureKind Start";
+          fLilypondIOstream << " % kSenzaMisuraMeasureKind Start";
         }
 
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           endl;
 
         fOnGoingVoiceCadenza = true;
@@ -4243,7 +4246,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       {
         // generate a rest the duration of the measure
         // followed by a bar check
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "R" <<
           wholeNotesAsLilypondString (
             inputLineNumber,
@@ -4272,7 +4275,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       elt->getMeasureKind ();
       
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrMeasure " <<
       measureNumber <<
       ", measureKind:" <<
@@ -4293,13 +4296,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kUnderfullMeasureKind:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\unset Score.measureLength" <<
         endl;
       break;
 
     case msrMeasure::kOverfullMeasureKind:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         "\\cadenzaOff" <<
         endl;
@@ -4308,7 +4311,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       
 /* JMI
       gIndenter--;
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "}" <<
         endl <<
         "\\bar \"|\"" <<
@@ -4317,7 +4320,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
 
     case msrMeasure::kSenzaMisuraMeasureKind:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
           "\\cadenzaOff" <<
           endl <<
           "\\bar \"|\"" <<
@@ -4330,7 +4333,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
   } // switch
     
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "| % " << measureNumber <<
     endl <<
     endl;
@@ -4338,7 +4341,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   if (gLilypondOptions->fComments) {
     gIndenter--;
 
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       "% end of measure " <<
       measureNumber <<
@@ -4354,7 +4357,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       gLilypondOptions->fSeparatorLineEveryNMeasures
         ==
       0)
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         "% ============================= " <<
         endl <<
@@ -4368,7 +4371,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrStanza \"" <<
       elt->getStanzaName () <<
       "\"" <<
@@ -4381,7 +4384,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
       ! fOnGoingVoice && elt->getStanzaTextPresent ();
 
     if (fOngoingNonEmptyStanza) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         elt->getStanzaName () << " = " << "\\lyricmode" << " {" <<
         endl;
         
@@ -4393,7 +4396,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrStanza \"" <<
       elt->getStanzaName () <<
       "\"" <<
@@ -4404,7 +4407,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
     if (fOngoingNonEmptyStanza) {
       gIndenter--;
     
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         "}" <<
         endl <<
@@ -4419,7 +4422,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrSyllable '" <<
       elt->syllableAsString () <<
       "'" <<
@@ -4435,8 +4438,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSingleSyllable:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
@@ -4444,30 +4447,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kBeginSyllable:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
           
         case msrSyllable::kMiddleSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "-- ";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
           
         case msrSyllable::kEndSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "-- ";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
@@ -4475,14 +4478,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kRestSyllable:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
 /* JMI
           // LilyPond ignores the skip duration
           // when \lyricsto is used
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
  //           "%{rest" << elt->syllableWholeNotesAsMsrString () << "%} ";
             "\\skip" <<
             elt->syllableWholeNotesAsMsrString () <<
@@ -4493,7 +4496,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSkipSyllable:
           // LilyPond ignores the skip duration
           // when \lyricsto is used
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "\\skip" <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
@@ -4505,7 +4508,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             a single underscore character, _, for every extra note
             that has to be added to the melisma.
           */
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "__ _ " << // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
             elt->syllableWholeNotesAsMsrString () << " ";
            break;
@@ -4516,94 +4519,94 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             a single underscore character, _, for every extra note
             that has to be added to the melisma.
           */
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "_ " << // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
             elt->syllableWholeNotesAsMsrString () << " ";
           break;
           
         case msrSyllable::kTiedSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "%{ ~ " << "\"";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             "\"" << " %}" <<
             endl;
           break;
           
         case msrSyllable::kSlurSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "%{ slur " << "\"";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             "\"" << " %}" <<
             endl;
           break;
   
         case msrSyllable::kSlurBeyondEndSyllable:
-  // JMI       fLilypondOutputStream <<
+  // JMI       fLilypondIOstream <<
    //         "__ " << " ";
           break;
   
         case msrSyllable::kLigatureSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "%{ ligature " << "\"";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             "\"" << " %}" <<
             endl;
           break;
   
         case msrSyllable::kLigatureBeyondEndSyllable:
-  // JMI       fLilypondOutputStream <<
+  // JMI       fLilypondIOstream <<
    //         "__ " << " ";
           break;
   
         case msrSyllable::kBarcheckSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "| %{ ";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             " %}" <<
             endl;
           break;
     
         case msrSyllable::kBarNumberCheckSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "%{ | ";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             " %}" <<
             endl;
           break;
     
         case msrSyllable::kLineBreakSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "%{ break " << "\"";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             "\"" << " %}" <<
             endl;
           break;
     
         case msrSyllable::kPageBreakSyllable:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "%{ pageBreak " << "\"";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
-            fLilypondOutputStream);
-          fLilypondOutputStream <<
+            fLilypondIOstream);
+          fLilypondIOstream <<
             "\"" << " %}" <<
             endl;
           break;
@@ -4615,7 +4618,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       switch (elt->getSyllableExtendKind ()) {
         case msrSyllable::kStandaloneSyllableExtend:
           // generate a lyric extender after this syllable
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "__ ";
           break;
         case msrSyllable::kStartSyllableExtend:
@@ -4630,7 +4633,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       
       if (gLilypondOptions->fNoteInputLineNumbers) {
         // print the note line number as a comment
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           " %{ " << elt->getInputLineNumber () << " %} ";
       } 
     }
@@ -4640,7 +4643,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrSyllable& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrSyllable '" <<
       elt->syllableAsString () <<
       "'" <<
@@ -4652,7 +4655,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSyllable& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrClef '" <<
       elt->clefAsString () <<
       "'" <<
@@ -4664,93 +4667,93 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
       elt->getClefKind ();
 
   if (clefKind != msrClef::k_NoClef) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\clef" " \"";
   
     switch (clefKind) {
       case msrClef::k_NoClef:
         break;
       case msrClef::kTrebleClef:
-        fLilypondOutputStream << "treble";
+        fLilypondIOstream << "treble";
         break;
       case msrClef::kSopranoClef:
-        fLilypondOutputStream << "soprano";
+        fLilypondIOstream << "soprano";
         break;
       case msrClef::kMezzoSopranoClef:
-        fLilypondOutputStream << "mezzosoprano";
+        fLilypondIOstream << "mezzosoprano";
         break;
       case msrClef::kAltoClef:
-        fLilypondOutputStream << "alto";
+        fLilypondIOstream << "alto";
         break;
       case msrClef::kTenorClef:
-        fLilypondOutputStream << "tenor";
+        fLilypondIOstream << "tenor";
         break;
       case msrClef::kBaritoneClef:
-        fLilypondOutputStream << "baritone";
+        fLilypondIOstream << "baritone";
         break;
       case msrClef::kBassClef:
-        fLilypondOutputStream << "bass";
+        fLilypondIOstream << "bass";
         break;
       case msrClef::kTrebleLine1Clef:
-        fLilypondOutputStream << "french";
+        fLilypondIOstream << "french";
         break;
       case msrClef::kTrebleMinus15Clef:
-        fLilypondOutputStream << "treble_15";
+        fLilypondIOstream << "treble_15";
         break;
       case msrClef::kTrebleMinus8Clef:
-        fLilypondOutputStream << "treble_8";
+        fLilypondIOstream << "treble_8";
         break;
       case msrClef::kTreblePlus8Clef:
-        fLilypondOutputStream << "treble^8";
+        fLilypondIOstream << "treble^8";
         break;
       case msrClef::kTreblePlus15Clef:
-        fLilypondOutputStream << "treble^15";
+        fLilypondIOstream << "treble^15";
         break;
       case msrClef::kBassMinus15Clef:
-        fLilypondOutputStream << "bass_15";
+        fLilypondIOstream << "bass_15";
         break;
       case msrClef::kBassMinus8Clef:
-        fLilypondOutputStream << "bass_8";
+        fLilypondIOstream << "bass_8";
         break;
       case msrClef::kBassPlus8Clef:
-        fLilypondOutputStream << "bass^8";
+        fLilypondIOstream << "bass^8";
         break;
       case msrClef::kBassPlus15Clef:
-        fLilypondOutputStream << "bass^15";
+        fLilypondIOstream << "bass^15";
         break;
       case msrClef::kVarbaritoneClef:
-        fLilypondOutputStream << "varbaritone";
+        fLilypondIOstream << "varbaritone";
         break;
       case msrClef::kTablature4Clef:
         if (gLilypondOptions->fModernTab)
-          fLilypondOutputStream << "moderntab";
+          fLilypondIOstream << "moderntab";
         else
-          fLilypondOutputStream << "tab";
+          fLilypondIOstream << "tab";
         break;
       case msrClef::kTablature5Clef:
         if (gLilypondOptions->fModernTab)
-          fLilypondOutputStream << "moderntab";
+          fLilypondIOstream << "moderntab";
         else
-          fLilypondOutputStream << "tab";
+          fLilypondIOstream << "tab";
         break;
       case msrClef::kTablature6Clef:
         if (gLilypondOptions->fModernTab)
-          fLilypondOutputStream << "moderntab";
+          fLilypondIOstream << "moderntab";
         else
-          fLilypondOutputStream << "tab";
+          fLilypondIOstream << "tab";
         break;
       case msrClef::kTablature7Clef:
         if (gLilypondOptions->fModernTab)
-          fLilypondOutputStream << "moderntab";
+          fLilypondIOstream << "moderntab";
         else
-          fLilypondOutputStream << "tab";
+          fLilypondIOstream << "tab";
         break;
       case msrClef::kPercussionClef:
-        fLilypondOutputStream << "percussion";
+        fLilypondIOstream << "percussion";
         break;
     } // switch
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\"" <<
     endl;
   }
@@ -4759,7 +4762,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrClef& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrClef '" <<
       elt->clefAsString () <<
       "'" <<
@@ -4771,7 +4774,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrClef& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrKey '" <<
       elt->keyAsString () <<
       "'" <<
@@ -4780,7 +4783,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
 
   switch (elt->getKeyKind ()) {
     case msrKey::kTraditionalKind:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\key " <<
         msrQuarterTonesPitchAsString (
           gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
@@ -4798,7 +4801,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
             elt->getHumdrumScotKeyItemsVector ();
         
         if (humdrumScotKeyItemsVector.size ()) {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             endl <<
             "\\set Staff.keyAlterations = #`(";
 
@@ -4815,7 +4818,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
               //\set Staff.keyAlterations = #`(((3 . 3) . 7) ((3 . 5) . 3) ((3 . 6) . 3))"  \time 2/4
     
                                       
-                fLilypondOutputStream <<
+                fLilypondIOstream <<
                   "(" <<
                     "(" <<
                     item->getKeyItemOctave () - 3 <<
@@ -4834,7 +4837,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
             else {
               // Alternatively, for each item in the list, using the more concise format (step . alter) specifies that the same alteration should hold in all octaves.
                                       
-                fLilypondOutputStream <<
+                fLilypondIOstream <<
                   "(" <<
                   item->getKeyItemDiatonicPitch () <<
                   " . ," <<
@@ -4845,10 +4848,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
                 
             if (++i == iEnd) break;
             
-            fLilypondOutputStream << " ";
+            fLilypondIOstream << " ";
           } // for
   
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             ")";
         }
         
@@ -4865,7 +4868,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrKey& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrKey '" <<
       elt->keyAsString () <<
       "'"  <<
@@ -4877,7 +4880,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrKey& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrTime " <<
       elt->timeAsString () <<
       endl;
@@ -4896,7 +4899,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     fVoiceIsCurrentlySenzaMisura
       &&
     timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\undo\\omit Staff.TimeSignature" <<
       endl;
 
@@ -4908,7 +4911,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 
     // senza misura time
     
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\omit Staff.TimeSignature" <<
       endl;
 
@@ -4945,7 +4948,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
           timeSymbolKind == msrTime::k_NoTimeSymbol
             ||
           gLilypondOptions->fNumericalTime) {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "\\numericTimeSignature ";
         }
   
@@ -4960,7 +4963,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
           case msrTime::kTimeSymbolDottedNote:
             break;
           case msrTime::kTimeSymbolSingleNumber:
-            fLilypondOutputStream <<
+            fLilypondIOstream <<
               "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
               endl;
             break;
@@ -4996,7 +4999,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
   (grob-interpret-markup grob m)))
   
          */
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "\\time " <<
           beatsNumbersVector [0] << // the only element
           "/" <<
@@ -5011,7 +5014,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
         // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4  
         // \compoundMeter #'((3 2 8) (3 4)) for 3+2/8+3/4
     
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "\\compoundMeter #`(";
         
         // handle all the time items in the vector
@@ -5030,30 +5033,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
             beatsNumbersVector.size ();
             
           // first generate the opening parenthesis
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             "(";
   
           // then generate all beats numbers in the vector
           for (int j = 0; j < beatsNumbersNumber; j++) {
-            fLilypondOutputStream <<
+            fLilypondIOstream <<
               beatsNumbersVector [j] <<
               " ";
           } // for
       
           // then generate the beat type
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             timeItem->getTimeBeatValue ();
   
           // and finally generate the closing parenthesis
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             ")";
   
           if (i != timesItemsNumber - 1)
-            fLilypondOutputStream <<
+            fLilypondIOstream <<
               " ";
         } // for
               
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         ")" <<
         endl;
       }
@@ -5072,7 +5075,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrTime " <<
       elt->timeAsString () <<
       endl;
@@ -5083,7 +5086,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrTranspose& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrTranspose" <<
       endl;
   }
@@ -5539,7 +5542,7 @@ If the double element is present, it indicates that the music is doubled one oct
 */
 
   // now we can generate the transpostion command
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\transposition " <<
     transpositionPitchAsString <<
     transitionOctaveAsString <<
@@ -5550,7 +5553,7 @@ If the double element is present, it indicates that the music is doubled one oct
 void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrTranspose" <<
       endl;
   }
@@ -5560,7 +5563,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrTempo" <<
       endl;
   }
@@ -5570,25 +5573,25 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
   int tempoUnit = elt->getTempoUnit ();
   int perMinute = elt->getPerMinute ();
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\tempo";
 
   if (tempoIndication.size ())
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       " \"" << tempoIndication << "\"";
 
   if (tempoUnit)
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       " " << tempoUnit << " = " << perMinute;
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTempo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrTempo" <<
       endl;
   }
@@ -5598,7 +5601,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTempo& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrArticulation& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrArticulation" <<
       endl;
   }
@@ -5610,7 +5613,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArticulation& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrArticulation& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrArticulation" <<
       endl;
   }
@@ -5620,7 +5623,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrArticulation& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrFermata& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrFermata" <<
       endl;
   }
@@ -5635,10 +5638,10 @@ Articulations can be attached to rests as well as notes but they cannot be attac
       // nothing needed
       break;
     case kAbovePlacement:
-      fLilypondOutputStream << "^";
+      fLilypondIOstream << "^";
       break;
     case kBelowPlacement:
-      fLilypondOutputStream << "_";
+      fLilypondIOstream << "_";
       break;
   } // switch
 */
@@ -5651,19 +5654,19 @@ Articulations can be attached to rests as well as notes but they cannot be attac
       // no markup needed
       break;
     case msrFermata::kInvertedFermataType:
-      fLilypondOutputStream << "_";
+      fLilypondIOstream << "_";
       break;
   } // switch
 
   switch (elt->getFermataKind ()) {
     case msrFermata::kNormalFermataKind:
-      fLilypondOutputStream << "\\fermata ";
+      fLilypondIOstream << "\\fermata ";
       break;
     case msrFermata::kAngledFermataKind:
-      fLilypondOutputStream << "\\shortfermata ";
+      fLilypondIOstream << "\\shortfermata ";
       break;
     case msrFermata::kSquareFermataKind:
-      fLilypondOutputStream << "\\longfermata ";
+      fLilypondIOstream << "\\longfermata ";
       break;
   } // switch
 }
@@ -5671,7 +5674,7 @@ Articulations can be attached to rests as well as notes but they cannot be attac
 void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrFermata" <<
       endl;
   }
@@ -5681,7 +5684,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFermata& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrArpeggiato" <<
       endl;
   }
@@ -5693,7 +5696,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrArpeggiato& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrArpeggiato& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrArpeggiato" <<
       endl;
   }
@@ -5703,7 +5706,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrArpeggiato& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrNonArpeggiato" <<
       endl;
   }
@@ -5715,7 +5718,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNonArpeggiato& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrNonArpeggiato& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrNonArpeggiato" <<
       endl;
   }
@@ -5725,7 +5728,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNonArpeggiato& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrTechnical& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrTechnical" <<
       endl;
   }
@@ -5737,7 +5740,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnical& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnical& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrTechnical" <<
       endl;
   }
@@ -5747,7 +5750,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnical& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrTechnicalWithInteger" <<
       endl;
   }
@@ -5759,7 +5762,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrTechnicalWithInteger" <<
       endl;
   }
@@ -5769,7 +5772,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithString& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrTechnicalWithString" <<
       endl;
   }
@@ -5781,7 +5784,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithString& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithString& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrTechnicalWithString" <<
       endl;
   }
@@ -5791,7 +5794,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithString& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrOrnament& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrOrnament" <<
       endl;
   }
@@ -5803,7 +5806,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOrnament& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrOrnament& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrOrnament" <<
       endl;
   }
@@ -5813,7 +5816,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOrnament& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrSingleTremolo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrSingleTremolo" <<
       endl;
   }
@@ -5825,7 +5828,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSingleTremolo& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrSingleTremolo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrSingleTremolo" <<
       endl;
   }
@@ -5835,7 +5838,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSingleTremolo& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrDoubleTremolo" <<
       endl;
   }
@@ -5853,7 +5856,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
         elt->getDoubleTremoloMarksNumber () + 2));
 
   if (gGeneralOptions->fTraceTremolos) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
       gTab << "% doubleTremoloSoundingWholeNotes = " <<
@@ -5866,7 +5869,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       endl;
   }
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\repeat tremolo " << numberOfRepeats <<
     " {" <<
     endl;
@@ -5877,14 +5880,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrDoubleTremolo" <<
       endl;
   }
 
   gIndenter--;
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl <<
     "}" <<
     endl;
@@ -5894,7 +5897,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrDynamics& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrDynamics" <<
       endl;
   }
@@ -5903,7 +5906,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDynamics& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrDynamics& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrDynamics" <<
       endl;
   }
@@ -5913,7 +5916,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDynamics& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrOtherDynamics& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrOtherDynamics" <<
       endl;
   }
@@ -5922,7 +5925,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOtherDynamics& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrOtherDynamics& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrOtherDynamics" <<
       endl;
   }
@@ -5932,7 +5935,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOtherDynamics& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrWords& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrWords" <<
       endl;
   }
@@ -5941,7 +5944,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrWords& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrWords& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrWords" <<
       endl;
   }
@@ -5951,7 +5954,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrWords& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrSlur& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrSlur" <<
       endl;
   }
@@ -5960,7 +5963,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSlur& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrSlur& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrSlur" <<
       endl;
   }
@@ -5970,7 +5973,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSlur& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrLigature& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrLigature" <<
       endl;
   }
@@ -5979,7 +5982,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrLigature& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrLigature& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrLigature" <<
       endl;
   }
@@ -5989,7 +5992,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrLigature& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrWedge& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrWedge" <<
       endl;
   }
@@ -5998,7 +6001,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrWedge& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrWedge& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrWedge" <<
       endl;
   }
@@ -6008,29 +6011,29 @@ void lpsr2LilypondTranslator::visitEnd (S_msrWedge& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrGraceNotes& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrGraceNotes" <<
       endl;
   }
 
   if (elt->getGraceNotesIsSlashed ())
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\slashedGrace"; // JMI "\\grace";
   else
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\grace"; // JMI "\\acciaccatura" \\appoggiatura
-  fLilypondOutputStream << " { ";
+  fLilypondIOstream << " { ";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrGraceNotes& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrGraceNotes" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "} ";
 }
 
@@ -6038,20 +6041,20 @@ void lpsr2LilypondTranslator::visitEnd (S_msrGraceNotes& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotes& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrAfterGraceNotes" <<
       endl;
   }
 
  // JMI exists? if (elt->getGraceNotesIsSlashed ())
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\afterGrace ";
 
 /* JMI
   printNoteAsLilypondString (
     elt->getAfterGraceNotesNote ());
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     " { ";
     */
 }
@@ -6059,12 +6062,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotes& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotes& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrAfterGraceNotes" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "} ";
 }
 
@@ -6072,7 +6075,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotes& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting ";
       
     switch (elt->getNoteKind ()) {
@@ -6081,35 +6084,35 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kRestNote:        
-        fLilypondOutputStream << "rest";
+        fLilypondIOstream << "rest";
         break;
         
       case msrNote::kSkipNote:        
-        fLilypondOutputStream << "skip";
+        fLilypondIOstream << "skip";
         break;
         
       case msrNote::kStandaloneNote:
-        fLilypondOutputStream << "standalone";
+        fLilypondIOstream << "standalone";
         break;
         
       case msrNote::kDoubleTremoloMemberNote:
-        fLilypondOutputStream << "double tremolo member note";
+        fLilypondIOstream << "double tremolo member note";
         break;
         
       case msrNote::kGraceNote:
-        fLilypondOutputStream << "grace";
+        fLilypondIOstream << "grace";
         break;
         
       case msrNote::kChordMemberNote:
-        fLilypondOutputStream << "chord member";
+        fLilypondIOstream << "chord member";
         break;
         
       case msrNote::kTupletMemberNote:
-        fLilypondOutputStream << "tuplet member";
+        fLilypondIOstream << "tuplet member";
         break;
     } // switch
     
-    fLilypondOutputStream << " msrNote" <<
+    fLilypondIOstream << " msrNote" <<
       endl;
   }
 
@@ -6120,7 +6123,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 
   switch (noteHeadParenthesesKind) {
     case msrNote::kNoteHeadParenthesesYes:
-      fLilypondOutputStream << "\\parenthesize ";
+      fLilypondIOstream << "\\parenthesize ";
       break;
     case msrNote::kNoteHeadParenthesesNo:
       break;
@@ -6133,82 +6136,82 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
  
   switch (noteHeadKind) {
     case msrNote::kNoteHeadSlash:
-      fLilypondOutputStream << "\\tweak style #'slash ";
+      fLilypondIOstream << "\\tweak style #'slash ";
       break;
     case msrNote::kNoteHeadTriangle:
-      fLilypondOutputStream << "\\tweak style #'triangle ";
+      fLilypondIOstream << "\\tweak style #'triangle ";
       break;
     case msrNote::kNoteHeadDiamond:
-      fLilypondOutputStream << "\\tweak style #'diamond ";
+      fLilypondIOstream << "\\tweak style #'diamond ";
       break;
     case msrNote::kNoteHeadSquare:
-      fLilypondOutputStream << "\\tweak style #'la ";
+      fLilypondIOstream << "\\tweak style #'la ";
       break;
     case msrNote::kNoteHeadCross:
-      fLilypondOutputStream << "\\tweak style #'cross ";
+      fLilypondIOstream << "\\tweak style #'cross ";
       break;
     case msrNote::kNoteHeadX:
-      fLilypondOutputStream << "\\tweak style #'cross ";
+      fLilypondIOstream << "\\tweak style #'cross ";
       break;
     case msrNote::kNoteHeadCircleX:
-      fLilypondOutputStream << "\\tweak style #'xcircle ";
+      fLilypondIOstream << "\\tweak style #'xcircle ";
       break;
     case msrNote::kNoteHeadInvertedTriangle:
-      fLilypondOutputStream << "%{kNoteHeadInvertedTriangle%} ";
+      fLilypondIOstream << "%{kNoteHeadInvertedTriangle%} ";
       break;
     case msrNote::kNoteHeadArrowDown:
-      fLilypondOutputStream << "%{kNoteHeadArrowDown%} ";
+      fLilypondIOstream << "%{kNoteHeadArrowDown%} ";
       break;
     case msrNote::kNoteHeadArrowUp:
-      fLilypondOutputStream << "%{kNoteHeadArrowUp%} ";
+      fLilypondIOstream << "%{kNoteHeadArrowUp%} ";
       break;
     case msrNote::kNoteHeadSlashed:
-      fLilypondOutputStream << "%{kNoteHeadSlashed%} ";
+      fLilypondIOstream << "%{kNoteHeadSlashed%} ";
       break;
     case msrNote::kNoteHeadBackSlashed:
-      fLilypondOutputStream << "%{kNoteHeadBackSlashed%} ";
+      fLilypondIOstream << "%{kNoteHeadBackSlashed%} ";
       break;
     case msrNote::kNoteHeadNormal:
- // JMI     fLilypondOutputStream << "%{kNoteHeadNormal%} ";
+ // JMI     fLilypondIOstream << "%{kNoteHeadNormal%} ";
       break;
     case msrNote::kNoteHeadCluster:
-      fLilypondOutputStream << "%{kNoteHeadCluster%} ";
+      fLilypondIOstream << "%{kNoteHeadCluster%} ";
       break;
     case msrNote::kNoteHeadCircleDot:
-      fLilypondOutputStream << "%{kNoteHeadCircleDot%} ";
+      fLilypondIOstream << "%{kNoteHeadCircleDot%} ";
       break;
     case msrNote::kNoteHeadLeftTriangle:
-      fLilypondOutputStream << "%{kNoteHeadLeftTriangle%} ";
+      fLilypondIOstream << "%{kNoteHeadLeftTriangle%} ";
       break;
     case msrNote::kNoteHeadRectangle:
-      fLilypondOutputStream << "%{kNoteHeadRectangle%} ";
+      fLilypondIOstream << "%{kNoteHeadRectangle%} ";
       break;
     case msrNote::kNoteHeadNone:
-      fLilypondOutputStream << "\\once\\omit NoteHead ";
+      fLilypondIOstream << "\\once\\omit NoteHead ";
       break;
     case msrNote::kNoteHeadDo:
-      fLilypondOutputStream << "\\tweak style #'do ";
+      fLilypondIOstream << "\\tweak style #'do ";
       break;
     case msrNote::kNoteHeadRe:
-      fLilypondOutputStream << "\\tweak style #'re ";
+      fLilypondIOstream << "\\tweak style #'re ";
       break;
     case msrNote::kNoteHeadMi:
-      fLilypondOutputStream << "\\tweak style #'mi ";
+      fLilypondIOstream << "\\tweak style #'mi ";
       break;
     case msrNote::kNoteHeadFa:
-      fLilypondOutputStream << "\\tweak style #'fa ";
+      fLilypondIOstream << "\\tweak style #'fa ";
       break;
     case msrNote::kNoteHeadFaUp:
-      fLilypondOutputStream << "\\tweak style #'triangle ";
+      fLilypondIOstream << "\\tweak style #'triangle ";
       break;
     case msrNote::kNoteHeadSo:
-      fLilypondOutputStream << "\\tweak style #'sol ";
+      fLilypondIOstream << "\\tweak style #'sol ";
       break;
     case msrNote::kNoteHeadLa:
-      fLilypondOutputStream << "\\tweak style #'la ";
+      fLilypondIOstream << "\\tweak style #'la ";
       break;
     case msrNote::kNoteHeadTi:
-      fLilypondOutputStream << "\\tweak style #'ti ";
+      fLilypondIOstream << "\\tweak style #'ti ";
       break;
   } // switch
 
@@ -6217,7 +6220,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the note line number as a comment
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       " %{ " << elt->getInputLineNumber () << " %} ";
   }
   
@@ -6227,7 +6230,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting " <<
       msrNote::noteKindAsString (elt->getNoteKind ()) <<
       " msrNote" <<
@@ -6244,7 +6247,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     // if note doesn't belong to a chord,
     // otherwise it will be generated for the chord itself
     if (! elt->getNoteBelongsToAChord ()) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         singleTremoloDurationAsLilypondString (
           noteSingleTremolo);
     }
@@ -6260,7 +6263,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 /* JMI
   // has the stem been omitted?
   if (elt->getNoteIsStemless ()) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl;
   }
   */
@@ -6283,7 +6286,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           break;
           
         default:
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             noteArticulationAsLilyponString ((*i)) <<    
             " ";
       } // switch
@@ -6302,21 +6305,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i!=noteTechnicals.end();
       i++) {
         
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         technicalAsLilypondString ((*i));
 
       switch ((*i)->getTechnicalPlacementKind ()) {
         case msrTechnical::k_NoTechnicalPlacement:
           break;
         case msrTechnical::kTechnicalPlacementAbove:
-          fLilypondOutputStream << "^";
+          fLilypondIOstream << "^";
           break;
         case msrTechnical::kTechnicalPlacementBelow:
-          fLilypondOutputStream << "_";
+          fLilypondIOstream << "_";
           break;
       } // switch
 
-      fLilypondOutputStream << " ";
+      fLilypondIOstream << " ";
     } // for
   }
 
@@ -6332,21 +6335,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i!=noteTechnicalWithIntegers.end();
       i++) {
         
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         technicalWithIntegerAsLilypondString ((*i));
 
       switch ((*i)->getTechnicalWithIntegerPlacementKind ()) {
         case msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement:
           break;
         case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove:
-          fLilypondOutputStream << "^";
+          fLilypondIOstream << "^";
           break;
         case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow:
-          fLilypondOutputStream << "_";
+          fLilypondIOstream << "_";
           break;
       } // switch
 
-      fLilypondOutputStream << " ";
+      fLilypondIOstream << " ";
     } // for
   }
 
@@ -6362,21 +6365,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i!=noteTechnicalWithStrings.end();
       i++) {
         
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         technicalWithStringAsLilypondString ((*i));
 
       switch ((*i)->getTechnicalWithStringPlacementKind ()) {
         case msrTechnicalWithString::k_NoTechnicalWithStringPlacement:
           break;
         case msrTechnicalWithString::kTechnicalWithStringPlacementAbove:
-          fLilypondOutputStream << "^";
+          fLilypondIOstream << "^";
           break;
         case msrTechnicalWithString::kTechnicalWithStringPlacementBelow:
-          fLilypondOutputStream << "_";
+          fLilypondIOstream << "_";
           break;
       } // switch
 
-      fLilypondOutputStream << " ";
+      fLilypondIOstream << " ";
     } // for
   }
 
@@ -6391,7 +6394,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i=noteOrnaments.begin();
       i!=noteOrnaments.end();
       i++) {        
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         ornamentAsLilypondString ((*i)); // some ornaments are not yet supported
           // <<
         // JMI " ";
@@ -6400,14 +6403,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrOrnament::k_NoOrnamentPlacement:
           break;
         case msrOrnament::kOrnamentPlacementAbove:
-          fLilypondOutputStream << "^";
+          fLilypondIOstream << "^";
           break;
         case msrOrnament::kOrnamentPlacementBelow:
-          fLilypondOutputStream << "_";
+          fLilypondIOstream << "_";
           break;
       } // switch
 
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         alterationAsLilypondAccidentalMark (
           (*i)->getOrnamentAccidentalMark ()) <<
         " ";
@@ -6430,17 +6433,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         
       switch (dynamics->getDynamicsPlacementKind ()) {
         case msrDynamics::k_NoDynamicsPlacement:
-          fLilypondOutputStream << "-3";
+          fLilypondIOstream << "-3";
           break;
         case msrDynamics::kDynamicsPlacementAbove:
-          fLilypondOutputStream << "^";
+          fLilypondIOstream << "^";
           break;
         case msrDynamics::kDynamicsPlacementBelow:
           // this is done by LilyPond by default
           break;
       } // switch
 
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         dynamicsAsLilypondString (dynamics) << " ";
     } // for
   }
@@ -6456,7 +6459,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i=noteOtherDynamics.begin();
       i!=noteOtherDynamics.end();
       i++) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "-\\markup { "
         "\\dynamic \"" << (*i)->getOtherDynamicsString () << "\" } ";
     } // for
@@ -6581,7 +6584,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         markup = s.str ();
         }
 
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         markup;
     } // for
   }
@@ -6602,12 +6605,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kStartSlur:
-          fLilypondOutputStream << "( ";
+          fLilypondIOstream << "( ";
           break;
         case msrSlur::kContinueSlur:
           break;
         case msrSlur::kStopSlur:
-          fLilypondOutputStream << ") ";
+          fLilypondIOstream << ") ";
           break;
       } // switch
     } // for
@@ -6629,12 +6632,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-   // JMI       fLilypondOutputStream << "\\[ ";
+   // JMI       fLilypondIOstream << "\\[ ";
           break;
         case msrLigature::kContinueLigature:
           break;
         case msrLigature::kStopLigature:
-          fLilypondOutputStream << "\\] ";
+          fLilypondIOstream << "\\] ";
           break;
       } // switch
     } // for
@@ -6654,13 +6657,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         
       switch ((*i)->getWedgeKind ()) {
         case msrWedge::kCrescendoWedge:
-          fLilypondOutputStream << "\\< ";
+          fLilypondIOstream << "\\< ";
           break;
         case msrWedge::kDecrescendoWedge:
-          fLilypondOutputStream << "\\> ";
+          fLilypondIOstream << "\\> ";
           break;
         case msrWedge::kStopWedge:
-          fLilypondOutputStream << "\\! ";
+          fLilypondIOstream << "\\! ";
           break;
       } // switch
     } // for
@@ -6668,7 +6671,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
   if (false && elt->getNoteIsFollowedByGraceNotes ()) { // JMI
     if (! elt->getNoteIsARest ()) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
        " { % NoteIsFollowedByGraceNotes" <<
         endl; // JMI ???
     }
@@ -6681,7 +6684,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrOctaveShift" <<
       endl;
   }
@@ -6689,28 +6692,28 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
   int octaveShiftSize =
     elt->getOctaveShiftSize (); // 8 or 15
     
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\ottava #";
     
   switch (elt->getOctaveShiftKind ()) {
     case msrOctaveShift::kOctaveShiftUp:
-      fLilypondOutputStream << "-" << (octaveShiftSize - 1) / 7; // 1 or 2
+      fLilypondIOstream << "-" << (octaveShiftSize - 1) / 7; // 1 or 2
       break;
     case msrOctaveShift::kOctaveShiftDown:
-      fLilypondOutputStream << (octaveShiftSize - 1) / 7; // 1 or 2
+      fLilypondIOstream << (octaveShiftSize - 1) / 7; // 1 or 2
       break;
     case msrOctaveShift::kOctaveShiftStop:
-      fLilypondOutputStream << 0;
+      fLilypondIOstream << 0;
       break;
   } // switch
   
-  fLilypondOutputStream << " ";
+  fLilypondIOstream << " ";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrOctaveShift& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrOctaveShift" <<
       endl;
   }
@@ -6720,7 +6723,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOctaveShift& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrAccordionRegistration" <<
       endl;
   }
@@ -6758,7 +6761,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
   numbersToBeUsed +=
     to_string (lowDotsNumber);
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\discant \"" <<
     numbersToBeUsed <<
     "\" ";
@@ -6767,7 +6770,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrAccordionRegistration& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrHarpPedalsTuning" <<
       endl;
   }
@@ -6779,7 +6782,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
   if (harpPedalsAlterationsMap.size ()) {
     gIndenter++;
 
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "_\\markup { \\harp-pedal #\"" <<
       harpPedalTuningAsLilypondString (
         harpPedalsAlterationsMap [kD]) <<
@@ -6799,7 +6802,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
       "\" } ";
   }
   else {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%{empty harp pedals tuning???%} "; // JMI
   }
 }
@@ -6808,7 +6811,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrStem& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrStem" <<
       endl;
   }
@@ -6819,7 +6822,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStem& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrStem& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrStem" <<
       endl;
   }
@@ -6829,7 +6832,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStem& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrBeam& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrBeam" <<
       endl;
   }
@@ -6840,7 +6843,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBeam& elt)
     
     case msrBeam::kBeginBeam:
       if (elt->getBeamNumber () == 1)
-        fLilypondOutputStream << "[ ";
+        fLilypondIOstream << "[ ";
       break;
       
     case msrBeam::kContinueBeam:
@@ -6848,7 +6851,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBeam& elt)
       
     case msrBeam::kEndBeam:
       if (elt->getBeamNumber () == 1)
-        fLilypondOutputStream << "] ";
+        fLilypondIOstream << "] ";
       break;
       
     case msrBeam::kForwardHookBeam:
@@ -6865,7 +6868,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBeam& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrBeam& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrBeam" <<
       endl;
   }
@@ -6875,7 +6878,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBeam& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrChord" <<
       endl;
   }
@@ -6896,12 +6899,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-          fLilypondOutputStream << "\\[ ";
+          fLilypondIOstream << "\\[ ";
           break;
         case msrLigature::kContinueLigature:
           break;
         case msrLigature::kStopLigature:
-  // JMI        fLilypondOutputStream << "\\] ";
+  // JMI        fLilypondIOstream << "\\] ";
           break;
       } // switch
     } // for
@@ -6935,17 +6938,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         switch (direction) {
           case k_NoDirection:
             if (fCurrentArpeggioDirection != k_NoDirection)
-              fLilypondOutputStream << "\\arpeggioNormal";
+              fLilypondIOstream << "\\arpeggioNormal";
             break;
           case kUpDirection:
-            fLilypondOutputStream << "\\arpeggioArrowUp";
+            fLilypondIOstream << "\\arpeggioArrowUp";
             break;
           case kDownDirection:
-            fLilypondOutputStream << "\\arpeggioArrowDown";
+            fLilypondIOstream << "\\arpeggioArrowDown";
             break;
         } // switch
           
-        fLilypondOutputStream << " ";
+        fLilypondIOstream << " ";
 
         fCurrentArpeggioDirection = direction;
       }
@@ -6956,32 +6959,32 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
           nonArpeggiato =
             dynamic_cast<msrNonArpeggiato*>(&(*articulation))
         ) {
-        fLilypondOutputStream << "\\arpeggioBracket";
+        fLilypondIOstream << "\\arpeggioBracket";
         
         switch (nonArpeggiato->getNonArpeggiatoTypeKind ()) {
           case msrNonArpeggiato::k_NoNonArpeggiatoType:
-            fLilypondOutputStream << " %{\\k_NoNonArpeggiatoType???%}";
+            fLilypondIOstream << " %{\\k_NoNonArpeggiatoType???%}";
             break;
           case msrNonArpeggiato::kNonArpeggiatoTypeTop:
-            fLilypondOutputStream << " %{\\kNonArpeggiatoTypeTop???%}";
+            fLilypondIOstream << " %{\\kNonArpeggiatoTypeTop???%}";
             break;
           case msrNonArpeggiato::kNonArpeggiatoTypeBottom:
-            fLilypondOutputStream << " %{\\kNonArpeggiatoTypeBottom???%}";
+            fLilypondIOstream << " %{\\kNonArpeggiatoTypeBottom???%}";
             break;
         } // switch
           
-        fLilypondOutputStream << " ";
+        fLilypondIOstream << " ";
       }
    } // for
   }
 
-  fLilypondOutputStream << "<";
+  fLilypondIOstream << "<";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrChord" <<
       endl;
   }
@@ -6989,7 +6992,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   int chordInputLineNumber =
     elt->getInputLineNumber ();
     
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     ">";
 
   if (
@@ -6997,13 +7000,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       ||
     elt->getChordIsSecondChordInADoubleTremolo ()) {
       // print the note duration, i.e. the double tremolo elements duration
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         fCurrentDoubleTremoloElementsLpsrDuration; // JMI
   }
   
   else {
     // print the chord duration
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       durationAsLilypondString (
         chordInputLineNumber,
         elt->
@@ -7017,12 +7020,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
 
   if (chordSingleTremolo) {
     // generate code for the chord single tremolo
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       singleTremoloDurationAsLilypondString (
         chordSingleTremolo);
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     " ";
     
   // print the chord articulations if any
@@ -7036,7 +7039,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordArticulations.begin();
       i!=chordArticulations.end();
       i++) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         chordArticulationAsLilyponString ((*i)) <<          
         " ";
     } // for
@@ -7053,7 +7056,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordTechnicals.begin();
       i!=chordTechnicals.end();
       i++) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         technicalAsLilypondString ((*i)) <<
         " "; // JMI
     } // for
@@ -7070,7 +7073,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordTechnicalWithIntegers.begin();
       i!=chordTechnicalWithIntegers.end();
       i++) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         technicalWithIntegerAsLilypondString ((*i)) <<
         " "; // JMI
     } // for
@@ -7087,7 +7090,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordTechnicalWithStrings.begin();
       i!=chordTechnicalWithStrings.end();
       i++) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         technicalWithStringAsLilypondString ((*i)) <<
         " "; // JMI
     } // for
@@ -7104,7 +7107,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordOrnaments.begin();
       i!=chordOrnaments.end();
       i++) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         ornamentAsLilypondString ((*i)) << // some ornaments are not yet supported
         " ";
     } // for
@@ -7126,17 +7129,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         
       switch (dynamics->getDynamicsPlacementKind ()) {
         case msrDynamics::k_NoDynamicsPlacement:
-          fLilypondOutputStream << "-";
+          fLilypondIOstream << "-";
           break;
         case msrDynamics::kDynamicsPlacementAbove:
-          fLilypondOutputStream << "^";
+          fLilypondIOstream << "^";
           break;
         case msrDynamics::kDynamicsPlacementBelow:
           // this is done by LilyPond by default
           break;
       } // switch
 
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         dynamicsAsLilypondString (dynamics) << " ";
     } // for
   }
@@ -7152,7 +7155,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordOtherDynamics.begin();
       i!=chordOtherDynamics.end();
       i++) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\" << (*i)->otherDynamicsAsString () << " ";
     } // for
   }
@@ -7168,7 +7171,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordBeams.begin();
       i!=chordBeams.end();
       i++) {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "] ";
     } // for
   }
@@ -7194,14 +7197,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     
       switch (wordsPlacementKind) {
         case msrWords::kWordsPlacementAbove:
-          fLilypondOutputStream << "^";
+          fLilypondIOstream << "^";
           break;
         case msrWords::kWordsPlacementBelow:
-          fLilypondOutputStream << "_";
+          fLilypondIOstream << "_";
           break;
       } // switch
     
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         "\\markup" << " { " <<
         quoteStringIfNonAlpha (wordsContents) <<
         " } ";
@@ -7224,12 +7227,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kStartSlur:
-          fLilypondOutputStream << "( ";
+          fLilypondIOstream << "( ";
           break;
         case msrSlur::kContinueSlur:
           break;
         case msrSlur::kStopSlur:
-          fLilypondOutputStream << ") ";
+          fLilypondIOstream << ") ";
           break;
       } // switch
    } // for
@@ -7251,12 +7254,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kStartLigature:
-  // JMI        fLilypondOutputStream << "\\[ ";
+  // JMI        fLilypondIOstream << "\\[ ";
           break;
         case msrLigature::kContinueLigature:
           break;
         case msrLigature::kStopLigature:
-          fLilypondOutputStream << "\\] ";
+          fLilypondIOstream << "\\] ";
           break;
       } // switch
    } // for
@@ -7276,13 +7279,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         
       switch ((*i)->getWedgeKind ()) {
         case msrWedge::kCrescendoWedge:
-          fLilypondOutputStream << "\\< ";
+          fLilypondIOstream << "\\< ";
           break;
         case msrWedge::kDecrescendoWedge:
-          fLilypondOutputStream << "\\> ";
+          fLilypondIOstream << "\\> ";
           break;
         case msrWedge::kStopWedge:
-          fLilypondOutputStream << "\\! ";
+          fLilypondIOstream << "\\! ";
           break;
       } // switch
     } // for
@@ -7296,7 +7299,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   
     if (chordTie) {
       if (chordTie->getTieKind () == msrTie::kStartTie) {
-        fLilypondOutputStream << "~ ";
+        fLilypondIOstream << "~ ";
       }
     }
   }
@@ -7313,7 +7316,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrTuplet" <<
       endl;
   }
@@ -7336,7 +7339,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
   }
 
   if (gLilypondOptions->fTupletsOnALine) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "\\tuplet " <<
       elt->getTupletActualNotes () <<
       "/" <<
@@ -7344,7 +7347,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
   }
   
   else {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       "\\tuplet " <<
       elt->getTupletActualNotes () <<
@@ -7360,7 +7363,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrTuplet" <<
       endl;
   }
@@ -7368,12 +7371,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
   gIndenter--;
 
   if (gLilypondOptions->fTupletsOnALine) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "} ";
   }
 
   else {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       "}" <<
       endl;
@@ -7386,7 +7389,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrTie" <<
       endl;
   }
@@ -7395,7 +7398,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
     case msrTie::k_NoTie:
       break;
     case msrTie::kStartTie:
-      fLilypondOutputStream << "~ ";
+      fLilypondIOstream << "~ ";
       break;
     case msrTie::kContinueTie:
       break;
@@ -7407,7 +7410,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrTie& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrTie" <<
       endl;
   }
@@ -7417,12 +7420,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTie& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrSegno& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrSegno" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\mark \\markup { \\musicglyph #\"scripts.segno\" }" <<
     endl;
 }
@@ -7430,12 +7433,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrSegno& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrCoda" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\mark \\markup { \\musicglyph #\"scripts.coda\" }" <<
     endl;
 }
@@ -7444,35 +7447,35 @@ void lpsr2LilypondTranslator::visitStart (S_msrCoda& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrEyeGlasses& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting eyeGlasses" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "^\\markup {\\eyeglasses} ";
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting pedal" <<
       endl;
   }
       
   switch (elt->getPedalType ()) {
     case msrPedal::kPedalStart:
-      fLilypondOutputStream << "<> \\sustainOn ";
+      fLilypondIOstream << "<> \\sustainOn ";
       break;
     case msrPedal::kPedalContinue:
-      fLilypondOutputStream << "%{\\continue pedal???%} "; // JMI
+      fLilypondIOstream << "%{\\continue pedal???%} "; // JMI
       break;
     case msrPedal::kPedalChange:
-      fLilypondOutputStream << "%{\\change pedal???%} "; // JMI
+      fLilypondIOstream << "%{\\change pedal???%} "; // JMI
       break;
     case msrPedal::kPedalStop:
-      fLilypondOutputStream << "<> \\sustainOff ";
+      fLilypondIOstream << "<> \\sustainOff ";
       break;
   } // switch
 }
@@ -7481,7 +7484,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       "% --> Start visiting msrBarline" <<
       endl;
@@ -7490,7 +7493,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kStandaloneBarline:
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         endl; // JMI
       
@@ -7498,34 +7501,34 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         case msrBarline::k_NoStyle:
           break;
         case msrBarline::kRegularStyle:
-          fLilypondOutputStream << "\\bar \"|\"";
+          fLilypondIOstream << "\\bar \"|\"";
           break;
         case msrBarline::kDottedStyle:
-          fLilypondOutputStream << "\\bar \";\"";
+          fLilypondIOstream << "\\bar \";\"";
           break;
         case msrBarline::kDashedStyle:
-          fLilypondOutputStream << "\\bar \"!\"";
+          fLilypondIOstream << "\\bar \"!\"";
           break;
         case msrBarline::kHeavyStyle:
-          fLilypondOutputStream << "\\bar \".\"";
+          fLilypondIOstream << "\\bar \".\"";
           break;
         case msrBarline::kLightLightStyle:
-          fLilypondOutputStream << "\\bar \"||\"";
+          fLilypondIOstream << "\\bar \"||\"";
           break;
         case msrBarline::kLightHeavyStyle:
-          fLilypondOutputStream << "\\bar \"|.\"";
+          fLilypondIOstream << "\\bar \"|.\"";
           break;
         case msrBarline::kHeavyLightStyle:
-          fLilypondOutputStream << "\\bar \".|\"";
+          fLilypondIOstream << "\\bar \".|\"";
           break;
         case msrBarline::kHeavyHeavyStyle:
-          fLilypondOutputStream << "\\bar \"..\"";
+          fLilypondIOstream << "\\bar \"..\"";
           break;
         case msrBarline::kTickStyle:
-          fLilypondOutputStream << "\\bar \"'\"";
+          fLilypondIOstream << "\\bar \"'\"";
           break;
         case msrBarline::kShortStyle:
-          fLilypondOutputStream << "\\bar \"'\""; // JMI
+          fLilypondIOstream << "\\bar \"'\""; // JMI
           /* JMI ??? from gregorian.ly
           divisioMaior = {
             \once \override BreathingSign.stencil = #ly:breathing-sign::divisio-maior
@@ -7535,27 +7538,27 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           */
           break;
         case msrBarline::kNoneStyle:
-          fLilypondOutputStream << "\\bar \"\"";
+          fLilypondIOstream << "\\bar \"\"";
           break;
       } // switch
 
       if (gLilypondOptions->fNoteInputLineNumbers) {
         // print the barline line number as a comment
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           " %{ " << elt->getInputLineNumber () << " %} ";
       }
 
 /* JMI
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         endl;
 */
 
       if (elt->getBarlineHasSegno ())
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "\\mark \\markup { \\musicglyph #\"scripts.segno\" } ";
       if (elt->getBarlineHasCoda ())
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
       break;
 
@@ -7574,7 +7577,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrBarline& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       endl <<
       "% --> End visiting msrBarline" <<
       endl;
@@ -7585,7 +7588,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarline& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrBarCheck" <<
       endl;
   }
@@ -7594,7 +7597,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
     elt->getNextBarNumber ();
 
   // don't generate a bar check before the end of measure 1 // JMI ???
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "| % " << nextBarNumber << " % bar check" <<
     endl;
 }
@@ -7602,7 +7605,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarCheck& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrBarCheck" <<
       endl;
   }
@@ -7612,12 +7615,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarCheck& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrBarNumberCheck" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\barNumberCheck #" << elt->getNextBarNumber () <<
     endl;
 }
@@ -7625,7 +7628,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarNumberCheck& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrBarNumberCheck" <<
       endl;
   }
@@ -7635,12 +7638,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrBarNumberCheck& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrLineBreak& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrLineBreak" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\myBreak | % " << elt->getNextBarNumber () <<
     endl <<
     endl;
@@ -7649,7 +7652,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrLineBreak& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrLineBreak& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrLineBreak" <<
       endl;
   }
@@ -7659,12 +7662,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrLineBreak& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrPageBreak& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrPageBreak" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\myPageBreak " <<
     endl <<
     endl;
@@ -7673,7 +7676,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPageBreak& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrPageBreak& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrPageBreak" <<
       endl;
   }
@@ -7683,7 +7686,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPageBreak& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrRepeat" <<
       endl;
   }
@@ -7699,13 +7702,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     "\\repeat volta " << fCurrentRepeatEndingsNumber << " {";
   
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       s.str () << "% start of repeat" <<
       endl;
   }
   else {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       s.str () <<
       endl;
   }
@@ -7716,7 +7719,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrRepeat" <<
       endl;
   }
@@ -7733,13 +7736,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
     gIndenter--;
 
     if (gLilypondOptions->fComments) {      
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (commentFieldWidth) <<
         "}" << "% end of repeat" <<
         endl;
     }
     else {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         "}" <<
         endl;
@@ -7753,7 +7756,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrRepeatCommonPart& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrRepeatCommonPart" <<
       endl;
   }
@@ -7762,7 +7765,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatCommonPart& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrRepeatCommonPart" <<
       endl;
   }
@@ -7772,7 +7775,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrRepeatEnding" <<
       endl;
   }
@@ -7784,13 +7787,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     // first repeat ending is in charge of
     // outputting the end of the repeat
     if (gLilypondOptions->fComments) {      
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         setw (commentFieldWidth) << left <<
         "}" << "% end of repeat" <<
         endl;
     }
     else {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         "}" <<
         endl;
@@ -7799,7 +7802,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     // first repeat ending is in charge of
     // outputting the start of the alternative
     if (gLilypondOptions->fComments) {      
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         endl <<
         setw (commentFieldWidth) <<
         "\\alternative {" <<
@@ -7807,7 +7810,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         endl;
     }
     else {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         "\\alternative {" <<
         endl;
@@ -7820,13 +7823,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
   switch (elt->getRepeatEndingKind ()) {
     case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {  
-        fLilypondOutputStream << left <<
+        fLilypondIOstream << left <<
           setw (commentFieldWidth) <<
           "{" << "% start of repeat hooked ending" <<
           endl;
       }
       else {
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           endl <<
           "{" <<
           endl;
@@ -7835,12 +7838,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       
     case msrRepeatEnding::kHooklessEnding:
       if (gLilypondOptions->fComments)    
-        fLilypondOutputStream << left <<
+        fLilypondIOstream << left <<
           setw (commentFieldWidth) <<
           "{" << "% start of repeat hookless ending" <<
           endl;
       else
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           endl <<
           "{" <<
           endl;
@@ -7853,7 +7856,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrRepeatEnding" <<
       endl;
   }
@@ -7862,13 +7865,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
   switch (elt->getRepeatEndingKind ()) {
     case msrRepeatEnding::kHookedEnding:
       if (gLilypondOptions->fComments) {
-        fLilypondOutputStream << left <<
+        fLilypondIOstream << left <<
           setw (commentFieldWidth) <<
           "}" << "% end of repeat hooked ending" <<
           endl;
       }
       else {
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           endl <<
           "}" <<
           endl;
@@ -7877,13 +7880,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       
     case msrRepeatEnding::kHooklessEnding:
       if (gLilypondOptions->fComments)   { 
-        fLilypondOutputStream << left <<
+        fLilypondIOstream << left <<
           setw (commentFieldWidth) <<
           "}" << "% end of repeat hookless ending" <<
           endl;
       }
       else {
-        fLilypondOutputStream <<
+        fLilypondIOstream <<
           endl <<
           "}" <<
           endl;
@@ -7901,13 +7904,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     // last repeat ending is in charge of
     // outputting the end of the alternative
     if (gLilypondOptions->fComments)   { 
-      fLilypondOutputStream << left <<
+      fLilypondIOstream << left <<
         setw (commentFieldWidth) <<
         "}" << "% end of alternative" <<
         endl;
     }
     else {
-      fLilypondOutputStream <<
+      fLilypondIOstream <<
         endl <<
         "}" <<
         endl;
@@ -7921,23 +7924,23 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrComment& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrComment" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "% " << elt->getContents () <<
     endl;
     
   if (elt->getCommentGapKind () == lpsrComment::kGapAfterwards)
-    fLilypondOutputStream << endl;
+    fLilypondIOstream << endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrComment& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrComment" <<
       endl;
   }
@@ -7947,12 +7950,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrComment& elt)
 void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeFunction& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting lpsrSchemeFunction" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl <<
     "% Scheme function(s): \"" << elt->getFunctionName () << "\"" <<
     // endl is in the decription
@@ -7966,7 +7969,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeFunction& elt)
 void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeFunction& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting lpsrSchemeFunction" <<
       endl;
   }
@@ -7976,12 +7979,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeFunction& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrRehearsal" <<
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl <<
     endl <<
     "\\mark" "\\markup " "{" "\\box {"  "\""<<
@@ -7993,7 +7996,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrRehearsal& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrRehearsal" <<
       endl;
   }
@@ -8003,7 +8006,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRehearsal& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrMeasureRepeat" <<
       endl;
   }
@@ -8018,13 +8021,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
     elt->measureRepeatReplicasNumber ();
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% measure repeat, line " << elt->getInputLineNumber () << ":" <<
       endl;
 
     const int fieldWidth = 24;
 
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (fieldWidth) <<
       "% repeatMeasuresNumber" << " = " << repeatMeasuresNumber <<
       endl <<
@@ -8037,7 +8040,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
   }
   
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       "% start of measure repeat" <<
       singularOrPlural (
@@ -8048,7 +8051,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl <<
     endl <<
     "\\repeat" "percent " <<
@@ -8062,21 +8065,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrMeasureRepeat" <<
       endl;
   }
 
   gIndenter--;
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl <<
     endl <<
     " }" <<
     endl;
 
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       setw (commentFieldWidth) << left <<
       "% end of measure repeat" <<
       singularOrPlural (
@@ -8092,7 +8095,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> Start visiting msrMeasureRepeatPattern" <<
       endl;
   }
@@ -8105,7 +8108,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> End visiting msrMeasureRepeatPattern" <<
       endl;
   }
@@ -8116,7 +8119,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> Start visiting msrMeasureRepeatReplicas" <<
       endl;
   }
@@ -8129,7 +8132,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> End visiting msrMeasureRepeatReplicas" <<
       endl;
   }
@@ -8141,7 +8144,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrMultipleRest" <<
       endl;
   }
@@ -8156,13 +8159,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     elt->multipleRestContentsMeasuresNumber ();
     
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% multiple rest, line " << inputLineNumber << ":" <<
       endl;
 
     const int fieldWidth = 24;
 
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (fieldWidth) <<
       "% restMeasuresNumber" << " = " << restMeasuresNumber <<
       endl <<
@@ -8173,7 +8176,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   }
   
   if (gLilypondOptions->fComments) {
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       "% start of multiple rest" <<
       singularOrPlural (
@@ -8184,18 +8187,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       endl;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     endl <<
     endl <<
     "R1";
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the multiple rest line number as a comment
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       " %{ " << inputLineNumber << " %} ";
   }
 
-  fLilypondOutputStream <<    
+  fLilypondIOstream <<    
     "*" <<
     restMeasuresNumber <<
     " | " <<
@@ -8205,7 +8208,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrMultipleRest" <<
       endl;
   }
@@ -8213,7 +8216,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
   if (gLilypondOptions->fComments) {
     gIndenter--;
 
-    fLilypondOutputStream << left <<
+    fLilypondIOstream << left <<
       setw (commentFieldWidth) <<
       "% end of multiple rest" <<
       singularOrPlural (
@@ -8229,7 +8232,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> Start visiting msrMultipleRestContents" <<
       endl;
   }
@@ -8242,7 +8245,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestContents& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%--> End visiting msrMultipleRestContents" <<
       endl;
   }
@@ -8256,30 +8259,30 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestContents& elt)
 void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> Start visiting msrMidi" <<
       endl;
   }
 
   if (gLilypondOptions->fNoMidi) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%{" <<
       endl;
 
      gIndenter++;
   }
 
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\midi" << " {" <<
     endl;
   
   gIndenter++;
   
   if (gLilypondOptions->fNoMidi)
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% ";
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "\\tempo " <<
     elt->getMidiTempoDuration () <<
     " = " <<
@@ -8288,14 +8291,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
   
   gIndenter--;
   
-  fLilypondOutputStream <<
+  fLilypondIOstream <<
     "}" <<
     endl;
 
   if (gLilypondOptions->fNoMidi) {
     gIndenter--;
 
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "%}" <<
       endl;
   }
@@ -8304,7 +8307,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMidi& elt)
 void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondOutputStream <<
+    fLilypondIOstream <<
       "% --> End visiting msrMidi" <<
       endl;
   }
@@ -8322,7 +8325,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
     switch (stemKind) {
       case msrStem::kStemNone:
         if (! fOnGoingStemNone) {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             endl <<
             endl << //JMI
             "\\temporary\\omit Stem" <<
@@ -8336,7 +8339,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
           fOnGoingStemNone = true;
         }
         else {
-          fLilypondOutputStream <<
+          fLilypondIOstream <<
             endl <<
             endl << //JMI
             "\\cadenzaOff" <<

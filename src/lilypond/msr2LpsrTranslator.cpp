@@ -1447,6 +1447,13 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       endl;
   }
 
+  {
+    fLogOutputStream <<
+      endl <<
+      elt <<
+      endl;
+  }
+      
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
     fLogOutputStream <<
       endl <<

@@ -77,6 +77,7 @@ void generateLilypondCodeFromLpsrScore (
     translator (
       msrOpts,
       lpsrOpts,
+      logIOstream,
       lilypondCodeIOstream,
       lpScore);
   
