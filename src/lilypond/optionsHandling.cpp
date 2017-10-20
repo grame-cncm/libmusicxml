@@ -698,7 +698,7 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
 {  
   os << left <<
     setw (valueFieldWidth) <<
- //   fOptionsCombinedItemsItemVariableDisplayName <<
+    " " <<
     " : ";
 
   if (fOptionsCombinedItemsList.empty ()) {

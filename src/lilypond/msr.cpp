@@ -17071,6 +17071,9 @@ void msrMeasure::finalizeMeasure (
       "measureLength" << " = " << fMeasureLength <<
       endl <<
       setw (fieldWidth) <<
+      "fMeasureFullMeasureLength" << " = " << fMeasureFullMeasureLength <<
+      endl <<
+      setw (fieldWidth) <<
       "partMeasureLengthHighTide" << " = " <<
       partMeasureLengthHighTide <<
       endl;
@@ -17080,11 +17083,12 @@ void msrMeasure::finalizeMeasure (
 
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
     
-    if (fMeasureLength < partMeasureLengthHighTide) {
-      // appending a skip to this measure to reach partMeasureLengthHighTide
+    if (fMeasureLength < fMeasureFullMeasureLength) {
+      // appending a skip to this measure to reach partMeasureLengthHighTide ???? JMI
+      // appending a skip to this measure to reach fMeasureFullMeasureLength 
       rational
         skipDuration =
-          partMeasureLengthHighTide - fMeasureLength;
+          fMeasureFullMeasureLength - fMeasureLength;
   
       /* JMI
         partMeasureLengthHighTide > fMeasureFullMeasureLength // + 1 // JMI ???
@@ -17624,19 +17628,6 @@ void msrSegment::createMeasureAndAppendItToSegment (
     measureFirstInSegmentKind =
       msrMeasure::kMeasureFirstInSegmentNo;
   }
-
-/* JMI
-  // fetch segment last measure
-  S_msrMeasure
-    lastMeasure =
-      fSegmentMeasuresList.back ();
-
-  // finalize last measure
-  lastMeasure->
-    finalizeMeasure (
-      inputLineNumber,
-      measureFirstInSegmentKind);
-      */
       
   // create a measure
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
