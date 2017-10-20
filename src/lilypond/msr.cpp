@@ -15967,10 +15967,12 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // regular insertion in current measure
     
     // populate measure uplink
-    note->setNoteMeasureUplink (this);
+    note->setNoteMeasureUplink (
+      this);
 
     // register note measure number
-    note->setNoteMeasureNumber (fMeasureNumber);
+    note->setNoteMeasureNumber (
+      fMeasureNumber);
     
     // register note measure position
     rational
@@ -16868,6 +16870,20 @@ void msrMeasure::appendPageBreakToMeasure (S_msrPageBreak pageBreak)
 void msrMeasure::appendStaffDetailsToMeasure (
   S_msrStaffDetails staffDetails)
 {
+  int inputLineNumber =
+    staffDetails->getInputLineNumber ();
+
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
+    gLogIOstream <<
+      "Appending staff details '" << staffDetails->staffDetailsAsShortString () <<
+      "' to measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"" <<
+      endl;
+
   fMeasureElementsList.push_back (staffDetails);
 }
 
@@ -21583,9 +21599,9 @@ void msrVoice::initializeVoice (
   // should the initial last segment be created?
   switch (voiceCreateInitialLastSegment) {
     case msrVoice::kCreateInitialLastSegmentYes:
-      if (gGeneralOptions->fTraceVoices) {
+      if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
         gLogIOstream <<
-          "==> Creating and initial voice last segment for voice \"" <<
+          "==> Creating an initial voice last segment for voice \"" <<
           fVoiceName <<
           "\" in staff \"" <<
           fVoiceStaffUplink->getStaffName () <<
@@ -21598,6 +21614,15 @@ void msrVoice::initializeVoice (
       break;
       
     case msrVoice::kCreateInitialLastSegmentNo:
+      if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
+        gLogIOstream <<
+          "==> NO initial voice last segment is created for voice \"" <<
+          fVoiceName <<
+          "\" in staff \"" <<
+          fVoiceStaffUplink->getStaffName () <<
+          "\"" <<
+          endl;
+      }
       break;
   } // switch
   
@@ -21623,7 +21648,8 @@ void msrVoice::initializeVoice (
 
   if (staffStaffDetails) {
     // append it to the voice
-    appendStaffDetailsToVoice (staffStaffDetails);
+    appendStaffDetailsToVoice (
+      staffStaffDetails);
   }
     
   // add the mute stanza for this voice,

@@ -2891,9 +2891,12 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
       
     case msrNote::kChordMemberNote:
-      if (fOnGoingChord)
+      if (fOnGoingChord) {
         fCurrentChordClone->
-          addAnotherNoteToChord (fCurrentNoteClone);
+          addAnotherNoteToChord (
+            fCurrentNoteClone);
+      }
+      
       else {
         stringstream s;
 
