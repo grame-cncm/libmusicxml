@@ -260,6 +260,20 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_instrument>,
   public visitor<S_dot>,
 
+  public visitor<S_rest>,
+  
+  public visitor<S_unpitched>,
+  public visitor<S_display_step>,
+  public visitor<S_display_octave>,
+
+  public visitor<S_stem>,
+
+  // note heads
+  
+  public visitor<S_type>,
+  public visitor<S_notehead>,
+  public visitor<S_accidental>,
+  
   // repeats
   
   public visitor<S_measure_style>,
@@ -376,22 +390,6 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   // grace notes
   
   public visitor<S_grace>,
-
-  // note heads
-  
-  public visitor<S_type>,
-  public visitor<S_notehead>,
-  public visitor<S_accidental>,
-  
-  public visitor<S_stem>,
-  
-  // notes
-  
-  public visitor<S_rest>,
-  
-  public visitor<S_unpitched>,
-  public visitor<S_display_step>,
-  public visitor<S_display_octave>,
 
   // chords
   
