@@ -22165,7 +22165,7 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
         this);
 
   // add the stanza to this voice
-  addStanzaToVoiceWithCatchUp (stanza);
+  addStanzaToVoice (stanza);
 
   // return it
   return stanza;
@@ -24353,6 +24353,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
       endl;
   }
 
+/* JMI ???
   // should the voice be erased?
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
@@ -24456,6 +24457,7 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
       }
       break;
   } // switch
+  */
 
 /* JMI
   if (! gMsrOptions->fKeepMuteStanzas) { // JMI
@@ -26998,6 +27000,9 @@ void msrStaff::print (ostream& os)
   }
 
 */
+
+  os <<
+    endl;
 
   // print the registered voices
 // JMI ???  if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
