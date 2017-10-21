@@ -24,20 +24,20 @@ namespace MusicXML2
 @{
 */
 
-//______________________________________________________________________________
 /*!
 \internal
 \brief A macro to exit when a condition if false
 */
 // a macro to abort with code source line information,
 // as assert() itself
+//______________________________________________________________________________
 
 #define msrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
-    gLogIOstream << \
+    cerr << \
       endl << \
-      "#### " << messageIfFalse << \
+      "#### msrAssert failure: " << messageIfFalse << \
       endl << \
       "Aborting." << \
       endl << \
@@ -52,56 +52,88 @@ namespace MusicXML2
 \brief A macro to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
-/*
-#define msrWarning( context, inputLineNumber, message ) \
+#define msrMusicXMLWarning( inputLineNumber, message ) \
 { \
-  gLogIOstream << \
+  cerr << \
     endl << \
-    endl << \
-    "\"" << context << " WARNING" << "\"" << \
-    endl << \
+\
+    "!!! MusicXML WARNING !!!, " << \
     gGeneralOptions->fInputSourceName << \
     ", input line " << inputLineNumber << ":" << \
-    endl;
+    endl << \
 \
-//  gIndenter++; \
-\
-  gLogIOstream << \
-    message << \
+    "  " << message << \
     endl << \
     endl; \
-\
-//  gIndenter++; \
 }
-*/
 
 /*!
 \internal
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 //______________________________________________________________________________
-/*
-#define msrError( context, inputLineNumber, message ) \
+
+#define msrMusicXMLError( inputLineNumber, message ) \
 { \
-  gLogIOstream << \
+  cerr << \
     endl << \
-    endl << \
-    "\"" << context << " ERROR" << "\"" << \
+\
+    "### MusicXML ERROR ### " << \
     endl << \
     gGeneralOptions->fInputSourceName << \
     ", input line " << inputLineNumber << ":" << \
-    endl;
+    endl << \
 \
-//  gIndenter++; \
-\
-  gLogIOstream << \
-    message << \
+    "  " << message << \
     endl << \
     endl; \
 \
-//  gIndenter++; \
+  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
+    assert(false); \
 }
- */
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MSR and exit
+*/
+//______________________________________________________________________________
+
+#define msrInternalError( inputLineNumber, message ) \
+{ \
+  cerr << \
+    endl << \
+\
+    "[[[ MSR INTERNAL ERROR ]]], " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    "  " << message << \
+    endl << \
+    endl; \
+\
+  assert(false); \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MSR
+*/
+//______________________________________________________________________________
+#define msrInternalWarning( inputLineNumber, message ) \
+{ \
+  cerr << \
+    endl << \
+\
+    "[[[ MSR INTERNAL WARNING ]]], " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    "  " << message << \
+    endl << \
+    endl; \
+}
 
 
 /*! @} */
