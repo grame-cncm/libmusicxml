@@ -7669,7 +7669,7 @@ void msrDivisions::initializeDivisions ()
     endl;
   }
   
-  // erase fDurationsToDivisions's contents
+  // forget fDurationsToDivisions's contents
   fDurationsToDivisions.clear ();
   
   // positive powers of 2 of a quarter note
@@ -13175,24 +13175,27 @@ void msrStanza::print (ostream& os)
   
   os <<
     stanzaKind << " " "stanza" " " << getStanzaName () <<
-    " (" << fSyllables.size () << " syllables)";
+    " (" << fSyllables.size () << " syllables)" <<
+    endl;
     
-  if (! fStanzaTextPresent)
-    os << " (No actual text)";
+  gIndenter++;
 
-  os << endl;
+  if (! fStanzaTextPresent) {
+    os <<
+      "(No actual text)" <<
+      endl;
+  }
 
-//  if (fStanzaTextPresent) {  JMI
-    gIndenter++;
-
+  else {
     int n = fSyllables.size();
+    
     for (int i = 0; i < n; i++) {
       os << fSyllables [i];
     } // for
     os << endl;
+  }
 
-    gIndenter--;
- // }
+  gIndenter--;
 }
 
 //______________________________________________________________________________

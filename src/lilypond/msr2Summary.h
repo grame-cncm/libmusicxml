@@ -27,13 +27,19 @@ class msr2SummaryVisitor :
 
   public visitor<S_msrScore>,
   
+  // parts & part groups
+
   public visitor<S_msrPartGroup>,
   
   public visitor<S_msrPart>,
   
+  // staves
+
   public visitor<S_msrStaff>,
   
   public visitor<S_msrVoice>,
+
+  // lyrics
 
   public visitor<S_msrStanza>,
   public visitor<S_msrSyllable>,
@@ -68,9 +74,7 @@ class msr2SummaryVisitor :
   public visitor<S_msrLineBreak>,
   
   public visitor<S_msrRepeat>,
-  
-//  public visitor<S_msrComment>, // JMI
-  
+    
   public visitor<S_msrVarValAssoc>,
   
   public visitor<S_msrPageGeometry>,
@@ -169,9 +173,6 @@ class msr2SummaryVisitor :
 
     virtual void visitStart (S_msrRepeat& elt);
     virtual void visitEnd   (S_msrRepeat& elt);
-
-//    virtual void visitStart (S_msrComment& elt);
-//    virtual void visitEnd   (S_msrComment& elt);
 
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);
