@@ -26905,29 +26905,28 @@ void msrStaff::print (ostream& os)
   const int fieldwidth = 28;
   
   os <<
-    setw (fieldwidth) << "StaffPartUplink" << " : " <<
+    setw (fieldwidth) <<
+    "StaffPartUplink" << " : " <<
     fStaffPartUplink->getPartCombinedName () <<
     endl <<
-    setw (fieldwidth) << "StaffNumber" << " : " <<
+    setw (fieldwidth) <<
+    "StaffNumber" << " : " <<
     staffNumberAsString () <<
     endl <<
-    setw (fieldwidth) << "StaffInstrumentName" << " : \"" <<
+    setw (fieldwidth) <<
+    "StaffInstrumentName" << " : \"" <<
     fStaffInstrumentName <<
     "\"" <<
     endl <<
-    setw (fieldwidth) << "StaffInstrumentAbbreviation" << " : \"" <<
+    setw (fieldwidth) <<
+    "StaffInstrumentAbbreviation" << " : \"" <<
     fStaffInstrumentAbbreviation <<
     "\"" <<
+    endl <<
     endl;
 
 /* JMI
-  os <<
-    "StaffInstrumentName: \"" <<
-    fStaffInstrumentName << "\"" << endl;
-*/
-
-/*
-  // print the staff staff datails if any
+  // print the staff datails if any
   os <<
     "Staff details: ";
   if (fCurrentStaffStaffDetails) {
@@ -26937,8 +26936,6 @@ void msrStaff::print (ostream& os)
     os << "none";
   os << endl;
 */
-
-  os << endl;
 
   /* JMI
   if (fStaffTuningsList.size ()) {
@@ -27023,6 +27020,10 @@ os <<
 
       if (++i == iEnd) break;
 
+      os <<
+        endl;
+        
+/* JMI
       switch (voice->getVoiceKind ()) {
         case msrVoice::kMasterVoice:
           os << endl;
@@ -27056,6 +27057,7 @@ os <<
               endl;
           break;
       } // switch
+      */
 
     } // for
   }
@@ -28980,6 +28982,7 @@ void msrPart::print (ostream& os)
     setw (fieldWidth) <<
      "PartInstrumentAbbreviation" << ": \"" <<
     fPartInstrumentAbbreviation << "\"" <<
+    endl <<
     endl;
 
 /* JMI not specifically
