@@ -27313,8 +27313,10 @@ void msrPart::initializePart ()
     fInputLineNumber,
     rational (0, 1));
 
+/* JMI
   // create the part master staff and voice
   createPartMasterStaffAndVoice (0); // input line number // JMI
+    */
     
 /* JMI
   // set part current time to the default 4/4 time signature
@@ -29356,7 +29358,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
   if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       endl <<
-      "After addPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
+      "==> After addPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
       endl;
         
     gIndenter++;
@@ -29374,8 +29376,9 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
     gIndenter--;
     
     gLogIOstream <<
- // JMI     "% ==> addPartToPartGroup" <<
-      endl << endl <<
+      "<== addPartToPartGroup" <<
+      endl <<
+      endl <<
 
     "After addPartToPartGroupByItsID, fPartGroupPartsList contains:" <<
     endl;
@@ -29396,7 +29399,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
     }
     
     gLogIOstream <<
-  // JMI    "% ==> addPartToPartGroupByItsID" <<
+      "<== addPartToPartGroupByItsID" <<
       endl << endl;
   }
   
@@ -29448,7 +29451,9 @@ S_msrPart msrPartGroup::fetchPartFromPartGroup (
 {
   if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
-      "fetchPartFromPartGroup(), fPartGroupPartsMap contains:" << endl;
+      "==> fetchPartFromPartGroup(), fPartGroupPartsMap contains:" <<
+      endl;
+      
     for (
         map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin();
         i != fPartGroupPartsMap.end();
@@ -29458,8 +29463,9 @@ S_msrPart msrPartGroup::fetchPartFromPartGroup (
         (*i).second->getPartCombinedName() <<
         endl;
     } // for
+    
     gLogIOstream <<
-  // JMI    "% ==> fetchPartFromPartGroup" <<
+      "<== fetchPartFromPartGroup" <<
       endl;
   }
   
