@@ -21,14 +21,14 @@
 #include "utilities.h"
 
 #include "generalOptions.h"
-#include "musicXMLOptions.h"
+#include "mxmlOptions.h"
 #include "msrOptions.h"
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
 
 #include "xml2lilypondOptionsHandling.h"
 
-#include "musicXMLTree2MsrInterface.h"
+#include "mxmlTree2MsrTranslatorInterface.h"
 #include "msr2LpsrInterface.h"
 #include "lpsr2LilypondInterface.h"
 

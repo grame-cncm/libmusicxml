@@ -26,7 +26,7 @@
 
 #include "utilities.h"
 
-#include "musicXMLOptions.h"
+#include "mxmlOptions.h"
 #include "msrOptions.h"
 
 #include "msr.h"

@@ -15,7 +15,7 @@
 #include "version.h"
 #include "utilities.h"
 
-#include "musicXMLOptions.h"
+#include "mxmlOptions.h"
 
 
 using namespace std;

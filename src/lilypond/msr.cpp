@@ -16,8 +16,8 @@
 
 #include "version.h"
 
+#include "mxmlOptions.h"
 #include "msrOptions.h"
-#include "musicXMLOptions.h"
 
 #include "msr.h"
 

@@ -17,7 +17,7 @@
 #include <iomanip>      // setw, set::precision, ...
 #include <cmath>
 
-#include "musicXMLOptions.h"
+#include "mxmlOptions.h"
 #include "lilypondOptions.h"
 
 #include "lpsr2LilypondTranslator.h"

@@ -18,7 +18,7 @@
 #include "xml2lilypondOptionsHandling.h"
 
 #include "generalOptions.h"
-#include "musicXMLOptions.h"
+#include "mxmlOptions.h"
 #include "msrOptions.h"
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
