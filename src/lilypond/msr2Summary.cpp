@@ -34,8 +34,21 @@ msr2SummaryVisitor::msr2SummaryVisitor (
 {
   fMsrOptions = msrOpts;
 
+  // part groups
+  fPartGroupsCounter = 0;
+
+  // parts
+  fPartsCounter = 0;
+
   // staves
+  fStavesCounter = 0;
   fOnGoingStaff = false;
+
+  // voices
+  fVoicesCounter = 0;
+
+  // stanzas
+  fStanzasCounter = 0;
   
   // notes
   fScoreStandaloneNotesCounter    = 0;
@@ -106,6 +119,17 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
   gIndenter++;
   
   fMsrSummaryOutputStream <<
+    fPartGroupsCounter <<" part groups" <<
+    endl <<
+    fPartsCounter <<" parts" <<
+    endl <<
+    fStavesCounter <<" staves" <<
+    endl <<
+    fVoicesCounter <<" voices" <<
+    endl <<
+    fStanzasCounter <<" stanzas" <<
+    endl <<
+
     fScoreStandaloneNotesCounter <<" standalone notes" <<
     endl <<
     fScoreRestNotesCounter << " rest notes" <<
@@ -134,6 +158,8 @@ void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
       "--> Start visiting msrPartGroup" <<
       endl;
   }
+
+  fPartGroupsCounter++;
 
   int partGroupElementsSize = elt->getPartGroupElements ().size();
   
@@ -213,6 +239,8 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
       endl;
   }
 
+  fPartsCounter++;
+  
   int partStavesMapSize = elt->getPartStavesMap ().size();
   
   fMsrSummaryOutputStream <<
@@ -276,6 +304,8 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
       endl;
   }
 
+  fStavesCounter++;
+  
   int staffAllVoicesMapSize = elt->getStaffAllVoicesMap ().size();
     
   fMsrSummaryOutputStream <<
@@ -330,6 +360,8 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
       "--> Start visiting msrVoice" <<
       endl;
   }
+
+  fVoicesCounter++;
 
   int voiceStanzasMapSize = elt->getVoiceStanzasMap ().size();
 
@@ -397,6 +429,8 @@ void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
       endl;
   }
 
+  fStanzasCounter++;
+  
   int syllablesSize = elt->getSyllables ().size();
 
   fMsrSummaryOutputStream <<

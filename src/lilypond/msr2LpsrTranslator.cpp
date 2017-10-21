@@ -168,7 +168,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
   }
   
 /* JMI
-  // get top level pargroup block from the stack
+  // get top level partgroup block from the stack
   S_lpsrPartGroupBlock
     partGroupBlock =
       fPartGroupBlocksStack.top ();
@@ -418,7 +418,7 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
     scoreBlock =
       fLpsrScore->getScoreBlock ();
 
-  // don't append the pargroup block to the score block now:
+  // don't append the partgroup block to the score block now:
   // this will be done when it gets popped from the stack
 }
 
@@ -436,7 +436,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
       fPartGroupsStack.top ();
       
   if (fPartGroupsStack.size () == 1) {
-    // add the current pargroup clone to the MSR score clone
+    // add the current partgroup clone to the MSR score clone
     // if it is the top-level one, i.e it's alone in the stack
     
     if (gGeneralOptions->fTracePartGroups)
@@ -481,7 +481,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
       fPartGroupBlocksStack.top ();
       
   if (fPartGroupBlocksStack.size () == 1) {
-    // add the current pargroup clone to the LPSR score's parallel music
+    // add the current partgroup clone to the LPSR score's parallel music
     // if it is the top-level one, i.e it's alone in the stack
     
     if (gGeneralOptions->fTracePartGroups)
@@ -493,7 +493,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
         " to LPSR score" <<
         endl;
 
-    // append the current pargroup block to the score block
+    // append the current partgroup block to the score block
     // if it is the top-level one, i.e it's alone in the stack
    // JMI BOF if (fPartGroupBlocksStack.size () == 1)
       scoreBlock->

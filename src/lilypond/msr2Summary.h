@@ -188,6 +188,7 @@ class msr2SummaryVisitor :
   private:
                      
     S_msrOptions          fMsrOptions;
+    
     indentedOstream&      fMsrSummaryOutputStream;
 
     // score
@@ -195,28 +196,35 @@ class msr2SummaryVisitor :
     
     // part groups
     // ------------------------------------------------------
-// JMI    int            fPargroupsCounter;
+    
+    int                   fPartGroupsCounter;
 
     // parts
     // ------------------------------------------------------
- // JMI   int            fPartsCounter;
+    
+    int                   fPartsCounter;
 
     // staves
     // ------------------------------------------------------
- // JMI   int            fStavesCounter;
+    
+    int                   fStavesCounter;
+    
     // prevent clef, key and time from being handled twice
     bool                  fOnGoingStaff;
 
     // voices
     // ------------------------------------------------------
- // JMI   int            fVoicesCounter;
+    
+    int                   fVoicesCounter;
 
     // stanzas
     // ------------------------------------------------------
-// JMI
+    
+    int                   fStanzasCounter;
 
     // notes
     // ------------------------------------------------------
+    
     int                   fScoreStandaloneNotesCounter;
     int                   fScoreRestNotesCounter;
     int                   fScoreSkipNotesCounter;
@@ -225,11 +233,13 @@ class msr2SummaryVisitor :
 
     // chords
     // ------------------------------------------------------
+    
     int                   fScoreChordNotesCounter;
     int                   fScoreChordsCounter;
 
     // tuplets
     // ------------------------------------------------------
+    
     int                   fScoreTupletNotesCounter;
 };
 
