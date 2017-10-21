@@ -303,7 +303,8 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
     elt->getStaffInstrumentName () << "\"" << endl;
 */
 
-  fMsrSummaryOutputStream << endl;
+  fMsrSummaryOutputStream <<
+    endl;
 
   fOnGoingStaff = true;
 }

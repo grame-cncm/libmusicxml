@@ -26922,7 +26922,6 @@ void msrStaff::print (ostream& os)
     "StaffInstrumentAbbreviation" << " : \"" <<
     fStaffInstrumentAbbreviation <<
     "\"" <<
-    endl <<
     endl;
 
 /* JMI
@@ -27020,8 +27019,8 @@ os <<
 
       if (++i == iEnd) break;
 
-      os <<
-        endl;
+ //  JMI    os <<
+ //       endl;
         
 /* JMI
       switch (voice->getVoiceKind ()) {
