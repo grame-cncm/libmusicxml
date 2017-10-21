@@ -25663,6 +25663,7 @@ msrStaff::~msrStaff()
 void msrStaff::createStaffSilentVoice (
   int inputLineNumber)
 {
+  if (false) { // JMI
   // create the staff silent voice  
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
@@ -25735,6 +25736,7 @@ else
     endl <<
     endl;
     */
+  }
 }
 
 S_msrStaff msrStaff::createStaffNewbornClone (
@@ -25936,6 +25938,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       s.str ());
   }
 
+/* JMI
   // create the voice as a deep copy of the silent voice
   S_msrVoice
     voice =
@@ -25950,7 +25953,18 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   voice->
     changeVoiceIdentity (
       voicePartRelativeID);
+*/
 
+  // create the voice
+  S_msrVoice
+    voice =
+      msrVoice::create (
+        inputLineNumber,
+        voiceKind,
+        voicePartRelativeID,
+        msrVoice::kCreateInitialLastSegmentYes,
+        this);
+        
   // get the part current time JMI???
   S_msrTime
     time =
@@ -28938,34 +28952,32 @@ void msrPart::print (ostream& os)
     
   gIndenter++;
   
-  const int fieldWidth = 19;
+  const int fieldWidth = 27;
 
   os << left <<
     setw (fieldWidth) <<
-    "PartPartGroupUplink" << ": \"" <<
+    "partPartGroupUplink" << ": \"" <<
     fPartPartGroupUplink->getPartGroupName () << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartMsrName" << ": \"" <<
+    "partMsrName" << ": \"" <<
     fPartMsrName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartName" << ": \"" <<
+    "partName" << ": \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartAbbrevation" << ": \"" <<
+    "partAbbrevation" << ": \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "PartInstrumentName" << ": \"" <<
+     "partInstrumentName" << ": \"" <<
     fPartInstrumentName << "\"" <<
     endl <<
-    endl <<
     setw (fieldWidth) <<
-     "PartInstrumentAbbreviation" << ": \"" <<
+     "partInstrumentAbbreviation" << ": \"" <<
     fPartInstrumentAbbreviation << "\"" <<
-    endl <<
     endl;
 
 /* JMI not specifically
