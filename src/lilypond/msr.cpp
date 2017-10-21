@@ -28982,6 +28982,7 @@ void msrPart::print (ostream& os)
   }
 */
 
+/* JMI
   // print the master staff specifically
   os <<
     "Part master staff:" <<
@@ -28991,6 +28992,7 @@ void msrPart::print (ostream& os)
   os <<
     fPartMasterStaff;
   gIndenter--;
+  */
 
   // print the registered staves
   if (fPartStavesMap.size()) {
@@ -29106,31 +29108,32 @@ void msrPart::printStructure (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "PartMsrName" << ": \"" <<
+    "partMsrName" << ": \"" <<
     fPartMsrName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartName" << ": \"" <<
+    "partName" << ": \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartAbbrevation" << ": \"" <<
+    "partAbbrevation" << ": \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartInstrumentName" << ": \"" <<
+    "partInstrumentName" << ": \"" <<
     fPartInstrumentName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "PartInstrumentAbbreviation" << ": \"" <<
+    "partInstrumentAbbreviation" << ": \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "PartInstrumentAbbreviation" << ": \"" <<
+     "partInstrumentAbbreviation" << ": \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
     endl;
 
+/* JMI
   // print the master staff specifically
   if (fPartMasterStaff) {
     os <<
@@ -29142,8 +29145,9 @@ void msrPart::printStructure (ostream& os)
       fPartMasterStaff;
     gIndenter--;
   }
+*/
 
-  // print the harmony staff // JMI specifically?
+  // print the harmony staff if any // JMI
   if (fPartHarmonyStaff) {
     os <<
       "Harmony staff" <<
@@ -29174,6 +29178,18 @@ void msrPart::printStructure (ostream& os)
       os << endl;
     } // for
 
+    gIndenter--;
+  }
+
+  // print the figured bass staff if any // JMI
+  if (fPartFiguredBassStaff) {
+    os <<
+      "Figured bass staff" <<
+      endl;
+            
+    gIndenter++;
+    os <<
+      fPartFiguredBassStaff;
     gIndenter--;
   }
 
@@ -29277,7 +29293,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   // sanity check
   msrAssert(
     partGroupClone != 0,
-    "partGroupClone is null");
+    partGroupClone is null");
     */
     
   S_msrPartGroup
@@ -29369,38 +29385,35 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
         i++) {
       gLogIOstream <<
         "\"" << (*i).first << "\" --% --> " <<
-        (*i).second->getPartCombinedName() <<
+        (*i).second->
+          getPartCombinedName() <<
         endl;
     } // for
     
     gIndenter--;
     
     gLogIOstream <<
-      "<== addPartToPartGroup" <<
-      endl <<
-      endl <<
-
-    "After addPartToPartGroupByItsID, fPartGroupPartsList contains:" <<
-    endl;
+      "==> After addPartToPartGroupByItsID, fPartGroupElements contains:" <<
+      endl;
       
+    gIndenter++;
+
     if (fPartGroupElements.size()) {
       list<S_msrElement>::const_iterator
         iBegin = fPartGroupElements.begin(),
         iEnd   = fPartGroupElements.end(),
         i      = iBegin;
         
-      gIndenter++;
       for ( ; ; ) {
-        gLogIOstream << (*i);
+        gLogIOstream <<
+          (*i);
         if (++i == iEnd) break;
-        gLogIOstream << endl;
+        gLogIOstream <<
+          endl;
       } // for
-      gIndenter--;
     }
     
-    gLogIOstream <<
-      "<== addPartToPartGroupByItsID" <<
-      endl << endl;
+    gIndenter--;
   }
   
   // return the part
