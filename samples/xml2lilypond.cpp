@@ -28,8 +28,11 @@
 
 #include "xml2lilypondOptionsHandling.h"
 
+#include "mxmlTree2MsrSkeletonBuilderInterface.h"
 #include "mxmlTree2MsrTranslatorInterface.h"
+
 #include "msr2LpsrInterface.h"
+
 #include "lpsr2LilypondInterface.h"
 
 
@@ -214,7 +217,7 @@ int main (int argc, char *argv[])
       endl;
   }
 
-  // create MSR from MusicXML contents
+  // create the MSR skeleton from MusicXML contents
   // ------------------------------------------------------
 
   S_msrScore mScore;
@@ -223,13 +226,13 @@ int main (int argc, char *argv[])
     // input comes from standard input
     if (outputFileNameSize)
       mScore =
-        musicxmlFd2Msr (
+        mxmlFd2MsrSkeleton (
           stdin,
           gMsrOptions,
           gLogIOstream);
     else
       mScore =
-        musicxmlFd2Msr (
+        mxmlFd2MsrSkeleton (
           stdin,
           gMsrOptions,
           gLogIOstream);
@@ -239,14 +242,63 @@ int main (int argc, char *argv[])
     // input comes from a file
     if (outputFileNameSize) {
       mScore =
-        musicxmlFile2Msr (
+        mxmlFile2MsrSkeleton (
           inputSourceName.c_str(),
           gMsrOptions,
           gLogIOstream);
     }
     else {
       mScore =
-        musicxmlFile2Msr (
+        mxmlFile2MsrSkeleton (
+          inputSourceName.c_str(),
+          gMsrOptions,
+          gLogIOstream);
+    }
+  }
+    
+  if (! mScore) {
+    gLogIOstream <<
+      "### Conversion from MusicCML to an MSR skeleton failed ###" <<
+      endl <<
+      endl;
+    return 1;
+  }
+
+if (false) {
+  
+  // create the MSR from MusicXML contents
+  // ------------------------------------------------------
+
+  S_msrScore mScore;
+
+  if (inputSourceName == "-") {
+    // input comes from standard input
+    if (outputFileNameSize)
+      mScore =
+        mxmlFd2Msr (
+          stdin,
+          gMsrOptions,
+          gLogIOstream);
+    else
+      mScore =
+        mxmlFd2Msr (
+          stdin,
+          gMsrOptions,
+          gLogIOstream);
+  }
+  
+  else {
+    // input comes from a file
+    if (outputFileNameSize) {
+      mScore =
+        mxmlFile2Msr (
+          inputSourceName.c_str(),
+          gMsrOptions,
+          gLogIOstream);
+    }
+    else {
+      mScore =
+        mxmlFile2Msr (
           inputSourceName.c_str(),
           gMsrOptions,
           gLogIOstream);
@@ -261,7 +313,7 @@ int main (int argc, char *argv[])
     return 1;
   }
 
-  // create LPSR from MSR
+  // create the LPSR from the MSR
   // ------------------------------------------------------
 
   S_lpsrScore lpScore;
@@ -293,7 +345,7 @@ int main (int argc, char *argv[])
     }
   }
 
-  // generate LilyPond code from LPSR
+  // generate LilyPond code from the LPSR
   // ------------------------------------------------------
 
   if (! gLilypondOptions->fNoLilypondCode) {
@@ -353,6 +405,8 @@ int main (int argc, char *argv[])
       outFileStream.close ();
     }
   }
+
+}
 
   // print timing information
   // ------------------------------------------------------

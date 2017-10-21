@@ -73,7 +73,7 @@ static S_msrScore xml2Msr (
 }
 
 //_______________________________________________________________________________
-EXP S_msrScore musicxmlFile2Msr (
+EXP S_msrScore mxmlFile2Msr (
   const char*      fileName,
   S_msrOptions&    msrOpts,
   indentedOstream& logIOstream) 
@@ -121,7 +121,7 @@ EXP S_msrScore musicxmlFile2Msr (
 }
 
 //_______________________________________________________________________________
-EXP S_msrScore musicxmlFd2Msr (
+EXP S_msrScore mxmlFd2Msr (
   FILE*            fd,
   S_msrOptions&    msrOpts,
   indentedOstream& logIOstream) 
@@ -170,7 +170,7 @@ EXP S_msrScore musicxmlFd2Msr (
 }
 
 //_______________________________________________________________________________
-EXP S_msrScore musicxmlString2Msr (
+EXP S_msrScore mxmlString2Msr (
   const char*      buffer,
   S_msrOptions&    msrOpts,
   indentedOstream& logIOstream) 
