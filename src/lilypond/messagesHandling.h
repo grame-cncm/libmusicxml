@@ -74,19 +74,18 @@ namespace MusicXML2
 //______________________________________________________________________________
 #define msrError( context, inputLineNumber, message ) \
 { \
-  cerr << endl << endl; \
-\
   cerr << \
-    "### MusicXML ERROR ###, " << \
+    endl << \
+    endl << \
+    "\"" << context << " ERROR" << "\"" << \
+    endl << \
     gGeneralOptions->fInputSourceName << \
     ", input line " << inputLineNumber << ":" << \
     endl << \
 \
     message << \
-    endl << endl; \
-\
-  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
-    assert(false); \
+    endl << \
+    endl; \
 }
 
 /*! @} */

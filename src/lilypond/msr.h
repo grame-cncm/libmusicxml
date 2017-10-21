@@ -202,6 +202,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 //______________________________________________________________________________
+/*
 #define msrMusicXMLError( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
@@ -218,12 +219,19 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
     assert(false); \
 }
+*/
+
+
+#define msrMusicXMLError( inputLineNumber, message ) \
+{ msrError( "MusicXML", inputLineNumber, message); }
+
 
 /*!
 \internal
 \brief A macro to emit error messages regarding MSR and exit
 */
 //______________________________________________________________________________
+/*
 #define msrInternalError( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
@@ -239,6 +247,11 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 \
   assert(false); \
 }
+*/
+
+#define msrInternalError( inputLineNumber, message ) \
+{ msrError( "MusicXML INTERNAL", inputLineNumber, message); }
+
 
 /*!
 \internal
