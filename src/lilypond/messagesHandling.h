@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __msrMessages__
-#define __msrMessages__
+#ifndef __messagesHandling__
+#define __messagesHandling__
 
 
 using namespace std;
@@ -35,10 +35,11 @@ namespace MusicXML2
 #define msrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
-    cerr << \
+    gLogIOstream << \
       endl << \
       "#### " << messageIfFalse << \
       endl << \
+      "Aborting." << \
       endl << \
       flush; \
       \
@@ -51,42 +52,57 @@ namespace MusicXML2
 \brief A macro to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
+/*
 #define msrWarning( context, inputLineNumber, message ) \
 { \
-  cerr << \
+  gLogIOstream << \
     endl << \
     endl << \
     "\"" << context << " WARNING" << "\"" << \
     endl << \
     gGeneralOptions->fInputSourceName << \
     ", input line " << inputLineNumber << ":" << \
-    endl << \
+    endl;
 \
+//  gIndenter++; \
+\
+  gLogIOstream << \
     message << \
     endl << \
     endl; \
+\
+//  gIndenter++; \
 }
+*/
 
 /*!
 \internal
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 //______________________________________________________________________________
+/*
 #define msrError( context, inputLineNumber, message ) \
 { \
-  cerr << \
+  gLogIOstream << \
     endl << \
     endl << \
     "\"" << context << " ERROR" << "\"" << \
     endl << \
     gGeneralOptions->fInputSourceName << \
     ", input line " << inputLineNumber << ":" << \
-    endl << \
+    endl;
 \
+//  gIndenter++; \
+\
+  gLogIOstream << \
     message << \
     endl << \
     endl; \
+\
+//  gIndenter++; \
 }
+ */
+
 
 /*! @} */
 

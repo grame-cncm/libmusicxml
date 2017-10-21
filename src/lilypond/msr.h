@@ -19,7 +19,7 @@
 
 #include "utilities.h"
 
-#include "messagesHandling.h"
+//#include "messagesHandling.h"
 
 #include "msrBasicTypes.h"
 
@@ -159,7 +159,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 // a macro to abort with code source line information,
 // as assert() itself
 //______________________________________________________________________________
-/*
+
 #define msrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
@@ -168,17 +168,16 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
       "#### " << messageIfFalse << \
       endl << endl << \
       flush; \
+      \
     assert(condition); \
   } \
 }
-*/
 
 /*!
 \internal
 \brief A macro to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
-/*
 #define msrMusicXMLWarning( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
@@ -192,38 +191,93 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     message << \
     endl << endl; \
 }
-*/
 
+
+/*
 #define msrMusicXMLWarning( inputLineNumber, message ) \
 { msrWarning( "MusicXML", inputLineNumber, message); }
+*/
+
+/*
+#define msrMusicXMLWarning( inputLineNumber, message ) \
+{ \
+  gLogIOstream << \
+    endl << \
+    endl << \
+    "MusicXML WARNING" << \
+    endl << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl;
+\
+\
+  gLogIOstream << \
+    message << \
+    endl << \
+    endl; \
+\
+}
+*/
 
 /*!
 \internal
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 //______________________________________________________________________________
-/*
+
 #define msrMusicXMLError( inputLineNumber, message ) \
 { \
-  cerr << endl << endl; \
+  cerr << \
+    endl << \
+    endl; \
 \
   cerr << \
-    "### MusicXML ERROR ###, " << \
+    "### MusicXML ERROR ### " << \
+    endl << \
     gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
+    ", input line " << inputLineNumber << ":"; \
+\
+  indenter::gIndenter++; \
+\
+  cerr << \
     endl << \
 \
     message << \
-    endl << endl; \
+    endl << \
+    endl; \
+\
+  indenter::gIndenter--; \
 \
   if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
     assert(false); \
 }
-*/
 
 
+/*
 #define msrMusicXMLError( inputLineNumber, message ) \
 { msrError( "MusicXML", inputLineNumber, message); }
+*/
+
+/*
+#define msrMusicXMLError( inputLineNumber, message ) \
+{ \
+  cerr << \
+    endl << \
+    endl << \
+    "MusicXML ERROR" << \
+    endl << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl;
+\
+\
+  cerr << \
+    message << \
+    endl << \
+    endl; \
+\
+}
+*/
 
 
 /*!
@@ -231,7 +285,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 \brief A macro to emit error messages regarding MSR and exit
 */
 //______________________________________________________________________________
-/*
+
 #define msrInternalError( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
@@ -247,11 +301,12 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 \
   assert(false); \
 }
-*/
 
+
+/*
 #define msrInternalError( inputLineNumber, message ) \
 { msrError( "MusicXML INTERNAL", inputLineNumber, message); }
-
+*/
 
 /*!
 \internal
