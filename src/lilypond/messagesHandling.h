@@ -38,12 +38,56 @@ namespace MusicXML2
     cerr << \
       endl << \
       "#### " << messageIfFalse << \
-      endl << endl << \
+      endl << \
+      endl << \
       flush; \
+      \
     assert(condition); \
   } \
 }
 
+/*!
+\internal
+\brief A macro to emit warning messages regarding MusicXML data
+*/
+//______________________________________________________________________________
+#define msrWarning( context, inputLineNumber, message ) \
+{ \
+  cerr << \
+    endl << \
+    endl << \
+    "\"" << context << " WARNING" << "\"" << \
+    endl << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << \
+    endl; \
+}
+
+/*!
+\internal
+\brief A macro to emit error messages regarding MusicXML data and exit
+*/
+//______________________________________________________________________________
+#define msrError( context, inputLineNumber, message ) \
+{ \
+  cerr << endl << endl; \
+\
+  cerr << \
+    "### MusicXML ERROR ###, " << \
+    gGeneralOptions->fInputSourceName << \
+    ", input line " << inputLineNumber << ":" << \
+    endl << \
+\
+    message << \
+    endl << endl; \
+\
+  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
+    assert(false); \
+}
 
 /*! @} */
 

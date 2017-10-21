@@ -28850,15 +28850,30 @@ void msrPart::finalizePart (int inputLineNumber)
       inputLineNumber);
 */
 
-  // finalize registered staves
-  for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
-    i++) {
-    (*i).second->
-      finalizeStaff (
-        inputLineNumber);
-  } // for
+  if (! fPartStavesMap.size ()) {
+    stringstream s;
+
+    s <<
+      "Part " <<
+      getPartCombinedName () <<
+      " appears in the part list, but doesn't contain any stave";
+
+    msrMusicXMLWarning (
+      inputLineNumber,
+      s.str ());
+  }
+  
+  else {
+    // finalize registered staves
+    for (
+      map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
+      i != fPartStavesMap.end();
+      i++) {
+      (*i).second->
+        finalizeStaff (
+          inputLineNumber);
+    } // for
+  }
 }
 
 void msrPart::acceptIn (basevisitor* v) {

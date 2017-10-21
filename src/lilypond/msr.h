@@ -19,6 +19,8 @@
 
 #include "utilities.h"
 
+#include "messagesHandling.h"
+
 #include "msrBasicTypes.h"
 
 #include "generalOptions.h"
@@ -157,6 +159,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 // a macro to abort with code source line information,
 // as assert() itself
 //______________________________________________________________________________
+/*
 #define msrAssert( condition, messageIfFalse ) \
 { \
   if (! condition) { \
@@ -168,12 +171,14 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     assert(condition); \
   } \
 }
+*/
 
 /*!
 \internal
 \brief A macro to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
+/*
 #define msrMusicXMLWarning( inputLineNumber, message ) \
 { \
   cerr << endl << endl; \
@@ -187,6 +192,10 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
     message << \
     endl << endl; \
 }
+*/
+
+#define msrMusicXMLWarning( inputLineNumber, message ) \
+{ msrWarning( "MusicXML", inputLineNumber, message); }
 
 /*!
 \internal
