@@ -28841,10 +28841,12 @@ void msrPart::finalizePart (int inputLineNumber)
       endl;
   }
 
+/* JMI
   // finalize master staff specifically
   fPartMasterStaff->
     finalizeStaff (
       inputLineNumber);
+*/
 
   // finalize registered staves
   for (
@@ -28956,27 +28958,27 @@ void msrPart::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "partPartGroupUplink" << ": \"" <<
+    "PartPartGroupUplink" << ": \"" <<
     fPartPartGroupUplink->getPartGroupName () << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "partMsrName" << ": \"" <<
+    "PartMsrName" << ": \"" <<
     fPartMsrName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "partName" << ": \"" <<
+    "PartName" << ": \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "partAbbrevation" << ": \"" <<
+    "PartAbbrevation" << ": \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "partInstrumentName" << ": \"" <<
+     "PartInstrumentName" << ": \"" <<
     fPartInstrumentName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "partInstrumentAbbreviation" << ": \"" <<
+     "PartInstrumentAbbreviation" << ": \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl;
 
@@ -29008,11 +29010,6 @@ void msrPart::print (ostream& os)
 
   // print the registered staves
   if (fPartStavesMap.size()) {
-    os <<
-      "Other staves:" <<
-      endl <<
-      endl;
-
     gIndenter++;
     
     for (
@@ -29061,7 +29058,7 @@ void msrPart::print (ostream& os)
           break;
       } // switch
 
-      if (i != fPartStavesMap.end())
+      if (i != fPartStavesMap.end()) {
         switch (staffKind) {
           case msrStaff::kMasterStaff:
             os <<
@@ -29095,6 +29092,7 @@ void msrPart::print (ostream& os)
                 endl;
             break;
         } // switch
+      }
     } // for
 
     gIndenter--;
@@ -29120,29 +29118,28 @@ void msrPart::printStructure (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "partMsrName" << ": \"" <<
+    "PartMsrName" << ": \"" <<
     fPartMsrName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "partName" << ": \"" <<
+    "PartName" << ": \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "partAbbrevation" << ": \"" <<
+    "PartAbbrevation" << ": \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "partInstrumentName" << ": \"" <<
+    "PartInstrumentName" << ": \"" <<
     fPartInstrumentName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "partInstrumentAbbreviation" << ": \"" <<
+    "PartInstrumentAbbreviation" << ": \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "partInstrumentAbbreviation" << ": \"" <<
+     "PartInstrumentAbbreviation" << ": \"" <<
     fPartInstrumentAbbreviation << "\"" <<
-    endl <<
     endl;
 
 /* JMI
@@ -29607,7 +29604,7 @@ void msrPartGroup::print (ostream& os)
     
   gIndenter++;
 
-  const int fieldWidth = 23;
+  const int fieldWidth = 25;
   
   os << left <<
     setw (fieldWidth) << "PartGroupName" << " : \"" <<
@@ -29639,7 +29636,8 @@ void msrPartGroup::print (ostream& os)
     os << "true";
   else
     os << "false";
-  os << endl;
+  os <<
+    endl;
 
   os << left <<
     setw (fieldWidth) << "PartGroupPartGroupUplink" << " : ";
