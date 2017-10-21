@@ -21668,7 +21668,8 @@ void msrVoice::initializeVoice (
     appendStaffDetailsToVoice (
       staffStaffDetails);
   }
-    
+
+    /* JMI
   // add the mute stanza for this voice,
   // to collect skips along the way that are used as a 'prelude'
   // by actual stanza that start at later points
@@ -21678,6 +21679,7 @@ void msrVoice::initializeVoice (
       K_MUTE_STANZA_NUMBER,    // this stanza number is unused anyway
       msrStanza::kMuteStanza,
       this);
+      */
 }
 
 void msrVoice::changeVoiceIdentity ( // after a deep copy
@@ -21964,11 +21966,13 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   voiceDeepCopy->fVoiceContainsMultipleRests =
     fVoiceContainsMultipleRests;
 
+/* JMI
   // stanzas
   voiceDeepCopy->fVoiceMuteStanza =
     fVoiceMuteStanza->
       createStanzaDeepCopy (
         voiceDeepCopy);
+*/
 
   for (
     map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
@@ -22165,6 +22169,25 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
 
   // return it
   return stanza;
+}
+
+void msrVoice::addStanzaToVoice (S_msrStanza stanza)
+{
+  // get stanza number
+  string stanzaNumber =
+    stanza->getStanzaNumber ();
+    
+  // register stanza in this voice
+  if (gGeneralOptions->fTraceLyrics) {
+    gLogIOstream <<
+      "Adding stanza " << stanza->getStanzaName () <<
+      " (" << stanzaNumber <<
+      ") to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  // add the stanza to this voice
+  fVoiceStanzasMap [stanzaNumber] = stanza;
 }
 
 void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
@@ -22792,7 +22815,8 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegment (note);
-  
+
+  /* JMI
   // add a skip syllable of the same duration to the mute stanza
   rational
     noteSoundingWholeNotes =
@@ -22809,6 +22833,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingWholeNotes);
+        */
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
@@ -22878,7 +22903,8 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegmentClone (note);
-  
+
+  /* JMI
   // add a skip syllable of the same duration to the mute stanza
   rational
     noteSoundingWholeNotes =
@@ -22895,6 +22921,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       appendSkipSyllableToStanza (
         note->getInputLineNumber (),
         noteSoundingWholeNotes);
+        */
 }
 
 void msrVoice::appendDoubleTremoloToVoice (
@@ -23092,11 +23119,13 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
   fVoiceLastSegment->
     appendBarCheckToSegment (barCheck);
 
+/* JMI
   // add bar check syllable to the voice mute stanza
   fVoiceMuteStanza->
     appendBarcheckSyllableToStanza (
       barCheck->getInputLineNumber (),  // [passer barCheck directement? JMI
       barCheck->getNextBarNumber ());
+      */
 }
 
 void msrVoice::appendBarNumberCheckToVoice (
@@ -23116,11 +23145,13 @@ void msrVoice::appendBarNumberCheckToVoice (
   fVoiceLastSegment->
     appendBarNumberCheckToSegment (barNumberCheck);
 
+/* JMI
   // add barnumber check syllable to the voice mute stanza
   fVoiceMuteStanza->
     appendBarNumberCheckSyllableToStanza (
       barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
       barNumberCheck->getNextBarNumber ());
+      */
 }
 
 void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
@@ -23138,11 +23169,13 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
   fVoiceLastSegment->
     appendLineBreakToSegment (lineBreak);
 
+/* JMI
   // add break syllable to the voice mute stanza
   fVoiceMuteStanza->
     appendLineLineBreakSyllableToStanza (
       lineBreak->getInputLineNumber (),
       lineBreak->getNextBarNumber ());
+      */
 }
 
 void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
@@ -24424,10 +24457,12 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
       break;
   } // switch
 
+/* JMI
   if (! gMsrOptions->fKeepMuteStanzas) { // JMI
 // JMI    delete (fVoiceMuteStanza);
  // JMI   fVoiceMuteStanza = 0;
   }
+  */
 
   return result;
 }
@@ -24721,16 +24756,20 @@ void msrVoice::print (ostream& os)
   }
   
   if (gGeneralOptions->fTraceLyrics) {
+    /* JMI
     // print the mute stanza
     os <<
       fVoiceMuteStanza <<
-      endl;    
+      endl;
+      */
   }
   
   if (gMsrOptions->fShowMsrStanzas) {
+    /* JMI
     // print the voice mute stanza
     os <<
       fVoiceMuteStanza;
+      */
     
     // print the stanzas
     if (fVoiceStanzasMap.size()) {

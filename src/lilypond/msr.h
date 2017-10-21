@@ -9068,7 +9068,7 @@ class EXP msrVoice : public msrElement
                             int    inputLineNumber);
                             
     // stanzas
-
+// virer catchup JMI
     S_msrStanza           addStanzaToVoiceByItsNumber (
                             int    inputLineNumber,
                             string stanzaNumber);
@@ -9079,6 +9079,9 @@ class EXP msrVoice : public msrElement
     void                  catchUpWithVoiceMuteStanza (
                             S_msrStanza stanza);
                     
+    void                  addStanzaToVoice (
+                            S_msrStanza stanza);
+
     void                  addStanzaToVoiceWithCatchUp (
                             S_msrStanza stanza);
 
