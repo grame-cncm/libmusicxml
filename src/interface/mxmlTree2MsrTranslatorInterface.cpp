@@ -24,9 +24,9 @@
 
 #include "generalOptions.h"
 
-#include "musicXMLTree2MsrTranslatorInterface.h"
+#include "mxmlTree2MsrTranslatorInterface.h"
 
-#include "musicXMLTree2MsrTranslator.h"
+#include "mxmlTree2MsrTranslator.h"
 
 #include "msr2Summary.h"
 
@@ -234,7 +234,7 @@ S_msrScore buildMSRFromElementsTree (
       separator <<
       endl <<
       gTab <<
-      "Pass 2: translating the xmlelement tree into a MSR" <<
+      "Pass 2b: translating the xmlelement tree into a MSR" <<
       endl;
     
     logIOstream <<
@@ -251,14 +251,14 @@ S_msrScore buildMSRFromElementsTree (
   // build the MSR score
   S_msrScore
     mScore =
-      translator.buildMsrSkeletonFromXMLElementTree (
+      translator.buildMsrScoreFromXMLElementTree (
         xmlTree);
 
   clock_t endClock = clock();
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 2: build the MSR",
+    "Pass 2b: build the MSR",
     timingItem::kMandatory,
     startClock,
     endClock);

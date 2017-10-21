@@ -31,7 +31,7 @@
 
 #include "msr.h"
 
-#include "musicXMLTree2MsrTranslator.h"
+#include "mxmlTree2MsrTranslator.h"
 
 
 using namespace std;
