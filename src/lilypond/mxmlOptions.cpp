@@ -128,6 +128,11 @@ R"(Don't stop the translation after issuing a MusicXML error message.)",
   // clefs, keys, times
   // --------------------------------------
 
+  S_msrOptionsBooleanItem
+    ignoreRedundantClefsItem,
+    ignoreRedundantKeysItem,
+    ignoreRedundantTimesItem;
+    
   {
     // variables
     
@@ -150,31 +155,39 @@ R"()",
   
     appendOptionsSubGroup (clefsKeysTimesSubGroup);
   
-    clefsKeysTimesSubGroup->
-      appendOptionsItem (
+
+    ignoreRedundantClefsItem =
         msrOptionsBooleanItem::create (
           "irc", "ignoreRedundantClefs",
 R"(Ignore clefs that are the same as the current one.)",
           "ignoreMusicXMLErrors",
-          fIgnoreMusicXMLErrors));
-
-  
+          fIgnoreMusicXMLErrors);
     clefsKeysTimesSubGroup->
       appendOptionsItem (
+        ignoreRedundantClefsItem);
+
+  
+    ignoreRedundantKeysItem =
         msrOptionsBooleanItem::create (
           "irk", "ignoreRedundantKeys",
 R"(Ignore keys that are the same as the current one.)",
           "ignoreMusicXMLErrors",
-          fIgnoreMusicXMLErrors));
-
-  
+          fIgnoreMusicXMLErrors);
     clefsKeysTimesSubGroup->
       appendOptionsItem (
+        ignoreRedundantKeysItem);
+
+
+    ignoreRedundantTimesItem =
         msrOptionsBooleanItem::create (
           "irt", "ignoreRedundantTimes",
 R"(Ignore times that are the same as the current one.)",
           "ignoreMusicXMLErrors",
-          fIgnoreMusicXMLErrors));
+          fIgnoreMusicXMLErrors);
+    clefsKeysTimesSubGroup->
+      appendOptionsItem (
+        ignoreRedundantTimesItem);
+
 
     // '-loop' is hidden...
     S_msrOptionsBooleanItem
@@ -219,7 +232,8 @@ R"()",
   
     appendOptionsSubGroup (combinedOptionsSubGroup);
 
-  
+
+    // create a combined item
     S_msrOptionsCombinedItemsItem
       cubaseCombinedItemsItem =
         msrOptionsCombinedItemsItem::create (
@@ -229,18 +243,17 @@ R"(Useful settings for MusicXML data exported from Cubase.)");
     combinedOptionsSubGroup->
       appendOptionsItem (
         cubaseCombinedItemsItem);
-
-/* JMI
+ 
+    // populate the combined items
     cubaseCombinedItemsItem->
       appendOptionsItemToCombinedItemsList (
-        "ignoreRedundantClefs");
+        ignoreRedundantClefsItem);
     cubaseCombinedItemsItem->
       appendOptionsItemToCombinedItemsList (
-        "ignoreRedundantKeys");
+        ignoreRedundantKeysItem);
     cubaseCombinedItemsItem->
       appendOptionsItemToCombinedItemsList (
-        "ignoreRedundantTimes");
-        */
+        ignoreRedundantTimesItem);
   }
 }
 
