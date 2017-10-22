@@ -696,7 +696,16 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
 void msrOptionsCombinedItemsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
-{  
+{
+  os <<
+    fOptionsElementShortName <<
+    endl;
+
+  int fieldWidth =
+    valueFieldWidth - gIndenter.getIndent () + 1;
+    
+  gIndenter++; // only now
+
   if (! fOptionsCombinedItemsList.size ()) {
     os <<
       "none" <<
@@ -722,7 +731,7 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
         // set the boolean value
         optionsBooleanItem->
           printOptionsValues (
-            os, valueFieldWidth);
+            os, fieldWidth);
       }      
 
       if (++i == iEnd) break;
@@ -730,6 +739,9 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
   // JMI    os << endl;
     } // for
   }
+
+  gIndenter--;
+
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsCombinedItemsItem& elt)
