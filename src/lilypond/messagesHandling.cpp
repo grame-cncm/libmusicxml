@@ -32,6 +32,7 @@ void msrWarning (
   const int fieldWidth = 18;
 
   gLogIOstream << left <<
+    endl <<
     "!!! " << context << " WARNING !!!" <<
     endl <<
     setw (fieldWidth) <<
@@ -46,10 +47,9 @@ void msrWarning (
 
   gLogIOstream <<
     message <<
-    endl <<
     endl;
 
-    gIndenter--;
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -86,6 +86,7 @@ void msrError (
   const int fieldWidth = 18;
 
   gLogIOstream << left <<
+    endl <<
     "### " << context << " ERROR ###" <<
     endl <<
     setw (fieldWidth) <<
@@ -100,10 +101,9 @@ void msrError (
 
   gLogIOstream <<
     message <<
-    endl <<
     endl;
 
-    gIndenter--;
+  gIndenter--;
 }
 
 
