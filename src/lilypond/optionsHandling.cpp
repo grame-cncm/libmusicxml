@@ -685,10 +685,12 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
     gIndenter--;
   }
 
+  os <<
+    endl;
+
   gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
     
   os <<
-    endl <<
     endl;
 }
 
