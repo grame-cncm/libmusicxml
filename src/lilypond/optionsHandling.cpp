@@ -720,15 +720,9 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      os << " ";
+      os << endl;
     } // for
-  
-    os <<
-      "'";
   }
-
-  os <<
-    endl;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsCombinedItemsItem& elt)
