@@ -26271,54 +26271,46 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       endl;
   }
 
-  // set staff clef?
-  bool doSetStaffCurrentClef = true;
-  
+  // append clef to staff?
+  bool doAppendClefToStaff = true;
+    
   if (
     gMusicXMLOptions->fIgnoreRedundantClefs
       &&
     fStaffCurrentClef->isEqualTo (clef)) {
-    doSetStaffCurrentClef = false;
+    doAppendClefToStaff = false;
   }
-
-  if (doSetStaffCurrentClef)
-    fStaffCurrentClef = clef;
-
-  // is this a tablature or percussion staff?
-  switch (fStaffKind) {
-    case msrStaff::kMasterStaff: // JMI
-      break;
-      
-    case msrStaff::kRegularStaff: // JMI
-    /* JMI
-      if (clef->clefIsATablatureClef ())
-        fStaffKind = kTablatureStaff;
-      else if (clef->clefIsAPercussionClef ())
-        fStaffKind = kPercussionStaff;
-        */
-      break;
-      
-    case msrStaff::kTablatureStaff:
-      break;
-      
-    case msrStaff::kPercussionStaff:
-      break;
-      
-    case msrStaff::kHarmonyStaff:
-      break;
-      
-    case msrStaff::kFiguredBassStaff:
-      break;
-  } // switch
   
-  // propagate clef to all voices
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
-    i++) {
-    (*i).second-> // JMI msrAssert???
-      appendClefToVoice (clef);
-  } // for
+  else {
+    if (clef->isEqualTo (fStaffCurrentClef)) {
+      if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+        gLogIOstream <<
+          "Clef '" <<
+          clef->clefAsString () <<
+          "' ignored because it is already present in staff " <<
+          getStaffName () <<
+          "\" in part " <<
+          fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
+
+      doAppendClefToStaff = false;
+    }
+  }
+  
+  if (doAppendClefToStaff) {
+    // register clef as current staff clef
+    fStaffCurrentClef = clef;
+  
+    // propagate clef to all voices
+    for (
+      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
+      i != fStaffAllVoicesMap.end();
+      i++) {
+      (*i).second-> // JMI msrAssert???
+        appendClefToVoice (clef);
+    } // for
+  }
 }
 
 void msrStaff::appendKeyToStaff (S_msrKey  key)
@@ -26333,29 +26325,19 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
       endl;
   }
   
-  // set staff key?
-  bool doSetStaffCurrentKey = true;
-  
+  // append key to staff?
+  bool doAppendKeyToStaff = true;
+    
   if (
     gMusicXMLOptions->fIgnoreRedundantKeys
       &&
     fStaffCurrentKey->isEqualTo (key)) {
-    doSetStaffCurrentKey = false;
-  }
-
-  if (doSetStaffCurrentKey)
-    fStaffCurrentKey = key;
-
-
-  bool doAppendKeyToStaff;
-  
-  if (! fStaffCurrentKey) {
-    doAppendKeyToStaff = true;
+    doAppendKeyToStaff = false;
   }
   
   else {
     if (key->isEqualTo (fStaffCurrentKey)) {
-      if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+      if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
         gLogIOstream <<
           "Key '" <<
           key->keyAsString () <<
@@ -26397,21 +26379,35 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
       endl;
   }
   
-  // set staff time?
-  bool doSetStaffCurrentTime = true;
-  
+  // append time to staff?
+  bool doAppendTimeToStaff = true;
+    
   if (
     gMusicXMLOptions->fIgnoreRedundantTimes
       &&
     fStaffCurrentTime->isEqualTo (time)) {
-    doSetStaffCurrentTime = false;
+    doAppendTimeToStaff = false;
   }
+  
+  else {
+    if (time->isEqualTo (fStaffCurrentTime)) {
+      if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
+        gLogIOstream <<
+          "Time '" <<
+          time->timeAsString () <<
+          "' ignored because it is already present in staff " <<
+          getStaffName () <<
+          "\" in part " <<
+          fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
 
-  if (doSetStaffCurrentTime)
-    fStaffCurrentTime = time;
-
-
-  if (time != fStaffCurrentTime) { // JMI
+      doAppendTimeToStaff = false;
+    }
+  }
+  
+  if (doAppendTimeToStaff) {
+    // register time as current staff time
     fStaffCurrentTime = time;
 
     // propagate it to all voices
