@@ -13525,6 +13525,25 @@ void msrHarmonyDegree::print (ostream& os)
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
   int                  inputLineNumber,
+  S_msrPart            harmonyPart)
+{
+  msrHarmony* o =
+    new msrHarmony (
+      inputLineNumber,
+      harmonyPart,
+      k_NoQuarterTonesPitch, // harmonyRootQuarterTonesPitch
+      k_NoHarmony,
+      "",                    // harmonyKindText
+      0,                     // harmonyInversion
+      k_NoQuarterTonesPitch, // harmonyBassQuarterTonesPitch
+      rational (0, 1));      // harmonySoundingWholeNotes
+  assert(o!=0);
+
+  return o;
+}
+
+S_msrHarmony msrHarmony::create (
+  int                  inputLineNumber,
   S_msrPart            harmonyPart,
   msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
   msrHarmonyKind       harmonyKind,
@@ -13538,7 +13557,8 @@ S_msrHarmony msrHarmony::create (
       inputLineNumber,
       harmonyPart,
       harmonyRootQuarterTonesPitch,
-      harmonyKind, harmonyKindText,
+      harmonyKind,
+      harmonyKindText,
       harmonyInversion,
       harmonyBassQuarterTonesPitch,
       harmonySoundingWholeNotes);
@@ -14105,6 +14125,21 @@ void msrFigure::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrFiguredBass msrFiguredBass::create (
+  int       inputLineNumber,
+  S_msrPart figuredBassPartUplink)
+{
+  msrFiguredBass* o =
+    new msrFiguredBass (
+      inputLineNumber,
+      figuredBassPartUplink,
+      rational (0, 1),    // figuredBassSoundingWholeNotes
+      kFiguredBassParenthesesNo);
+  assert(o!=0);
+
+  return o;
+}
+
 S_msrFiguredBass msrFiguredBass::create (
   int       inputLineNumber,
   S_msrPart figuredBassPartUplink,

@@ -4392,6 +4392,10 @@ class EXP msrHarmony : public msrElement
 
     static SMARTP<msrHarmony> create (
       int                  inputLineNumber,
+      S_msrPart            harmonyPartUplink); // set by part??? JMI
+      
+    static SMARTP<msrHarmony> create ( // JMI
+      int                  inputLineNumber,
       S_msrPart            harmonyPartUplink,
       msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
       msrHarmonyKind       harmonyKind,
@@ -4639,6 +4643,10 @@ class EXP msrFiguredBass : public msrElement
     // creation from MusicXML
     // ------------------------------------------------------
 
+    static SMARTP<msrFiguredBass> create (
+      int       inputLineNumber,
+      S_msrPart figuredBassPartUplink); // set by part ??? JMI
+    
     static SMARTP<msrFiguredBass> create (
       int       inputLineNumber,
       S_msrPart figuredBassPartUplink,
