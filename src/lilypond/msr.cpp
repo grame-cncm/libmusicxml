@@ -17222,20 +17222,23 @@ void msrMeasure::finalizeMeasure (
   }
 
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
+    // compute the maximum of the full measure length // JMI
+    // which is time dependent
+    // and the measure length high tide,
+    // in case the measure is overfull
+    rational
+      lengthToReach =
+        fMeasureFullMeasureLength;
+        
+    if (partMeasureLengthHighTide > lengthToReach)
+      lengthToReach = partMeasureLengthHighTide;
     
-    if (fMeasureLength < fMeasureFullMeasureLength) {
-      // appending a skip to this measure to reach partMeasureLengthHighTide ???? JMI
-      // appending a skip to this measure to reach fMeasureFullMeasureLength 
+    if (fMeasureLength < lengthToReach) {
+      // appending a skip to this measure to reach lenthToReach 
       rational
         skipDuration =
-          fMeasureFullMeasureLength - fMeasureLength;
-  
-      /* JMI
-        partMeasureLengthHighTide > fMeasureFullMeasureLength // + 1 // JMI ???
-          ? partMeasureLengthHighTide - fMeasureLength
-          : fMeasureFullMeasureLength - fMeasureLength;
-          */
-      
+          lengthToReach - fMeasureLength;
+        
       // create the skip
       S_msrNote
         skip =
