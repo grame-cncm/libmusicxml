@@ -77,6 +77,200 @@ vector<string> handleOptionsAndArguments (
   return argumentsVector;
 }
 
+S_msrScore runPass2a (
+  string inputSourceName,
+  string outputFileName)
+{
+  int outputFileNameSize = outputFileName.size ();
+  
+  S_msrScore mScore;
+
+  if (inputSourceName == "-") {
+    // input comes from standard input
+    if (outputFileNameSize)
+      mScore =
+        mxmlFd2MsrSkeleton (
+          stdin,
+          gMsrOptions,
+          gLogIOstream);
+    else
+      mScore =
+        mxmlFd2MsrSkeleton (
+          stdin,
+          gMsrOptions,
+          gLogIOstream);
+  }
+  
+  else {
+    // input comes from a file
+    if (outputFileNameSize) {
+      mScore =
+        mxmlFile2MsrSkeleton (
+          inputSourceName.c_str(),
+          gMsrOptions,
+          gLogIOstream);
+    }
+    else {
+      mScore =
+        mxmlFile2MsrSkeleton (
+          inputSourceName.c_str(),
+          gMsrOptions,
+          gLogIOstream);
+    }
+  }
+    
+  return mScore;
+}
+
+void runPass2b (
+  string     inputSourceName,
+  string     outputFileName,
+  S_msrScore mScore)
+{
+  int outputFileNameSize = outputFileName.size ();
+
+  if (inputSourceName == "-") {
+    // input comes from standard input
+    if (outputFileNameSize)
+      mScore =
+        mxmlFd2Msr (
+          stdin,
+          gMsrOptions,
+          gLogIOstream);
+    else
+      mScore =
+        mxmlFd2Msr (
+          stdin,
+          gMsrOptions,
+          gLogIOstream);
+  }
+  
+  else {
+    // input comes from a file
+    if (outputFileNameSize) {
+      mScore =
+        mxmlFile2Msr (
+          inputSourceName.c_str(),
+          gMsrOptions,
+          gLogIOstream);
+    }
+    else {
+      mScore =
+        mxmlFile2Msr (
+          inputSourceName.c_str(),
+          gMsrOptions,
+          gLogIOstream);
+    }
+  }
+
+    /* JMI
+  if (! mScore) {
+    gLogIOstream <<
+      "### Conversion from MusicCML to MSR failed ###" <<
+      endl <<
+      endl;
+// JMI    return false;
+  }
+*/
+
+// JMI  return true;
+}
+
+S_lpsrScore runPass3 (
+  string     outputFileName,
+  S_msrScore mScore)
+{
+  int outputFileNameSize = outputFileName.size ();
+
+  S_lpsrScore lpScore;
+
+  if (! gLilypondOptions->fNoLilypondCode) {
+    if (outputFileNameSize) {
+      lpScore =
+        msr2Lpsr (
+          mScore,
+          gMsrOptions,
+          gLpsrOptions,
+          gLogIOstream);
+    }
+    else {
+      lpScore =
+        msr2Lpsr (
+          mScore,
+          gMsrOptions,
+          gLpsrOptions,
+          gLogIOstream);
+    }
+  }
+
+  return lpScore;
+}
+
+void runPass4 (
+  string     outputFileName,
+  S_msrScore mScore)
+{
+  int outputFileNameSize = outputFileName.size ();
+
+  if (! gLilypondOptions->fNoLilypondCode) {
+    // open output file if need be
+    // ------------------------------------------------------
+  
+    ofstream outFileStream;
+        
+    if (outputFileNameSize) {
+      if (gGeneralOptions->fTraceGeneral)
+        gLogIOstream <<
+          endl <<
+          "Opening file '" << outputFileName << "' for writing" <<
+          endl;
+          
+      outFileStream.open (
+        outputFileName.c_str(),
+        ofstream::out);
+
+     // create an indented output stream for the LilyPond code
+      // to be written to outFileStream
+      indentedOstream
+        lilypondCodeFileOutputStream (
+          outFileStream, gIndenter);
+
+      // convert the LPSR score to LilyPond code
+      lpsr2Lilypond (
+        lpScore,
+        gMsrOptions,
+        gLpsrOptions,
+        gLogIOstream,
+        lilypondCodeFileOutputStream);
+    }
+    
+    else {
+      // create an indented output stream for the LilyPond code
+      // to be written to cout
+      indentedOstream
+        lilypondCodeCoutOutputStream (
+          cout, gIndenter);
+
+      lpsr2Lilypond (
+        lpScore,
+        gMsrOptions,
+        gLpsrOptions,
+        gLogIOstream,
+        lilypondCodeCoutOutputStream);
+    }
+    
+    if (outputFileNameSize) {
+      if (gGeneralOptions->fTraceGeneral)
+        gLogIOstream <<
+          endl <<
+          "Closing file '" << outputFileName << "'" <<
+          endl;
+          
+      outFileStream.close ();
+    }
+  }
+}
+
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
@@ -217,196 +411,62 @@ int main (int argc, char *argv[])
       endl;
   }
 
-  // create the MSR skeleton from MusicXML contents
+  // create the MSR skeleton from MusicXML contents (pass 2a)
   // ------------------------------------------------------
 
-  S_msrScore mScore;
+  S_msrScore
+    mScore =
+      runPass2a (
+        inputSourceName, outputFileName);
 
-  if (inputSourceName == "-") {
-    // input comes from standard input
-    if (outputFileNameSize)
-      mScore =
-        mxmlFd2MsrSkeleton (
-          stdin,
-          gMsrOptions,
-          gLogIOstream);
-    else
-      mScore =
-        mxmlFd2MsrSkeleton (
-          stdin,
-          gMsrOptions,
-          gLogIOstream);
-  }
-  
-  else {
-    // input comes from a file
-    if (outputFileNameSize) {
-      mScore =
-        mxmlFile2MsrSkeleton (
-          inputSourceName.c_str(),
-          gMsrOptions,
-          gLogIOstream);
-    }
-    else {
-      mScore =
-        mxmlFile2MsrSkeleton (
-          inputSourceName.c_str(),
-          gMsrOptions,
-          gLogIOstream);
-    }
-  }
-    
   if (! mScore) {
     gLogIOstream <<
       "### Conversion from MusicCML to an MSR skeleton failed ###" <<
       endl <<
       endl;
-    return 1;
+
+    exit (1);
   }
 
-if (false) {
-  
-  // create the MSR from MusicXML contents
-  // ------------------------------------------------------
-
-  S_msrScore mScore;
-
-  if (inputSourceName == "-") {
-    // input comes from standard input
-    if (outputFileNameSize)
-      mScore =
-        mxmlFd2Msr (
-          stdin,
-          gMsrOptions,
-          gLogIOstream);
-    else
-      mScore =
-        mxmlFd2Msr (
-          stdin,
-          gMsrOptions,
-          gLogIOstream);
-  }
-  
-  else {
-    // input comes from a file
-    if (outputFileNameSize) {
-      mScore =
-        mxmlFile2Msr (
-          inputSourceName.c_str(),
-          gMsrOptions,
-          gLogIOstream);
-    }
-    else {
-      mScore =
-        mxmlFile2Msr (
-          inputSourceName.c_str(),
-          gMsrOptions,
-          gLogIOstream);
-    }
-  }
+  else if (! gGeneralOptions->fExit2a) {
     
-  if (! mScore) {
-    gLogIOstream <<
-      "### Conversion from MusicCML to MSR failed ###" <<
-      endl <<
-      endl;
-    return 1;
-  }
-
-  // create the LPSR from the MSR
-  // ------------------------------------------------------
-
-  S_lpsrScore lpScore;
-        
-  if (! gLilypondOptions->fNoLilypondCode) {
-    if (outputFileNameSize) {
-      lpScore =
-        msr2Lpsr (
-          mScore,
-          gMsrOptions,
-          gLpsrOptions,
-          gLogIOstream);
-    }
-    else {
-      lpScore =
-        msr2Lpsr (
-          mScore,
-          gMsrOptions,
-          gLpsrOptions,
-          gLogIOstream);
-    }
-    
-    if (! lpScore) {
-      gLogIOstream <<
-        "### Conversion from MSR to LPSR failed ###" <<
-        endl <<
-        endl;
-      return 1;
-    }
-  }
-
-  // generate LilyPond code from the LPSR
-  // ------------------------------------------------------
-
-  if (! gLilypondOptions->fNoLilypondCode) {
-    // open output file if need be
+    // create the MSR from MusicXML contents (pass 2b)
     // ------------------------------------------------------
-  
-    ofstream outFileStream;
+
+    runPass2b (
+      inputSourceName, outputFileName,
+      mScore);
+    
+    if (! gGeneralOptions->fExit2b) {
+      
+      // create the LPSR from the MSR (pass 3)
+      // ------------------------------------------------------
+
+      S_lpsrScore
+        lpScore =
+          runPass3 (
+            outputFileName,
+            mScore);
+
+      if (! lpScore) {
+        gLogIOstream <<
+          "### Conversion from MSR to LPSR failed ###" <<
+          endl <<
+          endl;
+        return 1;
+      }
+
+      else if (! gGeneralOptions->fExit3) {
         
-    if (outputFileNameSize) {
-      if (gGeneralOptions->fTraceGeneral)
-        gLogIOstream <<
-          endl <<
-          "Opening file '" << outputFileName << "' for writing" <<
-          endl;
-          
-      outFileStream.open (
-        outputFileName.c_str(),
-        ofstream::out);
-
-     // create an indented output stream for the LilyPond code
-      // to be written to outFileStream
-      indentedOstream
-        lilypondCodeFileOutputStream (
-          outFileStream, gIndenter);
-
-      // convert the LPSR score to LilyPond code
-      lpsr2Lilypond (
-        lpScore,
-        gMsrOptions,
-        gLpsrOptions,
-        gLogIOstream,
-        lilypondCodeFileOutputStream);
-    }
+        // generate LilyPond code from the LPSR (pass 4)
+        // ------------------------------------------------------
     
-    else {
-      // create an indented output stream for the LilyPond code
-      // to be written to cout
-      indentedOstream
-        lilypondCodeCoutOutputStream (
-          cout, gIndenter);
-
-      lpsr2Lilypond (
-        lpScore,
-        gMsrOptions,
-        gLpsrOptions,
-        gLogIOstream,
-        lilypondCodeCoutOutputStream);
-    }
-    
-    if (outputFileNameSize) {
-      if (gGeneralOptions->fTraceGeneral)
-        gLogIOstream <<
-          endl <<
-          "Closing file '" << outputFileName << "'" <<
-          endl;
-          
-      outFileStream.close ();
+        runPass4 (
+          outputFileName,
+          lpScore);
+      }
     }
   }
-
-}
 
   // print timing information
   // ------------------------------------------------------

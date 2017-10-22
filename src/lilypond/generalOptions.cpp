@@ -385,6 +385,11 @@ R"(Write a trace of the general activity to standard error.)",
     // harp pedals tuning
     fTraceHarpPedalsTuning = boolOptionsInitialValue;
     
+    // exit after some passes
+    fExit2a = boolOptionsInitialValue;
+    fExit2b = boolOptionsInitialValue;
+    fExit3 = boolOptionsInitialValue;
+
     // options
   
     S_msrOptionsSubGroup
@@ -685,6 +690,52 @@ R"(harp pedals tuning)",
           "traceHarpPedalsTuning",
           fTraceHarpPedalsTuning,
           fTraceGeneral));
+
+
+    // '-exit2a' is hidden...
+    S_msrOptionsBooleanItem
+      exit2aOptionsBooleanItem =
+        msrOptionsBooleanItem::create (
+          "e2a", "exit2a",
+R"(Exit after pass 2a.)",
+          "exit2a",
+          fExit2a);
+    exit2aOptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        exit2aOptionsBooleanItem);
+
+    // '-exit2b' is hidden...
+    S_msrOptionsBooleanItem
+      exit2bOptionsBooleanItem =
+        msrOptionsBooleanItem::create (
+          "e2b", "exit2b",
+R"(Exit after pass 2b.)",
+          "exit2b",
+          fExit2b);
+    exit2bOptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        exit2bOptionsBooleanItem);
+
+    // '-exit3' is hidden...
+    S_msrOptionsBooleanItem
+      exit3OptionsBooleanItem =
+        msrOptionsBooleanItem::create (
+          "e3", "exit3",
+R"(Exit after pass 3.)",
+          "exit3",
+          fExit3);
+    exit3OptionsBooleanItem->
+      setOptionsElementIsHidden ();
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        exit3OptionsBooleanItem);
   }
       
 

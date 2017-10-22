@@ -202,6 +202,11 @@ class EXP generalOptions : public msrOptionsGroup
     
     // harp pedals tuning
     bool                  fTraceHarpPedalsTuning;
+
+    // exit after some passes
+    bool                  fExit2a;
+    bool                  fExit2b;
+    bool                  fExit3;
     
     /* STUFF not yet handled JMI */
     bool                  fTraceMidi;
