@@ -207,8 +207,8 @@ S_lpsrScore runPass3 (
 }
 
 void runPass4 (
-  string     outputFileName,
-  S_msrScore mScore)
+  string      outputFileName,
+  S_lpsrScore lpScore)
 {
   int outputFileNameSize = outputFileName.size ();
 
