@@ -9009,9 +9009,10 @@ void msrTuplet::removeFirstNoteFromTuplet (
         return;
       }
     } // for
-    
-    msrInternalError (
-      inputLineNumber,
+
+    stringstream s;
+
+    s <<
       "cannot remove note " <<
       note <<
       " from tuplet " << tupletAsString () <<
@@ -9021,12 +9022,17 @@ void msrTuplet::removeFirstNoteFromTuplet (
           getSegmentVoiceUplink ()->
             getVoiceName () <<
       "\"," <<
-      " since it has not been found");
+      " since it has not been found";
+
+    msrInternalError (
+      inputLineNumber,
+      s.str ());
   }
   
   else {
-    msrInternalError (
-      inputLineNumber,
+    stringstream s;
+
+    s <<
       "cannot remove note " <<
       note <<
       " from empty tuplet " <<
@@ -9036,7 +9042,11 @@ void msrTuplet::removeFirstNoteFromTuplet (
           getSegmentVoiceUplink ()->
             getVoiceName () <<
       "\"," <<
-      " since it has not been found");
+      " since it has not been found";
+
+    msrInternalError (
+      inputLineNumber,
+      s.str ());
   }
 }
 
@@ -17065,8 +17075,9 @@ void msrMeasure::removeNoteFromMeasure (
     }
   } // for
   
-  msrInternalError (
-    inputLineNumber,
+  stringstream s;
+
+  s <<
     "cannot remove note " <<
     note <<
     " from measure " << fMeasureNumber <<
@@ -17075,7 +17086,11 @@ void msrMeasure::removeNoteFromMeasure (
       getSegmentVoiceUplink ()->
         getVoiceName () <<
     "\"," <<
-    " since it has not been found");
+    " since it has not been found";
+
+  msrInternalError (
+    inputLineNumber,
+    s.str ());
 }
 
 /* JMI
@@ -18954,14 +18969,19 @@ void msrSegment::removeNoteFromSegment (
   }
   
   else {
-    msrInternalError (
-      inputLineNumber,
+    stringstream s;
+
+    s <<
       "cannot remove note from segment " <<
       segmentAsString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
-      " since it is empty");
+      " since it is empty";
+
+    msrInternalError (
+      inputLineNumber,
+      s.str ());
   }
 }
 
@@ -22021,11 +22041,16 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       }
       
       else {
-        msrInternalError (
-          fInputLineNumber,
+        stringstream s;
+
+        s <<
           "voice  \"" <<
           getVoiceName () <<
-          "\" initial repeats and segments element should be a repeat or a segment");
+          "\" initial repeats and segments element should be a repeat or a segment";
+
+        msrInternalError (
+          fInputLineNumber,
+          s.str ());
       }
   
       // append the element deep copy to the voice deep copy

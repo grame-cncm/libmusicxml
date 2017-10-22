@@ -13,6 +13,7 @@
 #ifndef __messagesHandling__
 #define __messagesHandling__
 
+#include "iomanip" // for 'setw()'
 
 using namespace std;
 
@@ -49,6 +50,28 @@ namespace MusicXML2
 
 /*!
 \internal
+\brief A function to emit warning messages
+*/
+//______________________________________________________________________________
+void msrWarning (
+  string context,
+  string inputSourceName,
+  int    inputLineNumber,
+  string message);
+
+/*!
+\internal
+\brief A function to emit warning messages
+*/
+//______________________________________________________________________________
+void msrError (
+  string context,
+  string inputSourceName,
+  int    inputLineNumber,
+  string message);
+
+/*!
+\internal
 \brief A macro to emit warning messages regarding MusicXML data
 */
 //______________________________________________________________________________
@@ -73,6 +96,7 @@ namespace MusicXML2
 */
 //______________________________________________________________________________
 
+/*
 #define msrMusicXMLError( inputLineNumber, message ) \
 { \
   cerr << \
@@ -91,6 +115,19 @@ namespace MusicXML2
   if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
     assert(false); \
 }
+*/
+
+#define msrMusicXMLError( inputLineNumber, message ) \
+{ \
+  msrError ( \
+    "MusicXML", \
+    gGeneralOptions->fInputSourceName, \
+    inputLineNumber, \
+    message); \
+\
+  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
+    assert(false); \
+}
 
 /*!
 \internal
@@ -100,17 +137,11 @@ namespace MusicXML2
 
 #define msrInternalError( inputLineNumber, message ) \
 { \
-  cerr << \
-    endl << \
-\
-    "[[[ MSR INTERNAL ERROR ]]], " << \
-    gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    "  " << message << \
-    endl << \
-    endl; \
+  msrError ( \
+    "MSR INTERNAL", \
+    gGeneralOptions->fInputSourceName, \
+    inputLineNumber, \
+    message); \
 \
   assert(false); \
 }
