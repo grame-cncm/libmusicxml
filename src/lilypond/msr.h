@@ -52,6 +52,9 @@ typedef SMARTP<msrClef> S_msrClef;
 class msrKey;
 typedef SMARTP<msrKey> S_msrKey;
 
+class msrTimeItem;
+typedef SMARTP<msrTimeItem> S_msrTimeItem;
+
 class msrTime;
 typedef SMARTP<msrTime> S_msrTime;
 
@@ -2507,7 +2510,7 @@ class EXP msrClef : public msrElement
     // services
     // ------------------------------------------------------
 
-    bool                  isEqualTo (S_msrClef otherClef) const; // JMI
+    bool                  isEqualTo (S_msrClef otherClef) const;
 
     string                clefAsString () const;
 
@@ -2811,7 +2814,7 @@ class EXP msrTimeItem : public msrElement
     // services
     // ------------------------------------------------------
 
-    bool                  isEqualTo (S_msrTime otherTime) const;
+    bool                  isEqualTo (S_msrTimeItem otherTimeItem) const;
                             
     void                  appendBeatsNumber (int beatsNumber);
 

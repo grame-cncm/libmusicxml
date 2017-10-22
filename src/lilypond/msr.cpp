@@ -10240,7 +10240,7 @@ bool msrClef::clefIsAPercussionClef () const
   } // switch
 }
 
-bool msrClef::isEqualTo (S_msrClef otherClef) const // JMI
+bool msrClef::isEqualTo (S_msrClef otherClef) const
 {
   return fClefKind == otherClef->fClefKind;
 }
@@ -10414,6 +10414,18 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 
 msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem()
 {}
+
+bool msrHumdrumScotKeyItem::isEqualTo (
+  S_msrHumdrumScotKeyItem
+    otherHumdrumScotKeyItem) const
+{
+  return
+    fKeyDiatonicPitch == otherHumdrumScotKeyItem->fKeyDiatonicPitch
+      &&
+    fKeyAlteration == otherHumdrumScotKeyItem->fKeyAlteration
+      &&
+    fKeyOctave == otherHumdrumScotKeyItem->fKeyOctave;
+}
 
 void msrHumdrumScotKeyItem::setKeyItemDiatonicPitch (
   msrDiatonicPitch diatonicPitch)
@@ -10622,14 +10634,15 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
           return false;
         }
 
-        for (int i = 0; i < fHumdrumScotKeyItemsVector.size (); i++) {
+        for (unsigned int i = 0; i < fHumdrumScotKeyItemsVector.size (); i++) {
           if (
             ! (
               fHumdrumScotKeyItemsVector [i]->isEqualTo (
                 otherKey->fHumdrumScotKeyItemsVector [i])
-              ) {
-              return false;
-              }
+              )
+            ) {
+            return false;
+          }
         } // for
       }
       break;
@@ -10884,6 +10897,35 @@ msrTimeItem::msrTimeItem (
 msrTimeItem::~msrTimeItem()
 {}
 
+bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
+{  
+  if (
+    ! (
+        fTimeBeatValue == otherTimeItem->fTimeBeatValue
+            &&
+        fTimeBeatsNumbersVector.size ()
+          ==
+        otherTimeItem->fTimeBeatsNumbersVector.size ()
+      )
+    ) {
+    return false;
+  }
+    
+  for (unsigned int i = 0; i < fTimeBeatsNumbersVector.size (); i++) {
+    if (
+      ! (
+        fTimeBeatsNumbersVector [i]
+          ==
+        otherTimeItem->fTimeBeatsNumbersVector [i]
+        )
+      ) {
+      return false;
+    }
+  } // for
+ 
+  return true;
+}
+
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
   if (gGeneralOptions->fTraceTimes) {
@@ -11023,26 +11065,29 @@ msrTime::msrTime (
   fTimeIsCompound = false;
 }
 
-bool msrTime::isEqualTo (S_msrTime otherTime) const // JMI
+bool msrTime::isEqualTo (S_msrTime otherTime) const
 {  
   if (
     ! (
-        fTimeSymbolKind == otherKey->fTimeSymbolKind
+        fTimeSymbolKind == otherTime->fTimeSymbolKind
           &&
-        fTimeIsCompound == otherKey->fTimeIsCompound
+        fTimeIsCompound == otherTime->fTimeIsCompound
+          &&
+        fTimeItemsVector.size () == otherTime->fTimeItemsVector.size ()
       )
     ) {
     return false;
   }
     
-  for (int i = 0; i < fTimeItemsVector.size (); i++) {
+  for (unsigned int i = 0; i < fTimeItemsVector.size (); i++) {
     if (
       ! (
         fTimeItemsVector [i]->isEqualTo (
-          otherKey->fTimeItemsVector [i])
-        ) {
-        return false;
-        }
+          otherTime->fTimeItemsVector [i])
+        )
+      ) {
+      return false;
+    }
   } // for
  
   return true;
@@ -21279,7 +21324,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       msrDiatonicPitchAsString (
         diatonicPitch) <<
       msrAlterationAsString (
-        alteration);
+        alteration) <<
       "' has already been specified";
       
     msrMusicXMLError (
