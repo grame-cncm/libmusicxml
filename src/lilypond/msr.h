@@ -2533,7 +2533,7 @@ class EXP msrClef : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrClefKind  fClefKind;
+    msrClefKind           fClefKind;
 };
 typedef SMARTP<msrClef> S_msrClef;
 EXP ostream& operator<< (ostream& os, const S_msrClef& elt);

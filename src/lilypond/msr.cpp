@@ -10242,19 +10242,7 @@ bool msrClef::clefIsAPercussionClef () const
 
 bool msrClef::isEqualTo (S_msrClef otherClef) const // JMI
 {
-  if (fClefKind != otherClef->fClefKind)
-    return false;
-    
-  switch (fClefKind) {
-    case msrClef::kTablature4Clef:
-    case msrClef::kTablature5Clef:
-    case msrClef::kTablature6Clef:
-    case msrClef::kTablature7Clef:
-      return false;
-      break;
-    default:
-      return false;
-  } // switch
+  return fClefKind == otherClef->fClefKind;
 }
 
 void msrClef::acceptIn (basevisitor* v) {
@@ -10599,19 +10587,55 @@ msrKey::msrKey ( // for Humdrum/Scot keys
 msrKey::~msrKey()
 {}
 
-bool msrKey::isEqualTo (S_msrKey otherKey) const // JMI
+bool msrKey::isEqualTo (S_msrKey otherKey) const
 {
-  if (fKeyKind != otherKey->fKeyKind)
+  if (
+    ! (
+        fKeyKind == otherKey->fKeyKind
+          &&
+        fKeyTonicQuarterTonesPitch == otherKey->fKeyTonicQuarterTonesPitch
+          &&
+        fKeyModeKind == otherKey->fKeyModeKind
+          &&
+        fKeyCancel == otherKey->fKeyCancel
+      )
+    ) {
     return false;
+  }
     
   switch (fKeyKind) {
     case msrKey::kTraditionalKind:
-    case msrKey::kHumdrumScotKind:
-      return false;
       break;
-    default:
-      return false;
+    case msrKey::kHumdrumScotKind:
+      {
+        if (
+          ! (
+              fKeyItemsOctavesAreSpecified
+                ==
+              otherKey->fKeyItemsOctavesAreSpecified
+                  &&
+              fHumdrumScotKeyItemsVector.size ()
+                ==
+              otherKey->fHumdrumScotKeyItemsVector.size ()
+            )
+          ) {
+          return false;
+        }
+
+        for (int i = 0; i < fHumdrumScotKeyItemsVector.size (); i++) {
+          if (
+            ! (
+              fHumdrumScotKeyItemsVector [i]->isEqualTo (
+                otherKey->fHumdrumScotKeyItemsVector [i])
+              ) {
+              return false;
+              }
+        } // for
+      }
+      break;
   } // switch
+
+  return true;
 }
 
 void msrKey::appendHumdrumScotKeyItem (
@@ -11000,44 +11024,28 @@ msrTime::msrTime (
 }
 
 bool msrTime::isEqualTo (S_msrTime otherTime) const // JMI
-{
-  bool result = false;
-  
-  if (fTimeSymbolKind != otherTime->fTimeSymbolKind)
-    result = false;
+{  
+  if (
+    ! (
+        fTimeSymbolKind == otherKey->fTimeSymbolKind
+          &&
+        fTimeIsCompound == otherKey->fTimeIsCompound
+      )
+    ) {
+    return false;
+  }
     
-    /* JMI
-  switch (fTimeSymbolKind) {
-    case msrTime::kTimeSymbolCommon:
-      result = "common";
-      break;
-    case msrTime::kTimeSymbolCut:
-      result = "cut";
-      break;
-    case msrTime::kTimeSymbolNote:
-      result = "note";
-      break;
-    case msrTime::kTimeSymbolDottedNote:
-      result = "dotted note";
-      break;
-    case msrTime::kTimeSymbolSingleNumber:
-      result = "single number";
-      break;
-    case msrTime::kTimeSymbolSenzaMisura:
-      result = "senza misura";
-      break;
-    case msrTime::k_NoTimeSymbol:
-      result = "none";
-      break;
-  } // switch
-      return false;
-      break;
-    default:
-      return false;
-  } // switch
-  */
-
-  return result;
+  for (int i = 0; i < fTimeItemsVector.size (); i++) {
+    if (
+      ! (
+        fTimeItemsVector [i]->isEqualTo (
+          otherKey->fTimeItemsVector [i])
+        ) {
+        return false;
+        }
+  } // for
+ 
+  return true;
 }
 
 S_msrTime msrTime::createFourQuartersTime (

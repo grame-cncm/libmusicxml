@@ -565,13 +565,12 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
 void msrOptionsCombinedItemsItem::setCombinedItemsVariablesValue (
   bool value)
 {
-  if (fOptionsCombinedItemsList.size ()) {
-    list<S_msrOptionsItem>::const_iterator
-      iBegin = fOptionsCombinedItemsList.begin(),
-      iEnd   = fOptionsCombinedItemsList.end(),
-      i      = iBegin;
-      
-    for ( ; ; ) {
+  if (fOptionsCombinedItemsList.size ()) {      
+    for (
+      list<S_msrOptionsItem>::const_iterator i =
+        fOptionsCombinedItemsList.begin();
+      i != fOptionsCombinedItemsList.end();
+      i++) {
       S_msrOptionsItem
         optionItem = (*i);
 
@@ -584,7 +583,7 @@ void msrOptionsCombinedItemsItem::setCombinedItemsVariablesValue (
         // set the boolean value
         optionsBooleanItem->
           setBooleanItemVariableValue (value);
-      }          
+      }      
     } // for
   }
 }
@@ -606,7 +605,7 @@ void msrOptionsCombinedItemsItem::print (ostream& os) const
     setw (fieldWidth) <<
     "fOptionsCombinedItemsList" << " : ";
 
-    if (fOptionsCombinedItemsList.empty ()) {
+    if (! fOptionsCombinedItemsList.size ()) {
       os <<
         "none";
     }
@@ -698,29 +697,37 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
-  os << left <<
-    setw (valueFieldWidth) <<
-    " " <<
-    " : ";
-
-  if (fOptionsCombinedItemsList.empty ()) {
+  if (! fOptionsCombinedItemsList.size ()) {
     os <<
-      "none";
+      "none" <<
+      endl;
   }
     
-  else {
-    os <<
-      "'";
-      
+  else {      
     list<S_msrOptionsItem>::const_iterator
       iBegin = fOptionsCombinedItemsList.begin(),
       iEnd   = fOptionsCombinedItemsList.end(),
       i      = iBegin;
-      
+
     for ( ; ; ) {
-      os << (*i);
+      S_msrOptionsItem
+        optionItem = (*i);
+
+      if (
+        // boolean item?
+        S_msrOptionsBooleanItem
+          optionsBooleanItem =
+            dynamic_cast<msrOptionsBooleanItem*>(&(*optionItem))
+        ) {
+        // set the boolean value
+        optionsBooleanItem->
+          printOptionsValues (
+            os, valueFieldWidth);
+      }      
+
       if (++i == iEnd) break;
-      os << endl;
+      
+  // JMI    os << endl;
     } // for
   }
 }
@@ -1502,7 +1509,7 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
     "fOptionsNumbersSetItemVariable" << " : " <<
     endl;
 
-    if (fOptionsNumbersSetItemVariable.empty ()) {
+    if (! fOptionsNumbersSetItemVariable.size ()) {
       os <<
         "none";
     }
@@ -1539,7 +1546,7 @@ void msrOptionsNumbersSetItem::printOptionsValues (
     fOptionsNumbersSetItemVariableDisplayName <<
     " : ";
 
-  if (fOptionsNumbersSetItemVariable.empty ()) {
+  if (! fOptionsNumbersSetItemVariable.size ()) {
     os <<
       "none";
   }

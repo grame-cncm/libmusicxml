@@ -160,8 +160,8 @@ R"()",
         msrOptionsBooleanItem::create (
           "irc", "ignoreRedundantClefs",
 R"(Ignore clefs that are the same as the current one.)",
-          "ignoreMusicXMLErrors",
-          fIgnoreMusicXMLErrors);
+          "ignoreRedundantClefs",
+          fIgnoreRedundantClefs);
     clefsKeysTimesSubGroup->
       appendOptionsItem (
         ignoreRedundantClefsItem);
@@ -171,8 +171,8 @@ R"(Ignore clefs that are the same as the current one.)",
         msrOptionsBooleanItem::create (
           "irk", "ignoreRedundantKeys",
 R"(Ignore keys that are the same as the current one.)",
-          "ignoreMusicXMLErrors",
-          fIgnoreMusicXMLErrors);
+          "ignoreRedundantKeys",
+          fIgnoreRedundantKeys);
     clefsKeysTimesSubGroup->
       appendOptionsItem (
         ignoreRedundantKeysItem);
@@ -182,8 +182,8 @@ R"(Ignore keys that are the same as the current one.)",
         msrOptionsBooleanItem::create (
           "irt", "ignoreRedundantTimes",
 R"(Ignore times that are the same as the current one.)",
-          "ignoreMusicXMLErrors",
-          fIgnoreMusicXMLErrors);
+          "ignoreRedundantTimes",
+          fIgnoreRedundantTimes);
     clefsKeysTimesSubGroup->
       appendOptionsItem (
         ignoreRedundantTimesItem);
