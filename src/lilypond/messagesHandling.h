@@ -48,10 +48,6 @@ namespace MusicXML2
   } \
 }
 
-/*!
-\internal
-\brief A function to emit warning messages
-*/
 //______________________________________________________________________________
 void msrWarning (
   string context,
@@ -59,10 +55,16 @@ void msrWarning (
   int    inputLineNumber,
   string message);
 
-/*!
-\internal
-\brief A function to emit warning messages
-*/
+//______________________________________________________________________________
+void msrMusicXMLWarning (
+  int    inputLineNumber,
+  string message);
+
+//______________________________________________________________________________
+void msrInternalWarning (
+  int    inputLineNumber,
+  string message);
+
 //______________________________________________________________________________
 void msrError (
   string context,
@@ -70,47 +72,7 @@ void msrError (
   int    inputLineNumber,
   string message);
 
-/*!
-\internal
-\brief A macro to emit warning messages regarding MusicXML data
-*/
 //______________________________________________________________________________
-#define msrMusicXMLWarning( inputLineNumber, message ) \
-{ \
-  msrWarning ( \
-    "MusicXML", \
-    gGeneralOptions->fInputSourceName, \
-    inputLineNumber, \
-    message); \
-}
-
-/*!
-\internal
-\brief A macro to emit error messages regarding MusicXML data and exit
-*/
-//______________________________________________________________________________
-
-/*
-#define msrMusicXMLError( inputLineNumber, message ) \
-{ \
-  cerr << \
-    endl << \
-\
-    "### MusicXML ERROR ### " << \
-    endl << \
-    gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    "  " << message << \
-    endl << \
-    endl; \
-\
-  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
-    assert(false); \
-}
-*/
-
 #define msrMusicXMLError( inputLineNumber, message ) \
 { \
   msrError ( \
@@ -138,26 +100,6 @@ void msrError (
     message); \
 \
   assert(false); \
-}
-
-/*!
-\internal
-\brief A macro to emit error messages regarding MSR
-*/
-//______________________________________________________________________________
-#define msrInternalWarning( inputLineNumber, message ) \
-{ \
-  cerr << \
-    endl << \
-\
-    "[[[ MSR INTERNAL WARNING ]]], " << \
-    gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    "  " << message << \
-    endl << \
-    endl; \
 }
 
 
