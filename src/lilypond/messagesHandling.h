@@ -77,17 +77,11 @@ void msrError (
 //______________________________________________________________________________
 #define msrMusicXMLWarning( inputLineNumber, message ) \
 { \
-  cerr << \
-    endl << \
-\
-    "!!! MusicXML WARNING !!!, " << \
-    gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    "  " << message << \
-    endl << \
-    endl; \
+  msrWarning ( \
+    "MusicXML", \
+    gGeneralOptions->fInputSourceName, \
+    inputLineNumber, \
+    message); \
 }
 
 /*!
