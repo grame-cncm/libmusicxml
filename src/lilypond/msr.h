@@ -8666,9 +8666,9 @@ class EXP msrVoice : public msrElement
     enum msrVoiceKind {
       kMasterVoice,
       kRegularVoice,
-      kHarmonyVoice,  // for MusicXML <harmony/>, LilyPond ChordNames
-      kFiguredBassVoice,  // for MusicXML <figured-bass/>, LilyPond ChordNames
-      kSilentVoice }; // for voices that don't start at the very beginning
+      kHarmonyVoice,     // for MusicXML <harmony/>, LilyPond ChordNames
+      kFiguredBassVoice, // for MusicXML <figured-bass/>, LilyPond ChordNames
+      kSilentVoice };    // for voices that don't start at the very beginning
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);

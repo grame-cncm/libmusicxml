@@ -3484,7 +3484,15 @@ string wholeNotesAsMsrString (
   basicMsrAssert (
     numerator != 0,
     "numerator is 0");
+
+    /* JMI ???
+       if (numerator == 0) {
+    return "0";
+  }
     
+  else if (numerator == 1) {
+*/
+
   if (numerator == 1) {
     // a number of ??? JMI notes
     return to_string (denominator);

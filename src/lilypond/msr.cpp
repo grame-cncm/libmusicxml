@@ -10242,6 +10242,9 @@ bool msrClef::clefIsAPercussionClef () const
 
 bool msrClef::isEqualTo (S_msrClef otherClef) const
 {
+  if (! otherClef)
+    return false;
+    
   return fClefKind == otherClef->fClefKind;
 }
 
@@ -10419,6 +10422,9 @@ bool msrHumdrumScotKeyItem::isEqualTo (
   S_msrHumdrumScotKeyItem
     otherHumdrumScotKeyItem) const
 {
+  if (! otherHumdrumScotKeyItem)
+    return false;
+    
   return
     fKeyDiatonicPitch == otherHumdrumScotKeyItem->fKeyDiatonicPitch
       &&
@@ -10601,6 +10607,9 @@ msrKey::~msrKey()
 
 bool msrKey::isEqualTo (S_msrKey otherKey) const
 {
+  if (! otherKey)
+    return false;
+    
   if (
     ! (
         fKeyKind == otherKey->fKeyKind
@@ -10899,6 +10908,9 @@ msrTimeItem::~msrTimeItem()
 
 bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
 {  
+  if (! otherTimeItem)
+    return false;
+    
   if (
     ! (
         fTimeBeatValue == otherTimeItem->fTimeBeatValue
@@ -11066,7 +11078,10 @@ msrTime::msrTime (
 }
 
 bool msrTime::isEqualTo (S_msrTime otherTime) const
-{  
+{
+  if (! otherTime)
+    return false;
+    
   if (
     ! (
         fTimeSymbolKind == otherTime->fTimeSymbolKind
@@ -11512,6 +11527,9 @@ msrTranspose::~msrTranspose()
 
 bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
 {
+  if (! otherTranspose)
+    return false;
+    
   return
     fTransposeDiatonic ==
       otherTranspose->fTransposeDiatonic
@@ -24680,6 +24698,9 @@ string msrVoice::voicePartRelativeIDAsString () const
     case K_PART_HARMONY_VOICE_NUMBER:
       result = "K_PART_HARMONY_VOICE_NUMBER";
       break;
+    case K_PART_FIGURED_BASS_VOICE_NUMBER:
+      result = "K_PART_FIGURED_BASS_VOICE_NUMBER";
+      break;
     case K_SILENT_VOICE_NUMBER:
       result = "K_SILENT_VOICE_NUMBER";
       break;
@@ -24700,6 +24721,9 @@ string msrVoice::voiceStaffRelativeNumberAsString () const
       break;
     case K_PART_HARMONY_VOICE_NUMBER:
       result = "K_PART_HARMONY_VOICE_NUMBER";
+      break;
+    case K_PART_FIGURED_BASS_VOICE_NUMBER:
+      result = "K_PART_FIGURED_BASS_VOICE_NUMBER";
       break;
     case K_SILENT_VOICE_NUMBER:
       result = "K_SILENT_VOICE_NUMBER";
@@ -27145,6 +27169,10 @@ os <<
   endl;
 */
 
+      os <<
+        voice;
+
+        /* JMI
       switch (voice->getVoiceKind ()) {
         case msrVoice::kMasterVoice:
           os <<
@@ -27180,48 +27208,13 @@ os <<
               voice;
           break;
       } // switch
+        */
 
       if (++i == iEnd) break;
 
  //  JMI    os <<
  //       endl;
         
-/* JMI
-      switch (voice->getVoiceKind ()) {
-        case msrVoice::kMasterVoice:
-          os << endl;
-          break;
-
-        case msrVoice::kRegularVoice:
-          os << endl;
-          break;
-
-        case msrVoice::kHarmonyVoice:
-          if (
-            gMsrOptions->fShowHarmonyVoices
-              ||
-            voice->getMusicHasBeenInsertedInVoice ())
-            os <<
-              endl;
-          break;
-          
-        case msrVoice::kFiguredBassVoice:
-          if (
-            gMsrOptions->fShowFiguredBassVoices
-              ||
-            voice->getMusicHasBeenInsertedInVoice ())
-            os <<
-              endl;
-          break;
-          
-        case msrVoice::kSilentVoice:
-          if (gMsrOptions->fShowSilentVoices)
-            os <<
-              endl;
-          break;
-      } // switch
-      */
-
     } // for
   }
 
@@ -27549,6 +27542,7 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 void msrPart::createPartMasterStaffAndVoice (
   int inputLineNumber)
 {
+/* JMI
   if (fPartMasterStaff) {
     stringstream s;
 
@@ -27633,6 +27627,7 @@ void msrPart::createPartMasterStaffAndVoice (
       endl <<
       endl;
   }
+  */
 }
 
 void msrPart::setPartName (string partName)
@@ -27706,6 +27701,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         ", line " << inputLineNumber <<
         endl;
 
+/* JMI
     // create a deep copy of the part master voice
     fPartHarmonyVoice =
       fPartMasterVoice->
@@ -27714,7 +27710,17 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
           msrVoice::kHarmonyVoice,
           K_PART_HARMONY_VOICE_NUMBER,
           fPartHarmonyStaff);
+  */
   
+    // create the harmony voice
+    fPartHarmonyVoice =
+      msrVoice::create (
+        inputLineNumber,
+        msrVoice::kHarmonyVoice,
+        K_PART_HARMONY_VOICE_NUMBER,
+        msrVoice::kCreateInitialLastSegmentYes,
+        fPartHarmonyStaff);
+
     // register it in harmony staff
     fPartHarmonyStaff->
       registerVoiceInStaff (
@@ -27781,6 +27787,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
         ", line " << inputLineNumber <<
         endl;
 
+/* JMI
     // create a deep copy of the part master voice
     fPartFiguredBassVoice =
       fPartMasterVoice->
@@ -27789,7 +27796,17 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
           msrVoice::kFiguredBassVoice,
           K_PART_FIGURED_BASS_VOICE_NUMBER,
           fPartFiguredBassStaff);
-  
+  */
+
+    // create the figured bass voice
+    fPartFiguredBassVoice =
+      msrVoice::create (
+        inputLineNumber,
+        msrVoice::kFiguredBassVoice,
+        K_PART_FIGURED_BASS_VOICE_NUMBER,
+        msrVoice::kCreateInitialLastSegmentYes,
+        fPartFiguredBassStaff);
+
     // register it in figured bass staff
     fPartFiguredBassStaff->
       registerVoiceInStaff (
@@ -27863,11 +27880,13 @@ void msrPart::bringPartToMeasureLength (
       endl;
   }
 
+/* JMI
   // print the master staff to measure length specifically
   fPartMasterStaff->
     bringStaffToMeasureLength (
       inputLineNumber,
       measureLength);  
+*/
 
   // print the registered staves to measure length  
   for (
@@ -27944,11 +27963,13 @@ void msrPart::createMeasureAndAppendItToPart (
   // set part current measure number
   fPartCurrentMeasureNumber = measureNumber;
 
+/* JMI
   // create and append measure to the master staff
   fPartMasterStaff->
     createMeasureAndAppendItToStaff (
       inputLineNumber,
       measureNumber);
+*/
 
   // create and append measure to registered staves
   for (
@@ -28004,11 +28025,13 @@ void msrPart::appendStaffDetailsToPart (
 
   // register staff details in part
   fCurrentPartStaffDetails = staffDetails;
-  
+
+  /* JMI
   // append staff details to the master staff specifically
   fPartMasterStaff->
     appendStaffDetailsToStaff (
       staffDetails);
+  */
   
   // append staff details to registered staves
   for (
@@ -28088,11 +28111,13 @@ void msrPart::appendTimeToPart (S_msrTime time)
   // set part time
   fPartCurrentTime = time;
 
+/* JMI
   // append time to the master staff specifically,
   // this is crucial to the score structure
   fPartMasterStaff->
     appendTimeToStaff (
       time);
+  */
   
   // append time to registered staves
   for (
@@ -28162,9 +28187,11 @@ void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 
 void msrPart::createRepeatAndAppendItToPart (int inputLineNumber)
 {
+  /* JMI
   // create repeat and append it to master staff specifically
   fPartMasterStaff->
     createRepeatAndAppendItToStaff (inputLineNumber);  
+  */
   
   // create repeat and append it to registered staves
   for (
@@ -28182,12 +28209,14 @@ void msrPart::appendRepeatEndingToPart (
   msrRepeatEnding::msrRepeatEndingKind
             repeatEndingKind)
 {
+  /* JMI
   // append repeat ending to master staff specifically
   fPartMasterStaff->
     appendRepeatEndingToStaff (
       inputLineNumber,
       repeatEndingNumber,
       repeatEndingKind);
+  */
   
   // append repeat ending to registered staves
   for (
@@ -28257,12 +28286,14 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
   int measureRepeatMeasuresNumber,
   int measureRepeatSlashes)
 {
+  /* JMI
   // create measure repeat from its first measure in master staff specifically
   fPartMasterStaff->
     createMeasureRepeatFromItsFirstMeasureInStaff (
       inputLineNumber,
       measureRepeatMeasuresNumber,
       measureRepeatSlashes);
+  */
   
   // create measure repeat from its first measure in registered staves
   for (
@@ -28280,10 +28311,12 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
 void msrPart::appendPendingMeasureRepeatToPart (
   int inputLineNumber)
 {
+  /* JMI
   // append pending measure repeat to master staff specifically
   fPartMasterStaff->
     appendPendingMeasureRepeatToStaff (
       inputLineNumber);
+*/
   
   // append pending measure repeat to registered staves
   for (
@@ -28310,11 +28343,13 @@ void msrPart::createMultipleRestInPart (
       endl;
   }
 
+  /* JMI
   // create multiple rest in master staff specifically
   fPartMasterStaff->
     createMultipleRestInStaff (
       inputLineNumber,
       multipleRestMeasuresNumber);
+*/
   
   // create multiple rest in registered staves
   for (
@@ -28338,10 +28373,12 @@ void msrPart::appendPendingMultipleRestToPart (
       endl;
   }
 
+  /* JMI
   // append pending multiple rest to master staff specifically
   fPartMasterStaff->
     appendPendingMultipleRestToStaff (
       inputLineNumber);
+*/
   
   // append pending multiple rest to registered staves
   for (
@@ -28380,9 +28417,11 @@ void msrPart::appendMultipleRestCloneToPart (
 
 void msrPart::appendBarlineToPart (S_msrBarline barline)
 {
+  /* JMI
   // append barline to master staff specifically
   fPartMasterStaff->
     appendBarlineToStaff (barline);
+*/
   
   // append barline to registered staves
   for (
@@ -28975,10 +29014,12 @@ void msrPart::finalizeCurrentMeasureInPart (
       endl;
   }
 
+  /* JMI
   // finalize current measure in master staff specifically
   fPartMasterStaff->
     finalizeCurrentMeasureInStaff (
       inputLineNumber);
+*/
   
   // finalize current measure in registered staves
   for (
