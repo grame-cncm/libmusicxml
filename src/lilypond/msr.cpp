@@ -26271,8 +26271,18 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       endl;
   }
 
-  // set staff clef
-  fStaffCurrentClef = clef;
+  // set staff clef?
+  bool doSetStaffCurrentClef = true;
+  
+  if (
+    gMusicXMLOptions->fIgnoreRedundantClefs
+      &&
+    fStaffCurrentClef->isEqualTo (clef)) {
+    doSetStaffCurrentClef = false;
+  }
+
+  if (doSetStaffCurrentClef)
+    fStaffCurrentClef = clef;
 
   // is this a tablature or percussion staff?
   switch (fStaffKind) {
@@ -26323,8 +26333,18 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
       endl;
   }
   
-  // set staff key
-  fStaffCurrentKey = key;
+  // set staff key?
+  bool doSetStaffCurrentKey = true;
+  
+  if (
+    gMusicXMLOptions->fIgnoreRedundantKeys
+      &&
+    fStaffCurrentKey->isEqualTo (key)) {
+    doSetStaffCurrentKey = false;
+  }
+
+  if (doSetStaffCurrentKey)
+    fStaffCurrentKey = key;
 
 
   bool doAppendKeyToStaff;
@@ -26377,7 +26397,20 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
       endl;
   }
   
-  // set staff time
+  // set staff time?
+  bool doSetStaffCurrentTime = true;
+  
+  if (
+    gMusicXMLOptions->fIgnoreRedundantTimes
+      &&
+    fStaffCurrentTime->isEqualTo (time)) {
+    doSetStaffCurrentTime = false;
+  }
+
+  if (doSetStaffCurrentTime)
+    fStaffCurrentTime = time;
+
+
   if (time != fStaffCurrentTime) { // JMI
     fStaffCurrentTime = time;
 

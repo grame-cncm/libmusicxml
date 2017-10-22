@@ -5103,7 +5103,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTranspose& elt)
   // transposition in LilyPond is relative to c',
   // i.e. the C in the middle of the piano keyboard
 
-The diatonic element specifies the number of pitch steps needed to go from written to sounding pitch. This allows for correct spelling of enharmonic transpositions
+The diatonic element specifies the number of pitch steps needed to go from written to sounding pitch. This allows for correct spelling of enharmonic transpositions.
 
 The chromatic element represents the number of semitones needed to get from written to sounding pitch. This value does not include octave-change values; the values for both elements need to be added to the written pitch to get the correct sounding pitch.
 
@@ -5116,6 +5116,8 @@ If the double element is present, it indicates that the music is doubled one oct
   msrQuarterTonesPitch transpositionPitch;
   
   switch (transposeChromatic) {
+    case -12:
+      break;
     case -11:
       switch (transposeDiatonic) {
         case -7:
@@ -5478,13 +5480,16 @@ If the double element is present, it indicates that the music is doubled one oct
       } // switch
       break;
 
+    case 12:
+      break;
+
     default:
       {
         stringstream s;
       
         s <<
           "transpose chromatic '" << transposeChromatic <<
-          "' is not between -11 and 11, ignored";
+          "' is not between -12 and 12, ignored";
           
         msrMusicXMLWarning ( // JMI
           inputLineNumber,
