@@ -514,7 +514,7 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
 
 // fonts
 //______________________________________________________________________________
-class EXP msrFontSize
+class EXP msrFontSize : public smartable
 {
   public:
 
@@ -538,7 +538,7 @@ class EXP msrFontSize
       msrFontSizeKind fontSizeKind);
 
     static SMARTP<msrFontSize> create (
-      float numericFontSize);
+      float fontNumericSize);
 
   protected:
 
@@ -561,12 +561,12 @@ class EXP msrFontSize
     msrFontSizeKind       getFontSizeKind () const
                               { return fFontSizeKind; }
 
-    float                 getFontNumericSize () const;
+    float                 getFontNumericSize ();
 
     // services
     // ------------------------------------------------------
 
-    string                fontSizeKindAsString () const;
+    string                fontSizeKindAsString ();
 
     string                fontSizeAsString () const;
 

@@ -159,7 +159,7 @@ void lpsrParallelMusic::browseData (basevisitor* v)
   
   for (
     vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin ();
-    i != fParallelMusicElements.endl ();
+    i != fParallelMusicElements.end ();
     i++) {
     // browse the element browser
     msrBrowser<msrElement> browser (v);
@@ -191,7 +191,7 @@ void lpsrParallelMusic::print (ostream& os)
   
   for (
     vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin ();
-    i != fParallelMusicElements.endl ();
+    i != fParallelMusicElements.end ();
     i++) {
     os << (*i);
   } // for
@@ -658,11 +658,11 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
 
   for_each (
     fVariableName.begin (),
-    fVariableName.endl (),
+    fVariableName.end (),
     stringQuoteEscaper (variableName));
   for_each (
     fVariableValue.begin (),
-    fVariableValue.endl (),
+    fVariableValue.end (),
     stringQuoteEscaper (variableValue));
 
   switch (fCommentedKind) {
@@ -854,11 +854,11 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
 
   for_each (
     fVariableName.begin (),
-    fVariableName.endl (),
+    fVariableName.end (),
     stringQuoteEscaper (variableName));
   for_each (
     fVariableValue.begin (),
-    fVariableValue.endl (),
+    fVariableValue.end (),
     stringQuoteEscaper (variableValue));
 
   switch (fCommentedKind) {
@@ -1899,7 +1899,7 @@ void lpsrHeader::changeCreatorVariableName (
   string variableName, string newName)
 {
   vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-  for (i=fCreators.begin (); i!=fCreators.endl (); i++) {
+  for (i=fCreators.begin (); i!=fCreators.end (); i++) {
     if ((*i)->getVariableName () == variableName)
       (*i)->changeAssocVariableName (newName);
   } // for
@@ -1932,7 +1932,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     
   if (! fComposers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fComposers.begin (); i!=fComposers.endl (); i++) {
+    for (i=fComposers.begin (); i!=fComposers.end (); i++) {
       int length = (*i)->getVariableName ().size();
       if (length > result) result = length;
     } // for
@@ -1940,7 +1940,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     
   if (! fArrangers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fArrangers.begin (); i!=fArrangers.endl (); i++) {
+    for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
       int length = (*i)->getVariableName ().size();
       if (length > result) result = length;
     } // for
@@ -1948,7 +1948,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     
   if (! fLyricists.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fLyricists.begin (); i!=fLyricists.endl (); i++) {
+    for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
       int length = (*i)->getVariableName ().size();
       if (length > result) result = length;
     } // for
@@ -1961,7 +1961,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     
   if (! fSoftwares.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fSoftwares.begin (); i!=fSoftwares.endl (); i++) {
+    for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
       int length = (*i)->getVariableName ().size();
       if (length > result) result = length;
     } // for
@@ -2041,7 +2041,7 @@ void lpsrHeader::browseData (basevisitor* v)
 
   if (! fComposers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fComposers.begin (); i!=fComposers.endl (); i++) {
+    for (i=fComposers.begin (); i!=fComposers.end (); i++) {
       // browse creator
       msrBrowser<lpsrLilypondVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -2050,7 +2050,7 @@ void lpsrHeader::browseData (basevisitor* v)
     
   if (! fArrangers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fArrangers.begin (); i!=fArrangers.endl (); i++) {
+    for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
       // browse creator
       msrBrowser<lpsrLilypondVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -2059,7 +2059,7 @@ void lpsrHeader::browseData (basevisitor* v)
     
   if (! fLyricists.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fLyricists.begin (); i!=fLyricists.endl (); i++) {
+    for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
       // browse creator
       msrBrowser<lpsrLilypondVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -2074,7 +2074,7 @@ void lpsrHeader::browseData (basevisitor* v)
 
   if (! fSoftwares.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fSoftwares.begin (); i!=fSoftwares.endl (); i++) {
+    for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
       // browse software
       msrBrowser<lpsrLilypondVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -2133,7 +2133,7 @@ void lpsrHeader::print (ostream& os)
   if (! fComposers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator
       iBegin = fComposers.begin (),
-      iEnd   = fComposers.endl (),
+      iEnd   = fComposers.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -2147,7 +2147,7 @@ void lpsrHeader::print (ostream& os)
   if (! fArrangers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator
       iBegin = fArrangers.begin (),
-      iEnd   = fArrangers.endl (),
+      iEnd   = fArrangers.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -2161,7 +2161,7 @@ void lpsrHeader::print (ostream& os)
   if (! fLyricists.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator
       iBegin = fLyricists.begin (),
-      iEnd   = fLyricists.endl (),
+      iEnd   = fLyricists.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -2180,7 +2180,7 @@ void lpsrHeader::print (ostream& os)
   if (! fSoftwares.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator
       iBegin = fSoftwares.begin (),
-      iEnd   = fSoftwares.endl (),
+      iEnd   = fSoftwares.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -2639,7 +2639,7 @@ void lpsrStaffBlock::browseData (basevisitor* v)
 
   for (
     list<S_msrElement>::const_iterator i = fStaffBlockElements.begin ();
-    i != fStaffBlockElements.endl ();
+    i != fStaffBlockElements.end ();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -2687,7 +2687,7 @@ void lpsrStaffBlock::print (ostream& os)
   if (fStaffBlockElements.size()) {  
     list<S_msrElement>::const_iterator
       iBegin = fStaffBlockElements.begin (),
-      iEnd   = fStaffBlockElements.endl (),
+      iEnd   = fStaffBlockElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -2779,7 +2779,7 @@ void lpsrPartBlock::browseData (basevisitor* v)
 
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElements.begin ();
-    i != fPartBlockElements.endl ();
+    i != fPartBlockElements.end ();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -2834,7 +2834,7 @@ void lpsrPartBlock::print (ostream& os)
   if (fPartBlockElements.size()) {  
     list<S_msrElement>::const_iterator
       iBegin = fPartBlockElements.begin (),
-      iEnd   = fPartBlockElements.endl (),
+      iEnd   = fPartBlockElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -2913,7 +2913,7 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
 
   for (
     list<S_msrElement>::const_iterator i = fPartGroupBlockElements.begin ();
-    i != fPartGroupBlockElements.endl ();
+    i != fPartGroupBlockElements.end ();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -2950,7 +2950,7 @@ void lpsrPartGroupBlock::print (ostream& os)
   if (fPartGroupBlockElements.size()) {  
     list<S_msrElement>::const_iterator
       iBegin = fPartGroupBlockElements.begin (),
-      iEnd   = fPartGroupBlockElements.endl (),
+      iEnd   = fPartGroupBlockElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -3101,7 +3101,7 @@ void lpsrScoreBlock::browseData (basevisitor* v)
 /* JMI
   for (
     vector<S_msrElement>::const_iterator i = fScoreBlockElements.begin ();
-    i != fScoreBlockElements.endl ();
+    i != fScoreBlockElements.end ();
     i++) {
     // browse the element
  //   msrBrowser<msrElement> browser (v);
@@ -3865,7 +3865,7 @@ void lpsrScore::browseData (basevisitor* v)
     for (
       map<string, S_lpsrSchemeFunction>::const_iterator i =
         fScoreSchemeFunctionsMap.begin ();
-      i != fScoreSchemeFunctionsMap.endl ();
+      i != fScoreSchemeFunctionsMap.end ();
       i++) {
       // browse the Scheme function
       msrBrowser<lpsrSchemeFunction> browser (v);
@@ -3923,7 +3923,7 @@ void lpsrScore::browseData (basevisitor* v)
     // browse the voices and stanzas list
     for (
       list<S_msrElement>::const_iterator i = fScoreElements.begin ();
-      i != fScoreElements.endl ();
+      i != fScoreElements.end ();
       i++) {
       // browse the element
       msrBrowser<msrElement> browser (v);
@@ -4002,7 +4002,7 @@ void lpsrScore::print (ostream& os)
   if (fScoreElements.size()) {  
     list<S_msrElement>::const_iterator
       iBegin = fScoreElements.begin (),
-      iEnd   = fScoreElements.endl (),
+      iEnd   = fScoreElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);

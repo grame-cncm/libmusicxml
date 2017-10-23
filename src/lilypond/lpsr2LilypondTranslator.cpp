@@ -6523,40 +6523,42 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
 // JMI \teeny, \tiny, \small, \normalsize, \large, \huge, \smaller, \larger.
 
-        switch (wordsFontSize) {
-          case k_NoFontSize:
+        switch (wordsFontSize->getFontSizeKind ()) {
+          case msrFontSize::k_NoFontSize:
             break;
-          case kXXSmallFontSize:
+          case msrFontSize::kXXSmallFontSize:
             s <<
               "\\tiny ";
             break;
-          case kXSmallFontSize:
+          case msrFontSize::kXSmallFontSize:
             s <<
               "\\smaller ";
             break;
-          case kSmallFontSize:
+          case msrFontSize::kSmallFontSize:
             s <<
               "\\small ";
             break;
-          case kMediumFontSize:
+          case msrFontSize::kMediumFontSize:
             s <<
               "\\normalsize ";
             break;
-          case kLargeFontSize:
+          case msrFontSize::kLargeFontSize:
             s <<
               "\\large ";
             break;
-          case kXLargeFontSize:
+          case msrFontSize::kXLargeFontSize:
             s <<
               "\\larger ";
             break;
-          case kXXLargeFontSize:
+          case msrFontSize::kXXLargeFontSize:
             s <<
               "\\huge ";
             break;
-          case kNumericFontSize:
+          case msrFontSize::kNumericFontSize:
             s <<
-              "%{ ??? points %} ";
+              "%{ " <<
+              wordsFontSize->getFontNumericSize () <<
+              " points %} ";
             break;
         } // switch
 

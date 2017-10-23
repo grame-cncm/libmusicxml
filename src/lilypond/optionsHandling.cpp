@@ -4272,9 +4272,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       ) {
       // handle the option item
 
-      printOptionsItemForcedHelp (
-        fOptionsHandlerLogIOstream,
-        theString);
+      printHelp (
+        fOptionsHandlerLogIOstream);
 
       fPendingOptionsItem = 0;
       }

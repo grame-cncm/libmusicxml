@@ -28,7 +28,11 @@
 
 #include "utilities.h"
 
+#include "messagesHandling.h"
+
 #include "msrBasicTypes.h"
+
+#include "generalOptions.h"
 
 
 using namespace std;
@@ -3189,43 +3193,43 @@ msrFontSize::msrFontSize (
 }
 
 msrFontSize::msrFontSize (
-  float numericFontSize)
+  float fontNumericSize)
 {
   fFontSizeKind = kNumericFontSize;
-  fNumericFontSize = numericFontSize;
+  fFontNumericSize = fontNumericSize;
 }
       
 string fontSizeKindAsString (
-  msrFontSizeKind fontSizeKind)
+  msrFontSize::msrFontSizeKind fontSizeKind)
 {
   string result;
 
   switch (fontSizeKind) {
-    case k_NoFontSize:
+    case msrFontSize::k_NoFontSize:
       result = "font size: none";
       break;
-    case kXXSmallFontSize:
+    case msrFontSize::kXXSmallFontSize:
       result = "font size: xx-small";
       break;
-    case kXSmallFontSize:
+    case msrFontSize::kXSmallFontSize:
       result = "font size: x-small";
       break;
-    case kSmallFontSize:
+    case msrFontSize::kSmallFontSize:
       result = "font size: small";
       break;
-    case kMediumFontSize:
+    case msrFontSize::kMediumFontSize:
       result = "font size: medium";
       break;
-    case kLargeFontSize:
+    case msrFontSize::kLargeFontSize:
       result = "font size: large";
       break;
-    case kXLargeFontSize:
+    case msrFontSize::kXLargeFontSize:
       result = "font size: x-large";
       break;
-    case kXXLargeFontSize:
+    case msrFontSize::kXXLargeFontSize:
       result = "font size: xx-large";
       break;
-    case kNumericFontSize:
+    case msrFontSize::kNumericFontSize:
       result = "font size: numeric";
       break;
     } // switch
@@ -3233,25 +3237,25 @@ string fontSizeKindAsString (
   return result;
 }
 
-string msrFontSize::fontSizeKindAsString () const
+string msrFontSize::fontSizeKindAsString ()
 {
   return
     fontSizeKindAsString (fFontSizeKind);
 }
 
-float msrFontSize::getFontNumericSize () const
+float msrFontSize::getFontNumericSize ()
 {
   float result;
   
   switch (fFontSizeKind) {
-    case k_NoFontSize:
-    case kXXSmallFontSize:
-    case kXSmallFontSize:
-    case kSmallFontSize:
-    case kMediumFontSize:
-    case kLargeFontSize:
-    case kXLargeFontSize:
-    case kXXLargeFontSize:
+    case msrFontSize::k_NoFontSize:
+    case msrFontSize::kXXSmallFontSize:
+    case msrFontSize::kXSmallFontSize:
+    case msrFontSize::kSmallFontSize:
+    case msrFontSize::kMediumFontSize:
+    case msrFontSize::kLargeFontSize:
+    case msrFontSize::kXLargeFontSize:
+    case msrFontSize::kXXLargeFontSize:
       {
         stringstream s;
 
@@ -3265,7 +3269,7 @@ float msrFontSize::getFontNumericSize () const
       }
       break;
       
-    case kNumericFontSize:
+    case msrFontSize::kNumericFontSize:
       result = fFontNumericSize;
       break;
     } // switch
@@ -3276,19 +3280,19 @@ float msrFontSize::getFontNumericSize () const
 void msrFontSize::print (ostream& os)
 {
   switch (fFontSizeKind) {
-    case k_NoFontSize:
-    case kXXSmallFontSize:
-    case kXSmallFontSize:
-    case kSmallFontSize:
-    case kMediumFontSize:
-    case kLargeFontSize:
-    case kXLargeFontSize:
-    case kXXLargeFontSize:
+    case msrFontSize::k_NoFontSize:
+    case msrFontSize::kXXSmallFontSize:
+    case msrFontSize::kXSmallFontSize:
+    case msrFontSize::kSmallFontSize:
+    case msrFontSize::kMediumFontSize:
+    case msrFontSize::kLargeFontSize:
+    case msrFontSize::kXLargeFontSize:
+    case msrFontSize::kXXLargeFontSize:
       os <<
-        msrFontSizeAsString (fFontSizeKind);
+        msrFontSize::fontSizeKindAsString (fFontSizeKind);
       break;
       
-    case kNumericFontSize:
+    case msrFontSize::kNumericFontSize:
       os <<
         fFontNumericSize;
       break;
