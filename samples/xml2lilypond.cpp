@@ -77,7 +77,7 @@ vector<string> handleOptionsAndArguments (
   return argumentsVector;
 }
 
-S_msrScore runPass2a (
+S_msrScore convertMusicXMLToMSRSkeleton (
   string inputSourceName,
   string outputFileName)
 {
@@ -122,58 +122,11 @@ S_msrScore runPass2a (
   return mScore;
 }
 
-void convertMusicXMLtoMSR (
+void populateMSRFromMusicXML (
   string     inputSourceName,
   string     outputFileName,
   S_msrScore mScore)
 {
-  int outputFileNameSize = outputFileName.size ();
-
-  if (inputSourceName == "-") {
-    // input comes from standard input
-    if (outputFileNameSize)
-      mScore =
-        mxmlFd2Msr (
-          stdin,
-          gMsrOptions,
-          gLogIOstream);
-    else
-      mScore =
-        mxmlFd2Msr (
-          stdin,
-          gMsrOptions,
-          gLogIOstream);
-  }
-  
-  else {
-    // input comes from a file
-    if (outputFileNameSize) {
-      mScore =
-        mxmlFile2Msr (
-          inputSourceName.c_str(),
-          gMsrOptions,
-          gLogIOstream);
-    }
-    else {
-      mScore =
-        mxmlFile2Msr (
-          inputSourceName.c_str(),
-          gMsrOptions,
-          gLogIOstream);
-    }
-  }
-
-    /* JMI
-  if (! mScore) {
-    gLogIOstream <<
-      "### Conversion from MusicCML to MSR failed ###" <<
-      endl <<
-      endl;
-// JMI    return false;
-  }
-*/
-
-// JMI  return true;
 }
 
 S_lpsrScore convertMSRToLPSR (
@@ -280,7 +233,7 @@ void convertMusicXMLToLilypond (
 
   S_msrScore
     mScore =
-      runPass2a (
+      convertMusicXMLToMSRSkeleton (
         inputSourceName, outputFileName);
 
   if (! mScore) {
@@ -295,10 +248,10 @@ void convertMusicXMLToLilypond (
   if (gGeneralOptions->fExit2a)
     return;
     
-  // create the MSR from MusicXML contents (pass 2b)
+  // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
-  convertMusicXMLtoMSR (
+  populateMSRFromMusicXML (
     inputSourceName, outputFileName,
     mScore);
   

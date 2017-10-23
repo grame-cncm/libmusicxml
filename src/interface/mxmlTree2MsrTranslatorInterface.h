@@ -53,49 +53,27 @@ The library includes a high level API to convert
   \param out the output stream
   \return an error code (\c kNoErr when success)
 */
-EXP S_msrScore mxmlFile2Msr (
+EXP S_msrScore populateMSRSkeletonFromFile (
   const char*      fileName,
   S_msrOptions&    msrOpts,
-  indentedOstream& logIOstream);
-
-/*!
-  \brief Converts a MusicXML representation to an MSR.
-  \param fd a file descriptor 
-  \param msrOpts the MSR options to be used
-  \param out the output stream
-  \return an error code (\c kNoErr when success)
-*/
-EXP S_msrScore mxmlFd2Msr (
-  FILE*            fd,
-  S_msrOptions&    msrOpts,
-  indentedOstream& logIOstream);
-
-/*!
-  \brief Converts a MusicXML representation to an MSR.
-  \param buff a string containing MusicXML code
-  \param msrOpts the MSR options to be used
-  \param out the output stream
-  \return an error code (\c kNoErr when success)
-*/
-EXP S_msrScore mxmlString2Msr (
-  const char*      buffer,
-  S_msrOptions&    msrOpts,
+  S_msrScore       scoreSkeleton,
   indentedOstream& logIOstream);
 
 //______________________________________________________________________________
-S_msrScore buildMSRFromElementsTree (
+S_msrScore populateMSRSkeletonFromElementsTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      xmlTree,
+  S_msrScore       msrSkeleton,
   indentedOstream& logIOstream);
 
 //______________________________________________________________________________
-void displayMSR (
+void displayMSRSkeleton (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream);
 
 //______________________________________________________________________________
-void displayMSRSummary (
+void displayMSRSkeletonSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream);

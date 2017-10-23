@@ -36,20 +36,16 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-static S_msrScore xml2Msr (
-  SXMLFile&        xmlfile,
+static S_msrScore populateMSRSkeletonFromFile (
   S_msrOptions&    msrOpts,
+  Sxmlelement      elemsTree,
+  S_msrScore       scoreSkeleton,
   indentedOstream& logIOstream) 
 {
-  // build xmlelement tree from the file contents
-  Sxmlelement elemsTree = xmlfile->elements();
-
-  S_msrScore mScore;
-  
-  if (elemsTree) {
-    // build the MSR
-    mScore =
-      buildMSRFromElementsTree (
+  if (scoreSkeleton) {
+    // populate the MSR skeleton
+    scoreSkeleton =
+      populateMSRSkeletonFromElementsTree (
         msrOpts,
         elemsTree,
         logIOstream);
@@ -58,18 +54,19 @@ static S_msrScore xml2Msr (
       // display the MSR
       displayMSR (
         msrOpts,
-        mScore,
+        scoreSkeleton,
         logIOstream);
 
     if (msrOpts->fDisplayMsrSummary)
       // display the MSR summary
       displayMSRSummary (
         msrOpts,
-        mScore,
+        scoreSkeleton,
         logIOstream);
   }
 
-  return mScore;
+  // return the populated skeleton
+  return scoreSkeleton;
 }
 
 //_______________________________________________________________________________
@@ -121,106 +118,10 @@ EXP S_msrScore mxmlFile2Msr (
 }
 
 //_______________________________________________________________________________
-EXP S_msrScore mxmlFd2Msr (
-  FILE*            fd,
+S_msrScore populateMSRSkeletonFromElementsTree (
   S_msrOptions&    msrOpts,
-  indentedOstream& logIOstream) 
-{
-  clock_t startClock = clock();
-  
-  if (gGeneralOptions->fTraceGeneral) {
-    string separator =
-      "%--------------------------------------------------------------";
-    
-    logIOstream <<
-      endl <<
-      separator <<
-      endl <<
-      gTab <<
-      "Pass 1: building the xmlelement tree from standard input" <<
-      endl <<
-      separator <<
-      endl;
-  }
-
-  xmlreader r;
-  
-  SXMLFile  xmlFile = r.read (fd);
-
-  clock_t endClock = clock();
-
-  // register time spent
-  timing::gTiming.appendTimingItem (
-    "Pass 1: build xmlelement tree from stdin",
-    timingItem::kMandatory,
-    startClock,
-    endClock);
-  
-  S_msrScore mScore;
-
-  if (xmlFile) {
-    mScore =
-      xml2Msr (
-        xmlFile,
-        msrOpts,
-        logIOstream);
-  }
-  
-  return mScore;
-}
-
-//_______________________________________________________________________________
-EXP S_msrScore mxmlString2Msr (
-  const char*      buffer,
-  S_msrOptions&    msrOpts,
-  indentedOstream& logIOstream) 
-{
-  clock_t startClock = clock();
-
-  if (gGeneralOptions->fTraceGeneral) {
-    string separator =
-      "%--------------------------------------------------------------";
-    
-    logIOstream <<
-      endl <<
-      separator <<
-      endl <<
-      gTab <<
-      "Pass 1: building the xmlelement tree from a buffer" <<
-      endl <<
-      separator <<
-      endl;
-  }
-  
-  xmlreader r;
-  
-  SXMLFile  xmlFile = r.readbuff (buffer);
-
-  clock_t endClock = clock();
-
-  // register time spent
-  timing::gTiming.appendTimingItem (
-    "Pass 1: build xmlelement tree from buffer",
-    timingItem::kMandatory,
-    startClock,
-    endClock);
-  
-  S_msrScore mScore;
-
-  if (xmlFile) {
-    mScore =
-      xml2Msr (
-        xmlFile,
-        msrOpts,
-        logIOstream);
-  }
-  return mScore;
-}
-
-//_______________________________________________________________________________
-S_msrScore buildMSRFromElementsTree (
-  S_msrOptions&    msrOpts,
-  Sxmlelement      xmlTree,
+  Sxmlelement      elemsTree,
+  S_msrScore       msrSkeleton,
   indentedOstream& logIOstream)
 {
   clock_t startClock = clock();
@@ -267,7 +168,7 @@ S_msrScore buildMSRFromElementsTree (
 }
 
 //_______________________________________________________________________________
-void displayMSR (
+void displayMSRSkeleton (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream)
@@ -282,7 +183,7 @@ void displayMSR (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR as text" <<
+    "Optional pass: displaying the populated MSR as text" <<
     endl <<
     separator <<
     endl <<
@@ -301,14 +202,14 @@ void displayMSR (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "        display the MSR",
+    "        display the populated MSR",
     timingItem::kOptional,
     startClock,
     endClock);
 }
 
 //_______________________________________________________________________________
-void displayMSRSummary (
+void displayMSRSkeletonSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream)
@@ -324,7 +225,7 @@ void displayMSRSummary (
       separator <<
       endl <<
       gTab <<
-      "Optional pass: outputting a summary of the MSR" <<
+      "Optional pass: outputting a summary of the populated MSR" <<
       endl <<
       separator <<
       endl;
@@ -353,7 +254,7 @@ void displayMSRSummary (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "        display MSR summary",
+    "        display populated MSR summary",
     timingItem::kOptional,
     startClock,
     endClock);
