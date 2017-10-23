@@ -514,15 +514,83 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
 
 // fonts
 //______________________________________________________________________________
-enum msrFontSize {
-  k_NoFontSize,
-  kXXSmallFontSize, kXSmallFontSize, kSmallFontSize,
-  kMediumFontSize,
-  kLargeFontSize, kXLargeFontSize, kXXLargeFontSize,
-  kNumericFontSize };
+class EXP msrFontSize
+{
+  public:
 
-string msrFontSizeAsString (
-  msrFontSize fontSize);
+    // data types
+    // ------------------------------------------------------
+
+    enum msrFontSizeKind {
+      k_NoFontSize,
+      kXXSmallFontSize, kXSmallFontSize, kSmallFontSize,
+      kMediumFontSize,
+      kLargeFontSize, kXLargeFontSize, kXXLargeFontSize,
+      kNumericFontSize };
+    
+    string msrFontSizeKindAsString (
+      msrFontSizeKind fontSizeKind);
+  
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrFontSize> create (
+      msrFontSizeKind fontSizeKind);
+
+    static SMARTP<msrFontSize> create (
+      msrFontSizeKind fontSizeKind,
+      float           numericFontSize);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFontSize (
+      msrFontSizeKind fontSizeKind);
+      
+    msrFontSize (
+      msrFontSizeKind fontSizeKind,
+      float           numericFontSize);
+      
+    virtual ~msrFontSize();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrFontSizeKind       getFontSizeKind () const
+                              { return fFontSizeKind; }
+
+    float                 getFontNumericSize () const
+                              { return fFontNumericSize; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                fontSizeKindAsString () const;
+
+    string                fontSizeAsString () const;
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrFontSizeKind       fFontSizeKind;
+
+    float                 fFontNumericSize;
+                            // only relevant when
+                            // fFontSizeKind == kNumericFontSize
+};
+typedef SMARTP<msrFontSize> S_msrFontSize;
+EXP ostream& operator<< (ostream& os, const S_msrFontSize& elt);
 
 enum msrFontStyle {
   k_NoFontStyle,
