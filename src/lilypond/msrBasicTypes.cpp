@@ -3198,8 +3198,11 @@ msrFontSize::msrFontSize (
   fFontSizeKind = kNumericFontSize;
   fFontNumericSize = fontNumericSize;
 }
-      
-string fontSizeKindAsString (
+
+msrFontSize::~msrFontSize ()
+{}
+  
+string msrFontSize::fontSizeKindAsString (
   msrFontSize::msrFontSizeKind fontSizeKind)
 {
   string result;
@@ -3237,10 +3240,35 @@ string fontSizeKindAsString (
   return result;
 }
 
-string msrFontSize::fontSizeKindAsString ()
+string msrFontSize::fontSizeKindAsString () const
 {
   return
     fontSizeKindAsString (fFontSizeKind);
+}
+
+string msrFontSize::fontSizeAsString () const
+{
+  string result;
+  
+  switch (fFontSizeKind) {
+    case msrFontSize::k_NoFontSize:
+    case msrFontSize::kXXSmallFontSize:
+    case msrFontSize::kXSmallFontSize:
+    case msrFontSize::kSmallFontSize:
+    case msrFontSize::kMediumFontSize:
+    case msrFontSize::kLargeFontSize:
+    case msrFontSize::kXLargeFontSize:
+    case msrFontSize::kXXLargeFontSize:
+      result = fontSizeKindAsString (fFontSizeKind);
+      break;
+      
+    case msrFontSize::kNumericFontSize:
+      result =
+        to_string (fFontNumericSize);
+      break;
+    } // switch
+
+  return result;
 }
 
 float msrFontSize::getFontNumericSize ()

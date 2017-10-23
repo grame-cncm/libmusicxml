@@ -528,7 +528,7 @@ class EXP msrFontSize : public smartable
       kLargeFontSize, kXLargeFontSize, kXXLargeFontSize,
       kNumericFontSize };
     
-    string fontSizeKindAsString (
+    static string fontSizeKindAsString (
       msrFontSizeKind fontSizeKind);
   
     // creation from MusicXML
@@ -551,7 +551,7 @@ class EXP msrFontSize : public smartable
     msrFontSize (
       float numericFontSize);
       
-    virtual ~msrFontSize();
+    virtual ~msrFontSize ();
   
   public:
 
@@ -566,7 +566,7 @@ class EXP msrFontSize : public smartable
     // services
     // ------------------------------------------------------
 
-    string                fontSizeKindAsString ();
+    string                fontSizeKindAsString () const;
 
     string                fontSizeAsString () const;
 

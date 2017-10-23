@@ -3626,46 +3626,47 @@ The
 */
   string wordsFontSize = elt->getAttributeValue ("font-size");
   
-  msrFontSizeKind fontSizeKind = k_NoFontSize; // default value
+  msrFontSize::msrFontSizeKind
+    fontSizeKind =
+      msrFontSize::k_NoFontSize; // default value
 
   float fontSizeFloatValue = 0.0;
 
   if      (wordsFontSize == "xx-smal")
-    fontSizeKind = kXXSmallFontSize;
+    fontSizeKind = msrFontSize::kXXSmallFontSize;
   else if (wordsFontSize == "x-small")
-    fontSizeKind = kXSmallFontSize;
+    fontSizeKind = msrFontSize::kXSmallFontSize;
   else if (wordsFontSize == "small")
-    fontSizeKind = kSmallFontSize;
+    fontSizeKind = msrFontSize::kSmallFontSize;
   else if (wordsFontSize == "medium")
-    fontSizeKind = kMediumFontSize;
+    fontSizeKind = msrFontSize::kMediumFontSize;
   else if (wordsFontSize == "large")
-    fontSizeKind = kLargeFontSize;
+    fontSizeKind = msrFontSize::kLargeFontSize;
   else if (wordsFontSize == "x-large")
-    fontSizeKind = kXLargeFontSize;
+    fontSizeKind = msrFontSize::kXLargeFontSize;
   else if (wordsFontSize == "xx-large")
-    fontSizeKind = kXXLargeFontSize;
+    fontSizeKind = msrFontSize::kXXLargeFontSize;
   else {
-      elt->getAttributeFloatValue ("font-size", 0.0);
-      
-    fontSizeKind = kNumericFontSize;
+    elt->getAttributeFloatValue ("font-size", 0.0);
+    fontSizeKind = msrFontSize::kNumericFontSize;
   }
 
   S_msrFontSize fontSize;
 
   switch (fontSizeKind) {
-    case k_NoFontSize:
-    case kXXSmallFontSize:
-    case kXSmallFontSize:
-    case kSmallFontSize:
-    case kMediumFontSize:
-    case kLargeFontSize:
-    case kXLargeFontSize:
-    case kXXLargeFontSize:
+    case msrFontSize::k_NoFontSize:
+    case msrFontSize::kXXSmallFontSize:
+    case msrFontSize::kXSmallFontSize:
+    case msrFontSize::kSmallFontSize:
+    case msrFontSize::kMediumFontSize:
+    case msrFontSize::kLargeFontSize:
+    case msrFontSize::kXLargeFontSize:
+    case msrFontSize::kXXLargeFontSize:
       fontSize =
         msrFontSize::create (fontSizeKind);
       break;
       
-    case kNumericFontSize:
+    case msrFontSize::kNumericFontSize:
       fontSize =
         msrFontSize::create (fontSizeFloatValue);
       break;
