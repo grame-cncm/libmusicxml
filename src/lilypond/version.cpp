@@ -77,8 +77,8 @@ void printVersionsHistory (ostream& os)
   indenter::gIndenter++;
 
   list<versionInfo>::const_iterator
-    iBegin = gVersionInfoList.begin(),
-    iEnd   = gVersionInfoList.end(),
+    iBegin = gVersionInfoList.begin (),
+    iEnd   = gVersionInfoList.end (),
     i      = iBegin;
   for ( ; ; ) {
     (*i).print (os);

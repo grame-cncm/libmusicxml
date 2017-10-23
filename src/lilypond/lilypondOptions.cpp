@@ -679,8 +679,8 @@ R"(Generate the '\midi' block as a comment instead of active code.)",
 
   /* JMI
   for (
-    set<string>::const_iterator i=fLilypondAccidentalStyles.begin();
-    i!=fLilypondAccidentalStyles.end();
+    set<string>::const_iterator i=fLilypondAccidentalStyles.begin ();
+    i!=fLilypondAccidentalStyles.end ();
     i++) {
       gLogIOstream << (*i) << endl;
   } // for

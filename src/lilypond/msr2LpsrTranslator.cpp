@@ -2627,8 +2627,8 @@ void msr2LpsrTranslator::prependSkipGraceNotesToPartOtherVoices (
         getPartStavesMap ();
 
   for (
-    map<int, S_msrStaff>::const_iterator i=partStavesMap.begin();
-    i!=partStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i=partStavesMap.begin ();
+    i!=partStavesMap.end ();
     i++) {
 
     map<int, S_msrVoice>
@@ -2637,8 +2637,8 @@ void msr2LpsrTranslator::prependSkipGraceNotesToPartOtherVoices (
           getStaffAllVoicesMap ();
           
     for (
-      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin();
-      j!=staffAllVoicesMap.end();
+      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();
+      j!=staffAllVoicesMap.end ();
       j++) {
 
       S_msrVoice voice = (*j).second;
@@ -4043,8 +4043,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
 
   // escape quotes if any
   for_each (
-    variableValueAux.begin(),
-    variableValueAux.end(),
+    variableValueAux.begin (),
+    variableValueAux.end (),
     stringQuoteEscaper (variableValue));
 
   if      (variableName == "work-number") {

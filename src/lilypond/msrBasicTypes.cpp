@@ -2982,8 +2982,8 @@ string existingQuarterTonesPitchesLanguages ()
 
   if (gQuarterTonesPitchesLanguagesMap.size ()) {
     map<string, msrQuarterTonesPitchesLanguage>::const_iterator
-      iBegin = gQuarterTonesPitchesLanguagesMap.begin(),
-      iEnd   = gQuarterTonesPitchesLanguagesMap.end(),
+      iBegin = gQuarterTonesPitchesLanguagesMap.begin (),
+      iEnd   = gQuarterTonesPitchesLanguagesMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       s << (*i).first;
@@ -3195,12 +3195,12 @@ msrFontSize::msrFontSize (
   fNumericFontSize = numericFontSize;
 }
       
-string msrFontSizeAsString (
-  msrFontSize fontSize)
+string fontSizeKindAsString (
+  msrFontSizeKind fontSizeKind)
 {
   string result;
 
-  switch (fontSize) {
+  switch (fontSizeKind) {
     case k_NoFontSize:
       result = "font size: none";
       break;
@@ -3231,6 +3231,12 @@ string msrFontSizeAsString (
     } // switch
 
   return result;
+}
+
+string msrFontSize::fontSizeKindAsString () const
+{
+  return
+    fontSizeKindAsString (fFontSizeKind);
 }
 
 float msrFontSize::getFontNumericSize () const

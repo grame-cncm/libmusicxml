@@ -117,8 +117,8 @@ void timing::print (ostream& os) const
     endl << endl;
 
   for (
-    list<S_timingItem>::const_iterator i=fTimingItemsList.begin();
-    i!=fTimingItemsList.end();
+    list<S_timingItem>::const_iterator i=fTimingItemsList.begin ();
+    i!=fTimingItemsList.end ();
     i++) {
     clock_t
       timingItemClock =
@@ -528,8 +528,8 @@ string stringNumbersToEnglishWords (string str)
   workState state = kInitialState;
   
   string::const_iterator
-    iBegin = str.begin(),
-    iEnd   = str.end(),
+    iBegin = str.begin (),
+    iEnd   = str.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -634,7 +634,7 @@ set<int> decipherNumbersSetSpecification (
       endl;
 
   string::const_iterator
-    cursor = theString.begin();
+    cursor = theString.begin ();
 
   while (1) {
     if (debugMode)
@@ -731,10 +731,10 @@ list<int> extractNumbersFromString (
       endl;
 
   string::const_iterator
-    cursor = theString.begin();
+    cursor = theString.begin ();
 
   while (1) {
-    if (cursor == theString.end())
+    if (cursor == theString.end ())
       break;
       
     if (debugMode)
@@ -779,11 +779,11 @@ pair<string, string> extractNamesPairFromString (
       endl;
 
   string::const_iterator
-    cursor = theString.begin();
+    cursor = theString.begin ();
 
   // fetch name1
   while (1) {
-    if (cursor == theString.end())
+    if (cursor == theString.end ())
       break;
       
     if (debugMode)
@@ -811,7 +811,7 @@ pair<string, string> extractNamesPairFromString (
       endl;
   }
 
-  if (cursor == theString.end())
+  if (cursor == theString.end ())
     cerr <<
       "### ERROR: the " << separator <<
       " separator is missing in string '" <<
@@ -823,7 +823,7 @@ pair<string, string> extractNamesPairFromString (
 
   // fetch name2
   while (1) {
-    if (cursor == theString.end())
+    if (cursor == theString.end ())
       break;
       
     if (debugMode)
@@ -1003,7 +1003,7 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
 
   map<string, string>::const_iterator i;
 
-  for (i = conversionMap.begin(); i != conversionMap.end(); ++i) {
+  for (i = conversionMap.begin (); i != conversionMap.end (); ++i) {
     string
       lookedFor = i->second,
       ersatz    = i->first;

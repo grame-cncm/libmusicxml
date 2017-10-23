@@ -353,8 +353,8 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
     gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
-      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
-      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      iBegin = fOptionsHandlerOptionsGroupsList.begin (),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the element

@@ -3492,8 +3492,8 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
 
   // populating the clone with skips
   for (
-    list<S_msrNote>::const_iterator i=fGraceNotesNotesList.begin();
-    i!=fGraceNotesNotesList.end();
+    list<S_msrNote>::const_iterator i=fGraceNotesNotesList.begin ();
+    i!=fGraceNotesNotesList.end ();
     i++) {
     S_msrNote note = (*i);
     
@@ -3563,8 +3563,8 @@ void msrGraceNotes::browseData (basevisitor* v)
   list<S_msrNote>::const_iterator i;
 
   for (
-    i=fGraceNotesNotesList.begin();
-    i!=fGraceNotesNotesList.end();
+    i=fGraceNotesNotesList.begin ();
+    i!=fGraceNotesNotesList.end ();
     i++) {
     // browse the note
     msrBrowser<msrNote> browser (v);
@@ -3586,8 +3586,8 @@ string msrGraceNotes::graceNotesAsShortString () const
     "GraceNotes" " ";
 
   list<S_msrNote>::const_iterator
-    iBegin = fGraceNotesNotesList.begin(),
-    iEnd   = fGraceNotesNotesList.end(),
+    iBegin = fGraceNotesNotesList.begin (),
+    iEnd   = fGraceNotesNotesList.end (),
     i      = iBegin;
   for ( ; ; ) {
     s << (*i)->noteAsShortString ();
@@ -3613,8 +3613,8 @@ void msrGraceNotes::print (ostream& os)
   gIndenter++;
             
   list<S_msrNote>::const_iterator
-    iBegin = fGraceNotesNotesList.begin(),
-    iEnd   = fGraceNotesNotesList.end(),
+    iBegin = fGraceNotesNotesList.begin (),
+    iEnd   = fGraceNotesNotesList.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -3775,8 +3775,8 @@ void msrAfterGraceNotes::browseData (basevisitor* v)
   browser.browse (*fAfterGraceNotesNote);
 
   for (
-    i=fAfterGraceNotesNotesList.begin();
-    i!=fAfterGraceNotesNotesList.end();
+    i=fAfterGraceNotesNotesList.begin ();
+    i!=fAfterGraceNotesNotesList.end ();
     i++) {
     // browse the note
     msrBrowser<msrNote> browser (v);
@@ -3798,8 +3798,8 @@ string msrAfterGraceNotes::afterGraceNotesAsShortString () const
     "AfterGraceNotes" " ";
 
   list<S_msrNote>::const_iterator
-    iBegin = fAfterGraceNotesNotesList.begin(),
-    iEnd   = fAfterGraceNotesNotesList.end(),
+    iBegin = fAfterGraceNotesNotesList.begin (),
+    iEnd   = fAfterGraceNotesNotesList.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -3842,8 +3842,8 @@ void msrAfterGraceNotes::print (ostream& os)
   gIndenter++;
 
   list<S_msrNote>::const_iterator
-    iBegin = fAfterGraceNotesNotesList.begin(),
-    iEnd   = fAfterGraceNotesNotesList.end(),
+    iBegin = fAfterGraceNotesNotesList.begin (),
+    iEnd   = fAfterGraceNotesNotesList.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -4562,7 +4562,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrSyllable>::const_iterator i;
-    for (i=fNoteSyllables.begin(); i!=fNoteSyllables.end(); i++) {
+    for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteSyllables.push_back ((*i));
@@ -4585,7 +4585,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrBeam>::const_iterator i;
-    for (i=fNoteBeams.begin(); i!=fNoteBeams.end(); i++) {
+    for (i=fNoteBeams.begin (); i!=fNoteBeams.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteBeams.push_back ((*i));
@@ -4597,8 +4597,8 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   for (
     list<S_msrArticulation>::const_iterator i=
-      fNoteArticulations.begin();
-      i!=fNoteArticulations.end();
+      fNoteArticulations.begin ();
+      i!=fNoteArticulations.end ();
       i++) {
     // share this data
     noteDeepCopy->
@@ -4611,8 +4611,8 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrTechnical>::const_iterator i;
     for (
-      i=fNoteTechnicals.begin();
-      i!=fNoteTechnicals.end();
+      i=fNoteTechnicals.begin ();
+      i!=fNoteTechnicals.end ();
       i++) {
       // share this data
       noteDeepCopy->
@@ -4623,8 +4623,8 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
-      i=fNoteTechnicalWithIntegers.begin();
-      i!=fNoteTechnicalWithIntegers.end();
+      i=fNoteTechnicalWithIntegers.begin ();
+      i!=fNoteTechnicalWithIntegers.end ();
       i++) {
       // share this data
       noteDeepCopy->
@@ -4635,8 +4635,8 @@ S_msrNote msrNote::createNoteDeepCopy (
   {
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
-      i=fNoteTechnicalWithStrings.begin();
-      i!=fNoteTechnicalWithStrings.end();
+      i=fNoteTechnicalWithStrings.begin ();
+      i!=fNoteTechnicalWithStrings.end ();
       i++) {
       // share this data
       noteDeepCopy->
@@ -4649,7 +4649,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrOrnament>::const_iterator i;
-    for (i=fNoteOrnaments.begin(); i!=fNoteOrnaments.end(); i++) {
+    for (i=fNoteOrnaments.begin (); i!=fNoteOrnaments.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteOrnaments.push_back ((*i));
@@ -4678,7 +4678,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrDynamics>::const_iterator i;
-    for (i=fNoteDynamics.begin(); i!=fNoteDynamics.end(); i++) {
+    for (i=fNoteDynamics.begin (); i!=fNoteDynamics.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteDynamics.push_back ((*i));
@@ -4687,7 +4687,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrOtherDynamics>::const_iterator i;
-    for (i=fNoteOtherDynamics.begin(); i!=fNoteOtherDynamics.end(); i++) {
+    for (i=fNoteOtherDynamics.begin (); i!=fNoteOtherDynamics.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteOtherDynamics.push_back ((*i));
@@ -4696,7 +4696,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   
   {
     list<S_msrWedge>::const_iterator i;
-    for (i=fNoteWedges.begin(); i!=fNoteWedges.end(); i++) {
+    for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteWedges.push_back ((*i));
@@ -4708,7 +4708,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrWords>::const_iterator i;
-    for (i=fNoteWords.begin(); i!=fNoteWords.end(); i++) {
+    for (i=fNoteWords.begin (); i!=fNoteWords.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteWords.push_back ((*i));
@@ -4720,7 +4720,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   {
     list<S_msrSlur>::const_iterator i;
-    for (i=fNoteSlurs.begin(); i!=fNoteSlurs.end(); i++) {
+    for (i=fNoteSlurs.begin (); i!=fNoteSlurs.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteSlurs.push_back ((*i));
@@ -4732,7 +4732,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   { 
     list<S_msrLigature>::const_iterator i;
-    for (i=fNoteLigatures.begin(); i!=fNoteLigatures.end(); i++) {
+    for (i=fNoteLigatures.begin (); i!=fNoteLigatures.end (); i++) {
       // share this data
       noteDeepCopy->
         fNoteLigatures.push_back ((*i));
@@ -5551,7 +5551,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteBeams.size()) {
     gIndenter++;
     list<S_msrBeam>::const_iterator i;
-    for (i=fNoteBeams.begin(); i!=fNoteBeams.end(); i++) {
+    for (i=fNoteBeams.begin (); i!=fNoteBeams.end (); i++) {
       // browse the beam
       msrBrowser<msrBeam> browser (v);
       browser.browse (*(*i));
@@ -5563,7 +5563,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteArticulations.size()) {
     gIndenter++;
     list<S_msrArticulation>::const_iterator i;
-    for (i=fNoteArticulations.begin(); i!=fNoteArticulations.end(); i++) {
+    for (i=fNoteArticulations.begin (); i!=fNoteArticulations.end (); i++) {
       // browse the articulation
       msrBrowser<msrArticulation> browser (v);
       browser.browse (*(*i));
@@ -5576,8 +5576,8 @@ void msrNote::browseData (basevisitor* v)
     gIndenter++;
     list<S_msrTechnical>::const_iterator i;
     for (
-      i=fNoteTechnicals.begin();
-      i!=fNoteTechnicals.end();
+      i=fNoteTechnicals.begin ();
+      i!=fNoteTechnicals.end ();
       i++) {
       // browse the technical
       msrBrowser<msrTechnical> browser (v);
@@ -5591,8 +5591,8 @@ void msrNote::browseData (basevisitor* v)
     gIndenter++;
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
-      i=fNoteTechnicalWithIntegers.begin();
-      i!=fNoteTechnicalWithIntegers.end();
+      i=fNoteTechnicalWithIntegers.begin ();
+      i!=fNoteTechnicalWithIntegers.end ();
       i++) {
       // browse the technical
       msrBrowser<msrTechnicalWithInteger> browser (v);
@@ -5606,8 +5606,8 @@ void msrNote::browseData (basevisitor* v)
     gIndenter++;
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
-      i=fNoteTechnicalWithStrings.begin();
-      i!=fNoteTechnicalWithStrings.end();
+      i=fNoteTechnicalWithStrings.begin ();
+      i!=fNoteTechnicalWithStrings.end ();
       i++) {
       // browse the technical
       msrBrowser<msrTechnicalWithString> browser (v);
@@ -5620,7 +5620,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteOrnaments.size()) {
     gIndenter++;
     list<S_msrOrnament>::const_iterator i;
-    for (i=fNoteOrnaments.begin(); i!=fNoteOrnaments.end(); i++) {
+    for (i=fNoteOrnaments.begin (); i!=fNoteOrnaments.end (); i++) {
       // browse the ornament
       msrBrowser<msrOrnament> browser (v);
       browser.browse (*(*i));
@@ -5644,7 +5644,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteDynamics.size()) {
     gIndenter++;
     list<S_msrDynamics>::const_iterator i;
-    for (i=fNoteDynamics.begin(); i!=fNoteDynamics.end(); i++) {
+    for (i=fNoteDynamics.begin (); i!=fNoteDynamics.end (); i++) {
       // browse the dynamics
       msrBrowser<msrDynamics> browser (v);
       browser.browse (*(*i));
@@ -5656,7 +5656,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteOtherDynamics.size()) {
     gIndenter++;
     list<S_msrOtherDynamics>::const_iterator i;
-    for (i=fNoteOtherDynamics.begin(); i!=fNoteOtherDynamics.end(); i++) {
+    for (i=fNoteOtherDynamics.begin (); i!=fNoteOtherDynamics.end (); i++) {
       // browse the other dynamics
       msrBrowser<msrOtherDynamics> browser (v);
       browser.browse (*(*i));
@@ -5668,7 +5668,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteWords.size()) {
     gIndenter++;
     list<S_msrWords>::const_iterator i;
-    for (i=fNoteWords.begin(); i!=fNoteWords.end(); i++) {
+    for (i=fNoteWords.begin (); i!=fNoteWords.end (); i++) {
       // browse the words
       msrBrowser<msrWords> browser (v);
       browser.browse (*(*i));
@@ -5680,7 +5680,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteSlurs.size()) {
     gIndenter++;
     list<S_msrSlur>::const_iterator i;
-    for (i=fNoteSlurs.begin(); i!=fNoteSlurs.end(); i++) {
+    for (i=fNoteSlurs.begin (); i!=fNoteSlurs.end (); i++) {
       // browse the slur
       msrBrowser<msrSlur> browser (v);
       browser.browse (*(*i));
@@ -5692,7 +5692,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteLigatures.size()) {
     gIndenter++;
     list<S_msrLigature>::const_iterator i;
-    for (i=fNoteLigatures.begin(); i!=fNoteLigatures.end(); i++) {
+    for (i=fNoteLigatures.begin (); i!=fNoteLigatures.end (); i++) {
       // browse the ligature
       msrBrowser<msrLigature> browser (v);
       browser.browse (*(*i));
@@ -5704,7 +5704,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteWedges.size()) {
     gIndenter++;
     list<S_msrWedge>::const_iterator i;
-    for (i=fNoteWedges.begin(); i!=fNoteWedges.end(); i++) {
+    for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); i++) {
       // browse the wedge
       msrBrowser<msrWedge> browser (v);
       browser.browse (*(*i));
@@ -5716,7 +5716,7 @@ void msrNote::browseData (basevisitor* v)
   if (fNoteSyllables.size()) {
     gIndenter++;
     list<S_msrSyllable>::const_iterator i;
-    for (i=fNoteSyllables.begin(); i!=fNoteSyllables.end(); i++) {
+    for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); i++) {
       // browse the syllable
       msrBrowser<msrSyllable> browser (v);
       browser.browse (*(*i));
@@ -6488,8 +6488,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
     
     list<S_msrSyllable>::const_iterator
-      iBegin = fNoteSyllables.begin(),
-      iEnd   = fNoteSyllables.end(),
+      iBegin = fNoteSyllables.begin (),
+      iEnd   = fNoteSyllables.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrSyllable
@@ -6576,8 +6576,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
 
     list<S_msrBeam>::const_iterator
-      iBegin = fNoteBeams.begin(),
-      iEnd   = fNoteBeams.end(),
+      iBegin = fNoteBeams.begin (),
+      iEnd   = fNoteBeams.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6593,8 +6593,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
 
     list<S_msrArticulation>::const_iterator
-      iBegin = fNoteArticulations.begin(),
-      iEnd   = fNoteArticulations.end(),
+      iBegin = fNoteArticulations.begin (),
+      iEnd   = fNoteArticulations.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6610,8 +6610,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
 
     list<S_msrTechnical>::const_iterator
-      iBegin = fNoteTechnicals.begin(),
-      iEnd   = fNoteTechnicals.end(),
+      iBegin = fNoteTechnicals.begin (),
+      iEnd   = fNoteTechnicals.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6627,8 +6627,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
 
     list<S_msrTechnicalWithInteger>::const_iterator
-      iBegin = fNoteTechnicalWithIntegers.begin(),
-      iEnd   = fNoteTechnicalWithIntegers.end(),
+      iBegin = fNoteTechnicalWithIntegers.begin (),
+      iEnd   = fNoteTechnicalWithIntegers.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6644,8 +6644,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
 
     list<S_msrTechnicalWithString>::const_iterator
-      iBegin = fNoteTechnicalWithStrings.begin(),
-      iEnd   = fNoteTechnicalWithStrings.end(),
+      iBegin = fNoteTechnicalWithStrings.begin (),
+      iEnd   = fNoteTechnicalWithStrings.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6661,8 +6661,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
 
     list<S_msrOrnament>::const_iterator
-      iBegin = fNoteOrnaments.begin(),
-      iEnd   = fNoteOrnaments.end(),
+      iBegin = fNoteOrnaments.begin (),
+      iEnd   = fNoteOrnaments.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6693,8 +6693,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
     
     list<S_msrDynamics>::const_iterator
-      iBegin = fNoteDynamics.begin(),
-      iEnd   = fNoteDynamics.end(),
+      iBegin = fNoteDynamics.begin (),
+      iEnd   = fNoteDynamics.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6711,8 +6711,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
     
     list<S_msrOtherDynamics>::const_iterator
-      iBegin = fNoteOtherDynamics.begin(),
-      iEnd   = fNoteOtherDynamics.end(),
+      iBegin = fNoteOtherDynamics.begin (),
+      iEnd   = fNoteOtherDynamics.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6729,8 +6729,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
     
     list<S_msrWords>::const_iterator
-      iBegin = fNoteWords.begin(),
-      iEnd   = fNoteWords.end(),
+      iBegin = fNoteWords.begin (),
+      iEnd   = fNoteWords.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6747,8 +6747,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
     
     list<S_msrSlur>::const_iterator
-      iBegin = fNoteSlurs.begin(),
-      iEnd   = fNoteSlurs.end(),
+      iBegin = fNoteSlurs.begin (),
+      iEnd   = fNoteSlurs.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6765,8 +6765,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
     
     list<S_msrLigature>::const_iterator
-      iBegin = fNoteLigatures.begin(),
-      iEnd   = fNoteLigatures.end(),
+      iBegin = fNoteLigatures.begin (),
+      iEnd   = fNoteLigatures.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -6783,8 +6783,8 @@ void msrNote::print (ostream& os)
     gIndenter++;
     
     list<S_msrWedge>::const_iterator
-      iBegin = fNoteWedges.begin(),
-      iEnd   = fNoteWedges.end(),
+      iBegin = fNoteWedges.begin (),
+      iEnd   = fNoteWedges.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -7047,8 +7047,8 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
 
   // don't add the same articulation several times
   for (
-    list<S_msrArticulation>::const_iterator i = fChordArticulations.begin();
-    i!=fChordArticulations.end();
+    list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
+    i!=fChordArticulations.end ();
     i++) {
       if ((*i)->getArticulationKind () == articulationKind)
         return;
@@ -7086,8 +7086,8 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
   // don't add the same technical several times
   for (
     list<S_msrTechnical>::const_iterator i =
-      fChordTechnicals.begin();
-    i!=fChordTechnicals.end();
+      fChordTechnicals.begin ();
+    i!=fChordTechnicals.end ();
     i++) {
       if ((*i)->getTechnicalKind () == technicalKind)
         return;
@@ -7114,8 +7114,8 @@ void msrChord::addTechnicalWithIntegerToChord (
   // don't add the same technical several times
   for (
     list<S_msrTechnicalWithInteger>::const_iterator i =
-      fChordTechnicalWithIntegers.begin();
-    i!=fChordTechnicalWithIntegers.end();
+      fChordTechnicalWithIntegers.begin ();
+    i!=fChordTechnicalWithIntegers.end ();
     i++) {
       if ((*i)->getTechnicalWithIntegerKind () == technicalWithIntegerKind)
         return;
@@ -7142,8 +7142,8 @@ void msrChord::addTechnicalWithStringToChord (
   // don't add the same technical several times
   for (
     list<S_msrTechnicalWithString>::const_iterator i =
-      fChordTechnicalWithStrings.begin();
-    i!=fChordTechnicalWithStrings.end();
+      fChordTechnicalWithStrings.begin ();
+    i!=fChordTechnicalWithStrings.end ();
     i++) {
       if ((*i)->getTechnicalWithStringKind () == technicalWithStringKind)
         return;
@@ -7168,8 +7168,8 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 
   // don't add the same ornament several times
   for (
-    list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin();
-    i!=fChordOrnaments.end();
+    list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin ();
+    i!=fChordOrnaments.end ();
     i++) {
       if ((*i)->getOrnamentKind () == ornamentKind)
         return;
@@ -7226,8 +7226,8 @@ void msrChord::acceptOut (basevisitor* v) {
 void msrChord::browseData (basevisitor* v)
 {
   for (
-    vector<S_msrNote>::const_iterator i = fChordNotes.begin();
-    i != fChordNotes.end();
+    vector<S_msrNote>::const_iterator i = fChordNotes.begin ();
+    i != fChordNotes.end ();
     i++ ) {
     // browse chord member note
     msrBrowser<msrNote> browser (v);
@@ -7235,8 +7235,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrArticulation>::const_iterator i = fChordArticulations.begin();
-    i != fChordArticulations.end();
+    list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
+    i != fChordArticulations.end ();
     i++ ) {
     // browse the articulation
     msrBrowser<msrArticulation> browser (v);
@@ -7244,8 +7244,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrTechnical>::const_iterator i = fChordTechnicals.begin();
-    i != fChordTechnicals.end();
+    list<S_msrTechnical>::const_iterator i = fChordTechnicals.begin ();
+    i != fChordTechnicals.end ();
     i++ ) {
     // browse the technical
     msrBrowser<msrTechnical> browser (v);
@@ -7253,8 +7253,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin();
-    i != fChordOrnaments.end();
+    list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin ();
+    i != fChordOrnaments.end ();
     i++ ) {
     // browse the ornament
     msrBrowser<msrOrnament> browser (v);
@@ -7262,8 +7262,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrDynamics>::const_iterator i = fChordDynamics.begin();
-    i != fChordDynamics.end();
+    list<S_msrDynamics>::const_iterator i = fChordDynamics.begin ();
+    i != fChordDynamics.end ();
     i++ ) {
     // browse the dynamics
     msrBrowser<msrDynamics> browser (v);
@@ -7271,8 +7271,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrOtherDynamics>::const_iterator i = fChordOtherDynamics.begin();
-    i != fChordOtherDynamics.end();
+    list<S_msrOtherDynamics>::const_iterator i = fChordOtherDynamics.begin ();
+    i != fChordOtherDynamics.end ();
     i++ ) {
     // browse the other dynamics
     msrBrowser<msrOtherDynamics> browser (v);
@@ -7280,8 +7280,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrWords>::const_iterator i = fChordWords.begin();
-    i != fChordWords.end();
+    list<S_msrWords>::const_iterator i = fChordWords.begin ();
+    i != fChordWords.end ();
     i++ ) {
     // browse the words
     msrBrowser<msrWords> browser (v);
@@ -7289,8 +7289,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrSlur>::const_iterator i = fChordSlurs.begin();
-    i != fChordSlurs.end();
+    list<S_msrSlur>::const_iterator i = fChordSlurs.begin ();
+    i != fChordSlurs.end ();
     i++ ) {
     // browse the slur
     msrBrowser<msrSlur> browser (v);
@@ -7298,8 +7298,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
   
   for (
-    list<S_msrLigature>::const_iterator i = fChordLigatures.begin();
-    i != fChordLigatures.end();
+    list<S_msrLigature>::const_iterator i = fChordLigatures.begin ();
+    i != fChordLigatures.end ();
     i++ ) {
     // browse the ligature
     msrBrowser<msrLigature> browser (v);
@@ -7307,8 +7307,8 @@ void msrChord::browseData (basevisitor* v)
   } // for
   
   for (
-    list<S_msrWedge>::const_iterator i = fChordWedges.begin();
-    i != fChordWedges.end();
+    list<S_msrWedge>::const_iterator i = fChordWedges.begin ();
+    i != fChordWedges.end ();
     i++ ) {
     // browse the wedge
     msrBrowser<msrWedge> browser (v);
@@ -7348,8 +7348,8 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
       endl;
 
   for (
-    vector<S_msrNote>::const_iterator i = fChordNotes.begin();
-    i != fChordNotes.end();
+    vector<S_msrNote>::const_iterator i = fChordNotes.begin ();
+    i != fChordNotes.end ();
     ++i) {
     (*i)->
       applyTupletMemberSoundingFactorToNote (
@@ -7366,8 +7366,8 @@ string msrChord::chordAsStringwithRawDivisions () const
 
   if (fChordNotes.size ()) {
     vector<S_msrNote>::const_iterator
-      iBegin = fChordNotes.begin(),
-      iEnd   = fChordNotes.end(),
+      iBegin = fChordNotes.begin (),
+      iEnd   = fChordNotes.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrNote
@@ -7400,8 +7400,8 @@ string msrChord::chordAsString () const
 
   if (fChordNotes.size ()) {
     vector<S_msrNote>::const_iterator
-      iBegin = fChordNotes.begin(),
-      iEnd   = fChordNotes.end(),
+      iBegin = fChordNotes.begin (),
+      iEnd   = fChordNotes.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrNote
@@ -7486,13 +7486,13 @@ void msrChord::print (ostream& os)
   // print the member notes if any
   if (fChordNotes.size()) {
     vector<S_msrNote>::const_iterator i;
-    for (i=fChordNotes.begin(); i!=fChordNotes.end(); i++) {
+    for (i=fChordNotes.begin (); i!=fChordNotes.end (); i++) {
       os << (*i);
     } // for
 
 /* JMI   vector<S_msrNote>::const_iterator
-      iBegin = fChordNotes.begin(),
-      iEnd   = fChordNotes.end(),
+      iBegin = fChordNotes.begin (),
+      iEnd   = fChordNotes.end (),
       i      = iBegin;
     for ( ; ; ) {
    //   os << (*i)->notePitchAsString (); JMI
@@ -7506,7 +7506,7 @@ void msrChord::print (ostream& os)
   // print the articulations if any
   if (fChordArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
-    for (i=fChordArticulations.begin(); i!=fChordArticulations.end(); i++) {
+    for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7514,7 +7514,7 @@ void msrChord::print (ostream& os)
   // print the technicals if any
   if (fChordTechnicals.size()) {
     list<S_msrTechnical>::const_iterator i;
-    for (i=fChordTechnicals.begin(); i!=fChordTechnicals.end(); i++) {
+    for (i=fChordTechnicals.begin (); i!=fChordTechnicals.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7522,7 +7522,7 @@ void msrChord::print (ostream& os)
   // print the ornaments if any
   if (fChordOrnaments.size()) {
     list<S_msrOrnament>::const_iterator i;
-    for (i=fChordOrnaments.begin(); i!=fChordOrnaments.end(); i++) {
+    for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7530,7 +7530,7 @@ void msrChord::print (ostream& os)
   // print the dynamics if any
   if (fChordDynamics.size()) {
     list<S_msrDynamics>::const_iterator i;
-    for (i=fChordDynamics.begin(); i!=fChordDynamics.end(); i++) {
+    for (i=fChordDynamics.begin (); i!=fChordDynamics.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7538,7 +7538,7 @@ void msrChord::print (ostream& os)
   // print the other dynamics if any
   if (fChordOtherDynamics.size()) {
     list<S_msrOtherDynamics>::const_iterator i;
-    for (i=fChordOtherDynamics.begin(); i!=fChordOtherDynamics.end(); i++) {
+    for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7546,7 +7546,7 @@ void msrChord::print (ostream& os)
   // print the beams if any
   if (fChordBeams.size()) {
     list<S_msrBeam>::const_iterator i;
-    for (i=fChordBeams.begin(); i!=fChordBeams.end(); i++) {
+    for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7554,7 +7554,7 @@ void msrChord::print (ostream& os)
   // print the words if any
   if (fChordWords.size()) {
     list<S_msrWords>::const_iterator i;
-    for (i=fChordWords.begin(); i!=fChordWords.end(); i++) {
+    for (i=fChordWords.begin (); i!=fChordWords.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7562,7 +7562,7 @@ void msrChord::print (ostream& os)
   // print the slurs if any
   if (fChordSlurs.size()) {
     list<S_msrSlur>::const_iterator i;
-    for (i=fChordSlurs.begin(); i!=fChordSlurs.end(); i++) {
+    for (i=fChordSlurs.begin (); i!=fChordSlurs.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7570,7 +7570,7 @@ void msrChord::print (ostream& os)
   // print the ligatures if any
   if (fChordLigatures.size()) {
     list<S_msrLigature>::const_iterator i;
-    for (i=fChordLigatures.begin(); i!=fChordLigatures.end(); i++) {
+    for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7578,7 +7578,7 @@ void msrChord::print (ostream& os)
   // print the wedges if any
   if (fChordWedges.size()) {
     list<S_msrWedge>::const_iterator i;
-    for (i=fChordWedges.begin(); i!=fChordWedges.end(); i++) {
+    for (i=fChordWedges.begin (); i!=fChordWedges.end (); i++) {
       os << (*i);
     } // for
   }
@@ -7728,7 +7728,7 @@ int msrDivisions::durationAsDivisions (
 {
   for (
     list<pair<msrDuration, int> >::const_iterator i =
-      fDurationsToDivisions.begin();
+      fDurationsToDivisions.begin ();
     i != fDurationsToDivisions.end ();
     i++) {
     if ((*i).first == duration)
@@ -7762,8 +7762,8 @@ void msrDivisions::printDurationsDivisions (ostream& os)
   
   if (fDurationsToDivisions.size ()) {
     list<pair<msrDuration, int> >::const_iterator
-      iBegin = fDurationsToDivisions.begin(),
-      iEnd   = fDurationsToDivisions.end(),
+      iBegin = fDurationsToDivisions.begin (),
+      iEnd   = fDurationsToDivisions.end (),
       i      = iBegin;
           
     for ( ; ; ) {
@@ -7783,7 +7783,7 @@ void msrDivisions::printDurationsDivisions (ostream& os)
 
     for (
       list<pair<msrDuration, int> >::const_iterator i =
-        fDurationsToDivisions.begin();
+        fDurationsToDivisions.begin ();
       i != fDurationsToDivisions.end ();
       i++) {
       os <<
@@ -7835,8 +7835,8 @@ string msrDivisions::divisionsAsMsrString (
   
   // search fDurationsToDivisions in longer to shortest order
   list<pair<msrDuration, int> >::const_iterator
-    iBegin = fDurationsToDivisions.begin(),
-    iEnd   = fDurationsToDivisions.end(),
+    iBegin = fDurationsToDivisions.begin (),
+    iEnd   = fDurationsToDivisions.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -8059,8 +8059,8 @@ string msrDivisions::wholeNotesAsMsrString (
   
   // search fDurationsToDivisions in longer to shortest order
   list<pair<msrDuration, int> >::const_iterator
-    iBegin = fDurationsToDivisions.begin(),
-    iEnd   = fDurationsToDivisions.end(),
+    iBegin = fDurationsToDivisions.begin (),
+    iEnd   = fDurationsToDivisions.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -8986,8 +8986,8 @@ void msrTuplet::removeFirstNoteFromTuplet (
         fTupletElements.front ();
 
     for (
-      list<S_msrElement>::const_iterator i=fTupletElements.begin();
-      i!=fTupletElements.end();
+      list<S_msrElement>::const_iterator i=fTupletElements.begin ();
+      i!=fTupletElements.end ();
       ++i) {
       if ((*i) == note) {
         // found note, erase it
@@ -9056,8 +9056,8 @@ void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
 
   // propagate measure number to the tuplets elements
   for (
-    list<S_msrElement>::const_iterator i = fTupletElements.begin();
-    i != fTupletElements.end();
+    list<S_msrElement>::const_iterator i = fTupletElements.begin ();
+    i != fTupletElements.end ();
     i++ ) {
     // set tuplet element measure number
 
@@ -9101,8 +9101,8 @@ rational msrTuplet::setTupletPositionInMeasure (
   
   // compute position in measure for the tuplets elements
   for (
-    list<S_msrElement>::const_iterator i = fTupletElements.begin();
-    i != fTupletElements.end();
+    list<S_msrElement>::const_iterator i = fTupletElements.begin ();
+    i != fTupletElements.end ();
     i++ ) {
     // set tuplet element position in measure
     
@@ -9169,8 +9169,8 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
   }
 
   for (
-    list<S_msrElement>::const_iterator i = fTupletElements.begin();
-    i != fTupletElements.end();
+    list<S_msrElement>::const_iterator i = fTupletElements.begin ();
+    i != fTupletElements.end ();
     i++ ) {
     // apply sounding factor to tuplet element
     
@@ -9282,8 +9282,8 @@ void msrTuplet::acceptOut (basevisitor* v) {
 void msrTuplet::browseData (basevisitor* v)
 {
   for (
-    list<S_msrElement>::const_iterator i = fTupletElements.begin();
-    i != fTupletElements.end();
+    list<S_msrElement>::const_iterator i = fTupletElements.begin ();
+    i != fTupletElements.end ();
     i++ ) {
     // browse tuplet element
     msrBrowser<msrElement> browser (v);
@@ -9318,8 +9318,8 @@ string msrTuplet::tupletAsShortString () const
 
   if (fTupletElements.size ()) {
     list<S_msrElement>::const_iterator
-      iBegin = fTupletElements.begin(),
-      iEnd   = fTupletElements.end(),
+      iBegin = fTupletElements.begin (),
+      iEnd   = fTupletElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       
@@ -9382,8 +9382,8 @@ string msrTuplet::tupletAsString () const
 
   if (fTupletElements.size ()) {
     list<S_msrElement>::const_iterator
-      iBegin = fTupletElements.begin(),
-      iEnd   = fTupletElements.end(),
+      iBegin = fTupletElements.begin (),
+      iEnd   = fTupletElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       
@@ -9450,8 +9450,8 @@ void msrTuplet::print (ostream& os)
     gIndenter++;
 
     list<S_msrElement>::const_iterator
-      iBegin = fTupletElements.begin(),
-      iEnd   = fTupletElements.end(),
+      iBegin = fTupletElements.begin (),
+      iEnd   = fTupletElements.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -9949,8 +9949,8 @@ string msrCredit::creditAsString () const
     s << "[";
     
     vector<S_msrCreditWords>::const_iterator
-      iBegin = fCreditWordsList.begin(),
-      iEnd   = fCreditWordsList.end(),
+      iBegin = fCreditWordsList.begin (),
+      iEnd   = fCreditWordsList.end (),
       i      = iBegin;
   
     for ( ; ; ) {
@@ -9982,8 +9982,8 @@ void msrCredit::print (ostream& os)
     endl;
 
   vector<S_msrCreditWords>::const_iterator
-    iBegin = fCreditWordsList.begin(),
-    iEnd   = fCreditWordsList.end(),
+    iBegin = fCreditWordsList.begin (),
+    iEnd   = fCreditWordsList.end (),
     i      = iBegin;
 
   for ( ; ; ) {
@@ -10082,15 +10082,15 @@ void msrVarValAssoc::print (ostream& os)
   string variableName;
 
   for_each (
-    fVariableName.begin(),
-    fVariableName.end(),
+    fVariableName.begin (),
+    fVariableName.end (),
     stringQuoteEscaper (variableName));
     
   string variableValue;
 
   for_each (
-    fVariableValue.begin(),
-    fVariableValue.end(),
+    fVariableValue.begin (),
+    fVariableValue.end (),
     stringQuoteEscaper (variableValue));
 
   // print resulting strings
@@ -10688,7 +10688,7 @@ void msrKey::appendHumdrumScotKeyItem (
 
   // append the item to the vector
   fHumdrumScotKeyItemsVector.insert (
-    fHumdrumScotKeyItemsVector.end(), item);
+    fHumdrumScotKeyItemsVector.end (), item);
 }
 
 void msrKey::acceptIn (basevisitor* v) {
@@ -10865,8 +10865,8 @@ void msrKey::print (ostream& os)
         gIndenter++;
         
         vector<S_msrHumdrumScotKeyItem>::const_iterator
-          iBegin = fHumdrumScotKeyItemsVector.begin(),
-          iEnd   = fHumdrumScotKeyItemsVector.end(),
+          iBegin = fHumdrumScotKeyItemsVector.begin (),
+          iEnd   = fHumdrumScotKeyItemsVector.end (),
           i      = iBegin;
           
         for ( ; ; ) {
@@ -10960,7 +10960,7 @@ void msrTimeItem::appendBeatsNumber (int beatsNumber)
     }
 
   fTimeBeatsNumbersVector.insert (
-    fTimeBeatsNumbersVector.end(),
+    fTimeBeatsNumbersVector.end (),
     beatsNumber);
 }
 
@@ -11182,7 +11182,7 @@ void msrTime::appendTimeItem (
 
   // append the time item to the vector
   fTimeItemsVector.insert (
-    fTimeItemsVector.end(), timeItem);
+    fTimeItemsVector.end (), timeItem);
 }
 
 rational msrTime::wholeNotesPerMeasure () const
@@ -11422,8 +11422,8 @@ string msrTime::timeAsString () const
       ", ";
 
     vector<S_msrTimeItem>::const_iterator
-      iBegin = fTimeItemsVector.begin(),
-      iEnd   = fTimeItemsVector.end(),
+      iBegin = fTimeItemsVector.begin (),
+      iEnd   = fTimeItemsVector.end (),
       i      = iBegin;
   
     for ( ; ; ) {
@@ -11471,8 +11471,8 @@ void msrTime::print (ostream& os)
     gIndenter++;
     
     vector<S_msrTimeItem>::const_iterator
-      iBegin = fTimeItemsVector.begin(),
-      iEnd   = fTimeItemsVector.end(),
+      iBegin = fTimeItemsVector.begin (),
+      iEnd   = fTimeItemsVector.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -11782,7 +11782,7 @@ string msrWords::wordsFontStyleAsString () const
 
 string msrWords::wordsFontSizeAsString () const
 {
-  return msrFontSizeAsString (fWordsFontSize);
+  return fWordsFontSize->fontSizeAsString ();
 }
 
 string msrWords::wordsFontWeightAsString () const
@@ -12056,8 +12056,8 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
     
   // append the lyric texts to the syllable clone
   for (
-    list<string>::const_iterator i = fSyllableTextsList.begin();
-    i!=fSyllableTextsList.end();
+    list<string>::const_iterator i = fSyllableTextsList.begin ();
+    i!=fSyllableTextsList.end ();
     i++) {
     newbornClone->
       appendLyricTextToSyllable ((*i));
@@ -12100,8 +12100,8 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
       
   // append the lyric texts to the syllable deep copy
   for (
-    list<string>::const_iterator i = fSyllableTextsList.begin();
-    i!=fSyllableTextsList.end();
+    list<string>::const_iterator i = fSyllableTextsList.begin ();
+    i!=fSyllableTextsList.end ();
     i++) {
     syllableDeepCopy->
       appendLyricTextToSyllable ((*i));
@@ -12125,8 +12125,8 @@ void msrSyllable::writeTextsList (
 
   if (textsList.size ()) {
     list<string>::const_iterator
-      iBegin = textsList.begin(),
-      iEnd   = textsList.end(),
+      iBegin = textsList.begin (),
+      iEnd   = textsList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -13789,8 +13789,8 @@ string msrHarmony::harmonyAsString () const
 
   if (fHarmonyDegreesList.size ()) {
     list<S_msrHarmonyDegree>::const_iterator
-      iBegin = fHarmonyDegreesList.begin(),
-      iEnd   = fHarmonyDegreesList.end(),
+      iBegin = fHarmonyDegreesList.begin (),
+      iEnd   = fHarmonyDegreesList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -13846,8 +13846,8 @@ void msrHarmony::browseData (basevisitor* v)
   // browse harmony degrees if any
   if (fHarmonyDegreesList.size ())
     for (
-      list<S_msrHarmonyDegree>::const_iterator i = fHarmonyDegreesList.begin();
-      i != fHarmonyDegreesList.end();
+      list<S_msrHarmonyDegree>::const_iterator i = fHarmonyDegreesList.begin ();
+      i != fHarmonyDegreesList.end ();
       i++) {
       // browse the harmony degree
       msrBrowser<msrHarmonyDegree> browser (v);
@@ -13917,8 +13917,8 @@ void msrHarmony::print (ostream& os)
     gIndenter++;
     
     list<S_msrHarmonyDegree>::const_iterator
-      iBegin = fHarmonyDegreesList.begin(),
-      iEnd   = fHarmonyDegreesList.end(),
+      iBegin = fHarmonyDegreesList.begin (),
+      iEnd   = fHarmonyDegreesList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -14380,8 +14380,8 @@ string msrFiguredBass::figuredBassAsString () const
     s << ", ";
 
     list<S_msrFigure>::const_iterator
-      iBegin = fFiguredBassFiguresList.begin(),
-      iEnd   = fFiguredBassFiguresList.end(),
+      iBegin = fFiguredBassFiguresList.begin (),
+      iEnd   = fFiguredBassFiguresList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -14444,8 +14444,8 @@ void msrFiguredBass::acceptOut (basevisitor* v) {
 void msrFiguredBass::browseData (basevisitor* v)
 {
   for (
-    list<S_msrFigure>::const_iterator i = fFiguredBassFiguresList.begin();
-    i != fFiguredBassFiguresList.end();
+    list<S_msrFigure>::const_iterator i = fFiguredBassFiguresList.begin ();
+    i != fFiguredBassFiguresList.end ();
     i++) {
     // browse the figure
     msrBrowser<msrFigure> browser (v);
@@ -14478,8 +14478,8 @@ void msrFiguredBass::print (ostream& os)
     gIndenter++;
 
     list<S_msrFigure>::const_iterator
-      iBegin = fFiguredBassFiguresList.begin(),
-      iEnd   = fFiguredBassFiguresList.end(),
+      iBegin = fFiguredBassFiguresList.begin (),
+      iEnd   = fFiguredBassFiguresList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -15190,7 +15190,7 @@ void msrBarline::print (ostream& os)
     "Ending number" << " : ";
       
   list<int>::const_iterator i;
-  for (i=fEndingNumbersList.begin(); i!=fEndingNumbersList.end(); i++) {
+  for (i=fEndingNumbersList.begin (); i!=fEndingNumbersList.end (); i++) {
     os << (*i) << " ";
   } // for
   
@@ -15426,8 +15426,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     }
     
     for (
-      list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
-      i != fMeasureElementsList.end();
+      list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
+      i != fMeasureElementsList.end ();
       i++ ) {
       S_msrElement element = (*i);
       
@@ -16871,8 +16871,8 @@ void msrMeasure::prependGraceNotesToMeasure (
   // after clef, key and time signature if any
 
   for (
-    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
-    i != fMeasureElementsList.end();
+    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
+    i != fMeasureElementsList.end ();
     i++ ) {
 
     if (
@@ -16915,8 +16915,8 @@ void msrMeasure::prependAfterGraceNotesToMeasure (
   // after clef, key and time signature if any
 
   for (
-    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
-    i != fMeasureElementsList.end();
+    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
+    i != fMeasureElementsList.end ();
     i++ ) {
 
     if (
@@ -17056,8 +17056,8 @@ void msrMeasure::removeNoteFromMeasure (
   }
 
   for (
-    list<S_msrElement>::const_iterator i=fMeasureElementsList.begin();
-    i!=fMeasureElementsList.end();
+    list<S_msrElement>::const_iterator i=fMeasureElementsList.begin ();
+    i!=fMeasureElementsList.end ();
     ++i) {
     if ((*i) == note) {
       // found note, erase it
@@ -17410,8 +17410,8 @@ void msrMeasure::browseData (basevisitor* v)
       endl;
 
   for (
-    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin();
-    i != fMeasureElementsList.end();
+    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
+    i != fMeasureElementsList.end ();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -17542,8 +17542,8 @@ void msrMeasure::print (ostream& os)
     gIndenter++;
     
     list<S_msrElement>::const_iterator
-      iBegin = fMeasureElementsList.begin(),
-      iEnd   = fMeasureElementsList.end(),
+      iBegin = fMeasureElementsList.begin (),
+      iEnd   = fMeasureElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -17714,8 +17714,8 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
     }
     
     for (
-      list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin();
-      i != fSegmentMeasuresList.end();
+      list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin ();
+      i != fSegmentMeasuresList.end ();
       i++) {
       // append a deep copy of the measure to the deep copy
       segmentDeepCopy->
@@ -18925,8 +18925,8 @@ void msrSegment::removeElementFromSegment (
   S_msrElement elem)
 {
   for (
-    list<S_msrElement>::const_iterator i = fSegmentMeasuresList.begin();
-    i != fSegmentMeasuresList.end();
+    list<S_msrElement>::const_iterator i = fSegmentMeasuresList.begin ();
+    i != fSegmentMeasuresList.end ();
     i++) {
     if ((*i) == elem) {
       fSegmentMeasuresList.erase (i);
@@ -19088,8 +19088,8 @@ void msrSegment::browseData (basevisitor* v)
     */
     
   for (
-    list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin();
-    i != fSegmentMeasuresList.end();
+    list<S_msrMeasure>::const_iterator i = fSegmentMeasuresList.begin ();
+    i != fSegmentMeasuresList.end ();
     i++) {
     // browse the element
     msrBrowser<msrMeasure> browser (v);
@@ -19176,8 +19176,8 @@ void msrSegment::print (ostream& os)
   
   else {        
     list<S_msrMeasure>::const_iterator
-      iBegin = fSegmentMeasuresList.begin(),
-      iEnd   = fSegmentMeasuresList.end(),
+      iBegin = fSegmentMeasuresList.begin (),
+      iEnd   = fSegmentMeasuresList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -19716,8 +19716,8 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
         
   // repeat endings
   for (
-    vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin();
-    i != fRepeatEndings.end();
+    vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin ();
+    i != fRepeatEndings.end ();
     i++) {
     repeatDeepCopy->
       addRepeatEnding (
@@ -19848,8 +19848,8 @@ void msrRepeat::browseData (basevisitor* v)
   
   // browse the alternatives
   for (
-    vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin();
-    i != fRepeatEndings.end();
+    vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin ();
+    i != fRepeatEndings.end ();
     i++) {
     // browse the alternative
     msrBrowser<msrRepeatEnding> browser (v);
@@ -19923,8 +19923,8 @@ void msrRepeat::print (ostream& os)
     gIndenter++;
     
     vector<S_msrRepeatEnding>::const_iterator
-      iBegin = fRepeatEndings.begin(),
-      iEnd   = fRepeatEndings.end(),
+      iBegin = fRepeatEndings.begin (),
+      iEnd   = fRepeatEndings.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -21436,8 +21436,8 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
     gIndenter++;
 
     map<msrDiatonicPitch, msrAlteration>::const_iterator
-      iBegin = fHarpPedalsAlterationsMap.begin(),
-      iEnd   = fHarpPedalsAlterationsMap.end(),
+      iBegin = fHarpPedalsAlterationsMap.begin (),
+      iEnd   = fHarpPedalsAlterationsMap.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -21476,8 +21476,8 @@ void msrHarpPedalsTuning::print (ostream& os)
       endl;
       
     map<msrDiatonicPitch, msrAlteration>::const_iterator
-      iBegin = fHarpPedalsAlterationsMap.begin(),
-      iEnd   = fHarpPedalsAlterationsMap.end(),
+      iBegin = fHarpPedalsAlterationsMap.begin (),
+      iEnd   = fHarpPedalsAlterationsMap.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -21996,8 +21996,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     }
 
    list<S_msrElement>::const_iterator
-      iBegin = fVoiceInitialRepeatsAndSegments.begin(),
-      iEnd   = fVoiceInitialRepeatsAndSegments.end(),
+      iBegin = fVoiceInitialRepeatsAndSegments.begin (),
+      iEnd   = fVoiceInitialRepeatsAndSegments.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -22092,8 +22092,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 */
 
   for (
-    map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
-    i != fVoiceStanzasMap.end();
+    map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
+    i != fVoiceStanzasMap.end ();
     i++) {
     S_msrStanza stanza = (*i).second;
 
@@ -22320,8 +22320,8 @@ void msrVoice::catchUpWithVoiceMuteStanza (S_msrStanza stanza)
         
     for (
       vector<S_msrSyllable>::const_iterator i =
-        muteSyllables.begin();
-      i != muteSyllables.end();
+        muteSyllables.begin ();
+      i != muteSyllables.end ();
       i++) {
       // add syllable to stanza
       stanza->appendSyllableToStanza ((*i));
@@ -24569,8 +24569,8 @@ void msrVoice::browseData (basevisitor* v)
   // browse the voice initial repeats and segments
   if (fVoiceInitialRepeatsAndSegments.size ()) {
     for (
-      list<S_msrElement>::const_iterator i = fVoiceInitialRepeatsAndSegments.begin();
-      i != fVoiceInitialRepeatsAndSegments.end();
+      list<S_msrElement>::const_iterator i = fVoiceInitialRepeatsAndSegments.begin ();
+      i != fVoiceInitialRepeatsAndSegments.end ();
       i++) {
       // browse the element
       msrBrowser<msrElement> browser (v);
@@ -24585,8 +24585,8 @@ void msrVoice::browseData (basevisitor* v)
   // browse the voice stanzas
   if (fVoiceStanzasMap.size ()) {
     for (
-      map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin();
-      i != fVoiceStanzasMap.end();
+      map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
+      i != fVoiceStanzasMap.end ();
       i++) {
       S_msrStanza stanza = (*i).second;
 
@@ -24766,8 +24766,8 @@ void msrVoice::print (ostream& os)
     gIndenter++;
 
     list<S_msrElement>::const_iterator
-      iBegin = fVoiceInitialRepeatsAndSegments.begin(),
-      iEnd   = fVoiceInitialRepeatsAndSegments.end(),
+      iBegin = fVoiceInitialRepeatsAndSegments.begin (),
+      iEnd   = fVoiceInitialRepeatsAndSegments.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -24825,8 +24825,8 @@ void msrVoice::print (ostream& os)
     // print the stanzas
     if (fVoiceStanzasMap.size()) {
       map<string, S_msrStanza>::const_iterator
-        iBegin = fVoiceStanzasMap.begin(),
-        iEnd   = fVoiceStanzasMap.end(),
+        iBegin = fVoiceStanzasMap.begin (),
+        iEnd   = fVoiceStanzasMap.end (),
         i      = iBegin;
         
       for ( ; ; ) {
@@ -25803,8 +25803,8 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 
   for (
     map<int, S_msrVoice>::const_iterator i =
-      fStaffVoiceRelativeNumberToVoiceMap.begin();
-    i != fStaffVoiceRelativeNumberToVoiceMap.end();
+      fStaffVoiceRelativeNumberToVoiceMap.begin ();
+    i != fStaffVoiceRelativeNumberToVoiceMap.end ();
     i++) {
       S_msrVoice
         voice =
@@ -25848,8 +25848,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
 
   // propagate it to all staves
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     S_msrVoice voice = (*i).second;
 
@@ -25997,8 +25997,8 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
 
   for (
     map<int, S_msrVoice>::const_iterator i =
-      fStaffVoiceRelativeNumberToVoiceMap.begin();
-    i != fStaffVoiceRelativeNumberToVoiceMap.end();
+      fStaffVoiceRelativeNumberToVoiceMap.begin ();
+    i != fStaffVoiceRelativeNumberToVoiceMap.end ();
     i++) {
     if (
       (*i).second->getVoicePartRelativeID ()
@@ -26085,8 +26085,8 @@ void msrStaff::bringStaffToMeasureLength (
   }
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
       bringVoiceToMeasureLength (
@@ -26140,8 +26140,8 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
   
     // propagate clef to all voices
     for (
-      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-      i != fStaffAllVoicesMap.end();
+      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+      i != fStaffAllVoicesMap.end ();
       i++) {
       (*i).second-> // JMI msrAssert???
         appendClefToVoice (clef);
@@ -26194,8 +26194,8 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
   
     // propagate it to all voices
     for (
-      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-      i != fStaffAllVoicesMap.end();
+      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+      i != fStaffAllVoicesMap.end ();
       i++) {
       (*i).second-> // JMI msrAssert???
         appendKeyToVoice (key);
@@ -26248,8 +26248,8 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
     // propagate it to all voices
     for (
-      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-      i != fStaffAllVoicesMap.end();
+      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+      i != fStaffAllVoicesMap.end ();
       i++) {
       (*i).second-> // JMI msrAssert???
         appendTimeToVoice (time);
@@ -26274,8 +26274,8 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
 
   // propagate it to all voices
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
       appendTimeToVoiceClone (time);
@@ -26293,8 +26293,8 @@ void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       createRepeatAndAppendItToVoice (inputLineNumber);
@@ -26316,8 +26316,8 @@ void msrStaff::appendRepeatEndingToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendRepeatEndingToVoice (
@@ -26341,8 +26341,8 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       createMeasureRepeatFromItsFirstMeasureInVoice (
@@ -26364,8 +26364,8 @@ void msrStaff::appendPendingMeasureRepeatToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendPendingMeasureRepeatToVoice (
@@ -26389,8 +26389,8 @@ void msrStaff::createMultipleRestInStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       createMultipleRestInVoice (
@@ -26411,8 +26411,8 @@ void msrStaff::appendPendingMultipleRestToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendPendingMultipleRestToVoice (
@@ -26434,8 +26434,8 @@ void msrStaff::appendMultipleRestCloneToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
       appendMultipleRestCloneToVoice (
@@ -26457,8 +26457,8 @@ void msrStaff::appendRepeatCloneToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
       appendRepeatCloneToVoice (
@@ -26478,8 +26478,8 @@ void msrStaff::appendRepeatEndingCloneToStaff (
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
       appendRepeatEndingCloneToVoice (repeatEndingClone);
@@ -26498,8 +26498,8 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
       endl;
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendBarlineToVoice (barline);
@@ -26569,8 +26569,8 @@ void msrStaff::appendStaffDetailsToStaff (
   fCurrentStaffStaffDetails = staffDetails;
   
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendStaffDetailsToVoice (staffDetails);
@@ -26581,8 +26581,8 @@ void msrStaff::appendTransposeToAllStaffVoices (
   S_msrTranspose transpose)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendTransposeToVoice (transpose);
@@ -26594,8 +26594,8 @@ void msrStaff::appendAccordionRegistrationToStaff (
     accordionRegistration)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendAccordionRegistrationToVoice (
@@ -26608,8 +26608,8 @@ void msrStaff::appendHarpPedalsTuningToStaff (
     harpPedalsTuning)
 {
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendHarpPedalsTuningToVoice (
@@ -26637,8 +26637,8 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 
   // finalize all the registered voices
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     S_msrVoice
       voice =
@@ -26668,8 +26668,8 @@ void msrStaff::finalizeStaff (int inputLineNumber)
   }
 
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     S_msrVoice
       voice = (*i).second;
@@ -26780,8 +26780,8 @@ void msrStaff::browseData (basevisitor* v)
 /*
   if (fStaffTuningsList.size ()) {
     for (
-      list<S_msrStaffTuning>::const_iterator i = fStaffTuningsList.begin();
-      i != fStaffTuningsList.end();
+      list<S_msrStaffTuning>::const_iterator i = fStaffTuningsList.begin ();
+      i != fStaffTuningsList.end ();
       i++) {
       // browse the voice
       msrBrowser<msrStaffTuning> browser (v);
@@ -26793,8 +26793,8 @@ void msrStaff::browseData (basevisitor* v)
 
   if (fStaffAllVoicesMap.size ()) {
     for (
-      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-      i != fStaffAllVoicesMap.end();
+      map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+      i != fStaffAllVoicesMap.end ();
       i++) {
         msrBrowser<msrVoice> browser (v);
         browser.browse (*((*i).second));
@@ -26902,8 +26902,8 @@ void msrStaff::print (ostream& os)
       endl;
       
     list<S_msrStaffTuning>::const_iterator
-      iBegin = fStaffTuningsList.begin(),
-      iEnd   = fStaffTuningsList.end(),
+      iBegin = fStaffTuningsList.begin (),
+      iEnd   = fStaffTuningsList.end (),
       i      = iBegin;
       
     gIndenter++;
@@ -26926,8 +26926,8 @@ void msrStaff::print (ostream& os)
 // JMI ???  if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
   if (fStaffAllVoicesMap.size ()) {
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffAllVoicesMap.begin(),
-      iEnd   = fStaffAllVoicesMap.end(),
+      iBegin = fStaffAllVoicesMap.begin (),
+      iEnd   = fStaffAllVoicesMap.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -27015,8 +27015,8 @@ void msrStaff::printStructure (ostream& os)
       endl;
       
     list<S_msrStaffTuning>::const_iterator
-      iBegin = fStaffTuningsList.begin(),
-      iEnd   = fStaffTuningsList.end(),
+      iBegin = fStaffTuningsList.begin (),
+      iEnd   = fStaffTuningsList.end (),
       i      = iBegin;
       
     gIndenter++;
@@ -27039,8 +27039,8 @@ void msrStaff::printStructure (ostream& os)
     gIndenter++;
     
     map<int, S_msrVoice>::const_iterator
-      iBegin = fStaffVoiceRelativeNumberToVoiceMap.begin(),
-      iEnd   = fStaffVoiceRelativeNumberToVoiceMap.end(),
+      iBegin = fStaffVoiceRelativeNumberToVoiceMap.begin (),
+      iEnd   = fStaffVoiceRelativeNumberToVoiceMap.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -27207,8 +27207,8 @@ msrPart::msrPart (
 {
   // replace spaces in part ID to set fPartID
   for_each (
-    partID.begin(),
-    partID.end(),
+    partID.begin (),
+    partID.end (),
     stringSpaceReplacer (fPartID, '_'));
 
   // sanity check
@@ -27658,8 +27658,8 @@ void msrPart::bringPartToMeasureLength (
 
   // print the registered staves to measure length  
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       bringStaffToMeasureLength (
@@ -27741,8 +27741,8 @@ void msrPart::createMeasureAndAppendItToPart (
 
   // create and append measure to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff = (*i).second;
@@ -27768,8 +27768,8 @@ void msrPart::complementPartVoicesUpToMeasure (
 
   // propagate to all staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff = (*i).second;
@@ -27803,8 +27803,8 @@ void msrPart::appendStaffDetailsToPart (
   
   // append staff details to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff = (*i).second;
@@ -27830,8 +27830,8 @@ void msrPart::appendClefToPart (S_msrClef clef)
   
   // append clef to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendClefToStaff (
@@ -27854,8 +27854,8 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 
   // append key to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff = (*i).second;
@@ -27889,8 +27889,8 @@ void msrPart::appendTimeToPart (S_msrTime time)
   
   // append time to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff = (*i).second;
@@ -27916,8 +27916,8 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
 
   // propagate it to all staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff = (*i).second;
@@ -27941,8 +27941,8 @@ void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 
   // propagate it to all staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff = (*i).second;
@@ -27963,8 +27963,8 @@ void msrPart::createRepeatAndAppendItToPart (int inputLineNumber)
   
   // create repeat and append it to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       createRepeatAndAppendItToStaff (inputLineNumber);
@@ -27988,8 +27988,8 @@ void msrPart::appendRepeatEndingToPart (
   
   // append repeat ending to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendRepeatEndingToStaff (
@@ -28004,8 +28004,8 @@ void msrPart::appendRepeatCloneToPart (
   S_msrRepeat repeatCLone)
 {
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff =
@@ -28041,8 +28041,8 @@ void msrPart::appendRepeatEndingCloneToPart (
   S_msrRepeatEnding repeatEndingCLone)
 {
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendRepeatEndingCloneToStaff (repeatEndingCLone);
@@ -28065,8 +28065,8 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
   
   // create measure repeat from its first measure in registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       createMeasureRepeatFromItsFirstMeasureInStaff (
@@ -28088,8 +28088,8 @@ void msrPart::appendPendingMeasureRepeatToPart (
   
   // append pending measure repeat to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendPendingMeasureRepeatToStaff (
@@ -28121,8 +28121,8 @@ void msrPart::createMultipleRestInPart (
   
   // create multiple rest in registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       createMultipleRestInStaff (
@@ -28150,8 +28150,8 @@ void msrPart::appendPendingMultipleRestToPart (
   
   // append pending multiple rest to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendPendingMultipleRestToStaff (
@@ -28173,8 +28173,8 @@ void msrPart::appendMultipleRestCloneToPart (
   }
 
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendMultipleRestCloneToStaff (
@@ -28193,8 +28193,8 @@ void msrPart::appendBarlineToPart (S_msrBarline barline)
   
   // append barline to registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendBarlineToStaff (barline);
@@ -28599,8 +28599,8 @@ void msrPart::appendAccordionRegistrationToPart (
       endl;
 
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendAccordionRegistrationToStaff (
@@ -28621,8 +28621,8 @@ void msrPart::appendHarpPedalsTuningToPart (
       endl;
 
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       appendHarpPedalsTuningToStaff (
@@ -28729,8 +28729,8 @@ void msrPart::appendSkipGraceNotesToVoicesClones (
             getMeasureLength ();
         
   for (
-    map<int, S_msrStaff>::const_iterator i=fPartStavesMap.begin();
-    i!=fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i=fPartStavesMap.begin ();
+    i!=fPartStavesMap.end ();
     i++) {
 
     map<int, S_msrVoice>
@@ -28739,8 +28739,8 @@ void msrPart::appendSkipGraceNotesToVoicesClones (
           getStaffAllVoicesMap ();
           
     for (
-      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin();
-      j!=staffAllVoicesMap.end();
+      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();
+      j!=staffAllVoicesMap.end ();
       j++) {
 
       S_msrVoice voice = (*j).second;
@@ -28786,8 +28786,8 @@ void msrPart::finalizeCurrentMeasureInPart (
   
   // finalize current measure in registered staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     (*i).second->
       finalizeCurrentMeasureInStaff (
@@ -28833,8 +28833,8 @@ void msrPart::finalizePart (int inputLineNumber)
   else {
     // finalize registered staves
     for (
-      map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-      i != fPartStavesMap.end();
+      map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+      i != fPartStavesMap.end ();
       i++) {
       (*i).second->
         finalizeStaff (
@@ -28897,8 +28897,8 @@ void msrPart::browseData (basevisitor* v)
 
   // browse all non figured bass staves
   for (
-    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-    i != fPartStavesMap.end();
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
     i++) {
     S_msrStaff
       staff =
@@ -28998,8 +28998,8 @@ void msrPart::print (ostream& os)
     gIndenter++;
     
     for (
-      map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin();
-      i != fPartStavesMap.end();
+      map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+      i != fPartStavesMap.end ();
       i++) {
       S_msrStaff
         staff =
@@ -29043,7 +29043,7 @@ void msrPart::print (ostream& os)
           break;
       } // switch
 
-      if (i != fPartStavesMap.end()) {
+      if (i != fPartStavesMap.end ()) {
         switch (staffKind) {
           case msrStaff::kMasterStaff:
             os <<
@@ -29162,8 +29162,8 @@ void msrPart::printStructure (ostream& os)
     gIndenter++;
   
     map<int, S_msrStaff>::const_iterator
-      iBegin = fPartStavesMap.begin(),
-      iEnd   = fPartStavesMap.end(),
+      iBegin = fPartStavesMap.begin (),
+      iEnd   = fPartStavesMap.end (),
       i      = iBegin;
           
     for ( ; ; ) {
@@ -29374,8 +29374,8 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
     gIndenter++;
     
     for (
-        map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin();
-        i != fPartGroupPartsMap.end();
+        map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin ();
+        i != fPartGroupPartsMap.end ();
         i++) {
       gLogIOstream <<
         "\"" << (*i).first << "\" --% --> " <<
@@ -29394,8 +29394,8 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
 
     if (fPartGroupElements.size()) {
       list<S_msrElement>::const_iterator
-        iBegin = fPartGroupElements.begin(),
-        iEnd   = fPartGroupElements.end(),
+        iBegin = fPartGroupElements.begin (),
+        iEnd   = fPartGroupElements.end (),
         i      = iBegin;
         
       for ( ; ; ) {
@@ -29462,8 +29462,8 @@ S_msrPart msrPartGroup::fetchPartFromPartGroup (
       endl;
       
     for (
-        map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin();
-        i != fPartGroupPartsMap.end();
+        map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin ();
+        i != fPartGroupPartsMap.end ();
         i++) {
       gLogIOstream <<
         (*i).first << " --% --> " <<
@@ -29531,8 +29531,8 @@ void msrPartGroup::browseData (basevisitor* v)
       endl;
   
   for (
-    list<S_msrElement>::const_iterator i = fPartGroupElements.begin();
-    i != fPartGroupElements.end();
+    list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+    i != fPartGroupElements.end ();
     i++) {
     // browse the part element
     msrBrowser<msrElement> browser (v);
@@ -29639,8 +29639,8 @@ void msrPartGroup::print (ostream& os)
   if (fPartGroupElements.size()) {
     os << endl;
     list<S_msrElement>::const_iterator
-      iBegin = fPartGroupElements.begin(),
-      iEnd   = fPartGroupElements.end(),
+      iBegin = fPartGroupElements.begin (),
+      iEnd   = fPartGroupElements.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -29695,8 +29695,8 @@ void msrPartGroup::printStructure (ostream& os)
   if (fPartGroupElements.size()) {
     os << endl;
     list<S_msrElement>::const_iterator
-      iBegin = fPartGroupElements.begin(),
-      iEnd   = fPartGroupElements.end(),
+      iBegin = fPartGroupElements.begin (),
+      iEnd   = fPartGroupElements.end (),
       i      = iBegin;
       
     gIndenter++;
@@ -29925,7 +29925,7 @@ void msrIdentification::browseData (basevisitor* v)
 
   if (!fComposers.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fComposers.begin(); i!=fComposers.end(); i++) {
+    for (i=fComposers.begin (); i!=fComposers.end (); i++) {
       // browse creator
       msrBrowser<msrVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -29934,7 +29934,7 @@ void msrIdentification::browseData (basevisitor* v)
     
   if (!fArrangers.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fArrangers.begin(); i!=fArrangers.end(); i++) {
+    for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
       // browse creator
       msrBrowser<msrVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -29943,7 +29943,7 @@ void msrIdentification::browseData (basevisitor* v)
     
   if (!fPoets.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fPoets.begin(); i!=fPoets.end(); i++) {
+    for (i=fPoets.begin (); i!=fPoets.end (); i++) {
       // browse creator
       msrBrowser<msrVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -29952,7 +29952,7 @@ void msrIdentification::browseData (basevisitor* v)
     
   if (!fLyricists.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fLyricists.begin(); i!=fLyricists.end(); i++) {
+    for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
       // browse creator
       msrBrowser<msrVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -29967,7 +29967,7 @@ void msrIdentification::browseData (basevisitor* v)
 
   if (!fSoftwares.empty()) {
     vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fSoftwares.begin(); i!=fSoftwares.end(); i++) {
+    for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
       // browse software
       msrBrowser<msrVarValAssoc> browser (v);
       browser.browse (*(*i));
@@ -30025,8 +30025,8 @@ void msrIdentification::print (ostream& os)
 
   if (! fComposers.empty()) {
     vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fComposers.begin(),
-      iEnd   = fComposers.end(),
+      iBegin = fComposers.begin (),
+      iEnd   = fComposers.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -30039,8 +30039,8 @@ void msrIdentification::print (ostream& os)
     
   if (! fArrangers.empty()) {
     vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fArrangers.begin(),
-      iEnd   = fArrangers.end(),
+      iBegin = fArrangers.begin (),
+      iEnd   = fArrangers.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -30053,8 +30053,8 @@ void msrIdentification::print (ostream& os)
     
   if (! fPoets.empty()) {
     vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fPoets.begin(),
-      iEnd   = fPoets.end(),
+      iBegin = fPoets.begin (),
+      iEnd   = fPoets.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -30067,8 +30067,8 @@ void msrIdentification::print (ostream& os)
     
   if (! fLyricists.empty()) {
     vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fLyricists.begin(),
-      iEnd   = fLyricists.end(),
+      iBegin = fLyricists.begin (),
+      iEnd   = fLyricists.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -30086,8 +30086,8 @@ void msrIdentification::print (ostream& os)
     
   if (!fSoftwares.empty()) {
     vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fSoftwares.begin(),
-      iEnd   = fSoftwares.end(),
+      iBegin = fSoftwares.begin (),
+      iEnd   = fSoftwares.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -30162,8 +30162,8 @@ S_msrScore msrScore::createScoreNewbornClone ()
 
 /* JMI
   for (
-    list<S_msrPartGroup>::const_iterator i = fCreditsList.begin();
-    i != fCreditsList.end();
+    list<S_msrPartGroup>::const_iterator i = fCreditsList.begin ();
+    i != fCreditsList.end ();
     i++) {
     // append the credit to the clone
     appendCreditToScore (*i);
@@ -30285,8 +30285,8 @@ void msrScore::browseData (basevisitor* v)
   }
 
   for (
-    list<S_msrCredit>::const_iterator i = fCreditsList.begin();
-    i != fCreditsList.end();
+    list<S_msrCredit>::const_iterator i = fCreditsList.begin ();
+    i != fCreditsList.end ();
     i++) {
     // browse the part credit
     msrBrowser<msrCredit> browser (v);
@@ -30294,8 +30294,8 @@ void msrScore::browseData (basevisitor* v)
   } // for
 
   for (
-    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin();
-    i != fPartGroupsList.end();
+    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
+    i != fPartGroupsList.end ();
     i++) {
     // browse the part group
     msrBrowser<msrPartGroup> browser (v);
@@ -30343,8 +30343,8 @@ void msrScore::print (ostream& os)
   // print the credits if any
   if (fCreditsList.size ()) {
     list<S_msrCredit>::const_iterator
-      iBegin = fCreditsList.begin(),
-      iEnd   = fCreditsList.end(),
+      iBegin = fCreditsList.begin (),
+      iEnd   = fCreditsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -30355,8 +30355,8 @@ void msrScore::print (ostream& os)
 
   // print the part groups
   list<S_msrPartGroup>::const_iterator
-    iBegin = fPartGroupsList.begin(),
-    iEnd   = fPartGroupsList.end(),
+    iBegin = fPartGroupsList.begin (),
+    iEnd   = fPartGroupsList.end (),
     i      = iBegin;
   for ( ; ; ) {
     os << (*i);
@@ -30393,8 +30393,8 @@ void msrScore::printStructure (ostream& os)
   // print the credits if any
   if (fCreditsList.size ()) {
     list<S_msrCredit>::const_iterator
-      iBegin = fCreditsList.begin(),
-      iEnd   = fCreditsList.end(),
+      iBegin = fCreditsList.begin (),
+      iEnd   = fCreditsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -30404,8 +30404,8 @@ void msrScore::printStructure (ostream& os)
   }
   
   for (
-    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin();
-    i != fPartGroupsList.end();
+    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
+    i != fPartGroupsList.end ();
     i++) {
     (*i)->
       printStructure (os);
@@ -30526,8 +30526,8 @@ void msrStaff::appendDivisionsToStaff (
 
   // propagate it to all voices
   for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin();
-    i != fStaffAllVoicesMap.end();
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
       appendDivisionsToVoice (divisions);

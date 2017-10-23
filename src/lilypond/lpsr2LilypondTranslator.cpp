@@ -391,8 +391,8 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
   if (noteLigatures.size()) {
     list<S_msrLigature>::const_iterator i;
     for (
-      i=noteLigatures.begin();
-      i!=noteLigatures.end();
+      i=noteLigatures.begin ();
+      i!=noteLigatures.end ();
       i++) {
         
       switch ((*i)->getLigatureKind ()) {
@@ -1885,8 +1885,8 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     
     // print degrees to be added first
     for (
-      list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin();
-      i != harmonyDegreesList.end();
+      list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin ();
+      i != harmonyDegreesList.end ();
       i++) {
       S_msrHarmonyDegree harmonyDegree = (*i);
 
@@ -1935,8 +1935,8 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
       int counter = 0;
       for (
-        list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin();
-        i != harmonyDegreesList.end();
+        list<S_msrHarmonyDegree>::const_iterator i = harmonyDegreesList.begin ();
+        i != harmonyDegreesList.end ();
         i++) {
         counter++;
         
@@ -3498,8 +3498,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
       "\\set TabStaff.stringTunings = \\stringTuning <";
 
     list<S_msrStaffTuning>::const_iterator
-      iBegin = staffTuningsList.begin(),
-      iEnd   = staffTuningsList.end(),
+      iBegin = staffTuningsList.begin (),
+      iEnd   = staffTuningsList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -4785,8 +4785,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
             "\\set Staff.keyAlterations = #`(";
 
           vector<S_msrHumdrumScotKeyItem>::const_iterator
-            iBegin = humdrumScotKeyItemsVector.begin(),
-            iEnd   = humdrumScotKeyItemsVector.end(),
+            iBegin = humdrumScotKeyItemsVector.begin (),
+            iEnd   = humdrumScotKeyItemsVector.end (),
             i      = iBegin;
             
           for ( ; ; ) {
@@ -6260,8 +6260,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
     for (
-      i=noteArticulations.begin();
-      i!=noteArticulations.end();
+      i=noteArticulations.begin ();
+      i!=noteArticulations.end ();
       i++) {
       S_msrArticulation articulation = (*i);
       switch (articulation->getArticulationKind ()) {
@@ -6285,8 +6285,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteTechnicals.size()) {
     list<S_msrTechnical>::const_iterator i;
     for (
-      i=noteTechnicals.begin();
-      i!=noteTechnicals.end();
+      i=noteTechnicals.begin ();
+      i!=noteTechnicals.end ();
       i++) {
         
       fLilypondIOstream <<
@@ -6315,8 +6315,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteTechnicalWithIntegers.size()) {
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
-      i=noteTechnicalWithIntegers.begin();
-      i!=noteTechnicalWithIntegers.end();
+      i=noteTechnicalWithIntegers.begin ();
+      i!=noteTechnicalWithIntegers.end ();
       i++) {
         
       fLilypondIOstream <<
@@ -6345,8 +6345,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteTechnicalWithStrings.size()) {
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
-      i=noteTechnicalWithStrings.begin();
-      i!=noteTechnicalWithStrings.end();
+      i=noteTechnicalWithStrings.begin ();
+      i!=noteTechnicalWithStrings.end ();
       i++) {
         
       fLilypondIOstream <<
@@ -6375,8 +6375,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteOrnaments.size()) {
     list<S_msrOrnament>::const_iterator i;
     for (
-      i=noteOrnaments.begin();
-      i!=noteOrnaments.end();
+      i=noteOrnaments.begin ();
+      i!=noteOrnaments.end ();
       i++) {        
       fLilypondIOstream <<
         ornamentAsLilypondString ((*i)); // some ornaments are not yet supported
@@ -6409,8 +6409,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteDynamics.size()) {
     list<S_msrDynamics>::const_iterator i;
     for (
-      i=noteDynamics.begin();
-      i!=noteDynamics.end();
+      i=noteDynamics.begin ();
+      i!=noteDynamics.end ();
       i++) {
       S_msrDynamics
         dynamics = (*i);
@@ -6440,8 +6440,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteOtherDynamics.size()) {
     list<S_msrOtherDynamics>::const_iterator i;
     for (
-      i=noteOtherDynamics.begin();
-      i!=noteOtherDynamics.end();
+      i=noteOtherDynamics.begin ();
+      i!=noteOtherDynamics.end ();
       i++) {
       fLilypondIOstream <<
         "-\\markup { "
@@ -6457,8 +6457,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteWords.size()) {
     list<S_msrWords>::const_iterator i;
     for (
-      i=noteWords.begin();
-      i!=noteWords.end();
+      i=noteWords.begin ();
+      i!=noteWords.end ();
       i++) {
       msrWords::msrWordsPlacementKind
         wordsPlacementKind =
@@ -6581,8 +6581,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteSlurs.size()) {
     list<S_msrSlur>::const_iterator i;
     for (
-      i=noteSlurs.begin();
-      i!=noteSlurs.end();
+      i=noteSlurs.begin ();
+      i!=noteSlurs.end ();
       i++) {
         
       switch ((*i)->getSlurKind ()) {
@@ -6608,8 +6608,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteLigatures.size()) {
     list<S_msrLigature>::const_iterator i;
     for (
-      i=noteLigatures.begin();
-      i!=noteLigatures.end();
+      i=noteLigatures.begin ();
+      i!=noteLigatures.end ();
       i++) {
         
       switch ((*i)->getLigatureKind ()) {
@@ -6635,8 +6635,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   if (noteWedges.size()) {
     list<S_msrWedge>::const_iterator i;
     for (
-      i=noteWedges.begin();
-      i!=noteWedges.end();
+      i=noteWedges.begin ();
+      i!=noteWedges.end ();
       i++) {
         
       switch ((*i)->getWedgeKind ()) {
@@ -6875,8 +6875,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
   if (chordLigatures.size()) {
     list<S_msrLigature>::const_iterator i;
     for (
-      i=chordLigatures.begin();
-      i!=chordLigatures.end();
+      i=chordLigatures.begin ();
+      i!=chordLigatures.end ();
       i++) {
         
       switch ((*i)->getLigatureKind ()) {
@@ -6904,8 +6904,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
   if (chordArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
     for (
-      i=chordArticulations.begin();
-      i!=chordArticulations.end();
+      i=chordArticulations.begin ();
+      i!=chordArticulations.end ();
       i++) {
       S_msrArticulation articulation = (*i);
         
@@ -7020,8 +7020,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordArticulations.size()) {
     list<S_msrArticulation>::const_iterator i;
     for (
-      i=chordArticulations.begin();
-      i!=chordArticulations.end();
+      i=chordArticulations.begin ();
+      i!=chordArticulations.end ();
       i++) {
       fLilypondIOstream <<
         chordArticulationAsLilyponString ((*i)) <<          
@@ -7037,8 +7037,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordTechnicals.size()) {
     list<S_msrTechnical>::const_iterator i;
     for (
-      i=chordTechnicals.begin();
-      i!=chordTechnicals.end();
+      i=chordTechnicals.begin ();
+      i!=chordTechnicals.end ();
       i++) {
       fLilypondIOstream <<
         technicalAsLilypondString ((*i)) <<
@@ -7054,8 +7054,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordTechnicalWithIntegers.size()) {
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
-      i=chordTechnicalWithIntegers.begin();
-      i!=chordTechnicalWithIntegers.end();
+      i=chordTechnicalWithIntegers.begin ();
+      i!=chordTechnicalWithIntegers.end ();
       i++) {
       fLilypondIOstream <<
         technicalWithIntegerAsLilypondString ((*i)) <<
@@ -7071,8 +7071,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordTechnicalWithStrings.size()) {
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
-      i=chordTechnicalWithStrings.begin();
-      i!=chordTechnicalWithStrings.end();
+      i=chordTechnicalWithStrings.begin ();
+      i!=chordTechnicalWithStrings.end ();
       i++) {
       fLilypondIOstream <<
         technicalWithStringAsLilypondString ((*i)) <<
@@ -7088,8 +7088,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordOrnaments.size()) {
     list<S_msrOrnament>::const_iterator i;
     for (
-      i=chordOrnaments.begin();
-      i!=chordOrnaments.end();
+      i=chordOrnaments.begin ();
+      i!=chordOrnaments.end ();
       i++) {
       fLilypondIOstream <<
         ornamentAsLilypondString ((*i)) << // some ornaments are not yet supported
@@ -7105,8 +7105,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordDynamics.size()) {
     list<S_msrDynamics>::const_iterator i;
     for (
-      i=chordDynamics.begin();
-      i!=chordDynamics.end();
+      i=chordDynamics.begin ();
+      i!=chordDynamics.end ();
       i++) {
       S_msrDynamics
         dynamics = (*i);
@@ -7136,8 +7136,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordOtherDynamics.size()) {
     list<S_msrOtherDynamics>::const_iterator i;
     for (
-      i=chordOtherDynamics.begin();
-      i!=chordOtherDynamics.end();
+      i=chordOtherDynamics.begin ();
+      i!=chordOtherDynamics.end ();
       i++) {
       fLilypondIOstream <<
         "\\" << (*i)->otherDynamicsAsString () << " ";
@@ -7152,8 +7152,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordBeams.size()) {
     list<S_msrBeam>::const_iterator i;
     for (
-      i=chordBeams.begin();
-      i!=chordBeams.end();
+      i=chordBeams.begin ();
+      i!=chordBeams.end ();
       i++) {
       fLilypondIOstream <<
         "] ";
@@ -7168,8 +7168,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordWords.size()) {
     list<S_msrWords>::const_iterator i;
     for (
-      i=chordWords.begin();
-      i!=chordWords.end();
+      i=chordWords.begin ();
+      i!=chordWords.end ();
       i++) {
         
       msrWords::msrWordsPlacementKind
@@ -7203,8 +7203,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordSlurs.size()) {
     list<S_msrSlur>::const_iterator i;
     for (
-      i=chordSlurs.begin();
-      i!=chordSlurs.end();
+      i=chordSlurs.begin ();
+      i!=chordSlurs.end ();
       i++) {
         
       switch ((*i)->getSlurKind ()) {
@@ -7230,8 +7230,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordLigatures.size()) {
     list<S_msrLigature>::const_iterator i;
     for (
-      i=chordLigatures.begin();
-      i!=chordLigatures.end();
+      i=chordLigatures.begin ();
+      i!=chordLigatures.end ();
       i++) {
         
       switch ((*i)->getLigatureKind ()) {
@@ -7257,8 +7257,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   if (chordWedges.size()) {
     list<S_msrWedge>::const_iterator i;
     for (
-      i=chordWedges.begin();
-      i!=chordWedges.end();
+      i=chordWedges.begin ();
+      i!=chordWedges.end ();
       i++) {
         
       switch ((*i)->getWedgeKind ()) {

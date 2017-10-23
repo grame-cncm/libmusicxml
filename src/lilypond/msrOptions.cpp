@@ -627,8 +627,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   else {
     for (
       map<string, string>::const_iterator i =
-        fPartsRenamingMap.begin();
-      i != fPartsRenamingMap.end();
+        fPartsRenamingMap.begin ();
+      i != fPartsRenamingMap.end ();
       i++) {
         gLogIOstream <<
           "\"" << ((*i).first) << " = " << ((*i).second) << "\" ";

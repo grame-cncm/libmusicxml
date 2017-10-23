@@ -568,8 +568,8 @@ void msrOptionsCombinedItemsItem::setCombinedItemsVariablesValue (
   if (fOptionsCombinedItemsList.size ()) {      
     for (
       list<S_msrOptionsItem>::const_iterator i =
-        fOptionsCombinedItemsList.begin();
-      i != fOptionsCombinedItemsList.end();
+        fOptionsCombinedItemsList.begin ();
+      i != fOptionsCombinedItemsList.end ();
       i++) {
       S_msrOptionsItem
         optionItem = (*i);
@@ -620,8 +620,8 @@ void msrOptionsCombinedItemsItem::print (ostream& os) const
         "'";
         
       list<S_msrOptionsItem>::const_iterator
-        iBegin = fOptionsCombinedItemsList.begin(),
-        iEnd   = fOptionsCombinedItemsList.end(),
+        iBegin = fOptionsCombinedItemsList.begin (),
+        iEnd   = fOptionsCombinedItemsList.end (),
         i      = iBegin;
         
       for ( ; ; ) {
@@ -670,8 +670,8 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
     gIndenter++;
           
     list<S_msrOptionsItem>::const_iterator
-      iBegin = fOptionsCombinedItemsList.begin(),
-      iEnd   = fOptionsCombinedItemsList.end(),
+      iBegin = fOptionsCombinedItemsList.begin (),
+      iEnd   = fOptionsCombinedItemsList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -714,8 +714,8 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
     
   else {      
     list<S_msrOptionsItem>::const_iterator
-      iBegin = fOptionsCombinedItemsList.begin(),
-      iEnd   = fOptionsCombinedItemsList.end(),
+      iBegin = fOptionsCombinedItemsList.begin (),
+      iEnd   = fOptionsCombinedItemsList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
@@ -1531,8 +1531,8 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
         "'";
         
       set<int>::const_iterator
-        iBegin = fOptionsNumbersSetItemVariable.begin(),
-        iEnd   = fOptionsNumbersSetItemVariable.end(),
+        iBegin = fOptionsNumbersSetItemVariable.begin (),
+        iEnd   = fOptionsNumbersSetItemVariable.end (),
         i      = iBegin;
         
       for ( ; ; ) {
@@ -1568,8 +1568,8 @@ void msrOptionsNumbersSetItem::printOptionsValues (
       "'";
       
     set<int>::const_iterator
-      iBegin = fOptionsNumbersSetItemVariable.begin(),
-      iEnd   = fOptionsNumbersSetItemVariable.end(),
+      iBegin = fOptionsNumbersSetItemVariable.begin (),
+      iEnd   = fOptionsNumbersSetItemVariable.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -1931,8 +1931,8 @@ void msrOptionsPartRenameItem::print (ostream& os) const
   }
   else {
     map<string, string>::const_iterator
-      iBegin = fOptionsPartRenameItemVariable.begin(),
-      iEnd   = fOptionsPartRenameItemVariable.end(),
+      iBegin = fOptionsPartRenameItemVariable.begin (),
+      iEnd   = fOptionsPartRenameItemVariable.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i).first << " --> " << (*i).second;
@@ -1964,8 +1964,8 @@ void msrOptionsPartRenameItem::printOptionsValues (
       endl;
 
     map<string, string>::const_iterator
-      iBegin = fOptionsPartRenameItemVariable.begin(),
-      iEnd   = fOptionsPartRenameItemVariable.end(),
+      iBegin = fOptionsPartRenameItemVariable.begin (),
+      iEnd   = fOptionsPartRenameItemVariable.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << left <<
@@ -2170,8 +2170,8 @@ void msrOptionsSubGroup::registerOptionsSubGroupInHandler (
 
   for (
     list<S_msrOptionsItem>::const_iterator
-      i = fOptionsSubGroupItemsList.begin();
-    i != fOptionsSubGroupItemsList.end();
+      i = fOptionsSubGroupItemsList.begin ();
+    i != fOptionsSubGroupItemsList.end ();
     i++) {
     // register the options sub group
     (*i)->
@@ -2204,8 +2204,8 @@ S_msrOptionsElement msrOptionsSubGroup::fetchOptionElement (
   
   for (
     list<S_msrOptionsItem>::const_iterator
-      i = fOptionsSubGroupItemsList.begin();
-    i != fOptionsSubGroupItemsList.end();
+      i = fOptionsSubGroupItemsList.begin ();
+    i != fOptionsSubGroupItemsList.end ();
     i++) {
     // search optiontElementName in the options group
     result =
@@ -2252,8 +2252,8 @@ void msrOptionsSubGroup::print (ostream& os) const
     gIndenter++;
     
     list<S_msrOptionsItem>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin(),
-      iEnd   = fOptionsSubGroupItemsList.end(),
+      iBegin = fOptionsSubGroupItemsList.begin (),
+      iEnd   = fOptionsSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item
@@ -2314,8 +2314,8 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
         gIndenter++;
     
         list<S_msrOptionsItem>::const_iterator
-          iBegin = fOptionsSubGroupItemsList.begin(),
-          iEnd   = fOptionsSubGroupItemsList.end(),
+          iBegin = fOptionsSubGroupItemsList.begin (),
+          iEnd   = fOptionsSubGroupItemsList.end (),
           i      = iBegin;
         for ( ; ; ) {
           S_msrOptionsItem
@@ -2386,8 +2386,8 @@ void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
     gIndenter++;
 
     list<S_msrOptionsItem>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin(),
-      iEnd   = fOptionsSubGroupItemsList.end(),
+      iBegin = fOptionsSubGroupItemsList.begin (),
+      iEnd   = fOptionsSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item help
@@ -2486,8 +2486,8 @@ void msrOptionsSubGroup::printOptionsItemForcedHelp (
     gIndenter++;
 
     list<S_msrOptionsItem>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin(),
-      iEnd   = fOptionsSubGroupItemsList.end(),
+      iBegin = fOptionsSubGroupItemsList.begin (),
+      iEnd   = fOptionsSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrOptionsItem
@@ -2531,8 +2531,8 @@ void msrOptionsSubGroup::printOptionsValues (
     gIndenter++;
 
     list<S_msrOptionsItem>::const_iterator
-      iBegin = fOptionsSubGroupItemsList.begin(),
-      iEnd   = fOptionsSubGroupItemsList.end(),
+      iBegin = fOptionsSubGroupItemsList.begin (),
+      iEnd   = fOptionsSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options item values
@@ -2632,8 +2632,8 @@ void msrOptionsGroup::registerOptionsGroupInHandler (
 
   for (
     list<S_msrOptionsSubGroup>::const_iterator
-      i = fOptionsGroupSubGroupsList.begin();
-    i != fOptionsGroupSubGroupsList.end();
+      i = fOptionsGroupSubGroupsList.begin ();
+    i != fOptionsGroupSubGroupsList.end ();
     i++) {
     // register the options sub group
     (*i)->
@@ -2666,8 +2666,8 @@ S_msrOptionsElement msrOptionsGroup::fetchOptionElement (
   
   for (
     list<S_msrOptionsSubGroup>::const_iterator
-      i = fOptionsGroupSubGroupsList.begin();
-    i != fOptionsGroupSubGroupsList.end();
+      i = fOptionsGroupSubGroupsList.begin ();
+    i != fOptionsGroupSubGroupsList.end ();
     i++) {
     // search optiontElementName in the options group
     result =
@@ -2706,8 +2706,8 @@ void msrOptionsGroup::print (ostream& os) const
     gIndenter++;
     
     list<S_msrOptionsSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin(),
-      iEnd   = fOptionsGroupSubGroupsList.end(),
+      iBegin = fOptionsGroupSubGroupsList.begin (),
+      iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup
@@ -2755,8 +2755,8 @@ void msrOptionsGroup::printHelp (ostream& os) const
     gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin(),
-      iEnd   = fOptionsGroupSubGroupsList.end(),
+      iBegin = fOptionsGroupSubGroupsList.begin (),
+      iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup help
@@ -2804,8 +2804,8 @@ void msrOptionsGroup::printOptionsSubGroupForcedHelp (
     gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin(),
-      iEnd   = fOptionsGroupSubGroupsList.end(),
+      iBegin = fOptionsGroupSubGroupsList.begin (),
+      iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrOptionsSubGroup
@@ -2862,8 +2862,8 @@ void msrOptionsGroup::printOptionsItemForcedHelp (
     gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin(),
-      iEnd   = fOptionsGroupSubGroupsList.end(),
+      iBegin = fOptionsGroupSubGroupsList.begin (),
+      iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       S_msrOptionsSubGroup
@@ -2924,8 +2924,8 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
     gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin(),
-      iEnd   = fOptionsGroupSubGroupsList.end(),
+      iBegin = fOptionsGroupSubGroupsList.begin (),
+      iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup description
@@ -2976,8 +2976,8 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
     gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin(),
-      iEnd   = fOptionsGroupSubGroupsList.end(),
+      iBegin = fOptionsGroupSubGroupsList.begin (),
+      iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup specific subgroup help
@@ -3014,8 +3014,8 @@ void msrOptionsGroup::printOptionsValues (
     gIndenter++;
 
     list<S_msrOptionsSubGroup>::const_iterator
-      iBegin = fOptionsGroupSubGroupsList.begin(),
-      iEnd   = fOptionsGroupSubGroupsList.end(),
+      iBegin = fOptionsGroupSubGroupsList.begin (),
+      iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options subgroup values
@@ -3123,8 +3123,8 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
 //* JMI
   for (
     list<S_msrOptionsGroup>::const_iterator
-      i = fOptionsHandlerOptionsGroupsList.begin();
-    i != fOptionsHandlerOptionsGroupsList.end();
+      i = fOptionsHandlerOptionsGroupsList.begin ();
+    i != fOptionsHandlerOptionsGroupsList.end ();
     i++) {
     // register the options group
     (*i)->
@@ -3227,8 +3227,8 @@ void msrOptionsHandler::registerOptionsNamesInHandler (
   
   for (
     map<string, S_msrOptionsElement>::iterator i =
-      fOptionsElementsMap.begin();
-    i != fOptionsElementsMap.end();
+      fOptionsElementsMap.begin ();
+    i != fOptionsElementsMap.end ();
     i++) {
       
     // is optionLongName already in the options names map?
@@ -3358,8 +3358,8 @@ void msrOptionsHandler::print (ostream& os) const
     gIndenter++;
     
     list<S_msrOptionsGroup>::const_iterator
-      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
-      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      iBegin = fOptionsHandlerOptionsGroupsList.begin (),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options group
@@ -3407,8 +3407,8 @@ void msrOptionsHandler::printHelp (ostream& os) const
     gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
-      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
-      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      iBegin = fOptionsHandlerOptionsGroupsList.begin (),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options group help
@@ -3451,8 +3451,8 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
     gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
-      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
-      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      iBegin = fOptionsHandlerOptionsGroupsList.begin (),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options group summary
@@ -3483,8 +3483,8 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
     gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
-      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
-      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      iBegin = fOptionsHandlerOptionsGroupsList.begin (),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options group specific subgroup help
@@ -3684,8 +3684,8 @@ void msrOptionsHandler::printOptionsValues (
     gIndenter++;
 
     list<S_msrOptionsGroup>::const_iterator
-      iBegin = fOptionsHandlerOptionsGroupsList.begin(),
-      iEnd   = fOptionsHandlerOptionsGroupsList.end(),
+      iBegin = fOptionsHandlerOptionsGroupsList.begin (),
+      iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       // print the options group values
@@ -3730,8 +3730,8 @@ S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
   
   for (
     list<S_msrOptionsGroup>::const_iterator
-      i = fOptionsHandlerOptionsGroupsList.begin();
-    i != fOptionsHandlerOptionsGroupsList.end();
+      i = fOptionsHandlerOptionsGroupsList.begin ();
+    i != fOptionsHandlerOptionsGroupsList.end ();
     i++) {
     // search optiontElementName in the options group
     result =
@@ -3759,8 +3759,8 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
       gIndenter++;
       
       map<string, S_msrOptionsElement>::const_iterator
-        iBegin = fOptionsElementsMap.begin(),
-        iEnd   = fOptionsElementsMap.end(),
+        iBegin = fOptionsElementsMap.begin (),
+        iEnd   = fOptionsElementsMap.end (),
         i      = iBegin;
       for ( ; ; ) {
         fOptionsHandlerLogIOstream <<

@@ -314,7 +314,7 @@ struct stringQuoteEscaper
 {
   /* usage:
       string dest = "";
-      for_each( source.begin(), source.end(), stringQuoteEscaper (dest));
+      for_each( source.begin (), source.end (), stringQuoteEscaper (dest));
   */
 
   string&                 target;
@@ -341,8 +341,8 @@ struct stringSpaceRemover
   /* usage:
       string dest = "";
       for_each (
-        source.begin(),
-        source.end(),
+        source.begin (),
+        source.end (),
         stringSpaceRemover (dest));
   */
 
@@ -369,8 +369,8 @@ struct stringSpaceReplacer
   /* usage:
       string dest = "";
       for_each (
-        source.begin(),
-        source.end(),
+        source.begin (),
+        source.end (),
         stringSpaceReplacer (dest, ersatz));
   */
 
@@ -423,10 +423,10 @@ list<int> extractNumbersFromString (
 // trim string from start
 inline string &ltrim (string &s) {
   s.erase (
-    s.begin(),
+    s.begin (),
     find_if (
-      s.begin(),
-      s.end(),
+      s.begin (),
+      s.end (),
       not1 (ptr_fun<int, int> (isspace))
       )
     );
@@ -438,11 +438,11 @@ inline string &ltrim (string &s) {
 inline string &rtrim (string &s) {
   s.erase (
     find_if (
-      s.rbegin(),
-      s.rend(),
+      s.rbegin (),
+      s.rend (),
       not1 (ptr_fun<int, int> (isspace))
       ).base(),
-    s.end()
+    s.end ()
     );
           
   return s;

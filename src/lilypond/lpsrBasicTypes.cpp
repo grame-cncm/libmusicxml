@@ -205,8 +205,8 @@ void writeNoteAsLilypondString (
   if (noteLigatures.size()) {
     list<S_msrLigature>::const_iterator i;
     for (
-      i=noteLigatures.begin();
-      i!=noteLigatures.end();
+      i=noteLigatures.begin ();
+      i!=noteLigatures.end ();
       i++) {
         
       switch ((*i)->getLigatureKind ()) {
@@ -590,8 +590,8 @@ void writeTextsListAsLilypondString (
   
   if (textsList.size ()) {
     list<string>::const_iterator
-      iBegin = textsList.begin(),
-      iEnd   = textsList.end(),
+      iBegin = textsList.begin (),
+      iEnd   = textsList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
@@ -774,8 +774,8 @@ string existingLpsrAccidentalStyles ()
 
   if (gLpsrAccidentalStylesMap.size ()) {
     map<string, lpsrAccidentalStyle>::const_iterator
-      iBegin = gLpsrAccidentalStylesMap.begin(),
-      iEnd   = gLpsrAccidentalStylesMap.end(),
+      iBegin = gLpsrAccidentalStylesMap.begin (),
+      iEnd   = gLpsrAccidentalStylesMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       gLogIOstream <<
@@ -839,8 +839,8 @@ string existingLpsrChordsLanguages ()
   
   if (gLpsrChordsLanguagesMap.size ()) {
     map<string, lpsrChordsLanguage>::const_iterator
-      iBegin = gLpsrChordsLanguagesMap.begin(),
-      iEnd   = gLpsrChordsLanguagesMap.end(),
+      iBegin = gLpsrChordsLanguagesMap.begin (),
+      iEnd   = gLpsrChordsLanguagesMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       if ((*i).second != k_IgnatzekChords)

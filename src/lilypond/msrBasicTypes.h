@@ -528,7 +528,7 @@ class EXP msrFontSize
       kLargeFontSize, kXLargeFontSize, kXXLargeFontSize,
       kNumericFontSize };
     
-    string msrFontSizeKindAsString (
+    string fontSizeKindAsString (
       msrFontSizeKind fontSizeKind);
   
     // creation from MusicXML
@@ -549,8 +549,7 @@ class EXP msrFontSize
       msrFontSizeKind fontSizeKind);
       
     msrFontSize (
-      msrFontSizeKind fontSizeKind,
-      float           numericFontSize);
+      float numericFontSize);
       
     virtual ~msrFontSize();
   

@@ -1291,8 +1291,8 @@ void musicXMLTree2MsrTranslator::showPartGroupsData (string context)
       
     if (fPartGroupsMap.size()) {
       map<int, S_msrPartGroup>::const_iterator
-        iBegin = fPartGroupsMap.begin(),
-        iEnd   = fPartGroupsMap.end(),
+        iBegin = fPartGroupsMap.begin (),
+        iEnd   = fPartGroupsMap.end (),
         i      = iBegin;
         
       gIndenter++;
@@ -1313,8 +1313,8 @@ void musicXMLTree2MsrTranslator::showPartGroupsData (string context)
       
     if (fPartGroupsList.size()) {
       list<S_msrPartGroup>::const_iterator
-        iBegin = fPartGroupsList.begin(),
-        iEnd   = fPartGroupsList.end(),
+        iBegin = fPartGroupsList.begin (),
+        iEnd   = fPartGroupsList.end (),
         i      = iBegin;
         
       gIndenter++;
@@ -1399,8 +1399,8 @@ void musicXMLTree2MsrTranslator::handlePartGroupStart (
     // to have them ordered by increasing order
     // (all of them are negative)
     list<S_msrPartGroup>::const_iterator
-      iBegin = fPartGroupsList.begin(),
-      iEnd   = fPartGroupsList.end(),
+      iBegin = fPartGroupsList.begin (),
+      iEnd   = fPartGroupsList.end (),
       i      = iBegin;
 
     while (true) {
@@ -1460,8 +1460,8 @@ void musicXMLTree2MsrTranslator::handlePartGroupStop (int inputLineNumber)
       endl;
 
   list<S_msrPartGroup>::const_iterator
-    iBegin = fPartGroupsList.begin(),
-    iEnd   = fPartGroupsList.end(),
+    iBegin = fPartGroupsList.begin (),
+    iEnd   = fPartGroupsList.end (),
     i      = iBegin;
 
   while (true) {
@@ -2057,9 +2057,9 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_clef& elt )
 
   // convert clef to upper case for analysis
   transform (
-    fCurrentClefSign.begin(),
-    fCurrentClefSign.end(),
-    fCurrentClefSign.begin(),
+    fCurrentClefSign.begin (),
+    fCurrentClefSign.end (),
+    fCurrentClefSign.begin (),
     ::toupper);
 
   msrClef::msrClefKind clefKind;
@@ -2443,7 +2443,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_key_step& elt )
   // insert it into the items vector
   fCurrentHumdrumScotKeyItemsVector.
     insert (
-      fCurrentHumdrumScotKeyItemsVector.end(),
+      fCurrentHumdrumScotKeyItemsVector.end (),
       fCurrentHumdrumScotKeyItem);
 }
 
@@ -2535,8 +2535,8 @@ If the cancel attribute is
     int counter = 0;
     for (
       vector<S_msrHumdrumScotKeyItem>::const_iterator i=
-        fCurrentHumdrumScotKeyItemsVector.begin();
-      i!=fCurrentHumdrumScotKeyItemsVector.end();
+        fCurrentHumdrumScotKeyItemsVector.begin ();
+      i!=fCurrentHumdrumScotKeyItemsVector.end ();
       i++) {
       fLogOutputStream <<
         ++counter << ": " << (*i) <<
@@ -2729,8 +2729,8 @@ S_msrKey musicXMLTree2MsrTranslator::handleHumdrumScotKey (
   if (fCurrentHumdrumScotKeyItemsVector.size ()) {
     for (
       vector<S_msrHumdrumScotKeyItem>::const_iterator i=
-        fCurrentHumdrumScotKeyItemsVector.begin();
-      i!=fCurrentHumdrumScotKeyItemsVector.end();
+        fCurrentHumdrumScotKeyItemsVector.begin ();
+      i!=fCurrentHumdrumScotKeyItemsVector.end ();
       i++) {
       key->
         appendHumdrumScotKeyItem ((*i));
@@ -2878,8 +2878,8 @@ void musicXMLTree2MsrTranslator::visitStart ( S_beat_type& elt )
   if (beatNumbers.size ()) {
     // append the beats numbers to the time item
     for (
-      list<int>::const_iterator i = beatNumbers.begin();
-      i != beatNumbers.end();
+      list<int>::const_iterator i = beatNumbers.begin ();
+      i != beatNumbers.end ();
       i++) {
       timeItem->
         appendBeatsNumber ((*i));
@@ -2898,7 +2898,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_beat_type& elt )
 
   // append the time item to the current time items vector
   fCurrentTimeItemsVector.insert (
-    fCurrentTimeItemsVector.end(),
+    fCurrentTimeItemsVector.end (),
     timeItem);
 }
  
@@ -3063,8 +3063,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_time& elt )
   if (fCurrentTimeItemsVector.size ()) {
     for (
       vector<S_msrTimeItem>::const_iterator i =
-        fCurrentTimeItemsVector.begin();
-      i!=fCurrentTimeItemsVector.end();
+        fCurrentTimeItemsVector.begin ();
+      i!=fCurrentTimeItemsVector.end ();
       i++) {
       fCurrentTime->
         appendTimeItem ((*i));
@@ -5367,7 +5367,7 @@ void musicXMLTree2MsrTranslator::visitStart ( S_text& elt )
   // text may be composed of only spaces, so:
   string dest;
   for_each (
-    text.begin(), text.end(), stringSpaceRemover (dest));
+    text.begin (), text.end (), stringSpaceRemover (dest));
 
   if (fCurrentLyricElision)
     fCurrentLyricText += " " + dest; // append to a list? JMI
@@ -5771,8 +5771,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
   // append the lyric texts to the syllable
   for (
-    list<string>::const_iterator i = fCurrentLyricTextsList.begin();
-    i!=fCurrentLyricTextsList.end();
+    list<string>::const_iterator i = fCurrentLyricTextsList.begin ();
+    i!=fCurrentLyricTextsList.end ();
     i++) {
     syllable->
       appendLyricTextToSyllable ((*i));
@@ -12811,8 +12811,8 @@ void musicXMLTree2MsrTranslator::copyNoteArticulationsToChord (
                           
   list<S_msrArticulation>::const_iterator i;
   for (
-    i=noteArticulations.begin();
-    i!=noteArticulations.end();
+    i=noteArticulations.begin ();
+    i!=noteArticulations.end ();
     i++) {
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes)
@@ -12840,8 +12840,8 @@ void musicXMLTree2MsrTranslator::copyNoteTechnicalsToChord (
                           
   list<S_msrTechnical>::const_iterator i;
   for (
-    i=noteTechnicals.begin();
-    i!=noteTechnicals.end();
+    i=noteTechnicals.begin ();
+    i!=noteTechnicals.end ();
     i++) {
 
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
@@ -12869,8 +12869,8 @@ void musicXMLTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
                           
   list<S_msrTechnicalWithInteger>::const_iterator i;
   for (
-    i=noteTechnicalWithIntegers.begin();
-    i!=noteTechnicalWithIntegers.end();
+    i=noteTechnicalWithIntegers.begin ();
+    i!=noteTechnicalWithIntegers.end ();
     i++) {
 
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
@@ -12898,8 +12898,8 @@ void musicXMLTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
                           
   list<S_msrTechnicalWithString>::const_iterator i;
   for (
-    i=noteTechnicalWithStrings.begin();
-    i!=noteTechnicalWithStrings.end();
+    i=noteTechnicalWithStrings.begin ();
+    i!=noteTechnicalWithStrings.end ();
     i++) {
 
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
@@ -12927,8 +12927,8 @@ void musicXMLTree2MsrTranslator::copyNoteOrnamentsToChord (
                           
   list<S_msrOrnament>::const_iterator i;
   for (
-    i=noteOrnaments.begin();
-    i!=noteOrnaments.end();
+    i=noteOrnaments.begin ();
+    i!=noteOrnaments.end ();
     i++) {
 
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) // JMI
@@ -12982,8 +12982,8 @@ void musicXMLTree2MsrTranslator::copyNoteDynamicsToChord (
                           
   list<S_msrDynamics>::const_iterator i;
   for (
-    i=noteDynamics.begin();
-    i!=noteDynamics.end();
+    i=noteDynamics.begin ();
+    i!=noteDynamics.end ();
     i++) {
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics)
@@ -13012,8 +13012,8 @@ void musicXMLTree2MsrTranslator::copyNoteOtherDynamicsToChord (
                           
   list<S_msrOtherDynamics>::const_iterator i;
   for (
-    i=noteOtherDynamics.begin();
-    i!=noteOtherDynamics.end();
+    i=noteOtherDynamics.begin ();
+    i!=noteOtherDynamics.end ();
     i++) {
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics)
@@ -13042,8 +13042,8 @@ void musicXMLTree2MsrTranslator::copyNoteWordsToChord (
                           
   list<S_msrWords>::const_iterator i;
   for (
-    i=noteWords.begin();
-    i!=noteWords.end();
+    i=noteWords.begin ();
+    i!=noteWords.end ();
     i++) {
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceWords)
@@ -13072,8 +13072,8 @@ void musicXMLTree2MsrTranslator::copyNoteBeamsToChord (
                           
   list<S_msrBeam>::const_iterator i;
   for (
-    i=noteBeams.begin();
-    i!=noteBeams.end();
+    i=noteBeams.begin ();
+    i!=noteBeams.end ();
     i++) {
 
     if (gGeneralOptions->fTraceBeams || gGeneralOptions->fTraceChords)
@@ -13102,8 +13102,8 @@ void musicXMLTree2MsrTranslator::copyNoteSlursToChord (
                           
   list<S_msrSlur>::const_iterator i;
   for (
-    i=noteSlurs.begin();
-    i!=noteSlurs.end();
+    i=noteSlurs.begin ();
+    i!=noteSlurs.end ();
     i++) {
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceSlurs)
@@ -13132,8 +13132,8 @@ void musicXMLTree2MsrTranslator::copyNoteLigaturesToChord (
                           
   list<S_msrLigature>::const_iterator i;
   for (
-    i=noteLigatures.begin();
-    i!=noteLigatures.end();
+    i=noteLigatures.begin ();
+    i!=noteLigatures.end ();
     i++) {
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceLigatures)
@@ -13162,8 +13162,8 @@ void musicXMLTree2MsrTranslator::copyNoteWedgesToChord (
                           
   list<S_msrWedge>::const_iterator i;
   for (
-    i=noteWedges.begin();
-    i!=noteWedges.end();
+    i=noteWedges.begin ();
+    i!=noteWedges.end ();
     i++) {
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceWedges)
@@ -13617,8 +13617,8 @@ void musicXMLTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
 
     list<S_msrArticulation>::const_iterator i;
     for (
-      i=fCurrentArticulations.begin();
-      i!=fCurrentArticulations.end();
+      i=fCurrentArticulations.begin ();
+      i!=fCurrentArticulations.end ();
       i++) {
       if (gGeneralOptions->fTraceChords)
         fLogOutputStream <<
@@ -13647,8 +13647,8 @@ void musicXMLTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
 
     list<S_msrOrnament>::const_iterator i;
     for (
-      i=fCurrentOrnamentsList.begin();
-      i!=fCurrentOrnamentsList.end();
+      i=fCurrentOrnamentsList.begin ();
+      i!=fCurrentOrnamentsList.end ();
       i++) {
       if (gGeneralOptions->fTraceChords)
         fLogOutputStream <<
@@ -14462,8 +14462,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
     // attach pending figures to the figured bass
     if (fPendingFiguredBassFigures.size ()) {
       for (
-        list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin();
-        i!=fPendingFiguredBassFigures.end();
+        list<S_msrFigure>::const_iterator i=fPendingFiguredBassFigures.begin ();
+        i!=fPendingFiguredBassFigures.end ();
         i++) {
         figuredBass->
           appendFiguredFigureToFiguredBass ((*i));
@@ -14538,8 +14538,8 @@ void musicXMLTree2MsrTranslator::visitEnd ( S_note& elt )
   // attach the beams if any to the note
   if (fPendingBeams.size ()) {
     for (
-      vector<S_msrBeam>::const_iterator i=fPendingBeams.begin();
-      i!=fPendingBeams.end();
+      vector<S_msrBeam>::const_iterator i=fPendingBeams.begin ();
+      i!=fPendingBeams.end ();
       i++) {
       newNote->
         addBeamToNote ((*i));
@@ -14947,8 +14947,8 @@ void musicXMLTree2MsrTranslator::handleLyrics (
       
     for (
       list<S_msrSyllable>::const_iterator i =
-        fCurrentNoteSyllables.begin();
-      i != fCurrentNoteSyllables.end();
+        fCurrentNoteSyllables.begin ();
+      i != fCurrentNoteSyllables.end ();
       i++ ) {
       S_msrSyllable
         syllable = (*i);
@@ -15801,8 +15801,8 @@ void musicXMLTree2MsrTranslator::displayLastHandledNoteInVoice (string header)
   
   else {
     map<S_msrVoice, S_msrNote>::const_iterator
-      iBegin = fLastHandledNoteInVoice.begin(),
-      iEnd   = fLastHandledNoteInVoice.end(),
+      iBegin = fLastHandledNoteInVoice.begin (),
+      iEnd   = fLastHandledNoteInVoice.end (),
       i      = iBegin;
       
     fLogOutputStream << endl;
@@ -15839,8 +15839,8 @@ void musicXMLTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
   
   else {
     map<S_msrVoice, S_msrTuplet>::const_iterator
-      iBegin = fLastHandledTupletInVoice.begin(),
-      iEnd   = fLastHandledTupletInVoice.end(),
+      iBegin = fLastHandledTupletInVoice.begin (),
+      iEnd   = fLastHandledTupletInVoice.end (),
       i      = iBegin;
       
     fLogOutputStream << endl;

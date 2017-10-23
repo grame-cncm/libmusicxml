@@ -980,8 +980,8 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
       "'";
       
     set<int>::const_iterator
-      iBegin = fTraceDetailedMeasureNumbersSet.begin(),
-      iEnd   = fTraceDetailedMeasureNumbersSet.end(),
+      iBegin = fTraceDetailedMeasureNumbersSet.begin (),
+      iEnd   = fTraceDetailedMeasureNumbersSet.end (),
       i      = iBegin;
       
     for ( ; ; ) {
