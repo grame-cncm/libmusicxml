@@ -58,11 +58,11 @@ void musicXMLTree2MsrTranslator::initializeNoteData ()
   
   fCurrentNoteGraphicDuration = k_NoDuration;
 
-  fCurrentNoteOctave = K_NO_OCTAVE;
+  fCurrentNoteOctave = msrNote::K_NO_OCTAVE;
 
   fCurrentNoteQuarterTonesDisplayPitch = k_NoQuarterTonesPitch;
   fCurrentDisplayDiatonicPitch = k_NoDiatonicPitch;  
-  fCurrentDisplayOctave = K_NO_OCTAVE;
+  fCurrentDisplayOctave = msrNote::K_NO_OCTAVE;
 
   fCurrentNoteIsARest = false;
   fCurrentRestMeasure = false;
@@ -5888,8 +5888,7 @@ void musicXMLTree2MsrTranslator::visitEnd (S_measure& elt)
   }
 
   // finalize current measure in the part,
-  // to set measures kinds
-  // and update silent and harmony voices // ??? JMI
+  // to set measures kind
   fCurrentPart->
     finalizeCurrentMeasureInPart (
       inputLineNumber);
@@ -7215,13 +7214,13 @@ void musicXMLTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
   fCurrentNoteAlteration    = kNatural;
 
-  fCurrentNoteOctave = K_NO_OCTAVE;
+  fCurrentNoteOctave = msrNote::K_NO_OCTAVE;
 
   fCurrentNoteSoundingWholeNotes             = rational (0, 1);
   fCurrentNoteSoundingWholeNotesFromDuration = rational (0, 1);
 
   fCurrentDisplayDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentDisplayOctave        = K_NO_OCTAVE;
+  fCurrentDisplayOctave        = msrNote::K_NO_OCTAVE;
   fCurrentNoteDisplayWholeNotes         = rational (0, 1);
   fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
   

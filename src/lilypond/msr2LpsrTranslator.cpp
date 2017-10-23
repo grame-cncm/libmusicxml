@@ -1185,19 +1185,6 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         }
       }
       break;
-      
-    case msrVoice::kSilentVoice:
-      // create a voice clone
-      fCurrentVoiceClone =
-        elt->createVoiceNewbornClone (
-          fCurrentStaffClone);
-            
-      // add it to the staff clone
-      fCurrentStaffClone->
-        registerVoiceInStaff (
-          inputLineNumber, fCurrentVoiceClone);
-    
-      break;
   } // switch
 
   // clear the voice notes map
@@ -1234,10 +1221,6 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
       
     case msrVoice::kFiguredBassVoice:
       fOnGoingFiguredBassVoice = false;
-      break;
-      
-    case msrVoice::kSilentVoice:
-      // JMI
       break;
   } // switch
 }

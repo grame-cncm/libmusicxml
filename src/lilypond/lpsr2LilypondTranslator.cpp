@@ -3087,9 +3087,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       break;
   } // switch
 
- // if (voice->getStaffRelativeVoiceNumber () > 0) { JMI
-    // don't include the silent voice in the staff by default
-    
+ // if (voice->getStaffRelativeVoiceNumber () > 0) { JMI    
     fLilypondIOstream <<
       "\\context " << voiceContextName << " = " "\"" <<
       voice->getVoiceName () << "\"" << " <<" <<
@@ -3580,12 +3578,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
         "\\figuremode {" <<
         endl;
       break;
-      
-    case msrVoice::kSilentVoice:
-      fLilypondIOstream <<
-        "{" <<
-        endl;
-      break;
   } // switch
 
   gIndenter++;
@@ -3671,9 +3663,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     case msrVoice::kFiguredBassVoice:
       fOnGoingFiguredBassVoice = true;
       break;
-      
-    case msrVoice::kSilentVoice:
-      break;
   } // switch
 
   // force durations to be displayed explicitly
@@ -3728,13 +3717,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
         endl <<
         endl;
       break;
-      
-    case msrVoice::kSilentVoice:
-      fLilypondIOstream <<
-        "}" <<
-        endl <<
-        endl;
-      break;
   } // switch
 
   switch (elt->getVoiceKind ()) {
@@ -3753,9 +3735,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       
     case msrVoice::kFiguredBassVoice:
       fOnGoingFiguredBassVoice = false;
-      break;
-      
-    case msrVoice::kSilentVoice:
       break;
   } // switch
 

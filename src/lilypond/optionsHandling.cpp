@@ -32,10 +32,10 @@ namespace MusicXML2
 
 #define TRACE_OPTIONS 0
 
-#define OPTIONS_ELEMENTS_IDTR_OFFSET 3
+const int K_OPTIONS_ELEMENTS_INDENTER_OFFSET = 3;
   // indent a bit more for readability
 
-#define FIELD_WIDTH 40
+const int K_FIELD_WIDTH = 40;
 
 //______________________________________________________________________________
 S_msrOptionsElement msrOptionsElement::create (
@@ -178,14 +178,14 @@ void msrOptionsElement::printHeader (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   
   os <<
     gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 }
 
 void msrOptionsElement::printElementEssentials (
@@ -229,14 +229,14 @@ void msrOptionsElement::printHelp (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   
   os <<
     gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
@@ -353,7 +353,7 @@ msrOptionsVersionItem::~msrOptionsVersionItem()
 
 void msrOptionsVersionItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsVersionItem:" <<
@@ -418,7 +418,7 @@ msrOptionsHelpSummaryItem::~msrOptionsHelpSummaryItem()
 
 void msrOptionsHelpSummaryItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsHelpSummaryItem:" <<
@@ -590,7 +590,7 @@ void msrOptionsCombinedItemsItem::setCombinedItemsVariablesValue (
 
 void msrOptionsCombinedItemsItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsCombinedItemsItem:" <<
@@ -648,7 +648,7 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   
   os <<
     gIndenter.indentMultiLineString (
@@ -687,7 +687,7 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
   os <<
     endl;
 
-  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
     
   os <<
     endl;
@@ -790,7 +790,7 @@ msrOptionsBooleanItem::~msrOptionsBooleanItem()
 
 void msrOptionsBooleanItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsBooleanItem:" <<
@@ -886,7 +886,7 @@ msrOptionsTwoBooleansItem::~msrOptionsTwoBooleansItem()
 
 void msrOptionsTwoBooleansItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsTwoBooleansItem:" <<
@@ -1035,14 +1035,14 @@ void msrOptionsValuedItem::printHelp (ostream& os) const
     endl;
 
   // indent a bit more for readability
-  gIndenter.increment (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.increment (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
   
   os <<
     gIndenter.indentMultiLineString (
       fOptionsElementDescription) <<
     endl;
 
-  gIndenter.decrement (OPTIONS_ELEMENTS_IDTR_OFFSET);
+  gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 }
 
 void msrOptionsValuedItem::printOptionsValues (
@@ -1094,7 +1094,7 @@ msrOptionsItemHelpItem::~msrOptionsItemHelpItem()
 
 void msrOptionsItemHelpItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsItemHelpItem:" <<
@@ -1158,7 +1158,7 @@ msrOptionsIntegerItem::~msrOptionsIntegerItem()
 
 void msrOptionsIntegerItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsIntegerItem:" <<
@@ -1244,7 +1244,7 @@ msrOptionsFloatItem::~msrOptionsFloatItem()
 
 void msrOptionsFloatItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsFloatItem:" <<
@@ -1330,7 +1330,7 @@ msrOptionsStringItem::~msrOptionsStringItem()
 
 void msrOptionsStringItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsStringItem:" <<
@@ -1418,7 +1418,7 @@ msrOptionsRationalItem::~msrOptionsRationalItem()
 
 void msrOptionsRationalItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsRationalItem:" <<
@@ -1502,7 +1502,7 @@ msrOptionsNumbersSetItem::~msrOptionsNumbersSetItem()
 
 void msrOptionsNumbersSetItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsNumbersSetItem:" <<
@@ -1638,7 +1638,7 @@ msrOptionsPitchesLanguageItem::~msrOptionsPitchesLanguageItem()
 
 void msrOptionsPitchesLanguageItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsPitchesLanguageItem:" <<
@@ -1728,7 +1728,7 @@ msrOptionsAccidentalStyleItem::~msrOptionsAccidentalStyleItem()
 
 void msrOptionsAccidentalStyleItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsAccidentalStyleItem:" <<
@@ -1818,7 +1818,7 @@ msrOptionsChordsLanguageItem::~msrOptionsChordsLanguageItem()
 
 void msrOptionsChordsLanguageItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsChordsLanguageItem:" <<
@@ -1907,7 +1907,7 @@ msrOptionsPartRenameItem::~msrOptionsPartRenameItem()
 
 void msrOptionsPartRenameItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsPartRenameItem:" <<
@@ -2039,7 +2039,7 @@ msrOptionsMidiTempoItem::~msrOptionsMidiTempoItem()
 
 void msrOptionsMidiTempoItem::print (ostream& os) const
 {
-  const int fieldWidth = FIELD_WIDTH;
+  const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
     "OptionsMidiTempoItem:" <<

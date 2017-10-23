@@ -4756,11 +4756,11 @@ class EXP msrNote : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_OCTAVE -1
+    static const int K_NO_OCTAVE;
 
-    #define K_NO_MEASURE_NUMBER "unknown"
+    static const string K_NO_MEASURE_NUMBER;
   
-    #define K_NO_POSITION_MEASURE_NUMBER rational(-20022, 1)
+    static const rational K_NO_POSITION_MEASURE_NUMBER;
 
     // data types
     // ------------------------------------------------------
@@ -7102,7 +7102,7 @@ class EXP msrStanza : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_MUTE_STANZA_NUMBER "MUTE_STANZA"
+    const string K_MUTE_STANZA_NUMBER = "MUTE_STANZA";
     
     // data types
     // ------------------------------------------------------
@@ -8654,11 +8654,6 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
 class EXP msrVoice : public msrElement
 {
   public:
-
-    // constants
-    // ------------------------------------------------------
-
-    #define K_SILENT_VOICE_NUMBER -117
     
     // data types
     // ------------------------------------------------------
@@ -8666,9 +8661,8 @@ class EXP msrVoice : public msrElement
     enum msrVoiceKind {
       kMasterVoice,
       kRegularVoice,
-      kHarmonyVoice,     // for MusicXML <harmony/>, LilyPond ChordNames
-      kFiguredBassVoice, // for MusicXML <figured-bass/>, LilyPond ChordNames
-      kSilentVoice };    // for voices that don't start at the very beginning
+      kHarmonyVoice,      // for MusicXML <harmony/>, LilyPond ChordNames
+      kFiguredBassVoice }; // for MusicXML <figured-bass/>, LilyPond ChordNames
           
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
@@ -9625,11 +9619,6 @@ class EXP msrStaff : public msrElement
                           getStaffAllVoicesMap () const
                               { return fStaffAllVoicesMap; }
 
-    // staff silent voice
-    
-    const S_msrVoice      getStaffSilentVoice () const
-                              { return fStaffSilentVoice; }
-
     // measures
     
     void                  createMeasureAndAppendItToStaff (
@@ -9692,9 +9681,6 @@ class EXP msrStaff : public msrElement
                             int inputLineNumber,
                             int voicePartRelativeID);
 
-    void                  createStaffSilentVoice (
-                            int inputLineNumber);
-  
     const int             getStaffNumberOfMusicVoices () const;
 
     // repeats
@@ -9817,13 +9803,6 @@ class EXP msrStaff : public msrElement
                             //numbered 1 to gMaxStaffVoices
                               
     map<int, S_msrVoice>  fStaffAllVoicesMap;
-                            // [K_SILENT_VOICE_NUMBER] is used
-                            // for the staff silent voice
-
-    // voice that to not start at the very beginning of the staff
-    // are initialized as deep clones of the staff silent voice,
-    // in order to 'fill the gap'
-    S_msrVoice            fStaffSilentVoice;
 
     // clef, key, time
     
@@ -9928,14 +9907,14 @@ class EXP msrPart : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_PART_MASTER_STAFF_NUMBER -19  
-    #define K_PART_MASTER_VOICE_NUMBER -27
+    const int K_PART_MASTER_STAFF_NUMBER;
+    const int K_PART_MASTER_VOICE_NUMBER;
     
-    #define K_PART_HARMONY_STAFF_NUMBER -119  
-    #define K_PART_HARMONY_VOICE_NUMBER -127
+    const int K_PART_HARMONY_STAFF_NUMBER;  
+    const int K_PART_HARMONY_VOICE_NUMBER;
     
-    #define K_PART_FIGURED_BASS_STAFF_NUMBER -219  
-    #define K_PART_FIGURED_BASS_VOICE_NUMBER -227
+    const int K_PART_FIGURED_BASS_STAFF_NUMBER;  
+    const int K_PART_FIGURED_BASS_VOICE_NUMBER;
     
     // creation from MusicXML
     // ------------------------------------------------------

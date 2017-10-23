@@ -676,8 +676,6 @@ R"(Generate the '\midi' block as a comment instead of active code.)",
 
   fKeepStaffSize = boolOptionsInitialValue;
 
-  fSilentVoices = boolOptionsInitialValue;
-
 
   /* JMI
   for (
@@ -838,9 +836,6 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fKeepStaffSize =
     fKeepStaffSize;
     
-  clone->fSilentVoices =
-    fSilentVoices;
-
   return clone;
 }
 

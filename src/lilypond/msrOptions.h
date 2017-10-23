@@ -80,26 +80,27 @@ class EXP msrOptions : public msrOptionsGroup
     bool                  fDisplayMsr;
     
     bool                  fDisplayMsrSummary;
+
     
     // languages
     // --------------------------------------
     
     msrQuarterTonesPitchesLanguage
                           fMsrQuarterTonesPitchesLanguage;
+
     
     // parts
     // --------------------------------------
     
     map<string, string>   fPartsRenamingMap;
 
+
     // voices
     // --------------------------------------
     
     bool                  fCreateVoicesStaffRelativeNumbers;
-    
-    bool                  fShowSilentVoices;
-    bool                  fKeepSilentVoices;
 
+    
     // notes
     // --------------------------------------
     
@@ -109,17 +110,20 @@ class EXP msrOptions : public msrOptionsGroup
     bool                  fDelayRestsLigatures; // JMI
     bool                  fDelayRestsWedges; // JMI
 
+
     // lyrics
     // --------------------------------------
     
     bool                  fShowMsrStanzas;
     bool                  fKeepMuteStanzas;
+
     
     // harmonies
     // --------------------------------------
     
     bool                  fShowHarmonyVoices;
     bool                  fKeepEmptyHarmonyVoices;
+
     
     // figured bass
     // --------------------------------------

@@ -185,8 +185,6 @@ class EXP lilypondOptions : public msrOptionsGroup
 
     bool                  fKeepStaffSize; // JMI
 
-    bool                  fSilentVoices; // JMI
-
   private: // JMI
 
 };

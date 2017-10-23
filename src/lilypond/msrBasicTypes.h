@@ -405,7 +405,7 @@ string harmonyKindAsShortString (
   msrHarmonyKind harmonyKind);
 
 // constant
-#define K_HARMONY_NO_INVERSION -1
+const int K_HARMONY_NO_INVERSION = -1;
 
 // quarter tones pitches
 //______________________________________________________________________________

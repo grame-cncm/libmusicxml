@@ -226,10 +226,7 @@ There can be several occurrences of this option.)",
     // variables
     
     fCreateVoicesStaffRelativeNumbers = boolOptionsInitialValue;
-    
-    fShowSilentVoices = boolOptionsInitialValue;
-    fKeepSilentVoices = boolOptionsInitialValue;
-  
+      
     // options
   
     S_msrOptionsSubGroup voicesSubGroup =
@@ -251,25 +248,8 @@ By default, the voice numbers found are used,
 which may be global to the score.)",
           "createVoicesStaffRelativeNumbers",
           fCreateVoicesStaffRelativeNumbers));
-
-    voicesSubGroup->
-      appendOptionsItem (
-        msrOptionsBooleanItem::create (
-          "ssv", "showSilentVoices",
-R"(Show the staves silent voices used internally
-even when they are empty.)",
-          "showSilentVoices",
-          fShowSilentVoices));
-
-    voicesSubGroup->
-      appendOptionsItem (
-        msrOptionsBooleanItem::create (
-          "ksv", "keepSilentVoices",
-R"(Keep the silent voices used internally.
-By default, there are removed after usage.)",
-          "keepSilentVoices",
-          fKeepSilentVoices));
   }
+
 
   // notes
   // --------------------------------------
@@ -336,6 +316,7 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
           fDelayRestsWedges));
   }
 
+
   // lyrics
   // --------------------------------------
 
@@ -374,6 +355,7 @@ By default, there are removed after usage.)",
           "keepMuteStanzas",
           fKeepMuteStanzas));
   }     
+
 
   // harmonies
   // --------------------------------------
@@ -415,6 +397,7 @@ It is thrown away in such a case by default.)",
           "keepEmptyHarmonyVoices",
           fKeepEmptyHarmonyVoices));
   }
+
 
   // figured bass
   // --------------------------------------
@@ -506,11 +489,6 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   
   clone->fCreateVoicesStaffRelativeNumbers =
     fCreateVoicesStaffRelativeNumbers;
-
-  clone->fShowSilentVoices =
-    fShowSilentVoices;
-  clone->fKeepSilentVoices =
-    fKeepSilentVoices;
 
 
   // notes
@@ -675,16 +653,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     setw (fieldWidth) <<
     "createVoicesStaffRelativeNumbers" << " : " <<
     booleanAsString (fCreateVoicesStaffRelativeNumbers) <<
-    endl <<
-  
-    setw (fieldWidth) <<
-    "showSilentVoices" << " : " <<
-      booleanAsString (fShowSilentVoices) <<
-      endl <<
-    setw (fieldWidth) <<
-      "keepSilentVoices" << " : " <<
-      booleanAsString (fKeepSilentVoices) <<
-      endl;
+    endl;
 
   gIndenter--;
 
