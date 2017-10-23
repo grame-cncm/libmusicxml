@@ -271,6 +271,69 @@ void runPass4 (
   }
 }
 
+void convertMusicXMLToLilypond (
+  string     inputSourceName,
+  string     outputFileName)
+{
+  // create the MSR skeleton from MusicXML contents (pass 2a)
+  // ------------------------------------------------------
+
+  S_msrScore
+    mScore =
+      runPass2a (
+        inputSourceName, outputFileName);
+
+  if (! mScore) {
+    gLogIOstream <<
+      "### Conversion from MusicCML to an MSR skeleton failed ###" <<
+      endl <<
+      endl;
+
+    exit (1);
+  }
+
+  if (gGeneralOptions->fExit2a)
+    return;
+    
+  // create the MSR from MusicXML contents (pass 2b)
+  // ------------------------------------------------------
+
+  runPass2b (
+    inputSourceName, outputFileName,
+    mScore);
+  
+  if (gGeneralOptions->fExit2b)
+    return;
+    
+  // create the LPSR from the MSR (pass 3)
+  // ------------------------------------------------------
+
+  S_lpsrScore
+    lpScore =
+      runPass3 (
+        outputFileName,
+        mScore);
+
+  if (! lpScore) {
+    gLogIOstream <<
+      "### Conversion from MSR to LPSR failed ###" <<
+      endl <<
+      endl;
+      
+    exit (2);
+  }
+
+  if (gGeneralOptions->fExit3)
+    return;
+    
+  // generate LilyPond code from the LPSR (pass 4)
+  // ------------------------------------------------------
+
+  runPass4 (
+    outputFileName,
+    lpScore);
+}
+
 //_______________________________________________________________________________
 int main (int argc, char *argv[]) 
 {
@@ -411,62 +474,13 @@ int main (int argc, char *argv[])
       endl;
   }
 
-  // create the MSR skeleton from MusicXML contents (pass 2a)
+  
+  // do the translation
   // ------------------------------------------------------
 
-  S_msrScore
-    mScore =
-      runPass2a (
-        inputSourceName, outputFileName);
-
-  if (! mScore) {
-    gLogIOstream <<
-      "### Conversion from MusicCML to an MSR skeleton failed ###" <<
-      endl <<
-      endl;
-
-    exit (1);
-  }
-
-  else if (! gGeneralOptions->fExit2a) {
-    
-    // create the MSR from MusicXML contents (pass 2b)
-    // ------------------------------------------------------
-
-    runPass2b (
-      inputSourceName, outputFileName,
-      mScore);
-    
-    if (! gGeneralOptions->fExit2b) {
-      
-      // create the LPSR from the MSR (pass 3)
-      // ------------------------------------------------------
-
-      S_lpsrScore
-        lpScore =
-          runPass3 (
-            outputFileName,
-            mScore);
-
-      if (! lpScore) {
-        gLogIOstream <<
-          "### Conversion from MSR to LPSR failed ###" <<
-          endl <<
-          endl;
-        return 1;
-      }
-
-      else if (! gGeneralOptions->fExit3) {
-        
-        // generate LilyPond code from the LPSR (pass 4)
-        // ------------------------------------------------------
-    
-        runPass4 (
-          outputFileName,
-          lpScore);
-      }
-    }
-  }
+  convertMusicXMLToLilypond (
+    inputSourceName,
+    outputFileName);
 
   // print timing information
   // ------------------------------------------------------
