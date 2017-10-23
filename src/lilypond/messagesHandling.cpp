@@ -31,25 +31,25 @@ void msrWarning (
 {
   const int fieldWidth = 18;
 
-  gLogIOstream << left <<
+  gLogIOstream <<
     endl <<
     "!!! " << context << " WARNING !!!" <<
-    endl <<
+    endl;  
+
+  gLogIOstream << left <<
+    gTab << gTab <<
     setw (fieldWidth) <<
     "input source name" << " : " <<
     inputSourceName <<
     endl <<
+    gTab << gTab <<
     setw (fieldWidth) <<
     "input line" << " : " << inputLineNumber <<
-    endl <<
-
-  gIndenter++;
+    endl;
 
   gLogIOstream <<
     message <<
     endl;
-
-  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -97,25 +97,25 @@ void msrError (
 {
   const int fieldWidth = 18;
 
-  gLogIOstream << left <<
+  gLogIOstream <<
     endl <<
     "### " << context << " ERROR ###" <<
-    endl <<
+    endl;
+  
+  gLogIOstream << left <<
+    gTab << gTab <<
     setw (fieldWidth) <<
     "input source name" << " : " <<
     inputSourceName <<
     endl <<
+    gTab << gTab <<
     setw (fieldWidth) <<
     "input line" << " : " << inputLineNumber <<
-    endl <<
-
-  gIndenter++;
+    endl;
 
   gLogIOstream <<
     message <<
     endl;
-
-  gIndenter--;
 }
 
 

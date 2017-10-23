@@ -177,22 +177,33 @@ Usage:
 
     public:
 
+      // constructor
       indentedStreamBuf (
         ostream& str,
         indenter& idtr)
         : fOutput (str),
           fIndenter (idtr)
-      {}
+        {}
 
+      // flush
+      void flush ()
+        {
+          fOutput.flush ();
+        }
+    
       // When we sync the stream with fOutput:
       // 1) uutput the indentation then the buffer
       // 2) reset the buffer
       // 3) flush the actual output stream we are using.
-      virtual int sync ( )
+      virtual int sync ()
       {
-        fOutput << fIndenter << str ();
+        fOutput <<
+          fIndenter << str ();
+          
         str ("");
+        
         fOutput.flush ();
+        
         return 0;
       }
   };
@@ -211,12 +222,16 @@ Usage:
       : ostream (&fIndentedStreamBuf),
         fIndentedStreamBuf (
           str, idtr)
-    {}
+      {}
 
     // destructor
     virtual ~indentedOstream ()
-    {};
+      {};
 
+    // flush
+    void flush ()
+      { fIndentedStreamBuf.flush (); }
+    
     // global variable for general use
     static indentedOstream
                           gLogIndentedOstream; 
