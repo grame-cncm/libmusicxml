@@ -4756,11 +4756,9 @@ class EXP msrNote : public msrElement
     // constants
     // ------------------------------------------------------
 
-    static const int K_NO_OCTAVE;
-
-    static const string K_NO_MEASURE_NUMBER;
-  
-    static const rational K_NO_POSITION_MEASURE_NUMBER;
+    #define K_NO_OCTAVE -1
+    #define K_NO_MEASURE_NUMBER "unknown"
+    #define K_NO_POSITION_MEASURE_NUMBER rational(-22, 1)
 
     // data types
     // ------------------------------------------------------
@@ -9630,7 +9628,7 @@ class EXP msrStaff : public msrElement
 
     // staff number
     
-    string                staffNumberAsString () const;
+    string                staffNumberAsString ();
 
     // staff details
     
@@ -9907,15 +9905,15 @@ class EXP msrPart : public msrElement
     // constants
     // ------------------------------------------------------
 
-    const int K_PART_MASTER_STAFF_NUMBER;
-    const int K_PART_MASTER_VOICE_NUMBER;
+    #define K_PART_MASTER_STAFF_NUMBER -19
+    #define K_PART_MASTER_VOICE_NUMBER -27
     
-    const int K_PART_HARMONY_STAFF_NUMBER;  
-    const int K_PART_HARMONY_VOICE_NUMBER;
+    #define K_PART_HARMONY_STAFF_NUMBER -119  
+    #define K_PART_HARMONY_VOICE_NUMBER -127
     
-    const int K_PART_FIGURED_BASS_STAFF_NUMBER;  
-    const int K_PART_FIGURED_BASS_VOICE_NUMBER;
-    
+    #define K_PART_FIGURED_BASS_STAFF_NUMBER -219  
+    #define K_PART_FIGURED_BASS_VOICE_NUMBER -227
+
     // creation from MusicXML
     // ------------------------------------------------------
 

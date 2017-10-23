@@ -21506,13 +21506,7 @@ void msrHarpPedalsTuning::print (ostream& os)
 }
 
 //______________________________________________________________________________ 
-// constants
-
-const int msrNote::K_NO_OCTAVE = -1;
-const string msrNote::K_NO_MEASURE_NUMBER = "unknown";
-const rational msrNote::K_NO_POSITION_MEASURE_NUMBER = rational(-22, 1);
-
-// global variables
+// global variable
 int msrVoice::gVoicesCounter = 0;
 
 S_msrVoice msrVoice::create (
@@ -21678,12 +21672,12 @@ void msrVoice::initializeVoice (
   // check voice part-relative ID
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
-      if (fVoicePartRelativeID != part::K_PART_MASTER_VOICE_NUMBER) {
+      if (fVoicePartRelativeID != K_PART_MASTER_VOICE_NUMBER) {
         stringstream s;
     
         s <<
           "master voice number " << fVoicePartRelativeID <<
-          " is not equal to " << part::K_PART_MASTER_VOICE_NUMBER;
+          " is not equal to " << K_PART_MASTER_VOICE_NUMBER;
           
         msrInternalError (
           fInputLineNumber, s.str ());
@@ -21705,12 +21699,12 @@ void msrVoice::initializeVoice (
       break;
       
     case msrVoice::kHarmonyVoice:
-      if (fVoicePartRelativeID != part::K_PART_HARMONY_VOICE_NUMBER) {
+      if (fVoicePartRelativeID != K_PART_HARMONY_VOICE_NUMBER) {
         stringstream s;
     
         s <<
           "harmony voice number " << fVoicePartRelativeID <<
-          " is not equal to " << part::K_PART_HARMONY_VOICE_NUMBER;
+          " is not equal to " << K_PART_HARMONY_VOICE_NUMBER;
           
         msrInternalError (
           fInputLineNumber, s.str ());
@@ -21718,12 +21712,12 @@ void msrVoice::initializeVoice (
       break;
       
     case msrVoice::kFiguredBassVoice:
-      if (fVoicePartRelativeID != part::K_PART_FIGURED_BASS_VOICE_NUMBER) {
+      if (fVoicePartRelativeID != K_PART_FIGURED_BASS_VOICE_NUMBER) {
         stringstream s;
     
         s <<
           "harmony voice number " << fVoicePartRelativeID <<
-          " is not equal to " << part::K_PART_FIGURED_BASS_VOICE_NUMBER;
+          " is not equal to " << K_PART_FIGURED_BASS_VOICE_NUMBER;
           
         msrInternalError (
           fInputLineNumber, s.str ());
@@ -25782,7 +25776,7 @@ void msrStaff::setStaffCurrentKey (S_msrKey key)
   fStaffCurrentKey = key;
 };
 
-string msrStaff::staffNumberAsString () const
+string msrStaff::staffNumberAsString ()
 {
   string result;
   
@@ -27191,17 +27185,6 @@ void msrVoiceStaffChange::print (ostream& os)
 }
 
 //______________________________________________________________________________ 
-// constants
-
-const int msrPart::K_PART_MASTER_STAFF_NUMBER = -19;
-const int msrPart::K_PART_MASTER_VOICE_NUMBER = -27;
-
-const int msrPart::K_PART_HARMONY_STAFF_NUMBER = -119;  
-const int msrPart::K_PART_HARMONY_VOICE_NUMBER = -127;
-
-const int msrPart::K_PART_FIGURED_BASS_STAFF_NUMBER = -219;  
-const int msrPart::K_PART_FIGURED_BASS_VOICE_NUMBER = -227;
-    
 S_msrPart msrPart::create (
   int            inputLineNumber,
   string         partID,
