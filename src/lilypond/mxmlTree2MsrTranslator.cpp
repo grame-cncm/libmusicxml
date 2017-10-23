@@ -3626,29 +3626,51 @@ The
 */
   string wordsFontSize = elt->getAttributeValue ("font-size");
   
-  msrFontSize fontSize = k_NoFontSize; // default value
+  msrFontSizeKind fontSizeKind = k_NoFontSize; // default value
+
+  float fontSizeFloatValue = 0.0;
 
   if      (wordsFontSize == "xx-smal")
-    fontSize = kXXSmallFontSize;
+    fontSizeKind = kXXSmallFontSize;
   else if (wordsFontSize == "x-small")
-    fontSize = kXSmallFontSize;
+    fontSizeKind = kXSmallFontSize;
   else if (wordsFontSize == "small")
-    fontSize = kSmallFontSize;
+    fontSizeKind = kSmallFontSize;
   else if (wordsFontSize == "medium")
-    fontSize = kMediumFontSize;
+    fontSizeKind = kMediumFontSize;
   else if (wordsFontSize == "large")
-    fontSize = kLargeFontSize;
+    fontSizeKind = kLargeFontSize;
   else if (wordsFontSize == "x-large")
-    fontSize = kXLargeFontSize;
+    fontSizeKind = kXLargeFontSize;
   else if (wordsFontSize == "xx-large")
-    fontSize = kXXLargeFontSize;
+    fontSizeKind = kXXLargeFontSize;
   else {
-    float fontSizeFloatValue =
       elt->getAttributeFloatValue ("font-size", 0.0);
       
-    fontSize = kNumericFontSize;
+    fontSizeKind = kNumericFontSize;
   }
-  
+
+  S_msrFontSize fontSize;
+
+  switch (fontSizeKind) {
+    case k_NoFontSize:
+    case kXXSmallFontSize:
+    case kXSmallFontSize:
+    case kSmallFontSize:
+    case kMediumFontSize:
+    case kLargeFontSize:
+    case kXLargeFontSize:
+    case kXXLargeFontSize:
+      fontSize =
+        msrFontSize::create (fontSizeKind);
+      break;
+      
+    case kNumericFontSize:
+      fontSize =
+        msrFontSize::create (fontSizeFloatValue);
+      break;
+    } // switch
+    
   // font weight
 
   string wordsFontWeight = elt->getAttributeValue ("font-weight");

@@ -4272,7 +4272,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       ) {
       // handle the option item
 
-      printSpecificItemHelp (
+      printOptionsItemForcedHelp (
         fOptionsHandlerLogIOstream,
         theString);
 

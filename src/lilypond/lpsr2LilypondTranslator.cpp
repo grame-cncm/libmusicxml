@@ -6471,7 +6471,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         wordsFontStyle =
           (*i)->getWordsFontStyle ();
         
-      msrFontSize
+      S_msrFontSize
         wordsFontSize =
           (*i)->getWordsFontSize ();
         

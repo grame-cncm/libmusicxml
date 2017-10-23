@@ -11653,7 +11653,7 @@ S_msrWords msrWords::create (
   msrJustifyKind           wordsJustifyKind,
   msrVerticalAlignmentKind wordsVerticalAlignmentKind,
   msrFontStyle             wordsFontStyle,
-  msrFontSize              wordsFontSize,
+  S_msrFontSize            wordsFontSize,
   msrFontWeight            wordsFontWeight,
   msrWordsXMLLangKind      wordsXMLLangKind)
 {
@@ -11679,7 +11679,7 @@ msrWords::msrWords (
   msrJustifyKind           wordsJustifyKind,
   msrVerticalAlignmentKind wordsVerticalAlignmentKind,
   msrFontStyle             wordsFontStyle,
-  msrFontSize              wordsFontSize,
+  S_msrFontSize            wordsFontSize,
   msrFontWeight            wordsFontWeight,
   msrWordsXMLLangKind      wordsXMLLangKind)
     : msrElement (inputLineNumber)

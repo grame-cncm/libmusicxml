@@ -3994,7 +3994,7 @@ class EXP msrWords : public msrElement
       msrJustifyKind           wordsJustifyKind,
       msrVerticalAlignmentKind wordsVerticalAlignmentKind,
       msrFontStyle             wordsFontStyle,
-      msrFontSize              wordsFontSize,
+      S_msrFontSize            wordsFontSize,
       msrFontWeight            wordsFontWeight,
       msrWordsXMLLangKind      wordsXMLLangKind);
 
@@ -4010,7 +4010,7 @@ class EXP msrWords : public msrElement
       msrJustifyKind           wordsJustifyKind,
       msrVerticalAlignmentKind wordsVerticalAlignmentKind,
       msrFontStyle             wordsFontStyle,
-      msrFontSize              wordsFontSize,
+      S_msrFontSize            wordsFontSize,
       msrFontWeight            wordsFontWeight,
       msrWordsXMLLangKind      wordsXMLLangKind);
       
@@ -4021,30 +4021,30 @@ class EXP msrWords : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrWordsPlacementKind   getWordsPlacementKind () const
-                                { return fWordsPlacementKind; }
+    msrWordsPlacementKind getWordsPlacementKind () const
+                              { return fWordsPlacementKind; }
 
-    string                  getWordsContents () const
-                                { return fWordsContents; }
+    string                getWordsContents () const
+                              { return fWordsContents; }
 
-    msrJustifyKind          getWordsJustifyKind () const
-                                { return fWordsJustifyKind; }
+    msrJustifyKind        getWordsJustifyKind () const
+                              { return fWordsJustifyKind; }
 
     msrVerticalAlignmentKind
-                            getWordsVerticalAlignmentKind () const
-                                { return fWordsVerticalAlignmentKind; }
+                          getWordsVerticalAlignmentKind () const
+                              { return fWordsVerticalAlignmentKind; }
 
-    msrFontStyle            getWordsFontStyle () const
-                                { return fWordsFontStyle; }
+    msrFontStyle          getWordsFontStyle () const
+                              { return fWordsFontStyle; }
 
-    msrFontSize             getWordsFontSize () const
-                                { return fWordsFontSize; }
+    S_msrFontSize         getWordsFontSize () const
+                              { return fWordsFontSize; }
 
-    msrFontWeight           getWordsFontWeight () const
-                                { return fWordsFontWeight; }
+    msrFontWeight         getWordsFontWeight () const
+                              { return fWordsFontWeight; }
 
-    msrWordsXMLLangKind     getWordsXMLLangKind () const
-                                { return fWordsXMLLangKind; }
+    msrWordsXMLLangKind   getWordsXMLLangKind () const
+                              { return fWordsXMLLangKind; }
 
     // services
     // ------------------------------------------------------
@@ -4088,7 +4088,7 @@ class EXP msrWords : public msrElement
                           fWordsVerticalAlignmentKind;
 
     msrFontStyle          fWordsFontStyle;
-    msrFontSize           fWordsFontSize;
+    S_msrFontSize         fWordsFontSize;
     msrFontWeight         fWordsFontWeight;
     
     msrWordsXMLLangKind   fWordsXMLLangKind;

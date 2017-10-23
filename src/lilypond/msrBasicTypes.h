@@ -538,8 +538,7 @@ class EXP msrFontSize
       msrFontSizeKind fontSizeKind);
 
     static SMARTP<msrFontSize> create (
-      msrFontSizeKind fontSizeKind,
-      float           numericFontSize);
+      float numericFontSize);
 
   protected:
 
@@ -563,8 +562,7 @@ class EXP msrFontSize
     msrFontSizeKind       getFontSizeKind () const
                               { return fFontSizeKind; }
 
-    float                 getFontNumericSize () const
-                              { return fFontNumericSize; }
+    float                 getFontNumericSize () const;
 
     // services
     // ------------------------------------------------------

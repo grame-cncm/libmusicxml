@@ -3158,9 +3158,43 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
   return result;
 }
 
-// fonts
+// font size
 //______________________________________________________________________________
+S_msrFontSize msrFontSize::create (
+  msrFontSizeKind fontSizeKind)
+{
+  msrFontSize * o =
+    new msrFontSize (
+      fontSizeKind);
+  assert(o!=0);
 
+  return o;
+}
+
+S_msrFontSize msrFontSize::create (
+  float numericFontSize)
+{
+  msrFontSize * o =
+    new msrFontSize (
+      numericFontSize);
+  assert(o!=0);
+
+  return o;
+}
+
+msrFontSize::msrFontSize (
+  msrFontSizeKind fontSizeKind)
+{
+  fFontSizeKind = fontSizeKind;
+}
+
+msrFontSize::msrFontSize (
+  float numericFontSize)
+{
+  fFontSizeKind = kNumericFontSize;
+  fNumericFontSize = numericFontSize;
+}
+      
 string msrFontSizeAsString (
   msrFontSize fontSize)
 {
@@ -3199,6 +3233,64 @@ string msrFontSizeAsString (
   return result;
 }
 
+float msrFontSize::getFontNumericSize () const
+{
+  float result;
+  
+  switch (fFontSizeKind) {
+    case k_NoFontSize:
+    case kXXSmallFontSize:
+    case kXSmallFontSize:
+    case kSmallFontSize:
+    case kMediumFontSize:
+    case kLargeFontSize:
+    case kXLargeFontSize:
+    case kXXLargeFontSize:
+      {
+        stringstream s;
+
+        s <<
+          "attempting to get font numeric size for a " <<
+          msrFontSizeAsString (fFontSizeKind);
+
+        msrInternalError (
+          0, // JMI
+          s.str ());
+      }
+      break;
+      
+    case kNumericFontSize:
+      result = fFontNumericSize;
+      break;
+    } // switch
+
+  return result;
+}
+
+void msrFontSize::print (ostream& os)
+{
+  switch (fFontSizeKind) {
+    case k_NoFontSize:
+    case kXXSmallFontSize:
+    case kXSmallFontSize:
+    case kSmallFontSize:
+    case kMediumFontSize:
+    case kLargeFontSize:
+    case kXLargeFontSize:
+    case kXXLargeFontSize:
+      os <<
+        msrFontSizeAsString (fFontSizeKind);
+      break;
+      
+    case kNumericFontSize:
+      os <<
+        fFontNumericSize;
+      break;
+    } // switch
+}
+
+// font style
+//______________________________________________________________________________
 string msrFontStyleAsString (
   msrFontStyle fontStyle)
 {
@@ -3219,6 +3311,8 @@ string msrFontStyleAsString (
   return result;
 }
 
+// font weight
+//______________________________________________________________________________
 string msrFontWeightAsString (
   msrFontWeight fontWeight)
 {

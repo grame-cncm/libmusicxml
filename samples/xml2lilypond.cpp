@@ -122,7 +122,7 @@ S_msrScore runPass2a (
   return mScore;
 }
 
-void runPass2b (
+void convertMusicXMLtoMSR (
   string     inputSourceName,
   string     outputFileName,
   S_msrScore mScore)
@@ -176,7 +176,7 @@ void runPass2b (
 // JMI  return true;
 }
 
-S_lpsrScore runPass3 (
+S_lpsrScore convertMSRToLPSR (
   string     outputFileName,
   S_msrScore mScore)
 {
@@ -206,7 +206,7 @@ S_lpsrScore runPass3 (
   return lpScore;
 }
 
-void runPass4 (
+void convertLPSRToLilypond (
   string      outputFileName,
   S_lpsrScore lpScore)
 {
@@ -298,7 +298,7 @@ void convertMusicXMLToLilypond (
   // create the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
-  runPass2b (
+  convertMusicXMLtoMSR (
     inputSourceName, outputFileName,
     mScore);
   
@@ -310,7 +310,7 @@ void convertMusicXMLToLilypond (
 
   S_lpsrScore
     lpScore =
-      runPass3 (
+      convertMSRToLPSR (
         outputFileName,
         mScore);
 
@@ -329,7 +329,7 @@ void convertMusicXMLToLilypond (
   // generate LilyPond code from the LPSR (pass 4)
   // ------------------------------------------------------
 
-  runPass4 (
+  convertLPSRToLilypond (
     outputFileName,
     lpScore);
 }
