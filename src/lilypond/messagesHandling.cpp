@@ -53,6 +53,18 @@ void msrWarning (
 }
 
 //______________________________________________________________________________
+void lpsrMusicXMLWarning (
+  int    inputLineNumber,
+  string message)
+{
+  msrWarning (
+    "LPSR",
+    gGeneralOptions->fInputSourceName,
+    inputLineNumber,
+    message);
+}
+
+//______________________________________________________________________________
 void msrMusicXMLWarning (
   int    inputLineNumber,
   string message)

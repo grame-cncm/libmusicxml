@@ -61,6 +61,11 @@ void msrMusicXMLWarning (
   string message);
 
 //______________________________________________________________________________
+void lpsrMusicXMLWarning (
+  int    inputLineNumber,
+  string message);
+
+//______________________________________________________________________________
 void msrInternalWarning (
   int    inputLineNumber,
   string message);
@@ -87,6 +92,22 @@ void msrError (
 
 /*!
 \internal
+\brief A macro to emit error messages regarding MusicXML data and exit
+*/
+//______________________________________________________________________________
+#define lpsrMusicXMLError( inputLineNumber, message ) \
+{ \
+  msrError ( \
+    "LPSR", \
+    gGeneralOptions->fInputSourceName, \
+    inputLineNumber, \
+    message); \
+\
+  assert(false); \
+}
+
+/*!
+\internal
 \brief A macro to emit error messages regarding MSR and exit
 */
 //______________________________________________________________________________
@@ -101,6 +122,9 @@ void msrError (
 \
   assert(false); \
 }
+
+
+
 
 
 /*! @} */

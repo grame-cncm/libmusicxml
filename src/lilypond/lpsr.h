@@ -47,56 +47,6 @@ namespace MusicXML2
 
 
 /*!
-\internal
-\brief A macro to emit warning messages regarding MusicXML data
-*/
-//______________________________________________________________________________
-#define lpsrMusicXMLWarning( inputLineNumber, message ) \
-{ \
-  cerr << endl << endl; \
-\
-  cerr << \
-    "%{" << \
-    endl << \
-    "!!! LPSR WARNING !!!, " << \
-    gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    message << \
-    endl << \
-    "%}" << \
-    endl << \
-    endl; \
-}
-
-/*!
-\internal
-\brief A macro to emit error messages regarding MusicXML data and exit
-*/
-//______________________________________________________________________________
-#define lpsrMusicXMLError( inputLineNumber, message ) \
-{ \
-  cerr << endl << endl; \
-\
-  cerr << \
-    "%{" << \
-    endl << \
-    "### LPSR ERROR ###, " << \
-    gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    message << \
-    endl << \
-    "%}" << \
-    endl << \
-    endl; \
-\
-  assert(false); \
-}
-
-/*!
 \brief A generic msr element representation.
 
   An element is represented by its name and the
