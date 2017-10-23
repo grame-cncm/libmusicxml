@@ -11861,7 +11861,7 @@ void msrWords::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "WordsFontSize" << " = " <<
-    msrFontSizeAsString (fWordsFontSize) <<
+    fWordsFontSize->fontSizeAsString () <<
     endl <<
     setw (fieldWidth) <<
     "WordsFontWeight" << " = " <<

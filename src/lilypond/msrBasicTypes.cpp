@@ -3257,7 +3257,7 @@ float msrFontSize::getFontNumericSize () const
 
         s <<
           "attempting to get font numeric size for a " <<
-          msrFontSizeAsString (fFontSizeKind);
+          fontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
           0, // JMI
