@@ -302,11 +302,15 @@ void notevisitor::visitEnd ( S_note& elt )
                             else if (fCurClef == "F")
                                 restFormatDy = 4.0;
                             break;
+                            
+                        case 2:
+                            if (fCurClef == "G")
+                                restFormatDy = -15.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -3.0;
+                            break;
                         
                         // treating F clef directly!
-                        case 2:
-                            restFormatDy = -3.0;
-                            break;
                         case 1:
                             restFormatDy = -10.0;
                             break;
@@ -336,10 +340,14 @@ void notevisitor::visitEnd ( S_note& elt )
                             else if (fCurClef == "F")
                                 restFormatDy = 5.0;
                             break;
-                        // F clef:
+                            
                         case 2:
-                            restFormatDy = -2.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -14.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -2.0;
                             break;
+                        // F clef:
                         case 1:
                             restFormatDy = -9.0;
                             break;
@@ -372,10 +380,13 @@ void notevisitor::visitEnd ( S_note& elt )
                             else if (fCurClef == "F")
                                 restFormatDy = -1.0;
                             break;
-                        // F clef:
                         case 2:
-                            restFormatDy = -8.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -20.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -8.0;
                             break;
+                        // F clef:
                         default:
                             restFormatDy = 0.0;
                             break;
@@ -402,10 +413,13 @@ void notevisitor::visitEnd ( S_note& elt )
                             else if (fCurClef == "F")
                                 restFormatDy = 0.0;
                             break;
-                        // F clef:
                         case 2:
-                            restFormatDy = -7.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -19.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -7.0;
                             break;
+                        // F clef:
                             
                         default:
                             restFormatDy = 0.0;
@@ -432,10 +446,13 @@ void notevisitor::visitEnd ( S_note& elt )
                             else if (fCurClef == "F")
                                 restFormatDy = 1.0;
                             break;
-                        // F clef:
                         case 2:
-                            restFormatDy = -6.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -18.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -6.0;
                             break;
+                        // F clef:
                         default:
                             restFormatDy = 0.0;
                             break;
@@ -458,10 +475,13 @@ void notevisitor::visitEnd ( S_note& elt )
                             else if (fCurClef == "F")
                                 restFormatDy = 2.0;
                             break;
-                        // F clef:
                         case 2:
-                            restFormatDy = -5.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -17.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -5.0;
                             break;
+                        // F clef:
                             
                         default:
                             restFormatDy = 0.0;
@@ -486,10 +506,13 @@ void notevisitor::visitEnd ( S_note& elt )
                             else if (fCurClef == "F")
                                 restFormatDy = 3.0;
                             break;
-                        // F clef:
                         case 2:
-                            restFormatDy = -4.0;
+                            if (fCurClef == "G")
+                                restFormatDy = -22.0;
+                            else if (fCurClef == "F")
+                                restFormatDy = -4.0;
                             break;
+                        // F clef:
                         default:
                             restFormatDy = 0.0;
                             break;

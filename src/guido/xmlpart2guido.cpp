@@ -2079,6 +2079,7 @@ namespace MusicXML2
         bool noteFormat = false;
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
+        //cout<<"newNote : measure "<<measureNum<<" measure in timePosition?"<<( timePos4measure != timePositions.end() ? 1: 0 )<< " pos:"<<posInMeasure.getNumerator()<<"/"<<posInMeasure.getDenominator() <<endl;
         if ( (nv.fNotehead
              || ((timePos4measure != timePositions.end()) ) )             // if we need to infer default-x
             &&  fInGrace==false  )      // FIXME: Workaround for GUID-74
@@ -2109,7 +2110,7 @@ namespace MusicXML2
                         s << "dx=" << noteDx ;
                         noteFormatTag->add (guidoparam::create(s.str(), false));
                         noteFormat = true;
-                        //cout<<" Measure="<<measureNum<<" pos:"<<posInMeasure.getNumerator()<<"/"<<posInMeasure.getDenominator()<<" staff="<<fCurrentStaff<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos<< " dX="<<noteDx <<endl;
+                        //cout<<"\t\t Measure="<<measureNum<<" pos:"<<posInMeasure.getNumerator()<<"/"<<posInMeasure.getDenominator()<<" staff="<<fCurrentStaff<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos<< " dX="<<noteDx <<endl;
                     }
                 }
             }
@@ -2227,10 +2228,12 @@ namespace MusicXML2
         bool scanVoice = (notevisitor::getVoice() == fTargetVoice);
         if (!isGrace() ) {
             //////// Track all voice default-x parameters, as positions in measures
-            if (fNotesOnly) {
+            //cout<<"TIMEPOS CANDIDATE: Measure "<< fMeasNum<<" Staff:"<< fTargetStaff<< " VOICE="<< notevisitor::getVoice() <<" TimePosition Insert:"<<fCurrentVoicePosition.toString()<<" default_x="<<notevisitor::x_default<< " SCAN???? "<< scanVoice << " fNotesOnly??? "<<fNotesOnly <<endl;
+
+            if (true) {     // had fNotesOnly
                 int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
                 auto timePos4measure = timePositions.find(measureNum);
-                
+                //cout<<"TIMEPOS CANDIDATE: Measure "<< measureNum<<" Staff:"<< fTargetStaff<< " VOICE="<< notevisitor::getVoice() <<" TimePosition Insert:"<<fCurrentVoicePosition.toString()<<" default_x="<<notevisitor::x_default<< " SCAN???? "<< scanVoice <<endl;
                 if (notevisitor::x_default != -1) {
                     if ( timePos4measure !=  timePositions.end())
                     {
@@ -2249,7 +2252,7 @@ namespace MusicXML2
                         inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
                         timePositions.insert(std::make_pair(measureNum, inner));
                     }
-                    //cout<<"\t Measure "<< measureNum<<" Staff:"<< fTargetStaff <<" TimePosition moved to "<<fCurrentVoicePosition.toString()<<" with default-x="<<notevisitor::x_default<<endl;
+                    //cout<<"TIMEPOSADD: Measure "<< measureNum<<" Staff:"<< fTargetStaff <<" TimePosition Insert:"<<fCurrentVoicePosition.toString()<<" with default-x="<<notevisitor::x_default<<endl;
                 }
             }
             
