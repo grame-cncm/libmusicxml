@@ -42,31 +42,17 @@ The library includes a high level API to convert
 */
 
 //______________________________________________________________________________
-/*!
-  \brief Converts an MSR to an LPSR.
-  \param file a file name 
-  \param msrOpts the MSR options to be used
-  \param out the output stream
-  \return an error code (\c kNoErr when success)
-*/
-EXP S_lpsrScore msr2Lpsr (
-  const S_msrScore mScore,
-  S_msrOptions&    msrOpts,
-  S_lpsrOptions&   lpsrOpts,
-  indentedOstream& logIOstream);
-
-//_______________________________________________________________________________
 S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOptions&    msrOpts,
-  S_lpsrOptions&   lpsrOpts,
+  S_msrOptions     msrOpts,
+  S_lpsrOptions    lpsrOpts,
   indentedOstream& logIOstream);
 
 //_______________________________________________________________________________
 void displayLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions&     msrOpts,
-  S_lpsrOptions&    lpsrOpts,
+  S_msrOptions      msrOpts,
+  S_lpsrOptions     lpsrOpts,
   indentedOstream&  logIOstream);
 
 /*! @} */

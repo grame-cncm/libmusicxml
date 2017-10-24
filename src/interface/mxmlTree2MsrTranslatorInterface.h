@@ -45,12 +45,8 @@ The library includes a high level API to convert
 @{
 */
 
-//_______________________________________________________________________________
-void populateMsrSkeletonFromMxmlTree (
-  const Sxmlelement mxmlTree);
-
 //______________________________________________________________________________
-S_msrScore populateMsrSkeletonFromElementsTree (
+void populateMsrSkeletonFromElementsTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,

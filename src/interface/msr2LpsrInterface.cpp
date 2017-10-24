@@ -32,41 +32,10 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-/*
- * The method that converts an MSR to an LPSR
- * and  writes the result to the output stream
-*/
-S_lpsrScore msr2Lpsr (
-  const S_msrScore mScore,
-  S_msrOptions&    msrOpts,
-  S_lpsrOptions&   lpsrOpts,
-  indentedOstream& logIOstream)
-{  
-  // build LPSR score from MSR score
-  S_lpsrScore
-    lpScore =
-      buildLpsrScoreFromMsrScore (
-        mScore,
-        msrOpts,
-        lpsrOpts,
-        logIOstream);
-
-  // display it
-  if (lpsrOpts->fDisplayLpsr)
-    displayLpsrScore (
-      lpScore,
-      msrOpts,
-      lpsrOpts,
-      logIOstream);
-
-  return lpScore;
-}
-
-//_______________________________________________________________________________
 S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
-  S_msrOptions&    msrOpts,
-  S_lpsrOptions&   lpsrOpts,
+  S_msrOptions     msrOpts,
+  S_lpsrOptions    lpsrOpts,
   indentedOstream& logIOstream)
 {
   clock_t startClock = clock();
@@ -105,14 +74,28 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     startClock,
     endClock);
 
-  return translator.getLpsrScore ();
+  // get the LPSR score
+  S_lpsrScore
+    lpScore =
+      translator.getLpsrScore ();
+
+  // display it
+  if (lpsrOpts->fDisplayLpsr)
+    displayLpsrScore (
+      lpScore,
+      msrOpts,
+      lpsrOpts,
+      logIOstream);
+
+  // return it
+  return lpScore;
 }
 
 //_______________________________________________________________________________
 void displayLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions&     msrOpts,
-  S_lpsrOptions&    lpsrOpts,
+  S_msrOptions      msrOpts,
+  S_lpsrOptions     lpsrOpts,
   indentedOstream&  logIOstream)
 {
   clock_t startClock = clock();

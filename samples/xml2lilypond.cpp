@@ -132,7 +132,7 @@ S_lpsrScore convertMSRToLPSR (
   if (! gLilypondOptions->fNoLilypondCode) {
     if (outputFileNameSize) {
       lpScore =
-        msr2Lpsr (
+        buildLpsrScoreFromMsrScore (
           mScore,
           gMsrOptions,
           gLpsrOptions,
@@ -140,7 +140,7 @@ S_lpsrScore convertMSRToLPSR (
     }
     else {
       lpScore =
-        msr2Lpsr (
+        buildLpsrScoreFromMsrScore (
           mScore,
           gMsrOptions,
           gLpsrOptions,
