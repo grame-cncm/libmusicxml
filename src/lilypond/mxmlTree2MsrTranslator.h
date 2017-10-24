@@ -10,12 +10,10 @@
   research@grame.fr
 */
 
-#ifndef __musicXMLTree2MsrTranslator__
-#define __musicXMLTree2MsrTranslator__
+#ifndef __mxmlTree2MsrTranslator__
+#define __mxmlTree2MsrTranslator__
 
 #include "typedefs.h"
-
-//#include "musicXMLTree2MsrInterface.h"
 
 
 namespace MusicXML2
@@ -29,7 +27,7 @@ namespace MusicXML2
 /*!
 \brief Produces a summary of a MusicXML part.
 */
-class EXP musicXMLTree2MsrTranslator : 
+class EXP mxmlTree2MsrTranslator : 
 
 /*
   public visitor<S_comment>,
@@ -443,18 +441,33 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 {
   public:
   
-    musicXMLTree2MsrTranslator (
-      S_msrScore       mScore,
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    mxmlTree2MsrTranslator (
+      S_msrScore       scoreSkeleton,
       indentedOstream& ios);
 
-    virtual ~musicXMLTree2MsrTranslator ();
+    virtual ~mxmlTree2MsrTranslator ();
 
-    S_msrScore populateMSRSkeletonFromXMLElementTree (
-        const Sxmlelement& xmlTree);
+    // set and get
+    // ------------------------------------------------------
 
     S_msrScore getMsrScore () const
         { return fMsrScore; };
     
+    // services
+    // ------------------------------------------------------
+
+    void populateMsrSkeletonFromMxmlTree (
+        const Sxmlelement mxmlTree);
+
+    // visitors
+    // ------------------------------------------------------
+
+    void browseMxmlTree (
+        const Sxmlelement& mxmlTree);
+
   protected:
 
    /*
