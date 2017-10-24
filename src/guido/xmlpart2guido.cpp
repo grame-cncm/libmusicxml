@@ -2079,8 +2079,8 @@ namespace MusicXML2
         bool noteFormat = false;
         int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
         auto timePos4measure = timePositions.find(measureNum);
-        if ( nv.fNotehead
-             || ((timePos4measure != timePositions.end()) )              // if we need to infer default-x
+        if ( (nv.fNotehead
+             || ((timePos4measure != timePositions.end()) ) )             // if we need to infer default-x
             &&  fInGrace==false  )      // FIXME: Workaround for GUID-74
         {
             Sguidoelement noteFormatTag = guidotag::create("noteFormat");
@@ -2109,8 +2109,8 @@ namespace MusicXML2
                         s << "dx=" << noteDx ;
                         noteFormatTag->add (guidoparam::create(s.str(), false));
                         noteFormat = true;
+                        //cout<<" Measure="<<measureNum<<" pos:"<<posInMeasure.getNumerator()<<"/"<<posInMeasure.getDenominator()<<" staff="<<fCurrentStaff<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos<< " dX="<<noteDx <<endl;
                     }
-                    //cout<<"\t Measure="<<measureNum<<" staff="<<fCurrentStaff<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos <<endl;
                 }
             }
             
@@ -2228,28 +2228,30 @@ namespace MusicXML2
         if (!isGrace() ) {
             //////// Track all voice default-x parameters, as positions in measures
             if (fNotesOnly) {
-            int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
-            auto timePos4measure = timePositions.find(measureNum);
-            if ( timePos4measure !=  timePositions.end())
-            {
+                int measureNum = fCurrentMeasure->getAttributeIntValue("number", 0);
+                auto timePos4measure = timePositions.find(measureNum);
                 
-                if (timePos4measure->second.find(fCurrentVoicePosition) != timePos4measure->second.end())
-                {
-                    // Exists.. push it to vector
-                    timePos4measure->second.find(fCurrentVoicePosition)->second.push_back(notevisitor::x_default);
-                }else {
-                    // Doesn't exist.. insert with this element's x_default
-                    timePos4measure->second.insert(std::pair<rational, std::vector<int> >
-                                                   (fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)) );
+                if (notevisitor::x_default != -1) {
+                    if ( timePos4measure !=  timePositions.end())
+                    {
+                        
+                        if (timePos4measure->second.find(fCurrentVoicePosition) != timePos4measure->second.end())
+                        {
+                            // Exists.. push it to vector
+                            timePos4measure->second.find(fCurrentVoicePosition)->second.push_back(notevisitor::x_default);
+                        }else {
+                            // Doesn't exist.. insert with this element's x_default
+                            timePos4measure->second.insert(std::pair<rational, std::vector<int> >
+                                                           (fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)) );
+                        }
+                    }else {
+                        std::map<rational, std::vector<int> > inner;
+                        inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
+                        timePositions.insert(std::make_pair(measureNum, inner));
+                    }
+                    //cout<<"\t Measure "<< measureNum<<" Staff:"<< fTargetStaff <<" TimePosition moved to "<<fCurrentVoicePosition.toString()<<" with default-x="<<notevisitor::x_default<<endl;
                 }
-            }else {
-                std::map<rational, std::vector<int> > inner;
-                inner.insert(std::make_pair(fCurrentVoicePosition, std::vector<int>(1, notevisitor::x_default)));
-                timePositions.insert(std::make_pair(measureNum, inner));
             }
-            }
-            //////////
-            //cout<<"\t Measure "<< measureNum<<"TimePosition moved to "<<fCurrentVoicePosition.toString()<<" with default-x="<<elt->getAttributeIntValue("default-x", 0)<<endl;
             
             moveMeasureTime (getDuration(), scanVoice);
             checkDelayed (getDuration());		// check for delayed elements (directions with offset)
