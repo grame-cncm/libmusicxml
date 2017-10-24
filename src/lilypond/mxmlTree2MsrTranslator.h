@@ -948,12 +948,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     // part handling
     // ------------------------------------------------------
-    
-    string                    fCurrentPartID; // used throughout
-
-    map<string, S_msrPart>    fPartsMap;
-    
-    S_msrPart                 fCurrentPart; // used throughout
+        
+    S_msrPart                 fCurrentPart;
 
     // measures
     // ------------------------------------------------------

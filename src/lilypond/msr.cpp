@@ -29456,6 +29456,8 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
 S_msrPart msrPartGroup::fetchPartFromPartGroup (
   string partID)
 {
+  S_msrPart result;
+  
   if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "==> fetchPartFromPartGroup(), fPartGroupPartsMap contains:" <<
@@ -29475,8 +29477,6 @@ S_msrPart msrPartGroup::fetchPartFromPartGroup (
       "<== fetchPartFromPartGroup" <<
       endl;
   }
-  
-  S_msrPart result;
   
   if (fPartGroupPartsMap.count (partID)) {
     result = fPartGroupPartsMap [partID];
@@ -30211,6 +30211,28 @@ void msrScore::appendCreditToScore (S_msrCredit credit)
   }
   
   fCreditsList.push_back (credit);
+}
+
+S_msrPart msrScore::fetchPartFromScore (string partID)
+{
+  S_msrPart result;
+  
+  for (
+    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
+    i != fPartGroupsList.end ();
+    i++) {
+    S_msrPart
+      part =
+        (*i)->
+          fetchPartFromPartGroup (partID);
+
+    if (part) {
+      result = part;
+      break;
+    }
+  } // for
+
+  return result;
 }
 
 /*

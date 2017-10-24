@@ -1000,29 +1000,37 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
       endl;
   }
 
-  // fCurrentPartID is used throughout
-  fCurrentPartID = elt->getAttributeValue ("id");
+  string partID = elt->getAttributeValue ("id");
 
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
-  // is this part already known?
-  if (fPartsMap.count (fCurrentPartID))
-    fCurrentPart = // used thoughout
-      fPartsMap [fCurrentPartID];
-      
-  else
-    msrInternalError (
-      inputLineNumber,
-      "part " +
-        fCurrentPartID +
-        " is not registered in this visitor's part map");
 
+  // fetch current part from its partID
+  fCurrentPart =
+    fMsrScore->
+      fetchPartFromScore (
+        partID);
+
+  // sanity check
+  if (! fCurrentPart) {
+    stringstream s;
+
+    s <<
+      "part \"" << partID << "\" not found in score skeleton";
+
+    msrInternalError (
+      elt->getInputLineNumber (),
+      s.str ());
+  }
+    
   if (gGeneralOptions->fTraceParts)
     fLogOutputStream <<
       "--------------------------------------------" <<
       endl <<
-      "Analyzing part \"" << fCurrentPartID << "\" -- start" <<
+      "Analyzing part " <<
+      fCurrentPart->
+        getPartCombinedName () <<
+        " -- start" <<
       endl;
 
   gIndenter++;
@@ -1048,7 +1056,10 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 
   if (gGeneralOptions->fTraceParts)
     fLogOutputStream <<
-      "Analyzing part \"" << fCurrentPartID << "\" -- end" <<
+      "Analyzing part " <<
+      fCurrentPart->
+        getPartCombinedName () <<
+        " -- end" <<
       endl <<
       "--------------------------------------------" <<
       endl <<
@@ -16793,37 +16804,3 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
 
 
 } // namespace
-
-
-/* JMI
-  currentVoice->
-    catchupToMeasureLocation (
-      inputLineNumber,
-      measureLocation);
-        */
-                    
-/* JMI
-  for (int i = 0; i < fCurrentForwardDurationDivisions; i++) {
-    // generate rests for the duration of the forward move
-    int restDivisions = 1;
-    
-    S_msrNote
-      rest =
-        msrNote::  createRest (
-            inputLineNumber,
-          1, // JMI
-          fCurrentStaffNumber,
-          fCurrentVoiceNumber);
-  
-    // set its location
-    rest->setNoteMeasureLocation (
-      currentVoice->getVoiceMeasureLocation ());
-
-    // append it to the current voice
-    currentVoice->appendNoteToVoice (rest);
-  
-    // take it's duration into account
-    currentVoice->incrementPositionInMeasure (
-      restDivisions);
-  } // for
-  */

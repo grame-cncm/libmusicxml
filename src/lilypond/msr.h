@@ -10680,6 +10680,8 @@ class EXP msrScore : public msrElement
     void                  appendCreditToScore (
                             S_msrCredit credit);
                               
+    S_msrPart             fetchPartFromScore (string partID);
+
     // visitors
     // ------------------------------------------------------
 
