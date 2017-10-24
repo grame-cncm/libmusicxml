@@ -359,26 +359,29 @@ void mxmlTree2MsrTranslator::checkStep (
 }
 
 //______________________________________________________________________________
-S_msrStaff mxmlTree2MsrTranslator::createStaffInCurrentPartIfNotYetDone (
+S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
   int            inputLineNumber,
   int            staffNumber)
 {    
-  // is staffNumber already present in part?
+  // fetch staff from current part
   S_msrStaff
     staff =
       fCurrentPart->
         fetchStaffFromPart (staffNumber);
 
+  // sanity check
   if (! staff) {
-    // no, add it to fCurrentPart
-    staff =
-      fCurrentPart->
-        addStaffToPartByItsNumber (
-          inputLineNumber,
-          msrStaff::kRegularStaff,
-          staffNumber);
-  }
+    stringstream s;
 
+    s <<
+      "staff '" << staffNumber << "' not found in score skeleton's part " <<
+      fCurrentPart->getPartCombinedName ();
+
+    msrInternalError (
+      inputLineNumber,
+      s.str ());
+  }
+    
   return staff;
 }  
 
@@ -394,7 +397,7 @@ S_msrVoice mxmlTree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDone (
   // create the staff if not yet done
   S_msrStaff
     staff =
-      createStaffInCurrentPartIfNotYetDone (
+      fetchStaffFromCurrentPart (
         inputLineNumber,
         staffNumber);
 
@@ -1445,7 +1448,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
   else {
     S_msrStaff
       staff =
-        createStaffInCurrentPartIfNotYetDone (
+        fetchStaffFromCurrentPart (
           inputLineNumber,
           fCurrentClefStaffNumber);
     
@@ -1769,7 +1772,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_key& elt )
   else {
     S_msrStaff
       staff =
-        createStaffInCurrentPartIfNotYetDone (
+        fetchStaffFromCurrentPart (
           inputLineNumber, fCurrentKeyStaffNumber);
 
     staff->
@@ -2264,7 +2267,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_time& elt )
   else {
     S_msrStaff
       staff =
-        createStaffInCurrentPartIfNotYetDone (
+        fetchStaffFromCurrentPart (
           inputLineNumber, fCurrentTimeStaffNumber);
 
     staff->
@@ -2450,7 +2453,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt )
   else {
     S_msrStaff
       staff =
-        createStaffInCurrentPartIfNotYetDone (
+        fetchStaffFromCurrentPart (
           inputLineNumber, fCurrentTransposeNumber);
 
     staff->
@@ -3324,7 +3327,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
   
   S_msrStaff
     staff =
-      createStaffInCurrentPartIfNotYetDone (
+      fetchStaffFromCurrentPart (
         inputLineNumber, fCurrentStaffNumber);
 
   if (gGeneralOptions->fTraceStaves) {
@@ -3733,7 +3736,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
   // fetch relevant staff
   S_msrStaff
     staff =
-      createStaffInCurrentPartIfNotYetDone (
+      fetchStaffFromCurrentPart (
         inputLineNumber,
         fStaffDetailsStaffNumber); // test its value??? JMI
 
@@ -3839,7 +3842,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
 
     S_msrStaff
       staff =
-        createStaffInCurrentPartIfNotYetDone (
+        fetchStaffFromCurrentPart (
           inputLineNumber, fCurrentForwardVoiceNumber);
   
     if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices)
@@ -3860,7 +3863,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
 
     S_msrStaff
       staff =
-        createStaffInCurrentPartIfNotYetDone (
+        fetchStaffFromCurrentPart (
           inputLineNumber, fCurrentNoteStaffNumber);
   
     if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices)
@@ -3989,7 +3992,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
   /* Don't do anything JMI
   S_msrStaff
     staff =
-      createStaffInCurrentPartIfNotYetDone (
+      fetchStaffFromCurrentPart (
         inputLineNumber, fCurrentStaffNumber);
 
   
@@ -4019,7 +4022,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 
   S_msrStaff
     staff =
-      createStaffInCurrentPartIfNotYetDone ( // already done JMI
+      fetchStaffFromCurrentPart ( // already done JMI
         inputLineNumber, fCurrentStaffNumber);
 
   // change voice
@@ -16581,7 +16584,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
   else {
     S_msrStaff
       staff =
-        createStaffInCurrentPartIfNotYetDone (
+        fetchStaffFromCurrentPart (
           elt->getInputLineNumber (),
           fStaffDetailsStaffNumber);
     

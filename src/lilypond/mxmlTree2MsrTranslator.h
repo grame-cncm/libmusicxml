@@ -1011,7 +1011,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     int                       fCurrentStaffNumber; // used throughout
     
-    S_msrStaff                createStaffInCurrentPartIfNotYetDone (
+    S_msrStaff                fetchStaffFromCurrentPart (
                                 int            inputLineNumber,
                                 int            staffNumber);
 
