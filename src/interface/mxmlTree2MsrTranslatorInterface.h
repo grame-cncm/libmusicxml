@@ -45,18 +45,14 @@ The library includes a high level API to convert
 @{
 */
 
-/*
+//_______________________________________________________________________________
+void populateMsrSkeletonFromMxmlTree (
+  const Sxmlelement mxmlTree);
+
 //______________________________________________________________________________
-/*!
-  \brief Converts a MusicXML representation to an MSR.
-  \param file a file name 
-  \param msrOpts the MSR options to be used
-  \param out the output stream
-  \return an error code (\c kNoErr when success)
-* /
 S_msrScore populateMSRSkeletonFromElementsTree (
   S_msrOptions&    msrOpts,
-  Sxmlelement      elemsTree,
+  Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,
   indentedOstream& logIOstream);
 
@@ -71,13 +67,10 @@ void displayMSRPopulatedScoreSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream);
-*/
+
 
 /*! @} */
 
-//#ifdef __cplusplus
-//}
-//#endif
 
 } // namespace MusicXML2
 

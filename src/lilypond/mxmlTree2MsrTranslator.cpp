@@ -271,65 +271,6 @@ void mxmlTree2MsrTranslator::browseMxmlTree (
   }
 }
 
-//_______________________________________________________________________________
-void mxmlTree2MsrTranslator::populateMsrSkeletonFromMxmlTree (
-  const Sxmlelement mxmlTree)
-{
-  clock_t startClock = clock();
-
-  if (gGeneralOptions->fTraceGeneral) {
-    string separator =
-      "%--------------------------------------------------------------";
-  
-    fLogOutputStream <<
-      endl <<
-      separator <<
-      endl <<
-      gTab <<
-      "Pass 2b: translating the xmlelement tree into a MSR" <<
-      endl;
-    
-    fLogOutputStream <<
-      separator <<
-      endl <<
-      endl;
-  }
-  
-  // create an mxmlTree2MsrTranslator
-  mxmlTree2MsrTranslator
-    translator (
-      fLogOutputStream);
-
-  // browse the mxmlTree
-  translator.browseMxmlTree (
-    mxmlTree);
-
-  clock_t endClock = clock();
-
-  // register time spent
-  timing::gTiming.appendTimingItem (
-    "Pass 2b: build the MSR",
-    timingItem::kMandatory,
-    startClock,
-    endClock);
-
-  if (msrOpts->fDisplayMsr) {
-    // display the MSR
-    displayMSR (
-      msrOpts,
-      scoreSkeleton,
-      fLogOutputStream);
-  }
-
-  if (msrOpts->fDisplayMsrSummary) {
-    // display the MSR summary
-    displayMSRSummary (
-      msrOpts,
-      scoreSkeleton,
-      fLogOutputStream);
-  }
-}
-
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::initializeNoteData ()
 {

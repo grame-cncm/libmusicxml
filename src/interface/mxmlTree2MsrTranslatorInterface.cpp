@@ -35,5 +35,143 @@ using namespace std;
 namespace MusicXML2 
 {
 
+//_______________________________________________________________________________
+S_msrScore populateMSRSkeletonFromElementsTree (
+  S_msrOptions&    msrOpts,
+  Sxmlelement      mxmlTree,
+  S_msrScore       scoreSkeleton,
+  indentedOstream& logIOstream)
+{
+  clock_t startClock = clock();
+
+  if (gGeneralOptions->fTraceGeneral) {
+    string separator =
+      "%--------------------------------------------------------------";
+  
+    logIOstream <<
+      endl <<
+      separator <<
+      endl <<
+      gTab <<
+      "Pass 2b: translating the xmlelement tree into a MSR" <<
+      endl;
+    
+    logIOstream <<
+      separator <<
+      endl <<
+      endl;
+  }
+  
+  // create an mxmlTree2MsrTranslator
+  mxmlTree2MsrTranslator
+    translator (
+      scoreSkeleton,
+      logIOstream);
+
+  // browse the mxmlTree
+  translator.browseMxmlTree (
+    mxmlTree);
+
+  clock_t endClock = clock();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "Pass 2b: build the MSR",
+    timingItem::kMandatory,
+    startClock,
+    endClock);
+
+  if (msrOpts->fDisplayMsr) {
+    // display the MSR
+    displayMSRPopulatedScore (
+      msrOpts,
+      scoreSkeleton,
+      logIOstream);
+  }
+
+  if (msrOpts->fDisplayMsrSummary) {
+    // display the MSR summary
+    displayMSRPopulatedScoreSummary (
+      msrOpts,
+      scoreSkeleton,
+      logIOstream);
+  }
+}
+
+//_______________________________________________________________________________
+void displayMSRPopulatedScore (
+  S_msrOptions&    msrOpts,
+  S_msrScore       mScore,
+  indentedOstream& logIOstream)
+{
+  clock_t startClock = clock();
+  
+  string separator =
+    "%--------------------------------------------------------------";
+  
+  logIOstream <<
+    endl <<
+    separator <<
+    endl <<
+    gTab <<
+    "Optional pass: displaying the MSR skeleton as text" <<
+    endl <<
+    separator <<
+    endl <<
+    endl <<
+    mScore;
+
+  clock_t endClock = clock();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "        display the MSR",
+    timingItem::kOptional,
+    startClock,
+    endClock);
+}
+
+//_______________________________________________________________________________
+void displayMSRPopulatedScoreSummary (
+  S_msrOptions&    msrOpts,
+  S_msrScore       mScore,
+  indentedOstream& logIOstream)
+{
+  clock_t startClock = clock();
+  
+  if (gGeneralOptions->fTraceGeneral) {
+    string separator =
+      "%--------------------------------------------------------------";
+    
+    logIOstream <<
+      endl <<
+      separator <<
+      endl <<
+      gTab <<
+      "Optional pass: outputting a summary of the MSR" <<
+      endl <<
+      separator <<
+      endl;
+  }
+   
+  // create an msr2SummaryVisitor visitor
+  msr2SummaryVisitor
+    summaryVisitor (
+      msrOpts,
+      logIOstream);
+
+  summaryVisitor.printSummaryFromMsrScore (
+    mScore);
+  
+  clock_t endClock = clock();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "        display MSR summary",
+    timingItem::kOptional,
+    startClock,
+    endClock);
+}
+
 
 }
