@@ -86,25 +86,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_credit>,
   public visitor<S_credit_words>,
   
-  // parts & part groups
-  
-  public visitor<S_part_list>,
-  
-  public visitor<S_part_group>,
-  public visitor<S_group_name>,
-  public visitor<S_group_name_display>,
-  public visitor<S_display_text>,
-  public visitor<S_accidental_text>,
-  public visitor<S_group_abbreviation>,
-  public visitor<S_group_symbol>,
-  public visitor<S_group_barline>,
-
-  public visitor<S_score_part>,
-  public visitor<S_part_name>,
-  public visitor<S_part_abbreviation>,
-  public visitor<S_instrument_name>,
-  public visitor<S_instrument_abbreviation>,
-  
+  // parts
+    
   public visitor<S_part>,
   
   // ?
@@ -516,28 +499,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitEnd   ( S_credit& elt);
     virtual void visitStart ( S_credit_words& elt);
         
-    // parts & part groups
+    // parts
     // ------------------------------------------------------
-
-    virtual void visitStart ( S_part_list& elt);
-    virtual void visitEnd   ( S_part_list& elt);
-    
-    virtual void visitStart ( S_part_group& elt);
-    virtual void visitEnd   ( S_part_group& elt);
-    virtual void visitStart ( S_group_name& elt);
-    virtual void visitStart ( S_group_name_display& elt);
-    virtual void visitStart ( S_display_text& elt);
-    virtual void visitStart ( S_accidental_text& elt);
-    virtual void visitStart ( S_group_abbreviation& elt);
-    virtual void visitStart ( S_group_symbol& elt);
-    virtual void visitStart ( S_group_barline& elt);
-    
-    virtual void visitStart ( S_score_part& elt);
-    virtual void visitEnd   ( S_score_part& elt);
-    virtual void visitStart ( S_part_name& elt);
-    virtual void visitStart ( S_part_abbreviation& elt);
-    virtual void visitStart ( S_instrument_name& elt);
-    virtual void visitStart ( S_instrument_abbreviation& elt);
     
     virtual void visitStart ( S_part& elt);
     virtual void visitEnd   ( S_part& elt);
@@ -980,75 +943,13 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     // part group handling
     // ------------------------------------------------------
-    
-    /*
-      There is no hierarchy implied in part-group elements.
-      All that matters is the sequence of part-group elements relative to score-part elements.
-      The sequencing of two consecutive part-group elements does not matter.
-      It is the default-x attribute that indicates the left-to-right ordering of the group symbols.
 
-      <part-group number="1" type="start">
-      <group-name>Trombones</group-name>
-      <group-abbreviation>Trb.</group-abbreviation>
-      <group-symbol default-x="-12">brace</group-symbol>
-      <group-barline>yes</group-barline>
-      </part-group>
-    */
-    int                       fCurrentPartGroupNumber;
-    string                    fCurrentPartGroupType;
-    string                    fCurrentPartGroupName;
-    bool                      fOnGoingGroupNameDisplay;
-    string                    fCurrentPartGroupDisplayText;
-    string                    fCurrentPartGroupAccidentalText;
-    string                    fCurrentPartGroupAbbreviation;
-    string                    fCurrentPartGroupSymbol;
-    int                       fCurrentPartGroupSymbolDefaultX;
-    string                    fCurrentPartGroupBarline;
-
-    // an implicit part group has to be created
-    // if none is specified in the MusicXML data,
-    // in which case a part group "stop" has to be forced later
-    S_msrPartGroup            fImplicitPartGroup;
+    // nothing, this has been done in the skeleton builder (pass 2a)
     
-    S_msrPartGroup            createImplicitMsrPartGroupIfNotYetDone (
-                                int inputLineNumber);
-                                
-    bool                      fCurrentPartUsesImplicitPartGroup;
-    
-    // part groups numbers can be re-used, they're no identifier
-    // we use a map to access them by part group number
-    map<int, S_msrPartGroup>  fPartGroupsMap;
-    
-    S_msrPartGroup            fetchPartGroupInThisVisitor (
-                                int partGroupNumber);
-
-    // MusicXML allows part groups to overlap,
-    // we use a list in which part groups are orderd by
-    // increasing part group <default-x>
-    // (all of them are negative)    
-    // the current part group is either null or the front of the list
-    
-    list<S_msrPartGroup>      fPartGroupsList;
-    
-    void                      showPartGroupsData (string context);
-    
-    void                      handlePartGroupStart (
-                                int     inputLineNumber,
-                                msrPartGroup::msrPartGroupSymbolKind
-                                        partGroupSymbol,
-                                bool    partGroupBarline);
-                                
-    void                      handlePartGroupStop (
-                                int inputLineNumber);
-
     // part handling
     // ------------------------------------------------------
     
     string                    fCurrentPartID; // used throughout
-    string                    fCurrentPartName;
-    string                    fCurrentPartAbbreviation;
-    string                    fCurrentPartInstrumentName;
-    string                    fCurrentPartInstrumentAbbreviation;
 
     map<string, S_msrPart>    fPartsMap;
     
