@@ -1024,7 +1024,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     int                       fCurrentVoiceNumber; // used throughout
 
-    S_msrVoice                createVoiceInStaffInCurrentPartIfNotYetDone (
+    S_msrVoice                fetchVoiceFromCurrentPart (
                                 int inputLineNumber,
                                 int staffNumber,
                                 int voiceNumber);

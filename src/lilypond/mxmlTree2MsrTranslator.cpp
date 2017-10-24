@@ -386,7 +386,7 @@ S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
 }  
 
 //______________________________________________________________________________
-S_msrVoice mxmlTree2MsrTranslator::createVoiceInStaffInCurrentPartIfNotYetDone (
+S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   int inputLineNumber,
   int staffNumber,
   int voiceNumber)
@@ -2692,7 +2692,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         elt->getInputLineNumber (),
         fCurrentDirectionStaffNumber,
         fCurrentVoiceNumber);
@@ -3167,7 +3167,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentDirectionStaffNumber,
         fCurrentVoiceNumber);
@@ -3879,7 +3879,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
         endl;
 /*
     currentVoice = // ???
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -4030,7 +4030,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
 
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -4829,7 +4829,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
@@ -5184,7 +5184,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
       // fetch current voice
       S_msrVoice
         currentVoice =
-          createVoiceInStaffInCurrentPartIfNotYetDone (
+          fetchVoiceFromCurrentPart (
             inputLineNumber,
             fCurrentStaffNumber,
             fCurrentVoiceNumber);
@@ -5247,7 +5247,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
       // fetch current voice
       S_msrVoice
         currentVoice =
-          createVoiceInStaffInCurrentPartIfNotYetDone (
+          fetchVoiceFromCurrentPart (
             inputLineNumber,
             fCurrentStaffNumber,
             fCurrentVoiceNumber);
@@ -5564,7 +5564,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        createVoiceInStaffInCurrentPartIfNotYetDone (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -5600,7 +5600,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        createVoiceInStaffInCurrentPartIfNotYetDone (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -5636,7 +5636,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        createVoiceInStaffInCurrentPartIfNotYetDone (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -5786,7 +5786,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        createVoiceInStaffInCurrentPartIfNotYetDone (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentStaffNumber,
           fCurrentVoiceNumber);
@@ -5947,7 +5947,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   // there may be a barline in a part before any music
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -9752,7 +9752,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
         // fetch current voice
         S_msrVoice
           currentVoice =
-            createVoiceInStaffInCurrentPartIfNotYetDone (
+            fetchVoiceFromCurrentPart (
               inputLineNumber,
               fCurrentNoteStaffNumber,
               fCurrentVoiceNumber);
@@ -12519,7 +12519,7 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
@@ -13325,7 +13325,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
@@ -13653,7 +13653,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     // fetch current voice
     S_msrVoice
       currentVoice =
-        createVoiceInStaffInCurrentPartIfNotYetDone ( // JMI
+        fetchVoiceFromCurrentPart ( // JMI
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentNoteVoiceNumber);
@@ -13857,7 +13857,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
@@ -14319,7 +14319,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     // fetch current voice
     S_msrVoice
       currentVoice =
-        createVoiceInStaffInCurrentPartIfNotYetDone (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
@@ -14759,7 +14759,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     // fetch current voice
     S_msrVoice
       currentVoice =
-        createVoiceInStaffInCurrentPartIfNotYetDone (
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentVoiceNumber);
@@ -14905,7 +14905,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
@@ -15063,7 +15063,7 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -15132,7 +15132,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -15228,7 +15228,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -15294,7 +15294,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -15344,7 +15344,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingStart (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -15393,7 +15393,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
@@ -15514,7 +15514,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
   // fetch current voice
   S_msrVoice
     currentVoice =
-      createVoiceInStaffInCurrentPartIfNotYetDone (
+      fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
