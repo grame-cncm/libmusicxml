@@ -40,71 +40,16 @@ namespace MusicXML2
 {
 
 //________________________________________________________________________
-void musicXMLTree2MsrTranslator::initializeNoteData ()
-{
-  // basic note description
-
-// JMI  fCurrentNoteKind = k_NoNoteKind;
-
-  fCurrentNoteQuarterTonesPitch  = k_NoQuarterTonesPitch;
-  
-  fCurrentNoteSoundingWholeNotes             = rational (-13, 1);
-  fCurrentNoteSoundingWholeNotesFromDuration = rational (-17, 1);
-  
-  fCurrentNoteDisplayWholeNotes         = rational (-25, 1);
-  fCurrentNoteDisplayWholeNotesFromType = rational (-29, 1);
-  
-  fCurrentNoteDotsNumber = 0;
-  
-  fCurrentNoteGraphicDuration = k_NoDuration;
-
-  fCurrentNoteOctave = K_NO_OCTAVE;
-
-  fCurrentNoteQuarterTonesDisplayPitch = k_NoQuarterTonesPitch;
-  fCurrentDisplayDiatonicPitch = k_NoDiatonicPitch;  
-  fCurrentDisplayOctave = K_NO_OCTAVE;
-
-  fCurrentNoteIsARest = false;
-  fCurrentRestMeasure = false;
-  
-  fCurrentNoteIsUnpitched = false;
-  
-  fCurrentNoteIsAGraceNote = false;
-
-  // accidentals
-  fCurrentNoteEditorialAccidentalKind =
-    msrNote::kNoteEditorialAccidentalNo; // default value
-  fCurrentNoteCautionaryAccidentalKind =
-    msrNote::kNoteCautionaryAccidentalNo; // default value
-        
-  // note context
-  
-  fCurrentNoteStaffNumber = 0;
-  fCurrentNoteVoiceNumber = 0;
-
-  fCurrentNoteHasATimeModification = false;
-  fCurrentActualNotes = -1;
-  fCurrentNormalNotes = -1;
-  
-  fCurrentNoteBelongsToAChord = false;
-
-  fCurrentNoteBelongsToATuplet = false;
-
-  // note lyrics
-
-// JMI  fCurrentNoteSyllableExtendKind = k_NoSyllableExtend;
-}
-
 musicXMLTree2MsrTranslator::musicXMLTree2MsrTranslator (
+  S_msrScore       mScore,
   indentedOstream& ios)
   : fLogOutputStream (ios)
 {
   // initialize note data to a neutral state
   initializeNoteData ();
 
-  // the MSR score we're building
-  fMsrScore =
-    msrScore::create (0);
+  // the MSR score we're populating
+  fMsrScore = mScore;
 
   // geometry handling
   fCurrentMillimeters = -1;
@@ -314,7 +259,63 @@ musicXMLTree2MsrTranslator::~musicXMLTree2MsrTranslator ()
 {}
 
 //________________________________________________________________________
-S_msrScore musicXMLTree2MsrTranslator::buildMsrScoreFromXMLElementTree (
+void musicXMLTree2MsrTranslator::initializeNoteData ()
+{
+  // basic note description
+
+// JMI  fCurrentNoteKind = k_NoNoteKind;
+
+  fCurrentNoteQuarterTonesPitch  = k_NoQuarterTonesPitch;
+  
+  fCurrentNoteSoundingWholeNotes             = rational (-13, 1);
+  fCurrentNoteSoundingWholeNotesFromDuration = rational (-17, 1);
+  
+  fCurrentNoteDisplayWholeNotes         = rational (-25, 1);
+  fCurrentNoteDisplayWholeNotesFromType = rational (-29, 1);
+  
+  fCurrentNoteDotsNumber = 0;
+  
+  fCurrentNoteGraphicDuration = k_NoDuration;
+
+  fCurrentNoteOctave = K_NO_OCTAVE;
+
+  fCurrentNoteQuarterTonesDisplayPitch = k_NoQuarterTonesPitch;
+  fCurrentDisplayDiatonicPitch = k_NoDiatonicPitch;  
+  fCurrentDisplayOctave = K_NO_OCTAVE;
+
+  fCurrentNoteIsARest = false;
+  fCurrentRestMeasure = false;
+  
+  fCurrentNoteIsUnpitched = false;
+  
+  fCurrentNoteIsAGraceNote = false;
+
+  // accidentals
+  fCurrentNoteEditorialAccidentalKind =
+    msrNote::kNoteEditorialAccidentalNo; // default value
+  fCurrentNoteCautionaryAccidentalKind =
+    msrNote::kNoteCautionaryAccidentalNo; // default value
+        
+  // note context
+  
+  fCurrentNoteStaffNumber = 0;
+  fCurrentNoteVoiceNumber = 0;
+
+  fCurrentNoteHasATimeModification = false;
+  fCurrentActualNotes = -1;
+  fCurrentNormalNotes = -1;
+  
+  fCurrentNoteBelongsToAChord = false;
+
+  fCurrentNoteBelongsToATuplet = false;
+
+  // note lyrics
+
+// JMI  fCurrentNoteSyllableExtendKind = k_NoSyllableExtend;
+}
+
+//________________________________________________________________________
+S_msrScore musicXMLTree2MsrTranslator::populateMSRSkeletonFromXMLElementTree (
   const Sxmlelement& xmlTree)
 {
   S_msrScore result;
@@ -331,6 +332,74 @@ S_msrScore musicXMLTree2MsrTranslator::buildMsrScoreFromXMLElementTree (
   }
 
   return result;
+}
+
+//_______________________________________________________________________________
+void populateMSRSkeletonFromElementsTree (
+  S_msrOptions&    msrOpts,
+  Sxmlelement      elemsTree,
+  S_msrScore       scoreSkeleton,
+  indentedOstream& logIOstream)
+{
+  clock_t startClock = clock();
+
+  if (gGeneralOptions->fTraceGeneral) {
+    string separator =
+      "%--------------------------------------------------------------";
+  
+    logIOstream <<
+      endl <<
+      separator <<
+      endl <<
+      gTab <<
+      "Pass 2b: translating the xmlelement tree into a MSR" <<
+      endl;
+    
+    logIOstream <<
+      separator <<
+      endl <<
+      endl;
+  }
+  
+  // create an musicXMLTree2MsrTranslator
+  musicXMLTree2MsrTranslator
+    translator (
+      logIOstream);
+
+  // build the MSR score
+  S_msrScore
+    mScore =
+      translator.populateMSRSkeletonFromXMLElementTree (
+        scoreSkeleton,
+        elemsTree,
+        logIOstream);
+
+  clock_t endClock = clock();
+
+  // register time spent
+  timing::gTiming.appendTimingItem (
+    "Pass 2b: build the MSR",
+    timingItem::kMandatory,
+    startClock,
+    endClock);
+
+  if (msrOpts->fDisplayMsr) {
+    // display the MSR
+    displayMSR (
+      msrOpts,
+      scoreSkeleton,
+      logIOstream);
+  }
+
+  if (msrOpts->fDisplayMsrSummary) {
+    // display the MSR summary
+    displayMSRSummary (
+      msrOpts,
+      scoreSkeleton,
+      logIOstream);
+  }
+
+  return mScore;
 }
 
 //________________________________________________________________________

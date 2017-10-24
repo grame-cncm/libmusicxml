@@ -444,11 +444,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public:
   
     musicXMLTree2MsrTranslator (
+      S_msrScore       mScore,
       indentedOstream& ios);
 
     virtual ~musicXMLTree2MsrTranslator ();
 
-    S_msrScore buildMsrScoreFromXMLElementTree (
+    S_msrScore populateMSRSkeletonFromXMLElementTree (
         const Sxmlelement& xmlTree);
 
     S_msrScore getMsrScore () const
@@ -947,7 +948,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fCurrentDivisionsPerQuarterNote;
     S_msrDivisions            fCurrentDivisions;
     
-    // the MSR score we're building
+    // the MSR score we are populating
     // ------------------------------------------------------
     
     S_msrScore                fMsrScore;
