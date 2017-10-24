@@ -50,7 +50,7 @@ void populateMsrSkeletonFromMxmlTree (
   const Sxmlelement mxmlTree);
 
 //______________________________________________________________________________
-S_msrScore populateMSRSkeletonFromElementsTree (
+S_msrScore populateMsrSkeletonFromElementsTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,

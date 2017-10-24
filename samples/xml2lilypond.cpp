@@ -28,6 +28,8 @@
 
 #include "xml2lilypondOptionsHandling.h"
 
+#include "musicXML2mxmlTreeInterface.h"
+
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"
 #include "mxmlTree2MsrTranslatorInterface.h"
 
@@ -77,62 +79,52 @@ vector<string> handleOptionsAndArguments (
   return argumentsVector;
 }
 
-S_msrScore convertMusicXMLToMSRSkeleton (
-  string inputSourceName,
-  string outputFileName)
+//_______________________________________________________________________________
+Sxmlelement convertMusicXMLToMxmlTree (
+  string inputSourceName)
 {
-  int outputFileNameSize = outputFileName.size ();
-  
-  S_msrScore mScore;
+  // this is pass 1
+    
+  Sxmlelement mxmlTree;
 
   if (inputSourceName == "-") {
     // input comes from standard input
-    if (outputFileNameSize)
-      mScore =
-        mxmlFd2MsrSkeleton (
-          stdin,
-          gMsrOptions,
-          gLogIOstream);
-    else
-      mScore =
-        mxmlFd2MsrSkeleton (
-          stdin,
-          gMsrOptions,
-          gLogIOstream);
+    mxmlTree =
+      musicXMLFd2mxmlTree (
+        stdin,
+        gMsrOptions,
+        gLogIOstream);
   }
   
   else {
     // input comes from a file
-    if (outputFileNameSize) {
-      mScore =
-        mxmlFile2MsrSkeleton (
-          inputSourceName.c_str(),
-          gMsrOptions,
-          gLogIOstream);
-    }
-    else {
-      mScore =
-        mxmlFile2MsrSkeleton (
-          inputSourceName.c_str(),
-          gMsrOptions,
-          gLogIOstream);
-    }
+    mxmlTree =
+      musicXMLFile2mxmlTree (
+        inputSourceName.c_str(),
+        gMsrOptions,
+        gLogIOstream);
   }
     
-  return mScore;
+  return mxmlTree;
 }
 
+//_______________________________________________________________________________
 void populateMSRFromMusicXML (
   string     inputSourceName,
   string     outputFileName,
   S_msrScore mScore)
 {
+  // this is pass 2a
+  
 }
 
+//_______________________________________________________________________________
 S_lpsrScore convertMSRToLPSR (
   string     outputFileName,
   S_msrScore mScore)
 {
+  // this is pass 3
+  
   int outputFileNameSize = outputFileName.size ();
 
   S_lpsrScore lpScore;
@@ -159,10 +151,13 @@ S_lpsrScore convertMSRToLPSR (
   return lpScore;
 }
 
+//_______________________________________________________________________________
 void convertLPSRToLilypond (
   string      outputFileName,
   S_lpsrScore lpScore)
 {
+  // this is pass 4
+  
   int outputFileNameSize = outputFileName.size ();
 
   if (! gLilypondOptions->fNoLilypondCode) {
@@ -224,17 +219,28 @@ void convertLPSRToLilypond (
   }
 }
 
+//_______________________________________________________________________________
 void convertMusicXMLToLilypond (
   string     inputSourceName,
   string     outputFileName)
 {
+  // create the mxmxTree from MusicXML contents (pass 1)
+  // ------------------------------------------------------
+
+  Sxmlelement
+    mxmlTree =
+      convertMusicXMLToMxmlTree (
+        inputSourceName);
+      
   // create the MSR skeleton from MusicXML contents (pass 2a)
   // ------------------------------------------------------
 
   S_msrScore
     mScore =
-      convertMusicXMLToMSRSkeleton (
-        inputSourceName, outputFileName);
+      buildMsrSkeletonFromElementsTree (
+        gMsrOptions,
+        mxmlTree,
+        gLogIOstream);
 
   if (! mScore) {
     gLogIOstream <<
