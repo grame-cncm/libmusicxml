@@ -38,25 +38,10 @@ The library includes a high level API to convert
 */
 
 //______________________________________________________________________________
-/*!
-  \brief Converts a MusicXML representation to the LilyPond format.
-  \param file a file name 
-  \param msrOpts the MSR options to be used
-  \param out the output stream
-  \return an error code (\c kNoErr when success)
-*/
-EXP void lpsr2Lilypond (
-  const S_lpsrScore lpScore,
-  S_msrOptions&     msrOpts,
-  S_lpsrOptions&    lpsrOpts,
-  indentedOstream&  logIOstream,
-  indentedOstream&  lilypondCodeIOstream);
-
-//______________________________________________________________________________
 void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions&     msrOpts,
-  S_lpsrOptions&    lpsrOpts,
+  S_msrOptions      msrOpts,
+  S_lpsrOptions     lpsrOpts,
   indentedOstream&  logIOstream,
   indentedOstream&  lilypondCodeIOstream);
 

@@ -109,50 +109,41 @@ Sxmlelement convertMusicXMLToMxmlTree (
 }
 
 //_______________________________________________________________________________
-void populateMSRFromMusicXML (
-  string     inputSourceName,
-  string     outputFileName,
-  S_msrScore mScore)
+void populateScoreSkeletonFromMusicXML (
+  Sxmlelement mxmlTree,
+  S_msrScore  scoreSkeleton)
 {
   // this is pass 2a
-  
+
+  populateMsrSkeletonFromMxmlTree (
+    gMsrOptions,
+    mxmlTree,
+    scoreSkeleton,
+    gLogIOstream);
 }
 
 //_______________________________________________________________________________
-S_lpsrScore convertMSRToLPSR (
-  string     outputFileName,
+S_lpsrScore convertMsrScoreToLpsrScore (
   S_msrScore mScore)
 {
   // this is pass 3
-  
-  int outputFileNameSize = outputFileName.size ();
 
   S_lpsrScore lpScore;
 
   if (! gLilypondOptions->fNoLilypondCode) {
-    if (outputFileNameSize) {
-      lpScore =
-        buildLpsrScoreFromMsrScore (
-          mScore,
-          gMsrOptions,
-          gLpsrOptions,
-          gLogIOstream);
-    }
-    else {
-      lpScore =
-        buildLpsrScoreFromMsrScore (
-          mScore,
-          gMsrOptions,
-          gLpsrOptions,
-          gLogIOstream);
-    }
+    lpScore =
+      buildLpsrScoreFromMsrScore (
+        mScore,
+        gMsrOptions,
+        gLpsrOptions,
+        gLogIOstream);
   }
 
   return lpScore;
 }
 
 //_______________________________________________________________________________
-void convertLPSRToLilypond (
+void convertLpsrScoreToLilypondCode (
   string      outputFileName,
   S_lpsrScore lpScore)
 {
@@ -184,7 +175,7 @@ void convertLPSRToLilypond (
           outFileStream, gIndenter);
 
       // convert the LPSR score to LilyPond code
-      lpsr2Lilypond (
+      generateLilypondCodeFromLpsrScore (
         lpScore,
         gMsrOptions,
         gLpsrOptions,
@@ -199,7 +190,7 @@ void convertLPSRToLilypond (
         lilypondCodeCoutOutputStream (
           cout, gIndenter);
 
-      lpsr2Lilypond (
+      generateLilypondCodeFromLpsrScore (
         lpScore,
         gMsrOptions,
         gLpsrOptions,
@@ -257,8 +248,8 @@ void convertMusicXMLToLilypond (
   // populate the MSR from MusicXML contents (pass 2b)
   // ------------------------------------------------------
 
-  populateMSRFromMusicXML (
-    inputSourceName, outputFileName,
+  populateScoreSkeletonFromMusicXML (
+    mxmlTree,
     mScore);
   
   if (gGeneralOptions->fExit2b)
@@ -269,8 +260,7 @@ void convertMusicXMLToLilypond (
 
   S_lpsrScore
     lpScore =
-      convertMSRToLPSR (
-        outputFileName,
+      convertMsrScoreToLpsrScore (
         mScore);
 
   if (! lpScore) {
@@ -288,7 +278,7 @@ void convertMusicXMLToLilypond (
   // generate LilyPond code from the LPSR (pass 4)
   // ------------------------------------------------------
 
-  convertLPSRToLilypond (
+  convertLpsrScoreToLilypondCode (
     outputFileName,
     lpScore);
 }

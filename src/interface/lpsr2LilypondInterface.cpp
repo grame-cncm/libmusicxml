@@ -27,31 +27,10 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-/*
- * The method that converts the file contents to LilyPond code
- * and  writes the result to the output stream
-*/
-void lpsr2Lilypond (
-  const S_lpsrScore lpScore,
-  S_msrOptions&     msrOpts,
-  S_lpsrOptions&    lpsrOpts,
-  indentedOstream&  logIOstream,
-  indentedOstream&  lilypondCodeIOstream) 
-{  
-  // generate LilyPond code from LPSR score
-  generateLilypondCodeFromLpsrScore (
-    lpScore,
-    msrOpts,
-    lpsrOpts,
-    logIOstream,
-    lilypondCodeIOstream);
-}
-
-//_______________________________________________________________________________
 void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
-  S_msrOptions&     msrOpts,
-  S_lpsrOptions&    lpsrOpts,
+  S_msrOptions      msrOpts,
+  S_lpsrOptions     lpsrOpts,
   indentedOstream&  logIOstream,
   indentedOstream&  lilypondCodeIOstream)
 {

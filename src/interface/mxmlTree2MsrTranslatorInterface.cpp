@@ -36,7 +36,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-void populateMsrSkeletonFromElementsTree (
+void populateMsrSkeletonFromMxmlTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      mxmlTree,
   S_msrScore       scoreSkeleton,
