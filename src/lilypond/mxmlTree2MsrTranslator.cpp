@@ -363,7 +363,7 @@ S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
   int            inputLineNumber,
   int            staffNumber)
 {    
-  // fetch staff from current part
+  // fetch the staff from current part
   S_msrStaff
     staff =
       fCurrentPart->
@@ -394,89 +394,77 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   // the voice number is relative to a part,
   // we'll call it its part-relative ID
 
-  // create the staff if not yet done
+  // fetch the staff from current part
   S_msrStaff
     staff =
       fetchStaffFromCurrentPart (
         inputLineNumber,
         staffNumber);
 
-  // the voice
-  S_msrVoice voice;
-  
-  // get registered voice staff number
-  bool
-    voiceNumberHasAlreadyBeenRegistered =
-      fPartVoiceNumberToVoiceMap.count (
-        voiceNumber);
-        
-  if (! voiceNumberHasAlreadyBeenRegistered) {
-    // create the voice and append it to the staff
+  // fetch the voice from the staff
+  S_msrVoice
     voice =
       staff->
-        createVoiceInStaffByItsPartRelativeID (
+        fetchVoiceFromStaffByItsPartRelativeID (
           inputLineNumber,
-          msrVoice::kRegularVoice,
-          voiceNumber,
-          fCurrentMeasureNumber);
+          voiceNumber);
 
-    // register that voice 'voiceNumber' is mapped to 'voice'
-    fPartVoiceNumberToVoiceMap [voiceNumber] = voice;
+  // sanity check
+  if (! staff) {
+    stringstream s;
+
+    s <<
+      "voice '" << voiceNumber << "' not found in score skeleton's staff \"" <<
+      staff->getStaffName () <<
+      "\"";
+
+    msrInternalError (
+      inputLineNumber,
+      s.str ());
+  }
     
+  // fetch registered voice displaying staff number
+  int voiceDisplayingStaffNumber =
+    fPartVoiceNumberToDisplayingStaffNumberMap [
+      voiceNumber];
+
+  if (staffNumber == voiceDisplayingStaffNumber) {
+    // voice 'voiceNumber' remains displayed by staff 'staffNumber'
+  }
+  
+  else {
+    // voice 'voiceNumber' changes
+    // from staff 'voiceDisplayingStaffNumber'
+    // to staff 'staffNumber'
+
+    if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+      fLogOutputStream <<
+        "Voice \"" <<  voice->getVoiceName () << "\"" <<
+        " changes from staff " << voiceDisplayingStaffNumber <<
+        " to staff " << staffNumber <<
+        endl;
+    }
+
+    // create the voice staff change
+    S_msrVoiceStaffChange
+      voiceStaffChange =
+        msrVoiceStaffChange::create (
+          inputLineNumber,
+          staff);
+
+    // append it to the voice
+    voice->
+      appendVoiceStaffChangeToVoice (
+        voiceStaffChange);
+
     // register that voice 'voiceNumber' is currently displayed
     // by staff 'staffNumber'
     fPartVoiceNumberToDisplayingStaffNumberMap [voiceNumber] =
       staffNumber;
   }
   
-  else {
-    // the voice is the one registered for 'voiceNumber'
-    voice =
-      fPartVoiceNumberToVoiceMap [voiceNumber];
-
-    // fetch registered voice displaying staff number
-    int voiceDisplayingStaffNumber =
-      fPartVoiceNumberToDisplayingStaffNumberMap [
-        voiceNumber];
-
-    if (staffNumber == voiceDisplayingStaffNumber) {
-      // voice 'voiceNumber' remains displayed by staff 'staffNumber'
-    }
-    
-    else {
-      // voice 'voiceNumber' changes
-      // from staff 'voiceDisplayingStaffNumber'
-      // to staff 'staffNumber'
-
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-        fLogOutputStream <<
-          "Voice \"" <<  voice->getVoiceName () << "\"" <<
-          " changes from staff " << voiceDisplayingStaffNumber <<
-          " to staff " << staffNumber <<
-          endl;
-      }
-
-      // create the voice staff change
-      S_msrVoiceStaffChange
-        voiceStaffChange =
-          msrVoiceStaffChange::create (
-            inputLineNumber,
-            staff);
-  
-      // append it to the voice
-      voice->
-        appendVoiceStaffChangeToVoice (
-          voiceStaffChange);
-  
-      // register that voice 'voiceNumber' is currently displayed
-      // by staff 'staffNumber'
-      fPartVoiceNumberToDisplayingStaffNumberMap [voiceNumber] =
-        staffNumber;
-    }
-  }
-  
   return voice;
-}  
+}
 
 /* JMI
 //______________________________________________________________________________
