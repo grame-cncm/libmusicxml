@@ -4867,6 +4867,14 @@ class EXP msrNote : public msrElement
     // creation from xml2Msr
     // ------------------------------------------------------
 
+    static SMARTP<msrNote> createRestNote (
+      int       inputLineNumber,
+      rational  soundingWholeNotes,
+      rational  displayWholeNotes,
+      int       dotsNumber,
+      int       staffNumber,
+      int       voicePartRelativeID);
+    
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
       rational  soundingWholeNotes,

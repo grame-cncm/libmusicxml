@@ -4314,7 +4314,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
     
   fLilypondIOstream <<
     "| % " << measureNumber <<
-    endl <<
     endl;
 
   if (gLilypondOptions->fComments) {

@@ -4805,6 +4805,49 @@ S_msrNote msrNote::createNoteDeepCopy (
   return noteDeepCopy;
 }
 
+S_msrNote msrNote::createRestNote (
+  int       inputLineNumber,
+  rational  soundingWholeNotes,
+  rational  displayWholeNotes,
+  int       dotsNumber,
+  int       staffNumber,
+  int       voicePartRelativeID)
+{    
+  msrNote * o =
+    new msrNote (
+      inputLineNumber,
+      
+      kRestNote, // noteKind
+      
+      k_NoQuarterTonesPitch,
+      
+      soundingWholeNotes,
+      displayWholeNotes,
+      
+      dotsNumber,
+      
+      k_NoDuration, // noteGraphicDuration
+      
+      K_NO_OCTAVE, // noteOctave,
+      
+      k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
+      K_NO_OCTAVE, // noteDisplayOctave,
+      
+      false, // noteIsARest
+      false, // noteIsUnpitched
+      
+      false, // noteIsAGraceNote
+
+      kNotePrintYes, // JMI
+
+      kNoteHeadNormal, // JMI
+      kNoteHeadFilledYes, // JMI
+      kNoteHeadParenthesesNo); // JMI
+  assert(o!=0);
+  
+  return o;
+}    
+
 S_msrNote msrNote::createSkipNote (
   int       inputLineNumber,
   rational  soundingWholeNotes,
@@ -17234,49 +17277,49 @@ void msrMeasure::finalizeMeasure (
       lengthToReach = partMeasureLengthHighTide;
     
     if (fMeasureLength < lengthToReach) {
-      // appending a skip to this measure to reach lenthToReach 
+      // appending a rest to this measure to reach lenthToReach 
       rational
-        skipDuration =
+        restDuration =
           lengthToReach - fMeasureLength;
         
-      // create the skip
+      // create the rest
       S_msrNote
-        skip =
-          msrNote::createSkipNote (
+        rest =
+          msrNote::createRestNote (
             inputLineNumber,
    // JMI         49, // JMI
-            skipDuration,
-            skipDuration,
+            restDuration,
+            restDuration,
             0, // dots number JMI ???
             voice->
               getVoiceStaffUplink ()->getStaffNumber (),
             voice->
               getVoicePartRelativeID ());
   
-      // does the skip occupy a full measure?
-      if (skipDuration == fMeasureFullMeasureLength)
-        skip->
+      // does the rest occupy a full measure?
+      if (restDuration == fMeasureFullMeasureLength)
+        rest->
           setNoteOccupiesAFullMeasure ();
     
-      // register skip's position in measure
-      skip->
+      // register rest's position in measure
+      rest->
         setNotePositionInMeasure (fMeasureLength);
              
       if (gGeneralOptions->fTraceMeasures)
         gLogIOstream <<
-         "Appending '" << skip->noteAsString () <<
-         " (" << skipDuration << " whole notes)'" <<
+         "Appending '" << rest->noteAsString () <<
+         " (" << restDuration << " rest whole notes)'" <<
          " to finalize \"" << voice->getVoiceName () <<
          "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
          " % --> @" << fMeasureNumber << // JMI
          ":" << partMeasureLengthHighTide <<
-          ", skipDuration = " << skipDuration <<
+          ", restDuration = " << restDuration <<
          endl;
   
-      // append the skip to the measure elements list
+      // append the rest to the measure elements list
       // only now to make it possible to remove it afterwards
       // if it happens to be the first note of a chord
-      appendNoteToMeasure (skip);
+      appendNoteToMeasure (rest);
     }
   
     // determine the measure kind
