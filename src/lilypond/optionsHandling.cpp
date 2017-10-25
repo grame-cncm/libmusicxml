@@ -2458,7 +2458,8 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
   if (optionsSubGroup == this) {
     os <<
       endl;
-    printHelp (os);
+    printSpecificSubGroupHelp (
+      os, optionsSubGroup);
   }
   else {
     printHelpSummary (os);
@@ -2466,8 +2467,8 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
  }
 
 void msrOptionsSubGroup::printOptionsItemForcedHelp (
-  ostream&             os,
-  S_msrOptionsItem     targetOptionsItem) const
+  ostream&         os,
+  S_msrOptionsItem targetOptionsItem) const
 {
   // print the header
   os <<

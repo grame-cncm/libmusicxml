@@ -298,6 +298,7 @@ R"(Write a trace of the general activity to standard error.)",
   
     // part groups
     fTracePartGroups = boolOptionsInitialValue;
+    fTracePartGroupsDetails = boolOptionsInitialValue;
     
     // parts
     fTraceParts = boolOptionsInitialValue;
@@ -419,6 +420,15 @@ R"(divisions)",
 R"(part groups)",
           "tracePartGroups",
           fTracePartGroups,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        msrOptionsTwoBooleansItem::create (
+          "tpgrpsd", "tracePartGroupsDetails",
+R"(part groups)",
+          "tracePartGroups",
+          fTracePartGroupsDetails,
           fTraceGeneral));
       
     specificTraceSubGroup->
@@ -824,6 +834,7 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
 
   // part groups
   clone->fTracePartGroups = true;
+  clone->fTracePartGroupsDetails = true;
   
   // parts
   clone->fTraceParts = true;
@@ -1038,6 +1049,9 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     // part groups
     setw (fieldWidth) << "tracePartGroups" << " : " <<
     booleanAsString (fTracePartGroups) <<
+    endl <<
+    setw (fieldWidth) << "tracePartGroupsDetails" << " : " <<
+    booleanAsString (fTracePartGroupsDetails) <<
     endl <<
     
     // parts

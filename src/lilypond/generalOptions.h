@@ -115,7 +115,7 @@ class EXP generalOptions : public msrOptionsGroup
 
     // part groups
     bool                  fTracePartGroups;
-    
+    bool                  fTracePartGroupsDetails;
 
     // parts
     bool                  fTraceParts;
