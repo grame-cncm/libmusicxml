@@ -58,7 +58,6 @@ void populateMsrSkeletonFromMxmlTree (
     
     logIOstream <<
       separator <<
-      endl <<
       endl;
   }
   
@@ -151,6 +150,7 @@ void displayMSRPopulatedScoreSummary (
       "Optional pass: outputting a summary of the MSR" <<
       endl <<
       separator <<
+      endl <<
       endl;
   }
    

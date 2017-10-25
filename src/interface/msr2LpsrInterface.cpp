@@ -112,15 +112,8 @@ void displayLpsrScore (
     endl <<
     separator <<
     endl <<
-    endl;  
-
-  logIOstream <<
-    "%{" <<
     endl <<
-    
     lpScore <<
-    
-    "%}" <<
     endl;
   
   logIOstream <<

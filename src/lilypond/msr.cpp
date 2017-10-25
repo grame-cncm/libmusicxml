@@ -29082,6 +29082,7 @@ void msrPart::print (ostream& os)
           break;
       } // switch
 
+/* JMI
       if (i != fPartStavesMap.end ()) {
         switch (staffKind) {
           case msrStaff::kMasterStaff:
@@ -29117,6 +29118,7 @@ void msrPart::print (ostream& os)
             break;
         } // switch
       }
+      */
     } // for
 
     gIndenter--;
@@ -29691,7 +29693,7 @@ void msrPartGroup::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      os << endl;
+ //     os << endl;
     } // for
   }
   

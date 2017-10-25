@@ -109,11 +109,36 @@ Sxmlelement convertMusicXMLToMxmlTree (
 }
 
 //_______________________________________________________________________________
+S_msrScore convertMxmlTreeToAScoreSkeleton (
+  Sxmlelement mxmlTree)
+{
+  // this is pass 2a
+
+  S_msrScore
+    mScore =
+      buildMsrSkeletonFromElementsTree (
+        gMsrOptions,
+        mxmlTree,
+        gLogIOstream);
+
+  if (! mScore) {
+    gLogIOstream <<
+      "### Conversion from MusicCML to an MSR skeleton failed ###" <<
+      endl <<
+      endl;
+
+    exit (1);
+  }
+
+  return mScore;
+}
+
+//_______________________________________________________________________________
 void populateScoreSkeletonFromMusicXML (
   Sxmlelement mxmlTree,
   S_msrScore  scoreSkeleton)
 {
-  // this is pass 2a
+  // this is pass 2b
 
   populateMsrSkeletonFromMxmlTree (
     gMsrOptions,
@@ -137,6 +162,15 @@ S_lpsrScore convertMsrScoreToLpsrScore (
         gMsrOptions,
         gLpsrOptions,
         gLogIOstream);
+  }
+
+  if (! lpScore) {
+    gLogIOstream <<
+      "### Conversion from MSR to LPSR failed ###" <<
+      endl <<
+      endl;
+      
+    exit (2);
   }
 
   return lpScore;
@@ -228,19 +262,8 @@ void convertMusicXMLToLilypond (
 
   S_msrScore
     mScore =
-      buildMsrSkeletonFromElementsTree (
-        gMsrOptions,
-        mxmlTree,
-        gLogIOstream);
-
-  if (! mScore) {
-    gLogIOstream <<
-      "### Conversion from MusicCML to an MSR skeleton failed ###" <<
-      endl <<
-      endl;
-
-    exit (1);
-  }
+      convertMxmlTreeToAScoreSkeleton (
+        mxmlTree);
 
   if (gGeneralOptions->fExit2a)
     return;
@@ -262,15 +285,6 @@ void convertMusicXMLToLilypond (
     lpScore =
       convertMsrScoreToLpsrScore (
         mScore);
-
-  if (! lpScore) {
-    gLogIOstream <<
-      "### Conversion from MSR to LPSR failed ###" <<
-      endl <<
-      endl;
-      
-    exit (2);
-  }
 
   if (gGeneralOptions->fExit3)
     return;
