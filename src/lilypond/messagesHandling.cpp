@@ -49,6 +49,7 @@ void msrWarning (
 
   gLogIOstream <<
     message <<
+    endl <<
     endl;
 }
 
@@ -115,6 +116,7 @@ void msrError (
 
   gLogIOstream <<
     message <<
+    endl <<
     endl;
 }
 

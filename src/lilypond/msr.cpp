@@ -27263,7 +27263,7 @@ void msrPart::initializePart ()
 {
   if (gGeneralOptions->fTraceParts)
     gLogIOstream <<
-      "==> Initializing part \"" << getPartCombinedName () <<
+      "Creating part \"" << getPartCombinedName () << "\"" <<
       endl;
 
   // is this part name in the part renaming map?
@@ -27281,10 +27281,7 @@ void msrPart::initializePart ()
       "P_"+stringNumbersToEnglishWords (fPartID);
   }
   
-  if (gGeneralOptions->fTraceParts)
-    gLogIOstream <<
-      "==> Creating part " << getPartCombinedName () << endl;
-  
+  // initialize part measure length high tide
   setPartMeasureLengthHighTide (
     fInputLineNumber,
     rational (0, 1));
@@ -27736,9 +27733,15 @@ void msrPart::setPartMsrName (string partMsrName)
 string msrPart::getPartCombinedName () const
 {
   stringstream s;
-  
+
+  if (! fPartMsrName.size ())
+    s <<
+      "[empty name]";
+  else
+    s <<
+      "\"" << fPartMsrName << "\"";
+
   s <<
-    "\"" << fPartMsrName << "\"" <<
     " (" << fPartID;
 
   if (fPartName.size ())
@@ -29298,7 +29301,7 @@ msrPartGroup::msrPartGroup (
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
-      "==> Creating part group " << fPartGroupNumber <<
+      "Creating part group " << fPartGroupNumber <<
       endl;
 }
 
@@ -29366,6 +29369,12 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
   int    inputLineNumber,
   string partID)
 {
+  // sanity check
+  msrAssert (
+    partID.size () != 0,
+    "partID is empty");
+
+  // has this partID already been added to this part?
   if (fPartGroupPartsMap.count (partID)) {
     stringstream s;
 
