@@ -28985,8 +28985,8 @@ void msrPart::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "PartPartGroupUplink" << ": \"" <<
-    fPartPartGroupUplink->getPartGroupName () << "\"" <<
+    "PartPartGroupUplink" << ": " <<
+    fPartPartGroupUplink->getPartGroupCombinedName () <<
     endl <<
     setw (fieldWidth) <<
     "PartMsrName" << ": \"" <<
