@@ -5095,6 +5095,17 @@ If the double element is present, it indicates that the music is doubled one oct
   
   switch (transposeChromatic) {
     case -12:
+      switch (transposeDiatonic) {
+        case -7:
+          transpositionPitch = k_cNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
+      } // switch
       break;
     case -11:
       switch (transposeDiatonic) {
@@ -5459,6 +5470,17 @@ If the double element is present, it indicates that the music is doubled one oct
       break;
 
     case 12:
+      switch (transposeDiatonic) {
+        case 7:
+          transpositionPitch = k_cNatural;
+          break;
+
+        default:
+          transposeDiatonicError (
+            inputLineNumber,
+            transposeDiatonic,
+            transposeChromatic);
+      } // switch
       break;
 
     default:
@@ -6416,7 +6438,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         
       switch (dynamics->getDynamicsPlacementKind ()) {
         case msrDynamics::k_NoDynamicsPlacement:
-          fLilypondIOstream << "-3";
+   // JMI       fLilypondIOstream << "-3";
           break;
         case msrDynamics::kDynamicsPlacementAbove:
           fLilypondIOstream << "^";

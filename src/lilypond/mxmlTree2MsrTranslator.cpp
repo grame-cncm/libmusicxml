@@ -1024,15 +1024,36 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
         " -- start" <<
       endl;
 
-  gIndenter++;
+  // ???
+  fPartVoiceNumberToVoiceMap.clear (); // JMI
 
+  // initialize voice changes handling
+  fPartVoiceNumberToDisplayingStaffNumberMap.clear ();
+
+  // get this part's staves map
+  map<int, S_msrStaff>
+    partStavesMap =
+      fCurrentPart->
+        getPartStavesMap ();
+      
+  // register that this part's voices are currently displayed
+  // by staff 'staffNumber'
+  for (
+    map<int, S_msrStaff>::const_iterator i = partStavesMap.begin ();
+    i != partStavesMap.end ();
+    i++) {
+    fPartVoiceNumberToDisplayingStaffNumberMap [(*i).first] =
+      (*i).second->
+        getStaffNumber ();
+  } // for
+
+  // miscellaneous
   fCurrentStaffNumber = 1; // default if there are no <staff> element
   fCurrentVoiceNumber = 1; // default if there are no <voice> element
 
   fRepeatHasBeenCreatedForCurrentPart = false;
 
-  fPartVoiceNumberToVoiceMap.clear ();
-  fPartVoiceNumberToDisplayingStaffNumberMap.clear ();
+  gIndenter++;
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_part& elt)

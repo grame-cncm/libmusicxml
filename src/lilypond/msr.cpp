@@ -17265,19 +17265,12 @@ void msrMeasure::finalizeMeasure (
   }
 
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
-    // compute the maximum of the full measure length // JMI
-    // which is time dependent
-    // and the measure length high tide,
-    // in case the measure is overfull
     rational
       lengthToReach =
-        fMeasureFullMeasureLength;
-        
-    if (partMeasureLengthHighTide > lengthToReach)
-      lengthToReach = partMeasureLengthHighTide;
+        partMeasureLengthHighTide;
     
     if (fMeasureLength < lengthToReach) {
-      // appending a rest to this measure to reach lenthToReach 
+      // appending a rest to this measure to reach lengthToReach 
       rational
         restDuration =
           lengthToReach - fMeasureLength;
