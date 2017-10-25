@@ -29412,7 +29412,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsID (
   fPartGroupPartsMap [partID] = part;
   fPartGroupElements.push_back (part);
 
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
       endl <<
       "==> After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
