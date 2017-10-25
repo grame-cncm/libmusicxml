@@ -10522,11 +10522,11 @@ class EXP msrPartGroup : public msrElement
     // services
     // ------------------------------------------------------
 
-    S_msrPart             addPartToPartGroupByItsID (
+    S_msrPart             appendPartToPartGroupByItsID (
                             int    inputLineNumber,
                             string partID);
     
-    void                  addPartToPartGroup (S_msrPart part);
+    void                  appendPartToPartGroup (S_msrPart part);
                 
     void                  prependSubPartGroupToPartGroup (
                             S_msrPartGroup partGroup);

@@ -29367,7 +29367,7 @@ string msrPartGroup::getPartGroupCombinedName () const
   return s.str ();
 }
 
-S_msrPart msrPartGroup::addPartToPartGroupByItsID (
+S_msrPart msrPartGroup::appendPartToPartGroupByItsID (
   int    inputLineNumber,
   string partID)
 {
@@ -29415,7 +29415,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
   if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       endl <<
-      "==> After addPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
+      "==> After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
       endl;
         
     gIndenter++;
@@ -29434,7 +29434,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
     gIndenter--;
     
     gLogIOstream <<
-      "==> After addPartToPartGroupByItsID, fPartGroupElements contains:" <<
+      "==> After appendPartToPartGroupByItsID, fPartGroupElements contains:" <<
       endl;
       
     gIndenter++;
@@ -29461,7 +29461,7 @@ S_msrPart msrPartGroup::addPartToPartGroupByItsID (
   return part;
 }
 
-void msrPartGroup::addPartToPartGroup (S_msrPart part)
+void msrPartGroup::appendPartToPartGroup (S_msrPart part)
 {
   // register part in this part group
   if (gGeneralOptions->fTracePartGroups) {

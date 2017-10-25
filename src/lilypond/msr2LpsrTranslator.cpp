@@ -561,7 +561,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       endl;
 
   fPartGroupsStack.top ()->
-    addPartToPartGroup (fCurrentPartClone);
+    appendPartToPartGroup (fCurrentPartClone);
 
   // create a part block
   fCurrentPartBlock =
