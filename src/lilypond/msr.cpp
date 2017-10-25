@@ -24783,7 +24783,8 @@ void msrVoice::print (ostream& os)
     booleanAsString (fVoiceContainsMultipleRests) <<
     endl;
 
-  os << endl;
+  os <<
+    endl;
   
   // print the voice initial repeats and segments
   int initialRepeatsAndSegmentsNumber =
@@ -24815,7 +24816,9 @@ void msrVoice::print (ostream& os)
 
     gIndenter--;
   }
-  os << endl;
+  
+  os <<
+    endl;
 
   /* JMI
   // sanity check
@@ -24836,6 +24839,7 @@ void msrVoice::print (ostream& os)
       endl;
     gIndenter--;
   }
+  
   else {
     os <<
       "*** Last segment is null ***" << // JMI
@@ -29076,49 +29080,11 @@ void msrPart::print (ostream& os)
           break;
           
         case msrStaff::kFiguredBassStaff:
-    // JMI      if (gMsrOptions->fShowHarmonyVoices)
+    // JMI      if (gMsrOptions->fShowFiguredBassVoices)
           os <<
             staff;
           break;
       } // switch
-
-/* JMI
-      if (i != fPartStavesMap.end ()) {
-        switch (staffKind) {
-          case msrStaff::kMasterStaff:
-            os <<
-              endl;
-            break;
-            
-          case msrStaff::kRegularStaff:
-            os <<
-              endl;
-            break;
-            
-          case msrStaff::kTablatureStaff:
-            os <<
-              endl;
-            break;
-            
-          case msrStaff::kPercussionStaff:
-            os <<
-              endl;
-            break;
-            
-          case msrStaff::kHarmonyStaff:
-   // JMI         if (gMsrOptions->fShowHarmonyVoices)
-              os <<
-                endl;
-            break;
-            
-          case msrStaff::kFiguredBassStaff:
-   // JMI         if (gMsrOptions->fShowHarmonyVoices)
-              os <<
-                endl;
-            break;
-        } // switch
-      }
-      */
     } // for
 
     gIndenter--;
@@ -29677,7 +29643,7 @@ void msrPartGroup::print (ostream& os)
     os <<
       "\"" <<
       fPartGroupPartGroupUplink->
-        getPartGroupName () <<
+        getPartGroupCombinedName () <<
       "\"";
   else
     os << "none";
@@ -29693,7 +29659,7 @@ void msrPartGroup::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- //     os << endl;
+      os << endl;
     } // for
   }
   

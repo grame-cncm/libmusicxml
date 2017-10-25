@@ -13246,42 +13246,54 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       fCurrentDisplayDiatonicPitch,
       fCurrentNoteAlteration);
 
-  // convert note graphic duration into whole notes
-  fCurrentNoteDisplayWholeNotesFromType =
-    msrDurationAsWholeNotes (
-      fCurrentNoteGraphicDuration);
+  // has the current note graphic duration been specified
+  // in a '<type>' markup?
+  switch (fCurrentNoteGraphicDuration) {
+    case k_NoDuration:
+      // use the same duration as the one from the duration
+      // internally ??? JMI
+      fCurrentNoteDisplayWholeNotesFromType =
+        fCurrentNoteSoundingWholeNotesFromDuration;
+      break;
 
-  // take dots into account if any
-  if (fCurrentNoteDotsNumber > 0) {
-    int dots = fCurrentNoteDotsNumber;
-
-    while (dots > 0) {
-      fCurrentNoteDisplayWholeNotesFromType *=
-        rational (3, 2);
-      fCurrentNoteDisplayWholeNotesFromType.rationalise ();
-
-      dots--;
-    } // while
-  }
-
-  // check <duration/> and <type/> consistency if relevant
-  if (
-    fCurrentNoteSoundingWholeNotesFromDuration
-      !=
-    fCurrentNoteDisplayWholeNotesFromType) {
-    stringstream s;
-
-    s <<
-      "note duration inconsistency: divisions indicates " <<
-      fCurrentNoteSoundingWholeNotesFromDuration <<
-      " while type indicates " <<
-      fCurrentNoteDisplayWholeNotesFromType <<
-      ", using the former";
-
-    msrMusicXMLWarning (
-      inputLineNumber,
-      s.str ());
-  }
+    default:
+      // convert note graphic duration into whole notes
+      fCurrentNoteDisplayWholeNotesFromType =
+        msrDurationAsWholeNotes (
+          fCurrentNoteGraphicDuration);
+    
+      // take dots into account if any
+      if (fCurrentNoteDotsNumber > 0) {
+        int dots = fCurrentNoteDotsNumber;
+    
+        while (dots > 0) {
+          fCurrentNoteDisplayWholeNotesFromType *=
+            rational (3, 2);
+          fCurrentNoteDisplayWholeNotesFromType.rationalise ();
+    
+          dots--;
+        } // while
+      }
+    
+      // check <duration/> and <type/> consistency if relevant
+      if (
+        fCurrentNoteSoundingWholeNotesFromDuration
+          !=
+        fCurrentNoteDisplayWholeNotesFromType) {
+        stringstream s;
+    
+        s <<
+          "note duration inconsistency: divisions indicates " <<
+          fCurrentNoteSoundingWholeNotesFromDuration <<
+          " while type indicates " <<
+          fCurrentNoteDisplayWholeNotesFromType <<
+          ", using the former";
+    
+        msrMusicXMLWarning (
+          inputLineNumber,
+          s.str ());
+      }    
+  } // switch
 
   // store voice and staff numbers in MusicXML note data
   fCurrentNoteStaffNumber = fCurrentStaffNumber;
@@ -13326,6 +13338,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       "fCurrentNotePrintKind" << " = " <<
       msrNote::notePrintKindAsString (
         fCurrentNotePrintKind) <<
+      endl <<
       endl;
 
     gIndenter--;
