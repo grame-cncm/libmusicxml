@@ -248,10 +248,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     void                      showPartGroupsData (string context);
     
     void                      handlePartGroupStart (
-                                int     inputLineNumber,
-                                msrPartGroup::msrPartGroupSymbolKind
-                                        partGroupSymbol,
-                                bool    partGroupBarline);
+                                int inputLineNumber);
                                 
     void                      handlePartGroupStop (
                                 int inputLineNumber);
