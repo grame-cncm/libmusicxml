@@ -641,7 +641,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
         fLogOutputStream <<
           (*i).first <<
           " ----> " <<
-          (*i).second=>getPartGroupCombinedName ();
+          (*i).second->getPartGroupCombinedName ();
         if (++i == iEnd) break;
         fLogOutputStream << endl;
       } // for
@@ -682,8 +682,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
       "<== fPartGroupsStack" <<
       endl <<
       endl;
-  }
 
+/*
     // print fPartGroupsStack
     fLogOutputStream <<
       "<== fPartGroupsStack" <<
@@ -715,7 +715,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
       "<== fPartGroupsList" <<
       endl <<
       endl;
-  }
+*/
 
 /* JMI
     // print fPartGroupsList
@@ -749,8 +749,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
       "<== fPartGroupsList" <<
       endl <<
       endl;
-  }
   */
+  }
 }
 
 //________________________________________________________________________
@@ -1392,8 +1392,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   
     S_msrPartGroup partGroup;
   
-    // is there a current part group?
-    if (! fPartGroupsList.size()) {
+    // has a part group already been seen?
+    if (! fPartGroupsMap.size()) {
       // no, create an implicit one if needed
       partGroup =
         createImplicitPartGroupIfNotYetDone (
