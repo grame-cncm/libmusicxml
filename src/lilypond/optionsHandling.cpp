@@ -2500,9 +2500,12 @@ void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
       if (++i == iEnd) break;
       os << endl;
     } // for
-      
+
     gIndenter--;
   }
+
+  os <<
+    endl;
 }
 
 void msrOptionsSubGroup::printHelpSummary (

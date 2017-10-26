@@ -408,7 +408,7 @@ R"(Note: the options in this group imply '-t, -traceGeneral'.)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tdivs", "traceDivisions",
-R"(divisions)",
+R"(Divisions)",
           "traceDivisions",
           fTraceDivisions,
           fTraceGeneral));
@@ -417,7 +417,7 @@ R"(divisions)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tpgrps", "tracePartGroups",
-R"(part groups)",
+R"(Part groups)",
           "tracePartGroups",
           fTracePartGroups,
           fTraceGeneral));
@@ -426,7 +426,8 @@ R"(part groups)",
       appendOptionsItem (
         msrOptionsThreeBooleansItem::create (
           "tpgrpsd", "tracePartGroupsDetails",
-R"(part groups)",
+R"(Part groups with more details.
+This option implies '-tpgrps, -tracePartGroups'.)",
           "tracePartGroupsDetails",
           fTracePartGroupsDetails,
           fTracePartGroups,
@@ -436,7 +437,7 @@ R"(part groups)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tparts", "traceParts",
-R"(parts)",
+R"(Parts)",
           "traceParts",
           fTraceParts,
           fTraceGeneral));
@@ -445,7 +446,7 @@ R"(parts)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tstaves", "traceStaves",
-R"(staves)",
+R"(Staves)",
           "traceStaves",
           fTraceStaves,
           fTraceGeneral));
@@ -454,7 +455,7 @@ R"(staves)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tvoices", "traceVoices",
-R"(voices)",
+R"(Voices)",
           "traceVoices",
           fTraceVoices,
           fTraceGeneral));
@@ -463,7 +464,8 @@ R"(voices)",
       appendOptionsItem (
         msrOptionsThreeBooleansItem::create (
           "tvdetails", "traceVoicesDetails",
-R"(voices with more details (quite verbose))",
+R"(Voices with more details (quite verbose)..
+This option implies '-tvdetails, -traceVoicesDetails'.)",
           "traceVoicesDetails",
           fTraceVoicesDetails,
           fTraceVoices,
@@ -473,7 +475,7 @@ R"(voices with more details (quite verbose))",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tclefs", "traceClefs",
-R"(clefs)",
+R"(Clefs)",
           "traceClefs",
           fTraceClefs,
           fTraceGeneral));
@@ -482,7 +484,7 @@ R"(clefs)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tkeys", "traceKeys",
-R"(keys)",
+R"(Keys)",
           "traceKeys",
           fTraceKeys,
           fTraceGeneral));
@@ -491,7 +493,7 @@ R"(keys)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "ttimes", "traceTimes",
-R"(times)",
+R"(Times)",
           "traceTimes",
           fTraceTimes,
           fTraceGeneral));
@@ -500,7 +502,7 @@ R"(times)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "ttransps", "traceTranspositions",
-R"(transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
+R"(Transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
           "traceTranspositions",
           fTraceTranspositions,
           fTraceGeneral));
@@ -509,7 +511,7 @@ R"(transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tsegs", "traceSegments",
-R"(voices segments)",
+R"(Voices segments)",
           "traceSegments",
           fTraceSegments,
           fTraceGeneral));
@@ -518,7 +520,7 @@ R"(voices segments)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "treps", "traceRepeats",
-R"(repeats)",
+R"(Repeats)",
           "traceRepeats",
           fTraceRepeats,
           fTraceGeneral));
@@ -527,7 +529,7 @@ R"(repeats)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tmeas", "traceMeasures",
-R"(measures)",
+R"(Measures)",
           "traceMeasures",
           fTraceMeasures,
           fTraceGeneral));
@@ -536,7 +538,7 @@ R"(measures)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tnotes", "traceNotes",
-R"(notes)",
+R"(Notes)",
           "traceNotes",
           fTraceNotes,
           fTraceGeneral));
@@ -545,7 +547,8 @@ R"(notes)",
       appendOptionsItem (
         msrOptionsThreeBooleansItem::create (
           "tndetails", "traceNotesDetails",
-R"(notes with more details, including divisions handling (quite verbose))",
+R"(Notes with more details, including divisions handling (quite verbose)..
+This option implies '-tndetails, -traceNotesDetails'.)",
           "traceNotesDetails",
           fTraceNotesDetails,
           fTraceNotes,
@@ -555,7 +558,7 @@ R"(notes with more details, including divisions handling (quite verbose))",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tbeams", "traceBeams",
-R"(beams)",
+R"(Beams)",
           "traceBeams",
           fTraceBeams,
           fTraceGeneral));
@@ -564,7 +567,7 @@ R"(beams)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "ttechs", "traceTechnicals",
-R"(technicals)",
+R"(Technicals)",
           "traceTechnicals",
           fTraceTechnicals,
           fTraceGeneral));
@@ -573,7 +576,7 @@ R"(technicals)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "twords", "traceWords",
-R"(words)",
+R"(Words)",
           "traceWords",
           fTraceWords,
           fTraceGeneral));
@@ -582,7 +585,7 @@ R"(words)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "ttrems", "traceTremolos",
-R"(tremolos)",
+R"(Tremolos)",
           "traceTremolos",
           fTraceTremolos,
           fTraceGeneral));
@@ -591,7 +594,7 @@ R"(tremolos)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tchords", "traceChords",
-R"(chords)",
+R"(Chords)",
           "traceChords",
           fTraceChords,
           fTraceGeneral));
@@ -600,7 +603,7 @@ R"(chords)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "ttups", "traceTuplets",
-R"(tuplets)",
+R"(Tuplets)",
           "traceTuplets",
           fTraceTuplets,
           fTraceGeneral));
@@ -609,7 +612,7 @@ R"(tuplets)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tgraces", "traceGraceNotes",
-R"(grace notes)",
+R"(Grace notes)",
           "traceGraceNotes",
           fTraceGraceNotes,
           fTraceGeneral));
@@ -618,7 +621,7 @@ R"(grace notes)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tlyrics", "traceLyrics",
-R"(lyrics in MusicXML, stanzas in MSR)",
+R"(Lyrics in MusicXML, stanzas in MSR)",
           "traceLyrics",
           fTraceLyrics,
           fTraceGeneral));
@@ -645,7 +648,7 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tcredits", "traceCredits",
-R"(credits)",
+R"(Credits)",
           "traceCredits",
           fTraceCredits,
           fTraceGeneral));
@@ -654,7 +657,7 @@ R"(credits)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tdynamics", "traceDynamics",
-R"(dynamics)",
+R"(Dynamics)",
           "traceDynamics",
           fTraceDynamics,
           fTraceGeneral));
@@ -663,7 +666,7 @@ R"(dynamics)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tslurs", "traceSlurs",
-R"(slurs)",
+R"(Slurs)",
           "fTraceSlurs",
           fTraceSlurs,
           fTraceGeneral));
@@ -672,7 +675,7 @@ R"(slurs)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "tligatures", "traceLigatures",
-R"(ligatures)",
+R"(Ligatures)",
           "traceLigatures",
           fTraceLigatures,
           fTraceGeneral));
@@ -681,7 +684,7 @@ R"(ligatures)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "twedges", "traceWedges",
-R"(wedges)",
+R"(Wedges)",
           "traceWedges",
           fTraceWedges,
           fTraceGeneral));
@@ -690,7 +693,7 @@ R"(wedges)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "traceStaffTuning", "",
-R"(staff tuning)",
+R"(Staff tuning)",
           "traceStaffTuning",
           fTraceStaffTuning,
           fTraceGeneral));
@@ -699,7 +702,7 @@ R"(staff tuning)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "traceHarpPedalsTuning", "",
-R"(harp pedals tuning)",
+R"(Harp pedals tuning)",
           "traceHarpPedalsTuning",
           fTraceHarpPedalsTuning,
           fTraceGeneral));
