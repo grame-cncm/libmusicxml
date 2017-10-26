@@ -639,7 +639,9 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
   fLogOutputStream <<
     "==> " << context << ": fPartGroupsMap contains:" <<
     endl;
-    
+
+  gIndenter++;
+  
   if (fPartGroupsMap.size()) {
     map<int, S_msrPartGroup>::const_iterator
       iBegin = fPartGroupsMap.begin (),
@@ -647,6 +649,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
       i      = iBegin;
       
     gIndenter++;
+    
     for ( ; ; ) {
       fLogOutputStream <<
         (*i).first <<
@@ -655,6 +658,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
       if (++i == iEnd) break;
       fLogOutputStream << endl;
     } // for
+    
     gIndenter--;
   }
 
@@ -689,8 +693,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
   }
   
   fLogOutputStream <<
-    "<== fPartGroupsStack" <<
-    endl <<
+    "<== fPartGroupsMap" <<
     endl;
 
 /*
@@ -722,8 +725,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
     }
     
     fLogOutputStream <<
-      "<== fPartGroupsList" <<
-      endl <<
+      "<== fPartGroupsStack" <<
       endl;
 */
 
@@ -757,9 +759,10 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
     
     fLogOutputStream <<
       "<== fPartGroupsList" <<
-      endl <<
       endl;
   */
+
+    gIndenter--;
 }
 
 //________________________________________________________________________
@@ -922,7 +925,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       fetchPartGroupInTheMap (
         fCurrentPartGroupNumber);
 
-  if (partGroupToBeStopped) {
+  if (! partGroupToBeStopped) {
     stringstream s;
 
     s <<
