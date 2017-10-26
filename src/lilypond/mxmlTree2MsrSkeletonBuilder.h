@@ -222,7 +222,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // in which case a part group 'stop' has to be forced later
     S_msrPartGroup            fImplicitPartGroup;
                                     
-    void                      createImplicitPartGroupIfNotYetDone (
+    void                      createImplicitPartGroup (
                                 int inputLineNumber);
                                 
     bool                      fCurrentPartUsesImplicitPartGroup;

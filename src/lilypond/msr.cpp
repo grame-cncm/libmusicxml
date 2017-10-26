@@ -29473,7 +29473,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroup (
 {
   S_msrPart result;
   
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
       "==> fetchPartFromPartGroup(), fPartGroupPartsMap contains:" <<
       endl;
