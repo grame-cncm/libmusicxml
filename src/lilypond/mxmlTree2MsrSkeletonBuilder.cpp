@@ -141,6 +141,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       "Appending implicit part group '" <<
       fImplicitPartGroup->getPartGroupNumber () <<
       "' to MSR score" <<
+      ", line " << inputLineNumber <<
       endl;
   }
       
@@ -153,6 +154,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       "Adding implicit part group '" <<
       fCurrentPartGroupNumber <<
       "' to this visitor's map" <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -165,11 +167,14 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       "Pushing implicit part group '" <<
       fCurrentPartGroupNumber <<
       "' onto this visitor's stack" <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
   fPartGroupsStack.push (fImplicitPartGroup);
-  showPartGroupsStack ("after pushing fImplicitPartGroup");
+  showPartGroupsStack (
+    inputLineNumber,
+    "after pushing fImplicitPartGroup");
 
 // JMI  fPartGroupsList.push_front (fImplicitPartGroup);
 
@@ -630,10 +635,14 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (string context)
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
+  int    inputLineNumber,
+  string context)
 {
   fLogOutputStream <<
-    "==> " << context << ", fPartGroupsMap contains:" <<
+    "==> " << context <<
+    ", line " << inputLineNumber <<
+    ", fPartGroupsMap contains:" <<
     endl;
     
   if (fPartGroupsMap.size()) {
@@ -665,10 +674,14 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (string context)
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (string context)
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
+  int    inputLineNumber,
+  string context)
 {
   fLogOutputStream <<
-    "==> " << context << ", fPartGroupsStack contains:" <<
+    "==> " << context <<
+    ", line " << inputLineNumber <<
+    ", fPartGroupsStack contains:" <<
     endl;
 
   if (! fPartGroupsStack.empty ()) {
@@ -691,7 +704,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (string context)
 
       // pop it from stack
       fPartGroupsStackCopy.pop ();
-      
+
       if (fPartGroupsStackCopy.empty ()) break;
       
       fLogOutputStream <<
@@ -709,10 +722,16 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (string context)
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
+  int    inputLineNumber,
+  string context)
 {
-  showPartGroupsMap (context);
-  showPartGroupsStack (context);
+  showPartGroupsMap (
+    inputLineNumber,
+    context);
+  showPartGroupsStack (
+    inputLineNumber,
+    context);
 
 /* JMI
   {
@@ -751,7 +770,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTracePartGroupsDetails)
-    showPartGroupsData ("BEFORE handlePartGroupStart()");
+    showPartGroupsData (
+      inputLineNumber,
+      "BEFORE handlePartGroupStart()");
 
   // is the part group to be stopped known?
   S_msrPartGroup
@@ -807,7 +828,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   }
 
   fPartGroupsStack.push (partGroupToBeStarted);
-  showPartGroupsStack ("after pushing partGroupToBeStarted");
+  showPartGroupsStack (
+    inputLineNumber,
+    "after pushing partGroupToBeStarted");
 
 /*
   // the current part group is either null
@@ -891,7 +914,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   */
   
   if (gGeneralOptions->fTracePartGroupsDetails)
-    showPartGroupsData ("AFTER handlePartGroupStart()");
+    showPartGroupsData (
+      inputLineNumber,
+      "AFTER handlePartGroupStart()");
 }
   
 //________________________________________________________________________
@@ -899,7 +924,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTracePartGroupsDetails)
-    showPartGroupsData ("BEFORE handlePartGroupStop()");
+    showPartGroupsData (
+      inputLineNumber,
+      "BEFORE handlePartGroupStop()");
 
   // is the part group to be stopped known?
   S_msrPartGroup
@@ -938,16 +965,20 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   if (partGroupToBeStopped == partGroupStackTop) {
     // handle this 'stop'
     fPartGroupsStack.pop ();
+
+    showPartGroupsData (
+      inputLineNumber,
+      "after popping part group '" + partGroupStackTop->getPartGroupCombinedName () + "'");
   }
 
   else {
     stringstream s;
 
     s <<
-      "part group '" << fCurrentPartGroupNumber << "'" <<
-      " is overlapping " <<
+      "part groups '" << fCurrentPartGroupNumber << "'" <<
+      " and " <<
       "part group '" << partGroupStackTop->getPartGroupNumber () << "'" <<
-      ": this is not supported";
+      "overlap: this is not supported";
 
     msrMusicXMLError (
       inputLineNumber,
@@ -1015,7 +1046,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
     i++;
   } // while
 
-  showPartGroupsData ("AFTER REMOVAL FROM LIST");
+  showPartGroupsData (
+    inputLineNumber,
+    "AFTER REMOVAL FROM LIST");
 
   if (partGroupToBeStopped != fImplicitPartGroup) {
     // take care of the part group to be stopped
@@ -1095,7 +1128,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   */
 
   if (gGeneralOptions->fTracePartGroupsDetails)
-    showPartGroupsData ("BEFORE handlePartGroupStop()");
+    showPartGroupsData (
+      inputLineNumber,
+      "BEFORE handlePartGroupStop()");
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
@@ -1114,6 +1149,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
       "Handling part group '" <<
       fCurrentPartGroupNumber <<
       "', type: \"" << fCurrentPartGroupType << "\""  <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -1178,6 +1214,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
     fLogOutputStream <<
       "Found part name \"" << fCurrentPartID << "\"" <<
       " in part list" <<
+      ", line " << elt->getInputLineNumber () <<
       endl;
 
   fCurrentPartName         = "";
@@ -1281,6 +1318,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     "--------------------------------------------" <<
     endl <<
     "Handling part name \"" << fCurrentPartID << "\"" <<
+    ", line " << inputLineNumber <<
     endl;
 
   gIndenter++;
@@ -1291,10 +1329,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     createImplicitPartGroup (
       inputLineNumber);
 
-    showPartGroupsData ("after creating implicit group on visitEnd (S_score_part&)");
+    showPartGroupsData (
+      inputLineNumber,
+      "after creating implicit group on visitEnd (S_score_part&)");
   }
 
-showPartGroupsData ("FEE");
+  showPartGroupsData (
+    inputLineNumber,
+    "FEE");
 
   // fetch current part group
   S_msrPartGroup
@@ -1344,6 +1386,7 @@ showPartGroupsData ("FEE");
   fCurrentPartUsesImplicitPartGroup = false;
 
   showPartGroupsData (
+    inputLineNumber,
     "AFTER handling part \"" + partID + "\"");
   gIndenter--;
 }
@@ -1389,10 +1432,14 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       createImplicitPartGroup (
         inputLineNumber);
 
-      showPartGroupsData ("after creating implicit group on visitStart (S_part&");
+      showPartGroupsData (
+        inputLineNumber,
+        "after creating implicit group on visitStart (S_part&");
     }
 
-  showPartGroupsData ("FOO");
+    showPartGroupsData (
+      inputLineNumber,
+      "FOO");
   
     // fetch current part group
     partGroup = fPartGroupsStack.top ();        
@@ -1427,18 +1474,20 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   }
     
   // is this part already known?
-  if (fPartsMap.count (fCurrentPartID))
+  if (fPartsMap.count (fCurrentPartID)) {
     fCurrentPart = // used thoughout
       fPartsMap [fCurrentPartID];
+  }
       
-  else
+  else {
     msrMusicXMLError (
       inputLineNumber,
       "part \"" +
         fCurrentPartID +
         "\" is not registered in this visitor's part map");
+  }
 
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -1446,6 +1495,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       endl <<
       "Analyzing part \"" << fCurrentPartID << "\" -- start" <<
       endl;
+  }
 
   gIndenter++;
 
@@ -1466,13 +1516,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
 
   gIndenter--;
 
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
       "Analyzing part \"" << fCurrentPartID << "\" -- end" <<
       endl <<
       "--------------------------------------------" <<
       endl <<
       endl;
+  }
 
   // finalize the current part
   fCurrentPart->
@@ -1790,7 +1841,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
     fLogOutputStream <<
       endl <<
       "visitEnd ( S_lyric& )" <<
-      ", line = " << inputLineNumber << ", with:" <<
+      ", line = " << inputLineNumber <<
+      ", with:" <<
       endl;
 
     gIndenter++;

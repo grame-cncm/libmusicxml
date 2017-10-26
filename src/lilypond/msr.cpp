@@ -29270,6 +29270,7 @@ msrPartGroup::msrPartGroup (
       "--------------------------------------------" <<
       endl <<
       "Creating part group '" << fPartGroupNumber << "'" <<
+      ", line " << inputLineNumber <<
       endl;
 }
 
