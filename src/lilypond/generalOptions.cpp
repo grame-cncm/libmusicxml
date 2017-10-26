@@ -424,11 +424,12 @@ R"(part groups)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        msrOptionsThreeBooleansItem::create (
           "tpgrpsd", "tracePartGroupsDetails",
 R"(part groups)",
           "tracePartGroups",
           fTracePartGroupsDetails,
+          fTracePartGroups,
           fTraceGeneral));
       
     specificTraceSubGroup->
@@ -460,11 +461,12 @@ R"(voices)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        msrOptionsThreeBooleansItem::create (
           "tvdetails", "traceVoicesDetails",
 R"(voices with more details (quite verbose))",
           "traceVoicesDetails",
           fTraceVoicesDetails,
+          fTraceVoices,
           fTraceGeneral));
       
     specificTraceSubGroup->
@@ -541,11 +543,12 @@ R"(notes)",
           
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        msrOptionsThreeBooleansItem::create (
           "tndetails", "traceNotesDetails",
 R"(notes with more details, including divisions handling (quite verbose))",
           "traceNotesDetails",
           fTraceNotesDetails,
+          fTraceNotes,
           fTraceGeneral));
       
     specificTraceSubGroup->
