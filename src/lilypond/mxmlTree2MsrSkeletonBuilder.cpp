@@ -631,26 +631,31 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
 {
-  {
     fLogOutputStream <<
-      "==> " << context << ": fPartGroupsMap contains:" <<
+      "==> " << context << ":" <<
       endl;
   
     gIndenter++;
-        
+
+  {
+    fLogOutputStream <<
+      "fPartGroupsMap contains:" <<
+      endl;
+      
     if (fPartGroupsMap.size()) {
+      gIndenter++;
+      
       map<int, S_msrPartGroup>::const_iterator
         iBegin = fPartGroupsMap.begin (),
         iEnd   = fPartGroupsMap.end (),
         i      = iBegin;
         
-      gIndenter++;
-      
       for ( ; ; ) {
         fLogOutputStream <<
           "'" << (*i).first <<
           "': " <<
-          (*i).second->getPartGroupCombinedName ();
+          (*i).second->getPartGroupCombinedName () <<
+          endl;
         if (++i == iEnd) break;
         fLogOutputStream <<
           endl;
@@ -659,20 +664,16 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
       gIndenter--;
     }
     
-    gIndenter--;
-  
+    else {
     fLogOutputStream <<
-      "<== fPartGroupsMap" <<
+      gTab << "none" <<
       endl;
+    }
   }
   
   {
-    // print fPartGroupsStack
     fLogOutputStream <<
-      "<== fPartGroupsStack" <<
-      endl <<
-      endl <<
-      "==> " << context << ": fPartGroupsStack contains:" <<
+      "fPartGroupsStack contains:" <<
       endl;
 
     if (fPartGroupsStack.size()) {
@@ -690,7 +691,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
 
         // print it
         fLogOutputStream <<
-          topPartGroup->getPartGroupCombinedName ();
+          topPartGroup->getPartGroupCombinedName () <<
+          endl;
   
         // pop it from stack
         fPartGroupsStackCopy.pop ();
@@ -700,23 +702,21 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
         fLogOutputStream <<
           endl;
       } // for
-
-      gIndenter--;
     }
     
+    else {
     fLogOutputStream <<
-      "<== fPartGroupsStack" <<
+      gTab << "none" <<
       endl;
+    }
   }
+
+  gIndenter--;
 
 /* JMI
   {
-    // print fPartGroupsList
     fLogOutputStream <<
-      "<== fPartGroupsList" <<
-      endl <<
-      endl <<
-      "==> " << context << ": fPartGroupsList contains:" <<
+      "==> fPartGroupsList contains:" <<
       endl;
       
     if (fPartGroupsList.size()) {
