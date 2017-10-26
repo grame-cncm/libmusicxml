@@ -245,6 +245,9 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // handling 'start' and 'stop'
     stack<S_msrPartGroup>     fPartGroupsStack;
 
+    void                      showPartGroupsMap (string context);
+    void                      showPartGroupsStack (string context);
+    
     void                      showPartGroupsData (string context);
     
     void                      handlePartGroupStart (
