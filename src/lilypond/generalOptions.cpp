@@ -427,7 +427,7 @@ R"(part groups)",
         msrOptionsThreeBooleansItem::create (
           "tpgrpsd", "tracePartGroupsDetails",
 R"(part groups)",
-          "tracePartGroups",
+          "tracePartGroupsDetails",
           fTracePartGroupsDetails,
           fTracePartGroups,
           fTraceGeneral));
