@@ -110,9 +110,9 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone (
     
     if (gGeneralOptions->fTracePartGroups) {
       fLogOutputStream <<
-        "Creating an implicit part group with number " <<
+        "Creating an implicit part group with number '" <<
         fCurrentPartGroupNumber <<
-        " to contain part \"" << fCurrentPartID << "\"" <<
+        "' to contain part \"" << fCurrentPartID << "\"" <<
         ", line " << inputLineNumber <<
         endl;
     }
@@ -154,7 +154,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone (
     fLogOutputStream <<
       "Adding implicit part group '" <<
       fCurrentPartGroupNumber <<
-      "' to this visitor's data" <<
+      "' to this visitor's map" <<
       endl;
   }
 
@@ -165,6 +165,14 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone (
 // JMI  fPartGroupsList.push_front (fImplicitPartGroup);
 
   // make it the current group
+  if (gGeneralOptions->fTracePartGroups) {
+    fLogOutputStream <<
+      "Pushing implicit part group '" <<
+      fCurrentPartGroupNumber <<
+      "' onto this visitor's stack" <<
+      endl;
+  }
+  
   fPartGroupsStack.push (fImplicitPartGroup);
   
   fCurrentPartUsesImplicitPartGroup = true;
@@ -919,7 +927,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
 
     s <<
       "part group '" << fCurrentPartGroupNumber << "'" <<
-      " is not known";
+      " is not known in this visitor's map";
 
     msrMusicXMLError (
       inputLineNumber,

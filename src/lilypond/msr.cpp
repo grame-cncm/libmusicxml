@@ -29269,7 +29269,7 @@ msrPartGroup::msrPartGroup (
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
-      "Creating part group " << fPartGroupNumber <<
+      "Creating part group '" << fPartGroupNumber << "'" <<
       endl;
 }
 
@@ -29371,7 +29371,9 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsID (
     gLogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
-      " to part group " << fPartGroupNumber <<
+      " to part group '" <<
+      fPartGroupNumber <<
+      "'" <<
       endl;
   }
   
@@ -30211,22 +30213,21 @@ S_msrScore msrScore::createScoreNewbornClone ()
 
 void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 {
-  /* JMI
-  if (fScorePartGroupsMap.count (partGroupNumber)) {
+  if (fScorePartGroupsSet.count (partGroup)) {      
     stringstream s;
     
     s <<      
-      "part group " << partGroupNumber <<
-      " already exists in this score";
+      "part group '" <<
+      partGroup->getPartGroupCombinedName () <<
+      "' already exists in this score";
 
-    msrInternalError ( // JMI
-      inputLineNumber, s.str ());
-
-    return fScorePartGroupsMap [partGroupNumber];
+    msrInternalError (
+      partGroup->getInputLineNumber (),
+      s.str ());
   }
-*/
 
   // register it in this score
+  fScorePartGroupsSet.insert (partGroup);
   fPartGroupsList.push_back (partGroup);
 }
 

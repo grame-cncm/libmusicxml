@@ -10724,6 +10724,8 @@ class EXP msrScore : public msrElement
     
     list<S_msrCredit>     fCreditsList;
 
+    set<S_msrPartGroup>   fScorePartGroupsSet;
+    
     list<S_msrPartGroup>  fPartGroupsList;
 
     // in <measure-repeat/>, the measure replicas are explicit,
