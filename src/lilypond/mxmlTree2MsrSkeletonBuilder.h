@@ -215,7 +215,6 @@ class EXP mxmlTree2MsrSkeletonBuilder :
                               fCurrentPartGroupSymbolKind;
     msrPartGroup::msrPartGroupBarlineKind
                               fCurrentPartGroupBarlineKind;
-    bool                      fCurrentPartGroupBarline;
     int                       fCurrentPartGroupSymbolDefaultX;
 
     // an implicit part group has to be created

@@ -29570,19 +29570,19 @@ string msrPartGroup::partGroupSymbolKindAsString (
   string result;
   
   switch (partGroupSymbolKind) {
-    case k_NoPartGroupSymbol:
+    case msrPartGroup::k_NoPartGroupSymbol:
       result = "none";
       break;
-    case kBracePartGroupSymbol:
+    case msrPartGroup::kBracePartGroupSymbol:
       result = "brace";
       break;
-    case kBracketPartGroupSymbol:
+    case msrPartGroup::kBracketPartGroupSymbol:
       result = "bracket";
       break;
-    case kLinePartGroupSymbol:
+    case msrPartGroup::kLinePartGroupSymbol:
       result = "line";
       break;
-    case kSquarePartGroupSymbol:
+    case msrPartGroup::kSquarePartGroupSymbol:
       result = "square";
       break;
   } // switch
@@ -29596,10 +29596,10 @@ string msrPartGroup::partGroupBarlineKindAsString (
   string result;
   
   switch (partGroupBarlineKind) {
-    case kBracePartGroupBarlineYes:
+    case msrPartGroup::kBracePartGroupBarlineYes:
       result = "bracePartGroupBarlineYes";
       break;
-    case kBracketPartGroupBarlineNo:
+    case msrPartGroup::kBracketPartGroupBarlineNo:
       result = "bracePartGroupBarlineNo";
       break;
   } // switch

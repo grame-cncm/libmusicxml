@@ -127,7 +127,7 @@ S_msrPartGroup mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone 
         "Impl.",    // partGroupAbbreviation
         msrPartGroup::kBracketPartGroupSymbol,
         0,          // partGroupSymbolDefaultX
-        true,       // partGroupBarline
+        msrPartGroup::kPartGroupBarlineYes,
         0,          // the top level part group has an empty uplink
         fMsrScore);
   
@@ -483,9 +483,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
   fCurrentPartGroupDisplayText = "";
   fCurrentPartGroupAccidentalText = "";
   fCurrentPartGroupAbbreviation = "";
-  fCurrentPartGroupSymbol = "";
+  fCurrentPartGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
   fCurrentPartGroupSymbolDefaultX = INT_MIN;
-  fCurrentPartGroupBarline = "yes";
+  fCurrentPartGroupBarlineKind = msrPartGroup::kPartGroupBarlineYes;
 
 
   string printStyle = elt->getAttributeValue ("print-style"); // JMI
@@ -557,43 +557,37 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
       endl;
   }
 
-  fCurrentPartGroupSymbol = elt->getValue ();
+  string groupSymbol = elt->getValue ();
 
-  msrPartGroup::msrPartGroupSymbolKind partGroupSymbolKind;
-  
-  // check part group symbol
-  // Values include none,
-  //  brace, line, bracket, and square; the default is none
- 
-  if      (fCurrentPartGroupSymbol == "brace")
-    partGroupSymbolKind = msrPartGroup::kBracePartGroupSymbol;
+  fCurrentPartGroupSymbolKind =
+    msrPartGroup::k_NoPartGroupSymbol; // default value
+   
+  if      (groupSymbol == "brace")
+    fCurrentPartGroupSymbolKind = msrPartGroup::kBracePartGroupSymbol;
     
-  else if (fCurrentPartGroupSymbol == "bracket")
-    partGroupSymbolKind = msrPartGroup::kBracketPartGroupSymbol;
+  else if (groupSymbol == "bracket")
+    fCurrentPartGroupSymbolKind = msrPartGroup::kBracketPartGroupSymbol;
     
-  else if (fCurrentPartGroupSymbol == "line")
-    partGroupSymbolKind = msrPartGroup::kLinePartGroupSymbol;
+  else if (groupSymbol == "line")
+    fCurrentPartGroupSymbolKind = msrPartGroup::kLinePartGroupSymbol;
     
-  else if (fCurrentPartGroupSymbol == "square")
-    partGroupSymbolKind = msrPartGroup::kSquarePartGroupSymbol;
+  else if (groupSymbol == "square")
+    fCurrentPartGroupSymbolKind = msrPartGroup::kSquarePartGroupSymbol;
     
-  else if (fCurrentPartGroupSymbol == "none")
-    partGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
+  else if (groupSymbol == "none")
+    fCurrentPartGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
     
   else {
-    if (fCurrentPartGroupSymbol.size()) {
+    if (groupSymbol.size()) {
       // part group type may be absent
       stringstream s;
 
       s <<
-        "unknown part group symbol \"" + fCurrentPartGroupSymbol + "\"");
+        "unknown part group symbol \"" + groupSymbol + "\"";
         
       msrMusicXMLError (
         elt->getInputLineNumber (),
         s.str ());
-
-      partGroupSymbolKind =
-        msrPartGroup::k_NoPartGroupSymbol;
     }
   }
 
@@ -609,22 +603,23 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
       endl;
   }
 
-  groupBarline = elt->getValue ();
+  string groupBarline = elt->getValue ();
   
   // check part group barline
   if      (groupBarline == "yes")
-    fCurrentPartGroupBarline = true;
-    
+    fCurrentPartGroupBarlineKind = msrPartGroup::kPartGroupBarlineYes;
   else if (groupBarline == "no")
-    fCurrentPartGroupBarline = false;
-    
+    fCurrentPartGroupBarlineKind = msrPartGroup::kPartGroupBarlineNo;
   else {
-    msrMusicXMLError (
-      inputLineNumber,
-      "unknown part group barline \"" + groupBarline + "\"");
-    partGroupBarline = false;
-  }
+    stringstream s;
 
+    s <<
+      "unknown part group barline \"" + groupBarline + "\"";
+      
+    msrMusicXMLError (
+      elt->getInputLineNumber (),
+      s.str ());
+  }
 }
 
 //________________________________________________________________________
@@ -998,9 +993,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
             fCurrentPartGroupDisplayText,
             fCurrentPartGroupAccidentalText,
             fCurrentPartGroupAbbreviation,
-            partGroupSymbolKind,
+            fCurrentPartGroupSymbolKind,
             fCurrentPartGroupSymbolDefaultX,
-            partGroupBarline,
+            fCurrentPartGroupBarlineKind,
             containingPartGroup,
             fMsrScore);
 

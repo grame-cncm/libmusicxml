@@ -2622,9 +2622,9 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
     partGroupSymbolKind =
       partGroup->getPartGroupSymbolKind ();
 
-  bool
-    partGroupBarline =
-      partGroup->getPartGroupBarline ();
+  msrPartGroup::msrPartGroupBarlineKind
+    partGroupBarlineKind =
+      partGroup->getPartGroupBarlineKind ();
       
   string
     partGroupInstrumentName =
@@ -2651,25 +2651,39 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         else
           partGroupContextName = "\\new GrandStaff";
           */
-        partGroupContextName =
-          partGroupBarline // only partGroup has an instrument name
-            ? "\\new PianoStaff"
-            : "\\new GrandStaff";
+        switch (partGroupBarlineKind) {
+          case msrPartGroup::kPartGroupBarlineYes:
+            partGroupContextName =
+              "\\new PianoStaff";
+            break;
+          case msrPartGroup::kPartGroupBarlineNo:
+            partGroupContextName =
+              "\\new GrandStaff";
+            break;
+        } // switch
         break;
         
       case msrPartGroup::kBracketPartGroupSymbol:
-        partGroupContextName =
-          partGroupBarline
-            ? "\\new StaffGroup"
-            : "\\new ChoirStaff";
+        switch (partGroupBarlineKind) {
+          case msrPartGroup::kPartGroupBarlineYes:
+            partGroupContextName =
+              "\\new StaffGroup";
+            break;
+          case msrPartGroup::kPartGroupBarlineNo:
+            partGroupContextName =
+              "\\new ChoirStaff";
+            break;
+        } // switch
         break;
         
       case msrPartGroup::kLinePartGroupSymbol:
-        partGroupContextName = "\\new StaffGroup";
+        partGroupContextName =
+          "\\new StaffGroup";
         break;
         
       case msrPartGroup::kSquarePartGroupSymbol:
-        partGroupContextName = "\\new StaffGroup";
+        partGroupContextName =
+          "\\new StaffGroup";
         break;
     } // switch
   
