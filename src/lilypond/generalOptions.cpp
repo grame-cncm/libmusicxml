@@ -520,7 +520,7 @@ R"(Voices segments)",
       appendOptionsItem (
         msrOptionsTwoBooleansItem::create (
           "treps", "traceRepeats",
-R"(Repeats)",
+R"(Repeats, including multiple mesure repeats)",
           "traceRepeats",
           fTraceRepeats,
           fTraceGeneral));
@@ -713,7 +713,8 @@ R"(Harp pedals tuning)",
       exit2aOptionsBooleanItem =
         msrOptionsBooleanItem::create (
           "e2a", "exit2a",
-R"(Exit after pass 2a.)",
+R"(Exit after pass 2a, i.e. after conversion
+of the MusicXML tree to an MSR skeleton.)",
           "exit2a",
           fExit2a);
     exit2aOptionsBooleanItem->
@@ -728,7 +729,8 @@ R"(Exit after pass 2a.)",
       exit2bOptionsBooleanItem =
         msrOptionsBooleanItem::create (
           "e2b", "exit2b",
-R"(Exit after pass 2b.)",
+R"(Exit after pass 2b, i.e. after conversion
+of the MusicXML tree to MSR.)",
           "exit2b",
           fExit2b);
     exit2bOptionsBooleanItem->
@@ -743,7 +745,8 @@ R"(Exit after pass 2b.)",
       exit3OptionsBooleanItem =
         msrOptionsBooleanItem::create (
           "e3", "exit3",
-R"(Exit after pass 3.)",
+R"(Exit after pass 3, i.e. after conversion
+of the MSR to LPSR.)",
           "exit3",
           fExit3);
     exit3OptionsBooleanItem->
