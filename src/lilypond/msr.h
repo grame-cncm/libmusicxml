@@ -10421,21 +10421,27 @@ class EXP msrPartGroup : public msrElement
     static string partGroupSymbolKindAsString (
       msrPartGroupSymbolKind partGroupSymbolKind);
       
+    enum msrPartGroupBarlineKind {
+        kPartGroupBarlineYes, kPartGroupBarlineNo};
+          
+    static string partGroupBarlineKindAsString (
+      msrPartGroupBarlineKind partGroupBarlineKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrPartGroup> create (
-      int                    inputLineNumber,
-      int                    partGroupNumber,
-      string                 partGroupName,
-      string                 partGroupDisplayText,
-      string                 partGroupAccidentalText,
-      string                 partGroupAbbreviation,
-      msrPartGroupSymbolKind partGroupSymbolKind,
-      int                    partGroupSymbolDefaultX,
-      bool                   partGroupBarline,
-      S_msrPartGroup         partGroupPartGroupUplink,
-      S_msrScore             partGroupScoreUplink);
+      int                     inputLineNumber,
+      int                     partGroupNumber,
+      string                  partGroupName,
+      string                  partGroupDisplayText,
+      string                  partGroupAccidentalText,
+      string                  partGroupAbbreviation,
+      msrPartGroupSymbolKind  partGroupSymbolKind,
+      int                     partGroupSymbolDefaultX,
+      msrPartGroupBarlineKind partGroupBarlineKind,
+      S_msrPartGroup          partGroupPartGroupUplink,
+      S_msrScore              partGroupScoreUplink);
 
     SMARTP<msrPartGroup> createPartGroupNewbornClone (
       S_msrPartGroup partGroupClone, // the uplink for embeddeed part groups
@@ -10447,17 +10453,17 @@ class EXP msrPartGroup : public msrElement
     // ------------------------------------------------------
 
     msrPartGroup (
-      int                    inputLineNumber,
-      int                    partGroupNumber,
-      string                 partGroupName,
-      string                 partGroupDisplayText,
-      string                 partGroupAccidentalText,
-      string                 partGroupAbbreviation,
-      msrPartGroupSymbolKind partGroupSymbolKind,
-      int                    partGroupSymbolDefaultX,
-      bool                   partGroupBarline,
-      S_msrPartGroup         partGroupPartGroupUplink,
-      S_msrScore             partGroupScoreUplink);
+      int                     inputLineNumber,
+      int                     partGroupNumber,
+      string                  partGroupName,
+      string                  partGroupDisplayText,
+      string                  partGroupAccidentalText,
+      string                  partGroupAbbreviation,
+      msrPartGroupSymbolKind  partGroupSymbolKind,
+      int                     partGroupSymbolDefaultX,
+      msrPartGroupBarlineKind partGroupBarlineKind,
+      S_msrPartGroup          partGroupPartGroupUplink,
+      S_msrScore              partGroupScoreUplink);
             
     virtual ~msrPartGroup();
   
@@ -10498,8 +10504,8 @@ class EXP msrPartGroup : public msrElement
     int                   getPartGroupSymbolDefaultX () const
                               { return fPartGroupSymbolDefaultX; }
 
-    bool                  getPartGroupBarline () const
-                              { return fPartGroupBarline; }
+    bool                  getPartGroupBarlineKind () const
+                              { return fPartGroupBarlineKind; }
     
     string                getPartGroupCombinedName () const;
 
@@ -10586,7 +10592,8 @@ class EXP msrPartGroup : public msrElement
 
     // bar line
     
-    bool                  fPartGroupBarline;
+    msrPartGroupBarlineKind
+                          fPartGroupBarlineKind;
 
     // instrument name
 

@@ -559,6 +559,44 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
 
   fCurrentPartGroupSymbol = elt->getValue ();
 
+  msrPartGroup::msrPartGroupSymbolKind partGroupSymbolKind;
+  
+  // check part group symbol
+  // Values include none,
+  //  brace, line, bracket, and square; the default is none
+ 
+  if      (fCurrentPartGroupSymbol == "brace")
+    partGroupSymbolKind = msrPartGroup::kBracePartGroupSymbol;
+    
+  else if (fCurrentPartGroupSymbol == "bracket")
+    partGroupSymbolKind = msrPartGroup::kBracketPartGroupSymbol;
+    
+  else if (fCurrentPartGroupSymbol == "line")
+    partGroupSymbolKind = msrPartGroup::kLinePartGroupSymbol;
+    
+  else if (fCurrentPartGroupSymbol == "square")
+    partGroupSymbolKind = msrPartGroup::kSquarePartGroupSymbol;
+    
+  else if (fCurrentPartGroupSymbol == "none")
+    partGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
+    
+  else {
+    if (fCurrentPartGroupSymbol.size()) {
+      // part group type may be absent
+      stringstream s;
+
+      s <<
+        "unknown part group symbol \"" + fCurrentPartGroupSymbol + "\"");
+        
+      msrMusicXMLError (
+        elt->getInputLineNumber (),
+        s.str ());
+
+      partGroupSymbolKind =
+        msrPartGroup::k_NoPartGroupSymbol;
+    }
+  }
+
   fCurrentPartGroupSymbolDefaultX =
     elt->getAttributeIntValue ("default-x", 0);
 }
@@ -571,7 +609,22 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
       endl;
   }
 
-  fCurrentPartGroupBarline = elt->getValue ();
+  groupBarline = elt->getValue ();
+  
+  // check part group barline
+  if      (groupBarline == "yes")
+    fCurrentPartGroupBarline = true;
+    
+  else if (groupBarline == "no")
+    fCurrentPartGroupBarline = false;
+    
+  else {
+    msrMusicXMLError (
+      inputLineNumber,
+      "unknown part group barline \"" + groupBarline + "\"");
+    partGroupBarline = false;
+  }
+
 }
 
 //________________________________________________________________________
@@ -907,52 +960,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
     partGroupTypeKind = msrPartGroup::k_NoPartGroupType;
   }
 
-  msrPartGroup::msrPartGroupSymbolKind partGroupSymbolKind;
-  
-  // check part group symbol
-  // Values include none,
-  //  brace, line, bracket, and square; the default is none
- 
-  if      (fCurrentPartGroupSymbol == "brace")
-    partGroupSymbolKind = msrPartGroup::kBracePartGroupSymbol;
-    
-  else if (fCurrentPartGroupSymbol == "bracket")
-    partGroupSymbolKind = msrPartGroup::kBracketPartGroupSymbol;
-    
-  else if (fCurrentPartGroupSymbol == "line")
-    partGroupSymbolKind = msrPartGroup::kLinePartGroupSymbol;
-    
-  else if (fCurrentPartGroupSymbol == "square")
-    partGroupSymbolKind = msrPartGroup::kSquarePartGroupSymbol;
-    
-  else if (fCurrentPartGroupSymbol == "none")
-    partGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
-    
-  else {
-   if (fCurrentPartGroupSymbol.size())
-      // part group type may be absent
-      msrMusicXMLError (
-        inputLineNumber,
-        "unknown part group symbol \"" + fCurrentPartGroupSymbol + "\"");
-    partGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
-  }
-
-  bool partGroupBarline;
-  
-  // check part group barline
-  if      (fCurrentPartGroupBarline == "yes")
-    partGroupBarline = true;
-    
-  else if (fCurrentPartGroupBarline == "no")
-    partGroupBarline = false;
-    
-  else {
-    msrMusicXMLError (
-      inputLineNumber,
-      "unknown part group barline \"" + fCurrentPartGroupBarline + "\"");
-    partGroupBarline = false;
-  }
-
   switch (partGroupTypeKind) {
     
     case msrPartGroup::kStartPartGroupType:
@@ -991,7 +998,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
             fCurrentPartGroupDisplayText,
             fCurrentPartGroupAccidentalText,
             fCurrentPartGroupAbbreviation,
-            fCurrentPartGroupSymbol,
+            partGroupSymbolKind,
             fCurrentPartGroupSymbolDefaultX,
             partGroupBarline,
             containingPartGroup,

@@ -211,9 +211,12 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     string                    fCurrentPartGroupDisplayText;
     string                    fCurrentPartGroupAccidentalText;
     string                    fCurrentPartGroupAbbreviation;
-    string                    fCurrentPartGroupSymbol;
+    msrPartGroup::msrPartGroupSymbolKind
+                              fCurrentPartGroupSymbolKind;
+    msrPartGroup::msrPartGroupBarlineKind
+                              fCurrentPartGroupBarlineKind;
+    bool                      fCurrentPartGroupBarline;
     int                       fCurrentPartGroupSymbolDefaultX;
-    string                    fCurrentPartGroupBarline;
 
     // an implicit part group has to be created
     // if none is specified in the MusicXML data,

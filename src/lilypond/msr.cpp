@@ -29201,17 +29201,17 @@ void msrPart::printStructure (ostream& os)
 int msrPartGroup::gPartGroupsCounter = 0;
 
 S_msrPartGroup msrPartGroup::create (
-  int                    inputLineNumber,
-  int                    partGroupNumber,
-  string                 partGroupName,
-  string                 partGroupDisplayText,
-  string                 partGroupAccidentalText,
-  string                 partGroupAbbreviation,
-  msrPartGroupSymbolKind partGroupSymbolKind,
-  int                    partGroupSymbolDefaultX,
-  bool                   partGroupBarline,
-  S_msrPartGroup         partGroupPartGroupUplink,
-  S_msrScore             partGroupScoreUplink)
+  int                     inputLineNumber,
+  int                     partGroupNumber,
+  string                  partGroupName,
+  string                  partGroupDisplayText,
+  string                  partGroupAccidentalText,
+  string                  partGroupAbbreviation,
+  msrPartGroupSymbolKind  partGroupSymbolKind,
+  int                     partGroupSymbolDefaultX,
+  msrPartGroupBarlineKind partGroupBarlineKind,
+  S_msrPartGroup          partGroupPartGroupUplink,
+  S_msrScore              partGroupScoreUplink)
 {
   msrPartGroup* o =
     new msrPartGroup (
@@ -29223,7 +29223,7 @@ S_msrPartGroup msrPartGroup::create (
       partGroupAbbreviation,
       partGroupSymbolKind,
       partGroupSymbolDefaultX,
-      partGroupBarline,
+      partGroupBarlineKind,
       partGroupPartGroupUplink,
       partGroupScoreUplink);
   assert(o!=0);
@@ -29231,17 +29231,17 @@ S_msrPartGroup msrPartGroup::create (
 }
 
 msrPartGroup::msrPartGroup (
-  int                    inputLineNumber,
-  int                    partGroupNumber,
-  string                 partGroupName,
-  string                 partGroupDisplayText,
-  string                 partGroupAccidentalText,
-  string                 partGroupAbbreviation,
-  msrPartGroupSymbolKind partGroupSymbolKind,
-  int                    partGroupSymbolDefaultX,
-  bool                   partGroupBarline,
-  S_msrPartGroup         partGroupPartGroupUplink,
-  S_msrScore             partGroupScoreUplink)
+  int                     inputLineNumber,
+  int                     partGroupNumber,
+  string                  partGroupName,
+  string                  partGroupDisplayText,
+  string                  partGroupAccidentalText,
+  string                  partGroupAbbreviation,
+  msrPartGroupSymbolKind  partGroupSymbolKind,
+  int                     partGroupSymbolDefaultX,
+  msrPartGroupBarlineKind partGroupBarlineKind,
+  S_msrPartGroup          partGroupPartGroupUplink,
+  S_msrScore              partGroupScoreUplink)
     : msrElement (inputLineNumber)
 {
   // generate a new partGroup absolute number
@@ -29259,7 +29259,7 @@ msrPartGroup::msrPartGroup (
   fPartGroupSymbolKind     = partGroupSymbolKind;
   fPartGroupSymbolDefaultX = partGroupSymbolDefaultX;
 
-  fPartGroupBarline = partGroupBarline;
+  fPartGroupBarlineKind = partGroupBarlineKind;
 
   fPartGroupPartGroupUplink = partGroupPartGroupUplink;
 
@@ -29308,7 +29308,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
         fPartGroupAbbreviation,
         fPartGroupSymbolKind,
         fPartGroupSymbolDefaultX,
-        fPartGroupBarline,
+        fPartGroupBarlineKind,
         partGroupClone,
         scoreClone);
 
@@ -29590,6 +29590,23 @@ string msrPartGroup::partGroupSymbolKindAsString (
   return result;
 }
 
+string msrPartGroup::partGroupBarlineKindAsString (
+  msrPartGroupBarlineKind partGroupBarlineKind)
+{
+  string result;
+  
+  switch (partGroupBarlineKind) {
+    case kBracePartGroupBarlineYes:
+      result = "bracePartGroupBarlineYes";
+      break;
+    case kBracketPartGroupBarlineNo:
+      result = "bracePartGroupBarlineNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 void msrPartGroup::print (ostream& os)
 {
   os <<
@@ -29630,7 +29647,7 @@ void msrPartGroup::print (ostream& os)
     
   os << left <<
     setw (fieldWidth) << "PartGroupBarline" << " : ";
-  if (fPartGroupBarline)
+  if (fPartGroupBarlineKind)
     os << "true";
   else
     os << "false";
@@ -29699,7 +29716,7 @@ void msrPartGroup::printStructure (ostream& os)
     
   os <<
     "PartGroupBarline         : ";
-  if (fPartGroupBarline)
+  if (fPartGroupBarlineKind)
     os << "true";
   else
     os << "false";
