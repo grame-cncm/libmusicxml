@@ -158,7 +158,7 @@ S_msrPartGroup mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone 
   }
       
   fPartGroupsMap [fCurrentPartGroupNumber] = fImplicitPartGroup;
-  fPartGroupsList.push_front (fImplicitPartGroup);
+// JMI  fPartGroupsList.push_front (fImplicitPartGroup);
 
   fPartGroupsStack.push (fImplicitPartGroup);
   
@@ -168,7 +168,7 @@ S_msrPartGroup mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone 
 }
 
 //______________________________________________________________________________
-S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchPartGroupInThisVisitor (
+S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchPartGroupInTheMap (
   int partGroupNumber)
 {
   S_msrPartGroup result;
@@ -639,14 +639,88 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
       gIndenter++;
       for ( ; ; ) {
         fLogOutputStream <<
-          "\"" << (*i).first << "\" ----> " << (*i).second;
+          (*i).first <<
+          " ----> " <<
+          (*i).second=>getPartGroupCombinedName ();
         if (++i == iEnd) break;
         fLogOutputStream << endl;
       } // for
       gIndenter--;
     }
+
+    // print fPartGroupsMap
     fLogOutputStream <<
       "<== fPartGroupsMap" <<
+      endl <<
+      endl <<
+      "==> " << context << ": fPartGroupsMap contains:" <<
+      endl;
+      
+    if (fPartGroupsMap.size()) {
+      map<int, S_msrPartGroup>::const_iterator
+        iBegin = fPartGroupsMap.begin (),
+        iEnd   = fPartGroupsMap.end (),
+        i      = iBegin;
+        
+      gIndenter++;
+      
+      for ( ; ; ) {
+        fLogOutputStream <<
+          (*i).first <<
+          ": " <<
+          (*i).second->getPartGroupCombinedName () <<
+          endl;
+        if (++i == iEnd) break;
+        fLogOutputStream <<
+          endl;
+      } // for
+      
+      gIndenter--;
+    }
+    
+    fLogOutputStream <<
+      "<== fPartGroupsStack" <<
+      endl <<
+      endl;
+  }
+
+    // print fPartGroupsStack
+    fLogOutputStream <<
+      "<== fPartGroupsStack" <<
+      endl <<
+      endl <<
+      "==> " << context << ": fPartGroupsStack contains:" <<
+      endl;
+      
+    if (fPartGroupsStack.size()) {
+      stack<S_msrPartGroup>::const_iterator
+        iBegin = fPartGroupsStack.begin (),
+        iEnd   = fPartGroupsStack.end (),
+        i      = iBegin;
+        
+      gIndenter++;
+      
+      for ( ; ; ) {
+        fLogOutputStream <<
+          (*i)>getPartGroupCombinedName ();
+        if (++i == iEnd) break;
+        fLogOutputStream <<
+          endl;
+      } // for
+      
+      gIndenter--;
+    }
+    
+    fLogOutputStream <<
+      "<== fPartGroupsList" <<
+      endl <<
+      endl;
+  }
+
+/* JMI
+    // print fPartGroupsList
+    fLogOutputStream <<
+      "<== fPartGroupsList" <<
       endl <<
       endl <<
       "==> " << context << ": fPartGroupsList contains:" <<
@@ -659,18 +733,24 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
         i      = iBegin;
         
       gIndenter++;
+      
       for ( ; ; ) {
-        fLogOutputStream << (*i);
+        fLogOutputStream <<
+          (*i);
         if (++i == iEnd) break;
-        fLogOutputStream << endl;
+        fLogOutputStream <<
+          endl;
       } // for
+      
       gIndenter--;
     }
+    
     fLogOutputStream <<
       "<== fPartGroupsList" <<
       endl <<
       endl;
   }
+  */
 }
 
 //________________________________________________________________________
@@ -776,7 +856,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   // is the part group to be stopped known?
   S_msrPartGroup
     partGroupToBeStopped =
-      fetchPartGroupInThisVisitor (
+      fetchPartGroupInTheMap (
         fCurrentPartGroupNumber);
 
   S_msrPartGroup
@@ -962,7 +1042,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
         // is the part group to be stopped known?
         S_msrPartGroup
           partGroupToBeStarted =
-            fetchPartGroupInThisVisitor (
+            fetchPartGroupInTheMap (
               fCurrentPartGroupNumber);
       
         if (partGroupToBeStarted) {
@@ -1026,7 +1106,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
         // is the part group to be stopped known?
         S_msrPartGroup
           partGroupToBeStopped =
-            fetchPartGroupInThisVisitor (
+            fetchPartGroupInTheMap (
               fCurrentPartGroupNumber);
       
         if (partGroupToBeStopped) {
@@ -1213,8 +1293,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
 
   S_msrPartGroup partGroup;
 
-  // is there a current part group?
-  if (! fPartGroupsList.size()) {
+  // has a part group already been seen?
+  if (! fPartGroupsMap.size()) {
     // no, create an implicit one if needed
     partGroup =
       createImplicitPartGroupIfNotYetDone (

@@ -231,7 +231,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // we use a map to access them by part group number
     map<int, S_msrPartGroup>  fPartGroupsMap;
     
-    S_msrPartGroup            fetchPartGroupInThisVisitor (
+    S_msrPartGroup            fetchPartGroupInTheMap (
                                 int partGroupNumber);
 
     // MusicXML allows part groups to overlap,
@@ -240,7 +240,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // (all of them are negative)    
     // the current part group is either null or the front of the list
     
-    list<S_msrPartGroup>      fPartGroupsList;
+ // JMI   list<S_msrPartGroup>      fPartGroupsList;
 
     // handling 'start' and 'stop'
     stack<S_msrPartGroup>     fPartGroupsStack;
