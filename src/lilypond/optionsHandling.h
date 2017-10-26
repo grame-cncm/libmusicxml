@@ -530,7 +530,8 @@ class EXP msrOptionsThreeBooleansItem : public msrOptionsItem
       string optionsItemDescription,
       string optionsThreeBooleansItemVariableDisplayName,
       bool&  optionsThreeBooleansItemVariable,
-      bool&  optionsThreeBooleansItemSecondaryVariable);
+      bool&  optionsThreeBooleansItemSecondaryVariable,
+      bool&  optionsThreeBooleansItemTertiaryVariable);
      
   protected:
 
@@ -543,7 +544,8 @@ class EXP msrOptionsThreeBooleansItem : public msrOptionsItem
       string optionsItemDescription,
       string optionsThreeBooleansItemVariableDisplayName,
       bool&  optionsThreeBooleansItemVariable,
-      bool&  optionsThreeBooleansItemSecondaryVariable);
+      bool&  optionsThreeBooleansItemSecondaryVariable,
+      bool&  optionsThreeBooleansItemTertiaryVariable);
       
     virtual ~msrOptionsThreeBooleansItem();
 
@@ -564,6 +566,8 @@ class EXP msrOptionsThreeBooleansItem : public msrOptionsItem
                                 fOptionsThreeBooleansItemVariable =
                                   value;
                                 fOptionsThreeBooleansItemSecondaryVariable =
+                                  value;
+                                fOptionsThreeBooleansItemTertiaryVariable =
                                   value;
                               }
 
@@ -588,6 +592,7 @@ class EXP msrOptionsThreeBooleansItem : public msrOptionsItem
     bool&                 fOptionsThreeBooleansItemVariable;
     
     bool&                 fOptionsThreeBooleansItemSecondaryVariable;
+    bool&                 fOptionsThreeBooleansItemTertiaryVariable;
 };
 typedef SMARTP<msrOptionsThreeBooleansItem> S_msrOptionsThreeBooleansItem;
 ostream& operator<< (ostream& os, const S_msrOptionsThreeBooleansItem& elt);
