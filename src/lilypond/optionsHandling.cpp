@@ -2427,7 +2427,8 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
               
           // print the options item help unless it is hidden
           if (! optionsItemIsHidden) {
-            optionsItem->printHelp (os);
+            optionsItem->
+              printHelp (os);
           }
           if (++i == iEnd) break;
           if (! optionsItemIsHidden) {
@@ -2441,6 +2442,9 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
       break;
       
     case kHideDescriptionByDefault:
+      os <<
+        "kHideDescriptionByDefault" <<
+        endl;
       break;
   } // switch
 }
@@ -2915,7 +2919,9 @@ void msrOptionsGroup::printOptionsSubGroupForcedHelp (
         
       if (optionsSubGroup == targetOptionsSubGroup) {
         // print the target options subgroup help
-        (*i)->printHelp (os);
+        optionsSubGroup->
+          printOptionsSubGroupForcedHelp (
+            os);
       }
       if (++i == iEnd) break;
       if (optionsSubGroup == targetOptionsSubGroup) {
