@@ -96,7 +96,7 @@ S_msrScore mxmlTree2MsrSkeletonBuilder::browseMxmlTree (
 }
 
 //________________________________________________________________________
-S_msrPartGroup mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone (
+void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone (
   int inputLineNumber)
 {
   /*
@@ -134,9 +134,9 @@ S_msrPartGroup mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone 
     // append it to the MSR score
     if (gGeneralOptions->fTracePartGroups) {
       fLogOutputStream <<
-        "Appending implicit part group " <<
+        "Appending implicit part group '" <<
         fImplicitPartGroup->getPartGroupNumber () <<
-        " to MSR score" <<
+        "' to MSR score" <<
         endl;
     }
         
@@ -152,21 +152,22 @@ S_msrPartGroup mxmlTree2MsrSkeletonBuilder::createImplicitPartGroupIfNotYetDone 
   // add implicit part group to the map of this visitor
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
-      "Adding implicit part group " << fCurrentPartGroupNumber <<
-      " to visitor's data" <<
+      "Adding implicit part group '" <<
+      fCurrentPartGroupNumber <<
+      "' to this visitor's data" <<
       endl;
   }
 
   // register implicit group in the map
-  fPartGroupsMap [fCurrentPartGroupNumber] = fImplicitPartGroup;
+  fPartGroupsMap [fCurrentPartGroupNumber] =
+    fImplicitPartGroup;
+
 // JMI  fPartGroupsList.push_front (fImplicitPartGroup);
 
   // make it the current group
   fPartGroupsStack.push (fImplicitPartGroup);
   
   fCurrentPartUsesImplicitPartGroup = true;
-  
-  return fImplicitPartGroup;
 }
 
 //______________________________________________________________________________
@@ -943,6 +944,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
 
   if (partGroupToBeStopped == partGroupStackTop) {
     // handle this 'stop'
+    fPartGroupsStack.pop ();
   }
 
   else {
@@ -1291,29 +1293,29 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
 
   gIndenter++;
 
-  S_msrPartGroup partGroup;
-
   // has a part group already been seen?
   if (! fPartGroupsMap.size()) {
     // no, create an implicit one if needed
-    partGroup =
-      createImplicitPartGroupIfNotYetDone (
-        inputLineNumber);
+    createImplicitPartGroupIfNotYetDone (
+      inputLineNumber);
   }
 
   // fetch current part group
-  partGroup = fPartGroupsStack.top ();
+  S_msrPartGroup
+    currentPartGroup =
+      fPartGroupsStack.top ();
         
   // is this part already present in the current part group?
   S_msrPart
     part =
-      partGroup->
-        fetchPartFromPartGroup (fCurrentPartID);
+      currentPartGroup->
+        fetchPartFromPartGroup (
+          fCurrentPartID);
 
   if (! part) {
     // no, add it to the current part group
     part =
-      partGroup->
+      currentPartGroup->
         appendPartToPartGroupByItsID (
           inputLineNumber,
           fCurrentPartID);
@@ -1388,9 +1390,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
     // has a part group already been seen?
     if (! fPartGroupsMap.size()) {
       // no, create an implicit one if needed
-      partGroup =
-        createImplicitPartGroupIfNotYetDone (
-          inputLineNumber);
+      createImplicitPartGroupIfNotYetDone (
+        inputLineNumber);
     }
   
     // fetch current part group
