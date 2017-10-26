@@ -172,9 +172,12 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   }
   
   fPartGroupsStack.push (fImplicitPartGroup);
-  showPartGroupsStack (
-    inputLineNumber,
-    "after pushing fImplicitPartGroup");
+  
+  if (gGeneralOptions->fTracePartGroups) {
+    showPartGroupsStack (
+      inputLineNumber,
+      "after pushing fImplicitPartGroup");
+  }
 
 // JMI  fPartGroupsList.push_front (fImplicitPartGroup);
 
@@ -769,10 +772,11 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
 void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTracePartGroupsDetails)
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "BEFORE handlePartGroupStart()");
+  }
 
   // is the part group to be stopped known?
   S_msrPartGroup
@@ -828,9 +832,11 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   }
 
   fPartGroupsStack.push (partGroupToBeStarted);
-  showPartGroupsStack (
-    inputLineNumber,
-    "after pushing partGroupToBeStarted");
+  if (gGeneralOptions->fTracePartGroups) {
+    showPartGroupsStack (
+      inputLineNumber,
+      "after pushing partGroupToBeStarted");
+  }
 
 /*
   // the current part group is either null
@@ -913,20 +919,22 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   }
   */
   
-  if (gGeneralOptions->fTracePartGroupsDetails)
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER handlePartGroupStart()");
+  }
 }
   
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTracePartGroupsDetails)
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "BEFORE handlePartGroupStop()");
+  }
 
   // is the part group to be stopped known?
   S_msrPartGroup
@@ -966,9 +974,11 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
     // handle this 'stop'
     fPartGroupsStack.pop ();
 
-    showPartGroupsData (
-      inputLineNumber,
-      "after popping part group '" + partGroupStackTop->getPartGroupCombinedName () + "'");
+    if (gGeneralOptions->fTracePartGroups) {
+      showPartGroupsData (
+        inputLineNumber,
+        "after popping part group '" + partGroupStackTop->getPartGroupCombinedName () + "'");
+    }
   }
 
   else {
@@ -1046,9 +1056,11 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
     i++;
   } // while
 
-  showPartGroupsData (
-    inputLineNumber,
-    "AFTER REMOVAL FROM LIST");
+  if (gGeneralOptions->fTracePartGroups) {
+    showPartGroupsData (
+      inputLineNumber,
+      "AFTER REMOVAL FROM LIST");
+  }
 
   if (partGroupToBeStopped != fImplicitPartGroup) {
     // take care of the part group to be stopped
@@ -1127,10 +1139,11 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   }
   */
 
-  if (gGeneralOptions->fTracePartGroupsDetails)
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "BEFORE handlePartGroupStop()");
+  }
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
@@ -1329,14 +1342,18 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     createImplicitPartGroup (
       inputLineNumber);
 
-    showPartGroupsData (
-      inputLineNumber,
-      "after creating implicit group on visitEnd (S_score_part&)");
+    if (gGeneralOptions->fTracePartGroups) {
+      showPartGroupsData (
+        inputLineNumber,
+        "after creating implicit group on visitEnd (S_score_part&)");
+    }
   }
 
-  showPartGroupsData (
-    inputLineNumber,
-    "FEE");
+  if (gGeneralOptions->fTracePartGroups) {
+    showPartGroupsData (
+      inputLineNumber,
+      "FEE");
+  }
 
   // fetch current part group
   S_msrPartGroup
@@ -1385,9 +1402,12 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
 
   fCurrentPartUsesImplicitPartGroup = false;
 
-  showPartGroupsData (
-    inputLineNumber,
-    "AFTER handling part \"" + partID + "\"");
+  if (gGeneralOptions->fTracePartGroups) {
+    showPartGroupsData (
+      inputLineNumber,
+      "AFTER handling part \"" + partID + "\"");
+  }
+  
   gIndenter--;
 }
 
@@ -1432,14 +1452,18 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       createImplicitPartGroup (
         inputLineNumber);
 
-      showPartGroupsData (
-        inputLineNumber,
-        "after creating implicit group on visitStart (S_part&");
+      if (gGeneralOptions->fTracePartGroups) {
+        showPartGroupsData (
+          inputLineNumber,
+          "after creating implicit group on visitStart (S_part&");
+      }
     }
 
-    showPartGroupsData (
-      inputLineNumber,
-      "FOO");
+    if (gGeneralOptions->fTracePartGroups) {
+      showPartGroupsData (
+        inputLineNumber,
+        "FOO");
+    }
   
     // fetch current part group
     partGroup = fPartGroupsStack.top ();        
