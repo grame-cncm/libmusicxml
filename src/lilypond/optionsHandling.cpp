@@ -944,8 +944,8 @@ S_msrOptionsThreeBooleansItem msrOptionsThreeBooleansItem::create (
   string optionsItemDescription,
   string optionsThreeBooleansItemVariableDisplayName,
   bool&  optionsThreeBooleansItemVariable,
-  bool&  optionsTwoBooleansItemSecondaryVariable,
-  bool&  optionsTwoBooleansItemTertiaryVariable)
+  bool&  optionsThreeBooleansItemSecondaryVariable,
+  bool&  optionsThreeBooleansItemTertiaryVariable)
 {
   msrOptionsThreeBooleansItem* o = new
     msrOptionsThreeBooleansItem (
@@ -966,8 +966,8 @@ msrOptionsThreeBooleansItem::msrOptionsThreeBooleansItem (
   string optionsItemDescription,
   string optionsThreeBooleansItemVariableDisplayName,
   bool&  optionsThreeBooleansItemVariable,
-  bool&  optionsTwoBooleansItemSecondaryVariable,
-  bool&  optionsTwoBooleansItemTertiaryVariable)
+  bool&  optionsThreeBooleansItemSecondaryVariable,
+  bool&  optionsThreeBooleansItemTertiaryVariable)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
@@ -978,8 +978,8 @@ msrOptionsThreeBooleansItem::msrOptionsThreeBooleansItem (
       optionsThreeBooleansItemVariable),
     fOptionsThreeBooleansItemSecondaryVariable (
       optionsThreeBooleansItemSecondaryVariable),
-    fOptionsTwoBooleansItemTertiaryVariable (
-      optionsTwoBooleansItemTertiaryVariable)
+    fOptionsThreeBooleansItemTertiaryVariable (
+      optionsThreeBooleansItemTertiaryVariable)
 {}
 
 msrOptionsThreeBooleansItem::~msrOptionsThreeBooleansItem()
