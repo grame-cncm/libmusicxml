@@ -517,6 +517,82 @@ typedef SMARTP<msrOptionsTwoBooleansItem> S_msrOptionsTwoBooleansItem;
 ostream& operator<< (ostream& os, const S_msrOptionsTwoBooleansItem& elt);
 
 //______________________________________________________________________________
+class EXP msrOptionsThreeBooleansItem : public msrOptionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsThreeBooleansItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsThreeBooleansItemVariableDisplayName,
+      bool&  optionsThreeBooleansItemVariable,
+      bool&  optionsThreeBooleansItemSecondaryVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsThreeBooleansItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsThreeBooleansItemVariableDisplayName,
+      bool&  optionsThreeBooleansItemVariable,
+      bool&  optionsThreeBooleansItemSecondaryVariable);
+      
+    virtual ~msrOptionsThreeBooleansItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsThreeBooleansItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsThreeBooleansItemVariableDisplayName;
+                              }
+                              
+    void                  setThreeBooleansItemVariableValue (
+                            bool value)
+                              {
+                                fOptionsThreeBooleansItemVariable =
+                                  value;
+                                fOptionsThreeBooleansItemSecondaryVariable =
+                                  value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsThreeBooleansItemVariableDisplayName;
+    bool&                 fOptionsThreeBooleansItemVariable;
+    
+    bool&                 fOptionsThreeBooleansItemSecondaryVariable;
+};
+typedef SMARTP<msrOptionsThreeBooleansItem> S_msrOptionsThreeBooleansItem;
+ostream& operator<< (ostream& os, const S_msrOptionsThreeBooleansItem& elt);
+
+//______________________________________________________________________________
 class EXP msrOptionsValuedItem : public msrOptionsItem
 {
   public:

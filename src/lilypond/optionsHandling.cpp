@@ -938,6 +938,102 @@ ostream& operator<< (ostream& os, const S_msrOptionsTwoBooleansItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsThreeBooleansItem msrOptionsThreeBooleansItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsThreeBooleansItemVariableDisplayName,
+  bool&  optionsThreeBooleansItemVariable,
+  bool&  optionsThreeBooleansItemSecondaryVariable)
+{
+  msrOptionsThreeBooleansItem* o = new
+    msrOptionsThreeBooleansItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsThreeBooleansItemVariableDisplayName,
+      optionsThreeBooleansItemVariable,
+      optionsThreeBooleansItemSecondaryVariable);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsThreeBooleansItem::msrOptionsThreeBooleansItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsThreeBooleansItemVariableDisplayName,
+  bool&  optionsThreeBooleansItemVariable,
+  bool&  optionsThreeBooleansItemSecondaryVariable)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription),
+    fOptionsThreeBooleansItemVariableDisplayName (
+      optionsThreeBooleansItemVariableDisplayName),
+    fOptionsThreeBooleansItemVariable (
+      optionsThreeBooleansItemVariable),
+    fOptionsThreeBooleansItemSecondaryVariable (
+      optionsThreeBooleansItemSecondaryVariable)
+{}
+
+msrOptionsThreeBooleansItem::~msrOptionsThreeBooleansItem()
+{}
+
+void msrOptionsThreeBooleansItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsThreeBooleansItem:" <<
+    endl;
+
+  gIndenter++;
+
+  msrOptionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsThreeBooleansItemVariableDisplayName" << " : " <<
+    fOptionsThreeBooleansItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsThreeBooleansItemVariable" << " : " <<
+    booleanAsString (
+      fOptionsThreeBooleansItemVariable) <<
+    endl;
+
+  gIndenter--;
+}
+
+void msrOptionsThreeBooleansItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsThreeBooleansItemVariableDisplayName <<
+    " : " <<
+    booleanAsString (
+      fOptionsThreeBooleansItemVariable) <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsThreeBooleansItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsValuedItem msrOptionsValuedItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
@@ -4134,6 +4230,17 @@ void msrOptionsHandler::handleOptionsItemName (
         // handle it at once
         optionsTwoBooleansItem->
           setTwoBooleansItemVariableValue (true);              
+      }
+      
+      else if (
+        // three booleans item?
+        S_msrOptionsThreeBooleansItem
+          optionsThreeBooleansItem =
+            dynamic_cast<msrOptionsThreeBooleansItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsThreeBooleansItem->
+          setThreeBooleansItemVariableValue (true);              
       }
       
       else if (
