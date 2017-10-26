@@ -9685,7 +9685,7 @@ class EXP msrStaff : public msrElement
                             int inputLineNumber,
                             S_msrVoice voice);
 
-    S_msrVoice            fetchVoiceFromStaffByItsPartRelativeID ( // JMI
+    S_msrVoice            fetchVoiceFromStaffByItsPartRelativeID (
                             int inputLineNumber,
                             int voicePartRelativeID);
 
@@ -10044,6 +10044,16 @@ class EXP msrPart : public msrElement
     const string          getPartCurrentMeasureNumber () const
                               { return fPartCurrentMeasureNumber; }
 
+    void                  setPartNumberOfMeasures (
+                            int partNumberOfMeasures)
+                              {
+                                fPartNumberOfMeasures =
+                                  partNumberOfMeasures;
+                              }
+
+    const int             getPartNumberOfMeasures () const
+                              { return fPartNumberOfMeasures; }
+
     // staff details
 
     S_msrStaffDetails     getCurrentPartStaffDetails () const
@@ -10327,6 +10337,8 @@ class EXP msrPart : public msrElement
     string                fPartCurrentMeasureNumber;
 
     rational              fPartMeasureLengthHighTide;
+
+    int                   fPartNumberOfMeasures;
 
     // part ID and name
     

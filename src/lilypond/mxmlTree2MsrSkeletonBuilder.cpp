@@ -55,7 +55,7 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fCurrentVoiceNumber = -1;
 
   // measures
-  fMeasuresCounter = 0;
+  fPartNumberOfMeasures = 0;
     
   // lyrics handling
   fCurrentStanzaNumber = -1; // JMI
@@ -238,16 +238,15 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createVoiceIfNotYetDone (
         inputLineNumber,
         staffNumber);
 
-  // the voice
-  S_msrVoice voice;
+  // is voice already present in staff?
+  S_msrVoice
+    voice =
+      staff->
+        fetchVoiceFromStaffByItsPartRelativeID (
+          inputLineNumber,
+          voiceNumber);
   
-  // get registered voice staff number
-  bool
-    voiceNumberHasAlreadyBeenRegistered =
-      fPartVoiceNumberToVoiceMap.count (
-        voiceNumber);
-        
-  if (! voiceNumberHasAlreadyBeenRegistered) {
+  if (! voice) {
     // create the voice and append it to the staff
     voice =
       staff->
@@ -256,14 +255,6 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createVoiceIfNotYetDone (
           msrVoice::kRegularVoice,
           voiceNumber,
           fCurrentMeasureNumber);
-
-    // register that voice 'voiceNumber' is mapped to 'voice'
-    fPartVoiceNumberToVoiceMap [voiceNumber] = voice;
-    
-    // register that voice 'voiceNumber' is currently displayed
-    // by staff 'staffNumber'
-    fPartVoiceNumberToDisplayingStaffNumberMap [voiceNumber] =
-      staffNumber;
   }
   
   return voice;
@@ -1523,11 +1514,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
 
   gIndenter++;
 
+  // measures
+  fPartNumberOfMeasures = 0;
+    
+  // staves and voices
   fCurrentStaffNumber = 1; // default if there are no <staff> element
   fCurrentVoiceNumber = 1; // default if there are no <voice> element
-
-  fPartVoiceNumberToVoiceMap.clear ();
-  fPartVoiceNumberToDisplayingStaffNumberMap.clear ();
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
@@ -1549,10 +1541,10 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
       endl;
   }
 
-  // finalize the current part
+  // current part's number of measures
   fCurrentPart->
-    finalizePart (
-      elt->getInputLineNumber ());
+    setPartNumberOfMeasures (
+      fPartNumberOfMeasures);
 }
 
 //________________________________________________________________________
@@ -1723,9 +1715,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_measure& elt)
       endl;
   }
 
-
   // take this measure into account
-  fMeasuresCounter++;
+  fPartNumberOfMeasures++;
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_measure& elt)

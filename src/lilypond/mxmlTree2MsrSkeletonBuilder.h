@@ -288,10 +288,6 @@ class EXP mxmlTree2MsrSkeletonBuilder :
                                 int            inputLineNumber,
                                 int            staffNumber);
 
-    // a voice may change staff, hence:
-    map<int, S_msrVoice>      fPartVoiceNumberToVoiceMap;
-    map<int, int>             fPartVoiceNumberToDisplayingStaffNumberMap;
-
 
     // voice handling
     // ------------------------------------------------------
@@ -308,7 +304,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
     
     string                    fCurrentMeasureNumber;
-    int                       fMeasuresCounter;
+    int                       fPartNumberOfMeasures;
     
 
     // notes handling

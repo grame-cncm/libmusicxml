@@ -28843,7 +28843,8 @@ void msrPart::finalizeCurrentMeasureInPart (
     rational (0, 1));
 }
 
-void msrPart::finalizePart (int inputLineNumber)
+void msrPart::finalizePart (
+  int inputLineNumber)
 {
   if (gGeneralOptions->fTraceParts) {
     gLogIOstream <<
@@ -28985,28 +28986,32 @@ void msrPart::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "PartPartGroupUplink" << ": " <<
+    "PartPartGroupUplink" << " : " <<
     fPartPartGroupUplink->getPartGroupCombinedName () <<
     endl <<
     setw (fieldWidth) <<
-    "PartMsrName" << ": \"" <<
+    "PartMsrName" << " : \"" <<
     fPartMsrName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartName" << ": \"" <<
+    "PartName" << " : \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartAbbrevation" << ": \"" <<
+    "PartAbbrevation" << " : \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "PartInstrumentName" << ": \"" <<
+     "PartInstrumentName" << " : \"" <<
     fPartInstrumentName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "PartInstrumentAbbreviation" << ": \"" <<
+     "PartInstrumentAbbreviation" << " : \"" <<
     fPartInstrumentAbbreviation << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+      "PartNumberOfMeasures" << " : " <<
+    fPartNumberOfMeasures <<
     endl <<
     endl;
 
@@ -29110,28 +29115,33 @@ void msrPart::printStructure (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "PartMsrName" << ": \"" <<
+    "PartMsrName" << " : \"" <<
     fPartMsrName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartName" << ": \"" <<
+    "PartName" << " : \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartAbbrevation" << ": \"" <<
+    "PartAbbrevation" << " : \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartInstrumentName" << ": \"" <<
+    "PartInstrumentName" << " : \"" <<
     fPartInstrumentName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartInstrumentAbbreviation" << ": \"" <<
+    "PartInstrumentAbbreviation" << " : \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-     "PartInstrumentAbbreviation" << ": \"" <<
+     "PartInstrumentAbbreviation" << " : \"" <<
     fPartInstrumentAbbreviation << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+     "PartNumberOfMeasures" << " : " <<
+    fPartNumberOfMeasures <<
+    endl <<
     endl;
 
 /* JMI
