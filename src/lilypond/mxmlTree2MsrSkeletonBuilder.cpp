@@ -641,7 +641,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
     endl;
 
   gIndenter++;
-  
+      
   if (fPartGroupsMap.size()) {
     map<int, S_msrPartGroup>::const_iterator
       iBegin = fPartGroupsMap.begin (),
@@ -652,36 +652,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
     
     for ( ; ; ) {
       fLogOutputStream <<
-        (*i).first <<
-        " ----> " <<
-        (*i).second->getPartGroupCombinedName ();
-      if (++i == iEnd) break;
-      fLogOutputStream << endl;
-    } // for
-    
-    gIndenter--;
-  }
-
-  // print fPartGroupsMap
-  fLogOutputStream <<
-    "<== fPartGroupsMap" <<
-    endl <<
-    endl <<
-    "==> " << context << ": fPartGroupsMap contains:" <<
-    endl;
-    
-  if (fPartGroupsMap.size()) {
-    map<int, S_msrPartGroup>::const_iterator
-      iBegin = fPartGroupsMap.begin (),
-      iEnd   = fPartGroupsMap.end (),
-      i      = iBegin;
-      
-    gIndenter++;
-    
-    for ( ; ; ) {
-      fLogOutputStream <<
-        (*i).first <<
-        ": " <<
+        "'" << (*i).first <<
+        "': " <<
         (*i).second->getPartGroupCombinedName () <<
         endl;
       if (++i == iEnd) break;
@@ -692,6 +664,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
     gIndenter--;
   }
   
+  gIndenter--;
+
   fLogOutputStream <<
     "<== fPartGroupsMap" <<
     endl;
@@ -761,8 +735,6 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (string context)
       "<== fPartGroupsList" <<
       endl;
   */
-
-    gIndenter--;
 }
 
 //________________________________________________________________________
