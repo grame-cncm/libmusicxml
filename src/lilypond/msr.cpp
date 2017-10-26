@@ -29596,10 +29596,10 @@ string msrPartGroup::partGroupBarlineKindAsString (
   string result;
   
   switch (partGroupBarlineKind) {
-    case msrPartGroup::kBracePartGroupBarlineYes:
+    case msrPartGroup::kPartGroupBarlineYes:
       result = "bracePartGroupBarlineYes";
       break;
-    case msrPartGroup::kBracketPartGroupBarlineNo:
+    case msrPartGroup::kPartGroupBarlineNo:
       result = "bracePartGroupBarlineNo";
       break;
   } // switch

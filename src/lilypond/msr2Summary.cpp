@@ -208,8 +208,8 @@ void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
     endl <<
     setw (fieldWidth) <<
     "fPartGroupBarline" << " : \"" <<
-    booleanAsString (
-      elt->getPartGroupBarline ()) <<
+    msrPartGroup::partGroupBarlineKindAsString (
+      elt->getPartGroupBarlineKind ()) <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
