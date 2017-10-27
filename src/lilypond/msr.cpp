@@ -29031,7 +29031,7 @@ void msrPart::print (ostream& os)
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-      "PartNumberOfMeasures" << " : " <<
+    "PartNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
     endl <<
     endl;
@@ -30409,13 +30409,11 @@ void msrScore::print (ostream& os)
     " (" <<
     singularOrPlural (
       fPartGroupsList.size (),
-      "part group",
-      "part groups") <<
+      "part group", "part groups") <<
     ", " <<
     singularOrPlural (
       fScoreNumberOfMeasures,
-      "measure",
-      "measures") <<
+      "measure", "measures") <<
     ")" <<
     endl << endl;
 

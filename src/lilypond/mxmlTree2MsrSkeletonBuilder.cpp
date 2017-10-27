@@ -1599,7 +1599,28 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
       endl;
   }
 
-  // current part's number of measures
+  // handle current part number of measures
+  if (fScoreNumberOfMeasures == 0) {
+    fScoreNumberOfMeasures =
+      fPartNumberOfMeasures;
+  }
+  else {
+    // is the part number of measures consistent?
+    if (fPartNumberOfMeasures != fScoreNumberOfMeasures) {
+      stringstream s;
+
+      s <<
+        "part " << fCurrentPart->getPartCombinedName () <<
+        " has " << fPartNumberOfMeasures <<
+        " while another one has " << fScoreNumberOfMeasures;
+        
+      msrMusicXMLWarning (
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+  }
+  
+  // set current part's number of measures
   fCurrentPart->
     setPartNumberOfMeasures (
       fPartNumberOfMeasures);

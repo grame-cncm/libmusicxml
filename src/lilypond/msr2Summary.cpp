@@ -89,13 +89,16 @@ void msr2SummaryVisitor::visitStart (S_msrScore& elt)
       "--> Start visiting msrScore" <<
       endl;
   }
-
-  int partGroupsListSize = elt->getPartGroupsList ().size();
   
   fMsrSummaryOutputStream <<
     "Score contains " <<
     singularOrPlural (
-      partGroupsListSize, "part group", "part groups") <<
+      elt->getPartGroupsList ().size (),
+      "part group", "part groups") <<
+    ", " <<
+    singularOrPlural (
+      elt->getScoreNumberOfMeasures (),
+      "measure", "measures") <<
     endl <<
     endl;
 
@@ -247,7 +250,8 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
     "Part " << elt->getPartCombinedName () <<
     " contains " <<
     singularOrPlural (
-      partStavesMapSize, "staff", "staves") <<
+      partStavesMapSize,
+      "staff", "staves") <<
     endl;
     
   gIndenter++;
@@ -278,6 +282,11 @@ void msr2SummaryVisitor::visitStart (S_msrPart& elt)
     setw (fieldWidth) <<
     "PartInstrumentAbbreviation" << " : \"" <<
     elt->getPartInstrumentAbbreviation () << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "PartNumberOfMeasures" << " : " <<
+    elt->getPartNumberOfMeasures () <<
+    endl <<
     endl;
 
   fMsrSummaryOutputStream <<
@@ -312,7 +321,8 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
     "Staff" << " " << elt->getStaffName () <<
     " contains " <<
     singularOrPlural (
-      staffAllVoicesMapSize, "voice", "voices") <<
+      staffAllVoicesMapSize,
+      "voice", "voices") <<
     endl;
 
   gIndenter++;
@@ -369,7 +379,8 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
     "Voice" << " " << elt->getVoiceName () <<
     " has " <<
     singularOrPlural (
-      voiceStanzasMapSize, "stanza", "stanzas") <<
+      voiceStanzasMapSize,
+      "stanza", "stanzas") <<
     endl;
 
   gIndenter++;
@@ -437,7 +448,8 @@ void msr2SummaryVisitor::visitStart (S_msrStanza& elt)
     "Stanza" << " " << elt->getStanzaName () <<
     " contains " <<
     singularOrPlural (
-      syllablesSize, "syllable", "syllables");
+      syllablesSize,
+      "syllable", "syllables");
 
   if (! elt->getStanzaTextPresent ())
     fMsrSummaryOutputStream << " (No actual text)";
