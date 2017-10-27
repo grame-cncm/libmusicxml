@@ -256,6 +256,8 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // the current part group is either null or the front of the list
     
     list<S_msrPartGroup>      fPartGroupsList;
+    
+    set<S_msrPartGroup>       fStartedGroupsSet;
 
     // handling 'start' and 'stop'
  // JMI   stack<S_msrPartGroup>     fPartGroupsStack;

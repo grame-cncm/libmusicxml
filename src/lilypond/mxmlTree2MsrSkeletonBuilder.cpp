@@ -547,11 +547,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
   fCurrentPartGroupNumber =
     elt->getAttributeIntValue ("number", 0);
     
-  string partGroupType =
-    elt->getAttributeValue ("type");
-
   // part group type
   
+  string partGroupType = elt->getAttributeValue ("type");
+
   if      (partGroupType == "start")
     fCurrentPartGroupTypeKind = msrPartGroup::kStartPartGroupType;
   else if (partGroupType == "stop")
@@ -1039,8 +1038,22 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
     
     fPartGroupsMap [fCurrentPartGroupNumber] =
       partGroupToBeStarted;
+
+    // insert it into the part group map of this visitor
+    if (gGeneralOptions->fTracePartGroups) {
+      fLogOutputStream <<
+        "Inserting part group " << fCurrentPartGroupNumber <<
+        " into visitor's part started part groups set" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+
+    fStartedGroupsSet.insert (
+      partGroupToBeStarted)
   }
+
   
+/* JMI
   // add it to the part group list of this visitor
   if (gGeneralOptions->fTracePartGroups)
     fLogOutputStream <<
@@ -1082,6 +1095,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       i++;
     } // while
   }
+  */
   
   if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
@@ -1214,15 +1228,20 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       s.str ());
   }
 
-  // remove the part group to be stopped from the part group list
-  if (gGeneralOptions->fTracePartGroups)
+  // remove the part group to be stopped from the start part groups set
+  if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Removing part group " <<
       partGroupToBeStopped->getPartGroupNumber () <<
-      " from visitor's part groups list" <<
+      " from visitor's started part groups set" <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
+    fStartedGroupsSet.insert (
+      partGroupToBeStarted)
+
+/* JMI
   list<S_msrPartGroup>::const_iterator
     iBegin = fPartGroupsList.begin (),
     iEnd   = fPartGroupsList.end (),
@@ -1249,6 +1268,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
     
     i++;
   } // while
+*/
 
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
