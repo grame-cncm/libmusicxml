@@ -219,7 +219,8 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     */
     
     int                       fCurrentPartGroupNumber;
-    string                    fCurrentPartGroupType;
+    msrPartGroup::msrPartGroupTypeKind
+                              fCurrentPartGroupTypeKind;
     string                    fCurrentPartGroupName;
     bool                      fOnGoingGroupNameDisplay;
     string                    fCurrentPartGroupDisplayText;

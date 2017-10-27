@@ -525,11 +525,58 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
 
 */
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // part group number
+  
   fCurrentPartGroupNumber =
     elt->getAttributeIntValue ("number", 0);
     
-  fCurrentPartGroupType =
+  string partGroupType =
     elt->getAttributeValue ("type");
+
+  // part group type
+  
+  if      (partGroupType == "start")
+    fCurrentPartGroupTypeKind = msrPartGroup::kStartPartGroupType;
+  else if (partGroupType == "stop")
+    fCurrentPartGroupTypeKind = msrPartGroup::kStopPartGroupType;
+  else {
+    stringstream s;
+
+    s <<
+      "unknown part group type \"" <<
+       partGroupType <<
+        "\"";
+
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str ());
+  }
+
+  // part group print style
+
+  string printStyle = elt->getAttributeValue ("print-style"); // JMI
+  
+  // part group print object
+
+  string printObject = elt->getAttributeValue ("print-object"); // JMI
+
+  // handle part group type
+  switch (fCurrentPartGroupTypeKind) {
+    
+    case msrPartGroup::kStartPartGroupType:
+      break;
+      
+    case msrPartGroup::kStopPartGroupType:
+      handlePartGroupStop (
+        inputLineNumber);
+      break;
+      
+    case msrPartGroup::k_NoPartGroupType:
+      break;
+  } // switch
 
   fCurrentPartGroupName = "";
   fCurrentPartGroupDisplayText = "";
@@ -538,11 +585,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
   fCurrentPartGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
   fCurrentPartGroupSymbolDefaultX = INT_MIN;
   fCurrentPartGroupBarlineKind = msrPartGroup::kPartGroupBarlineYes;
-
-
-  string printStyle = elt->getAttributeValue ("print-style"); // JMI
-  
-  string printObject = elt->getAttributeValue ("print-object"); // JMI
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_name& elt)
@@ -871,8 +913,8 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   // push it onto the part group stack of this visitor
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
-      "Pushing part group " << fCurrentPartGroupNumber <<
-      " onto this visitor's part group stack" <<
+      "Pushing part group '" << fCurrentPartGroupNumber <<
+      "' onto this visitor's part group stack" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1213,39 +1255,17 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
     fLogOutputStream <<
       "Handling part group '" <<
       fCurrentPartGroupNumber <<
-      "', type: \"" << fCurrentPartGroupType << "\""  <<
+      "', type: \"" <<
+      msrPartGroup::partGroupTypeKindAsString (
+        fCurrentPartGroupTypeKind) << "\""  <<
       ", line " << inputLineNumber <<
       endl;
   }
 
   gIndenter++;
   
-  msrPartGroup::msrPartGroupTypeKind partGroupTypeKind;
-
-  // check part group type
-  if      (fCurrentPartGroupType == "start")
-    partGroupTypeKind = msrPartGroup::kStartPartGroupType;
-  else if (fCurrentPartGroupType == "stop")
-    partGroupTypeKind = msrPartGroup::kStopPartGroupType;
-  else {
-    if (fCurrentPartGroupType.size ()) {
-      // part group type may be absent
-      stringstream s;
-
-      s <<
-        "unknown part group type \"" <<
-         fCurrentPartGroupType <<
-          "\"";
-
-      msrMusicXMLError (
-        inputLineNumber,
-        s.str ());
-    }
-        
-    partGroupTypeKind = msrPartGroup::k_NoPartGroupType;
-  }
-
-  switch (partGroupTypeKind) {
+  // handle part group type
+  switch (fCurrentPartGroupTypeKind) {
     
     case msrPartGroup::kStartPartGroupType:
       handlePartGroupStart (

@@ -29595,10 +29595,24 @@ void msrPartGroup::browseData (basevisitor* v)
       endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrPartGroup& elt)
+string msrPartGroup::partGroupTypeKindAsString (
+  msrPartGroupTypeKind partGroupTypeKind)
 {
-  elt->print (os);
-  return os;
+  string result;
+  
+  switch (partGroupTypeKind) {
+    case msrPartGroup::k_NoPartGroupType:
+      result = "none";
+      break;
+    case msrPartGroup::kStartPartGroupType:
+      result = "start";
+      break;
+    case msrPartGroup::kStopPartGroupType:
+      result = "stop";
+      break;
+  } // switch
+
+  return result;
 }
 
 string msrPartGroup::partGroupSymbolKindAsString (
@@ -29720,6 +29734,12 @@ void msrPartGroup::print (ostream& os)
   gIndenter--;
 }
 
+ostream& operator<< (ostream& os, const S_msrPartGroup& elt)
+{
+  elt->print (os);
+  return os;
+}
+          
 void msrPartGroup::printSummary (ostream& os)
 {
   os <<
