@@ -27042,7 +27042,7 @@ os <<
   gIndenter--;
 }
 
-void msrStaff::printStructure (ostream& os)
+void msrStaff::printSummary (ostream& os)
 {
   os <<
     "Staff" " " << getStaffName () <<
@@ -29119,13 +29119,16 @@ void msrPart::print (ostream& os)
   gIndenter--;
 }
 
-void msrPart::printStructure (ostream& os)
+void msrPart::printSummary (ostream& os)
 {
   os <<
     "Part" << " " << getPartCombinedName () <<
     " (" <<
     singularOrPlural (
       fPartStavesMap.size(), "staff", "staves") <<
+    ", " <<
+    singularOrPlural (
+      fPartNumberOfMeasures, "measure", "measure") <<
     ", length high tide " << fPartMeasureLengthHighTide <<
     ")" <<
     endl;
@@ -29205,7 +29208,7 @@ void msrPart::printStructure (ostream& os)
       i      = iBegin;
           
     for ( ; ; ) {
-      (*i).second->printStructure (os);
+      (*i).second->printSummary (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -29717,7 +29720,7 @@ void msrPartGroup::print (ostream& os)
   gIndenter--;
 }
 
-void msrPartGroup::printStructure (ostream& os)
+void msrPartGroup::printSummary (ostream& os)
 {
   os <<
     "PartGroup" " \"" << getPartGroupCombinedName () <<
@@ -29765,7 +29768,7 @@ void msrPartGroup::printStructure (ostream& os)
       
     gIndenter++;
     for ( ; ; ) {
-      (*i)->printStructure (os);
+      (*i)->printSummary (os);
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30405,9 +30408,14 @@ void msrScore::print (ostream& os)
     "MSR Score" <<
     " (" <<
     singularOrPlural (
-      fPartGroupsList.size(),
+      fPartGroupsList.size (),
       "part group",
       "part groups") <<
+    ", " <<
+    singularOrPlural (
+      fScoreNumberOfMeasures,
+      "measure",
+      "measures") <<
     ")" <<
     endl << endl;
 
@@ -30452,7 +30460,7 @@ void msrScore::print (ostream& os)
   gIndenter--;
 }
 
-void msrScore::printStructure (ostream& os)
+void msrScore::printSummary (ostream& os)
 {
   os <<
     "MSR component" <<
@@ -30461,6 +30469,11 @@ void msrScore::printStructure (ostream& os)
       fPartGroupsList.size(),
       "part group",
       "part groups") <<
+    ", " <<
+    singularOrPlural (
+      fScoreNumberOfMeasures,
+      "measure",
+      "measures") <<
     ")" <<
     ", parts and staves not shown" <<
     endl << endl;
@@ -30493,7 +30506,7 @@ void msrScore::printStructure (ostream& os)
     i != fPartGroupsList.end ();
     i++) {
     (*i)->
-      printStructure (os);
+      printSummary (os);
   } // for
   
   gIndenter--;

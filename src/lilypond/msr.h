@@ -200,7 +200,7 @@ class EXP msrElement : public smartable
 
     virtual void          print (ostream& os);
 
-    virtual void          printStructure (ostream& os) {}
+    virtual void          printSummary (ostream& os) {}
     
   protected:
      
@@ -9789,7 +9789,7 @@ class EXP msrStaff : public msrElement
 
     virtual void          print (ostream& os);
 
-    virtual void          printStructure (ostream& os);
+    virtual void          printSummary (ostream& os);
 
   private:
 
@@ -10331,7 +10331,7 @@ class EXP msrPart : public msrElement
 
     virtual void          print (ostream& os);
 
-    virtual void          printStructure (ostream& os);
+    virtual void          printSummary (ostream& os);
 
   private:
 
@@ -10583,7 +10583,7 @@ class EXP msrPartGroup : public msrElement
 
     virtual void          print (ostream& os);
 
-    virtual void          printStructure (ostream& os);
+    virtual void          printSummary (ostream& os);
 
   private:
 
@@ -10687,6 +10687,16 @@ class EXP msrScore : public msrElement
     const list<S_msrCredit>&
                           getCreditsList () const
                               { return fCreditsList; }
+
+    void                  setScoreNumberOfMeasures (
+                            int scoreNumberOfMeasures)
+                              {
+                                fScoreNumberOfMeasures =
+                                  scoreNumberOfMeasures;
+                              }
+                                  
+    int                   getScoreNumberOfMeasures () const
+                              { return fScoreNumberOfMeasures; }
         
     void                  setInhibitMeasureRepeatReplicasBrowsing ()
                               {
@@ -10738,7 +10748,7 @@ class EXP msrScore : public msrElement
 
     virtual void          print (ostream& os);
     
-    virtual void          printStructure (ostream& os);
+    virtual void          printSummary (ostream& os);
 
   private:
 
@@ -10755,6 +10765,8 @@ class EXP msrScore : public msrElement
     
     list<S_msrPartGroup>  fPartGroupsList;
 
+    int                   fScoreNumberOfMeasures;
+    
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure
     bool                  fInhibitMeasureRepeatReplicasBrowsing;

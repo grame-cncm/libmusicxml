@@ -25,8 +25,12 @@ namespace MusicXML2
 /*!
 \brief Produces a summary of a MusicXML part.
 */
-class EXP mxmlTree2MsrSkeletonBuilder : 
+class EXP mxmlTree2MsrSkeletonBuilder :
 
+  // score
+
+  public visitor<S_score_partwise>,
+  
   // parts & part groups
   
   public visitor<S_part_list>,
@@ -110,6 +114,12 @@ class EXP mxmlTree2MsrSkeletonBuilder :
   
   protected:
 
+    // score
+  
+    virtual void visitStart ( S_score_partwise& elt);
+    virtual void visitEnd   ( S_score_partwise& elt);
+    
+  
     // parts & part groups
     // ------------------------------------------------------
 
@@ -187,6 +197,10 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     S_msrScore                fMsrScore;
 
     
+    // score handling
+
+    int                       fScoreNumberOfMeasures;
+
     // part groups handling
     // ------------------------------------------------------
     

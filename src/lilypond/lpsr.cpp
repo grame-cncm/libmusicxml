@@ -3960,7 +3960,7 @@ void lpsrScore::print (ostream& os)
 
   // print the MSR structure (without the voices)
   fMsrScore->
-    printStructure (os);
+    printSummary (os);
   os << endl;
 
   // are some Scheme functions needed?

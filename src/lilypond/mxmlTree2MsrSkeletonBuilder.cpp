@@ -40,6 +40,9 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fMsrScore =
     msrScore::create (0);
 
+  // score handling
+  fScoreNumberOfMeasures = 0;
+
   // part groups handling
   fCurrentPartUsesImplicitPartGroup = false;
   
@@ -261,20 +264,20 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createVoiceIfNotYetDone (
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_list& elt)
+void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_partwise& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_part_list" <<
+      "--> Start visiting S_score_partwise" <<
       endl;
   }
 
   if (gGeneralOptions->fTraceParts)
     fLogOutputStream <<
-      "Analysing part list" <<
+      "Analysing the score partwise" <<
       endl;
 
-  gIndenter++;
+  fScoreNumberOfMeasures = 0;
 }
 /*
   <part-list>
@@ -300,6 +303,61 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_list& elt)
     </part-group>
     <score-part id="P2">
 */
+
+void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_partwise& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_score_partwise" <<
+      endl;
+  }
+
+  fMsrScore->
+    setScoreNumberOfMeasures (
+      fScoreNumberOfMeasures);
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_list& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_part_list" <<
+      endl;
+  }
+
+/*
+  <part-list>
+    <part-group number="1" type="start">
+      <group-symbol default-x="-7">bracket</group-symbol>
+      <group-barline>yes</group-barline>
+    </part-group>
+    <score-part id="P1">
+      <part-name>Piccolo</part-name>
+      <part-abbreviation>Picc.</part-abbreviation>
+      <score-instrument id="P1-I18">
+        <instrument-name>Picc.</instrument-name>
+      </score-instrument>
+      <midi-instrument id="P1-I18">
+        <midi-channel>1</midi-channel>
+        <midi-program>73</midi-program>
+      </midi-instrument>
+    </score-part>
+    <part-group number="2" type="start">
+      <group-name>1
+2</group-name>
+      <group-barline>yes</group-barline>
+    </part-group>
+    <score-part id="P2">
+*/
+
+  if (gGeneralOptions->fTraceParts)
+    fLogOutputStream <<
+      "Analysing part list" <<
+      endl;
+
+  gIndenter++;
+}
 
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
 {
