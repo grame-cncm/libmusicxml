@@ -10347,14 +10347,6 @@ class EXP msrPart : public msrElement
     S_msrStaff            fPartMasterStaff;
     S_msrVoice            fPartMasterVoice;
 
-    // measures
-
-    string                fPartCurrentMeasureNumber;
-
-    rational              fPartMeasureLengthHighTide;
-
-    int                   fPartNumberOfMeasures;
-
     // part ID and name
     
     string                fPartID; // native
@@ -10366,6 +10358,14 @@ class EXP msrPart : public msrElement
 
     string                fPartName; // from '<part-name/>'
     string                fPartAbbreviation;
+
+    // measures
+
+    string                fPartCurrentMeasureNumber;
+
+    int                   fPartNumberOfMeasures;
+
+    rational              fPartMeasureLengthHighTide;
 
     // part instrument name
     
