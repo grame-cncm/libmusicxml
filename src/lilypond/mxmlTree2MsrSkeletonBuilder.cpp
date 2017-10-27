@@ -1188,34 +1188,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     }
   }
 
-/* JMI
-  if (gGeneralOptions->fTracePartGroups) {
-    showPartGroupsData (
-      inputLineNumber,
-      "before fetching part groups stack top");
-  }
-
-  // sanity check
-  msrAssert (
-    fPartGroupsStack.size () != 0,
-    "fPartGroupsStack is empty");
-    
-  // fetch current part group
-  S_msrPartGroup
-    currentPartGroup =
-      fPartGroupsStack.top ();
-   */
-        
-  // sanity check
-  msrAssert (
-    fPartGroupsList.size () != 0,
-    "fPartGroupsList is empty");
-    
-  // fetch current part group
-  S_msrPartGroup
-    currentPartGroup =
-      fPartGroupsList.front ();
-
   // is this part already present in the current part group?
   S_msrPart
     part =
@@ -1224,12 +1196,17 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
           fCurrentPartID);
 
   if (! part) {
-    // no, add it to the current part group
-    part =
-      currentPartGroup->
-        appendPartToPartGroupByItsID (
-          inputLineNumber,
-          fCurrentPartID);
+    // no, add it to the current started part groups
+    for (
+      set<S_msrPartGroup>::const_iterator i = fStartedPartGroupsSet.begin ());
+      i != fStartedPartGroupsSet.end ();
+      i++) {
+      part =
+        currentPartGroup->
+          appendPartToPartGroupByItsID (
+            inputLineNumber,
+            fCurrentPartID);
+    } // for
   }
   
   // populate current part
@@ -2163,3 +2140,33 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
   }
   *
   * */
+
+
+/* JMI
+  if (gGeneralOptions->fTracePartGroups) {
+    showPartGroupsData (
+      inputLineNumber,
+      "before fetching part groups stack top");
+  }
+
+  // sanity check
+  msrAssert (
+    fPartGroupsStack.size () != 0,
+    "fPartGroupsStack is empty");
+    
+  // fetch current part group
+  S_msrPartGroup
+    currentPartGroup =
+      fPartGroupsStack.top ();
+        
+  // sanity check
+  msrAssert (
+    fPartGroupsList.size () != 0,
+    "fPartGroupsList is empty");
+    
+  // fetch current part group
+  S_msrPartGroup
+    currentPartGroup =
+      fPartGroupsList.front ();
+   */
+
