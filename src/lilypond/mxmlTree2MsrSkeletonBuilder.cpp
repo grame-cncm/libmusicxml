@@ -1065,7 +1065,24 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
 
   if (partGroupToBeStopped == partGroupStackTop) {
     // handle this 'stop'
+
+    // pop the part group to be stopped off the part group stack
     fPartGroupsStack.pop ();
+
+    // append the part group to be stopped to the new stack top if any
+    if (fPartGroupsStack.size () != 0) {
+      // the stopped part group is nested
+      S_msrPartGroup
+        containingPartGroup =
+          fPartGroupsStack.top ();
+
+      containingPartGroup->
+        appendSubPartGroupToPartGroup (
+          partGroupToBeStopped);
+    }
+    else {
+      // the stoppped part group is the top-level one
+    }
 
     if (gGeneralOptions->fTracePartGroups) {
       showPartGroupsData (
@@ -1077,13 +1094,18 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   else {
     stringstream s;
 
+    showPartGroupsData (
+      inputLineNumber,
+      "before overlapping message");
+
     s <<
       "part groups '" << fCurrentPartGroupNumber << "'" <<
       " and " <<
       "part group '" << partGroupStackTop->getPartGroupNumber () << "'" <<
-      "overlap: this is not supported";
+      " are overlapping: this is not supported";
 
-    msrMusicXMLError (
+ // JMI   msrMusicXMLError (
+    msrMusicXMLWarning (
       inputLineNumber,
       s.str ());
   }
