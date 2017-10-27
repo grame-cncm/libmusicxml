@@ -255,15 +255,22 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // (all of them are negative)    
     // the current part group is either null or the front of the list
     
- // JMI   list<S_msrPartGroup>      fPartGroupsList;
+    list<S_msrPartGroup>      fPartGroupsList;
 
     // handling 'start' and 'stop'
-    stack<S_msrPartGroup>     fPartGroupsStack;
+ // JMI   stack<S_msrPartGroup>     fPartGroupsStack;
 
     void                      showPartGroupsMap (
                                 int    inputLineNumber,
                                 string context);
+
+/* JMI                                    
     void                      showPartGroupsStack (
+                                int    inputLineNumber,
+                                string context);
+    */
+    
+    void                      showPartGroupsList (
                                 int    inputLineNumber,
                                 string context);
     
