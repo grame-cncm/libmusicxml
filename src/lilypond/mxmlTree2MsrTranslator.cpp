@@ -1052,6 +1052,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   } // for
 
   // miscellaneous
+  fCurrentMeasureOrdinalNumber = 0;
   fCurrentStaffNumber = 1; // default if there are no <staff> element
   fCurrentVoiceNumber = 1; // default if there are no <voice> element
 
@@ -5059,7 +5060,10 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   fCurrentPart->
     createMeasureAndAppendItToPart (
       inputLineNumber,
-      fCurrentMeasureNumber);
+      fCurrentMeasureNumber,
+      fCurrentMeasureOrdinalNumber);
+
+  // JMI fCurrentMeasureOrdinalNumber
 
 /* JMI
   // is this measure number in the debug set?

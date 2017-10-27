@@ -15286,8 +15286,9 @@ msrMeasure::msrMeasure (
   fMeasureSegmentUplink =
     measureSegmentUplink;
 
-  // set measure number
+  // set measure numbers
   fMeasureNumber = measureNumber;
+  fMeasureOrdinalNumber = -1;
   
   // do other initializations
   initializeMeasure ();
@@ -15295,7 +15296,7 @@ msrMeasure::msrMeasure (
 
 void msrMeasure::initializeMeasure ()
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "==> Initializing measure " << fMeasureNumber <<
       " in segment " <<
@@ -15307,7 +15308,8 @@ void msrMeasure::initializeMeasure ()
       "\"" <<
       ", line " << fInputLineNumber <<
       endl;
-
+  }
+  
   fMeasureKind = kUnknownMeasureKind;
 
 /* JMI
@@ -15319,9 +15321,6 @@ void msrMeasure::initializeMeasure ()
     abort();
 */
 
-  // initialize part number of measures
-  fPartNumberOfMeasures = 0;
-  
   // initialize measure position
   setMeasureLength (
     fInputLineNumber,
@@ -15348,7 +15347,7 @@ S_msrVoice msrMeasure::fetchMeasureVoiceUplink () const
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "==> Creating a newborn clone of measure '" <<
       fMeasureNumber <<
@@ -15361,6 +15360,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
             getVoiceName () <<
       "\"" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -15403,7 +15403,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 S_msrMeasure msrMeasure::createMeasureDeepCopy (
   S_msrSegment containingSegment)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "==> Creating a deep copy of measure '" <<
       fMeasureNumber <<
@@ -15416,6 +15416,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
             getVoiceName () <<
       "\"" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -17548,6 +17549,7 @@ void msrMeasure::print (ostream& os)
     endl <<
     "Measure " << fMeasureNumber <<
     ", " << measureKindAsString () <<
+    ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
 /* JMI
     ", measureLengthAsMSRString: " <<
     measureLengthAsMSRString () <<
@@ -17782,7 +17784,8 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 
 void msrSegment::createMeasureAndAppendItToSegment (
   int    inputLineNumber,
-  string measureNumber)
+  string measureNumber,
+  int    measureOrdinalNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     gLogIOstream <<
@@ -17881,6 +17884,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       endl;
   }
 
+/* JMI
   // should a measure be appended to the segment
   // to match measureNumber?
   bool doCreateAndAppendAMeasure = false;
@@ -17898,7 +17902,9 @@ void msrSegment::finalizeCurrentMeasureInSegment (
   if (doCreateAndAppendAMeasure)
     createMeasureAndAppendItToSegment (
       inputLineNumber,
-      currentMeasureNumber);
+      currentMeasureNumber,
+      measureOrdinalNumber);
+  */
   
   // finalize segment's last measure
   fSegmentMeasuresList.back ()->
@@ -22168,7 +22174,8 @@ void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
 
 void msrVoice::createMeasureAndAppendItToVoice (
   int    inputLineNumber,
-  string measureNumber)
+  string measureNumber,
+  int    measureOrdinalNumber)
 {
   fVoiceCurrentMeasureNumber = measureNumber;
 
@@ -22182,7 +22189,8 @@ void msrVoice::createMeasureAndAppendItToVoice (
   fVoiceLastSegment->
     createMeasureAndAppendItToSegment (
       inputLineNumber,
-      measureNumber);
+      measureNumber,
+      measureOrdinalNumber);
 }
 
 void msrVoice::createNewLastSegmentForVoice (
@@ -25878,7 +25886,8 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 
 void msrStaff::createMeasureAndAppendItToStaff (
   int    inputLineNumber,
-  string measureNumber)
+  string measureNumber,
+  int    measureOrdinalNumber)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
@@ -25913,7 +25922,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
     voice->
       createMeasureAndAppendItToVoice (
         inputLineNumber,
-        measureNumber);
+        measureNumber,
+        measureOrdinalNumber);
   } // for
 }
 
@@ -27288,6 +27298,9 @@ void msrPart::initializePart ()
       "P_"+stringNumbersToEnglishWords (fPartID);
   }
   
+  // initialize part number of measures
+  fPartNumberOfMeasures = 0;
+  
   // initialize part measure length high tide
   setPartMeasureLengthHighTide (
     fInputLineNumber,
@@ -27763,7 +27776,8 @@ string msrPart::getPartCombinedName () const
 
 void msrPart::createMeasureAndAppendItToPart (
   int    inputLineNumber,
-  string measureNumber)
+  string measureNumber,
+  int    measureOrdinalNumber)
 {
   if (gGeneralOptions->fTraceMeasures)
     gLogIOstream <<
@@ -27782,7 +27796,8 @@ void msrPart::createMeasureAndAppendItToPart (
   fPartMasterStaff->
     createMeasureAndAppendItToStaff (
       inputLineNumber,
-      measureNumber);
+      measureNumber,
+      measureOrdinalNumber);
 */
 
   // create and append measure to registered staves
@@ -27796,7 +27811,8 @@ void msrPart::createMeasureAndAppendItToPart (
     staff->
       createMeasureAndAppendItToStaff (
         inputLineNumber,
-        measureNumber);
+        measureNumber,
+        measureOrdinalNumber);
   } // for
 }
 
@@ -27822,7 +27838,9 @@ void msrPart::complementPartVoicesUpToMeasure (
       / * JMI
     staff->
       createMeasureAndAppendItToStaff (
-        inputLineNumber, measureNumber);
+        inputLineNumber,
+        measureNumber,
+        measureOrdinalNumber);
   } // for
 }
 */

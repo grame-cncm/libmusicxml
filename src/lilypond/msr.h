@@ -3156,7 +3156,7 @@ class EXP msrMeasure : public msrElement
                                   measureOrdinalNumber;
                               }
 
-    string                getMeasureOrdinalNumber () const
+    int                   getMeasureOrdinalNumber () const
                               { return fMeasureOrdinalNumber; }
 
     // lengthes
@@ -3530,7 +3530,8 @@ class EXP msrSegment : public msrElement
                                             
     void                  createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
-                            string measureNumber);
+                            string measureNumber,
+                            int    measureOrdinalNumber);
                       
     const string          getSegmentMeasureNumber () const
                               { return fSegmentMeasureNumber; }
@@ -8817,7 +8818,8 @@ class EXP msrVoice : public msrElement
      
     void                  createMeasureAndAppendItToVoice (
                             int    inputLineNumber,
-                            string measureNumbe);
+                            string measureNumber,
+                            int    measureOrdinalNumber);
 
     void                  appendAFirstMeasureToVoiceIfNotYetDone (
                              int inputLineNumber);
@@ -9642,7 +9644,8 @@ class EXP msrStaff : public msrElement
     
     void                  createMeasureAndAppendItToStaff (
                             int    inputLineNumber,
-                            string measureNumber);
+                            string measureNumber,
+                            int    measureOrdinalNumber);
 
     // services
     // ------------------------------------------------------
@@ -10183,7 +10186,8 @@ class EXP msrPart : public msrElement
     
     void                  createMeasureAndAppendItToPart (
                             int    inputLineNumber,
-                            string measureNumber);
+                            string measureNumber,
+                            int    measureOrdinalNumber);
 
     // staff details
 
