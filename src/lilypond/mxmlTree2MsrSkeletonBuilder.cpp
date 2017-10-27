@@ -712,6 +712,10 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
       gTab << "empty map" <<
       endl;
   }
+      
+  fLogOutputStream <<
+    "------------------" <<
+    endl;
 }
 
 //________________________________________________________________________
@@ -748,9 +752,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
       fPartGroupsStackCopy.pop ();
 
       if (fPartGroupsStackCopy.empty ()) break;
-      
-      fLogOutputStream <<
-        endl;
+
+      // no endl here
     } // for
 
     gIndenter--;
@@ -761,6 +764,10 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
       gTab << "empty stack" <<
       endl;
   }
+      
+  fLogOutputStream <<
+    "------------------" <<
+    endl;
 }
 
 //________________________________________________________________________
@@ -1005,6 +1012,11 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       s.str ());
   }
 
+  // sanity check
+  msrAssert (
+    fPartGroupsStack.size () != 0,
+    "fPartGroupsStack is empty");
+    
   S_msrPartGroup
     partGroupStackTop =
       fPartGroupsStack.top ();
@@ -1388,9 +1400,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
       inputLineNumber,
-      "FEE");
+      "before fetching part groups stack top");
   }
 
+  // sanity check
+  msrAssert (
+    fPartGroupsStack.size () != 0,
+    "fPartGroupsStack is empty");
+    
   // fetch current part group
   S_msrPartGroup
     currentPartGroup =
@@ -1486,7 +1503,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
     if (gGeneralOptions->fTracePartGroups) {
       showPartGroupsData (
         inputLineNumber,
-        "FOO");
+        "before creating the part groups");
     }
 
     // sanity check
