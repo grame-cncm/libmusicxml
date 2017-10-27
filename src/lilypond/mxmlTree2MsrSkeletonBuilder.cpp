@@ -79,23 +79,16 @@ mxmlTree2MsrSkeletonBuilder::~mxmlTree2MsrSkeletonBuilder ()
 {}
 
 //________________________________________________________________________
-S_msrScore mxmlTree2MsrSkeletonBuilder::browseMxmlTree (
+void mxmlTree2MsrSkeletonBuilder::browseMxmlTree (
   const Sxmlelement& mxmlTree)
-{
-  S_msrScore result; // JMI ???
-  
+{  
   if (mxmlTree) {
     // create a tree browser on this visitor
     tree_browser<xmlelement> browser (this);
     
     // browse the xmlelement tree
     browser.browse (*mxmlTree);
-    
-    // grab the resulting Score
-    result = fMsrScore;
   }
-
-  return result;
 }
 
 //________________________________________________________________________

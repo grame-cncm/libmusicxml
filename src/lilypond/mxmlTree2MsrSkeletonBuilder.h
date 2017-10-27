@@ -99,8 +99,8 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // set and get
     // ------------------------------------------------------
 
-    S_msrScore getMsrScore () const
-        { return fMsrScore; };
+    S_msrScore            getMsrScore () const
+                              { return fMsrScore; };
 
 
     // services
@@ -109,7 +109,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // visitors
     // ------------------------------------------------------
 
-    S_msrScore browseMxmlTree (
+    void browseMxmlTree (
         const Sxmlelement& xmlTree);
   
   protected:

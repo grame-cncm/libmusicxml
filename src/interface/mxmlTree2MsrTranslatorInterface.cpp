@@ -42,6 +42,16 @@ void populateMsrSkeletonFromMxmlTree (
   S_msrScore       scoreSkeleton,
   indentedOstream& logIOstream)
 {
+  // sanity check
+  msrAssert (
+    mxmlTree != 0,
+    "mxmlTree is null");
+    
+  // sanity check
+  msrAssert (
+    scoreSkeleton != 0,
+    "scoreSkeleton is null");
+    
   clock_t startClock = clock();
 
   if (gGeneralOptions->fTraceGeneral) {
@@ -103,6 +113,11 @@ void displayMSRPopulatedScore (
   S_msrScore       mScore,
   indentedOstream& logIOstream)
 {
+  // sanity check
+  msrAssert (
+    mScore != 0,
+    "mScore is null");
+    
   clock_t startClock = clock();
   
   string separator =
@@ -136,6 +151,11 @@ void displayMSRPopulatedScoreSummary (
   S_msrScore       mScore,
   indentedOstream& logIOstream)
 {
+  // sanity check
+  msrAssert (
+    mScore != 0,
+    "mScore is null");
+    
   clock_t startClock = clock();
   
   if (gGeneralOptions->fTraceGeneral) {

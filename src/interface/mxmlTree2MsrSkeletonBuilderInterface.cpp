@@ -41,6 +41,11 @@ S_msrScore buildMsrSkeletonFromElementsTree (
   Sxmlelement      mxmlTree,
   indentedOstream& logIOstream)
 {
+  // sanity check
+  msrAssert (
+    mxmlTree != 0,
+    "mxmlTree is null");
+    
   clock_t startClock = clock();
 
   if (gGeneralOptions->fTraceGeneral) {
@@ -66,10 +71,13 @@ S_msrScore buildMsrSkeletonFromElementsTree (
       logIOstream);
 
   // build the MSR score
+  skeletonBuilder.browseMxmlTree (
+    mxmlTree);
+
+  // fetch the score skeleton
   S_msrScore
-    mScore =
-      skeletonBuilder.browseMxmlTree (
-        mxmlTree);
+    scoreSkeleton =
+      skeletonBuilder.getMsrScore ();
 
   clock_t endClock = clock();
 
@@ -85,7 +93,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     // display the MSR skeleton
     displayMsrSkeleton (
       msrOpts,
-      mScore,
+      scoreSkeleton,
       logIOstream);
   }
 
@@ -93,11 +101,11 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     // display the MSR skeleton summary
     displayMsrSkeletonSummary (
       msrOpts,
-      mScore,
+      scoreSkeleton,
       logIOstream);
   }
 
-  return mScore;
+  return scoreSkeleton;
 }
 
 //_______________________________________________________________________________
@@ -106,6 +114,11 @@ void displayMsrSkeleton (
   S_msrScore       mScore,
   indentedOstream& logIOstream)
 {
+  // sanity check
+  msrAssert (
+    mScore != 0,
+    "mScore is null");
+    
   clock_t startClock = clock();
   
   string separator =
@@ -139,6 +152,11 @@ void displayMsrSkeletonSummary (
   S_msrScore       mScore,
   indentedOstream& logIOstream)
 {
+  // sanity check
+  msrAssert (
+    mScore != 0,
+    "mScore is null");
+    
   clock_t startClock = clock();
   
   if (gGeneralOptions->fTraceGeneral) {

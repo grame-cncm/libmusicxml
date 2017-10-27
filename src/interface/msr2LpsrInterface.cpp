@@ -38,6 +38,11 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   S_lpsrOptions    lpsrOpts,
   indentedOstream& logIOstream)
 {
+  // sanity check
+  msrAssert (
+    mScore != 0,
+    "mScore is null");
+    
   clock_t startClock = clock();
       
   if (gGeneralOptions->fTraceGeneral) {
@@ -98,6 +103,11 @@ void displayLpsrScore (
   S_lpsrOptions     lpsrOpts,
   indentedOstream&  logIOstream)
 {
+  // sanity check
+  msrAssert (
+    lpScore != 0,
+    "lpScore is null");
+    
   clock_t startClock = clock();
 
   string separator =

@@ -34,6 +34,11 @@ void generateLilypondCodeFromLpsrScore (
   indentedOstream&  logIOstream,
   indentedOstream&  lilypondCodeIOstream)
 {
+  // sanity check
+  msrAssert (
+    lpScore != 0,
+    "lpScore is null");
+    
   clock_t startClock = clock();
 
   string separator =
