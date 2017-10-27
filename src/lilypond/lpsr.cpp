@@ -1930,7 +1930,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     if (length > result) result = length;
   }
     
-  if (! fComposers.empty()) {
+  if (! fComposers.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fComposers.begin (); i!=fComposers.end (); i++) {
       int length = (*i)->getVariableName ().size ();
@@ -1938,7 +1938,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     } // for
   }
     
-  if (! fArrangers.empty()) {
+  if (! fArrangers.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
       int length = (*i)->getVariableName ().size ();
@@ -1946,7 +1946,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     } // for
   }
     
-  if (! fLyricists.empty()) {
+  if (! fLyricists.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
       int length = (*i)->getVariableName ().size ();
@@ -1959,7 +1959,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     if (length > result) result = length;
   }
     
-  if (! fSoftwares.empty()) {
+  if (! fSoftwares.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
       int length = (*i)->getVariableName ().size ();
@@ -2039,7 +2039,7 @@ void lpsrHeader::browseData (basevisitor* v)
     browser.browse (*fMovementTitle);
   }
 
-  if (! fComposers.empty()) {
+  if (! fComposers.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fComposers.begin (); i!=fComposers.end (); i++) {
       // browse creator
@@ -2048,7 +2048,7 @@ void lpsrHeader::browseData (basevisitor* v)
     } // for
   }
     
-  if (! fArrangers.empty()) {
+  if (! fArrangers.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
       // browse creator
@@ -2057,7 +2057,7 @@ void lpsrHeader::browseData (basevisitor* v)
     } // for
   }
     
-  if (! fLyricists.empty()) {
+  if (! fLyricists.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
       // browse creator
@@ -2072,7 +2072,7 @@ void lpsrHeader::browseData (basevisitor* v)
     browser.browse (*fRights);
   }
 
-  if (! fSoftwares.empty()) {
+  if (! fSoftwares.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
       // browse software
@@ -2130,7 +2130,7 @@ void lpsrHeader::print (ostream& os)
     emptyHeader = false;
   }
     
-  if (! fComposers.empty()) {
+  if (! fComposers.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator
       iBegin = fComposers.begin (),
       iEnd   = fComposers.end (),
@@ -2144,7 +2144,7 @@ void lpsrHeader::print (ostream& os)
     emptyHeader = false;
   }
     
-  if (! fArrangers.empty()) {
+  if (! fArrangers.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator
       iBegin = fArrangers.begin (),
       iEnd   = fArrangers.end (),
@@ -2158,7 +2158,7 @@ void lpsrHeader::print (ostream& os)
     emptyHeader = false;
   }
     
-  if (! fLyricists.empty()) {
+  if (! fLyricists.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator
       iBegin = fLyricists.begin (),
       iEnd   = fLyricists.end (),
@@ -2177,7 +2177,7 @@ void lpsrHeader::print (ostream& os)
     emptyHeader = false;
   }
     
-  if (! fSoftwares.empty()) {
+  if (! fSoftwares.empty ()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator
       iBegin = fSoftwares.begin (),
       iEnd   = fSoftwares.end (),

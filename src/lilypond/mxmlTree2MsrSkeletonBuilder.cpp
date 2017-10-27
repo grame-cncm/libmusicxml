@@ -685,6 +685,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
   string context)
 {
   fLogOutputStream <<
+    endl <<
     "==> " << context <<
     ", line " << inputLineNumber <<
     ", fPartGroupsMap contains:" <<
@@ -724,6 +725,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
   string context)
 {
   fLogOutputStream <<
+    endl <<
     "==> " << context <<
     ", line " << inputLineNumber <<
     ", fPartGroupsStack contains:" <<
@@ -1506,7 +1508,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
         inputLineNumber,
         "FOO");
     }
-  
+
+    // sanity check
+    msrAssert (
+      fPartGroupsStack.size () != 0,
+      "fPartGroupsStack is empty");
+      
     // fetch current part group
     partGroup = fPartGroupsStack.top ();        
   

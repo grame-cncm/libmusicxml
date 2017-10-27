@@ -42,6 +42,7 @@ namespace MusicXML2
       endl << \
       "Aborting." << \
       endl << \
+      endl << \
       flush; \
       \
     assert(condition); \

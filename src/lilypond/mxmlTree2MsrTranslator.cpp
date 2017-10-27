@@ -12615,7 +12615,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
   S_msrNote note)
 {
   // attach the current articulations if any to the note
-  if (! fCurrentArticulations.empty()) {
+  if (! fCurrentArticulations.empty ()) {
 
     if (gGeneralOptions->fTraceNotes)
       fLogOutputStream <<
@@ -12623,7 +12623,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
         note->noteAsString () <<
         endl;
 
-    while (! fCurrentArticulations.empty()) {
+    while (! fCurrentArticulations.empty ()) {
       S_msrArticulation
         art =
           fCurrentArticulations.front();
@@ -12649,7 +12649,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
-  if (! fCurrentTechnicalsList.empty()) {
+  if (! fCurrentTechnicalsList.empty ()) {
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
       fLogOutputStream <<
@@ -12657,7 +12657,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
         note->noteAsString () <<
         endl;
 
-    while (! fCurrentTechnicalsList.empty()) {
+    while (! fCurrentTechnicalsList.empty ()) {
       S_msrTechnical
         tech =
           fCurrentTechnicalsList.front();
@@ -12683,7 +12683,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
-  if (! fCurrentTechnicalWithIntegersList.empty()) {
+  if (! fCurrentTechnicalWithIntegersList.empty ()) {
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
       fLogOutputStream <<
@@ -12691,7 +12691,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
         note->noteAsString () <<
         endl;
 
-    while (! fCurrentTechnicalWithIntegersList.empty()) {
+    while (! fCurrentTechnicalWithIntegersList.empty ()) {
       S_msrTechnicalWithInteger
         tech =
           fCurrentTechnicalWithIntegersList.front();
@@ -12717,7 +12717,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
-  if (! fCurrentTechnicalWithStringsList.empty()) {
+  if (! fCurrentTechnicalWithStringsList.empty ()) {
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
       fLogOutputStream <<
@@ -12725,7 +12725,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
         note->noteAsString () <<
         endl;
 
-    while (! fCurrentTechnicalWithStringsList.empty()) {
+    while (! fCurrentTechnicalWithStringsList.empty ()) {
       S_msrTechnicalWithString
         tech =
           fCurrentTechnicalWithStringsList.front();
@@ -12751,7 +12751,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
   S_msrNote note)
 {
   // attach the current ornaments if any to the note
-  if (! fCurrentOrnamentsList.empty()) {
+  if (! fCurrentOrnamentsList.empty ()) {
     
     if (gGeneralOptions->fTraceNotes)
       fLogOutputStream <<
@@ -12759,7 +12759,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
         note->noteAsString () <<
         endl;
 
-    while (! fCurrentOrnamentsList.empty()) {
+    while (! fCurrentOrnamentsList.empty ()) {
       S_msrOrnament
         orn =
           fCurrentOrnamentsList.front();
@@ -12804,7 +12804,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
 void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   S_msrChord chord)
 {
-  if (! fCurrentArticulations.empty()) {
+  if (! fCurrentArticulations.empty ()) {
 
     if (gGeneralOptions->fTraceChords)
       fLogOutputStream <<
@@ -12834,7 +12834,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
 void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
   S_msrChord chord)
 {
-  if (! fCurrentOrnamentsList.empty()) {
+  if (! fCurrentOrnamentsList.empty ()) {
 
     if (gGeneralOptions->fTraceChords)
       fLogOutputStream <<
@@ -12865,7 +12865,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending dynamics if any to the note
-  if (! fPendingDynamics.empty()) {
+  if (! fPendingDynamics.empty ()) {
     bool delayAttachment = false;
     
     
@@ -12921,7 +12921,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending dynamics if any to the note
-  if (! fPendingOtherDynamics.empty()) {
+  if (! fPendingOtherDynamics.empty ()) {
     bool delayAttachment = false;
     
     
