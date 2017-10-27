@@ -27762,7 +27762,7 @@ string msrPart::getPartCombinedName () const
       "\"" << fPartMsrName << "\"";
 
   s <<
-    " (" << fPartID;
+    " (part ID " << fPartID;
 
   if (fPartName.size ())
     s <<
@@ -29362,8 +29362,8 @@ string msrPartGroup::getPartGroupCombinedName () const
   stringstream s;
 
   s <<
-    "PG_" << fPartGroupAbsoluteNumber <<
-    " (" << fPartGroupNumber << ")";
+    "PartGroup_" << fPartGroupAbsoluteNumber <<
+    " (part group number " << fPartGroupNumber << ")";
 
   return s.str ();
 }

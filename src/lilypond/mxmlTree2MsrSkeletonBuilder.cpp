@@ -185,7 +185,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsList (
       inputLineNumber,
-      "after pushing fImplicitPartGroup");
+      "after prepending fImplicitPartGroup to part gorups list");
   }
   fCurrentPartUsesImplicitPartGroup = true;
 }
