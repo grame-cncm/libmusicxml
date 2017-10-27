@@ -43,9 +43,7 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   // score handling
   fScoreNumberOfMeasures = 0;
 
-  // part groups handling
-  fCurrentPartUsesImplicitPartGroup = false;
-  
+  // part groups handling  
   fOnGoingGroupNameDisplay = false;
 
   // parts handling
@@ -176,8 +174,6 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   }
 
 // JMI  fPartGroupsList.push_front (fImplicitPartGroup);
-
-  fCurrentPartUsesImplicitPartGroup = true;
 }
 
 //______________________________________________________________________________
@@ -362,9 +358,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
 
   gIndenter--;
 
-  if (fCurrentPartUsesImplicitPartGroup) {
-    // force an implicit part group "stop" on it,
-    // fCurrentPartGroupNumber holds the value 1
+  if (fImplicitPartGroup) {
+    // force an implicit part group "stop" on it
     handlePartGroupStop (
       elt->getInputLineNumber ());
   }
@@ -969,7 +964,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       "AFTER handlePartGroupStart()");
   }
 }
-  
+
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   int inputLineNumber)
@@ -1190,6 +1185,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   }
 }
 
+//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -1245,10 +1241,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
       break;
       
     case msrPartGroup::kStopPartGroupType:
-      handlePartGroupStop (
-        inputLineNumber);
-      break;
-      
     case msrPartGroup::k_NoPartGroupType:
       break;
   } // switch
@@ -1433,18 +1425,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
 
   // register it in this visitor's parts map
   fPartsMap [partID] = part;
-
-  if (fImplicitPartGroup) {
-    // force an implicit part group "stop" on it
-    // fCurrentPartGroupNumber holds the value 1
-    handlePartGroupStop (
-      inputLineNumber);
-
-    // forget the implicit group JNMI
-  //  fImplicitPartGroup = 0;
-  }
-
-  fCurrentPartUsesImplicitPartGroup = false;
 
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
