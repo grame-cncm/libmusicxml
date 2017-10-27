@@ -242,6 +242,7 @@ class msr2SummaryVisitor :
     // ------------------------------------------------------
     
     int                   fScoreTupletNotesCounter;
+    int                   fScoreTupletsCounter;
 };
 
 

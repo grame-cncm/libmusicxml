@@ -1605,9 +1605,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
       s <<
         "part " << fCurrentPart->getPartCombinedName () <<
         " has " << fPartNumberOfMeasures <<
-        " while another one has " << fScoreNumberOfMeasures;
+        " while the other ones have " << fScoreNumberOfMeasures;
         
-      msrMusicXMLWarning (
+      msrMusicXMLError (
         elt->getInputLineNumber (),
         s.str ());
     }

@@ -63,6 +63,7 @@ msr2SummaryVisitor::msr2SummaryVisitor (
 
   // tuplets
   fScoreTupletNotesCounter        = 0;
+  fScoreTupletsCounter            = 0;
 };
   
 msr2SummaryVisitor::~msr2SummaryVisitor ()
@@ -122,18 +123,20 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
   gIndenter++;
   
   fMsrSummaryOutputStream <<
-    fPartGroupsCounter <<" part groups" <<
+    fPartGroupsCounter << " part groups" <<
     endl <<
-    fPartsCounter <<" parts" <<
+    fPartsCounter << " parts" <<
     endl <<
-    fStavesCounter <<" staves" <<
+    fStavesCounter << " staves" <<
     endl <<
-    fVoicesCounter <<" voices" <<
+    fVoicesCounter << " voices" <<
     endl <<
-    fStanzasCounter <<" stanzas" <<
+    fStanzasCounter << " stanzas" <<
+    endl <<
+    elt->getScoreNumberOfMeasures () << " measures" <<
     endl <<
 
-    fScoreStandaloneNotesCounter <<" standalone notes" <<
+    fScoreStandaloneNotesCounter << " standalone notes" <<
     endl <<
     fScoreRestNotesCounter << " rest notes" <<
     endl <<
@@ -148,6 +151,8 @@ void msr2SummaryVisitor::visitEnd (S_msrScore& elt)
     fScoreTupletNotesCounter << " tuplet notes" <<
     endl <<
     fScoreChordsCounter << " chords" <<
+    endl <<
+    fScoreTupletsCounter << " tuplets" <<
     endl;
 
   gIndenter--;
@@ -810,6 +815,8 @@ void msr2SummaryVisitor::visitStart (S_msrTuplet& elt)
       "--> Start visiting msrTuplet" <<
       endl;
   }
+
+  fScoreTupletsCounter++;
 }
 
 void msr2SummaryVisitor::visitEnd (S_msrTuplet& elt)
