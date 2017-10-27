@@ -30444,16 +30444,23 @@ void msrScore::print (ostream& os)
     } // for
   }
 
-  // print the part groups
-  list<S_msrPartGroup>::const_iterator
-    iBegin = fPartGroupsList.begin (),
-    iEnd   = fPartGroupsList.end (),
-    i      = iBegin;
-  for ( ; ; ) {
-    os << (*i);
-    if (++i == iEnd) break;
-    os << endl;
-  } // for
+  // print the part groups if any
+  if (fPartGroupsList.size ()) {
+    list<S_msrPartGroup>::const_iterator
+      iBegin = fPartGroupsList.begin (),
+      iEnd   = fPartGroupsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+  else {
+    os <<
+      "There are no part groups in the list" <<
+      endl;
+  }
   
   gIndenter--;
 }
