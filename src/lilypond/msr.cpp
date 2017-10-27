@@ -15319,6 +15319,9 @@ void msrMeasure::initializeMeasure ()
     abort();
 */
 
+  // initialize part number of measures
+  fPartNumberOfMeasures = 0;
+  
   // initialize measure position
   setMeasureLength (
     fInputLineNumber,

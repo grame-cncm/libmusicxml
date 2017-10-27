@@ -957,6 +957,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // we need to count the measures for option fSeparatorLineEveryNMeasures,
     // since measure numbers are actually strings
     string                    fCurrentMeasureNumber;
+    int                       fCurrentMeasureOrdinalNumber;
     
     // measure style handling
     // ------------------------------------------------------

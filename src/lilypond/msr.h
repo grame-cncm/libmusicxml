@@ -3141,13 +3141,23 @@ class EXP msrMeasure : public msrElement
     S_msrSegment          getMeasureSegmentUplink () const
                               { return fMeasureSegmentUplink; }
                       
-    // measure number
+    // measure numbers
     
     void                  setMeasureNumber (string measureNumber)
                               { fMeasureNumber = measureNumber; }
 
     string                getMeasureNumber () const
                               { return fMeasureNumber; }
+
+    void                  setMeasureOrdinalNumber (
+                            int measureOrdinalNumber)
+                              {
+                                fMeasureOrdinalNumber =
+                                  measureOrdinalNumber;
+                              }
+
+    string                getMeasureOrdinalNumber () const
+                              { return fMeasureOrdinalNumber; }
 
     // lengthes
     
@@ -3430,9 +3440,10 @@ class EXP msrMeasure : public msrElement
     
     rational              fMeasureLength;
 
-    // measure number
+    // measure numbers
     
     string                fMeasureNumber;
+    int                   fMeasureOrdinalNumber;
 
     // measure kind
 

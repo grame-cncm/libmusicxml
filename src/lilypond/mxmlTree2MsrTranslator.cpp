@@ -125,6 +125,10 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
     msrTime::k_NoTimeSymbol; // default value
 
   fOnGoingInterchangeable = false;
+
+  // measures
+  fCurrentMeasureNumber = "???";
+  fCurrentMeasureOrdinalNumber = 0;
   
   // transpose handling
   fCurrentTransposeNumber = -213;
@@ -5005,6 +5009,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   measures are grouped via the number).
 */
 
+  fCurrentMeasureOrdinalNumber++;
+  
   int inputLineNumber =
     elt->getInputLineNumber ();
 
