@@ -177,7 +177,7 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
   fPartGroupBlocksStack.top ();
 
   // the stack should now be empty
-  if (fPartGroupBlocksStack.size())
+  if (fPartGroupBlocksStack.size ())
     msrInternalError (
       1,
       "the partGroup block stack is not exmpty at the end of the visit");

@@ -5591,7 +5591,7 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the beams if any
-  if (fNoteBeams.size()) {
+  if (fNoteBeams.size ()) {
     gIndenter++;
     list<S_msrBeam>::const_iterator i;
     for (i=fNoteBeams.begin (); i!=fNoteBeams.end (); i++) {
@@ -5603,7 +5603,7 @@ void msrNote::browseData (basevisitor* v)
   }
   
   // browse the articulations if any
-  if (fNoteArticulations.size()) {
+  if (fNoteArticulations.size ()) {
     gIndenter++;
     list<S_msrArticulation>::const_iterator i;
     for (i=fNoteArticulations.begin (); i!=fNoteArticulations.end (); i++) {
@@ -5615,7 +5615,7 @@ void msrNote::browseData (basevisitor* v)
   }
   
   // browse the technicals if any
-  if (fNoteTechnicals.size()) {
+  if (fNoteTechnicals.size ()) {
     gIndenter++;
     list<S_msrTechnical>::const_iterator i;
     for (
@@ -5630,7 +5630,7 @@ void msrNote::browseData (basevisitor* v)
   }
   
   // browse the technicals with integer if any
-  if (fNoteTechnicalWithIntegers.size()) {
+  if (fNoteTechnicalWithIntegers.size ()) {
     gIndenter++;
     list<S_msrTechnicalWithInteger>::const_iterator i;
     for (
@@ -5645,7 +5645,7 @@ void msrNote::browseData (basevisitor* v)
   }
   
   // browse the technicals with string if any
-  if (fNoteTechnicalWithStrings.size()) {
+  if (fNoteTechnicalWithStrings.size ()) {
     gIndenter++;
     list<S_msrTechnicalWithString>::const_iterator i;
     for (
@@ -5660,7 +5660,7 @@ void msrNote::browseData (basevisitor* v)
   }
   
   // browse the ornaments if any
-  if (fNoteOrnaments.size()) {
+  if (fNoteOrnaments.size ()) {
     gIndenter++;
     list<S_msrOrnament>::const_iterator i;
     for (i=fNoteOrnaments.begin (); i!=fNoteOrnaments.end (); i++) {
@@ -5684,7 +5684,7 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the dynamics if any
-  if (fNoteDynamics.size()) {
+  if (fNoteDynamics.size ()) {
     gIndenter++;
     list<S_msrDynamics>::const_iterator i;
     for (i=fNoteDynamics.begin (); i!=fNoteDynamics.end (); i++) {
@@ -5696,7 +5696,7 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the other dynamics if any
-  if (fNoteOtherDynamics.size()) {
+  if (fNoteOtherDynamics.size ()) {
     gIndenter++;
     list<S_msrOtherDynamics>::const_iterator i;
     for (i=fNoteOtherDynamics.begin (); i!=fNoteOtherDynamics.end (); i++) {
@@ -5708,7 +5708,7 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the words if any
-  if (fNoteWords.size()) {
+  if (fNoteWords.size ()) {
     gIndenter++;
     list<S_msrWords>::const_iterator i;
     for (i=fNoteWords.begin (); i!=fNoteWords.end (); i++) {
@@ -5720,7 +5720,7 @@ void msrNote::browseData (basevisitor* v)
   }
   
   // browse the slurs if any
-  if (fNoteSlurs.size()) {
+  if (fNoteSlurs.size ()) {
     gIndenter++;
     list<S_msrSlur>::const_iterator i;
     for (i=fNoteSlurs.begin (); i!=fNoteSlurs.end (); i++) {
@@ -5732,7 +5732,7 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the ligatures if any
-  if (fNoteLigatures.size()) {
+  if (fNoteLigatures.size ()) {
     gIndenter++;
     list<S_msrLigature>::const_iterator i;
     for (i=fNoteLigatures.begin (); i!=fNoteLigatures.end (); i++) {
@@ -5744,7 +5744,7 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the wedges if any
-  if (fNoteWedges.size()) {
+  if (fNoteWedges.size ()) {
     gIndenter++;
     list<S_msrWedge>::const_iterator i;
     for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); i++) {
@@ -5756,7 +5756,7 @@ void msrNote::browseData (basevisitor* v)
   }
 
   // browse the syllables if any
-  if (fNoteSyllables.size()) {
+  if (fNoteSyllables.size ()) {
     gIndenter++;
     list<S_msrSyllable>::const_iterator i;
     for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); i++) {
@@ -6615,7 +6615,7 @@ void msrNote::print (ostream& os)
   }
     
   // print the beams if any
-  if (fNoteBeams.size()) {
+  if (fNoteBeams.size ()) {
     gIndenter++;
 
     list<S_msrBeam>::const_iterator
@@ -6632,7 +6632,7 @@ void msrNote::print (ostream& os)
   }
   
   // print the articulations if any
-  if (fNoteArticulations.size()) {
+  if (fNoteArticulations.size ()) {
     gIndenter++;
 
     list<S_msrArticulation>::const_iterator
@@ -6649,7 +6649,7 @@ void msrNote::print (ostream& os)
   }
   
   // print the technicals if any
-  if (fNoteTechnicals.size()) {
+  if (fNoteTechnicals.size ()) {
     gIndenter++;
 
     list<S_msrTechnical>::const_iterator
@@ -6666,7 +6666,7 @@ void msrNote::print (ostream& os)
   }
   
   // print the technicals with integer if any
-  if (fNoteTechnicalWithIntegers.size()) {
+  if (fNoteTechnicalWithIntegers.size ()) {
     gIndenter++;
 
     list<S_msrTechnicalWithInteger>::const_iterator
@@ -6683,7 +6683,7 @@ void msrNote::print (ostream& os)
   }
   
   // print the technicals with string if any
-  if (fNoteTechnicalWithStrings.size()) {
+  if (fNoteTechnicalWithStrings.size ()) {
     gIndenter++;
 
     list<S_msrTechnicalWithString>::const_iterator
@@ -6700,7 +6700,7 @@ void msrNote::print (ostream& os)
   }
   
   // print the ornaments if any
-  if (fNoteOrnaments.size()) {
+  if (fNoteOrnaments.size ()) {
     gIndenter++;
 
     list<S_msrOrnament>::const_iterator
@@ -6732,7 +6732,7 @@ void msrNote::print (ostream& os)
   }
     
   // print the dynamics if any
-  if (fNoteDynamics.size()) {
+  if (fNoteDynamics.size ()) {
     gIndenter++;
     
     list<S_msrDynamics>::const_iterator
@@ -6750,7 +6750,7 @@ void msrNote::print (ostream& os)
   }
 
   // print the other dynamics if any
-  if (fNoteOtherDynamics.size()) {
+  if (fNoteOtherDynamics.size ()) {
     gIndenter++;
     
     list<S_msrOtherDynamics>::const_iterator
@@ -6768,7 +6768,7 @@ void msrNote::print (ostream& os)
   }
 
   // print the words if any
-  if (fNoteWords.size()) {
+  if (fNoteWords.size ()) {
     gIndenter++;
     
     list<S_msrWords>::const_iterator
@@ -6786,7 +6786,7 @@ void msrNote::print (ostream& os)
   }
 
   // print the slurs if any
-  if (fNoteSlurs.size()) {
+  if (fNoteSlurs.size ()) {
     gIndenter++;
     
     list<S_msrSlur>::const_iterator
@@ -6804,7 +6804,7 @@ void msrNote::print (ostream& os)
   }
   
   // print the ligatures if any
-  if (fNoteLigatures.size()) {
+  if (fNoteLigatures.size ()) {
     gIndenter++;
     
     list<S_msrLigature>::const_iterator
@@ -6822,7 +6822,7 @@ void msrNote::print (ostream& os)
   }
   
   // print the wedges if any
-  if (fNoteWedges.size()) {
+  if (fNoteWedges.size ()) {
     gIndenter++;
     
     list<S_msrWedge>::const_iterator
@@ -7527,7 +7527,7 @@ void msrChord::print (ostream& os)
   gIndenter++;
   
   // print the member notes if any
-  if (fChordNotes.size()) {
+  if (fChordNotes.size ()) {
     vector<S_msrNote>::const_iterator i;
     for (i=fChordNotes.begin (); i!=fChordNotes.end (); i++) {
       os << (*i);
@@ -7547,7 +7547,7 @@ void msrChord::print (ostream& os)
   }
   
   // print the articulations if any
-  if (fChordArticulations.size()) {
+  if (fChordArticulations.size ()) {
     list<S_msrArticulation>::const_iterator i;
     for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); i++) {
       os << (*i);
@@ -7555,7 +7555,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the technicals if any
-  if (fChordTechnicals.size()) {
+  if (fChordTechnicals.size ()) {
     list<S_msrTechnical>::const_iterator i;
     for (i=fChordTechnicals.begin (); i!=fChordTechnicals.end (); i++) {
       os << (*i);
@@ -7563,7 +7563,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the ornaments if any
-  if (fChordOrnaments.size()) {
+  if (fChordOrnaments.size ()) {
     list<S_msrOrnament>::const_iterator i;
     for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); i++) {
       os << (*i);
@@ -7571,7 +7571,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the dynamics if any
-  if (fChordDynamics.size()) {
+  if (fChordDynamics.size ()) {
     list<S_msrDynamics>::const_iterator i;
     for (i=fChordDynamics.begin (); i!=fChordDynamics.end (); i++) {
       os << (*i);
@@ -7579,7 +7579,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the other dynamics if any
-  if (fChordOtherDynamics.size()) {
+  if (fChordOtherDynamics.size ()) {
     list<S_msrOtherDynamics>::const_iterator i;
     for (i=fChordOtherDynamics.begin (); i!=fChordOtherDynamics.end (); i++) {
       os << (*i);
@@ -7587,7 +7587,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the beams if any
-  if (fChordBeams.size()) {
+  if (fChordBeams.size ()) {
     list<S_msrBeam>::const_iterator i;
     for (i=fChordBeams.begin (); i!=fChordBeams.end (); i++) {
       os << (*i);
@@ -7595,7 +7595,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the words if any
-  if (fChordWords.size()) {
+  if (fChordWords.size ()) {
     list<S_msrWords>::const_iterator i;
     for (i=fChordWords.begin (); i!=fChordWords.end (); i++) {
       os << (*i);
@@ -7603,7 +7603,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the slurs if any
-  if (fChordSlurs.size()) {
+  if (fChordSlurs.size ()) {
     list<S_msrSlur>::const_iterator i;
     for (i=fChordSlurs.begin (); i!=fChordSlurs.end (); i++) {
       os << (*i);
@@ -7611,7 +7611,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the ligatures if any
-  if (fChordLigatures.size()) {
+  if (fChordLigatures.size ()) {
     list<S_msrLigature>::const_iterator i;
     for (i=fChordLigatures.begin (); i!=fChordLigatures.end (); i++) {
       os << (*i);
@@ -7619,7 +7619,7 @@ void msrChord::print (ostream& os)
   }
 
   // print the wedges if any
-  if (fChordWedges.size()) {
+  if (fChordWedges.size ()) {
     list<S_msrWedge>::const_iterator i;
     for (i=fChordWedges.begin (); i!=fChordWedges.end (); i++) {
       os << (*i);
@@ -9965,7 +9965,7 @@ void msrCredit::acceptOut (basevisitor* v) {
 
 void msrCredit::browseData (basevisitor* v)
 {
-  int n1 = fCreditWordsList.size();
+  int n1 = fCreditWordsList.size ();
   
   for (int i = 0; i < n1; i++ ) {
     // browse the credit words
@@ -10208,7 +10208,7 @@ void msrLayout::acceptOut (basevisitor* v) {
 
 void msrLayout::browseData (basevisitor* v)
 {
-  int n1 = fVarValAssocs.size();
+  int n1 = fVarValAssocs.size ();
   
   for (int i = 0; i < n1; i++ ) {
     // browse the stanza
@@ -10229,14 +10229,14 @@ void msrLayout::print (ostream& os)
 
   gIndenter++;
 
-  int n1 = fVarValAssocs.size();
+  int n1 = fVarValAssocs.size ();
   
   for (int i = 0; i < n1; i++ ) {
     os << fVarValAssocs [i];
   } // for
 
     /* JMI
-  int n2 = fMsrSchemeVarValAssocs.size();
+  int n2 = fMsrSchemeVarValAssocs.size ();
   for (int i = 0; i < n2; i++ ) {
     os << fMsrSchemeVarValAssocs[i];
   } // for
@@ -13311,7 +13311,7 @@ void msrStanza::print (ostream& os)
   }
 
   else {
-    int n = fSyllables.size();
+    int n = fSyllables.size ();
     
     for (int i = 0; i < n; i++) {
       os << fSyllables [i];
@@ -19199,7 +19199,7 @@ void msrSegment::print (ostream& os)
     fSegmentAbsoluteNumber <<
     "', " <<
     singularOrPlural (
-      fSegmentMeasuresList.size(), "measure", "measures") <<
+      fSegmentMeasuresList.size (), "measure", "measures") <<
     endl;
 
   gIndenter++;
@@ -19916,7 +19916,7 @@ void msrRepeat::print (ostream& os)
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      fRepeatEndings.size(), "repeat ending", "repeat endings") <<
+      fRepeatEndings.size (), "repeat ending", "repeat endings") <<
     ")" <<
     endl;
   
@@ -22358,7 +22358,7 @@ void msrVoice::catchUpWithVoiceMuteStanza (S_msrStanza stanza)
       fVoiceMuteStanza->
         getSyllables ();
 
-  if (muteSyllables.size()) {
+  if (muteSyllables.size ()) {
     if (gGeneralOptions->fTraceLyrics)
       gLogIOstream <<
         "Copying current contents of voice mute stanza to " <<
@@ -22418,7 +22418,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
         "==> Creating stanza " << stanzaNumber <<
         " in voice \"" << getVoiceName () << "\"" <<
         ", line " << inputLineNumber <<
-        ", fVoiceStanzasMap.size() = " << fVoiceStanzasMap.size () <<
+        ", fVoiceStanzasMap.size () = " << fVoiceStanzasMap.size () <<
         endl;
 
     stanza =
@@ -24768,7 +24768,7 @@ void msrVoice::print (ostream& os)
       fVoiceSkipsCounter, "skip", "skips") <<
      ", " <<
     singularOrPlural (
-      fVoiceStanzasMap.size(), "stanza", "stanzas") <<
+      fVoiceStanzasMap.size (), "stanza", "stanzas") <<
     ")" <<
     endl;
 
@@ -24874,7 +24874,7 @@ void msrVoice::print (ostream& os)
       */
     
     // print the stanzas
-    if (fVoiceStanzasMap.size()) {
+    if (fVoiceStanzasMap.size ()) {
       map<string, S_msrStanza>::const_iterator
         iBegin = fVoiceStanzasMap.begin (),
         iEnd   = fVoiceStanzasMap.end (),
@@ -26908,7 +26908,7 @@ void msrStaff::print (ostream& os)
     ", " << staffKindAsString () <<
     ", (" <<
     singularOrPlural (
-      fStaffVoiceRelativeNumberToVoiceMap.size(), "voice", "voices") <<
+      fStaffVoiceRelativeNumberToVoiceMap.size (), "voice", "voices") <<
     ")" <<
     endl;
 
@@ -27049,7 +27049,7 @@ void msrStaff::printSummary (ostream& os)
     ", " << staffKindAsString () <<
     " (" <<
     singularOrPlural (
-      fStaffVoiceRelativeNumberToVoiceMap.size(), "voice", "voices") <<
+      fStaffVoiceRelativeNumberToVoiceMap.size (), "voice", "voices") <<
     ")" <<
     endl;
 
@@ -27111,7 +27111,7 @@ void msrStaff::printSummary (ostream& os)
             "actual notes") <<
           ", " <<
           singularOrPlural (
-            voice->getVoiceStanzasMap ().size(),
+            voice->getVoiceStanzasMap ().size (),
             "stanza",
             "stanzas") <<
           ")";
@@ -28997,7 +28997,7 @@ void msrPart::print (ostream& os)
     "Part" << " " << getPartCombinedName () <<
     " (" <<
     singularOrPlural (
-      fPartStavesMap.size(), "staff", "staves") <<
+      fPartStavesMap.size (), "staff", "staves") <<
     ")" <<
     endl;
     
@@ -29063,7 +29063,7 @@ void msrPart::print (ostream& os)
   */
 
   // print the registered staves
-  if (fPartStavesMap.size()) {
+  if (fPartStavesMap.size ()) {
     gIndenter++;
     
     for (
@@ -29125,7 +29125,7 @@ void msrPart::printSummary (ostream& os)
     "Part" << " " << getPartCombinedName () <<
     " (" <<
     singularOrPlural (
-      fPartStavesMap.size(), "staff", "staves") <<
+      fPartStavesMap.size (), "staff", "staves") <<
     ", " <<
     singularOrPlural (
       fPartNumberOfMeasures, "measure", "measure") <<
@@ -29195,7 +29195,7 @@ void msrPart::printSummary (ostream& os)
   }
 
   // print the staves
-  if (fPartStavesMap.size()) {
+  if (fPartStavesMap.size ()) {
     os << 
       "Other staves" <<
       endl;
@@ -29442,7 +29442,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsID (
       
     gIndenter++;
 
-    if (fPartGroupElements.size()) {
+    if (fPartGroupElements.size ()) {
       list<S_msrElement>::const_iterator
         iBegin = fPartGroupElements.begin (),
         iEnd   = fPartGroupElements.end (),
@@ -29650,7 +29650,7 @@ void msrPartGroup::print (ostream& os)
     "PartGroup" " \"" << getPartGroupCombinedName () <<
     "\" (" <<
     singularOrPlural (
-      fPartGroupPartsMap.size(), "part", "parts") <<
+      fPartGroupPartsMap.size (), "part", "parts") <<
     ")" <<
     endl;
     
@@ -29703,7 +29703,7 @@ void msrPartGroup::print (ostream& os)
     os << "none";
   os << endl;
 
-  if (fPartGroupElements.size()) {
+  if (fPartGroupElements.size ()) {
     os << endl;
     list<S_msrElement>::const_iterator
       iBegin = fPartGroupElements.begin (),
@@ -29726,7 +29726,7 @@ void msrPartGroup::printSummary (ostream& os)
     "PartGroup" " \"" << getPartGroupCombinedName () <<
     "\" (" <<
     singularOrPlural (
-      fPartGroupPartsMap.size(), "part", "parts") <<
+      fPartGroupPartsMap.size (), "part", "parts") <<
     ")" <<
     endl;
     
@@ -29759,7 +29759,7 @@ void msrPartGroup::printSummary (ostream& os)
     os << "false";
   os << endl;
 
-  if (fPartGroupElements.size()) {
+  if (fPartGroupElements.size ()) {
     os << endl;
     list<S_msrElement>::const_iterator
       iBegin = fPartGroupElements.begin (),
@@ -30471,7 +30471,7 @@ void msrScore::printSummary (ostream& os)
     "MSR component" <<
     " (" <<
     singularOrPlural (
-      fPartGroupsList.size(),
+      fPartGroupsList.size (),
       "part group",
       "part groups") <<
     ", " <<

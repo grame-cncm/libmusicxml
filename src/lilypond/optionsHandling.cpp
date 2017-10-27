@@ -4479,7 +4479,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       if (sm.size ()) {
         if (TRACE_OPTIONS) {
           fOptionsHandlerLogIOstream <<
-            "There are " << sm.size() << " matches" <<
+            "There are " << sm.size () << " matches" <<
             " for rational string '" << theString <<
             "' with regex '" << regularExpression <<
             "'" <<
@@ -4725,7 +4725,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       if (TRACE_OPTIONS) {
         fOptionsHandlerLogIOstream <<
-          "There are " << sm.size() << " matches" <<
+          "There are " << sm.size () << " matches" <<
           " for MIDI tempo string '" << theString <<
           "' with regex '" << regularExpression <<
           "'" <<
@@ -4820,7 +4820,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
       if (TRACE_OPTIONS) {
         fOptionsHandlerLogIOstream <<
-          "There are " << sm.size() << " matches" <<
+          "There are " << sm.size () << " matches" <<
           " for MIDI tempo string '" << theString <<
           "' with regex '" << regularExpression <<
           "'" <<

@@ -184,7 +184,7 @@ void lpsrParallelMusic::print (ostream& os)
     "ParallelMusic" <<
     ", " <<
     singularOrPlural (
-      fParallelMusicElements.size(), "element", "elements") <<
+      fParallelMusicElements.size (), "element", "elements") <<
     endl;
   
   gIndenter++;
@@ -196,7 +196,7 @@ void lpsrParallelMusic::print (ostream& os)
     os << (*i);
   } // for
 /* JMI
-  int size = fParallelMusicElements.size();
+  int size = fParallelMusicElements.size ();
   
   for (int i = 0; i < size; i++ ) {
     os << fParallelMusicElements [i];
@@ -452,7 +452,7 @@ void lpsrUseVoiceCommand::print (ostream& os)
     fVoice->getVoiceName () <<
     "\", " <<
     singularOrPlural (
-      fVoice->getVoiceStanzasMap ().size(), "stanza", "stanzas") <<
+      fVoice->getVoiceStanzasMap ().size (), "stanza", "stanzas") <<
     endl;
 }
 
@@ -718,7 +718,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
 
   os <<
     "unit: ";
-  if (fUnit.size())
+  if (fUnit.size ())
     os << "\"" << fUnit << "\"";
   else
     os << "none";
@@ -726,7 +726,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
   
   os <<
     "comment: ";
-  if (fComment.size())
+  if (fComment.size ())
     os << "\"" << fComment << "\"";
   else
     os << "none";
@@ -880,7 +880,7 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
 
   os <<
     "comment: ";
-  if (fComment.size())
+  if (fComment.size ())
     os << "\"" << fComment << "\"";
   else
     os << "none";
@@ -1074,7 +1074,7 @@ void lpsrNewStaffgroupBlock::print (ostream& os)
 
   gIndenter++;
   
-  int size = fNewStaffgroupElements.size();
+  int size = fNewStaffgroupElements.size ();
 
   for (int i = 0; i < size; i++ ) {
     os << fNewStaffgroupElements[i];
@@ -1237,7 +1237,7 @@ void lpsrNewStaffBlock::print (ostream& os)
 
   gIndenter++;
   
-  int size = fNewStaffElements.size();
+  int size = fNewStaffElements.size ();
 
   for (int i = 0; i < size; i++ ) {
     os << fNewStaffElements[i];
@@ -1443,14 +1443,14 @@ void lpsrContext::print (ostream& os)
     contextExistingKindAsString (
       fContextExistingKind);
     
-  if (fContextName.size())
+  if (fContextName.size ())
     os << " " << fContextName;
   os <<
   endl;
   
   gIndenter++;
 
-  int size = fContextElements.size();
+  int size = fContextElements.size ();
 
   for (int i = 0; i < size; i++ ) {
     os << fContextElements[i];
@@ -1911,29 +1911,29 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
   int result = 0;
 
   if (fWorkNumber) {
-    int length = fWorkNumber->getVariableName ().size();
+    int length = fWorkNumber->getVariableName ().size ();
     if (length > result) result = length;
   }
   
   if (fWorkTitle) {
-    int length = fWorkTitle->getVariableName ().size();
+    int length = fWorkTitle->getVariableName ().size ();
     if (length > result) result = length;
   }
     
   if (fMovementNumber) {
-    int length = fMovementNumber->getVariableName ().size();
+    int length = fMovementNumber->getVariableName ().size ();
     if (length > result) result = length;
   }
     
   if (fMovementTitle) {
-    int length = fMovementTitle->getVariableName ().size();
+    int length = fMovementTitle->getVariableName ().size ();
     if (length > result) result = length;
   }
     
   if (! fComposers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fComposers.begin (); i!=fComposers.end (); i++) {
-      int length = (*i)->getVariableName ().size();
+      int length = (*i)->getVariableName ().size ();
       if (length > result) result = length;
     } // for
   }
@@ -1941,7 +1941,7 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
   if (! fArrangers.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
-      int length = (*i)->getVariableName ().size();
+      int length = (*i)->getVariableName ().size ();
       if (length > result) result = length;
     } // for
   }
@@ -1949,26 +1949,26 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
   if (! fLyricists.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
-      int length = (*i)->getVariableName ().size();
+      int length = (*i)->getVariableName ().size ();
       if (length > result) result = length;
     } // for
   }
     
   if (fRights) {
-    int length = fRights->getVariableName ().size();
+    int length = fRights->getVariableName ().size ();
     if (length > result) result = length;
   }
     
   if (! fSoftwares.empty()) {
     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
     for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
-      int length = (*i)->getVariableName ().size();
+      int length = (*i)->getVariableName ().size ();
       if (length > result) result = length;
     } // for
   }
     
   if (fEncodingDate) {
-    int length = fEncodingDate->getVariableName ().size();
+    int length = fEncodingDate->getVariableName ().size ();
     if (length > result) result = length;
   }
   
@@ -2488,7 +2488,7 @@ void lpsrLayout::acceptOut (basevisitor* v) {
 void lpsrLayout::browseData (basevisitor* v)
 {
 
-  int lilypondAssocs = flpsrLilypondVarValAssocs.size();
+  int lilypondAssocs = flpsrLilypondVarValAssocs.size ();
 
   for (int i = 0; i < lilypondAssocs; i++ ) {
     // browse the variable/value association
@@ -2496,7 +2496,7 @@ void lpsrLayout::browseData (basevisitor* v)
     browser.browse (*flpsrLilypondVarValAssocs [i]);
   } // for
   
-  int schemeAssocs = fLpsrSchemeVarValAssocs.size();
+  int schemeAssocs = fLpsrSchemeVarValAssocs.size ();
   
   for (int i = 0; i < schemeAssocs; i++ ) {
     // browse the Scheme variable/value association
@@ -2521,13 +2521,13 @@ void lpsrLayout::print (ostream& os)
     "StaffSize: " << fStaffSize <<
     endl;
     
-  int lilypondAssocs = flpsrLilypondVarValAssocs.size();
+  int lilypondAssocs = flpsrLilypondVarValAssocs.size ();
   
   for (int i = 0; i < lilypondAssocs; i++ ) {
     os << flpsrLilypondVarValAssocs [i];
   } // for
 
-  int schemeAssocs = fLpsrSchemeVarValAssocs.size();
+  int schemeAssocs = fLpsrSchemeVarValAssocs.size ();
   
   for (int i = 0; i < schemeAssocs; i++ ) {
     os << fLpsrSchemeVarValAssocs[i];
@@ -2666,7 +2666,7 @@ void lpsrStaffBlock::print (ostream& os)
     "\" (" << fStaff->staffKindAsString () <<
     "), " <<
     singularOrPlural (
-      fStaffBlockElements.size(), "element", "elements") <<
+      fStaffBlockElements.size (), "element", "elements") <<
     endl;
 
   gIndenter++;
@@ -2684,7 +2684,7 @@ void lpsrStaffBlock::print (ostream& os)
     endl <<
     endl;
 
-  if (fStaffBlockElements.size()) {  
+  if (fStaffBlockElements.size ()) {  
     list<S_msrElement>::const_iterator
       iBegin = fStaffBlockElements.begin (),
       iEnd   = fStaffBlockElements.end (),
@@ -2805,7 +2805,7 @@ void lpsrPartBlock::print (ostream& os)
     "for part " << fPart->getPartCombinedName () <<
     ", " <<
     singularOrPlural (
-      fPartBlockElements.size(), "element", "elements") <<
+      fPartBlockElements.size (), "element", "elements") <<
     endl;
 
   gIndenter++;
@@ -2831,7 +2831,7 @@ void lpsrPartBlock::print (ostream& os)
 
   os << endl;
 
-  if (fPartBlockElements.size()) {  
+  if (fPartBlockElements.size ()) {  
     list<S_msrElement>::const_iterator
       iBegin = fPartBlockElements.begin (),
       iEnd   = fPartBlockElements.end (),
@@ -2942,12 +2942,12 @@ void lpsrPartGroupBlock::print (ostream& os)
     "\", " << fPartGroup->partGroupSymbolKindAsString () <<
     ", " <<
     singularOrPlural (
-      fPartGroupBlockElements.size(), "element", "elements") <<
+      fPartGroupBlockElements.size (), "element", "elements") <<
     endl << endl;
 
   gIndenter++;
 
-  if (fPartGroupBlockElements.size()) {  
+  if (fPartGroupBlockElements.size ()) {  
     list<S_msrElement>::const_iterator
       iBegin = fPartGroupBlockElements.begin (),
       iEnd   = fPartGroupBlockElements.end (),
@@ -3999,7 +3999,7 @@ void lpsrScore::print (ostream& os)
 // myBreakAssoc,myPageBreakAssoc globalAssoc? JMI
 
   // print the voices
-  if (fScoreElements.size()) {  
+  if (fScoreElements.size ()) {  
     list<S_msrElement>::const_iterator
       iBegin = fScoreElements.begin (),
       iEnd   = fScoreElements.end (),

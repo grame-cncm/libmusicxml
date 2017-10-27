@@ -635,7 +635,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
     fCurrentPartGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
     
   else {
-    if (groupSymbol.size()) {
+    if (groupSymbol.size ()) {
       // part group type may be absent
       stringstream s;
 
@@ -690,7 +690,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
     ", fPartGroupsMap contains:" <<
     endl;
     
-  if (fPartGroupsMap.size()) {
+  if (fPartGroupsMap.size ()) {
     gIndenter++;
     
     map<int, S_msrPartGroup>::const_iterator
@@ -784,7 +784,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
       "==> fPartGroupsList contains:" <<
       endl;
       
-    if (fPartGroupsList.size()) {
+    if (fPartGroupsList.size ()) {
       list<S_msrPartGroup>::const_iterator
         iBegin = fPartGroupsList.begin (),
         iEnd   = fPartGroupsList.end (),
@@ -925,7 +925,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       " to visitor's part groups list" <<
       endl;
 
-  if (! fPartGroupsList.size())
+  if (! fPartGroupsList.size ())
   
     // insert first part group ahead of the list
     fPartGroupsList.push_front (partGroupToBeStarted);
@@ -1108,7 +1108,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
     // take care of the part group to be stopped
     // in the part groups list
     
-    if (! fPartGroupsList.size()) {
+    if (! fPartGroupsList.size ()) {
       
       // we're just removed the only part group in the list:
       // append it to the MSR score
@@ -1218,7 +1218,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
   else if (fCurrentPartGroupType == "stop")
     partGroupTypeKind = msrPartGroup::kStopPartGroupType;
   else {
-    if (fCurrentPartGroupType.size()) {
+    if (fCurrentPartGroupType.size ()) {
       // part group type may be absent
       stringstream s;
 
@@ -1379,7 +1379,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   gIndenter++;
 
   // has a part group already been seen?
-  if (! fPartGroupsMap.size()) {
+  if (! fPartGroupsMap.size ()) {
     // no, create an implicit one if needed
     createImplicitPartGroup (
       inputLineNumber);
@@ -1489,7 +1489,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
     S_msrPartGroup partGroup;
   
     // has a part group already been seen?
-    if (! fPartGroupsMap.size()) {
+    if (! fPartGroupsMap.size ()) {
       // no, create an implicit one if needed
       createImplicitPartGroup (
         inputLineNumber);

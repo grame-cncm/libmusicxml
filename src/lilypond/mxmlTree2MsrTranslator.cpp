@@ -2586,7 +2586,7 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
 
   bool offsetSoundValue; // JMI
   
-  if (offsetSound.size()) {    
+  if (offsetSound.size ()) {    
     if (offsetSound == "yes")
       offsetSoundValue = true;
       
@@ -3092,7 +3092,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   fCurrentMetronomeBeat.fDots = 0;
   fCurrentMetronomeParentheses = false;
 
-  if (parentheses.size()) {
+  if (parentheses.size ()) {
     // fLogOutputStream << "--> S_metronome, parentheses = " << parentheses << endl;
     
     if (parentheses == "yes")
@@ -3141,14 +3141,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
     elt->getInputLineNumber ();
 
   // fCurrentMetronomeParentheses ??? JMI
-  if (fCurrentMetronomeBeat.fBeatUnit.size()) { // JMI
+  if (fCurrentMetronomeBeat.fBeatUnit.size ()) { // JMI
     fCurrentMetronomeBeatsData.push_back(
       fCurrentMetronomeBeat);
     fCurrentMetronomeBeat.fBeatUnit = "";
     fCurrentMetronomeBeat.fDots = 0;
   }
   
-  if (fCurrentMetronomeBeatsData.size() != 1) {
+  if (fCurrentMetronomeBeatsData.size () != 1) {
     msrMusicXMLWarning (
       inputLineNumber,
       "multiple beats found, but only per-minute tempo is supported");
@@ -3200,7 +3200,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
       endl;
   }
 
-  if (fCurrentMetronomeBeat.fBeatUnit.size()) {
+  if (fCurrentMetronomeBeat.fBeatUnit.size ()) {
     fCurrentMetronomeBeatsData.push_back (
       fCurrentMetronomeBeat); 
     fCurrentMetronomeBeat.fBeatUnit = "";
@@ -4112,7 +4112,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
     // inner tied notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs 
     if (! fOnGoingSlur) {
-      if (tiedType.size()) {
+      if (tiedType.size ()) {
         stringstream s;
         
         s << "tied type" << fCurrentSlurType << "unknown";
@@ -4126,7 +4126,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
     // inner tied notes may miss the "continue" type:
     // let' complain on ligature notes outside of ligatures 
     if (! fOnGoingLigature) {
-      if (tiedType.size()) {
+      if (tiedType.size ()) {
         stringstream s;
         
         s << "tied type" << fCurrentSlurType << "unknown";
@@ -4208,7 +4208,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
     // inner slur notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs 
     if (! fOnGoingSlur)
-      if (fCurrentSlurType.size()) {
+      if (fCurrentSlurType.size ()) {
         stringstream s;
         
         s << "slur type" << fCurrentSlurType << "unknown";
@@ -4279,7 +4279,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
     // inner ligature notes may miss the "continue" type:
     // let' complain on ligature notes outside of ligatures 
     if (! fOnGoingLigature)
-      if (fCurrentLigatureType.size()) {
+      if (fCurrentLigatureType.size ()) {
         stringstream s;
         
         s << "ligature type" << fCurrentLigatureType << "unknown";
@@ -4658,7 +4658,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
       fCurrentSyllableExtendKind =
         msrSyllable::kStopSyllableExtend;
     }
-    else if (extendType.size()) {
+    else if (extendType.size ()) {
         stringstream s;
         
         s << "extend type" << extendType << "unknown";
@@ -5188,7 +5188,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   
   const string newSystem = elt->getAttributeValue ("new-system");
   
-  if (newSystem.size()) {
+  if (newSystem.size ()) {
     
     if (newSystem == "yes") {
       
@@ -5259,7 +5259,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
 
   const string newPage = elt->getAttributeValue ("new-page");
   
-  if (newPage.size()) {
+  if (newPage.size ()) {
     
     if (newPage == "yes") { // JMI
       
@@ -5915,7 +5915,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
   fCurrentBarlineRepeatWinged =
     msrBarline::k_NoRepeatWinged;
 
-  if (winged.size()) {
+  if (winged.size ()) {
     if       (winged == "none") {
       fCurrentBarlineRepeatWinged =
         msrBarline::kNoneRepeatWinged;
@@ -16144,7 +16144,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_figured_bass& elt )
   fCurrentFiguredBassParenthesesKind =
     msrFiguredBass::kFiguredBassParenthesesNo; // default value
 
-  if (parentheses.size()) {    
+  if (parentheses.size ()) {    
     if (parentheses == "yes")
       fCurrentFiguredBassParenthesesKind =
         msrFiguredBass::kFiguredBassParenthesesYes;

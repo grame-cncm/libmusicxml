@@ -560,7 +560,7 @@ string stringNumbersToEnglishWords (string str)
    
   string result = "";
 
-  for (unsigned int i = 0; i < chunks.size(); i++) {
+  for (unsigned int i = 0; i < chunks.size (); i++) {
     if (states[i] == kWorkingOnDigits) {
       int integerValue;
     

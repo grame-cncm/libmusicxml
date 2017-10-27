@@ -202,7 +202,7 @@ void writeNoteAsLilypondString (
     noteLigatures =
       note->getNoteLigatures ();
 
-  if (noteLigatures.size()) {
+  if (noteLigatures.size ()) {
     list<S_msrLigature>::const_iterator i;
     for (
       i=noteLigatures.begin ();
