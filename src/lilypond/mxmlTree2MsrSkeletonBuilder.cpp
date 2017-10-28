@@ -161,7 +161,6 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   registerPartGroupInData (
     fImplicitPartGroup);
 
-/* JMI
   // make it the current group
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
@@ -180,8 +179,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       "after pushing fImplicitPartGroup");
   }
 
-  fPartGroupsList.push_front (fImplicitPartGroup);
-*/
+// JMI  fPartGroupsList.push_front (fImplicitPartGroup);
 
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
@@ -774,6 +772,58 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
     endl;
 }
 
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
+  int    inputLineNumber,
+  string context)
+{
+  fLogOutputStream <<
+    endl <<
+    "==> " << context <<
+    ", line " << inputLineNumber <<
+    ", fPartGroupsStack contains:" <<
+    endl;
+
+  if (! fPartGroupsStack.empty ()) {
+    // a stack cannot be iterated, hence we use a copy
+    stack<S_msrPartGroup>
+      fPartGroupsStackCopy = fPartGroupsStack;
+
+    gIndenter++;
+
+    for ( ; ; ) {
+      // fetch top part group
+      S_msrPartGroup
+        topPartGroup =
+          fPartGroupsStackCopy.top ();
+
+      // print it
+      fLogOutputStream <<
+        topPartGroup->getPartGroupCombinedName () <<
+        endl;
+
+      // pop it from stack
+      fPartGroupsStackCopy.pop ();
+
+      if (fPartGroupsStackCopy.empty ()) break;
+
+      // no endl here
+    } // for
+
+    gIndenter--;
+  }
+  
+  else {
+    fLogOutputStream <<
+      gTab << "empty stack" <<
+      endl;
+  }
+      
+  fLogOutputStream <<
+    "------------------" <<
+    endl;
+}
+
 /*
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::showStartedPartGroupsSet (
@@ -1301,6 +1351,15 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
           fCurrentPartID);
 */
 
+  // sanity check
+  msrAssert (
+    fPartGroupsStack.size () != 0,
+    "fPartGroupsStack is empty");
+    
+  // fetch current part group
+  S_msrPartGroup
+    currentPartGroup = fPartGroupsStack.top ();        
+
   if (gGeneralOptions->fTraceParts)
    fLogOutputStream <<
     "--------------------------------------------" <<
@@ -1314,7 +1373,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
       msrPart::create (
         inputLineNumber,
         fCurrentPartID,
-        0); // JMI
+        currentPartGroup);
 
   // populate it
   part->
@@ -2022,60 +2081,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
 */
 
 
-
-/* JMI
-//________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
-  int    inputLineNumber,
-  string context)
-{
-  fLogOutputStream <<
-    endl <<
-    "==> " << context <<
-    ", line " << inputLineNumber <<
-    ", fPartGroupsStack contains:" <<
-    endl;
-
-  if (! fPartGroupsStack.empty ()) {
-    // a stack cannot be iterated, hence we use a copy
-    stack<S_msrPartGroup>
-      fPartGroupsStackCopy = fPartGroupsStack;
-
-    gIndenter++;
-
-    for ( ; ; ) {
-      // fetch top part group
-      S_msrPartGroup
-        topPartGroup =
-          fPartGroupsStackCopy.top ();
-
-      // print it
-      fLogOutputStream <<
-        topPartGroup->getPartGroupCombinedName () <<
-        endl;
-
-      // pop it from stack
-      fPartGroupsStackCopy.pop ();
-
-      if (fPartGroupsStackCopy.empty ()) break;
-
-      // no endl here
-    } // for
-
-    gIndenter--;
-  }
-  
-  else {
-    fLogOutputStream <<
-      gTab << "empty stack" <<
-      endl;
-  }
-      
-  fLogOutputStream <<
-    "------------------" <<
-    endl;
-}
-*/
 
 
 
