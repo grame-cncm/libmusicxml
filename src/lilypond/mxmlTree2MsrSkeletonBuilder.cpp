@@ -161,10 +161,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   fPartGroupsVector.push_back (
     fImplicitPartGroup);
 
-/*
   fPartGroupsMap [fCurrentPartGroupNumber] =
     fImplicitPartGroup;
-    */
 
 /* JMI
   // make it the current group
@@ -191,7 +189,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
       inputLineNumber,
-      "after prepending fImplicitPartGroup to part gorups list");
+      "after adding fImplicitPartGroup to part groups data");
   }
   fCurrentPartUsesImplicitPartGroup = true;
 }
@@ -972,6 +970,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
 
   fPartGroupsVector.push_back (
     partGroupToBeStarted);
+
+  fPartGroupsMap [fCurrentPartGroupNumber] =
+    fImplicitPartGroup;
 
 /*
   S_msrPartGroup
