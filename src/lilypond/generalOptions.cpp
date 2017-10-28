@@ -119,7 +119,7 @@ R"(Display xml2lilypond's version number and exit.)"));
         msrOptionsSubGroup::create (
           "Help",
           "hgh", "helpGeneralHelp",
-R"("General help")",
+R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
   

@@ -389,6 +389,71 @@ ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsHelpUsageItem msrOptionsHelpUsageItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  msrOptionsHelpUsageItem* o = new
+    msrOptionsHelpUsageItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsHelpUsageItem::msrOptionsHelpUsageItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+msrOptionsHelpUsageItem::~msrOptionsHelpUsageItem()
+{}
+
+void msrOptionsHelpUsageItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsHelpUsageItem:" <<
+    endl;
+
+  gIndenter++;
+
+  msrOptionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void msrOptionsHelpUsageItem::printHelpUsage (ostream& os) const
+{  
+  os <<
+    "xml2lilypond" " "<<
+ // ??? JMI   currentHelpUsageNumber () <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsHelpUsageItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsHelpSummaryItem msrOptionsHelpSummaryItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
@@ -2442,9 +2507,6 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
       break;
       
     case kHideDescriptionByDefault:
-      os <<
-        "kHideDescriptionByDefault" <<
-        endl;
       break;
   } // switch
 }
@@ -4199,6 +4261,20 @@ void msrOptionsHandler::handleOptionsItemName (
         optionsVersionItem->
           printVersion (
             fOptionsHandlerLogIOstream);
+
+        // exit
+        exit (0);
+      }
+      
+      else if (
+        // help usage item?
+        S_msrOptionsHelpUsageItem
+          optionsHelpUsageItem =
+            dynamic_cast<msrOptionsHelpUsageItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        printHelpUsage (
+          fOptionsHandlerLogIOstream);
 
         // exit
         exit (0);
