@@ -115,29 +115,29 @@ R"(Display xml2lilypond's version number and exit.)"));
     // options
   
     S_msrOptionsSubGroup
-      helpGeneralHelpSubGroup =
+      helpGeneralOptionsHelpSubGroup =
         msrOptionsSubGroup::create (
-          "Help",
-          "hgh", "helpGeneralHelp",
+          "Options help",
+          "hgoh", "helpGeneralOptionsHelp",
 R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
   
-    appendOptionsSubGroup (helpGeneralHelpSubGroup);
+    appendOptionsSubGroup (helpGeneralOptionsHelpSubGroup);
   
-    helpGeneralHelpSubGroup->
+    helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         msrOptionsHelpUsageItem::create (
           "ho", "helpOptions",
 R"(Print options usage help.)"));
 
-    helpGeneralHelpSubGroup->
+    helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         msrOptionsHelpSummaryItem::create (
           "hs", "helpSummary",
 R"(Display xml2lilypond's help summary and exit.)"));
   
-    helpGeneralHelpSubGroup->
+    helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
         msrOptionsItemHelpItem::create (
         "ih", "itemHelp",

@@ -4155,14 +4155,15 @@ void msrOptionsHandler::handleOptionsItemName (
 
   if (! optionsElement) {
     // optionsItemName is is not well handled by this options handler
+    printHelpSummary ();
+
     stringstream s;
 
     s <<
       "option name '" << optionsItemName <<
-      "' is not well handled in msrOptionsHandler::handleOptionsItemName()";
-      
+      "' is unknown, see help summary above";      
+
     optionError (s.str ());
-    abort ();
   }
   
   else {
