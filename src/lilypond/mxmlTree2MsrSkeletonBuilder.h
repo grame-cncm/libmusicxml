@@ -268,11 +268,11 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // handling 'start' and 'stop'
  // JMI   stack<S_msrPartGroup>     fPartGroupsStack;
 
-/* JMI                                    
     void                      showPartGroupsMap (
                                 int    inputLineNumber,
                                 string context);
 
+/* JMI                                    
     void                      showStartedPartGroupsSet (
                                 int    inputLineNumber,
                                 string context);
