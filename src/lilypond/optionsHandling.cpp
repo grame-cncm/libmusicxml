@@ -30,7 +30,7 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 1
+#define TRACE_OPTIONS 0
 
 const int K_OPTIONS_ELEMENTS_INDENTER_OFFSET = 3;
   // indent a bit more for readability
@@ -4505,9 +4505,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           dynamic_cast<msrOptionsItemHelpItem*>(&(*fPendingOptionsItem))
       ) {
       // handle the option item
-
-      printHelp (
-        fOptionsHandlerLogIOstream);
+      printSpecificItemHelp (
+        fOptionsHandlerLogIOstream,
+        theString);
 
       fPendingOptionsItem = 0;
       }
