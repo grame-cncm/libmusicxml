@@ -755,7 +755,8 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
 
   if (! fOptionsCombinedItemsList.size ()) {
     os <<
-      "none";
+      "none" <<
+      endl;
   }
     
   else {
@@ -776,11 +777,11 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
       os << endl;
     } // for
   
+    os <<
+      endl;
+  
     gIndenter--;
   }
-
-  os <<
-    endl;
 
   gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
     
