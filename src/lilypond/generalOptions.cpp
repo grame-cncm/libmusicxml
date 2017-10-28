@@ -106,7 +106,7 @@ R"(Display xml2lilypond's version number and exit.)"));
   }
 
 
-  // help summary
+  // help
   // --------------------------------------
 
   {
@@ -115,44 +115,46 @@ R"(Display xml2lilypond's version number and exit.)"));
     // options
   
     S_msrOptionsSubGroup
-      helpSummarySubGroup =
+      helpGeneralHelpSubGroup =
         msrOptionsSubGroup::create (
-          "Help summary",
-          "hghs", "helpGeneralHelpSummary",
-R"()",
+          "Help",
+          "hgh", "helpGeneralHelp",
+R"("General help")",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
   
-    appendOptionsSubGroup (helpSummarySubGroup);
+    appendOptionsSubGroup (helpGeneralHelpSubGroup);
   
-    helpSummarySubGroup->
+    helpGeneralHelpSubGroup->
+      appendOptionsItem (
+        msrOptionsHelpSummaryItem::create (
+          "ho", "helpOptions",
+R"('-' as an argument represents standard input.
+
+A number of options exist to fine tune the generated LilyPond code
+and limit the need for manually editing the latter.
+Most options have a short and a long name for commodity.
+
+The options are organized in a group-subgroup-item hierarchy.
+Help can be obtained for groups or subgroups at will,
+as well as for any option with the '-ih, itemHelp' option.
+
+A subgroup displayed with '***' has its description printed
+only when the corresponding item short or long names are used.
+
+Both '-' and '--' can be used to introduce options in the command line,
+even though the help facility only shows them with '-'.
+
+Command line options and arguments can be placed in any order,
+provided item values immediately follow the corresponding items.)"));
+
+    helpGeneralHelpSubGroup->
       appendOptionsItem (
         msrOptionsHelpSummaryItem::create (
           "hs", "helpSummary",
 R"(Display xml2lilypond's help summary and exit.)"));
-  }
-
-
-  // item help
-  // --------------------------------------
-
-  {
-    // variables  
-    
-    // options
   
-    S_msrOptionsSubGroup
-      versionSubGroup =
-        msrOptionsSubGroup::create (
-          "Item help",
-          "hih", "helpItemHelp",
-R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
-        this);
-  
-    appendOptionsSubGroup (versionSubGroup);
-  
-    versionSubGroup->
+    helpGeneralHelpSubGroup->
       appendOptionsItem (
         msrOptionsItemHelpItem::create (
         "ih", "itemHelp",

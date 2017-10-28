@@ -30714,7 +30714,7 @@ void initializeMSR ()
     "Start as a clone of xml2guido");
     
   enlistVersion (
-    "0.1.0", "01-OCT-2017",
+    "alpha1", "01-NOV-2017",
     "First draft version");
   
   // languages handling

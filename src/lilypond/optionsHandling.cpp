@@ -3673,6 +3673,7 @@ void msrOptionsHandler::printSpecificItemHelp (
       ) {
       // print the help
       fOptionsHandlerLogIOstream <<
+        endl <<
         "--- Help for options item name '" <<
         optionsItemName <<
         "' for group \"" <<
@@ -3704,6 +3705,7 @@ void msrOptionsHandler::printSpecificItemHelp (
           
       // print the help
       fOptionsHandlerLogIOstream <<
+        endl <<
         "--- Help for options item name '" <<
         optionsItemName <<
         "' for subgroup \"" <<
@@ -3743,6 +3745,7 @@ void msrOptionsHandler::printSpecificItemHelp (
 
       // print the help
       fOptionsHandlerLogIOstream <<
+        endl <<
         "--- Help for options item name '" <<
         optionsItemName <<
         "' in subgroup \"" <<
@@ -4138,6 +4141,7 @@ void msrOptionsHandler::handleOptionsItemName (
       ) {
       // print the help
       fOptionsHandlerLogIOstream <<
+        endl <<
         "--- Help for group \"" <<
         optionsGroup->
           getOptionsGroupHelpHeader () <<
@@ -4164,6 +4168,7 @@ void msrOptionsHandler::handleOptionsItemName (
           
       // print the help
       fOptionsHandlerLogIOstream <<
+        endl <<
         "--- Help for subgroup \"" <<
         optionsSubGroup->
           getOptionsSubGroupHelpHeader () <<

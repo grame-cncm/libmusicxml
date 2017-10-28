@@ -1,13 +1,20 @@
+
+# Cd to where you want the git folder to be located
+
+  cd <somePath>
+  
 # Get the libmusixcml2/xml2lilypond code:
 
-git clone https://github.com/dfober/libmusicxml.git libmusicxml-git
-cd libmusicxml-git
+  git clone https://github.com/dfober/libmusicxml.git libmusicxml-git
+  cd libmusicxml-git
 
-# Check-out the Alpha1 branch
+# Check-out the desired branch
 
-git checkout lilypond
+  BRANCH=lilypond
+  git checkout ${BRANCH}
 
-# Either:
+
+# Build everyting with either:
 
   cd cmake
   cmake .
@@ -16,3 +23,12 @@ git checkout lilypond
 # or:
 
   ./Build_libmusicxml.bash cmake
+
+# (some warning are issued for the preliminary versions )
+
+
+# Check that everything works fine
+
+  ls -sal
+
+  ./xml2lilypond -hs
