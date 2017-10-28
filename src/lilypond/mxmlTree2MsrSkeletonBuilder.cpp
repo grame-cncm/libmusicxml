@@ -155,8 +155,9 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       endl;
   }
 
-  fPartGroupsVector [++fPartGroupsCounter] =
-    fImplicitPartGroup;
+  fPartGroupsCounter++;
+  fPartGroupsVector.push_back (
+    fImplicitPartGroup);
 
 /*
   fPartGroupsMap [fCurrentPartGroupNumber] =
@@ -964,8 +965,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       endl;
   }
 
-  fPartGroupsVector [++fPartGroupsCounter] =
-    partGroupToBeStarted;
+  fPartGroupsCounter++;
+  fPartGroupsVector.push_back (
+    partGroupToBeStarted);
 
 /*
   S_msrPartGroup
