@@ -30,7 +30,7 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 0
+#define TRACE_OPTIONS 1
 
 const int K_OPTIONS_ELEMENTS_INDENTER_OFFSET = 3;
   // indent a bit more for readability
@@ -442,9 +442,39 @@ void msrOptionsHelpUsageItem::print (ostream& os) const
 void msrOptionsHelpUsageItem::printHelpUsage (ostream& os) const
 {  
   os <<
-    "xml2lilypond" " "<<
- // ??? JMI   currentHelpUsageNumber () <<
+    endl <<
+    "Options usage" <<
+    endl <<
+    "-------------" <<
+    endl <<
     endl;
+
+  gIndenter++;
+  
+  os <<
+    gIndenter.indentMultiLineString (
+R"(As an argument, '-' represents standard input.
+
+A number of options exist to fine tune the generated LilyPond code
+and limit the need for manually editing the latter.
+Most options have a short and a long name for commodity.
+
+The options are organized in a group-subgroup-item hierarchy.
+Help can be obtained for groups or subgroups at will,
+as well as for any option with the '-ih, itemHelp' option.
+
+A subgroup displayed with '***' has its description printed
+only when the corresponding item short or long names are used.
+
+Both '-' and '--' can be used to introduce options in the command line,
+even though the help facility only shows them with '-'.
+
+Command line options and arguments can be placed in any order,
+provided item values immediately follow the corresponding items.)") <<
+    endl <<
+    endl;
+
+  gIndenter--;
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsHelpUsageItem& elt)
@@ -4273,8 +4303,9 @@ void msrOptionsHandler::handleOptionsItemName (
             dynamic_cast<msrOptionsHelpUsageItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        printHelpUsage (
-          fOptionsHandlerLogIOstream);
+        optionsHelpUsageItem->
+          printHelpUsage (
+            fOptionsHandlerLogIOstream);
 
         // exit
         exit (0);
