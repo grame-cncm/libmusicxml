@@ -158,11 +158,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       endl;
   }
 
-  fPartGroupsVector.push_back (
+  registerPartGroupInData (
     fImplicitPartGroup);
-
-  fPartGroupsMap [fCurrentPartGroupNumber] =
-    fImplicitPartGroup;
 
 /* JMI
   // make it the current group
@@ -864,6 +861,17 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsList (
 */
 
 //________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::registerPartGroupInData (
+  S_msrPartGroup partGroup)
+{
+  fPartGroupsVector.push_back (
+    partGroup);
+
+  fPartGroupsMap [fCurrentPartGroupNumber] =
+    partGroup;
+}
+
+//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   int    inputLineNumber,
   string context)
@@ -968,11 +976,8 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       endl;
   }
 
-  fPartGroupsVector.push_back (
+  registerPartGroupInData (
     partGroupToBeStarted);
-
-  fPartGroupsMap [fCurrentPartGroupNumber] =
-    partGroupToBeStarted;
 
 /*
   S_msrPartGroup

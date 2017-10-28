@@ -29362,7 +29362,7 @@ string msrPartGroup::getPartGroupCombinedName () const
 
   s <<
     "PartGroup_" << fPartGroupAbsoluteNumber <<
-    " (part group number " << fPartGroupNumber << ")";
+    " (part group number '" << fPartGroupNumber << "')";
 
   return s.str ();
 }
