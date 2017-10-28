@@ -972,7 +972,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
     partGroupToBeStarted);
 
   fPartGroupsMap [fCurrentPartGroupNumber] =
-    fImplicitPartGroup;
+    partGroupToBeStarted;
 
 /*
   S_msrPartGroup
@@ -1296,7 +1296,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
           fCurrentPartID);
 */
 
-  // create the score part
+  if (gGeneralOptions->fTraceParts)
+   fLogOutputStream <<
+    "--------------------------------------------" <<
+    endl <<
+    "Creating part \"" << fCurrentPartID << "\"" <<
+    ", line " << inputLineNumber <<
+    endl;
+
   S_msrPart
     part =
       msrPart::create (
@@ -1314,12 +1321,21 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   part->
     setPartInstrumentAbbreviation (fCurrentPartInstrumentAbbreviation);
 
-  // register it in the parts vector
+  // register implicit part groups in the part groups data
+  if (gGeneralOptions->fTracePartGroups) {
+    fLogOutputStream <<
+      "Adding part " <<
+      part->getPartCombinedName () <<
+      " to this visitor's parts data" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
   fLogOutputStream << "fPartsCounter = " << fPartsCounter << endl;
-  fPartsVector [++fPartsCounter] =
-    part;
+
+  fPartsCounter++;
+  fPartsVector.push_back (part);
     
-  // register it in this visitor's parts map
   fPartsMap [partID] = part;
 
   /*
