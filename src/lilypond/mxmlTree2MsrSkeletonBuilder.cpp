@@ -185,7 +185,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   fPartGroupsList.push_front (fImplicitPartGroup);
 
   if (gGeneralOptions->fTracePartGroups) {
-    showPartGroupsList (
+    showPartGroupsData (
       inputLineNumber,
       "after prepending fImplicitPartGroup to part gorups list");
   }
@@ -880,6 +880,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   gIndenter++;
   for (unsigned int i = 1; i <= fPartGroupsVector.size (); i++) {
     fLogOutputStream <<
+      i << ": " <<
       fPartGroupsVector [i]->getPartGroupCombinedName () <<
       endl;
   } // for
@@ -891,6 +892,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   gIndenter++;
   for (unsigned int i = 1; i <= fPartsVector.size (); i++) {
     fLogOutputStream <<
+      i << ": " <<
       fPartsVector [i]->getPartCombinedName () <<
       endl;
   } // for
