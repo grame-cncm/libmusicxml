@@ -27258,7 +27258,7 @@ msrPart::msrPart (
   S_msrPartGroup partPartGroupUplink)
     : msrElement (inputLineNumber)
 {
-  // replace spaces in part ID to set fPartID
+  // replace spaces in partID to set fPartID
   for_each (
     partID.begin (),
     partID.end (),
@@ -27764,7 +27764,7 @@ string msrPart::getPartCombinedName () const
       "\"" << fPartMsrName << "\"";
 
   s <<
-    " (part ID " << fPartID;
+    " (partID " << fPartID;
 
   if (fPartName.size ())
     s <<
