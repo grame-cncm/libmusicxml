@@ -45,9 +45,11 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
 
   // part groups handling  
   fOnGoingGroupNameDisplay = false;
-
+  fPartGroupsCounter = 0;
+  
   // parts handling
   fCurrentNoIDPartNumber = 0;
+  fPartsCounter = 0;
   
   // staff handling
   fCurrentStaffNumber = -1;
@@ -862,6 +864,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   int    inputLineNumber,
   string context)
 {
+  /*
   showPartGroupsMap (
     inputLineNumber,
     context);
@@ -869,6 +872,29 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   showStartedPartGroupsSet (
     inputLineNumber,
     context);
+    */
+
+  fLogOutputStream <<
+    "Part groups vector:" <<
+    endl;
+  gIndenter++;
+  for (unsigned int i = 1; i <= fPartGroupsVector.size (); i++) {
+    fLogOutputStream <<
+      fPartGroupsVector [i]->getPartGroupCombinedName () <<
+      endl;
+  } // for
+  gIndenter--;
+  
+  fLogOutputStream <<
+    "Parts vector:" <<
+    endl;
+  gIndenter++;
+  for (unsigned int i = 1; i <= fPartsVector.size (); i++) {
+    fLogOutputStream <<
+      fPartsVector [i]->getPartCombinedName () <<
+      endl;
+  } // for
+  gIndenter--;
 }
 
 //________________________________________________________________________
@@ -932,6 +958,10 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
     }
     
     fPartGroupsMap [fCurrentPartGroupNumber] =
+      partGroupToBeStarted;
+
+    // register it in part groups vector
+    fPartGroupsVector [++fPartGroupsCounter] =
       partGroupToBeStarted;
 
     // insert it into the started part group set of this visitor
@@ -1188,13 +1218,41 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     }
   }
 
+/* JMI
   // is this part already present in the current part group?
   S_msrPart
     part =
       currentPartGroup->
         fetchPartFromPartGroup (
           fCurrentPartID);
+*/
 
+  // create the score part
+  S_msrPart
+    part =
+      msrPart::create (
+        inputLineNumber,
+        fCurrentPartID,
+        0); // JMI
+
+  // populate it
+  part->
+    setPartName (fCurrentPartName);
+  part->
+    setPartAbbreviation (fCurrentPartAbbreviation);
+  part->
+    setPartInstrumentName (fCurrentPartInstrumentName);
+  part->
+    setPartInstrumentAbbreviation (fCurrentPartInstrumentAbbreviation);
+
+  // register it in the parts vector
+  fPartsVector [++fPartsCounter] =
+    part;
+    
+  // register it in this visitor's parts map
+  fPartsMap [partID] = part;
+
+  /*
   if (! part) {
     // no, add it to the current started part groups
     for (
@@ -1208,21 +1266,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
             fCurrentPartID);
     } // for
   }
+  */
   
-  // populate current part
-  // fPartMsrName has already been set by the constructor // JMI
-  part->
-    setPartName (fCurrentPartName);
-  part->
-    setPartAbbreviation (fCurrentPartAbbreviation);
-  part->
-    setPartInstrumentName (fCurrentPartInstrumentName);
-  part->
-    setPartInstrumentAbbreviation (fCurrentPartInstrumentAbbreviation);
-
-  // register it in this visitor's parts map
-  fPartsMap [partID] = part;
-
   if (fImplicitPartGroup) {
     // force an implicit part group "stop" on it
     // fCurrentPartGroupNumber holds the value 1

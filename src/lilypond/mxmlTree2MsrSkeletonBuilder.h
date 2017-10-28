@@ -249,6 +249,12 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     S_msrPartGroup            fetchPartGroupInTheMap (
                                 int partGroupNumber);
 
+    int                       fPartGroupsCounter;
+    vector<S_msrPartGroup>    fPartGroupsVector;
+    
+    int                       fPartsCounter;
+    vector<S_msrPart>         fPartsVector;
+    
     // MusicXML allows part groups to overlap,
     // we use a list in which part groups are orderd by
     // increasing part group <default-x>
