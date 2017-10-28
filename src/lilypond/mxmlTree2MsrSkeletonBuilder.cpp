@@ -731,6 +731,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
   }
 }
 
+/*
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
   int    inputLineNumber,
@@ -858,6 +859,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsList (
     "------------------" <<
     endl;
 }
+*/
 
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
@@ -884,6 +886,9 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
       fPartGroupsVector [i]->getPartGroupCombinedName () <<
       endl;
   } // for
+  fLogOutputStream <<
+    "------------------" <<
+    endl;
   gIndenter--;
   
   fLogOutputStream <<
@@ -896,6 +901,9 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
       fPartsVector [i]->getPartCombinedName () <<
       endl;
   } // for
+  fLogOutputStream <<
+    "------------------" <<
+    endl;
   gIndenter--;
 }
 
@@ -1248,6 +1256,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     setPartInstrumentAbbreviation (fCurrentPartInstrumentAbbreviation);
 
   // register it in the parts vector
+  fLogOutputStream << "fPartsCounter = " << fPartsCounter << endl;
   fPartsVector [++fPartsCounter] =
     part;
     

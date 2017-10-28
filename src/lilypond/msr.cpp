@@ -27264,10 +27264,12 @@ msrPart::msrPart (
     partID.end (),
     stringSpaceReplacer (fPartID, '_'));
 
+/* JMI
   // sanity check
   msrAssert(
     partPartGroupUplink != 0,
     "partPartGroupUplink is null");
+    */
     
   // set part's part group uplink
   fPartPartGroupUplink = partPartGroupUplink;
