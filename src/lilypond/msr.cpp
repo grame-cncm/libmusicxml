@@ -29234,11 +29234,10 @@ void msrPart::printSummary (ostream& os)
 }
 
 //______________________________________________________________________________
-int msrPartGroup::gPartGroupsCounter = 0;
-
 S_msrPartGroup msrPartGroup::create (
   int                     inputLineNumber,
   int                     partGroupNumber,
+  int                     partGroupAbsoluteNumber,
   string                  partGroupName,
   string                  partGroupDisplayText,
   string                  partGroupAccidentalText,
@@ -29253,6 +29252,7 @@ S_msrPartGroup msrPartGroup::create (
     new msrPartGroup (
       inputLineNumber,
       partGroupNumber,
+      partGroupAbsoluteNumber,
       partGroupName,
       partGroupDisplayText,
       partGroupAccidentalText,
@@ -29269,6 +29269,7 @@ S_msrPartGroup msrPartGroup::create (
 msrPartGroup::msrPartGroup (
   int                     inputLineNumber,
   int                     partGroupNumber,
+  int                     partGroupAbsoluteNumber,
   string                  partGroupName,
   string                  partGroupDisplayText,
   string                  partGroupAccidentalText,
@@ -29280,11 +29281,9 @@ msrPartGroup::msrPartGroup (
   S_msrScore              partGroupScoreUplink)
     : msrElement (inputLineNumber)
 {
-  // generate a new partGroup absolute number
-  fPartGroupAbsoluteNumber = ++gPartGroupsCounter;
-  
   fPartGroupNumber = partGroupNumber;
-        
+  fPartGroupAbsoluteNumber = partGroupAbsoluteNumber;
+          
   fPartGroupName = partGroupName;
 
   fPartGroupDisplayText    = partGroupDisplayText;
@@ -29339,6 +29338,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
       msrPartGroup::create (
         fInputLineNumber,
         fPartGroupNumber,
+        fPartGroupAbsoluteNumber,
         fPartGroupName,
         fPartGroupDisplayText,
         fPartGroupAccidentalText,
@@ -29348,10 +29348,6 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
         fPartGroupBarlineKind,
         partGroupClone,
         scoreClone);
-
-  // avoid part group newborn clone to keep its (new) absolute number
-  newbornClone->fPartGroupAbsoluteNumber =
-    fPartGroupAbsoluteNumber;
   
   newbornClone->fPartGroupInstrumentName =
     fPartGroupInstrumentName;

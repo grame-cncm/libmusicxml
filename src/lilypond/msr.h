@@ -10460,6 +10460,7 @@ class EXP msrPartGroup : public msrElement
     static SMARTP<msrPartGroup> create (
       int                     inputLineNumber,
       int                     partGroupNumber,
+      int                     partGroupAbsoluteNumber,
       string                  partGroupName,
       string                  partGroupDisplayText,
       string                  partGroupAccidentalText,
@@ -10482,6 +10483,7 @@ class EXP msrPartGroup : public msrElement
     msrPartGroup (
       int                     inputLineNumber,
       int                     partGroupNumber,
+      int                     partGroupAbsoluteNumber,
       string                  partGroupName,
       string                  partGroupDisplayText,
       string                  partGroupAccidentalText,
@@ -10590,15 +10592,10 @@ class EXP msrPartGroup : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // counters
-    
-    static int            gPartGroupsCounter;
-
     // numbers
     
-    int                   fPartGroupAbsoluteNumber;
-    
     int                   fPartGroupNumber;
+    int                   fPartGroupAbsoluteNumber;    
 
     // name
     
