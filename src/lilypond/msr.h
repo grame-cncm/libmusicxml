@@ -10501,12 +10501,25 @@ class EXP msrPartGroup : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrPartGroup        getPartGroupPartGroupUplink () const
+                              { return fPartGroupPartGroupUplink; }
+
+    S_msrScore            getPartGroupScoreUplink () const
+                              { return fPartGroupScoreUplink; }
+
+    // numbers
     int                   getPartGroupAbsoluteNumber () const
                               { return fPartGroupAbsoluteNumber; }
     
     int                   getPartGroupNumber () const
                               { return fPartGroupNumber; }
+
+    // names
     
+    string                getPartGroupCombinedName () const;
+
+    // miscellaneous
     string                getPartGroupDisplayText () const
                               { return fPartGroupDisplayText; }
 
@@ -10537,8 +10550,6 @@ class EXP msrPartGroup : public msrElement
                           getPartGroupBarlineKind () const
                               { return fPartGroupBarlineKind; }
     
-    string                getPartGroupCombinedName () const;
-
     void                  setPartGroupInstrumentName (string name)
                               { fPartGroupInstrumentName = name; }
                 
@@ -10548,12 +10559,6 @@ class EXP msrPartGroup : public msrElement
     const list<S_msrElement>&
                           getPartGroupElements () const
                               { return fPartGroupElements; }
-
-    S_msrPartGroup        getPartGroupPartGroupUplink () const
-                              { return fPartGroupPartGroupUplink; }
-
-    S_msrScore            getPartGroupScoreUplink () const
-                              { return fPartGroupScoreUplink; }
 
     // services
     // ------------------------------------------------------

@@ -332,9 +332,16 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
     endl;
   gIndenter++;
   for (unsigned int i = 0; i < fPartsVector.size (); i++) {
+    S_msrPart
+      part = fPartsVector [i];
+      
     fLogOutputStream <<
       i + 1 << ": " <<
-      fPartsVector [i]->getPartCombinedName () <<
+      part->getPartCombinedName () <<
+      ", uplink to " <<
+      part->
+        getPartPartGroupUplink ()->
+          getPartGroupCombinedName () <<
       endl;
   } // for
   fLogOutputStream <<
@@ -1362,6 +1369,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   S_msrPartGroup
     currentPartGroup = fPartGroupsStack.top ();        
 
+  // create the part
   if (gGeneralOptions->fTraceParts)
    fLogOutputStream <<
     "--------------------------------------------" <<
@@ -1370,12 +1378,22 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     ", line " << inputLineNumber <<
     endl;
 
+/*
   S_msrPart
     part =
       msrPart::create (
         inputLineNumber,
         fCurrentPartID,
         currentPartGroup);
+*/
+
+  // append it to the current started part groups
+  S_msrPart
+    part =
+      currentPartGroup->
+        appendPartToPartGroupByItsID (
+          inputLineNumber,
+          fCurrentPartID);
 
   // populate it
   part->
@@ -1403,22 +1421,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   fPartsVector.push_back (part);
     
   fPartsMap [partID] = part;
-
-  /*
-  if (! part) {
-    // no, add it to the current started part groups
-    for (
-      set<S_msrPartGroup>::const_iterator i = fStartedPartGroupsSet.begin ());
-      i != fStartedPartGroupsSet.end ();
-      i++) {
-      part =
-        currentPartGroup->
-          appendPartToPartGroupByItsID (
-            inputLineNumber,
-            fCurrentPartID);
-    } // for
-  }
-  */
   
   if (fImplicitPartGroup) {
     // force an implicit part group "stop" on it
@@ -1503,7 +1505,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       
     // fetch current part group
     partGroup = fPartGroupsStack.top ();        
-  */
   
     // create the part and add it to the current part group
     S_msrPart
@@ -1519,6 +1520,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
 
     // register it in this visitor's parts map
     fPartsMap [fCurrentPartID] = part;
+  */
   }
     
   // is this part already known?
