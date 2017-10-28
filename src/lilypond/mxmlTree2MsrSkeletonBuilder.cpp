@@ -515,6 +515,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       s.str ());
   }
 
+/* JMI
   // remove the part group to be stopped from the start part groups set
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
@@ -528,16 +529,17 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   fStartedPartGroupsSet.erase (
     partGroupToBeStopped);
 
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER REMOVAL FROM LIST");
   }
+*/
 
   if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
-      "BEFORE handlePartGroupStop()");
+      "AFTER handlePartGroupStop()");
   }
 }
 
@@ -626,7 +628,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsStack (
       inputLineNumber,
-      "after pushing fImplicitPartGroup");
+      "after pushing fImplicitPartGroup onto stack");
   }
 
 // JMI  fPartGroupsList.push_front (fImplicitPartGroup);
