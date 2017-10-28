@@ -27264,12 +27264,10 @@ msrPart::msrPart (
     partID.end (),
     stringSpaceReplacer (fPartID, '_'));
 
-/* JMI
   // sanity check
   msrAssert(
     partPartGroupUplink != 0,
     "partPartGroupUplink is null");
-    */
     
   // set part's part group uplink
   fPartPartGroupUplink = partPartGroupUplink;
@@ -27764,11 +27762,11 @@ string msrPart::getPartCombinedName () const
       "\"" << fPartMsrName << "\"";
 
   s <<
-    " (partID " << fPartID;
+    " (partID \"" << fPartID << "\"";
 
   if (fPartName.size ())
     s <<
-      ", \"" << fPartName << "\"";
+      ", partName \"" << fPartName << "\"";
 
   s <<
     ")";
