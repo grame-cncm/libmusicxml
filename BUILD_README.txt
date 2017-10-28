@@ -31,4 +31,4 @@
 
   ls -sal
 
-  ./xml2lilypond -hs
+  ./xml2lilypond -hgh

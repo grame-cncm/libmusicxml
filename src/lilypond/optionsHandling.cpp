@@ -2564,6 +2564,7 @@ void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
   } // switch
 
   os <<
+    endl <<
     endl;
 
   // print the description if any
