@@ -803,8 +803,12 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
-  os <<
-    fOptionsElementShortName <<
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsCombinedItemsItemVariableDisplayName <<
+    " : " <<
+    booleanAsString (
+      fOptionsCombinedItemsItemVariable) <<
     endl;
 
   int fieldWidth =
