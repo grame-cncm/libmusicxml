@@ -275,10 +275,12 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     
     list<S_msrPartGroup>      fPartGroupsList;
     
-    set<S_msrPartGroup>       fStartedPartGroupsSet;
+ // JMI   set<S_msrPartGroup>       fStartedPartGroupsSet;
 
     // handling 'start' and 'stop'
-    stack<S_msrPartGroup>     fPartGroupsStack;
+    // a stack cannot be iterated, and we need access to any element:
+    // implementing a stack in a list, with the top first
+    list<S_msrPartGroup>      fPartGroupsStack;
 
     void                      showPartGroupsStack ();
 

@@ -165,7 +165,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStartPositionsMap ()
     for ( ; ; ) {
       fLogOutputStream <<
         (*i).first->getPartGroupCombinedName () <<
-        "' starts at position " <<
+        " starts at position " <<
         (*i).second <<
         endl;
       if (++i == iEnd) break;
@@ -194,31 +194,31 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack ()
     endl;
 
   if (! fPartGroupsStack.empty ()) {
-    // a stack cannot be iterated, hence we use a copy
-    stack<S_msrPartGroup>
-      fPartGroupsStackCopy = fPartGroupsStack;
 
     gIndenter++;
 
+    list<S_msrPartGroup>::const_iterator
+      iBegin = fPartGroupsStack.begin (),
+      iEnd   = fPartGroupsStack.end (),
+      i      = iBegin;
+      
     for ( ; ; ) {
-      // fetch top part group
-      S_msrPartGroup
-        topPartGroup =
-          fPartGroupsStackCopy.top ();
-
-      // print it
       fLogOutputStream <<
-        topPartGroup->getPartGroupCombinedName () <<
+        "| ";
+        
+      fLogOutputStream <<
+        (*i)->getPartGroupCombinedName () <<
+        " starts at position " <<
+        fPartGroupsStartPositionsMap [(*i)] <<
         endl;
+        
+      if (++i == iEnd) break;
 
-      // pop it from stack
-      fPartGroupsStackCopy.pop ();
-
-      if (fPartGroupsStackCopy.empty ()) break;
-
+      fLogOutputStream <<
+        "v ";
       // no endl here
     } // for
-
+    
     gIndenter--;
   }
   
@@ -423,10 +423,12 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsList (
 S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchCurrentPartGroup ()
 {
   S_msrPartGroup result;
-  
+
+  // the current part group is the top of the stack,
+  // i.e. the front for the list used to implement it
   if (fPartGroupsStack.size () != 0) {
    result =
-    fPartGroupsStack.top ();
+    fPartGroupsStack.front ();
   }
 
   return result;
@@ -526,7 +528,8 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       endl;
   }
 
-  fPartGroupsStack.push (partGroupToBeStarted);
+  fPartGroupsStack.push_front (
+    partGroupToBeStarted);
   
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
@@ -755,7 +758,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       endl;
   }
   
-  fPartGroupsStack.push (fImplicitPartGroup);
+  fPartGroupsStack.push_front (
+    fImplicitPartGroup);
 
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
