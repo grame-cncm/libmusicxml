@@ -251,7 +251,11 @@ class EXP mxmlTree2MsrSkeletonBuilder :
 
     int                       fPartGroupsCounter;
     vector<S_msrPartGroup>    fPartGroupsVector;
-    
+
+    // part groups start positions (fPartsCounter) are used
+    // to determine which is nested in which
+    map<S_msrPartGroup, int>  fPartGroupsStartPositionsMap;
+
     int                       fPartsCounter;
     vector<S_msrPart>         fPartsVector;
     
@@ -268,17 +272,23 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // handling 'start' and 'stop'
     stack<S_msrPartGroup>     fPartGroupsStack;
 
+    S_msrPartGroup            fetchCurrentPartGroup ();
+
     void                      registerPartGroupInData (
                                 S_msrPartGroup partGroup);
                                 
-    void                      showPartGroupsStack (
-                                int    inputLineNumber,
-                                string context);
-    
     void                      showPartGroupsMap (
                                 int    inputLineNumber,
                                 string context);
 
+    void                      showPartGroupsStartPositionsMap (
+                                int    inputLineNumber,
+                                string context);
+
+    void                      showPartGroupsStack (
+                                int    inputLineNumber,
+                                string context);
+        
 /* JMI                                    
     void                      showStartedPartGroupsSet (
                                 int    inputLineNumber,
