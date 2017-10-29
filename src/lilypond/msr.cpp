@@ -16039,67 +16039,71 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       
   // don't handle the note harmony here,
   // this has been done after harmony::create ()
+
   if (! noteHarmony) {
-    if (partHarmoniesSupplierVoice) {
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
-        gLogIOstream <<
-          "measureVoiceUplink = \"" <<
-          fetchMeasureVoiceUplink ()->getVoiceName () <<
-          "\"" <<
-          endl <<
-          "partHarmoniesSupplierVoice = \"" <<
-          partHarmoniesSupplierVoice->getVoiceName () <<
-          "\"" <<
-          endl;
-
-/* JMI
-      // bring harmony voice to the same measure length
-      partHarmonyVoice->
-        bringVoiceToMeasureLength (
-          inputLineNumber,
-          noteMeasureLength);
-*/
-
-      // is measure voice uplink the part harmonies suppplier voice?
-      if (
-        fetchMeasureVoiceUplink ()
-          ==
-        partHarmoniesSupplierVoice) {
-        // yes, create a skip note of the same duration as the note
-        S_msrNote
-          skipNote =
-            msrNote::createSkipNote (
-              inputLineNumber,
-              noteSoundingWholeNotes,
-              noteSoundingWholeNotes,
-              note->getNoteDotsNumber (),
-              partHarmonyVoice->
-                getVoiceStaffUplink ()->
-                  getStaffNumber (),
-              partHarmonyVoice->
-                getVoicePartRelativeID ());
-  
-        // append the skip to the part harmony voice
-        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+    // should a rest be appended to the harmony voice?
+    if (partHarmonyVoice) {
+      if (partHarmoniesSupplierVoice) {
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
           gLogIOstream <<
-            "Appending skip '" << skipNote->noteAsShortString () <<
-            "' to measure '" << fMeasureNumber <<
-            "' in harmony voice \"" <<
-            partHarmonyVoice->getVoiceName () <<
+            "measureVoiceUplink = \"" <<
+            fetchMeasureVoiceUplink ()->getVoiceName () <<
+            "\"" <<
+            endl <<
+            "partHarmoniesSupplierVoice = \"" <<
+            partHarmoniesSupplierVoice->getVoiceName () <<
             "\"" <<
             endl;
-
-        // sanity check
-        msrAssert (
-          fMeasureElementsList.size () > 0,
-          "fMeasureElementsList is empty"); // JMI
-          
+  
+  /* JMI
+        // bring harmony voice to the same measure length
         partHarmonyVoice->
-          appendNoteToVoice (skipNote);
+          bringVoiceToMeasureLength (
+            inputLineNumber,
+            noteMeasureLength);
+  */
+  
+        // is measure voice uplink the part harmonies suppplier voice?
+        if (
+          fetchMeasureVoiceUplink ()
+            ==
+          partHarmoniesSupplierVoice) {
+          // yes, create a rest note of the same duration as the note
+          S_msrNote
+            restNote =
+              msrNote::createRestNote (
+                inputLineNumber,
+                noteSoundingWholeNotes,
+                noteSoundingWholeNotes,
+                note->getNoteDotsNumber (),
+                partHarmonyVoice->
+                  getVoiceStaffUplink ()->
+                    getStaffNumber (),
+                partHarmonyVoice->
+                  getVoicePartRelativeID ());
+    
+          // append the rest to the part harmony voice
+          if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+            gLogIOstream <<
+              "Appending rest '" << restNote->noteAsShortString () <<
+              "' to measure '" << fMeasureNumber <<
+              "' in harmony voice \"" <<
+              partHarmonyVoice->getVoiceName () <<
+              "\"" <<
+              endl;
+  
+          // sanity check
+          msrAssert (
+            fMeasureElementsList.size () > 0,
+            "fMeasureElementsList is empty"); // JMI
+            
+          partHarmonyVoice->
+            appendNoteToVoice (restNote);
+        }
       }
     }
   }
-
+  
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
 }
