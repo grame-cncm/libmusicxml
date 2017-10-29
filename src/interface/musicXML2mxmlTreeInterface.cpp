@@ -60,7 +60,8 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 1: build xmlelement tree from file",
+    "Pass 1",
+    "build xmlelement tree from file",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -102,7 +103,8 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 1: build xmlelement tree from stdin",
+    "Pass 1",
+    "build xmlelement tree from stdin",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -144,7 +146,8 @@ EXP Sxmlelement musicXMLString2mxmlTree (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 1: build xmlelement tree from buffer",
+    "Pass 1",
+    "build xmlelement tree from buffer",
     timingItem::kMandatory,
     startClock,
     endClock);

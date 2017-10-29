@@ -83,7 +83,8 @@ S_msrScore buildMsrSkeletonFromElementsTree (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 2a: build the MSR skeleton",
+    "Pass 2a",
+    "build the MSR skeleton",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -140,7 +141,8 @@ void displayMsrSkeleton (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "        display the MSR",
+    "",
+    "display the MSR skeleton",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -187,7 +189,8 @@ void displayMsrSkeletonSummary (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "        display MSR summary",
+    "",
+    "display MSR skeleton summary",
     timingItem::kOptional,
     startClock,
     endClock);

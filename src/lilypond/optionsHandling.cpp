@@ -670,6 +670,10 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
 void msrOptionsCombinedItemsItem::setCombinedItemsVariablesValue (
   bool value)
 {
+  // set the combined items item variable
+  fOptionsCombinedItemsItemVariable = value;
+
+  // set the value of the items in the list
   if (fOptionsCombinedItemsList.size ()) {      
     for (
       list<S_msrOptionsItem>::const_iterator i =

@@ -85,7 +85,8 @@ void populateMsrSkeletonFromMxmlTree (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 2b: build the MSR",
+    "Pass 2b",
+    "build the MSR",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -139,7 +140,8 @@ void displayMSRPopulatedScore (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "        display the MSR",
+    "",
+    "display the MSR",
     timingItem::kOptional,
     startClock,
     endClock);
@@ -187,7 +189,8 @@ void displayMSRPopulatedScoreSummary (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "        display MSR summary",
+    "",
+    "display MSR summary",
     timingItem::kOptional,
     startClock,
     endClock);

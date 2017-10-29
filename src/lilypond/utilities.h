@@ -49,21 +49,24 @@ class timingItem : public smartable
   public:
 
     enum timingItemKind {
-      kMandatory, kOptional};
+      kMandatory, kOptional };
       
+    static SMARTP<timingItem> createTimingItem (
+      string         activity,
+      string         description,
+      timingItemKind kind,
+      clock_t        startClock,
+      clock_t        endClock);
+
     timingItem (
       string         activity,
+      string         description,
       timingItemKind kind,
       clock_t        startClock,
       clock_t        endClock);
       
-    static SMARTP<timingItem> createTimingItem (
-      string                     activity,
-      timingItem::timingItemKind kind,
-      clock_t                    startClock,
-      clock_t                    endClock);
-
     string                fActivity;
+    string                fDescription;
     timingItemKind        fKind;
     clock_t               fStartClock;
     clock_t               fEndClock;
@@ -83,10 +86,12 @@ class timing {
 
     // add an item
     void                  appendTimingItem (
-                            string                     activity,
-                            timingItem::timingItemKind kind,
-                            clock_t                    startClock,
-                            clock_t                    endClock);
+                            string         activity,
+                            string         description,
+                            timingItem::timingItemKind
+                                           kind,
+                            clock_t        startClock,
+                            clock_t        endClock);
       
     // print
     void                  print (ostream& os) const;

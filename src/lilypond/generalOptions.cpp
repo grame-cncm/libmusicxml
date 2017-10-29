@@ -252,7 +252,7 @@ debugging information to standard error for the specified measures.)",
       CPUUsageSubGroup =
         msrOptionsSubGroup::create (
           "CPU usage",
-          "hgcu", "helpGeneralCPUUsage",
+          "hgcpu", "helpGeneralCPUUsage",
 R"()",
         msrOptionsSubGroup::kAlwaysShowDescription,
         this);
@@ -262,7 +262,7 @@ R"()",
     CPUUsageSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "dCPU", "displayCPUusage",
+          "cpu", "displayCPUusage",
 R"(Write a trace of the general activity to standard error.)",
           "displayCPUusage",
           fDisplayCPUusage));

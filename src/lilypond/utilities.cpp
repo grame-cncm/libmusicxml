@@ -35,13 +35,16 @@ namespace MusicXML2 {
 
 //______________________________________________________________________________
 S_timingItem createTimingItem (
-  string                     activity,
-  timingItem::timingItemKind kind,
-  clock_t                    startClock,
-  clock_t                    endClock)
+  string         activity,
+  string         description,
+  timingItem::timingItemKind
+                 kind,
+  clock_t        startClock,
+  clock_t        endClock)
 {
   timingItem* o = new timingItem (
     activity,
+    description,
     kind,
     startClock,
     endClock);
@@ -51,14 +54,16 @@ S_timingItem createTimingItem (
 
 timingItem::timingItem (
   string         activity,
+  string         description,
   timingItemKind kind,
   clock_t        startClock,
   clock_t        endClock)
 {
-  fActivity   = activity;
-  fKind       = kind;
-  fStartClock = startClock;
-  fEndClock   = endClock;
+  fActivity    = activity;
+  fDescription = description;
+  fKind        = kind;
+  fStartClock  = startClock;
+  fEndClock    = endClock;
 }
 
 timing::timing ()
@@ -68,15 +73,18 @@ timing::~timing ()
 {}
 
 void timing::appendTimingItem (
-  string                     activity,
-  timingItem::timingItemKind kind,
-  clock_t                    startClock,
-  clock_t                    endClock)
+  string         activity,
+  string         description,
+  timingItem::timingItemKind
+                 kind,
+  clock_t        startClock,
+  clock_t        endClock)
 {
   S_timingItem
     timingItem =
       createTimingItem (
         activity,
+        description,
         kind,
         startClock,
         endClock);
@@ -92,7 +100,8 @@ ostream& operator<< (ostream& os, const timing& tim) {
 void timing::print (ostream& os) const
 {
   const int
-    activityWidth     = 42,
+    activityWidth     =  7,
+    descriptionWidth  = 35,
     kindWidth         = 12,
     secondsWidth      =  8,
     secondsPrecision  =  6;
@@ -105,16 +114,18 @@ void timing::print (ostream& os) const
   os <<
     endl <<
     "Timing information:" <<
-// JMI    __FILE__ << ":" << __LINE__ <<
-    endl << endl <<
+    endl <<
+    endl <<
     setw (activityWidth) << "Activity" <<
+    setw (activityWidth) << "Description" <<
     setw (kindWidth)     << "Kind" <<
-    setw (secondsWidth)  << "CPU (s)" <<
+    setw (secondsWidth)  << "CPU (sec)" <<
     endl <<
     setw (activityWidth) << "--------" <<
     setw (kindWidth)     << "----" <<
     setw (secondsWidth)  << "-------" <<
-    endl << endl;
+    endl <<
+    endl;
 
   for (
     list<S_timingItem>::const_iterator i=fTimingItemsList.begin ();

@@ -77,7 +77,8 @@ void generateLilypondCodeFromLpsrScore (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 4: translate LPSR to LilyPond",
+    "Pass 4",
+    "translate LPSR to LilyPond",
     timingItem::kMandatory,
     startClock,
     endClock);

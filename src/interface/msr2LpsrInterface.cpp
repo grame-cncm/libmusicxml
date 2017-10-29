@@ -74,7 +74,8 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "Pass 3: translate MSR to LPSR",
+    "Pass 3",
+    "translate MSR to LPSR",
     timingItem::kMandatory,
     startClock,
     endClock);
@@ -134,7 +135,8 @@ void displayLpsrScore (
 
   // register time spent
   timing::gTiming.appendTimingItem (
-    "        display the LPSR",
+    "",
+    "display the LPSR",
     timingItem::kOptional,
     startClock,
     endClock);
