@@ -125,6 +125,9 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap ()
         "'" << (*i).first <<
         "' --> " <<
         (*i).second->getPartGroupCombinedName () <<
+        ", instrument: \"" <<
+        (*i).second->getPartGroupInstrumentName () <<
+        "\"" <<   
         endl;
       if (++i == iEnd) break;
       // no endl here
@@ -162,7 +165,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStartPositionsMap ()
     for ( ; ; ) {
       fLogOutputStream <<
         (*i).first->getPartGroupCombinedName () <<
-        "'starts at position " <<
+        "' starts at position " <<
         (*i).second <<
         endl;
       if (++i == iEnd) break;
@@ -291,6 +294,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   fLogOutputStream <<
     endl <<
     "==> " << context <<
+    ", partsCounter = " << fPartsCounter <<
     ", line " << inputLineNumber <<
     ":" <<
     endl <<
@@ -491,6 +495,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       "Appending part group '" <<
       partGroupToBeStarted->getPartGroupNumber () <<
       "' to MSR score" <<
+      ", partsCounter = " << fPartsCounter <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -504,6 +509,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
     fLogOutputStream <<
       "Adding part group " << fCurrentPartGroupNumber <<
       " to visitor's part groups data" <<
+      ", partsCounter = " << fPartsCounter <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -515,7 +521,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Pushing part group '" << fCurrentPartGroupNumber <<
-      "' onto this visitor's part group stack" <<
+      "' onto the part group stack" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -576,6 +582,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       fLogOutputStream <<
         "Adding part group " << fCurrentPartGroupNumber <<
         " to visitor's part groups data" <<
+      ", partsCounter = " << fPartsCounter <<
         ", line " << inputLineNumber <<
         endl;
     }
@@ -630,7 +637,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
 
     s <<
       "part group " << fCurrentPartGroupNumber <<
-      " not found in this visitor's part groups map" <<
+      " not found in the part groups map" <<
       ", line " << inputLineNumber <<
       endl;
     msrInternalError (
@@ -715,6 +722,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       "Appending implicit part group '" <<
       fImplicitPartGroup->getPartGroupNumber () <<
       "' to MSR score" <<
+      ", partsCounter = " << fPartsCounter <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -728,7 +736,8 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
     fLogOutputStream <<
       "Adding implicit part group '" <<
       fCurrentPartGroupNumber <<
-      "' to this visitor's part groups data" <<
+      "' to the part groups data" <<
+      ", partsCounter = " << fPartsCounter <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -741,7 +750,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
     fLogOutputStream <<
       "Pushing implicit part group '" <<
       fCurrentPartGroupNumber <<
-      "' onto this visitor's stack" <<
+      "' onto the stack" <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1308,6 +1317,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
       "', type: \"" <<
       msrPartGroup::partGroupTypeKindAsString (
         fCurrentPartGroupTypeKind) << "\""  <<
+      ", partsCounter = " << fPartsCounter <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1448,7 +1458,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
    fLogOutputStream <<
     "--------------------------------------------" <<
     endl <<
-    "Handling part name \"" << fCurrentPartID << "\"" <<
+    "Handling score part name \"" << fCurrentPartID << "\"" <<
+      ", partsCounter = " << fPartsCounter <<
     ", line " << inputLineNumber <<
     endl;
 
@@ -1535,7 +1546,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     fLogOutputStream <<
       "Adding part " <<
       part->getPartCombinedName () <<
-      " to this visitor's parts data" <<
+      " to the parts data" <<
+      ", partsCounter = " << fPartsCounter <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -1562,7 +1574,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
       inputLineNumber,
-      "AFTER handling part \"" + partID + "\"");
+      "AFTER handling score part \"" + partID + "\"");
   }
   
   gIndenter--;
@@ -1638,7 +1650,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
     part->
       setPartMsrName (fCurrentPartID);
 
-    // register it in this visitor's parts map
+    // register it in the parts map
     fPartsMap [fCurrentPartID] = part;
   */
   }
@@ -1654,7 +1666,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       inputLineNumber,
       "part \"" +
         fCurrentPartID +
-        "\" is not registered in this visitor's part map");
+        "\" is not registered in the part map");
   }
 
   if (gGeneralOptions->fTraceParts) {
@@ -2128,7 +2140,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
 
     s <<
       "part group '" << fCurrentPartGroupNumber << "'" <<
-      " is not known in this visitor's map";
+      " is not known in the map";
 
     msrMusicXMLError (
       inputLineNumber,
@@ -2257,7 +2269,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Pushing part group '" << fCurrentPartGroupNumber <<
-      "' onto this visitor's part group stack" <<
+      "' onto the part group stack" <<
       ", line " << inputLineNumber <<
       endl;
   }
