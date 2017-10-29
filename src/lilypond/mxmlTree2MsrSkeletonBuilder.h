@@ -285,6 +285,14 @@ class EXP mxmlTree2MsrSkeletonBuilder :
                                 int    inputLineNumber,
                                 string context);
 
+    void                      showPartGroupsVector (
+                                int    inputLineNumber,
+                                string context);
+
+    void                      showPartsVector (
+                                int    inputLineNumber,
+                                string context);
+
     void                      showPartGroupsStack (
                                 int    inputLineNumber,
                                 string context);
