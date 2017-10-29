@@ -2355,6 +2355,10 @@ class EXP lpsrScore : public lpsrElement
     void                  appendLyricsUseToStoreCommand (
                             S_msrStanza stanza);
 
+    // files includes
+
+    void                  addJianpuFileIncludeToScore ();
+
     // Scheme modules
 
     void                  addAccordionRegistrationSchemeModulesToScore ();

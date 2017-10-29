@@ -22,6 +22,7 @@
 #include "conversions.h"
 
 #include "msrOptions.h"
+#include "lilypondOptions.h"
 
 #include "msr2LpsrTranslator.h"
 
@@ -119,6 +120,12 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // fetch score header
   fLpsrScoreHeader =
     fLpsrScore-> getHeader();
+
+
+  // is Jianpu notation to be generated?
+  if (gLilypondOptions->fJianpu)
+    fLpsrScore->
+      setJianpuFileIncludeIsNeeded ();
 
 /* JMI
   // push it onto this visitors's stack,

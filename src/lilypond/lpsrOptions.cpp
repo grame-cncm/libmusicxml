@@ -117,7 +117,7 @@ R"(Write the contents of the LPSR data to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "tscheme", "traceSchemeFunctions",
+          "tsf", "traceSchemeFunctions",
 R"(Write a trace of the activity regarding Scheme functions to standard error.)",
           "traceSchemeFunctions",
           fTraceSchemeFunctions));

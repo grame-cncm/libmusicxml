@@ -2923,7 +2923,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   if (gLilypondOptions->fJianpu) {
     s <<
-      "\\jianpuMusic ";
+      " \\jianpuMusic";
   }
 
   string newContext = s.str ();

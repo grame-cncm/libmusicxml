@@ -3503,6 +3503,15 @@ R"(\markup {
 lpsrScore::~lpsrScore()
 {}
 
+void lpsrScore::setJianpuFileIncludeIsNeeded ()
+{
+  if (! fScmAndAccregSchemeModulesAreNeeded) {
+    addJianpuFileIncludeToScore ();
+    
+    fJianpuFileIncludeIsNeeded = true;    
+  }
+}
+
 void lpsrScore::setScmAndAccregSchemeModulesAreNeeded ()
 {
   if (! fScmAndAccregSchemeModulesAreNeeded) {
@@ -3510,42 +3519,6 @@ void lpsrScore::setScmAndAccregSchemeModulesAreNeeded ()
     
     fScmAndAccregSchemeModulesAreNeeded = true;    
   }
-}
-
-void lpsrScore::addAccordionRegistrationSchemeModulesToScore ()
-{
-  string
-    schemeModulesName =
-      "scm & accreg",
-      
-    schemeModulesDescription =
-R"(
-% Two modules are to be used in the right order to use accordion registration.
-)",
-
-    schemeModulesCode =
-R"(
-#(use-modules (scm accreg))
-)";
-
-  if (gLpsrOptions->fTraceSchemeFunctions) {
-    gLogIOstream <<
-      "Using Scheme modules '" << schemeModulesName << "'" <<
-      endl;
-  }
-
-  // create the Scheme function
-  S_lpsrSchemeFunction
-    scmAndAccregSchemeModules =
-      lpsrSchemeFunction::create (
-        1, // inputLineNumber, JMI ???
-        schemeModulesName,
-        schemeModulesDescription,
-        schemeModulesCode);
-
-  // register it in the Scheme functions map
-  fScoreSchemeFunctionsMap [schemeModulesName] =
-    scmAndAccregSchemeModules;
 }
 
 void lpsrScore::setTongueSchemeFunctionIsNeeded ()
@@ -3618,6 +3591,78 @@ R"(
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
     dateAndTimeSchemeFunctions;
+}
+
+void lpsrScore::addJianpuFileIncludeToScore ()
+{
+  string
+    schemeModulesName =
+      "jianpu include file",
+      
+    schemeModulesDescription =
+R"(
+% The definitions needed to produce jianpu scores.
+)",
+
+    schemeModulesCode =
+R"(
+\include "jianpu10a.ly"
+)";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    gLogIOstream <<
+      "Including Jianpu definition file '" << schemeModulesName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    scmAndAccregSchemeModules =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeModulesName,
+        schemeModulesDescription,
+        schemeModulesCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeModulesName] =
+    scmAndAccregSchemeModules;
+}
+
+void lpsrScore::addAccordionRegistrationSchemeModulesToScore ()
+{
+  string
+    schemeModulesName =
+      "scm & accreg",
+      
+    schemeModulesDescription =
+R"(
+% Two modules are to be used in the right order to use accordion registration.
+)",
+
+    schemeModulesCode =
+R"(
+#(use-modules (scm accreg))
+)";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    gLogIOstream <<
+      "Using Scheme modules '" << schemeModulesName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    scmAndAccregSchemeModules =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeModulesName,
+        schemeModulesDescription,
+        schemeModulesCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeModulesName] =
+    scmAndAccregSchemeModules;
 }
 
 void lpsrScore::addTongueSchemeFunctionToScore ()
