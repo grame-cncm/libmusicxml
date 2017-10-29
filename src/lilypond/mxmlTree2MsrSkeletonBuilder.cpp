@@ -113,7 +113,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
   fLogOutputStream <<
     "==> " << context <<
     ", line " << inputLineNumber <<
-    ", fPartGroupsMap contains:" <<
+    endl <<
+    "fPartGroupsMap:" <<
     endl;
     
   if (fPartGroupsMap.size ()) {
@@ -157,7 +158,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStartPositionsMap (
     endl <<
     "==> " << context <<
     ", line " << inputLineNumber <<
-    ", fPartGroupsStartPositionsMap contains:" <<
+    endl <<
+    "PartGroupsStartPositionsMap:" <<
     endl;
     
   if (fPartGroupsStartPositionsMap.size ()) {
@@ -201,7 +203,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
     endl <<
     "==> " << context <<
     ", line " << inputLineNumber <<
-    ", fPartGroupsStack contains:" <<
+    endl <<
+    "PartGroupsStack:" <<
     endl;
 
   if (! fPartGroupsStack.empty ()) {
@@ -250,7 +253,11 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsVector (
   string context)
 {
   fLogOutputStream <<
-    "Part groups vector:" <<
+    endl <<
+    "==> " << context <<
+    ", line " << inputLineNumber <<
+     endl <<
+    "fPartGroupsVector:" <<
     endl;
     
   gIndenter++;
@@ -275,7 +282,11 @@ void mxmlTree2MsrSkeletonBuilder::showPartsVector (
   string context)
 {
   fLogOutputStream <<
-    "Parts vector:" <<
+    endl <<
+    "==> " << context <<
+    ", line " << inputLineNumber <<
+    endl <<
+    "fPartsVector:" <<
     endl;
     
   gIndenter++;
@@ -758,7 +769,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   fPartGroupsStack.push (fImplicitPartGroup);
 
   if (gGeneralOptions->fTracePartGroups) {
-    showPartGroupsStack (
+    showPartGroupsData (
       inputLineNumber,
       "after pushing fImplicitPartGroup onto stack");
   }
