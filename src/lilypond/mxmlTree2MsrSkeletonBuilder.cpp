@@ -111,7 +111,6 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
   string context)
 {
   fLogOutputStream <<
-    endl <<
     "==> " << context <<
     ", line " << inputLineNumber <<
     ", fPartGroupsMap contains:" <<
@@ -245,6 +244,100 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
     endl;
 }
 
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsVector (
+  int    inputLineNumber,
+  string context)
+{
+  fLogOutputStream <<
+    "Part groups vector:" <<
+    endl;
+    
+  gIndenter++;
+  
+  for (unsigned int i = 0; i < fPartGroupsVector.size (); i++) {
+    fLogOutputStream <<
+      i + 1 << ": " <<
+      fPartGroupsVector [i]->getPartGroupCombinedName () <<
+      endl;
+  } // for
+  
+  fLogOutputStream <<
+    "------------------" <<
+    endl;
+    
+  gIndenter--;
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::showPartsVector (
+  int    inputLineNumber,
+  string context)
+{
+  fLogOutputStream <<
+    "Parts vector:" <<
+    endl;
+    
+  gIndenter++;
+  
+  for (unsigned int i = 0; i < fPartsVector.size (); i++) {
+    S_msrPart
+      part = fPartsVector [i];
+      
+    fLogOutputStream <<
+      i + 1 << ": " <<
+      part->getPartCombinedName () <<
+      ", uplink to " <<
+      part->
+        getPartPartGroupUplink ()->
+          getPartGroupCombinedName () <<
+      endl;
+  } // for
+  
+  fLogOutputStream <<
+    "------------------" <<
+    endl;
+    
+  gIndenter--;
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
+  int    inputLineNumber,
+  string context)
+{
+  fLogOutputStream <<
+    endl <<
+    ">>> ================================================" <<
+    endl;
+    
+  showPartGroupsMap (
+    inputLineNumber,
+    context);
+    /*
+  showStartedPartGroupsSet (
+    inputLineNumber,
+    context);
+    */
+
+  showPartGroupsStartPositionsMap (
+    inputLineNumber,
+    context);
+
+  showPartGroupsVector (
+    inputLineNumber,
+    context);
+
+  showPartsVector (
+    inputLineNumber,
+    context);
+
+  fLogOutputStream <<
+    "<<< ================================================" <<
+    endl <<
+    endl;
+}
+
 /*
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::showStartedPartGroupsSet (
@@ -360,100 +453,6 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupInData (
   // register it part groups start positions map
   fPartGroupsStartPositionsMap [partGroup] =
     fPartsCounter;
-}
-
-//________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsVector (
-  int    inputLineNumber,
-  string context)
-{
-  fLogOutputStream <<
-    "Part groups vector:" <<
-    endl;
-    
-  gIndenter++;
-  
-  for (unsigned int i = 0; i < fPartGroupsVector.size (); i++) {
-    fLogOutputStream <<
-      i + 1 << ": " <<
-      fPartGroupsVector [i]->getPartGroupCombinedName () <<
-      endl;
-  } // for
-  
-  fLogOutputStream <<
-    "------------------" <<
-    endl;
-    
-  gIndenter--;
-}
-
-//________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartsVector (
-  int    inputLineNumber,
-  string context)
-{
-  fLogOutputStream <<
-    "Parts vector:" <<
-    endl;
-    
-  gIndenter++;
-  
-  for (unsigned int i = 0; i < fPartsVector.size (); i++) {
-    S_msrPart
-      part = fPartsVector [i];
-      
-    fLogOutputStream <<
-      i + 1 << ": " <<
-      part->getPartCombinedName () <<
-      ", uplink to " <<
-      part->
-        getPartPartGroupUplink ()->
-          getPartGroupCombinedName () <<
-      endl;
-  } // for
-  
-  fLogOutputStream <<
-    "------------------" <<
-    endl;
-    
-  gIndenter--;
-}
-
-//________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
-  int    inputLineNumber,
-  string context)
-{
-  fLogOutputStream <<
-    endl <<
-    ">>> ================================================" <<
-    endl;
-    
-  showPartGroupsMap (
-    inputLineNumber,
-    context);
-    /*
-  showStartedPartGroupsSet (
-    inputLineNumber,
-    context);
-    */
-
-  showPartGroupsStartPositionsMap (
-    inputLineNumber,
-    context);
-
-  showPartGroupsVector (
-    inputLineNumber,
-    context);
-
-  showPartsVector (
-    inputLineNumber,
-    context);
-
-  fLogOutputStream <<
-    "<<< ================================================" <<
-    endl <<
-    endl;
 }
 
 //________________________________________________________________________
