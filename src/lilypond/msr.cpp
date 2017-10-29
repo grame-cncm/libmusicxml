@@ -26163,27 +26163,29 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
   // append clef to staff?
   bool doAppendClefToStaff = true;
     
-  if (
-    gMusicXMLOptions->fIgnoreRedundantClefs
-      &&
-    fStaffCurrentClef->isEqualTo (clef)) {
-    doAppendClefToStaff = false;
-  }
-  
-  else {
-    if (clef->isEqualTo (fStaffCurrentClef)) {
-      if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
-        gLogIOstream <<
-          "Clef '" <<
-          clef->clefAsString () <<
-          "' ignored because it is already present in staff " <<
-          getStaffName () <<
-          "\" in part " <<
-          fStaffPartUplink->getPartCombinedName () <<
-          endl;
-      }
-
+  if (fStaffCurrentClef) {
+    if (
+      gMusicXMLOptions->fIgnoreRedundantClefs
+        &&
+      fStaffCurrentClef->isEqualTo (clef)) {
       doAppendClefToStaff = false;
+    }
+    
+    else {
+      if (clef->isEqualTo (fStaffCurrentClef)) {
+        if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+          gLogIOstream <<
+            "Clef '" <<
+            clef->clefAsString () <<
+            "' ignored because it is already present in staff " <<
+            getStaffName () <<
+            "\" in part " <<
+            fStaffPartUplink->getPartCombinedName () <<
+            endl;
+        }
+  
+        doAppendClefToStaff = false;
+      }
     }
   }
   
@@ -26217,27 +26219,29 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
   // append key to staff?
   bool doAppendKeyToStaff = true;
     
-  if (
-    gMusicXMLOptions->fIgnoreRedundantKeys
-      &&
-    fStaffCurrentKey->isEqualTo (key)) {
-    doAppendKeyToStaff = false;
-  }
-  
-  else {
-    if (key->isEqualTo (fStaffCurrentKey)) {
-      if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
-        gLogIOstream <<
-          "Key '" <<
-          key->keyAsString () <<
-          "' ignored because it is already present in staff " <<
-          getStaffName () <<
-          "\" in part " <<
-          fStaffPartUplink->getPartCombinedName () <<
-          endl;
-      }
-
+  if (fStaffCurrentKey) {
+    if (
+      gMusicXMLOptions->fIgnoreRedundantKeys
+        &&
+      fStaffCurrentKey->isEqualTo (key)) {
       doAppendKeyToStaff = false;
+    }
+    
+    else {
+      if (key->isEqualTo (fStaffCurrentKey)) {
+        if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
+          gLogIOstream <<
+            "Key '" <<
+            key->keyAsString () <<
+            "' ignored because it is already present in staff " <<
+            getStaffName () <<
+            "\" in part " <<
+            fStaffPartUplink->getPartCombinedName () <<
+            endl;
+        }
+  
+        doAppendKeyToStaff = false;
+      }
     }
   }
   
@@ -26270,28 +26274,30 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
   
   // append time to staff?
   bool doAppendTimeToStaff = true;
-    
-  if (
-    gMusicXMLOptions->fIgnoreRedundantTimes
-      &&
-    fStaffCurrentTime->isEqualTo (time)) {
-    doAppendTimeToStaff = false;
-  }
-  
-  else {
-    if (time->isEqualTo (fStaffCurrentTime)) {
-      if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
-        gLogIOstream <<
-          "Time '" <<
-          time->timeAsString () <<
-          "' ignored because it is already present in staff " <<
-          getStaffName () <<
-          "\" in part " <<
-          fStaffPartUplink->getPartCombinedName () <<
-          endl;
-      }
 
+  if (fStaffCurrentTime) {
+    if (
+      gMusicXMLOptions->fIgnoreRedundantTimes
+        &&
+      fStaffCurrentTime->isEqualTo (time)) {
       doAppendTimeToStaff = false;
+    }
+    
+    else {
+      if (time->isEqualTo (fStaffCurrentTime)) {
+        if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
+          gLogIOstream <<
+            "Time '" <<
+            time->timeAsString () <<
+            "' ignored because it is already present in staff " <<
+            getStaffName () <<
+            "\" in part " <<
+            fStaffPartUplink->getPartCombinedName () <<
+            endl;
+        }
+  
+        doAppendTimeToStaff = false;
+      }
     }
   }
   

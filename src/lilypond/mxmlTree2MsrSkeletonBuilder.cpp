@@ -1415,7 +1415,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
       endl;
   }
 
-  fLogOutputStream << "fPartsCounter = " << fPartsCounter << endl;
+// JMI  fLogOutputStream << "fPartsCounter = " << fPartsCounter << endl;
 
   fPartsCounter++;
   fPartsVector.push_back (part);
