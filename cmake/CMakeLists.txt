@@ -8,6 +8,23 @@ if(CMAKE_CONFIGURATION_TYPES)
 endif()
 
 #######################################
+# mimimal tools versions check
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    # require at least gcc 4.8.1
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8.1)
+        message(FATAL_ERROR "GCC version must be at least 4.8.1 to build libmusicxml2!")
+    endif()
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # require at least clang 3.3
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3)
+        message(FATAL_ERROR "Clang version must be at least 3.3 to build libmusicxml2!")
+    endif()
+else()
+    message(WARNING "Building libmusicxml2 has only been tested with Clang and GCC.")
+endif()
+
+
+#######################################
 # versions management
 set (VERSION 3.00)
 set (STRVERS "v.3.00")
