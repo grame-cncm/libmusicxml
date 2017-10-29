@@ -370,16 +370,20 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsVector (
   fLogOutputStream <<
     "Part groups vector:" <<
     endl;
+    
   gIndenter++;
+  
   for (unsigned int i = 0; i < fPartGroupsVector.size (); i++) {
     fLogOutputStream <<
       i + 1 << ": " <<
       fPartGroupsVector [i]->getPartGroupCombinedName () <<
       endl;
   } // for
+  
   fLogOutputStream <<
     "------------------" <<
     endl;
+    
   gIndenter--;
 }
 
@@ -391,7 +395,9 @@ void mxmlTree2MsrSkeletonBuilder::showPartsVector (
   fLogOutputStream <<
     "Parts vector:" <<
     endl;
+    
   gIndenter++;
+  
   for (unsigned int i = 0; i < fPartsVector.size (); i++) {
     S_msrPart
       part = fPartsVector [i];
@@ -405,9 +411,11 @@ void mxmlTree2MsrSkeletonBuilder::showPartsVector (
           getPartGroupCombinedName () <<
       endl;
   } // for
+  
   fLogOutputStream <<
     "------------------" <<
     endl;
+    
   gIndenter--;
 }
 
@@ -416,6 +424,11 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   int    inputLineNumber,
   string context)
 {
+  fLogOutputStream <<
+    endl <<
+    ">>> ================================================" <<
+    endl;
+    
   showPartGroupsMap (
     inputLineNumber,
     context);
@@ -436,6 +449,11 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   showPartsVector (
     inputLineNumber,
     context);
+
+  fLogOutputStream <<
+    "<<< ================================================" <<
+    endl <<
+    endl;
 }
 
 //________________________________________________________________________
