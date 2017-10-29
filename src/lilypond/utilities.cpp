@@ -34,11 +34,10 @@ using namespace std;
 namespace MusicXML2 {
 
 //______________________________________________________________________________
-S_timingItem createTimingItem (
+S_timingItem timingItem::createTimingItem (
   string         activity,
   string         description,
-  timingItem::timingItemKind
-                 kind,
+  timingItemKind kind,
   clock_t        startClock,
   clock_t        endClock)
 {
@@ -72,6 +71,7 @@ timing::timing ()
 timing::~timing ()
 {}
 
+
 void timing::appendTimingItem (
   string         activity,
   string         description,
@@ -82,7 +82,7 @@ void timing::appendTimingItem (
 {
   S_timingItem
     timingItem =
-      createTimingItem (
+      timingItem::createTimingItem (
         activity,
         description,
         kind,
@@ -117,11 +117,15 @@ void timing::print (ostream& os) const
     endl <<
     endl <<
     setw (activityWidth) << "Activity" <<
+    " " <<
     setw (activityWidth) << "Description" <<
+    " " <<
     setw (kindWidth)     << "Kind" <<
+    " " <<
     setw (secondsWidth)  << "CPU (sec)" <<
     endl <<
     setw (activityWidth) << "--------" <<
+    setw (activityWidth) << "-----------" <<
     setw (kindWidth)     << "----" <<
     setw (secondsWidth)  << "-------" <<
     endl <<
@@ -138,7 +142,10 @@ void timing::print (ostream& os) const
     totalClock += timingItemClock;
     
     os << left <<
-      setw (activityWidth) << (*i)->fActivity;
+      setw (activityWidth) << (*i)->fActivity <<
+      " " <<
+      setw (activityWidth) << (*i)->fActivity <<
+      " ";
 
     switch ((*i)->fKind) {
       case timingItem::kMandatory:
