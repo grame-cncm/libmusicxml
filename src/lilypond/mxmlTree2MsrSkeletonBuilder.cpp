@@ -316,6 +316,11 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   fLogOutputStream <<
     endl;
   
+  showPartGroupsStack ();
+
+  fLogOutputStream <<
+    endl;
+  
   showPartsVector ();
 
   fLogOutputStream <<
@@ -484,7 +489,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Appending part group '" <<
-      fImplicitPartGroup->getPartGroupNumber () <<
+      partGroupToBeStarted->getPartGroupNumber () <<
       "' to MSR score" <<
       ", line " << inputLineNumber <<
       endl;
