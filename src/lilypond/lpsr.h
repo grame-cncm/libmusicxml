@@ -2292,6 +2292,12 @@ class EXP lpsrScore : public lpsrElement
                                   changeAssocValue (s.str());
                               }
 
+    // files includes
+    void                  setJianpuFileIncludeIsNeeded ();
+                        
+    bool                  getJianpuFileIncludeIsNeeded () const
+                              { return fJianpuFileIncludeIsNeeded; }
+
     // Scheme modules
     void                  setScmAndAccregSchemeModulesAreNeeded ();
                         
@@ -2421,6 +2427,9 @@ class EXP lpsrScore : public lpsrElement
 
     // score command
     S_lpsrScoreBlock      fScoreBlock;
+
+    // files includes
+    bool                  fJianpuFileIncludeIsNeeded;
 
     // Scheme modules
     bool                  fScmAndAccregSchemeModulesAreNeeded;

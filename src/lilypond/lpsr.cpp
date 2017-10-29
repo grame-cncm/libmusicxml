@@ -2355,20 +2355,20 @@ void lpsrPaper::print (ostream& os) {
 
   if (fBetweenSystemSpace > 0) {
     os << left <<
-    setw (fieldWidth) <<
-    "between-system-space" << " = " <<
-    setprecision(4) << fBetweenSystemSpace << "\\cm" <<
-    endl;
+      setw (fieldWidth) <<
+      "between-system-space" << " = " <<
+      setprecision(4) << fBetweenSystemSpace << "\\cm" <<
+      endl;
       
     emptyPaper = false;
   }
 
   if (fPageTopSpace > 0) {
     os << left <<
-    setw (fieldWidth) <<
-    "page-top-space" << " = " <<
-    setprecision(4) << fPageTopSpace << "\\cm" <<
-    endl;
+      setw (fieldWidth) <<
+      "page-top-space" << " = " <<
+      setprecision(4) << fPageTopSpace << "\\cm" <<
+      endl;
       
     emptyPaper = false;
   }
@@ -2377,40 +2377,40 @@ void lpsrPaper::print (ostream& os) {
 
   if (fOddHeaderMarkup.size ()) {
     os << left <<
-    setw (fieldWidth) <<
-    "oddHeaderMarkup" << " = " <<
-    fOddHeaderMarkup <<
-    endl;
+      setw (fieldWidth) <<
+      "oddHeaderMarkup" << " = " <<
+      fOddHeaderMarkup <<
+      endl;
       
     emptyPaper = false;
   }
 
   if (fEvenHeaderMarkup.size ()) {
     os << left <<
-    setw (fieldWidth) <<
-    "evenHeaderMarkup" << " = " <<
-    fEvenHeaderMarkup <<
-    endl;
+      setw (fieldWidth) <<
+      "evenHeaderMarkup" << " = " <<
+      fEvenHeaderMarkup <<
+      endl;
       
     emptyPaper = false;
   }
 
   if (fOddFooterMarkup.size ()) {
     os << left <<
-    setw (fieldWidth) <<
-    "oddFooterMarkup" << " = " <<
-    fOddFooterMarkup <<
-    endl;
+      setw (fieldWidth) <<
+      "oddFooterMarkup" << " = " <<
+      fOddFooterMarkup <<
+      endl;
       
     emptyPaper = false;
   }
 
   if (fEvenFooterMarkup.size ()) {
     os << left <<
-    setw (fieldWidth) <<
-    "evenFooterMarkup" << " = " <<
-    fEvenFooterMarkup <<
-    endl;
+      setw (fieldWidth) <<
+      "evenFooterMarkup" << " = " <<
+      fEvenFooterMarkup <<
+      endl;
       
     emptyPaper = false;
   }
@@ -3288,6 +3288,10 @@ lpsrScore::lpsrScore (
   if (gLilypondOptions->fLilypondCompileDate) {
     // create the date and time functions
     addDateAndTimeSchemeFunctionsToScore ();
+  }
+
+  if (gLilypondOptions->fJianpu) {
+    // create the Jianpu include command
   }
   
   // create the header

@@ -2882,41 +2882,49 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     staff =
       elt->getStaff ();
       
-  string staffContextName;
+  string staffContextCommand;
   
   switch (staff->getStaffKind ()) {
     case msrStaff::kMasterStaff:
-      staffContextName = "\\new Staff";
+      staffContextCommand = "\\new Staff";
       break;
       
     case msrStaff::kRegularStaff:
-      staffContextName = "\\new Staff";
+      if (gLilypondOptions->fJianpu)
+        staffContextCommand = "\\new JianpuStaff";
+      else
+        staffContextCommand = "\\new Staff";
       break;
       
     case msrStaff::kTablatureStaff:
-      staffContextName = "\\new TabStaff";
+      staffContextCommand = "\\new TabStaff";
       break;
       
     case msrStaff::kPercussionStaff:
-      staffContextName = "\\new DrumStaff";
+      staffContextCommand = "\\new DrumStaff";
       break;
       
     case msrStaff::kHarmonyStaff:
-      staffContextName = "\\new kHarmonyStaff???";
+      staffContextCommand = "\\new kHarmonyStaff???";
       break;
       
     case msrStaff::kFiguredBassStaff:
-      staffContextName = "\\new FiguredBassStaff???";
+      staffContextCommand = "\\new FiguredBassStaff???";
       break;
   } // switch
 
   stringstream s;
 
   s <<
-    staffContextName <<
+    staffContextCommand <<
     " = \"" <<
     staff->getStaffName () <<
     "\"";
+
+  if (gLilypondOptions->fJianpu) {
+    s <<
+      "\\jianpuMusic ";
+  }
 
   string newContext = s.str ();
       
