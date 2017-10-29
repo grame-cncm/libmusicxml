@@ -482,24 +482,12 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
         fCurrentPartGroupSymbolKind,
         fCurrentPartGroupSymbolDefaultX,
         fCurrentPartGroupBarlineKind,
-        0, // partGroupPartGroupUplink JMI
+        0, // partGroupPartGroupUplink will be set upon 'stop'
         fMsrScore);
 
-  // append it to the MSR score
-  if (gGeneralOptions->fTracePartGroups) {
-    fLogOutputStream <<
-      "Appending part group '" <<
-      partGroupToBeStarted->getPartGroupNumber () <<
-      "' to MSR score" <<
-      ", partsCounter = " << fPartsCounter <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-      
-  fMsrScore->
-    addPartGroupToScore (
-      partGroupToBeStarted);
-    
+  // partGroupToBeStarted will be appended to the MSR score
+  // upon 'stop', once it is complete
+
   // register it in the part groups data
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
@@ -524,12 +512,6 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
 
   fPartGroupsStack.push_front (
     partGroupToBeStarted);
-  
-  if (gGeneralOptions->fTracePartGroups) {
-    showPartGroupsData (
-      inputLineNumber,
-      "after pushing partGroupToBeStarted");
-  }
   
   if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
@@ -591,11 +573,12 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   // is the part group to be stopped the current one,
   // i.e. the top of the stack?
   if (partGroupToBeStopped == currentPartGroup) {
+    
     // pop partGroupToBeStopped from the stack
     fPartGroupsStack.pop_front ();
     
-    // partGroupToBeStopped is nested in the next to top
-    // part group in the stack
+    // partGroupToBeStopped is nested in the
+    // next to top part group in the stack
 
     S_msrPartGroup
       newCurrentPartGroup =
@@ -617,6 +600,42 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
     partGroupToBeStopped->
       setPartGroupPartGroupUplink (
         newCurrentPartGroup);
+
+    // appending partGroupToBeStopped to newCurrentPartGroup
+    if (gGeneralOptions->fTracePartGroups) {
+      fLogOutputStream <<
+        "Appending sub part group " <<
+        partGroupToBeStopped->
+          getPartGroupCombinedName () <<
+        "' to " <<
+        newCurrentPartGroup->
+          getPartGroupCombinedName () << 
+        ", line " << inputLineNumber <<
+        endl;      
+    }
+
+    newCurrentPartGroup->
+      appendSubPartGroupToPartGroup (
+        partGroupToBeStopped);
+
+    // should the current part group be append to the score skeleton?
+    /*
+       // append it to the MSR score
+  if (gGeneralOptions->fTracePartGroups) {
+    fLogOutputStream <<
+      "Appending part group '" <<
+      partGroupToBeStarted->getPartGroupNumber () <<
+      "' to MSR score" <<
+      ", partsCounter = " << fPartsCounter <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+      
+  fMsrScore->
+    addPartGroupToScore (
+      partGroupToBeStarted);
+*/    
+
       
     if (gGeneralOptions->fTracePartGroupsDetails) {
       showPartGroupsData (
@@ -626,9 +645,11 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   }
 
   else {
+    
     // is the part group to be stopped below the current one in the stack?
     // this can happen because Finale for example can produce successive 'stop's
     // not in the order that nesting would imply
+    
   }
 
   
@@ -745,18 +766,12 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   fPartGroupsStack.push_front (
     fImplicitPartGroup);
 
-  if (gGeneralOptions->fTracePartGroups) {
-    showPartGroupsData (
-      inputLineNumber,
-      "after pushing fImplicitPartGroup onto stack");
-  }
-
 // JMI  fPartGroupsList.push_front (fImplicitPartGroup);
 
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
       inputLineNumber,
-      "after adding fImplicitPartGroup to part groups data");
+      "after creating fImplicitPartGroup");
   }
   fCurrentPartUsesImplicitPartGroup = true;
 }
@@ -933,6 +948,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
     // force an implicit part group "stop" on it
     handlePartGroupStop (
       elt->getInputLineNumber ());
+
+    // forget about the implicit part group // JMI ???
+    fImplicitPartGroup = 0;
   }
 }
 
@@ -1137,6 +1155,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
   switch (fCurrentPartGroupTypeKind) {
     
     case msrPartGroup::kStartPartGroupType:
+      fCurrentPartGroupName = "";
+      fCurrentPartGroupDisplayText = "";
+      fCurrentPartGroupAccidentalText = "";
+      fCurrentPartGroupAbbreviation = "";
+      fCurrentPartGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
+      fCurrentPartGroupSymbolDefaultX = INT_MIN;
+      fCurrentPartGroupBarlineKind = msrPartGroup::kPartGroupBarlineYes;
       break;
       
     case msrPartGroup::kStopPartGroupType:
@@ -1147,14 +1172,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
     case msrPartGroup::k_NoPartGroupType:
       break;
   } // switch
-
-  fCurrentPartGroupName = "";
-  fCurrentPartGroupDisplayText = "";
-  fCurrentPartGroupAccidentalText = "";
-  fCurrentPartGroupAbbreviation = "";
-  fCurrentPartGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
-  fCurrentPartGroupSymbolDefaultX = INT_MIN;
-  fCurrentPartGroupBarlineKind = msrPartGroup::kPartGroupBarlineYes;
 }
 
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_name& elt)
@@ -1459,7 +1476,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     createImplicitPartGroup (
       inputLineNumber);
 
-    if (gGeneralOptions->fTracePartGroups) {
+    if (gGeneralOptions->fTracePartGroupsDetails) {
       showPartGroupsData (
         inputLineNumber,
         "after creating implicit group on visitEnd (S_score_part&)");
@@ -1547,19 +1564,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     
   fPartsMap [partID] = part;
   
-  if (fImplicitPartGroup) {
-    // force an implicit part group "stop" on it
-    // fCurrentPartGroupNumber holds the value 1
-    handlePartGroupStop (
-      inputLineNumber);
-
-    // forget the implicit group JNMI
-  //  fImplicitPartGroup = 0;
-  }
-
-  fCurrentPartUsesImplicitPartGroup = false;
-
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER handling score part \"" + partID + "\"");
@@ -1609,14 +1614,14 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       createImplicitPartGroup (
         inputLineNumber);
 
-      if (gGeneralOptions->fTracePartGroups) {
+      if (gGeneralOptions->fTracePartGroupsDetails) {
         showPartGroupsData (
           inputLineNumber,
           "after creating implicit group on visitStart (S_part&");
       }
     }
 
-    if (gGeneralOptions->fTracePartGroups) {
+    if (gGeneralOptions->fTracePartGroupsDetails) {
       showPartGroupsData (
         inputLineNumber,
         "before creating the part groups");
@@ -2177,7 +2182,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
       // the stoppped part group is the top-level one
     }
 
-    if (gGeneralOptions->fTracePartGroups) {
+    if (gGeneralOptions->fTracePartGroupsDetails) {
       showPartGroupsData (
         inputLineNumber,
         "after popping part group '" + partGroupStackTop->getPartGroupCombinedName () + "'");
@@ -2263,7 +2268,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
   }
 
   fPartGroupsStack.push (partGroupToBeStarted);
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsStack (
       inputLineNumber,
       "after pushing partGroupToBeStarted");
@@ -2408,7 +2413,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
 
 
 /* JMI
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "before fetching part groups stack top");
