@@ -100,10 +100,10 @@ ostream& operator<< (ostream& os, const timing& tim) {
 void timing::print (ostream& os) const
 {
   const int
-    activityWidth     =  7,
-    descriptionWidth  = 35,
-    kindWidth         = 12,
-    secondsWidth      =  8,
+    activityWidth     =  8,
+    descriptionWidth  = 31,
+    kindWidth         =  9,
+    secondsWidth      =  9,
     secondsPrecision  =  6;
 
   clock_t
@@ -117,17 +117,21 @@ void timing::print (ostream& os) const
     endl <<
     endl <<
     setw (activityWidth) << "Activity" <<
-    " " <<
-    setw (activityWidth) << "Description" <<
-    " " <<
+    "  " <<
+    setw (descriptionWidth) << "Description" <<
+    "  " <<
     setw (kindWidth)     << "Kind" <<
-    " " <<
+    "  " <<
     setw (secondsWidth)  << "CPU (sec)" <<
     endl <<
-    setw (activityWidth) << "--------" <<
-    setw (activityWidth) << "-----------" <<
-    setw (kindWidth)     << "----" <<
-    setw (secondsWidth)  << "-------" <<
+    
+    setw (activityWidth) << replicateString ("-", activityWidth) <<
+    "  " <<
+    setw (descriptionWidth) << replicateString ("-", descriptionWidth) <<
+    "  " <<
+    setw (kindWidth) << replicateString ("-", kindWidth) <<
+    "  " <<
+    setw (secondsWidth) << replicateString ("-", secondsWidth) <<
     endl <<
     endl;
 
@@ -143,9 +147,9 @@ void timing::print (ostream& os) const
     
     os << left <<
       setw (activityWidth) << (*i)->fActivity <<
-      " " <<
-      setw (activityWidth) << (*i)->fActivity <<
-      " ";
+      "  " <<
+      setw (descriptionWidth) << (*i)->fDescription <<
+      "  ";
 
     switch ((*i)->fKind) {
       case timingItem::kMandatory:
@@ -161,6 +165,7 @@ void timing::print (ostream& os) const
     } // switch
 
     os <<
+      "  " <<
       setw (secondsWidth) <<
       setprecision(secondsPrecision) <<
       left <<
@@ -169,28 +174,37 @@ void timing::print (ostream& os) const
   } // for
 
   const int
-    totalClockWidth          = 12,
-    totalMandatoryClockWidth = 12,
-    totalOptionalClockWidth  = 12,
+    totalClockWidth          =  7,
+    totalMandatoryClockWidth =  9,
+    totalOptionalClockWidth  = 10,
     totalsPrecision          =  6;
 
-  os <<
+  os << left <<
     endl <<
-    left <<
     setw (totalClockWidth)            << "Total" <<
+    "    " <<
     setw (totalMandatoryClockWidth)   << "Mandatory" <<
+    "  " <<
     setw (totalOptionalClockWidth)    << "Optional" <<
     endl <<
-    setw (totalClockWidth) << "-----" <<
-    setw (totalMandatoryClockWidth)   << "---------" <<
-    setw (totalOptionalClockWidth)    << "--------" <<
-    endl <<
+    
+    setw (totalClockWidth) <<
+    replicateString ("-", totalClockWidth) <<
+    "    " <<
+    setw (totalMandatoryClockWidth) <<
+    replicateString ("-", totalMandatoryClockWidth) <<
+    "  " <<
+    setw (secondsWidth) <<
+    replicateString ("-", secondsWidth) <<
     setprecision(totalsPrecision) <<
-    left <<
+    endl <<
+    
     setw (totalClockWidth) <<
     float(totalClock) / CLOCKS_PER_SEC <<
+    "    " <<
     setw (totalMandatoryClockWidth) <<
     float(totalMandatoryClock) / CLOCKS_PER_SEC <<
+    "  " <<
     setw (totalOptionalClockWidth) <<
     float(totalOptionalClock) / CLOCKS_PER_SEC <<
     endl << endl;
@@ -395,6 +409,19 @@ outputLineElementsCounter& outputLineElementsCounter::increment (int value)
 
 outputLineElementsCounter
 outputLineElementsCounter::gOutputLineElementsCounter (cout);
+
+//______________________________________________________________________________
+string replicateString (
+  string str,
+  int    times)
+{
+  string result;
+  
+  for (int i = 0; i < times; i++)
+    result += str;
+
+  return result;
+}
 
 //______________________________________________________________________________
 string int2EnglishWord (int n)

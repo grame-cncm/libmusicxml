@@ -399,6 +399,14 @@ struct stringSpaceReplacer
 \brief A utility to convert small positive integers to English words.
 */
 //______________________________________________________________________________
+string replicateString (
+  string str,
+  int    times);
+
+/*!
+\brief A utility to convert small positive integers to English words.
+*/
+//______________________________________________________________________________
 string int2EnglishWord (int n);
 
 /*!
