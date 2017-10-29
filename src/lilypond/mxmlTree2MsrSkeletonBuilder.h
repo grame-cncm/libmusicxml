@@ -246,19 +246,27 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // we use a map to access them by part group number
     map<int, S_msrPartGroup>  fPartGroupsMap;
     
+    void                      showPartGroupsMap ();
+
     S_msrPartGroup            fetchPartGroupInTheMap (
                                 int partGroupNumber);
-
-    int                       fPartGroupsCounter;
-    vector<S_msrPartGroup>    fPartGroupsVector;
 
     // part groups start positions (fPartsCounter) are used
     // to determine which is nested in which
     map<S_msrPartGroup, int>  fPartGroupsStartPositionsMap;
 
+    void                      showPartGroupsStartPositionsMap ();
+
+    int                       fPartGroupsCounter;
+    vector<S_msrPartGroup>    fPartGroupsVector;
+
+    void                      showPartGroupsVector ();
+
     int                       fPartsCounter;
     vector<S_msrPart>         fPartsVector;
     
+    void                      showPartsVector ();
+
     // MusicXML allows part groups to overlap,
     // we use a list in which part groups are orderd by
     // increasing part group <default-x>
@@ -272,30 +280,12 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // handling 'start' and 'stop'
     stack<S_msrPartGroup>     fPartGroupsStack;
 
+    void                      showPartGroupsStack ();
+
     S_msrPartGroup            fetchCurrentPartGroup ();
 
     void                      registerPartGroupInData (
                                 S_msrPartGroup partGroup);
-                                
-    void                      showPartGroupsMap (
-                                int    inputLineNumber,
-                                string context);
-
-    void                      showPartGroupsStartPositionsMap (
-                                int    inputLineNumber,
-                                string context);
-
-    void                      showPartGroupsVector (
-                                int    inputLineNumber,
-                                string context);
-
-    void                      showPartsVector (
-                                int    inputLineNumber,
-                                string context);
-
-    void                      showPartGroupsStack (
-                                int    inputLineNumber,
-                                string context);
         
 /* JMI                                    
     void                      showStartedPartGroupsSet (
