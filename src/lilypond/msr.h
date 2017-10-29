@@ -10502,6 +10502,13 @@ class EXP msrPartGroup : public msrElement
     // ------------------------------------------------------
 
     // uplinks
+    void                  setPartGroupPartGroupUplink (
+                            S_msrPartGroup partGroup)
+                              {
+                                fPartGroupPartGroupUplink =
+                                  partGroup;
+                              }
+
     S_msrPartGroup        getPartGroupPartGroupUplink () const
                               { return fPartGroupPartGroupUplink; }
 

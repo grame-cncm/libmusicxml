@@ -92,7 +92,7 @@ void mxmlTree2MsrSkeletonBuilder::browseMxmlTree (
 }
 
 //______________________________________________________________________________
-S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchPartGroupInTheMap (
+S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchPartGroupFromTheMap (
   int partGroupNumber)
 {
   S_msrPartGroup result;
@@ -204,18 +204,12 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack ()
       
     for ( ; ; ) {
       fLogOutputStream <<
-        "| ";
-        
-      fLogOutputStream <<
+        "v " <<
         (*i)->getPartGroupCombinedName () <<
         " starts at position " <<
         fPartGroupsStartPositionsMap [(*i)] <<
         endl;
-        
       if (++i == iEnd) break;
-
-      fLogOutputStream <<
-        "v ";
       // no endl here
     } // for
     
@@ -420,7 +414,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsList (
 */
 
 //________________________________________________________________________
-S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchCurrentPartGroup ()
+S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchCurrentPartGroupFromStack ()
 {
   S_msrPartGroup result;
 
@@ -537,80 +531,6 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
       "after pushing partGroupToBeStarted");
   }
   
-
-/*
-  S_msrPartGroup
-    partGroupToBeStarted =
-      fetchPartGroupInTheMap (
-        fCurrentPartGroupNumber);
-
-  if (partGroupToBeStarted) {
-    stringstream s;
-
-    s <<
-      "part group '" << fCurrentPartGroupNumber << "'" <<
-      " is already known";
-      
-    msrMusicXMLError (
-      inputLineNumber,
-      s.str ());
-  }
-
-  // the current part group is either null
-  // or the head of the part group list
-  S_msrPartGroup
-    currentPartGroup =
-      fPartGroupsList.size ()
-        ? fPartGroupsList.front ()
-        : 0;
-        
-  if (! partGroupToBeStarted) {
-    // no, create it
-    partGroupToBeStarted =
-      msrPartGroup::create (
-        inputLineNumber,
-        fCurrentPartGroupNumber,
-        fCurrentPartGroupName,
-        fCurrentPartGroupDisplayText,
-        fCurrentPartGroupAccidentalText,
-        fCurrentPartGroupAbbreviation,
-        fCurrentPartGroupSymbolKind,
-        fCurrentPartGroupSymbolDefaultX,
-        fCurrentPartGroupBarlineKind,
-        currentPartGroup,
-        fMsrScore);
-
-    // register it in the part groups data
-    if (gGeneralOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Adding part group " << fCurrentPartGroupNumber <<
-        " to visitor's part groups data" <<
-      ", partsCounter = " << fPartsCounter <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-
-    fPartGroupsVector [++fPartGroupsCounter] =
-      partGroupToBeStarted;
-*/
-
-    /*
-    fPartGroupsMap [fCurrentPartGroupNumber] =
-      partGroupToBeStarted;
-
-    // insert it into the started part group set of this visitor
-    if (gGeneralOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Inserting part group " << fCurrentPartGroupNumber <<
-        " into visitor's part started part groups set" <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-
-    fStartedPartGroupsSet.insert (
-      partGroupToBeStarted);
-*/
-
   if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
@@ -631,7 +551,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   // is the part group to be stopped known?
   S_msrPartGroup
     partGroupToBeStopped =
-      fetchPartGroupInTheMap (
+      fetchPartGroupFromTheMap (
         fCurrentPartGroupNumber);
 
   if (! partGroupToBeStopped) {
@@ -643,11 +563,75 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       " not found in the part groups map" <<
       ", line " << inputLineNumber <<
       endl;
+      
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str ());
+  }
+
+  // fetch current part group
+  S_msrPartGroup
+    currentPartGroup =
+      fetchCurrentPartGroupFromStack ();
+
+  if (! currentPartGroup) {
+    // the stack is empty
+    stringstream s;
+
+    s <<
+      "there is no current part group while handlling 'stop' on part group '" <<
+      fCurrentPartGroupNumber << "'" <<
+      " to";
+      
     msrInternalError (
       inputLineNumber,
       s.str ());
   }
 
+  // is the part group to be stopped the current one,
+  // i.e. the top of the stack?
+  if (partGroupToBeStopped == currentPartGroup) {
+    // pop partGroupToBeStopped from the stack
+    fPartGroupsStack.pop_front ();
+    
+    // partGroupToBeStopped is nested in the next to top
+    // part group in the stack
+
+    S_msrPartGroup
+      newCurrentPartGroup =
+        fetchCurrentPartGroupFromStack ();
+
+    // set partGroupToBeStopped's uplink to newCurrentPartGroup;
+    if (gGeneralOptions->fTracePartGroups) {
+      fLogOutputStream <<
+        "Setting the uplink of part group " <<
+        partGroupToBeStopped->
+          getPartGroupCombinedName () <<
+        "' to " <<
+        newCurrentPartGroup->
+          getPartGroupCombinedName () << 
+        ", line " << inputLineNumber <<
+        endl;      
+    }
+  
+    partGroupToBeStopped->
+      setPartGroupPartGroupUplink (
+        newCurrentPartGroup);
+      
+    if (gGeneralOptions->fTracePartGroupsDetails) {
+      showPartGroupsData (
+        inputLineNumber,
+        "AFTER popping nested part group from the stack");
+    }
+  }
+
+  else {
+    // is the part group to be stopped below the current one in the stack?
+    // this can happen because Finale for example can produce successive 'stop's
+    // not in the order that nesting would imply
+  }
+
+  
 /* JMI
   // remove the part group to be stopped from the start part groups set
   if (gGeneralOptions->fTracePartGroups) {
@@ -1494,13 +1478,13 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   // fetch current part group
   S_msrPartGroup
     currentPartGroup =
-      fetchCurrentPartGroup ();
+      fetchCurrentPartGroupFromStack ();
 
   if (! currentPartGroup) {
     stringstream s;
 
     s <<
-      "there is not current part group to append part \"" <<
+      "there is no current part group to append part \"" <<
       fCurrentPartID << "\"" <<
       " to";
       
@@ -1640,7 +1624,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
 
 /* JMI      
     // fetch current part group
-    partGroup = fetchCurrentPartGroup ();        
+    partGroup = fetchCurrentPartGroupFromStack ();        
   
     // create the part and add it to the current part group
     S_msrPart
@@ -2136,7 +2120,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
   // is the part group to be stopped known?
   S_msrPartGroup
     partGroupToBeStopped =
-      fetchPartGroupInTheMap (
+      fetchPartGroupFromTheMap (
         fCurrentPartGroupNumber);
 
   if (! partGroupToBeStopped) {
@@ -2228,7 +2212,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
   // is the part group to be stopped known?
   S_msrPartGroup
     partGroupToBeStarted =
-      fetchPartGroupInTheMap (
+      fetchPartGroupFromTheMap (
         fCurrentPartGroupNumber);
 
   if (partGroupToBeStarted) {
@@ -2450,4 +2434,78 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
     currentPartGroup =
       fPartGroupsList.front ();
    */
+
+
+/*
+  S_msrPartGroup
+    partGroupToBeStarted =
+      fetchPartGroupFromTheMap (
+        fCurrentPartGroupNumber);
+
+  if (partGroupToBeStarted) {
+    stringstream s;
+
+    s <<
+      "part group '" << fCurrentPartGroupNumber << "'" <<
+      " is already known";
+      
+    msrMusicXMLError (
+      inputLineNumber,
+      s.str ());
+  }
+
+  // the current part group is either null
+  // or the head of the part group list
+  S_msrPartGroup
+    currentPartGroup =
+      fPartGroupsList.size ()
+        ? fPartGroupsList.front ()
+        : 0;
+        
+  if (! partGroupToBeStarted) {
+    // no, create it
+    partGroupToBeStarted =
+      msrPartGroup::create (
+        inputLineNumber,
+        fCurrentPartGroupNumber,
+        fCurrentPartGroupName,
+        fCurrentPartGroupDisplayText,
+        fCurrentPartGroupAccidentalText,
+        fCurrentPartGroupAbbreviation,
+        fCurrentPartGroupSymbolKind,
+        fCurrentPartGroupSymbolDefaultX,
+        fCurrentPartGroupBarlineKind,
+        currentPartGroup,
+        fMsrScore);
+
+    // register it in the part groups data
+    if (gGeneralOptions->fTracePartGroups) {
+      fLogOutputStream <<
+        "Adding part group " << fCurrentPartGroupNumber <<
+        " to visitor's part groups data" <<
+      ", partsCounter = " << fPartsCounter <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+
+    fPartGroupsVector [++fPartGroupsCounter] =
+      partGroupToBeStarted;
+*/
+
+    /*
+    fPartGroupsMap [fCurrentPartGroupNumber] =
+      partGroupToBeStarted;
+
+    // insert it into the started part group set of this visitor
+    if (gGeneralOptions->fTracePartGroups) {
+      fLogOutputStream <<
+        "Inserting part group " << fCurrentPartGroupNumber <<
+        " into visitor's part started part groups set" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+
+    fStartedPartGroupsSet.insert (
+      partGroupToBeStarted);
+*/
 

@@ -248,7 +248,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     
     void                      showPartGroupsMap ();
 
-    S_msrPartGroup            fetchPartGroupInTheMap (
+    S_msrPartGroup            fetchPartGroupFromTheMap (
                                 int partGroupNumber);
 
     // part groups start positions (fPartsCounter) are used
@@ -284,7 +284,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
 
     void                      showPartGroupsStack ();
 
-    S_msrPartGroup            fetchCurrentPartGroup ();
+    S_msrPartGroup            fetchCurrentPartGroupFromStack ();
 
     void                      registerPartGroupInData (
                                 S_msrPartGroup partGroup);
