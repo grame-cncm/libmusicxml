@@ -2453,48 +2453,56 @@ void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt )
   // bring the transpose chromatic value in the -11..+11 interval
   if (fCurrentTransposeChromatic < -11) {
     int
-      modulo =
-        fCurrentTransposeChromatic % 12,
-      remainder =
-        fCurrentTransposeChromatic + 12 * modulo;
-
+      auxTransposeChromatic =
+        fCurrentTransposeChromatic,
+      octaveOffset = 0;
+    
+    while (auxTransposeChromatic < -11) {
+      auxTransposeChromatic += 12;
+      octaveOffset++;
+    } // while
+  
     stringstream s;
 
     s <<
       "transpose: augmenting chromatic " <<
       fCurrentTransposeChromatic <<
-      "to " << remainder <<
-      " and decrementing octave change by " << modulo;
+      " to " << auxTransposeChromatic <<
+      " and decrementing octave change by " << octaveOffset;
 
     msrMusicXMLWarning (
       inputLineNumber,
       s.str ());
 
-    fCurrentTransposeChromatic    =  remainder;
-    fCurrentTransposeOctaveChange -= modulo;
+    fCurrentTransposeChromatic    =  auxTransposeChromatic;
+    fCurrentTransposeOctaveChange -= octaveOffset;
   }
   
   else if (fCurrentTransposeChromatic > 11) {
     int
-      modulo =
-        fCurrentTransposeChromatic % 12,
-      remainder =
-        fCurrentTransposeChromatic - 12 * modulo;
-
+      auxTransposeChromatic =
+        fCurrentTransposeChromatic,
+      octaveOffset = 0;
+        
+    while (auxTransposeChromatic > 11) {
+      auxTransposeChromatic -= 12;
+      octaveOffset++;
+    } // while
+  
     stringstream s;
 
     s <<
       "transpose: diminishing  chromatic to " <<
       fCurrentTransposeChromatic <<
-      "to " << remainder <<
-      " and incrementing octave change by " << modulo;
+      " to " << auxTransposeChromatic <<
+      " and incrementing octave change by " << octaveOffset;
 
     msrMusicXMLWarning (
       inputLineNumber,
       s.str ());
 
-    fCurrentTransposeChromatic    =  remainder;
-    fCurrentTransposeOctaveChange += modulo;
+    fCurrentTransposeChromatic    =  auxTransposeChromatic;
+    fCurrentTransposeOctaveChange += octaveOffset;
   }
   
   // create msrTranspose
