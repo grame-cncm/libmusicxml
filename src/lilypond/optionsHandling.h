@@ -352,7 +352,9 @@ class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
     static SMARTP<msrOptionsCombinedItemsItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
-      string optionsItemDescription);
+      string optionsItemDescription,
+      string optionsCombinedItemsItemVariableDisplayName,
+      bool&  optionsCombinedItemsItemVariable);
      
   protected:
 
@@ -362,7 +364,9 @@ class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
     msrOptionsCombinedItemsItem (
       string optionsItemShortName,
       string optionsItemLongName,
-      string optionsItemDescription);
+      string optionsItemDescription,
+      string optionsCombinedItemsItemVariableDisplayName,
+      bool&  optionsCombinedItemsItemVariable);
       
     virtual ~msrOptionsCombinedItemsItem();
 
@@ -412,6 +416,9 @@ class EXP msrOptionsCombinedItemsItem : public msrOptionsItem
   
     // fields
     // ------------------------------------------------------
+
+    string                fOptionsCombinedItemsItemVariableDisplayName;
+    bool&                 fOptionsCombinedItemsItemVariable;
 
     list<S_msrOptionsItem>
                           fOptionsCombinedItemsList;

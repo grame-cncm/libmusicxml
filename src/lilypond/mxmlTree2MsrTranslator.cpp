@@ -2450,6 +2450,53 @@ void mxmlTree2MsrTranslator::visitEnd ( S_transpose& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // bring the transpose chromatic value in the -11..+11 interval
+  if (fCurrentTransposeChromatic < -11) {
+    int
+      modulo =
+        fCurrentTransposeChromatic % 12,
+      remainder =
+        fCurrentTransposeChromatic + 12 * modulo;
+
+    stringstream s;
+
+    s <<
+      "transpose: augmenting chromatic " <<
+      fCurrentTransposeChromatic <<
+      "to " << remainder <<
+      " and decrementing octave change by " << modulo;
+
+    msrMusicXMLWarning (
+      inputLineNumber,
+      s.str ());
+
+    fCurrentTransposeChromatic    =  remainder;
+    fCurrentTransposeOctaveChange -= modulo;
+  }
+  
+  else if (fCurrentTransposeChromatic > 11) {
+    int
+      modulo =
+        fCurrentTransposeChromatic % 12,
+      remainder =
+        fCurrentTransposeChromatic - 12 * modulo;
+
+    stringstream s;
+
+    s <<
+      "transpose: diminishing  chromatic to " <<
+      fCurrentTransposeChromatic <<
+      "to " << remainder <<
+      " and incrementing octave change by " << modulo;
+
+    msrMusicXMLWarning (
+      inputLineNumber,
+      s.str ());
+
+    fCurrentTransposeChromatic    =  remainder;
+    fCurrentTransposeOctaveChange += modulo;
+  }
+  
   // create msrTranspose
   S_msrTranspose
     transpose =

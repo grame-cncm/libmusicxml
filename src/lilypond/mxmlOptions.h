@@ -84,6 +84,12 @@ class EXP musicXMLOptions : public msrOptionsGroup
     bool                  fIgnoreRedundantClefs;
     bool                  fIgnoreRedundantKeys;
     bool                  fIgnoreRedundantTimes;
+
+    // cubase
+
+    bool                  fCubase;
+
+    // to do
     
     bool                  fLoopToMusicXML;
 };

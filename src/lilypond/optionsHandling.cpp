@@ -552,13 +552,17 @@ ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt)
 S_msrOptionsCombinedItemsItem msrOptionsCombinedItemsItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
-  string optionsItemDescription)
+  string optionsItemDescription,
+  string optionsCombinedItemsItemVariableDisplayName,
+  bool&  optionsCombinedItemsItemVariable)
 {
   msrOptionsCombinedItemsItem* o = new
     msrOptionsCombinedItemsItem (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription);
+      optionsItemDescription,
+      optionsCombinedItemsItemVariableDisplayName,
+      optionsCombinedItemsItemVariable);
   assert(o!=0);
   return o;
 }
@@ -566,11 +570,17 @@ S_msrOptionsCombinedItemsItem msrOptionsCombinedItemsItem::create (
 msrOptionsCombinedItemsItem::msrOptionsCombinedItemsItem (
   string optionsItemShortName,
   string optionsItemLongName,
-  string optionsItemDescription)
+  string optionsItemDescription,
+  string optionsCombinedItemsItemVariableDisplayName,
+  bool&  optionsCombinedItemsItemVariable)
   : msrOptionsItem (
       optionsItemShortName,
       optionsItemLongName,
-      optionsItemDescription)
+      optionsItemDescription),
+    fOptionsCombinedItemsItemVariableDisplayName (
+      optionsCombinedItemsItemVariableDisplayName),
+    fOptionsCombinedItemsItemVariable (
+      optionsCombinedItemsItemVariable)
 {}
 
 msrOptionsCombinedItemsItem::~msrOptionsCombinedItemsItem()

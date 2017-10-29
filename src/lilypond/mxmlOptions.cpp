@@ -213,11 +213,7 @@ The file name receives a '_loop' suffix. Currently under development.)",
   {
     // variables
     
-    fIgnoreRedundantClefs = boolOptionsInitialValue;
-    fIgnoreRedundantKeys  = boolOptionsInitialValue;
-    fIgnoreRedundantTimes = boolOptionsInitialValue;
-    
-    fLoopToMusicXML = boolOptionsInitialValue;
+    fCubase = boolOptionsInitialValue;
   
     // options
   
@@ -238,7 +234,9 @@ R"()",
       cubaseCombinedItemsItem =
         msrOptionsCombinedItemsItem::create (
           "cubase", "",
-R"(Useful settings for MusicXML data exported from Cubase.)");
+R"(Useful settings for MusicXML data exported from Cubase.)",
+          "cubase",
+          fCubase);
 
     combinedOptionsSubGroup->
       appendOptionsItem (
