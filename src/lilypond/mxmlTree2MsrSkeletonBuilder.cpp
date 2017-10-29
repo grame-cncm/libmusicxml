@@ -646,10 +646,29 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
 
   else {
     
-    // is the part group to be stopped below the current one in the stack?
-    // this can happen because Finale for example can produce successive 'stop's
-    // not in the order that nesting would imply
-    
+    if (! fPartGroupsStack.size ()) {
+      stringstream s;
+  
+      s <<
+        "the part groups stack is empty while handlling 'stop' on part group " <<
+        partGroupToBeStopped->
+          getPartGroupCombinedName ();
+        
+      msrMusicXMLError (
+        inputLineNumber,
+        s.str ());
+    }
+  
+    else {
+      // is the part group to be stopped below the current one in the stack?
+      // this can happen because Finale for example can produce successive 'stop's
+      // not in the order that nesting would imply
+  /* JMI
+      S_msrPartGroup
+        cursor =
+          fPartGroupsStack.begin () + 1;
+    */      
+    }
   }
 
   
