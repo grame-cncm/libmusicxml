@@ -2635,7 +2635,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   // LPNR, page 567
 
   // don't generate code for a for the top-most part group block
-  if (partGroup->getPartGroupPartGroupUplink ()) {
+// JMI ???  if (partGroup->getPartGroupPartGroupUplink ()) {
     switch (partGroupSymbolKind) {
       case msrPartGroup::k_NoPartGroupSymbol:
         partGroupContextName = "";
@@ -2698,7 +2698,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         
     fLilypondIOstream <<
       endl;
-  }
+// JMI  }
 
   if (partGroupInstrumentName.size ())
     fLilypondIOstream <<
@@ -2746,7 +2746,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
     gIndenter--;
 
   // don't generate code for a for the top-most part group block
-  if (partGroup->getPartGroupPartGroupUplink ()) {
+// JMI  if (partGroup->getPartGroupPartGroupUplink ()) {
     fLilypondIOstream << left <<
       setw (commentFieldWidth) << ">>";
       
@@ -2758,7 +2758,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
     fLilypondIOstream <<
       endl <<
       endl;
-  }
+// JMI  }
 }
 
 //________________________________________________________________________
