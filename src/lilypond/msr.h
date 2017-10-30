@@ -10597,6 +10597,10 @@ class EXP msrPartGroup : public msrElement
     // print
     // ------------------------------------------------------
 
+    void                  printPartGroupParts (
+                            int      inputLineNumber,
+                            ostream& os);
+  
     virtual void          print (ostream& os);
 
     virtual void          printSummary (ostream& os);
