@@ -1006,6 +1006,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   fCurrentPart =
     fMsrScore->
       fetchPartFromScoreByItsPartID (
+        inputLineNumber,
         partID);
 
   // sanity check

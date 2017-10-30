@@ -10583,6 +10583,7 @@ class EXP msrPartGroup : public msrElement
                             S_msrPartGroup partGroup);
 
     S_msrPart             fetchPartFromPartGroupByItsPartID (
+                            int    inputLineNumber,
                             string partID);
 
     // visitors
@@ -10744,6 +10745,7 @@ class EXP msrScore : public msrElement
                             S_msrCredit credit);
                               
     S_msrPart             fetchPartFromScoreByItsPartID (
+                            int    inputLineNumber,
                             string partID);
 
     // visitors

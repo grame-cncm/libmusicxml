@@ -29511,33 +29511,126 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
 }
 
 S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
+  int    inputLineNumber,
   string partID)
 {
   S_msrPart result;
   
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gGeneralOptions->fTracePartGroupsDetails) {    
     gLogIOstream <<
-      "-=> fetchPartFromPartGroupByItsPartID(), fPartGroupPartsMap contains:" <<
+      "-=> fetchPartFromPartGroupByItsPartID(), fPartGroupElements contains:" <<
       endl;
-      
-    for (
-        map<string, S_msrPart>::const_iterator i = fPartGroupPartsMap.begin ();
-        i != fPartGroupPartsMap.end ();
-        i++) {
-      gLogIOstream <<
-        (*i).first << " --% --> " <<
-        (*i).second->getPartCombinedName() <<
-        endl;
-    } // for
+
+    gIndenter++;
     
+    for (
+      list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+      i != fPartGroupElements.end ();
+      i++) {
+      S_msrElement
+        element = (*i);
+  
+      if (
+        S_msrPartGroup
+          partGroup =
+            dynamic_cast<msrPartGroup*>(&(*element))
+        ) {
+        // this a part group          
+        gLogIOstream <<
+          partGroup->
+            getPartGroupCombinedName () <<
+          endl;
+      }
+  
+      else if (
+        S_msrPart
+          part =
+            dynamic_cast<msrPart*>(&(*element))
+        ) {
+        // this a part
+        gLogIOstream <<
+          part->
+            getPartCombinedName () <<
+          endl;
+      }
+  
+      else {
+        stringstream s;
+  
+        s <<
+          "an element of partgroup " <<
+          getPartGroupCombinedName () <<
+          " is not a part group nor a part";
+  
+        msrInternalError (
+          inputLineNumber,
+          s.str ());
+      }
+    } // for
+
+    gIndenter--;
+
     gLogIOstream <<
       "<=- fetchPartFromPartGroupByItsPartID()" <<
+      endl <<
       endl;
   }
-  
-  if (fPartGroupPartsMap.count (partID)) {
-    result = fPartGroupPartsMap [partID];
-  }
+
+/* JMI
+  list<S_msrElement>::const_iterator
+    iBegin = fPartGroupElements.begin (),
+    iEnd   = fPartGroupElements.end (),
+    i      = iBegin;
+  */
+    
+  for (
+    list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+    i != fPartGroupElements.end ();
+    i++) {
+    S_msrElement
+      element = (*i);
+
+    if (
+      S_msrPartGroup
+        partGroup =
+          dynamic_cast<msrPartGroup*>(&(*element))
+      ) {
+      // this a part group          
+      if (fPartGroupPartsMap.count (partID)) {
+        result =
+          partGroup->
+            fetchPartFromPartGroupByItsPartID (
+              inputLineNumber,
+              partID);
+        break;
+      }
+    }
+
+    else if (
+      S_msrPart
+        part =
+          dynamic_cast<msrPart*>(&(*element))
+      ) {
+      // this a part
+      if (part->getPartID () == partID) {
+        result = part;
+        break;
+      }
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "an element of partgroup " <<
+        getPartGroupCombinedName () <<
+        " is not a part group nor a part";
+
+      msrInternalError (
+        inputLineNumber,
+        s.str ());
+    }
+  } // for
 
   return result;
 }
@@ -30307,6 +30400,7 @@ void msrScore::appendCreditToScore (S_msrCredit credit)
 }
 
 S_msrPart msrScore::fetchPartFromScoreByItsPartID (
+  int    inputLineNumber,
   string partID)
 {
   S_msrPart result;
@@ -30317,6 +30411,8 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
       "-=> fetchPartFromScoreByItsPartID()" <<
       endl;
       
+    gIndenter++;
+
     for (
       list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
         i != fPartGroupsList.end ();
@@ -30326,9 +30422,12 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
         endl;
     } // for
   
+    gIndenter--;
+
     if (gGeneralOptions->fTracePartGroupsDetails) {
       gLogIOstream <<
         "<=- fetchPartFromScoreByItsPartID()," <<
+        endl <<
         endl;
     }
   }
@@ -30340,7 +30439,9 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
     S_msrPart
       part =
         (*i)->
-          fetchPartFromPartGroupByItsPartID (partID);
+          fetchPartFromPartGroupByItsPartID (
+            inputLineNumber,
+            partID);
 
     if (part) {
       result = part;
