@@ -578,6 +578,7 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
   }
 
   else {
+    /* JMI
     // currentPartGroup is the top-most part group,
     // append it to thte MSR score
     if (gGeneralOptions->fTracePartGroups) {
@@ -593,6 +594,7 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
     fMsrScore->
       addPartGroupToScore (
         currentPartGroup);
+        */
   }
 }
 
