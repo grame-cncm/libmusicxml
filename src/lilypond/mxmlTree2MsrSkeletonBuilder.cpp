@@ -129,6 +129,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
         ", instrument: \"" <<
         (*i).second->getPartGroupInstrumentName () <<
         "\"" <<   
+        ", line " << inputLineNumber <<
         endl;
       if (++i == iEnd) break;
       // no endl here
@@ -212,6 +213,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
         (*i)->getPartGroupCombinedName () <<
         " starts at position " <<
         fPartGroupsStartPositionsMap [(*i)] <<
+        ", line " << inputLineNumber <<
         endl;
       if (++i == iEnd) break;
       // no endl here
@@ -245,6 +247,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsVector (
     fLogOutputStream <<
       i + 1 << ": " <<
       fPartGroupsVector [i]->getPartGroupCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
   } // for
   
@@ -276,6 +279,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartsVector (
       part->
         getPartPartGroupUplink ()->
           getPartGroupCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
   } // for
   
@@ -441,6 +445,7 @@ S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchCurrentPartGroupFromStack ()
   
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::registerPartGroupInData (
+  int            inputLineNumber,
   S_msrPartGroup partGroup)
 {
   // register it temporarily in the part groups map
@@ -455,6 +460,15 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupInData (
   // register it part groups start positions map
   fPartGroupsStartPositionsMap [partGroup] =
     fPartsCounter;
+
+  if (gGeneralOptions->fTracePartGroupsDetails) {
+    showPartGroupsData (
+      inputLineNumber,
+      "AFTER registering part group " +
+      partGroup->
+        getPartGroupCombinedName () +
+      " in the data");
+  }
 }
 
 //________________________________________________________________________
@@ -510,6 +524,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   }
 
   registerPartGroupInData (
+    inputLineNumber,
     partGroupToBeStarted);
 
   // make it the new current part group
@@ -794,6 +809,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   }
 
   registerPartGroupInData (
+    inputLineNumber,
     fImplicitPartGroup);
 
   // make it the current group

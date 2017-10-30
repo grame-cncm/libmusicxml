@@ -292,6 +292,7 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     S_msrPartGroup            fetchCurrentPartGroupFromStack ();
 
     void                      registerPartGroupInData (
+                                int            inputLineNumber,
                                 S_msrPartGroup partGroup);
         
 /* JMI                                    
