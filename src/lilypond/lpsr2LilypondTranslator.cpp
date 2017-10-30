@@ -2632,68 +2632,73 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       
   string partGroupContextName;
 
-  switch (partGroupSymbolKind) {
-    case msrPartGroup::k_NoPartGroupSymbol:
-      partGroupContextName = "";
-      break;
-      
-    case msrPartGroup::kBracePartGroupSymbol: // JMI
-    /*
-     *
-     * check whether individual part have instrument names
-     * 
-      if (partGroupInstrumentName.size ())
-        partGroupContextName = "\\new PianoStaff";
-      else
-        partGroupContextName = "\\new GrandStaff";
-        */
-      switch (partGroupBarlineKind) {
-        case msrPartGroup::kPartGroupBarlineYes:
-          partGroupContextName =
-            "\\new PianoStaff";
-          break;
-        case msrPartGroup::kPartGroupBarlineNo:
-          partGroupContextName =
-            "\\new GrandStaff";
-          break;
-      } // switch
-      break;
-      
-    case msrPartGroup::kBracketPartGroupSymbol:
-      switch (partGroupBarlineKind) {
-        case msrPartGroup::kPartGroupBarlineYes:
-          partGroupContextName =
-            "\\new StaffGroup";
-          break;
-        case msrPartGroup::kPartGroupBarlineNo:
-          partGroupContextName =
-            "\\new ChoirStaff";
-          break;
-      } // switch
-      break;
-      
-    case msrPartGroup::kLinePartGroupSymbol:
-      partGroupContextName =
-        "\\new StaffGroup";
-      break;
-      
-    case msrPartGroup::kSquarePartGroupSymbol:
-      partGroupContextName =
-        "\\new StaffGroup";
-      break;
-  } // switch
+  // LPNR, page 567 jMI ???
 
-  fLilypondIOstream << left <<
-    setw (commentFieldWidth) <<
-    partGroupContextName + " <<";
-    
-  if (gLilypondOptions->fComments)
-    fLilypondIOstream <<
-      "% part group " <<
-      partGroup->getPartGroupCombinedName ();
+  // don't generate code for an implicit the top-most part group block
+// JMI ???  if (partGroup->getPartGroupPartGroupUplink ()) {
+    switch (partGroupSymbolKind) {
+      case msrPartGroup::k_NoPartGroupSymbol:
+        partGroupContextName = "";
+        break;
+        
+      case msrPartGroup::kBracePartGroupSymbol: // JMI
+      /*
+       *
+       * check whether individual part have instrument names
+       * 
+        if (partGroupInstrumentName.size ())
+          partGroupContextName = "\\new PianoStaff";
+        else
+          partGroupContextName = "\\new GrandStaff";
+          */
+        switch (partGroupBarlineKind) {
+          case msrPartGroup::kPartGroupBarlineYes:
+            partGroupContextName =
+              "\\new PianoStaff";
+            break;
+          case msrPartGroup::kPartGroupBarlineNo:
+            partGroupContextName =
+              "\\new GrandStaff";
+            break;
+        } // switch
+        break;
+        
+      case msrPartGroup::kBracketPartGroupSymbol:
+        switch (partGroupBarlineKind) {
+          case msrPartGroup::kPartGroupBarlineYes:
+            partGroupContextName =
+              "\\new StaffGroup";
+            break;
+          case msrPartGroup::kPartGroupBarlineNo:
+            partGroupContextName =
+              "\\new ChoirStaff";
+            break;
+        } // switch
+        break;
+        
+      case msrPartGroup::kLinePartGroupSymbol:
+        partGroupContextName =
+          "\\new StaffGroup";
+        break;
+        
+      case msrPartGroup::kSquarePartGroupSymbol:
+        partGroupContextName =
+          "\\new StaffGroup";
+        break;
+    } // switch
+  
+    fLilypondIOstream << left <<
+      setw (commentFieldWidth) <<
+      partGroupContextName + " <<";
       
-  fLilypondIOstream <<
-    endl;
+    if (gLilypondOptions->fComments)
+      fLilypondIOstream <<
+        "% part group " <<
+        partGroup->getPartGroupCombinedName ();
+        
+    fLilypondIOstream <<
+      endl;
+// JMI  }
 
   if (partGroupInstrumentName.size ())
     fLilypondIOstream <<
@@ -2740,17 +2745,20 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
   if (elt->getPartGroupBlockElements ().size () > 1)
     gIndenter--;
 
-  fLilypondIOstream << left <<
-    setw (commentFieldWidth) << ">>";
-    
-  if (gLilypondOptions->fComments)
-    fLilypondIOstream <<
-      "% part group " <<
-      partGroup->getPartGroupCombinedName ();
+  // don't generate code for an implicit the top-most part group block
+// JMI  if (partGroup->getPartGroupPartGroupUplink ()) {
+    fLilypondIOstream << left <<
+      setw (commentFieldWidth) << ">>";
       
-  fLilypondIOstream <<
-    endl <<
-    endl;
+    if (gLilypondOptions->fComments)
+      fLilypondIOstream <<
+        "% part group " <<
+        partGroup->getPartGroupCombinedName ();
+        
+    fLilypondIOstream <<
+      endl <<
+      endl;
+// JMI  }
 }
 
 //________________________________________________________________________

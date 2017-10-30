@@ -29243,18 +29243,19 @@ void msrPart::printSummary (ostream& os)
 
 //______________________________________________________________________________
 S_msrPartGroup msrPartGroup::create (
-  int                     inputLineNumber,
-  int                     partGroupNumber,
-  int                     partGroupAbsoluteNumber,
-  string                  partGroupName,
-  string                  partGroupDisplayText,
-  string                  partGroupAccidentalText,
-  string                  partGroupAbbreviation,
-  msrPartGroupSymbolKind  partGroupSymbolKind,
-  int                     partGroupSymbolDefaultX,
-  msrPartGroupBarlineKind partGroupBarlineKind,
-  S_msrPartGroup          partGroupPartGroupUplink,
-  S_msrScore              partGroupScoreUplink)
+  int                      inputLineNumber,
+  int                      partGroupNumber,
+  int                      partGroupAbsoluteNumber,
+  string                   partGroupName,
+  string                   partGroupDisplayText,
+  string                   partGroupAccidentalText,
+  string                   partGroupAbbreviation,
+  msrPartGroupSymbolKind   partGroupSymbolKind,
+  int                      partGroupSymbolDefaultX,
+  msrPartGroupImplicitKind partGroupImplicitKind,
+  msrPartGroupBarlineKind  partGroupBarlineKind,
+  S_msrPartGroup           partGroupPartGroupUplink,
+  S_msrScore               partGroupScoreUplink)
 {
   msrPartGroup* o =
     new msrPartGroup (
@@ -29267,6 +29268,7 @@ S_msrPartGroup msrPartGroup::create (
       partGroupAbbreviation,
       partGroupSymbolKind,
       partGroupSymbolDefaultX,
+      partGroupImplicitKind,
       partGroupBarlineKind,
       partGroupPartGroupUplink,
       partGroupScoreUplink);
@@ -29275,18 +29277,19 @@ S_msrPartGroup msrPartGroup::create (
 }
 
 msrPartGroup::msrPartGroup (
-  int                     inputLineNumber,
-  int                     partGroupNumber,
-  int                     partGroupAbsoluteNumber,
-  string                  partGroupName,
-  string                  partGroupDisplayText,
-  string                  partGroupAccidentalText,
-  string                  partGroupAbbreviation,
-  msrPartGroupSymbolKind  partGroupSymbolKind,
-  int                     partGroupSymbolDefaultX,
-  msrPartGroupBarlineKind partGroupBarlineKind,
-  S_msrPartGroup          partGroupPartGroupUplink,
-  S_msrScore              partGroupScoreUplink)
+  int                      inputLineNumber,
+  int                      partGroupNumber,
+  int                      partGroupAbsoluteNumber,
+  string                   partGroupName,
+  string                   partGroupDisplayText,
+  string                   partGroupAccidentalText,
+  string                   partGroupAbbreviation,
+  msrPartGroupSymbolKind   partGroupSymbolKind,
+  int                      partGroupSymbolDefaultX,
+  msrPartGroupImplicitKind partGroupImplicitKind,
+  msrPartGroupBarlineKind  partGroupBarlineKind,
+  S_msrPartGroup           partGroupPartGroupUplink,
+  S_msrScore               partGroupScoreUplink)
     : msrElement (inputLineNumber)
 {
   fPartGroupNumber = partGroupNumber;
@@ -29294,19 +29297,21 @@ msrPartGroup::msrPartGroup (
           
   fPartGroupName = partGroupName;
 
-  fPartGroupDisplayText    = partGroupDisplayText;
-  fPartGroupAccidentalText = partGroupAccidentalText;
+  fPartGroupDisplayText     = partGroupDisplayText;
+  fPartGroupAccidentalText  = partGroupAccidentalText;
   
-  fPartGroupAbbreviation = partGroupAbbreviation;
+  fPartGroupAbbreviation    = partGroupAbbreviation;
 
-  fPartGroupSymbolKind     = partGroupSymbolKind;
-  fPartGroupSymbolDefaultX = partGroupSymbolDefaultX;
+  fPartGroupSymbolKind      = partGroupSymbolKind;
+  fPartGroupSymbolDefaultX  = partGroupSymbolDefaultX;
 
-  fPartGroupBarlineKind = partGroupBarlineKind;
+  fPartGroupImplicitKind    = partGroupImplicitKind;
+    
+  fPartGroupBarlineKind     = partGroupBarlineKind;
 
   fPartGroupPartGroupUplink = partGroupPartGroupUplink;
 
-  fPartGroupScoreUplink = partGroupScoreUplink;
+  fPartGroupScoreUplink     = partGroupScoreUplink;
   
   if (gGeneralOptions->fTracePartGroups)
     gLogIOstream <<
@@ -29354,6 +29359,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
         fPartGroupAbbreviation,
         fPartGroupSymbolKind,
         fPartGroupSymbolDefaultX,
+        fPartGroupImplicitKind,
         fPartGroupBarlineKind,
         partGroupClone,
         scoreClone);
@@ -29717,6 +29723,23 @@ void msrPartGroup::browseData (basevisitor* v)
       endl;
 }
 
+string msrPartGroup::partGroupImplicitKindAsString (
+  msrPartGroupImplicitKind partGroupImplicitKind)
+{
+  string result;
+  
+  switch (partGroupImplicitKind) {
+    case msrPartGroup::kPartGroupImplicitYes:
+      result = "partGroupImplicitYes";
+      break;
+    case msrPartGroup::kPartGroupImplicitNo:
+      result = "partGroupImplicitNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrPartGroup::partGroupTypeKindAsString (
   msrPartGroupTypeKind partGroupTypeKind)
 {
@@ -29770,10 +29793,10 @@ string msrPartGroup::partGroupBarlineKindAsString (
   
   switch (partGroupBarlineKind) {
     case msrPartGroup::kPartGroupBarlineYes:
-      result = "bracePartGroupBarlineYes";
+      result = "partGroupBarlineYes";
       break;
     case msrPartGroup::kPartGroupBarlineNo:
-      result = "bracePartGroupBarlineNo";
+      result = "partGroupBarlineNo";
       break;
   } // switch
 
@@ -29795,40 +29818,53 @@ void msrPartGroup::print (ostream& os)
   const int fieldWidth = 25;
   
   os << left <<
-    setw (fieldWidth) << "PartGroupName" << " : \"" <<
+    setw (fieldWidth) <<
+    "PartGroupName" << " : \"" <<
     fPartGroupName <<
     "\"" <<
     endl <<
-    setw (fieldWidth) << "PartGroupDisplayText" << " : \"" <<
+    setw (fieldWidth) <<
+    "PartGroupDisplayText" << " : \"" <<
     fPartGroupDisplayText <<
     "\"" <<
     endl <<
-    setw (fieldWidth) << "PartGroupAccidentalText" << " : \"" <<
+    setw (fieldWidth) <<
+    "PartGroupAccidentalText" << " : \"" <<
     fPartGroupAccidentalText <<
     "\"" <<
     endl <<
-    setw (fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
+    setw (fieldWidth) <<
+    "PartGroupAbbrevation" << " : \"" <<
     fPartGroupAbbreviation <<
     "\"" <<
     endl <<
-    setw (fieldWidth) << "PartGroupSymbolDefaultX" << " : " <<
+    setw (fieldWidth) <<
+    "PartGroupSymbolDefaultX" << " : " <<
     fPartGroupSymbolDefaultX <<
       endl <<
-    setw (fieldWidth) << "PartGroupSymbolKind" << " : " <<
-    partGroupSymbolKindAsString (fPartGroupSymbolKind) <<
+    setw (fieldWidth) <<
+    "PartGroupSymbolKind" << " : " <<
+    partGroupSymbolKindAsString (
+      fPartGroupSymbolKind) <<
     endl;
     
   os << left <<
-    setw (fieldWidth) << "PartGroupBarline" << " : ";
-  if (fPartGroupBarlineKind)
-    os << "true";
-  else
-    os << "false";
-  os <<
+    setw (fieldWidth) <<
+    "PartGroupImplicit" << " : " <<
+    partGroupImplicitKindAsString (
+      fPartGroupImplicitKind) <<
     endl;
 
   os << left <<
-    setw (fieldWidth) << "PartGroupPartGroupUplink" << " : ";
+    setw (fieldWidth) <<
+    "PartGroupBarline" << " : " <<
+    partGroupBarlineKindAsString (
+      fPartGroupBarlineKind) <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "PartGroupPartGroupUplink" << " : ";
   if (fPartGroupPartGroupUplink)
     os <<
       "\"" <<
@@ -29837,7 +29873,8 @@ void msrPartGroup::print (ostream& os)
       "\"";
   else
     os << "none";
-  os << endl;
+  os <<
+    endl;
 
   if (fPartGroupElements.size ()) {
     os << endl;
@@ -29877,29 +29914,38 @@ void msrPartGroup::printSummary (ostream& os)
   const int fieldWidth = 24;
   
   os << left <<
-    setw (fieldWidth) << "PartGroupName" << " : \"" <<
+    setw (fieldWidth) <<
+    "PartGroupName" << " : \"" <<
     fPartGroupName <<
     "\"" <<
     endl <<
-    setw (fieldWidth) << "PartGroupAbbrevation" << " : \"" <<
+    setw (fieldWidth) <<
+    "PartGroupAbbrevation" << " : \"" <<
     fPartGroupAbbreviation <<
     "\"" <<
     endl <<
-    setw (fieldWidth) << "fPartGroupSymbolDefaultX" << " : " <<
+    setw (fieldWidth) <<
+    "fPartGroupSymbolDefaultX" << " : " <<
     fPartGroupSymbolDefaultX <<
       endl <<
-    setw (fieldWidth) << "fPartGroupSymbolKind" << " : \"" <<
-    partGroupSymbolKindAsString (fPartGroupSymbolKind) <<
+    setw (fieldWidth) <<
+    "fPartGroupSymbolKind" << " : \"" <<
+    partGroupSymbolKindAsString (
+      fPartGroupSymbolKind) <<
     "\"" <<
-    endl;
+    endl <<
     
-  os <<
-    "PartGroupBarline         : ";
-  if (fPartGroupBarlineKind)
-    os << "true";
-  else
-    os << "false";
-  os << endl;
+    setw (fieldWidth) <<
+    "PartGroupImplicit" << " : " <<
+    partGroupImplicitKindAsString (
+      fPartGroupImplicitKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "PartGroupBarline" << " : " <<
+    partGroupBarlineKindAsString (
+      fPartGroupBarlineKind) <<
+    endl;
 
   if (fPartGroupElements.size ()) {
     os << endl;

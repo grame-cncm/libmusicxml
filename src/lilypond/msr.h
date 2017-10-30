@@ -10433,6 +10433,12 @@ class EXP msrPartGroup : public msrElement
     // data types
     // ------------------------------------------------------
 
+    enum msrPartGroupImplicitKind {
+        kPartGroupImplicitYes, kPartGroupImplicitNo};
+          
+    static string partGroupImplicitKindAsString (
+      msrPartGroupImplicitKind partGroupImplicitKind);
+      
     enum msrPartGroupTypeKind {
         k_NoPartGroupType,
         kStartPartGroupType, kStopPartGroupType};
@@ -10458,18 +10464,19 @@ class EXP msrPartGroup : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrPartGroup> create (
-      int                     inputLineNumber,
-      int                     partGroupNumber,
-      int                     partGroupAbsoluteNumber,
-      string                  partGroupName,
-      string                  partGroupDisplayText,
-      string                  partGroupAccidentalText,
-      string                  partGroupAbbreviation,
-      msrPartGroupSymbolKind  partGroupSymbolKind,
-      int                     partGroupSymbolDefaultX,
-      msrPartGroupBarlineKind partGroupBarlineKind,
-      S_msrPartGroup          partGroupPartGroupUplink,
-      S_msrScore              partGroupScoreUplink);
+      int                      inputLineNumber,
+      int                      partGroupNumber,
+      int                      partGroupAbsoluteNumber,
+      string                   partGroupName,
+      string                   partGroupDisplayText,
+      string                   partGroupAccidentalText,
+      string                   partGroupAbbreviation,
+      msrPartGroupSymbolKind   partGroupSymbolKind,
+      int                      partGroupSymbolDefaultX,
+      msrPartGroupImplicitKind partGroupImplicitKind,
+      msrPartGroupBarlineKind  partGroupBarlineKind,
+      S_msrPartGroup           partGroupPartGroupUplink,
+      S_msrScore               partGroupScoreUplink);
 
     SMARTP<msrPartGroup> createPartGroupNewbornClone (
       S_msrPartGroup partGroupClone, // the uplink for embeddeed part groups
@@ -10481,18 +10488,19 @@ class EXP msrPartGroup : public msrElement
     // ------------------------------------------------------
 
     msrPartGroup (
-      int                     inputLineNumber,
-      int                     partGroupNumber,
-      int                     partGroupAbsoluteNumber,
-      string                  partGroupName,
-      string                  partGroupDisplayText,
-      string                  partGroupAccidentalText,
-      string                  partGroupAbbreviation,
-      msrPartGroupSymbolKind  partGroupSymbolKind,
-      int                     partGroupSymbolDefaultX,
-      msrPartGroupBarlineKind partGroupBarlineKind,
-      S_msrPartGroup          partGroupPartGroupUplink,
-      S_msrScore              partGroupScoreUplink);
+      int                      inputLineNumber,
+      int                      partGroupNumber,
+      int                      partGroupAbsoluteNumber,
+      string                   partGroupName,
+      string                   partGroupDisplayText,
+      string                   partGroupAccidentalText,
+      string                   partGroupAbbreviation,
+      msrPartGroupSymbolKind   partGroupSymbolKind,
+      int                      partGroupSymbolDefaultX,
+      msrPartGroupImplicitKind partGroupImplicitKind,
+      msrPartGroupBarlineKind  partGroupBarlineKind,
+      S_msrPartGroup           partGroupPartGroupUplink,
+      S_msrScore               partGroupScoreUplink);
             
     virtual ~msrPartGroup();
   
@@ -10553,6 +10561,10 @@ class EXP msrPartGroup : public msrElement
     int                   getPartGroupSymbolDefaultX () const
                               { return fPartGroupSymbolDefaultX; }
 
+    msrPartGroupImplicitKind
+                          getPartGroupImplicitKind () const
+                              { return fPartGroupImplicitKind; }
+    
     msrPartGroupBarlineKind
                           getPartGroupBarlineKind () const
                               { return fPartGroupBarlineKind; }
@@ -10632,6 +10644,11 @@ class EXP msrPartGroup : public msrElement
     // default X
     
     int                   fPartGroupSymbolDefaultX;
+
+    // implicit
+    
+    msrPartGroupImplicitKind
+                          fPartGroupImplicitKind;
 
     // bar line
     

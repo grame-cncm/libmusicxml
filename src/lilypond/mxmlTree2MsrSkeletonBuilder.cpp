@@ -508,6 +508,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
         fCurrentPartGroupAbbreviation,
         fCurrentPartGroupSymbolKind,
         fCurrentPartGroupSymbolDefaultX,
+        msrPartGroup::kPartGroupImplicitNo,
         fCurrentPartGroupBarlineKind,
         0, // partGroupPartGroupUplink will be set upon 'stop'
         fMsrScore);
@@ -778,6 +779,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       "Impl.",    // partGroupAbbreviation
       msrPartGroup::kBracketPartGroupSymbol,
       0,          // partGroupSymbolDefaultX
+      msrPartGroup::kPartGroupImplicitYes,
       msrPartGroup::kPartGroupBarlineYes,
       0,          // partGroupPartGroupUplink, 0 for top level part group 
       fMsrScore);
@@ -1613,7 +1615,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   part->
     setPartInstrumentAbbreviation (fCurrentPartInstrumentAbbreviation);
 
-  // register implicit part groups in the part groups data
+  // register part in the parts data
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Adding part " <<
