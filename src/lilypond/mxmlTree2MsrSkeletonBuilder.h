@@ -306,6 +306,10 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     void                      handlePartGroupStart (
                                 int inputLineNumber);
                                 
+    void                      stopPartGroup (
+                                int            inputLineNumber,
+                                S_msrPartGroup currentPartGroup);
+                                
     void                      handlePartGroupStop (
                                 int inputLineNumber);
 

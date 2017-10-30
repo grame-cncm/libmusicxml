@@ -521,6 +521,82 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
 }
 
 //________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
+  int            inputLineNumber,
+  S_msrPartGroup currentPartGroup)
+{
+  // pop currentPartGroup from the stack
+  fPartGroupsStack.pop_front ();
+  
+  S_msrPartGroup
+    newCurrentPartGroup =
+      fetchCurrentPartGroupFromStack ();
+
+  if (newCurrentPartGroup) {
+    // currentPartGroup is nested in the
+    // next to top part group in the stack
+
+    // set currentPartGroup's uplink to newCurrentPartGroup;
+    if (gGeneralOptions->fTracePartGroups) {
+      fLogOutputStream <<
+        "Setting the uplink of part group " <<
+        currentPartGroup->
+          getPartGroupCombinedName () <<
+        "' to " <<
+        newCurrentPartGroup->
+          getPartGroupCombinedName () << 
+        ", line " << inputLineNumber <<
+        endl;      
+    }
+  
+    currentPartGroup->
+      setPartGroupPartGroupUplink (
+        newCurrentPartGroup);
+  
+    // appending currentPartGroup to newCurrentPartGroup
+    if (gGeneralOptions->fTracePartGroups) {
+      fLogOutputStream <<
+        "Appending sub part group " <<
+        currentPartGroup->
+          getPartGroupCombinedName () <<
+        "' to " <<
+        newCurrentPartGroup->
+          getPartGroupCombinedName () << 
+        ", line " << inputLineNumber <<
+        endl;      
+    }
+  
+    newCurrentPartGroup->
+      appendSubPartGroupToPartGroup (
+        currentPartGroup);
+        
+    if (gGeneralOptions->fTracePartGroupsDetails) {
+      showPartGroupsData (
+        inputLineNumber,
+        "AFTER popping nested part group from the stack");
+    }
+  }
+
+  else {
+    // currentPartGroup is the top-most part group,
+    // append it to thte MSR score
+    if (gGeneralOptions->fTracePartGroups) {
+      fLogOutputStream <<
+        "Appending part group '" <<
+        currentPartGroup->getPartGroupNumber () <<
+        "' to MSR score" <<
+        ", partsCounter = " << fPartsCounter <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+        
+    fMsrScore->
+      addPartGroupToScore (
+        currentPartGroup);
+  }
+}
+
+//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   int inputLineNumber)
 {
@@ -573,75 +649,10 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
   // is the part group to be stopped the current one,
   // i.e. the top of the stack?
   if (partGroupToBeStopped == currentPartGroup) {
-    
-    // pop partGroupToBeStopped from the stack
-    fPartGroupsStack.pop_front ();
-    
-    // partGroupToBeStopped is nested in the
-    // next to top part group in the stack
-
-    S_msrPartGroup
-      newCurrentPartGroup =
-        fetchCurrentPartGroupFromStack ();
-
-    // set partGroupToBeStopped's uplink to newCurrentPartGroup;
-    if (gGeneralOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Setting the uplink of part group " <<
-        partGroupToBeStopped->
-          getPartGroupCombinedName () <<
-        "' to " <<
-        newCurrentPartGroup->
-          getPartGroupCombinedName () << 
-        ", line " << inputLineNumber <<
-        endl;      
-    }
-  
-    partGroupToBeStopped->
-      setPartGroupPartGroupUplink (
-        newCurrentPartGroup);
-
-    // appending partGroupToBeStopped to newCurrentPartGroup
-    if (gGeneralOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Appending sub part group " <<
-        partGroupToBeStopped->
-          getPartGroupCombinedName () <<
-        "' to " <<
-        newCurrentPartGroup->
-          getPartGroupCombinedName () << 
-        ", line " << inputLineNumber <<
-        endl;      
-    }
-
-    newCurrentPartGroup->
-      appendSubPartGroupToPartGroup (
-        partGroupToBeStopped);
-
-    // should the current part group be append to the score skeleton?
-    /*
-       // append it to the MSR score
-  if (gGeneralOptions->fTracePartGroups) {
-    fLogOutputStream <<
-      "Appending part group '" <<
-      partGroupToBeStarted->getPartGroupNumber () <<
-      "' to MSR score" <<
-      ", partsCounter = " << fPartsCounter <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-      
-  fMsrScore->
-    addPartGroupToScore (
-      partGroupToBeStarted);
-*/    
-
-      
-    if (gGeneralOptions->fTracePartGroupsDetails) {
-      showPartGroupsData (
-        inputLineNumber,
-        "AFTER popping nested part group from the stack");
-    }
+    // yes, attach it to the current part group
+    stopPartGroup (
+      inputLineNumber,
+      partGroupToBeStopped);
   }
 
   else {
@@ -963,13 +974,21 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
 
   gIndenter--;
 
+/*
   if (fImplicitPartGroup) {
-    // force an implicit part group "stop" on it
+    // force an implicit part group 'stop' on it
     handlePartGroupStop (
       elt->getInputLineNumber ());
 
     // forget about the implicit part group // JMI ???
     fImplicitPartGroup = 0;
+  }
+  */
+  
+  if (fPartGroupsStack.size ()) {
+    // force a 'stop' on the current part group
+    handlePartGroupStop (
+      elt->getInputLineNumber ());
   }
 }
 
