@@ -1599,7 +1599,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   S_msrPart
     part =
       currentPartGroup->
-        appendPartToPartGroupByItsID (
+        appendPartToPartGroupByItsPartID (
           inputLineNumber,
           fCurrentPartID);
 

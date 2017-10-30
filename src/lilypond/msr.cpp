@@ -29375,7 +29375,7 @@ string msrPartGroup::getPartGroupCombinedName () const
   return s.str ();
 }
 
-S_msrPart msrPartGroup::appendPartToPartGroupByItsID (
+S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
   int    inputLineNumber,
   string partID)
 {
@@ -29510,7 +29510,7 @@ void msrPartGroup::appendSubPartGroupToPartGroup (
   fPartGroupElements.push_back (partGroup);
 }
 
-S_msrPart msrPartGroup::fetchPartFromPartGroup (
+S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
   string partID)
 {
   S_msrPart result;
@@ -30306,7 +30306,8 @@ void msrScore::appendCreditToScore (S_msrCredit credit)
   fCreditsList.push_back (credit);
 }
 
-S_msrPart msrScore::fetchPartFromScore (string partID)
+S_msrPart msrScore::fetchPartFromScoreByItsPartID (
+  string partID)
 {
   S_msrPart result;
   
@@ -30317,7 +30318,7 @@ S_msrPart msrScore::fetchPartFromScore (string partID)
     S_msrPart
       part =
         (*i)->
-          fetchPartFromPartGroup (partID);
+          fetchPartFromPartGroupByItsPartID (partID);
 
     if (part) {
       result = part;

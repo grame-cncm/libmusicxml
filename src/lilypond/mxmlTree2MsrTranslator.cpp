@@ -378,7 +378,8 @@ S_msrStaff mxmlTree2MsrTranslator::fetchStaffFromCurrentPart (
     stringstream s;
 
     s <<
-      "staff '" << staffNumber << "' not found in score skeleton's part " <<
+      "staff '" << staffNumber <<
+      "' not found in score skeleton's part " <<
       fCurrentPart->getPartCombinedName ();
 
     msrInternalError (
@@ -418,7 +419,8 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
     stringstream s;
 
     s <<
-      "voice '" << voiceNumber << "' not found in score skeleton's staff \"" <<
+      "voice '" << voiceNumber <<
+      "' not found in score skeleton's staff \"" <<
       staff->getStaffName () <<
       "\"";
 
@@ -1003,7 +1005,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   // fetch current part from its partID
   fCurrentPart =
     fMsrScore->
-      fetchPartFromScore (
+      fetchPartFromScoreByItsPartID (
         partID);
 
   // sanity check
@@ -1011,7 +1013,8 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
     stringstream s;
 
     s <<
-      "part \"" << partID << "\" not found in score skeleton";
+      "part \"" << partID <<
+      "\" not found in score skeleton";
 
     msrInternalError (
       elt->getInputLineNumber (),

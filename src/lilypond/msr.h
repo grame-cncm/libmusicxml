@@ -10570,7 +10570,7 @@ class EXP msrPartGroup : public msrElement
     // services
     // ------------------------------------------------------
 
-    S_msrPart             appendPartToPartGroupByItsID (
+    S_msrPart             appendPartToPartGroupByItsPartID (
                             int    inputLineNumber,
                             string partID);
     
@@ -10582,7 +10582,8 @@ class EXP msrPartGroup : public msrElement
     void                  appendSubPartGroupToPartGroup (
                             S_msrPartGroup partGroup);
 
-    S_msrPart             fetchPartFromPartGroup (string partID);
+    S_msrPart             fetchPartFromPartGroupByItsPartID (
+                            string partID);
 
     // visitors
     // ------------------------------------------------------
@@ -10742,7 +10743,8 @@ class EXP msrScore : public msrElement
     void                  appendCreditToScore (
                             S_msrCredit credit);
                               
-    S_msrPart             fetchPartFromScore (string partID);
+    S_msrPart             fetchPartFromScoreByItsPartID (
+                            string partID);
 
     // visitors
     // ------------------------------------------------------
