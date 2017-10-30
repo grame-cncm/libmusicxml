@@ -29615,12 +29615,15 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
           dynamic_cast<msrPartGroup*>(&(*element))
       ) {
       // this a part group          
-      if (fPartGroupPartsMap.count (partID)) {
-        result =
+      S_msrPart
+        inter =
           partGroup->
             fetchPartFromPartGroupByItsPartID (
               inputLineNumber,
               partID);
+
+      if (inter) {
+        result = inter;
         break;
       }
     }
