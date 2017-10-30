@@ -19,7 +19,7 @@ option ( C++11 	"C++11 support" on )
 
 if(UNIX)
 	add_definitions(-Wall -DGCC -Wno-overloaded-virtual)
-endif(UNIX)
+endif()
 
 set (FMWK "true")
 set (libtype SHARED)
@@ -28,10 +28,10 @@ set (libtype SHARED)
 # mac os specific part
 #########################################
 if(APPLE)
-	if ( IOS STREQUAL "yes" )
+	if ( IOS )
 		message (STATUS "Generates project for iOS - Use -DIOS=no to change.")
 		set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "iPhoneOS")
-		set (CMAKE_OSX_ARCHITECTURES "armv6 armv7")
+#		set (CMAKE_OSX_ARCHITECTURES "armv6 armv7")
 		set (CMAKE_OSX_SYSROOT "iphoneos")
 		set (libtype STATIC)
 	else ()
@@ -123,16 +123,16 @@ set_target_properties (${target} PROPERTIES
 			MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${STRVERS}
 			MACOSX_FRAMEWORK_BUNDLE_VERSION ${SSTRVERS}
 )
-if ( IOS STREQUAL "no" )
-	set_target_properties (${target} PROPERTIES  FRAMEWORK TRUE )
-endif()
+#if ( IOS )
+#	set_target_properties (${target} PROPERTIES  FRAMEWORK TRUE )
+#endif()
 
 #######################################
 # set sample targets
 set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
 set (TOOLS  xml2guido xmltranspose)
 
-if(NOT APPLE OR NOT IOS STREQUAL "yes" )
+if(NOT APPLE OR NOT IOS )
 foreach(sample ${SAMPLES})
 	add_executable( ${sample} ${LXMLSAMPLE}/${sample}.cpp )
 	target_link_libraries( ${sample} ${target})
@@ -148,7 +148,7 @@ install ( TARGETS ${target} ${TOOLS}
 	RUNTIME DESTINATION bin 
     	LIBRARY DESTINATION /usr/lib 
     	ARCHIVE DESTINATION lib 
-    	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
+#    	FRAMEWORK DESTINATION "/Library/Frameworks" CONFIGURATIONS Release
     	PUBLIC_HEADER DESTINATION include/libmusicxml
 )
 endif()
