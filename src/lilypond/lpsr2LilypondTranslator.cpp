@@ -2687,7 +2687,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           
         case msrPartGroup::kSquarePartGroupSymbol:
           partGroupContextName =
-            "\\new StaffGroup";
+R"(            "\\new StaffGroup \\with { systemStartDelimiter =
+            #'SystemStartSquare }")";
           break;
       } // switch
   
