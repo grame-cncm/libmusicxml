@@ -29,7 +29,7 @@ namespace MusicXML2
     
     //______________________________________________________________________________
     xmlpart2guido::xmlpart2guido(bool generateComments, bool generateStem, bool generateBar) :
-    fGenerateComments(generateComments), fGenerateStem(generateStem),
+    fGenerateComments(generateComments), //fGenerateStem(generateStem),
     fGenerateBars(generateBar),
     fNotesOnly(false), fCurrentStaffIndex(0), fCurrentStaff(0),
     fTargetStaff(0), fTargetVoice(0)
