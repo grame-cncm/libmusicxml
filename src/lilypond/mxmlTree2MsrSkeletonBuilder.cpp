@@ -297,7 +297,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
 {
   fLogOutputStream <<
     endl <<
-    "==> " << context <<
+    context <<
     ", partsCounter = " << fPartsCounter <<
     ", line " << inputLineNumber <<
     ":" <<
@@ -457,9 +457,11 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupInData (
   fPartGroupsVector.push_back (
     partGroup);
 
-  // register it part groups start positions map
-  fPartGroupsStartPositionsMap [partGroup] =
-    fPartsCounter;
+  // register it part groups start positions map on first occurrence JMI ???
+  if (! fPartGroupsStartPositionsMap.count (partGroup)) {
+    fPartGroupsStartPositionsMap [partGroup] =
+      fPartsCounter;
+  }
 
   if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
@@ -595,16 +597,9 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
     newCurrentPartGroup->
       appendSubPartGroupToPartGroup (
         currentPartGroup);
-        
-    if (gGeneralOptions->fTracePartGroupsDetails) {
-      showPartGroupsData (
-        inputLineNumber,
-        "AFTER popping nested part group from the stack");
-    }
   }
 
   else {
-    /* JMI
     // currentPartGroup is the top-most part group,
     // append it to thte MSR score
     if (gGeneralOptions->fTracePartGroups) {
@@ -620,7 +615,12 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
     fMsrScore->
       addPartGroupToScore (
         currentPartGroup);
-        */
+  }
+        
+  if (gGeneralOptions->fTracePartGroupsDetails) {
+    showPartGroupsData (
+      inputLineNumber,
+      "AFTER stopPartGroup()");
   }
 }
 
@@ -1003,7 +1003,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
 
   gIndenter--;
 
-/*
+//*
   if (fImplicitPartGroup) {
     // force an implicit part group 'stop' on it
     handlePartGroupStop (
@@ -1012,7 +1012,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
     // forget about the implicit part group // JMI ???
     fImplicitPartGroup = 0;
   }
-  */
+//  */
   
   if (fPartGroupsStack.size ()) {
     // force a 'stop' on the current part group
