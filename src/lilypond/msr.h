@@ -10582,6 +10582,10 @@ class EXP msrPartGroup : public msrElement
     // services
     // ------------------------------------------------------
 
+    string                partGroupImplicitKindAsString () const;
+    
+    string                partGroupBarlineKindAsString () const;
+
     S_msrPart             appendPartToPartGroupByItsPartID (
                             int    inputLineNumber,
                             string partID);

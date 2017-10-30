@@ -29740,6 +29740,13 @@ string msrPartGroup::partGroupImplicitKindAsString (
   return result;
 }
 
+string msrPartGroup::partGroupImplicitKindAsString () const
+{
+  return
+    partGroupImplicitKindAsString (
+      fPartGroupImplicitKind);
+}
+
 string msrPartGroup::partGroupTypeKindAsString (
   msrPartGroupTypeKind partGroupTypeKind)
 {
@@ -29758,6 +29765,13 @@ string msrPartGroup::partGroupTypeKindAsString (
   } // switch
 
   return result;
+}
+
+string msrPartGroup::partGroupBarlineKindAsString () const
+{
+  return
+    partGroupBarlineKindAsString (
+      fPartGroupBarlineKind);
 }
 
 string msrPartGroup::partGroupSymbolKindAsString (
