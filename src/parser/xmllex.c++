@@ -820,9 +820,10 @@ void lexend() {
 
 #define getc	wgetc
 #define fread	wfread
+#define register		// to get rid of the -Wdeprecated-register
 
 
-#line 826 "xmllex.c++"
+#line 827 "xmllex.c++"
 
 #define INITIAL 0
 #define COMMENTSECT 1
@@ -1007,11 +1008,11 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 91 "xml.l"
+#line 92 "xml.l"
 
 
 
-#line 1015 "xmllex.c++"
+#line 1016 "xmllex.c++"
 
 	if ( !(yy_init) )
 		{
@@ -1103,142 +1104,142 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 94 "xml.l"
+#line 95 "xml.l"
 { BEGIN COMMENTSECT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 95 "xml.l"
+#line 96 "xml.l"
 { BEGIN 0; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 96 "xml.l"
+#line 97 "xml.l"
 { return COMMENT; }
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 99 "xml.l"
+#line 100 "xml.l"
 { BEGIN XMLSECT; return XMLDECL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 100 "xml.l"
+#line 101 "xml.l"
 { BEGIN 0; return ENDXMLDECL; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 101 "xml.l"
+#line 102 "xml.l"
 { return VERSION; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 102 "xml.l"
+#line 103 "xml.l"
 { return ENCODING; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 103 "xml.l"
+#line 104 "xml.l"
 { return STANDALONE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 104 "xml.l"
+#line 105 "xml.l"
 { libmxmllval=1; return YES; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 105 "xml.l"
+#line 106 "xml.l"
 { libmxmllval=0; return NO; }
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 107 "xml.l"
+#line 108 "xml.l"
 { BEGIN PISECT; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 108 "xml.l"
+#line 109 "xml.l"
 { BEGIN 0; return PI; }
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 109 "xml.l"
+#line 110 "xml.l"
 { return PI; }
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 111 "xml.l"
+#line 112 "xml.l"
 { BEGIN DOCTYPESECT; return DOCTYPE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 112 "xml.l"
+#line 113 "xml.l"
 { return PUBLIC; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 113 "xml.l"
+#line 114 "xml.l"
 { return SYSTEM; }
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 115 "xml.l"
+#line 116 "xml.l"
 { BEGIN 0; return LT; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 116 "xml.l"
+#line 117 "xml.l"
 { BEGIN DATASECT; return GT; }
 	YY_BREAK
 case 19:
 /* rule 19 can match eol */
 YY_RULE_SETUP
-#line 117 "xml.l"
+#line 118 "xml.l"
 { BEGIN 0; return ENDXMLS; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 118 "xml.l"
+#line 119 "xml.l"
 { return ENDXMLE; }
 	YY_BREAK
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 120 "xml.l"
+#line 121 "xml.l"
 { return SPACE; }
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 121 "xml.l"
+#line 122 "xml.l"
 { return DATA; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 122 "xml.l"
+#line 123 "xml.l"
 { return NAME; }
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
-#line 123 "xml.l"
+#line 124 "xml.l"
 { return QUOTEDSTR; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 124 "xml.l"
+#line 125 "xml.l"
 { return EQ; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 126 "xml.l"
+#line 127 "xml.l"
 { /* extra space ignored*/ }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
@@ -1247,15 +1248,15 @@ case YY_STATE_EOF(DATASECT):
 case YY_STATE_EOF(XMLSECT):
 case YY_STATE_EOF(PISECT):
 case YY_STATE_EOF(DOCTYPESECT):
-#line 128 "xml.l"
+#line 129 "xml.l"
 yyterminate();
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 129 "xml.l"
+#line 130 "xml.l"
 ECHO;
 	YY_BREAK
-#line 1259 "xmllex.c++"
+#line 1260 "xmllex.c++"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2218,4 +2219,4 @@ void libmxmlfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 129 "xml.l"
+#line 130 "xml.l"
