@@ -47,7 +47,7 @@ class EXP partsummary :
 		//! returns the number of staves for the part
 		int countStaves () const				{ return fStavesCount; }
 		//! returns the number of voices 
-		int countVoices () const				{ return fVoices.size(); }
+		int countVoices () const				{ return int(fVoices.size()); }
 		//! returns the number of voices on a staff 
 		int countVoices (int staff) const;
 

@@ -133,7 +133,7 @@ template <typename T> class EXP ctree : virtual public smartable
 		branchs& elements()						{ return fElements; }		
 		const branchs& elements() const			{ return fElements; }		
 		virtual void push (const treePtr& t)	{ fElements.push_back(t); }
-		virtual int  size  () const				{ return fElements.size(); }
+		virtual int  size  () const				{ return int(fElements.size()); }
 		virtual bool empty () const				{ return fElements.size()==0; }
 
 		iterator begin()			{ treePtr start=dynamic_cast<T*>(this); return iterator(start); }

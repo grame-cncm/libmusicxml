@@ -298,8 +298,8 @@ namespace MusicXML2
                 // Check staff number and act accordingly
                 int staffNumber = staffLayout->getAttributeIntValue("number", 1);
                 if (staffNumber == fTargetStaff) {
-                    float xmlDistance = staffLayout->getFloatValue(k_staff_distance, 0.0) - 50.0;
-                    float HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
+                    double xmlDistance = staffLayout->getFloatValue(k_staff_distance, 0.0) - 50.0;
+                    double HalfSpaceDistance = -1.0 * (xmlDistance / 10) * 2 ; // -1.0 for Guido scale // (pos/10)*2
                     if (HalfSpaceDistance<0.0) {    // prefer increasing!
                         Sguidoelement tag = guidotag::create("staffFormat");
                         stringstream s;
@@ -1187,7 +1187,7 @@ namespace MusicXML2
         /// IMPORTANT: Beam Numbering in MusicXML is not the same as in Slurs and are NOT incremental.
         ///            The only assumption we make here is that the numbers are sorted. So we use a REVERSE iterator to close Beams in Order.
         std::vector<S_beam>::const_reverse_iterator i ;
-        int beamStackSizeBeforeClosing = fBeamStack.size();
+        size_t beamStackSizeBeforeClosing = fBeamStack.size();
         for (i = beams.rbegin(); (i != beams.rend() && (!fBeamStack.empty())); i++)
         {
             //cout<<"\t Beam End Check: last stack "<<fBeamStack.top().first<<" "<< fBeamStack.top().second<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<" "<<(*i)->getValue() <<endl;
