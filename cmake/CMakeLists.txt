@@ -23,6 +23,7 @@ else()
     message(WARNING "Building libmusicxml2 has only been tested with Clang and GCC.")
 endif()
 
+try_compile(HAVE_PLWID ${CMAKE_BINARY_DIR} cmake/compilerVersionTest.cpp)
 
 #######################################
 # versions management
