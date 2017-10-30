@@ -246,7 +246,8 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // we use a map to access them by part group number
     map<int, S_msrPartGroup>  fPartGroupsMap;
     
-    void                      showPartGroupsMap ();
+    void                      showPartGroupsMap (
+                                int inputLineNumber);
 
     S_msrPartGroup            fetchPartGroupFromTheMap (
                                 int partGroupNumber);
@@ -255,17 +256,20 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // to determine which is nested in which
     map<S_msrPartGroup, int>  fPartGroupsStartPositionsMap;
 
-    void                      showPartGroupsStartPositionsMap ();
+    void                      showPartGroupsStartPositionsMap (
+                                int inputLineNumber);
 
     int                       fPartGroupsCounter;
     vector<S_msrPartGroup>    fPartGroupsVector;
 
-    void                      showPartGroupsVector ();
+    void                      showPartGroupsVector (
+                                int inputLineNumber);
 
     int                       fPartsCounter;
     vector<S_msrPart>         fPartsVector;
     
-    void                      showPartsVector ();
+    void                      showPartsVector (
+                                int inputLineNumber);
 
     // MusicXML allows part groups to overlap,
     // we use a list in which part groups are orderd by
@@ -282,7 +286,8 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // implementing a stack in a list, with the top first
     list<S_msrPartGroup>      fPartGroupsStack;
 
-    void                      showPartGroupsStack ();
+    void                      showPartGroupsStack (
+                                int inputLineNumber);
 
     S_msrPartGroup            fetchCurrentPartGroupFromStack ();
 

@@ -106,7 +106,8 @@ S_msrPartGroup mxmlTree2MsrSkeletonBuilder::fetchPartGroupFromTheMap (
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap ()
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap (
+  int inputLineNumber)
 {
   fLogOutputStream <<
     "PartGroupsMap:" <<
@@ -148,7 +149,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsMap ()
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsStartPositionsMap ()
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsStartPositionsMap (
+  int inputLineNumber)
 {
   fLogOutputStream <<
     "PartGroupsStartPositionsMap:" <<
@@ -167,6 +169,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStartPositionsMap ()
         (*i).first->getPartGroupCombinedName () <<
         " starts at position " <<
         (*i).second <<
+        ", line " << inputLineNumber <<
         endl;
       if (++i == iEnd) break;
       // no endl here
@@ -187,7 +190,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStartPositionsMap ()
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack ()
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
+  int inputLineNumber)
 {
   fLogOutputStream <<
     "PartGroupsStack:" <<
@@ -228,7 +232,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack ()
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartGroupsVector ()
+void mxmlTree2MsrSkeletonBuilder::showPartGroupsVector (
+  int inputLineNumber)
 {
   fLogOutputStream <<
     "PartGroupsVector:" <<
@@ -251,7 +256,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsVector ()
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::showPartsVector ()
+void mxmlTree2MsrSkeletonBuilder::showPartsVector (
+  int inputLineNumber)
 {
   fLogOutputStream <<
     "PartsVector:" <<
@@ -295,7 +301,8 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
     ">>> ================================================" <<
     endl;
     
-  showPartGroupsMap ();
+  showPartGroupsMap (
+    inputLineNumber);
 
   fLogOutputStream <<
     endl;
@@ -304,22 +311,26 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   showStartedPartGroupsSet ();
     */
 
-  showPartGroupsStartPositionsMap ();
+  showPartGroupsStartPositionsMap (
+    inputLineNumber);
 
   fLogOutputStream <<
     endl;
   
-  showPartGroupsVector ();
+  showPartGroupsVector (
+    inputLineNumber);
 
   fLogOutputStream <<
     endl;
   
-  showPartGroupsStack ();
+  showPartGroupsStack (
+    inputLineNumber);
 
   fLogOutputStream <<
     endl;
   
-  showPartsVector ();
+  showPartsVector (
+    inputLineNumber);
 
   fLogOutputStream <<
     "<<< ================================================" <<
