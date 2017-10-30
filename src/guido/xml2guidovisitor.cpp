@@ -92,7 +92,7 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("instr");
             stringstream s1, s2;
             string instr = header.fPartName;
-            int offset = instr.size() * 2;
+            size_t offset = instr.size() * 2;
             
             s1 << "dx=-" << offset << "hs";
             tag->add (guidoparam::create(instr));
