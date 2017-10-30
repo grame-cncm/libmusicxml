@@ -10,9 +10,9 @@ endif()
 #######################################
 # mimimal tools versions check
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    # require at least gcc 4.8.1
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8.1)
-        message(FATAL_ERROR "GCC version must be at least 4.8.1 to build libmusicxml2!")
+    # require at least gcc 4.9.2
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.2)
+        message(FATAL_ERROR "GCC version must be at least 4.9.2 to build libmusicxml2!")
     endif()
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     # require at least clang 3.3
@@ -23,7 +23,8 @@ else()
     message(WARNING "Building libmusicxml2 has only been tested with Clang and GCC.")
 endif()
 
-try_compile(HAVE_PLWID ${CMAKE_BINARY_DIR} cmake/compilerVersionTest.cpp)
+###try_compile(HAVE_PLWID ${CMAKE_BINARY_DIR} cmake/compilerVersionCheck.cpp
+###    CMAKE_FLAGS -Wall -DGCC -std=c++11 -ggdb3)
 
 #######################################
 # versions management
