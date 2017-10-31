@@ -255,8 +255,12 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     // part groups start positions (fPartsCounter) are used
     // to determine which is nested in which
     map<S_msrPartGroup, int>  fPartGroupsStartPositionsMap;
+    list<S_msrPartGroup>      fPendingPartGroupsToBeStoppedList;
 
     void                      showPartGroupsStartPositionsMap (
+                                int inputLineNumber);
+
+    void                      showPendingPartGroupsToBeStoppedList (
                                 int inputLineNumber);
 
     int                       fPartGroupsCounter;
@@ -314,7 +318,11 @@ class EXP mxmlTree2MsrSkeletonBuilder :
                                 
     void                      stopPartGroup (
                                 int            inputLineNumber,
-                                S_msrPartGroup currentPartGroup);
+                                S_msrPartGroup partGroup);
+                                
+    void                      insertPartGroupIntoPartGroupsToBeStoppedList (
+                                int            inputLineNumber,
+                                S_msrPartGroup partGroup);
                                 
     void                      handlePartGroupStop (
                                 int inputLineNumber);

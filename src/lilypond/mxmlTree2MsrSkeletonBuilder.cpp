@@ -191,6 +191,47 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStartPositionsMap (
 }
 
 //________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::showPendingPartGroupsToBeStoppedList (
+  int inputLineNumber)
+{
+  fLogOutputStream <<
+    "fPendingPartGroupsToBeStoppedList:" <<
+    endl;
+    
+  if (fPendingPartGroupsToBeStoppedList.size ()) {
+    gIndenter++;
+    
+    list<S_msrPartGroup>::const_iterator
+      iBegin = fPendingPartGroupsToBeStoppedList.begin (),
+      iEnd   = fPendingPartGroupsToBeStoppedList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      fLogOutputStream <<
+        (*i)->getPartGroupCombinedName () <<
+        " starts at position " <<
+        fPartGroupsStartPositionsMap [(*i)] <<
+        ", line " << inputLineNumber <<
+        endl;
+      if (++i == iEnd) break;
+      // no endl here
+    } // for
+    
+    gIndenter--;
+  }
+  
+  else {
+    fLogOutputStream <<
+      gTab << "empty map" <<
+      endl;
+  }
+      
+  fLogOutputStream <<
+    "------------------" <<
+    endl;
+}
+
+//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
   int inputLineNumber)
 {
@@ -307,34 +348,33 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
     
   showPartGroupsMap (
     inputLineNumber);
-
-  fLogOutputStream <<
-    endl;
-  
-    /*
-  showStartedPartGroupsSet ();
-    */
-
-  showPartGroupsStartPositionsMap (
-    inputLineNumber);
-
-  fLogOutputStream <<
-    endl;
-  
-  showPartGroupsVector (
-    inputLineNumber);
-
-  fLogOutputStream <<
-    endl;
-  
-  showPartGroupsStack (
-    inputLineNumber);
-
   fLogOutputStream <<
     endl;
   
   showPartsVector (
     inputLineNumber);
+  fLogOutputStream <<
+    endl;
+  
+  showPartGroupsVector (
+    inputLineNumber);
+  fLogOutputStream <<
+    endl;
+  
+  showPartGroupsStartPositionsMap (
+    inputLineNumber);
+  fLogOutputStream <<
+    endl;
+  
+  showPartGroupsStack (
+    inputLineNumber);
+  fLogOutputStream <<
+    endl;
+  
+  showPendingPartGroupsToBeStoppedList (
+    inputLineNumber);
+  fLogOutputStream <<
+    endl;
 
   fLogOutputStream <<
     "<<< ================================================" <<
@@ -552,76 +592,140 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
 //________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
   int            inputLineNumber,
-  S_msrPartGroup currentPartGroup)
+  S_msrPartGroup partGroup)
 {
-  // pop currentPartGroup from the stack
-  fPartGroupsStack.pop_front ();
-  
   S_msrPartGroup
-    newCurrentPartGroup =
-      fetchCurrentPartGroupFromStack ();
+    currentPartGroup =
+      fPartGroupsStack.front ();
 
-  if (newCurrentPartGroup) {
-    // currentPartGroup is nested in the
-    // next to top part group in the stack
+  if (partGroup == currentPartGroup) {
+    // partGroup is the current part group,
+    // pop it currentPartGroup from the stack
+    fPartGroupsStack.pop_front ();
 
-    // set currentPartGroup's uplink to newCurrentPartGroup;
-    if (gGeneralOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Setting the uplink of part group " <<
-        currentPartGroup->
-          getPartGroupCombinedName () <<
-        "' to " <<
-        newCurrentPartGroup->
-          getPartGroupCombinedName () << 
-        ", line " << inputLineNumber <<
-        endl;      
+    // fetch new current part group
+    S_msrPartGroup
+      newCurrentPartGroup =
+        fetchCurrentPartGroupFromStack ();
+  
+    if (newCurrentPartGroup) {
+      // partGroup is nested in the prior
+      // next to top part group in the stack
+  
+      // set currentPartGroup's uplink to newCurrentPartGroup;
+      if (gGeneralOptions->fTracePartGroups) {
+        fLogOutputStream <<
+          "Setting the uplink of part group " <<
+          currentPartGroup->
+            getPartGroupCombinedName () <<
+          "' to " <<
+          newCurrentPartGroup->
+            getPartGroupCombinedName () << 
+          ", line " << inputLineNumber <<
+          endl;      
+      }
+    
+      currentPartGroup->
+        setPartGroupPartGroupUplink (
+          newCurrentPartGroup);
+    
+      // appending currentPartGroup to newCurrentPartGroup
+      if (gGeneralOptions->fTracePartGroups) {
+        fLogOutputStream <<
+          "Appending sub part group " <<
+          currentPartGroup->
+            getPartGroupCombinedName () <<
+          "' to " <<
+          newCurrentPartGroup->
+            getPartGroupCombinedName () << 
+          ", line " << inputLineNumber <<
+          endl;      
+      }
+    
+      newCurrentPartGroup->
+        appendSubPartGroupToPartGroup (
+          currentPartGroup);
     }
   
-    currentPartGroup->
-      setPartGroupPartGroupUplink (
-        newCurrentPartGroup);
-  
-    // appending currentPartGroup to newCurrentPartGroup
-    if (gGeneralOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Appending sub part group " <<
-        currentPartGroup->
-          getPartGroupCombinedName () <<
-        "' to " <<
-        newCurrentPartGroup->
-          getPartGroupCombinedName () << 
-        ", line " << inputLineNumber <<
-        endl;      
+    else {
+      // currentPartGroup is the top-most part group,
+      // append it to thte MSR score
+      if (gGeneralOptions->fTracePartGroups) {
+        fLogOutputStream <<
+          "Appending part group '" <<
+          currentPartGroup->getPartGroupNumber () <<
+          "' to MSR score" <<
+          ", partsCounter = " << fPartsCounter <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+          
+      fMsrScore->
+        addPartGroupToScore (
+          currentPartGroup);
     }
-  
-    newCurrentPartGroup->
-      appendSubPartGroupToPartGroup (
-        currentPartGroup);
   }
 
   else {
-    // currentPartGroup is the top-most part group,
-    // append it to thte MSR score
-    if (gGeneralOptions->fTracePartGroups) {
-      fLogOutputStream <<
-        "Appending part group '" <<
-        currentPartGroup->getPartGroupNumber () <<
-        "' to MSR score" <<
-        ", partsCounter = " << fPartsCounter <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-        
-    fMsrScore->
-      addPartGroupToScore (
-        currentPartGroup);
+    // partGroup is not the current part group,
+    // this 'stop' doesn't happen in strict reverse order
+    insertPartGroupIntoPartGroupsToBeStoppedList (
+      inputLineNumber,
+      partGroup);
   }
         
   if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER stopPartGroup()");
+  }
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::insertPartGroupIntoPartGroupsToBeStoppedList (
+  int            inputLineNumber,
+  S_msrPartGroup partGroup)
+{
+  // this list is created in start position decreasing order,
+  // so as to have the inner-most group appearing first
+  
+  if (fPendingPartGroupsToBeStoppedList.size () == 0) {
+    fPendingPartGroupsToBeStoppedList.push_front (
+      partGroup);
+  }
+
+  else {
+    list<S_msrPartGroup>::const_iterator
+      iBegin = fPendingPartGroupsToBeStoppedList.begin (),
+      iEnd   = fPendingPartGroupsToBeStoppedList.end (),
+      i      = iBegin;
+  
+    while (true) {
+      if (i == iEnd) {
+        stringstream s;
+        s <<
+          "part group " <<
+          fCurrentPartGroupNumber <<
+          " could not be inserted in part groups to be stopped list";
+          
+        msrInternalError (
+          inputLineNumber,
+          s.str ());
+        break;
+      }
+  
+      if (
+        fPartGroupsStartPositionsMap [partGroup]
+          >=
+        fPartGroupsStartPositionsMap [(*i)]) {
+        // insert partGroup before (*i)
+        fPendingPartGroupsToBeStoppedList.insert (
+          i, partGroup);
+        break;
+      }
+      
+      i++;
+    } // while
   }
 }
 
