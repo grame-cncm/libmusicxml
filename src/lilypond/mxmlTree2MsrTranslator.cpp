@@ -6536,7 +6536,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentMusicXMLTremoloType = k_NoTremolo;
 
-  fCurrentTie = 0;
+  fCurrentTie = (void*)0;
   fCurrentTiedOrientation = "";
   
   fCurrentSlurNumber = -1;

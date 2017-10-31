@@ -4692,7 +4692,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
             theString, false) // 'true' to debug it
           );
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = (void*)0;
     }
     
     else if (
