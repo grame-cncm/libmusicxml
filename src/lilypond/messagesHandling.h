@@ -35,7 +35,7 @@ namespace MusicXML2
 
 #define msrAssert( condition, messageIfFalse ) \
 { \
-  if (! condition) { \
+  if (! (condition) ) { \
     cerr << \
       endl << \
       "#### msrAssert failure: " << messageIfFalse << \
