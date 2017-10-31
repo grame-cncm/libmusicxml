@@ -28,7 +28,7 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 39
+#define YY_FLEX_SUBMINOR_VERSION 35
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -66,6 +66,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -73,6 +74,7 @@ typedef int flex_int32_t;
 typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
+#endif /* ! C99 */
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -102,8 +104,6 @@ typedef unsigned int flex_uint32_t;
 #ifndef UINT32_MAX
 #define UINT32_MAX             (4294967295U)
 #endif
-
-#endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
 
@@ -161,15 +161,7 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
-#ifdef __ia64__
-/* On IA-64, the buffer size is 16k, not 8k.
- * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
- * Ditto for the __ia64__ case accordingly.
- */
-#define YY_BUF_SIZE 32768
-#else
 #define YY_BUF_SIZE 16384
-#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -203,16 +195,9 @@ extern FILE *libmxmlin, *libmxmlout;
      */
     #define  YY_LESS_LINENO(n) \
             do { \
-                int yyl;\
+                yy_size_t yyl;\
                 for ( yyl = n; yyl < libmxmlleng; ++yyl )\
                     if ( libmxmltext[yyl] == '\n' )\
-                        --libmxmllineno;\
-            }while(0)
-    #define YY_LINENO_REWIND_TO(dst) \
-            do {\
-                const char *p;\
-                for ( p = yy_cp-1; p >= (dst); --p)\
-                    if ( *p == '\n' )\
                         --libmxmllineno;\
             }while(0)
     
@@ -401,7 +386,7 @@ static void yy_fatal_error (yyconst char msg[]  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	libmxmlleng = (size_t) (yy_cp - yy_bp); \
+	libmxmlleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -769,12 +754,12 @@ char *libmxmltext;
 #line 2 "xml.l"
  
 /* 
-	Basic relaxed xml lexical definition.
-	This is a basic definition of the lexical elements necessary to cover 
-	the MusicXML format. It is a simplified form based on the XML document
-	grammar as defined in 
-	"XML in a nutshell - 2nd edition" E.R.Harold and W.S.Means,
-	O'Reilly, June 2002, pp:366--371
+  Basic relaxed xml lexical definition.
+  This is a basic definition of the lexical elements necessary to cover 
+  the MusicXML format. It is a simplified form based on the XML document
+  grammar as defined in 
+  "XML in a nutshell - 2nd edition" E.R.Harold and W.S.Means,
+  O'Reilly, June 2002, pp:366--371
 */
 
 #include "xmlparse.hpp"
@@ -788,56 +773,57 @@ static int utf16 = 0;
 static int bigendian = 1;
 static int start = 1;
 
-static int wgetc(FILE * fd) {
-	int c = getc(fd);
-	if (start) {
-		if (c == 0xff) {
-			utf16 = 1; bigendian = 0;
-			getc(fd); c = getc(fd);
-		}
-		else if (c == 0xfe) {
-			utf16 = 1; bigendian = 1;
-			getc(fd); c = getc(fd);
-		}
-		start = 0;
-	}
-	if (utf16) {
-		if (bigendian) c = getc(fd);
-		else getc(fd);
-	}
+static int wgetc (FILE * fd) {
+  int c = getc(fd);
+  if (start) {
+    if (c == 0xff) {
+      utf16 = 1; bigendian = 0;
+      getc(fd); c = getc(fd);
+    }
+    else if (c == 0xfe) {
+      utf16 = 1; bigendian = 1;
+      getc(fd); c = getc(fd);
+    }
+    start = 0;
+  }
+  if (utf16) {
+    if (bigendian) c = getc(fd);
+    else getc(fd);
+  }
 
-	return c;
+  return c;
 }
 
 static size_t wfread (void * buf, size_t size, size_t nmemb, FILE * fd) {
-	char * ptr = (char *)buf;
-	size_t n=0;
-	while (nmemb--) {
-		*ptr++ = wgetc(fd);
-		if (feof(fd) || ferror(fd) ) break;
-		n++;
-	}
-	return n;
+  char * ptr = (char *)buf;
+  size_t n=0;
+  while (nmemb--) {
+    *ptr++ = wgetc(fd);
+    if (feof(fd) || ferror(fd) ) break;
+    n++;
+  }
+  return n;
 }
-		 
-void lexinit(FILE* fd) {
-	utf16 = 0;
-	bigendian = 1;
-	start = 1;
-	libmxmlrestart(fd);
+     
+void lexinit (FILE* fd) {
+  utf16 = 0;
+  bigendian = 1;
+  start = 1;
+  libmxmlrestart(fd);
 }
-		 
-void lexend() {
-	if (YY_CURRENT_BUFFER) {
-		libmxml_delete_buffer (YY_CURRENT_BUFFER);
-	}
+     
+void lexend () {
+  if (YY_CURRENT_BUFFER) {
+    libmxml_delete_buffer (YY_CURRENT_BUFFER);
+  }
 }
 
-#define getc	wgetc
-#define fread	wfread
+#define getc  wgetc
+#define fread wfread
+#define register 		// this is to get rid of deprecated register warning
 
 
-#line 841 "xmllex.c++"
+#line 827 "xmllex.c++"
 
 #define INITIAL 0
 #define COMMENTSECT 1
@@ -923,12 +909,7 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
-#ifdef __ia64__
-/* On IA-64, the buffer size is 16k, not 8k */
-#define YY_READ_BUF_SIZE 16384
-#else
 #define YY_READ_BUF_SIZE 8192
-#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -936,7 +917,7 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO do { if (fwrite( libmxmltext, libmxmlleng, 1, libmxmlout )) {} } while (0)
+#define ECHO fwrite( libmxmltext, libmxmlleng, 1, libmxmlout )
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -947,7 +928,7 @@ static int input (void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		size_t n; \
+		yy_size_t n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( libmxmlin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -1029,6 +1010,12 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
+#line 91 "xml.l"
+
+
+
+#line 1018 "xmllex.c++"
+
 	if ( !(yy_init) )
 		{
 		(yy_init) = 1;
@@ -1055,13 +1042,6 @@ YY_DECL
 		libmxml_load_buffer_state( );
 		}
 
-	{
-#line 90 "xml.l"
-
-
-
-#line 1064 "xmllex.c++"
-
 	while ( 1 )		/* loops until end-of-file is reached */
 		{
 		yy_cp = (yy_c_buf_p);
@@ -1078,7 +1058,7 @@ YY_DECL
 yy_match:
 		do
 			{
-			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
+			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
 			if ( yy_accept[yy_current_state] )
 				{
 				(yy_last_accepting_state) = yy_current_state;
@@ -1126,142 +1106,142 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 93 "xml.l"
+#line 94 "xml.l"
 { BEGIN COMMENTSECT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 94 "xml.l"
+#line 95 "xml.l"
 { BEGIN 0; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 95 "xml.l"
+#line 96 "xml.l"
 { return COMMENT; }
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 98 "xml.l"
+#line 99 "xml.l"
 { BEGIN XMLSECT; return XMLDECL; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 99 "xml.l"
+#line 100 "xml.l"
 { BEGIN 0; return ENDXMLDECL; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 100 "xml.l"
+#line 101 "xml.l"
 { return VERSION; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 101 "xml.l"
+#line 102 "xml.l"
 { return ENCODING; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 102 "xml.l"
+#line 103 "xml.l"
 { return STANDALONE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 103 "xml.l"
+#line 104 "xml.l"
 { libmxmllval=1; return YES; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 104 "xml.l"
+#line 105 "xml.l"
 { libmxmllval=0; return NO; }
 	YY_BREAK
 case 11:
 /* rule 11 can match eol */
 YY_RULE_SETUP
-#line 106 "xml.l"
+#line 107 "xml.l"
 { BEGIN PISECT; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 107 "xml.l"
+#line 108 "xml.l"
 { BEGIN 0; return PI; }
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 108 "xml.l"
+#line 109 "xml.l"
 { return PI; }
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 110 "xml.l"
+#line 111 "xml.l"
 { BEGIN DOCTYPESECT; return DOCTYPE; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 111 "xml.l"
+#line 112 "xml.l"
 { return PUBLIC; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 112 "xml.l"
+#line 113 "xml.l"
 { return SYSTEM; }
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 114 "xml.l"
+#line 115 "xml.l"
 { BEGIN 0; return LT; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 115 "xml.l"
+#line 116 "xml.l"
 { BEGIN DATASECT; return GT; }
 	YY_BREAK
 case 19:
 /* rule 19 can match eol */
 YY_RULE_SETUP
-#line 116 "xml.l"
+#line 117 "xml.l"
 { BEGIN 0; return ENDXMLS; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 117 "xml.l"
+#line 118 "xml.l"
 { return ENDXMLE; }
 	YY_BREAK
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 119 "xml.l"
+#line 120 "xml.l"
 { return SPACE; }
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 120 "xml.l"
+#line 121 "xml.l"
 { return DATA; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 121 "xml.l"
+#line 122 "xml.l"
 { return NAME; }
 	YY_BREAK
 case 24:
 /* rule 24 can match eol */
 YY_RULE_SETUP
-#line 122 "xml.l"
+#line 123 "xml.l"
 { return QUOTEDSTR; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 123 "xml.l"
+#line 124 "xml.l"
 { return EQ; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 125 "xml.l"
+#line 126 "xml.l"
 { /* extra space ignored*/ }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
@@ -1270,15 +1250,15 @@ case YY_STATE_EOF(DATASECT):
 case YY_STATE_EOF(XMLSECT):
 case YY_STATE_EOF(PISECT):
 case YY_STATE_EOF(DOCTYPESECT):
-#line 127 "xml.l"
+#line 128 "xml.l"
 yyterminate();
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 128 "xml.l"
+#line 129 "xml.l"
 ECHO;
 	YY_BREAK
-#line 1282 "xmllex.c++"
+#line 1262 "xmllex.c++"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1408,7 +1388,6 @@ ECHO;
 			"fatal flex scanner internal error--no action found" );
 	} /* end of action switch */
 		} /* end of scanning one token */
-	} /* end of user's declarations */
 } /* end of libmxmllex */
 
 /* yy_get_next_buffer - try to read in a new buffer
@@ -1471,7 +1450,7 @@ static int yy_get_next_buffer (void)
 			{ /* Not enough room in the buffer - grow it. */
 
 			/* just a shorter name for the current buffer */
-			YY_BUFFER_STATE b = YY_CURRENT_BUFFER_LVALUE;
+			YY_BUFFER_STATE b = YY_CURRENT_BUFFER;
 
 			int yy_c_buf_p_offset =
 				(int) ((yy_c_buf_p) - b->yy_ch_buf);
@@ -1604,7 +1583,7 @@ static int yy_get_next_buffer (void)
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 	yy_is_jam = (yy_current_state == 228);
 
-		return yy_is_jam ? 0 : yy_current_state;
+	return yy_is_jam ? 0 : yy_current_state;
 }
 
     static void yyunput (int c, register char * yy_bp )
@@ -1696,7 +1675,7 @@ static int yy_get_next_buffer (void)
 				case EOB_ACT_END_OF_FILE:
 					{
 					if ( libmxmlwrap( ) )
-						return EOF;
+						return 0;
 
 					if ( ! (yy_did_buffer_switch_on_eof) )
 						YY_NEW_FILE;
@@ -2041,8 +2020,8 @@ YY_BUFFER_STATE libmxml_scan_string (yyconst char * yystr )
 
 /** Setup the input buffer state to scan the given bytes. The next call to libmxmllex() will
  * scan from a @e copy of @a bytes.
- * @param yybytes the byte buffer to scan
- * @param _yybytes_len the number of bytes in the buffer pointed to by @a bytes.
+ * @param bytes the byte buffer to scan
+ * @param len the number of bytes in the buffer pointed to by @a bytes.
  * 
  * @return the newly allocated buffer state object.
  */
@@ -2050,8 +2029,7 @@ YY_BUFFER_STATE libmxml_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes
 {
 	YY_BUFFER_STATE b;
 	char *buf;
-	yy_size_t n;
-	yy_size_t i;
+	yy_size_t n, i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = _yybytes_len + 2;
@@ -2284,4 +2262,4 @@ void libmxmlfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 127 "xml.l"
+#line 129 "xml.l"
