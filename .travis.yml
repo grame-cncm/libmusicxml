@@ -12,8 +12,15 @@ branches:
   - lilypond
   - master
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.9
+
 script: 
     - echo $(g++ --version)
     - cd cmake 
-    - cmake . 
+    - cmake .
     - make
