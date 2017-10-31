@@ -11,9 +11,9 @@ endif()
 # mimimal tools versions check
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # require at least gcc 4.9.2
-#    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.2)
-#        message(FATAL_ERROR "GCC version must be at least 4.9.2 to build libmusicxml2!")
-#    endif()
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.2)
+        message(FATAL_ERROR "GCC version must be at least 4.9.2 to build libmusicxml2!")
+    endif()
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     # require at least clang 3.3
     if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3)
