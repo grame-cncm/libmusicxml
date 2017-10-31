@@ -4,6 +4,7 @@ language: cpp
 compiler: gcc
 
 before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get -qq update
   - sudo apt-get install gcc-4.9 -y
 
@@ -13,16 +14,8 @@ branches:
   - lilypond
   - master
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.9
-
 script: 
-    - echo $(which gcc-4.9)
-    - echo $(g++ --version)
+    - g++ --version
     - cd cmake 
     - cmake .
     - make
