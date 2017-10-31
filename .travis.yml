@@ -3,19 +3,9 @@ dist: Trusty
 language: cpp
 compiler: gcc
 
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.9
-    - g++-4.9
-
 before_install:
   - sudo apt-get -qq update
-
-install:
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+  - sudo apt-get install gcc-4.9 -y
 
 branches:
   only:
@@ -31,6 +21,7 @@ addons:
       - g++-4.9
 
 script: 
+    - echo $(CXX)
     - echo $(g++ --version)
     - cd cmake 
     - cmake .
