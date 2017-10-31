@@ -102,7 +102,7 @@ R"()",
       appendOptionsItem (
         msrOptionsVersionItem::create (
           "v", "version",
-R"(Display xml2lilypond's version number and exit.)"));
+R"(Display xml2lilypond's version number and history and exit.)"));
   }
 
 

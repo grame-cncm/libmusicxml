@@ -448,7 +448,7 @@ void msrOptionsAboutItem::printAbout (ostream& os) const
 {  
   os <<
     endl <<
-R"(What it does:
+R"(What xml2lilypond does:
 
     This multi-pass translator basically performs 5 passes:
         Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
