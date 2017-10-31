@@ -12,4 +12,4 @@ branches:
   - lilypond
   - master
 
-script: cd cmake && cmake && make
+script: cd cmake && cmake . && make
