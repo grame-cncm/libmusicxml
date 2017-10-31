@@ -2617,21 +2617,26 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   S_msrPartGroup
     partGroup =
       elt->getPartGroup ();
+
+// JMI  fLilypondIOstream << endl << endl << partGroup << endl << endl;
       
   msrPartGroup::msrPartGroupSymbolKind
     partGroupSymbolKind =
-      partGroup->getPartGroupSymbolKind ();
+      partGroup->
+        getPartGroupSymbolKind ();
 
   msrPartGroup::msrPartGroupBarlineKind
     partGroupBarlineKind =
-      partGroup->getPartGroupBarlineKind ();
+      partGroup->
+        getPartGroupBarlineKind ();
       
   string
     partGroupInstrumentName =
-      partGroup->getPartGroupInstrumentName ();
-      
-  string partGroupContextName;
+      partGroup->
+        getPartGroupInstrumentName ();
 
+  stringstream s;
+  
   // LPNR, page 567 jMI ???
 
   switch (partGroup->getPartGroupImplicitKind ()) {
@@ -2642,7 +2647,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
     case msrPartGroup::kPartGroupImplicitNo:
       switch (partGroupSymbolKind) {
         case msrPartGroup::k_NoPartGroupSymbol:
-          partGroupContextName = "";
           break;
           
         case msrPartGroup::kBracePartGroupSymbol: // JMI
@@ -2651,17 +2655,17 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
          * check whether individual part have instrument names
          * 
           if (partGroupInstrumentName.size ())
-            partGroupContextName = "\\new PianoStaff";
+            s << = "\\new PianoStaff";
           else
-            partGroupContextName = "\\new GrandStaff";
+            s << = "\\new GrandStaff";
             */
           switch (partGroupBarlineKind) {
             case msrPartGroup::kPartGroupBarlineYes:
-              partGroupContextName =
+              s <<
                 "\\new PianoStaff";
               break;
             case msrPartGroup::kPartGroupBarlineNo:
-              partGroupContextName =
+              s <<
                 "\\new GrandStaff";
               break;
           } // switch
@@ -2670,36 +2674,45 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kBracketPartGroupSymbol:
           switch (partGroupBarlineKind) {
             case msrPartGroup::kPartGroupBarlineYes:
-              partGroupContextName =
+              s <<
                 "\\new StaffGroup";
               break;
             case msrPartGroup::kPartGroupBarlineNo:
-              partGroupContextName =
+              s <<
                 "\\new ChoirStaff";
               break;
           } // switch
           break;
           
         case msrPartGroup::kLinePartGroupSymbol:
-          partGroupContextName =
-            "\\new StaffGroup";
+          s <<
+            "\\new StaffGroup \\with { " <<
+            endl <<
+            gTab << "systemStartDelimiter = #'SystemStartSquare" <<
+            // how do we get a SystemStartLine ??? JMI
+            endl <<
+            "}";
           break;
-          
+        
         case msrPartGroup::kSquarePartGroupSymbol:
-          partGroupContextName =
-R"(            "\\new StaffGroup \\with { systemStartDelimiter =
-            #'SystemStartSquare }")";
+          s <<
+            "\\new StaffGroup \\with { " <<
+            endl <<
+            gTab << "systemStartDelimiter = #'SystemStartSquare" <<
+            endl <<
+            "}";
           break;
       } // switch
   
       fLilypondIOstream << left <<
         setw (commentFieldWidth) <<
-        partGroupContextName + " <<";
+        s.str () + " <<";
         
-      if (gLilypondOptions->fComments)
+      if (gLilypondOptions->fComments) {
         fLilypondIOstream <<
           "% part group " <<
           partGroup->getPartGroupCombinedName ();
+      }
           
       fLilypondIOstream <<
         endl;

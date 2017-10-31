@@ -777,7 +777,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       "",         // partGroupDisplayText
       "",         // partGroupAccidentalText
       "Impl.",    // partGroupAbbreviation
-      msrPartGroup::kBracketPartGroupSymbol,
+      msrPartGroup::k_NoPartGroupSymbol,
       0,          // partGroupSymbolDefaultX
       msrPartGroup::kPartGroupImplicitYes,
       msrPartGroup::kPartGroupBarlineYes,
