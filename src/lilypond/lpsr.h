@@ -53,7 +53,8 @@ namespace MusicXML2
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class EXP lpsrElement : public msrElement
+// class EXP lpsrElement : public msrElement
+class lpsrElement : public msrElement
 {
   public:
 
@@ -99,7 +100,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrElement& elt);
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-template <typename T> class EXP lpsrBrowser : public browser<T> 
+//template <typename T> class EXP lpsrBrowser : public browser<T>
+template <typename T> class lpsrBrowser : public browser<T>
 {
   protected:
   
@@ -130,7 +132,8 @@ template <typename T> class EXP lpsrBrowser : public browser<T>
 \brief The lpsr parallel music element
 */
 //______________________________________________________________________________
-class EXP lpsrParallelMusic : public lpsrElement
+// class EXP lpsrParallelMusic : public lpsrElement
+class lpsrParallelMusic : public lpsrElement
 {
   public:
     
@@ -211,7 +214,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrParallelMusic& elt);
 \brief A lpsr LilyPond variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP lpsrLilypondVarValAssoc : public lpsrElement
+// class EXP lpsrLilypondVarValAssoc : public lpsrElement
+class lpsrLilypondVarValAssoc : public lpsrElement
 {
   public:
 
@@ -362,7 +366,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& elt);
 \brief A lpsr Scheme variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP lpsrSchemeVarValAssoc : public lpsrElement
+// class EXP lpsrSchemeVarValAssoc : public lpsrElement
+class lpsrSchemeVarValAssoc : public lpsrElement
 {
   public:
 
@@ -467,7 +472,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& elt);
 \brief A lpsr Scheme variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP lpsrSchemeFunction : public lpsrElement
+// class EXP lpsrSchemeFunction : public lpsrElement
+class lpsrSchemeFunction : public lpsrElement
 {
   public:
 
@@ -543,7 +549,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& elt);
   A comment is represented by its contents
 */
 //______________________________________________________________________________
-class EXP lpsrComment : public lpsrElement
+//class EXP lpsrComment : public lpsrElement
+class lpsrComment : public lpsrElement
 {
   public:
     
@@ -620,7 +627,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrComment& elt);
   A barnumbercheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP lpsrBarNumberCheck : public lpsrElement
+// class EXP lpsrBarNumberCheck : public lpsrElement
+class lpsrBarNumberCheck : public lpsrElement
 {
   public:
     
@@ -678,7 +686,8 @@ typedef SMARTP<lpsrBarNumberCheck> S_lpsrBarNumberCheck;
   A new staff is represented by a vactor of elements
 */
 //______________________________________________________________________________
-class EXP lpsrNewStaffgroupBlock : public lpsrElement
+// class EXP lpsrNewStaffgroupBlock : public lpsrElement
+class lpsrNewStaffgroupBlock : public lpsrElement
 {
   public:
 
@@ -741,7 +750,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupBlock& elt);
   A new staff tuning is represented by a vactor of elements
 */
 //______________________________________________________________________________
-class EXP lpsrNewStaffTuningBlock : public lpsrElement
+// class EXP lpsrNewStaffTuningBlock : public lpsrElement
+class lpsrNewStaffTuningBlock : public lpsrElement
 {
   public:
 
@@ -803,7 +813,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffTuningBlock& elt);
   A new staff is represented by a vactor of elements
 */
 //______________________________________________________________________________
-class EXP lpsrNewStaffBlock : public lpsrElement
+// class EXP lpsrNewStaffBlock : public lpsrElement
+class lpsrNewStaffBlock : public lpsrElement
 {
   public:
 
@@ -863,7 +874,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffBlock& elt);
   A voice use is represented by the voice to use
 */
 //______________________________________________________________________________
-class EXP lpsrUseVoiceCommand : public lpsrElement
+// class EXP lpsrUseVoiceCommand : public lpsrElement
+class lpsrUseVoiceCommand : public lpsrElement
 {
   public:
 
@@ -925,7 +937,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrUseVoiceCommand& elt);
 */
 
 //______________________________________________________________________________
-class EXP lpsrNewLyricsBlock : public lpsrElement
+// class EXP lpsrNewLyricsBlock : public lpsrElement
+class lpsrNewLyricsBlock : public lpsrElement
 {
   public:
 
@@ -991,7 +1004,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrNewLyricsBlock& elt);
   A variable use is represented by the name of the variable to use
 */
 //______________________________________________________________________________
-class EXP lpsrVariableUseCommand : public lpsrElement
+// class EXP lpsrVariableUseCommand : public lpsrElement
+class lpsrVariableUseCommand : public lpsrElement
 {
   public:
 
@@ -1050,7 +1064,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& elt);
   A lyrics use is represented by the lyrics to use
 */
 //______________________________________________________________________________
-class EXP lpsrUseLyricsCommand : public lpsrElement
+// class EXP lpsrUseLyricsCommand : public lpsrElement
+class lpsrUseLyricsCommand : public lpsrElement
 {
   public:
 
@@ -1112,7 +1127,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrUseLyricsCommand& elt);
     or a new one, \new Voice...
 */
 //______________________________________________________________________________
-class EXP lpsrContext : public lpsrElement
+// class EXP lpsrContext : public lpsrElement
+class lpsrContext : public lpsrElement
 {
   public:
 
@@ -1226,7 +1242,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrContext& elt);
   A bar is represented by a vactor of elements
 */
 //______________________________________________________________________________
-class EXP lpsrBarCommand : public lpsrElement
+// class EXP lpsrBarCommand : public lpsrElement
+class lpsrBarCommand : public lpsrElement
 {
   public:
 
@@ -1281,7 +1298,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrBarCommand& elt);
   A bar is represented by a vactor of elements
 */
 //______________________________________________________________________________
-class EXP lpsrMelismaCommand : public lpsrElement
+// class EXP lpsrMelismaCommand : public lpsrElement
+class lpsrMelismaCommand : public lpsrElement
 {
   public:
 
@@ -1353,7 +1371,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrMelismaCommand& elt);
   A header is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP lpsrHeader : public lpsrElement
+// class EXP lpsrHeader : public lpsrElement
+class lpsrHeader : public lpsrElement
 {
   public:
 
@@ -1689,7 +1708,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrHeader& elt);
   A paper is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP lpsrPaper : public msrElement
+// class EXP lpsrPaper : public msrElement
+class lpsrPaper : public msrElement
 {
   public:
 
@@ -1803,7 +1823,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrPaper& elt);
   A layout is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP lpsrLayout : public lpsrElement
+// class EXP lpsrLayout : public lpsrElement
+class lpsrLayout : public lpsrElement
 {
   public:
 
@@ -1884,7 +1905,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrStaffBlock : public lpsrElement
+// class EXP lpsrStaffBlock : public lpsrElement
+class lpsrStaffBlock : public lpsrElement
 {
   public:
 
@@ -1983,7 +2005,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrStaffBlock& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrPartBlock : public lpsrElement
+// class EXP lpsrPartBlock : public lpsrElement
+class lpsrPartBlock : public lpsrElement
 {
   public:
 
@@ -2076,7 +2099,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrPartBlock& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrPartGroupBlock : public lpsrElement
+// class EXP lpsrPartGroupBlock : public lpsrElement
+class lpsrPartGroupBlock : public lpsrElement
 {
   public:
 
@@ -2146,7 +2170,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrScoreBlock : public lpsrElement
+// class EXP lpsrScoreBlock : public lpsrElement
+class lpsrScoreBlock : public lpsrElement
 {
   public:
 
@@ -2230,7 +2255,8 @@ EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);
   A score is represented by parallel music, score layout and midi
 */
 //______________________________________________________________________________
-class EXP lpsrScore : public lpsrElement
+// class EXP lpsrScore : public lpsrElement
+class lpsrScore : public lpsrElement
 {
   public:
 
