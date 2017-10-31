@@ -23751,7 +23751,7 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         gIndenter--;
 
         // forget about this pending measure repeat
-        fVoicePendingMeasureRepeat = 0;
+        fVoicePendingMeasureRepeat = (void*)0;
       }
       break;
   } // switch
@@ -24037,7 +24037,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         gIndenter--;
 
         // forget about this pending multiple rest
-        fVoicePendingMultipleRest = 0;
+        fVoicePendingMultipleRest = (void*)0;
       }
       break;
   } // switch
@@ -25412,7 +25412,7 @@ void msrStaffDetails::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "staffTypeKind" << " = " <<
-    staffTypeKindAsString (fStaffTypeKind) <<
+    staffTypeKindAsString (fStaffTypeKind); // <<
 
   // print the staff lines number if any
   os << left <<
