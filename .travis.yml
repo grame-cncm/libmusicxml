@@ -21,7 +21,7 @@ addons:
       - g++-4.9
 
 script: 
-    - echo $(CXX)
+    - echo $(which gcc-4.9)
     - echo $(g++ --version)
     - cd cmake 
     - cmake .
