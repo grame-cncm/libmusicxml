@@ -59,14 +59,14 @@ void xml2guidovisitor::flushHeader ( scoreHeader& header )
   if (header.fTitle) {
     Sguidoelement tag = guidotag::create("title");
     string title = header.fTitle->getValue();
-    unsigned int pos = title.find ('"');
+    size_t pos = title.find ('"');
     while (pos != string::npos) {
       title = title.replace (pos, 1, "'");
       pos = title.find ('"', pos);
     }
     tag->add (guidoparam::create(title));
     add (tag);
-    header.fTitle = 0;
+    header.fTitle = (void*)0;
   }
   vector<S_creator>::const_iterator i;
   for (i=header.fCreators.begin(); i!=header.fCreators.end(); i++) {
@@ -105,7 +105,7 @@ void xml2guidovisitor::flushPartHeader ( partHeader& header )
     s2 << "dx=" << offset << "hs";
     tag->add (guidoparam::create(s2.str(), false));
     add (tag);
-    header.fPartName = 0;
+    header.fPartName = (void*)0;
   }
 }
 

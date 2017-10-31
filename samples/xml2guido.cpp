@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 
   int nonOptionArgs = argc-optind;
 
-  char * file = "";
+  const char * file = "";
 
   switch (nonOptionArgs)
     {

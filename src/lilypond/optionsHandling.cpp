@@ -4530,7 +4530,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         fOptionsHandlerLogIOstream,
         theString);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = (void*)0;
       }
     
     else if (
@@ -4552,7 +4552,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         setIntegerItemVariableValue (
           integerValue);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = (void*)0;
       }
     
     else if (
@@ -4573,7 +4573,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         setFloatItemVariableValue (
           floatValue);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = (void*)0;
     }
     
     else if (
@@ -4587,7 +4587,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         setStringItemVariableValue (
           theString);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = (void*)0;
     }
     
     else if (
@@ -4675,7 +4675,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         setRationalItemVariableValue (
           rationalValue);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = (void*)0;
     }
 
     else if (

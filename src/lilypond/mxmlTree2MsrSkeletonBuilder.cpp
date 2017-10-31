@@ -1012,7 +1012,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
       elt->getInputLineNumber ());
 
     // forget about the implicit part group // JMI ???
-    fImplicitPartGroup = 0;
+    fImplicitPartGroup = (void*)0;
   }
 //  */
   

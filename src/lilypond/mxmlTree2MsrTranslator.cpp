@@ -985,7 +985,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_credit& elt )
   fMsrScore->
     appendCreditToScore (fCurrentCredit);
   
-  fCurrentCredit = 0;
+  fCurrentCredit = (void*)0;
 }
 
 //________________________________________________________________________
@@ -1101,7 +1101,7 @@ void mxmlTree2MsrTranslator::visitStart (S_attributes& elt)
       endl;
   }
 
-  fCurrentTime = 0;
+  fCurrentTime = (void*)0;
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
@@ -1499,7 +1499,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key& elt )
 
   // Humdrum-Scot
 
-  fCurrentHumdrumScotKeyItem = 0;
+  fCurrentHumdrumScotKeyItem = (void*)0;
 }
   
 void mxmlTree2MsrTranslator::visitStart ( S_cancel& elt )
@@ -1682,7 +1682,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
       keyAlteration);
 
   // forget about this item
-  fCurrentHumdrumScotKeyItem = 0;
+  fCurrentHumdrumScotKeyItem = (void*)0;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_key_octave& elt )
@@ -2610,8 +2610,8 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
 
   fCurrentWordsContents = ""; // there can be several such
 
-  fCurrentMetronomeWords = 0;
-  fCurrentMetronomeTempo = 0;
+  fCurrentMetronomeWords = (void*)0;
+  fCurrentMetronomeTempo = (void*)0;
 
   fOnGoingDirection = true;
 }
@@ -3646,8 +3646,8 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
 
   fCurrentStaffDetailsStaffSize = 0;
   
-  fCurrentStaffLinesNumber = 0;
-  fCurrentStaffTuning = 0;
+  fCurrentStaffLinesNumber = (void*)0;
+  fCurrentStaffTuning = (void*)0;
   
   fCurrentStaffDetailsCapo = 0;
 
@@ -6532,7 +6532,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentNoteHasStanza = false;
   fCurrentNoteHasLyrics = false;
 
-  fCurrentStem = 0;
+  fCurrentStem = (void*)0;
 
   fCurrentMusicXMLTremoloType = k_NoTremolo;
 
@@ -12855,7 +12855,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
     note->
       addSingleTremoloToNote (fCurrentSingleTremolo);
       
-    fCurrentSingleTremolo = 0;
+    fCurrentSingleTremolo = (void*)0;
   }
 }
 
@@ -13875,7 +13875,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           endl;
       }
       
-      fCurrentChord = 0;
+      fCurrentChord = (void*)0;
 
       if (fCurrentDoubleTremolo) {
         // forget about a double tremolo containing a chord
@@ -14127,7 +14127,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     if (fCurrentGraceNotes)
       // this is the first note after the grace notes,
       // forget about the latter
-      fCurrentGraceNotes = 0;
+      fCurrentGraceNotes = (void*)0;
   
     // attach the pending elements, if any, to the note
     attachPendingElementsToNote (newNote);
