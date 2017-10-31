@@ -3,10 +3,16 @@ dist: Trusty
 language: cpp
 compiler: gcc
 
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.9
+    - g++-4.9
+    
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get -qq update
-  - sudo apt-get install gcc-4.9 -y
 
 branches:
   only:
@@ -16,6 +22,8 @@ branches:
 
 script: 
     - g++ --version
+    - gcc --version
+    - gcc-4.9 --version
     - cd cmake 
     - cmake .
     - make
