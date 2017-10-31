@@ -15,7 +15,8 @@
 #endif
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
+//#include <math.h>
 
 #include "factory.h"
 #include "transposition.h"
@@ -23,7 +24,8 @@
 #include "xml_tree_browser.h"
 
 #ifdef WIN32
-inline int round(float v) {
+#define round intround
+inline int intround(float v) {
 	int n = int(v);
 	if ( (v-n) >= 0.5)  n++;
 	if ( (v-n) <= -0.5) n--;
