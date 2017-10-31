@@ -106,6 +106,33 @@ R"(Display xml2lilypond's version number and exit.)"));
   }
 
 
+  // about
+  // --------------------------------------
+
+  {
+    // variables  
+    
+    // options
+  
+    S_msrOptionsSubGroup
+      aboutSubGroup =
+        msrOptionsSubGroup::create (
+          "About",
+          "hga", "helpGeneralAbout",
+R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
+    
+    appendOptionsSubGroup (aboutSubGroup);
+  
+    aboutSubGroup->
+      appendOptionsItem (
+        msrOptionsAboutItem::create (
+          "a", "about",
+R"(Display information about xml2lilypond and exit.)"));
+  }
+
+
   // help
   // --------------------------------------
 

@@ -377,12 +377,100 @@ void msrOptionsVersionItem::print (ostream& os) const
 void msrOptionsVersionItem::printVersion (ostream& os) const
 {  
   os <<
-    "xml2lilypond" " "<<
-    currentVersionNumber () <<
+    endl <<
+    "This is xml2lilypond" <<
+    " version " << currentVersionNumber () <<
+    endl <<
     endl;
+
+  // print versions history
+  printVersionsHistory (os);
 }
 
 ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_msrOptionsAboutItem msrOptionsAboutItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  msrOptionsAboutItem* o = new
+    msrOptionsAboutItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsAboutItem::msrOptionsAboutItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+msrOptionsAboutItem::~msrOptionsAboutItem()
+{}
+
+void msrOptionsAboutItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsAboutItem:" <<
+    endl;
+
+  gIndenter++;
+
+  msrOptionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void msrOptionsAboutItem::printAbout (ostream& os) const
+{  
+  os <<
+    endl <<
+R"(What it does:
+
+    This multi-pass translator basically performs 5 passes:
+        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
+                 and converts it to a MusicXML tree;
+        Pass 2a: converts that MusicXML tree into to
+                 a Music Score Representation (MSR) skeleton;
+        Pass 2b: converts that tree and the skeleton into a
+                 Music Score Representation (MSR);
+        Pass 3:  converts the MSR into a
+                 LilyPond Score Representation (LPSR);
+        Pass 4:  converts the LPSR to LilyPond source code 
+                 and writes it to standard output.
+
+    Other passes are performed according to the options, such as
+    printing views of the internal data or printing a summary of the score.
+
+    The activity log and warning/error messages go to standard error.)" <<
+    endl <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsAboutItem& elt)
 {
   elt->print (os);
   return os;
@@ -3605,9 +3693,6 @@ void msrOptionsHandler::printHelp (ostream& os) const
       fOptionHandlerPreamble) <<
       endl;
     
-  // print versions history
-  printVersionsHistory (os);
-
   // print the options handler help header and element names
   os <<
     fOptionsHandlerHelpHeader <<
@@ -4311,6 +4396,21 @@ void msrOptionsHandler::handleOptionsItemName (
         // handle it at once
         optionsVersionItem->
           printVersion (
+            fOptionsHandlerLogIOstream);
+
+        // exit
+        exit (0);
+      }
+      
+      else if (
+        // about item?
+        S_msrOptionsAboutItem
+          optionsAboutItem =
+            dynamic_cast<msrOptionsAboutItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsAboutItem->
+          printAbout (
             fOptionsHandlerLogIOstream);
 
         // exit

@@ -60,25 +60,6 @@ R"(
 Usage:
 
     xml2lilypond [options] [MusicXMLFile|-] [options] 
-
-What it does:
-
-    This multi-pass translator basically performs 5 passes:
-        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
-                 and converts it to a MusicXML tree;
-        Pass 2a: converts that MusicXML tree into to
-                 a Music Score Representation (MSR) skeleton;
-        Pass 2b: converts that tree and the skeleton into a
-                 Music Score Representation (MSR);
-        Pass 3:  converts the MSR into a
-                 LilyPond Score Representation (LPSR);
-        Pass 4:  converts the LPSR to LilyPond source code 
-                 and writes it to standard output.
-
-    Other passes are performed according to the options, such as
-    printing views of the internal data or printing a summary of the score.
-
-    The activity log and warning/error messages go to standard error.
 )",
 R"(
 Options '-h, -help' print the full help,

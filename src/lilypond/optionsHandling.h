@@ -246,6 +246,54 @@ typedef SMARTP<msrOptionsVersionItem> S_msrOptionsVersionItem;
 ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt);
 
 //______________________________________________________________________________
+class EXP msrOptionsAboutItem : public msrOptionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrOptionsAboutItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrOptionsAboutItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~msrOptionsAboutItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printAbout (ostream& os) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msrOptionsAboutItem> S_msrOptionsAboutItem;
+ostream& operator<< (ostream& os, const S_msrOptionsAboutItem& elt);
+
+//______________________________________________________________________________
 class EXP msrOptionsHelpUsageItem : public msrOptionsItem
 {
   public:
