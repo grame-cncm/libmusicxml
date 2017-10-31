@@ -1,0 +1,15 @@
+os: linux
+dist: xenial
+language: cpp
+compiler: g++
+
+before_install:
+  - sudo apt-get -qq update
+
+branches:
+  only:
+  - dev
+  - lilypond
+  - master
+
+script: cd cmake && cmake && make
