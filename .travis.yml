@@ -1,24 +1,21 @@
 os: linux
 dist: Trusty
 language: cpp
-compiler: g++
+compiler: gcc
 
-matrix:
-  include:
-    # works on Precise and Trusty
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-      env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.9
+    - g++-4.9
 
 before_install:
   - sudo apt-get -qq update
-  - eval "${MATRIX_EVAL}"
+
+install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
 
 branches:
   only:
@@ -38,3 +35,4 @@ script:
     - cd cmake 
     - cmake .
     - make
+
