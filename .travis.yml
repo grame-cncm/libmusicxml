@@ -1,7 +1,7 @@
 os: linux
 dist: xenial
 language: cpp
-compiler: g++
+compiler: clang
 
 before_install:
   - sudo apt-get -qq update
