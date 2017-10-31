@@ -23,6 +23,7 @@
 #include <list>
 #include <algorithm>
 #include <ctime>
+#include <functional>
 
 #include "smartpointer.h"
 #include "basevisitor.h"
