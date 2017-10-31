@@ -1,7 +1,7 @@
 os: linux
-dist: xenial
+dist: trusty
 language: cpp
-compiler: clang
+compiler: g++
 
 before_install:
   - sudo apt-get -qq update
@@ -12,4 +12,8 @@ branches:
   - lilypond
   - master
 
-script: cd cmake && cmake . && make
+script: 
+    - echo $(g++ --version)
+    - cd cmake 
+    - cmake . 
+    - make
