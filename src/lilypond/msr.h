@@ -14,17 +14,12 @@
 #define __msr__
 
 #include "typedefs.h"
-
 #include "tree_browser.h"
-
 #include "utilities.h"
-
 #include "messagesHandling.h"
-
 #include "msrBasicTypes.h"
-
 #include "generalOptions.h"
-
+#include "exports.h"
 
 namespace MusicXML2 
 {
@@ -10889,7 +10884,7 @@ EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-void initializeMSR ();
+void EXP initializeMSR ();
 
 /*! @} */
 

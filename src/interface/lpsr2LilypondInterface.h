@@ -19,6 +19,7 @@
 #endif
 
 #include "lpsr.h"
+#include "exports.h"
 
 
 namespace MusicXML2 
@@ -38,7 +39,7 @@ The library includes a high level API to convert
 */
 
 //______________________________________________________________________________
-void generateLilypondCodeFromLpsrScore (
+EXP void generateLilypondCodeFromLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOptions      msrOpts,
   S_lpsrOptions     lpsrOpts,

@@ -27,6 +27,7 @@
 #include "msrOptions.h"
 
 #include "msr.h"
+#include "exports.h"
 
 
 namespace MusicXML2 
@@ -45,20 +46,20 @@ The library includes a high level API to convert
 @{
 */
 
-//_______________________________________________________________________________
-S_msrScore buildMsrSkeletonFromElementsTree (
+//_____________________________________________@__________________________________
+EXP S_msrScore buildMsrSkeletonFromElementsTree (
   S_msrOptions&    msrOpts,
   Sxmlelement      mxmlTree,
   indentedOstream& logIOstream);
 
 //_______________________________________________________________________________
-void displayMsrSkeleton (
+EXP void displayMsrSkeleton (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream);
 
 //_______________________________________________________________________________
-void displayMsrSkeletonSummary (
+EXP void displayMsrSkeletonSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream);

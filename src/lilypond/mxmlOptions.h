@@ -14,6 +14,7 @@
 #define __musicXMLOptions__
 
 #include "optionsHandling.h"
+#include "exports.h"
 
 
 namespace MusicXML2 
@@ -96,9 +97,9 @@ class EXP musicXMLOptions : public msrOptionsGroup
 typedef SMARTP<musicXMLOptions> S_musicXMLOptions;
 EXP ostream& operator<< (ostream& os, const S_musicXMLOptions& elt);
 
-extern S_musicXMLOptions gMusicXMLOptions;
-extern S_musicXMLOptions gMusicXMLOptionsUserChoices;
-extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
+EXP extern S_musicXMLOptions gMusicXMLOptions;
+EXP extern S_musicXMLOptions gMusicXMLOptionsUserChoices;
+EXP extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 /*!
 \brief A msr midi representation.

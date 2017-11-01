@@ -14,9 +14,8 @@
 #define __lpsrOptions__
 
 #include "lpsrBasicTypes.h"
-
 #include "optionsHandling.h"
-
+#include "exports.h"
 
 using namespace std;
 
@@ -96,12 +95,12 @@ class EXP lpsrOptions : public msrOptionsGroup
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 EXP ostream& operator<< (ostream& os, const S_lpsrOptions& elt);
 
-extern S_lpsrOptions gLpsrOptions;
-extern S_lpsrOptions gLpsrOptionsUserChoices;
-extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
+EXP extern S_lpsrOptions gLpsrOptions;
+EXP extern S_lpsrOptions gLpsrOptionsUserChoices;
+EXP extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
-void initializeLpsrOptionsHandling (
+EXP  void initializeLpsrOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
 

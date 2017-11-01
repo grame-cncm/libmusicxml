@@ -27,6 +27,7 @@
 
 #include "smartpointer.h"
 #include "basevisitor.h"
+#include "exports.h"
 
 namespace MusicXML2 
 {
@@ -42,7 +43,7 @@ namespace MusicXML2
 \internal
 \brief Provides easy indentation of text output.
 */
-class timingItem : public smartable
+class EXP timingItem : public smartable
 {
   public:
     enum timingItemKind { kMandatory, kOptional };
@@ -70,7 +71,7 @@ class timingItem : public smartable
 
 typedef SMARTP<timingItem> S_timingItem;
 
-class timing {
+class EXP timing {
   public:
 			 timing ();
     virtual ~timing ();
@@ -99,7 +100,7 @@ std::ostream& operator<< (std::ostream& os, const timing& tim);
 \internal
 \brief Provides easy indentation of text output.
 */
-class indenter
+class EXP indenter
 {
   public:
 			  indenter (std::string spacer = "  ");
@@ -143,7 +144,7 @@ std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 #define gTab      indenter::gIndenter.getSpacer ()
 
 //______________________________________________________________________________
-class indentedOstream: public std::ostream
+class EXP indentedOstream: public std::ostream
 {
 /*
 Reference:

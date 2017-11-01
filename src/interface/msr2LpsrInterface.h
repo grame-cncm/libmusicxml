@@ -23,6 +23,7 @@
 #include "lpsrOptions.h"
 
 #include "lpsr.h"
+#include "exports.h"
 
 
 namespace MusicXML2 
@@ -42,14 +43,14 @@ The library includes a high level API to convert
 */
 
 //______________________________________________________________________________
-S_lpsrScore buildLpsrScoreFromMsrScore (
+EXP S_lpsrScore buildLpsrScoreFromMsrScore (
   const S_msrScore mScore,
   S_msrOptions     msrOpts,
   S_lpsrOptions    lpsrOpts,
   indentedOstream& logIOstream);
 
 //_______________________________________________________________________________
-void displayLpsrScore (
+EXP void displayLpsrScore (
   const S_lpsrScore lpScore,
   S_msrOptions      msrOpts,
   S_lpsrOptions     lpsrOpts,

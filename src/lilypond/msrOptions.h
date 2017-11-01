@@ -14,9 +14,8 @@
 #define __msrOptions__
 
 #include "msrBasicTypes.h"
-
 #include "optionsHandling.h"
-
+#include "exports.h"
 
 using namespace std;
 
@@ -134,9 +133,9 @@ class EXP msrOptions : public msrOptionsGroup
 typedef SMARTP<msrOptions> S_msrOptions;
 EXP ostream& operator<< (ostream& os, const S_msrOptions& elt);
 
-extern S_msrOptions gMsrOptions;
-extern S_msrOptions gMsrOptionsUserChoices;
-extern S_msrOptions gMsrOptionsWithDetailedTrace;
+EXP extern S_msrOptions gMsrOptions;
+EXP extern S_msrOptions gMsrOptionsUserChoices;
+EXP extern S_msrOptions gMsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMsrOptionsHandling (
