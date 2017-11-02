@@ -1443,6 +1443,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     S_msrOrnament             fCurrentOrnament;
     list<S_msrOrnament>       fCurrentOrnamentsList;
 
+    msrTechnical::msrTechnicalPlacementKind
+                              fWavyLinePlacementKind;
+    int                       fWavyLineNumber;
+    
     msrOrnament::msrOrnamentPlacementKind
                               fCurrentOrnamentPlacementKind;
 
@@ -1514,6 +1518,11 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fCurrentTupletDisplayNumber;
     string                    fCurrentTupletDisplayType;
     msrTuplet::msrTupletKind  fCurrentTupletKind;
+    msrTuplet::msrTupletShowNumberKind
+                              fTupletShowNumberKind;
+    msrTuplet::msrTupletShowTypeKind
+                              fTupletShowTypeKind;
+    
     stack<S_msrTuplet>        fTupletsStack;
 
     bool                      fCurrentATupletStopIsPending;

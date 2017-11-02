@@ -773,9 +773,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
 string lpsr2LilypondTranslator::notePitchAsLilypondString (
   S_msrNote note)
 {
-  int inputLineNumber =
-    note->getInputLineNumber ();
-    
   stringstream s;
 
   // is the note unpitched?
@@ -939,9 +936,6 @@ string lpsr2LilypondTranslator::durationAsExplicitLilypondString (
 string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   S_msrNote note)
 {
-  int inputLineNumber =
-    note->getInputLineNumber ();
-    
   stringstream s;
 
   // get the note quarter tones pitch
@@ -1616,11 +1610,6 @@ void lpsr2LilypondTranslator::transposeDiatonicError (
 string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
   S_msrSingleTremolo singleTremolo)
 {  
-  int
-    inputLineNumber =
-      singleTremolo->
-        getInputLineNumber ();
-    
   int
     singleTremoloMarksNumber =
       singleTremolo->
@@ -4171,11 +4160,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       
     case msrMeasure::kUpbeatMeasureKind:
       {
+/* JMI
         rational
           measureLength =
             elt->getMeasureLength ();
 
-/* JMI
         fLilypondIOstream <<
           "%{ measureLength: " << measureLength << " %}";
 */
@@ -4211,15 +4200,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
         if (gGeneralOptions->fTraceMeasures) {
           const int fieldWidth = 27;
           
-          fLilypondIOstream <<
+          fLilypondIOstream << left <<
             "% Setting the measure length for measure " <<
+            setw (fieldWidth) <<
             measureNumber <<
             ", line = " << inputLineNumber <<
             endl <<
+            setw (fieldWidth) <<
             "% measureLength" << " = " << measureLength <<
             endl <<
+            setw (fieldWidth) <<
             "% measureFullMeasureLength" << " = " << measureFullMeasureLength <<
             endl <<
+            setw (fieldWidth) <<
             "% ratioToFullLength" << " = " << ratioToFullLength <<
             endl <<
             endl;
@@ -6295,12 +6288,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     }
   }
 
+/* JMI
   // get note stem kind 
   msrStem::msrStemKind
     stemKind = // JMI
       fCurrentStem
         ? fCurrentStem->getStemKind ()
         : msrStem::k_NoStem;
+*/
 
 /* JMI
   // has the stem been omitted?

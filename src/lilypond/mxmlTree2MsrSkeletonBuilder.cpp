@@ -512,6 +512,30 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupInData (
 }
 
 //________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::forgetPartGroupInData (
+  int            inputLineNumber,
+  S_msrPartGroup partGroup)
+{
+  // forget it in the part groups map         
+  fPartGroupsMap.erase (
+    partGroup->getPartGroupNumber ());
+    
+  // forget it in the part groups start positions map         
+
+  fPartGroupsStartPositionsMap.erase (
+    partGroup);
+
+  if (gGeneralOptions->fTracePartGroupsDetails) {
+    showPartGroupsData (
+      inputLineNumber,
+      "AFTER forgetting part group " +
+      partGroup->
+        getPartGroupCombinedName () +
+      " in the data");
+  }
+}
+
+//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   int inputLineNumber)
 {
@@ -595,7 +619,7 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
   if (gGeneralOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
-      "AFTER stopPartGroup()");
+      "BEFORE stopPartGroup()");
   }
 
   S_msrPartGroup
@@ -668,6 +692,12 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
         addPartGroupToScore (
           currentPartGroup);
     }
+
+    // forget about the current part group,
+    // since its number may be reused for another one
+    forgetPartGroupInData (
+      inputLineNumber,
+      currentPartGroup);
   }
 
   else {
@@ -1027,6 +1057,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       0,          // partGroupPartGroupUplink, 0 for top level part group 
       fMsrScore);
 
+/* JMI
   // append it to the MSR score
   if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
@@ -1041,6 +1072,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
   fMsrScore->
     addPartGroupToScore (
       fImplicitPartGroup);
+   */
     
   // register implicit part groups in the part groups data
   if (gGeneralOptions->fTracePartGroups) {
@@ -1077,6 +1109,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup (
       inputLineNumber,
       "after creating fImplicitPartGroup");
   }
+  
   fCurrentPartUsesImplicitPartGroup = true;
 }
 
@@ -1246,26 +1279,26 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
       endl;
   }
 
-  gIndenter--;
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-//*
+  gIndenter--;
+
+/*
   if (fImplicitPartGroup) {
     // force an implicit part group 'stop' on it
     handlePartGroupStop (
-      elt->getInputLineNumber ());
+      inputLineNumber);
 
     // forget about the implicit part group // JMI ???
     fImplicitPartGroup = 0;
   }
-//  */
+  */
   
   if (fPartGroupsStack.size ()) {
     // force a 'stop' on the current part group
     handlePartGroupStop (
-      elt->getInputLineNumber ());
+      inputLineNumber);
   }
 }
 
@@ -1806,12 +1839,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     // no, create an implicit one if needed
     createImplicitPartGroup (
       inputLineNumber);
-
-    if (gGeneralOptions->fTracePartGroupsDetails) {
-      showPartGroupsData (
-        inputLineNumber,
-        "after creating implicit group on visitEnd (S_score_part&)");
-    }
   }
 
 /* JMI
@@ -1946,21 +1973,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       // no, create an implicit one if needed
       createImplicitPartGroup (
         inputLineNumber);
-
-      if (gGeneralOptions->fTracePartGroupsDetails) {
-        showPartGroupsData (
-          inputLineNumber,
-          "after creating implicit group on visitStart (S_part&");
-      }
     }
 
+/* JMI      
     if (gGeneralOptions->fTracePartGroupsDetails) {
       showPartGroupsData (
         inputLineNumber,
         "before creating the part groups");
     }
 
-/* JMI      
     // fetch current part group
     partGroup = fetchCurrentPartGroupFromStack ();        
   
@@ -2249,9 +2270,6 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_measure& elt)
       "--> End visiting S_measure" <<
       endl;
   }
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
 }
 
 //______________________________________________________________________________

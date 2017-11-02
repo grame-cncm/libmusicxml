@@ -3182,6 +3182,22 @@ class EXP msrMeasure : public msrElement
     msrMeasureKind        getMeasureKind () const
                               { return fMeasureKind; }
 
+    // measure implicit
+    
+    void                  setMeasureImplicitKind (
+                            msrMeasureImplicitKind measureImplicitKind)
+                              {
+                                fMeasureImplicitKind =
+                                measureImplicitKind;
+                              }
+
+    msrMeasureImplicitKind
+                          getMeasureImplicitKind () const
+                              { return fMeasureImplicitKind; }
+
+   
+                          ;
+
     // measure 'first in segment' kind
     
     void                  setMeasureFirstInSegmentKind (
@@ -3449,6 +3465,11 @@ class EXP msrMeasure : public msrElement
 
     msrMeasureKind        fMeasureKind;
     
+    // measure implicit
+
+    msrMeasureImplicitKind
+                          fMeasureImplicitKind;
+    
     // measure 'first in segment' kind
 
     msrMeasureFirstInSegmentKind
@@ -3531,7 +3552,9 @@ class EXP msrSegment : public msrElement
     void                  createMeasureAndAppendItToSegment (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber);
+                            int    measureOrdinalNumber,
+                            msrMeasure::msrMeasureImplicitKind
+                                   measureImplicitKind);
                       
     const string          getSegmentMeasureNumber () const
                               { return fSegmentMeasureNumber; }
@@ -6896,9 +6919,9 @@ class EXP msrTuplet : public msrElement
       msrTupletShowNumberKind tupletShowNumberKind);
       
     enum msrTupletShowTypeKind {
-      kTupletShowTypeYes, kTupletShowTypeNo };
+      kTupletShowTypeActual, kTupletShowTypeBoth, kTupletShowTypeNone };
 
-    static string tupletShowNumberKindAsString (
+    static string tupletShowTypeKindAsString (
       msrTupletShowTypeKind tupletShowTypeKind);
       
     // creation from MusicXML
@@ -8819,7 +8842,9 @@ class EXP msrVoice : public msrElement
     void                  createMeasureAndAppendItToVoice (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber);
+                            int    measureOrdinalNumber,
+                            msrMeasure::msrMeasureImplicitKind
+                                   measureImplicitKind);
 
     void                  appendAFirstMeasureToVoiceIfNotYetDone (
                              int inputLineNumber);
@@ -9645,7 +9670,9 @@ class EXP msrStaff : public msrElement
     void                  createMeasureAndAppendItToStaff (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber);
+                            int    measureOrdinalNumber,
+                            msrMeasure::msrMeasureImplicitKind
+                                   measureImplicitKind);
 
     // services
     // ------------------------------------------------------
@@ -10187,7 +10214,9 @@ class EXP msrPart : public msrElement
     void                  createMeasureAndAppendItToPart (
                             int    inputLineNumber,
                             string measureNumber,
-                            int    measureOrdinalNumber);
+                            int    measureOrdinalNumber,
+                            msrMeasure::msrMeasureImplicitKind
+                                   measureImplicitKind);
 
     // staff details
 

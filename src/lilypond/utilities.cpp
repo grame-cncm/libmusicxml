@@ -350,8 +350,11 @@ void indenter::print (ostream& os) const
 indenter indenter::gIndenter;
 
 //______________________________________________________________________________
-indentedOstream indentedOstream::gLogIndentedOstream;
-indentedOstream indentedOstream::gOutputIndentedOstream;
+indentedOstream indentedOstream::gOutputIndentedOstream (
+  cout, indenter::gIndenter);
+
+indentedOstream indentedOstream::gLogIndentedOstream (
+  cerr, indenter::gIndenter);
 
 //______________________________________________________________________________
 //#define DEBUG_OLEC

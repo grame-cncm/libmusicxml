@@ -269,6 +269,8 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     void                      showPartGroupsVector (
                                 int inputLineNumber);
 
+    // handling the part, each one incrementing the 'position'
+    // of the part groups, used for handling nesting/overlapping
     int                       fPartsCounter;
     vector<S_msrPart>         fPartsVector;
     
@@ -296,6 +298,10 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     S_msrPartGroup            fetchCurrentPartGroupFromStack ();
 
     void                      registerPartGroupInData (
+                                int            inputLineNumber,
+                                S_msrPartGroup partGroup);
+        
+    void                      forgetPartGroupInData (
                                 int            inputLineNumber,
                                 S_msrPartGroup partGroup);
         

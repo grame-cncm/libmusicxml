@@ -21,8 +21,9 @@
 
 #include <set>
 #include <list>
-#include <algorithm> 
 
+#include <algorithm> 
+#include <functional> // for function()
 
 #include "smartpointer.h"
 
@@ -222,8 +223,8 @@ Usage:
 
     // constructor
     indentedOstream (
-      ostream&  str  = cerr,
-      indenter& idtr = indenter::gIndenter)
+      ostream&  str,
+      indenter& idtr)
       : ostream (&fIndentedStreamBuf),
         fIndentedStreamBuf (
           str, idtr)
@@ -239,14 +240,14 @@ Usage:
     
     // global variables for general use
     static indentedOstream
-                          gLogIndentedOstream; 
-    static indentedOstream
                           gOutputIndentedOstream; 
+    static indentedOstream
+                          gLogIndentedOstream; 
 };
 
 // useful shortcut macros
-#define gLogIOstream    indentedOstream::gLogIndentedOstream
 #define gOutputIOstream indentedOstream::gOutputIndentedOstream
+#define gLogIOstream    indentedOstream::gLogIndentedOstream
 
 //______________________________________________________________________________
 /*!
@@ -438,12 +439,14 @@ list<int> extractNumbersFromString (
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 // trim string from start
 inline string &ltrim (string &s) {
+  function < int (int) > checkSpace = [] (int x) { return isspace (x); };
+
   s.erase (
     s.begin (),
     find_if (
       s.begin (),
       s.end (),
-      not1 (ptr_fun<int, int> (isspace))
+      not1 (checkSpace)
       )
     );
           
@@ -452,11 +455,13 @@ inline string &ltrim (string &s) {
 
 // trim string from end
 inline string &rtrim (string &s) {
+  function < int (int) > checkSpace = [] (int x) { return isspace (x); };
+
   s.erase (
     find_if (
       s.rbegin (),
       s.rend (),
-      not1 (ptr_fun<int, int> (isspace))
+      not1 (checkSpace)
       ).base(),
     s.end ()
     );

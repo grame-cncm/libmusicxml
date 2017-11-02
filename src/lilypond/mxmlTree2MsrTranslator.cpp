@@ -2370,7 +2370,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_instruments& elt )
         <instruments>2</instruments>
 */
 
-  int instruments = (int)(*elt); // JMI
+//  int instruments = (int)(*elt); // JMI
 }
 
 //______________________________________________________________________________
@@ -2702,11 +2702,32 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
   }
 
 /*
+<!--
+  An offset is represented in terms of divisions, and
+  indicates where the direction will appear relative to
+  the current musical location. This affects the visual
+  appearance of the direction. If the sound attribute is
+  "yes", then the offset affects playback too. If the sound
+  attribute is "no", then any sound associated with the
+  direction takes effect at the current location. The sound
+  attribute is "no" by default for compatibility with earlier
+  versions of the MusicXML format. If an element within a
+  direction includes a default-x attribute, the offset value
+  will be ignored when determining the appearance of that
+  element.
+-->
+<!ELEMENT offset (#PCDATA)>
+<!ATTLIST offset
+    sound %yes-no; #IMPLIED
+>
+
 <offset sound="yes">2048</offset>
 */
 
-  int offsetDivisions = (int)(*elt);
+//  int offsetDivisions = (int)(*elt);
 
+  // sound
+  
   string offsetSound =elt->getAttributeValue ("sound");
 
   bool offsetSoundValue; // JMI
@@ -2733,6 +2754,10 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
     }
   }
 
+  if (false && offsetSoundValue) {
+    // JMI
+  }
+  
   if (fOnGoingDirection) { // JMI
   }
 }
@@ -4149,8 +4174,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_forward& elt )
       </forward>
   */
 
+/* JMI
   int inputLineNumber =
     elt->getInputLineNumber ();
+*/
 
   // the <staff /> element is present only
   // in case of a staff change
@@ -4194,8 +4221,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
       endl;
   }
 
+/* JMI
   int inputLineNumber =
     elt->getInputLineNumber ();
+*/
 
   /* Don't do anything JMI
 
@@ -5224,6 +5253,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // number
+
   fCurrentMeasureNumber = // JMI local variable???
     elt->getAttributeValue ("number");
 
@@ -5235,6 +5266,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       endl;
   }
 
+  // implicit
+
   // Measures with an implicit attribute set to "yes"
   // never display a measure number,
   // regardless of the measure-numbering setting.
@@ -5243,7 +5276,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       elt->getAttributeValue ("implicit");
 
   msrMeasure::msrMeasureImplicitKind
-    measureImplicitKind; // use it JMI
+    measureImplicitKind = msrMeasure::kMeasureImplicitNo; // default value
   
   if       (implicit == "yes") {
     measureImplicitKind =
@@ -5272,7 +5305,8 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
     createMeasureAndAppendItToPart (
       inputLineNumber,
       fCurrentMeasureNumber,
-      fCurrentMeasureOrdinalNumber);
+      fCurrentMeasureOrdinalNumber,
+      measureImplicitKind);
 
   // JMI fCurrentMeasureOrdinalNumber
 
@@ -5392,8 +5426,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+/* JMI
   const int staffSpacing =
     elt->getAttributeIntValue ("staff-spacing", 0); // JMI
+  */
   
   // handle 'new-system' if present
   
@@ -9864,15 +9900,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
     type (upright | inverted) #IMPLIED
     %print-style;
 >
-<!ELEMENT wavy-line EMPTY>
-<!ATTLIST wavy-line
-    type %start-stop-continue; #REQUIRED
-    number %number-level; #IMPLIED
-    %position;
-    %placement; 
-    %color;
-    %trill-sound; 
->
  */
 
   string fermataTextValue = elt->getValue ();
@@ -10267,20 +10294,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // type
+  
   string wavyLineType = elt->getAttributeValue ("type");
   
-  msrTechnical::msrTechnicalPlacementKind
-    arrowPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  fWavyLinePlacementKind =
+    msrTechnical::k_NoTechnicalPlacement;
 
   if      (wavyLineType == "start")
-    arrowPlacementKind = msrTechnical::kTechnicalPlacementAbove;
+    fWavyLinePlacementKind = msrTechnical::kTechnicalPlacementAbove;
     
   else if (wavyLineType == "stop")
-    arrowPlacementKind = msrTechnical::kTechnicalPlacementBelow;
+    fWavyLinePlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else if (wavyLineType == "continue")
-    arrowPlacementKind = msrTechnical::kTechnicalPlacementBelow;
+    fWavyLinePlacementKind = msrTechnical::kTechnicalPlacementBelow;
     
   else {
     if (wavyLineType.size ()) {
@@ -10298,7 +10326,40 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
     }   
   }
 
-  int wavyLineNumber = elt->getAttributeIntValue ("number", 0); // JMI use it
+  // number
+
+  fWavyLineNumber = elt->getAttributeIntValue ("number", 0); // JMI
+
+  // placement
+
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  fCurrentOrnamentPlacementKind =
+    msrOrnament::k_NoOrnamentPlacement;
+
+  if      (placement == "above")
+    fCurrentOrnamentPlacementKind =
+      msrOrnament::kOrnamentPlacementAbove;
+    
+  else if (placement == "below")
+    fCurrentOrnamentPlacementKind =
+      msrOrnament::kOrnamentPlacementBelow;
+    
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "ornament placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
   
   fCurrentOrnament =
     msrOrnament::create (
@@ -12146,11 +12207,76 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
 
 // JMI           <tuplet bracket="yes" number="1" show-number="both" show-type="both" type="start"/>
 
+/*
+<!--
+  A tuplet element is present when a tuplet is to be displayed
+  graphically, in addition to the sound data provided by the
+  time-modification elements. The number attribute is used to
+  distinguish nested tuplets. The bracket attribute is used
+  to indicate the presence of a bracket. If unspecified, the
+  results are implementation-dependent. The line-shape
+  attribute is used to specify whether the bracket is straight
+  or in the older curved or slurred style. It is straight by
+  default.
+  
+  Whereas a time-modification element shows how the cumulative,
+  sounding effect of tuplets and double-note tremolos compare to
+  the written note type, the tuplet element describes how this
+  is displayed. The tuplet element also provides more detailed
+  representation information than the time-modification element,
+  and is needed to represent nested tuplets and other complex
+  tuplets accurately. The tuplet-actual and tuplet-normal
+  elements provide optional full control over tuplet
+  specifications. Each allows the number and note type
+  (including dots) describing a single tuplet. If any of
+  these elements are absent, their values are based on the
+  time-modification element.
+  
+  The show-number attribute is used to display either the
+  number of actual notes, the number of both actual and
+  normal notes, or neither. It is actual by default. The
+  show-type attribute is used to display either the actual
+  type, both the actual and normal types, or neither. It is
+  none by default.
+-->
+<!ELEMENT tuplet (tuplet-actual?, tuplet-normal?)>
+<!ATTLIST tuplet
+    type %start-stop; #REQUIRED
+    number %number-level; #IMPLIED
+    bracket %yes-no; #IMPLIED
+    show-number (actual | both | none) #IMPLIED
+    show-type (actual | both | none) #IMPLIED
+    %line-shape;
+    %position;
+    %placement;
+>
+<!ELEMENT tuplet-actual (tuplet-number?,
+  tuplet-type?, tuplet-dot*)>
+<!ELEMENT tuplet-normal (tuplet-number?,
+  tuplet-type?, tuplet-dot*)>
+<!ELEMENT tuplet-number (#PCDATA)>
+<!ATTLIST tuplet-number
+    %font;
+    %color;
+>
+<!ELEMENT tuplet-type (#PCDATA)>
+<!ATTLIST tuplet-type
+    %font;
+    %color;
+>
+<!ELEMENT tuplet-dot EMPTY>
+<!ATTLIST tuplet-dot
+    %font;
+    %color;
+>
+*/
+
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  fCurrentTupletNumber =
-    elt->getAttributeIntValue ("number", 0);
+  // number
+
+  fCurrentTupletNumber = elt->getAttributeIntValue ("number", 0);
     
   string tupletType =
     elt->getAttributeValue("type");
@@ -12181,20 +12307,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
       s.str ());
   }
 
-  string tupletShowNumber =
-    elt->getAttributeValue("show-number");
+  // show-number
 
-  msrTuplet::msrTupletShowNumberKind
-    tupletShowNumberKind =
-      msrTuplet::kTupletShowNumberNo; // default value
-      // JMI use it
+  string tupletShowNumber = elt->getAttributeValue("show-number");
+
+  fTupletShowNumberKind =
+    msrTuplet::kTupletShowNumberNo; // default value
   
   if      (tupletShowNumber == "yes") {
-    tupletShowNumberKind = msrTuplet::kTupletShowNumberYes;
+    fTupletShowNumberKind = msrTuplet::kTupletShowNumberYes;
   }
 
   else if (tupletShowNumber == "no") {
-    tupletShowNumberKind = msrTuplet::kTupletShowNumberNo;
+    fTupletShowNumberKind = msrTuplet::kTupletShowNumberNo;
   }
 
   else {
@@ -12203,29 +12328,31 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
-        "unknown tuplet show number \"" + tupletShowNumber + "\"");
+        "tuplet show number \"" + tupletShowNumber + "\" is unknown");
   }
 
-  string tupletShowType =
-    elt->getAttributeValue("show-type");
-
-  msrTuplet::msrTupletShowTypeKind tupletShowTypeKind; // JMI use it
+  // show-type
   
-  if      (tupletShowType == "yes") {
-    tupletShowTypeKind = msrTuplet::kTupletShowTypeYes;
-  }
+  string tupletShowType = elt->getAttributeValue("show-type");
 
-  else if (tupletShowType == "no") {
-    tupletShowTypeKind = msrTuplet::kTupletShowTypeNo;
+  fTupletShowTypeKind = msrTuplet::kTupletShowTypeNone; // default value
+  
+  if      (tupletShowType == "actual") {
+    fTupletShowTypeKind = msrTuplet::kTupletShowTypeActual;
   }
-
+  else if (tupletShowType == "both") {
+    fTupletShowTypeKind = msrTuplet::kTupletShowTypeBoth;
+  }
+  else if (tupletShowType == "none") {
+    fTupletShowTypeKind = msrTuplet::kTupletShowTypeNone;
+  }
   else {
     if (tupletShowType.size ())
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
-        "unknown tuplet show type \"" + tupletShowType + "\"");
+        "tuplet show type \"" + tupletShowType + "\" is unknown");
   }  
 
   if (
@@ -12236,11 +12363,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
       "fCurrentTupletNumber: " <<
       fCurrentTupletNumber <<
       "tupletType: " <<
-      tupletType <<
+      msrTuplet::tupletKindAsString (
+        fCurrentTupletKind) <<
       "tupletShowNumber: " <<
-      tupletShowNumber <<
+      msrTuplet::tupletShowNumberKindAsString (
+        fTupletShowNumberKind) <<
       "tupletShowType: " <<
-      tupletShowType <<
+      msrTuplet::tupletShowTypeKindAsString (
+        fTupletShowTypeKind) <<
       endl;
   }
 
@@ -14932,10 +15062,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         
       case msrNote::kDoubleTremoloMemberNote:
         {
+          /* JMI
           // fetch chordFirstNote's sounding divisions
           int chordFirstNoteSoundingWholeNotes = // JMI
             chordFirstNote->
               getNoteSoundingWholeNotes ();
+              */
 
           /* JMI
           // updating chord's divisions // JMI
@@ -16518,9 +16650,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_type& elt )
   }
 
   string degreeType = elt->getValue ();
-
-  msrHarmonyDegree::msrHarmonyDegreeTypeKind
-    degreeTypeKind; // JMI
 
   // check harmony degree type
   if      (degreeType == "add")

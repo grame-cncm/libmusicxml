@@ -4219,10 +4219,6 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
 
   // exit if there are no arguments
   if (argumentsVectorSize == 0) {
-    fOptionsHandlerLogIOstream <<
-      "---No arguments have been supplied, exiting. ---" <<
-      endl;
-
     exit (1);
   }
 

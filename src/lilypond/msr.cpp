@@ -89,9 +89,9 @@ void msrElement::print (ostream& os)
 //______________________________________________________________________________
 void msrPolyphony::print (ostream& os)
 {
+/* JMI
   const int fieldWidth = 9;
 
-/* JMI
   os << left <<
     setw (fieldWidth) <<
     "fBeatUnit" << " = " << fBeatUnit <<
@@ -6481,8 +6481,7 @@ void msrNote::print (ostream& os)
         
       case msrNote::kDoubleTremoloMemberNote:
         {
-          const int fieldWidth = 31; // JMI
-
+          // JMI
         }
         break;
         
@@ -6501,8 +6500,7 @@ void msrNote::print (ostream& os)
         
       case msrNote::kChordMemberNote:
         {
-          const int fieldWidth = 46; // JMI
-
+          // JMI
         }
         break;
         
@@ -8896,6 +8894,66 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
   return newbornClone;
 }
 
+string msrTuplet::tupletKindAsString (
+  msrTupletKind tupletKind)
+{
+  string result;
+  
+  switch (tupletKind) {
+    case msrTuplet::kStartTuplet:
+      result = "startTuplet";
+      break;
+    case msrTuplet::kContinueTuplet:
+      result = "continueTuplet";
+      break;
+    case msrTuplet::kStopTuplet:
+      result = "stopTuplet";
+      break;
+    case msrTuplet::k_NoTuplet:
+      result = "NoTuplet";
+      break;
+  } // switch
+
+  return result;
+}
+      
+string msrTuplet::tupletShowNumberKindAsString (
+  msrTupletShowNumberKind tupletShowNumberKind)
+{
+  string result;
+  
+  switch (tupletShowNumberKind) {
+    case msrTuplet::kTupletShowNumberYes:
+      result = "tupletShowNumberYes";
+      break;
+    case msrTuplet::kTupletShowNumberNo:
+      result = "tupletShowNumberNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTuplet::tupletShowTypeKindAsString (
+  msrTupletShowTypeKind tupletShowTypeKind)
+{
+  string result;
+  
+  switch (tupletShowTypeKind) {
+    case msrTuplet::kTupletShowTypeActual:
+      result = "tupletShowTypeActual";
+      break;
+    case msrTuplet::kTupletShowTypeBoth:
+      result = "tupletShowTypeBoth";
+      break;
+    case msrTuplet::kTupletShowTypeNone:
+      result = "tupletShowTypeNone";
+      break;
+  } // switch
+
+  return result;
+}
+      
 void msrTuplet::addNoteToTuplet (S_msrNote note)
 {
   if (gGeneralOptions->fTraceTuplets)
@@ -16378,8 +16436,10 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 void msrMeasure::appendMeasureRepeatToMeasure (
   S_msrMeasureRepeat measureRepeat)
 {
+  /*
   int inputLineNumber =
     measureRepeat->getInputLineNumber ();
+    */
     
 /* JMI  
   // populate measure uplink
@@ -16453,8 +16513,10 @@ void msrMeasure::appendMeasureRepeatToMeasure (
 void msrMeasure::appendMultipleRestToMeasure (
   S_msrMultipleRest multipleRest)
 {
+  /* JMI
   int inputLineNumber =
     multipleRest->getInputLineNumber ();
+    */
     
   /* JMI  
     // populate measure uplink
@@ -16619,13 +16681,15 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // register tuplet measure number
   tuplet->
     setTupletMeasureNumber (fMeasureNumber);
-  
+
+  /* JMI ???
   // register tuplet measure position in measure
   rational
     dummy = // JMI
       tuplet->
         setTupletPositionInMeasure (
           fMeasureLength);
+          */
 
 /* JMI
   // copy measure number to first note, that was created beforehand
@@ -17091,9 +17155,6 @@ void msrMeasure::appendPageBreakToMeasure (S_msrPageBreak pageBreak)
 void msrMeasure::appendStaffDetailsToMeasure (
   S_msrStaffDetails staffDetails)
 {
-  int inputLineNumber =
-    staffDetails->getInputLineNumber ();
-
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
     gLogIOstream <<
       "Appending staff details '" << staffDetails->staffDetailsAsShortString () <<
@@ -17842,7 +17903,9 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 void msrSegment::createMeasureAndAppendItToSegment (
   int    inputLineNumber,
   string measureNumber,
-  int    measureOrdinalNumber)
+  int    measureOrdinalNumber,
+  msrMeasure::msrMeasureImplicitKind
+         measureImplicitKind)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
     gLogIOstream <<
@@ -17960,7 +18023,8 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     createMeasureAndAppendItToSegment (
       inputLineNumber,
       currentMeasureNumber,
-      measureOrdinalNumber);
+      measureOrdinalNumber,
+      measureImplicitKind);
   */
   
   // finalize segment's last measure
@@ -22259,7 +22323,9 @@ void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
 void msrVoice::createMeasureAndAppendItToVoice (
   int    inputLineNumber,
   string measureNumber,
-  int    measureOrdinalNumber)
+  int    measureOrdinalNumber,
+  msrMeasure::msrMeasureImplicitKind
+         measureImplicitKind)
 {
   fVoiceCurrentMeasureNumber = measureNumber;
 
@@ -22274,7 +22340,8 @@ void msrVoice::createMeasureAndAppendItToVoice (
     createMeasureAndAppendItToSegment (
       inputLineNumber,
       measureNumber,
-      measureOrdinalNumber);
+      measureOrdinalNumber,
+      measureImplicitKind);
 }
 
 void msrVoice::createNewLastSegmentForVoice (
@@ -26011,7 +26078,9 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 void msrStaff::createMeasureAndAppendItToStaff (
   int    inputLineNumber,
   string measureNumber,
-  int    measureOrdinalNumber)
+  int    measureOrdinalNumber,
+  msrMeasure::msrMeasureImplicitKind
+         measureImplicitKind)
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
@@ -26047,7 +26116,8 @@ void msrStaff::createMeasureAndAppendItToStaff (
       createMeasureAndAppendItToVoice (
         inputLineNumber,
         measureNumber,
-        measureOrdinalNumber);
+        measureOrdinalNumber,
+        measureImplicitKind);
   } // for
 }
 
@@ -27911,7 +27981,9 @@ string msrPart::getPartCombinedName () const
 void msrPart::createMeasureAndAppendItToPart (
   int    inputLineNumber,
   string measureNumber,
-  int    measureOrdinalNumber)
+  int    measureOrdinalNumber,
+  msrMeasure::msrMeasureImplicitKind
+         measureImplicitKind)
 {
   if (gGeneralOptions->fTraceMeasures)
     gLogIOstream <<
@@ -27931,7 +28003,8 @@ void msrPart::createMeasureAndAppendItToPart (
     createMeasureAndAppendItToStaff (
       inputLineNumber,
       measureNumber,
-      measureOrdinalNumber);
+      measureOrdinalNumber,
+      measureImplicitKind);
 */
 
   // create and append measure to registered staves
@@ -27946,7 +28019,8 @@ void msrPart::createMeasureAndAppendItToPart (
       createMeasureAndAppendItToStaff (
         inputLineNumber,
         measureNumber,
-        measureOrdinalNumber);
+        measureOrdinalNumber,
+        measureImplicitKind);
   } // for
 }
 
@@ -27974,7 +28048,8 @@ void msrPart::complementPartVoicesUpToMeasure (
       createMeasureAndAppendItToStaff (
         inputLineNumber,
         measureNumber,
-        measureOrdinalNumber);
+        measureOrdinalNumber,
+        measureImplicitKind);
   } // for
 }
 */
