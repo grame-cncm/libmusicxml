@@ -720,11 +720,6 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
       "' is unknown";
       
     optionError (s.str ());
-
- //   optionsHandler->
- //     print (cout);
-      
-//    abort ();
   }
 
   else {

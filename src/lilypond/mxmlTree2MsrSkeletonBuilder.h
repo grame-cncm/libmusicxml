@@ -320,9 +320,12 @@ class EXP mxmlTree2MsrSkeletonBuilder :
                                 int            inputLineNumber,
                                 S_msrPartGroup partGroup);
                                 
-    void                      insertPartGroupIntoPartGroupsToBeStoppedList (
+    void                      insertPartGroupIntoToBeStoppedList (
                                 int            inputLineNumber,
                                 S_msrPartGroup partGroup);
+                                
+    void                      handlePendingPartGroupsToBeStopped (
+                                int inputLineNumber);
                                 
     void                      handlePartGroupStop (
                                 int inputLineNumber);

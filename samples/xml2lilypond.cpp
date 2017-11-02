@@ -319,7 +319,7 @@ int main (int argc, char *argv[])
   S_xml2lilypondOptionsHandler
     optionsHandler =
       xml2lilypondOptionsHandler::create (
-        gLogIOstream);
+        gOutputIOstream);
     
   // analyze the command line options and arguments
   // ------------------------------------------------------

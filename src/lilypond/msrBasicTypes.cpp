@@ -2506,8 +2506,10 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'A' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicMsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
           }
           break;
@@ -2551,8 +2553,10 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'B' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicMsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
           }
           break;
@@ -2598,8 +2602,10 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'C' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicMsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
           }
           break;
@@ -2643,8 +2649,10 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'D' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicMsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
           }
           break;
@@ -2688,8 +2696,10 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'E' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicMsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
           }
           break;
@@ -2733,8 +2743,10 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'F' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicMsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
           }
           break;
@@ -2778,8 +2790,10 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
               "'G' alteration has not been set"
               ", line = " << inputLineNumber;
 
-            basicMsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
           }
           break;
@@ -2796,8 +2810,10 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
           "cannot convert k_NoDiatonicPitch to a quarter tones pitch"
           ", line = " << inputLineNumber;
 
-        basicMsrInternalError (
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
           */
       }
@@ -2906,8 +2922,10 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
           "cannot get the diatonic pitch of a rest"
           ", line = " << inputLineNumber;
 
-        basicMsrInternalError (
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       
@@ -2922,8 +2940,10 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
           "cannot get the diatonic pitch of a k_NoQuarterTonesPitch"
           ", line = " << inputLineNumber;
 
-        basicMsrInternalError (
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
           */
       }
@@ -3292,7 +3312,9 @@ float msrFontSize::getFontNumericSize ()
           fontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           0, // JMI
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -3585,7 +3607,7 @@ string wholeNotesAsMsrString (
 //#define DEBUG_WHOLE_NOTES
 
 #ifdef DEBUG_WHOLE_NOTES
-  cout<<
+  gLotIOsteam <<
     "--> wholeNotes: " << wholeNotes <<
     ", line " << inputLineNumber <<
     endl;
@@ -3613,7 +3635,7 @@ string wholeNotesAsMsrString (
 #endif
 
   // sanity check
-  basicMsrAssert (
+  msrAssert (
     numerator != 0,
     "numerator is 0");
 
@@ -3710,8 +3732,10 @@ string wholeNotesAsMsrString (
               numerator << "/" << denominator <<
               " whole notes cannot be represented as an MSR string";
   
-            basicMsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
         } // switch
         break;
@@ -5042,6 +5066,16 @@ S_msrChordIntervals msrChordIntervals::createHarmonyDeepCopy (
   return harmonyDeepCopy;
 }
 */
+
+void msrChordIntervals::appendChordItemToChordIntervals (
+  S_msrChordItem chordItem)
+{
+  // set the input line number and chord item number // JMI
+
+  // append the chord item
+  fChordIntervalsItems.push_back (
+    chordItem);
+}
 
 string msrChordIntervals::chordIntervalsAsString () const
 {

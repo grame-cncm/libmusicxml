@@ -229,7 +229,7 @@ indenter& indenter::operator++ (const int value)
   fIndent++;
   
 #ifdef DEBUG_INDENTER
-  cerr <<
+  gLogIOstream <<
     "% INDENTER: " << fIndent <<
     endl;
 #endif
@@ -242,7 +242,7 @@ indenter& indenter::operator-- (const int value)
   fIndent--;
 
   if (fIndent < 0) {
-    cerr <<
+    gLogIOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -254,7 +254,7 @@ indenter& indenter::operator-- (const int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    cerr <<
+    gLogIOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -268,7 +268,7 @@ indenter& indenter::increment (int value)
   fIndent += value;
 
   if (fIndent < 0) {
-    cerr <<
+    gLogIOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -280,7 +280,7 @@ indenter& indenter::increment (int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    cerr <<
+    gLogIOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -294,7 +294,7 @@ indenter& indenter::decrement (int value)
   fIndent -= value;
 
   if (fIndent < 0) {
-    cerr <<
+    gLogIOstream <<
       endl <<
       "% ### Indentation has become negative: " <<  fIndent <<
       endl << endl;
@@ -306,7 +306,7 @@ indenter& indenter::decrement (int value)
 
 #ifdef DEBUG_INDENTER
   else {
-    cerr <<
+    gLogIOstream <<
       "% INDENTER: " << fIndent <<
       endl;
   }
@@ -351,6 +351,7 @@ indenter indenter::gIndenter;
 
 //______________________________________________________________________________
 indentedOstream indentedOstream::gLogIndentedOstream;
+indentedOstream indentedOstream::gOutputIndentedOstream;
 
 //______________________________________________________________________________
 //#define DEBUG_OLEC
@@ -633,14 +634,14 @@ int consumeDecimalNumber (
   int    number = 0;
 
   if (! isdigit (*cursor))
-    cerr <<
+    gLogIOstream <<
       "consumeDecimalNumber (" << *cursor <<
       "), " << *cursor << " is no decimal digit!" <<
       endl;
 
   while (isdigit (*cursor)) {
     if (debugMode)
-      cerr <<
+      gLogIOstream <<
         "--> consumeDecimalNumber: cursor = |" <<
         *cursor <<
         "|" <<
@@ -654,7 +655,7 @@ int consumeDecimalNumber (
   remainingStringIterator = cursor;
 
   if (debugMode)
-    cerr <<
+    gLogIOstream <<
       "--> consumeDecimalNumber: number = " << number <<
       ", *remainingStringIterator = |" << *remainingStringIterator <<
       "|" <<
@@ -673,7 +674,7 @@ set<int> decipherNumbersSetSpecification (
   set<int> selectedNumbers;
   
   if (debugMode)
-    cerr <<
+    gLogIOstream <<
       "--> decipherNumbersSetSpecification, theString = |" << theString <<
       "|" <<
       endl;
@@ -683,7 +684,7 @@ set<int> decipherNumbersSetSpecification (
 
   while (1) {
     if (debugMode)
-      cerr <<
+      gLogIOstream <<
         "--> decipherNumbersSpecification: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -704,7 +705,7 @@ set<int> decipherNumbersSetSpecification (
       cursor++;
 
       if (debugMode)
-        cerr <<
+        gLogIOstream <<
           "--> decipherNumbersSpecification after '-' : cursor = |" <<
           *cursor <<
           "|" <<
@@ -719,7 +720,7 @@ set<int> decipherNumbersSetSpecification (
     }
 
     if (debugMode)
-      cerr <<
+      gLogIOstream <<
         "--> decipherNumbersSpecification, intervalStartNumber = " << intervalStartNumber <<
         ", intervalEndNumber = " << intervalEndNumber <<
         ": *cursor = |" << *cursor << "|" <<
@@ -734,7 +735,7 @@ set<int> decipherNumbersSetSpecification (
 
     if (*cursor != ',') {
       if (debugMode)
-        cerr <<
+        gLogIOstream <<
           "--> decipherNumbersSpecification, after non ',' : cursor = |" <<
           *cursor <<
           "|" <<
@@ -745,7 +746,7 @@ set<int> decipherNumbersSetSpecification (
     cursor++;
 
     if (debugMode)
-      cerr <<
+      gLogIOstream <<
         "--> decipherNumbersSpecification after ',' : cursor = |" <<
         *cursor <<
         "|"
@@ -753,7 +754,7 @@ set<int> decipherNumbersSetSpecification (
   } // while 
 
   if (* cursor != '\0') {
-    cerr <<
+    gLogIOstream <<
       "--> Extraneous characters |" << *cursor <<
       "| in numbers spec" <<
       endl << endl;
@@ -770,7 +771,7 @@ list<int> extractNumbersFromString (
   list<int> foundNumbers;
 
   if (debugMode)
-    cerr <<
+    gLogIOstream <<
       "--> extractNumbersFromString, theString = |" << theString <<
       "|" <<
       endl;
@@ -783,7 +784,7 @@ list<int> extractNumbersFromString (
       break;
       
     if (debugMode)
-      cerr <<
+      gLogIOstream <<
         "--> extractNumbersFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -818,7 +819,7 @@ pair<string, string> extractNamesPairFromString (
   string name2;
 
   if (debugMode)
-    cerr <<
+    gLogIOstream <<
       "--> extractNamesPairFromString, theString = |" << theString <<
       "|" <<
       endl;
@@ -832,7 +833,7 @@ pair<string, string> extractNamesPairFromString (
       break;
       
     if (debugMode)
-      cerr <<
+      gLogIOstream <<
         "--> extractNamesPairFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
@@ -850,14 +851,14 @@ pair<string, string> extractNamesPairFromString (
   name1 = trim (name1);
   if (! name1.size ()) {
     // found an empty name1
-    cerr <<
+    gLogIOstream <<
       "### ERROR: the first name before the " << separator <<
       " separator is empty in '" << theString << "'" <<
       endl;
   }
 
   if (cursor == theString.end ())
-    cerr <<
+    gLogIOstream <<
       "### ERROR: the " << separator <<
       " separator is missing in string '" <<
       theString << "'" <<
@@ -872,14 +873,14 @@ pair<string, string> extractNamesPairFromString (
       break;
       
     if (debugMode)
-      cerr <<
+      gLogIOstream <<
         "--> extractNamesPairFromString: cursor = |" <<
         *cursor << "|" <<
         endl;
 
     if ((*cursor) == '=') {
       // found the separator
-      cerr <<
+      gLogIOstream <<
         "### ERROR: the " << separator <<
         " separator occurs more than once in string '" <<
         theString << "'" <<
@@ -895,7 +896,7 @@ pair<string, string> extractNamesPairFromString (
   name2 = trim (name2);
   if (! name2.size ()) {
     // found an empty name2
-    cerr <<
+    gLogIOstream <<
       "### ERROR: the second name after the " << separator <<
       " separator is empty in '" << theString << "'" <<
       endl;
@@ -1020,7 +1021,7 @@ string singularOrPluralWithoutNumber (
 //______________________________________________________________________________
 void optionError (string errorMessage)
 {
-  cerr <<
+  gLogIOstream <<
     endl <<
     "### ERROR in the options:" <<
     endl <<

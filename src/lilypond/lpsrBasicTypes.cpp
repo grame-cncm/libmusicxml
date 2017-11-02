@@ -32,6 +32,9 @@
 
 #include "utilities.h"
 
+#include "messagesHandling.h"
+#include "generalOptions.h"
+
 #include "lpsrBasicTypes.h"
 
 
@@ -138,8 +141,10 @@ string wholeNotesAsLilypondString (
               numerator << "/" << denominator <<
               " whole notes cannot be represented as an MSR string";
   
-            basicLpsrInternalError (
+            msrInternalError (
+              gGeneralOptions->fInputSourceName,
               inputLineNumber,
+              __FILE__, __LINE__,
               s.str ());
         } // switch
         break;

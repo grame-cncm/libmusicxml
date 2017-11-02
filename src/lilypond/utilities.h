@@ -237,13 +237,16 @@ Usage:
     void flush ()
       { fIndentedStreamBuf.flush (); }
     
-    // global variable for general use
+    // global variables for general use
     static indentedOstream
                           gLogIndentedOstream; 
+    static indentedOstream
+                          gOutputIndentedOstream; 
 };
 
-// useful shortcut macro
-#define gLogIOstream indentedOstream::gLogIndentedOstream
+// useful shortcut macros
+#define gLogIOstream    indentedOstream::gLogIndentedOstream
+#define gOutputIOstream indentedOstream::gOutputIndentedOstream
 
 //______________________________________________________________________________
 /*!

@@ -31,108 +31,6 @@ namespace MusicXML2
 @{
 */
 
-
-/*!
-\internal
-\brief A macro to exit when a condition if false
-*/
-// a macro to abort with code source line information,
-// as assert() itself
-//______________________________________________________________________________
-#define basicMsrAssert( condition, messageIfFalse ) \
-{ \
-  if (! condition) { \
-    cerr << \
-      endl << \
-      "#### " << messageIfFalse << \
-      endl << endl << \
-      flush; \
-    assert(condition); \
-  } \
-}
-
-/*!
-\internal
-\brief A macro to emit warning messages regarding MusicXML data
-*/
-//______________________________________________________________________________
-#define basicMsrMusicXMLWarning( inputLineNumber, message ) \
-{ \
-  cerr << endl << endl; \
-\
-  cerr << \
-    "!!! MusicXML WARNING !!!, " << \
-    gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    message << \
-    endl << endl; \
-}
-
-/*!
-\internal
-\brief A macro to emit error messages regarding MusicXML data and exit
-*/
-//______________________________________________________________________________
-#define basicMsrMusicXMLError( inputLineNumber, message ) \
-{ \
-  cerr << endl << endl; \
-\
-  cerr << \
-    "### MusicXML ERROR ###, " << \
-    gGeneralOptions->fInputSourceName << \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    message << \
-    endl << endl; \
-\
-  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
-    assert(false); \
-}
-
-/*!
-\internal
-\brief A macro to emit error messages regarding MSR and exit
-*/
-//______________________________________________________________________________
-#define basicMsrInternalError( inputLineNumber, message ) \
-{ \
-  cerr << endl << endl; \
-\
-  cerr << \
-    "[[[ basic INTERNAL ERROR ]]], " << \
- /* JMI   gGeneralOptions->fInputSourceName << */ \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    message << \
-    endl << endl; \
-\
-  assert(false); \
-}
-
-/*!
-\internal
-\brief A macro to emit error messages regarding MSR
-*/
-//______________________________________________________________________________
-#define basicMsrInternalWarning( inputLineNumber, message ) \
-{ \
-  cerr << endl << endl; \
-\
-  cerr << \
-    "[[[ basic INTERNAL WARNING ]]], " << \
-   /* JMI gGeneralOptions->fInputSourceName << */ \
-    ", input line " << inputLineNumber << ":" << \
-    endl << \
-\
-    message << \
-    endl << endl; \
-}
-
-
 // notes names and chords languages
 // ------------------------------------------------------
 
@@ -856,11 +754,7 @@ class EXP msrChordIntervals : public smartable
     // ------------------------------------------------------
 
     void                  appendChordItemToChordIntervals (
-                            S_msrChordItem chordItem)
-                              {
-                                fChordIntervalsItems.push_back (
-                                  chordItem);
-                              }
+                            S_msrChordItem chordItem);
         
     string                chordIntervalsAsString () const;
     string                chordIntervalsAsShortString () const;

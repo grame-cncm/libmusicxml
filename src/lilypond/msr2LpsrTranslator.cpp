@@ -1017,7 +1017,9 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     
     case msrVoice::kMasterVoice:
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
+        __FILE__, __LINE__,
         "a master voice is not expected in msr2LpsrTranslator");
       break;
       
@@ -1214,7 +1216,9 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
   switch (elt->getVoiceKind ()) {
     case msrVoice::kMasterVoice:
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
+        __FILE__, __LINE__,
         "a master voice is not expected in msr2LpsrTranslator"); // JMI
       break;
       
@@ -1585,7 +1589,9 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       originalMeasure;
 
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 }
@@ -1628,9 +1634,11 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
               getVoiceName () <<
           "\" is of unknown kind";
 
-     // JMI   msrInternalError (
-        msrInternalWarning ( // JMI
-          inputLineNumber, s.str ());
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
       }
       break;
       
@@ -2719,6 +2727,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   switch (fCurrentNoteClone->getNoteKind ()) {
     
     case msrNote::k_NoNoteKind:
@@ -2813,7 +2824,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            elt->getInputLineNumber (),
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
             s.str ());
         }
       }
@@ -2826,7 +2839,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "' met outside of a double tremolo";
 
         msrInternalError (
-          elt->getInputLineNumber (),
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -2877,7 +2892,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          elt->getInputLineNumber (),
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -2898,7 +2915,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          elt->getInputLineNumber (),
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
         }
       break;
@@ -3140,7 +3159,9 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
+        __FILE__, __LINE__,
         s.str ());
     }
   }

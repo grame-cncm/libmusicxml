@@ -2128,7 +2128,9 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
       gIndenter--;
         
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         note->getInputLineNumber (),
+        __FILE__, __LINE__,
         s.str ());
     }
   }
@@ -2139,7 +2141,8 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   }
 }
 
-void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
+void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
+  S_msrChord chord)
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
     gLogIOstream <<
@@ -2184,7 +2187,9 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
       gIndenter--;
                 
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         chord->getInputLineNumber (),
+        __FILE__, __LINE__,
         s.str ());
     }
   }
@@ -2195,7 +2200,8 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (S_msrChord chord)
   }
 }
 
-void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
+void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
+  S_msrNote note)
 {
   if (gGeneralOptions->fTraceTremolos) {
     gLogIOstream <<
@@ -2240,7 +2246,9 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (S_msrNote note)
       gIndenter--;
         
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         note->getInputLineNumber (),
+        __FILE__, __LINE__,
         s.str ());
     }
   }
@@ -2296,7 +2304,9 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
       gIndenter--;
         
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         chord->getInputLineNumber (),
+        __FILE__, __LINE__,
         s.str ());
     }
   }
@@ -2453,7 +2463,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         else {
           msrInternalError (
+            gGeneralOptions->fInputSourceName,
             fInputLineNumber,
+            __FILE__, __LINE__,
             "notes double tremolo first element should be a note");
         }
         break;
@@ -2468,7 +2480,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         else {
           msrInternalError (
+            gGeneralOptions->fInputSourceName,
             fInputLineNumber,
+            __FILE__, __LINE__,
             "chords double tremolo first element should be a chord");
         }
         break;
@@ -2489,7 +2503,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         else {
           msrInternalError (
+            gGeneralOptions->fInputSourceName,
             fInputLineNumber,
+            __FILE__, __LINE__,
             "notes double tremolo second element should be a note");
         }
         break;
@@ -2504,7 +2520,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         else {
           msrInternalError (
+            gGeneralOptions->fInputSourceName,
             fInputLineNumber,
+            __FILE__, __LINE__,
             "chords double tremolo second element should be a chord");
         }
         break;
@@ -7775,7 +7793,8 @@ int msrDivisions::durationAsDivisions (
     i != fDurationsToDivisions.end ();
     i++) {
     if ((*i).first == duration)
-      return (*i).second;
+      return
+        (*i).second;
   } // for
 
   stringstream s;
@@ -7789,8 +7808,12 @@ int msrDivisions::durationAsDivisions (
   printDurationsDivisions (s);
   
   msrInternalError (
+    gGeneralOptions->fInputSourceName,
     inputLineNumber,
-    s.str ())
+    __FILE__, __LINE__,
+    s.str ());
+
+  return -1; // never reached
 }
 
 void msrDivisions::printDurationsDivisions (ostream& os)
@@ -7894,7 +7917,10 @@ string msrDivisions::divisionsAsMsrString (
       printDurationsDivisions (gLogIOstream);
 
       msrInternalError (
-        inputLineNumber, s.str ());
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
       break;
     }
 
@@ -8118,7 +8144,10 @@ string msrDivisions::wholeNotesAsMsrString (
       printDurationsDivisions (gLogIOstream);
 
       msrInternalError (
-        inputLineNumber, s.str ());
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
       break;
     }
 
@@ -9029,7 +9058,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
         fTupletElements.front ();
 
     for (
-      list<S_msrElement>::const_iterator i=fTupletElements.begin ();
+      list<S_msrElement>::iterator i=fTupletElements.begin ();
       i!=fTupletElements.end ();
       ++i) {
       if ((*i) == note) {
@@ -9068,7 +9097,9 @@ void msrTuplet::removeFirstNoteFromTuplet (
       " since it has not been found";
 
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
   
@@ -9088,7 +9119,9 @@ void msrTuplet::removeFirstNoteFromTuplet (
       " since it has not been found";
 
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 }
@@ -9128,7 +9161,9 @@ void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
     
     else {
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
+        __FILE__, __LINE__,
         "tuplet member should be a note, a chord or another tuplet");
     }
   } // for
@@ -9181,7 +9216,9 @@ rational msrTuplet::setTupletPositionInMeasure (
     
     else {
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
+        __FILE__, __LINE__,
         "tuplet member should be a note, a chord or another tuplet");
     }
 
@@ -9389,7 +9426,9 @@ string msrTuplet::tupletAsShortString () const
       
       else {
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           fInputLineNumber,
+          __FILE__, __LINE__,
           "tuplet member should be a note, a chord or another tuplet");
       }
   
@@ -9453,7 +9492,9 @@ string msrTuplet::tupletAsString () const
       
       else {
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           fInputLineNumber,
+          __FILE__, __LINE__,
           "tuplet member should be a note, a chord or another tuplet");
       }
   
@@ -11090,7 +11131,9 @@ string msrTimeItem::timeItemAsString () const
   
   else {
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       fInputLineNumber,
+      __FILE__, __LINE__,
       "time item beats numbers vector is empty");
   }
 
@@ -11279,7 +11322,9 @@ rational msrTime::wholeNotesPerMeasure () const
 
   else {
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       fInputLineNumber,
+      __FILE__, __LINE__,
       "time items vector is empty");
   }
 
@@ -11478,7 +11523,9 @@ string msrTime::timeAsString () const
   else {
     if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
+        __FILE__, __LINE__,
         "time  items vector is empty");
     }
   }
@@ -12622,7 +12669,9 @@ string msrSyllable::syllableAsString ()
       
     case k_NoSyllable:
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
+        __FILE__, __LINE__,
         "syllable type has not been set");
       break;
   } // switch
@@ -12860,7 +12909,9 @@ void msrStanza::appendSyllableToStanza (
       
     case msrSyllable::k_NoSyllable:
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         fInputLineNumber,
+        __FILE__, __LINE__,
         "syllable type has not been set");
       break;
   } // switch
@@ -16922,7 +16973,7 @@ void msrMeasure::prependGraceNotesToMeasure (
   // after clef, key and time signature if any
 
   for (
-    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
+    list<S_msrElement>::iterator i = fMeasureElementsList.begin ();
     i != fMeasureElementsList.end ();
     i++ ) {
 
@@ -16966,7 +17017,7 @@ void msrMeasure::prependAfterGraceNotesToMeasure (
   // after clef, key and time signature if any
 
   for (
-    list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
+    list<S_msrElement>::iterator i = fMeasureElementsList.begin ();
     i != fMeasureElementsList.end ();
     i++ ) {
 
@@ -17107,7 +17158,7 @@ void msrMeasure::removeNoteFromMeasure (
   }
 
   for (
-    list<S_msrElement>::const_iterator i=fMeasureElementsList.begin ();
+    list<S_msrElement>::iterator i=fMeasureElementsList.begin ();
     i!=fMeasureElementsList.end ();
     ++i) {
     if ((*i) == note) {
@@ -17140,7 +17191,9 @@ void msrMeasure::removeNoteFromMeasure (
     " since it has not been found";
 
   msrInternalError (
+    gGeneralOptions->fInputSourceName,
     inputLineNumber,
+    __FILE__, __LINE__,
     s.str ());
 }
 
@@ -17984,7 +18037,9 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     gIndenter--;
     
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       clef->getInputLineNumber (),
+      __FILE__, __LINE__,
       s.str ());
   }
     
@@ -18546,7 +18601,9 @@ void msrSegment::bringSegmentToMeasureLength (
     gIndenter--;
     
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -18974,7 +19031,7 @@ void msrSegment::removeElementFromSegment (
   S_msrElement elem)
 {
   for (
-    list<S_msrElement>::const_iterator i = fSegmentMeasuresList.begin ();
+    list<S_msrElement>::iterator i = fSegmentMeasuresList.begin ();
     i != fSegmentMeasuresList.end ();
     i++) {
     if ((*i) == elem) {
@@ -19032,7 +19089,9 @@ void msrSegment::removeNoteFromSegment (
       " since it is empty";
 
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 }
@@ -19060,7 +19119,10 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       "' since it is empty";
 
     msrInternalError (
-      inputLineNumber, s.str ());
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
   }
 
   S_msrMeasure
@@ -21418,7 +21480,9 @@ void msrHarpPedalsTuning::addPedalTuning (
       "' has already been specified";
       
     msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
       intputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -21652,7 +21716,9 @@ void msrVoice::setVoiceNameFromNumber (
           "' voice cannot get its name from its number";
 
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -21729,7 +21795,10 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_MASTER_VOICE_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str ());
+          gGeneralOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
       }
       break;
       
@@ -21743,7 +21812,10 @@ void msrVoice::initializeVoice (
           " is not in the 0..4 range";
           
         msrMusicXMLError (
-          fInputLineNumber, s.str ());
+          gGeneralOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
       }
       break;
       
@@ -21756,7 +21828,10 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_HARMONY_VOICE_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str ());
+          gGeneralOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
       }
       break;
       
@@ -21769,7 +21844,10 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_FIGURED_BASS_VOICE_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str ());
+          gGeneralOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
       }
       break;
   } // switch
@@ -22081,7 +22159,9 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
           "\" initial repeats and segments element should be a repeat or a segment";
 
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           fInputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
   
@@ -22297,7 +22377,9 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
       endl;
 
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -22541,7 +22623,9 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
           "\"";
 
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           harmony->getInputLineNumber (),
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -22586,7 +22670,9 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
           "\"";
 
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           harmony->getInputLineNumber (),
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -22630,14 +22716,17 @@ void msrVoice::appendFiguredBassToVoice (
           "\"";
 
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           figuredBass->getInputLineNumber (),
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
   } // switch
 }
 
-void msrVoice::appendFiguredBassToVoiceClone (S_msrFiguredBass figuredBass)
+void msrVoice::appendFiguredBassToVoiceClone (
+  S_msrFiguredBass figuredBass)
 {
   if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices)
     gLogIOstream <<
@@ -22675,7 +22764,9 @@ void msrVoice::appendFiguredBassToVoiceClone (S_msrFiguredBass figuredBass)
           "\"";
 
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           figuredBass->getInputLineNumber (),
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -23475,7 +23566,10 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             " available";
 
           msrInternalError (
-            inputLineNumber, s.str ());
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
         }
 
         // grab the just created last measure from the voice,
@@ -23540,7 +23634,10 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             "attempting to create a measure repeat while another one is pending";
 
           msrInternalError (
-            inputLineNumber, s.str ());
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
         }
         
         fVoicePendingMeasureRepeat =
@@ -23614,7 +23711,10 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             "attempting to append a pending measure repeat which doesn't exist";
 
           msrInternalError (
-            inputLineNumber, s.str ());
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
         }
 
         // fetch the last segment's measure list
@@ -23634,7 +23734,10 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
             "attempting to grab first measure of voice last segment, that contains none";
 
           msrInternalError (
-            inputLineNumber, s.str ());
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
         }
 
         S_msrMeasure
@@ -23822,7 +23925,10 @@ void msrVoice::createMultipleRestInVoice (
             "attempting to create a multiple rest while another one is pending";
 
           msrInternalError (
-            inputLineNumber, s.str ());
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
         }
         
         fVoicePendingMultipleRest =
@@ -23910,7 +24016,10 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "attempting to append a pending multiple rest which doesn't exist";
 
           msrInternalError (
-            inputLineNumber, s.str ());
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
         }
 
         // fetch the last segment's measure list
@@ -23928,7 +24037,10 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "attempting to grab first measure of voice last segment, that contains none";
 
           msrInternalError (
-            inputLineNumber, s.str ());
+            gGeneralOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
         }
 
         S_msrMeasure
@@ -25565,7 +25677,9 @@ void msrStaff::initializeStaff ()
           "regular staff number " << fStaffNumber <<
           " is not positive";
           
-        msrAssert (false, s.str ());
+        msrAssert (
+          false,
+          s.str ());
       }
       break;
       
@@ -25584,7 +25698,10 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_HARMONY_STAFF_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str ());
+          gGeneralOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
       }
       break;
       
@@ -25597,7 +25714,10 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_FIGURED_BASS_STAFF_NUMBER;
           
         msrInternalError (
-          fInputLineNumber, s.str ());
+          gGeneralOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
       }
       break;
   } // switch
@@ -25976,7 +26096,9 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -26105,7 +26227,9 @@ void msrStaff::registerVoiceInStaff (
       
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -28287,8 +28411,11 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
       "staffNumber " << staffNumber <<
       " already exists in part " << getPartCombinedName ();
 
-    msrInternalError ( // JMI
-      inputLineNumber, s.str ());
+    msrInternalError ( // JMI ???
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
       
     return fPartStavesMap [staffNumber];
   }
@@ -28413,7 +28540,9 @@ void msrPart::setPartHarmoniesSupplierVoice (
           " \"" << partHarmoniesSupplierVoice->getVoiceName () << "\"";
     
         msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -28433,7 +28562,9 @@ void msrPart::setPartHarmoniesSupplierVoice (
            "\"";
     
         msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -28487,7 +28618,9 @@ void msrPart::appendHarmonyToPart (
           "\"";
     
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -28543,7 +28676,9 @@ void msrPart::appendHarmonyToPartClone (
           "\"";
     
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -28597,7 +28732,9 @@ void msrPart::appendFiguredBassToPart (
           "\"";
     
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -28653,7 +28790,9 @@ void msrPart::appendFiguredBassToPartClone (
           "\"";
     
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
       }
       break;
@@ -29570,7 +29709,9 @@ void msrPartGroup::printPartGroupParts (
         " is not a part group nor a part";
 
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
+        __FILE__, __LINE__,
         s.str ());
     }
   } // for
@@ -29655,7 +29796,9 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
         " is not a part group nor a part";
 
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
+        __FILE__, __LINE__,
         s.str ());
     }
   } // for
@@ -30459,7 +30602,9 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
       "' already exists in this score";
 
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       partGroup->getInputLineNumber (),
+      __FILE__, __LINE__,
       s.str ());
   }
 

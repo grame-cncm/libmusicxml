@@ -33,21 +33,9 @@ namespace MusicXML2
 // as assert() itself
 //______________________________________________________________________________
 
-#define msrAssert( condition, messageIfFalse ) \
-{ \
-  if (! condition) { \
-    cerr << \
-      endl << \
-      "#### msrAssert failure: " << messageIfFalse << \
-      endl << \
-      "Aborting." << \
-      endl << \
-      endl << \
-      flush; \
-      \
-    assert(condition); \
-  } \
-}
+void msrAssert (
+  bool   condition,
+  string messageIfFalse);
 
 //______________________________________________________________________________
 void msrWarning (
@@ -76,36 +64,29 @@ void msrError (
   string context,
   string inputSourceName,
   int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
   string message);
 
 //______________________________________________________________________________
-#define msrMusicXMLError( inputLineNumber, message ) \
-{ \
-  msrError ( \
-    "MusicXML", \
-    gGeneralOptions->fInputSourceName, \
-    inputLineNumber, \
-    message); \
-\
-  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors) \
-    assert(false); \
-}
+void msrMusicXMLError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message);
 
 /*!
 \internal
 \brief A macro to emit error messages regarding MusicXML data and exit
 */
 //______________________________________________________________________________
-#define lpsrMusicXMLError( inputLineNumber, message ) \
-{ \
-  msrError ( \
-    "LPSR", \
-    gGeneralOptions->fInputSourceName, \
-    inputLineNumber, \
-    message); \
-\
-  assert(false); \
-}
+void lpsrMusicXMLError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message);
 
 /*!
 \internal
@@ -113,19 +94,12 @@ void msrError (
 */
 //______________________________________________________________________________
 
-#define msrInternalError( inputLineNumber, message ) \
-{ \
-  msrError ( \
-    "MSR INTERNAL", \
-    gGeneralOptions->fInputSourceName, \
-    inputLineNumber, \
-    message); \
-\
-  assert(false); \
-}
-
-
-
+void msrInternalError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message);
 
 
 /*! @} */

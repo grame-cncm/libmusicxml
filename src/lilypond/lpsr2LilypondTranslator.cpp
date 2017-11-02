@@ -1606,7 +1606,9 @@ void lpsr2LilypondTranslator::transposeDiatonicError (
     "'";
     
   msrMusicXMLError (
+    gGeneralOptions->fInputSourceName,
     inputLineNumber,
+    __FILE__, __LINE__,
     s.str ());
 }
 
@@ -3598,7 +3600,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     
     case msrVoice::kMasterVoice:
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         fCurrentVoice->getInputLineNumber (),
+        __FILE__, __LINE__,
         "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
       break;      
     
@@ -3695,7 +3699,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   switch (fCurrentVoice->getVoiceKind ()) {
     case msrVoice::kMasterVoice:
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
+        __FILE__, __LINE__,
         "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
       break;      
     
@@ -3739,7 +3745,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   switch (elt->getVoiceKind ()) {
     case msrVoice::kMasterVoice:
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
+        __FILE__, __LINE__,
         "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
       break;      
     
@@ -3768,7 +3776,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   switch (elt->getVoiceKind ()) {
     case msrVoice::kMasterVoice:
       msrInternalError (
+        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
+        __FILE__, __LINE__,
         "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
       break;
       
@@ -4148,9 +4158,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' is of unknown kind";
 
-    // JMI     msrInternalError (
-        msrInternalWarning (
-          inputLineNumber, s.str ());
+        msrInternalError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
       }
       break;
       
@@ -4215,7 +4227,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
 
         if (ratioToFullLength == rational (1, 1)) {
           msrInternalError (
+            gGeneralOptions->fInputSourceName,
             inputLineNumber,
+            __FILE__, __LINE__,
             "underfull measure is actuall the full measure length");
         }
 
@@ -4881,7 +4895,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
         
         else {
             msrInternalError (
+              gGeneralOptions->fInputSourceName,
               elt->getInputLineNumber (),
+              __FILE__, __LINE__,
               "Humdrum/Scot key items vector is empty");
         }
       }
@@ -5089,7 +5105,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     else {
       if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           elt->getInputLineNumber (),
+          __FILE__, __LINE__,
           "time items vector is empty");
       }
     }
@@ -5544,7 +5562,7 @@ If the double element is present, it indicates that the music is doubled one oct
 
 /* JMI
   if (gGeneralOptions->fTraceTranspositions) {
-    cerr << // JMI
+    fLilypondIOstream << // JMI
       "Handlling transpose '" <<
       elt->transposeAsString () <<
       "' ignored because it is already present in voice \"" <<

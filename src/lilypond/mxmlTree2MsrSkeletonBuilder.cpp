@@ -373,8 +373,6 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsData (
   
   showPendingPartGroupsToBeStoppedList (
     inputLineNumber);
-  fLogOutputStream <<
-    endl;
 
   fLogOutputStream <<
     "<<< ================================================" <<
@@ -594,6 +592,12 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
   int            inputLineNumber,
   S_msrPartGroup partGroup)
 {
+  if (gGeneralOptions->fTracePartGroupsDetails) {
+    showPartGroupsData (
+      inputLineNumber,
+      "AFTER stopPartGroup()");
+  }
+
   S_msrPartGroup
     currentPartGroup =
       fPartGroupsStack.front ();
@@ -669,7 +673,11 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
   else {
     // partGroup is not the current part group,
     // this 'stop' doesn't happen in strict reverse order
-    insertPartGroupIntoPartGroupsToBeStoppedList (
+
+    // insert it in the part groups to be stopped list,
+    // it will be handled at the next score-part
+    // or at the end of the part-list
+    insertPartGroupIntoToBeStoppedList (
       inputLineNumber,
       partGroup);
   }
@@ -682,7 +690,7 @@ void mxmlTree2MsrSkeletonBuilder::stopPartGroup (
 }
 
 //________________________________________________________________________
-void mxmlTree2MsrSkeletonBuilder::insertPartGroupIntoPartGroupsToBeStoppedList (
+void mxmlTree2MsrSkeletonBuilder::insertPartGroupIntoToBeStoppedList (
   int            inputLineNumber,
   S_msrPartGroup partGroup)
 {
@@ -695,7 +703,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupIntoPartGroupsToBeStoppedList (
   }
 
   else {
-    list<S_msrPartGroup>::const_iterator
+    list<S_msrPartGroup>::iterator
       iBegin = fPendingPartGroupsToBeStoppedList.begin (),
       iEnd   = fPendingPartGroupsToBeStoppedList.end (),
       i      = iBegin;
@@ -709,7 +717,9 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupIntoPartGroupsToBeStoppedList (
           " could not be inserted in part groups to be stopped list";
           
         msrInternalError (
+          gGeneralOptions->fInputSourceName,
           inputLineNumber,
+          __FILE__, __LINE__,
           s.str ());
         break;
       }
@@ -726,6 +736,94 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupIntoPartGroupsToBeStoppedList (
       
       i++;
     } // while
+  }
+}
+
+//________________________________________________________________________
+void mxmlTree2MsrSkeletonBuilder::handlePendingPartGroupsToBeStopped (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTracePartGroupsDetails) {
+    showPartGroupsData (
+      inputLineNumber,
+      "BEFORE handlePendingPartGroupsToBeStopped()");
+  }
+
+  list<S_msrPartGroup>::iterator
+    iBegin = fPendingPartGroupsToBeStoppedList.begin (),
+    iEnd   = fPendingPartGroupsToBeStoppedList.end (),
+    i      = iBegin;
+
+  while (true) {
+    if (i == iEnd) {
+      stringstream s;
+      s <<
+        "overlapping part groups 1";
+/*
+         <<
+        fCurrentPartGroupNumber <<
+        " could not be inserted in part groups to be stopped list";
+  */
+        
+      msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+      break;
+    }
+
+    if (! fPartGroupsStack.size ()) {
+      // the part groups stack is empty
+      
+      stringstream s;
+      s <<
+        "overlapping part groups 2";
+/*
+         <<
+        fCurrentPartGroupNumber <<
+        " could not be inserted in part groups to be stopped list";
+  */
+        
+      msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+      break;
+    }
+
+    else {
+      S_msrPartGroup
+        partGroupToBeStopped =
+          (*i),
+        currentPartGroup =
+          fPartGroupsStack.front ();
+          
+      // did the current part group start before partGroupToBeStopped?
+      if (
+        fPartGroupsStartPositionsMap [currentPartGroup]
+          <=
+        fPartGroupsStartPositionsMap [partGroupToBeStopped]) {
+        // stop partGroupToBeStopped
+        stopPartGroup (
+          inputLineNumber,
+          partGroupToBeStopped);
+
+        // remove it from the part groups to be stopped list
+        fPendingPartGroupsToBeStoppedList.erase (
+          i);
+        break;
+      }
+    }
+    
+    i++;
+  } // while
+
+  if (gGeneralOptions->fTracePartGroupsDetails) {
+    showPartGroupsData (
+      inputLineNumber,
+      "AFTER handlePendingPartGroupsToBeStopped()");
   }
 }
 
@@ -756,8 +854,19 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       endl;
       
     msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
+  }
+  else {
+    if (gGeneralOptions->fTracePartGroupsDetails) {
+      fLogOutputStream <<
+        "The part group to be stopped is " <<
+        partGroupToBeStopped->getPartGroupCombinedName () <<
+        ", line " <<inputLineNumber <<
+        endl;
+    }
   }
 
   // fetch current part group
@@ -775,20 +884,48 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       " to";
       
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
+  }
+  else {
+    if (gGeneralOptions->fTracePartGroupsDetails) {
+      fLogOutputStream <<
+        "The current part group is " <<
+        currentPartGroup->getPartGroupCombinedName () <<
+        ", line " <<inputLineNumber <<
+        endl;
+    }
   }
 
   // is the part group to be stopped the current one,
   // i.e. the top of the stack?
   if (partGroupToBeStopped == currentPartGroup) {
     // yes, attach it to the current part group
+    if (gGeneralOptions->fTracePartGroupsDetails) {
+      fLogOutputStream <<
+        "Stopping part group " <<
+        partGroupToBeStopped->getPartGroupCombinedName () <<
+        ", line " <<inputLineNumber <<
+        endl;
+    }
+
     stopPartGroup (
       inputLineNumber,
       partGroupToBeStopped);
   }
 
   else {
+    // no, this 'stop' is not in the regular reverse order
+    if (gGeneralOptions->fTracePartGroupsDetails) {
+      fLogOutputStream <<
+        "Part group " <<
+        partGroupToBeStopped->getPartGroupCombinedName () <<
+        " is not in the regular reverse order" <<
+        ", line " <<inputLineNumber <<
+        endl;
+    }
     
     if (! fPartGroupsStack.size ()) {
       stringstream s;
@@ -799,7 +936,9 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
           getPartGroupCombinedName ();
         
       msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
         inputLineNumber,
+        __FILE__, __LINE__,
         s.str ());
     }
   
@@ -1109,6 +1248,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
 
   gIndenter--;
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
 //*
   if (fImplicitPartGroup) {
     // force an implicit part group 'stop' on it
@@ -1312,7 +1454,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
         "\"";
 
     msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -1440,7 +1584,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
         "unknown part group symbol \"" + groupSymbol + "\"";
         
       msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
+        __FILE__, __LINE__,
         s.str ());
     }
   }
@@ -1471,7 +1617,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
       "unknown part group barline \"" + groupBarline + "\"";
       
     msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
+      __FILE__, __LINE__,
       s.str ());
   }
 }
@@ -1527,13 +1675,16 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
   fCurrentPartID = elt->getAttributeValue ("id");
 
   if (gGeneralOptions->fTraceParts)
     fLogOutputStream <<
       "Found part name \"" << fCurrentPartID << "\"" <<
       " in part list" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
 
   fCurrentPartName         = "";
@@ -1541,8 +1692,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
   
   fCurrentPartInstrumentName = "";
   fCurrentPartInstrumentAbbreviation = "";
+
+  // are there pending part groups to be stopped?
+  if (fPendingPartGroupsToBeStoppedList.size ()) {
+    handlePendingPartGroupsToBeStopped (
+      inputLineNumber);
+  }
 }
 
+//________________________________________________________________________
 void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_name& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -1679,7 +1837,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
       " to";
       
     msrInternalError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
   
@@ -1828,11 +1988,18 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   }
       
   else {
+    stringstream s;
+
+    s <<
+      "part \"" <<
+      fCurrentPartID <<
+      "\" is not registered in the part map";
+    
     msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
-      "part \"" +
-        fCurrentPartID +
-        "\" is not registered in the part map");
+      __FILE__, __LINE__,
+      s.str ());
   }
 
   if (gGeneralOptions->fTraceParts) {
@@ -1890,7 +2057,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
         " while the other ones have " << fScoreNumberOfMeasures;
         
       msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
+      __FILE__, __LINE__,
         s.str ());
     }
   }
@@ -2175,7 +2344,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
       " is empty";
 
     msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
+      __FILE__, __LINE__,
       s.str ());
   }
   
@@ -2309,7 +2480,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
       " is not known in the map";
 
     msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -2321,7 +2494,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
       " has already been stopped???";
 
     msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -2377,7 +2552,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
 
  // JMI   msrMusicXMLError (
     msrMusicXMLWarning (
+        gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 */
@@ -2401,7 +2578,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
       " is already known";
       
     msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 
@@ -2467,7 +2646,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
     // place in the part groups list so as
     // to have them ordered by increasing order
     // (all of them are negative)
-    list<S_msrPartGroup>::const_iterator
+    list<S_msrPartGroup>::iterator
       iBegin = fPartGroupsList.begin (),
       iEnd   = fPartGroupsList.end (),
       i      = iBegin;
@@ -2495,7 +2674,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
   
 
 /* JMI
-  list<S_msrPartGroup>::const_iterator
+  list<S_msrPartGroup>::iterator
     iBegin = fPartGroupsList.begin (),
     iEnd   = fPartGroupsList.end (),
     i      = iBegin;
@@ -2629,6 +2808,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_figured_bass& elt )
       
     msrMusicXMLError (
       inputLineNumber,
+      __FILE__, __LINE__,
       s.str ());
   }
 

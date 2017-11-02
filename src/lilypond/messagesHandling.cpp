@@ -14,6 +14,7 @@
 
 #include "messagesHandling.h"
 
+#include "mxmlOptions.h"
 #include "generalOptions.h"
 
 
@@ -21,6 +22,25 @@ using namespace std;
 
 namespace MusicXML2 
 {
+
+//______________________________________________________________________________
+void msrAssert (
+  bool   condition,
+  string messageIfFalse)
+{
+  if (! condition) {
+    gLogIOstream <<
+      endl <<
+      "#### msrAssert failure: " << messageIfFalse <<
+      endl <<
+      "Aborting." <<
+      endl <<
+      endl <<
+      flush;
+     
+    assert(condition);
+  }
+}
 
 //______________________________________________________________________________
 void msrWarning (
@@ -94,6 +114,8 @@ void msrError (
   string context,
   string inputSourceName,
   int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
   string message)
 {
   const int fieldWidth = 18;
@@ -111,13 +133,82 @@ void msrError (
     endl <<
     gTab << gTab <<
     setw (fieldWidth) <<
-    "input line" << " : " << inputLineNumber <<
+    "input line" << " : " <<
+    inputLineNumber <<
+    endl <<
+    gTab << gTab <<
+    setw (fieldWidth) <<
+    "source code file name" << " : " <<
+    sourceCodeFileName <<
+    endl <<
+    gTab << gTab <<
+    setw (fieldWidth) <<
+    "source code input line" << " : " <<
+    sourceCodeLineNumber <<
     endl;
 
   gLogIOstream <<
     message <<
     endl <<
     endl;
+}
+
+//______________________________________________________________________________
+void msrMusicXMLError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msrError (
+    "MusicXML",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors)
+    assert (false);
+}
+
+//______________________________________________________________________________
+void lpsrMusicXMLError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msrError (
+    "LPSR",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  assert (false);
+}
+
+//______________________________________________________________________________
+void msrInternalError (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  msrError (
+    "MSR INTERNAL",
+    inputSourceName,
+    inputLineNumber,
+    sourceCodeFileName,
+    sourceCodeLineNumber,
+    message);
+
+  assert (false);
 }
 
 
