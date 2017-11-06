@@ -1072,9 +1072,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           setPartHarmonyVoice (fCurrentVoiceClone);
 
         if (
-          elt->getMusicHasBeenInsertedInVoice ()
-            ||
-          gMsrOptions->fKeepEmptyHarmonyVoices
+          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {          
           // append the voice clone to the LPSR score elements list
           fLpsrScore ->
@@ -1148,9 +1146,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           setPartFiguredBassVoice (fCurrentVoiceClone);
 
         if (
-          elt->getMusicHasBeenInsertedInVoice ()
-            ||
-          gMsrOptions->fKeepEmptyFiguredBassVoices
+          elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {          
           // append the voice clone to the LPSR score elements list
           fLpsrScore ->

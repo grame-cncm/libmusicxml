@@ -21,9 +21,8 @@
 
 #include <set>
 #include <list>
-
 #include <algorithm> 
-#include <functional> // for function()
+
 
 #include "smartpointer.h"
 
@@ -439,14 +438,12 @@ list<int> extractNumbersFromString (
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 // trim string from start
 inline string &ltrim (string &s) {
-  function < int (int) > checkSpace = [] (int x) { return isspace (x); };
-
   s.erase (
     s.begin (),
     find_if (
       s.begin (),
       s.end (),
-      not1 (checkSpace)
+      not1 (ptr_fun<int, int> (isspace))
       )
     );
           
@@ -455,13 +452,11 @@ inline string &ltrim (string &s) {
 
 // trim string from end
 inline string &rtrim (string &s) {
-  function < int (int) > checkSpace = [] (int x) { return isspace (x); };
-
   s.erase (
     find_if (
       s.rbegin (),
       s.rend (),
-      not1 (checkSpace)
+      not1 (ptr_fun<int, int> (isspace))
       ).base(),
     s.end ()
     );
@@ -502,6 +497,11 @@ void optionError (string errorMessage);
 
 //______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (string& s);
+
+//______________________________________________________________________________
+void splitStringContainingEndOfLines (
+  string        theString,
+  list<string>& chunksList);
 
 //______________________________________________________________________________
 string baseName (const string &filename);

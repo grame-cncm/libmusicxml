@@ -115,21 +115,18 @@ class EXP msrOptions : public msrOptionsGroup
     // --------------------------------------
     
     bool                  fShowMsrStanzas;
-    bool                  fKeepMuteStanzas;
 
     
     // harmonies
     // --------------------------------------
     
     bool                  fShowHarmonyVoices;
-    bool                  fKeepEmptyHarmonyVoices;
 
     
     // figured bass
     // --------------------------------------
     
     bool                  fShowFiguredBassVoices;
-    bool                  fKeepEmptyFiguredBassVoices;
 };
 typedef SMARTP<msrOptions> S_msrOptions;
 EXP ostream& operator<< (ostream& os, const S_msrOptions& elt);

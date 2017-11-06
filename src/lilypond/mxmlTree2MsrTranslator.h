@@ -63,6 +63,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
   public visitor<S_rights>,
   public visitor<S_software>,
   public visitor<S_encoding_date>,
+  public visitor<S_miscellaneous_field>,
   
   // geometry
   
@@ -469,6 +470,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     virtual void visitStart ( S_rights& elt);
     virtual void visitStart ( S_software& elt);
     virtual void visitStart ( S_encoding_date& elt);
+    virtual void visitStart ( S_miscellaneous_field& elt);
 
     // geometry
     // ------------------------------------------------------

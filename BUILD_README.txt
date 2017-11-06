@@ -5,18 +5,23 @@
   
 # Get the libmusixcml2/xml2lilypond code:
 
-  git clone https://github.com/dfober/libmusicxml.git libmusicxml-git
-  cd libmusicxml-git
+  LOCAL_GIT_DIR=libmusicxml-git
+  
+  git clone https://github.com/dfober/libmusicxml.git ${LOCAL_GIT_DIR}
+  
+  cd ${LOCAL_GIT_DIR}
 
 # Check-out the desired branch
 
   BRANCH=lilypond
+  
   git checkout ${BRANCH}
 
 
 # Build everyting with either:
 
   cd cmake
+  
   cmake .
   make
 

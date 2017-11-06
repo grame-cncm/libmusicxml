@@ -276,7 +276,7 @@ R"()",
           "ilb", "ignoreLineBreaks",
 R"(Ignore the line breaks from the MusicXML input
 and let LilyPond decide about them.)",
-          "dontKeepLineBreaks",
+          "ignoreLineBreaks",
           fIgnoreLineBreaks));
 
     lineBreaksSubGroup->
@@ -328,7 +328,7 @@ R"()",
           "ipb", "ignorePageBreaks",
 R"(Ignore the page breaks from the MusicXML input
 and let LilyPond decide about them.)",
-          "dontKeepPageBreaks",
+          "ignorePageBreaks",
           fIgnorePageBreaks));
   }
     
@@ -370,7 +370,7 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
   {
     // variables  
   
-    fTupletsOnALine = boolOptionsInitialValue;
+    fIndentTuplets = boolOptionsInitialValue;
     
     // options
   
@@ -388,11 +388,11 @@ R"()",
     tupletsSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "toal", "tupletsOnALine",
-R"(Keep tuplets notes on the same line, instead of
-'having \tuplet {' and '}' on separate lines.)",
-          "tupletsOnALine",
-          fTupletsOnALine));
+          "itups", "indentTuplets",
+R"(Indent tuplets notes on a line of their own,
+instead of keeping the on the same line as the current measure.)",
+          "indentTuplets",
+          fIndentTuplets));
   }
       
 
@@ -775,8 +775,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   // tuplets
   // --------------------------------------
     
-  clone->fTupletsOnALine =
-    fTupletsOnALine;
+  clone->fIndentTuplets =
+    fIndentTuplets;
 
   
   // repeats
@@ -1026,8 +1026,8 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
-    setw (fieldWidth) << "tupletsOnALine" << " : " <<
-    booleanAsString (fTupletsOnALine) <<
+    setw (fieldWidth) << "indentTuplets" << " : " <<
+    booleanAsString (fIndentTuplets) <<
     endl;
     
   gIndenter--;

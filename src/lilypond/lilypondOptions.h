@@ -135,7 +135,7 @@ class EXP lilypondOptions : public msrOptionsGroup
     // tuplets
     // --------------------------------------
     
-    bool                  fTupletsOnALine;
+    bool                  fIndentTuplets;
 
     // repeats
     // --------------------------------------

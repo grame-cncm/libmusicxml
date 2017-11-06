@@ -1381,7 +1381,8 @@ class EXP msrOrnament : public msrElement
                               { return fOrnamentKind; }
         
     void                  setOrnamentPlacementKind (
-                            msrOrnamentPlacementKind ornamentPlacementKind)
+                            msrOrnamentPlacementKind
+                              ornamentPlacementKind)
                               {
                                 fOrnamentPlacementKind =
                                   ornamentPlacementKind;
@@ -6100,6 +6101,10 @@ class EXP msrIdentification : public msrElement
                             int    inputLineNumber,
                             string val);
 
+    void                  setMiscellaneousField (
+                            int    inputLineNumber,
+                            string val);
+
     void                  setScoreInstrumentAssoc (
                             int    inputLineNumber,
                             string val);
@@ -10051,11 +10056,35 @@ class EXP msrPart : public msrElement
     string                getPartName () const
                               { return fPartName; }
 
+    void                  setPartNameDisplayText (
+                            string partNameDisplayText)
+                              {
+                                fPartNameDisplayText =
+                                  partNameDisplayText;
+                              }
+                
+    string                getPartNameDisplayText () const
+                              { return fPartNameDisplayText; }
+
     void                  setPartAbbreviation (
-                            string partAbbreviation);
+                            string partAbbreviation)
+                              {
+                                fPartAbbreviation =
+                                  partAbbreviation;
+                              }
                 
     string                getPartAbbreviation () const
                               { return fPartAbbreviation; }
+
+    void                  setPartAbbreviationDisplayText (
+                            string partAbbreviationDisplayText)
+                              {
+                                fPartAbbreviationDisplayText =
+                                  partAbbreviationDisplayText;
+                              }
+                
+    string                getPartAbbreviationDisplayText () const
+                              { return fPartAbbreviationDisplayText; }
 
     string                getPartCombinedName () const;
 
@@ -10386,7 +10415,10 @@ class EXP msrPart : public msrElement
                             // coined in constructor
 
     string                fPartName; // from '<part-name/>'
+    string                fPartNameDisplayText;
+    
     string                fPartAbbreviation;
+    string                fPartAbbreviationDisplayText;
 
     // measures
 
@@ -10497,7 +10529,7 @@ class EXP msrPartGroup : public msrElement
       int                      partGroupNumber,
       int                      partGroupAbsoluteNumber,
       string                   partGroupName,
-      string                   partGroupDisplayText,
+      string                   partGroupNameDisplayText,
       string                   partGroupAccidentalText,
       string                   partGroupAbbreviation,
       msrPartGroupSymbolKind   partGroupSymbolKind,
@@ -10521,7 +10553,7 @@ class EXP msrPartGroup : public msrElement
       int                      partGroupNumber,
       int                      partGroupAbsoluteNumber,
       string                   partGroupName,
-      string                   partGroupDisplayText,
+      string                   partGroupNameDisplayText,
       string                   partGroupAccidentalText,
       string                   partGroupAbbreviation,
       msrPartGroupSymbolKind   partGroupSymbolKind,
@@ -10564,8 +10596,8 @@ class EXP msrPartGroup : public msrElement
     string                getPartGroupCombinedName () const;
 
     // miscellaneous
-    string                getPartGroupDisplayText () const
-                              { return fPartGroupDisplayText; }
+    string                getPartGroupNameDisplayText () const
+                              { return fPartGroupNameDisplayText; }
 
     string                getPartGroupAccidentalText () const
                               { return fPartGroupAccidentalText; }
@@ -10631,6 +10663,10 @@ class EXP msrPartGroup : public msrElement
                             int    inputLineNumber,
                             string partID);
 
+    void                  collectPartGroupPartsList (
+                            int    inputLineNumber,
+                            list<S_msrPart>& partsList);
+
     // visitors
     // ------------------------------------------------------
 
@@ -10663,8 +10699,8 @@ class EXP msrPartGroup : public msrElement
     // name
     
     string                fPartGroupName;
-
-    string                fPartGroupDisplayText;
+    string                fPartGroupNameDisplayText;
+    
     string                fPartGroupAccidentalText;
     
     string                fPartGroupAbbreviation;
@@ -10801,6 +10837,10 @@ class EXP msrScore : public msrElement
     S_msrPart             fetchPartFromScoreByItsPartID (
                             int    inputLineNumber,
                             string partID);
+
+    void                  collectScorePartsList (
+                            int    inputLineNumber,
+                            list<S_msrPart>& partsList);
 
     // visitors
     // ------------------------------------------------------

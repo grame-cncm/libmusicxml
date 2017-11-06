@@ -118,7 +118,7 @@ void msrError (
   int    sourceCodeLineNumber,
   string message)
 {
-  const int fieldWidth = 18;
+  const int fieldWidth = 22;
 
   gLogIOstream <<
     endl <<
@@ -139,7 +139,7 @@ void msrError (
     gTab << gTab <<
     setw (fieldWidth) <<
     "source code file name" << " : " <<
-    sourceCodeFileName <<
+    baseName (sourceCodeFileName) <<
     endl <<
     gTab << gTab <<
     setw (fieldWidth) <<
@@ -148,7 +148,8 @@ void msrError (
     endl;
 
   gLogIOstream <<
-    message <<
+    gIndenter.indentMultiLineString (
+      message)  <<
     endl <<
     endl;
 }

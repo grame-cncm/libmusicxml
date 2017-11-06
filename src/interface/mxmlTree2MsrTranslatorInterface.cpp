@@ -129,7 +129,7 @@ void displayMSRPopulatedScore (
     separator <<
     endl <<
     gTab <<
-    "Optional pass: displaying the MSR skeleton as text" <<
+    "Optional pass: displaying the MSR as text" <<
     endl <<
     separator <<
     endl <<

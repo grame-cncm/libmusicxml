@@ -438,9 +438,12 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   }
     
   // fetch registered voice displaying staff number
-  int voiceDisplayingStaffNumber =
-    fPartVoiceNumberToDisplayingStaffNumberMap [
-      voiceNumber];
+  int voiceDisplayingStaffNumber = 1; // there may be no <staff /> markups
+
+  if (fPartVoiceNumberToDisplayingStaffNumberMap.count (voiceNumber))
+    voiceDisplayingStaffNumber =
+      fPartVoiceNumberToDisplayingStaffNumberMap [
+        voiceNumber];
 
   if (staffNumber == voiceDisplayingStaffNumber) {
     // voice 'voiceNumber' remains displayed by staff 'staffNumber'
@@ -681,6 +684,44 @@ void mxmlTree2MsrTranslator::visitStart ( S_encoding_date& elt )
     setEncodingDate (
       elt->getInputLineNumber (),
       elt->getValue ());
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_miscellaneous_field& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_miscellaneous_field" <<
+      endl;
+  }
+
+/*
+<!--
+  If a program has other metadata not yet supported in the
+  MusicXML format, it can go in the miscellaneous area.
+-->
+<!ELEMENT miscellaneous (miscellaneous-field*)>
+<!ELEMENT miscellaneous-field (#PCDATA)>
+<!ATTLIST miscellaneous-field
+    name CDATA #REQUIRED
+>
+
+    <miscellaneous>
+      <miscellaneous-field name="description">A part with no id attribute.
+            Since this piece has only one part, it is clear which part 
+            is described by the one part element.</miscellaneous-field>
+    </miscellaneous>
+
+*/
+
+  string miscellaneousFielValue = elt->getValue ();
+  
+  convertHTMLEntitiesToPlainCharacters (
+    miscellaneousFielValue);
+
+  fMsrScore->getIdentification () ->
+    setMiscellaneousField (
+      elt->getInputLineNumber (),
+      miscellaneousFielValue);
 }
 
 //______________________________________________________________________________
@@ -1021,17 +1062,49 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
 
   // sanity check
   if (! fCurrentPart) {
-    stringstream s;
+    // fetch fMsrScore's part list
+    list<S_msrPart> partsList;
 
-    s <<
-      "part \"" << partID <<
-      "\" not found in score skeleton";
+    fMsrScore->
+      collectScorePartsList (
+        inputLineNumber,
+        partsList);
+  
+    if (partsList.size () == 1) {
+      // there's only one part in the part list,
+      // assume this is the one
+      fCurrentPart =
+        partsList.front ();
+        
+      partID =
+        fCurrentPart->
+          getPartID ();
 
-    msrInternalError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
+      stringstream s;
+
+      s <<
+        "part 'id' is empty, using '" <<
+        partID <<
+        "' since it is the only part in the <part-list />";
+
+      msrMusicXMLWarning (
+        inputLineNumber,
+        s.str ());
+    }
+
+    else {
+      stringstream s;
+  
+      s <<
+        "part \"" << partID <<
+        "\" not found in score skeleton";
+  
+      msrInternalError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
   }
     
   if (gGeneralOptions->fTraceParts)
@@ -1055,7 +1128,8 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
     partStavesMap =
       fCurrentPart->
         getPartStavesMap ();
-      
+
+      /* JMI virer ???
   // register that this part's voices are currently displayed
   // by staff 'staffNumber'
   for (
@@ -1066,6 +1140,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
       (*i).second->
         getStaffNumber ();
   } // for
+  */
 
   // miscellaneous
   fCurrentMeasureOrdinalNumber = 0;
@@ -3174,12 +3249,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_accordion_middle& elt )
     s <<
       "accordion middle " <<
       fCurrentAccordionMiddle << " should be 1, 2 or 3" <<
-      ", replaced by 0";
+      ", replaced by 1";
     
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+    msrMusicXMLWarning (
       elt->getInputLineNumber (),
-      __FILE__, __LINE__,
       s.str ());
 
     fCurrentAccordionMiddle = 1;
@@ -3433,47 +3506,6 @@ void mxmlTree2MsrTranslator::visitStart (S_staves& elt)
       "--> Start visiting S_direction" <<
       endl;
   }
-
-  int stavesNumber = int(*elt);
-
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-  if (gGeneralOptions->fTraceStaves) {
-    switch (stavesNumber) {
-      case 0:
-        fLogOutputStream <<
-          "There isn't any explicit staff (hence 1 by default)"; // JMI
-        break;
-        
-      case 1:
-        fLogOutputStream <<
-          "There is 1 staff";
-        break;
-        
-      default:
-        fLogOutputStream <<
-          "There are " << stavesNumber << " staves";
-    } // switch
-    
-    fLogOutputStream <<
-      " in part " << fCurrentPart->getPartCombinedName() <<
-      endl;
-  }
-
-  if (stavesNumber > 1) {
-    // add n-1 staves to current part since 1 already exists JMI
-    int n = 2;
-    
-    while (n <= stavesNumber) {
-      fCurrentPart->
-        addStaffToPartByItsNumber (
-          inputLineNumber,
-          msrStaff::kRegularStaff,
-          n);
-      n++;
-    } // while
-  }
 }
 
 //________________________________________________________________________
@@ -3484,6 +3516,8 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
       "--> Start visiting S_staff" <<
       endl;
   }
+
+  // REMOVE JMI
 
   /*
         <note>
@@ -4693,36 +4727,29 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // number
+  
   string stanzaNumber =
     elt->getAttributeValue ("number");
   
   if (stanzaNumber.size () == 0) {
-    stringstream s;
-
-    s <<
-      "lyric number " << stanzaNumber <<
-      " is empty";
-
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+    msrMusicXMLWarning (
       inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
+      "lyric number is empty");
   }
-  else {
-    if (gGeneralOptions->fTraceLyrics)
-      fLogOutputStream <<
-        "--> setting fCurrentStanzaNumber to " <<
-        stanzaNumber <<
-        ", line " << inputLineNumber <<
-        endl;
-        
-    // register it as current stanza number,
-    // that remains set another positive value is met,
-    // thus allowing a skip syllable to be generated
-    // for notes without lyrics
-    fCurrentStanzaNumber = stanzaNumber;
-  }
+  
+  if (gGeneralOptions->fTraceLyrics)
+    fLogOutputStream <<
+      "--> setting fCurrentStanzaNumber to " <<
+      stanzaNumber <<
+      ", line " << inputLineNumber <<
+      endl;
+      
+  // register it as current stanza number,
+  // that remains set another positive value is met,
+  // thus allowing a skip syllable to be generated
+  // for notes without lyrics
+  fCurrentStanzaNumber = stanzaNumber;
   
   fCurrentStanzaHasText = false;
   fCurrentLyricElision = false;
@@ -7661,7 +7688,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7709,7 +7736,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7757,7 +7784,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7805,7 +7832,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7853,7 +7880,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7901,7 +7928,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7949,7 +7976,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7997,7 +8024,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8045,7 +8072,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8093,7 +8120,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8142,7 +8169,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8191,7 +8218,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8239,7 +8266,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8287,7 +8314,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8335,7 +8362,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
   if      (placementString == "above")
     placement = kAbovePlacement;
   else if (placementString == "below")
-    placement = kAbovePlacement;    
+    placement = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -10571,6 +10598,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
       s.str ());    
   }
 
+  // placement
+  
   string placement =
     elt->getAttributeValue ("placement");
 
@@ -10623,10 +10652,33 @@ void mxmlTree2MsrTranslator::visitEnd ( S_ornaments& elt )
   }
 
   // JMI
+
+  
 }
 
 
 /*
+
+
+<!--
+  Ornaments can be any of several types, followed optionally
+  by accidentals. The accidental-mark element's content is
+  represented the same as an accidental element, but with a
+  different name to reflect the different musical meaning.
+-->
+<!ELEMENT ornaments
+  (((trill-mark | turn | delayed-turn | inverted-turn |
+     delayed-inverted-turn | vertical-turn | shake |
+     wavy-line | mordent | inverted-mordent | schleifer |
+     tremolo | other-ornament), accidental-mark*)*)>
+<!ELEMENT trill-mark EMPTY>
+<!ATTLIST trill-mark
+    %print-style; 
+    %placement; 
+    %trill-sound; 
+>
+
+
           <ornaments>
             <turn placement="above"/>
             <accidental-mark placement="below">natural</accidental-mark>
@@ -16973,7 +17025,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_figured_bass& elt )
   if (! fPendingFiguredBassFigures.size ()) {
     msrMusicXMLWarning (
       elt->getInputLineNumber (),
-      "figured-bass nas no figures contents");
+      "figured-bass has no figures contents");
   }
 
   fOnGoingFiguredBass = false;

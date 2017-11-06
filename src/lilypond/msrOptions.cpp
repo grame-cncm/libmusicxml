@@ -324,7 +324,6 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
     // variables
     
     fShowMsrStanzas  = boolOptionsInitialValue;
-    fKeepMuteStanzas = boolOptionsInitialValue;
   
     // options
   
@@ -345,15 +344,6 @@ R"()",
 R"(Show MSR stanzas even when they're empty.)",
           "showMsrStanzas",
           fShowMsrStanzas));
-
-    lyricsSubGroup->
-      appendOptionsItem (
-        msrOptionsBooleanItem::create (
-          "kms", "keepMuteStanzas",
-R"(Keep the mute stanzas used intertally.
-By default, there are removed after usage.)",
-          "keepMuteStanzas",
-          fKeepMuteStanzas));
   }     
 
 
@@ -364,7 +354,6 @@ By default, there are removed after usage.)",
     // variables
     
     fShowHarmonyVoices      = boolOptionsInitialValue;  
-    fKeepEmptyHarmonyVoices = boolOptionsInitialValue;
   
     // options
   
@@ -386,16 +375,6 @@ R"(Show the parts harmony voices in the MSR data
 even though it does not contain music.)",
           "showHarmonyVoices",
           fShowHarmonyVoices));
-
-    harmoniesSubGroup->
-      appendOptionsItem (
-        msrOptionsBooleanItem::create (
-          "kehv", "keepEmptyHarmonyVoices",
-R"(Keep the harmonies voice in the MSR data
-even though it does not contain music.
-It is thrown away in such a case by default.)",
-          "keepEmptyHarmonyVoices",
-          fKeepEmptyHarmonyVoices));
   }
 
 
@@ -406,7 +385,6 @@ It is thrown away in such a case by default.)",
     // variables  
     
     fShowFiguredBassVoices      = boolOptionsInitialValue;
-    fKeepEmptyFiguredBassVoices = boolOptionsInitialValue;
   
     // options
   
@@ -428,16 +406,6 @@ R"(Show the figured bass harmony voices in the MSR data
 even though they do not contain music.)",
           "showFiguredBassVoices",
           fShowFiguredBassVoices));
-
-    figuredBassSubGroup->
-      appendOptionsItem (
-        msrOptionsBooleanItem::create (
-          "kefbv", "keepEmptyFiguredBassVoices",
-R"(Keep the figured bass voices in the MSR data
-even though they do not contain music.
-They are thrown away in such a case by default.)",
-          "keepEmptyFiguredBassVoices",
-          fKeepEmptyFiguredBassVoices));
   }
 }
 
@@ -512,17 +480,12 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fShowMsrStanzas =
     fShowMsrStanzas;
 
-  clone->fKeepMuteStanzas =
-    fKeepMuteStanzas;
-
 
   // harmonies
   // --------------------------------------
 
   clone->fShowHarmonyVoices =
     fShowHarmonyVoices;
-  clone->fKeepEmptyHarmonyVoices =
-    fKeepEmptyHarmonyVoices;
 
 
   // figured bass
@@ -530,8 +493,6 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   
   clone->fShowFiguredBassVoices =
     fShowFiguredBassVoices;
-  clone->fKeepEmptyFiguredBassVoices =
-    fKeepEmptyFiguredBassVoices;
 
   return clone;
 }  
@@ -701,10 +662,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gLogIOstream <<
     setw (fieldWidth) << "showMsrStanzas" << " : " <<
     booleanAsString (fShowMsrStanzas) <<
-    endl <<
-
-    setw (fieldWidth) << "keepMuteStanzas" << " : " <<
-    booleanAsString (fKeepMuteStanzas) <<
     endl;
 
   gIndenter--;
@@ -721,9 +678,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gLogIOstream << left <<
     setw (fieldWidth) << "showHarmonyVoices" << " : " <<
     booleanAsString (fShowHarmonyVoices) <<
-    endl <<
-    setw (fieldWidth) << "keepEmptyHarmonyVoices" << " : " <<
-    booleanAsString (fKeepEmptyHarmonyVoices) <<
     endl;
   
   gIndenter--;
@@ -740,9 +694,6 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gLogIOstream << left <<
     setw (fieldWidth) << "showFiguredBassVoices" << " : " <<
     booleanAsString (fShowFiguredBassVoices) <<
-    endl <<
-    setw (fieldWidth) << "keepEmptyFiguredBassVoices" << " : " <<
-    booleanAsString (fKeepEmptyFiguredBassVoices) <<
     endl;
   
   gIndenter--;

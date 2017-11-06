@@ -26358,32 +26358,17 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       endl;
   }
 
-  // append clef to staff?
-  bool doAppendClefToStaff = true;
+  // append clef to the staff,
+  // unless we should ignore redundant clefs
+  // and a clef equal to the current clef is met
+  bool doAppendClefToStaff = true;;
     
   if (fStaffCurrentClef) {
     if (
       gMusicXMLOptions->fIgnoreRedundantClefs
         &&
-      fStaffCurrentClef->isEqualTo (clef)) {
+      clef->isEqualTo (fStaffCurrentClef)) {
       doAppendClefToStaff = false;
-    }
-    
-    else {
-      if (clef->isEqualTo (fStaffCurrentClef)) {
-        if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
-          gLogIOstream <<
-            "Clef '" <<
-            clef->clefAsString () <<
-            "' ignored because it is already present in staff " <<
-            getStaffName () <<
-            "\" in part " <<
-            fStaffPartUplink->getPartCombinedName () <<
-            endl;
-        }
-  
-        doAppendClefToStaff = false;
-      }
     }
   }
   
@@ -26399,6 +26384,19 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       (*i).second-> // JMI msrAssert???
         appendClefToVoice (clef);
     } // for
+  }
+
+  else {
+    if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+      gLogIOstream <<
+        "Clef '" <<
+        clef->clefAsString () <<
+        "' ignored because it is already present in staff " <<
+        getStaffName () <<
+        "\" in part " <<
+        fStaffPartUplink->getPartCombinedName () <<
+        endl;
+    }
   }
 }
 
@@ -27552,8 +27550,13 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
     
   newbornClone->fPartName =
     fPartName;
+  newbornClone->fPartNameDisplayText =
+    fPartNameDisplayText;
+
   newbornClone->fPartAbbreviation =
     fPartAbbreviation;
+  newbornClone->fPartAbbreviationDisplayText =
+    fPartAbbreviationDisplayText;
   
   newbornClone->fPartInstrumentName =
     fPartInstrumentName;
@@ -27664,15 +27667,17 @@ void msrPart::setPartName (string partName)
     fPartInstrumentName = fPartName;
 }
 
+/* JMI
 void msrPart::setPartAbbreviation (
   string partAbbreviation)
 {
   fPartAbbreviation = partAbbreviation;
 
-  // set part instrument abbreviation value by default it not yet set
+  // set part instrument abbreviation value by default it not yet set JMI ???
   if (fPartInstrumentAbbreviation.size () == 0)
     fPartInstrumentAbbreviation = fPartName;
 }
+*/
 
 /* JMI
 void msrPart::setPartInstrumentName (
@@ -29234,26 +29239,39 @@ void msrPart::print (ostream& os)
     "PartPartGroupUplink" << " : " <<
     fPartPartGroupUplink->getPartGroupCombinedName () <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartMsrName" << " : \"" <<
     fPartMsrName << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartName" << " : \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
+    "PartNameDisplayText" << " : \"" <<
+    fPartNameDisplayText << "\"" <<
+    endl <<
+    
+    setw (fieldWidth) <<
     "PartAbbrevation" << " : \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
+    "PartAbbreviationDisplayText" << " : \"" <<
+    fPartAbbreviationDisplayText << "\"" <<
+    endl <<
+    
+    setw (fieldWidth) <<
      "PartInstrumentName" << " : \"" <<
     fPartInstrumentName << "\"" <<
-    endl <<
+    endl <<    
     setw (fieldWidth) <<
      "PartInstrumentAbbreviation" << " : \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
@@ -29461,7 +29479,7 @@ S_msrPartGroup msrPartGroup::create (
   int                      partGroupNumber,
   int                      partGroupAbsoluteNumber,
   string                   partGroupName,
-  string                   partGroupDisplayText,
+  string                   partGroupNameDisplayText,
   string                   partGroupAccidentalText,
   string                   partGroupAbbreviation,
   msrPartGroupSymbolKind   partGroupSymbolKind,
@@ -29477,7 +29495,7 @@ S_msrPartGroup msrPartGroup::create (
       partGroupNumber,
       partGroupAbsoluteNumber,
       partGroupName,
-      partGroupDisplayText,
+      partGroupNameDisplayText,
       partGroupAccidentalText,
       partGroupAbbreviation,
       partGroupSymbolKind,
@@ -29495,7 +29513,7 @@ msrPartGroup::msrPartGroup (
   int                      partGroupNumber,
   int                      partGroupAbsoluteNumber,
   string                   partGroupName,
-  string                   partGroupDisplayText,
+  string                   partGroupNameDisplayText,
   string                   partGroupAccidentalText,
   string                   partGroupAbbreviation,
   msrPartGroupSymbolKind   partGroupSymbolKind,
@@ -29506,12 +29524,12 @@ msrPartGroup::msrPartGroup (
   S_msrScore               partGroupScoreUplink)
     : msrElement (inputLineNumber)
 {
-  fPartGroupNumber = partGroupNumber;
-  fPartGroupAbsoluteNumber = partGroupAbsoluteNumber;
+  fPartGroupNumber          = partGroupNumber;
+  fPartGroupAbsoluteNumber  = partGroupAbsoluteNumber;
           
-  fPartGroupName = partGroupName;
-
-  fPartGroupDisplayText     = partGroupDisplayText;
+  fPartGroupName            = partGroupName;
+  fPartGroupNameDisplayText = partGroupNameDisplayText;
+  
   fPartGroupAccidentalText  = partGroupAccidentalText;
   
   fPartGroupAbbreviation    = partGroupAbbreviation;
@@ -29568,7 +29586,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
         fPartGroupNumber,
         fPartGroupAbsoluteNumber,
         fPartGroupName,
-        fPartGroupDisplayText,
+        fPartGroupNameDisplayText,
         fPartGroupAccidentalText,
         fPartGroupAbbreviation,
         fPartGroupSymbolKind,
@@ -29881,6 +29899,55 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
   return result;
 }
 
+void msrPartGroup::collectPartGroupPartsList (
+  int              inputLineNumber,
+  list<S_msrPart>& partsList)
+{
+  for (
+    list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
+    i != fPartGroupElements.end ();
+    i++) {
+    S_msrElement
+      element = (*i);
+
+    if (
+      S_msrPartGroup
+        partGroup =
+          dynamic_cast<msrPartGroup*>(&(*element))
+      ) {
+      // this a part group          
+      partGroup->
+        collectPartGroupPartsList (
+          inputLineNumber,
+          partsList);
+    }
+
+    else if (
+      S_msrPart
+        part =
+          dynamic_cast<msrPart*>(&(*element))
+      ) {
+      // this a part
+      partsList.push_back (part);
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "an element of partgroup " <<
+        getPartGroupCombinedName () <<
+        " is not a part group nor a part";
+
+      msrInternalError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  } // for
+}
+
 void msrPartGroup::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors)
     gLogIOstream <<
@@ -30056,8 +30123,8 @@ void msrPartGroup::print (ostream& os)
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartGroupDisplayText" << " : \"" <<
-    fPartGroupDisplayText <<
+    "PartGroupNameDisplayText" << " : \"" <<
+    fPartGroupNameDisplayText <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
@@ -30334,6 +30401,16 @@ void msrIdentification::setEncodingDate (
     msrVarValAssoc::create (
       inputLineNumber,
       "encoding-date", val);
+}
+
+void msrIdentification::setMiscellaneousField (
+  int    inputLineNumber,
+  string val)
+{
+  fEncodingDate =
+    msrVarValAssoc::create (
+      inputLineNumber,
+      "miscellaneous-field", val);
 }
 
 void msrIdentification::setScoreInstrumentAssoc (
@@ -30753,6 +30830,25 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   } // for
 
   return result;
+}
+
+void msrScore::collectScorePartsList (
+  int              inputLineNumber,
+  list<S_msrPart>& partsList)
+{
+  S_msrPart result;
+
+  for (
+    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
+    i != fPartGroupsList.end ();
+    i++) {
+    S_msrPartGroup
+      partGroup = (*i);
+      partGroup->
+        collectPartGroupPartsList (
+          inputLineNumber,
+          partsList);
+  } // for
 }
 
 /*

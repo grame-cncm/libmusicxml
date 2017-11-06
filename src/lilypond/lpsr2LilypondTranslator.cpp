@@ -708,7 +708,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       break;
       
     case msrNote::kTupletMemberNote:
-      if (! gLilypondOptions->fTupletsOnALine) {
+      if (gLilypondOptions->fIndentTuplets) {
         fLilypondIOstream <<
           endl;
       }
@@ -2348,14 +2348,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   // generate the default 'indent' setting ready for the user
   fLilypondIOstream << left <<
     setw (fieldWidth) <<
-    "indent" << " = " <<
+    "% indent" << " = " <<
     setprecision(4) << 1.5 << "\\cm" <<
     endl;
 
   // generate the default 'short-indent' setting ready for the user
   fLilypondIOstream << left <<
     setw (fieldWidth) <<
-    "short-indent" << " = " <<
+    "% short-indent" << " = " <<
     setprecision(4) << 1.0 << "\\cm" <<
     endl;
 
@@ -2885,6 +2885,50 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::generateMultilineName (string theString)
+{
+  string result;
+
+  stringstream s;
+
+  s <<
+     "\\markup { \\center-column { ";
+     
+  list<string> chunksList;
+
+  splitStringContainingEndOfLines (
+    theString,
+    chunksList);
+
+  if (chunksList.size ()) {
+    /*
+      \markup { \center-column {
+        \line {"Long"} \line {"Staff"} \line {"Name"}
+        } }
+    */
+
+    // generate a markup containing the chunks
+    list<string>::const_iterator
+      iBegin = chunksList.begin (),
+      iEnd   = chunksList.end (),
+      i      = iBegin;
+    
+    for ( ; ; ) {
+      s <<
+        "\\line { \"" << (*i) << "\" }";
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+
+    s <<
+      " } } " <<
+      endl;
+  }
+
+  return s.str ();
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -2896,7 +2940,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   S_msrStaff
     staff =
       elt->getStaff ();
-      
+
   string staffContextCommand;
   
   switch (staff->getStaffKind ()) {
@@ -2959,33 +3003,91 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
  
   gIndenter++;
 
-/* JMI
-  // fetch part
+  // fetch part uplink
   S_msrPart
-    part =
-      staff->getStaffDirectPartUplink ();
-*/
+    staffPartUplink =
+      staff->getStaffPartUplink ();
 
-  string
-    staffBlockInstrumentName =
-      elt->getStaffBlockInstrumentName (),
-    staffBlockShortInstrumentName =
-      elt->getStaffBlockShortInstrumentName ();
-
-  if (staffBlockInstrumentName.size ()) {
-    fLilypondIOstream <<
-      "\\set Staff.instrumentName = \"" <<
-      staffBlockInstrumentName <<
-      "\"" <<
-      endl;
-  }
-
-  if (staffBlockShortInstrumentName.size ()) {
-    fLilypondIOstream <<
-      "\\set Staff.shortInstrumentName = \"" <<
-      staffBlockShortInstrumentName <<
-      "\"" <<
-      endl;
+  // don't generate instrument names in the staves
+  // if the containing part contains several of them
+  if (staffPartUplink ->getPartStavesMap ().size () == 1) {
+    // get the part uplink name to be used
+    string partName =
+      staffPartUplink->
+        getPartNameDisplayText ();
+  
+    if (partName.size () == 0) {
+      partName =
+        staffPartUplink->
+          getPartName ();
+    }
+    
+    if (partName.size ()) {
+      fLilypondIOstream <<
+        "\\set Staff.instrumentName = ";
+  
+      // does the name contain hexadecimal end of lines?
+      std::size_t found =
+        partName.find ("&#xd");
+  
+      if (found == string::npos) {
+        // no, merely generate the name
+        fLilypondIOstream <<
+          "\"" <<
+          partName <<
+          "\"" <<
+          endl;
+      }
+  
+      else {
+        // yes, split the name into a chunks list
+        // and generate a \markup{}
+        fLilypondIOstream <<
+          endl <<
+          generateMultilineName (
+            partName) <<
+          endl;
+      }    
+    }
+  
+    // get the part uplink abbreviation display text to be used
+    string partAbbreviation =
+      staffPartUplink->
+        getPartAbbreviationDisplayText ();
+  
+    if (partAbbreviation.size () == 0) {
+      partAbbreviation =
+        staffPartUplink->
+          getPartAbbreviation ();
+    }
+  
+    if (partAbbreviation.size ()) {
+      fLilypondIOstream <<
+        "\\set Staff.shortInstrumentName = ";
+        
+      // does the name contain hexadecimal end of lines?
+      std::size_t found =
+        partAbbreviation.find ("&#xd");
+  
+      if (found == string::npos) {
+        // no, merely generate the name
+        fLilypondIOstream <<
+          "\"" <<
+          partAbbreviation <<
+          "\"" <<
+          endl;
+      }
+  
+      else {
+        // yes, split the name into a chunks list
+        // and generate a \markup{}
+        fLilypondIOstream <<
+          endl <<
+          generateMultilineName (
+            partAbbreviation) <<
+          endl;
+      }    
+    }
   }
 }
 
@@ -7377,22 +7479,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
           getTupletNormalNotes ());
   }
 
-  if (gLilypondOptions->fTupletsOnALine) {
+  if (gLilypondOptions->fIndentTuplets) {
     fLilypondIOstream <<
-      "\\tuplet " <<
-      elt->getTupletActualNotes () <<
-      "/" <<
-      elt->getTupletNormalNotes() << " { ";
+      endl;
   }
-  
-  else {
-    fLilypondIOstream <<
-      endl <<
-      "\\tuplet " <<
-      elt->getTupletActualNotes () <<
-      "/" <<
-      elt->getTupletNormalNotes() << " { ";
-  }
+
+  fLilypondIOstream <<
+    "\\tuplet " <<
+    elt->getTupletActualNotes () <<
+    "/" <<
+    elt->getTupletNormalNotes() << " { ";
 
   fTupletsStack.push (elt);
 
@@ -7409,17 +7505,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
 
   gIndenter--;
 
-  if (gLilypondOptions->fTupletsOnALine) {
+  if (gLilypondOptions->fIndentTuplets) {
     fLilypondIOstream <<
-      "} ";
-  }
-
-  else {
-    fLilypondIOstream <<
-      endl <<
-      "}" <<
       endl;
   }
+  
+  fLilypondIOstream <<
+    "}" <<
+    endl;
 
   fTupletsStack.pop ();
 }

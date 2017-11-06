@@ -189,37 +189,45 @@ void msr2SummaryVisitor::visitStart (S_msrPartGroup& elt)
     "PartGroupAbsoluteNumber" << " : \"" <<
     elt->getPartGroupAbsoluteNumber  () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartGroupName" << " : \"" <<
     elt->getPartGroupName  () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "PartGroupDisplayText" << " : \"" <<
-    elt->getPartGroupDisplayText  () << "\"" <<
+    "PartGroupNameDisplayText" << " : \"" <<
+    elt->getPartGroupNameDisplayText  () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartGroupAccidentalText" << " : \"" <<
     elt->getPartGroupAccidentalText  () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartGroupAbbrevation" << " : \"" <<
     elt->getPartGroupAbbreviation  () << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartGroupSymbolKind" << " : " <<
     msrPartGroup::partGroupSymbolKindAsString (
       elt->getPartGroupSymbolKind  ()) <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartGroupSymbolDefaultX" << " : " <<
     elt->getPartGroupSymbolDefaultX  () <<
     endl <<
+    
     setw (fieldWidth) <<
     "fPartGroupBarline" << " : \"" <<
     msrPartGroup::partGroupBarlineKindAsString (
       elt->getPartGroupBarlineKind ()) <<
     "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartGroupInstrumentName" << " : \"" <<
       elt->getPartGroupInstrumentName () << "\"" <<

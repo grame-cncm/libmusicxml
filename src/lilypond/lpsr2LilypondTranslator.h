@@ -516,6 +516,10 @@ class lpsr2LilypondTranslator :
     // whole notes
     // JMI
                             
+    // names
+
+    string                generateMultilineName (string theString);
+
     // octaves
     
     string                absoluteOctaveAsLilypondString (
