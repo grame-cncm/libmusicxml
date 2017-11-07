@@ -130,7 +130,7 @@ set_target_properties (${target} PROPERTIES
 #######################################
 # set sample targets
 set (SAMPLES xmlversion RandomMusic xmlfactory partsummary xml2guido xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xmltranspose)
+set (TOOLS  xml2guido xmlread xmltranspose)
 
 if(NOT APPLE OR NOT IOS )
 foreach(sample ${SAMPLES})
