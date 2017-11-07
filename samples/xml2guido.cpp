@@ -15,6 +15,7 @@
 #include <string.h>
 #ifndef WIN32
 #include <signal.h>
+#include <string.h>
 #endif
 
 #include "libmusicxml.h"

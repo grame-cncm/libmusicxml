@@ -15,6 +15,7 @@
 #include <iostream>
 #ifndef WIN32
 #include <signal.h>
+#include <string.h>
 #endif
 
 #include "xml.h"
