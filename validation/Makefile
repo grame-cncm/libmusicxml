@@ -15,6 +15,9 @@ validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validsvg 	    = $(patsubst %.svg, %.outsvg, $(svgout))
 
+XML2GUIDO ?= xml2guido
+XMLREAD   ?= xmlread
+
 .PHONY: read guido
 
 all:
@@ -73,13 +76,13 @@ validgmn: $(validgmn)
 # rules for xmlread
 $(version)/read/%.xml: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	xmlread $<  > $@ || (rm $@ ; false; )
+	$(XMLREAD) $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for xml2guido
 $(version)/gmn/%.gmn: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	xml2guido $<  > $@ || (rm $@ ; false; )
+	$(XML2GUIDO) $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for guido2svg
