@@ -73,19 +73,19 @@ validgmn: $(validgmn)
 # rules for xmlread
 $(version)/read/%.xml: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-xmlread $<  > $@ || rm $@
+	xmlread $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for xml2guido
 $(version)/gmn/%.gmn: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-xml2guido $<  > $@ || rm $@
+	xml2guido $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for guido2svg
 $(version)/svg/%.svg: $(version)/gmn/%.gmn
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-guido2svg $<  > $@ || rm $@
+	guido2svg $<  > $@ || (rm $@ ; false; )
 
 #########################################################################
 # rules for xml output validation
