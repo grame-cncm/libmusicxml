@@ -16,6 +16,6 @@ branches:
   - master
 
 script: 
-    make -C build
-    sudo make -C build/linux install
-    make -C validation
+   - make -C build
+   - sudo make -C build/linux install
+   - make -C validation
