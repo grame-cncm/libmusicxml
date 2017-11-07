@@ -1606,23 +1606,21 @@ namespace MusicXML2
             tag = guidotag::create("trill");
             
             // If there's a wavy-line AND the Trill is TIED, then add "<repeat="false">" attribute
-            if (nv.getWavylines().size()>0)
+            if (nv.getWavylines().size() > 0)
             {
                 std::vector<S_wavy_line>::const_iterator i;
                 for (i = nv.getWavylines().begin(); i != nv.getWavylines().end(); i++) {
                     if ((*i)->getAttributeValue("type") == "start") {
                         fWavyTrillOpened = true;
                         
-                        if (nv.getTied().size()>0) {
-                            stringstream s;
-                            s << "repeat=\"false\"";
-                            tag->add (guidoparam::create(s.str(), false));
+                        if (nv.getTied().size() > 0) {
+                            string s("repeat=\"false\"");
+                            tag->add (guidoparam::create(s, false));
                         }
                     }
                 }
-                
-            }else
-            {
+            }
+            else {
                 // if there is no wavy-line, then the Trill should be closed in this scope!
                 fSingleScopeTrill = true;
             }
@@ -1632,19 +1630,19 @@ namespace MusicXML2
     
     void xmlpart2guido::checkWavyTrillEnd	 ( const notevisitor& nv )
     {
-        
-        if (nv.getWavylines().size()>0)
+		if (nv.fTrill) pop();
+
+        if (nv.getWavylines().size() > 0)
         {
             std::vector<S_wavy_line>::const_iterator i;
             for (i = nv.getWavylines().begin(); i != nv.getWavylines().end(); i++) {
                 if ((*i)->getAttributeValue("type") == "stop") {
                     fWavyTrillOpened = false;
-                    pop();
                 }
             }
-        }else
+        }
+        else
             if (fSingleScopeTrill) {
-                pop();
                 fSingleScopeTrill = false;
             }
     }
