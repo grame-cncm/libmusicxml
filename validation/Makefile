@@ -17,8 +17,8 @@ validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validsvg 	    = $(patsubst %.svg, %.outsvg, $(svgout))
 
 ifeq ($(system), MINGW)
- XML2GUIDO ?= xml2guido.exe
- XMLREAD   ?= xmlread.exe
+ XML2GUIDO ?= ./xml2guido.exe
+ XMLREAD   ?= ./xmlread.exe
 else
  XML2GUIDO ?= xml2guido
  XMLREAD   ?= xmlread
@@ -50,14 +50,14 @@ help:
 	@echo " 'validate VERSION=another_version': compares the current version output (xml and gmn files) with the one in VERSION folder (on Windows, Firefox 
 #########################################################################
 read: 
-	@which xmlread || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
+	@which $(XMLREAD) || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
 	make doread
 
 doread: $(readout)
 
 #########################################################################
 guido: 
-	@which xml2guido || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
+	@which $(XML2GUIDO) || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
 	make doguido
 
 doguido: $(gmnout)
@@ -113,13 +113,13 @@ $(version)/svg/%.svg: $(version)/gmn/%.gmn
 
 #########################################################################
 # windows specific stuff
-win64: $(WINTOOLS) libmusicxml.dll
+win64: $(WINTOOLS) libmusicxml2.dll
 
 xml2guido.exe: $(WINPATH)/xml2guido.exe
 	cp $(WINPATH)/xml2guido.exe .
 	
 xmlread.exe: $(WINPATH)/xmlread.exe
-	cp $(WINPATH)/xml2guido.exe .
+	cp $(WINPATH)/xmlread.exe .
 
-libmusicxml.dll: $(WINPATH)/libmusicxml.dll
-	cp $(WINPATH)/libmusicxml.dll .
+libmusicxml2.dll: $(WINPATH)/libmusicxml2.dll
+	cp $(WINPATH)/libmusicxml2.dll .
