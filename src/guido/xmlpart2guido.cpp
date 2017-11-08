@@ -153,15 +153,11 @@ namespace MusicXML2
         if (staff != fCurrentStaff) {
             Sguidoelement tag = guidotag::create("staff");
             int offset = staff - fCurrentStaff;
-            //cout << "move from staff " << fCurrentStaffIndex << " to " << (fCurrentStaffIndex + offset) << endl;
             fCurrentStaff = staff;
             fCurrentStaffIndex += offset;
             tag->add (guidoparam::create(fCurrentStaffIndex, false));
             add (tag);
-            
-            //cout<<"Creating Staff "<<fCurrentStaffIndex<<" from xmlpart2guido"<<endl;
-            
-            
+			
             //// Add staffFormat if needed
             // Case1: If previous staff has Lyrics, then move current staff lower to create space: \staffFormat<dy=-5>
         }
@@ -306,14 +302,12 @@ namespace MusicXML2
                         s << "dy=" << HalfSpaceDistance << "hs";
                         tag->add (guidoparam::create(s.str(), false));
                         add(tag);
-                        //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
                         fStaffDistance.insert(std::pair<int, float>(fTargetStaff, HalfSpaceDistance));
                     }else {
                         // Put it back to zero if it exists
                         if (fStaffDistance.find(fTargetStaff) != fStaffDistance.end())
                         {
                             fStaffDistance.find(fTargetStaff)->second = 0.0;
-                            //cout<<"\tStaffFormat for "<<fTargetStaff<<" measure:"<<fMeasNum<<" set to zero "<<HalfSpaceDistance<<endl;
                         }
                     }
                 }
@@ -328,7 +322,6 @@ namespace MusicXML2
                     s << "dy=" << fStaffDistance.find(fTargetStaff)->second << "hs";
                     tag->add (guidoparam::create(s.str(), false));
                     add(tag);
-                    //cout<<"STAFFFORMAT for "<<fTargetStaff<<" measure:"<<fMeasNum<<" ";tag->print(cout);cout<<endl;
                     }
                 }
             }
@@ -353,7 +346,6 @@ namespace MusicXML2
         ctree<xmlelement>::iterator barStyle = elt->find(k_bar_style);
         if (barStyle != elt->end())
         {
-            //cout<<"Measure "<<fMeasNum<<" has barstyle "<<barStyle->getValue()<<endl;
             if (barStyle->getValue() == "none")
                 fPendingBar = false;
             else if (barStyle->getValue() == "light-light")
@@ -410,7 +402,6 @@ namespace MusicXML2
         if (wordParams.size())
         {
             directionWord = true;
-            //cout<<"S_DIRECTION_TYPE Got WORDS "<<tempoWord<<" with Offset "<<fCurrentOffset<<" ("<<(int)(wordPointer==NULL)<<")" <<endl;
         }
     }
     
@@ -498,7 +489,6 @@ namespace MusicXML2
             {
                 tag->add (guidoparam::create(tempoParams.c_str(), false));
                 if (fCurrentOffset) addDelayed(tag, fCurrentOffset);
-                //cout<<"\tAdded TEMPO tag \""<< tempoParams<<"\" at measure "<<fMeasNum<<" at position "<< fCurrentMeasurePosition.toDouble()<<endl;
                 add (tag);
             }
         }
@@ -861,11 +851,7 @@ namespace MusicXML2
          </transpose>
          </clef>
          *****/
-        
-        /*cout<<endl<<endl<<"Starting S_attribute visit: GeneratinStaff="<<fCurrentStaff<<
-         " xmlTargetStaff="<<fTargetStaff<<
-         " fTargetVoice="<<fTargetVoice <<endl;*/
-        
+		
         ctree<xmlelement>::iterator iter = elt->begin();
         
         // set division
@@ -915,12 +901,10 @@ namespace MusicXML2
             Sguidoelement tag = guidotag::create("clef");
             checkStaff (staffnum);
             tag->add (guidoparam::create(param));
-            //tag->print(cout);
             add(tag);
             
             staffClefMap.insert(std::pair<int, std::pair<rational, std::string> >(fCurrentStaffIndex,std::pair<rational, std::string>(fCurrentVoicePosition ,clefsign)) );
-            //cout<<"\t\tCreated clef "<<param <<" fCurrentStaffIndex="<<fCurrentStaffIndex<<" fCurrentVoicePosition="<<fCurrentVoicePosition.toString()<<" "<<staffClefMap.size()<<endl;
-            
+			
             /// Search again for other clefs:
             iter++;
             iter = elt->find(k_clef, iter);
@@ -936,7 +920,6 @@ namespace MusicXML2
             int keyfifths = iter->getIntValue(k_fifths, 0);
             Sguidoelement tag = guidotag::create("key");
             tag->add (guidoparam::create(keyfifths, false));
-            //tag->print(cout);
             add (tag);
         }
         
@@ -951,7 +934,6 @@ namespace MusicXML2
             std::vector<std::pair<std::string,std::string> > fTimeSignInternal ;
             fTimeSignInternal.push_back(make_pair(iter->getValue(k_beats), iter->getValue(k_beat_type)));
             
-            //cout << "\tS_attribute visitor: Got Time "<<timebeat_type<<timebeats<<endl;
             //// Actions:
             string timesign;
             if (!senzamesura) {
@@ -1170,8 +1152,6 @@ namespace MusicXML2
             /// OR using \beam(...)
             Sguidoelement tag = guidotag::create("beam");
             push (tag);
-            
-            //cout<<"Beam Begin "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
         }
         
         if (beams.empty() && fBeamStack.empty() && notevisitor::getType()!=kRest)
@@ -1190,8 +1170,6 @@ namespace MusicXML2
         size_t beamStackSizeBeforeClosing = fBeamStack.size();
         for (i = beams.rbegin(); (i != beams.rend() && (!fBeamStack.empty())); i++)
         {
-            //cout<<"\t Beam End Check: last stack "<<fBeamStack.top().first<<" "<< fBeamStack.top().second<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<" "<<(*i)->getValue() <<endl;
-            
             if (((*i)->getValue() == "end") && ((*i)->getAttributeIntValue("number", 1) == fBeamStack.top().second)) {
                 // There is a Beam End. create tag and pop from stack
                 int lastBeamInternalNumber = 0;
@@ -1210,9 +1188,6 @@ namespace MusicXML2
                 
                 /// OR using \beam(...)
                 pop();
-                
-                //cout<<"Beam END "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
-                
                 fBeamStack.pop();
             }
         }
@@ -1263,7 +1238,7 @@ namespace MusicXML2
                         
                         if ( abs( nextnote->getIntValue(k_duration, 0) - topNoteDur) > (fCurrentDivision/10) ) {
                             useDispNoteAttribute =  false;
-                            cout<<"TUPLET EVADED DISPNOTE Measure:"<<fMeasNum <<"Division:"<< fCurrentDivision <<"--> topBoteDur:"<<topNoteDur<<" this note dur="<<nextnote->getIntValue(k_duration, 0)<<endl;
+                            cerr <<"TUPLET EVADED DISPNOTE Measure:"<<fMeasNum <<"Division:"<< fCurrentDivision <<"--> topBoteDur:"<<topNoteDur<<" this note dur="<<nextnote->getIntValue(k_duration, 0)<<endl;
                             break;
                         }
                         
@@ -1363,7 +1338,6 @@ namespace MusicXML2
                      tag->add(guidoparam::create(("dy1="+std::to_string(dy1offset)),false));
                      }*/
                     
-                    //tag->print(cout);
                     push (tag);
                     fTupletOpened = true;
                     fCurrentTupletNumber = thisTupletNumber;
@@ -1482,13 +1456,11 @@ namespace MusicXML2
         if (notevisitor::getSyllabic()== "single")
         {
             pop();
-            //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< thisDuration<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
-            
+			
             if ( fLyricsManualSpacing && (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
                 size_t additionalSpace = notevisitor::getLyricText().size() - minStringSize4Space;
-                //cout<< "\t Adding space "<<additionalSpace <<"..."<<endl;
                 tag->add (guidoparam::create(8 + additionalSpace, false));
                 add(tag);
             }
@@ -1499,8 +1471,7 @@ namespace MusicXML2
                  ||(notevisitor::getSyllabic()== "begin"))
         {
             pop();
-            //cout<< "Lyric \""<<notevisitor::getLyricText()<<"\" dur "<< thisDuration<<" size:"<<notevisitor::getLyricText().size() <<" measure "<<fMeasNum <<endl;
-            
+			
             if ( fLyricsManualSpacing && (thisDuration< minDur4Space) && (notevisitor::getLyricText().size() > minStringSize4Space))
             {
                 Sguidoelement tag = guidotag::create("space");
@@ -1511,7 +1482,6 @@ namespace MusicXML2
                     lyricStringSize = notevisitor::getLyricText().size() +1;
                 
                 int additionalSpace =  lyricStringSize - minStringSize4Space;
-                //cout<< "\t Adding space "<<additionalSpace <<"..."<<endl;
                 tag->add (guidoparam::create(8 + additionalSpace, false));
                 add(tag);
             }
@@ -1764,8 +1734,6 @@ namespace MusicXML2
     //______________________________________________________________________________
     void xmlpart2guido::checkCue (const notevisitor& nv)
     {
-        //cout<<"Check CUE "<< nv.isCue()<<" on note ";nv.print(cout);cout<<endl;
-        
         if (nv.isCue()) {
             if (!fInCue) {
                 fInCue = true;
@@ -1944,7 +1912,6 @@ namespace MusicXML2
                         noteFormatTag->add (guidoparam::create(s.str(), false));
                         noteFormat = true;
                     }
-                    //cout<<"\t Measure "<<measureNum<<" noteFormat - timePosition size "<<voiceInTimePosition->second.size()<<" default-x="<<nv.x_default<<" minXPos="<<*minXPos <<endl;
                 }
             }
             
@@ -1952,7 +1919,6 @@ namespace MusicXML2
             if (noteFormat == true)
             {
                 push(noteFormatTag);
-                //cout<<"Adding noteFormat: "; noteFormatTag->print(cout);cout<<endl;
             }
         }
         
@@ -2004,11 +1970,8 @@ namespace MusicXML2
         {
             // Check out clef for position and voice
             std::string thisClef = getClef(fCurrentStaffIndex , fCurrentVoicePosition);
-            //cout<<"Rest measure="<<fMeasNum<<" voice="<<fTargetVoice<<" staff="<<fCurrentStaffIndex<<" clef: "<< thisClef<< " "<<staffClefMap.size()<<endl;
-            
+			
             float restformatDy = nv.getRestFormatDy(thisClef);
-            //cout<<"\tcheckRestFormat with display-step:"<<nv.getStep()<<" octave:"<<nv.getOctave()<<" with current clef "<<clefvisitor::fSign<<" dy="<<restformatDy<<endl;
-            
             if (restformatDy!=0.0)
             {
                 Sguidoelement restFormatTag = guidotag::create("restFormat");
@@ -2016,7 +1979,6 @@ namespace MusicXML2
                 s << "dy=" << restformatDy;
                 restFormatTag->add (guidoparam::create(s.str(), false));
                 push(restFormatTag);
-                //cout<<"\t\t Added restFormatTag ";restFormatTag->print(cout);cout<<endl;
                 return 1;
             }
         }
