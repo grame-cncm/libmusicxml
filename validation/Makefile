@@ -42,33 +42,36 @@ help:
 	@echo " 'all' (default): call the read and guido targets."
 	@echo " 'read'     : reads the set of xml files and writes the corresponding output"
 	@echo " 'guido'    : converts the set of xml files to guido"
-	@echo " 'svg'      : converts the output of guido target to svg"
+	@echo " 'gmn2svg'  : converts the output of guido target to svg"
+	@echo "            Output files are written to a VERSION folder, "
+	@echo "            where VERSION is taken from the libmusicxmlversion.txt file"
+	@echo " 'validate VERSION=another_version': compares the current version output (xml and gmn files)" 
+	@echo "              with the one in VERSION folder"
+	@echo "             (on Windows, Firefox has to be installed (and opened) in C:/Program Files (x86)/Mozilla Firefox/firefox,"
+	@echo "              otherwise please change the Makefile)"
 	@echo " 'win64'    : windows specific target: copy the exe and dll files to the validation folder"
-	@echo "Output files are written to a VERSION folder, "
-	@echo "where VERSION is taken from the libmusicxmlversion.txt file"
-	@echo " 'validate VERSION=another_version': compares the current version output (xml and gmn files) with the one in VERSION folder (on Windows, Firefox has to be installed (and opened) in C:/Program Files (x86)/Mozilla Firefox/firefox, otherwise please change Makefile)"
-	@echo " 'validate VERSION=another_version': compares the current version output (xml and gmn files) with the one in VERSION folder (on Windows, Firefox 
+
 #########################################################################
 read: 
-	@which $(XMLREAD) || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
+	@which $(XMLREAD) > /dev/null || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
 	make doread
 
 doread: $(readout)
 
 #########################################################################
 guido: 
-	@which $(XML2GUIDO) || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
+	@which $(XML2GUIDO) > /dev/null || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
 	make doguido
 
 doguido: $(gmnout)
 
 #########################################################################
-svg: 
-	@which guido2svg || (echo "### guido2svg (part of guidolib project) must be available from your PATH."; false;)
+gmn2svg: 
+	@which guido2svg > /dev/null || (echo "### guido2svg (part of guidolib project) must be available from your PATH."; false;)
 	make guido
-	make dosvg
+	make dogmn2svg
 
-dosvg: $(svgout)
+dogmn2svg: $(svgout)
 
 #########################################################################
 validate: 
