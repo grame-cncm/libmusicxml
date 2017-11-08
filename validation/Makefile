@@ -2,7 +2,8 @@
 # Makefile for testing the libmusicxml library
 #
 
-system	 := $(shell uname -s)
+system := $(shell uname -s)
+system := $(shell echo $(system) | grep MINGW > /dev/null && echo MINGW || echo $(system))
 
 version	 ?= $(shell cat libmusicxmlversion.txt)
 xmlfiles  = $(shell find ../files -name "*.xml")
@@ -15,8 +16,15 @@ validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
 validsvg 	    = $(patsubst %.svg, %.outsvg, $(svgout))
 
-XML2GUIDO ?= xml2guido
-XMLREAD   ?= xmlread
+ifeq ($(system), MINGW)
+ XML2GUIDO ?= xml2guido.exe
+ XMLREAD   ?= xmlread.exe
+else
+ XML2GUIDO ?= xml2guido
+ XMLREAD   ?= xmlread
+endif
+WINTOOLS := xml2guido.exe xmlread.exe
+WINPATH  := ../build/win64/release
 
 .PHONY: read guido
 
@@ -35,10 +43,11 @@ help:
 	@echo " 'read'     : reads the set of xml files and writes the corresponding output"
 	@echo " 'guido'    : converts the set of xml files to guido"
 	@echo " 'svg'      : converts the output of guido target to svg"
+	@echo " 'win64'    : windows specific target: copy the exe and dll files to the validation folder"
 	@echo "Output files are written to a VERSION folder, "
 	@echo "where VERSION is taken from the libmusicxmlversion.txt file"
 	@echo " 'validate VERSION=another_version': compares the current version output (xml and gmn files) with the one in VERSION folder (on Windows, Firefox has to be installed (and opened) in C:/Program Files (x86)/Mozilla Firefox/firefox, otherwise please change Makefile)"
-
+	@echo " 'validate VERSION=another_version': compares the current version output (xml and gmn files) with the one in VERSION folder (on Windows, Firefox 
 #########################################################################
 read: 
 	@which xmlread || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
@@ -63,7 +72,7 @@ dosvg: $(svgout)
 
 #########################################################################
 validate: 
-	@echo Validating version $(version) with $(VERSION) $(tmp)
+	@echo Validating version $(version) with $(VERSION)
 	make validxml
 	make validgmn
 
@@ -101,3 +110,16 @@ $(version)/svg/%.svg: $(version)/gmn/%.gmn
 	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
+
+#########################################################################
+# windows specific stuff
+win64: $(WINTOOLS) libmusicxml.dll
+
+xml2guido.exe: $(WINPATH)/xml2guido.exe
+	cp $(WINPATH)/xml2guido.exe .
+	
+xmlread.exe: $(WINPATH)/xmlread.exe
+	cp $(WINPATH)/xml2guido.exe .
+
+libmusicxml.dll: $(WINPATH)/libmusicxml.dll
+	cp $(WINPATH)/libmusicxml.dll .
