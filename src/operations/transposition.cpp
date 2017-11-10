@@ -15,7 +15,8 @@
 #endif
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
+//#include <math.h>
 
 #include "factory.h"
 #include "transposition.h"
@@ -23,7 +24,8 @@
 #include "xml_tree_browser.h"
 
 #ifdef WIN32
-inline int round(float v) {
+#define round intround
+inline int intround(float v) {
 	int n = int(v);
 	if ( (v-n) >= 0.5)  n++;
 	if ( (v-n) <= -0.5) n--;
@@ -79,7 +81,7 @@ void transposition::transpose ( string& pitch, float& alter, int& octave, int ta
 	int ialter = round(alter);
 	float diff = alter - ialter;
 	int pitch1 = notevisitor::step2i(pitch);
-	for (unsigned int i=0; i < fFifthCycle.size(); i++) {
+	for (int i=0; i < fFifthCycle.size(); i++) {
 		if ((fFifthCycle[i].second == ialter) && (fFifthCycle[i].first == pitch)) {
 			i += tableshift;
 			if (i > fFifthCycle.size()) i -= 12;

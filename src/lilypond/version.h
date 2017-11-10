@@ -16,6 +16,7 @@
 #include <string>
 #include <list>
 
+#include "exports.h"
 
 namespace MusicXML2 
 {
@@ -27,7 +28,7 @@ namespace MusicXML2
 
 
 //______________________________________________________________________________
-class versionInfo
+class EXP versionInfo
 {
   public:
 
@@ -56,7 +57,7 @@ void enlistVersion (
 
 void printVersionsHistory (std::ostream& os);
 
-std::string   currentVersionNumber ();
+std::string currentVersionNumber ();
 
 /*! @} */
 

@@ -48,12 +48,12 @@ void notevisitor::reset ()
   fVoice    = kUndefinedVoice;    
   fAlter = 0.f;
   fOctave = 0;
-  fStem = 0;
-  fAccent = 0;
-  fStrongAccent = 0;
-  fStaccato = 0;
-  fTenuto = 0;
-  fBreathMark = 0;
+  fStem = (void*)0;
+  fAccent = (void*)0;
+  fStrongAccent = (void*)0;
+  fStaccato = (void*)0;
+  fTenuto = (void*)0;
+  fBreathMark = (void*)0;
   fTimeModification.set(1,1);
 #ifdef VC6
   fStep = "";

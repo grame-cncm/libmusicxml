@@ -1596,10 +1596,15 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
       inputLineNumber);
   }
 
+<<<<<<< HEAD
   if (gGeneralOptions->fTracePartGroups) {
     showPartGroupsData (
       inputLineNumber,
       "Part groups data gathered for score skeleton");
+=======
+    // forget about the implicit part group // JMI ???
+    fImplicitPartGroup = (void*)0;
+>>>>>>> a9badbde74ce22074ff142d1a9265c7a168a65d6
   }
 
   if (gMsrOptions->fDisplayPartGroups) {

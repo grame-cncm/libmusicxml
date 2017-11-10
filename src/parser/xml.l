@@ -67,6 +67,7 @@ void lexend () {
 
 #define getc  wgetc
 #define fread wfread
+#define register 		// this is to get rid of deprecated register warning
 
 %}
 

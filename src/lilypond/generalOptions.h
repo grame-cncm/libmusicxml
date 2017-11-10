@@ -16,6 +16,7 @@
 #include <set>
 
 #include "optionsHandling.h"
+#include "exports.h"
 
 
 namespace MusicXML2 
@@ -214,9 +215,9 @@ class generalOptions : public msrOptionsGroup
 typedef SMARTP<generalOptions> S_generalOptions;
 EXP ostream& operator<< (ostream& os, const S_generalOptions& elt);
 
-extern S_generalOptions gGeneralOptions;
-extern S_generalOptions gGeneralOptionsUserChoices;
-extern S_generalOptions gGeneralOptionsWithDetailedTrace;
+EXP extern S_generalOptions gGeneralOptions;
+EXP extern S_generalOptions gGeneralOptionsUserChoices;
+EXP extern S_generalOptions gGeneralOptionsWithDetailedTrace;
 
 /*!
 \brief A msr midi representation.

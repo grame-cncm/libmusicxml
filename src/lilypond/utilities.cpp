@@ -25,9 +25,7 @@
 #include <iomanip>      // setw, ...
 
 #include "rational.h"
-
 #include "utilities.h"
-
 
 using namespace std;
 
@@ -111,66 +109,38 @@ void timing::print (ostream& os) const
     totalMandatoryClock = 0.0,
     totalOptionalClock  = 0.0;
     
-  os <<
-    endl <<
-    "Timing information:" <<
-    endl <<
-    endl <<
-    setw (activityWidth) << "Activity" <<
-    "  " <<
-    setw (descriptionWidth) << "Description" <<
-    "  " <<
-    setw (kindWidth)     << "Kind" <<
-    "  " <<
-    setw (secondsWidth)  << "CPU (sec)" <<
-    endl <<
-    
-    setw (activityWidth) << replicateString ("-", activityWidth) <<
-    "  " <<
-    setw (descriptionWidth) << replicateString ("-", descriptionWidth) <<
-    "  " <<
-    setw (kindWidth) << replicateString ("-", kindWidth) <<
-    "  " <<
-    setw (secondsWidth) << replicateString ("-", secondsWidth) <<
-    endl <<
-    endl;
+  os << endl << "Timing information:" << endl << endl <<
+    setw (activityWidth) << "Activity" << "  " <<
+    setw (descriptionWidth) << "Description" << "  " <<
+    setw (kindWidth)     << "Kind" << "  " <<
+    setw (secondsWidth)  << "CPU (sec)" << endl <<
+    setw (activityWidth) << replicateString ("-", activityWidth) << "  " <<
+    setw (descriptionWidth) << replicateString ("-", descriptionWidth) << "  " <<
+    setw (kindWidth) << replicateString ("-", kindWidth) << "  " <<
+    setw (secondsWidth) << replicateString ("-", secondsWidth) << endl << endl;
 
-  for (
-    list<S_timingItem>::const_iterator i=fTimingItemsList.begin ();
-    i!=fTimingItemsList.end ();
-    i++) {
-    clock_t
-      timingItemClock =
-        (*i)->fEndClock - (*i)->fStartClock;
-
+  for ( list<S_timingItem>::const_iterator i=fTimingItemsList.begin (); i!=fTimingItemsList.end (); i++) {
+    clock_t timingItemClock = (*i)->fEndClock - (*i)->fStartClock;
     totalClock += timingItemClock;
     
     os << left <<
-      setw (activityWidth) << (*i)->fActivity <<
-      "  " <<
-      setw (descriptionWidth) << (*i)->fDescription <<
-      "  ";
+      setw (activityWidth) << (*i)->fActivity << "  " <<
+      setw (descriptionWidth) << (*i)->fDescription << "  ";
 
     switch ((*i)->fKind) {
       case timingItem::kMandatory:
         totalMandatoryClock += timingItemClock;
-        os <<
-          setw (kindWidth) << "mandatory";
+        os << setw (kindWidth) << "mandatory";
         break;
       case timingItem::kOptional:
         totalOptionalClock += timingItemClock;
-        os <<
-          setw (kindWidth) << "optional";
+        os << setw (kindWidth) << "optional";
         break;
     } // switch
 
-    os <<
-      "  " <<
-      setw (secondsWidth) <<
-      setprecision(secondsPrecision) <<
-      left <<
-      float(timingItemClock) / CLOCKS_PER_SEC <<
-      endl;
+    os << "  " <<
+      setw (secondsWidth) << setprecision(secondsPrecision) <<
+	  left << float(timingItemClock) / CLOCKS_PER_SEC << endl;
   } // for
 
   const int

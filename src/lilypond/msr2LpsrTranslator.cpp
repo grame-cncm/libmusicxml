@@ -341,7 +341,7 @@ void msr2LpsrTranslator::visitEnd (S_msrCredit& elt)
       endl;
   }
 
-  fCurrentCredit = 0;
+  fCurrentCredit = (void*)0;
 }
 
 void msr2LpsrTranslator::visitStart (S_msrCreditWords& elt)
@@ -641,8 +641,8 @@ void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
       endl;
   }
 
-  fCurrentStaffLinesNumberClone = 0;
-  fCurrentStaffTuningClone      = 0;
+  fCurrentStaffLinesNumberClone = (void*)0;
+  fCurrentStaffTuningClone      = (void*)0;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
@@ -1195,7 +1195,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   // clear the voice notes map
   fVoiceNotesMap.clear ();
 
-  fFirstNoteCloneInVoice = 0;
+  fFirstNoteCloneInVoice = (void*)0;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
@@ -1414,7 +1414,7 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
       endl;
   }
 
-  fCurrentFiguredBass = 0;
+  fCurrentFiguredBass = (void*)0;
 }
 
 //________________________________________________________________________
@@ -1478,7 +1478,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       setNextBarNumber (
         measureNumber);
       
-    fLastBarCheck = 0;
+    fLastBarCheck = (void*)0;
   }
 }
 
@@ -2271,7 +2271,7 @@ void msr2LpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
       fCurrentDoubleTremoloClone);
 
   // forget about it
-  fCurrentDoubleTremoloClone = 0;
+  fCurrentDoubleTremoloClone = (void*)0;
   
   fOnGoingDoubleTremolo = false;
 }
@@ -2602,7 +2602,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotes& elt)
   }
 
   // forget about these grace notes if any
-  fCurrentGraceNotesClone = 0;
+  fCurrentGraceNotesClone = (void*)0;
 
   if (fPendingAfterGraceNotes) {
     // remove the current afterGraceNotes note clone
@@ -2612,10 +2612,10 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotes& elt)
         elt->getInputLineNumber (),
         fCurrentAfterGraceNotesNote);
         
-    fCurrentAfterGraceNotesNote = 0;
+    fCurrentAfterGraceNotesNote = (void*)0;
   
     // forget these after grace notes if any
-    fPendingAfterGraceNotes = 0;
+    fPendingAfterGraceNotes = (void*)0;
   }
 }
 
@@ -3724,7 +3724,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
   gIndenter--;
 
   // forget about the current measure repeat pattern clone
-  fCurrentMeasureRepeatPatternClone = 0;
+  fCurrentMeasureRepeatPatternClone = (void*)0;
 }
 
 //________________________________________________________________________
@@ -3755,7 +3755,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
   gIndenter--;
 
   // forget about the current measure repeat replicas clone
-  fCurrentMeasureRepeatReplicasClone = 0;
+  fCurrentMeasureRepeatReplicasClone = (void*)0;
 }
 
 //________________________________________________________________________
@@ -3806,7 +3806,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
       multipleRestClone);
       
   // forget about the current multiple rest contents clone
-  fCurrentMultipleRestContentsClone = 0;
+  fCurrentMultipleRestContentsClone = (void*)0;
 }
 
 //________________________________________________________________________

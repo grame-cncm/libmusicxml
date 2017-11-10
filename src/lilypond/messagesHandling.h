@@ -32,9 +32,27 @@ namespace MusicXML2
 // as assert() itself
 //______________________________________________________________________________
 
+<<<<<<< HEAD
 void msrAssert (
   bool   condition,
   std::string messageIfFalse);
+=======
+#define msrAssert( condition, messageIfFalse ) \
+{ \
+  if (! (condition) ) { \
+    cerr << \
+      endl << \
+      "#### msrAssert failure: " << messageIfFalse << \
+      endl << \
+      "Aborting." << \
+      endl << \
+      endl << \
+      flush; \
+      \
+    assert(condition); \
+  } \
+}
+>>>>>>> a9badbde74ce22074ff142d1a9265c7a168a65d6
 
 //______________________________________________________________________________
 void msrWarning (

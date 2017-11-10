@@ -1,0 +1,21 @@
+os: linux
+dist: Trusty
+language: cpp
+compiler: gcc
+    
+before_install:
+  - sudo apt-get -qq update
+
+branches:
+  only:
+  - dev
+  - lilypond
+  - master
+
+script: 
+    - g++ --version
+    - gcc --version
+    - cd cmake 
+    - cmake .
+    - make
+

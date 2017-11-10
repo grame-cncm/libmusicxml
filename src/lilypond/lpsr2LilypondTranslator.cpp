@@ -3572,7 +3572,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPart& elt)
       endl;
   }
 
-  fCurrentPart = 0;
+  fCurrentPart = (void*)0;
 }
 
 //________________________________________________________________________
@@ -3793,7 +3793,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl <<
       endl;
 
-  fRelativeOctaveReference = 0;
+  fRelativeOctaveReference = (void*)0;
 
   fVoiceIsCurrentlySenzaMisura = false;
   
@@ -3897,7 +3897,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       break;
   } // switch
 
-  fCurrentVoice = 0;
+  fCurrentVoice = (void*)0;
   fOnGoingVoice = false;
 }
 

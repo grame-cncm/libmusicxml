@@ -99,7 +99,11 @@ EXP ostream& operator<< (ostream& os, const S_lpsrElement& elt);
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
+<<<<<<< HEAD
 template <typename T> class lpsrBrowser : public browser<T> 
+=======
+template <typename T> class EXP lpsrBrowser : public browser<T>
+>>>>>>> a9badbde74ce22074ff142d1a9265c7a168a65d6
 {
   protected:
   
@@ -1054,6 +1058,10 @@ EXP ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& elt);
 */
 /* JMI ???
 //______________________________________________________________________________
+<<<<<<< HEAD
+=======
+// class EXP lpsrUseLyricsCommand : public lpsrElement
+>>>>>>> a9badbde74ce22074ff142d1a9265c7a168a65d6
 class lpsrUseLyricsCommand : public lpsrElement
 {
   public:
@@ -2457,7 +2465,7 @@ typedef SMARTP<lpsrScore> S_lpsrScore;
 EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);
 
 //______________________________________________________________________________
-void initializeLPSR ();
+EXP void initializeLPSR ();
 
 
 /*! @} */

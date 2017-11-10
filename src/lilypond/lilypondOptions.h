@@ -190,9 +190,9 @@ class lilypondOptions : public msrOptionsGroup
 typedef SMARTP<lilypondOptions> S_lilypondOptions;
 EXP ostream& operator<< (ostream& os, const S_lilypondOptions& elt);
 
-extern S_lilypondOptions gLilypondOptions;
-extern S_lilypondOptions gLilypondOptionsUserChoices;
-extern S_lilypondOptions gLilypondOptionsWithDetailedTrace;
+EXP extern S_lilypondOptions gLilypondOptions;
+EXP extern S_lilypondOptions gLilypondOptionsUserChoices;
+EXP extern S_lilypondOptions gLilypondOptionsWithDetailedTrace;
 
 /*!
 \brief A msr midi representation.
