@@ -94,8 +94,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentPrintSpacingKind =
     msrStaffDetails::kPrintSpacingNo; // default value ??? JMI
 
-  fCurrentStaffTuningAlteration = k_NoAlteration;
-  fCurrentStaffTuningOctave     = -1;
+  fCurrentStaffTuningAlterationKind = k_NoAlteration;
+  fCurrentStaffTuningOctave         = -1;
 
   fCurrentStaffDetailsCapo = 0;
   fCurrentStaffDetailsStaffSize = 0;
@@ -175,15 +175,15 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingMelisma = false;
 
   // harmonies handling
-  fPendingHarmony                  = false;
-  fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentHarmonyRootAlteration    = k_NoAlteration;
-  fCurrentHarmonyKind              = k_NoHarmony;
-  fCurrentHarmonyKindText          = "";
-  fCurrentHarmonyBassDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentHarmonyBassAlteration    = k_NoAlteration;
-  fCurrentHarmonyDegreeValue       = -1;
-  fCurrentHarmonyDegreeAlteration  = k_NoAlteration;
+  fPendingHarmony                      = false;
+  fCurrentHarmonyRootDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentHarmonyRootAlterationKind    = k_NoAlteration;
+  fCurrentHarmonyKind                  = k_NoHarmony;
+  fCurrentHarmonyKindText              = "";
+  fCurrentHarmonyBassDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentHarmonyBassAlterationKind    = k_NoAlteration;
+  fCurrentHarmonyDegreeValue           = -1;
+  fCurrentHarmonyDegreeAlterationKind  = k_NoAlteration;
 
   // figured bass handling
   fOnGoingFiguredBass                   = false;
@@ -201,8 +201,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fRepeatHasBeenCreatedForCurrentPart = false;
 
   // MusicXML notes handling
-  fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentNoteAlteration    = k_NoAlteration;
+  fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentNoteAlterationKind    = k_NoAlteration;
 
   // note print kind
   fCurrentNotePrintKind = msrNote::kNotePrintYes;
@@ -227,7 +227,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // grace notes handling
 
   // tremolos handling
-  fCurrentMusicXMLTremoloType = k_NoTremolo;
+  fCurrentMusicXMLTremoloTypeKind = k_NoTremolo;
 
   // chords handling
   fOnGoingChord = false;
@@ -279,7 +279,7 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
 // JMI  fCurrentNoteKind = k_NoNoteKind;
 
-  fCurrentNoteQuarterTonesPitch  = k_NoQuarterTonesPitch;
+  fCurrentNoteQuarterTonesPitchKind = k_NoQuarterTonesPitch;
   
   fCurrentNoteSoundingWholeNotes             = rational (-13, 1);
   fCurrentNoteSoundingWholeNotesFromDuration = rational (-17, 1);
@@ -289,12 +289,12 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   
   fCurrentNoteDotsNumber = 0;
   
-  fCurrentNoteGraphicDuration = k_NoDuration;
+  fCurrentNoteGraphicDurationKind = k_NoDuration;
 
   fCurrentNoteOctave = K_NO_OCTAVE;
 
-  fCurrentNoteQuarterTonesDisplayPitch = k_NoQuarterTonesPitch;
-  fCurrentDisplayDiatonicPitch = k_NoDiatonicPitch;  
+  fCurrentNoteQuarterTonesDisplayPitchKind = k_NoQuarterTonesPitch;
+  fCurrentDisplayDiatonicPitchKind = k_NoDiatonicPitch;  
   fCurrentDisplayOctave = K_NO_OCTAVE;
 
   fCurrentNoteIsARest = false;
@@ -305,6 +305,8 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   fCurrentNoteIsAGraceNote = false;
 
   // accidentals
+  fCurrentNoteAccidentalKind =
+    msrNote::k_NoNoteAccidental; // default value
   fCurrentNoteEditorialAccidentalKind =
     msrNote::kNoteEditorialAccidentalNo; // default value
   fCurrentNoteCautionaryAccidentalKind =
@@ -1349,7 +1351,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     fCurrentClefSign.begin (),
     ::toupper);
 
-  msrClef::msrClefKind clefKind;
+  msrClef::msrClefKind clefKind = msrClef::k_NoClef;
   
   if (fCurrentClefSign == "G") {
     
@@ -1728,8 +1730,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_step& elt )
     step);
 
   // determine diatonic pitch
-  msrDiatonicPitch keyDiatonicPitch =
-    msrDiatonicPitchFromString (step [0]);
+  msrDiatonicPitchKind keyDiatonicPitchKind =
+    msrDiatonicPitchKindFromString (step [0]);
 
   // create the Humdrum/Scot item
   fCurrentHumdrumScotKeyItem =
@@ -1738,8 +1740,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_step& elt )
 
   // populate it with the diatonic pitch
   fCurrentHumdrumScotKeyItem->
-    setKeyItemDiatonicPitch (
-      keyDiatonicPitch);
+    setKeyItemDiatonicPitchKind (
+      keyDiatonicPitchKind);
 
   // insert it into the items vector
   fCurrentHumdrumScotKeyItemsVector.
@@ -1770,12 +1772,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
   float alter = (float)(*elt);
 
   // determine the alteration
-  msrAlteration
-    keyAlteration =
-      msrAlterationFromMusicXMLAlter (
+  msrAlterationKind
+    keyAlterationKind =
+      msrAlterationKindFromMusicXMLAlter (
         alter);
       
-  if (keyAlteration == k_NoAlteration) {
+  if (keyAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -1791,8 +1793,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
 
   // complement the current Humdrum/Scot item with the alteration
   fCurrentHumdrumScotKeyItem->
-    setKeyItemAlteration (
-      keyAlteration);
+    setKeyItemAlterationKind (
+      keyAlterationKind);
 
   // forget about this item
   fCurrentHumdrumScotKeyItem = 0;
@@ -1922,80 +1924,80 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
   int inputLineNumber)
 {
   // key fifths number
-  msrQuarterTonesPitch keyTonicPitch;
+  msrQuarterTonesPitchKind keyTonicPitchKind;
   
   switch (fCurrentKeyFifths) {
     case 0:
-      keyTonicPitch = k_cNatural;
+      keyTonicPitchKind = k_cNatural;
       break;
     case 1:
-      keyTonicPitch = k_gNatural;
+      keyTonicPitchKind = k_gNatural;
       break;
     case 2:
-      keyTonicPitch = k_dNatural;
+      keyTonicPitchKind = k_dNatural;
       break;
     case 3:
-      keyTonicPitch = k_aNatural;
+      keyTonicPitchKind = k_aNatural;
       break;
     case 4:
-      keyTonicPitch = k_eNatural;
+      keyTonicPitchKind = k_eNatural;
       break;
     case 5:
-      keyTonicPitch = k_bNatural;
+      keyTonicPitchKind = k_bNatural;
       break;
     case 6:
-      keyTonicPitch = k_fSharp;
+      keyTonicPitchKind = k_fSharp;
       break;
     case 7:
-      keyTonicPitch = k_cSharp;
+      keyTonicPitchKind = k_cSharp;
       break;
       
     case 8: // JMI
-      keyTonicPitch = k_gSharp;
+      keyTonicPitchKind = k_gSharp;
       break;
     case 9:
-      keyTonicPitch = k_dSharp;
+      keyTonicPitchKind = k_dSharp;
       break;
     case 10:
-      keyTonicPitch = k_aSharp;
+      keyTonicPitchKind = k_aSharp;
       break;
     case 11:
-      keyTonicPitch = k_eSharp;
+      keyTonicPitchKind = k_eSharp;
       break;
       
     case -1:
-      keyTonicPitch = k_fNatural;
+      keyTonicPitchKind = k_fNatural;
       break;
     case -2:
-      keyTonicPitch = k_bFlat;
+      keyTonicPitchKind = k_bFlat;
       break;
     case -3:
-      keyTonicPitch = k_eFlat;
+      keyTonicPitchKind = k_eFlat;
       break;
     case -4:
-      keyTonicPitch = k_aFlat;
+      keyTonicPitchKind = k_aFlat;
       break;
     case -5:
-      keyTonicPitch = k_dFlat;
+      keyTonicPitchKind = k_dFlat;
       break;
     case -6:
-      keyTonicPitch = k_gFlat;
+      keyTonicPitchKind = k_gFlat;
       break;
     case -7:
-      keyTonicPitch = k_cFlat;
+      keyTonicPitchKind = k_cFlat;
       break;
 
     case -8: // JMI
-      keyTonicPitch = k_fFlat;
+      keyTonicPitchKind = k_fFlat;
       break;
     case -9:
-      keyTonicPitch = k_bDoubleFlat;
+      keyTonicPitchKind = k_bDoubleFlat;
       break;
     case -10:
-      keyTonicPitch = k_eDoubleFlat;
+      keyTonicPitchKind = k_eDoubleFlat;
       break;
     case -11:
-      keyTonicPitch = k_aDoubleFlat;
+      keyTonicPitchKind = k_aDoubleFlat;
       break;
       
     default: // unknown key sign !!
@@ -2018,7 +2020,8 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
     key =
       msrKey::createTraditional (
         inputLineNumber,
-        keyTonicPitch, fCurrentKeyModeKind,
+        keyTonicPitchKind,
+        fCurrentKeyModeKind,
         fCurrentKeyCancelFifths);
 
   // return it
@@ -2030,11 +2033,11 @@ S_msrKey mxmlTree2MsrTranslator::handleHumdrumScotKey (
 {
  //  msrQuarterTonesPitch fCurrentNoteQuarterTonesPitch; // JMI BOF
 
-  fCurrentNoteQuarterTonesPitch =
-    quarterTonesPitchFromDiatonicPitchAndAlteration (
+  fCurrentNoteQuarterTonesPitchKind =
+    quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       inputLineNumber,
-      fCurrentNoteDiatonicPitch,
-      fCurrentNoteAlteration);
+      fCurrentNoteDiatonicPitchKind,
+      fCurrentNoteAlterationKind);
 
   // create the key
   S_msrKey
@@ -2730,11 +2733,9 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
     elt->getAttributeValue ("placement");
 
   if (fCurrentDirectionPlacement == "above")
-    fCurrentWordsPlacementKind = msrWords::kWordsPlacementAbove;
-    
+    fCurrentWordsPlacementKind = kAbovePlacement;
   else if (fCurrentDirectionPlacement == "below")
-    fCurrentWordsPlacementKind = msrWords::kWordsPlacementBelow;
-    
+    fCurrentWordsPlacementKind = kBelowPlacement;
   else if (fCurrentDirectionPlacement.size ()) {
     stringstream s;
     
@@ -2904,16 +2905,17 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   
   string type = elt->getAttributeValue ("type");
 
-  msrOctaveShift::msrOctaveShiftKind octaveShiftKind;
+  msrOctaveShift::msrOctaveShiftKind
+    octaveShiftKind = msrOctaveShift::k_NoOctaveShift;;
   
   if      (type == "up")
     octaveShiftKind = msrOctaveShift::kOctaveShiftUp;
-    
   else if (type == "down")
     octaveShiftKind = msrOctaveShift::kOctaveShiftDown;
-    
   else if (type == "stop")
     octaveShiftKind = msrOctaveShift::kOctaveShiftStop;
+  else if (type == "continue")
+    octaveShiftKind = msrOctaveShift::kOctaveShiftContinue;
     
   else {
     stringstream s;
@@ -3028,12 +3030,12 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsFontStyle = elt->getAttributeValue ("font-style");
 
-  msrFontStyle fontStyle = k_NoFontStyle; // default value
+  msrFontStyleKind fontStyleKind = k_NoFontStyle; // default value
 
   if      (wordsFontStyle == "normal")
-    fontStyle = kNormalFontStyle;
+    fontStyleKind = kNormalFontStyle;
   else if (wordsFontStyle == "italic")
-    fontStyle = KItalicFontStyle;
+    fontStyleKind = KItalicFontStyle;
   else {
     if (wordsFontStyle.size ()) {
       stringstream s;
@@ -3110,12 +3112,12 @@ The
 
   string wordsFontWeight = elt->getAttributeValue ("font-weight");
   
-  msrFontWeight fontWeight = k_NoFontWeight; // default value
+  msrFontWeightKind fontWeightKind = k_NoFontWeight; // default value
 
   if      (wordsFontWeight == "normal")
-    fontWeight = kNormalFontWeight;
+    fontWeightKind = kNormalFontWeight;
   else if (wordsFontWeight == "bold")
-    fontWeight = kBoldFontWeight;
+    fontWeightKind = kBoldFontWeight;
   else {
     if (wordsFontWeight.size ()) {
       stringstream s;
@@ -3184,9 +3186,9 @@ The
           fCurrentWordsContents,
           justifyKind,
           verticalAlignmentKind,
-          fontStyle,
+          fontStyleKind,
           fontSize,
-          fontWeight,
+          fontWeightKind,
           wordsXMLLangKind);
 
     fPendingWords.push_back (words);
@@ -3803,8 +3805,8 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
   fCurrentStaffTypeKind =
     msrStaffDetails::kRegularStaffType;
 
-  fCurrentStaffTuningAlteration = k_NoAlteration;
-  fCurrentStaffTuningOctave     = -1;
+  fCurrentStaffTuningAlterationKind = k_NoAlteration;
+  fCurrentStaffTuningOctave         = -1;
 
   fCurrentStaffDetailsStaffSize = 0;
   
@@ -3898,8 +3900,8 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_tuning& elt )
   fCurrentStaffTuningLine =
     elt->getAttributeIntValue ("line", 0);
 
-  fCurrentStaffTuningAlteration = kNatural; // may be absent
-  fCurrentStaffTuningOctave     = -1;
+  fCurrentStaffTuningAlterationKind = kNatural; // may be absent
+  fCurrentStaffTuningOctave         = -1;
 }
     
 void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
@@ -3916,8 +3918,8 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
     elt->getInputLineNumber (),
     tuningStep);
 
-  fCurrentStaffTuningDiatonicPitch =
-    msrDiatonicPitchFromString (
+  fCurrentStaffTuningDiatonicPitchKind =
+    msrDiatonicPitchKindFromString (
       tuningStep [0]);
 }
 
@@ -3942,11 +3944,11 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
 
   float tuningAlter = (float)(*elt);
 
-  fCurrentStaffTuningAlteration =
-    msrAlterationFromMusicXMLAlter (
+  fCurrentStaffTuningAlterationKind =
+    msrAlterationKindFromMusicXMLAlter (
       tuningAlter);
       
-  if (fCurrentStaffTuningAlteration == k_NoAlteration) {
+  if (fCurrentStaffTuningAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -3979,12 +3981,12 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
         inputLineNumber,
         fStaffDetailsStaffNumber); // test its value??? JMI
 
-  msrQuarterTonesPitch
-    quarterTonesPitch =
-      quarterTonesPitchFromDiatonicPitchAndAlteration (
+  msrQuarterTonesPitchKind
+    quarterTonesPitchKind =
+      quarterTonesPitchKindFromDiatonicPitchAndAlteration (
         inputLineNumber,
-        fCurrentStaffTuningDiatonicPitch,
-        fCurrentStaffTuningAlteration);
+        fCurrentStaffTuningDiatonicPitchKind,
+        fCurrentStaffTuningAlterationKind);
 
   // create the staff tuning
   if (gGeneralOptions->fTraceStaffTuning) {
@@ -4003,20 +4005,20 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
       endl <<
       setw (fieldWidth) <<
       "fCurrentStaffTuningDiatonicPitch" << " = " <<
-      msrDiatonicPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fCurrentStaffTuningDiatonicPitch) <<
+      msrDiatonicPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        fCurrentStaffTuningDiatonicPitchKind) <<
       endl <<
       setw (fieldWidth) <<
       "fCurrentStaffTuningAlteration" << " = " <<
-      msrAlterationAsString (
-        fCurrentStaffTuningAlteration) <<
+      msrAlterationKindAsString (
+        fCurrentStaffTuningAlterationKind) <<
       endl <<
       setw (fieldWidth) <<
       "quarterTonesPitch" << " = " <<
-      msrQuarterTonesPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        quarterTonesPitch) <<
+      msrQuarterTonesPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        quarterTonesPitchKind) <<
       endl <<
       setw (fieldWidth) <<
       "CurrentStaffTuningOctave" << " = " <<
@@ -4030,7 +4032,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
     msrStaffTuning::create (
       inputLineNumber,
       fCurrentStaffTuningLine,
-      quarterTonesPitch,
+      quarterTonesPitchKind,
       fCurrentStaffTuningOctave);
 }
 
@@ -4562,7 +4564,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
 
   string type = elt->getAttributeValue("type");
   
-  msrWedge::msrWedgeKind wedgeKind;
+  msrWedge::msrWedgeKind wedgeKind = msrWedge::k_NoWedgeKind;
 
   if      (type == "crescendo") {
     wedgeKind = msrWedge::kCrescendoWedge;
@@ -5741,30 +5743,27 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
   fCurrentBarlineHasSegno = false;
   fCurrentBarlineHasCoda  = false;
 
-  fCurrentBarlineLocation        = msrBarline::k_NoLocation;
-  fCurrentBarlineStyle           = msrBarline::k_NoStyle;
-  fCurrentBarlineEndingType      = msrBarline::k_NoEndingType;
-  fCurrentBarlineRepeatDirection = msrBarline::k_NoRepeatDirection;
-  fCurrentBarlineRepeatWinged    = msrBarline::k_NoRepeatWinged;
+  fCurrentBarlineLocationKind        = msrBarline::k_NoLocation;
+  fCurrentBarlineStyleKind           = msrBarline::k_NoStyle;
+  fCurrentBarlineEndingTypeKind      = msrBarline::k_NoEndingType;
+  fCurrentBarlineRepeatDirectionKind = msrBarline::k_NoRepeatDirection;
+  fCurrentBarlineRepeatWingedKind    = msrBarline::k_NoRepeatWinged;
 
   string
     location =
       elt->getAttributeValue ("location");
 
-  fCurrentBarlineLocation =
+  fCurrentBarlineLocationKind =
     msrBarline::kRightLocation; // by default
     
   if       (location == "left") {
-    fCurrentBarlineLocation =
-      msrBarline::kLeftLocation;
+    fCurrentBarlineLocationKind = msrBarline::kLeftLocation;
   }
   else  if (location == "middle") {
-    fCurrentBarlineLocation =
-      msrBarline::kMiddleLocation;
+    fCurrentBarlineLocationKind = msrBarline::kMiddleLocation;
   }
   else if  (location == "right") {
-    fCurrentBarlineLocation =
-      msrBarline::kRightLocation;
+    fCurrentBarlineLocationKind = msrBarline::kRightLocation;
   }
   else {
     stringstream s;
@@ -5793,51 +5792,51 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
 
   string barStyle = elt->getValue();
 
-  fCurrentBarlineStyle =
+  fCurrentBarlineStyleKind =
     msrBarline::k_NoStyle;
 
   if      (barStyle == "regular") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kRegularStyle;
   }
   else if (barStyle == "dotted") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kDottedStyle;
   }
   else if (barStyle == "dashed") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kDashedStyle;
   }
   else if (barStyle == "heavy") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kHeavyStyle;
   }
   else if (barStyle == "light-light") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kLightLightStyle;
   }
   else if (barStyle == "light-heavy") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kLightHeavyStyle;
   }
   else if (barStyle == "heavy-light") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kHeavyLightStyle;
   }
   else if (barStyle == "heavy-heavy") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kHeavyHeavyStyle;
   }
   else if (barStyle == "tick") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kTickStyle;
   }
   else if (barStyle == "short") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kShortStyle;
   }
   else if (barStyle == "none") {
-    fCurrentBarlineStyle =
+    fCurrentBarlineStyleKind =
       msrBarline::kNoneStyle;
   }
   else {
@@ -6010,20 +6009,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
   
   string type = elt->getAttributeValue ("type");
     
-  msrPedal::msrPedalType pedalType;
+  msrPedal::msrPedalTypeKind pedalTypeKind;
 
   if       (type == "start") {
-    pedalType = msrPedal::kPedalStart;
+    pedalTypeKind = msrPedal::kPedalStart;
   }
   else  if (type == "continue") {
-    pedalType = msrPedal::kPedalContinue;
+    pedalTypeKind = msrPedal::kPedalContinue;
   }
   else  if (type == "change") {
-    pedalType = msrPedal::kPedalChange;
+    pedalTypeKind = msrPedal::kPedalChange;
   }
   else  if (type == "stop") {
-    pedalType =
-      msrPedal::kPedalStop;
+    pedalTypeKind = msrPedal::kPedalStop;
   }
   else {
     stringstream s;
@@ -6041,13 +6039,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
   
   string line = elt->getAttributeValue ("line");
     
-  msrPedal::msrPedalLine pedalLine = msrPedal::kPedalLineNo;
+  msrPedal::msrPedalLineKind pedalLineKind = msrPedal::kPedalLineNo;
 
   if       (line == "yes") {
-    pedalLine = msrPedal::kPedalLineYes;
+    pedalLineKind = msrPedal::kPedalLineYes;
   }
   else  if (line == "no") {
-    pedalLine = msrPedal::kPedalLineNo;
+    pedalLineKind = msrPedal::kPedalLineNo;
   }
   else {
     if (line.size ()) {
@@ -6067,13 +6065,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
   
   string sign = elt->getAttributeValue ("sign");
     
-  msrPedal::msrPedalSign pedalSign = msrPedal::kPedalSignNo;
+  msrPedal::msrPedalSignKind pedalSignKind = msrPedal::kPedalSignNo;
 
   if       (sign == "yes") {
-    pedalSign = msrPedal::kPedalSignYes;
+    pedalSignKind = msrPedal::kPedalSignYes;
   }
   else  if (sign == "no") {
-    pedalSign = msrPedal::kPedalSignNo;
+    pedalSignKind = msrPedal::kPedalSignNo;
   }
   else {
     if (sign.size ()) {
@@ -6106,9 +6104,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
       pedal =
         msrPedal::create (
           inputLineNumber,
-          pedalType,
-          pedalLine,
-          pedalSign);
+          pedalTypeKind,
+          pedalLineKind,
+          pedalSignKind);
 
     // append it to the current voice
     currentVoice->
@@ -6136,15 +6134,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
     elt->getAttributeValue ("type");
       
   if       (type == "start") {
-    fCurrentBarlineEndingType =
+    fCurrentBarlineEndingTypeKind =
       msrBarline::kStartEndingType;
   }
   else  if (type == "stop") {
-    fCurrentBarlineEndingType =
+    fCurrentBarlineEndingTypeKind =
       msrBarline::kStopEndingType;
   }
   else  if (type == "discontinue") {
-    fCurrentBarlineEndingType =
+    fCurrentBarlineEndingTypeKind =
       msrBarline::kDiscontinueEndingType;
   }
   else {
@@ -6181,15 +6179,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  fCurrentBarlineRepeatDirection =
+  fCurrentBarlineRepeatDirectionKind =
     msrBarline::k_NoRepeatDirection;
     
   if       (direction == "forward") {
-    fCurrentBarlineRepeatDirection =
+    fCurrentBarlineRepeatDirectionKind =
       msrBarline::kForwardRepeatDirection;
   }
   else  if (direction == "backward") {
-    fCurrentBarlineRepeatDirection =
+    fCurrentBarlineRepeatDirectionKind =
       msrBarline::kBackwardRepeatDirection;
   }
   else {
@@ -6207,28 +6205,28 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
       s.str ());
   }
 
-  fCurrentBarlineRepeatWinged =
+  fCurrentBarlineRepeatWingedKind =
     msrBarline::k_NoRepeatWinged;
 
   if (winged.size ()) {
     if       (winged == "none") {
-      fCurrentBarlineRepeatWinged =
+      fCurrentBarlineRepeatWingedKind =
         msrBarline::kNoneRepeatWinged;
     }
     else if (winged == "straight") {
-      fCurrentBarlineRepeatWinged =
+      fCurrentBarlineRepeatWingedKind =
         msrBarline::kStraightRepeatWinged;
     }
     else  if (winged == "curved") {
-      fCurrentBarlineRepeatWinged =
+      fCurrentBarlineRepeatWingedKind =
         msrBarline::kCurvedRepeatWinged;
     }
     else  if (winged == "doubleStraight") {
-      fCurrentBarlineRepeatWinged =
+      fCurrentBarlineRepeatWingedKind =
         msrBarline::kDoubleStraightRepeatWinged;
     }
     else  if (winged == "doubleCurved") {
-      fCurrentBarlineRepeatWinged =
+      fCurrentBarlineRepeatWingedKind =
         msrBarline::kDoubleCurvedRepeatWinged;
     }
     else {
@@ -6275,12 +6273,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         inputLineNumber,
         fCurrentBarlineHasSegno,
         fCurrentBarlineHasCoda,
-        fCurrentBarlineLocation,
-        fCurrentBarlineStyle,
-        fCurrentBarlineEndingType,
+        fCurrentBarlineLocationKind,
+        fCurrentBarlineStyleKind,
+        fCurrentBarlineEndingTypeKind,
         fCurrentBarlineEndingNumber,
-        fCurrentBarlineRepeatDirection,
-        fCurrentBarlineRepeatWinged);
+        fCurrentBarlineRepeatDirectionKind,
+        fCurrentBarlineRepeatWingedKind);
 
   // don't display the barline yet in case of debug,
   // wait until its category is defined
@@ -6297,11 +6295,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   bool barlineIsAlright = false;
 
   if (
-    fCurrentBarlineLocation == msrBarline::kLeftLocation
+    fCurrentBarlineLocationKind == msrBarline::kLeftLocation
       &&
-    fCurrentBarlineEndingType == msrBarline::kStartEndingType
+    fCurrentBarlineEndingTypeKind == msrBarline::kStartEndingType
       &&
-    fCurrentBarlineRepeatDirection == msrBarline::kForwardRepeatDirection) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kForwardRepeatDirection) {
     // hooked ending start
     // ------------------------------------------------------
     handleHookedEndingStart (elt, barline);
@@ -6310,9 +6308,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
 
   else if (
-    fCurrentBarlineLocation == msrBarline::kLeftLocation
+    fCurrentBarlineLocationKind == msrBarline::kLeftLocation
       &&
-    fCurrentBarlineRepeatDirection == msrBarline::kForwardRepeatDirection) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kForwardRepeatDirection) {
     // repeat start
     // ------------------------------------------------------
     
@@ -6331,9 +6329,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
   
   else if (
-    fCurrentBarlineLocation == msrBarline::kLeftLocation
+    fCurrentBarlineLocationKind == msrBarline::kLeftLocation
       &&
-    fCurrentBarlineEndingType == msrBarline::kStartEndingType) { // no forward
+    fCurrentBarlineEndingTypeKind == msrBarline::kStartEndingType) { // no forward
     // hookless ending start
     // ------------------------------------------------------
     handleHooklessEndingStart (elt, barline);
@@ -6342,11 +6340,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
 
   else if (
-    fCurrentBarlineLocation == msrBarline::kRightLocation
+    fCurrentBarlineLocationKind == msrBarline::kRightLocation
       &&
-    fCurrentBarlineEndingType == msrBarline::kStopEndingType
+    fCurrentBarlineEndingTypeKind == msrBarline::kStopEndingType
       &&
-    fCurrentBarlineRepeatDirection == msrBarline::kBackwardRepeatDirection) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBackwardRepeatDirection) {
     // hooked ending end
     // ------------------------------------------------------
     
@@ -6366,9 +6364,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
 
   else if (
-    fCurrentBarlineLocation == msrBarline::kRightLocation
+    fCurrentBarlineLocationKind == msrBarline::kRightLocation
       &&
-    fCurrentBarlineRepeatDirection == msrBarline::kBackwardRepeatDirection) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBackwardRepeatDirection) {
     // repeat end
     // ------------------------------------------------------
     
@@ -6387,9 +6385,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
 
   else if (
-    fCurrentBarlineLocation == msrBarline::kRightLocation
+    fCurrentBarlineLocationKind == msrBarline::kRightLocation
       &&
-    fCurrentBarlineEndingType == msrBarline::kDiscontinueEndingType) {
+    fCurrentBarlineEndingTypeKind == msrBarline::kDiscontinueEndingType) {
     // hookless ending end
     // ------------------------------------------------------
     handleHooklessEndingEnd (elt, barline);
@@ -6399,7 +6397,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
   else {
 
-    switch (fCurrentBarlineStyle) {
+    switch (fCurrentBarlineStyleKind) {
       
       case msrBarline::kRegularStyle:
       //---------------------------------------
@@ -6638,17 +6636,17 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     s << left <<
       "cannot handle a barline containing:" <<
       endl <<
-      "location = " << fCurrentBarlineLocation <<
+      "location = " << fCurrentBarlineLocationKind <<
       endl <<
-      "style = " << fCurrentBarlineStyle <<
+      "style = " << fCurrentBarlineStyleKind <<
       endl <<
-      "ending type = " << fCurrentBarlineEndingType <<
+      "ending type = " << fCurrentBarlineEndingTypeKind <<
       endl <<
       "ending number = " << fCurrentBarlineEndingNumber <<
       endl <<
-      "repeat direction = " << fCurrentBarlineRepeatDirection <<
+      "repeat direction = " << fCurrentBarlineRepeatDirectionKind <<
       endl <<
-      "repeat winged = " << fCurrentBarlineRepeatWinged;
+      "repeat winged = " << fCurrentBarlineRepeatWingedKind;
       
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -6729,16 +6727,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   // initialize note data to a neutral state
   initializeNoteData ();
 
-  fCurrentNoteDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentNoteAlteration    = kNatural;
+  fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentNoteAlterationKind    = kNatural;
 
   fCurrentNoteOctave = K_NO_OCTAVE;
 
   fCurrentNoteSoundingWholeNotes             = rational (0, 1);
   fCurrentNoteSoundingWholeNotesFromDuration = rational (0, 1);
 
-  fCurrentDisplayDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentDisplayOctave        = K_NO_OCTAVE;
+  fCurrentDisplayDiatonicPitchKind      = k_NoDiatonicPitch;
+  fCurrentDisplayOctave                 = K_NO_OCTAVE;
   fCurrentNoteDisplayWholeNotes         = rational (0, 1);
   fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
   
@@ -6774,7 +6772,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentStem = 0;
 
-  fCurrentMusicXMLTremoloType = k_NoTremolo;
+  fCurrentMusicXMLTremoloTypeKind = k_NoTremolo;
 
   fCurrentTie = 0;
   fCurrentTiedOrientation = "";
@@ -6832,8 +6830,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_step& elt )
     elt->getInputLineNumber (),
     step);
 
-  fCurrentNoteDiatonicPitch =
-    msrDiatonicPitchFromString (step [0]);
+  fCurrentNoteDiatonicPitchKind =
+    msrDiatonicPitchKindFromString (step [0]);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_alter& elt)
@@ -6846,11 +6844,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_alter& elt)
 
   float alter = (float)(*elt);
 
-  fCurrentNoteAlteration =
-    msrAlterationFromMusicXMLAlter (
+  fCurrentNoteAlterationKind =
+    msrAlterationKindFromMusicXMLAlter (
       alter);
       
-  if (fCurrentNoteAlteration == k_NoAlteration) {
+  if (fCurrentNoteAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -7021,20 +7019,34 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
     string noteType = elt->getValue();
   
     // the type contains a display duration,
-    if      (noteType == "maxima")  { fCurrentNoteGraphicDuration = kMaxima; }
-    else if (noteType == "long")    { fCurrentNoteGraphicDuration = kLong; }
-    else if (noteType == "breve")   { fCurrentNoteGraphicDuration = kBreve; } 
-    else if (noteType == "whole")   { fCurrentNoteGraphicDuration = kWhole; } 
-    else if (noteType == "half")    { fCurrentNoteGraphicDuration = kHalf; } 
-    else if (noteType == "quarter") { fCurrentNoteGraphicDuration = kQuarter; } 
-    else if (noteType == "eighth")  { fCurrentNoteGraphicDuration = kEighth; } 
-    else if (noteType == "16th")    { fCurrentNoteGraphicDuration = k16th; } 
-    else if (noteType == "32nd")    { fCurrentNoteGraphicDuration = k32nd; } 
-    else if (noteType == "64th")    { fCurrentNoteGraphicDuration = k64th; } 
-    else if (noteType == "128th")   { fCurrentNoteGraphicDuration = k128th; } 
-    else if (noteType == "256th")   { fCurrentNoteGraphicDuration = k256th; } 
-    else if (noteType == "512th")   { fCurrentNoteGraphicDuration = k512th; } 
-    else if (noteType == "1024th")  { fCurrentNoteGraphicDuration = k1024th; }
+    if      (noteType == "maxima") {
+      fCurrentNoteGraphicDurationKind = kMaxima; }
+    else if (noteType == "long") {
+      fCurrentNoteGraphicDurationKind = kLong; }
+    else if (noteType == "breve") {
+        fCurrentNoteGraphicDurationKind = kBreve; } 
+    else if (noteType == "whole") {
+        fCurrentNoteGraphicDurationKind = kWhole; } 
+    else if (noteType == "half") {
+        fCurrentNoteGraphicDurationKind = kHalf; } 
+    else if (noteType == "quarter") {
+        fCurrentNoteGraphicDurationKind = kQuarter; } 
+    else if (noteType == "eighth") {
+        fCurrentNoteGraphicDurationKind = kEighth; } 
+    else if (noteType == "16th") {
+        fCurrentNoteGraphicDurationKind = k16th; } 
+    else if (noteType == "32nd") {
+        fCurrentNoteGraphicDurationKind = k32nd; } 
+    else if (noteType == "64th") {
+        fCurrentNoteGraphicDurationKind = k64th; } 
+    else if (noteType == "128th") {
+        fCurrentNoteGraphicDurationKind = k128th; } 
+    else if (noteType == "256th") {
+        fCurrentNoteGraphicDurationKind = k256th; } 
+    else if (noteType == "512th") {
+        fCurrentNoteGraphicDurationKind = k512th; } 
+    else if (noteType == "1024th") {
+        fCurrentNoteGraphicDurationKind = k1024th; }
     else {
       stringstream s;
       
@@ -7276,6 +7288,99 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // value
+
+  {
+    string accidentalValue = elt->getValue ();
+  
+    fCurrentNoteAccidentalKind = msrNote::k_NoNoteAccidental;
+
+    if      (accidentalValue == "sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp;
+    else if (accidentalValue == "natural")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNatural;
+    else if (accidentalValue == "flat")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat;
+    else if (accidentalValue == "double-sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentaldoubleSharp;
+    else if (accidentalValue == "sharp-sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharpSharp;
+    else if (accidentalValue == "flat-flat")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlatFlat;
+    else if (accidentalValue == "natural-sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNaturalSharp;
+    else if (accidentalValue == "natural-flat")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNaturalFlat;
+    else if (accidentalValue == "quarter-flat")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalQuarterFlat;
+    else if (accidentalValue == "quarter-sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalQuarterSharp;
+    else if (accidentalValue == "three-quarters-flat")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalThreeQuartersFlat;
+    else if (accidentalValue == "three-quarters-sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalThreeQuartersSharp;
+      
+    else if (accidentalValue == "sharp-down")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharpDown;
+    else if (accidentalValue == "sharp-up")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharpUp;
+    else if (accidentalValue == "natural-down")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNaturalDown;
+    else if (accidentalValue == "natural-up")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNaturalUp;
+    else if (accidentalValue == "flat-down")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlatDown;
+    else if (accidentalValue == "flat-up")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlatUp;
+    else if (accidentalValue == "triple-sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalTripleSharp;
+    else if (accidentalValue == "triple-flat")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalTripleFlat;
+    else if (accidentalValue == "slash-quarter-sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSlashQuarterSharp;
+    else if (accidentalValue == "slash-sharp")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSlashSharp;
+    else if (accidentalValue == "slash-flat")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSlashFlat;
+    else if (accidentalValue == "double-slash-flat")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentaldoubleSlashFlat;
+    else if (accidentalValue == "sharp-1")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp_1;
+    else if (accidentalValue == "sharp-2")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp_2;
+    else if (accidentalValue == "sharp-3")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp_3;
+    else if (accidentalValue == "sharp-5")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp_5;
+    else if (accidentalValue == "flat-1")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat_1;
+    else if (accidentalValue == "flat-2")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat_2;
+    else if (accidentalValue == "flat-3")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat_3;
+    else if (accidentalValue == "flat-4")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalFlat_4;
+    else if (accidentalValue == "sori")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSori;
+    else if (accidentalValue == "koron")
+      fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalKoron;
+    else {
+      if (accidentalValue.size ()) {
+        stringstream s;
+        
+        s << "accidental " << accidentalValue << " is unknown";
+        
+        msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+          s.str ());
+      }
+    }
+  }
+
+  // editorial
+  
   {
     string editorialAccidental = elt->getAttributeValue ("editorial");
 
@@ -7303,6 +7408,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
     }
   }
 
+  // cautionary
+  
   {
     string cautionaryAccidental = elt->getAttributeValue ("cautionary");
   
@@ -7402,7 +7509,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-  msrBeam::msrBeamKind beamKind;
+  msrBeam::msrBeamKind beamKind = msrBeam::k_NoBeam;
 
   if      (fCurrentBeamValue == "begin") {
     beamKind = msrBeam::kBeginBeam;
@@ -7683,12 +7790,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7711,7 +7818,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
       msrArticulation::create (
         inputLineNumber,
         msrArticulation::kAccent,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7731,12 +7838,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7759,7 +7866,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kBreathMark,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7779,12 +7886,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7807,7 +7914,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kCaesura,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7827,12 +7934,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7855,7 +7962,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kSpiccato,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7875,12 +7982,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7903,7 +8010,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kStaccato,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7923,12 +8030,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7951,7 +8058,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kStaccatissimo,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -7971,12 +8078,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -7999,7 +8106,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kStress,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8019,12 +8126,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8047,7 +8154,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kUnstress,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8067,12 +8174,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8095,7 +8202,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kDetachedLegato,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8115,12 +8222,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8144,7 +8251,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kStrongAccent,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8164,12 +8271,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8193,7 +8300,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kTenuto,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8213,12 +8320,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8241,7 +8348,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kDoit,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8261,12 +8368,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8289,7 +8396,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kFalloff,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8309,12 +8416,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8337,7 +8444,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kPlop,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8357,12 +8464,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement;
+  msrPlacementKind placementKind = k_NoPlacement;
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;    
+    placementKind = kBelowPlacement;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8385,7 +8492,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
       msrArticulation::create (
         elt->getInputLineNumber (),
         msrArticulation::kScoop,
-        placement);
+        placementKind);
       
   fCurrentArticulations.push_back (articulation);
 }
@@ -8437,12 +8544,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement; // default value
+  msrPlacementKind placementKind = k_NoPlacement; // default value
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;
+    placementKind = kBelowPlacement;
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8467,12 +8574,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
   
   string directionString = elt->getAttributeValue ("direction");
 
-  msrDirection direction = k_NoDirection; // default value
+  msrDirectionKind directionKind = k_NoDirection; // default value
   
   if      (directionString == "up")
-    direction = kUpDirection;
+    directionKind = kUpDirection;
   else if (directionString == "down")
-    direction = kDownDirection;
+    directionKind = kDownDirection;
   else {
     if (directionString.size ()) {
       stringstream s;
@@ -8494,8 +8601,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
     arpeggiato =
       msrArpeggiato::create (
         inputLineNumber,
-        placement,
-        direction,
+        placementKind,
+        directionKind,
         number);
       
   fCurrentArticulations.push_back (arpeggiato);
@@ -8535,12 +8642,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacement placement = k_NoPlacement; // default value
+  msrPlacementKind placementKind = k_NoPlacement; // default value
 
   if      (placementString == "above")
-    placement = kAbovePlacement;
+    placementKind = kAbovePlacement;
   else if (placementString == "below")
-    placement = kBelowPlacement;
+    placementKind = kBelowPlacement;
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8597,7 +8704,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
     nonArpeggiato =
       msrNonArpeggiato::create (
         inputLineNumber,
-        placement,
+        placementKind,
         nonArpeggiatoTypeKind,
         number);
       
@@ -8636,16 +8743,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_arrow& elt )
     
   string placement = elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    arrowPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    arrowPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    arrowPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    arrowPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    arrowPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    arrowPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -8704,18 +8808,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_bend& elt )
 
   string placement = elt->getAttributeValue ("placement");
 
-  msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
-    bendPlacementKind =
-      msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement;
+  msrPlacementKind
+    bendPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    bendPlacementKind = msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove;
-    
+    bendPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    bendPlacementKind = msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow;
-    
+    bendPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -8755,18 +8855,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_double_tongue& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    doubleTonguePlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    doubleTonguePlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    doubleTonguePlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    doubleTonguePlacementKind = kAbovePlacement;
   else if (placement == "below")
-    doubleTonguePlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    doubleTonguePlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -8805,18 +8901,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_down_bow& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    downBowPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    downBowPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    downBowPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    downBowPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    downBowPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    downBowPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -8855,20 +8947,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
 
   string placement = elt->getAttributeValue ("placement");
 
-  msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
-    fingeringPlacementKind =
-      msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement;
+  msrPlacementKind
+    fingeringPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    fingeringPlacementKind =
-      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove;
-    
+    fingeringPlacementKind = kAbovePlacement;    
   else if (placement == "below")
-    fingeringPlacementKind =
-      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    fingeringPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -8908,18 +8994,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingernails& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    fingernailsPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    fingernailsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    fingernailsPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    fingernailsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    fingernailsPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    fingernailsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -8958,20 +9040,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
     
   string placement = elt->getAttributeValue ("placement");
 
-  msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
-    fretPlacementKind =
-      msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement;
+  msrPlacementKind
+    fretPlacementKind =  k_NoPlacement;
 
   if      (placement == "above")
-    fretPlacementKind =
-      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove;
-    
+    fretPlacementKind = kAbovePlacement;    
   else if (placement == "below")
-    fretPlacementKind =
-      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow;
-    
+    fretPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9011,20 +9087,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
     
   string placement = elt->getAttributeValue ("placement");
 
-  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
-    hammerOnPlacementKind =
-      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
+  msrPlacementKind
+    hammerOnPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    hammerOnPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
-    
+    hammerOnPlacementKind = kAbovePlacement;    
   else if (placement == "below")
-    hammerOnPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
-    
+    hammerOnPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9066,20 +9136,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
-    handbellPlacementKind =
-      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
+  msrPlacementKind
+    handbellPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    handbellPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
-    
+    handbellPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    handbellPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
-    
+    handbellPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9119,18 +9183,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmonic& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    harmonicPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    harmonicPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    harmonicPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    harmonicPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    harmonicPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    harmonicPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -9169,18 +9229,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_heel& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    heelPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    heelPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    heelPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    heelPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    heelPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    heelPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9219,18 +9275,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_hole& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    holePlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    holePlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    holePlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    holePlacementKind = kAbovePlacement;
   else if (placement == "below")
-    holePlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    holePlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9269,18 +9321,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_open_string& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    openStringPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    openStringPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    openStringPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    openStringPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    openStringPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    openStringPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -9321,20 +9369,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_technical& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
-    otherTechnicalWithStringPlacementKind =
-      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
+  msrPlacementKind
+    otherTechnicalWithStringPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    otherTechnicalWithStringPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
-    
+    otherTechnicalWithStringPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    otherTechnicalWithStringPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    otherTechnicalWithStringPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -9376,20 +9418,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_pluck& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
-    pluckPlacementKind =
-      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
+  msrPlacementKind
+    pluckPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    pluckPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
-    
+    pluckPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    pluckPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    pluckPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -9431,20 +9467,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnicalWithString::msrTechnicalWithStringPlacementKind
-    pullOffPlacementKind =
-      msrTechnicalWithString::k_NoTechnicalWithStringPlacement;
+  msrPlacementKind
+    pullOffPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    pullOffPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementAbove;
-    
+    pullOffPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    pullOffPlacementKind =
-      msrTechnicalWithString::kTechnicalWithStringPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    pullOffPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -9484,18 +9514,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    snapPizzicatoPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    snapPizzicatoPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    snapPizzicatoPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    snapPizzicatoPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    snapPizzicatoPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    snapPizzicatoPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -9534,18 +9560,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_stopped& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    stoppedPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    stoppedPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    stoppedPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    stoppedPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    stoppedPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    stoppedPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -9613,18 +9635,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
   
   string placement = elt->getAttributeValue ("placement");
 
-  msrTechnicalWithInteger::msrTechnicalWithIntegerPlacementKind
-    stringPlacementKind =
-      msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement;
+  msrPlacementKind
+    stringPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    stringPlacementKind =
-      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove;
-    
+    stringPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    stringPlacementKind =
-      msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow;
-    
+    stringPlacementKind = kBelowPlacement;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -9665,18 +9682,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_tap& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    tapPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    tapPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    tapPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    tapPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    tapPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    tapPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -9715,18 +9728,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_thumb_position& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    thumbPositionPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    thumbPositionPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    thumbPositionPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    thumbPositionPlacementKind = kAbovePlacement;    
   else if (placement == "below")
-    thumbPositionPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    thumbPositionPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9765,18 +9774,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_toe& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    toePlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    toePlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    toePlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    toePlacementKind = kAbovePlacement;    
   else if (placement == "below")
-    toePlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    toePlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9815,18 +9820,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_triple_tongue& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    tripleTonguePlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    tripleTonguePlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    tripleTonguePlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    tripleTonguePlacementKind = kAbovePlacement;    
   else if (placement == "below")
-    tripleTonguePlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    tripleTonguePlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9865,18 +9866,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_up_bow& elt )
     placement =
       elt->getAttributeValue ("placement");
 
-  msrTechnical::msrTechnicalPlacementKind
-    upBowPlacementKind =
-      msrTechnical::k_NoTechnicalPlacement;
+  msrPlacementKind
+    upBowPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    upBowPlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    upBowPlacementKind = kAbovePlacement;    
   else if (placement == "below")
-    upBowPlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    upBowPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -9966,15 +9963,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
   
   string fermataTypeValue = elt->getAttributeValue ("type");
   
-  msrFermata::msrFermataType
-    fermataType =
+  msrFermata::msrFermataTypeKind
+    fermataTypeKind =
       msrFermata::k_NoFermataType; // default value
 
   if      (fermataTypeValue == "upright")
-    fermataType = msrFermata::kUprightFermataType;
+    fermataTypeKind = msrFermata::kUprightFermataType;
     
   else if (fermataTypeValue == "inverted")
-    fermataType = msrFermata::kInvertedFermataType;
+    fermataTypeKind = msrFermata::kInvertedFermataType;
     
   else {
     if (fermataTypeValue.size ()) {
@@ -9998,7 +9995,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
       msrFermata::create (
         inputLineNumber,
         fermataKind,
-        fermataType);
+        fermataTypeKind);
         
   fCurrentArticulations.push_back (fermata);
 }
@@ -10078,16 +10075,16 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
   
   string tremoloType = elt->getAttributeValue ("type");
 
-  fCurrentMusicXMLTremoloType = kSingleTremolo; // default value
+  fCurrentMusicXMLTremoloTypeKind = kSingleTremolo; // default value
     
   if      (tremoloType == "single")
-    fCurrentMusicXMLTremoloType = kSingleTremolo;
+    fCurrentMusicXMLTremoloTypeKind = kSingleTremolo;
     
   else if (tremoloType == "start")
-    fCurrentMusicXMLTremoloType = kStartTremolo;
+    fCurrentMusicXMLTremoloTypeKind = kStartTremolo;
     
   else if (tremoloType == "stop")
-    fCurrentMusicXMLTremoloType = kStopTremolo;
+    fCurrentMusicXMLTremoloTypeKind = kStopTremolo;
     
   else if (tremoloType.size ()) {
     stringstream s;
@@ -10107,48 +10104,42 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     tremoloPlacement =
       elt->getAttributeValue ("placement");
 
-  msrSingleTremolo::msrSingleTremoloPlacementKind
-    singleTremoloPlacementKind =
-      msrSingleTremolo::k_NoSingleTremoloPlacement;
+  msrPlacementKind
+    singleTremoloPlacementKind = k_NoPlacement;
       
-  msrDoubleTremolo::msrDoubleTremoloPlacementKind
-    doubleTremoloPlacementKind =
-      msrDoubleTremolo::k_NoDoubleTremoloPlacement;
+  msrPlacementKind
+    doubleTremoloPlacementKind = k_NoPlacement;
 
   if      (tremoloPlacement == "above") {
-    switch (fCurrentMusicXMLTremoloType) {
+    switch (fCurrentMusicXMLTremoloTypeKind) {
       case k_NoTremolo:
         // just to avoid a compiler message
         break;
         
       case kSingleTremolo:
-        singleTremoloPlacementKind =
-          msrSingleTremolo::kSingleTremoloPlacementAbove;
+        singleTremoloPlacementKind = kAbovePlacement;
         break;
         
       case kStartTremolo:
       case kStopTremolo:
-        doubleTremoloPlacementKind =
-          msrDoubleTremolo::kDoubleTremoloPlacementAbove;
+        doubleTremoloPlacementKind = kAbovePlacement;
         break;
     } // switch
   }
   
   else if (tremoloPlacement == "below") {
-    switch (fCurrentMusicXMLTremoloType) {
+    switch (fCurrentMusicXMLTremoloTypeKind) {
       case k_NoTremolo:
         // just to avoid a compiler message
         break;
         
       case kSingleTremolo:
-        singleTremoloPlacementKind =
-          msrSingleTremolo::kSingleTremoloPlacementBelow;
+        singleTremoloPlacementKind = kBelowPlacement;
         break;
         
       case kStartTremolo:
       case kStopTremolo:
-        doubleTremoloPlacementKind =
-          msrDoubleTremolo::kDoubleTremoloPlacementBelow;
+        doubleTremoloPlacementKind = kBelowPlacement;
         break;
     } // switch
   }
@@ -10168,7 +10159,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       s.str ());    
   }
 
-  switch (fCurrentMusicXMLTremoloType) {
+  switch (fCurrentMusicXMLTremoloTypeKind) {
     case k_NoTremolo:
       // just to avoid a compiler message
       break;
@@ -10190,7 +10181,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
           singularOrPlural (
             tremoloMarksNumber, "mark", "marks") <<
           ", placement : " <<
-          msrSingleTremolo::singleTremoloPlacementKindAsString (
+          msrPlacementKindAsString (
             singleTremoloPlacementKind) <<
           endl;
       }
@@ -10222,7 +10213,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
             singularOrPlural (
               tremoloMarksNumber, "mark", "marks") <<
             ", placement : " <<
-            msrDoubleTremolo::doubleTremoloPlacementKindAsString (
+            msrPlacementKindAsString (
               doubleTremoloPlacementKind) <<
             endl;
         }
@@ -10289,11 +10280,43 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
       endl;
   }
 
- // type : upright inverted  (Binchois20.xml)
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+ // type : upright inverted  (Binchois20.xml) JMI
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kTrillMark);
+      msrOrnament::kTrillMark,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10325,18 +10348,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
   
   string wavyLineType = elt->getAttributeValue ("type");
   
-  fWavyLinePlacementKind =
-    msrTechnical::k_NoTechnicalPlacement;
+  fWavyLinePlacementKind = k_NoPlacement;
 
   if      (wavyLineType == "start")
-    fWavyLinePlacementKind = msrTechnical::kTechnicalPlacementAbove;
-    
+    fWavyLinePlacementKind = kAbovePlacement;
   else if (wavyLineType == "stop")
-    fWavyLinePlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    fWavyLinePlacementKind = kBelowPlacement;
   else if (wavyLineType == "continue")
-    fWavyLinePlacementKind = msrTechnical::kTechnicalPlacementBelow;
-    
+    fWavyLinePlacementKind = kBelowPlacement;
   else {
     if (wavyLineType.size ()) {
       stringstream s;
@@ -10362,19 +10381,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
   string placement =
     elt->getAttributeValue ("placement");
 
-  fCurrentOrnamentPlacementKind =
-    msrOrnament::k_NoOrnamentPlacement;
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    fCurrentOrnamentPlacementKind =
-      msrOrnament::kOrnamentPlacementAbove;
-    
+    ornamentPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    fCurrentOrnamentPlacementKind =
-      msrOrnament::kOrnamentPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -10391,7 +10405,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
   fCurrentOrnament =
     msrOrnament::create (
       inputLineNumber,
-      msrOrnament::kWavyLine);
+      msrOrnament::kWavyLine,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10404,10 +10419,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kTurn);
+      msrOrnament::kTurn,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10420,10 +10466,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kInvertedTurn);
+      msrOrnament::kInvertedTurn,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10436,10 +10513,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kDelayedTurn);
+      msrOrnament::kDelayedTurn,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10452,10 +10560,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kDelayedInvertedTurn);
+      msrOrnament::kDelayedInvertedTurn,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10468,10 +10607,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kVerticalTurn);
+      msrOrnament::kVerticalTurn,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10484,10 +10654,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kMordent);
+      msrOrnament::kMordent,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10500,10 +10701,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kInvertedMordent);
+      msrOrnament::kInvertedMordent,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10516,10 +10748,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kSchleifer);
+      msrOrnament::kSchleifer,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10532,10 +10795,41 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kShake);
+      msrOrnament::kShake,
+      ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (fCurrentOrnament);
 }
@@ -10554,7 +10848,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
   string accidentalMark =
     elt->getValue ();
 
-  msrAlteration
+  msrAlterationKind
     currentOrnamentAccidentalMark;
     
   if      (accidentalMark == "double-flat")
@@ -10603,19 +10897,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
   string placement =
     elt->getAttributeValue ("placement");
 
-  fCurrentOrnamentPlacementKind =
-    msrOrnament::k_NoOrnamentPlacement;
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    fCurrentOrnamentPlacementKind =
-      msrOrnament::kOrnamentPlacementAbove;
-    
+    ornamentPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    fCurrentOrnamentPlacementKind =
-      msrOrnament::kOrnamentPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -10632,11 +10921,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
   fCurrentOrnament =
     msrOrnament::create (
       elt->getInputLineNumber (),
-      msrOrnament::kAccidentalMark);
-      
-  fCurrentOrnament->
-    setOrnamentPlacementKind (
-      fCurrentOrnamentPlacementKind);
+      msrOrnament::kAccidentalMark,
+      ornamentPlacementKind);
       
   fCurrentOrnament->
     setOrnamentAccidentalMarkKind (
@@ -10746,22 +11032,19 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
 
   int inputLineNumber =
     elt->getInputLineNumber ();
-    
+
+  // placement
+  
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -10800,18 +11083,13 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -10850,18 +11128,13 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -10900,18 +11173,13 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -10950,18 +11218,13 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11000,18 +11263,13 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11051,18 +11309,13 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11101,18 +11354,13 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11151,18 +11399,13 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11201,18 +11444,13 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11251,18 +11489,13 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;    
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11301,18 +11534,13 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11353,18 +11581,13 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11403,18 +11626,13 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11454,18 +11672,13 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11504,18 +11717,13 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11555,18 +11763,13 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11606,18 +11809,13 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11657,20 +11855,14 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -11708,20 +11900,14 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    dynamicsPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -11759,20 +11945,14 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
-  else if (placement.size ()) {
-    
+    dynamicsPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {    
     stringstream s;
     
     s <<
@@ -11810,20 +11990,14 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
-    
     stringstream s;
     
     s <<
@@ -11861,18 +12035,13 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
   string placement =
     elt->getAttributeValue ("placement");
 
-  msrDynamics::msrDynamicsPlacementKind
-    dynamicsPlacementKind =
-      msrDynamics::k_NoDynamicsPlacement;
+  msrPlacementKind
+    dynamicsPlacementKind = k_NoPlacement;
 
   if      (placement == "above")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementAbove;
-    
+    dynamicsPlacementKind = kAbovePlacement;
   else if (placement == "below")
-    dynamicsPlacementKind =
-      msrDynamics::kDynamicsPlacementBelow;
-    
+    dynamicsPlacementKind = kBelowPlacement;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12500,7 +12669,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
 
 */
   //  fLogOutputStream << "--> mxmlTree2MsrTranslator::visitStart ( S_rest& elt ) " <<endl;
-  fCurrentNoteQuarterTonesPitch = k_Rest;
+  fCurrentNoteQuarterTonesPitchKind = k_Rest;
   fCurrentNoteIsARest = true;
 
   string restMeasure = elt->getAttributeValue ("measure");
@@ -12540,12 +12709,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_display_step& elt)
     elt->getInputLineNumber (),
     displayStep);
 
-  fCurrentDisplayDiatonicPitch =
-    msrDiatonicPitchFromString (displayStep [0]);
+  fCurrentDisplayDiatonicPitchKind =
+    msrDiatonicPitchKindFromString (
+      displayStep [0]);
 
   // pitched rests don't allow for alterations since
   // the display-step merely indicates where to place them on the staff
-  fCurrentNoteAlteration = kNatural;
+  fCurrentNoteAlterationKind = kNatural;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_display_octave& elt)
@@ -12605,7 +12775,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
         inputLineNumber,
         chordFirstNote->getNoteSoundingWholeNotes (),
         chordFirstNote->getNoteDisplayWholeNotes (),
-        chordFirstNote->getNoteGraphicDuration ());
+        chordFirstNote->getNoteGraphicDurationKind ());
   
   // chord's tie kind is that of its first note
   chord->
@@ -13881,22 +14051,22 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     elt->getInputLineNumber ();
 
   // determine quarter tones note pitch
-  fCurrentNoteQuarterTonesPitch =
-    quarterTonesPitchFromDiatonicPitchAndAlteration (
+  fCurrentNoteQuarterTonesPitchKind =
+    quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       inputLineNumber,
-      fCurrentNoteDiatonicPitch,
-      fCurrentNoteAlteration);
+      fCurrentNoteDiatonicPitchKind,
+      fCurrentNoteAlterationKind);
 
   // determine quarter tones note display pitch
-  fCurrentNoteQuarterTonesDisplayPitch =
-    quarterTonesPitchFromDiatonicPitchAndAlteration (
+  fCurrentNoteQuarterTonesDisplayPitchKind =
+    quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       inputLineNumber,
-      fCurrentDisplayDiatonicPitch,
-      fCurrentNoteAlteration);
+      fCurrentDisplayDiatonicPitchKind,
+      fCurrentNoteAlterationKind);
 
   // has the current note graphic duration been specified
   // in a '<type>' markup?
-  switch (fCurrentNoteGraphicDuration) {
+  switch (fCurrentNoteGraphicDurationKind) {
     case k_NoDuration:
       // use the same duration as the one from the duration
       // internally ??? JMI
@@ -13907,8 +14077,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     default:
       // convert note graphic duration into whole notes
       fCurrentNoteDisplayWholeNotesFromType =
-        msrDurationAsWholeNotes (
-          fCurrentNoteGraphicDuration);
+        msrDurationKindAsWholeNotes (
+          fCurrentNoteGraphicDurationKind);
     
       // take dots into account if any
       if (fCurrentNoteDotsNumber > 0) {
@@ -13963,8 +14133,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       endl <<
       setw (fieldWidth) <<
       "fCurrentNoteGraphicDuration" << " : " <<
-        msrDurationAsString (
-          fCurrentNoteGraphicDuration) <<
+        msrDurationKindAsString (
+          fCurrentNoteGraphicDurationKind) <<
       endl <<
       setw (fieldWidth) <<
       "fCurrentNoteDotsNumber" << " : " <<
@@ -14040,11 +14210,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
   
   else if (
-    fCurrentMusicXMLTremoloType == kStartTremolo
+    fCurrentMusicXMLTremoloTypeKind == kStartTremolo
      ||
-     fCurrentMusicXMLTremoloType == kStopTremolo) {
+     fCurrentMusicXMLTremoloTypeKind == kStopTremolo) {
     // double tremolo note
-    if (fCurrentNoteGraphicDuration == k_NoDuration) {
+    if (fCurrentNoteGraphicDurationKind == k_NoDuration) {
       stringstream s;
 
       s <<
@@ -14132,18 +14302,18 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         msrNote::k_NoNoteKind,
           // will be set by 'setNoteKind()' when it becomes known later
         
-        fCurrentNoteQuarterTonesPitch,
+        fCurrentNoteQuarterTonesPitchKind,
         
         fCurrentNoteSoundingWholeNotes,
         fCurrentNoteDisplayWholeNotes,
         
         fCurrentNoteDotsNumber,
         
-        fCurrentNoteGraphicDuration,
+        fCurrentNoteGraphicDurationKind,
         
         fCurrentNoteOctave,
         
-        fCurrentNoteQuarterTonesDisplayPitch,
+        fCurrentNoteQuarterTonesDisplayPitchKind,
         fCurrentDisplayOctave,
         
         fCurrentNoteIsARest,
@@ -14158,6 +14328,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteHeadParenthesesKind);
 
   // set note accidentals
+  newNote->
+    setNoteAccidentalKind (
+      fCurrentNoteAccidentalKind);
+
   newNote->
     setNoteEditorialAccidentalKind (
       fCurrentNoteEditorialAccidentalKind);
@@ -14189,29 +14363,29 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentPart->getPartCombinedName () <<
         endl <<
         setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
-        msrDiatonicPitchAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-          fCurrentHarmonyRootDiatonicPitch) <<
+        msrDiatonicPitchKindAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+          fCurrentHarmonyRootDiatonicPitchKind) <<
         endl <<
         setw (fieldWidth) << "fCurrentHarmonyRootAlteration" << " = " <<
-        msrAlterationAsString(
-          fCurrentHarmonyRootAlteration) <<
+        msrAlterationKindAsString(
+          fCurrentHarmonyRootAlterationKind) <<
         endl <<
         setw (fieldWidth) << "fCurrentHarmonyKind" << " = " <<
-        harmonyKindAsString (
+        msrHarmonyKindAsString (
           fCurrentHarmonyKind) <<
         endl <<
         setw (fieldWidth) << "fCurrentHarmonyKindText" << " = " <<
         fCurrentHarmonyKindText <<
         endl <<
         setw (fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
-        msrDiatonicPitchAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-          fCurrentHarmonyBassDiatonicPitch) <<
+        msrDiatonicPitchKindAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+          fCurrentHarmonyBassDiatonicPitchKind) <<
         endl <<
         setw (fieldWidth) << "fCurrentHarmonyBassAlteration" << " = " <<
-        msrAlterationAsString(
-          fCurrentHarmonyBassAlteration) <<
+        msrAlterationKindAsString(
+          fCurrentHarmonyBassAlterationKind) <<
         endl;
           
       gIndenter--;
@@ -14223,14 +14397,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           fCurrentHarmonyInputLineNumber,
           fCurrentPart,
           
-          fCurrentHarmonyRootQuarterTonesPitch,
+          fCurrentHarmonyRootQuarterTonesPitchKind,
           
           fCurrentHarmonyKind,
           fCurrentHarmonyKindText,
 
           fCurrentHarmonyInversion,
           
-          fCurrentHarmonyBassQuarterTonesPitch,
+          fCurrentHarmonyBassQuarterTonesPitchKind,
           
           fCurrentNoteSoundingWholeNotes);
 
@@ -14508,9 +14682,9 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
   
   else if (
-    fCurrentMusicXMLTremoloType == kStartTremolo
+    fCurrentMusicXMLTremoloTypeKind == kStartTremolo
       ||
-    fCurrentMusicXMLTremoloType == kStopTremolo) {
+    fCurrentMusicXMLTremoloTypeKind == kStopTremolo) {
     // double tremolo note
     newNote->
       setNoteKind (msrNote::kDoubleTremoloMemberNote);
@@ -14626,10 +14800,10 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       appendNoteToGraceNotes (newNote);
   }
 
-  else if (fCurrentMusicXMLTremoloType != k_NoTremolo) {
+  else if (fCurrentMusicXMLTremoloTypeKind != k_NoTremolo) {
     // newNote belongs to a tremolo
 
-    switch (fCurrentMusicXMLTremoloType) {
+    switch (fCurrentMusicXMLTremoloTypeKind) {
       case k_NoTremolo:
         // just to avoid a compiler message
         break;
@@ -15856,7 +16030,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
           msrBarline::kStartEndingType,
           fCurrentBarlineEndingNumber,
           msrBarline::kForwardRepeatDirection,
-          fCurrentBarlineRepeatWinged);
+          fCurrentBarlineRepeatWingedKind);
 
     // set the implicit barline category
     implicitBarline->
@@ -16238,17 +16412,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmony& elt )
       endl;
   }
 
-  fPendingHarmony                  = true;
-  fCurrentHarmonyInputLineNumber   = elt->getInputLineNumber ();
-  fCurrentHarmonyRootDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentHarmonyRootAlteration    = kNatural;
-  fCurrentHarmonyKind              = k_NoHarmony;
-  fCurrentHarmonyKindText          = "";
-  fCurrentHarmonyInversion         = K_HARMONY_NO_INVERSION;
-  fCurrentHarmonyBassDiatonicPitch = k_NoDiatonicPitch;
-  fCurrentHarmonyBassAlteration    = kNatural;
-  fCurrentHarmonyDegreeValue       = -1;
-  fCurrentHarmonyDegreeAlteration  = kNatural;
+  fPendingHarmony                      = true;
+  fCurrentHarmonyInputLineNumber       = elt->getInputLineNumber ();
+  fCurrentHarmonyRootDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentHarmonyRootAlterationKind    = kNatural;
+  fCurrentHarmonyKind                  = k_NoHarmony;
+  fCurrentHarmonyKindText              = "";
+  fCurrentHarmonyInversion             = K_HARMONY_NO_INVERSION;
+  fCurrentHarmonyBassDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentHarmonyBassAlterationKind    = kNatural;
+  fCurrentHarmonyDegreeValue           = -1;
+  fCurrentHarmonyDegreeAlterationKind  = kNatural;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_root_step& elt )
@@ -16265,8 +16439,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_root_step& elt )
     elt->getInputLineNumber (),
     step);
      
-  fCurrentHarmonyRootDiatonicPitch =
-    msrDiatonicPitchFromString (step [0]);
+  fCurrentHarmonyRootDiatonicPitchKind =
+    msrDiatonicPitchKindFromString (
+      step [0]);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_root_alter& elt )
@@ -16279,11 +16454,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_root_alter& elt )
 
   float rootAlter = (float)(*elt);
 
-  fCurrentHarmonyRootAlteration =
-    msrAlterationFromMusicXMLAlter (
+  fCurrentHarmonyRootAlterationKind =
+    msrAlterationKindFromMusicXMLAlter (
       rootAlter);
       
-  if (fCurrentHarmonyRootAlteration == k_NoAlteration) {
+  if (fCurrentHarmonyRootAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -16575,8 +16750,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_bass_step& elt )
     elt->getInputLineNumber (),
     step);
 
-  fCurrentHarmonyBassDiatonicPitch =
-    msrDiatonicPitchFromString (step [0]);
+  fCurrentHarmonyBassDiatonicPitchKind =
+    msrDiatonicPitchKindFromString (
+      step [0]);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_bass_alter& elt )
@@ -16589,11 +16765,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_bass_alter& elt )
 
   float bassAlter = (float)(*elt);
 
-  fCurrentHarmonyBassAlteration =
-    msrAlterationFromMusicXMLAlter (
+  fCurrentHarmonyBassAlterationKind =
+    msrAlterationKindFromMusicXMLAlter (
       bassAlter);
       
-  if (fCurrentHarmonyBassAlteration == k_NoAlteration) {
+  if (fCurrentHarmonyBassAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -16674,11 +16850,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_alter& elt )
 
   float degreeAlter = (float)(*elt);
 
-  fCurrentHarmonyDegreeAlteration =
-    msrAlterationFromMusicXMLAlter (
+  fCurrentHarmonyDegreeAlterationKind =
+    msrAlterationKindFromMusicXMLAlter (
       degreeAlter);
       
-  if (fCurrentHarmonyDegreeAlteration == k_NoAlteration) {
+  if (fCurrentHarmonyDegreeAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -16736,7 +16912,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_degree& elt )
       msrHarmonyDegree::create (
         elt->getInputLineNumber (),
         fCurrentHarmonyDegreeValue,
-        fCurrentHarmonyDegreeAlteration,
+        fCurrentHarmonyDegreeAlterationKind,
         fCurrentHarmonyDegreeTypeKind);
 
   // register it in current harmony degrees list
@@ -16756,18 +16932,18 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
     elt->getInputLineNumber ();
   
   // convert root diatonic pitch to a quarter tone pitch
-  fCurrentHarmonyRootQuarterTonesPitch =
-    quarterTonesPitchFromDiatonicPitchAndAlteration (
+  fCurrentHarmonyRootQuarterTonesPitchKind =
+    quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       inputLineNumber,
-      fCurrentHarmonyRootDiatonicPitch,
-      fCurrentHarmonyRootAlteration);
+      fCurrentHarmonyRootDiatonicPitchKind,
+      fCurrentHarmonyRootAlterationKind);
 
   // convert bass diatonic pitch to a quarter tone pitch
-  fCurrentHarmonyBassQuarterTonesPitch =
-    quarterTonesPitchFromDiatonicPitchAndAlteration (
+  fCurrentHarmonyBassQuarterTonesPitchKind =
+    quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       inputLineNumber,
-      fCurrentHarmonyBassDiatonicPitch,
-      fCurrentHarmonyBassAlteration);
+      fCurrentHarmonyBassDiatonicPitchKind,
+      fCurrentHarmonyBassAlterationKind);
 
   // check data consistency
   if (
@@ -16780,25 +16956,25 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
   }
 
   if (
-    fCurrentHarmonyRootQuarterTonesPitch
+    fCurrentHarmonyRootQuarterTonesPitchKind
       ==
-    fCurrentHarmonyBassQuarterTonesPitch) {
+    fCurrentHarmonyBassQuarterTonesPitchKind) {
     stringstream s;
 
     s <<
       "harmony root and bass notes are both equal to '" <<
-      msrDiatonicPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        msrDiatonicPitchFromQuarterTonesPitch (
+      msrDiatonicPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        diatonicPitchKindFromQuarterTonesPitchKind (
           inputLineNumber,
-          fCurrentHarmonyRootQuarterTonesPitch)) <<        
+          fCurrentHarmonyRootQuarterTonesPitchKind)) <<        
       "', ignoring the latter";
 
     msrMusicXMLWarning (
      inputLineNumber,
      s.str ());
 
-    fCurrentHarmonyBassQuarterTonesPitch =
+    fCurrentHarmonyBassQuarterTonesPitchKind =
       k_NoQuarterTonesPitch;
   }
 }
@@ -17143,8 +17319,8 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_step& elt )
     elt->getInputLineNumber (),
     tuningStep);
 
-  fCurrentHarpPedalDiatonicPitch =
-    msrDiatonicPitchFromString (
+  fCurrentHarpPedalDiatonicPitchKind =
+    msrDiatonicPitchKindFromString (
       tuningStep [0]);
 }
 
@@ -17158,11 +17334,11 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_alter& elt )
 
   float tuningAlter = (float)(*elt);
 
-  fCurrentHarpPedalAlteration =
-    msrAlterationFromMusicXMLAlter (
+  fCurrentHarpPedalAlterationKind =
+    msrAlterationKindFromMusicXMLAlter (
       tuningAlter);
       
-  if (fCurrentHarpPedalAlteration == k_NoAlteration) {
+  if (fCurrentHarpPedalAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
@@ -17201,14 +17377,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
     fLogOutputStream << left <<
       setw (fieldWidth) <<
       "fCurrentHarpPedalDiatonicPitch" << " = " <<
-      msrDiatonicPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fCurrentHarpPedalDiatonicPitch) <<
+      msrDiatonicPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        fCurrentHarpPedalDiatonicPitchKind) <<
       endl <<
       setw (fieldWidth) <<
       "fCurrentHarpPedalAlteration" << " = " <<
-      msrAlterationAsString (
-        fCurrentHarpPedalAlteration) <<
+      msrAlterationKindAsString (
+        fCurrentHarpPedalAlterationKind) <<
       endl;
 
     gIndenter--;
@@ -17217,8 +17393,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
   fCurrentHarpPedalsTuning->
     addPedalTuning (
       inputLineNumber,
-      fCurrentHarpPedalDiatonicPitch,
-      fCurrentHarpPedalAlteration);
+      fCurrentHarpPedalDiatonicPitchKind,
+      fCurrentHarpPedalAlterationKind);
 }
 
 //________________________________________________________________________

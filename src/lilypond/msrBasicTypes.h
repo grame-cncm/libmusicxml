@@ -21,8 +21,6 @@
 #include "rational.h"
 
 
-using namespace std;
-
 namespace MusicXML2 
 {
 
@@ -61,35 +59,35 @@ namespace MusicXML2
 
 // diatonic pitches
 //______________________________________________________________________________
-enum msrDiatonicPitch {
+enum msrDiatonicPitchKind {
   // starting at C for LilyPond relative octave calculations
   kC, kD, kE, kF, kG, kA, kB,
   k_NoDiatonicPitch };
 
-msrDiatonicPitch msrDiatonicPitchFromString (
+msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   char diatonicNoteName);
   
-string msrDiatonicPitchAsString (
-  msrDiatonicPitch diatonicPitch);
+string msrDiatonicPitchKindAsString (
+  msrDiatonicPitchKind diatonicPitchKind);
 
 // alterations
 //______________________________________________________________________________
-enum msrAlteration {
+enum msrAlterationKind {
   k_NoAlteration,
   
   kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
   kNatural,
   kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp };
 
-msrAlteration msrAlterationFromMusicXMLAlter (
+msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   float alter);
 
-string msrAlterationAsString (
-  msrAlteration alteration);
+string msrAlterationKindAsString (
+  msrAlterationKind alterationKind);
 
 // intervals
 //______________________________________________________________________________
-enum msrInterval {
+enum msrIntervalKind {
   kDiminishedUnisson, kUnisson, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
@@ -116,20 +114,20 @@ enum msrInterval {
   
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
-int msrIntervalAsSemiTones (
-  msrInterval interval);
+int msrIntervalKindAsSemiTones (
+  msrIntervalKind intervalKind);
   
-int msrIntervalAsQuarterTones (
-  msrInterval interval);
+int msrIntervalKindAsQuarterTones (
+  msrIntervalKind intervalKind);
   
-string msrIntervalAsString (
-  msrInterval interval);
+string msrIntervalKindAsString (
+  msrIntervalKind intervaKindl);
       
-string msrIntervalAsShortString (
-  msrInterval interval);
+string msrIntervalKindAsShortString (
+  msrIntervalKind intervalKind);
 
-msrInterval invertInterval (
-  msrInterval interval);
+msrIntervalKind invertIntervalKind (
+  msrIntervalKind intervalKind);
 
 // harmonies
 //______________________________________________________________________________
@@ -296,10 +294,10 @@ enum msrHarmonyKind {
   kOtherHarmony,
   kNoneHarmony };
 
-string harmonyKindAsString (
+string msrHarmonyKindAsString (
   msrHarmonyKind harmonyKind);
 
-string harmonyKindAsShortString (
+string msrHarmonyKindAsShortString (
   msrHarmonyKind harmonyKind);
 
 // constant
@@ -307,7 +305,7 @@ const int K_HARMONY_NO_INVERSION = -1;
 
 // quarter tones pitches
 //______________________________________________________________________________
-enum msrQuarterTonesPitch {
+enum msrQuarterTonesPitchKind {
   k_NoQuarterTonesPitch,
 
   k_Rest,
@@ -340,40 +338,40 @@ enum msrQuarterTonesPitch {
   k_gNatural,
   k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp };
 
-void setDiatonicPitchAndAlteration (
-  msrQuarterTonesPitch quarterTonesPitch,
-  msrDiatonicPitch&    diatonicPitch,
-  msrAlteration&       alteration);
+void setDiatonicPitchKindAndAlterationKind (
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  msrDiatonicPitchKind&    diatonicPitchKind,
+  msrAlterationKind&       alterationKind);
 
-msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
-  int              inputLineNumber,
-  msrDiatonicPitch diatonicPitch,
-  msrAlteration    alteration);
-
-msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
+msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
   int                  inputLineNumber,
-  msrQuarterTonesPitch quarterTonesPitch);
+  msrDiatonicPitchKind diatonicPitchKind,
+  msrAlterationKind    alterationKind);
+
+msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
+  int                      inputLineNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind);
 
 // quarter tones pitches languages
 //______________________________________________________________________________
-enum msrQuarterTonesPitchesLanguage {
+enum msrQuarterTonesPitchesLanguageKind {
   kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
   kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams };
   
-string msrQuarterTonesPitchesLanguageAsString (
-  msrQuarterTonesPitchesLanguage language);
+string msrQuarterTonesPitchesLanguageKindAsString (
+  msrQuarterTonesPitchesLanguageKind languageKind);
 
-string msrDiatonicPitchAsString ( // JMI
-  msrQuarterTonesPitchesLanguage language,
-  msrDiatonicPitch               diatonicPitch);
+string msrDiatonicPitchKindAsString ( // JMI
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrDiatonicPitchKind               diatonicPitchKind);
 
-string msrQuarterTonesPitchAsString (
-  msrQuarterTonesPitchesLanguage language,
-  msrQuarterTonesPitch           quarterTonesPitch);
+string msrQuarterTonesPitchKindAsString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrQuarterTonesPitchKind           quarterTonesPitchKind);
 
 // semi tones pitches
 //______________________________________________________________________________
-enum msrSemiTonesPitch {
+enum msrSemiTonesPitchKind {
   kC_Natural_STP, kB_Sharp_STP = kC_Natural_STP, kD_DoubleFlat_STP = kC_Natural_STP,
   
   kC_Sharp_STP, kB_DoubleSharp_STP = kC_Sharp_STP, kD_Flat_STP = kC_Sharp_STP,
@@ -400,19 +398,19 @@ enum msrSemiTonesPitch {
   
   k_NoWelTemperedPitch_STP };
   
-string msrSemiTonesPitchAsString (
-  msrSemiTonesPitch semiTonesPitch);
+string msrSemiTonesPitchKindAsString (
+  msrSemiTonesPitchKind semiTonesPitchKind);
 
-enum msrAlterationPreference {
+enum msrAlterationPreferenceKind {
   kPreferSharp, kPreferFlat };
   
-msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
-  msrSemiTonesPitch       semiTonesPitch,
-  msrAlterationPreference alterationPreference);
+msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
+  msrSemiTonesPitchKind       semiTonesPitchKind,
+  msrAlterationPreferenceKind alterationPreferenceKind);
 
 // fonts
 //______________________________________________________________________________
-class EXP msrFontSize : public smartable
+class msrFontSize : public smartable
 {
   public:
 
@@ -487,19 +485,19 @@ class EXP msrFontSize : public smartable
 typedef SMARTP<msrFontSize> S_msrFontSize;
 EXP ostream& operator<< (ostream& os, const S_msrFontSize& elt);
 
-enum msrFontStyle {
+enum msrFontStyleKind {
   k_NoFontStyle,
   kNormalFontStyle, KItalicFontStyle };
 
-string msrFontStyleAsString (
-  msrFontStyle fontStyle);
+string msrFontStyleKindAsString (
+  msrFontStyleKind fontStyleKind);
 
-enum msrFontWeight {
+enum msrFontWeightKind {
   k_NoFontWeight,
   kNormalFontWeight, kBoldFontWeight };
 
-string msrFontWeightAsString (
-  msrFontWeight tontWeight);
+string msrFontWeightKindAsString (
+  msrFontWeightKind tontWeightKind);
 
 // alignement
 //______________________________________________________________________________
@@ -519,59 +517,59 @@ string msrVerticalAlignmentKindAsString (
 
 // direction
 //______________________________________________________________________________
-enum msrDirection{
+enum msrDirectionKind {
   k_NoDirection,
-  kUpDirection, kDownDirection};
+  kUpDirection, kDownDirection };
 
-string msrDirectionAsString (
-  msrDirection direction);
+string msrDirectionKindAsString (
+  msrDirectionKind directionKind);
 
 // placement
 //______________________________________________________________________________
-enum msrPlacement {
+enum msrPlacementKind {
   k_NoPlacement,
   kAbovePlacement, kBelowPlacement };
 
-string msrPlacementAsString (
-  msrPlacement placement);
+string msrPlacementKindAsString (
+  msrPlacementKind placementKind);
 
 // global variables
 //______________________________________________________________________________
 
-extern map<string, msrQuarterTonesPitchesLanguage>
-  gQuarterTonesPitchesLanguagesMap;
+extern map<string, msrQuarterTonesPitchesLanguageKind>
+  gQuarterTonesPitchesLanguageKindsMap;
 
-extern map<msrQuarterTonesPitch, string> gNederlandsPitchName;
-extern map<msrQuarterTonesPitch, string> gCatalanPitchName;
-extern map<msrQuarterTonesPitch, string> gDeutschPitchName;
-extern map<msrQuarterTonesPitch, string> gEnglishPitchName;
-extern map<msrQuarterTonesPitch, string> gEspanolPitchName;
-extern map<msrQuarterTonesPitch, string> gFrancaisPitchName;
-extern map<msrQuarterTonesPitch, string> gItalianoPitchName;
-extern map<msrQuarterTonesPitch, string> gNorskPitchName;
-extern map<msrQuarterTonesPitch, string> gPortuguesPitchName;
-extern map<msrQuarterTonesPitch, string> gSuomiPitchName;
-extern map<msrQuarterTonesPitch, string> gSvenskaPitchName;
-extern map<msrQuarterTonesPitch, string> gVlaamsPitchName;
+extern map<msrQuarterTonesPitchKind, string> gNederlandsPitchName;
+extern map<msrQuarterTonesPitchKind, string> gCatalanPitchName;
+extern map<msrQuarterTonesPitchKind, string> gDeutschPitchName;
+extern map<msrQuarterTonesPitchKind, string> gEnglishPitchName;
+extern map<msrQuarterTonesPitchKind, string> gEspanolPitchName;
+extern map<msrQuarterTonesPitchKind, string> gFrancaisPitchName;
+extern map<msrQuarterTonesPitchKind, string> gItalianoPitchName;
+extern map<msrQuarterTonesPitchKind, string> gNorskPitchName;
+extern map<msrQuarterTonesPitchKind, string> gPortuguesPitchName;
+extern map<msrQuarterTonesPitchKind, string> gSuomiPitchName;
+extern map<msrQuarterTonesPitchKind, string> gSvenskaPitchName;
+extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchName;
 
-string existingQuarterTonesPitchesLanguages ();
+string existingQuarterTonesPitchesLanguageKinds ();
 
 // initialization
 //______________________________________________________________________________
-void initializeQuarterTonesPitchesLanguages ();
+void initializeQuarterTonesPitchesLanguageKinds ();
 
 // durations
 //______________________________________________________________________________
-enum msrDuration {
+enum msrDurationKind {
   // from longest to shortest for the algorithms
   kMaxima, kLong, kBreve, kWhole, kHalf, 
   kQuarter,
   kEighth, k16th, k32nd, k64th, k128th, k256th, k512th, k1024th,
   k_NoDuration };
 
-rational msrDurationAsWholeNotes (msrDuration duration);
+rational msrDurationKindAsWholeNotes (msrDurationKind durationKind);
 
-string msrDurationAsString (msrDuration duration);
+string msrDurationKindAsString (msrDurationKind durationKind);
 
 // whole notes
 //______________________________________________________________________________
@@ -611,7 +609,7 @@ string msrSlashUseStemsKindAsString (
   A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
-class EXP msrChordItem : public smartable
+class msrChordItem : public smartable
 {
   public:
 
@@ -619,9 +617,9 @@ class EXP msrChordItem : public smartable
     // ------------------------------------------------------
 
     static SMARTP<msrChordItem> create (
-      int         inputLineNumber,
-      int         chordItemNumber,
-      msrInterval chordItemInterval);
+      int             inputLineNumber,
+      int             chordItemNumber,
+      msrIntervalKind chordItemIntervalKind);
 
     /* JMI
     SMARTP<msrChordItem> createChordItemNewbornClone (
@@ -637,9 +635,9 @@ class EXP msrChordItem : public smartable
     // ------------------------------------------------------
 
     msrChordItem (
-      int         inputLineNumber,
-      int         chordItemNumber,
-      msrInterval chordItemInterval);
+      int             inputLineNumber,
+      int             chordItemNumber,
+      msrIntervalKind chordItemIntervalKind);
 
     virtual ~msrChordItem();
   
@@ -651,8 +649,8 @@ class EXP msrChordItem : public smartable
     int                   getChordItemNumber () const
                               { return fChordItemNumber; }
                               
-    msrInterval           getChordItemInterval () const
-                              { return fChordItemInterval; }
+    msrIntervalKind       getChordItemIntervalKind () const
+                              { return fChordItemIntervalKind; }
                               
     // services
     // ------------------------------------------------------
@@ -660,12 +658,12 @@ class EXP msrChordItem : public smartable
     int                   chordItemAsSemitones () const
                               {
                                 return
-                                  msrIntervalAsSemiTones (
-                                    fChordItemInterval);
+                                  msrIntervalKindAsSemiTones (
+                                    fChordItemIntervalKind);
                               }
     
-    string                chordItemIntervalAsString () const;
-    string                chordItemIntervalAsShortString () const;
+    string                chordItemIntervalKindAsString () const;
+    string                chordItemIntervalKindAsShortString () const;
     
     string                chordItemAsString () const;
    
@@ -690,7 +688,7 @@ class EXP msrChordItem : public smartable
     // ------------------------------------------------------
 
     int                   fChordItemNumber;
-    msrInterval           fChordItemInterval;
+    msrIntervalKind       fChordItemIntervalKind;
 };
 typedef SMARTP<msrChordItem> S_msrChordItem;
 EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
@@ -701,7 +699,7 @@ EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
   A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
-class EXP msrChordIntervals : public smartable
+class msrChordIntervals : public smartable
 {
   public:
 

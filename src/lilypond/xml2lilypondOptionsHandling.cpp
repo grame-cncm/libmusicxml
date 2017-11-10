@@ -190,7 +190,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
   switch (argumentsNumber) {
     case 1 :
       // register intput file name
-      fInputSourceName =
+      gGeneralOptions->fInputSourceName =
         fArgumentsVector [0];
       break;
 
@@ -211,7 +211,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
   // build potential output file name
   // ------------------------------------------------------
 
-  if (fInputSourceName == "-") {
+  if (gGeneralOptions->fInputSourceName == "-") {
     // keep fOutputFileName empty for now
   }
   else {
@@ -219,18 +219,19 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
     // may be set differently by '--of, --outputFile' option
     string
       inputFileBasename =
-        baseName (fInputSourceName);
+        baseName (
+          gGeneralOptions->fInputSourceName);
     
-    fOutputFileName =
+    gGeneralOptions->fOutputFileName =
       inputFileBasename;
     
     size_t
       posInString =
-        fOutputFileName.rfind ('.');
+        gGeneralOptions->fOutputFileName.rfind ('.');
       
     if (posInString != string::npos)
-      fOutputFileName.replace (
-        posInString, fOutputFileName.size () - posInString, ".ly");
+      gGeneralOptions->fOutputFileName.replace (
+        posInString, gGeneralOptions->fOutputFileName.size () - posInString, ".ly");
   }
 
   // check auto output file option usage
@@ -251,7 +252,7 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
       optionError (s.str ());
     }
   
-    else if (fInputSourceName == "-") {
+    else if (gGeneralOptions->fInputSourceName == "-") {
       stringstream s;
   
       s <<
@@ -274,10 +275,12 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
   gGeneralOptions->fCommandLineWithLongOptions =
     fCommandLineWithLongOptions;
 
+/* JMI
   gGeneralOptions->fInputSourceName =
-    fInputSourceName;
+    gGeneralOptions->fInputSourceName;
   gGeneralOptions->fOutputFileName =
-    fOutputFileName;
+    gGeneralOptions->fOutputFileName;
+    */
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const

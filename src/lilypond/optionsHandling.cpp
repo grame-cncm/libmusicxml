@@ -477,6 +477,75 @@ ostream& operator<< (ostream& os, const S_msrOptionsAboutItem& elt)
 }
 
 //______________________________________________________________________________
+S_msrOptionsContactItem msrOptionsContactItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  msrOptionsContactItem* o = new
+    msrOptionsContactItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+msrOptionsContactItem::msrOptionsContactItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : msrOptionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+msrOptionsContactItem::~msrOptionsContactItem()
+{}
+
+void msrOptionsContactItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsContactItem:" <<
+    endl;
+
+  gIndenter++;
+
+  msrOptionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void msrOptionsContactItem::printContact (ostream& os) const
+{  
+  os <<
+    endl <<
+R"(To contact xml2lilypond maintainers:
+
+    Send a mail to mailto:lilypond-user@gnu.org describing the problem
+    and error messages you obtain if relevant.)" <<
+    endl <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrOptionsContactItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_msrOptionsHelpUsageItem msrOptionsHelpUsageItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
@@ -1896,9 +1965,9 @@ S_msrOptionsPitchesLanguageItem msrOptionsPitchesLanguageItem::create (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsPitchesLanguageItemVariableDisplayName,
-  msrQuarterTonesPitchesLanguage&
-                     optionsPitchesLanguageItemVariable)
+  string             optionsPitchesLanguageKindItemVariableDisplayName,
+  msrQuarterTonesPitchesLanguageKind&
+                     optionsPitchesLanguageKindItemVariable)
 {
   msrOptionsPitchesLanguageItem* o = new
     msrOptionsPitchesLanguageItem (
@@ -1906,8 +1975,8 @@ S_msrOptionsPitchesLanguageItem msrOptionsPitchesLanguageItem::create (
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
-      optionsPitchesLanguageItemVariableDisplayName,
-      optionsPitchesLanguageItemVariable);
+      optionsPitchesLanguageKindItemVariableDisplayName,
+      optionsPitchesLanguageKindItemVariable);
   assert(o!=0);
   return o;
 }
@@ -1917,18 +1986,18 @@ msrOptionsPitchesLanguageItem::msrOptionsPitchesLanguageItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsPitchesLanguageItemVariableDisplayName,
-  msrQuarterTonesPitchesLanguage&
-                     optionsPitchesLanguageItemVariable)
+  string             optionsPitchesLanguageKindItemVariableDisplayName,
+  msrQuarterTonesPitchesLanguageKind&
+                     optionsPitchesLanguageKindItemVariable)
   : msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification),
-    fOptionsPitchesLanguageItemVariableDisplayName (
-      optionsPitchesLanguageItemVariableDisplayName),
-    fOptionsPitchesLanguageItemVariable (
-      optionsPitchesLanguageItemVariable)
+    fOptionsPitchesLanguageKindItemVariableDisplayName (
+      optionsPitchesLanguageKindItemVariableDisplayName),
+    fOptionsPitchesLanguageKindItemVariable (
+      optionsPitchesLanguageKindItemVariable)
 {}
 
 msrOptionsPitchesLanguageItem::~msrOptionsPitchesLanguageItem()
@@ -1949,13 +2018,13 @@ void msrOptionsPitchesLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsPitchesLanguageItemVariableDisplayName" << " : " <<
-    fOptionsPitchesLanguageItemVariableDisplayName <<
+    "fOptionsPitchesLanguagKindeItemVariableDisplayName" << " : " <<
+    fOptionsPitchesLanguageKindItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
     "fOptionsPitchesLanguageItemVariable" << " : \"" <<
-    msrQuarterTonesPitchesLanguageAsString (
-      fOptionsPitchesLanguageItemVariable) <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fOptionsPitchesLanguageKindItemVariable) <<
       "\"" <<
     endl;
 }
@@ -1966,10 +2035,10 @@ void msrOptionsPitchesLanguageItem::printOptionsValues (
 {  
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsPitchesLanguageItemVariableDisplayName <<
+    fOptionsPitchesLanguageKindItemVariableDisplayName <<
     " : \"" <<
-    msrQuarterTonesPitchesLanguageAsString (
-      fOptionsPitchesLanguageItemVariable) <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fOptionsPitchesLanguageKindItemVariable) <<
     "\"" <<
     endl;
 }
@@ -1986,9 +2055,9 @@ S_msrOptionsAccidentalStyleItem msrOptionsAccidentalStyleItem::create (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsAccidentalStyleItemVariableDisplayName,
-  lpsrAccidentalStyle&
-                     optionsAccidentalStyleItemVariable)
+  string             optionsAccidentalStyleKindItemVariableDisplayName,
+  lpsrAccidentalStyleKind&
+                     optionsAccidentalStyleKindItemVariable)
 {
   msrOptionsAccidentalStyleItem* o = new
     msrOptionsAccidentalStyleItem (
@@ -1996,8 +2065,8 @@ S_msrOptionsAccidentalStyleItem msrOptionsAccidentalStyleItem::create (
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
-      optionsAccidentalStyleItemVariableDisplayName,
-      optionsAccidentalStyleItemVariable);
+      optionsAccidentalStyleKindItemVariableDisplayName,
+      optionsAccidentalStyleKindItemVariable);
   assert(o!=0);
   return o;
 }
@@ -2007,18 +2076,18 @@ msrOptionsAccidentalStyleItem::msrOptionsAccidentalStyleItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsAccidentalStyleItemVariableDisplayName,
-  lpsrAccidentalStyle&
-                     optionsAccidentalStyleItemVariable)
+  string             optionsAccidentalStyleKindItemVariableDisplayName,
+  lpsrAccidentalStyleKind&
+                     optionsAccidentalStyleKindItemVariable)
   : msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification),
-    fOptionsAccidentalStyleItemVariableDisplayName (
-      optionsAccidentalStyleItemVariableDisplayName),
-    fOptionsAccidentalStyleItemVariable (
-      optionsAccidentalStyleItemVariable)
+    fOptionsAccidentalStyleKindItemVariableDisplayName (
+      optionsAccidentalStyleKindItemVariableDisplayName),
+    fOptionsAccidentalStyleKindItemVariable (
+      optionsAccidentalStyleKindItemVariable)
 {}
 
 msrOptionsAccidentalStyleItem::~msrOptionsAccidentalStyleItem()
@@ -2039,13 +2108,13 @@ void msrOptionsAccidentalStyleItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsAccidentalStyleItemVariableDisplayName" << " : " <<
-    fOptionsAccidentalStyleItemVariableDisplayName <<
+    "fOptionsAccidentalStyleKindItemVariableDisplayName" << " : " <<
+    fOptionsAccidentalStyleKindItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsAccidentalStyleItemVariable" << " : \"" <<
-    lpsrAccidentalStyleAsString (
-      fOptionsAccidentalStyleItemVariable) <<
+    "fOptionsAccidentalStyleKindItemVariable" << " : \"" <<
+    lpsrAccidentalStyleKindAsString (
+      fOptionsAccidentalStyleKindItemVariable) <<
       "\"" <<
     endl;
 }
@@ -2056,10 +2125,10 @@ void msrOptionsAccidentalStyleItem::printOptionsValues (
 {  
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsAccidentalStyleItemVariableDisplayName <<
+    fOptionsAccidentalStyleKindItemVariableDisplayName <<
     " : \"" <<
-    lpsrAccidentalStyleAsString (
-      fOptionsAccidentalStyleItemVariable) <<
+    lpsrAccidentalStyleKindAsString (
+      fOptionsAccidentalStyleKindItemVariable) <<
     "\"" <<
     endl;
 }
@@ -2076,9 +2145,9 @@ S_msrOptionsChordsLanguageItem msrOptionsChordsLanguageItem::create (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsChordsLanguageItemVariableDisplayName,
-  lpsrChordsLanguage&
-                     optionsChordsLanguageItemVariable)
+  string             optionsChordsLanguageKindItemVariableDisplayName,
+  lpsrChordsLanguageKind&
+                     optionsChordsLanguageKindItemVariable)
 {
   msrOptionsChordsLanguageItem* o = new
     msrOptionsChordsLanguageItem (
@@ -2086,8 +2155,8 @@ S_msrOptionsChordsLanguageItem msrOptionsChordsLanguageItem::create (
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
-      optionsChordsLanguageItemVariableDisplayName,
-      optionsChordsLanguageItemVariable);
+      optionsChordsLanguageKindItemVariableDisplayName,
+      optionsChordsLanguageKindItemVariable);
   assert(o!=0);
   return o;
 }
@@ -2097,18 +2166,18 @@ msrOptionsChordsLanguageItem::msrOptionsChordsLanguageItem (
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsChordsLanguageItemVariableDisplayName,
-  lpsrChordsLanguage&
-                     optionsChordsLanguageItemVariable)
+  string             optionsChordsLanguageKindItemVariableDisplayName,
+  lpsrChordsLanguageKind&
+                     optionsChordsLanguageKindItemVariable)
   : msrOptionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification),
-    fOptionsChordsLanguageItemVariableDisplayName (
-      optionsChordsLanguageItemVariableDisplayName),
-    fOptionsChordsLanguageItemVariable (
-      optionsChordsLanguageItemVariable)
+    fOptionsChordsLanguageKindItemVariableDisplayName (
+      optionsChordsLanguageKindItemVariableDisplayName),
+    fOptionsChordsLanguageKindItemVariable (
+      optionsChordsLanguageKindItemVariable)
 {}
 
 msrOptionsChordsLanguageItem::~msrOptionsChordsLanguageItem()
@@ -2129,12 +2198,12 @@ void msrOptionsChordsLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsChordsLanguageItemVariableDisplayName" << " : " <<
-    fOptionsChordsLanguageItemVariableDisplayName <<
+    "fOptionsChordsLanguageKindItemVariableDisplayName" << " : " <<
+    fOptionsChordsLanguageKindItemVariableDisplayName <<
     setw (fieldWidth) <<
-    "fOptionsChordsLanguageItemVariable" << " : \"" <<
-    lpsrChordsLanguageAsString (
-      fOptionsChordsLanguageItemVariable) <<
+    "fOptionsChordsLanguageKindItemVariable" << " : \"" <<
+    lpsrChordsLanguageKindAsString (
+      fOptionsChordsLanguageKindItemVariable) <<
       "\"" <<
     endl;
 }
@@ -2145,10 +2214,10 @@ void msrOptionsChordsLanguageItem::printOptionsValues (
 {  
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsChordsLanguageItemVariableDisplayName <<
+    fOptionsChordsLanguageKindItemVariableDisplayName <<
     " : \"" <<
-    lpsrChordsLanguageAsString (
-      fOptionsChordsLanguageItemVariable) <<
+    lpsrChordsLanguageKindAsString (
+      fOptionsChordsLanguageKindItemVariable) <<
     "\"" <<
     endl;
 }
@@ -2388,8 +2457,8 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription,
-  msrOptionsSubGroupDescriptionVisibility
-         optionsSubGroupDescriptionVisibility,
+  msrOptionsSubGroupDescriptionVisibilityKind
+         optionsSubGroupDescriptionVisibilityKind,
   S_msrOptionsGroup
          optionsGroupUplink)
 {
@@ -2399,7 +2468,7 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription,
-      optionsSubGroupDescriptionVisibility,
+      optionsSubGroupDescriptionVisibilityKind,
       optionsGroupUplink);
   assert(o!=0);
   return o;
@@ -2410,8 +2479,8 @@ msrOptionsSubGroup::msrOptionsSubGroup (
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription,
-  msrOptionsSubGroupDescriptionVisibility
-         optionsSubGroupDescriptionVisibility,
+  msrOptionsSubGroupDescriptionVisibilityKind
+         optionsSubGroupDescriptionVisibilityKind,
   S_msrOptionsGroup
          optionsGroupUplink)
   : msrOptionsElement (
@@ -2425,20 +2494,20 @@ msrOptionsSubGroup::msrOptionsSubGroup (
   fOptionsSubGroupHelpHeader =
     optionsSubGroupHelpHeader;
 
-  fOptionsSubGroupDescriptionVisibility =
-    optionsSubGroupDescriptionVisibility;
+  fOptionsSubGroupDescriptionVisibilityKind =
+    optionsSubGroupDescriptionVisibilityKind;
 }
 
 msrOptionsSubGroup::~msrOptionsSubGroup()
 {}
 
-string msrOptionsSubGroup::optionsSubGroupDescriptionVisibilityAsString (
-  msrOptionsSubGroupDescriptionVisibility
-    optionsSubGroupDescriptionVisibility)
+string msrOptionsSubGroup::optionsSubGroupDescriptionVisibilityKindAsString (
+  msrOptionsSubGroupDescriptionVisibilityKind
+    optionsSubGroupDescriptionVisibilityKind)
 {
   string result;
   
-  switch (optionsSubGroupDescriptionVisibility) {
+  switch (optionsSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       result = "AlwaysShowDescription";
       break;
@@ -2532,8 +2601,8 @@ void msrOptionsSubGroup::print (ostream& os) const
   os << left <<
     setw (fieldWidth) <<
     "fOptionsSubGroupDescriptionVisibility" << " : " <<
-      optionsSubGroupDescriptionVisibilityAsString (
-        fOptionsSubGroupDescriptionVisibility) <<
+      optionsSubGroupDescriptionVisibilityKindAsString (
+        fOptionsSubGroupDescriptionVisibilityKind) <<
     endl <<
     endl;
 
@@ -2577,7 +2646,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
     " " <<
     optionsElementNamesBetweenParentheses ();
 
-  switch (fOptionsSubGroupDescriptionVisibility) {
+  switch (fOptionsSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       os <<
         ":";
@@ -2606,7 +2675,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
       endl;  
   }
   
-  switch (fOptionsSubGroupDescriptionVisibility) {
+  switch (fOptionsSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       if (fOptionsSubGroupItemsList.size ()) {    
         gIndenter++;
@@ -2653,7 +2722,7 @@ void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
     " " <<
     optionsElementNamesBetweenParentheses ();
 
-  switch (fOptionsSubGroupDescriptionVisibility) {
+  switch (fOptionsSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       os <<
         ":";
@@ -2726,7 +2795,7 @@ void msrOptionsSubGroup::printHelpSummary (
     optionsElementNamesInColumnsBetweenParentheses (
       maximumShortNameWidth);
 
-  switch (fOptionsSubGroupDescriptionVisibility) {
+  switch (fOptionsSubGroupDescriptionVisibilityKind) {
     case kAlwaysShowDescription:
       break;
       
@@ -4409,6 +4478,21 @@ void msrOptionsHandler::handleOptionsItemName (
       }
       
       else if (
+        // contact item?
+        S_msrOptionsContactItem
+          optionsContactItem =
+            dynamic_cast<msrOptionsContactItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        optionsContactItem->
+          printContact (
+            fOptionsHandlerLogIOstream);
+
+        // exit
+        exit (0);
+      }
+      
+      else if (
         // help usage item?
         S_msrOptionsHelpUsageItem
           optionsHelpUsageItem =
@@ -4789,17 +4873,17 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     else if (
       // pitches language item?
       S_msrOptionsPitchesLanguageItem
-        optionsPitchesLanguageItem =
+        optionsPitchesLanguageKindItem =
           dynamic_cast<msrOptionsPitchesLanguageItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the language name:     
       // is it in the pitches languages map?
-      map<string, msrQuarterTonesPitchesLanguage>::const_iterator
+      map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
         it =
-          gQuarterTonesPitchesLanguagesMap.find (
+          gQuarterTonesPitchesLanguageKindsMap.find (
             theString);
             
-      if (it == gQuarterTonesPitchesLanguagesMap.end ()) {
+      if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
         // no, language is unknown in the map
         
         printHelpSummary (
@@ -4811,14 +4895,14 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " is unknown" <<
           endl <<
           "The " <<
-          gQuarterTonesPitchesLanguagesMap.size () <<
+          gQuarterTonesPitchesLanguageKindsMap.size () <<
           " known MSR pitches languages are:" <<
           endl;
     
         gIndenter++;
       
         s <<
-          existingQuarterTonesPitchesLanguages ();
+          existingQuarterTonesPitchesLanguageKinds ();
     
         gIndenter--;
     
@@ -4827,8 +4911,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         exit (4);
       }
     
-      optionsPitchesLanguageItem->
-        setPitchesLanguageItemVariableValue (
+      optionsPitchesLanguageKindItem->
+        setPitchesLanguageKindItemVariableValue (
           (*it).second);
 
       fPendingOptionsItem = 0;
@@ -4837,17 +4921,17 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     else if (
       // accidental style item?
       S_msrOptionsAccidentalStyleItem
-        optionsAccidentalStyleItem =
+        optionsAccidentalStyleKindItem =
           dynamic_cast<msrOptionsAccidentalStyleItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the language name:     
       // is it in the accidental styles map?
-      map<string, lpsrAccidentalStyle>::const_iterator
+      map<string, lpsrAccidentalStyleKind>::const_iterator
         it =
-          gLpsrAccidentalStylesMap.find (
+          gLpsrAccidentalStyleKindsMap.find (
             theString);
             
-      if (it == gLpsrAccidentalStylesMap.end ()) {
+      if (it == gLpsrAccidentalStyleKindsMap.end ()) {
         // no, accidental style is unknown in the map
         stringstream s;
     
@@ -4856,14 +4940,14 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " is unknown" <<
           endl <<
           "The " <<
-          gLpsrAccidentalStylesMap.size () - 1 <<
+          gLpsrAccidentalStyleKindsMap.size () - 1 <<
           " known LPSR accidental styles are:" <<
           endl;
     
         gIndenter++;
       
         s <<
-          existingLpsrAccidentalStyles ();
+          existingLpsrAccidentalStyleKinds ();
     
         gIndenter--;
     
@@ -4875,8 +4959,8 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         exit (4);
       }
     
-      optionsAccidentalStyleItem->
-        setAccidentalStyleItemVariableValue (
+      optionsAccidentalStyleKindItem->
+        setAccidentalStyleKindItemVariableValue (
           (*it).second);
 
       fPendingOptionsItem = 0;
@@ -4890,11 +4974,11 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       ) {
       // theString contains the language name:     
       // is it in the chords languages map?
-      map<string, lpsrChordsLanguage>::const_iterator
+      map<string, lpsrChordsLanguageKind>::const_iterator
         it =
-          gLpsrChordsLanguagesMap.find (theString);
+          gLpsrChordsLanguageKindsMap.find (theString);
             
-      if (it == gLpsrChordsLanguagesMap.end ()) {
+      if (it == gLpsrChordsLanguageKindsMap.end ()) {
         // no, language is unknown in the map    
         stringstream s;
     
@@ -4903,14 +4987,14 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           " is unknown" <<
           endl <<
           "The " <<
-          gLpsrChordsLanguagesMap.size () - 1 <<
+          gLpsrChordsLanguageKindsMap.size () - 1 <<
           " known LPSR chords languages apart from the default Ignatzek are:" <<
           endl;
     
         gIndenter++;
       
         s <<
-          existingLpsrChordsLanguages ();
+          existingLpsrChordsLanguageKinds ();
     
         gIndenter--;
     
@@ -4923,7 +5007,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       }
     
       optionsChordsLanguageItem->
-        setChordsLanguageItemVariableValue (
+        setChordsLanguageKindItemVariableValue (
           (*it).second);
 
       fPendingOptionsItem = 0;

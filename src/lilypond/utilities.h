@@ -19,16 +19,18 @@
 #include <iostream>
 #include <sstream>
 
+#include <ctime>
+
 #include <set>
 #include <list>
-#include <algorithm> 
 
+#include <functional> 
+#include <algorithm> 
 
 #include "smartpointer.h"
 
 #include "basevisitor.h"
 
-using namespace std;
 
 namespace MusicXML2 
 {
@@ -52,21 +54,21 @@ class timingItem : public smartable
       kMandatory, kOptional };
       
     static SMARTP<timingItem> createTimingItem (
-      string         activity,
-      string         description,
+      std::string    activity,
+      std::string    description,
       timingItemKind kind,
       clock_t        startClock,
       clock_t        endClock);
 
     timingItem (
-      string         activity,
-      string         description,
+      std::string    activity,
+      std::string    description,
       timingItemKind kind,
       clock_t        startClock,
       clock_t        endClock);
       
-    string                fActivity;
-    string                fDescription;
+    std::string           fActivity;
+    std::string           fDescription;
     timingItemKind        fKind;
     clock_t               fStartClock;
     clock_t               fEndClock;
@@ -86,21 +88,22 @@ class timing {
 
     // add an item
     void                  appendTimingItem (
-                            string         activity,
-                            string         description,
+                            std::string    activity,
+                            std::string    description,
                             timingItem::timingItemKind
                                            kind,
                             clock_t        startClock,
                             clock_t        endClock);
       
     // print
-    void                  print (ostream& os) const;
+    void                  print (std::ostream& os) const;
 
   private:
 
-    list<S_timingItem>    fTimingItemsList;
+    std::list<S_timingItem>
+                          fTimingItemsList;
 };
-ostream& operator<< (ostream& os, const timing& tim);
+std::ostream& operator<< (std::ostream& os, const timing& tim);
 
 //______________________________________________________________________________
 /*!
@@ -111,7 +114,7 @@ class indenter
 {
   public:
 
-    indenter (string spacer = "  ");
+    indenter (std::string spacer = "  ");
     virtual ~indenter ();
 
     // get the indent
@@ -132,14 +135,14 @@ class indenter
                               { fIndent = 0; }
 
     // output as much space as specified
-    void                  print (ostream& os) const;
+    void                  print (std::ostream& os) const;
 
     // get a spacer for adhoc uses, without increasing the indentation
-    string                getSpacer () const
+    std::string           getSpacer () const
                               { return fSpacer; }
 
-    // indent a multiline 'R"(...)"' string
-    string                indentMultiLineString (string value);
+    // indent a multiline 'R"(...)"' std::string
+    std::string                indentMultiLineString (std::string value);
     
     // global variable for general use
     static indenter       gIndenter; 
@@ -147,16 +150,16 @@ class indenter
   private:
 
     int                   fIndent;
-    string                fSpacer;
+    std::string           fSpacer;
 };
-ostream& operator<< (ostream& os, const indenter& idtr);
+std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 
 // useful shortcut macros
 #define gIndenter indenter::gIndenter
 #define gTab      indenter::gIndenter.getSpacer ()
 
 //______________________________________________________________________________
-class indentedOstream: public ostream
+class indentedOstream: public std::ostream
 {
 /*
 Reference:
@@ -173,19 +176,19 @@ Usage:
  
   // a stream buffer that prefixes each line
   // with the current indentation
-  class indentedStreamBuf: public stringbuf
+  class indentedStreamBuf: public std::stringbuf
   {
     private:
     
-      ostream&  fOutput;
-      indenter& fIndenter;
+      std::ostream& fOutput;
+      indenter&     fIndenter;
 
     public:
 
       // constructor
       indentedStreamBuf (
-        ostream& str,
-        indenter& idtr)
+        std::ostream& str,
+        indenter&     idtr)
         : fOutput (str),
           fIndenter (idtr)
         {}
@@ -222,9 +225,9 @@ Usage:
 
     // constructor
     indentedOstream (
-      ostream&  str,
-      indenter& idtr)
-      : ostream (&fIndentedStreamBuf),
+      std::ostream&  str,
+      indenter&      idtr)
+      : std::ostream (&fIndentedStreamBuf),
         fIndentedStreamBuf (
           str, idtr)
       {}
@@ -248,72 +251,6 @@ Usage:
 #define gOutputIOstream indentedOstream::gOutputIndentedOstream
 #define gLogIOstream    indentedOstream::gLogIndentedOstream
 
-//______________________________________________________________________________
-/*!
-\internal
-\brief Provides easy control of output lines length.
-*/
-class outputLineElementsCounter
-{
-  public:
-
-    outputLineElementsCounter (
-      ostream& ostream,
-      int      maxElementsPerLine = 10);
-      
-    virtual ~outputLineElementsCounter ();
-
-    // get the counter
-    int                   getElementsCounter () const
-                              { return fElementsCounter; }
-                         
-    // increase the counter by 1
-    outputLineElementsCounter&
-                          operator++ (int value);
-    
-    // increase the counter by 'value' at once without checking
-    // for the maximun number of elements per line in-between
-    outputLineElementsCounter&
-                          increment (int value);
-    
-    // set the maximum number of elements per line
-    void                  setMaxElementsPerLine (int maxElementsPerLine)
-                              {
-                                fMaxElementsPerLine = maxElementsPerLine;
-                              }
-
-    
-    // reset the counter
-    void                  resetToZero ()
-                              { fElementsCounter = 0; }
-    
-    // compare the counter with a value
-    bool                  operator<  (int value)
-                              { return fElementsCounter < value; }
-    bool                  operator<= (int value)
-                              { return fElementsCounter <= value; }
-    bool                  operator== (int value)
-                              { return fElementsCounter == value; }
-    bool                  operator!= (int value)
-                              { return fElementsCounter != value; }
-    bool                  operator>= (int value)
-                              { return fElementsCounter >= value; }
-    bool                  operator>  (int value)
-                              { return fElementsCounter > value; }
-    
-    // global variable for general use
-    static outputLineElementsCounter
-                          gOutputLineElementsCounter; 
-
-  private:
-
-    ostream&              fOstream;
-
-
-    int                   fElementsCounter;
-    int                   fMaxElementsPerLine;
-};
-
 /*!
 \brief A utility to escape quotes in strings.
 */
@@ -325,9 +262,11 @@ struct stringQuoteEscaper
       for_each( source.begin (), source.end (), stringQuoteEscaper (dest));
   */
 
-  string&                 target;
+  std::string&            target;
   
-  explicit                stringQuoteEscaper (string& t) : target (t) {}
+  explicit                stringQuoteEscaper (std::string& t)
+                            : target (t)
+                              {}
 
   void                    operator() (char ch) const
                               {
@@ -347,18 +286,18 @@ struct stringQuoteEscaper
 struct stringSpaceRemover
 {
   /* usage:
-      string dest = "";
+      std::string dest = "";
       for_each (
         source.begin (),
         source.end (),
         stringSpaceRemover (dest));
   */
 
-  string&                 target;
+  std::string&            target;
   
-  explicit                stringSpaceRemover (string& t)
+  explicit                stringSpaceRemover (std::string& t)
                             : target (t)
-                            {}
+                              {}
 
   void                    operator() (char ch) const
                               {
@@ -375,19 +314,19 @@ struct stringSpaceRemover
 struct stringSpaceReplacer
 {
   /* usage:
-      string dest = "";
+      std::string dest = "";
       for_each (
         source.begin (),
         source.end (),
         stringSpaceReplacer (dest, ersatz));
   */
 
-  string&                 target;
+  std::string&            target;
   char                    ersatz;
   
-  explicit                stringSpaceReplacer (string& t, char ch)
+  explicit                stringSpaceReplacer (std::string& t, char ch)
                             : target (t), ersatz (ch)
-                            {}
+                              {}
 
   void                    operator() (char ch) const
                               {
@@ -402,21 +341,21 @@ struct stringSpaceReplacer
 \brief A utility to convert small positive integers to English words.
 */
 //______________________________________________________________________________
-string replicateString (
-  string str,
+std::string replicateString (
+  std::string str,
   int    times);
 
 /*!
 \brief A utility to convert small positive integers to English words.
 */
 //______________________________________________________________________________
-string int2EnglishWord (int n);
+std::string int2EnglishWord (int n);
 
 /*!
 \brief A utility to escape quotes in strings.
 */
 //______________________________________________________________________________
-string stringNumbersToEnglishWords (string str);
+std::string stringNumbersToEnglishWords (std::string str);
 
 /*!
 \brief A utility to build a list of number from a specification.
@@ -425,25 +364,28 @@ string stringNumbersToEnglishWords (string str);
     meaning that 7, 15, 18 and 19 have to enlisted
 */
 //______________________________________________________________________________
-set<int> decipherNumbersSetSpecification (
-  string theSpecification,
+std::set<int> decipherNumbersSetSpecification (
+  std::string theSpecification,
   bool   debugMode = false);
 
 //______________________________________________________________________________
-list<int> extractNumbersFromString (
-  string theString, // can contain "1, 2, 17"
+std::list<int> extractNumbersFromString (
+  std::string theString, // can contain "1, 2, 17"
   bool   debugMode = false);
 
 //______________________________________________________________________________
 // from http://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
 // trim string from start
-inline string &ltrim (string &s) {
+inline std::string &ltrim (std::string &s) {
+  std::function <int (int)> checkSpace =
+    [] (int x) { return isspace (x); };
+
   s.erase (
     s.begin (),
     find_if (
       s.begin (),
       s.end (),
-      not1 (ptr_fun<int, int> (isspace))
+      std::not1 (checkSpace)
       )
     );
           
@@ -451,12 +393,15 @@ inline string &ltrim (string &s) {
 }
 
 // trim string from end
-inline string &rtrim (string &s) {
+inline std::string &rtrim (std::string &s) {
+  std::function <int (int)> checkSpace =
+    [] (int x) { return isspace (x); };
+
   s.erase (
     find_if (
       s.rbegin (),
       s.rend (),
-      not1 (ptr_fun<int, int> (isspace))
+      std::not1 (checkSpace)
       ).base(),
     s.end ()
     );
@@ -464,51 +409,54 @@ inline string &rtrim (string &s) {
   return s;
 }
 
+
+
+
 // trim string from both ends
-inline string &trim (string &s) {
+inline std::string &trim (std::string &s) {
   return ltrim (rtrim (s));
 }
 
 //______________________________________________________________________________
-pair<string, string> extractNamesPairFromString (
-  string theString, // can contain "P1 = Bassoon"
+std::pair<std::string, std::string> extractNamesPairFromString (
+  std::string theString, // can contain "P1 = Bassoon"
   char   separator,
   bool   debugMode = false);
 
 //______________________________________________________________________________
-string quoteStringIfNonAlpha (
-  string theString);
+std::string quoteStringIfNonAlpha (
+  std::string theString);
 
-string quoteString (
-  string theString);
-
-//______________________________________________________________________________
-string booleanAsString (bool value);
+std::string quoteString (
+  std::string theString);
 
 //______________________________________________________________________________
-string singularOrPlural (
-  int number, string singularName, string pluralName);
-
-string singularOrPluralWithoutNumber (
-  int number, string singularName, string pluralName);
+std::string booleanAsString (bool value);
 
 //______________________________________________________________________________
-void optionError (string errorMessage);
+std::string singularOrPlural (
+  int number, std::string singularName, std::string pluralName);
+
+std::string singularOrPluralWithoutNumber (
+  int number, std::string singularName, std::string pluralName);
 
 //______________________________________________________________________________
-void convertHTMLEntitiesToPlainCharacters (string& s);
+void optionError (std::string errorMessage);
+
+//______________________________________________________________________________
+void convertHTMLEntitiesToPlainCharacters (std::string& s);
 
 //______________________________________________________________________________
 void splitStringContainingEndOfLines (
-  string        theString,
-  list<string>& chunksList);
+  std::string        theString,
+  std::list<std::string>& chunksList);
 
 //______________________________________________________________________________
-string baseName (const string &filename);
+std::string baseName (const std::string &filename);
   // wait until c++17 for a standard library containing basename()...
 
 //______________________________________________________________________________
-string makeSingleWordFromString (const string &string);
+std::string makeSingleWordFromString (const std::string& theString);
 
 
 } // namespace MusicXML2

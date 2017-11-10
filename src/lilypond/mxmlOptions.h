@@ -20,7 +20,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP musicXMLOptions : public msrOptionsGroup
+class musicXMLOptions : public msrOptionsGroup
 {
   public:
 
@@ -75,8 +75,9 @@ class EXP musicXMLOptions : public msrOptionsGroup
     
     bool                  fTraceMusicXMLTreeVisitors;
 
-    // error handling
+    // warning and error handling
       
+    bool                  fIgnoreMusicXMLWarnings;
     bool                  fIgnoreMusicXMLErrors;
     
     // clefs, keys, times

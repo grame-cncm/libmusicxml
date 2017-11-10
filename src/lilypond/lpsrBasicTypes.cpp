@@ -615,15 +615,15 @@ void writeTextsListAsLilypondString (
 // accidental styles
 //______________________________________________________________________________
 
-map<string, lpsrAccidentalStyle>
-  gLpsrAccidentalStylesMap;
+map<string, lpsrAccidentalStyleKind>
+  gLpsrAccidentalStyleKindsMap;
 
-string lpsrAccidentalStyleAsString (
-  lpsrAccidentalStyle style)
+string lpsrAccidentalStyleKindAsString (
+  lpsrAccidentalStyleKind styleKind)
 {
   string result;
   
-  switch (style) {
+  switch (styleKind) {
     case kDefaultStyle: // default value
       result = "DefaultStyle";
       break;
@@ -683,12 +683,12 @@ string lpsrAccidentalStyleAsString (
   return result;
 }
 
-string lpsrAccidentalStyleAsLilypondString (
-  lpsrAccidentalStyle style)
+string lpsrAccidentalStyleKindAsLilypondString (
+  lpsrAccidentalStyleKind styleKind)
 {
   string result;
   
-  switch (style) {
+  switch (styleKind) {
     case kDefaultStyle: // default value
       result = "default";
       break;
@@ -748,39 +748,39 @@ string lpsrAccidentalStyleAsLilypondString (
   return result;
 }
 
-void initializeLpsrAccidentalStylesMap ()
+void initializeLpsrAccidentalStyleKindsMap ()
 {
   // register the LilyPond accidental styles
   // --------------------------------------
 
-  gLpsrAccidentalStylesMap ["default"] = kDefaultStyle;
-  gLpsrAccidentalStylesMap ["voice"] = kVoiceStyle;
-  gLpsrAccidentalStylesMap ["modern"] = kModernStyle;
-  gLpsrAccidentalStylesMap ["modern-cautionary"] = kModernCautionaryStyle;
-  gLpsrAccidentalStylesMap ["modern-voice"] = kModernVoiceStyle;
-  gLpsrAccidentalStylesMap ["modern-voice-cautionary"] = kModernVoiceCautionaryStyle;
-  gLpsrAccidentalStylesMap ["piano"] = kPianoStyle;
-  gLpsrAccidentalStylesMap ["piano-cautionary"] = kPianoCautionaryStyle;
-  gLpsrAccidentalStylesMap ["neo-modern"] = kNeoModernStyle;
-  gLpsrAccidentalStylesMap ["neo-modern-cautionary"] = kNeoModernCautionaryStyle;
-  gLpsrAccidentalStylesMap ["neo-modern-voice"] = kNeoModernVoiceStyle;
-  gLpsrAccidentalStylesMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionaryStyle;
-  gLpsrAccidentalStylesMap ["dodecaphonic"] = kDodecaphonicStyle;
-  gLpsrAccidentalStylesMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeatStyle;
-  gLpsrAccidentalStylesMap ["dodecaphonic-first"] = kDodecaphonicFirstStyle;
-  gLpsrAccidentalStylesMap ["teaching"] = kTeachingStyle;
-  gLpsrAccidentalStylesMap ["no-reset"] = kNoResetStyle;
-  gLpsrAccidentalStylesMap ["forget"] = kForgetStyle;
+  gLpsrAccidentalStyleKindsMap ["default"] = kDefaultStyle;
+  gLpsrAccidentalStyleKindsMap ["voice"] = kVoiceStyle;
+  gLpsrAccidentalStyleKindsMap ["modern"] = kModernStyle;
+  gLpsrAccidentalStyleKindsMap ["modern-cautionary"] = kModernCautionaryStyle;
+  gLpsrAccidentalStyleKindsMap ["modern-voice"] = kModernVoiceStyle;
+  gLpsrAccidentalStyleKindsMap ["modern-voice-cautionary"] = kModernVoiceCautionaryStyle;
+  gLpsrAccidentalStyleKindsMap ["piano"] = kPianoStyle;
+  gLpsrAccidentalStyleKindsMap ["piano-cautionary"] = kPianoCautionaryStyle;
+  gLpsrAccidentalStyleKindsMap ["neo-modern"] = kNeoModernStyle;
+  gLpsrAccidentalStyleKindsMap ["neo-modern-cautionary"] = kNeoModernCautionaryStyle;
+  gLpsrAccidentalStyleKindsMap ["neo-modern-voice"] = kNeoModernVoiceStyle;
+  gLpsrAccidentalStyleKindsMap ["neo-modern-voice-cautionary"] = kNeoModernVoiceCautionaryStyle;
+  gLpsrAccidentalStyleKindsMap ["dodecaphonic"] = kDodecaphonicStyle;
+  gLpsrAccidentalStyleKindsMap ["dodecaphonic-no-repeat"] = kDodecaphonicNoRepeatStyle;
+  gLpsrAccidentalStyleKindsMap ["dodecaphonic-first"] = kDodecaphonicFirstStyle;
+  gLpsrAccidentalStyleKindsMap ["teaching"] = kTeachingStyle;
+  gLpsrAccidentalStyleKindsMap ["no-reset"] = kNoResetStyle;
+  gLpsrAccidentalStyleKindsMap ["forget"] = kForgetStyle;
 }
 
-string existingLpsrAccidentalStyles ()
+string existingLpsrAccidentalStyleKinds ()
 {
   stringstream s;
 
-  if (gLpsrAccidentalStylesMap.size ()) {
-    map<string, lpsrAccidentalStyle>::const_iterator
-      iBegin = gLpsrAccidentalStylesMap.begin (),
-      iEnd   = gLpsrAccidentalStylesMap.end (),
+  if (gLpsrAccidentalStyleKindsMap.size ()) {
+    map<string, lpsrAccidentalStyleKind>::const_iterator
+      iBegin = gLpsrAccidentalStyleKindsMap.begin (),
+      iEnd   = gLpsrAccidentalStyleKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       gLogIOstream <<
@@ -800,24 +800,24 @@ string existingLpsrAccidentalStyles ()
 // chords languages
 //______________________________________________________________________________
 
-map<string, lpsrChordsLanguage>
-  gLpsrChordsLanguagesMap;
+map<string, lpsrChordsLanguageKind>
+  gLpsrChordsLanguageKindsMap;
 
-void initializeLpsrChordsLanguagesMap ()
+void initializeLpsrChordsLanguageKindsMap ()
 {
-  gLpsrChordsLanguagesMap ["Ignatzek"]   = k_IgnatzekChords; // default
-  gLpsrChordsLanguagesMap ["german"]     = k_GermanChords;
-  gLpsrChordsLanguagesMap ["semiGerman"] = k_SemiGermanChords;
-  gLpsrChordsLanguagesMap ["italian"]    = k_ItalianChords;
-  gLpsrChordsLanguagesMap ["french"]     = k_FrenchChords;
+  gLpsrChordsLanguageKindsMap ["Ignatzek"]   = k_IgnatzekChords; // default
+  gLpsrChordsLanguageKindsMap ["german"]     = k_GermanChords;
+  gLpsrChordsLanguageKindsMap ["semiGerman"] = k_SemiGermanChords;
+  gLpsrChordsLanguageKindsMap ["italian"]    = k_ItalianChords;
+  gLpsrChordsLanguageKindsMap ["french"]     = k_FrenchChords;
 }
 
-string lpsrChordsLanguageAsString (
-  lpsrChordsLanguage language)
+string lpsrChordsLanguageKindAsString (
+  lpsrChordsLanguageKind languageKind)
 {
   string result;
   
-  switch (language) {
+  switch (languageKind) {
     case k_IgnatzekChords: // default value
       result = "IgnatzekChords";
       break;
@@ -838,14 +838,14 @@ string lpsrChordsLanguageAsString (
   return result;
 }
 
-string existingLpsrChordsLanguages ()
+string existingLpsrChordsLanguageKinds ()
 {
   stringstream s;
   
-  if (gLpsrChordsLanguagesMap.size ()) {
-    map<string, lpsrChordsLanguage>::const_iterator
-      iBegin = gLpsrChordsLanguagesMap.begin (),
-      iEnd   = gLpsrChordsLanguagesMap.end (),
+  if (gLpsrChordsLanguageKindsMap.size ()) {
+    map<string, lpsrChordsLanguageKind>::const_iterator
+      iBegin = gLpsrChordsLanguageKindsMap.begin (),
+      iEnd   = gLpsrChordsLanguageKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       if ((*i).second != k_IgnatzekChords)

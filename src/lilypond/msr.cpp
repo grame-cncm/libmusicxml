@@ -204,6 +204,9 @@ string msrOctaveShift::octaveShiftKindAsString () const
     case kOctaveShiftStop:
       result = "stop";
       break;
+    case kOctaveShiftContinue:
+      result = "continue";
+      break;
   } // switch
 
   return result;
@@ -559,13 +562,13 @@ void msrBeam::print (ostream& os)
 S_msrArticulation msrArticulation::create (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
-  msrPlacement        articulationPlacement)
+  msrPlacementKind    articulationPlacementKind)
 {
   msrArticulation* o =
     new msrArticulation (
       inputLineNumber,
       articulationKind,
-      articulationPlacement);
+      articulationPlacementKind);
   assert (o!=0);
   return o;
 }
@@ -573,12 +576,12 @@ S_msrArticulation msrArticulation::create (
 msrArticulation::msrArticulation (
   int                 inputLineNumber,
   msrArticulationKind articulationKind,
-  msrPlacement        articulationPlacement)
+  msrPlacementKind    articulationPlacementKind)
     : msrElement (inputLineNumber)
 {
   fArticulationKind = articulationKind;
 
-  fArticulationPlacement = articulationPlacement;
+  fArticulationPlacementKind = articulationPlacementKind;
 }
 
 msrArticulation::~msrArticulation()
@@ -656,11 +659,11 @@ string msrArticulation::articulationKindAsString () const
       fArticulationKind);
 }
 
-string msrArticulation::articulationPlacementAsString () const
+string msrArticulation::articulationPlacementKindAsString () const
 {
   return
-    msrPlacementAsString (
-      fArticulationPlacement);
+    msrPlacementKindAsString (
+      fArticulationPlacementKind);
 }
 
 void msrArticulation::acceptIn (basevisitor* v) {
@@ -716,39 +719,39 @@ void msrArticulation::print (ostream& os)
     "Articulation" " " <<
     articulationKindAsString () <<
     ", " <<
-    articulationPlacementAsString () <<
+    articulationPlacementKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 }
 
 //______________________________________________________________________________
 S_msrArpeggiato msrArpeggiato::create (
-  int          inputLineNumber,
-  msrPlacement arpeggiatoPlacement,
-  msrDirection arpeggiatoDirection,
-  int          arpeggiatoNumber)
+  int              inputLineNumber,
+  msrPlacementKind arpeggiatoPlacementKind,
+  msrDirectionKind arpeggiatoDirectionKind,
+  int              arpeggiatoNumber)
 {
   msrArpeggiato* o =
     new msrArpeggiato (
       inputLineNumber,
-      arpeggiatoPlacement,
-      arpeggiatoDirection,
+      arpeggiatoPlacementKind,
+      arpeggiatoDirectionKind,
       arpeggiatoNumber);
   assert (o!=0);
   return o;
 }
 
 msrArpeggiato::msrArpeggiato (
-  int          inputLineNumber,
-  msrPlacement arpeggiatoPlacement,
-  msrDirection arpeggiatoDirection,
-  int          arpeggiatoNumber)
+  int              inputLineNumber,
+  msrPlacementKind arpeggiatoPlacementKind,
+  msrDirectionKind arpeggiatoDirectionKind,
+  int              arpeggiatoNumber)
     : msrArticulation (
       inputLineNumber,
       kArpeggiato,
-      arpeggiatoPlacement)
+      arpeggiatoPlacementKind)
 {  
-  fArpeggiatoDirection = arpeggiatoDirection;
+  fArpeggiatoDirectionKind = arpeggiatoDirectionKind;
   
   fArpeggiatoNumber = arpeggiatoNumber;
 }
@@ -756,10 +759,10 @@ msrArpeggiato::msrArpeggiato (
 msrArpeggiato::~msrArpeggiato()
 {}
 
-string msrArpeggiato::arpeggiatoDirectionAsString () const
+string msrArpeggiato::arpeggiatoDirectionKindAsString () const
 {
   return
-    msrDirectionAsString (fArpeggiatoDirection);
+    msrDirectionKindAsString (fArpeggiatoDirectionKind);
 }
 
 void msrArpeggiato::acceptIn (basevisitor* v) {
@@ -815,9 +818,9 @@ void msrArpeggiato::print (ostream& os)
     "Arpeggiato" " " <<
     articulationKindAsString () <<
     ", " <<
-    articulationPlacementAsString () <<
+    articulationPlacementKindAsString () <<
     ", " <<
-    arpeggiatoDirectionAsString () <<
+    arpeggiatoDirectionKindAsString () <<
     ", number: " <<
     fArpeggiatoNumber <<
     ", line " << fInputLineNumber <<
@@ -827,14 +830,14 @@ void msrArpeggiato::print (ostream& os)
 //______________________________________________________________________________
 S_msrNonArpeggiato msrNonArpeggiato::create (
   int                      inputLineNumber,
-  msrPlacement             nonArpeggiatoPlacement,
+  msrPlacementKind         nonArpeggiatoPlacementKind,
   msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
   int                      nonArpeggiatoNumber)
 {
   msrNonArpeggiato* o =
     new msrNonArpeggiato (
       inputLineNumber,
-      nonArpeggiatoPlacement,
+      nonArpeggiatoPlacementKind,
       nonArpeggiatoTypeKind,
       nonArpeggiatoNumber);
   assert (o!=0);
@@ -843,13 +846,13 @@ S_msrNonArpeggiato msrNonArpeggiato::create (
 
 msrNonArpeggiato::msrNonArpeggiato (
   int                      inputLineNumber,
-  msrPlacement             nonArpeggiatoPlacement,
+  msrPlacementKind         nonArpeggiatoPlacementKind,
   msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
   int                      nonArpeggiatoNumber)
     : msrArticulation (
       inputLineNumber,
       kNonArpeggiato,
-      nonArpeggiatoPlacement)
+      nonArpeggiatoPlacementKind)
 {  
   fNonArpeggiatoTypeKind = nonArpeggiatoTypeKind;
   
@@ -938,7 +941,7 @@ void msrNonArpeggiato::print (ostream& os)
     "NonArpeggiato" " " <<
     articulationKindAsString () <<
     ", " <<
-    articulationPlacementAsString () <<
+    articulationPlacementKindAsString () <<
     ", " <<
     nonArpeggiatoTypeKindAsString () <<
     ", number: " <<
@@ -949,9 +952,9 @@ void msrNonArpeggiato::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTechnical msrTechnical::create (
-  int                       inputLineNumber,
-  msrTechnicalKind          technicalKind,
-  msrTechnicalPlacementKind technicalPlacementKind)
+  int              inputLineNumber,
+  msrTechnicalKind technicalKind,
+  msrPlacementKind technicalPlacementKind)
 {
   msrTechnical* o =
     new msrTechnical (
@@ -963,9 +966,9 @@ S_msrTechnical msrTechnical::create (
 }
 
 msrTechnical::msrTechnical (
-  int                       inputLineNumber,
-  msrTechnicalKind          technicalKind,
-  msrTechnicalPlacementKind technicalPlacementKind)
+  int              inputLineNumber,
+  msrTechnicalKind technicalKind,
+  msrPlacementKind technicalPlacementKind)
     : msrElement (inputLineNumber)
 {
   fTechnicalKind = technicalKind;
@@ -1033,21 +1036,9 @@ string msrTechnical::technicalKindAsString () const
 
 string msrTechnical::technicalPlacementKindAsString () const
 {
-  string result;
-  
-  switch (fTechnicalPlacementKind) {
-    case msrTechnical::k_NoTechnicalPlacement:
-      result = "none";
-      break;
-    case msrTechnical::kTechnicalPlacementAbove:
-      result = "above";
-      break;
-    case msrTechnical::kTechnicalPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
+  return
+    msrPlacementKindAsString (
+      fTechnicalPlacementKind);
 }
 
 /*
@@ -1120,21 +1111,9 @@ ostream& operator<< (ostream& os, const S_msrTechnical& elt)
 
 string msrTechnical::technicalAsString () const
 {
-  string result;
-  
-  switch (fTechnicalPlacementKind) {
-    case msrTechnical::k_NoTechnicalPlacement:
-      result = "none";
-      break;
-    case msrTechnical::kTechnicalPlacementAbove:
-      result = "above";
-      break;
-    case msrTechnical::kTechnicalPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
+  return
+    msrPlacementKindAsString (
+      fTechnicalPlacementKind);
 }
 
 void msrTechnical::print (ostream& os)
@@ -1154,8 +1133,7 @@ S_msrTechnicalWithInteger msrTechnicalWithInteger::create (
   int                         inputLineNumber,
   msrTechnicalWithIntegerKind technicalWithIntegerKind,
   int                         technicalWithIntegerValue,
-  msrTechnicalWithIntegerPlacementKind
-                              technicalWithIntegerPlacementKind)
+  msrPlacementKind            technicalWithIntegerPlacementKind)
 {
   msrTechnicalWithInteger* o =
     new msrTechnicalWithInteger (
@@ -1171,8 +1149,7 @@ msrTechnicalWithInteger::msrTechnicalWithInteger (
   int                         inputLineNumber,
   msrTechnicalWithIntegerKind technicalWithIntegerKind,
   int                         technicalWithIntegerValue,
-  msrTechnicalWithIntegerPlacementKind
-                              technicalWithIntegerPlacementKind)
+  msrPlacementKind            technicalWithIntegerPlacementKind)
     : msrElement (inputLineNumber)
 {
   fTechnicalWithIntegerKind = technicalWithIntegerKind;
@@ -1209,21 +1186,9 @@ string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
 
 string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () const
 {
-  string result;
-  
-  switch (fTechnicalWithIntegerPlacementKind) {
-    case msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement:
-      result = "none";
-      break;
-    case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove:
-      result = "above";
-      break;
-    case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
+  return
+    msrPlacementKindAsString (
+      fTechnicalWithIntegerPlacementKind);
 }
 
 void msrTechnicalWithInteger::acceptIn (basevisitor* v) {
@@ -1303,8 +1268,7 @@ S_msrTechnicalWithString msrTechnicalWithString::create (
   int                         inputLineNumber,
   msrTechnicalWithStringKind technicalWithStringKind,
   string                      technicalWithStringValue,
-  msrTechnicalWithStringPlacementKind
-                              technicalWithStringPlacementKind)
+  msrPlacementKind            technicalWithStringPlacementKind)
 {
   msrTechnicalWithString* o =
     new msrTechnicalWithString (
@@ -1320,8 +1284,7 @@ msrTechnicalWithString::msrTechnicalWithString (
   int                         inputLineNumber,
   msrTechnicalWithStringKind technicalWithStringKind,
   string                      technicalWithStringValue,
-  msrTechnicalWithStringPlacementKind
-                              technicalWithStringPlacementKind)
+  msrPlacementKind            technicalWithStringPlacementKind)
     : msrElement (inputLineNumber)
 {
   fTechnicalWithStringKind = technicalWithStringKind;
@@ -1364,21 +1327,9 @@ string msrTechnicalWithString::technicalWithStringKindAsString () const
 
 string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
 {
-  string result;
-  
-  switch (fTechnicalWithStringPlacementKind) {
-    case msrTechnicalWithString::k_NoTechnicalWithStringPlacement:
-      result = "none";
-      break;
-    case msrTechnicalWithString::kTechnicalWithStringPlacementAbove:
-      result = "above";
-      break;
-    case msrTechnicalWithString::kTechnicalWithStringPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
+  return
+    msrPlacementKindAsString (
+      fTechnicalWithStringPlacementKind);
 }
 
 void msrTechnicalWithString::acceptIn (basevisitor* v) {
@@ -1455,30 +1406,30 @@ void msrTechnicalWithString::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrFermata msrFermata::create (
-  int            inputLineNumber,
-  msrFermataKind fermataKind,
-  msrFermataType fermataType)
+  int                inputLineNumber,
+  msrFermataKind     fermataKind,
+  msrFermataTypeKind fermataTypeKind)
 {
   msrFermata* o =
     new msrFermata (
       inputLineNumber,
       fermataKind,
-      fermataType);
+      fermataTypeKind);
   assert (o!=0);
   return o;
 }
 
 msrFermata::msrFermata (
-    int            inputLineNumber,
-    msrFermataKind fermataKind,
-    msrFermataType fermataType)
+    int                inputLineNumber,
+    msrFermataKind     fermataKind,
+    msrFermataTypeKind fermataTypeKind)
     : msrArticulation (
       inputLineNumber,
       msrArticulation::kFermata,
       k_NoPlacement) // temporary, JMI TEMP
 {
   fFermataKind = fermataKind;
-  fFermataType = fermataType;
+  fFermataTypeKind = fermataTypeKind;
 }
 
 msrFermata::~msrFermata()
@@ -1545,12 +1496,12 @@ string msrFermata::fermataKindAsString (
   return result;
 }
       
-string msrFermata::fermataTypeAsString (
-  msrFermataType fermataType)
+string msrFermata::fermataTypeKindAsString (
+  msrFermataTypeKind fermataTypeKind)
 {
   string result;
   
-  switch (fermataType) {
+  switch (fermataTypeKind) {
     case msrFermata::k_NoFermataType:
       result = "fermata type: none";
       break;
@@ -1580,7 +1531,7 @@ string msrFermata::fermataAsString () const
     ", " <<
     fermataKindAsString (fFermataKind) <<
     ", " <<
-    fermataTypeAsString (fFermataType) <<
+    fermataTypeKindAsString (fFermataTypeKind) <<
     ", line " << fInputLineNumber;
 
   return s.str ();
@@ -1595,24 +1546,26 @@ void msrFermata::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrOrnament msrOrnament::create (
-  int             inputLineNumber,
-  msrOrnamentKind ornamentKind)
+  int              inputLineNumber,
+  msrOrnamentKind  ornamentKind,
+  msrPlacementKind ornamentPlacementKind)
 {
   msrOrnament* o =
     new msrOrnament (
-      inputLineNumber, ornamentKind);
+      inputLineNumber, ornamentKind, ornamentPlacementKind);
   assert (o!=0);
   return o;
 }
 
 msrOrnament::msrOrnament (
-  int             inputLineNumber,
-  msrOrnamentKind ornamentKind)
+  int              inputLineNumber,
+  msrOrnamentKind  ornamentKind,
+  msrPlacementKind ornamentPlacementKind)
     : msrElement (inputLineNumber)
 {
   fOrnamentKind = ornamentKind;
 
-  fOrnamentPlacementKind = k_NoOrnamentPlacement;
+  fOrnamentPlacementKind = ornamentPlacementKind;
 
   fOrnamentAccidentalMark = kNatural;
 }
@@ -1668,21 +1621,9 @@ string msrOrnament::ornamentKindAsString () const
 
 string msrOrnament::ornamentPlacementKindAsString () const
 {
-  string result;
-  
-  switch (fOrnamentPlacementKind) {
-    case msrOrnament::k_NoOrnamentPlacement:
-      result = "none";
-      break;
-    case msrOrnament::kOrnamentPlacementAbove:
-      result = "above";
-      break;
-    case msrOrnament::kOrnamentPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
+   return
+    msrPlacementKindAsString (
+      fOrnamentPlacementKind);
 }
 
 string msrOrnament::ornamentAccidentalMarkAsString () const
@@ -1793,10 +1734,9 @@ void msrOrnament::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrSingleTremolo msrSingleTremolo::create (
-  int inputLineNumber,
-  int singleTremoloMarksNumber,
-  msrSingleTremoloPlacementKind
-      singleTremoloPlacementKind)
+  int              inputLineNumber,
+  int              singleTremoloMarksNumber,
+  msrPlacementKind singleTremoloPlacementKind)
 {
   msrSingleTremolo* o =
     new msrSingleTremolo (
@@ -1839,10 +1779,9 @@ S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
 }
 
 msrSingleTremolo::msrSingleTremolo (
-  int inputLineNumber,
-  int singleTremoloMarksNumber,
-  msrSingleTremoloPlacementKind
-      singleTremoloPlacementKind)
+  int              inputLineNumber,
+  int              singleTremoloMarksNumber,
+  msrPlacementKind singleTremoloPlacementKind)
     : msrElement (inputLineNumber)
 {
   fSingleTremoloMarksNumber   = singleTremoloMarksNumber;
@@ -1852,30 +1791,10 @@ msrSingleTremolo::msrSingleTremolo (
 msrSingleTremolo::~msrSingleTremolo()
 {}
 
-string msrSingleTremolo::singleTremoloPlacementKindAsString (
-  msrSingleTremoloPlacementKind singleTremoloPlacementKind)
-{
-  string result;
-  
-  switch (singleTremoloPlacementKind) {
-    case msrSingleTremolo::k_NoSingleTremoloPlacement:
-      result = "none";
-      break;
-    case msrSingleTremolo::kSingleTremoloPlacementAbove:
-      result = "above";
-      break;
-    case msrSingleTremolo::kSingleTremoloPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrSingleTremolo::singleTremoloPlacementKindAsString () const
 {
   return
-    singleTremoloPlacementKindAsString (
+    msrPlacementKindAsString (
       fSingleTremoloPlacementKind);
 }
 
@@ -1957,8 +1876,7 @@ S_msrDoubleTremolo msrDoubleTremolo::create (
   int                  inputLineNumber,
   msrDoubleTremoloKind doubleTremoloKind,
   int                  doubleTremoloMarksNumber,
-  msrDoubleTremoloPlacementKind
-                       doubleTremoloPlacementKind,
+  msrPlacementKind     doubleTremoloPlacementKind,
   S_msrVoice           voiceUplink)
 {
   msrDoubleTremolo* o =
@@ -1976,8 +1894,7 @@ msrDoubleTremolo::msrDoubleTremolo (
   int                  inputLineNumber,
   msrDoubleTremoloKind doubleTremoloKind,
   int                  doubleTremoloMarksNumber,
-  msrDoubleTremoloPlacementKind
-                       doubleTremoloPlacementKind,
+  msrPlacementKind     doubleTremoloPlacementKind,
   S_msrVoice           voiceUplink)
     : msrElement (inputLineNumber)
 {
@@ -2334,30 +2251,10 @@ string msrDoubleTremolo::msrDoubleTremoloKindAsString (
   return result;
 }
 
-string msrDoubleTremolo::doubleTremoloPlacementKindAsString (
-  msrDoubleTremoloPlacementKind doubleTremoloPlacementKind)
-{
-  string result;
-  
-  switch (doubleTremoloPlacementKind) {
-    case msrDoubleTremolo::k_NoDoubleTremoloPlacement:
-      result = "none";
-      break;
-    case msrDoubleTremolo::kDoubleTremoloPlacementAbove:
-      result = "above";
-      break;
-    case msrDoubleTremolo::kDoubleTremoloPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
 {
   return
-    doubleTremoloPlacementKindAsString (
+    msrPlacementKindAsString (
       fDoubleTremoloPlacementKind);
 }
 
@@ -2700,9 +2597,9 @@ void msrRehearsal::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrDynamics msrDynamics::create (
-  int                      inputLineNumber,
-  msrDynamicsKind          dynamicsKind,
-  msrDynamicsPlacementKind dynamicsPlacementKind)
+  int              inputLineNumber,
+  msrDynamicsKind  dynamicsKind,
+  msrPlacementKind dynamicsPlacementKind)
 {
   msrDynamics* o =
     new msrDynamics (
@@ -2714,9 +2611,9 @@ S_msrDynamics msrDynamics::create (
 }
 
 msrDynamics::msrDynamics (
-  int                      inputLineNumber,
-  msrDynamicsKind          dynamicsKind,
-  msrDynamicsPlacementKind dynamicsPlacementKind)
+  int              inputLineNumber,
+  msrDynamicsKind  dynamicsKind,
+  msrPlacementKind dynamicsPlacementKind)
     : msrElement (inputLineNumber)
 {
   fDynamicsKind = dynamicsKind;
@@ -2818,30 +2715,10 @@ string msrDynamics::dynamicsKindAsString () const
     dynamicsKindAsString (fDynamicsKind);
 }
 
-string msrDynamics::dynamicsPlacementKindAsString (
-  msrDynamicsPlacementKind dynamicsPlacementKind)
-{
-  string result;
-
-  switch (dynamicsPlacementKind) {
-    case msrDynamics::k_NoDynamicsPlacement:
-      result = "none";
-      break;
-    case msrDynamics::kDynamicsPlacementAbove:
-      result = "above";
-      break;
-    case msrDynamics::kDynamicsPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrDynamics::dynamicsPlacementKindAsString () const
 {
   return
-    dynamicsPlacementKindAsString (
+    msrPlacementKindAsString (
       fDynamicsPlacementKind);
 }
 
@@ -3881,18 +3758,18 @@ S_msrNote msrNote::create (
   
   msrNoteKind                noteKind,
 
-  msrQuarterTonesPitch       noteQuarterTonesPitch,
+  msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
   
   rational                   noteSoundingWholeNotes,
   rational                   noteDisplayWholeNotes,
   
   int                        noteDotsNumber,
   
-  msrDuration                noteGraphicDuration,
+  msrDurationKind            noteGraphicDurationKind,
   
   int                        noteOctave,
   
-  msrQuarterTonesPitch       noteQuarterTonesDisplayPitch,
+  msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
   int                        noteDisplayOctave,
   
   bool                       noteIsARest,
@@ -3912,18 +3789,18 @@ S_msrNote msrNote::create (
       
       noteKind,
       
-      noteQuarterTonesPitch,
+      noteQuarterTonesPitchKind,
       
       noteSoundingWholeNotes,
       noteDisplayWholeNotes,
       
       noteDotsNumber,
       
-      noteGraphicDuration,
+      noteGraphicDurationKind,
       
       noteOctave,
 
-      noteQuarterTonesDisplayPitch,
+      noteQuarterTonesDisplayPitchKind,
       noteDisplayOctave,
       
       noteIsARest,
@@ -3946,18 +3823,18 @@ msrNote::msrNote (
   
   msrNoteKind                noteKind,
 
-  msrQuarterTonesPitch       noteQuarterTonesPitch,
+  msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
   
   rational                   noteSoundingWholeNotes,
   rational                   noteDisplayWholeNotes,
   
   int                        noteDotsNumber,
   
-  msrDuration                noteGraphicDuration,
+  msrDurationKind            noteGraphicDurationKind,
   
   int                        noteOctave,
   
-  msrQuarterTonesPitch       noteQuarterTonesDisplayPitch,
+  msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
   int                        noteDisplayOctave,
   
   bool                       noteIsARest,
@@ -3975,19 +3852,19 @@ msrNote::msrNote (
   // basic note description
   fNoteKind = noteKind;
 
-  fNoteQuarterTonesPitch  = noteQuarterTonesPitch;
+  fNoteQuarterTonesPitchKind  = noteQuarterTonesPitchKind;
   
   fNoteSoundingWholeNotes = noteSoundingWholeNotes;
   fNoteDisplayWholeNotes  = noteDisplayWholeNotes;
   
-  fNoteDotsNumber         = noteDotsNumber;
+  fNoteDotsNumber = noteDotsNumber;
   
-  fNoteGraphicDuration    = noteGraphicDuration;
+  fNoteGraphicDurationKind = noteGraphicDurationKind;
   
-  fNoteOctave             = noteOctave;
+  fNoteOctave = noteOctave;
 
-  fNoteQuarterTonesDisplayPitch = noteQuarterTonesDisplayPitch;
-  fNoteDisplayOctave            = noteDisplayOctave;
+  fNoteQuarterTonesDisplayPitchKind = noteQuarterTonesDisplayPitchKind;
+  fNoteDisplayOctave                = noteDisplayOctave;
 
   fNoteIsARest     = noteIsARest;
   fNoteIsUnpitched = noteIsUnpitched;
@@ -4013,13 +3890,16 @@ void msrNote::initializeNote ()
     // this note is a pitched rest:
     // copy the display octave to the the note octave, // JMI
     // to be used in octave relative code generation
-    fNoteQuarterTonesPitch = fNoteQuarterTonesDisplayPitch;
+    fNoteQuarterTonesPitchKind = fNoteQuarterTonesDisplayPitchKind;
     fNoteOctave = fNoteDisplayOctave;
   }
 
   // note accidentals
   // ------------------------------------------------------
 
+  fNoteAccidentalKind =
+    msrNote::k_NoNoteAccidental; // default value
+  
   fNoteEditorialAccidentalKind =
     msrNote::kNoteEditorialAccidentalNo; // default value
   
@@ -4064,9 +3944,9 @@ void msrNote::initializeNote ()
       left <<
         setw (fieldWidth) <<
         "fNoteQuarterTonesPitch" << " = " <<
-        msrQuarterTonesPitchAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-          fNoteQuarterTonesPitch) <<
+        msrQuarterTonesPitchKindAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+          fNoteQuarterTonesPitchKind) <<
         endl;
 
     gLogIOstream <<
@@ -4093,10 +3973,10 @@ void msrNote::initializeNote ()
       left <<
         setw (fieldWidth) <<
         "fNoteGraphicDuration" << " = ";
-      if (fNoteGraphicDuration != k_NoDuration)
+      if (fNoteGraphicDurationKind != k_NoDuration)
         gLogIOstream <<
-          msrDurationAsString (
-            fNoteGraphicDuration);
+          msrDurationKindAsString (
+            fNoteGraphicDurationKind);
       else
         gLogIOstream << "none";
 
@@ -4157,6 +4037,12 @@ void msrNote::initializeNote ()
         // fNoteOctaveShift JMI ???
 
       // accidentals
+      left <<
+        setw (fieldWidth) <<
+        "fNoteAccidentalKind" << " = " <<
+        noteAccidentalKindAsString (
+          fNoteAccidentalKind) <<
+        endl <<
       left <<
         setw (fieldWidth) <<
         "fNoteEditorialAccidentalKind" << " = " <<
@@ -4260,18 +4146,18 @@ S_msrNote msrNote::createNoteNewbornClone (
         
         fNoteKind,
         
-        fNoteQuarterTonesPitch,
+        fNoteQuarterTonesPitchKind,
         
         fNoteSoundingWholeNotes,
         fNoteDisplayWholeNotes,
         
         fNoteDotsNumber,
         
-        fNoteGraphicDuration,
+        fNoteGraphicDurationKind,
         
         fNoteOctave,
         
-        fNoteQuarterTonesDisplayPitch,
+        fNoteQuarterTonesDisplayPitchKind,
         fNoteDisplayOctave,
         
         fNoteIsARest,
@@ -4310,6 +4196,9 @@ S_msrNote msrNote::createNoteNewbornClone (
   // accidentals
   // ------------------------------------------------------
 
+  newbornClone->fNoteAccidentalKind =
+    fNoteAccidentalKind;
+  
   newbornClone->fNoteEditorialAccidentalKind =
     fNoteEditorialAccidentalKind;
   
@@ -4484,18 +4373,18 @@ S_msrNote msrNote::createNoteDeepCopy (
         
         fNoteKind,
         
-        fNoteQuarterTonesPitch,
+        fNoteQuarterTonesPitchKind,
         
         fNoteSoundingWholeNotes,
         fNoteDisplayWholeNotes,
         
         fNoteDotsNumber,
         
-        fNoteGraphicDuration,
+        fNoteGraphicDurationKind,
         
         fNoteOctave,
         
-        fNoteQuarterTonesDisplayPitch,
+        fNoteQuarterTonesDisplayPitchKind,
         fNoteDisplayOctave,
         
         fNoteIsARest,
@@ -4534,6 +4423,9 @@ S_msrNote msrNote::createNoteDeepCopy (
   // accidentals
   // ------------------------------------------------------
 
+  noteDeepCopy->fNoteAccidentalKind =
+    fNoteAccidentalKind;
+  
   noteDeepCopy->fNoteEditorialAccidentalKind =
     fNoteEditorialAccidentalKind;
   
@@ -4981,6 +4873,126 @@ string msrNote::noteKindAsString (
   return result;
 }
 
+// accidentals
+//______________________________________________________________________________
+string msrNote::noteAccidentalKindAsString (
+  msrNoteAccidentalKind noteAccidentalKind)
+{
+  string result;
+  
+  switch (noteAccidentalKind) {
+    case k_NoNoteAccidental:
+      result = "none";
+      break;
+      
+    case kNoteAccidentalSharp:
+      result = "NoteAccidentalSharp";
+      break;
+    case kNoteAccidentalNatural:
+      result = "NoteAccidentalNatural";
+      break;
+    case kNoteAccidentalFlat:
+      result = "NoteAccidentalFlat";
+      break;
+    case kNoteAccidentaldoubleSharp:
+      result = "NoteAccidentaldoubleSharp";
+      break;
+    case kNoteAccidentalSharpSharp:
+      result = "NoteAccidentalSharpSharp";
+      break;
+    case kNoteAccidentalFlatFlat:
+      result = "NoteAccidentalFlatFlat";
+      break;
+    case kNoteAccidentalNaturalSharp:
+      result = "NoteAccidentalNaturalSharp";
+      break;
+    case kNoteAccidentalNaturalFlat:
+      result = "NoteAccidentalNaturalFlat";
+      break;
+    case kNoteAccidentalQuarterFlat:
+      result = "NoteAccidentalQuarterFlat";
+      break;
+    case kNoteAccidentalQuarterSharp:
+      result = "NoteAccidentalQuarterSharp";
+      break;
+    case kNoteAccidentalThreeQuartersFlat:
+      result = "NoteAccidentalThreeQuartersFlat";
+      break;
+    case kNoteAccidentalThreeQuartersSharp:
+      result = "NoteAccidentalThreeQuartersSharp";
+      break;
+      
+    case kNoteAccidentalSharpDown:
+      result = "NoteAccidentalSharpDown";
+      break;
+    case kNoteAccidentalSharpUp:
+      result = "NoteAccidentalSharpUp";
+      break;
+    case kNoteAccidentalNaturalDown:
+      result = "NoteAccidentalNaturalDown";
+      break;
+    case kNoteAccidentalNaturalUp:
+      result = "NoteAccidentalNaturalUp";
+      break;
+    case kNoteAccidentalFlatDown:
+      result = "NoteAccidentalFlatDown";
+      break;
+    case kNoteAccidentalFlatUp:
+      result = "NoteAccidentalFlatUp";
+      break;
+    case kNoteAccidentalTripleSharp:
+      result = "NoteAccidentalTripleSharp";
+      break;
+    case kNoteAccidentalTripleFlat:
+      result = "NoteAccidentalTripleFlat";
+      break;
+    case kNoteAccidentalSlashQuarterSharp:
+      result = "NoteAccidentalSlashQuarterSharp";
+      break;
+    case kNoteAccidentalSlashSharp:
+      result = "NoteAccidentalSlashSharp";
+      break;
+    case kNoteAccidentalSlashFlat:
+      result = "NoteAccidentalSlashFlat";
+      break;
+    case kNoteAccidentaldoubleSlashFlat:
+      result = "NoteAccidentaldoubleSlashFlat";
+      break;
+    case kNoteAccidentalSharp_1:
+      result = "NoteAccidentalSharp_1";
+      break;
+    case kNoteAccidentalSharp_2:
+      result = "NoteAccidentalSharp_2";
+      break;
+    case kNoteAccidentalSharp_3:
+      result = "NoteAccidentalSharp_3";
+      break;
+    case kNoteAccidentalSharp_5:
+      result = "NoteAccidentalSharp_5";
+      break;
+    case kNoteAccidentalFlat_1:
+      result = "NoteAccidentalFlat_1";
+      break;
+    case kNoteAccidentalFlat_2:
+      result = "NoteAccidentalFlat_2";
+      break;
+    case kNoteAccidentalFlat_3:
+      result = "NoteAccidentalFlat_3";
+      break;
+    case kNoteAccidentalFlat_4:
+      result = "NoteAccidentalFlat_4";
+      break;
+    case kNoteAccidentalSori:
+      result = "NoteAccidentalSori";
+      break;
+    case kNoteAccidentalKoron:
+      result = "NoteAccidentalKoron";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrNote::noteEditorialAccidentalKindAsString (
   msrNoteEditorialAccidentalKind noteEditorialAccidentalKind)
 {
@@ -5183,13 +5195,13 @@ string msrNote::noteHeadParenthesesKindAsString () const
       fNoteHeadParenthesesKind);
 }
 
-msrDiatonicPitch msrNote::noteDiatonicPitch (
+msrDiatonicPitchKind msrNote::noteDiatonicPitchKind (
   int inputLineNumber) const
 {
   return
-    msrDiatonicPitchFromQuarterTonesPitch (
+    diatonicPitchKindFromQuarterTonesPitchKind (
       inputLineNumber,
-      fNoteQuarterTonesPitch);
+      fNoteQuarterTonesPitchKind);
 }
 
 string msrNote::noteDisplayOctaveAsString () const
@@ -5823,15 +5835,15 @@ string msrNote::notePitchAsString () const
     s << "unpitched ";
   else {
     s <<
-      msrQuarterTonesPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fNoteQuarterTonesPitch);
+      msrQuarterTonesPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        fNoteQuarterTonesPitchKind);
   }
   
   return s.str ();
 }
 
-string msrNote::noteDisplayPitchAsString () const
+string msrNote::noteDisplayPitchKindAsString () const
 {
   stringstream s;
   
@@ -5855,9 +5867,9 @@ string msrNote::noteDisplayPitchAsString () const
   else {
   */
     s <<
-      msrQuarterTonesPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        fNoteQuarterTonesDisplayPitch);  
+      msrQuarterTonesPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        fNoteQuarterTonesDisplayPitchKind);  
 
  // JMI }
   
@@ -5868,8 +5880,8 @@ string msrNote::noteGraphicDurationAsMsrString () const
 {
   string
     result =
-      msrDurationAsString (
-        fNoteGraphicDuration);
+      msrDurationKindAsString (
+        fNoteGraphicDurationKind);
     
   return result;
 }
@@ -5885,13 +5897,13 @@ string msrNote::tupletNoteGraphicDurationAsMsrString ( // JMI
       rational (actualNotes, normalNotes));
 }
 
-string msrNote::noteDiatonicPitchAsString (
+string msrNote::noteDiatonicPitchKindAsString (
   int inputLineNumber) const
 {
   return
-    msrDiatonicPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      noteDiatonicPitch (
+    msrDiatonicPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      noteDiatonicPitchKind (
         fInputLineNumber));
 }
 
@@ -6106,7 +6118,7 @@ string msrNote::noteAsString ()
       else
         s <<
           "(" <<
-          noteDisplayPitchAsString () <<
+          noteDisplayPitchKindAsString () <<
           noteSoundingWholeNotesAsMsrString () <<
           ", octave" " "<< noteDisplayOctaveAsString () <<
           ")";
@@ -6318,6 +6330,12 @@ void msrNote::print (ostream& os)
       endl;
       
     // accidentals
+    os <<
+      "accidental kind: " <<
+      noteAccidentalKindAsString (
+        fNoteAccidentalKind) <<
+      endl;
+
     os <<
       noteEditorialAccidentalKindAsString (
         fNoteEditorialAccidentalKind) <<
@@ -6876,10 +6894,10 @@ void msrNote::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrChord msrChord::create (
-  int         inputLineNumber,
-  rational    chordSoundingWholeNotes,
-  rational    chordDisplayWholeNotes,
-  msrDuration chordGraphicDuration)
+  int             inputLineNumber,
+  rational        chordSoundingWholeNotes,
+  rational        chordDisplayWholeNotes,
+  msrDurationKind chordGraphicDurationKind)
 {
   if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
@@ -6887,7 +6905,7 @@ S_msrChord msrChord::create (
       ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
       ", chordDisplayWholeNotes = " << chordDisplayWholeNotes <<
       ", chordGraphicDuration = " <<
-      msrDurationAsString (chordGraphicDuration) <<
+      msrDurationKindAsString (chordGraphicDurationKind) <<
       endl;
  }
    
@@ -6895,23 +6913,23 @@ S_msrChord msrChord::create (
     new msrChord (
       inputLineNumber,
       chordSoundingWholeNotes, chordDisplayWholeNotes,
-      chordGraphicDuration);
+      chordGraphicDurationKind);
   assert(o!=0);
 
   return o;
 }
 
 msrChord::msrChord (
-  int         inputLineNumber,
-  rational    chordSoundingWholeNotes,
-  rational    chordDisplayWholeNotes,
-  msrDuration chordGraphicDuration)
+  int             inputLineNumber,
+  rational        chordSoundingWholeNotes,
+  rational        chordDisplayWholeNotes,
+  msrDurationKind chordGraphicDurationKind)
     : msrElement (inputLineNumber)
 {
   fChordSoundingWholeNotes = chordSoundingWholeNotes;
   fChordDisplayWholeNotes  = chordDisplayWholeNotes;
   
-  fChordGraphicDuration = chordGraphicDuration;
+  fChordGraphicDurationKind = chordGraphicDurationKind;
 
   fChordIsFirstChordInADoubleTremolo  = false;
   fChordIsSecondChordInADoubleTremolo = false;
@@ -6942,7 +6960,7 @@ S_msrChord msrChord::createChordNewbornClone (
         fInputLineNumber,
         fChordSoundingWholeNotes,
         fChordDisplayWholeNotes,
-        fChordGraphicDuration);
+        fChordGraphicDurationKind);
     
   newbornClone->
     fChordPositionInMeasure =
@@ -7729,7 +7747,7 @@ void msrDivisions::initializeDivisions ()
   }
   
   // forget fDurationsToDivisions's contents
-  fDurationsToDivisions.clear ();
+  fDurationKindsToDivisions.clear ();
   
   // positive powers of 2 of a quarter note
   int bigDivisions = fDivisionsPerQuarterNote;
@@ -7743,8 +7761,9 @@ void msrDivisions::initializeDivisions ()
       endl;
     */
     
-    fDurationsToDivisions.push_front (
-      make_pair (msrDuration (i), bigDivisions));
+    fDurationKindsToDivisions.push_front (
+      make_pair (
+        msrDurationKind (i), bigDivisions));
       
     bigDivisions *= 2;
   } // for
@@ -7754,8 +7773,8 @@ void msrDivisions::initializeDivisions ()
     int
       smallDivisions =
         fDivisionsPerQuarterNote / 2;
-    msrDuration
-      currentDuration =
+    msrDurationKind
+      currentDurationKind =
         kEighth;
     
     while (smallDivisions >= 1) {
@@ -7767,30 +7786,32 @@ void msrDivisions::initializeDivisions ()
         endl;
       */
 
-      fDurationsToDivisions.push_back (
-        make_pair (currentDuration, smallDivisions));
+      fDurationKindsToDivisions.push_back (
+        make_pair (currentDurationKind, smallDivisions));
         
-      currentDuration = msrDuration (currentDuration + 1);
+      currentDurationKind =
+        msrDurationKind (
+          currentDurationKind + 1);
       smallDivisions /= 2;
     } // while
   }
 
   // print the durations divisions if needed
   if (gGeneralOptions->fTraceDivisions) {
-    printDurationsDivisions (gLogIOstream);
+    printDurationKindsDivisions (gLogIOstream);
   }
 }
 
-int msrDivisions::durationAsDivisions (
-  int         inputLineNumber,
-  msrDuration duration)
+int msrDivisions::durationKindAsDivisions (
+  int             inputLineNumber,
+  msrDurationKind durationKind)
 {
   for (
-    list<pair<msrDuration, int> >::const_iterator i =
-      fDurationsToDivisions.begin ();
-    i != fDurationsToDivisions.end ();
+    list<pair<msrDurationKind, int> >::const_iterator i =
+      fDurationKindsToDivisions.begin ();
+    i != fDurationKindsToDivisions.end ();
     i++) {
-    if ((*i).first == duration)
+    if ((*i).first == durationKind)
       return
         (*i).second;
   } // for
@@ -7798,12 +7819,12 @@ int msrDivisions::durationAsDivisions (
   stringstream s;
 
   s <<
-    "duration " << duration <<
+    "duration " << durationKind <<
     " cannot be converted to divisions with " <<
     fDivisionsPerQuarterNote << " divisions per quarter note" <<
     endl;
 
-  printDurationsDivisions (s);
+  printDurationKindsDivisions (s);
   
   msrInternalError (
     gGeneralOptions->fInputSourceName,
@@ -7814,7 +7835,7 @@ int msrDivisions::durationAsDivisions (
   return -1; // never reached
 }
 
-void msrDivisions::printDurationsDivisions (ostream& os)
+void msrDivisions::printDurationKindsDivisions (ostream& os)
 {
   os <<
     "The mapping of durations to divisions with " <<
@@ -7824,16 +7845,17 @@ void msrDivisions::printDurationsDivisions (ostream& os)
 
   gIndenter++;
   
-  if (fDurationsToDivisions.size ()) {
-    list<pair<msrDuration, int> >::const_iterator
-      iBegin = fDurationsToDivisions.begin (),
-      iEnd   = fDurationsToDivisions.end (),
+  if (fDurationKindsToDivisions.size ()) {
+    list<pair<msrDurationKind, int> >::const_iterator
+      iBegin = fDurationKindsToDivisions.begin (),
+      iEnd   = fDurationKindsToDivisions.end (),
       i      = iBegin;
           
     for ( ; ; ) {
       os <<
         setw (6) << left <<
-        msrDurationAsString (msrDuration((*i).first)) <<
+        msrDurationKindAsString (
+          msrDurationKind ((*i).first)) <<
         ": " <<
         setw (4) << right <<
         (*i).second;
@@ -7894,13 +7916,13 @@ string msrDivisions::divisionsAsMsrString (
       endl;
   }
     
-  msrDuration baseDuration          = k1024th;
-  int         baseDurationDivisions = -1;
+  msrDurationKind baseDurationKind          = k1024th;
+  int             baseDurationDivisions = -1;
   
   // search fDurationsToDivisions in longer to shortest order
-  list<pair<msrDuration, int> >::const_iterator
-    iBegin = fDurationsToDivisions.begin (),
-    iEnd   = fDurationsToDivisions.end (),
+  list<pair<msrDurationKind, int> >::const_iterator
+    iBegin = fDurationKindsToDivisions.begin (),
+    iEnd   = fDurationKindsToDivisions.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -7912,7 +7934,7 @@ string msrDivisions::divisionsAsMsrString (
         " could not be handled by divisionsAsMsrString () with:" <<
         endl;
 
-      printDurationsDivisions (gLogIOstream);
+      printDurationKindsDivisions (gLogIOstream);
 
       msrInternalError (
         gGeneralOptions->fInputSourceName,
@@ -7924,11 +7946,11 @@ string msrDivisions::divisionsAsMsrString (
 
     if ((*i).second <= divisions) {
       // found base duration in list
-      baseDuration          = (*i).first;
+      baseDurationKind      = (*i).first;
       baseDurationDivisions = (*i).second;
 
       result =
-        msrDurationAsString (baseDuration);
+        msrDurationKindAsString (baseDurationKind);
       
       if (gGeneralOptions->fTraceDivisions) {
         gLogIOstream <<
@@ -8121,13 +8143,13 @@ string msrDivisions::wholeNotesAsMsrString (
       endl;
   }
     
-  msrDuration baseDuration          = k1024th;
-  int         baseDurationDivisions = -1;
+  msrDurationKind baseDurationKind          = k1024th;
+  int             baseDurationDivisions = -1;
   
   // search fDurationsToDivisions in longer to shortest order
-  list<pair<msrDuration, int> >::const_iterator
-    iBegin = fDurationsToDivisions.begin (),
-    iEnd   = fDurationsToDivisions.end (),
+  list<pair<msrDurationKind, int> >::const_iterator
+    iBegin = fDurationKindsToDivisions.begin (),
+    iEnd   = fDurationKindsToDivisions.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -8139,7 +8161,7 @@ string msrDivisions::wholeNotesAsMsrString (
         " could not be handled by wholeNotesAsMsrString () with:" <<
         endl;
 
-      printDurationsDivisions (gLogIOstream);
+      printDurationKindsDivisions (gLogIOstream);
 
       msrInternalError (
         gGeneralOptions->fInputSourceName,
@@ -8151,11 +8173,11 @@ string msrDivisions::wholeNotesAsMsrString (
 
     if ((*i).second <= divisions) {
       // found base duration in list
-      baseDuration          = (*i).first;
+      baseDurationKind      = (*i).first;
       baseDurationDivisions = (*i).second;
 
       result =
-        msrDurationAsString (baseDuration);
+        msrDurationKindAsString (baseDurationKind);
       
       if (gGeneralOptions->fTraceDivisions) {
         gLogIOstream << left <<
@@ -8163,10 +8185,12 @@ string msrDivisions::wholeNotesAsMsrString (
           "divisions" << " = " << divisions <<
           endl <<
           gTab << setw (fieldWidth) <<
-          "baseDuration" << " = " << msrDurationAsString (baseDuration) <<
+          "baseDuration" << " = " <<
+          msrDurationKindAsString (baseDurationKind) <<
           endl <<
           gTab << setw (fieldWidth) <<
-          "baseDurationDivisions" << " = " << baseDurationDivisions <<
+          "baseDurationDivisions" << " = " <<
+          baseDurationDivisions <<
           endl <<
           gTab << setw (fieldWidth) <<
           "result" << " = " << result <<
@@ -10562,9 +10586,9 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
       endl;
   }
 
-  fKeyDiatonicPitch = k_NoDiatonicPitch;
-  fKeyAlteration    = k_NoAlteration;
-  fKeyOctave        = -1; // actual MusicXML octaves are non-negative
+  fKeyDiatonicPitchKind = k_NoDiatonicPitch;
+  fKeyAlterationKind    = k_NoAlteration;
+  fKeyOctave            = -1; // actual MusicXML octaves are non-negative
 }
 
 msrHumdrumScotKeyItem::~msrHumdrumScotKeyItem()
@@ -10578,39 +10602,39 @@ bool msrHumdrumScotKeyItem::isEqualTo (
     return false;
     
   return
-    fKeyDiatonicPitch == otherHumdrumScotKeyItem->fKeyDiatonicPitch
+    fKeyDiatonicPitchKind == otherHumdrumScotKeyItem->fKeyDiatonicPitchKind
       &&
-    fKeyAlteration == otherHumdrumScotKeyItem->fKeyAlteration
+    fKeyAlterationKind == otherHumdrumScotKeyItem->fKeyAlterationKind
       &&
     fKeyOctave == otherHumdrumScotKeyItem->fKeyOctave;
 }
 
-void msrHumdrumScotKeyItem::setKeyItemDiatonicPitch (
-  msrDiatonicPitch diatonicPitch)
+void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
+  msrDiatonicPitchKind diatonicPitchKind)
 {
   if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
-      msrDiatonicPitchAsString (diatonicPitch) <<
+      msrDiatonicPitchKindAsString (diatonicPitchKind) <<
       "'" <<
       endl;
   }
   
-  fKeyDiatonicPitch = diatonicPitch;
+  fKeyDiatonicPitchKind = diatonicPitchKind;
 }
 
-void msrHumdrumScotKeyItem::setKeyItemAlteration (
-  msrAlteration alteration)
+void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
+  msrAlterationKind alterationKind)
 {
   if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
-      msrAlterationAsString (alteration) <<
+      msrAlterationKindAsString (alterationKind) <<
       "'" <<
       endl;
   }
   
-  fKeyAlteration = alteration;
+  fKeyAlterationKind = alterationKind;
 }
 
 void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
@@ -10680,9 +10704,9 @@ string msrHumdrumScotKeyItem::humdrumScotKeyItemAsString () const
   s <<
     "HumdrumScotKeyItem" <<
     ", KeyDiatonicPitch" << ": " <<
-    msrDiatonicPitchAsString (fKeyDiatonicPitch) <<
+    msrDiatonicPitchKindAsString (fKeyDiatonicPitchKind) <<
     ", KeyAlteration" << ": " <<
-    msrAlterationAsString (fKeyAlteration) <<
+    msrAlterationKindAsString (fKeyAlterationKind) <<
     ", KeyOctave" << ": " << fKeyOctave <<
     ", line " << fInputLineNumber;
      
@@ -10698,15 +10722,15 @@ void msrHumdrumScotKeyItem::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrKey msrKey::createTraditional (
-  int                  inputLineNumber,
-  msrQuarterTonesPitch keyTonicQuarterTonesPitch,
-  msrKeyModeKind       keyModeKind,
-  int                  keyCancel)
+  int                      inputLineNumber,
+  msrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
+  msrKeyModeKind           keyModeKind,
+  int                      keyCancel)
 {
   msrKey* o =
     new msrKey (
       inputLineNumber,
-      keyTonicQuarterTonesPitch, keyModeKind,
+      keyTonicQuarterTonesPitchKind, keyModeKind,
       keyCancel);
   assert (o!=0);
 
@@ -10714,7 +10738,7 @@ S_msrKey msrKey::createTraditional (
 }
 
 S_msrKey msrKey::createHumdrumScot (
-  int                  inputLineNumber)
+  int inputLineNumber)
 {
   msrKey* o =
     new msrKey (
@@ -10725,19 +10749,19 @@ S_msrKey msrKey::createHumdrumScot (
 }
 
 msrKey::msrKey ( // for traditional keys
-  int                  inputLineNumber,
-  msrQuarterTonesPitch keyTonicQuarterTonesPitch,
-  msrKeyModeKind       keyModeKind,
-  int                  keyCancel)
+  int                      inputLineNumber,
+  msrQuarterTonesPitchKind keyTonicQuarterTonesPitchKind,
+  msrKeyModeKind           keyModeKind,
+  int                      keyCancel)
     : msrElement (inputLineNumber)
 {
   // this is a traditional key
   fKeyKind = kTraditionalKind;
   
-  fKeyTonicQuarterTonesPitch = keyTonicQuarterTonesPitch;
-  fKeyModeKind               = keyModeKind;
+  fKeyTonicQuarterTonesPitchKind = keyTonicQuarterTonesPitchKind;
+  fKeyModeKind                   = keyModeKind;
   
-  fKeyCancel     = keyCancel;
+  fKeyCancel = keyCancel;
 
   // initialization in all cases
   fKeyItemsOctavesAreSpecified = false;
@@ -10766,7 +10790,9 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
     ! (
         fKeyKind == otherKey->fKeyKind
           &&
-        fKeyTonicQuarterTonesPitch == otherKey->fKeyTonicQuarterTonesPitch
+        fKeyTonicQuarterTonesPitchKind
+          ==
+        otherKey->fKeyTonicQuarterTonesPitchKind
           &&
         fKeyModeKind == otherKey->fKeyModeKind
           &&
@@ -10947,9 +10973,9 @@ string msrKey::keyAsString () const
   switch (fKeyKind) {
     case msrKey::kTraditionalKind:
       s <<
-        msrQuarterTonesPitchAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-          fKeyTonicQuarterTonesPitch) <<
+        msrQuarterTonesPitchKindAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+          fKeyTonicQuarterTonesPitchKind) <<
         " " <<
         keyModeKindAsString (fKeyModeKind);
       break;
@@ -10980,9 +11006,9 @@ void msrKey::print (ostream& os)
     case msrKey::kTraditionalKind:
       os <<
         " " <<
-        msrQuarterTonesPitchAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-          fKeyTonicQuarterTonesPitch) <<
+        msrQuarterTonesPitchKindAsString (
+          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+          fKeyTonicQuarterTonesPitchKind) <<
         " " <<
         keyModeKindAsString (fKeyModeKind) <<
         ", line " << fInputLineNumber <<
@@ -11796,13 +11822,13 @@ void msrTranspose::print (ostream& os)
 //______________________________________________________________________________
 S_msrWords msrWords::create (
   int                      inputLineNumber,
-  msrWordsPlacementKind    wordsPlacementKind,
+  msrPlacementKind         wordsPlacementKind,
   string                   wordsContents,
   msrJustifyKind           wordsJustifyKind,
   msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-  msrFontStyle             wordsFontStyle,
+  msrFontStyleKind         wordsFontStyleKind,
   S_msrFontSize            wordsFontSize,
-  msrFontWeight            wordsFontWeight,
+  msrFontWeightKind        wordsFontWeightKind,
   msrWordsXMLLangKind      wordsXMLLangKind)
 {
   msrWords* o =
@@ -11812,9 +11838,9 @@ S_msrWords msrWords::create (
       wordsContents,
       wordsJustifyKind,
       wordsVerticalAlignmentKind,
-      wordsFontStyle,
+      wordsFontStyleKind,
       wordsFontSize,
-      wordsFontWeight,
+      wordsFontWeightKind,
       wordsXMLLangKind);
   assert(o!=0);
   return o;
@@ -11822,13 +11848,13 @@ S_msrWords msrWords::create (
 
 msrWords::msrWords (
   int                      inputLineNumber,
-  msrWordsPlacementKind    wordsPlacementKind,
+  msrPlacementKind         wordsPlacementKind,
   string                   wordsContents,
   msrJustifyKind           wordsJustifyKind,
   msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-  msrFontStyle             wordsFontStyle,
+  msrFontStyleKind         wordsFontStyleKind,
   S_msrFontSize            wordsFontSize,
-  msrFontWeight            wordsFontWeight,
+  msrFontWeightKind        wordsFontWeightKind,
   msrWordsXMLLangKind      wordsXMLLangKind)
     : msrElement (inputLineNumber)
 {
@@ -11839,9 +11865,9 @@ msrWords::msrWords (
   fWordsJustifyKind    = wordsJustifyKind;
   fWordsVerticalAlignmentKind = wordsVerticalAlignmentKind;
 
-  fWordsFontStyle      = wordsFontStyle;
+  fWordsFontStyleKind  = wordsFontStyleKind;
   fWordsFontSize       = wordsFontSize;
-  fWordsFontWeight     = wordsFontWeight;
+  fWordsFontWeightKind = wordsFontWeightKind;
   
   fWordsXMLLangKind    = wordsXMLLangKind;
 }
@@ -11896,21 +11922,11 @@ ostream& operator<< (ostream& os, const S_msrWords& elt)
   return os;
 }
 
-string msrWords::wordsPlacementKindAsString (
-  msrWordsPlacementKind wordsPlacementKind)
+string msrWords::wordsPlacementKindAsString () const
 {
-  string result;
-
-  switch (wordsPlacementKind) {
-    case msrWords::kWordsPlacementAbove:
-      result = "above";
-      break;
-    case msrWords::kWordsPlacementBelow:
-      result = "below";
-      break;
-  } // switch
-
-  return result;
+  return
+    msrPlacementKindAsString (
+      fWordsPlacementKind);
 }
 
 string msrWords::wordsJustifyKindAsString () const
@@ -11920,12 +11936,14 @@ string msrWords::wordsJustifyKindAsString () const
 
 string msrWords::wordsVerticalAlignmentKindAsString () const
 {
-  return msrVerticalAlignmentKindAsString (fWordsVerticalAlignmentKind);
+  return
+    msrVerticalAlignmentKindAsString (
+      fWordsVerticalAlignmentKind);
 }
 
-string msrWords::wordsFontStyleAsString () const
+string msrWords::wordsFontStyleKindAsString () const
 {
-  return msrFontStyleAsString (fWordsFontStyle);
+  return msrFontStyleKindAsString (fWordsFontStyleKind);
 }
 
 string msrWords::wordsFontSizeAsString () const
@@ -11933,9 +11951,9 @@ string msrWords::wordsFontSizeAsString () const
   return fWordsFontSize->fontSizeAsString ();
 }
 
-string msrWords::wordsFontWeightAsString () const
+string msrWords::wordsFontWeightKindAsString () const
 {
-  return msrFontWeightAsString (fWordsFontWeight);
+  return msrFontWeightKindAsString (fWordsFontWeightKind);
 }
 
 string msrWords::msrWordsXMLLangKindAsString (
@@ -11973,7 +11991,7 @@ string msrWords::wordsAsString () const
   s <<
     "Words" << " " <<
     fWordsContents << ", placement = " <<
-    wordsPlacementKindAsString (fWordsPlacementKind);
+    msrPlacementKindAsString (fWordsPlacementKind);
 
   return s.str ();
 }
@@ -11993,7 +12011,7 @@ void msrWords::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "Placement" << " = " <<
-    wordsPlacementKindAsString (fWordsPlacementKind) <<
+    msrPlacementKindAsString (fWordsPlacementKind) <<
     endl <<
     setw (fieldWidth) <<
     "WordsJustifyKind" << " = " <<
@@ -12005,7 +12023,7 @@ void msrWords::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "WordsFontStyle" << " = " <<
-    msrFontStyleAsString (fWordsFontStyle) <<
+    msrFontStyleKindAsString (fWordsFontStyleKind) <<
     endl <<
     setw (fieldWidth) <<
     "WordsFontSize" << " = " <<
@@ -12013,7 +12031,7 @@ void msrWords::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "WordsFontWeight" << " = " <<
-    msrFontWeightAsString (fWordsFontWeight) <<
+    msrFontWeightKindAsString (fWordsFontWeightKind) <<
     endl <<
     setw (fieldWidth) <<
     "WordsFontXMLLang" << " = " <<
@@ -13435,14 +13453,14 @@ void msrStanza::print (ostream& os)
 S_msrHarmonyDegree msrHarmonyDegree::create (
   int                      inputLineNumber,
   int                      harmonyDegreeValue,
-  msrAlteration            harmonyDegreeAlteration,
+  msrAlterationKind        harmonyDegreeAlterationKind,
   msrHarmonyDegreeTypeKind harmonyDegreeTypeKind)
 {
   msrHarmonyDegree* o =
     new msrHarmonyDegree (
       inputLineNumber,
       harmonyDegreeValue,
-      harmonyDegreeAlteration,
+      harmonyDegreeAlterationKind,
       harmonyDegreeTypeKind);
   assert(o!=0);
 
@@ -13452,13 +13470,13 @@ S_msrHarmonyDegree msrHarmonyDegree::create (
 msrHarmonyDegree::msrHarmonyDegree (
   int                      inputLineNumber,
   int                      harmonyDegreeValue,
-  msrAlteration            harmonyDegreeAlteration,
+  msrAlterationKind        harmonyDegreeAlterationKind,
   msrHarmonyDegreeTypeKind harmonyDegreeTypeKind)
     : msrElement (inputLineNumber)
 {
-  fHarmonyDegreeValue      = harmonyDegreeValue;
-  fHarmonyDegreeAlteration = harmonyDegreeAlteration;
-  fHarmonyDegreeTypeKind   = harmonyDegreeTypeKind;
+  fHarmonyDegreeValue          = harmonyDegreeValue;
+  fHarmonyDegreeAlterationKind = harmonyDegreeAlterationKind;
+  fHarmonyDegreeTypeKind       = harmonyDegreeTypeKind;
 
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
@@ -13646,7 +13664,7 @@ int msrHarmonyDegree::harmonyDegreeAsSemitones () const
   return result;
 }
 
-string msrHarmonyDegree::harmonyDegreeTypeAsString (
+string msrHarmonyDegree::harmonyDegreeTypeKindAsString (
   msrHarmonyDegreeTypeKind harmonyDegreeTypeKind)
 {
   string result;
@@ -13694,8 +13712,8 @@ string msrHarmonyDegree::harmonyDegreeAsString () const
     ", type: " << harmonyDegreeKindAsShortString () <<
     ", value: " << fHarmonyDegreeValue <<
     ", alteration: " <<
-    msrAlterationAsString (
-      fHarmonyDegreeAlteration) <<
+    msrAlterationKindAsString (
+      fHarmonyDegreeAlterationKind) <<
     ", line: " << fInputLineNumber;
 
   return s.str ();
@@ -13757,8 +13775,8 @@ void msrHarmonyDegree::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
-  int                  inputLineNumber,
-  S_msrPart            harmonyPart)
+  int       inputLineNumber,
+  S_msrPart harmonyPart)
 {
   msrHarmony* o =
     new msrHarmony (
@@ -13776,24 +13794,24 @@ S_msrHarmony msrHarmony::create (
 }
 
 S_msrHarmony msrHarmony::create (
-  int                  inputLineNumber,
-  S_msrPart            harmonyPart,
-  msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
-  msrHarmonyKind       harmonyKind,
-  string               harmonyKindText,
-  int                  harmonyInversion,
-  msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
-  rational             harmonySoundingWholeNotes)
+  int                      inputLineNumber,
+  S_msrPart                harmonyPart,
+  msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+  msrHarmonyKind           harmonyKind,
+  string                   harmonyKindText,
+  int                      harmonyInversion,
+  msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+  rational                 harmonySoundingWholeNotes)
 {
   msrHarmony* o =
     new msrHarmony (
       inputLineNumber,
       harmonyPart,
-      harmonyRootQuarterTonesPitch,
+      harmonyRootQuarterTonesPitchKind,
       harmonyKind,
       harmonyKindText,
       harmonyInversion,
-      harmonyBassQuarterTonesPitch,
+      harmonyBassQuarterTonesPitchKind,
       harmonySoundingWholeNotes);
   assert(o!=0);
 
@@ -13801,14 +13819,14 @@ S_msrHarmony msrHarmony::create (
 }
 
 msrHarmony::msrHarmony (
-  int                  inputLineNumber,
-  S_msrPart            harmonyPartUplink,
-  msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
-  msrHarmonyKind       harmonyKind,
-  string               harmonyKindText,
-  int                  harmonyInversion,
-  msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
-  rational             harmonySoundingWholeNotes)
+  int                      inputLineNumber,
+  S_msrPart                harmonyPartUplink,
+  msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+  msrHarmonyKind           harmonyKind,
+  string                   harmonyKindText,
+  int                      harmonyInversion,
+  msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+  rational                 harmonySoundingWholeNotes)
     : msrElement (inputLineNumber)
 {
   // sanity check
@@ -13820,16 +13838,16 @@ msrHarmony::msrHarmony (
   fHarmonyPartUplink =
     harmonyPartUplink;
     
-  fHarmonyRootQuarterTonesPitch =
-    harmonyRootQuarterTonesPitch;
+  fHarmonyRootQuarterTonesPitchKind =
+    harmonyRootQuarterTonesPitchKind;
  
   fHarmonyKind     = harmonyKind;
   fHarmonyKindText = harmonyKindText;
  
   fHarmonyInversion = harmonyInversion;
 
-  fHarmonyBassQuarterTonesPitch =
-    harmonyBassQuarterTonesPitch;
+  fHarmonyBassQuarterTonesPitchKind =
+    harmonyBassQuarterTonesPitchKind;
  
   fHarmonySoundingWholeNotes =
     harmonySoundingWholeNotes;
@@ -13852,7 +13870,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
       "-=> Creating a newborn clone of harmony '" <<
-      harmonyKindAsShortString (fHarmonyKind) <<
+      msrHarmonyKindAsShortString (fHarmonyKind) <<
       "'" <<
       endl;
   }
@@ -13867,10 +13885,10 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
       msrHarmony::create (
         fInputLineNumber,
         containingPart,
-        fHarmonyRootQuarterTonesPitch,
+        fHarmonyRootQuarterTonesPitchKind,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyInversion,
-        fHarmonyBassQuarterTonesPitch,
+        fHarmonyBassQuarterTonesPitchKind,
         fHarmonySoundingWholeNotes);
         
   return newbornClone;
@@ -13882,7 +13900,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
       "-=> Creating a deep copy of harmony '" <<
-      harmonyKindAsShortString (fHarmonyKind) <<
+      msrHarmonyKindAsShortString (fHarmonyKind) <<
       "'" <<
       endl;
   }
@@ -13897,10 +13915,10 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
       msrHarmony::create (
         fInputLineNumber,
         containingPart,
-        fHarmonyRootQuarterTonesPitch,
+        fHarmonyRootQuarterTonesPitchKind,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyInversion,
-        fHarmonyBassQuarterTonesPitch,
+        fHarmonyBassQuarterTonesPitchKind,
         fHarmonySoundingWholeNotes);
         
   return harmonyDeepCopy;
@@ -13913,10 +13931,11 @@ string msrHarmony::harmonyAsString () const
   s <<
     "Harmony" <<
     ":" <<
-    msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      fHarmonyRootQuarterTonesPitch) <<          
-    harmonyKindAsShortString (fHarmonyKind) <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->
+        fMsrQuarterTonesPitchesLanguageKind,
+          fHarmonyRootQuarterTonesPitchKind) <<          
+    msrHarmonyKindAsShortString (fHarmonyKind) <<
     " | " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
@@ -13932,12 +13951,12 @@ string msrHarmony::harmonyAsString () const
   else
     s << fHarmonyInversion;
     
-  if (fHarmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
+  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch)
     s <<
       "/" <<
-    msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      fHarmonyBassQuarterTonesPitch);    
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyBassQuarterTonesPitchKind);    
 
   if (fHarmonyDegreesList.size ()) {
     list<S_msrHarmonyDegree>::const_iterator
@@ -14032,13 +14051,13 @@ void msrHarmony::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "HarmonyRoot" << " = " <<
-    msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      fHarmonyRootQuarterTonesPitch) <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyRootQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
     "HarmonyKind" << " = " <<
-    harmonyKindAsString (fHarmonyKind) <<
+    msrHarmonyKindAsString (fHarmonyKind) <<
     endl <<
     setw (fieldWidth) <<
     "HarmonyKindText" << " = \"" <<
@@ -14047,9 +14066,9 @@ void msrHarmony::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "HarmonyBass" << " = " <<
-    msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      fHarmonyBassQuarterTonesPitch) <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyBassQuarterTonesPitchKind) <<
     endl;
 
   os <<
@@ -14868,29 +14887,29 @@ void msrEyeGlasses::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrPedal msrPedal::create (
-  int          inputLineNumber,
-  msrPedalType pedalType,
-  msrPedalLine pedalLine,
-  msrPedalSign pedalSign)
+  int              inputLineNumber,
+  msrPedalTypeKind pedalTypeKind,
+  msrPedalLineKind pedalLineKind,
+  msrPedalSignKind pedalSignKind)
 {
   msrPedal* o =
     new msrPedal (
       inputLineNumber,
-      pedalType, pedalLine, pedalSign);
+      pedalTypeKind, pedalLineKind, pedalSignKind);
   assert(o!=0);
   return o;
 }
 
 msrPedal::msrPedal (
-  int          inputLineNumber,
-  msrPedalType pedalType,
-  msrPedalLine pedalLine,
-  msrPedalSign pedalSign)
+  int              inputLineNumber,
+  msrPedalTypeKind pedalTypeKind,
+  msrPedalLineKind pedalLineKind,
+  msrPedalSignKind pedalSignKind)
     : msrElement (inputLineNumber)
 {
-  fPedalType = pedalType;
-  fPedalLine = pedalLine;
-  fPedalSign = pedalSign;
+  fPedalTypeKind = pedalTypeKind;
+  fPedalLineKind = pedalLineKind;
+  fPedalSignKind = pedalSignKind;
 }
 
 msrPedal::~msrPedal()
@@ -14900,7 +14919,7 @@ string msrPedal::pedalTypeAsString ()
 {
   string result;
   
-  switch (fPedalType) {
+  switch (fPedalTypeKind) {
     case kPedalStart:
       result = "start pedal";
       break;
@@ -14922,7 +14941,7 @@ string msrPedal::pedalLineAsString ()
 {
   string result;
   
-  switch (fPedalLine) {
+  switch (fPedalLineKind) {
     case msrPedal::kPedalLineYes:
       result = "pedal line: yes";
       break;
@@ -14938,7 +14957,7 @@ string msrPedal::pedalSignAsString ()
 {
   string result;
   
-  switch (fPedalSign) {
+  switch (fPedalSignKind) {
     case msrPedal::kPedalSignYes:
       result = "pedal sign: yes";
       break;
@@ -15012,48 +15031,48 @@ void msrPedal::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrBarline msrBarline::create (
-  int                       inputLineNumber,
-  bool                      barlineHasSegno,
-  bool                      barlineHasCoda,
-  msrBarlineLocation        location,
-  msrBarlineStyle           style,
-  msrBarlineEndingType      endingType,
-  string                    endingNumber,
-  msrBarlineRepeatDirection repeatDirection,
-  msrBarlineRepeatWinged    repeatWinged)
+  int                           inputLineNumber,
+  bool                          barlineHasSegno,
+  bool                          barlineHasCoda,
+  msrBarlineLocationKind        locationKind,
+  msrBarlineStyleKind           styleKind,
+  msrBarlineEndingTypeKind      endingTypeKind,
+  string                        endingNumber,
+  msrBarlineRepeatDirectionKind repeatDirectionKind,
+  msrBarlineRepeatWingedKind    repeatWingedKind)
 {
   msrBarline* o =
     new msrBarline (
       inputLineNumber,
       barlineHasSegno, barlineHasCoda,
-      location, style,
-      endingType, endingNumber,
-      repeatDirection, repeatWinged);
+      locationKind, styleKind,
+      endingTypeKind, endingNumber,
+      repeatDirectionKind, repeatWingedKind);
   assert(o!=0);
   return o;
 }
 
 msrBarline::msrBarline (
-  int                       inputLineNumber,
-  bool                      barlineHasSegno,
-  bool                      barlineHasCoda,
-  msrBarlineLocation        location,
-  msrBarlineStyle           style,
-  msrBarlineEndingType      endingType,
-  string                    endingNumber,
-  msrBarlineRepeatDirection repeatDirection,
-  msrBarlineRepeatWinged    repeatWinged)
+  int                           inputLineNumber,
+  bool                          barlineHasSegno,
+  bool                          barlineHasCoda,
+  msrBarlineLocationKind        locationKind,
+  msrBarlineStyleKind           styleKind,
+  msrBarlineEndingTypeKind      endingTypeKind,
+  string                        endingNumber,
+  msrBarlineRepeatDirectionKind repeatDirectionKind,
+  msrBarlineRepeatWingedKind    repeatWingedKind)
     : msrElement (inputLineNumber)
 {
   fBarlineHasSegno = barlineHasSegno;
   fBarlineHasCoda  = barlineHasCoda;
   
-  fLocation        = location;
-  fStyle           = style;
-  fEndingType      = endingType;
-  fEndingNumber    = endingNumber;
-  fRepeatDirection = repeatDirection;
-  fRepeatWinged    = repeatWinged;
+  fLocationKind        = locationKind;
+  fStyleKind           = styleKind;
+  fEndingTypeKind      = endingTypeKind;
+  fEndingNumber        = endingNumber;
+  fRepeatDirectionKind = repeatDirectionKind;
+  fRepeatWingedKind    = repeatWingedKind;
   
   // JMI gLogIOstream << "fEndingNumber = " << fEndingNumber << endl;
   
@@ -15115,12 +15134,12 @@ ostream& operator<< (ostream& os, const S_msrBarline& elt)
   return os;
 }
 
-string msrBarline::barlineLocationAsString (
-  msrBarlineLocation barlineLocation)
+string msrBarline::barlineLocationKindAsString (
+  msrBarlineLocationKind barlineLocationKind)
 {
   string result;
   
-  switch (barlineLocation) {
+  switch (barlineLocationKind) {
     case k_NoLocation:
       result = "none";
       break;
@@ -15138,12 +15157,12 @@ string msrBarline::barlineLocationAsString (
   return result;
 }
 
-string msrBarline::barlineCategoryAsString (
-  msrBarlineCategory barlineCategory)
+string msrBarline::barlineCategoryKindAsString (
+  msrBarlineCategoryKind barlineCategoryKind)
 {
   string result;
   
-  switch (barlineCategory) {
+  switch (barlineCategoryKind) {
     case kStandaloneBarline:
       result = "standalone";
       break;
@@ -15170,12 +15189,12 @@ string msrBarline::barlineCategoryAsString (
   return result;
 }
 
-string msrBarline::barlineStyleAsString (
-  msrBarlineStyle barlineStyle)
+string msrBarline::barlineStyleKindAsString (
+  msrBarlineStyleKind barlineStyleKind)
 {
   string result;
   
-  switch (barlineStyle) {
+  switch (barlineStyleKind) {
     case k_NoStyle:
       result = "none";
       break;
@@ -15217,12 +15236,12 @@ string msrBarline::barlineStyleAsString (
   return result;
 }
 
-string msrBarline::barlineEndingTypeAsString (
-  msrBarlineEndingType barlineEndingType)
+string msrBarline::barlineEndingTypeKindAsString (
+  msrBarlineEndingTypeKind barlineEndingTypeKind)
 {
   string result;
   
-  switch (barlineEndingType) {
+  switch (barlineEndingTypeKind) {
     case k_NoEndingType:
       result = "none";
       break;
@@ -15240,12 +15259,12 @@ string msrBarline::barlineEndingTypeAsString (
   return result;
 }
 
-string msrBarline::barlineRepeatDirectionAsString (
-  msrBarlineRepeatDirection barlineRepeatDirection)
+string msrBarline::barlineRepeatDirectionKindAsString (
+  msrBarlineRepeatDirectionKind barlineRepeatDirectionKind)
 {
   string result;
   
-  switch (barlineRepeatDirection) {
+  switch (barlineRepeatDirectionKind) {
     case k_NoRepeatDirection:
       result ="none";
       break;
@@ -15260,12 +15279,12 @@ string msrBarline::barlineRepeatDirectionAsString (
   return result;
 }
 
-string msrBarline::barlineRepeatWingedAsString (
-  msrBarlineRepeatWinged barlineRepeatWinged)
+string msrBarline::barlineRepeatWingedKindAsString (
+  msrBarlineRepeatWingedKind barlineRepeatWingedKind)
 {
   string result;
   
-  switch (barlineRepeatWinged) {
+  switch (barlineRepeatWingedKind) {
     case k_NoRepeatWinged:
       result = "none"; // ??? JMI
       break;
@@ -15294,12 +15313,12 @@ string msrBarline::barlineAsString () const
   stringstream s;
 
   s <<
-    "Barline " << barlineCategoryAsString (fBarlineCategory) <<
+    "Barline " << barlineCategoryKindAsString (fBarlineCategoryKind) <<
     ", line " << fInputLineNumber <<
     ", EndingType" << " : " <<
-    barlineEndingTypeAsString (fEndingType) <<
+    barlineEndingTypeKindAsString (fEndingTypeKind) <<
     ", RepeatDirection" << " : " <<
-    barlineRepeatDirectionAsString (fRepeatDirection);
+    barlineRepeatDirectionKindAsString (fRepeatDirectionKind);
     
   return s.str ();
 }
@@ -15307,7 +15326,7 @@ string msrBarline::barlineAsString () const
 void msrBarline::print (ostream& os)
 {
   os <<
-    "Barline, " << barlineCategoryAsString (fBarlineCategory) <<
+    "Barline, " << barlineCategoryKindAsString (fBarlineCategoryKind) <<
     ", line " << fInputLineNumber;
 
   if (fBarlineHasSegno)
@@ -15326,15 +15345,15 @@ void msrBarline::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "Location" << " : " <<
-    barlineLocationAsString (fLocation) <<
+    barlineLocationKindAsString (fLocationKind) <<
     endl <<
     setw (fieldWidth) <<
     "Style" << " : " <<
-    barlineStyleAsString (fStyle) <<
+    barlineStyleKindAsString (fStyleKind) <<
     endl <<
     setw (fieldWidth) <<
     "EndingType" << " : " <<
-    barlineEndingTypeAsString (fEndingType) <<
+    barlineEndingTypeKindAsString (fEndingTypeKind) <<
     endl;
   
   os <<
@@ -15352,13 +15371,13 @@ void msrBarline::print (ostream& os)
   os <<
     setw (fieldWidth) <<
      "RepeatDirection" << " : " <<
-    barlineRepeatDirectionAsString (fRepeatDirection) <<
+    barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
     endl;
   
   os <<
     setw (fieldWidth) <<
     "RepeatWinged" << " : " <<
-    barlineRepeatWingedAsString (fRepeatWinged) <<
+    barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
     endl;
      
   gIndenter--;
@@ -21523,24 +21542,24 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 }
 
 void msrHarpPedalsTuning::addPedalTuning (
-  int              intputLineNumber,
-  msrDiatonicPitch diatonicPitch,
-  msrAlteration    alteration)
+  int                  intputLineNumber,
+  msrDiatonicPitchKind diatonicPitchKind,
+  msrAlterationKind    alterationKind)
 {
   // is diatonicPitch in the part renaming map?
-  map<msrDiatonicPitch, msrAlteration>::const_iterator
+  map<msrDiatonicPitchKind, msrAlterationKind>::const_iterator
     it =
-      fHarpPedalsAlterationsMap.find (diatonicPitch);
+      fHarpPedalsAlterationKindsMap.find (diatonicPitchKind);
         
-  if (it != fHarpPedalsAlterationsMap.end ()) {
+  if (it != fHarpPedalsAlterationKindsMap.end ()) {
     stringstream s;
 
     s <<
       "pedal tuning '" <<
-      msrDiatonicPitchAsString (
-        diatonicPitch) <<
-      msrAlterationAsString (
-        alteration) <<
+      msrDiatonicPitchKindAsString (
+        diatonicPitchKind) <<
+      msrAlterationKindAsString (
+        alterationKind) <<
       "' has already been specified";
       
     msrMusicXMLError (
@@ -21550,7 +21569,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       s.str ());
   }
 
-  fHarpPedalsAlterationsMap [diatonicPitch] = alteration;
+  fHarpPedalsAlterationKindsMap [diatonicPitchKind] = alterationKind;
 }
 
 void msrHarpPedalsTuning::acceptIn (basevisitor* v) {
@@ -21609,21 +21628,21 @@ string msrHarpPedalsTuning::harpPedalsTuningAsString () const
     ", line " << fInputLineNumber <<
     ", ";
     
-  if (fHarpPedalsAlterationsMap.size ()) {
+  if (fHarpPedalsAlterationKindsMap.size ()) {
     gIndenter++;
 
-    map<msrDiatonicPitch, msrAlteration>::const_iterator
-      iBegin = fHarpPedalsAlterationsMap.begin (),
-      iEnd   = fHarpPedalsAlterationsMap.end (),
+    map<msrDiatonicPitchKind, msrAlterationKind>::const_iterator
+      iBegin = fHarpPedalsAlterationKindsMap.begin (),
+      iEnd   = fHarpPedalsAlterationKindsMap.end (),
       i      = iBegin;
       
     for ( ; ; ) {
       // print the pedal and its alteration
       s <<
-        msrDiatonicPitchAsString (
+        msrDiatonicPitchKindAsString (
           (*i).first) <<
         " " <<
-        msrAlterationAsString (
+        msrAlterationKindAsString (
           (*i).second);
       if (++i == iEnd) break;
       s << ", ";
@@ -21646,24 +21665,24 @@ void msrHarpPedalsTuning::print (ostream& os)
     "HarpPedalsTuning" <<
     ", line " << fInputLineNumber;
     
-  if (fHarpPedalsAlterationsMap.size ()) {
+  if (fHarpPedalsAlterationKindsMap.size ()) {
     gIndenter++;
 
     os <<
       endl;
       
-    map<msrDiatonicPitch, msrAlteration>::const_iterator
-      iBegin = fHarpPedalsAlterationsMap.begin (),
-      iEnd   = fHarpPedalsAlterationsMap.end (),
+    map<msrDiatonicPitchKind, msrAlterationKind>::const_iterator
+      iBegin = fHarpPedalsAlterationKindsMap.begin (),
+      iEnd   = fHarpPedalsAlterationKindsMap.end (),
       i      = iBegin;
       
     for ( ; ; ) {
       // print the pedal and its alteration
       os <<
-        msrDiatonicPitchAsString (
+        msrDiatonicPitchKindAsString (
           (*i).first) <<
         " " <<
-        msrAlterationAsString (
+        msrAlterationKindAsString (
           (*i).second);
       if (++i == iEnd) break;
       os << ", ";
@@ -21690,8 +21709,8 @@ S_msrVoice msrVoice::create (
   int          inputLineNumber,
   msrVoiceKind voiceKind,
   int          voicePartRelativeID,
-  msrVoiceCreateInitialLastSegment
-               voiceCreateInitialLastSegment,
+  msrVoiceCreateInitialLastSegmentKind
+               voiceCreateInitialLastSegmentKind,
   S_msrStaff   voiceStaffUplink)
 {
   msrVoice* o =
@@ -21699,7 +21718,7 @@ S_msrVoice msrVoice::create (
       inputLineNumber,
       voiceKind,
       voicePartRelativeID,
-      voiceCreateInitialLastSegment,
+      voiceCreateInitialLastSegmentKind,
       voiceStaffUplink);
   assert(o!=0);
 
@@ -21710,8 +21729,8 @@ msrVoice::msrVoice (
   int          inputLineNumber,
   msrVoiceKind voiceKind,
   int          voicePartRelativeID,
-  msrVoiceCreateInitialLastSegment
-               voiceCreateInitialLastSegment,
+  msrVoiceCreateInitialLastSegmentKind
+               voiceCreateInitialLastSegmentKind,
   S_msrStaff   voiceStaffUplink)
     : msrElement (inputLineNumber)
 {
@@ -21733,7 +21752,7 @@ msrVoice::msrVoice (
   
   // do other initializations
   initializeVoice (
-    voiceCreateInitialLastSegment);
+    voiceCreateInitialLastSegmentKind);
 }
 
 msrVoice::~msrVoice()
@@ -21799,8 +21818,8 @@ void msrVoice::setVoiceNameFromNumber (
 }
 
 void msrVoice::initializeVoice (
-  msrVoiceCreateInitialLastSegment
-    voiceCreateInitialLastSegment)
+  msrVoiceCreateInitialLastSegmentKind
+    voiceCreateInitialLastSegmentKind)
 {
   fVoiceStaffRelativeNumber = fVoicePartRelativeID;
     // may be changed afterwards JMI ???
@@ -21917,7 +21936,7 @@ void msrVoice::initializeVoice (
   } // switch
 
   // should the initial last segment be created?
-  switch (voiceCreateInitialLastSegment) {
+  switch (voiceCreateInitialLastSegmentKind) {
     case msrVoice::kCreateInitialLastSegmentYes:
       if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
         gLogIOstream <<
@@ -24642,13 +24661,9 @@ void msrVoice::finalizeCurrentMeasureInVoice (
       inputLineNumber);
 }
 
-msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
+void msrVoice::finalizeVoice ( // JMI ???
   int inputLineNumber)
 {
-  msrVoice::msrVoiceFinalizationStatus
-    result =
-      msrVoice::kKeepVoice;
-  
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Finalizing voice \"" <<
@@ -24656,99 +24671,6 @@ msrVoice::msrVoiceFinalizationStatus msrVoice::finalizeVoice (
       "\", line " << inputLineNumber <<
       endl;
   }
-
-/* JMI ???
-  // should the voice be erased?
-  switch (fVoiceKind) {
-    case msrVoice::kMasterVoice:
-      if (! getMusicHasBeenInsertedInVoice ()) {
-        if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "Erasing empty master voice \"" << // JMI
-            getVoiceName () <<
-            "\" in staff " <<
-            fVoiceStaffUplink->getStaffName () <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
-
-        result = msrVoice::kEraseVoice;
-      }
-      break;
-
-    case msrVoice::kRegularVoice:
-      if (! getMusicHasBeenInsertedInVoice ()) {
-        if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "Erasing empty regular voice \"" <<
-            getVoiceName () <<
-            "\" in staff " <<
-            fVoiceStaffUplink->getStaffName () <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
-
-        result = msrVoice::kEraseVoice;
-      }
-      break;
-
-   case msrVoice::kHarmonyVoice:
-      if (
-        !
-          (
-          getMusicHasBeenInsertedInVoice ()
-             ||
-          gMsrOptions->fKeepEmptyHarmonyVoices
-          )
-        ) {
-        if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "Erasing empty harmony voice \"" <<
-            getVoiceName () <<
-            "\" in staff " <<
-            fVoiceStaffUplink->getStaffName () <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
-            
-        result = msrVoice::kEraseVoice;
-      }
-      break;
-              
-   case msrVoice::kFiguredBassVoice:
-      if (
-        !
-          (
-          getMusicHasBeenInsertedInVoice ()
-             ||
-          gMsrOptions->fKeepEmptyHarmonyVoices
-          )
-        ) {
-        if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "Erasing empty figured bass voice \"" <<
-            getVoiceName () <<
-            "\" in staff " <<
-            fVoiceStaffUplink->getStaffName () <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
-            
-        result = msrVoice::kEraseVoice;
-      }
-      break;
-              
-  } // switch
-  */
-
-/* JMI
-  if (! gMsrOptions->fKeepMuteStanzas) { // JMI
-// JMI    delete (fVoiceMuteStanza);
- // JMI   fVoiceMuteStanza = 0;
-  }
-  */
-
-  return result;
 }
 
 void msrVoice::acceptIn (basevisitor* v) {
@@ -24899,12 +24821,12 @@ string msrVoice::voiceStaffRelativeNumberAsString () const
   return result;
 }
          
-string msrVoice::voiceFinalizationStatusAsString (
-  msrVoiceFinalizationStatus voiceFinalizationStatus)
+string msrVoice::voiceFinalizationStatusKindAsString (
+  msrVoiceFinalizationStatusKind voiceFinalizationStatusKind)
 {
   string result;
   
-  switch (voiceFinalizationStatus) {
+  switch (voiceFinalizationStatusKind) {
     case msrVoice::kKeepVoice:
       result = "keep";
       break;
@@ -25185,31 +25107,31 @@ void msrStaffLinesNumber::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrStaffTuning msrStaffTuning::create (
-  int                  inputLineNumber,
-  int                  staffTuningLineNumber,
-  msrQuarterTonesPitch quarterTonesPitch,
-  int                  staffTuningOctave)
+  int                     inputLineNumber,
+  int                     staffTuningLineNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  int                     staffTuningOctave)
 {
   msrStaffTuning* o =
     new msrStaffTuning (
       inputLineNumber,
       staffTuningLineNumber,
-      quarterTonesPitch,
+      quarterTonesPitchKind,
       staffTuningOctave);
   assert(o!=0);
   return o;
 }
 
 msrStaffTuning::msrStaffTuning (
-  int                  inputLineNumber,
-  int                  staffTuningLineNumber,
-  msrQuarterTonesPitch quarterTonesPitch,
-  int                  staffTuningOctave)
+  int                      inputLineNumber,
+  int                      staffTuningLineNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  int                      staffTuningOctave)
     : msrElement (inputLineNumber)
 {
-  fStaffTuningLineNumber        = staffTuningLineNumber;
-  fStaffTuningQuarterTonesPitch = quarterTonesPitch;
-  fStaffTuningOctave            = staffTuningOctave;
+  fStaffTuningLineNumber            = staffTuningLineNumber;
+  fStaffTuningQuarterTonesPitchKind = quarterTonesPitchKind;
+  fStaffTuningOctave                = staffTuningOctave;
 }
 
 msrStaffTuning::~ msrStaffTuning ()
@@ -25230,7 +25152,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
       msrStaffTuning::create (
         fInputLineNumber,
         fStaffTuningLineNumber,
-        fStaffTuningQuarterTonesPitch,
+        fStaffTuningQuarterTonesPitchKind,
         fStaffTuningOctave);
   
   return newbornClone;
@@ -25293,9 +25215,9 @@ string msrStaffTuning::staffTuningAsString () const
     "StaffTuning" <<
     ", line " << fStaffTuningLineNumber <<
     ", " <<
-    msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      fStaffTuningQuarterTonesPitch) <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fStaffTuningQuarterTonesPitchKind) <<
     ", octave " << fStaffTuningOctave;
     
   return s.str ();
@@ -25320,9 +25242,9 @@ void msrStaffTuning::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "fStaffTuningQuarterTonesPitch" << " = " <<
-    msrQuarterTonesPitchAsString (
-      gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-      fStaffTuningQuarterTonesPitch) <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fStaffTuningQuarterTonesPitchKind) <<
     endl <<
     setw (fieldWidth) <<
     "StaffTuningOctave" << " = " <<
@@ -25498,7 +25420,7 @@ string msrStaffDetails::showFretsKindAsString (
   return result;
 }
       
-string msrStaffDetails::printObjectKindKindAsString (
+string msrStaffDetails::printObjectKindAsString (
   msrPrintObjectKind printObjectKind)
 {
   string result;
@@ -25515,7 +25437,7 @@ string msrStaffDetails::printObjectKindKindAsString (
   return result;
 }
       
-string msrStaffDetails::printSpacingKindKindAsString (
+string msrStaffDetails::printSpacingKindAsString (
   msrPrintSpacingKind printSpacingKind)
 {
   string result;
@@ -25570,9 +25492,9 @@ string msrStaffDetails::staffDetailsAsShortString ()
     ", showFretsKind = " <<
     showFretsKindAsString (fShowFretsKind) <<
     ", printObjectKind = " <<
-    printObjectKindKindAsString (fPrintObjectKind) <<
+    printObjectKindAsString (fPrintObjectKind) <<
     ", printSpacingKind = " <<
-    printSpacingKindKindAsString (fPrintSpacingKind);
+    printSpacingKindAsString (fPrintSpacingKind);
 
   return s.str ();
 }
@@ -25625,11 +25547,11 @@ void msrStaffDetails::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "printObjectKind" << " = " <<
-    printObjectKindKindAsString (fPrintObjectKind) <<
+    printObjectKindAsString (fPrintObjectKind) <<
     endl <<
     setw (fieldWidth) <<
     "printSpacingKind" << " = " <<
-    printSpacingKindKindAsString (fPrintSpacingKind) <<
+    printSpacingKindAsString (fPrintSpacingKind) <<
     endl;
 
   gIndenter--;
@@ -26775,7 +26697,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
   }
 
   // set staff transpose
-  bool doAppendTransposeToStaff;
+  bool doAppendTransposeToStaff; // JMI
   
   if (! fStaffCurrentTranspose) {
     doAppendTransposeToStaff = true;
@@ -26929,49 +26851,32 @@ void msrStaff::finalizeStaff (int inputLineNumber)
     S_msrVoice
       voice = (*i).second;
 
-    msrVoice::msrVoiceFinalizationStatus
-      voiceFinalizationStatus =
-        voice->
-          finalizeVoice (inputLineNumber);
+    voice->
+      finalizeVoice (inputLineNumber);
 
-    switch (voiceFinalizationStatus) {
-      case msrVoice::kKeepVoice:
-        if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
-          gLogIOstream <<
-            "Keeping voice \"" <<
-            voice->getVoiceName () << "\"" <<
-            " if staff \"" <<getStaffName () << "\"" <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
+/* ??? JMI
+    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+      gLogIOstream <<
+        "Keeping voice \"" <<
+        voice->getVoiceName () << "\"" <<
+        " if staff \"" <<getStaffName () << "\"" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
 
-        // set staff instrument names if still empty
-        if (fStaffInstrumentName.size () == 0) {
-          fStaffInstrumentName =
-            fStaffPartUplink->
-              getPartName ();
-        }
+    // set staff instrument names if still empty
+    if (fStaffInstrumentName.size () == 0) {
+      fStaffInstrumentName =
+        fStaffPartUplink->
+          getPartName ();
+    }
 
-        if (fStaffInstrumentName.size () == 0) {
-          fStaffInstrumentAbbreviation =
-            fStaffPartUplink->
-              getPartAbbreviation ();
-        }
-        break;
-        
-      case msrVoice::kEraseVoice:
-        if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
-          gLogIOstream <<
-            "Erasing voice \"" <<
-            voice->getVoiceName () << "\"" <<
-            " if staff \"" <<getStaffName () << "\"" <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
-      
-        fStaffAllVoicesMap.erase (i);
-        break;
-    } // switch
+    if (fStaffInstrumentName.size () == 0) {
+      fStaffInstrumentAbbreviation =
+        fStaffPartUplink->
+          getPartAbbreviation ();
+    }
+    */
   } // for
 }
 
@@ -29724,6 +29629,63 @@ void msrPartGroup::appendPartToPartGroup (S_msrPart part)
   fPartGroupElements.push_back (part);
 }
 
+void msrPartGroup::removePartFromPartGroup (
+  int       inputLineNumber,
+  S_msrPart partToBeRemoved)
+{
+  // register part in this part group
+  if (gGeneralOptions->fTracePartGroups) {
+    gLogIOstream <<
+      "Removing part " <<
+      partToBeRemoved->getPartCombinedName () <<
+      " from part group " << fPartGroupNumber <<
+      endl;
+  }
+  
+  for (
+    list<S_msrElement>::iterator i = fPartGroupElements.begin ();
+    i != fPartGroupElements.end ();
+    i++) {
+    S_msrElement
+      element = (*i);
+
+    if (
+      S_msrPartGroup
+        nestedPartGroup =
+          dynamic_cast<msrPartGroup*>(&(*element))
+      ) {
+      // this is a part group          
+    }
+
+    else if (
+      S_msrPart
+        part =
+          dynamic_cast<msrPart*>(&(*element))
+      ) {
+      // this is a part
+      if (part == partToBeRemoved) {
+        fPartGroupElements.erase (i);
+        break;
+      }
+    }
+
+    else {
+      stringstream s;
+
+      s <<
+        "an element of partgroup " <<
+        getPartGroupCombinedName () <<
+        " is not a part group nor a part";
+
+      msrInternalError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  } // for
+}
+
 void msrPartGroup::prependSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
@@ -29765,7 +29727,7 @@ void msrPartGroup::printPartGroupParts (
         nestedPartGroup =
           dynamic_cast<msrPartGroup*>(&(*element))
       ) {
-      // this a part group          
+      // this is a part group          
       gLogIOstream <<
         nestedPartGroup->
           getPartGroupCombinedName () <<
@@ -29786,7 +29748,7 @@ void msrPartGroup::printPartGroupParts (
         part =
           dynamic_cast<msrPart*>(&(*element))
       ) {
-      // this a part
+      // this is a part
       gLogIOstream <<
         part->
           getPartCombinedName () <<
@@ -29854,7 +29816,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
         partGroup =
           dynamic_cast<msrPartGroup*>(&(*element))
       ) {
-      // this a part group          
+      // this is a part group          
       S_msrPart
         inter =
           partGroup->
@@ -29873,7 +29835,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
         part =
           dynamic_cast<msrPart*>(&(*element))
       ) {
-      // this a part
+      // this is a part
       if (part->getPartID () == partID) {
         result = part;
         break;
@@ -29915,7 +29877,7 @@ void msrPartGroup::collectPartGroupPartsList (
         partGroup =
           dynamic_cast<msrPartGroup*>(&(*element))
       ) {
-      // this a part group          
+      // this is a part group          
       partGroup->
         collectPartGroupPartsList (
           inputLineNumber,
@@ -29927,7 +29889,7 @@ void msrPartGroup::collectPartGroupPartsList (
         part =
           dynamic_cast<msrPart*>(&(*element))
       ) {
-      // this a part
+      // this is a part
       partsList.push_back (part);
     }
 
@@ -31247,13 +31209,13 @@ void initializeMSR ()
     "Start as a clone of xml2guido");
     
   enlistVersion (
-    "Alpha 1", "November 2017",
+    "Alpha1", "November 2017",
     "First draft version");
   
   // languages handling
   // ------------------------------------------------------
 
-  initializeQuarterTonesPitchesLanguages ();
+  initializeQuarterTonesPitchesLanguageKinds ();
   
   // harmony handling
   // ------------------------------------------------------

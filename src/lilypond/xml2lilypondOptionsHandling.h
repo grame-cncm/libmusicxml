@@ -15,13 +15,12 @@
 
 #include "optionsHandling.h"
 
-using namespace std;
 
 namespace MusicXML2 
 {
 
 //_______________________________________________________________________________
-class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
+class xml2lilypondOptionsHandler : public msrOptionsHandler
 {
   public:
   

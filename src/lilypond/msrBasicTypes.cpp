@@ -44,12 +44,12 @@ namespace MusicXML2 {
 
 // intervals
 //______________________________________________________________________________
-int msrIntervalAsSemiTones (
-  msrInterval interval)
+int msrIntervalKindAsSemiTones (
+  msrIntervalKind intervalKind)
 {
   int result = -1;
 
-  switch (interval) {
+  switch (intervalKind) {
     case kDiminishedUnisson:
       result = -1;
       break;
@@ -206,19 +206,19 @@ int msrIntervalAsSemiTones (
 }
 
 int msrIntervalAsQuarterTones (
-  msrInterval interval)
+  msrIntervalKind intervalKind)
 {
   return
-    msrIntervalAsSemiTones (interval) * 2;
+    msrIntervalKindAsSemiTones (intervalKind) * 2;
 }
 
 //______________________________________________________________________________
-string msrIntervalAsString (
-  msrInterval interval)
+string msrIntervalKindAsString (
+  msrIntervalKind intervalKind)
 {
   string result;
 
-  switch (interval) {
+  switch (intervalKind) {
     case kDiminishedUnisson:
       result = "DiminishedUnisson";
       break;
@@ -375,11 +375,11 @@ string msrIntervalAsString (
 }
 
 string msrIntervalAsShortString (
-  msrInterval interval)
+  msrIntervalKind intervalKind)
 {
   string result;
   
-  switch (interval) {
+  switch (intervalKind) {
     case kDiminishedUnisson:
       result = "bu";
       break;
@@ -535,12 +535,12 @@ string msrIntervalAsShortString (
   return result;
 }
 
-msrInterval invertInterval (
-  msrInterval interval)
+msrIntervalKind invertIntervalKind (
+  msrIntervalKind intervalKind)
 {
-  msrInterval result;
+  msrIntervalKind result;
   
-  switch (interval) {
+  switch (intervalKind) {
     case kDiminishedUnisson:
       result = kAugmentedUnison;
       break;
@@ -698,7 +698,7 @@ msrInterval invertInterval (
 
 /// harmonies
 //______________________________________________________________________________
-string harmonyKindAsString (
+string msrHarmonyKindAsString (
   msrHarmonyKind harmonyKind)
 {
   string result;
@@ -821,7 +821,7 @@ string harmonyKindAsString (
   return result;
 }
 
-string harmonyKindAsShortString (
+string msrHarmonyKindAsShortString (
   msrHarmonyKind harmonyKind)
 {
   string result;
@@ -974,7 +974,7 @@ void printChordIntervalsMap ()
 
     gLogIOstream <<
 // JMI      "i:" << i << " " <<
-      harmonyKindAsString (harmonyKind) << ":" <<
+      msrHarmonyKindAsString (harmonyKind) << ":" <<
       endl;
 
     gIndenter++;
@@ -1009,39 +1009,39 @@ void printChordIntervalsMap ()
 // notes names languages
 // ------------------------------------------------------
 
-map<string, msrQuarterTonesPitchesLanguage>
-  gQuarterTonesPitchesLanguagesMap;
+map<string, msrQuarterTonesPitchesLanguageKind>
+  gQuarterTonesPitchesLanguageKindsMap;
 
-map<msrQuarterTonesPitch, string> gNederlandsPitchName;
-map<msrQuarterTonesPitch, string> gCatalanPitchName;
-map<msrQuarterTonesPitch, string> gDeutschPitchName;
-map<msrQuarterTonesPitch, string> gEnglishPitchName;
-map<msrQuarterTonesPitch, string> gEspanolPitchName;
-map<msrQuarterTonesPitch, string> gFrancaisPitchName;
-map<msrQuarterTonesPitch, string> gItalianoPitchName;
-map<msrQuarterTonesPitch, string> gNorskPitchName;
-map<msrQuarterTonesPitch, string> gPortuguesPitchName;
-map<msrQuarterTonesPitch, string> gSuomiPitchName;
-map<msrQuarterTonesPitch, string> gSvenskaPitchName;
-map<msrQuarterTonesPitch, string> gVlaamsPitchName;
+map<msrQuarterTonesPitchKind, string> gNederlandsPitchName;
+map<msrQuarterTonesPitchKind, string> gCatalanPitchName;
+map<msrQuarterTonesPitchKind, string> gDeutschPitchName;
+map<msrQuarterTonesPitchKind, string> gEnglishPitchName;
+map<msrQuarterTonesPitchKind, string> gEspanolPitchName;
+map<msrQuarterTonesPitchKind, string> gFrancaisPitchName;
+map<msrQuarterTonesPitchKind, string> gItalianoPitchName;
+map<msrQuarterTonesPitchKind, string> gNorskPitchName;
+map<msrQuarterTonesPitchKind, string> gPortuguesPitchName;
+map<msrQuarterTonesPitchKind, string> gSuomiPitchName;
+map<msrQuarterTonesPitchKind, string> gSvenskaPitchName;
+map<msrQuarterTonesPitchKind, string> gVlaamsPitchName;
 
-void initializeQuarterTonesPitchesLanguages ()
+void initializeQuarterTonesPitchesLanguageKinds ()
 {
-  gQuarterTonesPitchesLanguagesMap ["nederlands"] = kNederlands;
-  gQuarterTonesPitchesLanguagesMap ["catalan"]    = kCatalan;
-  gQuarterTonesPitchesLanguagesMap ["deutsch"]    = kDeutsch;
-  gQuarterTonesPitchesLanguagesMap ["english"]    = kEnglish;
-  gQuarterTonesPitchesLanguagesMap ["espanol"]    = kEspanol;
-  gQuarterTonesPitchesLanguagesMap ["italiano"]   = kItaliano;
-  gQuarterTonesPitchesLanguagesMap ["francais"]   = kFrancais;
-  gQuarterTonesPitchesLanguagesMap ["norsk"]      = kNorsk;
-  gQuarterTonesPitchesLanguagesMap ["portugues"]  = kPortugues;
-  gQuarterTonesPitchesLanguagesMap ["suomi"]      = kSuomi;
-  gQuarterTonesPitchesLanguagesMap ["svenska"]    = kSvenska;
-  gQuarterTonesPitchesLanguagesMap ["vlaams"]     = kVlaams;
+  gQuarterTonesPitchesLanguageKindsMap ["nederlands"] = kNederlands;
+  gQuarterTonesPitchesLanguageKindsMap ["catalan"]    = kCatalan;
+  gQuarterTonesPitchesLanguageKindsMap ["deutsch"]    = kDeutsch;
+  gQuarterTonesPitchesLanguageKindsMap ["english"]    = kEnglish;
+  gQuarterTonesPitchesLanguageKindsMap ["espanol"]    = kEspanol;
+  gQuarterTonesPitchesLanguageKindsMap ["italiano"]   = kItaliano;
+  gQuarterTonesPitchesLanguageKindsMap ["francais"]   = kFrancais;
+  gQuarterTonesPitchesLanguageKindsMap ["norsk"]      = kNorsk;
+  gQuarterTonesPitchesLanguageKindsMap ["portugues"]  = kPortugues;
+  gQuarterTonesPitchesLanguageKindsMap ["suomi"]      = kSuomi;
+  gQuarterTonesPitchesLanguageKindsMap ["svenska"]    = kSvenska;
+  gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
 
   // nederlands
-  gNederlandsPitchName [k_NoQuarterTonesPitch]  = "-";
+  gNederlandsPitchName [k_NoQuarterTonesPitch]  = "";
   gNederlandsPitchName [k_Rest]                 = "r";
   
   gNederlandsPitchName [k_aDoubleFlat]  = "aeses";
@@ -1115,7 +1115,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gNederlandsPitchName [k_gDoubleSharp] = "gisis";
 
   // catalan
-  gCatalanPitchName [k_NoQuarterTonesPitch]  = "-";
+  gCatalanPitchName [k_NoQuarterTonesPitch]  = "";
   gCatalanPitchName [k_Rest]                 = "r";
   
   gCatalanPitchName [k_aDoubleFlat]  = "labb";
@@ -1189,7 +1189,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gCatalanPitchName [k_gDoubleSharp] = "soldd";
 
   // deutsch
-  gDeutschPitchName [k_NoQuarterTonesPitch]  = "-";
+  gDeutschPitchName [k_NoQuarterTonesPitch]  = "";
   gDeutschPitchName [k_Rest]                 = "r";
   
   gDeutschPitchName [k_aDoubleFlat]  = "asas";
@@ -1263,7 +1263,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gDeutschPitchName [k_gDoubleSharp] = "gisis";
 
   // english
-  gEnglishPitchName [k_NoQuarterTonesPitch]  = "-";
+  gEnglishPitchName [k_NoQuarterTonesPitch]  = "";
   gEnglishPitchName [k_Rest]                 = "r";
   
   gEnglishPitchName [k_aDoubleFlat]  = "aff";
@@ -1337,7 +1337,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gEnglishPitchName [k_gDoubleSharp] = "gx";
 
   // espanol
-  gEspanolPitchName [k_NoQuarterTonesPitch]  = "-";
+  gEspanolPitchName [k_NoQuarterTonesPitch]  = "";
   gEspanolPitchName [k_Rest]                 = "r";
   
   gEspanolPitchName [k_aDoubleFlat]  = "labb";
@@ -1411,7 +1411,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gEspanolPitchName [k_gDoubleSharp] = "solx";
 
   // francais
-  gFrancaisPitchName [k_NoQuarterTonesPitch]  = "-";
+  gFrancaisPitchName [k_NoQuarterTonesPitch]  = "";
   gFrancaisPitchName [k_Rest]                 = "r";
   
   gFrancaisPitchName [k_aDoubleFlat]  = "labb";
@@ -1485,7 +1485,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gFrancaisPitchName [k_gDoubleSharp] = "solss";
 
   // italiano
-  gItalianoPitchName [k_NoQuarterTonesPitch]  = "-";
+  gItalianoPitchName [k_NoQuarterTonesPitch]  = "";
   gItalianoPitchName [k_Rest]                 = "r";
   
   gItalianoPitchName [k_aDoubleFlat]  = "labb";
@@ -1559,7 +1559,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gItalianoPitchName [k_gDoubleSharp] = "soldd";
 
   // norsk
-  gNorskPitchName [k_NoQuarterTonesPitch]  = "-";
+  gNorskPitchName [k_NoQuarterTonesPitch]  = "";
   gNorskPitchName [k_Rest]                 = "r";
   
   gNorskPitchName [k_aDoubleFlat]  = "aeses";
@@ -1633,7 +1633,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gNorskPitchName [k_gDoubleSharp] = "gisis";
 
   // portugues
-  gPortuguesPitchName [k_NoQuarterTonesPitch]  = "-";
+  gPortuguesPitchName [k_NoQuarterTonesPitch]  = "";
   gPortuguesPitchName [k_Rest]                 = "r";
   
   gPortuguesPitchName [k_aDoubleFlat]  = "labb";
@@ -1707,7 +1707,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gPortuguesPitchName [k_gDoubleSharp] = "soldd";
 
   // suomi
-  gSuomiPitchName [k_NoQuarterTonesPitch]  = "-";
+  gSuomiPitchName [k_NoQuarterTonesPitch]  = "";
   gSuomiPitchName [k_Rest]                 = "r";
   
   gSuomiPitchName [k_aDoubleFlat]  = "asas";
@@ -1781,7 +1781,7 @@ void initializeQuarterTonesPitchesLanguages ()
   gSuomiPitchName [k_gDoubleSharp] = "gisis";
 
   // svenska
-  gSvenskaPitchName [k_NoQuarterTonesPitch]  = "-";
+  gSvenskaPitchName [k_NoQuarterTonesPitch]  = "";
   gSvenskaPitchName [k_Rest]                 = "r";
   
   gSvenskaPitchName [k_aDoubleFlat]  = "assess";
@@ -1929,12 +1929,16 @@ void initializeQuarterTonesPitchesLanguages ()
   gVlaamsPitchName [k_gDoubleSharp] = "solkk";
 }
 
-string msrDiatonicPitchAsString (
-  msrDiatonicPitch diatonicPitch)
+string msrDiatonicPitchKindAsString (
+  msrDiatonicPitchKind diatonicPitchKind)
 {
   string result;
 
-  switch (diatonicPitch) {
+  switch (diatonicPitchKind) {
+    case k_NoDiatonicPitch:
+      result = "k_NoDiatonicPitch";
+      break;
+
     case kA:
       result = "A";
       break;
@@ -1956,17 +1960,14 @@ string msrDiatonicPitchAsString (
     case kG:
       result = "G";
       break;
-    case k_NoDiatonicPitch:
-      result = "k_NoDiatonicPitch";
-      break;
   } // switch
   return result;
 }
 
-msrDiatonicPitch msrDiatonicPitchFromString (
+msrDiatonicPitchKind msrDiatonicPitchKindFromString (
   char diatonicNoteName)
 {
-  msrDiatonicPitch result;
+  msrDiatonicPitchKind result = k_NoDiatonicPitch;
   
   switch (diatonicNoteName) {
     case 'a':
@@ -2003,13 +2004,17 @@ msrDiatonicPitch msrDiatonicPitchFromString (
   return result;
 }
 
-string msrDiatonicPitchAsString (
-  msrQuarterTonesPitchesLanguage language,
-  msrDiatonicPitch              diatonicPitch)
+string msrDiatonicPitchKindAsString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrDiatonicPitchKind               diatonicPitchKind)
 {
   string result;
   
-  switch (diatonicPitch) {
+  switch (diatonicPitchKind) {
+    case k_NoDiatonicPitch:
+      result = "k_NoDiatonicPitch";
+      break;
+
     case kA:
       result = "a";
       break;
@@ -2031,20 +2036,17 @@ string msrDiatonicPitchAsString (
     case kG:
       result = "g";
       break;
-    case k_NoDiatonicPitch:
-      result = "k_NoDiatonicPitch";
-      break;
   } // switch
 
   return result;
 }
 
-string msrQuarterTonesPitchesLanguageAsString (
-  msrQuarterTonesPitchesLanguage language)
+string msrQuarterTonesPitchesLanguageKindAsString (
+  msrQuarterTonesPitchesLanguageKind languageKind)
 {
   string result;
   
-  switch (language) {
+  switch (languageKind) {
     case kNederlands:
       result = "nederlands";
       break;
@@ -2086,7 +2088,7 @@ string msrQuarterTonesPitchesLanguageAsString (
   return result;
 }
 
-msrAlteration msrAlterationFromMusicXMLAlter (
+msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   float alter)
 {
 
@@ -2099,7 +2101,7 @@ msrAlteration msrAlterationFromMusicXMLAlter (
       +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
 */
 
-  msrAlteration result;
+  msrAlterationKind result;
   
   if      (alter == 0 ) {
     result = kNatural;
@@ -2144,12 +2146,18 @@ msrAlteration msrAlterationFromMusicXMLAlter (
   return result;
 }
 
-string msrAlterationAsString (
-  msrAlteration alteration)
+// alterations
+//______________________________________________________________________________
+string msrAlterationKindAsString (
+  msrAlterationKind alterationKind)
 {
   string result;
   
-  switch (alteration) {
+  switch (alterationKind) {
+    case k_NoAlteration:
+      result = "alteration???";
+      break;
+
     case kDoubleFlat:
       result = "DoubleFlat";
       break;
@@ -2177,300 +2185,299 @@ string msrAlterationAsString (
     case kDoubleSharp:
       result = "DoubleSharp";
       break;
-    case k_NoAlteration:
-      result = "alteration???";
-      break;
   } // switch
 
   return result;
 }
 
-void setDiatonicPitchAndAlteration (
-  msrQuarterTonesPitch quarterTonesPitch,
-  msrDiatonicPitch&    diatonicPitch,
-  msrAlteration&       alteration)
+//______________________________________________________________________________
+void setDiatonicPitchAndAlterationKind (
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  msrDiatonicPitchKind&    diatonicPitchKind,
+  msrAlterationKind&       alterationKind)
 {
-  switch (quarterTonesPitch) {
+  switch (quarterTonesPitchKind) {
+    case k_NoQuarterTonesPitch:
+      diatonicPitchKind = kA; // any value would fit
+      alterationKind    = k_NoAlteration;
+      break;
+
     case k_aDoubleFlat:
-      diatonicPitch = kA;
-      alteration    = kDoubleFlat;
+      diatonicPitchKind = kA;
+      alterationKind    = kDoubleFlat;
       break;
     case k_aSesquiFlat:
-      diatonicPitch = kA;
-      alteration    = kSesquiFlat;
+      diatonicPitchKind = kA;
+      alterationKind    = kSesquiFlat;
       break;
     case k_aFlat:
-      diatonicPitch = kA;
-      alteration    = kFlat;
+      diatonicPitchKind = kA;
+      alterationKind    = kFlat;
       break;
     case k_aSemiFlat:
-      diatonicPitch = kA;
-      alteration    = kSemiFlat;
+      diatonicPitchKind = kA;
+      alterationKind    = kSemiFlat;
       break;
     case k_aNatural:
-      diatonicPitch = kA;
-      alteration    = kNatural;
+      diatonicPitchKind = kA;
+      alterationKind    = kNatural;
       break;
     case k_aSemiSharp:
-      diatonicPitch = kA;
-      alteration    = kSemiSharp;
+      diatonicPitchKind = kA;
+      alterationKind    = kSemiSharp;
       break;
     case k_aSharp:
-      diatonicPitch = kA;
-      alteration    = kSharp;
+      diatonicPitchKind = kA;
+      alterationKind    = kSharp;
       break;
     case k_aSesquiSharp:
-      diatonicPitch = kA;
-      alteration    = kSesquiSharp;
+      diatonicPitchKind = kA;
+      alterationKind    = kSesquiSharp;
       break;
     case k_aDoubleSharp:
-      diatonicPitch = kA;
-      alteration    = kDoubleSharp;
+      diatonicPitchKind = kA;
+      alterationKind    = kDoubleSharp;
       break;
 
     case k_bDoubleFlat:
-      diatonicPitch = kB;
-      alteration    = kDoubleFlat;
+      diatonicPitchKind = kB;
+      alterationKind    = kDoubleFlat;
       break;
     case k_bSesquiFlat:
-      diatonicPitch = kB;
-      alteration    = kSesquiFlat;
+      diatonicPitchKind = kB;
+      alterationKind    = kSesquiFlat;
       break;
     case k_bFlat:
-      diatonicPitch = kB;
-      alteration    = kFlat;
+      diatonicPitchKind = kB;
+      alterationKind    = kFlat;
       break;
     case k_bSemiFlat:
-      diatonicPitch = kB;
-      alteration    = kSemiFlat;
+      diatonicPitchKind = kB;
+      alterationKind    = kSemiFlat;
       break;
     case k_bNatural:
-      diatonicPitch = kB;
-      alteration    = kNatural;
+      diatonicPitchKind = kB;
+      alterationKind    = kNatural;
       break;
     case k_bSemiSharp:
-      diatonicPitch = kB;
-      alteration    = kSemiSharp;
+      diatonicPitchKind = kB;
+      alterationKind    = kSemiSharp;
       break;
     case k_bSharp:
-      diatonicPitch = kB;
-      alteration    = kSharp;
+      diatonicPitchKind = kB;
+      alterationKind    = kSharp;
       break;
     case k_bSesquiSharp:
-      diatonicPitch = kB;
-      alteration    = kSesquiSharp;
+      diatonicPitchKind = kB;
+      alterationKind    = kSesquiSharp;
       break;
     case k_bDoubleSharp:
-      diatonicPitch = kB;
-      alteration    = kDoubleSharp;
+      diatonicPitchKind = kB;
+      alterationKind    = kDoubleSharp;
       break;
 
     case k_cDoubleFlat:
-      diatonicPitch = kC;
-      alteration    = kDoubleFlat;
+      diatonicPitchKind = kC;
+      alterationKind    = kDoubleFlat;
       break;
     case k_cSesquiFlat:
-      diatonicPitch = kC;
-      alteration    = kSesquiFlat;
+      diatonicPitchKind = kC;
+      alterationKind    = kSesquiFlat;
       break;
     case k_cFlat:
-      diatonicPitch = kC;
-      alteration    = kFlat;
+      diatonicPitchKind = kC;
+      alterationKind    = kFlat;
       break;
     case k_cSemiFlat:
-      diatonicPitch = kC;
-      alteration    = kSemiFlat;
+      diatonicPitchKind = kC;
+      alterationKind    = kSemiFlat;
       break;
     case k_cNatural:
-      diatonicPitch = kC;
-      alteration    = kNatural;
+      diatonicPitchKind = kC;
+      alterationKind    = kNatural;
       break;
     case k_cSemiSharp:
-      diatonicPitch = kC;
-      alteration    = kSemiSharp;
+      diatonicPitchKind = kC;
+      alterationKind    = kSemiSharp;
       break;
     case k_cSharp:
-      diatonicPitch = kC;
-      alteration    = kSharp;
+      diatonicPitchKind = kC;
+      alterationKind    = kSharp;
       break;
     case k_cSesquiSharp:
-      diatonicPitch = kC;
-      alteration    = kSesquiSharp;
+      diatonicPitchKind = kC;
+      alterationKind    = kSesquiSharp;
       break;
     case k_cDoubleSharp:
-      diatonicPitch = kC;
-      alteration    = kDoubleSharp;
+      diatonicPitchKind = kC;
+      alterationKind    = kDoubleSharp;
       break;
 
     case k_dDoubleFlat:
-      diatonicPitch = kD;
-      alteration    = kDoubleFlat;
+      diatonicPitchKind = kD;
+      alterationKind    = kDoubleFlat;
       break;
     case k_dSesquiFlat:
-      diatonicPitch = kD;
-      alteration    = kSesquiFlat;
+      diatonicPitchKind = kD;
+      alterationKind    = kSesquiFlat;
       break;
     case k_dFlat:
-      diatonicPitch = kD;
-      alteration    = kFlat;
+      diatonicPitchKind = kD;
+      alterationKind    = kFlat;
       break;
     case k_dSemiFlat:
-      diatonicPitch = kD;
-      alteration    = kSemiFlat;
+      diatonicPitchKind = kD;
+      alterationKind    = kSemiFlat;
       break;
     case k_dNatural:
-      diatonicPitch = kD;
-      alteration    = kNatural;
+      diatonicPitchKind = kD;
+      alterationKind    = kNatural;
       break;
     case k_dSemiSharp:
-      diatonicPitch = kD;
-      alteration    = kSemiSharp;
+      diatonicPitchKind = kD;
+      alterationKind    = kSemiSharp;
       break;
     case k_dSharp:
-      diatonicPitch = kD;
-      alteration    = kSharp;
+      diatonicPitchKind = kD;
+      alterationKind    = kSharp;
       break;
     case k_dSesquiSharp:
-      diatonicPitch = kD;
-      alteration    = kSesquiSharp;
+      diatonicPitchKind = kD;
+      alterationKind    = kSesquiSharp;
       break;
     case k_dDoubleSharp:
-      diatonicPitch = kD;
-      alteration    = kDoubleSharp;
+      diatonicPitchKind = kD;
+      alterationKind    = kDoubleSharp;
       break;
 
     case k_eDoubleFlat:
-      diatonicPitch = kE;
-      alteration    = kDoubleFlat;
+      diatonicPitchKind = kE;
+      alterationKind    = kDoubleFlat;
       break;
     case k_eSesquiFlat:
-      diatonicPitch = kE;
-      alteration    = kSesquiFlat;
+      diatonicPitchKind = kE;
+      alterationKind    = kSesquiFlat;
       break;
     case k_eFlat:
-      diatonicPitch = kE;
-      alteration    = kFlat;
+      diatonicPitchKind = kE;
+      alterationKind    = kFlat;
       break;
     case k_eSemiFlat:
-      diatonicPitch = kE;
-      alteration    = kSemiFlat;
+      diatonicPitchKind = kE;
+      alterationKind    = kSemiFlat;
       break;
     case k_eNatural:
-      diatonicPitch = kE;
-      alteration    = kNatural;
+      diatonicPitchKind = kE;
+      alterationKind    = kNatural;
       break;
     case k_eSemiSharp:
-      diatonicPitch = kE;
-      alteration    = kSemiSharp;
+      diatonicPitchKind = kE;
+      alterationKind    = kSemiSharp;
       break;
     case k_eSharp:
-      diatonicPitch = kE;
-      alteration    = kSharp;
+      diatonicPitchKind = kE;
+      alterationKind    = kSharp;
       break;
     case k_eSesquiSharp:
-      diatonicPitch = kE;
-      alteration    = kSesquiSharp;
+      diatonicPitchKind = kE;
+      alterationKind    = kSesquiSharp;
       break;
     case k_eDoubleSharp:
-      diatonicPitch = kE;
-      alteration    = kDoubleSharp;
+      diatonicPitchKind = kE;
+      alterationKind    = kDoubleSharp;
       break;
 
     case k_fDoubleFlat:
-      diatonicPitch = kF;
-      alteration    = kDoubleFlat;
+      diatonicPitchKind = kF;
+      alterationKind    = kDoubleFlat;
       break;
     case k_fSesquiFlat:
-      diatonicPitch = kF;
-      alteration    = kSesquiFlat;
+      diatonicPitchKind = kF;
+      alterationKind    = kSesquiFlat;
       break;
     case k_fFlat:
-      diatonicPitch = kF;
-      alteration    = kFlat;
+      diatonicPitchKind = kF;
+      alterationKind    = kFlat;
       break;
     case k_fSemiFlat:
-      diatonicPitch = kF;
-      alteration    = kSemiFlat;
+      diatonicPitchKind = kF;
+      alterationKind    = kSemiFlat;
       break;
     case k_fNatural:
-      diatonicPitch = kF;
-      alteration    = kNatural;
+      diatonicPitchKind = kF;
+      alterationKind    = kNatural;
       break;
     case k_fSemiSharp:
-      diatonicPitch = kF;
-      alteration    = kSemiSharp;
+      diatonicPitchKind = kF;
+      alterationKind    = kSemiSharp;
       break;
     case k_fSharp:
-      diatonicPitch = kF;
-      alteration    = kSharp;
+      diatonicPitchKind = kF;
+      alterationKind    = kSharp;
       break;
     case k_fSesquiSharp:
-      diatonicPitch = kF;
-      alteration    = kSesquiSharp;
+      diatonicPitchKind = kF;
+      alterationKind    = kSesquiSharp;
       break;
     case k_fDoubleSharp:
-      diatonicPitch = kF;
-      alteration    = kDoubleSharp;
+      diatonicPitchKind = kF;
+      alterationKind    = kDoubleSharp;
       break;
 
     case k_gDoubleFlat:
-      diatonicPitch = kG;
-      alteration    = kDoubleFlat;
+      diatonicPitchKind = kG;
+      alterationKind    = kDoubleFlat;
       break;
     case k_gSesquiFlat:
-      diatonicPitch = kG;
-      alteration    = kSesquiFlat;
+      diatonicPitchKind = kG;
+      alterationKind    = kSesquiFlat;
       break;
     case k_gFlat:
-      diatonicPitch = kG;
+      diatonicPitchKind = kG;
       break;
     case k_gSemiFlat:
-      diatonicPitch = kG;
-      alteration    = kSemiFlat;
+      diatonicPitchKind = kG;
+      alterationKind    = kSemiFlat;
       break;
     case k_gNatural:
-      diatonicPitch = kG;
-      alteration    = kNatural;
+      diatonicPitchKind = kG;
+      alterationKind    = kNatural;
       break;
     case k_gSemiSharp:
-      diatonicPitch = kG;
-      alteration    = kSemiSharp;
+      diatonicPitchKind = kG;
+      alterationKind    = kSemiSharp;
       break;
     case k_gSharp:
-      diatonicPitch = kG;
-      alteration    = kSharp;
+      diatonicPitchKind = kG;
+      alterationKind    = kSharp;
       break;
     case k_gSesquiSharp:
-      diatonicPitch = kG;
-      alteration    = kSesquiSharp;
+      diatonicPitchKind = kG;
+      alterationKind    = kSesquiSharp;
       break;
     case k_gDoubleSharp:
-      diatonicPitch = kG;
-      alteration    = kDoubleSharp;
+      diatonicPitchKind = kG;
+      alterationKind    = kDoubleSharp;
       break;
       
     case k_Rest:
-      diatonicPitch = kA; // any value would fit JMI
-      alteration    = k_NoAlteration;
+      diatonicPitchKind = kA; // any value would fit JMI
+      alterationKind    = k_NoAlteration;
       
-      break;
-    case k_NoQuarterTonesPitch:
-      diatonicPitch = kA; // any value would fit
-      alteration    = k_NoAlteration;
       break;
   } // switch
 }
 
-msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
-  int              inputLineNumber,
-  msrDiatonicPitch diatonicPitch,
-  msrAlteration    alteration)
+msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
+  int                  inputLineNumber,
+  msrDiatonicPitchKind diatonicPitchKind,
+  msrAlterationKind    alterationKind)
 {
-  msrQuarterTonesPitch result;
+  msrQuarterTonesPitchKind result;
   
-  switch (diatonicPitch) {
+  switch (diatonicPitchKind) {
     case kA:
-      switch (alteration) {
+      switch (alterationKind) {
         case kDoubleFlat:
           result = k_aDoubleFlat;
           break;
@@ -2517,7 +2524,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
       break;
       
     case kB:
-      switch (alteration) {
+      switch (alterationKind) {
         case kDoubleFlat:
           result = k_bDoubleFlat;
           break;
@@ -2566,7 +2573,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
       break;
       
     case kC:
-      switch (alteration) {
+      switch (alterationKind) {
         case kDoubleFlat:
           result = k_cDoubleFlat;
           break;
@@ -2613,7 +2620,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
       break;
       
     case kD:
-      switch (alteration) {
+      switch (alterationKind) {
         case kDoubleFlat:
           result = k_dDoubleFlat;
           break;
@@ -2660,7 +2667,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
       break;
       
     case kE:
-      switch (alteration) {
+      switch (alterationKind) {
         case kDoubleFlat:
           result = k_eDoubleFlat;
           break;
@@ -2707,7 +2714,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
       break;
       
     case kF:
-      switch (alteration) {
+      switch (alterationKind) {
         case kDoubleFlat:
           result = k_fDoubleFlat;
           break;
@@ -2754,7 +2761,7 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
       break;
       
     case kG:
-      switch (alteration) {
+      switch (alterationKind) {
         case kDoubleFlat:
           result = k_gDoubleFlat;
           break;
@@ -2823,13 +2830,13 @@ msrQuarterTonesPitch quarterTonesPitchFromDiatonicPitchAndAlteration (
   return result;
 }
 
-msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
-  int                  inputLineNumber,
-  msrQuarterTonesPitch quarterTonesPitch)
+msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
+  int                      inputLineNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind)
 {
-  msrDiatonicPitch result;
+  msrDiatonicPitchKind result;
   
-  switch (quarterTonesPitch) {
+  switch (quarterTonesPitchKind) {
     case k_aDoubleFlat:
     case k_aSesquiFlat:
     case k_aFlat:
@@ -2952,62 +2959,62 @@ msrDiatonicPitch msrDiatonicPitchFromQuarterTonesPitch (
   return result;
 }
 
-string msrQuarterTonesPitchAsString (
-  msrQuarterTonesPitchesLanguage language,
-  msrQuarterTonesPitch           quarterTonesPitch)
+string msrQuarterTonesPitchKindAsString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrQuarterTonesPitchKind           quarterTonesPitchKind)
 {
-   string result;
+  string result;
   
-  switch (language) {
+  switch (languageKind) {
     case kNederlands:
-      result = gNederlandsPitchName [quarterTonesPitch];
+      result = gNederlandsPitchName [quarterTonesPitchKind];
       break;
     case kCatalan:
-      result = gCatalanPitchName [quarterTonesPitch];
+      result = gCatalanPitchName [quarterTonesPitchKind];
       break;
     case kDeutsch:
-      result = gDeutschPitchName [quarterTonesPitch];
+      result = gDeutschPitchName [quarterTonesPitchKind];
       break;
     case kEnglish:
-      result = gEnglishPitchName [quarterTonesPitch];
+      result = gEnglishPitchName [quarterTonesPitchKind];
       break;
     case kEspanol:
-      result = gEspanolPitchName [quarterTonesPitch];
+      result = gEspanolPitchName [quarterTonesPitchKind];
       break;
     case kFrancais:
-      result = gFrancaisPitchName [quarterTonesPitch];
+      result = gFrancaisPitchName [quarterTonesPitchKind];
       break;
     case kItaliano:
-      result = gItalianoPitchName [quarterTonesPitch];
+      result = gItalianoPitchName [quarterTonesPitchKind];
       break;
     case kNorsk:
-      result = gNorskPitchName [quarterTonesPitch];
+      result = gNorskPitchName [quarterTonesPitchKind];
       break;
     case kPortugues:
-      result = gPortuguesPitchName [quarterTonesPitch];
+      result = gPortuguesPitchName [quarterTonesPitchKind];
       break;
     case kSuomi:
-      result = gSuomiPitchName [quarterTonesPitch];
+      result = gSuomiPitchName [quarterTonesPitchKind];
       break;
     case kSvenska:
-      result = gSvenskaPitchName [quarterTonesPitch];
+      result = gSvenskaPitchName [quarterTonesPitchKind];
       break;
     case kVlaams:
-      result = gVlaamsPitchName [quarterTonesPitch];
+      result = gVlaamsPitchName [quarterTonesPitchKind];
       break;
   } // switch
 
   return result;
 }
 
-string existingQuarterTonesPitchesLanguages ()
+string existingQuarterTonesPitchesLanguageKinds ()
 {
   stringstream s;
 
-  if (gQuarterTonesPitchesLanguagesMap.size ()) {
-    map<string, msrQuarterTonesPitchesLanguage>::const_iterator
-      iBegin = gQuarterTonesPitchesLanguagesMap.begin (),
-      iEnd   = gQuarterTonesPitchesLanguagesMap.end (),
+  if (gQuarterTonesPitchesLanguageKindsMap.size ()) {
+    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+      iBegin = gQuarterTonesPitchesLanguageKindsMap.begin (),
+      iEnd   = gQuarterTonesPitchesLanguageKindsMap.end (),
       i      = iBegin;
     for ( ; ; ) {
       s << (*i).first;
@@ -3022,12 +3029,12 @@ string existingQuarterTonesPitchesLanguages ()
 // semi tones pitches
 //______________________________________________________________________________
 
-string msrSemiTonesPitchAsString (
-  msrSemiTonesPitch semiTonesPitch)
+string msrSemiTonesPitchKindAsString (
+  msrSemiTonesPitchKind semiTonesPitchKind)
 {
   string result;
   
-  switch (semiTonesPitch) {
+  switch (semiTonesPitchKind) {
     case k_NoWelTemperedPitch_STP:
       result = "NoWelTemperedPitch???";
       break;
@@ -3084,13 +3091,13 @@ string msrSemiTonesPitchAsString (
   return result;
 }
 
-msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
-  msrSemiTonesPitch       semiTonesPitch,
-  msrAlterationPreference alterationPreference)
+msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
+  msrSemiTonesPitchKind       semiTonesPitchKind,
+  msrAlterationPreferenceKind alterationPreferenceKind)
 {
-  msrQuarterTonesPitch result;
+  msrQuarterTonesPitchKind result;
   
-  switch (semiTonesPitch) {
+  switch (semiTonesPitchKind) {
     case k_NoWelTemperedPitch_STP:
       result = k_NoQuarterTonesPitch;
       break;
@@ -3100,7 +3107,7 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       break;
       
     case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
-      switch (alterationPreference) {
+      switch (alterationPreferenceKind) {
         case kPreferSharp:
           result = k_cSharp;
           break;
@@ -3115,7 +3122,7 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       break;
 
     case kD_Sharp_STP: // kE_Flat_STP
-      switch (alterationPreference) {
+      switch (alterationPreferenceKind) {
         case kPreferSharp:
           result = k_dSharp;
           break;
@@ -3134,7 +3141,7 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       break;
       
     case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
-      switch (alterationPreference) {
+      switch (alterationPreferenceKind) {
         case kPreferSharp:
           result = k_fSharp;
           break;
@@ -3149,7 +3156,7 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       break;
       
     case kG_Sharp_STP: // kA_Flat_STP
-      switch (alterationPreference) {
+      switch (alterationPreferenceKind) {
         case kPreferSharp:
           result = k_gSharp;
           break;
@@ -3164,7 +3171,7 @@ msrQuarterTonesPitch msrSemiTonesPitchAsQuarterTonesPitch (
       break;
       
     case kA_Sharp_STP: // kB_Flat_STP
-      switch (alterationPreference) {
+      switch (alterationPreferenceKind) {
         case kPreferSharp:
           result = k_aSharp;
           break;
@@ -3231,6 +3238,7 @@ string msrFontSize::fontSizeKindAsString (
     case msrFontSize::k_NoFontSize:
       result = "font size: none";
       break;
+
     case msrFontSize::kXXSmallFontSize:
       result = "font size: xx-small";
       break;
@@ -3351,15 +3359,16 @@ void msrFontSize::print (ostream& os)
 
 // font style
 //______________________________________________________________________________
-string msrFontStyleAsString (
-  msrFontStyle fontStyle)
+string msrFontStyleKindAsString (
+  msrFontStyleKind fontStyleKind)
 {
   string result;
   
-  switch (fontStyle) {
+  switch (fontStyleKind) {
     case k_NoFontStyle:
       result = "font style: none";
       break;
+
     case kNormalFontStyle:
       result = "font style: normal";
       break;
@@ -3373,15 +3382,16 @@ string msrFontStyleAsString (
 
 // font weight
 //______________________________________________________________________________
-string msrFontWeightAsString (
-  msrFontWeight fontWeight)
+string msrFontWeightKindAsString (
+  msrFontWeightKind fontWeightKind)
 {
   string result;
   
-  switch (fontWeight) {
+  switch (fontWeightKind) {
     case k_NoFontWeight:
       result = "font weight: none";
       break;
+
     case kNormalFontWeight:
       result = "font weight: normal";
       break;
@@ -3404,6 +3414,7 @@ string msrJustifyKindAsString (
     case k_NoJustify:
       result = "justify: none";
       break;
+
     case kLeftJustify:
       result = "justify: left";
       break;
@@ -3427,6 +3438,7 @@ string msrVerticalAlignmentKindAsString (
     case k_NoVerticalAlignment:
       result = "vertical alignment: none";
       break;
+
     case kTopVerticalAlignment:
       result = "vertical alignment: top";
       break;
@@ -3443,15 +3455,16 @@ string msrVerticalAlignmentKindAsString (
 
 // direction
 //______________________________________________________________________________
-string msrDirectionAsString (
-  msrDirection direction)
+string msrDirectionKindAsString (
+  msrDirectionKind directionKind)
 {
   string result;
   
-  switch (direction) {
+  switch (directionKind) {
     case k_NoDirection:
       result = "direction: none";
       break;
+
     case kUpDirection:
       result = "direction: up";
       break;
@@ -3466,15 +3479,16 @@ string msrDirectionAsString (
 
 // placement
 //______________________________________________________________________________
-string msrPlacementAsString (
-  msrPlacement placement)
+string msrPlacementKindAsString (
+  msrPlacementKind placementKind)
 {
   string result;
   
-  switch (placement) {
+  switch (placementKind) {
     case k_NoPlacement:
       result = "placement: none";
       break;
+
     case kAbovePlacement:
       result = "placement: above";
       break;
@@ -3488,11 +3502,15 @@ string msrPlacementAsString (
 
 // durations
 //______________________________________________________________________________
-rational msrDurationAsWholeNotes (msrDuration duration)
+rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
 {
   rational result;
 
-  switch (duration) {
+  switch (durationKind) {
+    case k_NoDuration:
+      result = rational (0, 1);
+      break;
+
     case k1024th:
       result = rational (1, 1024);
       break;
@@ -3535,19 +3553,20 @@ rational msrDurationAsWholeNotes (msrDuration duration)
     case kMaxima:
       result = rational (8, 1);
       break;
-    case k_NoDuration:
-      result = rational (0, 1);
-      break;
   } // switch
 
   return result;
 }
 
-string msrDurationAsString (msrDuration duration)
+string msrDurationKindAsString (msrDurationKind durationKind)
 {
   string result;
 
-  switch (duration) {
+  switch (durationKind) {
+    case k_NoDuration:
+      result = "k_NoDuration???";
+      break;
+
     case k1024th:
       result = "1024";
       break;
@@ -3589,9 +3608,6 @@ string msrDurationAsString (msrDuration duration)
       break;
     case kMaxima:
       result = "Maxima";
-      break;
-    case k_NoDuration:
-      result = "k_NoDuration???";
       break;
   } // switch
 
@@ -3842,28 +3858,28 @@ string msrSlashUseStemsKindAsString (
 
 //______________________________________________________________________________
 S_msrChordItem msrChordItem::create (
-  int         inputLineNumber,
-  int         chordItemNumber,
-  msrInterval chordItemInterval)
+  int             inputLineNumber,
+  int             chordItemNumber,
+  msrIntervalKind chordItemIntervalKind)
 {
   msrChordItem* o =
     new msrChordItem (
       inputLineNumber,
       chordItemNumber,
-      chordItemInterval);
+      chordItemIntervalKind);
   assert(o!=0);
 
   return o;
 }
 
 msrChordItem::msrChordItem (
-  int         inputLineNumber,
-  int         chordItemNumber,
-  msrInterval chordItemInterval)
+  int             inputLineNumber,
+  int             chordItemNumber,
+  msrIntervalKind chordItemIntervalKind)
   // JMI  : msrElement (inputLineNumber)
 {
-  fChordItemNumber   = chordItemNumber;
-  fChordItemInterval = chordItemInterval;
+  fChordItemNumber       = chordItemNumber;
+  fChordItemIntervalKind = chordItemIntervalKind;
 
   if (TRACE_MSR_BASIC_TYPES) {
     gLogIOstream <<
@@ -3940,7 +3956,7 @@ string msrChordItem::chordItemAsString () const
   s <<
     "ChordItem" <<
     " " << fChordItemNumber <<
-    ": " << msrIntervalAsString (fChordItemInterval);
+    ": " << msrIntervalKindAsString (fChordItemIntervalKind);
 
   return s.str ();
 }
@@ -3998,7 +4014,7 @@ void msrChordItem::print (ostream& os)
   os <<
     "ChordItem" <<
     ", number: " << fChordItemNumber <<
-    ", interval: " << msrIntervalAsString (fChordItemInterval) <<
+    ", interval: " << msrIntervalKindAsString (fChordItemIntervalKind) <<
   /* JMI
     ", line: " << fInputLineNumber <<
     */
@@ -5084,7 +5100,7 @@ string msrChordIntervals::chordIntervalsAsString () const
   s <<
     "ChordIntervals" <<
     ", " <<
-    harmonyKindAsString (fChordIntervalsHarmonyKind) <<
+    msrHarmonyKindAsString (fChordIntervalsHarmonyKind) <<
     ", " <<
     singularOrPlural (
       fChordIntervalsItems.size (), "item", "items");
@@ -5146,7 +5162,7 @@ void msrChordIntervals::print (ostream& os)
   os <<
     "ChordIntervals" <<
     ", harmonyKind: " <<
-    harmonyKindAsString (fChordIntervalsHarmonyKind) <<
+    msrHarmonyKindAsString (fChordIntervalsHarmonyKind) <<
     ", " <<
     singularOrPlural (
       fChordIntervalsItems.size (), "item", "items") <<

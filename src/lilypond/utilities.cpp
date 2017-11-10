@@ -357,64 +357,6 @@ indentedOstream indentedOstream::gLogIndentedOstream (
   cerr, indenter::gIndenter);
 
 //______________________________________________________________________________
-//#define DEBUG_OLEC
-
-outputLineElementsCounter::outputLineElementsCounter (
-  ostream& ostream,
-  int      maxElementsPerLine)
-    : fOstream (ostream)
-{  
-  fElementsCounter    = 0;
-  fMaxElementsPerLine = maxElementsPerLine;
-}
-
-outputLineElementsCounter::~outputLineElementsCounter ()
-{}
-
-outputLineElementsCounter& outputLineElementsCounter::operator++ (int value)
-{
-  fElementsCounter++;
-  
-  if (fElementsCounter >= fMaxElementsPerLine) {
-#ifdef DEBUG_OLEC
-    fOstream <<
-      "%{ ~" << fMaxElementsPerLine << " elems %}";
-#endif
-
-    fOstream <<
-      endl <<
-      indenter::gIndenter;
-
-    fElementsCounter = 0;
-  }
-    
-  return *this;
-}
-
-outputLineElementsCounter& outputLineElementsCounter::increment (int value)
-{
-  fElementsCounter += value;
-  
-  if (fElementsCounter >= fMaxElementsPerLine) {
-#ifdef DEBUG_OLEC
-    fOstream <<
-      "%{ ~" << fMaxElementsPerLine << " elems %}";
-#endif
-
-    fOstream <<
-      endl <<
-      indenter::gIndenter;
-
-    fElementsCounter = 0;
-  }
-    
-  return *this;
-}
-
-outputLineElementsCounter
-outputLineElementsCounter::gOutputLineElementsCounter (cout);
-
-//______________________________________________________________________________
 string replicateString (
   string str,
   int    times)
@@ -1231,7 +1173,7 @@ string baseName (const string &filename)
 }
 
 //______________________________________________________________________________
-string makeSingleWordFromString (const string &theString)
+string makeSingleWordFromString (const string& theString)
 {
   string result;
 

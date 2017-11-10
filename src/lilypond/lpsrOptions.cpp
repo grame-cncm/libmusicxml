@@ -137,14 +137,14 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
         "LPSR pitches language 'nederlands' is unknown" <<
         endl <<
         "The " <<
-        gQuarterTonesPitchesLanguagesMap.size () <<
+        gQuarterTonesPitchesLanguageKindsMap.size () <<
         " known LPSR pitches languages are:" <<
         endl;
   
       gIndenter++;
     
       s <<
-        existingQuarterTonesPitchesLanguages ();
+        existingQuarterTonesPitchesLanguageKinds ();
   
       gIndenter--;
   
@@ -176,7 +176,7 @@ italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
           "language",
           "lpsrPitchesLanguage",
-          fLpsrQuarterTonesPitchesLanguage));
+          fLpsrQuarterTonesPitchesLanguageKind));
   
     languagesSubGroup->
       appendOptionsItem (
@@ -189,7 +189,7 @@ german, semiGerman, italian and french.
 The default used by LilyPond is Ignatzek's jazz-like, english naming.)",
           "language",
           "lpsrChordsLanguage",
-          fLpsrChordsLanguage));
+          fLpsrChordsLanguageKind));
   }
 }
 
@@ -229,11 +229,11 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
   // languages
   // --------------------------------------
 
-  clone->fLpsrQuarterTonesPitchesLanguage =
-    fLpsrQuarterTonesPitchesLanguage;
+  clone->fLpsrQuarterTonesPitchesLanguageKind =
+    fLpsrQuarterTonesPitchesLanguageKind;
 
-  clone->fLpsrChordsLanguage =
-    fLpsrChordsLanguage;
+  clone->fLpsrChordsLanguageKind =
+    fLpsrChordsLanguageKind;
 
   return clone;
 }
@@ -241,16 +241,16 @@ S_lpsrOptions lpsrOptions::createCloneWithDetailedTrace ()
 bool lpsrOptions::setLpsrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the note names languages map?
-  map<string, msrQuarterTonesPitchesLanguage>::const_iterator
+  map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
     it =
-      gQuarterTonesPitchesLanguagesMap.find (language);
+      gQuarterTonesPitchesLanguageKindsMap.find (language);
         
-  if (it == gQuarterTonesPitchesLanguagesMap.end ()) {
+  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map    
     return false;
   }
 
-  fLpsrQuarterTonesPitchesLanguage = (*it).second;
+  fLpsrQuarterTonesPitchesLanguageKind = (*it).second;
   
   return true;
 }
@@ -258,16 +258,16 @@ bool lpsrOptions::setLpsrQuarterTonesPitchesLanguage (string language)
 bool lpsrOptions::setLpsrChordsLanguage (string language)
 {
   // is language in the chords languages map?
-  map<string, lpsrChordsLanguage>::const_iterator
+  map<string, lpsrChordsLanguageKind>::const_iterator
     it =
-      gLpsrChordsLanguagesMap.find (language);
+      gLpsrChordsLanguageKindsMap.find (language);
         
-  if (it == gLpsrChordsLanguagesMap.end ()) {
+  if (it == gLpsrChordsLanguageKindsMap.end ()) {
     // no, language is unknown in the map    
     return false;
   }
 
-  fLpsrChordsLanguage = (*it).second;
+  fLpsrChordsLanguageKind = (*it).second;
   
   return true;
 }
@@ -318,14 +318,14 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   gLogIOstream << left <<
     setw (fieldWidth) << "lpsrQuarterTonesPitchesLanguage" << " : \"" <<
-    msrQuarterTonesPitchesLanguageAsString (
-      fLpsrQuarterTonesPitchesLanguage) <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fLpsrQuarterTonesPitchesLanguageKind) <<
     "\"" <<
     endl <<
 
     setw (fieldWidth) << "lpsrChordsLanguage" << " : \"" <<
-    lpsrChordsLanguageAsString (
-      fLpsrChordsLanguage) <<
+    lpsrChordsLanguageKindAsString (
+      fLpsrChordsLanguageKind) <<
     "\"" <<
     endl;  
 

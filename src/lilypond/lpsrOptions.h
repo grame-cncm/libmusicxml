@@ -18,13 +18,11 @@
 #include "optionsHandling.h"
 
 
-using namespace std;
-
 namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class EXP lpsrOptions : public msrOptionsGroup
+class lpsrOptions : public msrOptionsGroup
 {
   public:
 
@@ -88,10 +86,11 @@ class EXP lpsrOptions : public msrOptionsGroup
     // languages
     // --------------------------------------
 
-    msrQuarterTonesPitchesLanguage
-                          fLpsrQuarterTonesPitchesLanguage;
+    msrQuarterTonesPitchesLanguageKind
+                          fLpsrQuarterTonesPitchesLanguageKind;
     
-    lpsrChordsLanguage    fLpsrChordsLanguage;
+    lpsrChordsLanguageKind
+                          fLpsrChordsLanguageKind;
 };
 typedef SMARTP<lpsrOptions> S_lpsrOptions;
 EXP ostream& operator<< (ostream& os, const S_lpsrOptions& elt);

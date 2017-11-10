@@ -133,6 +133,33 @@ R"(Display information about xml2lilypond and exit.)"));
   }
 
 
+  // contact
+  // --------------------------------------
+
+  {
+    // variables  
+    
+    // options
+  
+    S_msrOptionsSubGroup
+      contactSubGroup =
+        msrOptionsSubGroup::create (
+          "Contact",
+          "hgc", "helpGeneralContact",
+R"()",
+        msrOptionsSubGroup::kAlwaysShowDescription,
+        this);
+    
+    appendOptionsSubGroup (contactSubGroup);
+  
+    contactSubGroup->
+      appendOptionsItem (
+        msrOptionsContactItem::create (
+          "c", "contact",
+R"(Display information about how to contacct xml2lilypond maintainers and exit.)"));
+  }
+
+
   // help
   // --------------------------------------
 

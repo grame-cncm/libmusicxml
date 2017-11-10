@@ -18,13 +18,11 @@
 #include "optionsHandling.h"
 
 
-using namespace std;
-
 namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class EXP msrOptions : public msrOptionsGroup
+class msrOptions : public msrOptionsGroup
 {
   public:
 
@@ -77,6 +75,8 @@ class EXP msrOptions : public msrOptionsGroup
     
     bool                  fTraceMsrVisitors;
     
+    bool                  fDisplayPartGroups;
+    
     bool                  fDisplayMsr;
     
     bool                  fDisplayMsrSummary;
@@ -85,8 +85,8 @@ class EXP msrOptions : public msrOptionsGroup
     // languages
     // --------------------------------------
     
-    msrQuarterTonesPitchesLanguage
-                          fMsrQuarterTonesPitchesLanguage;
+    msrQuarterTonesPitchesLanguageKind
+                          fMsrQuarterTonesPitchesLanguageKind;
 
     
     // parts

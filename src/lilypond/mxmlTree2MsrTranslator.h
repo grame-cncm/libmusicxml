@@ -27,7 +27,7 @@ namespace MusicXML2
 /*!
 \brief Produces a summary of a MusicXML part.
 */
-class EXP mxmlTree2MsrTranslator : 
+class mxmlTree2MsrTranslator : 
 
 /*
   public visitor<S_comment>,
@@ -1005,8 +1005,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fStaffDetailsStaffNumber;
     
     int                       fCurrentStaffTuningLine;
-    msrDiatonicPitch          fCurrentStaffTuningDiatonicPitch;
-    msrAlteration             fCurrentStaffTuningAlteration;
+    msrDiatonicPitchKind      fCurrentStaffTuningDiatonicPitchKind;
+    msrAlterationKind         fCurrentStaffTuningAlterationKind;
     int                       fCurrentStaffTuningOctave;
     
     // staff handling
@@ -1078,8 +1078,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     string                    fCurrentDirectionPlacement;
     string                    fCurrentWordsContents;
 
-    msrWords::msrWordsPlacementKind
-                              fCurrentWordsPlacementKind; // JMI
+    msrPlacementKind          fCurrentWordsPlacementKind; // JMI
     bool                      fOnGoingDirection;
 
     // direction-type handling
@@ -1170,16 +1169,16 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     
     int                       fCurrentHarmonyInputLineNumber;
     
-    msrDiatonicPitch          fCurrentHarmonyRootDiatonicPitch;
-    msrAlteration             fCurrentHarmonyRootAlteration;
+    msrDiatonicPitchKind      fCurrentHarmonyRootDiatonicPitchKind;
+    msrAlterationKind         fCurrentHarmonyRootAlterationKind;
     
     msrHarmonyKind            fCurrentHarmonyKind;
     string                    fCurrentHarmonyKindText;
 
     int                       fCurrentHarmonyInversion;
     
-    msrDiatonicPitch          fCurrentHarmonyBassDiatonicPitch;
-    msrAlteration             fCurrentHarmonyBassAlteration;
+    msrDiatonicPitchKind      fCurrentHarmonyBassDiatonicPitchKind;
+    msrAlterationKind         fCurrentHarmonyBassAlterationKind;
     msrHarmonyDegree::msrHarmonyDegreeTypeKind
                               fCurrentHarmonyDegreeTypeKind;
 
@@ -1187,10 +1186,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
 
 
     int                       fCurrentHarmonyDegreeValue;
-    msrAlteration             fCurrentHarmonyDegreeAlteration;
+    msrAlterationKind         fCurrentHarmonyDegreeAlterationKind;
 
-    msrQuarterTonesPitch      fCurrentHarmonyRootQuarterTonesPitch;
-    msrQuarterTonesPitch      fCurrentHarmonyBassQuarterTonesPitch;
+    msrQuarterTonesPitchKind  fCurrentHarmonyRootQuarterTonesPitchKind;
+    msrQuarterTonesPitchKind  fCurrentHarmonyBassQuarterTonesPitchKind;
 
     // figured bass handling
     // ------------------------------------------------------
@@ -1222,16 +1221,16 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     string                    fCurrentBarlineEndingNumber; // vector<string> ??? JMI
                                 // may be "1, 2"
 
-    msrBarline::msrBarlineLocation
-                              fCurrentBarlineLocation;
-    msrBarline::msrBarlineStyle
-                              fCurrentBarlineStyle;
-    msrBarline::msrBarlineEndingType
-                              fCurrentBarlineEndingType;
-    msrBarline::msrBarlineRepeatDirection
-                              fCurrentBarlineRepeatDirection;
-    msrBarline::msrBarlineRepeatWinged
-                              fCurrentBarlineRepeatWinged;
+    msrBarline::msrBarlineLocationKind
+                              fCurrentBarlineLocationKind;
+    msrBarline::msrBarlineStyleKind
+                              fCurrentBarlineStyleKind;
+    msrBarline::msrBarlineEndingTypeKind
+                              fCurrentBarlineEndingTypeKind;
+    msrBarline::msrBarlineRepeatDirectionKind
+                              fCurrentBarlineRepeatDirectionKind;
+    msrBarline::msrBarlineRepeatWingedKind
+                              fCurrentBarlineRepeatWingedKind;
 
     // repeats handling
     // ------------------------------------------------------
@@ -1271,13 +1270,13 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                                 string stepValue);
                                 
     // notes
-    msrDiatonicPitch          fCurrentNoteDiatonicPitch;
-    msrAlteration             fCurrentNoteAlteration;
+    msrDiatonicPitchKind      fCurrentNoteDiatonicPitchKind;
+    msrAlterationKind         fCurrentNoteAlterationKind;
     
     int                       fCurrentNoteOctave;
     
     int                       fCurrentDisplayOctave;
-    msrDiatonicPitch          fCurrentDisplayDiatonicPitch;
+    msrDiatonicPitchKind      fCurrentDisplayDiatonicPitchKind;
 
     // note print kind
     msrNote::msrNotePrintKind fCurrentNotePrintKind;
@@ -1290,6 +1289,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                               fCurrentNoteHeadParenthesesKind;
 
     // accidentals
+    msrNote::msrNoteAccidentalKind
+                              fCurrentNoteAccidentalKind;
     msrNote::msrNoteEditorialAccidentalKind
                               fCurrentNoteEditorialAccidentalKind;
     msrNote::msrNoteCautionaryAccidentalKind
@@ -1303,12 +1304,12 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
                                 S_msrNote newNote);
 
     // note sound
-    msrQuarterTonesPitch      fCurrentNoteQuarterTonesPitch;
+    msrQuarterTonesPitchKind  fCurrentNoteQuarterTonesPitchKind;
     rational                  fCurrentNoteSoundingWholeNotesFromDuration;
     rational                  fCurrentNoteSoundingWholeNotes;
 
     // note display
-    msrQuarterTonesPitch      fCurrentNoteQuarterTonesDisplayPitch;
+    msrQuarterTonesPitchKind  fCurrentNoteQuarterTonesDisplayPitchKind;
     rational                  fCurrentNoteDisplayWholeNotesFromType;
     rational                  fCurrentNoteDisplayWholeNotes;
 
@@ -1316,7 +1317,7 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     int                       fCurrentNoteDotsNumber;
 
     // graphic duration
-    msrDuration               fCurrentNoteGraphicDuration;
+    msrDurationKind           fCurrentNoteGraphicDurationKind;
 
     // rests
     bool                      fCurrentNoteIsARest;
@@ -1445,13 +1446,9 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     S_msrOrnament             fCurrentOrnament;
     list<S_msrOrnament>       fCurrentOrnamentsList;
 
-    msrTechnical::msrTechnicalPlacementKind
-                              fWavyLinePlacementKind;
+    msrPlacementKind          fWavyLinePlacementKind;
     int                       fWavyLineNumber;
     
-    msrOrnament::msrOrnamentPlacementKind
-                              fCurrentOrnamentPlacementKind;
-
     void                      attachCurrentOrnamentsToNote (
                                 S_msrNote note);
 
@@ -1472,10 +1469,10 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // tremolos handling
     // ------------------------------------------------------
     
-    enum MusicXMLTremoloType {
-        k_NoTremolo, kSingleTremolo, kStartTremolo, kStopTremolo};
+    enum MusicXMLTremoloTypeKind {
+        k_NoTremolo, kSingleTremolo, kStartTremolo, kStopTremolo };
 
-    MusicXMLTremoloType       fCurrentMusicXMLTremoloType;
+    MusicXMLTremoloTypeKind   fCurrentMusicXMLTremoloTypeKind;
 
     S_msrSingleTremolo        fCurrentSingleTremolo;
 
@@ -1598,8 +1595,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     // harp pedals handling
     // ------------------------------------------------------
 
-    msrDiatonicPitch          fCurrentHarpPedalDiatonicPitch;
-    msrAlteration             fCurrentHarpPedalAlteration;
+    msrDiatonicPitchKind      fCurrentHarpPedalDiatonicPitchKind;
+    msrAlterationKind         fCurrentHarpPedalAlterationKind;
     S_msrHarpPedalsTuning     fCurrentHarpPedalsTuning;
 
     // backup handling

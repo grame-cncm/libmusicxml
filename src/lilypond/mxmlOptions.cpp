@@ -94,32 +94,41 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
   }
   
   
-  // error handling
+  // warning and error handling
   // --------------------------------------
 
   {
     // variables
     
-    fIgnoreMusicXMLErrors = boolOptionsInitialValue;
+    fIgnoreMusicXMLWarnings = boolOptionsInitialValue;
+    fIgnoreMusicXMLErrors   = boolOptionsInitialValue;
   
     // options
   
     S_msrOptionsSubGroup
-      errorHandlingSubGroup =
+      warningAndErrorHandlingSubGroup =
         msrOptionsSubGroup::create (
-          "Error handling",
-          "hmxmleh", "helpMusicXMLErrorHandling",
+          "Warnings and errors",
+          "hmxmlwae", "helpMusicXMLWarningsAndErrors",
 R"()",
           msrOptionsSubGroup::kAlwaysShowDescription,
           this);
   
-    appendOptionsSubGroup (errorHandlingSubGroup);
+    appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
   
-    errorHandlingSubGroup->
+    warningAndErrorHandlingSubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
+          "imw", "ignoreMusicXMLWarnings",
+R"(Don't issue any MusicXML warning messages.)",
+          "ignoreMusicXMLWarnings",
+          fIgnoreMusicXMLWarnings));
+  
+    warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
           "ime", "ignoreMusicXMLErrors",
-R"(Don't stop the translation after issuing a MusicXML error message.)",
+R"(Don't abort the translation after issuing a MusicXML error message.)",
           "ignoreMusicXMLErrors",
           fIgnoreMusicXMLErrors));
   }
@@ -275,9 +284,11 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
     true;
 
 
-  // error handling
+  // warning and error handling
   // --------------------------------------
 
+  clone->fIgnoreMusicXMLWarnings =
+    fIgnoreMusicXMLWarnings;
   clone->fIgnoreMusicXMLErrors =
     fIgnoreMusicXMLErrors;
 
@@ -324,7 +335,7 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   gIndenter--;
       
-  // error handling
+  // warning and error handling
   // --------------------------------------
 
   gLogIOstream <<
@@ -334,9 +345,12 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
+    setw (fieldWidth) << "ignoreMusicXMLWarnings" << " : " <<
+    booleanAsString (fIgnoreMusicXMLWarnings) <<
+    endl <<
     setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
     booleanAsString (fIgnoreMusicXMLErrors) <<
-    endl <<
+    endl;
     
   gIndenter--;
 

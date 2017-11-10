@@ -107,7 +107,7 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
     fRomanStringNumbers = boolOptionsInitialValue;
     fAvoidOpenStrings    = boolOptionsInitialValue;
     
-    fAccidentalStyle = kDefaultStyle;
+    fAccidentalStyleKind = kDefaultStyle;
   
     fCompressMultiMeasureRests = boolOptionsInitialValue;
   
@@ -192,7 +192,7 @@ R"(Choose the LilyPond accidental 'style' among:
 The default is... 'default'.)",
           "style",
           "accidentalStyle",
-          fAccidentalStyle));
+          fAccidentalStyleKind));
 
     notesSubGroup->
       appendOptionsItem (
@@ -728,8 +728,8 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   clone->fAvoidOpenStrings =
     fAvoidOpenStrings;
 
-  clone->fAccidentalStyle =
-    fAccidentalStyle;
+  clone->fAccidentalStyleKind =
+    fAccidentalStyleKind;
 
   clone->fCompressMultiMeasureRests =
     fCompressMultiMeasureRests;
@@ -935,7 +935,7 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
       endl <<
     
     setw (fieldWidth) << "accidentalStyle" << " : " <<
-      fAccidentalStyle <<
+      fAccidentalStyleKind <<
       endl <<
     
     setw (fieldWidth) << "compressMultiMeasureRests" << " : " <<

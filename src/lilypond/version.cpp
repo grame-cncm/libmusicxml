@@ -27,9 +27,9 @@ namespace MusicXML2
 list<versionInfo> gVersionInfoList;
 
 versionInfo::versionInfo (
-  string  versionNumber,
-  string  versionDate,
-  string  versionDescription)
+  string versionNumber,
+  string versionDate,
+  string versionDescription)
 {
   fVersionNumber      = versionNumber;
   fVersionDate        = versionDate;
@@ -57,9 +57,9 @@ void versionInfo::print (ostream& os) const
 }
 
 void enlistVersion (
-  string  versionNumber,
-  string  versionDate,
-  string  versionDescription)
+  string versionNumber,
+  string versionDate,
+  string versionDescription)
 {
   gVersionInfoList.push_front (
     versionInfo (

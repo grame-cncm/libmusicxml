@@ -95,7 +95,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fOnGoingNote = false;
 
   // articulations
-  fCurrentArpeggioDirection = k_NoDirection;
+  fCurrentArpeggioDirectionKind = k_NoDirection;
 
   // stems
   fCurrentStemKind = msrStem::k_NoStem;
@@ -184,12 +184,12 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::alterationAsLilypondString (
-  msrAlteration alteration)
+string lpsr2LilypondTranslator::alterationKindAsLilypondString (
+  msrAlterationKind alterationKind)
 {
   string result;
   
-  switch (alteration) {
+  switch (alterationKind) {
     case kDoubleFlat:
       result = "DOUBLE-FLAT";
       break;
@@ -226,41 +226,41 @@ string lpsr2LilypondTranslator::alterationAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::alterationAsLilypondAccidentalMark (
-  msrAlteration alteration)
+string lpsr2LilypondTranslator::alterationKindAsLilypondAccidentalMark (
+  msrAlterationKind alterationKind)
 {
   string result;
   
-  switch (alteration) {
+  switch (alterationKind) {
     case kDoubleFlat:
-      result = " ^\\markup { \\doubleflat } ";
+      result = " \\markup { \\doubleflat } ";
       break;
     case kSesquiFlat:
-      result = " ^\\markup { \\sesquiflat } ";
+      result = " \\markup { \\sesquiflat } ";
       break;
     case kFlat:
-      result = " ^\\markup { \\flat } ";
+      result = " \\markup { \\flat } ";
       break;
     case kSemiFlat:
-      result = " ^\\markup { \\semiflat } ";
+      result = " \\markup { \\semiflat } ";
       break;
     case kNatural:
-      result = " ^\\markup { \\natural } ";
+      result = " \\markup { \\natural } ";
       break;
     case kSemiSharp:
-      result = " ^\\markup { \\semisharp } ";
+      result = " \\markup { \\semisharp } ";
       break;
     case kSharp:
-      result = " ^\\markup { \\sharp } ";
+      result = " \\markup { \\sharp } ";
       break;
     case kSesquiSharp:
-      result = " ^\\markup { \\sesquisharp } ";
+      result = " \\markup { \\sesquisharp } ";
       break;
     case kDoubleSharp:
-      result = " ^\\markup { \\doublesharp } ";
+      result = " \\markup { \\doublesharp } ";
       break;
     case k_NoAlteration:
-      result = " ^\\markup {%{k_NoAlteration???%} } ";
+      result = " \\markup {%{k_NoAlteration???%} } ";
       break;
   } // switch
 
@@ -280,22 +280,22 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
   int noteAbsoluteOctave =
     note->getNoteOctave ();
 
-  msrDiatonicPitch
-    noteDiatonicPitch =
+  msrDiatonicPitchKind
+    noteDiatonicPitchKind =
       note->
-        noteDiatonicPitch (
+        noteDiatonicPitchKind (
           inputLineNumber);
 
-  msrDiatonicPitch
-    referenceDiatonicPitch =
+  msrDiatonicPitchKind
+    referenceDiatonicPitchKind =
       fRelativeOctaveReference->
-        noteDiatonicPitch (
+        noteDiatonicPitchKind (
           inputLineNumber);
 
   string
-    referenceDiatonicPitchAsString =
+    referenceDiatonicPitchKindAsString =
       fRelativeOctaveReference->
-        noteDiatonicPitchAsString (
+        noteDiatonicPitchKindAsString (
           inputLineNumber);
       
   int
@@ -313,12 +313,12 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
     noteAboluteDiatonicOrdinal =
       noteAbsoluteOctave * 7
         +
-      noteDiatonicPitch - kC,
+      noteDiatonicPitchKind - kC,
       
     referenceAboluteDiatonicOrdinal =
       referenceAbsoluteOctave * 7
         +
-      referenceDiatonicPitch - kC;
+      referenceDiatonicPitchKind - kC;
 
   if (gGeneralOptions->fTraceNotes) {
     const int fieldWidth = 28;
@@ -334,7 +334,7 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
       setw (fieldWidth) <<
       "% referenceDiatonicPitchAsString" <<
       " = " <<
-      referenceDiatonicPitchAsString <<
+      referenceDiatonicPitchKindAsString <<
       endl <<
       setw (fieldWidth) <<
       "% referenceAbsoluteOctave" <<
@@ -671,9 +671,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
       // print the grace note's graphic duration
       fLilypondIOstream <<
-        msrDurationAsString (
+        msrDurationKindAsString (
           note->
-            getNoteGraphicDuration ());
+            getNoteGraphicDurationKind ());
 
       // print the dots if any JMI ???
       for (int i = 0; i < note->getNoteDotsNumber (); i++) {
@@ -791,32 +791,34 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   } // switch
   
   // get the note quarter tones pitch
-  msrQuarterTonesPitch
-    noteQuarterTonesPitch =
-      note->getNoteQuarterTonesPitch ();
+  msrQuarterTonesPitchKind
+    noteQuarterTonesPitchKind =
+      note->
+        getNoteQuarterTonesPitchKind ();
 
   // fetch the quarter tones pitch as string
   string
-    quarterTonesPitchAsString =
-      msrQuarterTonesPitchAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
-        noteQuarterTonesPitch);
+    quarterTonesPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+        noteQuarterTonesPitchKind);
 
   // get the note quarter tones display pitch
-  msrQuarterTonesPitch
-    noteQuarterTonesDisplayPitch =
-      note->getNoteQuarterTonesDisplayPitch ();
+  msrQuarterTonesPitchKind
+    noteQuarterTonesDisplayPitchKind =
+      note->
+        getNoteQuarterTonesDisplayPitchKind ();
 
   // fetch the quarter tones display pitch as string
   string
-    quarterTonesDisplayPitchAsString =
-      msrQuarterTonesPitchAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
-        noteQuarterTonesDisplayPitch);
+    quarterTonesDisplayPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+        noteQuarterTonesDisplayPitchKind);
       
   // generate the pitch
   s <<
-    quarterTonesPitchAsString;
+    quarterTonesPitchKindAsString;
     
   // in MusicXML, octave number is 4 for the octave starting with middle C
   int noteAbsoluteOctave =
@@ -844,12 +846,12 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       setw (fieldWidth) <<
       "% msrQuarterTonesPitch" <<
       " = " <<
-      quarterTonesPitchAsString <<
+      quarterTonesPitchKindAsString <<
       endl <<
       setw (fieldWidth) <<
       "% quarterTonesDisplayPitch" <<
       " = " <<
-      quarterTonesDisplayPitchAsString <<
+      quarterTonesDisplayPitchKindAsString <<
       endl <<
       setw (fieldWidth) <<
       "% noteAbsoluteOctave" <<
@@ -939,32 +941,35 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
   stringstream s;
 
   // get the note quarter tones pitch
-  msrQuarterTonesPitch
-    noteQuarterTonesPitch =
-      note->getNoteQuarterTonesPitch ();
+  msrQuarterTonesPitchKind
+    noteQuarterTonesPitchKind =
+      note->
+        getNoteQuarterTonesPitchKind ();
 
   // fetch the quarter tones pitch as string
   string
-    quarterTonesPitchAsString =
-      msrQuarterTonesPitchAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
-        noteQuarterTonesPitch);
+    quarterTonesPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+        noteQuarterTonesPitchKind);
 
   // get the note quarter tones display pitch
-  msrQuarterTonesPitch
-    noteQuarterTonesDisplayPitch =
-      note->getNoteQuarterTonesDisplayPitch ();
+  msrQuarterTonesPitchKind
+    noteQuarterTonesDisplayPitchKind =
+      note->
+        getNoteQuarterTonesDisplayPitchKind ();
 
   // fetch the quarter tones display pitch as string
   string
-    quarterTonesDisplayPitchAsString =
-      msrQuarterTonesPitchAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
-        noteQuarterTonesDisplayPitch);
+    quarterTonesDisplayPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+        noteQuarterTonesDisplayPitchKind);
       
   // generate the display pitch
   s <<
-    note->noteDisplayPitchAsString ();
+    note->
+      noteDisplayPitchKindAsString ();
 //    note->notePitchAsString (); JMI
 //    quarterTonesDisplayPitchAsString;
     
@@ -994,12 +999,12 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       setw (fieldWidth) <<
       "% msrQuarterTonesPitch" <<
       " = " <<
-      quarterTonesPitchAsString <<
+      quarterTonesPitchKindAsString <<
       endl <<
       setw (fieldWidth) <<
       "% quarterTonesDisplayPitch" <<
       " = " <<
-      quarterTonesDisplayPitchAsString <<
+      quarterTonesDisplayPitchKindAsString <<
       endl <<
       setw (fieldWidth) <<
       "% noteAbsoluteOctave" <<
@@ -1101,7 +1106,7 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
   } // switch
 
   if (doGeneratePlacement) {
-    switch (articulation->getArticulationPlacement ()) {
+    switch (articulation->getArticulationPlacementKind ()) {
       case k_NoPlacement:
         fLilypondIOstream << "-";
         break;
@@ -1195,7 +1200,7 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
 {
   stringstream s;
   
-  switch (articulation->getArticulationPlacement ()) {
+  switch (articulation->getArticulationPlacementKind ()) {
     case k_NoPlacement:
       break;
     case kAbovePlacement:
@@ -1525,8 +1530,9 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
       
     case msrOrnament::kAccidentalMark:
       result =
-        alterationAsLilypondAccidentalMark (
-          ornament->getOrnamentAccidentalMark ());
+        alterationKindAsLilypondAccidentalMark (
+          ornament->
+            getOrnamentAccidentalMark ());
       break;
   } // switch
 
@@ -1545,11 +1551,11 @@ string lpsr2LilypondTranslator::dynamicsAsLilypondString (
 
 //________________________________________________________________________
 string lpsr2LilypondTranslator::harpPedalTuningAsLilypondString (
-  msrAlteration alteration)
+  msrAlterationKind alterationKind)
 {
   string result;
   
-  switch (alteration) {
+  switch (alterationKind) {
     case kDoubleFlat:
       result = "?";
       break;
@@ -1620,10 +1626,10 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
       singleTremolo->
         getSingleTremoloNoteUplink ();
 
-  msrDuration
-    singleTremoloNoteDuration =
+  msrDurationKind
+    singleTremoloNoteDurationKind =
       singleTremoloNoteUplink->
-        getNoteGraphicDuration ();
+        getNoteGraphicDurationKind ();
   
   /*
   The same output can be obtained by adding :N after the note,
@@ -1634,9 +1640,9 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
   int durationToUse =
     singleTremoloMarksNumber; // JMI / singleTremoloNoteSoundingWholeNotes;
         
-  if (singleTremoloNoteDuration >= kEighth)
+  if (singleTremoloNoteDurationKind >= kEighth)
     durationToUse +=
-      1 + (singleTremoloNoteDuration - kEighth);
+      1 + (singleTremoloNoteDurationKind - kEighth);
   
   stringstream s;
 
@@ -1649,12 +1655,12 @@ string lpsr2LilypondTranslator::singleTremoloDurationAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::harmonyDegreeAlterationAsLilypondString (
-  msrAlteration harmonyDegreeAlteration)
+string lpsr2LilypondTranslator::harmonyDegreeAlterationKindAsLilypondString (
+  msrAlterationKind harmonyDegreeAlterationKind)
 {
   string result;
   
-  switch (harmonyDegreeAlteration) {
+  switch (harmonyDegreeAlterationKind) {
     case k_NoAlteration:
       result = "?";
       break;
@@ -1712,11 +1718,11 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
   
   // print harmony pitch and duration
   s <<
-    msrQuarterTonesPitchAsString (
+    msrQuarterTonesPitchKindAsString (
       gMsrOptions->
-        fMsrQuarterTonesPitchesLanguage,
+        fMsrQuarterTonesPitchesLanguageKind,
       harmony->
-        getHarmonyRootQuarterTonesPitch ()) <<
+        getHarmonyRootQuarterTonesPitchKind ()) <<
     wholeNotesAsLilypondString (
       inputLineNumber,
       harmony->
@@ -1853,17 +1859,17 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       break;
   } // switch
 
-  msrQuarterTonesPitch
-    harmonyBassQuarterTonesPitch =
+  msrQuarterTonesPitchKind
+    harmonyBassQuarterTonesPitchKind =
       harmony->
-        getHarmonyBassQuarterTonesPitch ();
+        getHarmonyBassQuarterTonesPitchKind ();
       
-  if (harmonyBassQuarterTonesPitch != k_NoQuarterTonesPitch)
+  if (harmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch)
     s <<
       "/" <<
-      msrQuarterTonesPitchAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguage,
-        harmonyBassQuarterTonesPitch);
+      msrQuarterTonesPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        harmonyBassQuarterTonesPitchKind);
 
 
   // print harmony degrees if any
@@ -1886,13 +1892,15 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
         harmonyDegreeValue =
           harmonyDegree->getHarmonyDegreeValue ();
           
-      msrAlteration
-        harmonyDegreeAlteration =
-          harmonyDegree->getHarmonyDegreeAlteration ();
+      msrAlterationKind
+        harmonyDegreeAlterationKind =
+          harmonyDegree->
+            getHarmonyDegreeAlterationKind ();
       
       msrHarmonyDegree::msrHarmonyDegreeTypeKind
         harmonyDegreeTypeKind =
-          harmonyDegree->getHarmonyDegreeTypeKind ();
+          harmonyDegree->
+            getHarmonyDegreeTypeKind ();
                             
       // print the harmony degree
       switch (harmonyDegreeTypeKind) {
@@ -1901,8 +1909,8 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
             s <<
               "." <<
               harmonyDegreeValue <<
-              harmonyDegreeAlterationAsLilypondString (
-                harmonyDegreeAlteration);
+              harmonyDegreeAlterationKindAsLilypondString (
+                harmonyDegreeAlterationKind);
           }
           break;
           
@@ -1910,8 +1918,8 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           s <<
             "." <<
             harmonyDegreeValue <<
-            harmonyDegreeAlterationAsLilypondString (
-              harmonyDegreeAlteration);
+            harmonyDegreeAlterationKindAsLilypondString (
+              harmonyDegreeAlterationKind);
           break;
           
         case msrHarmonyDegree::kHarmonyDegreeSubtractType:
@@ -1938,13 +1946,15 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           harmonyDegreeValue =
             harmonyDegree->getHarmonyDegreeValue ();
             
-        msrAlteration
-          harmonyDegreeAlteration =
-            harmonyDegree->getHarmonyDegreeAlteration ();
+        msrAlterationKind
+          harmonyDegreeAlterationKind =
+            harmonyDegree->
+              getHarmonyDegreeAlterationKind ();
         
         msrHarmonyDegree::msrHarmonyDegreeTypeKind
           harmonyDegreeTypeKind =
-            harmonyDegree->getHarmonyDegreeTypeKind ();
+            harmonyDegree->
+              getHarmonyDegreeTypeKind ();
                               
         // print the harmony degree
         switch (harmonyDegreeTypeKind) {
@@ -1958,8 +1968,8 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     
             s <<
               harmonyDegreeValue <<
-              harmonyDegreeAlterationAsLilypondString (
-                harmonyDegreeAlteration);
+              harmonyDegreeAlterationKindAsLilypondString (
+                harmonyDegreeAlterationKind);
             break;
         } // switch
       } // for
@@ -3367,13 +3377,13 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
   }
 
   string
-    contextTypeAsString =
-      elt->getContextTypeAsString (),
+    contextTypeKindAsString =
+      elt->getContextTypeKindAsString (),
     contextName =
       elt->getContextName ();
     
   fLilypondIOstream <<
-    "\\context " << contextTypeAsString <<
+    "\\context " << contextTypeKindAsString <<
     " = \"" << contextName << "\"" <<
     endl;
 
@@ -3740,16 +3750,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
     
   fLilypondIOstream <<
     "\\language \"" <<
-    msrQuarterTonesPitchesLanguageAsString (
-      gLpsrOptions->fLpsrQuarterTonesPitchesLanguage) <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      gLpsrOptions->
+        fLpsrQuarterTonesPitchesLanguageKind) <<
     "\"" <<
     endl;
 
-  if (gLpsrOptions->fLpsrChordsLanguage != k_IgnatzekChords)
+  if (gLpsrOptions->fLpsrChordsLanguageKind != k_IgnatzekChords)
     fLilypondIOstream <<
       "\\" <<
-      lpsrChordsLanguageAsString (
-        gLpsrOptions->fLpsrChordsLanguage) <<
+      lpsrChordsLanguageKindAsString (
+        gLpsrOptions->
+          fLpsrChordsLanguageKind) <<
       "Chords" <<
       endl;
 
@@ -3773,11 +3785,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl <<
       endl;
 
-  if (gLilypondOptions->fAccidentalStyle != kDefaultStyle)
+  if (gLilypondOptions->fAccidentalStyleKind != kDefaultStyle)
     fLilypondIOstream <<
       "\\accidentalStyle Score." <<
-      lpsrAccidentalStyleAsString (
-        gLilypondOptions->fAccidentalStyle) <<
+      lpsrAccidentalStyleKindAsString (
+        gLilypondOptions->fAccidentalStyleKind) <<
       endl <<
       endl;
 
@@ -4918,9 +4930,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
     case msrKey::kTraditionalKind:
       fLilypondIOstream <<
         "\\key " <<
-        msrQuarterTonesPitchAsString (
-          gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
-          elt->getKeyTonicQuarterTonesPitch ()) <<
+        msrQuarterTonesPitchKindAsString (
+          gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+          elt->getKeyTonicQuarterTonesPitchKind ()) <<
         " \\" <<
         msrKey::keyModeKindAsString (
           elt->getKeyModeKind ()) <<
@@ -4959,11 +4971,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
                       // starting with middle C,
                       // and the latter is c' in LilyPond
                     " . " <<
-                    item->getKeyItemDiatonicPitch () <<
+                    item->getKeyItemDiatonicPitchKind () <<
                     ")" <<
                   " . ," <<
-                  alterationAsLilypondString (
-                    item->getKeyItemAlteration ()) <<                
+                  alterationKindAsLilypondString (
+                    item->getKeyItemAlterationKind ()) <<                
                   ")";
             }
   
@@ -4972,10 +4984,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
                                       
                 fLilypondIOstream <<
                   "(" <<
-                  item->getKeyItemDiatonicPitch () <<
+                  item->getKeyItemDiatonicPitchKind () <<
                   " . ," <<
-                  alterationAsLilypondString (
-                    item->getKeyItemAlteration ()) <<                
+                  alterationKindAsLilypondString (
+                    item->getKeyItemAlterationKind ()) <<                
                   ")";
             }
                 
@@ -5250,17 +5262,18 @@ If the double element is present, it indicates that the music is doubled one oct
 */
   
   // determine transposition pitch
-  msrQuarterTonesPitch transpositionPitch;
+  msrQuarterTonesPitchKind
+    transpositionPitchKind = k_NoQuarterTonesPitch;
   
   switch (transposeChromatic) {
     case -11:
       switch (transposeDiatonic) {
         case -7:
-          transpositionPitch = k_cSharp;
+          transpositionPitchKind = k_cSharp;
           break;
 
         case -6:
-          transpositionPitch = k_dFlat;
+          transpositionPitchKind = k_dFlat;
           break;
 
         default:
@@ -5274,7 +5287,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -10:
       switch (transposeDiatonic) {
         case -6:
-          transpositionPitch = k_dNatural;
+          transpositionPitchKind = k_dNatural;
           break;
 
         default:
@@ -5288,11 +5301,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -9:
       switch (transposeDiatonic) {
         case -6:
-          transpositionPitch = k_dSharp;
+          transpositionPitchKind = k_dSharp;
           break;
 
         case -5:
-          transpositionPitch = k_eFlat;
+          transpositionPitchKind = k_eFlat;
           break;
 
         default:
@@ -5306,7 +5319,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -8:
       switch (transposeDiatonic) {
         case -5:
-          transpositionPitch = k_eNatural;
+          transpositionPitchKind = k_eNatural;
           break;
 
         default:
@@ -5320,7 +5333,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -7:
       switch (transposeDiatonic) {
         case -4:
-          transpositionPitch = k_fNatural;
+          transpositionPitchKind = k_fNatural;
           break;
 
         default:
@@ -5334,11 +5347,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -6:
       switch (transposeDiatonic) {
         case -4:
-          transpositionPitch = k_fSharp;
+          transpositionPitchKind = k_fSharp;
           break;
 
         case -3:
-          transpositionPitch = k_gFlat;
+          transpositionPitchKind = k_gFlat;
           break;
 
         default:
@@ -5352,7 +5365,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -5:
       switch (transposeDiatonic) {
         case -3:
-          transpositionPitch = k_gNatural;
+          transpositionPitchKind = k_gNatural;
           break;
 
         default:
@@ -5366,11 +5379,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -4:
       switch (transposeDiatonic) {
         case -3:
-          transpositionPitch = k_gSharp;
+          transpositionPitchKind = k_gSharp;
           break;
 
         case -2:
-          transpositionPitch = k_aFlat;
+          transpositionPitchKind = k_aFlat;
           break;
 
         default:
@@ -5384,7 +5397,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -3:
       switch (transposeDiatonic) {
         case -2:
-          transpositionPitch = k_aNatural;
+          transpositionPitchKind = k_aNatural;
           break;
 
         default:
@@ -5398,11 +5411,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -2:
       switch (transposeDiatonic) {
         case -2:
-          transpositionPitch = k_aSharp;
+          transpositionPitchKind = k_aSharp;
           break;
 
         case -1:
-          transpositionPitch = k_bFlat;
+          transpositionPitchKind = k_bFlat;
           break;
 
         default:
@@ -5416,7 +5429,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -1:
       switch (transposeDiatonic) {
         case -1:
-          transpositionPitch = k_bNatural;
+          transpositionPitchKind = k_bNatural;
           break;
 
         default:
@@ -5430,7 +5443,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 0:
       switch (transposeDiatonic) {
         case 0:
-          transpositionPitch = k_cNatural;
+          transpositionPitchKind = k_cNatural;
           break;
 
         default:
@@ -5444,11 +5457,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 1:
       switch (transposeDiatonic) {
         case 0:
-          transpositionPitch = k_cSharp;
+          transpositionPitchKind = k_cSharp;
           break;
 
         case 1:
-          transpositionPitch = k_dFlat;
+          transpositionPitchKind = k_dFlat;
           break;
 
         default:
@@ -5462,7 +5475,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 2:
       switch (transposeDiatonic) {
         case 1:
-          transpositionPitch = k_dNatural;
+          transpositionPitchKind = k_dNatural;
           break;
 
         default:
@@ -5476,11 +5489,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 3:
       switch (transposeDiatonic) {
         case 1:
-          transpositionPitch = k_dSharp;
+          transpositionPitchKind = k_dSharp;
           break;
 
         case 2:
-          transpositionPitch = k_eFlat;
+          transpositionPitchKind = k_eFlat;
           break;
 
         default:
@@ -5494,7 +5507,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 4:
       switch (transposeDiatonic) {
         case 2:
-          transpositionPitch = k_eNatural;
+          transpositionPitchKind = k_eNatural;
           break;
 
         default:
@@ -5508,7 +5521,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 5:
       switch (transposeDiatonic) {
         case 3:
-          transpositionPitch = k_fNatural;
+          transpositionPitchKind = k_fNatural;
           break;
 
         default:
@@ -5522,11 +5535,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 6:
       switch (transposeDiatonic) {
         case 3:
-          transpositionPitch = k_fSharp;
+          transpositionPitchKind = k_fSharp;
           break;
 
         case 4:
-          transpositionPitch = k_gFlat;
+          transpositionPitchKind = k_gFlat;
           break;
 
         default:
@@ -5540,7 +5553,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 7:
       switch (transposeDiatonic) {
         case 4:
-          transpositionPitch = k_gNatural;
+          transpositionPitchKind = k_gNatural;
           break;
 
         default:
@@ -5554,11 +5567,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 8:
       switch (transposeDiatonic) {
         case 4:
-          transpositionPitch = k_gSharp;
+          transpositionPitchKind = k_gSharp;
           break;
 
         case 5:
-          transpositionPitch = k_aFlat;
+          transpositionPitchKind = k_aFlat;
           break;
 
         default:
@@ -5572,7 +5585,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 9:
       switch (transposeDiatonic) {
         case 5:
-          transpositionPitch = k_aNatural;
+          transpositionPitchKind = k_aNatural;
           break;
 
         default:
@@ -5586,11 +5599,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 10:
       switch (transposeDiatonic) {
         case 5:
-          transpositionPitch = k_aSharp;
+          transpositionPitchKind = k_aSharp;
           break;
 
         case 6:
-          transpositionPitch = k_bFlat;
+          transpositionPitchKind = k_bFlat;
           break;
 
         default:
@@ -5604,7 +5617,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 11:
       switch (transposeDiatonic) {
         case 6:
-          transpositionPitch = k_bNatural;
+          transpositionPitchKind = k_bNatural;
           break;
 
         default:
@@ -5623,8 +5636,10 @@ If the double element is present, it indicates that the music is doubled one oct
           "transpose chromatic '" << transposeChromatic <<
           "' is not between -12 and 12, ignored";
           
-        msrMusicXMLWarning ( // JMI
-          inputLineNumber,
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          elt->getInputLineNumber (),
+          __FILE__, __LINE__,
           s.str ());
       }
   } // switch
@@ -5645,13 +5660,14 @@ If the double element is present, it indicates that the music is doubled one oct
     transpositionOctave--;
 
   string
-    transpositionPitchAsString =
-      msrQuarterTonesPitchAsString (
-        gLpsrOptions->fLpsrQuarterTonesPitchesLanguage,
-        transpositionPitch);
+    transpositionPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->
+          fLpsrQuarterTonesPitchesLanguageKind,
+        transpositionPitchKind);
 
   string
-    transitionOctaveAsString =
+    transpositionOctaveAsString =
       absoluteOctaveAsLilypondString (
         transpositionOctave);
 
@@ -5672,7 +5688,7 @@ If the double element is present, it indicates that the music is doubled one oct
       ", transpositionPitch: " <<
       transpositionPitchAsString <<
       ", transpositionOctave: " <<
-      transitionOctaveAsString <<
+      transpositionOctaveAsString <<
       "(" << transpositionOctave << ")" <<
       endl;
     }
@@ -5681,8 +5697,8 @@ If the double element is present, it indicates that the music is doubled one oct
   // now we can generate the transpostion command
   fLilypondIOstream <<
     "\\transposition " <<
-    transpositionPitchAsString <<
-    transitionOctaveAsString <<
+    transpositionPitchKindAsString <<
+    transpositionOctaveAsString <<
     " " <<
     endl;
 }
@@ -5783,7 +5799,7 @@ Articulations can be attached to rests as well as notes but they cannot be attac
   } // switch
 */
       
-  switch (elt->getFermataType ()) {
+  switch (elt->getFermataTypeKind ()) {
     case msrFermata::k_NoFermataType:
       // no markup needed
       break;
@@ -6448,12 +6464,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         technicalAsLilypondString ((*i));
 
       switch ((*i)->getTechnicalPlacementKind ()) {
-        case msrTechnical::k_NoTechnicalPlacement:
+        case k_NoPlacement:
           break;
-        case msrTechnical::kTechnicalPlacementAbove:
+        case kAbovePlacement:
           fLilypondIOstream << "^";
           break;
-        case msrTechnical::kTechnicalPlacementBelow:
+        case kBelowPlacement:
           fLilypondIOstream << "_";
           break;
       } // switch
@@ -6478,12 +6494,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         technicalWithIntegerAsLilypondString ((*i));
 
       switch ((*i)->getTechnicalWithIntegerPlacementKind ()) {
-        case msrTechnicalWithInteger::k_NoTechnicalWithIntegerPlacement:
+        case k_NoPlacement:
           break;
-        case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementAbove:
+        case kAbovePlacement:
           fLilypondIOstream << "^";
           break;
-        case msrTechnicalWithInteger::kTechnicalWithIntegerPlacementBelow:
+        case kBelowPlacement:
           fLilypondIOstream << "_";
           break;
       } // switch
@@ -6508,12 +6524,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         technicalWithStringAsLilypondString ((*i));
 
       switch ((*i)->getTechnicalWithStringPlacementKind ()) {
-        case msrTechnicalWithString::k_NoTechnicalWithStringPlacement:
+        case k_NoPlacement:
           break;
-        case msrTechnicalWithString::kTechnicalWithStringPlacementAbove:
+        case kAbovePlacement:
           fLilypondIOstream << "^";
           break;
-        case msrTechnicalWithString::kTechnicalWithStringPlacementBelow:
+        case kBelowPlacement:
           fLilypondIOstream << "_";
           break;
       } // switch
@@ -6539,18 +6555,18 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         // JMI " ";
 
       switch ((*i)->getOrnamentPlacementKind ()) {
-        case msrOrnament::k_NoOrnamentPlacement:
+        case k_NoPlacement:
           break;
-        case msrOrnament::kOrnamentPlacementAbove:
+        case kAbovePlacement:
           fLilypondIOstream << "^";
           break;
-        case msrOrnament::kOrnamentPlacementBelow:
+        case kBelowPlacement:
           fLilypondIOstream << "_";
           break;
       } // switch
 
       fLilypondIOstream <<
-        alterationAsLilypondAccidentalMark (
+        alterationKindAsLilypondAccidentalMark (
           (*i)->getOrnamentAccidentalMark ()) <<
         " ";
     } // for
@@ -6571,13 +6587,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         dynamics = (*i);
         
       switch (dynamics->getDynamicsPlacementKind ()) {
-        case msrDynamics::k_NoDynamicsPlacement:
+        case k_NoPlacement:
    // JMI       fLilypondIOstream << "-3";
           break;
-        case msrDynamics::kDynamicsPlacementAbove:
+        case kAbovePlacement:
           fLilypondIOstream << "^";
           break;
-        case msrDynamics::kDynamicsPlacementBelow:
+        case kBelowPlacement:
           // this is done by LilyPond by default
           break;
       } // switch
@@ -6615,24 +6631,24 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i=noteWords.begin ();
       i!=noteWords.end ();
       i++) {
-      msrWords::msrWordsPlacementKind
+      msrPlacementKind
         wordsPlacementKind =
           (*i)->getWordsPlacementKind ();
     
       string wordsContents =
         (*i)->getWordsContents ();
 
-      msrFontStyle
-        wordsFontStyle =
-          (*i)->getWordsFontStyle ();
+      msrFontStyleKind
+        wordsFontStyleKind =
+          (*i)->getWordsFontStyleKind ();
         
       S_msrFontSize
         wordsFontSize =
           (*i)->getWordsFontSize ();
         
-      msrFontWeight
-        wordsFontWeight =
-          (*i)->getWordsFontWeight ();
+      msrFontWeightKind
+        wordsFontWeightKind =
+          (*i)->getWordsFontWeightKind ();
 
       string markup;
       
@@ -6641,10 +6657,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
         
         switch (wordsPlacementKind) {
-          case msrWords::kWordsPlacementAbove:
+          case k_NoPlacement:
+            // should not occur
+            break;
+          case kAbovePlacement:
             s << "^";
             break;
-          case msrWords::kWordsPlacementBelow:
+          case kBelowPlacement:
             s << "_";
             break;
         } // switch
@@ -6652,7 +6671,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         s <<
           "\\markup" << " { ";
 
-        switch (wordsFontStyle) {
+        switch (wordsFontStyleKind) {
           case k_NoFontStyle:
             break;
           case kNormalFontStyle:
@@ -6664,7 +6683,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             break;
         } // switch
 
-        switch (wordsFontWeight) {
+        switch (wordsFontWeightKind) {
           case k_NoFontWeight:
             break;
           case kNormalFontWeight:
@@ -6846,6 +6865,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
     case msrOctaveShift::kOctaveShiftStop:
       fLilypondIOstream << 0;
       break;
+    case msrOctaveShift::kOctaveShiftContinue:
+     // JMI ??? fLilypondIOstream << 0;
+      break;
   } // switch
   
   fLilypondIOstream << " ";
@@ -6916,30 +6938,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
       endl;
   }
 
-  map<msrDiatonicPitch, msrAlteration>
-    harpPedalsAlterationsMap =
-      elt->getHarpPedalsAlterationsMap ();
+  map<msrDiatonicPitchKind, msrAlterationKind>
+    harpPedalsAlterationKindsMap =
+      elt->getHarpPedalsAlterationKindsMap ();
       
-  if (harpPedalsAlterationsMap.size ()) {
+  if (harpPedalsAlterationKindsMap.size ()) {
     gIndenter++;
 
     fLilypondIOstream <<
       "_\\markup { \\harp-pedal #\"" <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationsMap [kD]) <<
+        harpPedalsAlterationKindsMap [kD]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationsMap [kC]) <<
+        harpPedalsAlterationKindsMap [kC]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationsMap [kB]) <<
+        harpPedalsAlterationKindsMap [kB]) <<
       "|" <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationsMap [kE]) <<
+        harpPedalsAlterationKindsMap [kE]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationsMap [kF]) <<
+        harpPedalsAlterationKindsMap [kF]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationsMap [kG]) <<
+        harpPedalsAlterationKindsMap [kG]) <<
       harpPedalTuningAsLilypondString (
-        harpPedalsAlterationsMap [kA]) <<
+        harpPedalsAlterationKindsMap [kA]) <<
       "\" } ";
   }
   else {
@@ -7072,13 +7094,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
           arpeggiato =
             dynamic_cast<msrArpeggiato*>(&(*articulation))
         ) {
-        msrDirection
-          direction =
-            arpeggiato->getArpeggiatoDirection ();
+        msrDirectionKind
+          directionKind =
+            arpeggiato->getArpeggiatoDirectionKind ();
         
-        switch (direction) {
+        switch (directionKind) {
           case k_NoDirection:
-            if (fCurrentArpeggioDirection != k_NoDirection)
+            if (fCurrentArpeggioDirectionKind != k_NoDirection)
               fLilypondIOstream << "\\arpeggioNormal";
             break;
           case kUpDirection:
@@ -7091,7 +7113,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
           
         fLilypondIOstream << " ";
 
-        fCurrentArpeggioDirection = direction;
+        fCurrentArpeggioDirectionKind = directionKind;
       }
       
       else if (
@@ -7269,13 +7291,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         dynamics = (*i);
         
       switch (dynamics->getDynamicsPlacementKind ()) {
-        case msrDynamics::k_NoDynamicsPlacement:
+        case k_NoPlacement:
           fLilypondIOstream << "-";
           break;
-        case msrDynamics::kDynamicsPlacementAbove:
+        case kAbovePlacement:
           fLilypondIOstream << "^";
           break;
-        case msrDynamics::kDynamicsPlacementBelow:
+        case kBelowPlacement:
           // this is done by LilyPond by default
           break;
       } // switch
@@ -7329,7 +7351,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i!=chordWords.end ();
       i++) {
         
-      msrWords::msrWordsPlacementKind
+      msrPlacementKind
         wordsPlacementKind =
           (*i)->getWordsPlacementKind ();
     
@@ -7337,10 +7359,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         (*i)->getWordsContents ();
     
       switch (wordsPlacementKind) {
-        case msrWords::kWordsPlacementAbove:
+        case k_NoPlacement:
+          // should not occur
+          break;
+        case kAbovePlacement:
           fLilypondIOstream << "^";
           break;
-        case msrWords::kWordsPlacementBelow:
+        case kBelowPlacement:
           fLilypondIOstream << "_";
           break;
       } // switch
@@ -7596,7 +7621,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
       endl;
   }
       
-  switch (elt->getPedalType ()) {
+  switch (elt->getPedalTypeKind ()) {
     case msrPedal::kPedalStart:
       fLilypondIOstream << "<> \\sustainOn ";
       break;

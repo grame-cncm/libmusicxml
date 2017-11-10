@@ -17,8 +17,6 @@
 #include <list>
 
 
-using namespace std;
-
 namespace MusicXML2 
 {
 
@@ -34,31 +32,31 @@ class versionInfo
   public:
 
     versionInfo (
-      string  versionNumber,
-      string  versionDate,
-      string  versionDescription);
+      std::string versionNumber,
+      std::string versionDate,
+      std::string versionDescription);
 
     virtual ~versionInfo ();
     
-    void print (ostream& os) const;
+    void print (std::ostream& os) const;
 
   public:
 
-    string  fVersionNumber;
-    string  fVersionDate;
-    string  fVersionDescription;
+    std::string           fVersionNumber;
+    std::string           fVersionDate;
+    std::string           fVersionDescription;
 };
 
-extern list<versionInfo> gVersionInfoList;
+extern std::list<versionInfo> gVersionInfoList;
 
 void enlistVersion (
-  string  versionNumber,
-  string  versionDate,
-  string  versionDescription);
+  std::string versionNumber,
+  std::string versionDate,
+  std::string versionDescription);
 
-void printVersionsHistory (ostream& os);
+void printVersionsHistory (std::ostream& os);
 
-string   currentVersionNumber ();
+std::string   currentVersionNumber ();
 
 /*! @} */
 

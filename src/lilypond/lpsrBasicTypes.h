@@ -23,14 +23,12 @@
 #include "msrBasicTypes.h"
 
 
-using namespace std;
-
 namespace MusicXML2 
 {
 
 // accidental styles
 //______________________________________________________________________________
-enum lpsrAccidentalStyle {
+enum lpsrAccidentalStyleKind {
   kDefaultStyle,
   kVoiceStyle,
   kModernStyle,
@@ -41,34 +39,34 @@ enum lpsrAccidentalStyle {
   kDodecaphonicStyle, kDodecaphonicNoRepeatStyle,
   kDodecaphonicFirstStyle, kTeachingStyle, kNoResetStyle, kForgetStyle };
 
-string lpsrAccidentalStyleAsString (
-  lpsrAccidentalStyle style);
+string lpsrAccidentalStyleKindAsString (
+  lpsrAccidentalStyleKind styleKind);
 
-string lpsrAccidentalStyleAsLilypondString (
-  lpsrAccidentalStyle style);
+string lpsrAccidentalStyleKindAsLilypondString (
+  lpsrAccidentalStyleKind styleKind);
 
-extern map<string, lpsrAccidentalStyle>
-  gLpsrAccidentalStylesMap;
+extern map<string, lpsrAccidentalStyleKind>
+  gLpsrAccidentalStyleKindsMap;
 
-string existingLpsrAccidentalStyles ();
+string existingLpsrAccidentalStyleKinds ();
 
-void initializeLpsrAccidentalStylesMap ();
+void initializeLpsrAccidentalStyleKindsMap ();
 
 // chords languages
 //______________________________________________________________________________
-enum lpsrChordsLanguage {
+enum lpsrChordsLanguageKind {
   k_IgnatzekChords, // LilyPond default
   k_GermanChords, k_SemiGermanChords, k_ItalianChords, k_FrenchChords };
   
-string lpsrChordsLanguageAsString (
-  lpsrChordsLanguage language);
+string lpsrChordsLanguageKindAsString (
+  lpsrChordsLanguageKind languageKind);
 
-extern map<string, lpsrChordsLanguage>
-  gLpsrChordsLanguagesMap;
+extern map<string, lpsrChordsLanguageKind>
+  gLpsrChordsLanguageKindsMap;
 
-string existingLpsrChordsLanguages ();
+string existingLpsrChordsLanguageKinds ();
 
-void initializeLpsrChordsLanguagesMap ();
+void initializeLpsrChordsLanguageKindsMap ();
 
 // whole notes
 //______________________________________________________________________________

@@ -22,7 +22,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class EXP generalOptions : public msrOptionsGroup
+class generalOptions : public msrOptionsGroup
 {
   public:
 

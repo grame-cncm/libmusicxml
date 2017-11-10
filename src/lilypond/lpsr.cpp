@@ -91,22 +91,23 @@ void lpsrElement::browseData (basevisitor* v)
 
 //______________________________________________________________________________
 S_lpsrParallelMusic lpsrParallelMusic::create (
-  int                   inputLineNumber,
-  lpsrElementsSeparator elementsSeparator)
+  int                       inputLineNumber,
+  lpsrElementsSeparatorKind elementsSeparatorKind)
 {
   lpsrParallelMusic* o =
     new lpsrParallelMusic (
-      inputLineNumber, elementsSeparator);
+      inputLineNumber,
+      elementsSeparatorKind);
   assert(o!=0);
   return o;
 }
 
 lpsrParallelMusic::lpsrParallelMusic (
-  int                   inputLineNumber,
-  lpsrElementsSeparator elementsSeparator)
+  int                       inputLineNumber,
+  lpsrElementsSeparatorKind elementsSeparatorKind)
     : lpsrElement (inputLineNumber)
 {
-  fElementsSeparator=elementsSeparator;
+  fElementsSeparatorKind = elementsSeparatorKind;
 }
 
 lpsrParallelMusic::~lpsrParallelMusic()
@@ -541,16 +542,16 @@ void lpsrNewLyricsBlock::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create (
-  int                 inputLineNumber,
-  lpsrCommentedKind   commentedKind,
-  lpsrBackslashKind   backslashKind,
-  string              variableName,
-  lpsrVarValSeparator varValSeparator,
-  lpsrQuotesKind      quotesKind,
-  string              value, 
-  string              unit,
-  string              comment,
-  lpsrEndlKind        endlKind)
+  int                     inputLineNumber,
+  lpsrCommentedKind       commentedKind,
+  lpsrBackslashKind       backslashKind,
+  string                  variableName,
+  lpsrVarValSeparatorKind varValSeparatorKind,
+  lpsrQuotesKind          quotesKind,
+  string                  value, 
+  string                  unit,
+  string                  comment,
+  lpsrEndlKind            endlKind)
 {
   lpsrLilypondVarValAssoc* o =
     new lpsrLilypondVarValAssoc(
@@ -558,7 +559,7 @@ S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create (
       commentedKind,
       backslashKind,
       variableName,
-      varValSeparator, 
+      varValSeparatorKind, 
       quotesKind,
       value,
       unit,
@@ -569,27 +570,27 @@ S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create (
 }
 
 lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc (
-  int                 inputLineNumber,
-  lpsrCommentedKind   commentedKind,
-  lpsrBackslashKind   backslashKind,
-  string              variableName,
-  lpsrVarValSeparator varValSeparator,
-  lpsrQuotesKind      quotesKind,
-  string              value, 
-  string              unit,
-  string              comment,
-  lpsrEndlKind        endlKind)
+  int                     inputLineNumber,
+  lpsrCommentedKind       commentedKind,
+  lpsrBackslashKind       backslashKind,
+  string                  variableName,
+  lpsrVarValSeparatorKind varValSeparatorKind,
+  lpsrQuotesKind          quotesKind,
+  string                  value, 
+  string                  unit,
+  string                  comment,
+  lpsrEndlKind            endlKind)
     : lpsrElement (inputLineNumber)
 {
-  fBackslashKind   = backslashKind;
-  fVariableName    = variableName;
-  fVarValSeparator = varValSeparator;
-  fQuotesKind      = quotesKind;
-  fVariableValue   = value;
-  fCommentedKind   = commentedKind;
-  fUnit            = unit;
-  fComment         = comment;
-  fEndlKind        = endlKind;
+  fBackslashKind       = backslashKind;
+  fVariableName        = variableName;
+  fVarValSeparatorKind = varValSeparatorKind;
+  fQuotesKind          = quotesKind;
+  fVariableValue       = value;
+  fCommentedKind       = commentedKind;
+  fUnit                = unit;
+  fComment             = comment;
+  fEndlKind            = endlKind;
 }
 
 lpsrLilypondVarValAssoc::~lpsrLilypondVarValAssoc()
@@ -690,7 +691,7 @@ void lpsrLilypondVarValAssoc::print (ostream& os)
     "variable name: \"" << variableName << "\"" <<
     endl;
   
-  switch (fVarValSeparator) {
+  switch (fVarValSeparatorKind) {
     case kSpace:
       os << "space";
       break;
@@ -1329,13 +1330,16 @@ S_lpsrContext lpsrContext::create (
   int             inputLineNumber,
   lpsrContextExistingKind
                   contextExistingKind,
-  lpsrContextType contextType,
+  lpsrContextTypeKind
+                  contextTypeKind,
   string          contextName)
 {
   lpsrContext* o =
     new lpsrContext (
       inputLineNumber,
-      contextExistingKind, contextType, contextName);
+      contextExistingKind,
+      contextTypeKind,
+      contextName);
   assert(o!=0);
   return o;
 }
@@ -1344,12 +1348,13 @@ lpsrContext::lpsrContext (
   int             inputLineNumber,
   lpsrContextExistingKind
                   contextExistingKind,
-  lpsrContextType contextType,
+  lpsrContextTypeKind
+                  contextTypeKind,
   string          contextName)
     : lpsrElement (inputLineNumber)
 {
   fContextExistingKind = contextExistingKind;
-  fContextType = contextType;
+  fContextTypeKind = contextTypeKind;
   fContextName = contextName; 
 }
 
@@ -1397,12 +1402,12 @@ void lpsrContext::acceptOut (basevisitor* v) {
 void lpsrContext::browseData (basevisitor* v)
 {}
 
-string lpsrContext::contextTypeAsString (
-  lpsrContextType contextType)
+string lpsrContext::contextTypeKindAsString (
+  lpsrContextTypeKind contextTypeKind)
 {
   string result;
   
-  switch (contextType) {
+  switch (contextTypeKind) {
     case kChordNames:
       result = "ChordNames";
       break;
@@ -1436,8 +1441,8 @@ void lpsrContext::print (ostream& os)
 {  
   os <<
     "Context, \"" <<
-    contextTypeAsString (
-      fContextType) <<
+    contextTypeKindAsString (
+      fContextTypeKind) <<
     "\"" <<
     ", existing kind: " <<
     contextExistingKindAsString (
@@ -4073,12 +4078,12 @@ void initializeLPSR ()
   // LPSR accidental styles handling
   // ------------------------------------------------------
 
-  initializeLpsrAccidentalStylesMap ();
+  initializeLpsrAccidentalStyleKindsMap ();
 
   // LPSR chords languages handling
   // ------------------------------------------------------
 
-  initializeLpsrChordsLanguagesMap ();
+  initializeLpsrChordsLanguageKindsMap ();
 }
 
 

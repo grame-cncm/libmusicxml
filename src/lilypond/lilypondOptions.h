@@ -18,13 +18,11 @@
 #include "optionsHandling.h"
 
 
-using namespace std;
-
 namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class EXP lilypondOptions : public msrOptionsGroup
+class lilypondOptions : public msrOptionsGroup
 {
   public:
 
@@ -102,7 +100,8 @@ class EXP lilypondOptions : public msrOptionsGroup
     bool                  fRomanStringNumbers;
     bool                  fAvoidOpenStrings;
     
-    lpsrAccidentalStyle   fAccidentalStyle;
+    lpsrAccidentalStyleKind
+                          fAccidentalStyleKind;
 
     bool                  fCompressMultiMeasureRests;
 

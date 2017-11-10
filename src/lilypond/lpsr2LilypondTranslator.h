@@ -527,11 +527,11 @@ class lpsr2LilypondTranslator :
 
     // alterations
     
-    string                alterationAsLilypondString (
-                            msrAlteration alteration);
+    string                alterationKindAsLilypondString (
+                            msrAlterationKind alterationKind);
 
-    string                alterationAsLilypondAccidentalMark (
-                            msrAlteration alteration);
+    string                alterationKindAsLilypondAccidentalMark (
+                            msrAlterationKind alterationKind);
 
     // durations
     
@@ -558,7 +558,7 @@ class lpsr2LilypondTranslator :
 
     // articulations
 
-    msrDirection          fCurrentArpeggioDirection;
+    msrDirectionKind      fCurrentArpeggioDirectionKind;
     
     string                noteArticulationAsLilyponString (
                             S_msrArticulation articulation);
@@ -595,7 +595,7 @@ class lpsr2LilypondTranslator :
     // harp pedals tuning
     
     string                harpPedalTuningAsLilypondString (
-                            msrAlteration alteration);
+                            msrAlterationKind alterationKind);
    
     // transpose
     
@@ -612,8 +612,8 @@ class lpsr2LilypondTranslator :
     string                harmonyAsLilypondString (
                             S_msrHarmony harmony);
 
-    string                harmonyDegreeAlterationAsLilypondString (
-                            msrAlteration harmonyDegreeAlteration);
+    string                harmonyDegreeAlterationKindAsLilypondString (
+                            msrAlterationKind harmonyDegreeAlterationKind);
 
     // figured bass
     

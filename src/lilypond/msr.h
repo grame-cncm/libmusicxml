@@ -162,7 +162,7 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-class EXP msrElement : public smartable
+class msrElement : public smartable
 {
   public:
 
@@ -219,7 +219,7 @@ EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
   list of its enclosed elements plus optional parameters.
 */
 //______________________________________________________________________________
-template <typename T> class EXP msrBrowser : public browser<T> 
+template <typename T> class msrBrowser : public browser<T> 
 {
   public:
     
@@ -307,7 +307,7 @@ class msrBeatData // JMI ???
 */
 
 //______________________________________________________________________________
-class EXP msrOctaveShift : public msrElement
+class msrOctaveShift : public msrElement
 {
   public:
 
@@ -315,8 +315,9 @@ class EXP msrOctaveShift : public msrElement
     // ------------------------------------------------------
 
     enum msrOctaveShiftKind {
+      k_NoOctaveShift,
       kOctaveShiftUp, kOctaveShiftDown,
-      kOctaveShiftStop};
+      kOctaveShiftStop, kOctaveShiftContinue };
 
     static string octaveShiftKindAsString (
       msrOctaveShiftKind octaveShiftKind);
@@ -389,7 +390,7 @@ EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
 */
 
 //______________________________________________________________________________
-class EXP msrAccordionRegistration : public msrElement
+class msrAccordionRegistration : public msrElement
 {
   public:
       
@@ -463,7 +464,7 @@ typedef SMARTP<msrAccordionRegistration> S_msrAccordionRegistration;
 EXP ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt);
 
 //______________________________________________________________________________
-class EXP msrHarpPedalsTuning : public msrElement
+class msrHarpPedalsTuning : public msrElement
 {
   public:
 
@@ -492,17 +493,17 @@ class EXP msrHarpPedalsTuning : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    const map<msrDiatonicPitch, msrAlteration>&
-                          getHarpPedalsAlterationsMap ()
-                              { return fHarpPedalsAlterationsMap; }
+    const map<msrDiatonicPitchKind, msrAlterationKind>&
+                          getHarpPedalsAlterationKindsMap ()
+                              { return fHarpPedalsAlterationKindsMap; }
 
     // services
     // ------------------------------------------------------
 
     void                  addPedalTuning (
-                            int              intputLineNumber,
-                            msrDiatonicPitch diatonicPitch,
-                            msrAlteration    alteration);
+                            int                  intputLineNumber,
+                            msrDiatonicPitchKind diatonicPitchKind,
+                            msrAlterationKind    alterationKind);
                             
     string                harpPedalsTuningAsString () const;
          
@@ -524,14 +525,14 @@ class EXP msrHarpPedalsTuning : public msrElement
     // fields
     // ------------------------------------------------------
     
-    map<msrDiatonicPitch, msrAlteration>
-                          fHarpPedalsAlterationsMap;
+    map<msrDiatonicPitchKind, msrAlterationKind>
+                          fHarpPedalsAlterationKindsMap;
 };
 typedef SMARTP<msrHarpPedalsTuning> S_msrHarpPedalsTuning;
 EXP ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt);
 
 //______________________________________________________________________________
-class EXP msrStem : public msrElement
+class msrStem : public msrElement
 {
   public:
 
@@ -597,7 +598,7 @@ typedef SMARTP<msrStem> S_msrStem;
 EXP ostream& operator<< (ostream& os, const S_msrStem& elt);
 
 //______________________________________________________________________________
-class EXP msrBeam : public msrElement
+class msrBeam : public msrElement
 {
   public:
 
@@ -678,7 +679,7 @@ EXP ostream& operator<< (ostream& os, const S_msrBeam& elt);
   An articulation is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrArticulation : public msrElement
+class msrArticulation : public msrElement
 {
   public:
     
@@ -705,7 +706,7 @@ class EXP msrArticulation : public msrElement
     static SMARTP<msrArticulation> create (
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
-      msrPlacement        articulationPlacement);
+      msrPlacementKind    articulationPlacementKind);
 
   protected:
 
@@ -715,7 +716,7 @@ class EXP msrArticulation : public msrElement
     msrArticulation (
       int                 inputLineNumber,
       msrArticulationKind articulationKind,
-      msrPlacement        articulationPlacement);
+      msrPlacementKind    articulationPlacementKind);
       
     virtual ~msrArticulation();
   
@@ -727,15 +728,15 @@ class EXP msrArticulation : public msrElement
     msrArticulationKind   getArticulationKind () const
                               { return fArticulationKind; }
         
-    msrPlacement          getArticulationPlacement () const
-                              { return fArticulationPlacement; }
+    msrPlacementKind      getArticulationPlacementKind () const
+                              { return fArticulationPlacementKind; }
                         
     // services
     // ------------------------------------------------------
 
     virtual string        articulationKindAsString () const;
 
-    virtual string        articulationPlacementAsString () const;
+    virtual string        articulationPlacementKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -757,7 +758,7 @@ class EXP msrArticulation : public msrElement
 
     msrArticulationKind   fArticulationKind;
 
-    msrPlacement          fArticulationPlacement;
+    msrPlacementKind      fArticulationPlacementKind;
 };
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
@@ -768,7 +769,7 @@ EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
   An articulation is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrArpeggiato : public msrArticulation
+class msrArpeggiato : public msrArticulation
 {
   public:
     
@@ -776,10 +777,10 @@ class EXP msrArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     static SMARTP<msrArpeggiato> create (
-      int          inputLineNumber,
-      msrPlacement arpeggiatoPlacement,
-      msrDirection arpeggiatoDirection,
-      int          arpeggiatoNumber);
+      int              inputLineNumber,
+      msrPlacementKind arpeggiatoPlacementKind,
+      msrDirectionKind arpeggiatoDirectionKind,
+      int              arpeggiatoNumber);
 
   protected:
 
@@ -787,10 +788,10 @@ class EXP msrArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     msrArpeggiato (
-      int          inputLineNumber,
-      msrPlacement arpeggiatoPlacement,
-      msrDirection arpeggiatoDirection,
-      int          arpeggiatoNumber);
+      int              inputLineNumber,
+      msrPlacementKind arpeggiatoPlacementKind,
+      msrDirectionKind arpeggiatoDirectionKind,
+      int              arpeggiatoNumber);
       
     virtual ~msrArpeggiato();
   
@@ -799,8 +800,8 @@ class EXP msrArpeggiato : public msrArticulation
     // set and get
     // ------------------------------------------------------
 
-    msrDirection          getArpeggiatoDirection () const
-                              { return fArpeggiatoDirection; }
+    msrDirectionKind      getArpeggiatoDirectionKind () const
+                              { return fArpeggiatoDirectionKind; }
         
     int                   getArpeggiatoNumber () const
                               { return fArpeggiatoNumber; }
@@ -808,7 +809,7 @@ class EXP msrArpeggiato : public msrArticulation
     // services
     // ------------------------------------------------------
 
-    virtual string        arpeggiatoDirectionAsString () const;
+    virtual string        arpeggiatoDirectionKindAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -828,8 +829,7 @@ class EXP msrArpeggiato : public msrArticulation
     // fields
     // ------------------------------------------------------
 
-    msrDirection
-                          fArpeggiatoDirection;
+    msrDirectionKind      fArpeggiatoDirectionKind;
 
     int                   fArpeggiatoNumber;
 };
@@ -842,7 +842,7 @@ EXP ostream& operator<< (ostream& os, const S_msrArpeggiato& elt);
   An Arpeggiato is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrNonArpeggiato : public msrArticulation
+class msrNonArpeggiato : public msrArticulation
 {
   public:
     
@@ -861,7 +861,7 @@ class EXP msrNonArpeggiato : public msrArticulation
 
     static SMARTP<msrNonArpeggiato> create (
       int                      inputLineNumber,
-      msrPlacement             nonArpeggiatoPlacement,
+      msrPlacementKind         nonArpeggiatoPlacementKind,
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
       int                      nonArpeggiatoNumber);
 
@@ -872,7 +872,7 @@ class EXP msrNonArpeggiato : public msrArticulation
 
     msrNonArpeggiato (
       int                      inputLineNumber,
-      msrPlacement             nonArpeggiatoPlacement,
+      msrPlacementKind         nonArpeggiatoPlacementKind,
       msrNonArpeggiatoTypeKind nonArpeggiatoTypeKind,
       int                      nonArpeggiatoNumber);
       
@@ -927,7 +927,7 @@ EXP ostream& operator<< (ostream& os, const S_msrNonArpeggiato& elt);
   An technical is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrTechnical : public msrElement
+class msrTechnical : public msrElement
 {
   public:
     
@@ -954,13 +954,6 @@ class EXP msrTechnical : public msrElement
     static string technicalKindAsString (
       msrTechnicalKind technicalKind);
       
-    enum msrTechnicalPlacementKind {
-      k_NoTechnicalPlacement,
-      kTechnicalPlacementAbove, kTechnicalPlacementBelow};
-
-    static string technicalPlacementKindAsString (
-      msrTechnicalPlacementKind technicalPlacementKind);
-      
 /* JMI
     enum msrTechnicalAccidentalMarkKind {
       kNatural, kSharp, kFlat};
@@ -973,9 +966,9 @@ class EXP msrTechnical : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTechnical> create (
-      int                       inputLineNumber,
-      msrTechnicalKind          technicalKind,
-      msrTechnicalPlacementKind technicalPlacementKind);
+      int              inputLineNumber,
+      msrTechnicalKind technicalKind,
+      msrPlacementKind technicalPlacementKind);
 
   protected:
 
@@ -983,9 +976,9 @@ class EXP msrTechnical : public msrElement
     // ------------------------------------------------------
 
     msrTechnical (
-      int                       inputLineNumber,
-      msrTechnicalKind          technicalKind,
-      msrTechnicalPlacementKind technicalPlacementKind);
+      int              inputLineNumber,
+      msrTechnicalKind technicalKind,
+      msrPlacementKind technicalPlacementKind);
       
     virtual ~msrTechnical();
   
@@ -998,14 +991,13 @@ class EXP msrTechnical : public msrElement
                               { return fTechnicalKind; }
         
     void                  setTechnicalPlacementKind (
-                            msrTechnicalPlacementKind technicalPlacementKind)
+                            msrPlacementKind technicalPlacementKind)
                               {
                                 fTechnicalPlacementKind =
                                   technicalPlacementKind;
                               }
         
-    msrTechnicalPlacementKind
-                          getTechnicalPlacementKind () const
+    msrPlacementKind      getTechnicalPlacementKind () const
                               { return fTechnicalPlacementKind; }
 
         /* JMI
@@ -1057,13 +1049,13 @@ class EXP msrTechnical : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrTechnicalKind                fTechnicalKind;
+    msrTechnicalKind      fTechnicalKind;
 
-    msrTechnicalPlacementKind       fTechnicalPlacementKind;
+    msrPlacementKind      fTechnicalPlacementKind;
     
 // JMI    msrTechnicalAccidentalMarkKind  fTechnicalAccidentalMarkKind;
 
-    S_msrNote                       fTechnicalNoteUplink;
+    S_msrNote             fTechnicalNoteUplink;
 };
 typedef SMARTP<msrTechnical> S_msrTechnical;
 EXP ostream& operator<< (ostream& os, const S_msrTechnical& elt);
@@ -1074,7 +1066,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTechnical& elt);
   An technicalWithInteger is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrTechnicalWithInteger : public msrElement
+class msrTechnicalWithInteger : public msrElement
 {
   public:
     
@@ -1089,14 +1081,7 @@ class EXP msrTechnicalWithInteger : public msrElement
 
     static string technicalWithIntegerKindAsString (
       msrTechnicalWithIntegerKind technicalWithIntegerKind);
-      
-    enum msrTechnicalWithIntegerPlacementKind {
-      k_NoTechnicalWithIntegerPlacement,
-      kTechnicalWithIntegerPlacementAbove, kTechnicalWithIntegerPlacementBelow};
-
-    static string technicalWithIntegerPlacementKindAsString (
-      msrTechnicalWithIntegerPlacementKind technicalWithIntegerPlacementKind);
-            
+                  
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1104,8 +1089,7 @@ class EXP msrTechnicalWithInteger : public msrElement
       int                         inputLineNumber,
       msrTechnicalWithIntegerKind technicalWithIntegerKind,
       int                         technicalWithIntegerValue,
-      msrTechnicalWithIntegerPlacementKind
-                                  technicalWithIntegerPlacementKind);
+      msrPlacementKind            technicalWithIntegerPlacementKind);
 
   protected:
 
@@ -1116,8 +1100,7 @@ class EXP msrTechnicalWithInteger : public msrElement
       int                         inputLineNumber,
       msrTechnicalWithIntegerKind technicalWithIntegerKind,
       int                         technicalWithIntegerValue,
-      msrTechnicalWithIntegerPlacementKind
-                                  technicalWithIntegerPlacementKind);
+      msrPlacementKind            technicalWithIntegerPlacementKind);
       
     virtual ~msrTechnicalWithInteger();
   
@@ -1134,15 +1117,14 @@ class EXP msrTechnicalWithInteger : public msrElement
                               { return fTechnicalWithIntegerValue; }
         
     void                  setTechnicalWithIntegerPlacementKind (
-                            msrTechnicalWithIntegerPlacementKind
+                            msrPlacementKind
                               technicalWithIntegerPlacementKind)
                               {
                                 fTechnicalWithIntegerPlacementKind =
                                   technicalWithIntegerPlacementKind;
                               }
         
-    msrTechnicalWithIntegerPlacementKind
-                          getTechnicalWithIntegerPlacementKind () const
+    msrPlacementKind      getTechnicalWithIntegerPlacementKind () const
                               { return fTechnicalWithIntegerPlacementKind; }
 
     void                  setTechnicalWithIntegerNoteUplink (S_msrNote note)
@@ -1184,8 +1166,7 @@ class EXP msrTechnicalWithInteger : public msrElement
 
     int                             fTechnicalWithIntegerValue;
 
-    msrTechnicalWithIntegerPlacementKind
-                                    fTechnicalWithIntegerPlacementKind;
+    msrPlacementKind                fTechnicalWithIntegerPlacementKind;
     
     S_msrNote                       fTechnicalWithIntegerNoteUplink;
 };
@@ -1198,7 +1179,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt);
   An technicalWithString is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrTechnicalWithString : public msrElement
+class msrTechnicalWithString : public msrElement
 {
   public:
     
@@ -1214,14 +1195,7 @@ class EXP msrTechnicalWithString : public msrElement
 
     static string technicalWithStringKindAsString (
       msrTechnicalWithStringKind technicalWithStringKind);
-      
-    enum msrTechnicalWithStringPlacementKind {
-      k_NoTechnicalWithStringPlacement,
-      kTechnicalWithStringPlacementAbove, kTechnicalWithStringPlacementBelow};
-
-    static string technicalWithStringPlacementKindAsString (
-      msrTechnicalWithStringPlacementKind technicalWithStringPlacementKind);
-            
+                  
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1229,8 +1203,7 @@ class EXP msrTechnicalWithString : public msrElement
       int                         inputLineNumber,
       msrTechnicalWithStringKind technicalWithStringKind,
       string                      technicalWithStringValue,
-      msrTechnicalWithStringPlacementKind
-                                  technicalWithStringPlacementKind);
+      msrPlacementKind            technicalWithStringPlacementKind);
 
   protected:
 
@@ -1241,8 +1214,7 @@ class EXP msrTechnicalWithString : public msrElement
       int                         inputLineNumber,
       msrTechnicalWithStringKind technicalWithStringKind,
       string                      technicalWithStringValue,
-      msrTechnicalWithStringPlacementKind
-                                  technicalWithStringPlacementKind);
+      msrPlacementKind            technicalWithStringPlacementKind);
       
     virtual ~msrTechnicalWithString();
   
@@ -1259,15 +1231,14 @@ class EXP msrTechnicalWithString : public msrElement
                               { return fTechnicalWithStringValue; }
         
     void                  setTechnicalWithStringPlacementKind (
-                            msrTechnicalWithStringPlacementKind
+                            msrPlacementKind
                               technicalWithStringPlacementKind)
                               {
                                 fTechnicalWithStringPlacementKind =
                                   technicalWithStringPlacementKind;
                               }
         
-    msrTechnicalWithStringPlacementKind
-                          getTechnicalWithStringPlacementKind () const
+    msrPlacementKind      getTechnicalWithStringPlacementKind () const
                               { return fTechnicalWithStringPlacementKind; }
 
     void                  setTechnicalWithStringNoteUplink (S_msrNote note)
@@ -1309,8 +1280,7 @@ class EXP msrTechnicalWithString : public msrElement
 
     string                          fTechnicalWithStringValue;
 
-    msrTechnicalWithStringPlacementKind
-                                    fTechnicalWithStringPlacementKind;
+    msrPlacementKind                fTechnicalWithStringPlacementKind;
     
     S_msrNote                       fTechnicalWithStringNoteUplink;
 };
@@ -1323,7 +1293,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt);
   An ornament is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrOrnament : public msrElement
+class msrOrnament : public msrElement
 {
   public:
     
@@ -1340,20 +1310,14 @@ class EXP msrOrnament : public msrElement
 
     static string ornamentKindAsString (
       msrOrnamentKind ornamentKind);
-      
-    enum msrOrnamentPlacementKind {
-      k_NoOrnamentPlacement,
-      kOrnamentPlacementAbove, kOrnamentPlacementBelow};
-
-    static string ornamentPlacementKindAsString (
-      msrOrnamentPlacementKind ornamentPlacementKind);
-            
+                  
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrOrnament> create (
-      int             inputLineNumber,
-      msrOrnamentKind ornamentKind);
+      int              inputLineNumber,
+      msrOrnamentKind  ornamentKind,
+      msrPlacementKind ornamentPlacementKind);
 
   protected:
 
@@ -1361,8 +1325,9 @@ class EXP msrOrnament : public msrElement
     // ------------------------------------------------------
 
     msrOrnament (
-      int             inputLineNumber,
-      msrOrnamentKind ornamentKind);
+      int              inputLineNumber,
+      msrOrnamentKind  ornamentKind,
+      msrPlacementKind ornamentPlacementKind);
       
     virtual ~msrOrnament();
   
@@ -1381,26 +1346,25 @@ class EXP msrOrnament : public msrElement
                               { return fOrnamentKind; }
         
     void                  setOrnamentPlacementKind (
-                            msrOrnamentPlacementKind
+                            msrPlacementKind
                               ornamentPlacementKind)
                               {
                                 fOrnamentPlacementKind =
                                   ornamentPlacementKind;
                               }
         
-    msrOrnamentPlacementKind
-                          getOrnamentPlacementKind () const
+    msrPlacementKind      getOrnamentPlacementKind () const
                               { return fOrnamentPlacementKind; }
         
     void                  setOrnamentAccidentalMarkKind (
-                            msrAlteration
+                            msrAlterationKind
                               ornamentAccidentalMark)
                               {
                                 fOrnamentAccidentalMark =
                                   ornamentAccidentalMark;
                               }
         
-    msrAlteration         getOrnamentAccidentalMark () const
+    msrAlterationKind     getOrnamentAccidentalMark () const
                               { return fOrnamentAccidentalMark; }
         
     // services
@@ -1434,10 +1398,9 @@ class EXP msrOrnament : public msrElement
 
     msrOrnamentKind       fOrnamentKind;
 
-    msrOrnamentPlacementKind
-                          fOrnamentPlacementKind;
+    msrPlacementKind      fOrnamentPlacementKind;
     
-    msrAlteration         fOrnamentAccidentalMark;
+    msrAlterationKind     fOrnamentAccidentalMark;
 };
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
@@ -1448,7 +1411,7 @@ EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
   An articulation is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrFermata : public msrArticulation
+class msrFermata : public msrArticulation
 {
   public:
           
@@ -1461,20 +1424,20 @@ class EXP msrFermata : public msrArticulation
     static string fermataKindAsString (
       msrFermataKind fermataKind);
 
-    enum msrFermataType {
+    enum msrFermataTypeKind {
         k_NoFermataType,
         kUprightFermataType, kInvertedFermataType};
 
-    static string fermataTypeAsString (
-      msrFermataType fermataType);
+    static string fermataTypeKindAsString (
+      msrFermataTypeKind fermataTypeKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrFermata> create (
-      int            inputLineNumber,
-      msrFermataKind fermataKind,
-      msrFermataType fermataType);
+      int                inputLineNumber,
+      msrFermataKind     fermataKind,
+      msrFermataTypeKind fermataTypeKind);
 
   protected:
 
@@ -1482,9 +1445,9 @@ class EXP msrFermata : public msrArticulation
     // ------------------------------------------------------
 
     msrFermata (
-      int            inputLineNumber,
-      msrFermataKind fermataKind,
-      msrFermataType fermataType);
+      int                inputLineNumber,
+      msrFermataKind     fermataKind,
+      msrFermataTypeKind fermataTypeKind);
       
     virtual ~msrFermata();
   
@@ -1496,8 +1459,8 @@ class EXP msrFermata : public msrArticulation
     msrFermataKind        getFermataKind () const
                               { return fFermataKind; }
         
-    msrFermataType        getFermataType () const
-                              { return fFermataType; }
+    msrFermataTypeKind    getFermataTypeKind () const
+                              { return fFermataTypeKind; }
         
     // services
     // ------------------------------------------------------
@@ -1524,7 +1487,7 @@ class EXP msrFermata : public msrArticulation
 
     msrFermataKind        fFermataKind;
     
-    msrFermataType        fFermataType;
+    msrFermataTypeKind    fFermataTypeKind;
 };
 typedef SMARTP<msrFermata> S_msrFermata;
 EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
@@ -1535,28 +1498,17 @@ EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
   An singleTremolo is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrSingleTremolo : public msrElement
+class msrSingleTremolo : public msrElement
 {
   public:
     
-    // data types
-    // ------------------------------------------------------
-
-    enum msrSingleTremoloPlacementKind {
-      k_NoSingleTremoloPlacement,
-      kSingleTremoloPlacementAbove, kSingleTremoloPlacementBelow};
-
-    static string singleTremoloPlacementKindAsString (
-      msrSingleTremoloPlacementKind singleTremoloPlacementKind);
-            
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrSingleTremolo> create (
-      int inputLineNumber,
-      int singleTremoloMarksNumber,
-      msrSingleTremoloPlacementKind
-          singleTremoloPlacementKind);
+      int              inputLineNumber,
+      int              singleTremoloMarksNumber,
+      msrPlacementKind singleTremoloPlacementKind);
 
     SMARTP<msrSingleTremolo> createSingleTremoloDeepCopy (
       S_msrNote noteUplink);
@@ -1567,10 +1519,9 @@ class EXP msrSingleTremolo : public msrElement
     // ------------------------------------------------------
 
     msrSingleTremolo (
-      int                     inputLineNumber,
-      int                     singleTremoloMarksNumber,
-      msrSingleTremoloPlacementKind
-                              singleTremoloPlacementKind);
+      int              inputLineNumber,
+      int              singleTremoloMarksNumber,
+      msrPlacementKind singleTremoloPlacementKind);
       
     virtual ~msrSingleTremolo();
   
@@ -1580,7 +1531,7 @@ class EXP msrSingleTremolo : public msrElement
     // ------------------------------------------------------
 
     void                  setSingleTremoloPlacementKind (
-                            msrSingleTremoloPlacementKind
+                            msrPlacementKind
                               SingleTremoloPlacementKind)
                               {
                                 fSingleTremoloPlacementKind =
@@ -1590,8 +1541,7 @@ class EXP msrSingleTremolo : public msrElement
     int                   getSingleTremoloMarksNumber () const
                               { return fSingleTremoloMarksNumber; }
                 
-    msrSingleTremoloPlacementKind
-                          getSingleTremoloPlacementKind () const
+    msrPlacementKind      getSingleTremoloPlacementKind () const
                               { return fSingleTremoloPlacementKind; }
         
     void                  setSingleTremoloNoteUplink (S_msrNote note)
@@ -1627,8 +1577,7 @@ class EXP msrSingleTremolo : public msrElement
 
     int                   fSingleTremoloMarksNumber;
 
-    msrSingleTremoloPlacementKind
-                          fSingleTremoloPlacementKind;
+    msrPlacementKind      fSingleTremoloPlacementKind;
     
     S_msrNote             fSingleTremoloNoteUplink;
 };
@@ -1636,7 +1585,7 @@ typedef SMARTP<msrSingleTremolo> S_msrSingleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt);
 
 //______________________________________________________________________________
-class EXP msrDoubleTremolo : public msrElement
+class msrDoubleTremolo : public msrElement
 {
   public:
     
@@ -1648,15 +1597,7 @@ class EXP msrDoubleTremolo : public msrElement
 
     static string msrDoubleTremoloKindAsString (
       msrDoubleTremoloKind doubleTremolotKind);
-            
-    // creation from MusicXML
-    enum msrDoubleTremoloPlacementKind {
-      k_NoDoubleTremoloPlacement,
-      kDoubleTremoloPlacementAbove, kDoubleTremoloPlacementBelow};
-
-    static string doubleTremoloPlacementKindAsString (
-      msrDoubleTremoloPlacementKind doubleTremoloPlacementKind);
-            
+                        
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -1664,8 +1605,7 @@ class EXP msrDoubleTremolo : public msrElement
       int                  inputLineNumber,
       msrDoubleTremoloKind doubleTremoloKind,
       int                  doubleTremoloMarksNumber,
-      msrDoubleTremoloPlacementKind
-                           doubleTremoloPlacementKind,
+      msrPlacementKind     doubleTremoloPlacementKind,
       S_msrVoice           voiceUplink);
 
 
@@ -1684,8 +1624,7 @@ class EXP msrDoubleTremolo : public msrElement
       int                  inputLineNumber,
       msrDoubleTremoloKind doubleTremoloKind,
       int                  doubleTremoloMarksNumber,
-      msrDoubleTremoloPlacementKind
-                           doubleTremoloPlacementKind,
+      msrPlacementKind     doubleTremoloPlacementKind,
       S_msrVoice           voiceUplink);
       
     virtual ~msrDoubleTremolo();
@@ -1730,15 +1669,14 @@ class EXP msrDoubleTremolo : public msrElement
     // double tremolo placement
     
     void                  setDoubleTremoloPlacementKind (
-                            msrDoubleTremoloPlacementKind
+                            msrPlacementKind
                               doubleTremoloPlacementKind)
                               {
                                 fDoubleTremoloPlacementKind =
                                   doubleTremoloPlacementKind;
                               }
         
-    msrDoubleTremoloPlacementKind
-                          getDoubleTremoloPlacementKind () const
+    msrPlacementKind      getDoubleTremoloPlacementKind () const
                               { return fDoubleTremoloPlacementKind; }
         
     // double tremolo marks number
@@ -1889,8 +1827,7 @@ class EXP msrDoubleTremolo : public msrElement
     
     int                   fDoubleTremoloNumberOfRepeats;
 
-    msrDoubleTremoloPlacementKind
-                          fDoubleTremoloPlacementKind;
+    msrPlacementKind      fDoubleTremoloPlacementKind;
 
     // the two elements of a double tremole are notes or chords
     S_msrElement          fDoubleTremoloFirstElement;
@@ -1911,7 +1848,7 @@ EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
   An rehearsal is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrRehearsal : public msrElement
+class msrRehearsal : public msrElement
 {
   public:
     
@@ -1991,7 +1928,7 @@ EXP ostream& operator<< (ostream& os, const S_msrRehearsal& elt);
   A tie is represented by a msrTieKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
-class EXP msrTie : public msrElement
+class msrTie : public msrElement
 {
   public:
 
@@ -2066,7 +2003,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTie& elt);
   A slur is represented by a SlurKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
-class EXP msrSlur : public msrElement
+class msrSlur : public msrElement
 {
   public:
 
@@ -2147,7 +2084,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
   A ligature is represented by a SlurKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
-class EXP msrLigature : public msrElement
+class msrLigature : public msrElement
 {
   public:
 
@@ -2228,7 +2165,7 @@ EXP ostream& operator<< (ostream& os, const S_msrLigature& elt);
   A dynamics is represented by a msrDynamicsKind value
 */
 //______________________________________________________________________________
-class EXP msrDynamics : public msrElement
+class msrDynamics : public msrElement
 {
   public:
 
@@ -2243,21 +2180,14 @@ class EXP msrDynamics : public msrElement
     
     static string dynamicsKindAsString (
       msrDynamicsKind dynamicsKind);
-      
-    enum msrDynamicsPlacementKind {
-      k_NoDynamicsPlacement,
-      kDynamicsPlacementAbove, kDynamicsPlacementBelow };
-
-    static string dynamicsPlacementKindAsString (
-      msrDynamicsPlacementKind dynamicsPlacementKind);
-      
+            
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrDynamics> create (
-      int                      inputLineNumber,
-      msrDynamicsKind          dynamicsKind,
-      msrDynamicsPlacementKind dynamicsPlacementKind);
+      int              inputLineNumber,
+      msrDynamicsKind  dynamicsKind,
+      msrPlacementKind dynamicsPlacementKind);
 
   protected:
 
@@ -2265,9 +2195,9 @@ class EXP msrDynamics : public msrElement
     // ------------------------------------------------------
 
     msrDynamics (
-      int                      inputLineNumber,
-      msrDynamicsKind          dynamicsKind,
-      msrDynamicsPlacementKind dynamicsPlacementKind);
+      int              inputLineNumber,
+      msrDynamicsKind  dynamicsKind,
+      msrPlacementKind dynamicsPlacementKind);
       
     virtual ~msrDynamics();
   
@@ -2279,8 +2209,7 @@ class EXP msrDynamics : public msrElement
     msrDynamicsKind       getDynamicsKind () const
                               { return fDynamicsKind; }
 
-    msrDynamicsPlacementKind
-                          getDynamicsPlacementKind () const
+    msrPlacementKind      getDynamicsPlacementKind () const
                               { return fDynamicsPlacementKind; }
 
     // services
@@ -2310,8 +2239,7 @@ class EXP msrDynamics : public msrElement
 
     msrDynamicsKind       fDynamicsKind;
 
-    msrDynamicsPlacementKind
-                          fDynamicsPlacementKind;
+    msrPlacementKind      fDynamicsPlacementKind;
 };
 typedef SMARTP<msrDynamics> S_msrDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
@@ -2322,7 +2250,7 @@ EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
   A dynamics is represented by a msrDynamicsKind value
 */
 //______________________________________________________________________________
-class EXP msrOtherDynamics : public msrElement
+class msrOtherDynamics : public msrElement
 {
   public:
       
@@ -2386,15 +2314,16 @@ EXP ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt);
   A wedge is represented by a msrWedgeKind value (hairpins in LilyPond)
 */
 //______________________________________________________________________________
-class EXP msrWedge : public msrElement
+class msrWedge : public msrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrWedgeKind
-      { kCrescendoWedge, kDecrescendoWedge, kStopWedge };
+    enum msrWedgeKind {
+      k_NoWedgeKind,
+      kCrescendoWedge, kDecrescendoWedge, kStopWedge };
     
     static string wedgeKindAsString (
       msrWedgeKind wedgeKind);
@@ -2458,7 +2387,7 @@ EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
   A clef is represented by its name
 */
 //______________________________________________________________________________
-class EXP msrClef : public msrElement
+class msrClef : public msrElement
 {
   public:
 
@@ -2548,7 +2477,7 @@ EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
   A key is represented by the tonic and the mode
 */
 //______________________________________________________________________________
-class EXP msrHumdrumScotKeyItem : public msrElement
+class msrHumdrumScotKeyItem : public msrElement
 {
   public:
     
@@ -2590,17 +2519,17 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setKeyItemDiatonicPitch (
-                            msrDiatonicPitch diatonicPitch);
+    void                  setKeyItemDiatonicPitchKind (
+                            msrDiatonicPitchKind diatonicPitchKind);
                               
-    msrDiatonicPitch      getKeyItemDiatonicPitch () const
-                              { return fKeyDiatonicPitch; }
+    msrDiatonicPitchKind  getKeyItemDiatonicPitchKind () const
+                              { return fKeyDiatonicPitchKind; }
 
-    void                  setKeyItemAlteration (
-                            msrAlteration alteration);
+    void                  setKeyItemAlterationKind (
+                            msrAlterationKind alterationKind);
                               
-    msrAlteration         getKeyItemAlteration () const
-                              { return fKeyAlteration; }
+    msrAlterationKind     getKeyItemAlterationKind () const
+                              { return fKeyAlterationKind; }
 
     void                  setKeyItemOctave (int keyOctave);
                               
@@ -2634,8 +2563,8 @@ class EXP msrHumdrumScotKeyItem : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrDiatonicPitch      fKeyDiatonicPitch;
-    msrAlteration         fKeyAlteration;
+    msrDiatonicPitchKind  fKeyDiatonicPitchKind;
+    msrAlterationKind     fKeyAlterationKind;
     int                   fKeyOctave;
 };
 typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
@@ -2647,7 +2576,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt);
   A key is represented by the tonic and the mode
 */
 //______________________________________________________________________________
-class EXP msrKey : public msrElement
+class msrKey : public msrElement
 {
   public:
     
@@ -2672,10 +2601,10 @@ class EXP msrKey : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrKey> createTraditional (
-      int                  inputLineNumber,
-      msrQuarterTonesPitch keyTonicPitch,
-      msrKeyModeKind       keyModeKind,
-      int                  keyCancel);
+      int                      inputLineNumber,
+      msrQuarterTonesPitchKind keyTonicPitchKind,
+      msrKeyModeKind           keyModeKind,
+      int                      keyCancel);
       
     static SMARTP<msrKey> createHumdrumScot (
       int                  inputLineNumber);
@@ -2686,10 +2615,10 @@ class EXP msrKey : public msrElement
     // ------------------------------------------------------
 
     msrKey ( // for traditional keys
-      int                  inputLineNumber,
-      msrQuarterTonesPitch keyTonicPitch,
-      msrKeyModeKind       keyModeKind,
-      int                  keyCancel);
+      int                      inputLineNumber,
+      msrQuarterTonesPitchKind keyTonicPitchKind,
+      msrKeyModeKind           keyModeKind,
+      int                      keyCancel);
       
     msrKey ( // for Humdrum/Scot keys
       int                  inputLineNumber);
@@ -2706,8 +2635,9 @@ class EXP msrKey : public msrElement
 
     // traditional keys
     
-    msrQuarterTonesPitch  getKeyTonicQuarterTonesPitch () const
-                              { return fKeyTonicQuarterTonesPitch; }
+    msrQuarterTonesPitchKind
+                          getKeyTonicQuarterTonesPitchKind () const
+                              { return fKeyTonicQuarterTonesPitchKind; }
                               
     msrKeyModeKind        getKeyModeKind () const
                               { return fKeyModeKind; }
@@ -2760,7 +2690,8 @@ class EXP msrKey : public msrElement
     
     // traditional keys
 
-    msrQuarterTonesPitch  fKeyTonicQuarterTonesPitch;
+    msrQuarterTonesPitchKind
+                          fKeyTonicQuarterTonesPitchKind;
     msrKeyModeKind        fKeyModeKind;
     int                   fKeyCancel;
 
@@ -2778,7 +2709,7 @@ EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
   A key is represented by the tonic and the mode
 */
 //______________________________________________________________________________
-class EXP msrTimeItem : public msrElement
+class msrTimeItem : public msrElement
 {
   public:
     
@@ -2853,7 +2784,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTimeItem& elt);
   A time is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrTime : public msrElement
+class msrTime : public msrElement
 {
   public:
     
@@ -2980,7 +2911,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
   A time is represented by the numerator and denominator
 */
 //______________________________________________________________________________
-class EXP msrTranspose : public msrElement
+class msrTranspose : public msrElement
 {
   public:
     
@@ -3066,7 +2997,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTranspose& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrMeasure : public msrElement
+class msrMeasure : public msrElement
 {
   public:
 
@@ -3491,7 +3422,7 @@ EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
 \brief The msr sequential music element
 */
 //______________________________________________________________________________
-class EXP msrSegment : public msrElement
+class msrSegment : public msrElement
 {
   public:
     
@@ -3801,7 +3732,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrGraceNotes : public msrElement
+class msrGraceNotes : public msrElement
 {
   public:
         
@@ -3890,7 +3821,7 @@ EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrAfterGraceNotes : public msrElement
+class msrAfterGraceNotes : public msrElement
 {
   public:
         
@@ -3989,19 +3920,13 @@ EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt);
   A words is represented by the stanza to use
 */
 //______________________________________________________________________________
-class EXP msrWords : public msrElement
+class msrWords : public msrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrWordsPlacementKind {
-      kWordsPlacementAbove, kWordsPlacementBelow };
-
-    static string wordsPlacementKindAsString (
-      msrWordsPlacementKind wordsPlacementKind);
-      
     enum msrWordsFontStyleKind {
       kNormalStyle, KItalicStyle };
 
@@ -4025,13 +3950,13 @@ class EXP msrWords : public msrElement
 
     static SMARTP<msrWords> create (
       int                      inputLineNumber,
-      msrWordsPlacementKind    wordsPlacementKind,
+      msrPlacementKind         wordsPlacementKind,
       string                   wordsContents,
       msrJustifyKind           wordsJustifyKind,
       msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-      msrFontStyle             wordsFontStyle,
+      msrFontStyleKind         wordsFontStyleKind,
       S_msrFontSize            wordsFontSize,
-      msrFontWeight            wordsFontWeight,
+      msrFontWeightKind        wordsFontWeightKind,
       msrWordsXMLLangKind      wordsXMLLangKind);
 
   protected:
@@ -4041,13 +3966,13 @@ class EXP msrWords : public msrElement
 
     msrWords (
       int                      inputLineNumber,
-      msrWordsPlacementKind    wordsPlacementKind,
+      msrPlacementKind         wordsPlacementKind,
       string                   wordsContents,
       msrJustifyKind           wordsJustifyKind,
       msrVerticalAlignmentKind wordsVerticalAlignmentKind,
-      msrFontStyle             wordsFontStyle,
+      msrFontStyleKind         wordsFontStyleKind,
       S_msrFontSize            wordsFontSize,
-      msrFontWeight            wordsFontWeight,
+      msrFontWeightKind        wordsFontWeightKind,
       msrWordsXMLLangKind      wordsXMLLangKind);
       
     virtual ~msrWords();
@@ -4057,7 +3982,7 @@ class EXP msrWords : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrWordsPlacementKind getWordsPlacementKind () const
+    msrPlacementKind      getWordsPlacementKind () const
                               { return fWordsPlacementKind; }
 
     string                getWordsContents () const
@@ -4070,14 +3995,14 @@ class EXP msrWords : public msrElement
                           getWordsVerticalAlignmentKind () const
                               { return fWordsVerticalAlignmentKind; }
 
-    msrFontStyle          getWordsFontStyle () const
-                              { return fWordsFontStyle; }
+    msrFontStyleKind      getWordsFontStyleKind () const
+                              { return fWordsFontStyleKind; }
 
     S_msrFontSize         getWordsFontSize () const
                               { return fWordsFontSize; }
 
-    msrFontWeight         getWordsFontWeight () const
-                              { return fWordsFontWeight; }
+    msrFontWeightKind     getWordsFontWeightKind () const
+                              { return fWordsFontWeightKind; }
 
     msrWordsXMLLangKind   getWordsXMLLangKind () const
                               { return fWordsXMLLangKind; }
@@ -4085,15 +4010,17 @@ class EXP msrWords : public msrElement
     // services
     // ------------------------------------------------------
 
+    string                wordsPlacementKindAsString () const;
+    
     string                wordsJustifyKindAsString () const;
     
     string                wordsVerticalAlignmentKindAsString () const;
     
-    string                wordsFontStyleAsString () const;
+    string                wordsFontStyleKindAsString () const;
     
     string                wordsFontSizeAsString () const;
     
-    string                wordsFontWeightAsString () const;
+    string                wordsFontWeightKindAsString () const;
 
     string                wordsAsString () const;
     
@@ -4115,7 +4042,7 @@ class EXP msrWords : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrWordsPlacementKind fWordsPlacementKind;
+    msrPlacementKind      fWordsPlacementKind;
     
     string                fWordsContents;
   
@@ -4123,9 +4050,9 @@ class EXP msrWords : public msrElement
     msrVerticalAlignmentKind
                           fWordsVerticalAlignmentKind;
 
-    msrFontStyle          fWordsFontStyle;
+    msrFontStyleKind      fWordsFontStyleKind;
     S_msrFontSize         fWordsFontSize;
-    msrFontWeight         fWordsFontWeight;
+    msrFontWeightKind     fWordsFontWeightKind;
     
     msrWordsXMLLangKind   fWordsXMLLangKind;
 };
@@ -4139,7 +4066,7 @@ EXP ostream& operator<< (ostream& os, const S_msrWords& elt);
   In the case of "single", the list contains only one string
 */
 //______________________________________________________________________________
-class EXP msrSyllable : public msrElement
+class msrSyllable : public msrElement
 {
   public:
 
@@ -4288,7 +4215,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
   A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
-class EXP msrHarmonyDegree : public msrElement
+class msrHarmonyDegree : public msrElement
 {
   public:
 
@@ -4323,7 +4250,7 @@ Degree elements
       kHarmonyDegreeAlterType,
       kHarmonyDegreeSubtractType };
 
-    static string harmonyDegreeTypeAsString (
+    static string harmonyDegreeTypeKindAsString (
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
       
     // creation from MusicXML
@@ -4332,7 +4259,7 @@ Degree elements
     static SMARTP<msrHarmonyDegree> create (
       int                      inputLineNumber,
       int                      harmonyDegreeValue,
-      msrAlteration            harmonyDegreeAlteration,
+      msrAlterationKind        harmonyDegreeAlterationKind,
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
 
     /* JMI
@@ -4351,7 +4278,7 @@ Degree elements
     msrHarmonyDegree (
       int                      inputLineNumber,
       int                      harmonyDegreeValue,
-      msrAlteration            harmonyDegreeAlteration,
+      msrAlterationKind        harmonyDegreeAlterationKind,
       msrHarmonyDegreeTypeKind harmonyDegreeTypeKind);
 
     virtual ~msrHarmonyDegree();
@@ -4370,8 +4297,8 @@ Degree elements
     int                   getHarmonyDegreeValue () const
                               { return fHarmonyDegreeValue; }
                               
-    msrAlteration         getHarmonyDegreeAlteration () const
-                              { return fHarmonyDegreeAlteration; }
+    msrAlterationKind     getHarmonyDegreeAlterationKind () const
+                              { return fHarmonyDegreeAlterationKind; }
                               
     msrHarmonyDegreeTypeKind
                           getHarmonyDegreeTypeKind () const
@@ -4409,7 +4336,7 @@ Degree elements
     S_msrHarmony          fHarmonyDegreeHarmonyUplink;
 
     int                   fHarmonyDegreeValue;
-    msrAlteration         fHarmonyDegreeAlteration;
+    msrAlterationKind     fHarmonyDegreeAlterationKind;
     msrHarmonyDegreeTypeKind
                           fHarmonyDegreeTypeKind;
 };
@@ -4422,7 +4349,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt);
   A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
-class EXP msrHarmony : public msrElement
+class msrHarmony : public msrElement
 {
   public:
 
@@ -4436,11 +4363,13 @@ class EXP msrHarmony : public msrElement
     static SMARTP<msrHarmony> create ( // JMI
       int                  inputLineNumber,
       S_msrPart            harmonyPartUplink,
-      msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
+      msrQuarterTonesPitchKind
+                           harmonyRootQuarterTonesPitchKind,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       int                  harmonyInversion,
-      msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
+      msrQuarterTonesPitchKind
+                           harmonyBassQuarterTonesPitchKind,
       rational             harmonySoundingWholeNotes);
     
     SMARTP<msrHarmony> createHarmonyNewbornClone (
@@ -4457,11 +4386,13 @@ class EXP msrHarmony : public msrElement
     msrHarmony (
       int                  inputLineNumber,
       S_msrPart            harmonyPartUplink,
-      msrQuarterTonesPitch harmonyRootQuarterTonesPitch,
+      msrQuarterTonesPitchKind
+                           harmonyRootQuarterTonesPitchKind,
       msrHarmonyKind       harmonyKind,
       string               harmonyKindText,
       int                  harmonyInversion,
-      msrQuarterTonesPitch harmonyBassQuarterTonesPitch,
+      msrQuarterTonesPitchKind
+                           harmonyBassQuarterTonesPitcKindh,
       rational             harmonySoundingWholeNotes);
 
     virtual ~msrHarmony();
@@ -4477,8 +4408,9 @@ class EXP msrHarmony : public msrElement
     rational              getHarmonySoundingWholeNotes () const
                               { return fHarmonySoundingWholeNotes; }
 
-    msrQuarterTonesPitch  getHarmonyRootQuarterTonesPitch () const
-                              { return fHarmonyRootQuarterTonesPitch; }
+    msrQuarterTonesPitchKind
+                          getHarmonyRootQuarterTonesPitchKind () const
+                              { return fHarmonyRootQuarterTonesPitchKind; }
                                 
     msrHarmonyKind        getHarmonyKind () const
                               { return fHarmonyKind; }
@@ -4493,8 +4425,8 @@ class EXP msrHarmony : public msrElement
     int                   getHarmonyInversion () const
                               { return fHarmonyInversion; }
                 
-    msrQuarterTonesPitch  getHarmonyBassQuarterTonesPitch () const
-                              { return fHarmonyBassQuarterTonesPitch; }
+    msrQuarterTonesPitchKind  getHarmonyBassQuarterTonesPitchKind () const
+                              { return fHarmonyBassQuarterTonesPitchKind; }
                               
     // services
     // ------------------------------------------------------
@@ -4531,14 +4463,16 @@ class EXP msrHarmony : public msrElement
 
     rational              fHarmonySoundingWholeNotes;
     
-    msrQuarterTonesPitch  fHarmonyRootQuarterTonesPitch;
+    msrQuarterTonesPitchKind
+                          fHarmonyRootQuarterTonesPitchKind;
 
     msrHarmonyKind        fHarmonyKind;
     string                fHarmonyKindText;
 
     int                   fHarmonyInversion;
     
-    msrQuarterTonesPitch  fHarmonyBassQuarterTonesPitch;
+    msrQuarterTonesPitchKind
+                          fHarmonyBassQuarterTonesPitchKind;
 
     list<S_msrHarmonyDegree>
                           fHarmonyDegreesList;
@@ -4552,7 +4486,7 @@ EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
   A harmony is represented by a list of syllables,
 */
 //______________________________________________________________________________
-class EXP msrFigure : public msrElement
+class msrFigure : public msrElement
 {
   public:
 
@@ -4666,7 +4600,7 @@ typedef SMARTP<msrFigure> S_msrFigure;
 EXP ostream& operator<< (ostream& os, const S_msrFigure& elt);
 
 //______________________________________________________________________________
-class EXP msrFiguredBass : public msrElement
+class msrFiguredBass : public msrElement
 {
   public:
             
@@ -4785,7 +4719,7 @@ EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
     duration (in the form of numerator/denominator) and optional dots.
 */
 //______________________________________________________________________________
-class EXP msrNote : public msrElement
+class msrNote : public msrElement
 {
   public:
 
@@ -4813,6 +4747,22 @@ class EXP msrNote : public msrElement
     static string noteKindAsString (
       msrNoteKind noteKind);
       
+    enum msrNoteAccidentalKind {
+      k_NoNoteAccidental,
+      
+      kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentaldoubleSharp, kNoteAccidentalSharpSharp,
+      kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
+      kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat, kNoteAccidentalQuarterSharp, kNoteAccidentalThreeQuartersFlat, kNoteAccidentalThreeQuartersSharp,
+      
+      kNoteAccidentalSharpDown, kNoteAccidentalSharpUp,
+      kNoteAccidentalNaturalDown, kNoteAccidentalNaturalUp,
+      kNoteAccidentalFlatDown, kNoteAccidentalFlatUp,kNoteAccidentalTripleSharp, kNoteAccidentalTripleFlat,
+      kNoteAccidentalSlashQuarterSharp, kNoteAccidentalSlashSharp, kNoteAccidentalSlashFlat, kNoteAccidentaldoubleSlashFlat,
+      kNoteAccidentalSharp_1, kNoteAccidentalSharp_2, kNoteAccidentalSharp_3, kNoteAccidentalSharp_5, kNoteAccidentalFlat_1, kNoteAccidentalFlat_2, kNoteAccidentalFlat_3, kNoteAccidentalFlat_4, kNoteAccidentalSori, kNoteAccidentalKoron };
+  
+    string noteAccidentalKindAsString (
+      msrNoteAccidentalKind noteAccidentalKind);
+  
     enum msrNoteEditorialAccidentalKind {
       kNoteEditorialAccidentalYes, kNoteEditorialAccidentalNo };
 
@@ -4869,18 +4819,18 @@ class EXP msrNote : public msrElement
       
       msrNoteKind                noteKind,
     
-      msrQuarterTonesPitch       noteQuarterTonesPitch,
+      msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
       
       rational                   noteSoundingWholeNotes,
       rational                   noteDisplayWholeNotes,
       
       int                        noteDotsNumber,
       
-      msrDuration                noteGraphicDuration,
+      msrDurationKind            noteGraphicDurationKind,
       
       int                        noteOctave,
       
-      msrQuarterTonesPitch       noteQuarterTonesDisplayPitch,
+      msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
       int                        noteDisplayOctave,
       
       bool                       noteIsARest,
@@ -4929,18 +4879,18 @@ class EXP msrNote : public msrElement
       
       msrNoteKind                noteKind,
     
-      msrQuarterTonesPitch       noteQuarterTonesPitch,
+      msrQuarterTonesPitchKind   noteQuarterTonesPitchKind,
       
       rational                   noteSoundingWholeNotes,
       rational                   noteDisplayWholeNotes,
       
       int                        noteDotsNumber,
       
-      msrDuration                noteGraphicDuration,
+      msrDurationKind            noteGraphicDurationKind,
       
       int                        noteOctave,
       
-      msrQuarterTonesPitch       noteQuarterTonesDisplayPitch,
+      msrQuarterTonesPitchKind   noteQuarterTonesDisplayPitchKind,
       int                        noteDisplayOctave,
       
       bool                       noteIsARest,
@@ -4981,8 +4931,9 @@ class EXP msrNote : public msrElement
 
     // note pitch
 
-    msrQuarterTonesPitch  getNoteQuarterTonesPitch () const
-                              { return fNoteQuarterTonesPitch; }
+    msrQuarterTonesPitchKind
+                          getNoteQuarterTonesPitchKind () const
+                              { return fNoteQuarterTonesPitchKind; }
 
     // note print kind
 
@@ -5026,6 +4977,21 @@ class EXP msrNote : public msrElement
 
    // accidentals
 
+    void                  setNoteAccidentalKind (
+                            msrNoteAccidentalKind
+                              noteAccidentalKind)
+                              {
+                                fNoteAccidentalKind =
+                                  noteAccidentalKind;
+                              }
+                              
+    msrNoteAccidentalKind
+                          getNoteAccidentalKind ()
+                              {
+                                return
+                                  fNoteAccidentalKind;
+                              }
+
     void                  setNoteEditorialAccidentalKind (
                             msrNoteEditorialAccidentalKind
                               noteEditorialAccidentalKind)
@@ -5066,10 +5032,11 @@ class EXP msrNote : public msrElement
 
     // note display
     
-    msrQuarterTonesPitch  getNoteQuarterTonesDisplayPitch () const
+    msrQuarterTonesPitchKind
+                          getNoteQuarterTonesDisplayPitchKind () const
                               {
                                 return
-                                  fNoteQuarterTonesDisplayPitch;
+                                  fNoteQuarterTonesDisplayPitchKind;
                               }
                               
     void                  setNoteDisplayWholeNotes (
@@ -5084,8 +5051,8 @@ class EXP msrNote : public msrElement
     int                   getNoteDotsNumber () const
                               { return fNoteDotsNumber; }
 
-    msrDuration           getNoteGraphicDuration () const
-                              { return fNoteGraphicDuration; }
+    msrDurationKind       getNoteGraphicDurationKind () const
+                              { return fNoteGraphicDurationKind; }
 
     int                   getNoteOctave () const
                               { return fNoteOctave; }
@@ -5315,7 +5282,7 @@ class EXP msrNote : public msrElement
     string                noteKindAsString () const;
     
     string                notePitchAsString () const;
-    string                noteDisplayPitchAsString () const;
+    string                noteDisplayPitchKindAsString () const;
 
     string                noteDisplayOctaveAsString () const;
     
@@ -5338,10 +5305,10 @@ class EXP msrNote : public msrElement
     string                noteAsString ();
       
     // diatonic pitch
-    msrDiatonicPitch      noteDiatonicPitch (
+    msrDiatonicPitchKind  noteDiatonicPitchKind (
                             int inputLineNumber) const;
                             
-    string                noteDiatonicPitchAsString (
+    string                noteDiatonicPitchKindAsString (
                             int inputLineNumber) const;
 
     // whole notes
@@ -5434,7 +5401,8 @@ class EXP msrNote : public msrElement
     msrNoteKind           fNoteKind;
 
     // note quarter tones pitch
-    msrQuarterTonesPitch  fNoteQuarterTonesPitch;
+    msrQuarterTonesPitchKind
+                          fNoteQuarterTonesPitchKind;
 
     // whole notes
     rational              fNoteSoundingWholeNotes;
@@ -5442,11 +5410,12 @@ class EXP msrNote : public msrElement
     
     int                   fNoteDotsNumber;
     
-    msrDuration           fNoteGraphicDuration;
+    msrDurationKind       fNoteGraphicDurationKind;
     
     int                   fNoteOctave;
     
-    msrQuarterTonesPitch  fNoteQuarterTonesDisplayPitch;
+    msrQuarterTonesPitchKind
+                          fNoteQuarterTonesDisplayPitchKind;
     int                   fNoteDisplayOctave;
                                 // for unpitched notes
                                 // and pitched rests
@@ -5471,6 +5440,8 @@ class EXP msrNote : public msrElement
     // accidentals
     // ------------------------------------------------------
 
+    msrNoteAccidentalKind fNoteAccidentalKind;
+    
     msrNoteEditorialAccidentalKind
                           fNoteEditorialAccidentalKind;     
     msrNoteCautionaryAccidentalKind
@@ -5611,15 +5582,15 @@ EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 \brief The msr chord element
 */
 //______________________________________________________________________________
-class EXP msrChord : public msrElement
+class msrChord : public msrElement
 {
   public:
 
     static SMARTP<msrChord> create (
-      int         inputLineNumber,
-      rational    chordSoundingWholeNotes,
-      rational    chordDisplayWholeNotes,
-      msrDuration chordGraphicDuration);
+      int             inputLineNumber,
+      rational        chordSoundingWholeNotes,
+      rational        chordDisplayWholeNotes,
+      msrDurationKind chordGraphicDurationKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -5636,10 +5607,10 @@ class EXP msrChord : public msrElement
     // ------------------------------------------------------
 
     msrChord (
-      int         inputLineNumber,
-      rational    chordSoundingWholeNotes,
-      rational    chordDisplayWholeNotes,
-      msrDuration chordGraphicDuration);
+      int             inputLineNumber,
+      rational        chordSoundingWholeNotes,
+      rational       chordDisplayWholeNotes,
+      msrDurationKind chordGraphicDurationKind);
       
     virtual ~msrChord();
   
@@ -5662,8 +5633,8 @@ class EXP msrChord : public msrElement
                               { return fChordDisplayWholeNotes; }
                         
     // graphic duration
-    msrDuration           getChordGraphicDuration () const
-                              { return fChordGraphicDuration; }
+    msrDurationKind       getChordGraphicDurationKind () const
+                              { return fChordGraphicDurationKind; }
             
     // chord notes
     const vector<S_msrNote>&
@@ -5887,7 +5858,7 @@ class EXP msrChord : public msrElement
                                   
     // graphic duration is needed for grace notes,
     // since they don't have any note (sounding) duration
-    msrDuration           fChordGraphicDuration;
+    msrDurationKind       fChordGraphicDurationKind;
     
     vector<S_msrNote>     fChordNotes;
 
@@ -5958,7 +5929,7 @@ EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
 \brief A msr LilyPond variable/value association representation.
 */
 //______________________________________________________________________________
-class EXP msrVarValAssoc : public msrElement
+class msrVarValAssoc : public msrElement
 {
   public:
 
@@ -6028,7 +5999,7 @@ EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
   A header is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrIdentification : public msrElement
+class msrIdentification : public msrElement
 {
   public:
 
@@ -6194,7 +6165,7 @@ EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);
   A page geometry is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrPageGeometry : public msrElement
+class msrPageGeometry : public msrElement
 {
   public:
 
@@ -6294,7 +6265,7 @@ EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrCreditWords : public msrElement
+class msrCreditWords : public msrElement
 {
   public:
 
@@ -6384,7 +6355,7 @@ EXP ostream& operator<< (ostream& os, const S_msrCreditWords& elt);
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrCredit : public msrElement
+class msrCredit : public msrElement
 {
   public:
 
@@ -6457,7 +6428,7 @@ EXP ostream& operator<< (ostream& os, const S_msrCredit& elt);
   A layout is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrLayout : public msrElement // JMI
+class msrLayout : public msrElement // JMI
 {
   public:
 
@@ -6518,7 +6489,7 @@ EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
 */
 //______________________________________________________________________________
 
-class EXP msrDivisions : public msrElement
+class msrDivisions : public msrElement
 {
   public:
 
@@ -6570,11 +6541,11 @@ class EXP msrDivisions : public msrElement
     string                divisionsAsString () const;
 
     // durations
-    int                   durationAsDivisions (
-                            int         inputLineNumber,
-                            msrDuration duration);
+    int                   durationKindAsDivisions (
+                            int             inputLineNumber,
+                            msrDurationKind durationKind);
 
-    void                  printDurationsDivisions (ostream& os);
+    void                  printDurationKindsDivisions (ostream& os);
 
     // MSR strings
     string                divisionsAsMsrString (
@@ -6632,8 +6603,8 @@ class EXP msrDivisions : public msrElement
 
     int                   fDivisionsPerQuarterNote;
     
-    list<pair<msrDuration, int> >
-                          fDurationsToDivisions;
+    list<pair<msrDurationKind, int> >
+                          fDurationKindsToDivisions;
 };
 typedef SMARTP<msrDivisions> S_msrDivisions;
 EXP ostream& operator<< (ostream& os, const S_msrDivisions& elt);
@@ -6644,7 +6615,7 @@ EXP ostream& operator<< (ostream& os, const S_msrDivisions& elt);
   A barNumberCheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarCheck : public msrElement
+class msrBarCheck : public msrElement
 {
   public:
     
@@ -6716,7 +6687,7 @@ EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
   A barNumberCheck is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarNumberCheck : public msrElement
+class msrBarNumberCheck : public msrElement
 {
   public:
     
@@ -6780,7 +6751,7 @@ EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
   A break is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrLineBreak : public msrElement
+class msrLineBreak : public msrElement
 {
   public:
     
@@ -6844,7 +6815,7 @@ EXP ostream& operator<< (ostream& os, const S_msrLineBreak& elt);
   A break is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrPageBreak : public msrElement
+class msrPageBreak : public msrElement
 {
   public:
     
@@ -6903,7 +6874,7 @@ EXP ostream& operator<< (ostream& os, const S_msrPageBreak& elt);
   played for the duration of 2 actual notes
 */
 //______________________________________________________________________________
-class EXP msrTuplet : public msrElement
+class msrTuplet : public msrElement
 {
   public:
     
@@ -7066,7 +7037,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
   A tempo is represented by the stanza to use
 */
 //______________________________________________________________________________
-class EXP msrTempo : public msrElement
+class msrTempo : public msrElement
 {
   public:
 
@@ -7143,7 +7114,7 @@ EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
   A stanza is represented by a list of syllables,
 */
 //______________________________________________________________________________
-class EXP msrStanza : public msrElement
+class msrStanza : public msrElement
 {
   public:
 
@@ -7327,7 +7298,7 @@ EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrSegno : public msrElement
+class msrSegno : public msrElement
 {
   public:
       
@@ -7382,7 +7353,7 @@ EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrCoda : public msrElement
+class msrCoda : public msrElement
 {
   public:
       
@@ -7437,7 +7408,7 @@ EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrEyeGlasses : public msrElement
+class msrEyeGlasses : public msrElement
 {
   public:
       
@@ -7492,39 +7463,39 @@ EXP ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrPedal : public msrElement
+class msrPedal : public msrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrPedalType {
+    enum msrPedalTypeKind {
       kPedalStart, kPedalContinue, kPedalChange, kPedalStop };
       
-    static string pedalTypeAsString (
-      msrPedalType pedalType);
+    static string pedalTypeKindAsString (
+      msrPedalTypeKind pedalTypeKind);
       
-    enum msrPedalLine {
+    enum msrPedalLineKind {
       kPedalLineYes, kPedalLineNo};
       
-    static string pedalLineAsString (
-      msrPedalLine pedalLine);
+    static string pedalLineKindAsString (
+      msrPedalLineKind pedalLineKind);
       
-    enum msrPedalSign {
+    enum msrPedalSignKind {
       kPedalSignYes, kPedalSignNo};
       
-    static string pedalSignAsString (
-      msrPedalSign pedalSign);
+    static string pedalSignKindAsString (
+      msrPedalSignKind pedalSignKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrPedal> create (
-      int          inputLineNumber,
-      msrPedalType pedalType,
-      msrPedalLine pedalLine,
-      msrPedalSign pedalSign);
+      int              inputLineNumber,
+      msrPedalTypeKind pedalTypeKind,
+      msrPedalLineKind pedalLineKind,
+      msrPedalSignKind pedalSignKind);
 
   protected:
 
@@ -7532,10 +7503,10 @@ class EXP msrPedal : public msrElement
     // ------------------------------------------------------
 
     msrPedal (
-      int          inputLineNumber,
-      msrPedalType pedalType,
-      msrPedalLine pedalLine,
-      msrPedalSign pedalSign);
+      int              inputLineNumber,
+      msrPedalTypeKind pedalTypeKind,
+      msrPedalLineKind pedalLineKind,
+      msrPedalSignKind pedalSignKind);
       
     virtual ~msrPedal();
   
@@ -7544,14 +7515,14 @@ class EXP msrPedal : public msrElement
     // set and get
     // ------------------------------------------------------
     
-    msrPedalType          getPedalType () const
-                              { return fPedalType; }
+    msrPedalTypeKind      getPedalTypeKind () const
+                              { return fPedalTypeKind; }
                     
-    msrPedalLine          getPedalLine () const
-                              { return fPedalLine; }
+    msrPedalLineKind      getPedalLineKind () const
+                              { return fPedalLineKind; }
                     
-    msrPedalSign          getPedalSign () const
-                              { return fPedalSign; }
+    msrPedalSignKind      getPedalSignKind () const
+                              { return fPedalSignKind; }
                     
     // services
     // ------------------------------------------------------
@@ -7580,9 +7551,9 @@ class EXP msrPedal : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrPedalType          fPedalType;
-    msrPedalLine          fPedalLine;
-    msrPedalSign          fPedalSign;
+    msrPedalTypeKind      fPedalTypeKind;
+    msrPedalLineKind      fPedalLineKind;
+    msrPedalSignKind      fPedalSignKind;
 };
 typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
@@ -7593,7 +7564,7 @@ EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
   A barline is represented by the number of the next bar
 */
 //______________________________________________________________________________
-class EXP msrBarline : public msrElement
+class msrBarline : public msrElement
 {
   public:
 
@@ -7629,14 +7600,14 @@ class EXP msrBarline : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrBarlineLocation {
+    enum msrBarlineLocationKind {
       k_NoLocation,
       kLeftLocation, kMiddleLocation, kRightLocation }; // kRightLocation by default
         
-    static string barlineLocationAsString (
-      msrBarlineLocation barlineLocation);
+    static string barlineLocationKindAsString (
+      msrBarlineLocationKind barlineLocationKind);
       
-    enum msrBarlineStyle {
+    enum msrBarlineStyleKind {
       k_NoStyle,
       kRegularStyle,  // by default
       kDottedStyle, kDashedStyle, kHeavyStyle,
@@ -7644,54 +7615,54 @@ class EXP msrBarline : public msrElement
       kTickStyle, kShortStyle,
       kNoneStyle};
 
-    static string barlineStyleAsString (
-      msrBarlineStyle barlineStyle);
+    static string barlineStyleKindAsString (
+      msrBarlineStyleKind barlineStyleKind);
       
-    enum msrBarlineEndingType {
+    enum msrBarlineEndingTypeKind {
       k_NoEndingType,
       kStartEndingType, kStopEndingType, kDiscontinueEndingType};
 
-    static string barlineEndingTypeAsString (
-      msrBarlineEndingType barlineEndingType);
+    static string barlineEndingTypeKindAsString (
+      msrBarlineEndingTypeKind barlineEndingTypeKind);
       
-    enum msrBarlineRepeatDirection {
+    enum msrBarlineRepeatDirectionKind {
       k_NoRepeatDirection,
       kForwardRepeatDirection, kBackwardRepeatDirection};
 
-    static string barlineRepeatDirectionAsString (
-      msrBarlineRepeatDirection barlineRepeatDirection);
+    static string barlineRepeatDirectionKindAsString (
+      msrBarlineRepeatDirectionKind barlineRepeatDirectionKind);
       
-    enum msrBarlineRepeatWinged {
+    enum msrBarlineRepeatWingedKind {
       k_NoRepeatWinged,
       kNoneRepeatWinged,
       kStraightRepeatWinged, kCurvedRepeatWinged,
       kDoubleStraightRepeatWinged, kDoubleCurvedRepeatWinged };
 
-    static string barlineRepeatWingedAsString (
-      msrBarlineRepeatWinged barlineRepeatWinged);
+    static string barlineRepeatWingedKindAsString (
+      msrBarlineRepeatWingedKind barlineRepeatWingedKind);
       
-    enum msrBarlineCategory {
+    enum msrBarlineCategoryKind {
       kStandaloneBarline,
       kRepeatStartBarline, kRepeatEndBarline,
       kHookedEndingStartBarline, kHookedEndingEndBarline,
       kHooklessEndingStartBarline, kHooklessEndingEndBarline};
       
-    static string barlineCategoryAsString (
-      msrBarlineCategory barlineCategory);
+    static string barlineCategoryKindAsString (
+      msrBarlineCategoryKind barlineCategoryKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrBarline> create (
-      int                       inputLineNumber,
-      bool                      barlineHasSegno,
-      bool                      barlineHasCoda,
-      msrBarlineLocation        location,
-      msrBarlineStyle           style,
-      msrBarlineEndingType      endingType,
-      string                    endingNumber,
-      msrBarlineRepeatDirection repeatDirection,
-      msrBarlineRepeatWinged    repeatWinged);
+      int                           inputLineNumber,
+      bool                          barlineHasSegno,
+      bool                          barlineHasCoda,
+      msrBarlineLocationKind        location,
+      msrBarlineStyleKind           style,
+      msrBarlineEndingTypeKind      endingType,
+      string                        endingNumber,
+      msrBarlineRepeatDirectionKind repeatDirection,
+      msrBarlineRepeatWingedKind    repeatWinged);
 
   protected:
 
@@ -7699,15 +7670,15 @@ class EXP msrBarline : public msrElement
     // ------------------------------------------------------
 
     msrBarline (
-      int                       inputLineNumber,
-      bool                      barlineHasSegno,
-      bool                      barlineHasCoda,
-      msrBarlineLocation        location,
-      msrBarlineStyle           style,
-      msrBarlineEndingType      endingType,
-      string                    endingNumber,
-      msrBarlineRepeatDirection repeatDirection,
-      msrBarlineRepeatWinged    repeatWinged);
+      int                           inputLineNumber,
+      bool                          barlineHasSegno,
+      bool                          barlineHasCoda,
+      msrBarlineLocationKind        location,
+      msrBarlineStyleKind           style,
+      msrBarlineEndingTypeKind      endingType,
+      string                        endingNumber,
+      msrBarlineRepeatDirectionKind repeatDirection,
+      msrBarlineRepeatWingedKind    repeatWinged);
       
     virtual ~msrBarline();
   
@@ -7721,35 +7692,38 @@ class EXP msrBarline : public msrElement
     bool                  getBarlineHasCoda () const
                               { return fBarlineHasCoda; }
 
-    msrBarlineLocation    getLocation () const
-                              { return fLocation; }
+    msrBarlineLocationKind
+                          getLocation () const
+                              { return fLocationKind; }
                     
-    msrBarlineStyle       getStyle () const
-                              { return fStyle; }
+    msrBarlineStyleKind   getStyle () const
+                              { return fStyleKind; }
                     
-    msrBarlineEndingType  getEndingType () const
-                              { return fEndingType; }
+    msrBarlineEndingTypeKind
+                          getEndingType () const
+                              { return fEndingTypeKind; }
                     
     string                getEndingNumber () const
                               { return fEndingNumber; }
                     
-    msrBarlineRepeatDirection
+    msrBarlineRepeatDirectionKind
                           getRepeatDirection () const
-                              { return fRepeatDirection; }
+                              { return fRepeatDirectionKind; }
                     
-    msrBarlineRepeatWinged
+    msrBarlineRepeatWingedKind
                           getRepeatWinged () const
-                              { return fRepeatWinged; }
+                              { return fRepeatWingedKind; }
                     
     const list<int>&      getEndingNumbersList () const
                               { return fEndingNumbersList; }
                         
-    msrBarlineCategory    getBarlineCategory () const
-                              { return fBarlineCategory; }
+    msrBarlineCategoryKind
+                          getBarlineCategory () const
+                              { return fBarlineCategoryKind; }
 
     void                  setBarlineCategory (
-                            msrBarlineCategory barlineCategory)
-                              { fBarlineCategory = barlineCategory; }
+                            msrBarlineCategoryKind barlineCategoryKind)
+                              { fBarlineCategoryKind = barlineCategoryKind; }
     
     // measure number
     void                  setBarlineMeasureNumber (
@@ -7799,16 +7773,20 @@ class EXP msrBarline : public msrElement
     bool                  fBarlineHasSegno;
     bool                  fBarlineHasCoda;
 
-    msrBarlineLocation    fLocation;
-    msrBarlineStyle       fStyle;
-    msrBarlineEndingType  fEndingType;
+    msrBarlineLocationKind
+                          fLocationKind;
+    msrBarlineStyleKind
+                          fStyleKind;
+    msrBarlineEndingTypeKind
+                          fEndingTypeKind;
     string                fEndingNumber; // may be "1, 2"
-    msrBarlineRepeatDirection
-                          fRepeatDirection;
-    msrBarlineRepeatWinged
-                          fRepeatWinged;
+    msrBarlineRepeatDirectionKind
+                          fRepeatDirectionKind;
+    msrBarlineRepeatWingedKind
+                          fRepeatWingedKind;
 
-    msrBarlineCategory    fBarlineCategory;
+    msrBarlineCategoryKind
+                          fBarlineCategoryKind;
 
     int                   fBarlineMeasureNumber;
     rational              fBarlinePositionInMeasure;
@@ -7827,7 +7805,7 @@ EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrRepeatCommonPart : public msrElement
+class msrRepeatCommonPart : public msrElement
 {
   public:
 
@@ -7912,7 +7890,7 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrRepeatEnding : public msrElement
+class msrRepeatEnding : public msrElement
 {
   public:
 
@@ -8039,7 +8017,7 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrRepeat : public msrElement
+class msrRepeat : public msrElement
 {
   public:
 
@@ -8141,7 +8119,7 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrMeasureRepeatPattern : public msrElement
+class msrMeasureRepeatPattern : public msrElement
 {
   public:
 
@@ -8220,7 +8198,7 @@ typedef SMARTP<msrMeasureRepeatPattern> S_msrMeasureRepeatPattern;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeatPattern& elt);
 
 //______________________________________________________________________________
-class EXP msrMeasureRepeatReplicas : public msrElement
+class msrMeasureRepeatReplicas : public msrElement
 {
   public:
 
@@ -8301,7 +8279,7 @@ typedef SMARTP<msrMeasureRepeatReplicas> S_msrMeasureRepeatReplicas;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeatReplicas& elt);
 
 //______________________________________________________________________________
-class EXP msrMeasureRepeat : public msrElement
+class msrMeasureRepeat : public msrElement
 {
   public:
 
@@ -8435,7 +8413,7 @@ typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt);
 
 //______________________________________________________________________________
-class EXP msrMultipleRestContents : public msrElement
+class msrMultipleRestContents : public msrElement
 {
   public:
       
@@ -8510,7 +8488,7 @@ typedef SMARTP<msrMultipleRestContents> S_msrMultipleRestContents;
 EXP ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt);
 
 //______________________________________________________________________________
-class EXP msrMultipleRest : public msrElement
+class msrMultipleRest : public msrElement
 {
   public:
 
@@ -8616,7 +8594,7 @@ EXP ostream& operator<< (ostream& os, const S_msrMultipleRest& elt);
     - a vector of sequences of elements for the alternate endings
 */
 //______________________________________________________________________________
-class EXP msrRepeatCoda : public msrElement
+class msrRepeatCoda : public msrElement
 {
   public:
 
@@ -8699,7 +8677,7 @@ EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
   A vpoce is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrVoice : public msrElement
+class msrVoice : public msrElement
 {
   public:
     
@@ -8715,14 +8693,14 @@ class EXP msrVoice : public msrElement
     static string voiceKindAsString (
       msrVoiceKind voiceKind);
       
-    enum msrVoiceFinalizationStatus {
+    enum msrVoiceFinalizationStatusKind { // JMI ???
       kKeepVoice,
       kEraseVoice };
           
-    static string voiceFinalizationStatusAsString (
-      msrVoiceFinalizationStatus voiceFinalizationStatus);
+    static string voiceFinalizationStatusKindAsString (
+      msrVoiceFinalizationStatusKind voiceFinalizationStatusKind);
 
-    enum msrVoiceCreateInitialLastSegment {
+    enum msrVoiceCreateInitialLastSegmentKind {
       kCreateInitialLastSegmentYes, kCreateInitialLastSegmentNo };
       
     // creation from MusicXML
@@ -8732,8 +8710,8 @@ class EXP msrVoice : public msrElement
       int          inputLineNumber,
       msrVoiceKind voiceKind,
       int          voicePartRelativeID,
-      msrVoiceCreateInitialLastSegment
-                   voiceCreateInitialLastSegment,
+      msrVoiceCreateInitialLastSegmentKind
+                   voiceCreateInitialLastSegmentKind,
       S_msrStaff   voiceStaffUplink);
     
     SMARTP<msrVoice> createVoiceNewbornClone (
@@ -8755,8 +8733,8 @@ class EXP msrVoice : public msrElement
       int          inputLineNumber,
       msrVoiceKind voiceKind,
       int          voicePartRelativeID,
-      msrVoiceCreateInitialLastSegment
-                   voiceCreateInitialLastSegment,
+      msrVoiceCreateInitialLastSegmentKind
+                   voiceCreateInitialLastSegmentKind,
       S_msrStaff   voiceStaffUplink);
 
     // destructor
@@ -8768,8 +8746,8 @@ class EXP msrVoice : public msrElement
     // ------------------------------------------------------
 
     void                  initializeVoice (
-                            msrVoiceCreateInitialLastSegment
-                             voiceCreateInitialLastSegment);
+                            msrVoiceCreateInitialLastSegmentKind
+                             voiceCreateInitialLastSegmentKind);
 
   public:
 
@@ -9150,8 +9128,7 @@ class EXP msrVoice : public msrElement
     void                  finalizeCurrentMeasureInVoice (
                             int inputLineNumber);
 
-    msrVoiceFinalizationStatus
-                          finalizeVoice (
+    void                  finalizeVoice (
                             int inputLineNumber);
     
     // visitors
@@ -9270,7 +9247,7 @@ Staff assignment is only needed for music notated on multiple staves. Used by bo
 */
 //______________________________________________________________________________
 
-class EXP msrStaffLinesNumber : public msrElement
+class msrStaffLinesNumber : public msrElement
 {
   public:
     
@@ -9333,7 +9310,7 @@ typedef SMARTP<msrStaffLinesNumber> S_msrStaffLinesNumber;
 EXP ostream& operator<< (ostream& os, const S_msrStaffLinesNumber& elt);
 
 //______________________________________________________________________________
-class EXP msrStaffTuning : public msrElement
+class msrStaffTuning : public msrElement
 {
   public:
 
@@ -9341,10 +9318,10 @@ class EXP msrStaffTuning : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStaffTuning> create (
-      int                  inputLineNumber,
-      int                  staffTuningLineNumber,
-      msrQuarterTonesPitch quarterTonesPitch,
-      int                  staffTuningOctave);
+      int                      inputLineNumber,
+      int                      staffTuningLineNumber,
+      msrQuarterTonesPitchKind quarterTonesPitchKind,
+      int                      staffTuningOctave);
     
     SMARTP<msrStaffTuning> createStaffTuningNewbornClone ();
 
@@ -9356,10 +9333,10 @@ class EXP msrStaffTuning : public msrElement
     // ------------------------------------------------------
 
     msrStaffTuning (
-      int                  inputLineNumber,
-      int                  staffTuningLineNumber,
-      msrQuarterTonesPitch quarterTonesPitch,
-      int                  staffTuningOctave);
+      int                      inputLineNumber,
+      int                      staffTuningLineNumber,
+      msrQuarterTonesPitchKind quarterTonesPitchKind,
+      int                      staffTuningOctave);
          
     ~ msrStaffTuning ();
   
@@ -9371,8 +9348,9 @@ class EXP msrStaffTuning : public msrElement
     int                   getStaffTuningLineNumber () const
                               { return fStaffTuningLineNumber; }
 
-    msrQuarterTonesPitch  getStaffTuningQuarterTonesPitch () const
-                              { return fStaffTuningQuarterTonesPitch; }
+    msrQuarterTonesPitchKind
+                          getStaffTuningQuarterTonesPitchKind () const
+                              { return fStaffTuningQuarterTonesPitchKind; }
 
     int                   getStaffTuningOctave () const
                               { return fStaffTuningOctave; }
@@ -9402,7 +9380,8 @@ class EXP msrStaffTuning : public msrElement
     
     int                   fStaffTuningLineNumber;
     
-    msrQuarterTonesPitch  fStaffTuningQuarterTonesPitch;
+    msrQuarterTonesPitchKind
+                          fStaffTuningQuarterTonesPitchKind;
     int                   fStaffTuningOctave;
 };
 typedef SMARTP<msrStaffTuning> S_msrStaffTuning;
@@ -9415,9 +9394,10 @@ EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
 */
 //______________________________________________________________________________
 
-class EXP msrStaffDetails : public msrElement
+class msrStaffDetails : public msrElement
 {
   public:
+    
     
     // data types
     // ------------------------------------------------------
@@ -9439,13 +9419,13 @@ class EXP msrStaffDetails : public msrElement
     enum msrPrintObjectKind {
       kPrintObjectYes, kPrintObjectNo};
 
-    static string printObjectKindKindAsString (
+    static string printObjectKindAsString (
       msrPrintObjectKind printObjectKind);
       
     enum msrPrintSpacingKind {
       kPrintSpacingYes, kPrintSpacingNo};
 
-    static string printSpacingKindKindAsString (
+    static string printSpacingKindAsString (
       msrPrintSpacingKind printSpacingKind);
       
     // creation from MusicXML
@@ -9553,7 +9533,7 @@ EXP ostream& operator<< (ostream& os, const S_msrStaffDetails& elt);
 Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
 */
 //______________________________________________________________________________
-class EXP msrStaff : public msrElement
+class msrStaff : public msrElement
 {
   public:
 
@@ -9888,7 +9868,7 @@ EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 */
 //______________________________________________________________________________
 
-class EXP msrVoiceStaffChange : public msrElement
+class msrVoiceStaffChange : public msrElement
 {
   public:
     
@@ -9954,7 +9934,7 @@ EXP ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt);
   A part is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPart : public msrElement
+class msrPart : public msrElement
 {
   public:
 
@@ -10473,7 +10453,7 @@ EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
   A part group is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrPartGroup : public msrElement
+class msrPartGroup : public msrElement
 {
   public:
 
@@ -10652,6 +10632,10 @@ class EXP msrPartGroup : public msrElement
                             string partID);
     
     void                  appendPartToPartGroup (S_msrPart part);
+    
+    void                  removePartFromPartGroup (
+                            int       inputLineNumber,
+                            S_msrPart partToBeRemoved);
                 
     void                  prependSubPartGroupToPartGroup (
                             S_msrPartGroup partGroup);
@@ -10748,7 +10732,7 @@ EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);
   A score is represented by a its string contents
 */
 //______________________________________________________________________________
-class EXP msrScore : public msrElement
+class msrScore : public msrElement
 {
   public:
 
@@ -10891,7 +10875,7 @@ EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
   A midi is represented by variable/value pairs
 */
 //______________________________________________________________________________
-class EXP msrMidi : public msrElement
+class msrMidi : public msrElement
 {
   public:
 

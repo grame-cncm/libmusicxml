@@ -15,7 +15,6 @@
 
 #include "iomanip" // for 'setw()'
 
-using namespace std;
 
 namespace MusicXML2 
 {
@@ -35,46 +34,46 @@ namespace MusicXML2
 
 void msrAssert (
   bool   condition,
-  string messageIfFalse);
+  std::string messageIfFalse);
 
 //______________________________________________________________________________
 void msrWarning (
-  string context,
-  string inputSourceName,
+  std::string context,
+  std::string inputSourceName,
   int    inputLineNumber,
-  string message);
+  std::string message);
 
 //______________________________________________________________________________
 void msrMusicXMLWarning (
   int    inputLineNumber,
-  string message);
+  std::string message);
 
 //______________________________________________________________________________
 void lpsrMusicXMLWarning (
   int    inputLineNumber,
-  string message);
+  std::string message);
 
 //______________________________________________________________________________
 void msrInternalWarning (
   int    inputLineNumber,
-  string message);
+  std::string message);
 
 //______________________________________________________________________________
 void msrError (
-  string context,
-  string inputSourceName,
+  std::string context,
+  std::string inputSourceName,
   int    inputLineNumber,
-  string sourceCodeFileName,
+  std::string sourceCodeFileName,
   int    sourceCodeLineNumber,
-  string message);
+  std::string message);
 
 //______________________________________________________________________________
 void msrMusicXMLError (
-  string inputSourceName,
+  std::string inputSourceName,
   int    inputLineNumber,
-  string sourceCodeFileName,
+  std::string sourceCodeFileName,
   int    sourceCodeLineNumber,
-  string message);
+  std::string message);
 
 /*!
 \internal
@@ -82,11 +81,11 @@ void msrMusicXMLError (
 */
 //______________________________________________________________________________
 void lpsrMusicXMLError (
-  string inputSourceName,
+  std::string inputSourceName,
   int    inputLineNumber,
-  string sourceCodeFileName,
+  std::string sourceCodeFileName,
   int    sourceCodeLineNumber,
-  string message);
+  std::string message);
 
 /*!
 \internal
@@ -95,11 +94,11 @@ void lpsrMusicXMLError (
 //______________________________________________________________________________
 
 void msrInternalError (
-  string inputSourceName,
+  std::string inputSourceName,
   int    inputLineNumber,
-  string sourceCodeFileName,
+  std::string sourceCodeFileName,
   int    sourceCodeLineNumber,
-  string message);
+  std::string message);
 
 
 /*! @} */

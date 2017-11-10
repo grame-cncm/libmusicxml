@@ -99,7 +99,7 @@ EXP ostream& operator<< (ostream& os, const S_mxmlPartGroupDescr& elt);
 /*!
 \brief Produces a summary of a MusicXML part.
 */
-class EXP mxmlTree2MsrSkeletonBuilder :
+class mxmlTree2MsrSkeletonBuilder :
 
   // score
 
@@ -385,14 +385,22 @@ class EXP mxmlTree2MsrSkeletonBuilder :
 
     // handling 'start' and 'stop'
     // a stack cannot be iterated, and we need access to any element:
-    // implementing a stack in a list, with the top first
+    // implementing a stack in a list
+
+    // all the part groups starting at the same position
+    // are at the beginning of the stack,
+    // but not necessarily in the right order though:
+    // the 'current' part group descr,
+    // i.e. the one with the most recently met 'start',
+    // may thus not be at the top
+    
     list<S_mxmlPartGroupDescr>
                               fPartGroupsDescrStack;
 
     void                      showPartGroupsStack (
                                 int inputLineNumber);
 
-    S_mxmlPartGroupDescr      fetchCurrentPartGroupDescr ();
+    S_mxmlPartGroupDescr      fetchPartGroupDescrStackTop ();
 
     void                      registerPartGroupDescr (
                                 int                  inputLineNumber,
@@ -420,9 +428,18 @@ class EXP mxmlTree2MsrSkeletonBuilder :
     void                      handlePartGroupStart (
                                 int inputLineNumber);
                                 
-    void                      doStopPartGroupDescr (
+    S_mxmlPartGroupDescr      fetchFirstDescInStackStartingBefore (
                                 int                  inputLineNumber,
                                 S_mxmlPartGroupDescr partGroupDescr);
+
+    void                      doStopPartGroupDescr (
+                                int                  inputLineNumber,
+                                S_mxmlPartGroupDescr partGroupDescrToBeStopped);
+                                
+    void                      doNestPartGroupDescrInItsContainer (
+                                int                  inputLineNumber,
+                                S_mxmlPartGroupDescr partGroupDescrToBeStopped,
+                                S_mxmlPartGroupDescr containingPartGroupDescr);
                                 
     void                      insertPartGroupIntoToBeStoppedList (
                                 int                  inputLineNumber,

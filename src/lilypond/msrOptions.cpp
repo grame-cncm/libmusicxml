@@ -73,6 +73,8 @@ void msrOptions::initializeMsrOptions (
     
     fTraceMsrVisitors  = boolOptionsInitialValue;
   
+    fDisplayPartGroups = boolOptionsInitialValue;
+    
     fDisplayMsr        = boolOptionsInitialValue;
   
     fDisplayMsrSummary = boolOptionsInitialValue;
@@ -108,10 +110,18 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
+          "pg", "displayPartGroups",
+R"(Write the structure of the part groups to standard error.)",
+          "displayPartGroups",
+          fDisplayPartGroups));
+          
+    traceAndDisplaySubGroup->
+      appendOptionsItem (
+        msrOptionsBooleanItem::create (
           "msr", "displayMsr",
 R"(Write the contents of the MSR data to standard error.)",
           "displayMsr",
-          fDisplayMsr));
+          fDisplayPartGroups));
           
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -138,14 +148,14 @@ This implies that no LilyPond code is generated.)",
         "MSR pitches language 'nederlands' is unknown" <<
         endl <<
         "The " <<
-        gQuarterTonesPitchesLanguagesMap.size () <<
+        gQuarterTonesPitchesLanguageKindsMap.size () <<
         " known MSR pitches languages are:" <<
         endl;
   
       gIndenter++;
     
       s <<
-        existingQuarterTonesPitchesLanguages ();
+        existingQuarterTonesPitchesLanguageKinds ();
   
       gIndenter--;
   
@@ -175,7 +185,7 @@ italiano, norsk, portugues, suomi, svenska and vlaams.
 The default is to use 'nederlands'.)",
           "language",
           "msrPitchesLanguage",
-          fMsrQuarterTonesPitchesLanguage));
+          fMsrQuarterTonesPitchesLanguageKind));
   }
 
   
@@ -431,6 +441,9 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   clone->fTraceMsrVisitors =
     true;
 
+  clone->fDisplayPartGroups =
+    true;
+
   clone->fDisplayMsr =
     true;
 
@@ -441,8 +454,8 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
   // languages
   // --------------------------------------
     
-  clone->fMsrQuarterTonesPitchesLanguage =
-    fMsrQuarterTonesPitchesLanguage;
+  clone->fMsrQuarterTonesPitchesLanguageKind =
+    fMsrQuarterTonesPitchesLanguageKind;
 
 
   // parts
@@ -500,16 +513,16 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 bool msrOptions::setMsrQuarterTonesPitchesLanguage (string language)
 {
   // is language in the pitches languages map?
-  map<string, msrQuarterTonesPitchesLanguage>::const_iterator
+  map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
     it =
-      gQuarterTonesPitchesLanguagesMap.find (language);
+      gQuarterTonesPitchesLanguageKindsMap.find (language);
         
-  if (it == gQuarterTonesPitchesLanguagesMap.end ()) {
+  if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
     // no, language is unknown in the map
     return false;
   }
 
-  fMsrQuarterTonesPitchesLanguage = (*it).second;
+  fMsrQuarterTonesPitchesLanguageKind = (*it).second;
   
   return true;
 }
@@ -540,6 +553,10 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
     booleanAsString (fTraceMsrVisitors) <<
     endl <<
 
+    setw (fieldWidth) << "displayPartGroups" << " : " <<
+    booleanAsString (fDisplayPartGroups) <<
+    endl <<
+
     setw (fieldWidth) << "displayMsr" << " : " <<
     booleanAsString (fDisplayMsr) <<
     endl <<
@@ -561,8 +578,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
 
   gLogIOstream << left <<
     setw (fieldWidth) << "msrPitchesLanguage" << " : \"" <<
-    msrQuarterTonesPitchesLanguageAsString (
-      fMsrQuarterTonesPitchesLanguage) <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fMsrQuarterTonesPitchesLanguageKind) <<
       "\"" <<
     endl;
 
