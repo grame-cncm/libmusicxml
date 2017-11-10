@@ -24,35 +24,10 @@ namespace MusicXML2
 @{
 */
 
-/*!
-\internal
-\brief A macro to exit when a condition if false
-*/
-// a macro to abort with code source line information,
-// as assert() itself
 //______________________________________________________________________________
-
-<<<<<<< HEAD
 void msrAssert (
   bool   condition,
   std::string messageIfFalse);
-=======
-#define msrAssert( condition, messageIfFalse ) \
-{ \
-  if (! (condition) ) { \
-    cerr << \
-      endl << \
-      "#### msrAssert failure: " << messageIfFalse << \
-      endl << \
-      "Aborting." << \
-      endl << \
-      endl << \
-      flush; \
-      \
-    assert(condition); \
-  } \
-}
->>>>>>> a9badbde74ce22074ff142d1a9265c7a168a65d6
 
 //______________________________________________________________________________
 void msrWarning (
@@ -93,10 +68,6 @@ void msrMusicXMLError (
   int    sourceCodeLineNumber,
   std::string message);
 
-/*!
-\internal
-\brief A macro to emit error messages regarding MusicXML data and exit
-*/
 //______________________________________________________________________________
 void lpsrMusicXMLError (
   std::string inputSourceName,
@@ -105,10 +76,6 @@ void lpsrMusicXMLError (
   int    sourceCodeLineNumber,
   std::string message);
 
-/*!
-\internal
-\brief A macro to emit error messages regarding MSR and exit
-*/
 //______________________________________________________________________________
 
 void msrInternalError (

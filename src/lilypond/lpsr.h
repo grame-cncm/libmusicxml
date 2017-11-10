@@ -43,16 +43,6 @@ namespace MusicXML2
 */
 
 //______________________________________________________________________________
-// PRE-declarations for class dependencies
-
-
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
-//______________________________________________________________________________
 class lpsrElement : public msrElement
 {
   public:
@@ -92,18 +82,8 @@ class lpsrElement : public msrElement
 typedef SMARTP<lpsrElement> S_lpsrElement;
 EXP ostream& operator<< (ostream& os, const S_lpsrElement& elt);
 
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
 //______________________________________________________________________________
-<<<<<<< HEAD
 template <typename T> class lpsrBrowser : public browser<T> 
-=======
-template <typename T> class EXP lpsrBrowser : public browser<T>
->>>>>>> a9badbde74ce22074ff142d1a9265c7a168a65d6
 {
   protected:
   
@@ -130,9 +110,6 @@ template <typename T> class EXP lpsrBrowser : public browser<T>
                             }
 };
 
-/*!
-\brief The lpsr parallel music element
-*/
 //______________________________________________________________________________
 class lpsrParallelMusic : public lpsrElement
 {
@@ -212,9 +189,6 @@ class lpsrParallelMusic : public lpsrElement
 typedef SMARTP<lpsrParallelMusic> S_lpsrParallelMusic;
 EXP ostream& operator<< (ostream& os, const S_lpsrParallelMusic& elt);
 
-/*!
-\brief A lpsr LilyPond variable/value association representation.
-*/
 //______________________________________________________________________________
 class lpsrLilypondVarValAssoc : public lpsrElement
 {
@@ -365,9 +339,6 @@ class lpsrLilypondVarValAssoc : public lpsrElement
 typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& elt);
 
-/*!
-\brief A lpsr Scheme variable/value association representation.
-*/
 //______________________________________________________________________________
 class lpsrSchemeVarValAssoc : public lpsrElement
 {
@@ -470,9 +441,6 @@ class lpsrSchemeVarValAssoc : public lpsrElement
 typedef SMARTP<lpsrSchemeVarValAssoc> S_lpsrSchemeVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& elt);
 
-/*!
-\brief A lpsr Scheme variable/value association representation.
-*/
 //______________________________________________________________________________
 class lpsrSchemeFunction : public lpsrElement
 {
@@ -544,11 +512,6 @@ class lpsrSchemeFunction : public lpsrElement
 typedef SMARTP<lpsrSchemeFunction> S_lpsrSchemeFunction;
 EXP ostream& operator<< (ostream& os, const S_lpsrSchemeFunction& elt);
 
-/*!
-\brief A lpsr comment representation.
-
-  A comment is represented by its contents
-*/
 //______________________________________________________________________________
 class lpsrComment : public lpsrElement
 {
@@ -621,11 +584,6 @@ class lpsrComment : public lpsrElement
 typedef SMARTP<lpsrComment> S_lpsrComment;
 EXP ostream& operator<< (ostream& os, const S_lpsrComment& elt);
 
-/*!
-\brief A lpsr barnumbercheck representation.
-
-  A barnumbercheck is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class lpsrBarNumberCheck : public lpsrElement
 {
@@ -679,11 +637,6 @@ class lpsrBarNumberCheck : public lpsrElement
 };
 typedef SMARTP<lpsrBarNumberCheck> S_lpsrBarNumberCheck;
 
-/*!
-\brief A lpsr new staff representation.
-
-  A new staff is represented by a vactor of elements
-*/
 //______________________________________________________________________________
 class lpsrNewStaffgroupBlock : public lpsrElement
 {
@@ -742,11 +695,6 @@ class lpsrNewStaffgroupBlock : public lpsrElement
 typedef SMARTP<lpsrNewStaffgroupBlock> S_lpsrNewStaffgroupBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffgroupBlock& elt);
 
-/*!
-\brief A lpsr new staff tuning representation.
-
-  A new staff tuning is represented by a vactor of elements
-*/
 //______________________________________________________________________________
 class lpsrNewStaffTuningBlock : public lpsrElement
 {
@@ -804,11 +752,6 @@ class lpsrNewStaffTuningBlock : public lpsrElement
 typedef SMARTP<lpsrNewStaffTuningBlock> S_lpsrNewStaffTuningBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffTuningBlock& elt);
 
-/*!
-\brief A lpsr new staff representation.
-
-  A new staff is represented by a vactor of elements
-*/
 //______________________________________________________________________________
 class lpsrNewStaffBlock : public lpsrElement
 {
@@ -864,11 +807,6 @@ class lpsrNewStaffBlock : public lpsrElement
 typedef SMARTP<lpsrNewStaffBlock> S_lpsrNewStaffBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewStaffBlock& elt);
 
-/*!
-\brief A voice use representation.
-
-  A voice use is represented by the voice to use
-*/
 //______________________________________________________________________________
 class lpsrUseVoiceCommand : public lpsrElement
 {
@@ -924,12 +862,6 @@ class lpsrUseVoiceCommand : public lpsrElement
 };
 typedef SMARTP<lpsrUseVoiceCommand> S_lpsrUseVoiceCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrUseVoiceCommand& elt);
-
-/*!
-\brief A lpsr new lyrics representation.
-
-  A new lyrics is represented by the voice name and the part name
-*/
 
 //______________________________________________________________________________
 class lpsrNewLyricsBlock : public lpsrElement
@@ -991,12 +923,6 @@ class lpsrNewLyricsBlock : public lpsrElement
 typedef SMARTP<lpsrNewLyricsBlock> S_lpsrNewLyricsBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrNewLyricsBlock& elt);
 
-
-/*!
-\brief A lpsr variable use representation.
-
-  A variable use is represented by the name of the variable to use
-*/
 //______________________________________________________________________________
 class lpsrVariableUseCommand : public lpsrElement
 {
@@ -1051,17 +977,8 @@ class lpsrVariableUseCommand : public lpsrElement
 typedef SMARTP<lpsrVariableUseCommand> S_lpsrVariableUseCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrVariableUseCommand& elt);
 
-/*!
-\brief A lyrics use representation.
-
-  A lyrics use is represented by the lyrics to use
-*/
 /* JMI ???
 //______________________________________________________________________________
-<<<<<<< HEAD
-=======
-// class EXP lpsrUseLyricsCommand : public lpsrElement
->>>>>>> a9badbde74ce22074ff142d1a9265c7a168a65d6
 class lpsrUseLyricsCommand : public lpsrElement
 {
   public:
@@ -1116,14 +1033,6 @@ typedef SMARTP<lpsrUseLyricsCommand> S_lpsrUseLyricsCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrUseLyricsCommand& elt);
 */
 
-/*!
-\brief A context representation.
-
-  A context is represented by its type, name and contents
-  It may be:
-    existing (such as an implicit Voice in a Score), \context Voice...
-    or a new one, \new Voice...
-*/
 //______________________________________________________________________________
 class lpsrContext : public lpsrElement
 {
@@ -1235,11 +1144,6 @@ class lpsrContext : public lpsrElement
 typedef SMARTP<lpsrContext> S_lpsrContext;
 EXP ostream& operator<< (ostream& os, const S_lpsrContext& elt);
 
-/*!
-\brief A lpsr bar representation.
-
-  A bar is represented by a vactor of elements
-*/
 //______________________________________________________________________________
 class lpsrBarCommand : public lpsrElement
 {
@@ -1290,11 +1194,6 @@ class lpsrBarCommand : public lpsrElement
 typedef SMARTP<lpsrBarCommand> S_lpsrBarCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrBarCommand& elt);
 
-/*!
-\brief A lpsr bar representation.
-
-  A bar is represented by a vactor of elements
-*/
 //______________________________________________________________________________
 class lpsrMelismaCommand : public lpsrElement
 {
@@ -1362,11 +1261,6 @@ class lpsrMelismaCommand : public lpsrElement
 typedef SMARTP<lpsrMelismaCommand> S_lpsrMelismaCommand;
 EXP ostream& operator<< (ostream& os, const S_lpsrMelismaCommand& elt);
 
-/*!
-\brief A lpsr header representation.
-
-  A header is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class lpsrHeader : public lpsrElement
 {
@@ -1698,11 +1592,6 @@ class lpsrHeader : public lpsrElement
 typedef SMARTP<lpsrHeader> S_lpsrHeader;
 EXP ostream& operator<< (ostream& os, const S_lpsrHeader& elt);
 
-/*!
-\brief A msr paper representation.
-
-  A paper is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class lpsrPaper : public msrElement
 {
@@ -1812,11 +1701,6 @@ class lpsrPaper : public msrElement
 typedef SMARTP<lpsrPaper> S_lpsrPaper;
 EXP ostream& operator<< (ostream& os, const S_lpsrPaper& elt);
 
-/*!
-\brief A LPSR layout representation.
-
-  A layout is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class lpsrLayout : public lpsrElement
 {
@@ -1893,11 +1777,6 @@ class lpsrLayout : public lpsrElement
 typedef SMARTP<lpsrLayout> S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
 
-/*!
-\brief A lpsr score block representation.
-
-  A score is represented by parallel music, score layout and midi
-*/
 //______________________________________________________________________________
 class lpsrStaffBlock : public lpsrElement
 {
@@ -1992,11 +1871,6 @@ class lpsrStaffBlock : public lpsrElement
 typedef SMARTP<lpsrStaffBlock> S_lpsrStaffBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrStaffBlock& elt);
 
-/*!
-\brief A lpsr score block representation.
-
-  A score is represented by parallel music, score layout and midi
-*/
 //______________________________________________________________________________
 class lpsrPartBlock : public lpsrElement
 {
@@ -2085,11 +1959,6 @@ class lpsrPartBlock : public lpsrElement
 typedef SMARTP<lpsrPartBlock> S_lpsrPartBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrPartBlock& elt);
 
-/*!
-\brief A lpsr score block representation.
-
-  A score is represented by parallel music, score layout and midi
-*/
 //______________________________________________________________________________
 class lpsrPartGroupBlock : public lpsrElement
 {
@@ -2155,11 +2024,6 @@ class lpsrPartGroupBlock : public lpsrElement
 typedef SMARTP<lpsrPartGroupBlock> S_lpsrPartGroupBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& elt);
 
-/*!
-\brief A lpsr score block representation.
-
-  A score is represented by parallel music, score layout and midi
-*/
 //______________________________________________________________________________
 class lpsrScoreBlock : public lpsrElement
 {
@@ -2239,11 +2103,6 @@ class lpsrScoreBlock : public lpsrElement
 typedef SMARTP<lpsrScoreBlock> S_lpsrScoreBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrScoreBlock& elt);
 
-/*!
-\brief A lpsr score representation.
-
-  A score is represented by parallel music, score layout and midi
-*/
 //______________________________________________________________________________
 class lpsrScore : public lpsrElement
 {
