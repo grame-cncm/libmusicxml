@@ -57,7 +57,7 @@ void enlistVersion (
 
 void printVersionsHistory (std::ostream& os);
 
-std::string currentVersionNumber ();
+std::string EXP currentVersionNumber ();
 
 /*! @} */
 

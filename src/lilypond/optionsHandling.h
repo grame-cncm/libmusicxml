@@ -42,7 +42,7 @@ typedef SMARTP<msrOptionsSubGroup> S_msrOptionsSubGroup;
 class msrOptionsGroup;
 typedef SMARTP<msrOptionsGroup> S_msrOptionsGroup;
 
-class msrOptionsHandler;
+class EXP msrOptionsHandler;
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 
 //______________________________________________________________________________
@@ -1865,7 +1865,7 @@ typedef SMARTP<msrOptionsGroup> S_msrOptionsGroup;
 ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt);
 
 //_______________________________________________________________________________
-class msrOptionsHandler : public msrOptionsElement
+class EXP msrOptionsHandler : public msrOptionsElement
 {
   public:
   

@@ -13,6 +13,7 @@
 #ifndef __xml2lilypondOptionsHandling__
 #define __xml2lilypondOptionsHandling__
 
+#include "exports.h"
 #include "optionsHandling.h"
 
 
@@ -20,7 +21,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-class xml2lilypondOptionsHandler : public msrOptionsHandler
+class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
 {
   public:
   

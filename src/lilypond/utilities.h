@@ -143,7 +143,7 @@ std::ostream& operator<< (std::ostream& os, const indenter& idtr);
 #define gTab      indenter::gIndenter.getSpacer ()
 
 //______________________________________________________________________________
-class indentedOstream: public std::ostream
+class EXP indentedOstream: public std::ostream
 {
 /*
 Reference:
