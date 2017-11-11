@@ -224,22 +224,22 @@ R"()",
     outputFileSubGroup->
       appendOptionsItem (
         msrOptionsStringItem::create (
-          "of", "outputFile",
+          "ofn", "outputFileName",
 R"(Write LilyPond code to file 'fileName' instead of standard output.)",
           "fileName",
-          "outputFile",
+          "outputFileName",
           fOutputFileName));  
   
     outputFileSubGroup->
       appendOptionsItem (
         msrOptionsBooleanItem::create (
-          "aof", "autoOutputFile",
+          "aofn", "autoOutputFileName",
 R"(This option can only be used when reading from a file.
 Write LilyPond code to a file in the current working directory.
 The file name is derived from that of the input file,
 replacing any suffix after the the '.' by 'ly'
 or adding '.ly' if none is present.)",
-          "autoOutputFile",
+          "autoOutputFileName",
           fAutoOutputFile));
   }
 
@@ -251,6 +251,8 @@ or adding '.ly' if none is present.)",
     // variables  
     
     fTraceGeneral = boolOptionsInitialValue;
+    
+    fDisplayOptionsValues = boolOptionsInitialValue;
     
     // fTraceDetailedMeasureNumbersSet is empty
     
@@ -274,6 +276,14 @@ R"()",
 R"(Write a trace of the general activity to standard error.)",
             "traceGeneral",
             fTraceGeneral));
+    
+      traceAndDisplaySubGroup->
+        appendOptionsItem (
+          msrOptionsBooleanItem::create (
+            "dov", "displayOptionsValues",
+R"(Write the chosen options values to standard error.)",
+            "displayOptionsValues",
+            fDisplayOptionsValues));
     
       traceAndDisplaySubGroup->
         appendOptionsItem (
@@ -1009,10 +1019,14 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<        
+    setw (fieldWidth) << "inputSourceName" << " : \"" <<
+    fInputSourceName <<
+    "\"" <<
+    endl <<
     setw (fieldWidth) << "outputFileName" << " : \"" <<
     fOutputFileName <<
     "\"" <<
-    endl <<
+    endl;
 
   gIndenter--;
 

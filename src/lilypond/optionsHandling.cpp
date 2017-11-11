@@ -387,6 +387,13 @@ void msrOptionsVersionItem::printVersion (ostream& os) const
   printVersionsHistory (os);
 }
 
+void msrOptionsVersionItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
 ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt)
 {
   elt->print (os);
@@ -470,6 +477,13 @@ R"(What xml2lilypond does:
     endl;
 }
 
+void msrOptionsAboutItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
 ostream& operator<< (ostream& os, const S_msrOptionsAboutItem& elt)
 {
   elt->print (os);
@@ -539,6 +553,13 @@ R"(To contact xml2lilypond maintainers:
     endl;
 }
 
+void msrOptionsContactItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
 ostream& operator<< (ostream& os, const S_msrOptionsContactItem& elt)
 {
   elt->print (os);
@@ -634,6 +655,13 @@ provided item values immediately follow the corresponding items.)") <<
   gIndenter--;
 }
 
+void msrOptionsHelpUsageItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
 ostream& operator<< (ostream& os, const S_msrOptionsHelpUsageItem& elt)
 {
   elt->print (os);
@@ -699,6 +727,13 @@ void msrOptionsHelpSummaryItem::printHelpSummary (ostream& os) const
     endl;
 }
 
+void msrOptionsHelpSummaryItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
 ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt)
 {
   elt->print (os);
@@ -1475,6 +1510,13 @@ void msrOptionsItemHelpItem::print (ostream& os) const
   gIndenter--;
 }
 
+void msrOptionsItemHelpItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
 ostream& operator<< (ostream& os, const S_msrOptionsItemHelpItem& elt)
 {
   elt->print (os);
@@ -4041,7 +4083,7 @@ void msrOptionsHandler::printSpecificItemHelp (
   }
 }
 
-void msrOptionsHandler::printOptionsValues (
+void msrOptionsHandler::printAllOptionsValues (
   ostream& os) const
 {
   // print the options handler values header

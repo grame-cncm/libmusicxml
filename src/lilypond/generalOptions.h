@@ -91,6 +91,8 @@ class generalOptions : public msrOptionsGroup
   
     bool                  fTraceGeneral;
     
+    bool                  fDisplayOptionsValues;
+    
     set<int>              fTraceDetailedMeasureNumbersSet;
 
 

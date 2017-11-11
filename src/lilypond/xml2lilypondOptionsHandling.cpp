@@ -211,56 +211,60 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
   // build potential output file name
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fInputSourceName == "-") {
-    // keep fOutputFileName empty for now
-  }
-  else {
+  string potentialOutputFileName;
+    
+  if (gGeneralOptions->fInputSourceName != "-") {
     // determine potential output file name,
-    // may be set differently by '--of, --outputFile' option
-    string
-      inputFileBasename =
-        baseName (
-          gGeneralOptions->fInputSourceName);
-    
-    gGeneralOptions->fOutputFileName =
-      inputFileBasename;
-    
+    // may be set differently by '--ofn, --outputFileName' option
+    potentialOutputFileName =
+      baseName (
+        gGeneralOptions->fInputSourceName);
+
+    // set '.ly' suffix
     size_t
       posInString =
-        gGeneralOptions->fOutputFileName.rfind ('.');
+        potentialOutputFileName.rfind ('.');
       
     if (posInString != string::npos)
-      gGeneralOptions->fOutputFileName.replace (
-        posInString, gGeneralOptions->fOutputFileName.size () - posInString, ".ly");
+      potentialOutputFileName.replace (
+        posInString,
+        potentialOutputFileName.size () - posInString,
+        ".ly");
   }
 
   // check auto output file option usage
   // ------------------------------------------------------
 
-  int outputFileNameSize =
-    gGeneralOptions->fOutputFileName.size ();
-
   if (gGeneralOptions->fAutoOutputFile) {
-    if (outputFileNameSize) {
+    if (gGeneralOptions->fOutputFileName.size ()) {
       stringstream s;
   
       s <<
-        "options '--aof, --autoOutputFile' and '--of, --outputFile'"  <<
+        "options '--aofn, --autoOutputFileName' and '--ofn, --outputFileName'"  <<
         endl <<
-        "cannot be used simultaneously";
+        "cannot be chosen simultaneously";
         
       optionError (s.str ());
+
+      exit (3);
     }
   
     else if (gGeneralOptions->fInputSourceName == "-") {
       stringstream s;
   
       s <<
-        "option '--aof, --autoOutputFile'"  <<
+        "option '--aofn, --autoOutputFileName'"  <<
         endl <<
         "cannot be used when reading from standard input";
         
       optionError (s.str ());
+
+      exit (4);
+    }
+
+    else {
+      gGeneralOptions->fOutputFileName =
+        potentialOutputFileName;
     }
   }
 
@@ -274,13 +278,6 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
     fCommandLineWithShortOptions;
   gGeneralOptions->fCommandLineWithLongOptions =
     fCommandLineWithLongOptions;
-
-/* JMI
-  gGeneralOptions->fInputSourceName =
-    gGeneralOptions->fInputSourceName;
-  gGeneralOptions->fOutputFileName =
-    gGeneralOptions->fOutputFileName;
-    */
 }
 
 void xml2lilypondOptionsHandler::print (ostream& os) const

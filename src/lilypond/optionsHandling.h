@@ -235,6 +235,10 @@ class msrOptionsVersionItem : public msrOptionsItem
 
     void                  printVersion (ostream& os) const;
 
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
   private:
   
     // fields
@@ -283,6 +287,10 @@ class msrOptionsAboutItem : public msrOptionsItem
 
     void                  printAbout (ostream& os) const;
 
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
   private:
   
     // fields
@@ -331,6 +339,10 @@ class msrOptionsContactItem : public msrOptionsItem
 
     void                  printContact (ostream& os) const;
 
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
   private:
   
     // fields
@@ -379,6 +391,10 @@ class msrOptionsHelpUsageItem : public msrOptionsItem
 
     void                  printHelpUsage (ostream& os) const;
 
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
   private:
   
     // fields
@@ -427,6 +443,10 @@ class msrOptionsHelpSummaryItem : public msrOptionsItem
 
     void                  printHelpSummary (ostream& os) const;
 
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
   private:
   
     // fields
@@ -879,6 +899,9 @@ class msrOptionsItemHelpItem : public msrOptionsValuedItem
 
     void                  print (ostream& os) const;
 
+    virtual void          printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
   private:
   
     // fields
@@ -2019,7 +2042,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
                             ostream& os,
                             string   optionsItemName) const;
 
-    void                  printOptionsValues (
+    void                  printAllOptionsValues (
                             ostream& os) const;
 
   protected:
