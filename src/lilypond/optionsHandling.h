@@ -851,12 +851,6 @@ typedef SMARTP<msrOptionsValuedItem> S_msrOptionsValuedItem;
 EXP ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt);
 
 //______________________________________________________________________________
-/*!
-\brief An option to provide help on any option.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
 class msrOptionsItemHelpItem : public msrOptionsValuedItem
 {
   public:
@@ -2088,8 +2082,6 @@ class EXP msrOptionsHandler : public msrOptionsElement
 typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
 ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);
 
-
-/*! @} */
 
 }
 

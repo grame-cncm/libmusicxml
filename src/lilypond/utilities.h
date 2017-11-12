@@ -34,12 +34,6 @@
 namespace MusicXML2 
 {
 
-/*!
-\addtogroup utilities
-@{
-*/
-
-
 //______________________________________________________________________________
 class EXP timingItem : public smartable
 {

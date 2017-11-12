@@ -139,8 +139,6 @@ void initializeMsrOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
 
-/*! @} */
-
 }
 
 

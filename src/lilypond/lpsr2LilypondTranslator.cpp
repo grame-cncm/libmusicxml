@@ -2358,15 +2358,15 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   // generate the default 'indent' setting ready for the user
   fLilypondCodeIOstream << left <<
     setw (fieldWidth) <<
-    "% indent" << " = " <<
-    setprecision(4) << 1.5 << "\\cm" <<
+    "indent" << " = " <<
+    setprecision(4) << 5 << "\\cm" << // JMI
     endl;
 
   // generate the default 'short-indent' setting ready for the user
   fLilypondCodeIOstream << left <<
     setw (fieldWidth) <<
-    "% short-indent" << " = " <<
-    setprecision(4) << 1.0 << "\\cm" <<
+    "short-indent" << " = " <<
+    setprecision(4) << 4 << "\\cm" << // JMI
     endl;
 
   fLilypondCodeIOstream << endl;
@@ -2620,6 +2620,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       elt->getPartGroup ();
 
 // JMI  fLilypondCodeIOstream << endl << endl << partGroup << endl << endl;
+
+  msrPartGroup::msrPartGroupImplicitKind
+    partGroupImplicitKind =
+      partGroup->
+        getPartGroupImplicitKind ();
       
   msrPartGroup::msrPartGroupSymbolKind
     partGroupSymbolKind =
@@ -2632,20 +2637,39 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         getPartGroupBarlineKind ();
       
   string
+    partGroupName =
+      partGroup->
+        getPartGroupName (),
+    partGroupAbbreviation =
+      partGroup->
+        getPartGroupAbbreviation (),
     partGroupInstrumentName =
       partGroup->
         getPartGroupInstrumentName ();
-
-  stringstream s;
   
   // LPNR, page 567 jMI ???
 
-  switch (partGroup->getPartGroupImplicitKind ()) {
+  switch (partGroupImplicitKind) {
     case msrPartGroup::kPartGroupImplicitYes:
       // don't generate code for an implicit top-most part group block
       break;
       
     case msrPartGroup::kPartGroupImplicitNo:
+      if (partGroupName.size ()) {
+        fLilypondCodeIOstream <<
+          "\\set StaffGroup.instrumentName = \"" <<
+          partGroupName <<
+          "\"" <<
+          endl;
+      }
+      if (partGroupAbbreviation.size ()) {
+        fLilypondCodeIOstream <<
+          "\\set StaffGroup.shortInstrumentName = \"" <<
+          partGroupAbbreviation <<
+          "\"" <<
+          endl;
+      }
+            
       switch (partGroupSymbolKind) {
         case msrPartGroup::k_NoPartGroupSymbol:
           break;
@@ -2653,20 +2677,20 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kBracePartGroupSymbol: // JMI
         /*
          *
-         * check whether individual part have instrument names
+         * check whether individual part have instrument names JMI
          * 
           if (partGroupInstrumentName.size ())
-            s << = "\\new PianoStaff";
+            fLilypondCodeIOstream << = "\\new PianoStaff";
           else
-            s << = "\\new GrandStaff";
+            fLilypondCodeIOstream << = "\\new GrandStaff";
             */
           switch (partGroupBarlineKind) {
             case msrPartGroup::kPartGroupBarlineYes:
-              s <<
+              fLilypondCodeIOstream <<
                 "\\new PianoStaff";
               break;
             case msrPartGroup::kPartGroupBarlineNo:
-              s <<
+              fLilypondCodeIOstream <<
                 "\\new GrandStaff";
               break;
           } // switch
@@ -2675,19 +2699,19 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kBracketPartGroupSymbol:
           switch (partGroupBarlineKind) {
             case msrPartGroup::kPartGroupBarlineYes:
-              s <<
+              fLilypondCodeIOstream <<
                 "\\new StaffGroup";
               break;
             case msrPartGroup::kPartGroupBarlineNo:
-              s <<
+              fLilypondCodeIOstream <<
                 "\\new ChoirStaff";
               break;
           } // switch
           break;
           
         case msrPartGroup::kLinePartGroupSymbol:
-          s <<
-            "\\new StaffGroup \\with { " <<
+          fLilypondCodeIOstream <<
+            "\\new StaffGroup \\with { %kLinePartGroupSymbol" <<
             endl <<
             gTab << "systemStartDelimiter = #'SystemStartSquare" <<
             // how do we get a SystemStartLine ??? JMI
@@ -2696,8 +2720,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           break;
         
         case msrPartGroup::kSquarePartGroupSymbol:
-          s <<
-            "\\new StaffGroup \\with { " <<
+          fLilypondCodeIOstream <<
+            "\\new StaffGroup \\with { %kSquarePartGroupSymbol" <<
             endl <<
             gTab << "systemStartDelimiter = #'SystemStartSquare" <<
             endl <<
@@ -2707,7 +2731,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   
       fLilypondCodeIOstream << left <<
         setw (commentFieldWidth) <<
-        s.str () + " <<";
+        " <<";
         
       if (gLilypondOptions->fComments) {
         fLilypondCodeIOstream <<
@@ -2720,27 +2744,28 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       break;
   } // switch
 
-  if (partGroupInstrumentName.size ())
+  if (partGroupInstrumentName.size ()) { // JMI
     fLilypondCodeIOstream <<
       "\\set PianoStaff.instrumentName = \"" <<
       partGroupInstrumentName <<
       "\"" <<
       endl;
+  }
 
-    bool doConnectArpeggios = true; // JMI
-    
-    if (doConnectArpeggios)
-      fLilypondCodeIOstream <<
-        "\\set PianoStaff.connectArpeggios = ##t" <<
-        endl;
+  bool doConnectArpeggios = true; // JMI
   
-    if (partGroupSymbolKind == msrPartGroup::kSquarePartGroupSymbol) {
-      gIndenter++;
-      fLilypondCodeIOstream <<
-        "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
-        endl;
-      gIndenter--;
-    }
+  if (doConnectArpeggios)
+    fLilypondCodeIOstream <<
+      "\\set PianoStaff.connectArpeggios = ##t" <<
+      endl;
+
+  if (partGroupSymbolKind == msrPartGroup::kSquarePartGroupSymbol) { // JMI
+    gIndenter++;
+    fLilypondCodeIOstream <<
+      "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
+      endl;
+    gIndenter--;
+  }
        
   fLilypondCodeIOstream <<
     endl;
@@ -7900,8 +7925,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
     }
     else {
       fLilypondCodeIOstream <<
-        endl <<
         "}" <<
+        endl <<
         endl;
     }
   }

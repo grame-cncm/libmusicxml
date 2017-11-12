@@ -69,8 +69,6 @@ typedef SMARTP<xml2lilypondOptionsHandler> S_xml2lilypondOptionsHandler;
 ostream& operator<< (ostream& os, const S_xml2lilypondOptionsHandler& elt);
 
 
-/*! @} */
-
 }
 
 

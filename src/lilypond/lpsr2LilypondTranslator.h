@@ -22,11 +22,6 @@
 namespace MusicXML2
 {
 
-/*!
-\addtogroup lpsr2lilypond
-@{
-*/
-
 class lpsr2LilypondTranslator :
 
   // LPSR
@@ -724,8 +719,7 @@ class lpsr2LilypondTranslator :
 };
 
 
-/*! @} */
-
 }
+
 
 #endif

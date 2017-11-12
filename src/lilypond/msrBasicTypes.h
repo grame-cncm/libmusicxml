@@ -24,11 +24,6 @@
 namespace MusicXML2 
 {
 
-/*!
-\addtogroup utilities
-@{
-*/
-
 // notes names and chords languages
 // ------------------------------------------------------
 
@@ -603,11 +598,6 @@ enum msrSlashUseStemsKind {
 string msrSlashUseStemsKindAsString (
   msrSlashUseStemsKind slashUseStemsKind);
 
-/*!
-\brief A msr harmony representation.
-
-  A harmony is represented by a list of syllables,
-*/
 //______________________________________________________________________________
 class msrChordItem : public smartable
 {
@@ -693,11 +683,6 @@ class msrChordItem : public smartable
 typedef SMARTP<msrChordItem> S_msrChordItem;
 EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
 
-/*!
-\brief A msr harmony representation.
-
-  A harmony is represented by a list of syllables,
-*/
 //______________________________________________________________________________
 class msrChordIntervals : public smartable
 {

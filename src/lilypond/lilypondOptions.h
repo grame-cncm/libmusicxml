@@ -194,17 +194,10 @@ EXP extern S_lilypondOptions gLilypondOptions;
 EXP extern S_lilypondOptions gLilypondOptionsUserChoices;
 EXP extern S_lilypondOptions gLilypondOptionsWithDetailedTrace;
 
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 void initializeLilypondOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
-
-/*! @} */
 
 }
 

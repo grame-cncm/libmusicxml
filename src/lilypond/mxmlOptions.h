@@ -102,17 +102,10 @@ EXP extern S_musicXMLOptions gMusicXMLOptions;
 EXP extern S_musicXMLOptions gMusicXMLOptionsUserChoices;
 EXP extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 void initializeMusicXMLOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
-
-/*! @} */
 
 }
 

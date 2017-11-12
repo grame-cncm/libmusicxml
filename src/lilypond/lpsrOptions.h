@@ -103,8 +103,6 @@ EXP  void initializeLpsrOptionsHandling (
   S_msrOptionsHandler optionsHandler);
 
 
-/*! @} */
-
 }
 
 

@@ -171,7 +171,7 @@ void msrMusicXMLError (
     message);
 
   if (! gMusicXMLOptions->fIgnoreMusicXMLErrors)
-    assert (false);
+    abort ();
 }
 
 //______________________________________________________________________________
@@ -190,7 +190,7 @@ void lpsrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  assert (false);
+    abort ();
 }
 
 //______________________________________________________________________________
@@ -209,7 +209,7 @@ void msrInternalError (
     sourceCodeLineNumber,
     message);
 
-  assert (false);
+    abort ();
 }
 
 

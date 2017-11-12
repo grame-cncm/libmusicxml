@@ -17,21 +17,20 @@
 namespace MusicXML2
 {
 
-/*!
-\addtogroup mxmltree2Msr
-@{
-*/
-
 //________________________________________________________________________
 struct mxmlPartGroupDescr : public smartable
 {
+/*
+ * positions represent the order in which the parts appear in <part-list />
+*/
+ 
   public:
 
     // creation
     // ------------------------------------------------------
 
     static SMARTP<mxmlPartGroupDescr> create (
-      int            inputLineNumber,
+      int            startInputLineNumber,
       int            partGroupNumber,
       S_msrPartGroup partGroup,
       int            startPosition);
@@ -42,7 +41,7 @@ struct mxmlPartGroupDescr : public smartable
     // ------------------------------------------------------
 
     mxmlPartGroupDescr (
-      int            inputLineNumber,
+      int            startInputLineNumber,
       int            partGroupNumber,
       S_msrPartGroup partGroup,
       int            startPosition);
@@ -54,6 +53,12 @@ struct mxmlPartGroupDescr : public smartable
     // set and get
     // ------------------------------------------------------
 
+    int                   getStartInputLineNumber () const
+                              { return fStartInputLineNumber; }
+    
+    int                   getStopInputLineNumber () const
+                              { return fStopInputLineNumber; }
+    
     int                   getPartGroupNumber () const
                               { return fPartGroupNumber; }
     
@@ -62,6 +67,17 @@ struct mxmlPartGroupDescr : public smartable
     
     int                   getStartPosition () const
                               { return fStartPosition; }
+    
+    void                  setStopPosition (
+                            int stopInputLineNumber,
+                            int stopPosition)
+                              {
+                                fStopInputLineNumber = stopInputLineNumber;
+                                fStopPosition = stopPosition;
+                              }
+    
+    int                   getStopPosition () const
+                              { return fStopPosition; }
     
     // services
     // ------------------------------------------------------
@@ -85,20 +101,20 @@ struct mxmlPartGroupDescr : public smartable
     // fields
     // ------------------------------------------------------
 
-    int                   fInputLineNumber;
+    int                   fStartInputLineNumber;
+    int                   fStopInputLineNumber;
     
     int                   fPartGroupNumber; // may be reused later
+    
     S_msrPartGroup        fPartGroup;
     
     int                   fStartPosition;
+    int                   fStopPosition;
 };
 typedef SMARTP<mxmlPartGroupDescr> S_mxmlPartGroupDescr;
 EXP ostream& operator<< (ostream& os, const S_mxmlPartGroupDescr& elt);
 
 //________________________________________________________________________
-/*!
-\brief Produces a summary of a MusicXML part.
-*/
 class mxmlTree2MsrSkeletonBuilder :
 
   // score
@@ -329,49 +345,35 @@ class mxmlTree2MsrSkeletonBuilder :
 
     // an implicit part group has to be created to contain everything,
     // since there can be parts out of any part group
+    S_mxmlPartGroupDescr      fImplicitPartGroupDescr;
     S_msrPartGroup            fImplicitPartGroup;
                                     
     void                      createImplicitPartGroup ();
                                     
     // part groups numbers can be re-used, they're no identifier
     // we use a map to access them by part group number
+    int                       fPartGroupsCounter;
+    vector<S_mxmlPartGroupDescr>
+                              fPartGroupDescsVector;
     map<int, S_mxmlPartGroupDescr>
-                              fPartGroupsDescrMap;
+                              fAllPartGroupDescrsMap;
+    map<int, S_mxmlPartGroupDescr>
+                              fStartedPartGroupDescrsMap;
+
+    void                      showPartGroupDescrsVector (
+                                int inputLineNumber);
     
-    void                      showPartGroupsDescrMap (
+    void                      showAllPartGroupDescrsMap (
                                 int inputLineNumber);
 
-    S_mxmlPartGroupDescr      fetchPartGroupFromTheDescrMap (
+    void                      showStartedPartGroupDescrsMap (
+                                int inputLineNumber);
+
+    S_mxmlPartGroupDescr      fetchStartedPartGroupDescr (
                                 int partGroupNumber);
 
     // part groups start positions (fPartsCounter) are used
     // to determine which is nested in which
-    list<S_mxmlPartGroupDescr>
-                              fPendingPartGroupsToBeStoppedList;
-
-/*
-    void                      showPartGroupsStartPositionsMap (
-                                int inputLineNumber);
-*/
-
-    void                      showPendingPartGroupsToBeStoppedList (
-                                int inputLineNumber);
-
-    int                       fPartGroupsCounter;
-    /* JMI
-    vector<S_msrPartGroup>    fPartGroupsVector;
-
-    void                      showPartGroupsVector (
-                                int inputLineNumber);
-                                */
-
-    // handling the part, each one incrementing the 'position'
-    // of the part groups, used for handling nesting/overlapping
-    int                       fPartsCounter;
-    vector<S_msrPart>         fPartsVector;
-    
-    void                      showPartsVector (
-                                int inputLineNumber);
 
     // MusicXML allows part groups to overlap,
     // we use a list in which part groups are orderd by
@@ -379,7 +381,6 @@ class mxmlTree2MsrSkeletonBuilder :
     // (all of them are negative)    
     // the current part group is either null or the front of the list
     
- // JMI ???   list<S_msrPartGroup>      fPartGroupsList;
     
  // JMI   set<S_msrPartGroup>       fStartedPartGroupsSet;
 
@@ -402,12 +403,11 @@ class mxmlTree2MsrSkeletonBuilder :
 
     S_mxmlPartGroupDescr      fetchPartGroupDescrStackTop ();
 
-    void                      registerPartGroupDescr (
+    void                      registerPartGroupDescrAsStarted (
                                 int                  inputLineNumber,
-                                int                  partGroupNumber,
                                 S_mxmlPartGroupDescr partGroupDescr);
         
-    void                      unregisterPartGroupDescr (
+    void                      registerPartGroupDescrAsStopped (
                                 int                  inputLineNumber,
                                 S_mxmlPartGroupDescr partGroupDescr);
         
@@ -428,28 +428,53 @@ class mxmlTree2MsrSkeletonBuilder :
     void                      handlePartGroupStart (
                                 int inputLineNumber);
                                 
-    S_mxmlPartGroupDescr      fetchFirstDescInStackStartingBefore (
+    void                      handlePartGroupStop (
+                                int inputLineNumber);
+
+    vector<list<S_mxmlPartGroupDescr> >
+                              fPositionStartingPartGroupDescrsVector;
+    vector<list<S_mxmlPartGroupDescr> >
+                              fPositionStoppingPartGroupDescrsVector;
+
+    void                      showPositionStartingPartGroupDescrsVector (
+                                int inputLineNumber);
+                                
+    void                      showPositionStoppingPartGroupDescrsVector (
+                                int inputLineNumber);
+                                
+    void                      insertPartGroupDescInStartingList (
+                                int                  inputLineNumber,
+                                S_mxmlPartGroupDescr partGroupDescr,
+                                list<S_mxmlPartGroupDescr>&
+                                                     startingPartGroupDescrsList);
+  
+    void                      insertPartGroupDescInStoppingList (
+                                int                  inputLineNumber,
+                                S_mxmlPartGroupDescr partGroupDescr,
+                                list<S_mxmlPartGroupDescr>&
+                                                     stoppingPartGroupDescrsList);
+  
+    void                      registerPartGroupDescrAsStartingAtCurrentPosition (
                                 int                  inputLineNumber,
                                 S_mxmlPartGroupDescr partGroupDescr);
-
-    void                      doStopPartGroupDescr (
-                                int                  inputLineNumber,
-                                S_mxmlPartGroupDescr partGroupDescrToBeStopped);
                                 
+    void                      registerPartGroupDescrAsStoppingAtCurrentPosition (
+                                int                  inputLineNumber,
+                                S_mxmlPartGroupDescr partGroupDescr);
+                                
+    void                      registerPart (
+                                int       inputLineNumber,
+                                int       partPosition,
+                                S_msrPart part);
+
     void                      doNestPartGroupDescrInItsContainer (
                                 int                  inputLineNumber,
                                 S_mxmlPartGroupDescr partGroupDescrToBeStopped,
                                 S_mxmlPartGroupDescr containingPartGroupDescr);
                                 
-    void                      insertPartGroupIntoToBeStoppedList (
-                                int                  inputLineNumber,
-                                S_mxmlPartGroupDescr partGroupDescr);
-                                
-    void                      handlePendingPartGroupsToBeStopped (
+    void                      doPartGroupsNestingAndPartsAllocation (
                                 int inputLineNumber);
-                                
-    void                      handlePartGroupStop (
-                                int inputLineNumber);
+
 
 
     // parts handling
@@ -473,6 +498,14 @@ class mxmlTree2MsrSkeletonBuilder :
 
     int                       fCurrentNoIDPartNumber;
     
+    // handling the part, each one incrementing the 'position'
+    // of the part groups, used for handling nesting/overlapping
+    int                       fCurrentPartsPosition;
+    vector<S_msrPart>         fPartsVector;
+    
+    void                      showPartsVector (
+                                int inputLineNumber);
+
     S_msrPart                 fCurrentPart; // used throughout
 
 
@@ -526,10 +559,8 @@ class mxmlTree2MsrSkeletonBuilder :
     // figured bass handling
     // ------------------------------------------------------
     
-    };
+};
 
-
-/*! @} */
 
 }
 

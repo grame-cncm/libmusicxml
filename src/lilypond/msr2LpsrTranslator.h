@@ -22,11 +22,6 @@
 namespace MusicXML2
 {
 
-/*!
-\addtogroup visitors
-@{
-*/
-
 class msr2LpsrTranslator :
 
   public visitor<S_msrScore>,
@@ -604,8 +599,7 @@ class msr2LpsrTranslator :
 };
 
 
-/*! @} */
-
 }
+
 
 #endif

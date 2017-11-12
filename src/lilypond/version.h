@@ -21,12 +21,6 @@
 namespace MusicXML2 
 {
 
-/*!
-\addtogroup version
-@{
-*/
-
-
 //______________________________________________________________________________
 class EXP versionInfo
 {
@@ -59,7 +53,6 @@ void printVersionsHistory (std::ostream& os);
 
 std::string EXP currentVersionNumber ();
 
-/*! @} */
 
 }
 
