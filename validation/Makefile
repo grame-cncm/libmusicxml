@@ -20,7 +20,8 @@ validguidosvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilysvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 
 XML2GUIDO ?= xml2guido
-XML2LILY  ?= ../build/macosx/xcode/Release/xml2lilypond
+XML2LILY  ?= xml2ly
+XMLREAD   ?= xmlread
 
 .PHONY: read guido
 
@@ -47,7 +48,7 @@ help:
 
 #########################################################################
 read: 
-	@which xmlread || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
+	@which $(XMLREAD) || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
 	make doread
 
 doread: $(readout)
@@ -99,7 +100,7 @@ validlily: $(validlily)
 # rules for xmlread
 $(version)/read/%.xml: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-xmlread $<  > $@ || rm $@
+	-$(XMLREAD) $<  > $@ || rm $@
 
 #########################################################################
 # rules for xml2guido
