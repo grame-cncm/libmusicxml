@@ -313,20 +313,6 @@ class mxmlTree2MsrSkeletonBuilder :
     // part groups handling
     // ------------------------------------------------------
     
-    /*
-      There is no hierarchy implied in part-group elements.
-      All that matters is the sequence of part-group elements relative to score-part elements.
-      The sequencing of two consecutive part-group elements does not matter.
-      It is the default-x attribute that indicates the left-to-right ordering of the group symbols.
-
-      <part-group number="1" type="start">
-      <group-name>Trombones</group-name>
-      <group-abbreviation>Trb.</group-abbreviation>
-      <group-symbol default-x="-12">brace</group-symbol>
-      <group-barline>yes</group-barline>
-      </part-group>
-    */
-    
     int                       fCurrentPartGroupNumber;
     msrPartGroup::msrPartGroupTypeKind
                               fCurrentPartGroupTypeKind;
@@ -344,7 +330,7 @@ class mxmlTree2MsrSkeletonBuilder :
     int                       fCurrentPartGroupSymbolDefaultX;
 
     // an implicit part group has to be created to contain everything,
-    // since there can be parts out of any part group
+    // since there can be parts out of any explicit part group
     S_mxmlPartGroupDescr      fImplicitPartGroupDescr;
     S_msrPartGroup            fImplicitPartGroup;
                                     
@@ -381,9 +367,6 @@ class mxmlTree2MsrSkeletonBuilder :
     // (all of them are negative)    
     // the current part group is either null or the front of the list
     
-    
- // JMI   set<S_msrPartGroup>       fStartedPartGroupsSet;
-
     // handling 'start' and 'stop'
     // a stack cannot be iterated, and we need access to any element:
     // implementing a stack in a list
@@ -411,16 +394,6 @@ class mxmlTree2MsrSkeletonBuilder :
                                 int                  inputLineNumber,
                                 S_mxmlPartGroupDescr partGroupDescr);
         
-/* JMI                                    
-    void                      showStartedPartGroupsSet (
-                                int    inputLineNumber,
-                                string context);
-
-    void                      showPartGroupsList (
-                                int    inputLineNumber,
-                                string context);
-    */
-
     void                      showPartGroupsData (
                                 int    inputLineNumber,
                                 string context);
@@ -453,11 +426,12 @@ class mxmlTree2MsrSkeletonBuilder :
                                 S_mxmlPartGroupDescr partGroupDescr,
                                 list<S_mxmlPartGroupDescr>&
                                                      stoppingPartGroupDescrsList);
-  
+  /* JMI
     void                      registerPartGroupDescrAsStartingAtCurrentPosition (
                                 int                  inputLineNumber,
                                 S_mxmlPartGroupDescr partGroupDescr);
-                                
+   */
+          
     void                      registerPartGroupDescrAsStoppingAtCurrentPosition (
                                 int                  inputLineNumber,
                                 S_mxmlPartGroupDescr partGroupDescr);
