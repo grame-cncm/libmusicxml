@@ -378,7 +378,7 @@ void msrOptionsVersionItem::printVersion (ostream& os) const
 {  
   os <<
     endl <<
-    "This is xml2lilypond" <<
+    "This is xml2ly" <<
     " version " << currentVersionNumber () <<
     endl <<
     endl;
@@ -455,7 +455,7 @@ void msrOptionsAboutItem::printAbout (ostream& os) const
 {  
   os <<
     endl <<
-R"(What xml2lilypond does:
+R"(What xml2ly does:
 
     This multi-pass translator basically performs 5 passes:
         Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
@@ -545,7 +545,7 @@ void msrOptionsContactItem::printContact (ostream& os) const
 {  
   os <<
     endl <<
-R"(To contact xml2lilypond maintainers:
+R"(To contact xml2ly maintainers:
 
     Send a mail to mailto:lilypond-user@gnu.org describing the problem
     and error messages you obtain if relevant.)" <<
@@ -722,8 +722,7 @@ void msrOptionsHelpSummaryItem::print (ostream& os) const
 void msrOptionsHelpSummaryItem::printHelpSummary (ostream& os) const
 {  
   os <<
-    "xml2lilypond" " "<<
- // ??? JMI   currentHelpSummaryNumber () <<
+    "xml2ly"<<
     endl;
 }
 

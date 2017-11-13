@@ -212,7 +212,7 @@ R"()",
         msrOptionsPartRenameItem::create (
           "mpr", "msrPartRename", // JMI
 R"(Rename part 'original' to 'newName', for example after 
-displaying a summary of the score in a first xml2lilypond run.
+displaying a summary of the score in a first xml2ly run.
 'partRenameSpecification' can be:
   'originalName = newName'
 or
@@ -221,7 +221,7 @@ The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   DESSUS="Cor anglais"
-  xml2lilypond -msrPartRename "P1 = ${DESSUS}" .
+  xml2ly -msrPartRename "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
           "partRenameSpecification",
           "partRename",

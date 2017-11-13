@@ -125,8 +125,8 @@ endif()
 
 #######################################
 # set sample targets
-set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2lilypond xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
-set (TOOLS  xml2guido xml2lilypond xmltranspose)
+set (SAMPLES RandomMusic xmlfactory partsummary xml2guido xml2ly xmliter countnotes readunrolled xml2midi xmlread xmltranspose xmlclone)
+set (TOOLS  xml2guido xml2ly xmltranspose)
 
 foreach(sample ${SAMPLES})
   add_executable( ${sample} ${LXMLSAMPLES}/${sample}.cpp )

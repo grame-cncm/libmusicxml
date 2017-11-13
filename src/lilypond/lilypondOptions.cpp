@@ -656,7 +656,7 @@ The single or double quotes are used to allow spaces around the '=' sign,
 otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   PER_SECOND=66
-  xml2lilypond -midiTempo "8. ${PER_SECOND}" .
+  xml2ly -midiTempo "8. ${PER_SECOND}" .
 The default midi tempo is '4 = 90'.)",
           "midiTempoSpecification",
           "midiTempo",

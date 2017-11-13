@@ -102,7 +102,7 @@ R"()",
       appendOptionsItem (
         msrOptionsVersionItem::create (
           "v", "version",
-R"(Display xml2lilypond's version number and history and exit.)"));
+R"(Display xml2ly's version number and history and exit.)"));
   }
 
 
@@ -129,7 +129,7 @@ R"()",
       appendOptionsItem (
         msrOptionsAboutItem::create (
           "a", "about",
-R"(Display information about xml2lilypond and exit.)"));
+R"(Display information about xml2ly and exit.)"));
   }
 
 
@@ -156,7 +156,7 @@ R"()",
       appendOptionsItem (
         msrOptionsContactItem::create (
           "c", "contact",
-R"(Display information about how to contacct xml2lilypond maintainers and exit.)"));
+R"(Display information about how to contacct xml2ly maintainers and exit.)"));
   }
 
 
@@ -189,7 +189,7 @@ R"(Print options usage help.)"));
       appendOptionsItem (
         msrOptionsHelpSummaryItem::create (
           "hs", "helpSummary",
-R"(Display xml2lilypond's help summary and exit.)"));
+R"(Display xml2ly's help summary and exit.)"));
   
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
