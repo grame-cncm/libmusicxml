@@ -65,7 +65,7 @@ void xmlreader::newComment (const char* comment)
   Sxmlelement elt = factory::instance().create ("comment");
   
   elt->setValue(comment);
-  fStack.top()->push(elt);
+  if (!fStack.empty()) fStack.top()->push(elt);
 }
 
 //_______________________________________________________________________________

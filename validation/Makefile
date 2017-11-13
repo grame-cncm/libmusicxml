@@ -15,11 +15,13 @@ lilysvg  := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
+validlily 	    = $(patsubst %.ly, %.outly, $(lilyout))
 validguidosvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilysvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 
 XML2GUIDO ?= xml2guido
-XML2LILY  ?= ../cmake/macos/Release/xml2lilypond
+XML2LY    ?= xml2ly
+XMLREAD   ?= xmlread
 
 .PHONY: read guido
 
@@ -46,7 +48,7 @@ help:
 
 #########################################################################
 read: 
-	@which xmlread || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
+	@which $(XMLREAD) || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
 	make doread
 
 doread: $(readout)
@@ -60,7 +62,7 @@ doguido: $(gmnout)
 
 #########################################################################
 lily: 
-	@which $(XML2LILY) || (echo "### xml2lilypond (part of samples) must be available from your PATH."; false;)
+	@which $(XML2LY) || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
 	make dolily
 
 dolily: $(lilyout)
@@ -91,12 +93,14 @@ validxml: $(validxml)
 
 validgmn: $(validgmn)
 
+validlily: $(validlily)
+
 
 #########################################################################
 # rules for xmlread
 $(version)/read/%.xml: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-xmlread $<  > $@ || rm $@
+	-$(XMLREAD) $<  > $@ || rm $@
 
 #########################################################################
 # rules for xml2guido
@@ -111,10 +115,10 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 	-guido2svg $<  > $@ || rm $@
 
 #########################################################################
-# rules for xml2lilypond
+# rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-$(XML2LILY) $<  > $@ || rm $@
+	-$(XML2LY) $<  > $@ || rm $@
 
 #########################################################################
 # rules for lilypond with svg backend
@@ -130,6 +134,11 @@ $(version)/lilysvg/%.svg: $(version)/gmn/%.gmn
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
 %.outgmn: %.gmn
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
+	@[ -f  $(tmp) ] || echo $< : new file
+	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
+
+%.outly: %.ly
 	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
