@@ -1210,6 +1210,7 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
   
   switch (articulation->getArticulationPlacementKind ()) {
     case k_NoPlacement:
+      fLilypondCodeIOstream << "-";
       break;
     case kAbovePlacement:
       fLilypondCodeIOstream << "^";
