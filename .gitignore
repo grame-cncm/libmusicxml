@@ -26,3 +26,4 @@ doc/latex
 tmp
 macos
 validation/3.*
+build/macosx/*
