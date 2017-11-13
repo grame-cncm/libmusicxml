@@ -24,7 +24,7 @@ int yyline = 1;
 extern "C" {
 #endif
 int   yyparse (void);
-void  yyerror(char *s);
+void  yyerror(const char *s);
 int   libmxmlwrap();
 bool  readfile   (const char * file, reader * r);
 bool  readstream (FILE * file, reader * r);
@@ -39,7 +39,7 @@ extern int libmxmllineno;
 extern FILE * libmxmlin;
 
 #define YYERROR_VERBOSE
-#define ERROR(str)  { yyerror((char*)str); YYABORT; }
+#define ERROR(str)  { yyerror((const char*)str); YYABORT; }
 #define MAXLEN  1024
 #define VLEN  256
 char attributeName[MAXLEN];
@@ -98,161 +98,103 @@ int   libmxmlwrap()   { return(1); }
 %%              /* beginning of rules section */
 
 
-document  :
-  prolog element misc ;
+document: 	prolog element misc
 
-prolog    :
-  xmldecl doctype;
+prolog	:	xmldecl doctype
+		| 	xmldecl comments doctype
 
-element   :
-    eltstart data eltstop
-  | emptyelt 
-  | procinstr ;
-  | comment ;
+element	:	eltstart data eltstop
+		| 	emptyelt 
+		| 	procinstr
+		| 	comment
 
-eltstart  :
-    LT eltname GT
-  | LT eltname SPACE attributes GT ;
+eltstart:	LT eltname GT
+		| 	LT eltname SPACE attributes GT
 
-eltstop   :
-  ENDXMLS endname GT;
+eltstop	:	ENDXMLS endname GT
 
-emptyelt  :
-    LT eltname ENDXMLE
-      {
-        if (!gReader->endElement (eltName))
-          ERROR("end element error")
-      }
-  | LT eltname SPACE attributes ENDXMLE
-      {
-        if (!gReader->endElement (eltName))
-          ERROR("end element error")
-      }
+emptyelt:	LT eltname ENDXMLE	{
+        	if (!gReader->endElement (eltName))
+          		ERROR("end element error")
+      		}
+		| 	LT eltname SPACE attributes ENDXMLE {
+			if (!gReader->endElement (eltName))
+				ERROR("end element error")
+			}
 
-eltname   :
-  NAME
-    {
-      store(eltName, libmxmltext);
-      if (!gReader->newElement (libmxmltext, libmxmllineno))
-        ERROR("element error")
-    }
-endname   :
-  NAME
-    {
-      if (!gReader->endElement (libmxmltext))
-        ERROR("end element error")
-    }
+eltname	:	NAME	{
+			  store(eltName, libmxmltext);
+			  if (!gReader->newElement (libmxmltext))
+				ERROR("element error")
+			}
 
-attribute :
-  attrname EQ value
-    {
-      if (!gReader->newAttribute (attributeName, attributeVal))
-        ERROR("attribute error")
-    }
-attrname  :
-  NAME
-    {
-      store(attributeName, libmxmltext);
-    }
-value   :
-  QUOTEDSTR
-    {
-      store(attributeVal, unquote (libmxmltext));
-    }
+endname:	NAME	{
+			  if (!gReader->endElement (libmxmltext))
+				ERROR("end element error")
+			}
 
-attributes  :
-    attribute 
-  | attributes SPACE attribute;
+attribute:	attrname EQ value	{
+			  if (!gReader->newAttribute (attributeName, attributeVal))
+				ERROR("attribute error")
+			}
 
-data    :
-    /* empty */
-  | cdata
-  | elements ;
+attrname:	NAME		{ store(attributeName, libmxmltext); }
 
-cdata   :
-  DATA
-    {
-      gReader->setValue (libmxmltext);
-    }
+value 	:	QUOTEDSTR	{ store(attributeVal, unquote (libmxmltext)); }
 
-procinstr :
-  PI
-    {
-      gReader->newProcessingInstruction (libmxmltext, libmxmllineno);
-    }
-comment   :
-  COMMENT
-    {
-      gReader->newComment (libmxmltext);
-    }
+attributes  :	attribute 
+			| attributes SPACE attribute;
 
-elements  :
-    element
-  | elements element;
+data    :	/* empty */
+		| cdata
+		| elements ;
 
+cdata   :	DATA	{ gReader->setValue (libmxmltext); }
 
-xmldecl   :
-    /* empty */
-  | XMLDECL versiondec decl ENDXMLDECL
-    {
-      if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone))
-        ERROR("xmlDecl error")
-    }
+procinstr :	PI 		{ gReader->newProcessingInstruction (libmxmltext); }
 
-decl    :
-    /* empty */
-  | encodingdec 
-  | stdalonedec
-  | encodingdec stdalonedec ;
+comment  :	COMMENT	{ gReader->newComment (libmxmltext); }
 
-versiondec  :
-  SPACE VERSION EQ QUOTEDSTR
-    {
-      store (xmlversion, unquote (libmxmltext));
-    }
-encodingdec :
-  SPACE ENCODING EQ QUOTEDSTR
-    {
-      store (xmlencoding, unquote (libmxmltext));
-    }
-stdalonedec :
-  SPACE STANDALONE EQ bool
-    {
-      xmlStandalone = yylval;
-    }
-bool    :
-  YES | NO ;
+comments :	comment
+		 | 	comments comment;
 
-doctype   :
-  DOCTYPE SPACE startname SPACE id GT
-startname :
-  NAME
-    {
-      store(doctypeStart, libmxmltext);
-    }
-id      :
-    PUBLIC SPACE publitteral SPACE syslitteral
-      {
-        gReader->docType (doctypeStart, true, doctypePub, doctypeSys);
-      }
-  | SYSTEM SPACE syslitteral
-      {
-        gReader->docType (doctypeStart, false, doctypePub, doctypeSys);
-      }
-publitteral :
-  QUOTEDSTR
-    {
-      store(doctypePub, unquote(libmxmltext));
-    }
-syslitteral :
-  QUOTEDSTR
-    {
-      store(doctypeSys, unquote(libmxmltext));
-    }
+elements :	element
+ 		 |  elements element;
 
-misc    :
-    /* empty */
-  | SPACE ;
+xmldecl	:		/* empty */
+		| 	XMLDECL versiondec decl ENDXMLDECL  {
+      		if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone))
+        		ERROR("xmlDecl error")
+			}
+
+decl    :	/* empty */
+		| 	encodingdec 
+		|	stdalonedec
+		|	encodingdec stdalonedec ;
+
+versiondec:	SPACE VERSION EQ QUOTEDSTR		{ store (xmlversion, unquote (libmxmltext)); }
+
+encodingdec: SPACE ENCODING EQ QUOTEDSTR	{ store (xmlencoding, unquote (libmxmltext)); }
+
+stdalonedec: SPACE STANDALONE EQ bool		{ xmlStandalone = yylval; }
+
+bool    : YES | NO ;
+
+doctype	:	DOCTYPE SPACE startname SPACE id GT
+
+startname: 	NAME							{ store(doctypeStart, libmxmltext); }
+
+id		:	PUBLIC SPACE publitteral SPACE syslitteral
+						    { gReader->docType (doctypeStart, true, doctypePub, doctypeSys); }
+		|	SYSTEM SPACE syslitteral
+							{ gReader->docType (doctypeStart, false, doctypePub, doctypeSys); }
+
+publitteral:	QUOTEDSTR	{ store(doctypePub, unquote(libmxmltext)); }
+
+syslitteral:	QUOTEDSTR	{ store(doctypeSys, unquote(libmxmltext)); }
+
+misc    :	/* empty */
+		|	SPACE ;
 
 
 %%
@@ -303,7 +245,7 @@ bool readstream (FILE * fd, reader * r)
   return ret==0;
 }
 
-void  yyerror(char *s)  { gReader->error (s, libmxmllineno); }
+void  yyerror (const char *s)  { gReader->error (s, libmxmllineno); }
 
 #ifdef MAIN
 
