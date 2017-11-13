@@ -20,7 +20,7 @@ validguidosvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilysvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 
 XML2GUIDO ?= xml2guido
-XML2LILY  ?= xml2ly
+XML2LY    ?= xml2ly
 XMLREAD   ?= xmlread
 
 .PHONY: read guido
@@ -62,7 +62,7 @@ doguido: $(gmnout)
 
 #########################################################################
 lily: 
-	@which $(XML2LILY) || (echo "### xml2lilypond (part of samples) must be available from your PATH."; false;)
+	@which $(XML2LY) || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
 	make dolily
 
 dolily: $(lilyout)
@@ -115,10 +115,10 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 	-guido2svg $<  > $@ || rm $@
 
 #########################################################################
-# rules for xml2lilypond
+# rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-$(XML2LILY) $<  > $@ || rm $@
+	-$(XML2LY) $<  > $@ || rm $@
 
 #########################################################################
 # rules for lilypond with svg backend
