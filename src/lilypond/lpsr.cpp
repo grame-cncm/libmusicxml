@@ -1856,6 +1856,24 @@ void lpsrHeader::setEncodingDate (
       lpsrLilypondVarValAssoc::kWithoutEndl);
 }
 
+void lpsrHeader::setMiscellaneousField (
+  int    inputLineNumber,
+  string val)
+{
+  fEncodingDate =
+    lpsrLilypondVarValAssoc::create (
+      inputLineNumber,
+      lpsrLilypondVarValAssoc::kUncommented,
+      lpsrLilypondVarValAssoc::kWithoutBackslash,
+      "miscellaneous-field",
+      lpsrLilypondVarValAssoc::kEqualSign,
+      lpsrLilypondVarValAssoc::kQuotesAroundValue,
+      val,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
+      lpsrLilypondVarValAssoc::kWithoutEndl);
+}
+
 void lpsrHeader::setScoreInstrument (
   int    inputLineNumber,
   string val)

@@ -6506,10 +6506,23 @@ void msrNote::print (ostream& os)
       os <<
         fNoteMeasureNumber;
     else {
+      os <<
+        "note measure number is empty in:" <<
+        endl;
+      this->print (os);
+      os <<
+        endl;
+        
+      stringstream s;
+
+      s <<
+        "see details above" <<
+        endl;
+      
  // JMI     msrInternalError (
       msrInternalWarning (
         fInputLineNumber,
-        "note measure number is empty");
+        s.str ());
     }
 
     os <<

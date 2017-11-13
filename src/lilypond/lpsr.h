@@ -1330,6 +1330,10 @@ class lpsrHeader : public lpsrElement
                             int    inputLineNumber,
                             string val);
 
+    void                  setMiscellaneousField (
+                            int    inputLineNumber,
+                            string val);
+
     void                  setScoreInstrument (
                             int    inputLineNumber,
                             string val);

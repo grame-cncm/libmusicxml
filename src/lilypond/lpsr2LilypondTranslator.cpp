@@ -6895,6 +6895,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i++) {
         
       switch ((*i)->getWedgeKind ()) {
+        case msrWedge::k_NoWedgeKind:
+          break;
         case msrWedge::kCrescendoWedge:
           fLilypondCodeIOstream << "\\< ";
           break;
@@ -6935,6 +6937,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
     "\\ottava #";
     
   switch (elt->getOctaveShiftKind ()) {
+    case msrOctaveShift::k_NoOctaveShift:
+      break;
     case msrOctaveShift::kOctaveShiftUp:
       fLilypondCodeIOstream << "-" << (octaveShiftSize - 1) / 7; // 1 or 2
       break;
@@ -7523,6 +7527,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i++) {
         
       switch ((*i)->getWedgeKind ()) {
+        case msrWedge::k_NoWedgeKind:
+          break;
         case msrWedge::kCrescendoWedge:
           fLilypondCodeIOstream << "\\< ";
           break;

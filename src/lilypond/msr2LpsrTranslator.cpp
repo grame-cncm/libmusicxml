@@ -4160,6 +4160,11 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       inputLineNumber, variableValue);
   }
 
+  else if (variableName == "miscellaneous-field") {
+    fLpsrScoreHeader->setMiscellaneousField (
+      inputLineNumber, variableValue);
+  }
+
   else {
     stringstream s;
 
