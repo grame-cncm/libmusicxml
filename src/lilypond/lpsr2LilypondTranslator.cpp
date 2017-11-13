@@ -1052,6 +1052,7 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       doGeneratePlacement = false;
       break;
     case msrArticulation::kCaesura:
+      doGeneratePlacement = true;
       s <<
         endl <<
         "\\override BreathingSign.text = \\markup {"
@@ -1063,8 +1064,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       doGeneratePlacement = false;;
       break;
     case msrArticulation::kStaccato:
+      doGeneratePlacement = true;
       break;
     case msrArticulation::kStaccatissimo:
+      doGeneratePlacement = true;
       break;
     case msrArticulation::kStress:
       doGeneratePlacement = false;;
@@ -1073,10 +1076,13 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       doGeneratePlacement = false;;
       break;
     case msrArticulation::kDetachedLegato:
+      doGeneratePlacement = true;
       break;
     case msrArticulation::kStrongAccent:
+      doGeneratePlacement = true;
       break;
     case msrArticulation::kTenuto:
+      doGeneratePlacement = true;
       break;
       
     case msrArticulation::kFermata:
@@ -1094,8 +1100,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       break;
 
     case msrArticulation::kDoit:
+      doGeneratePlacement = true;
       break;
     case msrArticulation::kFalloff:
+      doGeneratePlacement = true;
       break;
     case msrArticulation::kPlop:
       doGeneratePlacement = false;;

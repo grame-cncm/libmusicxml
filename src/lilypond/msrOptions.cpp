@@ -121,7 +121,7 @@ R"(Write the structure of the part groups to standard error.)",
           "msr", "displayMsr",
 R"(Write the contents of the MSR data to standard error.)",
           "displayMsr",
-          fDisplayPartGroups));
+          fDisplayMsr));
           
     traceAndDisplaySubGroup->
       appendOptionsItem (
@@ -445,7 +445,7 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
     true;
 
   clone->fDisplayMsr =
-    true;
+    fDisplayMsr;
 
   clone->fDisplayMsrSummary =
     fDisplayMsrSummary;

@@ -29468,12 +29468,16 @@ void msrPart::print (ostream& os)
   
   const int fieldWidth = 27;
 
+  if (fPartPartGroupUplink) {
+    // it may be empty
+    os << left <<
+      setw (fieldWidth) <<
+      "PartPartGroupUplink" << " : " <<
+      fPartPartGroupUplink->getPartGroupCombinedName () <<
+      endl;
+  }
+  
   os << left <<
-    setw (fieldWidth) <<
-    "PartPartGroupUplink" << " : " <<
-    fPartPartGroupUplink->getPartGroupCombinedName () <<
-    endl <<
-    
     setw (fieldWidth) <<
     "PartMsrName" << " : \"" <<
     fPartMsrName << "\"" <<
