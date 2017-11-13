@@ -4821,9 +4821,6 @@ class msrNote : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    // basic note description
-    // -------------------------------
-
     // note kind
     
     void                  setNoteKind (msrNoteKind noteKind)

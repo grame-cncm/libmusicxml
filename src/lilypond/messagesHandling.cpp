@@ -49,7 +49,7 @@ void msrWarning (
   int    inputLineNumber,
   string message)
 {
-  if (! gGeneralOptions->fIgnoreWarnings) {
+  if (! gGeneralOptions->fQuiet) {
     const int fieldWidth = 18;
   
     gLogIOstream <<
@@ -120,40 +120,42 @@ void msrError (
   int    sourceCodeLineNumber,
   string message)
 {
-  const int fieldWidth = 22;
-
-  gLogIOstream <<
-    endl <<
-    "### " << context << " ERROR ###" <<
-    endl;
+  if (! gGeneralOptions->fQuiet) {
+    const int fieldWidth = 22;
   
-  gLogIOstream << left <<
-    gTab << gTab <<
-    setw (fieldWidth) <<
-    "input source name" << " : " <<
-    inputSourceName <<
-    endl <<
-    gTab << gTab <<
-    setw (fieldWidth) <<
-    "input line" << " : " <<
-    inputLineNumber <<
-    endl <<
-    gTab << gTab <<
-    setw (fieldWidth) <<
-    "source code file name" << " : " <<
-    baseName (sourceCodeFileName) <<
-    endl <<
-    gTab << gTab <<
-    setw (fieldWidth) <<
-    "source code input line" << " : " <<
-    sourceCodeLineNumber <<
-    endl;
-
-  gLogIOstream <<
-    gIndenter.indentMultiLineString (
-      message)  <<
-    endl <<
-    endl;
+    gLogIOstream <<
+      endl <<
+      "### " << context << " ERROR ###" <<
+      endl;
+    
+    gLogIOstream << left <<
+      gTab << gTab <<
+      setw (fieldWidth) <<
+      "input source name" << " : " <<
+      inputSourceName <<
+      endl <<
+      gTab << gTab <<
+      setw (fieldWidth) <<
+      "input line" << " : " <<
+      inputLineNumber <<
+      endl <<
+      gTab << gTab <<
+      setw (fieldWidth) <<
+      "source code file name" << " : " <<
+      baseName (sourceCodeFileName) <<
+      endl <<
+      gTab << gTab <<
+      setw (fieldWidth) <<
+      "source code input line" << " : " <<
+      sourceCodeLineNumber <<
+      endl;
+  
+    gLogIOstream <<
+      gIndenter.indentMultiLineString (
+        message)  <<
+      endl <<
+      endl;
+  }
 
   if (! gGeneralOptions->fIgnoreErrors)
     abort ();

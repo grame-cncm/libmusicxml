@@ -224,7 +224,7 @@ R"()",
     outputFileSubGroup->
       appendOptionsItem (
         optionsStringItem::create (
-          "ofn", "outputFileName",
+          "o", "outputFileName",
 R"(Write LilyPond code to file 'fileName' instead of standard output.)",
           "fileName",
           "outputFileName",
@@ -233,7 +233,7 @@ R"(Write LilyPond code to file 'fileName' instead of standard output.)",
     outputFileSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "aofn", "autoOutputFileName",
+          "ao", "autoOutputFileName",
 R"(This option can only be used when reading from a file.
 Write LilyPond code to a file in the current working directory.
 The file name is derived from that of the input file,
@@ -308,8 +308,8 @@ debugging information to standard error for the specified measures.)",
   {
     // variables
     
-    fIgnoreWarnings = boolOptionsInitialValue;
-    fIgnoreErrors   = boolOptionsInitialValue;
+    fQuiet        = boolOptionsInitialValue;
+    fIgnoreErrors = boolOptionsInitialValue;
   
     // options
   
@@ -327,22 +327,21 @@ R"()",
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "iw", "ignoreWarnings",
-R"(Don't issue any warning messages.)",
-          "ignoreWarnings",
-          fIgnoreWarnings));
+          "q", "quiet",
+R"(Don't issue any warning or error messages.)",
+          "quiet",
+          fQuiet));
   
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "ie", "ignoreErrors",
-R"(Don't abort the translation after issuing an error message.
-This may lead to problems, let us know it that occurs.)",
+          "i", "ignore-errors",
+R"(Ignore errors and proceed.)",
           "ignoreErrors",
           fIgnoreErrors));
   }
 
-  
+
   // CPU usage
   // --------------------------------------
 
@@ -918,8 +917,8 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
   // warning and error handling
   // --------------------------------------
 
-  clone->fIgnoreWarnings =
-    fIgnoreWarnings;
+  clone->fQuiet =
+    fQuiet;
   clone->fIgnoreErrors =
     fIgnoreErrors;
 

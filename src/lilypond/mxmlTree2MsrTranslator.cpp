@@ -14098,25 +14098,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           dots--;
         } // while
       }
-    
-      // check <duration/> and <type/> consistency if relevant
-      if (
-        fCurrentNoteSoundingWholeNotesFromDuration
-          !=
-        fCurrentNoteDisplayWholeNotesFromType) {
-        stringstream s;
-    
-        s <<
-          "note duration inconsistency: divisions indicates " <<
-          fCurrentNoteSoundingWholeNotesFromDuration <<
-          " while type indicates " <<
-          fCurrentNoteDisplayWholeNotesFromType <<
-          ", using the former";
-    
-        msrMusicXMLWarning (
-          inputLineNumber,
-          s.str ());
-      }    
   } // switch
 
   // store voice and staff numbers in MusicXML note data
@@ -14554,7 +14535,43 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     
   }
     
-  // set its tie if any
+  // check <duration/> and <type/> consistency if relevant
+  if (
+    fCurrentNoteSoundingWholeNotesFromDuration
+      !=
+    fCurrentNoteDisplayWholeNotesFromType) {
+    switch (newNote->getNoteKind ()) {
+      case msrNote::k_NoNoteKind:
+        break;
+
+      case msrNote::kTupletMemberNote:
+        break;
+
+      case msrNote::kRestNote:
+      case msrNote::kSkipNote:
+      case msrNote::kStandaloneNote:
+      case msrNote::kDoubleTremoloMemberNote:
+      case msrNote::kGraceNote:
+      case msrNote::kChordMemberNote:
+        {
+          stringstream s;
+      
+          s <<
+            "note duration inconsistency: divisions indicates " <<
+            fCurrentNoteSoundingWholeNotesFromDuration <<
+            " while type indicates " <<
+            fCurrentNoteDisplayWholeNotesFromType <<
+            ", using the former";
+      
+          msrMusicXMLWarning (
+            inputLineNumber,
+            s.str ());
+        }
+        break;
+    } // switch
+  }  
+
+  // set newNote tie if any
   if (fCurrentTie) {
     newNote->
       setNoteTie (fCurrentTie);

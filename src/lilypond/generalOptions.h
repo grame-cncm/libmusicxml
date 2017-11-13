@@ -98,7 +98,7 @@ class generalOptions : public optionsGroup
 
     // warning and error handling
       
-    bool                  fIgnoreWarnings;
+    bool                  fQuiet;
     bool                  fIgnoreErrors;
     
     // CPU usage
