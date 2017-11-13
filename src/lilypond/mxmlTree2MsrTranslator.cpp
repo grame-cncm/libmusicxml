@@ -5339,10 +5339,11 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 
   if (fCurrentATupletStopIsPending) {
 
-    if (fTupletsStack.size ()) // JMI
+    if (fTupletsStack.size ()) { // JMI
       // finalize the tuplet, only now in case the last element
       // is actually a chord
       finalizeTuplet (inputLineNumber);
+    }
 
     fCurrentATupletStopIsPending = false;
   }
@@ -5760,7 +5761,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
   string barStyle = elt->getValue();
 
   fCurrentBarlineStyleKind =
-    msrBarline::k_NoStyle;
+    msrBarline::k_NoStyle; // default value
 
   if      (barStyle == "regular") {
     fCurrentBarlineStyleKind =
@@ -5917,10 +5918,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
     // append it to the current voice
     currentVoice->
       appendEyeGlassesToVoice (eyeGlasses);
-  }
-  
-  else if (fOnGoingBarline) {
-    fCurrentBarlineHasCoda = true;
   }
 }
 
@@ -6079,10 +6076,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     currentVoice->
       appendPedalToVoice (pedal);
   }
-  
-  else if (fOnGoingBarline) {
-    fCurrentBarlineHasCoda = true;
-  }
 }
 
 //______________________________________________________________________________
@@ -6224,6 +6217,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
   int inputLineNumber =
     elt->getInputLineNumber ();
+
+  // is there a pending tuplet?
+  if (fTupletsStack.size ()) { // JMI
+    // finalize the tuplet, for it to be create
+    // before the barline
+    finalizeTuplet (inputLineNumber);
+  }
 
   // there may be a barline in a part before any music
   S_msrVoice
@@ -6586,13 +6586,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
   
   // now we can display the barline in case of debug
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) {
     fLogOutputStream <<
       "Creating a barline in voice " <<
       currentVoice->getVoiceName () << ":" <<
       endl;
     gIndenter++;
-    fLogOutputStream << barline;
+    fLogOutputStream <<
+      barline;
     gIndenter--;
   }
 
@@ -6625,7 +6626,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   fOnGoingBarline = false;
 }
   
-  /*
+  /* JMI
 Repeats and endings are represented by the <repeat> and <ending> elements with a <barline>, as defined in the barline.mod file.
 
 In regular measures, there is no need to include the <barline> element. It is only need to represent repeats, endings, and graphical styles such as double barlines.

@@ -414,6 +414,9 @@ R"(Write a trace of the general activity to standard error.)",
     // segments
     fTraceSegments = boolOptionsInitialValue;
     
+    // barlines
+    fTraceBarlines = boolOptionsInitialValue;
+
     // repeats
     fTraceRepeats = boolOptionsInitialValue;
   
@@ -552,7 +555,7 @@ R"(Voices)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tvdetails", "traceVoicesDetails",
+          "tvoicesd", "traceVoicesDetails",
 R"(Voices with more details (quite verbose)..
 This option implies '-tvdetails, -traceVoicesDetails'.)",
           "traceVoicesDetails",
@@ -608,6 +611,15 @@ R"(Voices segments)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
+          "tbars", "traceBarlines",
+R"(Barlines)",
+          "traceBarlines",
+          fTraceBarlines,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
           "treps", "traceRepeats",
 R"(Repeats, including multiple mesure repeats)",
           "traceRepeats",
@@ -635,7 +647,7 @@ R"(Notes)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsThreeBooleansItem::create (
-          "tndetails", "traceNotesDetails",
+          "tnotesd", "traceNotesDetails",
 R"(Notes with more details, including divisions handling (quite verbose)..
 This option implies '-tndetails, -traceNotesDetails'.)",
           "traceNotesDetails",
@@ -967,6 +979,9 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
   // segments
   clone->fTraceSegments = true;
     
+  // barlines
+  clone->fTraceBarlines = true;
+
   // repeats
   clone->fTraceRepeats = true;
 
@@ -1207,6 +1222,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     // segments
     setw (fieldWidth) << "traceSegments" << " : " <<
     booleanAsString (fTraceSegments) <<
+    endl <<
+    
+    // barlines
+    setw (fieldWidth) << "traceBarlines" << " : " <<
+    booleanAsString (fTraceBarlines) <<
     endl <<
     
     // repeats

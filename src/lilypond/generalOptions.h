@@ -150,6 +150,9 @@ class generalOptions : public optionsGroup
     // segments
     bool                  fTraceSegments;
 
+    // barlines
+    bool                  fTraceBarlines;
+
     // repeats
     bool                  fTraceRepeats;
 
