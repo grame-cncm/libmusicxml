@@ -1757,7 +1757,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
   fImplicitPartGroupDescr->
     setStopPosition (
       inputLineNumber, // JMI ???
-      fCurrentPartsPosition);
+      INT_MAX);
 
   // register implicit part group descr as stopped
   registerPartGroupDescrAsStopped (

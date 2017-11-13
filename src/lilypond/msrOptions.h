@@ -13,20 +13,23 @@
 #ifndef __msrOptions__
 #define __msrOptions__
 
+//#include "exports.h"
+
 #include "msrBasicTypes.h"
+
 #include "optionsHandling.h"
-#include "exports.h"
+
 
 namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class msrOptions : public msrOptionsGroup
+class msrOptions : public optionsGroup
 {
   public:
 
     static SMARTP<msrOptions> create (
-      S_msrOptionsHandler optionsHandler);
+      S_optionsHandler optionsHandler);
       
     SMARTP<msrOptions>        createCloneWithDetailedTrace ();
 
@@ -48,7 +51,7 @@ class msrOptions : public msrOptionsGroup
     // ------------------------------------------------------
 
     msrOptions (
-      S_msrOptionsHandler optionsHandler);
+      S_optionsHandler optionsHandler);
   
     virtual ~msrOptions ();
  
@@ -136,7 +139,7 @@ EXP extern S_msrOptions gMsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMsrOptionsHandling (
-  S_msrOptionsHandler optionsHandler);
+  S_optionsHandler optionsHandler);
 
 
 }

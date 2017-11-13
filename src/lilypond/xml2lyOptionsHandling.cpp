@@ -46,7 +46,7 @@ S_xml2lyOptionsHandler xml2lyOptionsHandler::create (
 
 xml2lyOptionsHandler::xml2lyOptionsHandler (
   indentedOstream& ios)
-  : msrOptionsHandler (
+  : optionsHandler (
     "Available options",
     "Options values",
     "h", "help",
@@ -314,7 +314,7 @@ void xml2lyOptionsHandler::print (ostream& os) const
     
     gIndenter++;
 
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;

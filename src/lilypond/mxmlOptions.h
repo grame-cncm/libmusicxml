@@ -21,7 +21,7 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class musicXMLOptions : public msrOptionsGroup
+class musicXMLOptions : public optionsGroup
 {
   public:
 
@@ -29,7 +29,7 @@ class musicXMLOptions : public msrOptionsGroup
     // ------------------------------------------------------
 
     static SMARTP<musicXMLOptions> create (
-      S_msrOptionsHandler optionsHandler);
+      S_optionsHandler optionsHandler);
     
     SMARTP<musicXMLOptions>        createCloneWithDetailedTrace ();
     
@@ -47,7 +47,7 @@ class musicXMLOptions : public msrOptionsGroup
     // ------------------------------------------------------
 
     musicXMLOptions (
-      S_msrOptionsHandler optionsHandler);
+      S_optionsHandler optionsHandler);
   
     virtual ~musicXMLOptions ();
  
@@ -104,7 +104,7 @@ EXP extern S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 void initializeMusicXMLOptionsHandling (
-  S_msrOptionsHandler optionsHandler);
+  S_optionsHandler optionsHandler);
 
 
 }

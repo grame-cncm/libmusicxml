@@ -21,12 +21,12 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class lpsrOptions : public msrOptionsGroup
+class lpsrOptions : public optionsGroup
 {
   public:
 
     static SMARTP<lpsrOptions> create (
-      S_msrOptionsHandler optionsHandler);
+      S_optionsHandler optionsHandler);
     
     SMARTP<lpsrOptions>        createCloneWithDetailedTrace ();
 
@@ -48,7 +48,7 @@ class lpsrOptions : public msrOptionsGroup
     // ------------------------------------------------------
 
     lpsrOptions (
-      S_msrOptionsHandler optionsHandler);
+      S_optionsHandler optionsHandler);
     
     virtual ~lpsrOptions ();
 
@@ -100,7 +100,7 @@ EXP extern S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 //______________________________________________________________________________
 EXP  void initializeLpsrOptionsHandling (
-  S_msrOptionsHandler optionsHandler);
+  S_optionsHandler optionsHandler);
 
 
 }

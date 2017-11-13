@@ -21,7 +21,7 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-class EXP xml2lyOptionsHandler : public msrOptionsHandler
+class EXP xml2lyOptionsHandler : public optionsHandler
 {
   public:
   
