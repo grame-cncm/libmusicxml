@@ -93,7 +93,7 @@ anything  [^-]
 
 {S}*"<!--"          { BEGIN COMMENTSECT; }
 <COMMENTSECT>"-->"      { BEGIN 0; }
-<COMMENTSECT>[^-]*|"-"    { return COMMENT; }
+<COMMENTSECT>[^-]*|[^-]*"-"[^-]*    { return COMMENT; }
 
 
 {S}*"<?xml"           { BEGIN XMLSECT; return XMLDECL; }
