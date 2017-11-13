@@ -14,19 +14,6 @@
 # pragma warning (disable : 4786)
 #endif
 
-/*
-#include <stdlib.h>     / * abort, NULL * /
-#include <cassert>
-
-#include <vector>
-#include <map>
-
-#include <iomanip>      // setw, ...
-
-#include "rational.h"
-
-*/
-
 #include <iostream>
 #include <sstream>
 

@@ -3627,7 +3627,7 @@ void optionsHandler::registerOptionsNamesInHandler (
       "option long name and short name are both empty";
       
     optionError (s.str ());
-    abort ();
+    exit (33);
   }
   
   if (optionShortName == optionLongName) {
@@ -3638,7 +3638,7 @@ void optionsHandler::registerOptionsNamesInHandler (
       " is the same as the short name for the same";
       
     optionError (s.str ());
-    abort ();
+    exit (33);
   }
   
   for (
@@ -3657,7 +3657,7 @@ void optionsHandler::registerOptionsNamesInHandler (
         " is specified more that once";
         
       optionError (s.str ());
- // JMI     abort ();
+      exit (33);
     }
 
     // is optionShortName already in the options names map?
@@ -3671,7 +3671,7 @@ void optionsHandler::registerOptionsNamesInHandler (
           " is specified more that once";
           
         optionError (s.str ());
-  // JMI      abort ();
+        exit (33);
       }
     }
   } // for
@@ -3933,7 +3933,7 @@ void optionsHandler::printSpecificItemHelp (
       "' is not well handled in optionsHandler::printSpecificItemHelp()";
       
     optionError (s.str ());
-    abort ();
+    exit (33);
   }
 
   else {
@@ -4078,7 +4078,7 @@ void optionsHandler::printSpecificItemHelp (
         "\"";
         
       optionError (s.str ());
-      abort ();
+      exit (33);
     }
   }
 }
@@ -4725,7 +4725,7 @@ void optionsHandler::handleOptionsItemName (
           "INTERNAL ERROR: option item is of unknown type";
           
         optionError (s.str ());
-        abort ();
+        exit (33);
       }
     }
   }

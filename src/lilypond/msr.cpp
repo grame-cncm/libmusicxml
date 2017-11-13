@@ -7262,8 +7262,7 @@ void msrChord::setChordFirstNotePositionInMeasure (
       setNotePositionInMeasure (positionInMeasure);
   }
   else {
-    // JMI XXL
-   // abort ();
+    // exit (44); JMI
  }
 }
                     
@@ -7275,8 +7274,7 @@ void msrChord::setChordFirstNoteMeasureNumber (
       setNoteMeasureNumber (measureNumber);
   }
   else {
-    // JMI XXL
-   // abort ();
+    // exit (44); JMI
  }
 }
                     
@@ -15612,15 +15610,6 @@ void msrMeasure::initializeMeasure ()
   // measure 'created after a repeat' kind
   fMeasureCreatedAfterARepeatKind = kMeasureCreatedAfterARepeatNo;
 
-/* JMI
-  static int count = 0;
-
-  count++;
-
-  if (count == 2)
-    abort();
-*/
-
   // initialize measure position
   setMeasureLength (
     fInputLineNumber,
@@ -16964,73 +16953,25 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       endl;
   }
 
-  // populate measure uplink
-// JMI   harmony->setHarmonyMeasureUplink (this);
-
-  // register harmony measure number
-//   harmony->
-// JMI     setHarmonyMeasureNumber (fMeasureNumber);
-  
-  // register harmony measure position in measure
-//  int dummy = // JMI
- //   harmony->
-  //    setHarmonyPositionInMeasure (fMeasureLength);
-
-
-/* JMI
-  // fetch voice
-  S_msrVoice
-    voice =
-      fMeasureSegmentUplink->
-        getSegmentVoiceUplink ();
-
-  // register voice as part harmonies supplied
-  // this will abort if another voice is already supplying harmonies
-  fetchMeasurePartUplink->
-    setPartHarmoniesSupplierVoice (
-      voice);
-
-      */
-
-      
   // fetch harmony sounding whole notes
   rational
     harmonySoundingWholeNotes =
       harmony->
         getHarmonySoundingWholeNotes ();
     
-//* JMI FOO
-/*
-  // append a skip syllable of the same duration to the part harmony voice
-  S_msrNote
-    skip =
-        msrNote::createSkipNote (
-            inputLineNumber,
-            harmonySoundingWholeNotes,
-            harmonySoundingWholeNotes,
-            voice->
-              getVoiceStaffUplink ()->getStaffNumber (),
-            voice->
-              getVoicePartRelativeID ());
-  
-    fetchMeasurePartUplink->
-      getPartHarmonyVoice ()->
-        appendNoteToVoice (skip);
-  */
+  // account for harmony duration in measure length
+  setMeasureLength (
+    inputLineNumber,
+    fMeasureLength + harmonySoundingWholeNotes);
 
-    // account for harmony duration in measure length
-    setMeasureLength (
+  // update part measure length high tide if need be
+  fetchMeasurePartUplink ()->
+    updatePartMeasureLengthHighTide (
       inputLineNumber,
-      fMeasureLength + harmonySoundingWholeNotes);
+      fMeasureLength);
   
-    // update part measure length high tide if need be
-    fetchMeasurePartUplink ()->
-      updatePartMeasureLengthHighTide (
-        inputLineNumber,
-        fMeasureLength);
-    
-    // append the harmony to the measure elements list
-    fMeasureElementsList.push_back (harmony);
+  // append the harmony to the measure elements list
+  fMeasureElementsList.push_back (harmony);
 }
 
 void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
@@ -31475,80 +31416,6 @@ void msrMidi::print (ostream& os)
       
   gIndenter--;
 }    
-
-
-/* JMI
-void msrStaff::appendDivisionsToStaff (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceStaves)
-    gLogIOstream <<
-      "Appending divisions '" <<
-      divisions->divisionsAsString () <<
-      "' to staff \"" <<
-      getStaffName () <<
-      "\" in part " <<
-      fStaffPartUplink->getPartCombinedName () <<
-      endl;
-
-  // propagate it to all voices
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
-    i != fStaffAllVoicesMap.end ();
-    i++) {
-    (*i).second->
-      appendDivisionsToVoice (divisions);
-  } // for
-}
-
-void msrVoice::appendDivisionsToVoice (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceVoices)
-    gLogIOstream <<
-      "Appending divisions '" <<
-      divisions->divisionsAsString () <<
-      "' to voice \"" << getVoiceName () << "\"" <<
-      endl;
-
-  // create the voice last segment and first measure if needed
-  appendAFirstMeasureToVoiceIfNotYetDone (
-    divisions->getInputLineNumber ());
-
-  // append divisions to last segment
-  fVoiceLastSegment->
-    appendDivisionsToSegment (divisions);
-}
-
-void msrSegment::appendDivisionsToSegment (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
-    gLogIOstream <<
-      "Appending divisions '" <<
-      divisions->divisionsAsString () <<
-      " to segment " << segmentAsString () <<
-      endl;
-      
-  // register divisions in segments's current measure
-  fSegmentMeasuresList.back ()->
-    appendDivisionsToMeasure (divisions);
-}
-    
-void msrMeasure::appendDivisionsToMeasure (
-  S_msrDivisions divisions)
-{
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceSegments)
-    gLogIOstream <<
-      "Appending divisions '" <<
-      divisions->divisionsAsString () <<
-      " to measure '" << fMeasureNumber << "'" <<
-      endl;
-      
-  // append it to the measure elements list
-  fMeasureElementsList.push_back (divisions);
-}
-*/
 
 //______________________________________________________________________________
 void initializeMSR ()

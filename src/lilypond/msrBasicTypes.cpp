@@ -16,7 +16,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <stdlib.h>     /* abort, NULL */
 #include <cassert>
 
 #include <vector>

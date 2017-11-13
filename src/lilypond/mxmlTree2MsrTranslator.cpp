@@ -15,7 +15,6 @@
 #endif
 
 #include <sstream>
-#include <stdlib.h>     /* abort, NULL */
 #include <climits>      /* INT_MIN */
 #include <iomanip>      // setw, set::precision, ...
 #include <algorithm>    /* for_each */
@@ -484,44 +483,6 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   
   return voice;
 }
-
-/* JMI
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_comment& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_comment" <<
-      endl;
-  }
-
-  string comment = elt->getValue();
-  
-  fLogOutputStream <<
-    "---> comment = " << comment <<
-    endl;
-
-  abort(); // JMI ???
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_processing_instruction& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_processing_instruction" <<
-      endl;
-  }
-
-  string processingInstruction = elt->getValue();
-  
-  fLogOutputStream <<
-    "---> processingInstruction = " << processingInstruction <<
-    endl;
-
-  abort(); // JMI ???
-}
-*/
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_work_number& elt )
@@ -17602,7 +17563,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_virtual_instrument& elt )
       endl;
   }
 
-/*
+/* JMI
 <!ELEMENT score-instrument
   (instrument-name, instrument-abbreviation?,
    instrument-sound?, (solo | ensemble)?,
@@ -17660,62 +17621,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
       </midi-instrument>
 */
 }
-
-
-/*
- * Figured bass elements take their position from the first
-    regular note (not a grace note or chord note) that follows
-    in score order. The optional duration element is used to
-    indicate changes of figures under a note.    
-
-    Figures are ordered from top to bottom. A figure-number is a
-    number. Values for prefix and suffix include the accidental
-    values sharp, flat, natural, double-sharp, flat-flat, and
-    sharp-sharp. Suffixes include both symbols that come after
-    the figure number and those that overstrike the figure number.
-    The suffix value slash is used for slashed numbers indicating
-    chromatic alteration. The orientation and display of the slash
-    usually depends on the figure number. The prefix and suffix
-    elements may contain additional values for symbols specific
-    to particular figured bass styles. The value of parentheses
-    is "no" if not present.
-    *
-    */
-
-
-  // the harmony will be created in visisEnd (S_note&),
-  // when its duration can be be taken as that of the note following it
-  // create the harmony
-
-
-/*
-       <degree>
-          <degree-value>13</degree-value>
-          <degree-alter>-1</degree-alter>
-          <degree-type>add</degree-type>
-        </degree>
-*/
-
-/*
- http://usermanuals.musicxml.com/MusicXML/Content/CT-MusicXML-harmony.htm
-  
-      <harmony default-y="40" font-size="15.4">
-        <root>
-          <root-step>B</root-step>
-        </root>
-        <kind text="Maj7">major-seventh</kind>
-       <degree>
-          <degree-value>13</degree-value>
-          <degree-alter>-1</degree-alter>
-          <degree-type>add</degree-type>
-        </degree>
-        <bass>
-          <bass-step>D</bass-step>
-          <bass-alter>1</bass-alter>
-        </bass>
-      </harmony>
-      
-*/
 
 
 } // namespace

@@ -15,7 +15,6 @@
 #endif
 
 #include <sstream>
-#include <stdlib.h>     /* abort, NULL */
 #include <climits>      /* INT_MIN */
 #include <algorithm>    /* for_each */
 

@@ -16,7 +16,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <stdlib.h>     /* abort, NULL */
 #include <cassert>
 
 #include <vector>
@@ -140,7 +139,7 @@ void timing::print (ostream& os) const
 
     os << "  " <<
       setw (secondsWidth) << setprecision(secondsPrecision) <<
-	  left << float(timingItemClock) / CLOCKS_PER_SEC << endl;
+    left << float(timingItemClock) / CLOCKS_PER_SEC << endl;
   } // for
 
   const int

@@ -33,12 +33,11 @@ void msrAssert (
       endl <<
       "#### msrAssert failure: " << messageIfFalse <<
       endl <<
-      "Aborting." <<
+      "exiting." <<
       endl <<
-      endl <<
-      flush;
+      endl;
      
-    assert(condition);
+    exit (33);
   }
 }
 
@@ -158,7 +157,7 @@ void msrError (
   }
 
   if (! gGeneralOptions->fIgnoreErrors)
-    abort ();
+    exit (17);
 }
 
 //______________________________________________________________________________
@@ -193,8 +192,6 @@ void lpsrMusicXMLError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
-
-    abort ();
 }
 
 //______________________________________________________________________________
@@ -212,8 +209,6 @@ void msrInternalError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
-
-    abort ();
 }
 
 
