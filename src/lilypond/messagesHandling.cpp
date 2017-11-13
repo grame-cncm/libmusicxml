@@ -49,28 +49,30 @@ void msrWarning (
   int    inputLineNumber,
   string message)
 {
-  const int fieldWidth = 18;
-
-  gLogIOstream <<
-    endl <<
-    "!!! " << context << " WARNING !!!" <<
-    endl;  
-
-  gLogIOstream << left <<
-    gTab << gTab <<
-    setw (fieldWidth) <<
-    "input source name" << " : " <<
-    inputSourceName <<
-    endl <<
-    gTab << gTab <<
-    setw (fieldWidth) <<
-    "input line" << " : " << inputLineNumber <<
-    endl;
-
-  gLogIOstream <<
-    message <<
-    endl <<
-    endl;
+  if (! gGeneralOptions->fIgnoreWarnings) {
+    const int fieldWidth = 18;
+  
+    gLogIOstream <<
+      endl <<
+      "!!! " << context << " WARNING !!!" <<
+      endl;  
+  
+    gLogIOstream << left <<
+      gTab << gTab <<
+      setw (fieldWidth) <<
+      "input source name" << " : " <<
+      inputSourceName <<
+      endl <<
+      gTab << gTab <<
+      setw (fieldWidth) <<
+      "input line" << " : " << inputLineNumber <<
+      endl;
+  
+    gLogIOstream <<
+      message <<
+      endl <<
+      endl;
+  }
 }
 
 //______________________________________________________________________________
@@ -152,6 +154,9 @@ void msrError (
       message)  <<
     endl <<
     endl;
+
+  if (! gGeneralOptions->fIgnoreErrors)
+    abort ();
 }
 
 //______________________________________________________________________________
@@ -169,9 +174,6 @@ void msrMusicXMLError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
-
-  if (! gMusicXMLOptions->fIgnoreMusicXMLErrors)
-    abort ();
 }
 
 //______________________________________________________________________________

@@ -96,6 +96,11 @@ class generalOptions : public optionsGroup
     set<int>              fTraceDetailedMeasureNumbersSet;
 
 
+    // warning and error handling
+      
+    bool                  fIgnoreWarnings;
+    bool                  fIgnoreErrors;
+    
     // CPU usage
     // --------------------------------------
   

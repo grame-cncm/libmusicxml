@@ -16260,7 +16260,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" << note->noteAsShortString () <<
       "' to measure '" << fMeasureNumber <<
@@ -16270,6 +16270,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   // populate measure uplink
   note->
@@ -16339,7 +16340,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     // should a rest be appended to the harmony voice?
     if (partHarmonyVoice) {
       if (partHarmoniesSupplierVoice) {
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
           gLogIOstream <<
             "measureVoiceUplink = \"" <<
             fetchMeasureVoiceUplink ()->getVoiceName () <<
@@ -16349,14 +16350,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             partHarmoniesSupplierVoice->getVoiceName () <<
             "\"" <<
             endl;
-  
-  /* JMI
-        // bring harmony voice to the same measure length
-        partHarmonyVoice->
-          bringVoiceToMeasureLength (
-            inputLineNumber,
-            noteMeasureLength);
-  */
+        }
   
         // is measure voice uplink the part harmonies suppplier voice?
         if (
@@ -16378,7 +16372,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
                   getVoicePartRelativeID ());
     
           // append the rest to the part harmony voice
-          if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+          if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
             gLogIOstream <<
               "Appending rest '" << restNote->noteAsShortString () <<
               "' to measure '" << fMeasureNumber <<
@@ -16386,6 +16380,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
               partHarmonyVoice->getVoiceName () <<
               "\"" <<
               endl;
+          }
   
           // sanity check
           msrAssert (
@@ -16408,7 +16403,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" << note->noteAsShortString () <<
       "' to measure clone '" << fMeasureNumber <<
@@ -16418,6 +16413,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
           getVoiceName () <<
       "\"" <<
       endl;
+  }
 
     /* JMI
   if (appendMeasureIfOverflow (inputLineNumber)) {
@@ -16489,7 +16485,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
    /*     
     if (noteHarmony) {
       // append the harmony to the harmony voice
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
         gLogIOstream <<
           "Appending harmony '" << noteHarmony->harmonyAsString () <<
           "' to measure '" << fMeasureNumber <<
@@ -16497,6 +16493,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
           partHarmonyVoice->getVoiceName () <<
           "\"" <<
           endl;
+      }
 
       partHarmonyVoice->
         appendHarmonyToVoice (
@@ -16524,7 +16521,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
                 getVoicePartRelativeID ());
   
         // append the skip to the part harmony voice
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures)
+        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
           gLogIOstream <<
             "Appending skip '" << skipNote->noteAsShortString () <<
             "' to measure '" << fMeasureNumber <<
@@ -16532,6 +16529,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
             partHarmonyVoice->getVoiceName () <<
             "\"" <<
             endl;
+        }
 
         partHarmonyVoice->
           appendNoteToVoice (skipNote);
@@ -16553,7 +16551,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // populate measure uplink
   doubleTremolo->setDoubleTremoloMeasureUplink (this);
 
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending double tremolo '" <<
       doubleTremolo->doubleTremoloAsShortString () <<
@@ -16564,6 +16562,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
           getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   // register doubleTremolo measure number
   doubleTremolo->
@@ -16632,7 +16631,7 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   measureRepeat->setMeasureRepeatMeasureUplink (this);
 */
 
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       measureRepeat->measureRepeatAsString () <<
@@ -16643,6 +16642,8 @@ void msrMeasure::appendMeasureRepeatToMeasure (
           getVoiceName () <<
       "\"" <<
       endl;
+  }
+  
 /* JMI
   // register measureRepeat measure number
   measureRepeat->
@@ -16709,7 +16710,7 @@ void msrMeasure::appendMultipleRestToMeasure (
     multipleRest->setMultipleRestMeasureUplink (this);
 */
 
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
@@ -16720,6 +16721,8 @@ void msrMeasure::appendMultipleRestToMeasure (
           getVoiceName () <<
       "\"" <<
       endl;
+  }
+  
 /* JMI
   // register multipleRest measure number
   multipleRest->
@@ -16781,7 +16784,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   // populate measure uplink
   chord->setChordMeasureUplink (this);
 
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending chord '" << chord->chordAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -16791,6 +16794,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
           getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   // register chord measure number
   chord->
@@ -16850,7 +16854,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   int inputLineNumber =
     tuplet->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -16860,6 +16864,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
           getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   // populate measure uplink
   tuplet->setTupletMeasureUplink (this);
@@ -16933,7 +16938,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -16944,6 +16949,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
       "\"" <<
       ", measureLength = " << fMeasureLength <<
       endl;
+  }
 
   // populate measure uplink
 // JMI   harmony->setHarmonyMeasureUplink (this);
@@ -17021,7 +17027,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
     
   // regular insertion in current measure
   
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to measure clone '" << fMeasureNumber <<
@@ -17032,6 +17038,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
       "\"" <<
       ", measureLength = " << fMeasureLength <<
       endl;
+  }
       
   // fetch harmony sounding whole notes
   rational
@@ -17060,7 +17067,7 @@ void msrMeasure::appendFiguredBassToMeasure (
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -17071,6 +17078,7 @@ void msrMeasure::appendFiguredBassToMeasure (
       "\"" <<
       ", measureLength = " << fMeasureLength <<
       endl;
+  }
 
   // fetch harmony sounding whole notes
   rational
@@ -17101,7 +17109,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
     
   // regular insertion in current measure
   
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to measure clone '" << fMeasureNumber <<
@@ -17112,6 +17120,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
       "\"" <<
       ", measureLength = " << fMeasureLength <<
       endl;
+  }
       
   // fetch harmony sounding whole notes
   rational
@@ -17138,7 +17147,7 @@ void msrMeasure::bringMeasureToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Bringing measure length for measure '" <<
       fMeasureNumber <<
@@ -17148,6 +17157,7 @@ void msrMeasure::bringMeasureToMeasureLength (
       " to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
   if (fMeasureLength < measureLength) {
     // appending a skip to this measure to reach measureLength
@@ -17185,7 +17195,7 @@ void msrMeasure::bringMeasureToMeasureLength (
       setNotePositionInMeasure (
         fMeasureLength);
            
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions)
+    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions) {
       gLogIOstream <<
        "Appending " << skip->noteAsString () <<
        " (" << skipDuration <<
@@ -17195,6 +17205,7 @@ void msrMeasure::bringMeasureToMeasureLength (
        " to length '" << measureLength << "'" <<
         ", skipDuration = " << skipDuration <<
        endl;
+    }
 
     // append the skip to the measure elements list
     // only now to make it possible to remove it afterwards
@@ -17341,7 +17352,7 @@ void msrMeasure::appendPageBreakToMeasure (S_msrPageBreak pageBreak)
 void msrMeasure::appendStaffDetailsToMeasure (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures) { 
     gLogIOstream <<
       "Appending staff details '" << staffDetails->staffDetailsAsShortString () <<
       "' to measure '" << fMeasureNumber <<
@@ -17351,6 +17362,7 @@ void msrMeasure::appendStaffDetailsToMeasure (
           getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   fMeasureElementsList.push_back (staffDetails);
 }
@@ -17668,7 +17680,7 @@ void msrMeasure::appendARestToFinalizeMeasure (
     rest->
       setNotePositionInMeasure (fMeasureLength);
            
-    if (gGeneralOptions->fTraceMeasures)
+    if (gGeneralOptions->fTraceMeasures) {
       gLogIOstream <<
        "Appending '" << rest->noteAsString () <<
        " (" << restDuration << " rest whole notes)'" <<
@@ -17678,6 +17690,7 @@ void msrMeasure::appendARestToFinalizeMeasure (
        ":" << partMeasureLengthHighTide <<
         ", restDuration = " << restDuration <<
        endl;
+   }
 
     // append the rest to the measure elements list
     // only now to make it possible to remove it afterwards
@@ -18158,7 +18171,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "-=> Creating and appending a measure '" << measureNumber <<
       "', to segment '" << segmentAsString () <<
@@ -18167,6 +18180,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
       "\"" <<
       "', line " << inputLineNumber <<
       endl;
+  }
 
   fSegmentMeasureNumber = measureNumber; // JMI
 
@@ -18186,7 +18200,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   }
       
   // create a measure
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "-=> Creating measure '" << measureNumber <<
       "' in segment " << segmentAsString () <<
@@ -18198,6 +18212,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
       msrMeasure::measureFirstInSegmentKindAsString (
         measureFirstInSegmentKind) <<
       endl;
+  }
 
   S_msrMeasure
     newMeasure =
@@ -18299,9 +18314,9 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         "' in segment '" <<
         segmentAsString () <<
         "' since it is empty, removing it";
-  
-      fSegmentMeasuresList.pop_back ();
     }
+  
+    fSegmentMeasuresList.pop_back ();
   }
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) { // JMI
@@ -18881,7 +18896,7 @@ void msrSegment::bringSegmentToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Bringing measure length for segment '" <<
       fSegmentAbsoluteNumber <<
@@ -18891,8 +18906,9 @@ void msrSegment::bringSegmentToMeasureLength (
       "' to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
-  if (false && fSegmentMeasuresList.size () == 0) {
+  if (false && fSegmentMeasuresList.size () == 0) { // JMI
     stringstream s;
 
     s <<
@@ -18963,7 +18979,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     if (fSegmentMeasuresList.size () == 0)
       gLogIOstream <<
-        ", as first measure FII";
+        ", as first measure FII"; // JMI
     else
       gLogIOstream <<
       ", after measure number '" << currentMeasureNumber << "'";
@@ -18983,7 +18999,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       "measure number '" << measureNumber <<
       "' occurs twice in a row";
 
-  // JMI  msrInternalError (
+    // JMI  msrInternalError (
     msrInternalWarning (
       inputLineNumber,
       s.str ());
@@ -19015,8 +19031,9 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 
     if (fSegmentMeasuresList.size () == 0) {
       gLogIOstream <<
-        ", as first measure FOO";
+        ", as first measure FOO"; // JMI
     }
+    
 /* JMI
     else
       gLogIOstream <<
@@ -19057,7 +19074,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
   /* JMI BOF
   if (! fSegmentMeasuresList.size ()) {
     // create a new measure
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
       gLogIOstream <<
         "Appending a new measure '" << measureNumber <<
         "' to segment '" << segmentAsString () << "'" <<
@@ -19066,6 +19083,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
         "\"," <<
         ", line " << inputLineNumber <<
         endl;
+    }
 
     S_msrMeasure
       newMeasure =
@@ -19084,7 +19102,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Prepending barline '" << barline->barlineAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
@@ -19092,6 +19110,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
       endl;
+  }
 
   // sanity check
   msrAssert (
@@ -19105,7 +19124,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending barline '" << barline->barlineAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
@@ -19113,6 +19132,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
       endl;
+  }
 
   if (! fSegmentMeasuresList.size ()) {// JMI
   }
@@ -19129,7 +19149,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending bar check " << barCheck->barCheckAsString () <<
       " to segment '" << segmentAsString () << "'" <<
@@ -19137,6 +19157,7 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -23693,11 +23714,12 @@ void msrVoice::appendSyllableToVoice (
 
 void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending bar check '" << barCheck->barCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23718,12 +23740,13 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 void msrVoice::appendBarNumberCheckToVoice (
   S_msrBarNumberCheck barNumberCheck)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barnumber check '" <<
       barNumberCheck->barNumberCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23743,11 +23766,12 @@ void msrVoice::appendBarNumberCheckToVoice (
 
 void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending line break '" << lineBreak->lineBreakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23767,11 +23791,12 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 
 void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending page break '" << pageBreak->pageBreakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -24723,7 +24748,6 @@ void msrVoice::appendRepeatEndingToVoice (
         fVoiceCurrentRepeat->
           addRepeatEnding (repeatEnding);
       
-      
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
           gLogIOstream <<
@@ -24910,12 +24934,13 @@ void msrVoice::removeNoteFromVoice (
 S_msrMeasure msrVoice::removeLastMeasureFromVoice (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Removing last measure from voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   // remove (new) last measure and return it
   return
@@ -26962,7 +26987,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
 
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barline '" << barline->barlineAsString () <<
       "' to staff " <<
@@ -26970,6 +26995,7 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -28073,13 +28099,14 @@ void msrPart::setPartMeasureLengthHighTide (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting measure length high tide for part \"" <<
       getPartCombinedName () <<
       "\" to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
   fPartMeasureLengthHighTide = measureLength;
 }
@@ -28089,13 +28116,14 @@ void msrPart::updatePartMeasureLengthHighTide (
   rational measureLength)
 {
   if (measureLength > fPartMeasureLengthHighTide) {
-    if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures)
-        gLogIOstream <<
-          "Updating measure length high tide for part \"" <<
-          getPartCombinedName () <<
-          "\" to " << measureLength <<
-          ", line " << inputLineNumber <<
-          endl;
+    if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures) {
+      gLogIOstream <<
+        "Updating measure length high tide for part \"" <<
+        getPartCombinedName () <<
+        "\" to " << measureLength <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
 
     fPartMeasureLengthHighTide = measureLength;
   }
@@ -28194,7 +28222,7 @@ void msrPart::createMeasureAndAppendItToPart (
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "-=> Creating and appending measure '" <<
       measureNumber <<
@@ -28202,6 +28230,7 @@ void msrPart::createMeasureAndAppendItToPart (
       getPartCombinedName () <<
       "', line " << inputLineNumber <<
       endl;
+  }
 
   // set part current measure number
   fPartCurrentMeasureNumber = measureNumber;
@@ -28238,12 +28267,13 @@ void msrPart::complementPartVoicesUpToMeasure (
   int    inputLineNumber,
   string measureNumber)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Complement part voices up to measure number " << measureNumber <<
       ", line " << inputLineNumber <<
       ", in part " << getPartCombinedName () <<
       endl;
+  }
 
   // propagate to all staves
   for (

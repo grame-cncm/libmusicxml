@@ -76,11 +76,6 @@ class musicXMLOptions : public optionsGroup
     
     bool                  fTraceMusicXMLTreeVisitors;
 
-    // warning and error handling
-      
-    bool                  fIgnoreMusicXMLWarnings;
-    bool                  fIgnoreMusicXMLErrors;
-    
     // clefs, keys, times
 
     bool                  fIgnoreRedundantClefs;

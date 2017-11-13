@@ -6262,8 +6262,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotesContents& elt)
   fLilypondCodeIOstream <<
     "} { ";
 
+/* JMI
   // save fLastMetWholeNotes
   fSavedLastMetWholeNotes = fLastMetWholeNotes;
+  */
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotesContents& elt)
@@ -6277,8 +6279,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotesContents& elt)
   fLilypondCodeIOstream <<
     "} ";
 
+/* JMI
   // restore fLastMetWholeNotes
   fLastMetWholeNotes = fSavedLastMetWholeNotes;
+  */
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotes& elt)

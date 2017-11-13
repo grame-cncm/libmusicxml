@@ -94,46 +94,6 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
   }
   
   
-  // warning and error handling
-  // --------------------------------------
-
-  {
-    // variables
-    
-    fIgnoreMusicXMLWarnings = boolOptionsInitialValue;
-    fIgnoreMusicXMLErrors   = boolOptionsInitialValue;
-  
-    // options
-  
-    S_optionsSubGroup
-      warningAndErrorHandlingSubGroup =
-        optionsSubGroup::create (
-          "Warnings and errors",
-          "hmxmlwae", "helpMusicXMLWarningsAndErrors",
-R"()",
-          optionsSubGroup::kAlwaysShowDescription,
-          this);
-  
-    appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
-  
-    warningAndErrorHandlingSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "imw", "ignoreMusicXMLWarnings",
-R"(Don't issue any MusicXML warning messages.)",
-          "ignoreMusicXMLWarnings",
-          fIgnoreMusicXMLWarnings));
-  
-    warningAndErrorHandlingSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "ime", "ignoreMusicXMLErrors",
-R"(Don't abort the translation after issuing a MusicXML error message.)",
-          "ignoreMusicXMLErrors",
-          fIgnoreMusicXMLErrors));
-  }
-
-  
   // clefs, keys, times
   // --------------------------------------
 
@@ -284,15 +244,6 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
     true;
 
 
-  // warning and error handling
-  // --------------------------------------
-
-  clone->fIgnoreMusicXMLWarnings =
-    fIgnoreMusicXMLWarnings;
-  clone->fIgnoreMusicXMLErrors =
-    fIgnoreMusicXMLErrors;
-
-    
   // clefs, keys, times
   // --------------------------------------
     
@@ -335,24 +286,6 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
   gIndenter--;
       
-  // warning and error handling
-  // --------------------------------------
-
-  gLogIOstream <<
-    "Other:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "ignoreMusicXMLWarnings" << " : " <<
-    booleanAsString (fIgnoreMusicXMLWarnings) <<
-    endl <<
-    setw (fieldWidth) << "ignoreMusicXMLErrors" << " : " <<
-    booleanAsString (fIgnoreMusicXMLErrors) <<
-    endl;
-    
-  gIndenter--;
 
   // clefs, keys, times
   // --------------------------------------

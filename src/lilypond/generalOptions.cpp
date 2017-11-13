@@ -302,6 +302,47 @@ debugging information to standard error for the specified measures.)",
   }
 
 
+  // warning and error handling
+  // --------------------------------------
+
+  {
+    // variables
+    
+    fIgnoreWarnings = boolOptionsInitialValue;
+    fIgnoreErrors   = boolOptionsInitialValue;
+  
+    // options
+  
+    S_optionsSubGroup
+      warningAndErrorHandlingSubGroup =
+        optionsSubGroup::create (
+          "Warnings and errors",
+          "hwae", "helpWarningsAndErrors",
+R"()",
+          optionsSubGroup::kAlwaysShowDescription,
+          this);
+  
+    appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
+  
+    warningAndErrorHandlingSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "iw", "ignoreWarnings",
+R"(Don't issue any warning messages.)",
+          "ignoreWarnings",
+          fIgnoreWarnings));
+  
+    warningAndErrorHandlingSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "ie", "ignoreErrors",
+R"(Don't abort the translation after issuing an error message.
+This may lead to problems, let us know it that occurs.)",
+          "ignoreErrors",
+          fIgnoreErrors));
+  }
+
+  
   // CPU usage
   // --------------------------------------
 
@@ -874,11 +915,19 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
     fTraceDetailedMeasureNumbersSet;
 
 
+  // warning and error handling
+  // --------------------------------------
+
+  clone->fIgnoreWarnings =
+    fIgnoreWarnings;
+  clone->fIgnoreErrors =
+    fIgnoreErrors;
+
+    
   // CPU usage
   // --------------------------------------
 
-  clone->fDisplayCPUusage =
-    true;
+  clone->fDisplayCPUusage = true;
 
     
   // specific trace
@@ -1071,6 +1120,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+  
 
   // CPU usage
   // --------------------------------------
@@ -1087,6 +1137,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+  
   
   // specific trace    
   // --------------------------------------
