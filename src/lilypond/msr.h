@@ -6718,15 +6718,21 @@ class msrTuplet : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrTupletKind {
-      kStartTuplet, kContinueTuplet, kStopTuplet, 
-      k_NoTuplet };
+    enum msrTupletTypeKind {
+      k_NoTupletType,
+      kTupletTypeStart, kTupletTypeContinue, kTupletTypeStop };
 
-    static string tupletKindAsString (
-      msrTupletKind tupletKind);
+    static string tupletTypeKindAsString (
+      msrTupletTypeKind tupletTypeKind);
+      
+    enum msrTupletBracketKind {
+      kTupletBracketYes, kTupletBracketNo};
+      
+    static string tupletBracketKindAsString (
+      msrTupletBracketKind tupletBracketKind);
       
     enum msrTupletShowNumberKind {
-      kTupletShowNumberYes, kTupletShowNumberNo };
+      kTupletShowNumberActual, kTupletShowNumberBoth, kTupletShowNumberNone };
 
     static string tupletShowNumberKindAsString (
       msrTupletShowNumberKind tupletShowNumberKind);
@@ -6741,11 +6747,17 @@ class msrTuplet : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTuplet> create (
-      int      inputLineNumber,
-      int      tupletNumber,
-      int      tupletActualNotes,
-      int      tupletNormalNotes,
-      rational notePositionInMeasure); // JMI
+      int       inputLineNumber,
+      int       tupletNumber,
+      msrTupletBracketKind
+                tupletBracketKind,
+      msrTupletShowNumberKind
+                tupletShowNumberKind,
+      msrTupletShowTypeKind
+                tupletShowTypeKind,
+      int       tupletActualNotes,
+      int       tupletNormalNotes,
+      rational  notePositionInMeasure); // JMI
 
     SMARTP<msrTuplet> createTupletNewbornClone ();
 
@@ -6757,11 +6769,17 @@ class msrTuplet : public msrElement
     // ------------------------------------------------------
 
     msrTuplet (
-      int      inputLineNumber,
-      int      tupletNumber,
-      int      tupletActualNotes,
-      int      tupletNormalNotes,
-      rational notePositionInMeasure);
+      int       inputLineNumber,
+      int       tupletNumber,
+      msrTupletBracketKind
+                tupletBracketKind,
+      msrTupletShowNumberKind
+                tupletShowNumberKind,
+      msrTupletShowTypeKind
+                tupletShowTypeKind,
+      int       tupletActualNotes,
+      int       tupletNormalNotes,
+      rational  notePositionInMeasure);
       
     virtual ~msrTuplet();
   
@@ -6772,6 +6790,16 @@ class msrTuplet : public msrElement
     
     int                   getTupletNumber () const
                               { return fTupletNumber; }
+
+    msrTupletBracketKind  getTupletBracketKind () const
+                              { return fTupletBracketKind; }
+
+    msrTupletShowNumberKind
+                          getTupletShowNumberKind () const
+                              { return fTupletShowNumberKind; }
+
+    msrTupletShowTypeKind getTupletShowTypeKind () const
+                              { return fTupletShowTypeKind; }
 
     int                   getTupletActualNotes () const
                               { return fTupletActualNotes; }
@@ -6850,15 +6878,23 @@ class msrTuplet : public msrElement
     // fields
     // ------------------------------------------------------
 
+    // uplink
+    S_msrMeasure          fTupletMeasureUplink;
+    
     int                   fTupletNumber;
     
+    msrTupletBracketKind  fTupletBracketKind;
+              
+    msrTupletShowNumberKind
+                          fTupletShowNumberKind;
+              
+    msrTupletShowTypeKind fTupletShowTypeKind;
+              
     int                   fTupletActualNotes;
     int                   fTupletNormalNotes;
 
     rational              fTupletSoundingWholeNotes;
     rational              fTupletDisplayWholeNotes;
-
-    S_msrMeasure          fTupletMeasureUplink;
 
     string                fTupletMeasureNumber;
     rational              fTupletPositionInMeasure;

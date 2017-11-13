@@ -82,6 +82,10 @@ class musicXMLOptions : public optionsGroup
     bool                  fIgnoreRedundantKeys;
     bool                  fIgnoreRedundantTimes;
 
+    // tuplets
+
+    // JMI ??? bracket yes/no ???
+                      
     // cubase
 
     bool                  fCubase;
