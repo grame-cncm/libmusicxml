@@ -19,11 +19,6 @@
 namespace MusicXML2 
 {
 
-/*!
-\addtogroup msr
-@{
-*/
-
 //______________________________________________________________________________
 void msrAssert (
   bool   condition,
@@ -85,8 +80,6 @@ void msrInternalError (
   int    sourceCodeLineNumber,
   std::string message);
 
-
-/*! @} */
 
 }
 

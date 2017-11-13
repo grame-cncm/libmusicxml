@@ -15437,8 +15437,15 @@ void msrMeasure::initializeMeasure ()
       ", line " << fInputLineNumber <<
       endl;
   }
-  
+
+  // measure kind
   fMeasureKind = kUnknownMeasureKind;
+
+  // measure 'first in segment' kind
+  fMeasureFirstInSegmentKind = kMeasureFirstInSegmentNo;
+
+  // measure 'created after a repeat' kind
+  fMeasureCreatedAfterARepeatKind = kMeasureCreatedAfterARepeatNo;
 
 /* JMI
   static int count = 0;
@@ -15519,6 +15526,10 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   newbornClone->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
 
+  // measure 'created after a repeat' kind
+  newbornClone->fMeasureCreatedAfterARepeatKind =
+    fMeasureCreatedAfterARepeatKind;
+
   // chords handling
 
   // elements
@@ -15573,6 +15584,10 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   // measure 'first in segment' kind
   measureDeepCopy->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
+
+  // measure 'created after a repeat' kind
+  measureDeepCopy->fMeasureCreatedAfterARepeatKind =
+    fMeasureCreatedAfterARepeatKind;
 
   // elements
 
@@ -17381,7 +17396,7 @@ void msrMeasure::finalizeMeasure (
     
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Finalizing measure " << fMeasureNumber <<
+      "Finalizing measure '" << fMeasureNumber << "'" <<
       " in voice \"" << voice->getVoiceName () <<
       "\", line " << inputLineNumber <<
       endl;
@@ -17406,56 +17421,66 @@ void msrMeasure::finalizeMeasure (
   }
 
   if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
-    rational
-      lengthToReach =
-        partMeasureLengthHighTide;
-    
-    if (fMeasureLength < lengthToReach) {
-      // appending a rest to this measure to reach lengthToReach 
-      rational
-        restDuration =
-          lengthToReach - fMeasureLength;
+    switch (fMeasureCreatedAfterARepeatKind) {
+      case msrMeasure::kMeasureCreatedAfterARepeatYes:
+        // such a measure should not be completed with rests!
+        break;
         
-      // create the rest
-      S_msrNote
-        rest =
-          msrNote::createRestNote (
-            inputLineNumber,
-   // JMI         49, // JMI
-            restDuration,
-            restDuration,
-            0, // dots number JMI ???
-            voice->
-              getVoiceStaffUplink ()->getStaffNumber (),
-            voice->
-              getVoicePartRelativeID ());
-  
-      // does the rest occupy a full measure?
-      if (restDuration == fMeasureFullMeasureLength)
-        rest->
-          setNoteOccupiesAFullMeasure ();
-    
-      // register rest's position in measure
-      rest->
-        setNotePositionInMeasure (fMeasureLength);
-             
-      if (gGeneralOptions->fTraceMeasures)
-        gLogIOstream <<
-         "Appending '" << rest->noteAsString () <<
-         " (" << restDuration << " rest whole notes)'" <<
-         " to finalize \"" << voice->getVoiceName () <<
-         "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
-         " % --> @" << fMeasureNumber << // JMI
-         ":" << partMeasureLengthHighTide <<
-          ", restDuration = " << restDuration <<
-         endl;
-  
-      // append the rest to the measure elements list
-      // only now to make it possible to remove it afterwards
-      // if it happens to be the first note of a chord
-      appendNoteToMeasure (rest);
-    }
-  
+      case msrMeasure::kMeasureCreatedAfterARepeatNo:
+        {
+          rational
+            lengthToReach =
+              partMeasureLengthHighTide;
+      
+          if (fMeasureLength < lengthToReach) {
+            // appending a rest to this measure to reach lengthToReach 
+            rational
+              restDuration =
+                lengthToReach - fMeasureLength;
+              
+            // create the rest
+            S_msrNote
+              rest =
+                msrNote::createRestNote (
+                  inputLineNumber,
+         // JMI         49, // JMI
+                  restDuration,
+                  restDuration,
+                  0, // dots number JMI ???
+                  voice->
+                    getVoiceStaffUplink ()->getStaffNumber (),
+                  voice->
+                    getVoicePartRelativeID ());
+        
+            // does the rest occupy a full measure?
+            if (restDuration == fMeasureFullMeasureLength)
+              rest->
+                setNoteOccupiesAFullMeasure ();
+          
+            // register rest's position in measure
+            rest->
+              setNotePositionInMeasure (fMeasureLength);
+                   
+            if (gGeneralOptions->fTraceMeasures)
+              gLogIOstream <<
+               "Appending '" << rest->noteAsString () <<
+               " (" << restDuration << " rest whole notes)'" <<
+               " to finalize \"" << voice->getVoiceName () <<
+               "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
+               " % --> @" << fMeasureNumber << // JMI
+               ":" << partMeasureLengthHighTide <<
+                ", restDuration = " << restDuration <<
+               endl;
+        
+            // append the rest to the measure elements list
+            // only now to make it possible to remove it afterwards
+            // if it happens to be the first note of a chord
+            appendNoteToMeasure (rest);
+          }
+        }
+        break;
+    } // switch
+
     // determine the measure kind
     if (fMeasureLength == fMeasureFullMeasureLength) {
       // full measure
@@ -17537,7 +17562,7 @@ void msrMeasure::finalizeMeasure (
   }
 
   else {
-    // leave measure as it it
+    // leave measure as it it JMI ???
   }
 }
 
@@ -17657,8 +17682,7 @@ string msrMeasure::measureImplicitKindAsString (
 }
 
 string msrMeasure::measureFirstInSegmentKindAsString (
-    msrMeasureFirstInSegmentKind measureFirstInSegmentKind
-)
+    msrMeasureFirstInSegmentKind measureFirstInSegmentKind)
 {
   string result;
 
@@ -17668,6 +17692,23 @@ string msrMeasure::measureFirstInSegmentKindAsString (
       break;
     case msrMeasure::kMeasureFirstInSegmentNo:
       result = "not first in segment";
+      break;
+  } // switch
+
+  return result;
+}
+      
+string msrMeasure::measureCreatedAfterARepeatKindAsString (
+  msrMeasureCreatedAfterARepeatKind measureCreatedAfterARepeatKind)
+{
+  string result;
+
+  switch (measureCreatedAfterARepeatKind) {
+    case msrMeasure::kMeasureCreatedAfterARepeatYes:
+      result = "MeasureCreatedAfterARepeat: yes";
+      break;
+    case msrMeasure::kMeasureCreatedAfterARepeatNo:
+      result = "MeasureCreatedAfterARepeat: no";
       break;
   } // switch
 
@@ -17697,6 +17738,9 @@ void msrMeasure::print (ostream& os)
     ", " <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
+    ", " <<
+    msrMeasure::measureCreatedAfterARepeatKindAsString (
+      fMeasureCreatedAfterARepeatKind) << 
     ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
@@ -18014,7 +18058,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     gLogIOstream <<
       "Finalizing current measure '" <<
       currentMeasureNumber <<
-      "'in segment " <<
+      "' in segment " <<
       segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -18046,39 +18090,45 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       measureImplicitKind);
   */
   
-  // finalize segment's last measure
-  fSegmentMeasuresList.back ()->
-    finalizeMeasure (
-      inputLineNumber);
-        
-    /* JMI
-  else {
-      
-    stringstream s;
+  // finalize or remove segment's last measure
+  S_msrMeasure
+    lastMeasure =
+      fSegmentMeasuresList.back ();
 
-    s <<
-      "cannot finalize current measure in segment " <<
-      segmentAsString () <<
-      " since it doesn't contain any measure";
-
-    msrInternalError (
-      inputLineNumber, s.str ());
+  if (lastMeasure->getMeasureElementsList ().size ()) {
+    lastMeasure->
+      finalizeMeasure (
+        inputLineNumber);
   }
-      */
+  
+  else {
+    if (gGeneralOptions->fTraceMeasures) {
+      stringstream s;
+  
+      gLogIOstream <<
+        "Cannot finalize current measure '" <<
+        lastMeasure->getMeasureNumber () <<
+        "' in segment '" <<
+        segmentAsString () <<
+        "' since it is empty, removing it";
+  
+      fSegmentMeasuresList.pop_back ();
+    }
+  }
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) { // JMI
     gLogIOstream <<
-      "Current measure '" <<
-      currentMeasureNumber <<
-      "'in segment " <<
-      segmentAsString () <<
-      ", in voice \"" <<
+      endl <<
+      "*********>> Current voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       ", line " << inputLineNumber <<
       " contains:" <<
       endl <<
-      fSegmentMeasuresList.back ();
+      fSegmentVoiceUplink <<
+      "<<*********" <<
+      endl <<
+      endl;
   }
 }
 
@@ -18725,7 +18775,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     if (fSegmentMeasuresList.size () == 0)
       gLogIOstream <<
-        ", as first measure";
+        ", as first measure FII";
     else
       gLogIOstream <<
       ", after measure number '" << currentMeasureNumber << "'";
@@ -18733,7 +18783,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
     gLogIOstream <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
-      "\"," <<
+      "\"" <<
       ", line " << measure->getInputLineNumber () <<
       endl;
   }
@@ -18775,9 +18825,10 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
       "Prepending measure " << measureNumber <<
       " to segment " << segmentAsString ();
 
-    if (fSegmentMeasuresList.size () == 0)
+    if (fSegmentMeasuresList.size () == 0) {
       gLogIOstream <<
-        ", as first measure";
+        ", as first measure FOO";
+    }
 /* JMI
     else
       gLogIOstream <<
@@ -18785,7 +18836,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 */
 
     gLogIOstream <<
-      "' in voice \"" <<
+      " in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
       ", line " << measure->getInputLineNumber () <<
@@ -18807,7 +18858,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 
   else { // JMI TEMP
     // append measure to the segment
-    fSegmentMeasuresList.push_back (measure);
+    fSegmentMeasuresList.push_back (measure); // push_front ??? JMI
   }
 }
 
@@ -19194,7 +19245,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     stringstream s;
 
     s <<
-      "cannot remove last measure from from segment '" <<
+      "cannot remove last measure from segment '" <<
       fSegmentAbsoluteNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -19214,12 +19265,15 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
-      "This measure contains:";
+      endl <<
+      "This measure contains:" <<
+      endl;
 
     gIndenter++;
 
     gLogIOstream <<
-      result;
+      result <<
+      endl;
 
     gIndenter--;
   }
@@ -21223,22 +21277,34 @@ void msrMultipleRest::browseData (basevisitor* v)
       "% ==> msrMultipleRest::browseData()" <<
       endl;
 
-  // fetch the score
-  S_msrScore
-    score =
+  // get the part uplink
+  S_msrPart
+    partUplink =
       fMultipleRestVoiceUplink->
-        fetchVoicePartUplink ()->
-          getPartPartGroupUplink ()->
-            getPartGroupScoreUplink ();
+        fetchVoicePartUplink ();
+
+  // get the part group uplink
+  S_msrPartGroup
+    partGroupUplink =
+      partUplink->
+        getPartPartGroupUplink ();
+
+  // get the score uplink
+  S_msrScore
+    scoreUplink =
+      partGroupUplink->
+        getPartGroupScoreUplink ();
 
   bool inhibitMultipleRestMeasuresBrowsing =
-    score->getInhibitMultipleRestMeasuresBrowsing ();
+    scoreUplink->
+      getInhibitMultipleRestMeasuresBrowsing ();
 
   if (inhibitMultipleRestMeasuresBrowsing) {
-    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats)
+    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats) {
       gLogIOstream <<
         "% ==> visiting multiple rest measures is inhibited" <<
         endl;
+    }
   }
 
   if (fMultipleRestContents) {
@@ -21280,11 +21346,23 @@ void msrMultipleRest::print (ostream& os)
     endl;
   
   gIndenter++;
-  
+
+  const int fieldWidth = 24;
+
+  // print teh voice uplink
+  os << left <<
+    setw (fieldWidth) <<
+    "MultipleRestVoiceUplink" << " : " <<
+    "\"" <<
+    fMultipleRestVoiceUplink->getVoiceName () <<
+    "\"" <<
+    endl;
+    
   // print the rests contents
   if (! fMultipleRestContents) {
-    os <<
-      "Multiple rests contents: none" <<
+    os << left <<
+      setw (fieldWidth) <<
+      "Multiple rests contents" << " : " << "none" <<
       endl;
   }
 
@@ -22407,8 +22485,8 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
     appendMeasureToSegment (firstMeasure);
 }
 
-void msrVoice::createNewLastSegmentAndANewMeasureForVoice (
-  int    inputLineNumber)
+void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
+  int inputLineNumber)
 {
 /*
   This method is used for repeats
@@ -22442,7 +22520,12 @@ void msrVoice::createNewLastSegmentAndANewMeasureForVoice (
         inputLineNumber,
         fVoiceCurrentMeasureNumber,
         fVoiceLastSegment);
-  
+
+  // set it as being created after a repeat
+  newMeasure->
+    setMeasureCreatedAfterARepeatKind (
+      msrMeasure::kMeasureCreatedAfterARepeatYes);
+    
   // append new measure to new voice last segment
   fVoiceLastSegment->
     appendMeasureToSegment (newMeasure);
@@ -23585,9 +23668,13 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
             "-=> Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
-            
-        createNewLastSegmentAndANewMeasureForVoice (
+
+        createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber);
+        /* JMI BOF
+        createNewLastSegmentForVoice (
+          inputLineNumber);
+          */
       }
       break;
   } // switch
@@ -23607,11 +23694,11 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // create a measure repeat
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "-=> Creating a '" <<
+            "-=> Creating a " <<
             measureRepeatMeasuresNumber <<
-            "' measure, '" <<
+            " measure, " <<
             measureRepeatSlashes <<
-            "' slashes repeat from it's first measure in voice \"" <<
+            " slashes repeat from it's first measure in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -23621,7 +23708,8 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         // print current voice contents
         if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices)
           gLogIOstream <<
-            "The current voice contents of voice \"" <<
+            endl <<
+            "The current contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
 
@@ -23629,7 +23717,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         print (gLogIOstream);
         gIndenter--;
 
-        // this occurs after a measure has just been created,
+        // this occurs after an empty measure has just been created,
         // hence the repeated measure/measures is/are the
         // measureRepeatMeasuresNumber measures preceding the last one
 
@@ -23647,7 +23735,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           s <<
             "attempting to create a measure repeat with " <<
             measureRepeatMeasuresNumber <<
-            " measures while current last segment has only " <<
+            " measures while current last segment only has " <<
             availableMeasuresNumber <<
             " available";
 
@@ -23683,6 +23771,15 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
 
         // remove the repeated measure(s) for the last segment
         // and preppend  them to the repeated segment
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+          gLogIOstream <<
+            "-=> Removing the last " <<
+            measureRepeatMeasuresNumber <<
+            " measures (to be repeated) from voice \"" <<
+            fVoiceName <<
+            endl;
+        }
+
         for (int i = 0; i< measureRepeatMeasuresNumber; i++) {
           S_msrMeasure
             lastMeasure =
@@ -23695,12 +23792,13 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         }
             
         // create the measure pattern
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
-
+        }
+        
         S_msrMeasureRepeatPattern
           measureRepeatPattern =
             msrMeasureRepeatPattern::create (
@@ -24435,7 +24533,7 @@ void msrVoice::appendRepeatEndingToVoice (
             fVoiceName << "\"" <<
             endl;
             
-        createNewLastSegmentAndANewMeasureForVoice (
+        createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber);
       }
       break;
@@ -27371,10 +27469,12 @@ msrPart::msrPart (
     partID.end (),
     stringSpaceReplacer (fPartID, '_'));
 
+/* JMI
   // sanity check
   msrAssert(
     partPartGroupUplink != 0,
     "partPartGroupUplink is null");
+    */
     
   // set part's part group uplink
   fPartPartGroupUplink = partPartGroupUplink;
@@ -29478,11 +29578,17 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   // don't check against 0, since the partGroup stack JMI
   // that it comes from may be empty
 /* JMI
+
   // sanity check
   msrAssert(
     partGroupClone != 0,
-    partGroupClone is null");
+    "partGroupClone is null");
     */
+    
+  // sanity check
+  msrAssert(
+    scoreClone != 0,
+    "scoreClone is null");
     
   S_msrPartGroup
     newbornClone =

@@ -10,8 +10,8 @@
   research@grame.fr
 */
 
-#ifndef __xml2lilypondOptionsHandling__
-#define __xml2lilypondOptionsHandling__
+#ifndef __xml2lyOptionsHandling__
+#define __xml2lyOptionsHandling__
 
 #include "exports.h"
 #include "optionsHandling.h"
@@ -21,14 +21,14 @@ namespace MusicXML2
 {
 
 //_______________________________________________________________________________
-class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
+class EXP xml2lyOptionsHandler : public optionsHandler
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<xml2lilypondOptionsHandler> create (
+    static SMARTP<xml2lyOptionsHandler> create (
       indentedOstream& ios);
      
   protected:
@@ -36,10 +36,10 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     // constructors/destructor
     // ------------------------------------------------------
 
-    xml2lilypondOptionsHandler (
+    xml2lyOptionsHandler (
       indentedOstream& ios);
       
-    virtual ~xml2lilypondOptionsHandler();
+    virtual ~xml2lyOptionsHandler();
 
   private:
 
@@ -65,11 +65,9 @@ class EXP xml2lilypondOptionsHandler : public msrOptionsHandler
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<xml2lilypondOptionsHandler> S_xml2lilypondOptionsHandler;
-ostream& operator<< (ostream& os, const S_xml2lilypondOptionsHandler& elt);
+typedef SMARTP<xml2lyOptionsHandler> S_xml2lyOptionsHandler;
+ostream& operator<< (ostream& os, const S_xml2lyOptionsHandler& elt);
 
-
-/*! @} */
 
 }
 

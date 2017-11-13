@@ -28,7 +28,7 @@ S_generalOptions gGeneralOptionsUserChoices;
 S_generalOptions gGeneralOptionsWithDetailedTrace;
 
 S_generalOptions generalOptions::create (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   generalOptions* o = new generalOptions (
     optionsHandler);
@@ -38,8 +38,8 @@ S_generalOptions generalOptions::create (
 }
 
 generalOptions::generalOptions (
-  S_msrOptionsHandler optionsHandler)
-  : msrOptionsGroup (
+  S_optionsHandler optionsHandler)
+  : optionsGroup (
     "General",
     "hg", "helpGeneral",
 R"(Options that are used by various components of the library
@@ -87,22 +87,22 @@ void generalOptions::initializeGeneralOptions (
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       versionSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Version",
           "hgb", "helpGeneralVersion",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
     
     appendOptionsSubGroup (versionSubGroup);
   
     versionSubGroup->
       appendOptionsItem (
-        msrOptionsVersionItem::create (
+        optionsVersionItem::create (
           "v", "version",
-R"(Display xml2lilypond's version number and history and exit.)"));
+R"(Display xml2ly's version number and history and exit.)"));
   }
 
 
@@ -114,22 +114,22 @@ R"(Display xml2lilypond's version number and history and exit.)"));
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       aboutSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "About",
           "hga", "helpGeneralAbout",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
     
     appendOptionsSubGroup (aboutSubGroup);
   
     aboutSubGroup->
       appendOptionsItem (
-        msrOptionsAboutItem::create (
+        optionsAboutItem::create (
           "a", "about",
-R"(Display information about xml2lilypond and exit.)"));
+R"(Display information about xml2ly and exit.)"));
   }
 
 
@@ -141,22 +141,22 @@ R"(Display information about xml2lilypond and exit.)"));
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       contactSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Contact",
           "hgc", "helpGeneralContact",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
     
     appendOptionsSubGroup (contactSubGroup);
   
     contactSubGroup->
       appendOptionsItem (
-        msrOptionsContactItem::create (
+        optionsContactItem::create (
           "c", "contact",
-R"(Display information about how to contacct xml2lilypond maintainers and exit.)"));
+R"(Display information about how to contacct xml2ly maintainers and exit.)"));
   }
 
 
@@ -168,32 +168,32 @@ R"(Display information about how to contacct xml2lilypond maintainers and exit.)
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       helpGeneralOptionsHelpSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Options help",
           "hgoh", "helpGeneralOptionsHelp",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (helpGeneralOptionsHelpSubGroup);
   
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
-        msrOptionsHelpUsageItem::create (
+        optionsHelpUsageItem::create (
           "ho", "helpOptions",
 R"(Print options usage help.)"));
 
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
-        msrOptionsHelpSummaryItem::create (
+        optionsHelpSummaryItem::create (
           "hs", "helpSummary",
-R"(Display xml2lilypond's help summary and exit.)"));
+R"(Display xml2ly's help summary and exit.)"));
   
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
-        msrOptionsItemHelpItem::create (
+        optionsItemHelpItem::create (
         "ih", "itemHelp",
 R"(Print help about 'itemName'.)",
         "itemName"));
@@ -210,20 +210,20 @@ R"(Print help about 'itemName'.)",
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       outputFileSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Output file",
           "hgof", "helpGeneralOutputFile",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
             
     appendOptionsSubGroup (outputFileSubGroup);
     
     outputFileSubGroup->
       appendOptionsItem (
-        msrOptionsStringItem::create (
+        optionsStringItem::create (
           "ofn", "outputFileName",
 R"(Write LilyPond code to file 'fileName' instead of standard output.)",
           "fileName",
@@ -232,7 +232,7 @@ R"(Write LilyPond code to file 'fileName' instead of standard output.)",
   
     outputFileSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "aofn", "autoOutputFileName",
 R"(This option can only be used when reading from a file.
 Write LilyPond code to a file in the current working directory.
@@ -258,20 +258,20 @@ or adding '.ly' if none is present.)",
     
     // options
     
-      S_msrOptionsSubGroup
+      S_optionsSubGroup
         traceAndDisplaySubGroup =
-          msrOptionsSubGroup::create (
+          optionsSubGroup::create (
             "Trace and display",
             "hgtd", "helpGeneralTraceDansDisplay",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
     
       appendOptionsSubGroup (traceAndDisplaySubGroup);
           
       traceAndDisplaySubGroup->
         appendOptionsItem (
-          msrOptionsBooleanItem::create (
+          optionsBooleanItem::create (
             "t", "traceGeneral",
 R"(Write a trace of the general activity to standard error.)",
             "traceGeneral",
@@ -279,7 +279,7 @@ R"(Write a trace of the general activity to standard error.)",
     
       traceAndDisplaySubGroup->
         appendOptionsItem (
-          msrOptionsBooleanItem::create (
+          optionsBooleanItem::create (
             "dov", "displayOptionsValues",
 R"(Write the chosen options values to standard error.)",
             "displayOptionsValues",
@@ -287,7 +287,7 @@ R"(Write the chosen options values to standard error.)",
     
       traceAndDisplaySubGroup->
         appendOptionsItem (
-          msrOptionsNumbersSetItem::create (
+          optionsNumbersSetItem::create (
             "tdetail", "traceDetailed",
 R"('measureNumbersSet' has a form such as '0,2-14,^8-10',
 where '^' excludes the corresponding numbers interval
@@ -312,20 +312,20 @@ debugging information to standard error for the specified measures.)",
       
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       CPUUsageSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "CPU usage",
           "hgcpu", "helpGeneralCPUUsage",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (CPUUsageSubGroup);
         
     CPUUsageSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "cpu", "displayCPUusage",
 R"(Write a trace of the general activity to standard error.)",
           "displayCPUusage",
@@ -442,20 +442,20 @@ R"(Write a trace of the general activity to standard error.)",
 
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       specificTraceSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Specific trace",
           "hgst", "helpGeneralSpecificTrace",
 R"(Note: the options in this group imply '-t, -traceGeneral'.)",
-        msrOptionsSubGroup::kHideDescriptionByDefault,
+        optionsSubGroup::kHideDescriptionByDefault,
         this);
   
     appendOptionsSubGroup (specificTraceSubGroup);
 
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tdivs", "traceDivisions",
 R"(Divisions)",
           "traceDivisions",
@@ -464,7 +464,7 @@ R"(Divisions)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tpgrps", "tracePartGroups",
 R"(Part groups)",
           "tracePartGroups",
@@ -473,7 +473,7 @@ R"(Part groups)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsThreeBooleansItem::create (
+        optionsThreeBooleansItem::create (
           "tpgrpsd", "tracePartGroupsDetails",
 R"(Part groups with more details.
 This option implies '-tpgrps, -tracePartGroups'.)",
@@ -484,7 +484,7 @@ This option implies '-tpgrps, -tracePartGroups'.)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tparts", "traceParts",
 R"(Parts)",
           "traceParts",
@@ -493,7 +493,7 @@ R"(Parts)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tstaves", "traceStaves",
 R"(Staves)",
           "traceStaves",
@@ -502,7 +502,7 @@ R"(Staves)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tvoices", "traceVoices",
 R"(Voices)",
           "traceVoices",
@@ -511,7 +511,7 @@ R"(Voices)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsThreeBooleansItem::create (
+        optionsThreeBooleansItem::create (
           "tvdetails", "traceVoicesDetails",
 R"(Voices with more details (quite verbose)..
 This option implies '-tvdetails, -traceVoicesDetails'.)",
@@ -522,7 +522,7 @@ This option implies '-tvdetails, -traceVoicesDetails'.)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tclefs", "traceClefs",
 R"(Clefs)",
           "traceClefs",
@@ -531,7 +531,7 @@ R"(Clefs)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tkeys", "traceKeys",
 R"(Keys)",
           "traceKeys",
@@ -540,7 +540,7 @@ R"(Keys)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "ttimes", "traceTimes",
 R"(Times)",
           "traceTimes",
@@ -549,7 +549,7 @@ R"(Times)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "ttransps", "traceTranspositions",
 R"(Transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
           "traceTranspositions",
@@ -558,7 +558,7 @@ R"(Transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tsegs", "traceSegments",
 R"(Voices segments)",
           "traceSegments",
@@ -567,7 +567,7 @@ R"(Voices segments)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "treps", "traceRepeats",
 R"(Repeats, including multiple mesure repeats)",
           "traceRepeats",
@@ -576,7 +576,7 @@ R"(Repeats, including multiple mesure repeats)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tmeas", "traceMeasures",
 R"(Measures)",
           "traceMeasures",
@@ -585,7 +585,7 @@ R"(Measures)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tnotes", "traceNotes",
 R"(Notes)",
           "traceNotes",
@@ -594,7 +594,7 @@ R"(Notes)",
           
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsThreeBooleansItem::create (
+        optionsThreeBooleansItem::create (
           "tndetails", "traceNotesDetails",
 R"(Notes with more details, including divisions handling (quite verbose)..
 This option implies '-tndetails, -traceNotesDetails'.)",
@@ -605,7 +605,7 @@ This option implies '-tndetails, -traceNotesDetails'.)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tbeams", "traceBeams",
 R"(Beams)",
           "traceBeams",
@@ -614,7 +614,7 @@ R"(Beams)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "ttechs", "traceTechnicals",
 R"(Technicals)",
           "traceTechnicals",
@@ -623,7 +623,7 @@ R"(Technicals)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "twords", "traceWords",
 R"(Words)",
           "traceWords",
@@ -632,7 +632,7 @@ R"(Words)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "ttrems", "traceTremolos",
 R"(Tremolos)",
           "traceTremolos",
@@ -641,7 +641,7 @@ R"(Tremolos)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tchords", "traceChords",
 R"(Chords)",
           "traceChords",
@@ -650,7 +650,7 @@ R"(Chords)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "ttups", "traceTuplets",
 R"(Tuplets)",
           "traceTuplets",
@@ -659,7 +659,7 @@ R"(Tuplets)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tgraces", "traceGraceNotes",
 R"(Grace notes)",
           "traceGraceNotes",
@@ -668,7 +668,7 @@ R"(Grace notes)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tlyrics", "traceLyrics",
 R"(Lyrics in MusicXML, stanzas in MSR)",
           "traceLyrics",
@@ -677,7 +677,7 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tharms", "traceHarmonies",
 R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
           "traceHarmonies",
@@ -686,7 +686,7 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tfigbass", "traceFiguredBass",
 R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
           "traceFiguredBass",
@@ -695,7 +695,7 @@ R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tcredits", "traceCredits",
 R"(Credits)",
           "traceCredits",
@@ -704,7 +704,7 @@ R"(Credits)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tdynamics", "traceDynamics",
 R"(Dynamics)",
           "traceDynamics",
@@ -713,7 +713,7 @@ R"(Dynamics)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tslurs", "traceSlurs",
 R"(Slurs)",
           "fTraceSlurs",
@@ -722,7 +722,7 @@ R"(Slurs)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "tligatures", "traceLigatures",
 R"(Ligatures)",
           "traceLigatures",
@@ -731,7 +731,7 @@ R"(Ligatures)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "twedges", "traceWedges",
 R"(Wedges)",
           "traceWedges",
@@ -740,7 +740,7 @@ R"(Wedges)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "traceStaffTuning", "",
 R"(Staff tuning)",
           "traceStaffTuning",
@@ -749,7 +749,7 @@ R"(Staff tuning)",
       
     specificTraceSubGroup->
       appendOptionsItem (
-        msrOptionsTwoBooleansItem::create (
+        optionsTwoBooleansItem::create (
           "traceHarpPedalsTuning", "",
 R"(Harp pedals tuning)",
           "traceHarpPedalsTuning",
@@ -758,9 +758,9 @@ R"(Harp pedals tuning)",
 
 
     // '-exit2a' is hidden...
-    S_msrOptionsBooleanItem
+    S_optionsBooleanItem
       exit2aOptionsBooleanItem =
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "e2a", "exit2a",
 R"(Exit after pass 2a, i.e. after conversion
 of the MusicXML tree to an MSR skeleton.)",
@@ -774,9 +774,9 @@ of the MusicXML tree to an MSR skeleton.)",
         exit2aOptionsBooleanItem);
 
     // '-exit2b' is hidden...
-    S_msrOptionsBooleanItem
+    S_optionsBooleanItem
       exit2bOptionsBooleanItem =
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "e2b", "exit2b",
 R"(Exit after pass 2b, i.e. after conversion
 of the MusicXML tree to MSR.)",
@@ -790,9 +790,9 @@ of the MusicXML tree to MSR.)",
         exit2bOptionsBooleanItem);
 
     // '-exit3' is hidden...
-    S_msrOptionsBooleanItem
+    S_optionsBooleanItem
       exit3OptionsBooleanItem =
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "e3", "exit3",
 R"(Exit after pass 3, i.e. after conversion
 of the MSR to LPSR.)",
@@ -1245,7 +1245,7 @@ ostream& operator<< (ostream& os, const S_generalOptions& elt)
 
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {  
   // create the options variables
   // ------------------------------------------------------

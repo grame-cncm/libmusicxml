@@ -24,11 +24,6 @@
 namespace MusicXML2 
 {
 
-/*!
-\addtogroup msr
-@{
-*/
-
 /*
   The classes in this file implement the
   
@@ -150,12 +145,6 @@ class msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
 
 
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
 //______________________________________________________________________________
 class msrElement : public smartable
 {
@@ -207,12 +196,6 @@ class msrElement : public smartable
 typedef SMARTP<msrElement> S_msrElement;
 EXP ostream& operator<< (ostream& os, const S_msrElement& elt);
 
-/*!
-\brief A generic msr element representation.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
 //______________________________________________________________________________
 template <typename T> class msrBrowser : public browser<T> 
 {
@@ -242,9 +225,6 @@ template <typename T> class msrBrowser : public browser<T>
     virtual void leave (T& t) { t.acceptOut (fVisitor); }
 };
 
-/*!
-\brief A beat description for MusicXML.
-*/
 //______________________________________________________________________________
 class msrPolyphony : public smartable
 {
@@ -267,9 +247,6 @@ class msrPolyphony : public smartable
     list<S_msrVoice>      fPolyphonyVoiceActivities;
 };
 
-/*!
-\brief A beat description for MusicXML.
-*/
 //______________________________________________________________________________
 class msrBeatData // JMI ???
 {
@@ -288,18 +265,6 @@ class msrBeatData // JMI ???
     string fBeatUnit;
     int    fDots;
 };
-
-/*!
-\brief A msr stem representation.
-
-  A beam is represented by a msrBeamKind value
-*/
-
-/*!
-\brief A msr stem representation.
-
-  A beam is represented by a msrBeamKind value
-*/
 
 //______________________________________________________________________________
 class msrOctaveShift : public msrElement
@@ -377,12 +342,6 @@ class msrOctaveShift : public msrElement
 };
 typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
 EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
-
-/*!
-\brief A msr stem representation.
-
-  A beam is represented by a msrBeamKind value
-*/
 
 //______________________________________________________________________________
 class msrAccordionRegistration : public msrElement
@@ -668,11 +627,6 @@ class msrBeam : public msrElement
 typedef SMARTP<msrBeam> S_msrBeam;
 EXP ostream& operator<< (ostream& os, const S_msrBeam& elt);
 
-/*!
-\brief A msr articulation representation.
-
-  An articulation is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrArticulation : public msrElement
 {
@@ -758,11 +712,6 @@ class msrArticulation : public msrElement
 typedef SMARTP<msrArticulation> S_msrArticulation;
 EXP ostream& operator<< (ostream& os, const S_msrArticulation& elt);
 
-/*!
-\brief A msr articulation representation.
-
-  An articulation is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrArpeggiato : public msrArticulation
 {
@@ -831,11 +780,6 @@ class msrArpeggiato : public msrArticulation
 typedef SMARTP<msrArpeggiato> S_msrArpeggiato;
 EXP ostream& operator<< (ostream& os, const S_msrArpeggiato& elt);
 
-/*!
-\brief A msr Arpeggiato representation.
-
-  An Arpeggiato is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrNonArpeggiato : public msrArticulation
 {
@@ -916,11 +860,6 @@ class msrNonArpeggiato : public msrArticulation
 typedef SMARTP<msrNonArpeggiato> S_msrNonArpeggiato;
 EXP ostream& operator<< (ostream& os, const S_msrNonArpeggiato& elt);
 
-/*!
-\brief A msr technical representation.
-
-  An technical is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrTechnical : public msrElement
 {
@@ -1055,11 +994,6 @@ class msrTechnical : public msrElement
 typedef SMARTP<msrTechnical> S_msrTechnical;
 EXP ostream& operator<< (ostream& os, const S_msrTechnical& elt);
 
-/*!
-\brief A msr technicalWithInteger representation.
-
-  An technicalWithInteger is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrTechnicalWithInteger : public msrElement
 {
@@ -1168,11 +1102,6 @@ class msrTechnicalWithInteger : public msrElement
 typedef SMARTP<msrTechnicalWithInteger> S_msrTechnicalWithInteger;
 EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt);
 
-/*!
-\brief A msr technicalWithString representation.
-
-  An technicalWithString is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrTechnicalWithString : public msrElement
 {
@@ -1282,11 +1211,6 @@ class msrTechnicalWithString : public msrElement
 typedef SMARTP<msrTechnicalWithString> S_msrTechnicalWithString;
 EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt);
 
-/*!
-\brief A msr ornament representation.
-
-  An ornament is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrOrnament : public msrElement
 {
@@ -1400,11 +1324,6 @@ class msrOrnament : public msrElement
 typedef SMARTP<msrOrnament> S_msrOrnament;
 EXP ostream& operator<< (ostream& os, const S_msrOrnament& elt);
 
-/*!
-\brief A msr articulation representation.
-
-  An articulation is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrFermata : public msrArticulation
 {
@@ -1487,11 +1406,6 @@ class msrFermata : public msrArticulation
 typedef SMARTP<msrFermata> S_msrFermata;
 EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
 
-/*!
-\brief A msr singleTremolo representation.
-
-  An singleTremolo is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrSingleTremolo : public msrElement
 {
@@ -1837,11 +1751,6 @@ class msrDoubleTremolo : public msrElement
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
 
-/*!
-\brief A msr rehearsal representation.
-
-  An rehearsal is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrRehearsal : public msrElement
 {
@@ -1917,11 +1826,6 @@ class msrRehearsal : public msrElement
 typedef SMARTP<msrRehearsal> S_msrRehearsal;
 EXP ostream& operator<< (ostream& os, const S_msrRehearsal& elt);
 
-/*!
-\brief A msr tie representation.
-
-  A tie is represented by a msrTieKind value (hairpins in LilyPond)
-*/
 //______________________________________________________________________________
 class msrTie : public msrElement
 {
@@ -1992,11 +1896,6 @@ class msrTie : public msrElement
 typedef SMARTP<msrTie> S_msrTie;
 EXP ostream& operator<< (ostream& os, const S_msrTie& elt);
 
-/*!
-\brief A msr slur representation.
-
-  A slur is represented by a SlurKind value (hairpins in LilyPond)
-*/
 //______________________________________________________________________________
 class msrSlur : public msrElement
 {
@@ -2073,11 +1972,6 @@ class msrSlur : public msrElement
 typedef SMARTP<msrSlur> S_msrSlur;
 EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
 
-/*!
-\brief A msr ligature representation.
-
-  A ligature is represented by a SlurKind value (hairpins in LilyPond)
-*/
 //______________________________________________________________________________
 class msrLigature : public msrElement
 {
@@ -2154,11 +2048,6 @@ class msrLigature : public msrElement
 typedef SMARTP<msrLigature> S_msrLigature;
 EXP ostream& operator<< (ostream& os, const S_msrLigature& elt);
 
-/*!
-\brief A msr dynamics representation.
-
-  A dynamics is represented by a msrDynamicsKind value
-*/
 //______________________________________________________________________________
 class msrDynamics : public msrElement
 {
@@ -2239,11 +2128,6 @@ class msrDynamics : public msrElement
 typedef SMARTP<msrDynamics> S_msrDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrDynamics& elt);
 
-/*!
-\brief A msr dynamics representation.
-
-  A dynamics is represented by a msrDynamicsKind value
-*/
 //______________________________________________________________________________
 class msrOtherDynamics : public msrElement
 {
@@ -2303,11 +2187,6 @@ class msrOtherDynamics : public msrElement
 typedef SMARTP<msrOtherDynamics> S_msrOtherDynamics;
 EXP ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt);
 
-/*!
-\brief A msr wedge representation.
-
-  A wedge is represented by a msrWedgeKind value (hairpins in LilyPond)
-*/
 //______________________________________________________________________________
 class msrWedge : public msrElement
 {
@@ -2376,11 +2255,6 @@ class msrWedge : public msrElement
 typedef SMARTP<msrWedge> S_msrWedge;
 EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
 
-/*!
-\brief A msr clef representation.
-
-  A clef is represented by its name
-*/
 //______________________________________________________________________________
 class msrClef : public msrElement
 {
@@ -2466,11 +2340,6 @@ class msrClef : public msrElement
 typedef SMARTP<msrClef> S_msrClef;
 EXP ostream& operator<< (ostream& os, const S_msrClef& elt);
 
-/*!
-\brief A msr key representation.
-
-  A key is represented by the tonic and the mode
-*/
 //______________________________________________________________________________
 class msrHumdrumScotKeyItem : public msrElement
 {
@@ -2565,11 +2434,6 @@ class msrHumdrumScotKeyItem : public msrElement
 typedef SMARTP<msrHumdrumScotKeyItem> S_msrHumdrumScotKeyItem;
 EXP ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt);
 
-/*!
-\brief A msr key representation.
-
-  A key is represented by the tonic and the mode
-*/
 //______________________________________________________________________________
 class msrKey : public msrElement
 {
@@ -2698,11 +2562,6 @@ class msrKey : public msrElement
 typedef SMARTP<msrKey> S_msrKey;
 EXP ostream& operator<< (ostream& os, const S_msrKey& elt);
 
-/*!
-\brief A msr key representation.
-
-  A key is represented by the tonic and the mode
-*/
 //______________________________________________________________________________
 class msrTimeItem : public msrElement
 {
@@ -2773,11 +2632,6 @@ class msrTimeItem : public msrElement
 typedef SMARTP<msrTimeItem> S_msrTimeItem;
 EXP ostream& operator<< (ostream& os, const S_msrTimeItem& elt);
 
-/*!
-\brief A msr time representation.
-
-  A time is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrTime : public msrElement
 {
@@ -2900,11 +2754,6 @@ class msrTime : public msrElement
 typedef SMARTP<msrTime> S_msrTime;
 EXP ostream& operator<< (ostream& os, const S_msrTime& elt);
 
-/*!
-\brief A msr time representation.
-
-  A time is represented by the numerator and denominator
-*/
 //______________________________________________________________________________
 class msrTranspose : public msrElement
 {
@@ -2984,13 +2833,6 @@ class msrTranspose : public msrElement
 typedef SMARTP<msrTranspose> S_msrTranspose;
 EXP ostream& operator<< (ostream& os, const S_msrTranspose& elt);
 
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common segment
-    - a vector of sequences of elements for the alternate endings
-*/
 //______________________________________________________________________________
 class msrMeasure : public msrElement
 {
@@ -3024,6 +2866,13 @@ class msrMeasure : public msrElement
       
     static string measureFirstInSegmentKindAsString (
       msrMeasureFirstInSegmentKind measureFirstInSegmentKind);
+
+    enum msrMeasureCreatedAfterARepeatKind {
+        kMeasureCreatedAfterARepeatYes,
+        kMeasureCreatedAfterARepeatNo };
+      
+    static string measureCreatedAfterARepeatKindAsString (
+      msrMeasureCreatedAfterARepeatKind measureCreatedAfterARepeatKind);
 
     // creation from MusicXML
     // ------------------------------------------------------
@@ -3123,8 +2972,6 @@ class msrMeasure : public msrElement
                               { return fMeasureImplicitKind; }
 
    
-                          ;
-
     // measure 'first in segment' kind
     
     void                  setMeasureFirstInSegmentKind (
@@ -3138,6 +2985,20 @@ class msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           getMeasureFirstInSegmentKind () const
                               { return fMeasureFirstInSegmentKind; }
+
+    // measure 'created after a repeat' kind
+    
+    void                  setMeasureCreatedAfterARepeatKind (
+                            msrMeasureCreatedAfterARepeatKind
+                              measureCreatedAfterARepeatKind)
+                              {
+                                fMeasureCreatedAfterARepeatKind =
+                                  measureCreatedAfterARepeatKind;
+                              }
+
+    msrMeasureCreatedAfterARepeatKind
+                          getMeasureCreatedAfterARepeatKind () const
+                              { return fMeasureCreatedAfterARepeatKind; }
 
     // chords handling
     
@@ -3402,6 +3263,11 @@ class msrMeasure : public msrElement
     msrMeasureFirstInSegmentKind
                           fMeasureFirstInSegmentKind;
                         
+    // measure 'created after a repeat' kind
+
+    msrMeasureCreatedAfterARepeatKind
+                          fMeasureCreatedAfterARepeatKind;
+                        
     // chords handling
     
     S_msrNote             fMeasureLastHandledNote;
@@ -3413,9 +3279,6 @@ class msrMeasure : public msrElement
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
 
-/*!
-\brief The msr sequential music element
-*/
 //______________________________________________________________________________
 class msrSegment : public msrElement
 {
@@ -3719,13 +3582,6 @@ class msrSegment : public msrElement
 typedef SMARTP<msrSegment> S_msrSegment;
 EXP ostream& operator<< (ostream& os, const S_msrSegment& elt);
 
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common segment
-    - a vector of sequences of elements for the alternate endings
-*/
 //______________________________________________________________________________
 class msrGraceNotes : public msrElement
 {
@@ -3808,13 +3664,6 @@ class msrGraceNotes : public msrElement
 typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
 
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common segment
-    - a vector of sequences of elements for the alternate endings
-*/
 //______________________________________________________________________________
 class msrAfterGraceNotes : public msrElement
 {
@@ -3909,11 +3758,6 @@ class msrAfterGraceNotes : public msrElement
 typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt);
 
-/*!
-\brief A words representation.
-
-  A words is represented by the stanza to use
-*/
 //______________________________________________________________________________
 class msrWords : public msrElement
 {
@@ -4054,12 +3898,6 @@ class msrWords : public msrElement
 typedef SMARTP<msrWords> S_msrWords;
 EXP ostream& operator<< (ostream& os, const S_msrWords& elt);
 
-/*!
-\brief A msr syllable representation.
-
-  A syllable is represented by a type and and a string.
-  In the case of "single", the list contains only one string
-*/
 //______________________________________________________________________________
 class msrSyllable : public msrElement
 {
@@ -4204,11 +4042,6 @@ class msrSyllable : public msrElement
 typedef SMARTP<msrSyllable> S_msrSyllable;
 EXP ostream& operator<< (ostream& os, const S_msrSyllable& elt);
 
-/*!
-\brief A msr harmony representation.
-
-  A harmony is represented by a list of syllables,
-*/
 //______________________________________________________________________________
 class msrHarmonyDegree : public msrElement
 {
@@ -4338,11 +4171,6 @@ Degree elements
 typedef SMARTP<msrHarmonyDegree> S_msrHarmonyDegree;
 EXP ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt);
 
-/*!
-\brief A msr harmony representation.
-
-  A harmony is represented by a list of syllables,
-*/
 //______________________________________________________________________________
 class msrHarmony : public msrElement
 {
@@ -4475,11 +4303,6 @@ class msrHarmony : public msrElement
 typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
 
-/*!
-\brief A msr harmony representation.
-
-  A harmony is represented by a list of syllables,
-*/
 //______________________________________________________________________________
 class msrFigure : public msrElement
 {
@@ -4707,12 +4530,6 @@ class msrFiguredBass : public msrElement
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 EXP ostream& operator<< (ostream& os, const S_msrFiguredBass& elt);
 
-/*!
-\brief A msr note representation.
-
-  A note is represented by its name, optional accidentals,
-    duration (in the form of numerator/denominator) and optional dots.
-*/
 //______________________________________________________________________________
 class msrNote : public msrElement
 {
@@ -5573,9 +5390,6 @@ class msrNote : public msrElement
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);
 
-/*!
-\brief The msr chord element
-*/
 //______________________________________________________________________________
 class msrChord : public msrElement
 {
@@ -5920,9 +5734,6 @@ class msrChord : public msrElement
 typedef SMARTP<msrChord> S_msrChord;
 EXP ostream& operator<< (ostream& os, const S_msrChord& elt);
 
-/*!
-\brief A msr LilyPond variable/value association representation.
-*/
 //______________________________________________________________________________
 class msrVarValAssoc : public msrElement
 {
@@ -5988,11 +5799,6 @@ class msrVarValAssoc : public msrElement
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
 
-/*!
-\brief A MSR identification representation.
-
-  A header is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class msrIdentification : public msrElement
 {
@@ -6154,11 +5960,6 @@ class msrIdentification : public msrElement
 typedef SMARTP<msrIdentification> S_msrIdentification;
 EXP ostream& operator<< (ostream& os, const S_msrIdentification& elt);
 
-/*!
-\brief A MSR page geometry representation.
-
-  A page geometry is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class msrPageGeometry : public msrElement
 {
@@ -6254,11 +6055,6 @@ class msrPageGeometry : public msrElement
 typedef SMARTP<msrPageGeometry> S_msrPageGeometry;
 EXP ostream& operator<< (ostream& os, const S_msrPageGeometry& elt);
 
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class msrCreditWords : public msrElement
 {
@@ -6344,11 +6140,6 @@ class msrCreditWords : public msrElement
 typedef SMARTP<msrCreditWords> S_msrCreditWords;
 EXP ostream& operator<< (ostream& os, const S_msrCreditWords& elt);
 
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class msrCredit : public msrElement
 {
@@ -6417,11 +6208,6 @@ class msrCredit : public msrElement
 typedef SMARTP<msrCredit> S_msrCredit;
 EXP ostream& operator<< (ostream& os, const S_msrCredit& elt);
 
-/*!
-\brief A msr layout representation.
-
-  A layout is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class msrLayout : public msrElement // JMI
 {
@@ -6477,11 +6263,6 @@ class msrLayout : public msrElement // JMI
 typedef SMARTP<msrLayout> S_msrLayout;
 EXP ostream& operator<< (ostream& os, const S_msrLayout& elt);
 
-/*!
-\brief A msr comment representation.
-
-  A comment is represented by its contents
-*/
 //______________________________________________________________________________
 
 class msrDivisions : public msrElement
@@ -6604,11 +6385,6 @@ class msrDivisions : public msrElement
 typedef SMARTP<msrDivisions> S_msrDivisions;
 EXP ostream& operator<< (ostream& os, const S_msrDivisions& elt);
 
-/*!
-\brief A msr barNumberCheck representation.
-
-  A barNumberCheck is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrBarCheck : public msrElement
 {
@@ -6676,11 +6452,6 @@ class msrBarCheck : public msrElement
 typedef SMARTP<msrBarCheck> S_msrBarCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarCheck& elt);
 
-/*!
-\brief A msr barNumberCheck representation.
-
-  A barNumberCheck is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrBarNumberCheck : public msrElement
 {
@@ -6740,11 +6511,6 @@ class msrBarNumberCheck : public msrElement
 typedef SMARTP<msrBarNumberCheck> S_msrBarNumberCheck;
 EXP ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt);
 
-/*!
-\brief A msr break representation.
-
-  A break is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrLineBreak : public msrElement
 {
@@ -6804,11 +6570,6 @@ class msrLineBreak : public msrElement
 typedef SMARTP<msrLineBreak> S_msrLineBreak;
 EXP ostream& operator<< (ostream& os, const S_msrLineBreak& elt);
 
-/*!
-\brief A msr break representation.
-
-  A break is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrPageBreak : public msrElement
 {
@@ -6861,13 +6622,6 @@ class msrPageBreak : public msrElement
 typedef SMARTP<msrPageBreak> S_msrPageBreak;
 EXP ostream& operator<< (ostream& os, const S_msrPageBreak& elt);
 
-/*!
-\brief A msr tuplet representation.
-
-  A tuplet is represented by the number of actual notes and
-  normal notes, i.e. a triplet is a tuplet with 3 actual notes
-  played for the duration of 2 actual notes
-*/
 //______________________________________________________________________________
 class msrTuplet : public msrElement
 {
@@ -7026,11 +6780,6 @@ class msrTuplet : public msrElement
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
 
-/*!
-\brief A tempo representation.
-
-  A tempo is represented by the stanza to use
-*/
 //______________________________________________________________________________
 class msrTempo : public msrElement
 {
@@ -7103,11 +6852,6 @@ class msrTempo : public msrElement
 typedef SMARTP<msrTempo> S_msrTempo;
 EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);
 
-/*!
-\brief A msr stanza representation.
-
-  A stanza is represented by a list of syllables,
-*/
 //______________________________________________________________________________
 class msrStanza : public msrElement
 {
@@ -7287,11 +7031,6 @@ class msrStanza : public msrElement
 typedef SMARTP<msrStanza> S_msrStanza;
 EXP ostream& operator<< (ostream& os, const S_msrStanza& elt);
 
-/*!
-\brief A msr barline representation.
-
-  A barline is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrSegno : public msrElement
 {
@@ -7342,11 +7081,6 @@ class msrSegno : public msrElement
 typedef SMARTP<msrSegno> S_msrSegno;
 EXP ostream& operator<< (ostream& os, const S_msrSegno& elt);
 
-/*!
-\brief A msr barline representation.
-
-  A barline is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrCoda : public msrElement
 {
@@ -7397,11 +7131,6 @@ class msrCoda : public msrElement
 typedef SMARTP<msrCoda> S_msrCoda;
 EXP ostream& operator<< (ostream& os, const S_msrCoda& elt);
 
-/*!
-\brief A msr barline representation.
-
-  A barline is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrEyeGlasses : public msrElement
 {
@@ -7452,11 +7181,6 @@ class msrEyeGlasses : public msrElement
 typedef SMARTP<msrEyeGlasses> S_msrEyeGlasses;
 EXP ostream& operator<< (ostream& os, const S_msrEyeGlasses& elt);
 
-/*!
-\brief A msr barline representation.
-
-  A barline is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrPedal : public msrElement
 {
@@ -7553,11 +7277,6 @@ class msrPedal : public msrElement
 typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
 
-/*!
-\brief A msr barline representation.
-
-  A barline is represented by the number of the next bar
-*/
 //______________________________________________________________________________
 class msrBarline : public msrElement
 {
@@ -7792,13 +7511,6 @@ class msrBarline : public msrElement
 typedef SMARTP<msrBarline> S_msrBarline;
 EXP ostream& operator<< (ostream& os, const S_msrBarline& elt);
 
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common segment
-    - a vector of sequences of elements for the alternate endings
-*/
 //______________________________________________________________________________
 class msrRepeatCommonPart : public msrElement
 {
@@ -7877,13 +7589,6 @@ class msrRepeatCommonPart : public msrElement
 typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt);
 
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common segment
-    - a vector of sequences of elements for the alternate endings
-*/
 //______________________________________________________________________________
 class msrRepeatEnding : public msrElement
 {
@@ -8004,13 +7709,6 @@ class msrRepeatEnding : public msrElement
 typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
 
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common segment
-    - a vector of sequences of elements for the alternate endings
-*/
 //______________________________________________________________________________
 class msrRepeat : public msrElement
 {
@@ -8106,13 +7804,6 @@ class msrRepeat : public msrElement
 typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
-/*!
-\brief A msr measure repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common segment
-    - a vector of sequences of elements for the alternate endings
-*/
 //______________________________________________________________________________
 class msrMeasureRepeatPattern : public msrElement
 {
@@ -8581,13 +8272,6 @@ class msrMultipleRest : public msrElement
 typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
 EXP ostream& operator<< (ostream& os, const S_msrMultipleRest& elt);
 
-/*!
-\brief A msr repeat representation.
-
-  A repeat is represented by:
-    - a sequence of elements for the common segment
-    - a vector of sequences of elements for the alternate endings
-*/
 //______________________________________________________________________________
 class msrRepeatCoda : public msrElement
 {
@@ -8666,11 +8350,6 @@ class msrRepeatCoda : public msrElement
 typedef SMARTP<msrRepeatCoda> S_msrRepeatCoda;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt);
 
-/*!
-\brief A msr voice representation.
-
-  A vpoce is represented by a its string contents
-*/
 //______________________________________________________________________________
 class msrVoice : public msrElement
 {
@@ -9093,8 +8772,8 @@ class msrVoice : public msrElement
                             int          inputLineNumber,
                             S_msrMeasure firstMeasure);
 
-    void                  createNewLastSegmentAndANewMeasureForVoice (
-                            int    inputLineNumber);
+    void                  createNewLastSegmentAndANewMeasureAfterARepeat (
+                            int inputLineNumber);
                             
     // stanzas
 // virer catchup JMI
@@ -9225,21 +8904,6 @@ class msrVoice : public msrElement
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
-/*!
-\brief A msr staff representation.
-
-  A staff is represented by a its string contents
-*/
-
-/* JMI
-Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
-*/
-
-/*!
-\brief A msr comment representation.
-
-  A comment is represented by its contents
-*/
 //______________________________________________________________________________
 
 class msrStaffLinesNumber : public msrElement
@@ -9382,11 +9046,6 @@ class msrStaffTuning : public msrElement
 typedef SMARTP<msrStaffTuning> S_msrStaffTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStaffTuning& elt);
 
-/*!
-\brief A msr comment representation.
-
-  A comment is represented by its contents
-*/
 //______________________________________________________________________________
 
 class msrStaffDetails : public msrElement
@@ -9518,15 +9177,6 @@ class msrStaffDetails : public msrElement
 typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
 EXP ostream& operator<< (ostream& os, const S_msrStaffDetails& elt);
 
-/*!
-\brief A msr staff representation.
-
-  A staff is represented by a its string contents
-*/
-
-/*
-Staff assignment is only needed for music notated on multiple staves. Used by both notes and directions. Staff values are numbers, with 1 referring to the top-most staff in a part.
-*/
 //______________________________________________________________________________
 class msrStaff : public msrElement
 {
@@ -9856,11 +9506,6 @@ class msrStaff : public msrElement
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 
-/*!
-\brief A msr comment representation.
-
-  A comment is represented by its contents
-*/
 //______________________________________________________________________________
 
 class msrVoiceStaffChange : public msrElement
@@ -9923,11 +9568,6 @@ class msrVoiceStaffChange : public msrElement
 typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 EXP ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt);
 
-/*!
-\brief A msr part representation.
-
-  A part is represented by a its string contents
-*/
 //______________________________________________________________________________
 class msrPart : public msrElement
 {
@@ -9986,13 +9626,13 @@ class msrPart : public msrElement
                               { return fPartPartGroupUplink; }
               
     // master
-
+/* JMI
     S_msrStaff            getPartMasterStaff () const
                               { return fPartMasterStaff; }
                               
     S_msrVoice            getPartMasterVoice () const
                               { return fPartMasterVoice; }
-
+*/
     // staves map
     
     const map<int, S_msrStaff>&
@@ -10377,8 +10017,8 @@ class msrPart : public msrElement
 
     // master
 
-    S_msrStaff            fPartMasterStaff;
-    S_msrVoice            fPartMasterVoice;
+// JMI    S_msrStaff            fPartMasterStaff;
+// JMI    S_msrVoice            fPartMasterVoice;
 
     // part ID and name
     
@@ -10442,11 +10082,6 @@ class msrPart : public msrElement
 typedef SMARTP<msrPart> S_msrPart;
 EXP ostream& operator<< (ostream& os, const S_msrPart& elt);
 
-/*!
-\brief A msr part group representation.
-
-  A part group is represented by a its string contents
-*/
 //______________________________________________________________________________
 class msrPartGroup : public msrElement
 {
@@ -10670,6 +10305,13 @@ class msrPartGroup : public msrElement
     // fields
     // ------------------------------------------------------
 
+    // uplinks
+    
+    S_msrPartGroup        fPartGroupPartGroupUplink;
+                            // part groups can be nested
+
+    S_msrScore            fPartGroupScoreUplink;
+
     // numbers
     
     int                   fPartGroupNumber;
@@ -10713,19 +10355,10 @@ class msrPartGroup : public msrElement
 
     // allowing for both parts and (sub-)part groups as elements
     list<S_msrElement>    fPartGroupElements;
-    
-    S_msrPartGroup        fPartGroupPartGroupUplink;
-
-    S_msrScore            fPartGroupScoreUplink;
 };
 typedef SMARTP<msrPartGroup> S_msrPartGroup;
 EXP ostream& operator<< (ostream& os, const S_msrPartGroup& elt);
 
-/*!
-\brief A msr score representation.
-
-  A score is represented by a its string contents
-*/
 //______________________________________________________________________________
 class msrScore : public msrElement
 {
@@ -10864,11 +10497,6 @@ class msrScore : public msrElement
 typedef SMARTP<msrScore> S_msrScore;
 EXP ostream& operator<< (ostream& os, const S_msrScore& elt);
 
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 class msrMidi : public msrElement
 {
@@ -10931,31 +10559,10 @@ class msrMidi : public msrElement
 typedef SMARTP<msrMidi> S_msrMidi;
 EXP ostream& operator<< (ostream& os, const S_msrMidi& elt);
 
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 void EXP initializeMSR ();
 
-/*! @} */
 
 }
-
-
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    // set and get
-    // ------------------------------------------------------
-
-    // services
-    // ------------------------------------------------------
-
-    // visitors
-    // ------------------------------------------------------
-
-
 
 #endif

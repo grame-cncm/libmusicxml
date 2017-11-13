@@ -26,7 +26,7 @@
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
 
-#include "xml2lilypondOptionsHandling.h"
+#include "xml2lyOptionsHandling.h"
 
 #include "musicXML2mxmlTreeInterface.h"
 
@@ -46,10 +46,10 @@ using namespace MusicXML2;
 
 //_______________________________________________________________________________
 vector<string> handleOptionsAndArguments (
-  S_xml2lilypondOptionsHandler optionsHandler,
-  int                          argc,
-  char*                        argv [],
-  indentedOstream&             logIndentedOutputStream)
+  S_xml2lyOptionsHandler optionsHandler,
+  int                    argc,
+  char*                  argv [],
+  indentedOstream&       logIndentedOutputStream)
 {
   // analyse the options
   vector<string>
@@ -315,9 +315,9 @@ int main (int argc, char *argv[])
   // create the options handler
   // ------------------------------------------------------
 
-  S_xml2lilypondOptionsHandler
+  S_xml2lyOptionsHandler
     optionsHandler =
-      xml2lilypondOptionsHandler::create (
+      xml2lyOptionsHandler::create (
         gOutputIOstream);
     
   // analyze the command line options and arguments
@@ -355,7 +355,7 @@ int main (int argc, char *argv[])
 
   if (gGeneralOptions->fTraceGeneral) {
     gLogIOstream <<
-      "This is xml2Lilypond v" << currentVersionNumber () << 
+      "This is xml2ly " << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
       endl;
 

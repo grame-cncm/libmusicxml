@@ -1055,6 +1055,14 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceGeneral) {
+    fLogOutputStream <<
+      endl <<
+      "<!--=== part \"" << partID << "\"" <<
+      ", line " << inputLineNumber << " ===-->" <<
+      endl;
+  }
+
   // fetch current part from its partID
   fCurrentPart =
     fMsrScore->
@@ -4059,6 +4067,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
         <beam number="1">end</beam>
       </note>
 */
+
   fCurrentVoiceNumber = int(*elt);
   
   int inputLineNumber =
@@ -4078,7 +4087,6 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
   */
   
   if (fOnGoingForward) {
-
     fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
 
     S_msrStaff
@@ -4098,7 +4106,6 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
   }
   
   else if (fOnGoingNote) {
-
     // regular voice indication in note/rest
     fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
@@ -4118,17 +4125,16 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
         "--> S_voice, current staff name  = " <<
         staff->getStaffName() <<
         endl;
-/*
-    currentVoice = // ???
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-  */  
+
+    S_msrVoice
+      currentVoice = // ???
+        fetchVoiceFromCurrentPart (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
   }
   
   else {
-    
     stringstream s;
     
     s << "voice " << fCurrentVoiceNumber << " is out of context";
@@ -7640,7 +7646,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
   else {
     stringstream s;
     
-    s << "measure repeat type " << measureRepeatType << " is unknown";
+    s << "measure repeat type '" << measureRepeatType << "' is unknown";
     
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,

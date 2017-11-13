@@ -23,12 +23,12 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class generalOptions : public msrOptionsGroup
+class generalOptions : public optionsGroup
 {
   public:
 
     static SMARTP<generalOptions> create (
-      S_msrOptionsHandler optionsHandler);
+      S_optionsHandler optionsHandler);
         
     SMARTP<generalOptions>        createCloneWithDetailedTrace ();
   public:
@@ -49,7 +49,7 @@ class generalOptions : public msrOptionsGroup
     // ------------------------------------------------------
 
     generalOptions (
-      S_msrOptionsHandler optionsHandler);
+      S_optionsHandler optionsHandler);
   
     virtual ~generalOptions ();
 
@@ -221,17 +221,10 @@ EXP extern S_generalOptions gGeneralOptions;
 EXP extern S_generalOptions gGeneralOptionsUserChoices;
 EXP extern S_generalOptions gGeneralOptionsWithDetailedTrace;
 
-/*!
-\brief A msr midi representation.
-
-  A midi is represented by variable/value pairs
-*/
 //______________________________________________________________________________
 void initializeGeneralOptionsHandling (
-  S_msrOptionsHandler optionsHandler);
+  S_optionsHandler optionsHandler);
 
-
-/*! @} */
 
 }
 

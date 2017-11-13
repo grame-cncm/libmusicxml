@@ -18,11 +18,6 @@
 namespace MusicXML2
 {
 
-/*!
-\addtogroup summary
-@{
-*/
-
 class msr2SummaryVisitor :
 
   public visitor<S_msrScore>,
@@ -246,8 +241,7 @@ class msr2SummaryVisitor :
 };
 
 
-/*! @} */
-
 }
+
 
 #endif

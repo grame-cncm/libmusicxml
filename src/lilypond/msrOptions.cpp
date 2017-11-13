@@ -30,7 +30,7 @@ S_msrOptions gMsrOptionsUserChoices;
 S_msrOptions gMsrOptionsWithDetailedTrace;
 
 S_msrOptions msrOptions::create (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   msrOptions* o = new msrOptions(
     optionsHandler);
@@ -39,8 +39,8 @@ S_msrOptions msrOptions::create (
 }
 
 msrOptions::msrOptions (
-  S_msrOptionsHandler optionsHandler)
-  : msrOptionsGroup (
+  S_optionsHandler optionsHandler)
+  : optionsGroup (
     "MSR",
     "hmsr", "helpMSR",
 R"(These options control the way MSR data is handled.)",
@@ -81,19 +81,19 @@ void msrOptions::initializeMsrOptions (
   
     // options
   
-    S_msrOptionsSubGroup traceAndDisplaySubGroup =
-      msrOptionsSubGroup::create (
+    S_optionsSubGroup traceAndDisplaySubGroup =
+      optionsSubGroup::create (
         "Trace and display",
         "hmsrtd", "helpMsrTraceAndDisplay",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription,
+      optionsSubGroup::kAlwaysShowDescription,
       this);
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
       
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "tmsr", "traceMsr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
           "traceMsr",
@@ -101,7 +101,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
           
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "tmsrv", "traceMsrVisitors",
 R"(Write a trace of the MSR graphs visiting activity to standard error.)",
           "traceMsrVisitors",
@@ -109,7 +109,7 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
           
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "pg", "displayPartGroups",
 R"(Write the structure of the part groups to standard error.)",
           "displayPartGroups",
@@ -117,7 +117,7 @@ R"(Write the structure of the part groups to standard error.)",
           
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "msr", "displayMsr",
 R"(Write the contents of the MSR data to standard error.)",
           "displayMsr",
@@ -125,7 +125,7 @@ R"(Write the contents of the MSR data to standard error.)",
           
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "sum", "displayMsrSummary", // JMI
 R"(Only write a summary of the MSR to standard error.
 This implies that no LilyPond code is generated.)",
@@ -164,19 +164,19 @@ This implies that no LilyPond code is generated.)",
     
     // options
   
-    S_msrOptionsSubGroup languagesSubGroup =
-      msrOptionsSubGroup::create (
+    S_optionsSubGroup languagesSubGroup =
+      optionsSubGroup::create (
         "Languages",
         "hmsrlang", "helpMsrLanguages",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription,
+      optionsSubGroup::kAlwaysShowDescription,
       this);
   
     appendOptionsSubGroup (languagesSubGroup);
 
     languagesSubGroup->
       appendOptionsItem (
-        msrOptionsPitchesLanguageItem::create (
+        optionsPitchesLanguageItem::create (
           "mpl", "msrPitchesLanguage",
 R"(Use 'language' to display note pitches in the MSR logs and text views.
 The 12 LilyPond pitches languages are available:
@@ -197,22 +197,22 @@ The default is to use 'nederlands'.)",
     
     // options
   
-    S_msrOptionsSubGroup partsSubGroup =
-      msrOptionsSubGroup::create (
+    S_optionsSubGroup partsSubGroup =
+      optionsSubGroup::create (
         "Parts",
         "hmsrp", "helpMsrParts",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription,
+      optionsSubGroup::kAlwaysShowDescription,
       this);
   
     appendOptionsSubGroup (partsSubGroup);
 
     partsSubGroup->
       appendOptionsItem (
-        msrOptionsPartRenameItem::create (
+        optionsPartRenameItem::create (
           "mpr", "msrPartRename", // JMI
 R"(Rename part 'original' to 'newName', for example after 
-displaying a summary of the score in a first xml2lilypond run.
+displaying a summary of the score in a first xml2ly run.
 'partRenameSpecification' can be:
   'originalName = newName'
 or
@@ -221,7 +221,7 @@ The single or double quotes are used to allow spaces in the names
 and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   DESSUS="Cor anglais"
-  xml2lilypond -msrPartRename "P1 = ${DESSUS}" .
+  xml2ly -msrPartRename "P1 = ${DESSUS}" .
 There can be several occurrences of this option.)",
           "partRenameSpecification",
           "partRename",
@@ -239,19 +239,19 @@ There can be several occurrences of this option.)",
       
     // options
   
-    S_msrOptionsSubGroup voicesSubGroup =
-      msrOptionsSubGroup::create (
+    S_optionsSubGroup voicesSubGroup =
+      optionsSubGroup::create (
         "Voices",
         "hmsrv", "helpMsrVoices",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription,
+      optionsSubGroup::kAlwaysShowDescription,
       this);
   
     appendOptionsSubGroup (voicesSubGroup);
 
     voicesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "cvsrvn", "createVoicesStaffRelativeNumbers",
 R"(Generate voices names with numbers relative to their staff.
 By default, the voice numbers found are used, 
@@ -275,19 +275,19 @@ which may be global to the score.)",
   
     // options
   
-    S_msrOptionsSubGroup notesSubGroup =
-      msrOptionsSubGroup::create (
+    S_optionsSubGroup notesSubGroup =
+      optionsSubGroup::create (
         "Notes",
         "hmsrn", "helpMsrNotes",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription,
+      optionsSubGroup::kAlwaysShowDescription,
       this);
   
     appendOptionsSubGroup (notesSubGroup);
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "drdyns", "delayRestsDynamics",
 R"(dynamics)",
           "delayRestsDynamics",
@@ -295,7 +295,7 @@ R"(dynamics)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "drwords", "delayRestsWords",
 R"(words)",
           "delayRestsWords",
@@ -303,7 +303,7 @@ R"(words)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "drslurs", "delayRestsSlurs",
 R"(slurs)",
           "delayRestsSlurs",
@@ -311,7 +311,7 @@ R"(slurs)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "drligs", "delayRestsLigatures",
 R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
           "delayRestsLigatures",
@@ -319,7 +319,7 @@ R"(<bracket/> in MusicXML, '\[... \}' in LilyPond)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "drwedges", "delayRestsWedges",
 R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
           "delayRestsWedges",
@@ -337,19 +337,19 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
   
     // options
   
-    S_msrOptionsSubGroup lyricsSubGroup =
-      msrOptionsSubGroup::create (
+    S_optionsSubGroup lyricsSubGroup =
+      optionsSubGroup::create (
         "Lyrics",
         "hmsrlyrd", "helpMsrLyrics",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription,
+      optionsSubGroup::kAlwaysShowDescription,
       this);
   
     appendOptionsSubGroup (lyricsSubGroup);
 
     lyricsSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "sms", "showMsrStanzas",
 R"(Show MSR stanzas even when they're empty.)",
           "showMsrStanzas",
@@ -367,19 +367,19 @@ R"(Show MSR stanzas even when they're empty.)",
   
     // options
   
-    S_msrOptionsSubGroup harmoniesSubGroup =
-      msrOptionsSubGroup::create (
+    S_optionsSubGroup harmoniesSubGroup =
+      optionsSubGroup::create (
         "Harmonies",
         "hmsrh", "helpMsrHarmonies",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription,
+      optionsSubGroup::kAlwaysShowDescription,
       this);
   
     appendOptionsSubGroup (harmoniesSubGroup);
 
     harmoniesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "shv", "showHarmonyVoices",
 R"(Show the parts harmony voices in the MSR data
 even though it does not contain music.)",
@@ -398,19 +398,19 @@ even though it does not contain music.)",
   
     // options
   
-    S_msrOptionsSubGroup figuredBassSubGroup =
-      msrOptionsSubGroup::create (
+    S_optionsSubGroup figuredBassSubGroup =
+      optionsSubGroup::create (
         "Figured bass",
         "hmsrfb", "helpMsrFiguredBass",
 R"()",
-      msrOptionsSubGroup::kAlwaysShowDescription,
+      optionsSubGroup::kAlwaysShowDescription,
       this);
   
     appendOptionsSubGroup (figuredBassSubGroup);
 
     figuredBassSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "sfbv", "showFiguredBassVoices",
 R"(Show the figured bass harmony voices in the MSR data
 even though they do not contain music.)",
@@ -726,7 +726,7 @@ ostream& operator<< (ostream& os, const S_msrOptions& elt)
 
 //______________________________________________________________________________
 void initializeMsrOptionsHandling (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   // MSR options
   // ------------------------------------------------------

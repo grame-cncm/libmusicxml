@@ -31,11 +31,6 @@
 namespace MusicXML2 
 {
 
-/*!
-\addtogroup lpsr
-@{
-*/
-
 /*
   The classes in this file implement the
   
@@ -2326,8 +2321,6 @@ EXP ostream& operator<< (ostream& os, const S_lpsrScore& elt);
 //______________________________________________________________________________
 EXP void initializeLPSR ();
 
-
-/*! @} */
 
 }
 

@@ -29,7 +29,7 @@ S_lilypondOptions gLilypondOptionsUserChoices;
 S_lilypondOptions gLilypondOptionsWithDetailedTrace;
 
 S_lilypondOptions lilypondOptions::create (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   lilypondOptions* o = new lilypondOptions (
     optionsHandler);
@@ -38,8 +38,8 @@ S_lilypondOptions lilypondOptions::create (
 }
 
 lilypondOptions::lilypondOptions (
-  S_msrOptionsHandler optionsHandler)
-  : msrOptionsGroup (
+  S_optionsHandler optionsHandler)
+  : optionsGroup (
     "LilyPond",
     "hlp", "helpLilypond",
 R"(These options control which LilyPond code is generated.)",
@@ -70,20 +70,20 @@ void lilypondOptions::initializeLilypondOptions (
     
     fNumericalTime = boolOptionsInitialValue;
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       timeSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Time",
           "hlilyti", "helpLilypondtime",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (timeSubGroup);
 
     timeSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "numt", "numericalTime",
 R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
           "numericalTime",
@@ -113,20 +113,20 @@ R"(Generate numerical time signatures, such as '4/4' instead of 'C'.)",
   
     fNoteInputLineNumbers = boolOptionsInitialValue;
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       notesSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Notes",
           "hlilyn", "helpLilypondNotes",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (notesSubGroup);
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "abs", "absolute",
 R"(Generate LilyPond absolute note octaves. 
 By default, relative octaves are generated.)",
@@ -135,7 +135,7 @@ By default, relative octaves are generated.)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "alldurs", "allDurations",
 R"(Generate all LilyPond durations. 
 By default, a duration equal to preceding one met in the current voice
@@ -145,7 +145,7 @@ is omitted for code conciseness.)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "stems", "",
 R"(Generate \stemUp and \stemDown LilyPond commands.
 By default, LilyPond will take care of that by itself.)",
@@ -154,7 +154,7 @@ By default, LilyPond will take care of that by itself.)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "noab", "noAutoBeaming",
 R"(Generate '\set Voice.autoBeaming = ##f' in each voice 
 to prevent LilyPond from handling beams automatically.)",
@@ -163,7 +163,7 @@ to prevent LilyPond from handling beams automatically.)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "rsn", "romanStringNumbers",
 R"(Generate '\romanStringNumbers' in each voice 
 for LilyPond to generate roman instead of arabic string numbers.)",
@@ -172,7 +172,7 @@ for LilyPond to generate roman instead of arabic string numbers.)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "aos", "avoidOpenStrings",
 R"(Generate '\set TabStaff.restrainOpenStrings = ##t' in each voice 
 to prevent LilyPond from using open strings.)",
@@ -181,7 +181,7 @@ to prevent LilyPond from using open strings.)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsAccidentalStyleItem::create (
+        optionsAccidentalStyleItem::create (
           "as", "accidentalStyle", // JMI
 R"(Choose the LilyPond accidental 'style' among: 
   voice, modern, modern-cautionary, modern-voice, 
@@ -196,7 +196,7 @@ The default is... 'default'.)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "cmmr", "compressMultiMeasureRests",
 R"(Generate '\compressMMRests' at the beginning of voices.
 By default, this command is commented.)",
@@ -205,7 +205,7 @@ By default, this command is commented.)",
 
     notesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "niln", "noteInputLineNumbers",
 R"(Generate after each note and barline a comment containing
 its MusicXML input line number.)",
@@ -224,20 +224,20 @@ its MusicXML input line number.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       barsSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Bars",
           "hlilyb", "helpLilypondBars",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (barsSubGroup);
 
     barsSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "sabn", "showAllBarNumbers",
 R"(Generate LilyPond code to show all bar numbers.)",
           "showAllBarNumbers",
@@ -259,20 +259,20 @@ R"(Generate LilyPond code to show all bar numbers.)",
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       lineBreaksSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Line breaks",
           "hlilylb", "helpLilypondLineBreaks",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (lineBreaksSubGroup);
 
     lineBreaksSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "ilb", "ignoreLineBreaks",
 R"(Ignore the line breaks from the MusicXML input
 and let LilyPond decide about them.)",
@@ -281,7 +281,7 @@ and let LilyPond decide about them.)",
 
     lineBreaksSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "blairm", "breakLinesAtIncompleteRightMeasures",
 R"(Generate a '\break' command at the end of incomplete right measures
 which is handy in popular folk dances and tunes.)",
@@ -290,7 +290,7 @@ which is handy in popular folk dances and tunes.)",
 
     lineBreaksSubGroup->
       appendOptionsItem (
-        msrOptionsIntegerItem::create (
+        optionsIntegerItem::create (
           "slenm", "separatorLineEveryNMeasures",
 R"(Generate an additional separator line for readability every 'n' measures,
 where 'n' is a positive integer.
@@ -311,20 +311,20 @@ Nothing special is done by default.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       pageBreaksSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Page breaks",
           "hlilypb", "helpLilypondPageBreaks",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (pageBreaksSubGroup);
 
     pageBreaksSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "ipb", "ignorePageBreaks",
 R"(Ignore the page breaks from the MusicXML input
 and let LilyPond decide about them.)",
@@ -343,20 +343,20 @@ and let LilyPond decide about them.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       stavesSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Staves",
           "hlilys", "helpLilypondStaves",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (stavesSubGroup);
 
     stavesSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "mtab", "modernTab",
 R"(Generate '\moderntab' instead of the default '\tab'.)",
           "modernTab",
@@ -374,20 +374,20 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       tupletsSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Tuplets",
           "hlilytu", "helpLilypondTuplets",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (tupletsSubGroup);
 
     tupletsSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "itups", "indentTuplets",
 R"(Indent tuplets notes on a line of their own,
 instead of keeping the on the same line as the current measure.)",
@@ -406,20 +406,20 @@ instead of keeping the on the same line as the current measure.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       repeatsSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Repeats",
           "hlilyr", "helpLilypondRepeats",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (repeatsSubGroup);
 
     repeatsSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "rbracks", "repeatBrackets",
 R"(Generate repeats with brackets instead of regular bar lines)",
           "repeatBrackets",
@@ -436,20 +436,20 @@ R"(Generate repeats with brackets instead of regular bar lines)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       ornamentsSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Ornaments",
           "hlilyo", "helpLilypondOrnaments",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (ornamentsSubGroup);
 
     ornamentsSubGroup->
       appendOptionsItem (
-        msrOptionsRationalItem::create (
+        optionsRationalItem::create (
           "dof", "delayedOrnamentsFraction",
 R"(Place the delayed turn/reverseturn at the given fraction
 between the ornemented note and the next one.
@@ -470,20 +470,20 @@ The default value is '2/3'.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       fontsSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Fonts",
           "hfonts", "helpFonts",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (fontsSubGroup);
 
     fontsSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "jazz", "jazzFonts",
 R"(Use the LilyJazz font for notes, braces, text and chords.
 This font should be installed so that LilyPond can use it.)",
@@ -512,20 +512,20 @@ This font should be installed so that LilyPond can use it.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       codeGenerationSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Code generation",
           "hlilycg", "helpLilypondCodeGeneration",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (codeGenerationSubGroup);
 
     codeGenerationSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "com", "comments",
 R"(Generate comments showing the structure of the score
 such as '% part P_POne (P1).)",
@@ -534,7 +534,7 @@ such as '% part P_POne (P1).)",
 
     codeGenerationSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "global", "",
 R"(Generate a 'global' empty variable and place a use of it
 at the beginning of all voices.)",
@@ -543,7 +543,7 @@ at the beginning of all voices.)",
 
     codeGenerationSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "dm", "displayMusic",
 R"(Place the contents of all voices inside a '\displayMusic' block,
 for LilyPond to show its internal representation of the music.)",
@@ -552,7 +552,7 @@ for LilyPond to show its internal representation of the music.)",
 
     codeGenerationSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "nolpc", "noLilypondCode",
 R"(Don't generate any LilyPond code.
 That can be useful if only a summary of the score is needed.)",
@@ -561,7 +561,7 @@ That can be useful if only a summary of the score is needed.)",
 
     codeGenerationSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "nolpl", "noLilypondLyrics",
 R"(Don't generate any lyrics in the LilyPond code.)",
           "noLilypondLyrics",
@@ -569,7 +569,7 @@ R"(Don't generate any lyrics in the LilyPond code.)",
 
     codeGenerationSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "lpcd", "lilypondCompileDate",
 R"(Generate code to include the compilation date
 when LilyPond creates the score.)",
@@ -591,20 +591,20 @@ when LilyPond creates the score.)",
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       scoreNotationSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Score notation",
           "hlilysn", "helpLilypondScoreNotation",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (scoreNotationSubGroup);
 
     scoreNotationSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "jianpu", "",
 R"(Generate the score using jianpu (numbered) notation
 instead of the default western notation.
@@ -631,20 +631,20 @@ That option needs lilypond-Jianpu to be accessible to LilyPond
     
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       midiSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Midi",
           "hlilym", "helpLilypondMidi",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (midiSubGroup);
 
     midiSubGroup->
       appendOptionsItem (
-        msrOptionsMidiTempoItem::create (
+        optionsMidiTempoItem::create (
           "midiTempo", "",
 R"(Generate a '\tempo' command in the \midi block.
 'midiTempoSpecification' can be:
@@ -656,7 +656,7 @@ The single or double quotes are used to allow spaces around the '=' sign,
 otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   PER_SECOND=66
-  xml2lilypond -midiTempo "8. ${PER_SECOND}" .
+  xml2ly -midiTempo "8. ${PER_SECOND}" .
 The default midi tempo is '4 = 90'.)",
           "midiTempoSpecification",
           "midiTempo",
@@ -664,7 +664,7 @@ The default midi tempo is '4 = 90'.)",
 
     midiSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "noMidi", "",
 R"(Generate the '\midi' block as a comment instead of active code.)",
           "noMidi",
@@ -1165,7 +1165,7 @@ ostream& operator<< (ostream& os, const S_lilypondOptions& elt)
 
 //______________________________________________________________________________
 void initializeLilypondOptionsHandling (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   // create the options variables
   // ------------------------------------------------------

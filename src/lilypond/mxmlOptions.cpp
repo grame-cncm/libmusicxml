@@ -30,7 +30,7 @@ S_musicXMLOptions gMusicXMLOptionsUserChoices;
 S_musicXMLOptions gMusicXMLOptionsWithDetailedTrace;
 
 S_musicXMLOptions musicXMLOptions::create (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   musicXMLOptions* o = new musicXMLOptions(
     optionsHandler);
@@ -39,8 +39,8 @@ S_musicXMLOptions musicXMLOptions::create (
 }
 
 musicXMLOptions::musicXMLOptions (
-  S_msrOptionsHandler optionsHandler)
-  : msrOptionsGroup (
+  S_optionsHandler optionsHandler)
+  : optionsGroup (
     "MusicXML",
     "hmxml", "helpMusicXML",
 R"(These options control the way MusicXML data is translated.)",
@@ -73,20 +73,20 @@ void musicXMLOptions::initializeMusicXMLOptions (
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       traceAndDisplaySubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Trace and display",
           "hmxmltd", "helpMusicXMLTraceAndDisplay",
 R"()",
-          msrOptionsSubGroup::kAlwaysShowDescription,
+          optionsSubGroup::kAlwaysShowDescription,
           this);
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
         
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "tmxmltv", "traceMusicXMLTreeVisitors",
 R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
           "traceMusicXMLTreeVisitors",
@@ -105,20 +105,20 @@ R"(Write a trace of the MusicXML tree visiting activity to standard error.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       warningAndErrorHandlingSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Warnings and errors",
           "hmxmlwae", "helpMusicXMLWarningsAndErrors",
 R"()",
-          msrOptionsSubGroup::kAlwaysShowDescription,
+          optionsSubGroup::kAlwaysShowDescription,
           this);
   
     appendOptionsSubGroup (warningAndErrorHandlingSubGroup);
   
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "imw", "ignoreMusicXMLWarnings",
 R"(Don't issue any MusicXML warning messages.)",
           "ignoreMusicXMLWarnings",
@@ -126,7 +126,7 @@ R"(Don't issue any MusicXML warning messages.)",
   
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "ime", "ignoreMusicXMLErrors",
 R"(Don't abort the translation after issuing a MusicXML error message.)",
           "ignoreMusicXMLErrors",
@@ -137,7 +137,7 @@ R"(Don't abort the translation after issuing a MusicXML error message.)",
   // clefs, keys, times
   // --------------------------------------
 
-  S_msrOptionsBooleanItem
+  S_optionsBooleanItem
     ignoreRedundantClefsItem,
     ignoreRedundantKeysItem,
     ignoreRedundantTimesItem;
@@ -153,20 +153,20 @@ R"(Don't abort the translation after issuing a MusicXML error message.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       clefsKeysTimesSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Clefs, keys, times",
           "hmxmlckt", "helpMusicXMLClefsKeysTimes",
 R"()",
-          msrOptionsSubGroup::kAlwaysShowDescription,
+          optionsSubGroup::kAlwaysShowDescription,
           this);
   
     appendOptionsSubGroup (clefsKeysTimesSubGroup);
   
 
     ignoreRedundantClefsItem =
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "irc", "ignoreRedundantClefs",
 R"(Ignore clefs that are the same as the current one.)",
           "ignoreRedundantClefs",
@@ -177,7 +177,7 @@ R"(Ignore clefs that are the same as the current one.)",
 
   
     ignoreRedundantKeysItem =
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "irk", "ignoreRedundantKeys",
 R"(Ignore keys that are the same as the current one.)",
           "ignoreRedundantKeys",
@@ -188,7 +188,7 @@ R"(Ignore keys that are the same as the current one.)",
 
 
     ignoreRedundantTimesItem =
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "irt", "ignoreRedundantTimes",
 R"(Ignore times that are the same as the current one.)",
           "ignoreRedundantTimes",
@@ -199,9 +199,9 @@ R"(Ignore times that are the same as the current one.)",
 
 
     // '-loop' is hidden...
-    S_msrOptionsBooleanItem
+    S_optionsBooleanItem
       loopOptionsBooleanItem =
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "loop", "loopToMusicXML",
 R"(Close the loop, generating a MusicXML file from the MSR. 
 The file name receives a '_loop' suffix. Currently under development.)",
@@ -226,22 +226,22 @@ The file name receives a '_loop' suffix. Currently under development.)",
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       combinedOptionsSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Combined options",
           "hmxmlco", "helpMusicXMLCombinedOptions",
 R"()",
-          msrOptionsSubGroup::kAlwaysShowDescription,
+          optionsSubGroup::kAlwaysShowDescription,
           this);
   
     appendOptionsSubGroup (combinedOptionsSubGroup);
 
 
     // create a combined item
-    S_msrOptionsCombinedItemsItem
+    S_optionsCombinedItemsItem
       cubaseCombinedItemsItem =
-        msrOptionsCombinedItemsItem::create (
+        optionsCombinedItemsItem::create (
           "cubase", "",
 R"(Useful settings for MusicXML data exported from Cubase.)",
           "cubase",
@@ -394,7 +394,7 @@ ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)
 
 //______________________________________________________________________________
 void initializeMusicXMLOptionsHandling (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   // create the MusicXML options
   // ------------------------------------------------------

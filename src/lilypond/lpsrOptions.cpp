@@ -29,7 +29,7 @@ S_lpsrOptions gLpsrOptionsUserChoices;
 S_lpsrOptions gLpsrOptionsWithDetailedTrace;
 
 S_lpsrOptions lpsrOptions::create (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   lpsrOptions* o = new lpsrOptions (
     optionsHandler);
@@ -38,8 +38,8 @@ S_lpsrOptions lpsrOptions::create (
 }
 
 lpsrOptions::lpsrOptions (
-  S_msrOptionsHandler optionsHandler)
-  : msrOptionsGroup (
+  S_optionsHandler optionsHandler)
+  : optionsGroup (
     "LPSR",
     "hlpsr", "helpLPSR",
 R"(These options control the way LPSR data is handled.)",
@@ -79,20 +79,20 @@ void lpsrOptions::initializeLpsrOptions (
   
     // options
   
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       traceAndDisplaySubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Trace and display",
           "hlpsrtd", "helpLpsrTraceAndDisplay",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (traceAndDisplaySubGroup);
         
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "tlpsr", "traceLpsr",
 R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
           "traceLpsr",
@@ -100,7 +100,7 @@ R"(Write a trace of the LPSR graphs visiting activity to standard error.)",
   
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "tlpsrv", "traceLpsrVisitors",
 R"(Write a trace of the LPSR tree visiting activity to standard error.)",
           "traceLpsrVisitors",
@@ -108,7 +108,7 @@ R"(Write a trace of the LPSR tree visiting activity to standard error.)",
   
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "lpsr", "displayLpsr",
 R"(Write the contents of the LPSR data to standard error.)",
           "displayLpsr",
@@ -116,7 +116,7 @@ R"(Write the contents of the LPSR data to standard error.)",
   
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        msrOptionsBooleanItem::create (
+        optionsBooleanItem::create (
           "tsf", "traceSchemeFunctions",
 R"(Write a trace of the activity regarding Scheme functions to standard error.)",
           "traceSchemeFunctions",
@@ -153,20 +153,20 @@ R"(Write a trace of the activity regarding Scheme functions to standard error.)"
   
     // options
     
-    S_msrOptionsSubGroup
+    S_optionsSubGroup
       languagesSubGroup =
-        msrOptionsSubGroup::create (
+        optionsSubGroup::create (
           "Languages",
           "hlpsrl", "helpLpsrlanguages",
 R"()",
-        msrOptionsSubGroup::kAlwaysShowDescription,
+        optionsSubGroup::kAlwaysShowDescription,
         this);
   
     appendOptionsSubGroup (languagesSubGroup);
       
     languagesSubGroup->
       appendOptionsItem (
-        msrOptionsPitchesLanguageItem::create (
+        optionsPitchesLanguageItem::create (
           "lppl", "lpsrPitchesLanguage",
 R"(Use 'language' to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
@@ -180,7 +180,7 @@ The default is to use 'nederlands'.)",
   
     languagesSubGroup->
       appendOptionsItem (
-        msrOptionsChordsLanguageItem::create (
+        optionsChordsLanguageItem::create (
           "lpcl", "lpsrChordsLanguage",
 R"(Use 'language' to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
@@ -343,7 +343,7 @@ ostream& operator<< (ostream& os, const S_lpsrOptions& elt)
 
 //______________________________________________________________________________
 void initializeLpsrOptionsHandling (
-  S_msrOptionsHandler optionsHandler)
+  S_optionsHandler optionsHandler)
 {
   // create the options variables
   // ------------------------------------------------------

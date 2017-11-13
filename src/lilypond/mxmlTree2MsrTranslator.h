@@ -19,14 +19,6 @@
 namespace MusicXML2
 {
 
-/*!
-\addtogroup mxmltree2Msr
-@{
-*/
-
-/*!
-\brief Produces a summary of a MusicXML part.
-*/
 class mxmlTree2MsrTranslator : 
 
 /*
@@ -1652,8 +1644,8 @@ parenthese chaque note s'il apparait sur toutes, sinon l'ensemble de l'accord, c
     the attributes.mod file.
 */
 
-/*! @} */
 
 }
+
 
 #endif

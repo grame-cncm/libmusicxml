@@ -38,13 +38,13 @@ const int K_OPTIONS_ELEMENTS_INDENTER_OFFSET = 3;
 const int K_FIELD_WIDTH = 40;
 
 //______________________________________________________________________________
-S_msrOptionsElement msrOptionsElement::create (
+S_optionsElement optionsElement::create (
   string optionsElementShortName,
   string optionsElementLongName,
   string optionsElementDescription)
 {
-  msrOptionsElement* o = new
-    msrOptionsElement (
+  optionsElement* o = new
+    optionsElement (
       optionsElementShortName,
       optionsElementLongName,
       optionsElementDescription);
@@ -52,7 +52,7 @@ S_msrOptionsElement msrOptionsElement::create (
   return o;
 }
 
-msrOptionsElement::msrOptionsElement (
+optionsElement::optionsElement (
   string optionsElementShortName,
   string optionsElementLongName,
   string optionsElementDescription)
@@ -64,13 +64,13 @@ msrOptionsElement::msrOptionsElement (
   fOptionsElementIsHidden    = false;
 }
 
-msrOptionsElement::~msrOptionsElement()
+optionsElement::~optionsElement()
 {}
 
-S_msrOptionsElement msrOptionsElement::fetchOptionElement (
+S_optionsElement optionsElement::fetchOptionElement (
   string optiontElementName)
 {
-  S_msrOptionsElement result;
+  S_optionsElement result;
 
   if (
     optiontElementName == fOptionsElementShortName
@@ -82,7 +82,7 @@ S_msrOptionsElement msrOptionsElement::fetchOptionElement (
   return result;
 }
 
-string msrOptionsElement::optionsElementNames () const
+string optionsElement::optionsElementNames () const
 {
   stringstream s;
   
@@ -111,7 +111,7 @@ string msrOptionsElement::optionsElementNames () const
   return s.str ();
 }
 
-string msrOptionsElement::optionsElementNamesInColumns (
+string optionsElement::optionsElementNamesInColumns (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
@@ -143,7 +143,7 @@ string msrOptionsElement::optionsElementNamesInColumns (
   return s.str ();
 }
 
-string msrOptionsElement::optionsElementNamesBetweenParentheses () const
+string optionsElement::optionsElementNamesBetweenParentheses () const
 {
   stringstream s;
 
@@ -155,7 +155,7 @@ string msrOptionsElement::optionsElementNamesBetweenParentheses () const
   return s.str ();
 }
 
-string msrOptionsElement::optionsElementNamesInColumnsBetweenParentheses (
+string optionsElement::optionsElementNamesInColumnsBetweenParentheses (
   int subGroupsShortNameFieldWidth) const
 {
   stringstream s;
@@ -169,7 +169,7 @@ string msrOptionsElement::optionsElementNamesInColumnsBetweenParentheses (
   return s.str ();
 }
 
-void msrOptionsElement::printHeader (ostream& os) const
+void optionsElement::printHeader (ostream& os) const
 {
   os <<
     "-" << fOptionsElementShortName <<
@@ -188,7 +188,7 @@ void msrOptionsElement::printHeader (ostream& os) const
   gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 }
 
-void msrOptionsElement::printElementEssentials (
+void optionsElement::printElementEssentials (
   ostream& os,
   int      fieldWidth) const
 {
@@ -212,16 +212,16 @@ void msrOptionsElement::printElementEssentials (
     endl;
 }
 
-void msrOptionsElement::print (ostream& os) const
+void optionsElement::print (ostream& os) const
 {
   os <<
-    "??? msrOptionsElement ???" <<
+    "??? optionsElement ???" <<
     endl;
 
   printElementEssentials (os, 35);  
 }
 
-void msrOptionsElement::printHelp (ostream& os) const
+void optionsElement::printHelp (ostream& os) const
 {
   os <<
     optionsElementNames () <<
@@ -239,20 +239,20 @@ void msrOptionsElement::printHelp (ostream& os) const
   gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsElement& elt)
+ostream& operator<< (ostream& os, const S_optionsElement& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsItem msrOptionsItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription)
+S_optionsItem optionsItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
 {
-  msrOptionsItem* o = new
-    msrOptionsItem (
+  optionsItem* o = new
+    optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription);
@@ -260,22 +260,22 @@ S_msrOptionsItem msrOptionsItem::create (
   return o;
 }
 
-msrOptionsItem::msrOptionsItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription)
-  : msrOptionsElement (
+optionsItem::optionsItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : optionsElement (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {
 }
     
-msrOptionsItem::~msrOptionsItem()
+optionsItem::~optionsItem()
 {}
 
-void msrOptionsItem::setOptionsSubGroupUplink (
-  S_msrOptionsSubGroup optionsSubGroup)
+void optionsItem::setOptionsSubGroupUplink (
+  S_optionsSubGroup optionsSubGroup)
 {
   // sanity check
   msrAssert (
@@ -287,14 +287,14 @@ void msrOptionsItem::setOptionsSubGroupUplink (
     optionsSubGroup;
 }
 
-void msrOptionsItem::registerOptionsItemInHandler (
-  S_msrOptionsHandler optionsHandler)
+void optionsItem::registerOptionsItemInHandler (
+  S_optionsHandler optionsHandler)
 {
   optionsHandler->
     registerOptionsElementInHandler (this);
 }
 
-void msrOptionsItem::print (ostream& os) const
+void optionsItem::print (ostream& os) const
 {
   const int fieldWidth = 19;
   
@@ -304,11 +304,11 @@ void msrOptionsItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 }
 
-void msrOptionsItem::printOptionsValues (
+void optionsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -317,20 +317,20 @@ void msrOptionsItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsItem& elt)
+ostream& operator<< (ostream& os, const S_optionsItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsVersionItem msrOptionsVersionItem::create (
+S_optionsVersionItem optionsVersionItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
 {
-  msrOptionsVersionItem* o = new
-    msrOptionsVersionItem (
+  optionsVersionItem* o = new
+    optionsVersionItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription);
@@ -338,20 +338,20 @@ S_msrOptionsVersionItem msrOptionsVersionItem::create (
   return o;
 }
 
-msrOptionsVersionItem::msrOptionsVersionItem (
+optionsVersionItem::optionsVersionItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {}
 
-msrOptionsVersionItem::~msrOptionsVersionItem()
+optionsVersionItem::~optionsVersionItem()
 {}
 
-void msrOptionsVersionItem::print (ostream& os) const
+void optionsVersionItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -361,7 +361,7 @@ void msrOptionsVersionItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -374,11 +374,11 @@ void msrOptionsVersionItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsVersionItem::printVersion (ostream& os) const
+void optionsVersionItem::printVersion (ostream& os) const
 {  
   os <<
     endl <<
-    "This is xml2lilypond" <<
+    "This is xml2ly" <<
     " version " << currentVersionNumber () <<
     endl <<
     endl;
@@ -387,27 +387,27 @@ void msrOptionsVersionItem::printVersion (ostream& os) const
   printVersionsHistory (os);
 }
 
-void msrOptionsVersionItem::printOptionsValues (
+void optionsVersionItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt)
+ostream& operator<< (ostream& os, const S_optionsVersionItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsAboutItem msrOptionsAboutItem::create (
+S_optionsAboutItem optionsAboutItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
 {
-  msrOptionsAboutItem* o = new
-    msrOptionsAboutItem (
+  optionsAboutItem* o = new
+    optionsAboutItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription);
@@ -415,20 +415,20 @@ S_msrOptionsAboutItem msrOptionsAboutItem::create (
   return o;
 }
 
-msrOptionsAboutItem::msrOptionsAboutItem (
+optionsAboutItem::optionsAboutItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {}
 
-msrOptionsAboutItem::~msrOptionsAboutItem()
+optionsAboutItem::~optionsAboutItem()
 {}
 
-void msrOptionsAboutItem::print (ostream& os) const
+void optionsAboutItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -438,7 +438,7 @@ void msrOptionsAboutItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -451,11 +451,11 @@ void msrOptionsAboutItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsAboutItem::printAbout (ostream& os) const
+void optionsAboutItem::printAbout (ostream& os) const
 {  
   os <<
     endl <<
-R"(What xml2lilypond does:
+R"(What xml2ly does:
 
     This multi-pass translator basically performs 5 passes:
         Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
@@ -477,27 +477,27 @@ R"(What xml2lilypond does:
     endl;
 }
 
-void msrOptionsAboutItem::printOptionsValues (
+void optionsAboutItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_msrOptionsAboutItem& elt)
+ostream& operator<< (ostream& os, const S_optionsAboutItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsContactItem msrOptionsContactItem::create (
+S_optionsContactItem optionsContactItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
 {
-  msrOptionsContactItem* o = new
-    msrOptionsContactItem (
+  optionsContactItem* o = new
+    optionsContactItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription);
@@ -505,20 +505,20 @@ S_msrOptionsContactItem msrOptionsContactItem::create (
   return o;
 }
 
-msrOptionsContactItem::msrOptionsContactItem (
+optionsContactItem::optionsContactItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {}
 
-msrOptionsContactItem::~msrOptionsContactItem()
+optionsContactItem::~optionsContactItem()
 {}
 
-void msrOptionsContactItem::print (ostream& os) const
+void optionsContactItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -528,7 +528,7 @@ void msrOptionsContactItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -541,11 +541,11 @@ void msrOptionsContactItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsContactItem::printContact (ostream& os) const
+void optionsContactItem::printContact (ostream& os) const
 {  
   os <<
     endl <<
-R"(To contact xml2lilypond maintainers:
+R"(To contact xml2ly maintainers:
 
     Send a mail to mailto:lilypond-user@gnu.org describing the problem
     and error messages you obtain if relevant.)" <<
@@ -553,27 +553,27 @@ R"(To contact xml2lilypond maintainers:
     endl;
 }
 
-void msrOptionsContactItem::printOptionsValues (
+void optionsContactItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_msrOptionsContactItem& elt)
+ostream& operator<< (ostream& os, const S_optionsContactItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsHelpUsageItem msrOptionsHelpUsageItem::create (
+S_optionsHelpUsageItem optionsHelpUsageItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
 {
-  msrOptionsHelpUsageItem* o = new
-    msrOptionsHelpUsageItem (
+  optionsHelpUsageItem* o = new
+    optionsHelpUsageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription);
@@ -581,20 +581,20 @@ S_msrOptionsHelpUsageItem msrOptionsHelpUsageItem::create (
   return o;
 }
 
-msrOptionsHelpUsageItem::msrOptionsHelpUsageItem (
+optionsHelpUsageItem::optionsHelpUsageItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {}
 
-msrOptionsHelpUsageItem::~msrOptionsHelpUsageItem()
+optionsHelpUsageItem::~optionsHelpUsageItem()
 {}
 
-void msrOptionsHelpUsageItem::print (ostream& os) const
+void optionsHelpUsageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -604,7 +604,7 @@ void msrOptionsHelpUsageItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -617,7 +617,7 @@ void msrOptionsHelpUsageItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsHelpUsageItem::printHelpUsage (ostream& os) const
+void optionsHelpUsageItem::printHelpUsage (ostream& os) const
 {  
   os <<
     endl <<
@@ -655,27 +655,27 @@ provided item values immediately follow the corresponding items.)") <<
   gIndenter--;
 }
 
-void msrOptionsHelpUsageItem::printOptionsValues (
+void optionsHelpUsageItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_msrOptionsHelpUsageItem& elt)
+ostream& operator<< (ostream& os, const S_optionsHelpUsageItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsHelpSummaryItem msrOptionsHelpSummaryItem::create (
+S_optionsHelpSummaryItem optionsHelpSummaryItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
 {
-  msrOptionsHelpSummaryItem* o = new
-    msrOptionsHelpSummaryItem (
+  optionsHelpSummaryItem* o = new
+    optionsHelpSummaryItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription);
@@ -683,20 +683,20 @@ S_msrOptionsHelpSummaryItem msrOptionsHelpSummaryItem::create (
   return o;
 }
 
-msrOptionsHelpSummaryItem::msrOptionsHelpSummaryItem (
+optionsHelpSummaryItem::optionsHelpSummaryItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
 {}
 
-msrOptionsHelpSummaryItem::~msrOptionsHelpSummaryItem()
+optionsHelpSummaryItem::~optionsHelpSummaryItem()
 {}
 
-void msrOptionsHelpSummaryItem::print (ostream& os) const
+void optionsHelpSummaryItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -706,7 +706,7 @@ void msrOptionsHelpSummaryItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -719,37 +719,36 @@ void msrOptionsHelpSummaryItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsHelpSummaryItem::printHelpSummary (ostream& os) const
+void optionsHelpSummaryItem::printHelpSummary (ostream& os) const
 {  
   os <<
-    "xml2lilypond" " "<<
- // ??? JMI   currentHelpSummaryNumber () <<
+    "xml2ly"<<
     endl;
 }
 
-void msrOptionsHelpSummaryItem::printOptionsValues (
+void optionsHelpSummaryItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt)
+ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsCombinedItemsItem msrOptionsCombinedItemsItem::create (
+S_optionsCombinedItemsItem optionsCombinedItemsItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
   string optionsCombinedItemsItemVariableDisplayName,
   bool&  optionsCombinedItemsItemVariable)
 {
-  msrOptionsCombinedItemsItem* o = new
-    msrOptionsCombinedItemsItem (
+  optionsCombinedItemsItem* o = new
+    optionsCombinedItemsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -759,13 +758,13 @@ S_msrOptionsCombinedItemsItem msrOptionsCombinedItemsItem::create (
   return o;
 }
 
-msrOptionsCombinedItemsItem::msrOptionsCombinedItemsItem (
+optionsCombinedItemsItem::optionsCombinedItemsItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
   string optionsCombinedItemsItemVariableDisplayName,
   bool&  optionsCombinedItemsItemVariable)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription),
@@ -775,11 +774,11 @@ msrOptionsCombinedItemsItem::msrOptionsCombinedItemsItem (
       optionsCombinedItemsItemVariable)
 {}
 
-msrOptionsCombinedItemsItem::~msrOptionsCombinedItemsItem()
+optionsCombinedItemsItem::~optionsCombinedItemsItem()
 {}
 
-void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
-  S_msrOptionsItem optionsItem)
+void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
+  S_optionsItem optionsItem)
 {
   // sanity check
   msrAssert (
@@ -790,11 +789,11 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
     optionsItem);
 }
 
-void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
+void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
   string optionsItemName)
 {
   // get the options handler
-  S_msrOptionsHandler
+  S_optionsHandler
     optionsHandler =
       getOptionsSubGroupUplink ()->
         getOptionsGroupUplink ()->
@@ -806,7 +805,7 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
     "optionsHandler is null");
     
   // is optionsItemName known in options elements map?
-  S_msrOptionsElement
+  S_optionsElement
     optionsElement =
       optionsHandler->
         fetchOptionsElementFromMap (
@@ -831,13 +830,13 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
 
     if (
       // options item?
-      S_msrOptionsItem
-        optionsItem =
-          dynamic_cast<msrOptionsItem*>(&(*optionsElement))
+      S_optionsItem
+        item =
+          dynamic_cast<optionsItem*>(&(*optionsElement))
       ) {
       // handle the option item
       fOptionsCombinedItemsList.push_back (
-        optionsItem);
+        item);
     }
 
     else {
@@ -854,7 +853,7 @@ void msrOptionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
   }
 }
 
-void msrOptionsCombinedItemsItem::setCombinedItemsVariablesValue (
+void optionsCombinedItemsItem::setCombinedItemsVariablesValue (
   bool value)
 {
   // set the combined items item variable
@@ -863,28 +862,28 @@ void msrOptionsCombinedItemsItem::setCombinedItemsVariablesValue (
   // set the value of the items in the list
   if (fOptionsCombinedItemsList.size ()) {      
     for (
-      list<S_msrOptionsItem>::const_iterator i =
+      list<S_optionsItem>::const_iterator i =
         fOptionsCombinedItemsList.begin ();
       i != fOptionsCombinedItemsList.end ();
       i++) {
-      S_msrOptionsItem
-        optionItem = (*i);
+      S_optionsItem
+        item = (*i);
 
       if (
         // boolean item?
-        S_msrOptionsBooleanItem
-          optionsBooleanItem =
-            dynamic_cast<msrOptionsBooleanItem*>(&(*optionItem))
+        S_optionsBooleanItem
+          booleanItem =
+            dynamic_cast<optionsBooleanItem*>(&(*item))
         ) {
         // set the boolean value
-        optionsBooleanItem->
+        booleanItem->
           setBooleanItemVariableValue (value);
       }      
     } // for
   }
 }
 
-void msrOptionsCombinedItemsItem::print (ostream& os) const
+void optionsCombinedItemsItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -915,7 +914,7 @@ void msrOptionsCombinedItemsItem::print (ostream& os) const
     os <<
         "'";
         
-      list<S_msrOptionsItem>::const_iterator
+      list<S_optionsItem>::const_iterator
         iBegin = fOptionsCombinedItemsList.begin (),
         iEnd   = fOptionsCombinedItemsList.end (),
         i      = iBegin;
@@ -936,7 +935,7 @@ void msrOptionsCombinedItemsItem::print (ostream& os) const
       endl;
 }
 
-void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
+void optionsCombinedItemsItem::printHelp (ostream& os) const
 {
   os <<
     optionsElementNames () <<
@@ -966,7 +965,7 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
 
     gIndenter++;
           
-    list<S_msrOptionsItem>::const_iterator
+    list<S_optionsItem>::const_iterator
       iBegin = fOptionsCombinedItemsList.begin (),
       iEnd   = fOptionsCombinedItemsList.end (),
       i      = iBegin;
@@ -990,7 +989,7 @@ void msrOptionsCombinedItemsItem::printHelp (ostream& os) const
     endl;
 }
 
-void msrOptionsCombinedItemsItem::printOptionsValues (
+void optionsCombinedItemsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -1014,23 +1013,23 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
   }
     
   else {      
-    list<S_msrOptionsItem>::const_iterator
+    list<S_optionsItem>::const_iterator
       iBegin = fOptionsCombinedItemsList.begin (),
       iEnd   = fOptionsCombinedItemsList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
-      S_msrOptionsItem
-        optionItem = (*i);
+      S_optionsItem
+        item = (*i);
 
       if (
         // boolean item?
-        S_msrOptionsBooleanItem
-          optionsBooleanItem =
-            dynamic_cast<msrOptionsBooleanItem*>(&(*optionItem))
+        S_optionsBooleanItem
+          booleanItem =
+            dynamic_cast<optionsBooleanItem*>(&(*item))
         ) {
         // set the boolean value
-        optionsBooleanItem->
+        booleanItem->
           printOptionsValues (
             os, fieldWidth);
       }      
@@ -1045,22 +1044,22 @@ void msrOptionsCombinedItemsItem::printOptionsValues (
 
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsCombinedItemsItem& elt)
+ostream& operator<< (ostream& os, const S_optionsCombinedItemsItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsBooleanItem msrOptionsBooleanItem::create (
+S_optionsBooleanItem optionsBooleanItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
   string optionsBooleanItemVariableDisplayName,
   bool&  optionsBooleanItemVariable)
 {
-  msrOptionsBooleanItem* o = new
-    msrOptionsBooleanItem (
+  optionsBooleanItem* o = new
+    optionsBooleanItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1070,13 +1069,13 @@ S_msrOptionsBooleanItem msrOptionsBooleanItem::create (
   return o;
 }
 
-msrOptionsBooleanItem::msrOptionsBooleanItem (
+optionsBooleanItem::optionsBooleanItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
   string optionsBooleanItemVariableDisplayName,
   bool&  optionsBooleanItemVariable)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription),
@@ -1086,10 +1085,10 @@ msrOptionsBooleanItem::msrOptionsBooleanItem (
       optionsBooleanItemVariable)
 {}
 
-msrOptionsBooleanItem::~msrOptionsBooleanItem()
+optionsBooleanItem::~optionsBooleanItem()
 {}
 
-void msrOptionsBooleanItem::print (ostream& os) const
+void optionsBooleanItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1099,7 +1098,7 @@ void msrOptionsBooleanItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -1123,7 +1122,7 @@ void msrOptionsBooleanItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsBooleanItem::printOptionsValues (
+void optionsBooleanItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1136,14 +1135,14 @@ void msrOptionsBooleanItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsBooleanItem& elt)
+ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsTwoBooleansItem msrOptionsTwoBooleansItem::create (
+S_optionsTwoBooleansItem optionsTwoBooleansItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
@@ -1151,8 +1150,8 @@ S_msrOptionsTwoBooleansItem msrOptionsTwoBooleansItem::create (
   bool&  optionsTwoBooleansItemVariable,
   bool&  optionsTwoBooleansItemSecondaryVariable)
 {
-  msrOptionsTwoBooleansItem* o = new
-    msrOptionsTwoBooleansItem (
+  optionsTwoBooleansItem* o = new
+    optionsTwoBooleansItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1163,14 +1162,14 @@ S_msrOptionsTwoBooleansItem msrOptionsTwoBooleansItem::create (
   return o;
 }
 
-msrOptionsTwoBooleansItem::msrOptionsTwoBooleansItem (
+optionsTwoBooleansItem::optionsTwoBooleansItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
   string optionsTwoBooleansItemVariableDisplayName,
   bool&  optionsTwoBooleansItemVariable,
   bool&  optionsTwoBooleansItemSecondaryVariable)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription),
@@ -1182,10 +1181,10 @@ msrOptionsTwoBooleansItem::msrOptionsTwoBooleansItem (
       optionsTwoBooleansItemSecondaryVariable)
 {}
 
-msrOptionsTwoBooleansItem::~msrOptionsTwoBooleansItem()
+optionsTwoBooleansItem::~optionsTwoBooleansItem()
 {}
 
-void msrOptionsTwoBooleansItem::print (ostream& os) const
+void optionsTwoBooleansItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1195,7 +1194,7 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -1219,7 +1218,7 @@ void msrOptionsTwoBooleansItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsTwoBooleansItem::printOptionsValues (
+void optionsTwoBooleansItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1232,14 +1231,14 @@ void msrOptionsTwoBooleansItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsTwoBooleansItem& elt)
+ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsThreeBooleansItem msrOptionsThreeBooleansItem::create (
+S_optionsThreeBooleansItem optionsThreeBooleansItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
@@ -1248,8 +1247,8 @@ S_msrOptionsThreeBooleansItem msrOptionsThreeBooleansItem::create (
   bool&  optionsThreeBooleansItemSecondaryVariable,
   bool&  optionsThreeBooleansItemTertiaryVariable)
 {
-  msrOptionsThreeBooleansItem* o = new
-    msrOptionsThreeBooleansItem (
+  optionsThreeBooleansItem* o = new
+    optionsThreeBooleansItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1261,7 +1260,7 @@ S_msrOptionsThreeBooleansItem msrOptionsThreeBooleansItem::create (
   return o;
 }
 
-msrOptionsThreeBooleansItem::msrOptionsThreeBooleansItem (
+optionsThreeBooleansItem::optionsThreeBooleansItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription,
@@ -1269,7 +1268,7 @@ msrOptionsThreeBooleansItem::msrOptionsThreeBooleansItem (
   bool&  optionsThreeBooleansItemVariable,
   bool&  optionsThreeBooleansItemSecondaryVariable,
   bool&  optionsThreeBooleansItemTertiaryVariable)
-  : msrOptionsItem (
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription),
@@ -1283,10 +1282,10 @@ msrOptionsThreeBooleansItem::msrOptionsThreeBooleansItem (
       optionsThreeBooleansItemTertiaryVariable)
 {}
 
-msrOptionsThreeBooleansItem::~msrOptionsThreeBooleansItem()
+optionsThreeBooleansItem::~optionsThreeBooleansItem()
 {}
 
-void msrOptionsThreeBooleansItem::print (ostream& os) const
+void optionsThreeBooleansItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1296,7 +1295,7 @@ void msrOptionsThreeBooleansItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   gIndenter++;
@@ -1320,7 +1319,7 @@ void msrOptionsThreeBooleansItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsThreeBooleansItem::printOptionsValues (
+void optionsThreeBooleansItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1333,21 +1332,21 @@ void msrOptionsThreeBooleansItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsThreeBooleansItem& elt)
+ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsValuedItem msrOptionsValuedItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
-  string             optionsValueSpecification)
+S_optionsValuedItem optionsValuedItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsValueSpecification)
 {
-  msrOptionsValuedItem* o = new
-    msrOptionsValuedItem (
+  optionsValuedItem* o = new
+    optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1356,12 +1355,12 @@ S_msrOptionsValuedItem msrOptionsValuedItem::create (
   return o;
 }
 
-msrOptionsValuedItem::msrOptionsValuedItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
-  string             optionsValueSpecification)
-  : msrOptionsItem (
+optionsValuedItem::optionsValuedItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription,
+  string optionsValueSpecification)
+  : optionsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription)
@@ -1369,22 +1368,22 @@ msrOptionsValuedItem::msrOptionsValuedItem (
   fOptionsValueSpecification = optionsValueSpecification;
 }
     
-msrOptionsValuedItem::~msrOptionsValuedItem()
+optionsValuedItem::~optionsValuedItem()
 {}
 
-string msrOptionsValuedItem::optionsItemKindAsString (
-  msrOptionsValuedItem::msrOptionsValuedItemKind optionsItemKind)
+string optionsValuedItem::optionsItemKindAsString (
+  optionsValuedItem::optionsValuedItemKind optionsItemKind)
 {
   string result;
   
   switch (optionsItemKind) {
-    case msrOptionsValuedItem::kOptionsItemHasNoArgument:
+    case optionsValuedItem::kOptionsItemHasNoArgument:
       result = "OptionsItemHasNoArgument";
       break;
-    case msrOptionsValuedItem::kOptionsItemHasARequiredArgument:
+    case optionsValuedItem::kOptionsItemHasARequiredArgument:
       result = "OptionsItemHasARequiredArgument";
       break;
-    case msrOptionsValuedItem::kOptionsItemHasAnOptionsArgument:
+    case optionsValuedItem::kOptionsItemHasAnOptionsArgument:
       result = "OptionsItemHasAnOptionsArgument";
       break;
   } // switch
@@ -1392,14 +1391,14 @@ string msrOptionsValuedItem::optionsItemKindAsString (
   return result;
 }  
 
-void msrOptionsValuedItem::registerOptionsItemInHandler (
-  S_msrOptionsHandler optionsHandler)
+void optionsValuedItem::registerOptionsItemInHandler (
+  S_optionsHandler optionsHandler)
 {
   optionsHandler->
     registerOptionsElementInHandler (this);
 }
 
-void msrOptionsValuedItem::printValuedItemEssentials (
+void optionsValuedItem::printValuedItemEssentials (
   ostream& os,
   int      fieldWidth) const
 {
@@ -1413,7 +1412,7 @@ void msrOptionsValuedItem::printValuedItemEssentials (
     endl;
 }
 
-void msrOptionsValuedItem::print (ostream& os) const
+void optionsValuedItem::print (ostream& os) const
 {
   const int fieldWidth = 19;
   
@@ -1427,7 +1426,7 @@ void msrOptionsValuedItem::print (ostream& os) const
     os, fieldWidth);
 }
 
-void msrOptionsValuedItem::printHelp (ostream& os) const
+void optionsValuedItem::printHelp (ostream& os) const
 {
   os <<
     optionsElementNames () <<
@@ -1447,7 +1446,7 @@ void msrOptionsValuedItem::printHelp (ostream& os) const
   gIndenter.decrement (K_OPTIONS_ELEMENTS_INDENTER_OFFSET);
 }
 
-void msrOptionsValuedItem::printOptionsValues (
+void optionsValuedItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1456,21 +1455,21 @@ void msrOptionsValuedItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt)
+ostream& operator<< (ostream& os, const S_optionsValuedItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsItemHelpItem msrOptionsItemHelpItem::create (
+S_optionsItemHelpItem optionsItemHelpItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification)
 {
-  msrOptionsItemHelpItem* o = new
-    msrOptionsItemHelpItem (
+  optionsItemHelpItem* o = new
+    optionsItemHelpItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1479,22 +1478,22 @@ S_msrOptionsItemHelpItem msrOptionsItemHelpItem::create (
   return o;
 }
 
-msrOptionsItemHelpItem::msrOptionsItemHelpItem (
+optionsItemHelpItem::optionsItemHelpItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification)
 {}
 
-msrOptionsItemHelpItem::~msrOptionsItemHelpItem()
+optionsItemHelpItem::~optionsItemHelpItem()
 {}
 
-void msrOptionsItemHelpItem::print (ostream& os) const
+void optionsItemHelpItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1504,27 +1503,27 @@ void msrOptionsItemHelpItem::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsItemHelpItem::printValuedItemEssentials (
+  optionsItemHelpItem::printValuedItemEssentials (
     os, fieldWidth);
 
   gIndenter--;
 }
 
-void msrOptionsItemHelpItem::printOptionsValues (
+void optionsItemHelpItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_msrOptionsItemHelpItem& elt)
+ostream& operator<< (ostream& os, const S_optionsItemHelpItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
+S_optionsIntegerItem optionsIntegerItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -1532,8 +1531,8 @@ S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
   string             optionsIntegerItemVariableDisplayName,
   int&               optionsIntegerItemVariable)
 {
-  msrOptionsIntegerItem* o = new
-    msrOptionsIntegerItem (
+  optionsIntegerItem* o = new
+    optionsIntegerItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1544,14 +1543,14 @@ S_msrOptionsIntegerItem msrOptionsIntegerItem::create (
   return o;
 }
 
-msrOptionsIntegerItem::msrOptionsIntegerItem (
+optionsIntegerItem::optionsIntegerItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsIntegerItemVariableDisplayName,
   int&               optionsIntegerItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1562,10 +1561,10 @@ msrOptionsIntegerItem::msrOptionsIntegerItem (
       optionsIntegerItemVariable)
 {}
 
-msrOptionsIntegerItem::~msrOptionsIntegerItem()
+optionsIntegerItem::~optionsIntegerItem()
 {}
 
-void msrOptionsIntegerItem::print (ostream& os) const
+void optionsIntegerItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1591,7 +1590,7 @@ void msrOptionsIntegerItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsIntegerItem::printOptionsValues (
+void optionsIntegerItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1603,14 +1602,14 @@ void msrOptionsIntegerItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsIntegerItem& elt)
+ostream& operator<< (ostream& os, const S_optionsIntegerItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsFloatItem msrOptionsFloatItem::create (
+S_optionsFloatItem optionsFloatItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -1618,8 +1617,8 @@ S_msrOptionsFloatItem msrOptionsFloatItem::create (
   string             optionsFloatItemVariableDisplayName,
   float&             optionsFloatItemVariable)
 {
-  msrOptionsFloatItem* o = new
-    msrOptionsFloatItem (
+  optionsFloatItem* o = new
+    optionsFloatItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1630,14 +1629,14 @@ S_msrOptionsFloatItem msrOptionsFloatItem::create (
   return o;
 }
 
-msrOptionsFloatItem::msrOptionsFloatItem (
+optionsFloatItem::optionsFloatItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsFloatItemVariableDisplayName,
   float&             optionsFloatItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1648,10 +1647,10 @@ msrOptionsFloatItem::msrOptionsFloatItem (
       optionsFloatItemVariable)
 {}
 
-msrOptionsFloatItem::~msrOptionsFloatItem()
+optionsFloatItem::~optionsFloatItem()
 {}
 
-void msrOptionsFloatItem::print (ostream& os) const
+void optionsFloatItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1677,7 +1676,7 @@ void msrOptionsFloatItem::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsFloatItem::printOptionsValues (
+void optionsFloatItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1689,14 +1688,14 @@ void msrOptionsFloatItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt)
+ostream& operator<< (ostream& os, const S_optionsFloatItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsStringItem msrOptionsStringItem::create (
+S_optionsStringItem optionsStringItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -1704,8 +1703,8 @@ S_msrOptionsStringItem msrOptionsStringItem::create (
   string             optionsStringItemVariableDisplayName,
   string&            optionsStringItemVariable)
 {
-  msrOptionsStringItem* o = new
-    msrOptionsStringItem (
+  optionsStringItem* o = new
+    optionsStringItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1716,14 +1715,14 @@ S_msrOptionsStringItem msrOptionsStringItem::create (
   return o;
 }
 
-msrOptionsStringItem::msrOptionsStringItem (
+optionsStringItem::optionsStringItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsStringItemVariableDisplayName,
   string&            optionsStringItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1734,10 +1733,10 @@ msrOptionsStringItem::msrOptionsStringItem (
       optionsStringItemVariable)
 {}
 
-msrOptionsStringItem::~msrOptionsStringItem()
+optionsStringItem::~optionsStringItem()
 {}
 
-void msrOptionsStringItem::print (ostream& os) const
+void optionsStringItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1761,7 +1760,7 @@ void msrOptionsStringItem::print (ostream& os) const
     endl;
 }
 
-void msrOptionsStringItem::printOptionsValues (
+void optionsStringItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1774,7 +1773,7 @@ void msrOptionsStringItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt)
+ostream& operator<< (ostream& os, const S_optionsStringItem& elt)
 {
   os <<
     "OptionsStringItem:" <<
@@ -1784,7 +1783,7 @@ ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt)
 }
 
 //______________________________________________________________________________
-S_msrOptionsRationalItem msrOptionsRationalItem::create (
+S_optionsRationalItem optionsRationalItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -1792,8 +1791,8 @@ S_msrOptionsRationalItem msrOptionsRationalItem::create (
   string             optionsRationalItemVariableDisplayName,
   rational&          optionsRationalItemVariable)
 {
-  msrOptionsRationalItem* o = new
-    msrOptionsRationalItem (
+  optionsRationalItem* o = new
+    optionsRationalItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1804,14 +1803,14 @@ S_msrOptionsRationalItem msrOptionsRationalItem::create (
   return o;
 }
 
-msrOptionsRationalItem::msrOptionsRationalItem (
+optionsRationalItem::optionsRationalItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsRationalItemVariableDisplayName,
   rational&          optionsRationalItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1822,10 +1821,10 @@ msrOptionsRationalItem::msrOptionsRationalItem (
       optionsRationalItemVariable)
 {}
 
-msrOptionsRationalItem::~msrOptionsRationalItem()
+optionsRationalItem::~optionsRationalItem()
 {}
 
-void msrOptionsRationalItem::print (ostream& os) const
+void optionsRationalItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1849,7 +1848,7 @@ void msrOptionsRationalItem::print (ostream& os) const
     endl;
 }
 
-void msrOptionsRationalItem::printOptionsValues (
+void optionsRationalItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1861,14 +1860,14 @@ void msrOptionsRationalItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsRationalItem& elt)
+ostream& operator<< (ostream& os, const S_optionsRationalItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsNumbersSetItem msrOptionsNumbersSetItem::create (
+S_optionsNumbersSetItem optionsNumbersSetItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -1876,8 +1875,8 @@ S_msrOptionsNumbersSetItem msrOptionsNumbersSetItem::create (
   string             optionsNumbersSetItemVariableDisplayName,
   set<int>&          optionsNumbersSetItemVariable)
 {
-  msrOptionsNumbersSetItem* o = new
-    msrOptionsNumbersSetItem (
+  optionsNumbersSetItem* o = new
+    optionsNumbersSetItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1888,14 +1887,14 @@ S_msrOptionsNumbersSetItem msrOptionsNumbersSetItem::create (
   return o;
 }
 
-msrOptionsNumbersSetItem::msrOptionsNumbersSetItem (
+optionsNumbersSetItem::optionsNumbersSetItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
   string             optionsNumbersSetItemVariableDisplayName,
   set<int>&          optionsNumbersSetItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -1906,10 +1905,10 @@ msrOptionsNumbersSetItem::msrOptionsNumbersSetItem (
       optionsNumbersSetItemVariable)
 {}
 
-msrOptionsNumbersSetItem::~msrOptionsNumbersSetItem()
+optionsNumbersSetItem::~optionsNumbersSetItem()
 {}
 
-void msrOptionsNumbersSetItem::print (ostream& os) const
+void optionsNumbersSetItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -1958,7 +1957,7 @@ void msrOptionsNumbersSetItem::print (ostream& os) const
       endl;
 }
 
-void msrOptionsNumbersSetItem::printOptionsValues (
+void optionsNumbersSetItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -1995,14 +1994,14 @@ void msrOptionsNumbersSetItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsNumbersSetItem& elt)
+ostream& operator<< (ostream& os, const S_optionsNumbersSetItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsPitchesLanguageItem msrOptionsPitchesLanguageItem::create (
+S_optionsPitchesLanguageItem optionsPitchesLanguageItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2011,8 +2010,8 @@ S_msrOptionsPitchesLanguageItem msrOptionsPitchesLanguageItem::create (
   msrQuarterTonesPitchesLanguageKind&
                      optionsPitchesLanguageKindItemVariable)
 {
-  msrOptionsPitchesLanguageItem* o = new
-    msrOptionsPitchesLanguageItem (
+  optionsPitchesLanguageItem* o = new
+    optionsPitchesLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2023,7 +2022,7 @@ S_msrOptionsPitchesLanguageItem msrOptionsPitchesLanguageItem::create (
   return o;
 }
 
-msrOptionsPitchesLanguageItem::msrOptionsPitchesLanguageItem (
+optionsPitchesLanguageItem::optionsPitchesLanguageItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2031,7 +2030,7 @@ msrOptionsPitchesLanguageItem::msrOptionsPitchesLanguageItem (
   string             optionsPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
                      optionsPitchesLanguageKindItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2042,10 +2041,10 @@ msrOptionsPitchesLanguageItem::msrOptionsPitchesLanguageItem (
       optionsPitchesLanguageKindItemVariable)
 {}
 
-msrOptionsPitchesLanguageItem::~msrOptionsPitchesLanguageItem()
+optionsPitchesLanguageItem::~optionsPitchesLanguageItem()
 {}
 
-void msrOptionsPitchesLanguageItem::print (ostream& os) const
+void optionsPitchesLanguageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -2071,7 +2070,7 @@ void msrOptionsPitchesLanguageItem::print (ostream& os) const
     endl;
 }
 
-void msrOptionsPitchesLanguageItem::printOptionsValues (
+void optionsPitchesLanguageItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -2085,14 +2084,14 @@ void msrOptionsPitchesLanguageItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt)
+ostream& operator<< (ostream& os, const S_optionsPitchesLanguageItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsAccidentalStyleItem msrOptionsAccidentalStyleItem::create (
+S_optionsAccidentalStyleItem optionsAccidentalStyleItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2101,8 +2100,8 @@ S_msrOptionsAccidentalStyleItem msrOptionsAccidentalStyleItem::create (
   lpsrAccidentalStyleKind&
                      optionsAccidentalStyleKindItemVariable)
 {
-  msrOptionsAccidentalStyleItem* o = new
-    msrOptionsAccidentalStyleItem (
+  optionsAccidentalStyleItem* o = new
+    optionsAccidentalStyleItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2113,7 +2112,7 @@ S_msrOptionsAccidentalStyleItem msrOptionsAccidentalStyleItem::create (
   return o;
 }
 
-msrOptionsAccidentalStyleItem::msrOptionsAccidentalStyleItem (
+optionsAccidentalStyleItem::optionsAccidentalStyleItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2121,7 +2120,7 @@ msrOptionsAccidentalStyleItem::msrOptionsAccidentalStyleItem (
   string             optionsAccidentalStyleKindItemVariableDisplayName,
   lpsrAccidentalStyleKind&
                      optionsAccidentalStyleKindItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2132,10 +2131,10 @@ msrOptionsAccidentalStyleItem::msrOptionsAccidentalStyleItem (
       optionsAccidentalStyleKindItemVariable)
 {}
 
-msrOptionsAccidentalStyleItem::~msrOptionsAccidentalStyleItem()
+optionsAccidentalStyleItem::~optionsAccidentalStyleItem()
 {}
 
-void msrOptionsAccidentalStyleItem::print (ostream& os) const
+void optionsAccidentalStyleItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -2161,7 +2160,7 @@ void msrOptionsAccidentalStyleItem::print (ostream& os) const
     endl;
 }
 
-void msrOptionsAccidentalStyleItem::printOptionsValues (
+void optionsAccidentalStyleItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -2175,14 +2174,14 @@ void msrOptionsAccidentalStyleItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsAccidentalStyleItem& elt)
+ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsChordsLanguageItem msrOptionsChordsLanguageItem::create (
+S_optionsChordsLanguageItem optionsChordsLanguageItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2191,8 +2190,8 @@ S_msrOptionsChordsLanguageItem msrOptionsChordsLanguageItem::create (
   lpsrChordsLanguageKind&
                      optionsChordsLanguageKindItemVariable)
 {
-  msrOptionsChordsLanguageItem* o = new
-    msrOptionsChordsLanguageItem (
+  optionsChordsLanguageItem* o = new
+    optionsChordsLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2203,7 +2202,7 @@ S_msrOptionsChordsLanguageItem msrOptionsChordsLanguageItem::create (
   return o;
 }
 
-msrOptionsChordsLanguageItem::msrOptionsChordsLanguageItem (
+optionsChordsLanguageItem::optionsChordsLanguageItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2211,7 +2210,7 @@ msrOptionsChordsLanguageItem::msrOptionsChordsLanguageItem (
   string             optionsChordsLanguageKindItemVariableDisplayName,
   lpsrChordsLanguageKind&
                      optionsChordsLanguageKindItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2222,10 +2221,10 @@ msrOptionsChordsLanguageItem::msrOptionsChordsLanguageItem (
       optionsChordsLanguageKindItemVariable)
 {}
 
-msrOptionsChordsLanguageItem::~msrOptionsChordsLanguageItem()
+optionsChordsLanguageItem::~optionsChordsLanguageItem()
 {}
 
-void msrOptionsChordsLanguageItem::print (ostream& os) const
+void optionsChordsLanguageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -2250,7 +2249,7 @@ void msrOptionsChordsLanguageItem::print (ostream& os) const
     endl;
 }
 
-void msrOptionsChordsLanguageItem::printOptionsValues (
+void optionsChordsLanguageItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -2264,14 +2263,14 @@ void msrOptionsChordsLanguageItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt)
+ostream& operator<< (ostream& os, const S_optionsChordsLanguageItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsPartRenameItem msrOptionsPartRenameItem::create (
+S_optionsPartRenameItem optionsPartRenameItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2280,8 +2279,8 @@ S_msrOptionsPartRenameItem msrOptionsPartRenameItem::create (
   map<string, string>&
                      optionsPartRenameItemVariable)
 {
-  msrOptionsPartRenameItem* o = new
-    msrOptionsPartRenameItem (
+  optionsPartRenameItem* o = new
+    optionsPartRenameItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2292,7 +2291,7 @@ S_msrOptionsPartRenameItem msrOptionsPartRenameItem::create (
   return o;
 }
 
-msrOptionsPartRenameItem::msrOptionsPartRenameItem (
+optionsPartRenameItem::optionsPartRenameItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2300,7 +2299,7 @@ msrOptionsPartRenameItem::msrOptionsPartRenameItem (
   string             optionsPartRenameItemVariableDisplayName,
   map<string, string>&
                      optionsPartRenameItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2311,10 +2310,10 @@ msrOptionsPartRenameItem::msrOptionsPartRenameItem (
       optionsPartRenameItemVariable)
 {}
 
-msrOptionsPartRenameItem::~msrOptionsPartRenameItem()
+optionsPartRenameItem::~optionsPartRenameItem()
 {}
 
-void msrOptionsPartRenameItem::print (ostream& os) const
+void optionsPartRenameItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -2354,7 +2353,7 @@ void msrOptionsPartRenameItem::print (ostream& os) const
     endl;
 }
 
-void msrOptionsPartRenameItem::printOptionsValues (
+void optionsPartRenameItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -2396,14 +2395,14 @@ void msrOptionsPartRenameItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsPartRenameItem& elt)
+ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsMidiTempoItem msrOptionsMidiTempoItem::create (
+S_optionsMidiTempoItem optionsMidiTempoItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2412,8 +2411,8 @@ S_msrOptionsMidiTempoItem msrOptionsMidiTempoItem::create (
   pair<string, int>&
                      optionsMidiTempoItemVariable)
 {
-  msrOptionsMidiTempoItem* o = new
-    msrOptionsMidiTempoItem (
+  optionsMidiTempoItem* o = new
+    optionsMidiTempoItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2424,7 +2423,7 @@ S_msrOptionsMidiTempoItem msrOptionsMidiTempoItem::create (
   return o;
 }
 
-msrOptionsMidiTempoItem::msrOptionsMidiTempoItem (
+optionsMidiTempoItem::optionsMidiTempoItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
@@ -2432,7 +2431,7 @@ msrOptionsMidiTempoItem::msrOptionsMidiTempoItem (
   string             optionsMidiTempoItemVariableDisplayName,
   pair<string, int>&
                      optionsMidiTempoItemVariable)
-  : msrOptionsValuedItem (
+  : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
@@ -2443,10 +2442,10 @@ msrOptionsMidiTempoItem::msrOptionsMidiTempoItem (
       optionsMidiTempoItemVariable)
 {}
 
-msrOptionsMidiTempoItem::~msrOptionsMidiTempoItem()
+optionsMidiTempoItem::~optionsMidiTempoItem()
 {}
 
-void msrOptionsMidiTempoItem::print (ostream& os) const
+void optionsMidiTempoItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
@@ -2472,7 +2471,7 @@ void msrOptionsMidiTempoItem::print (ostream& os) const
     endl;
 }
 
-void msrOptionsMidiTempoItem::printOptionsValues (
+void optionsMidiTempoItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
@@ -2487,25 +2486,25 @@ void msrOptionsMidiTempoItem::printOptionsValues (
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsMidiTempoItem& elt)
+ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsSubGroup msrOptionsSubGroup::create (
+S_optionsSubGroup optionsSubGroup::create (
   string optionsSubGroupHelpHeader,
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription,
-  msrOptionsSubGroupDescriptionVisibilityKind
+  optionsSubGroupDescriptionVisibilityKind
          optionsSubGroupDescriptionVisibilityKind,
-  S_msrOptionsGroup
+  S_optionsGroup
          optionsGroupUplink)
 {
-  msrOptionsSubGroup* o = new
-    msrOptionsSubGroup (
+  optionsSubGroup* o = new
+    optionsSubGroup (
       optionsSubGroupHelpHeader,
       optionsSubGroupShortName,
       optionsSubGroupLongName,
@@ -2516,16 +2515,16 @@ S_msrOptionsSubGroup msrOptionsSubGroup::create (
   return o;
 }
 
-msrOptionsSubGroup::msrOptionsSubGroup (
+optionsSubGroup::optionsSubGroup (
   string optionsSubGroupHelpHeader,
   string optionsSubGroupShortName,
   string optionsSubGroupLongName,
   string optionsSubGroupDescription,
-  msrOptionsSubGroupDescriptionVisibilityKind
+  optionsSubGroupDescriptionVisibilityKind
          optionsSubGroupDescriptionVisibilityKind,
-  S_msrOptionsGroup
+  S_optionsGroup
          optionsGroupUplink)
-  : msrOptionsElement (
+  : optionsElement (
       optionsSubGroupShortName,
       optionsSubGroupLongName,
       optionsSubGroupDescription)
@@ -2540,11 +2539,11 @@ msrOptionsSubGroup::msrOptionsSubGroup (
     optionsSubGroupDescriptionVisibilityKind;
 }
 
-msrOptionsSubGroup::~msrOptionsSubGroup()
+optionsSubGroup::~optionsSubGroup()
 {}
 
-string msrOptionsSubGroup::optionsSubGroupDescriptionVisibilityKindAsString (
-  msrOptionsSubGroupDescriptionVisibilityKind
+string optionsSubGroup::optionsSubGroupDescriptionVisibilityKindAsString (
+  optionsSubGroupDescriptionVisibilityKind
     optionsSubGroupDescriptionVisibilityKind)
 {
   string result;
@@ -2562,7 +2561,7 @@ string msrOptionsSubGroup::optionsSubGroupDescriptionVisibilityKindAsString (
   return result;
 }
 
-void msrOptionsSubGroup::underlineHeader (ostream& os) const
+void optionsSubGroup::underlineHeader (ostream& os) const
 {
   for (unsigned int i = 0; i < fOptionsSubGroupHelpHeader.size (); i++) {
     os << "-";
@@ -2571,14 +2570,14 @@ void msrOptionsSubGroup::underlineHeader (ostream& os) const
     endl;
 }
 
-void msrOptionsSubGroup::registerOptionsSubGroupInHandler (
-  S_msrOptionsHandler optionsHandler)
+void optionsSubGroup::registerOptionsSubGroupInHandler (
+  S_optionsHandler optionsHandler)
 {
   optionsHandler->
     registerOptionsElementInHandler (this);
 
   for (
-    list<S_msrOptionsItem>::const_iterator
+    list<S_optionsItem>::const_iterator
       i = fOptionsSubGroupItemsList.begin ();
     i != fOptionsSubGroupItemsList.end ();
     i++) {
@@ -2589,8 +2588,8 @@ void msrOptionsSubGroup::registerOptionsSubGroupInHandler (
   } // for
 }
 
-void msrOptionsSubGroup::appendOptionsItem (
-  S_msrOptionsItem optionsItem)
+void optionsSubGroup::appendOptionsItem (
+  S_optionsItem optionsItem)
 {
   // sanity check
   msrAssert (
@@ -2606,13 +2605,13 @@ void msrOptionsSubGroup::appendOptionsItem (
     setOptionsSubGroupUplink (this);
 }
 
-S_msrOptionsElement msrOptionsSubGroup::fetchOptionElement (
+S_optionsElement optionsSubGroup::fetchOptionElement (
   string optiontElementName)
 {
-  S_msrOptionsElement result;
+  S_optionsElement result;
   
   for (
-    list<S_msrOptionsItem>::const_iterator
+    list<S_optionsItem>::const_iterator
       i = fOptionsSubGroupItemsList.begin ();
     i != fOptionsSubGroupItemsList.end ();
     i++) {
@@ -2627,7 +2626,7 @@ S_msrOptionsElement msrOptionsSubGroup::fetchOptionElement (
   return result;
 }
 
-void msrOptionsSubGroup::print (ostream& os) const
+void optionsSubGroup::print (ostream& os) const
 {
   const int fieldWidth = 27;
   
@@ -2637,7 +2636,7 @@ void msrOptionsSubGroup::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   os << left <<
@@ -2660,7 +2659,7 @@ void msrOptionsSubGroup::print (ostream& os) const
     
     gIndenter++;
     
-    list<S_msrOptionsItem>::const_iterator
+    list<S_optionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin (),
       iEnd   = fOptionsSubGroupItemsList.end (),
       i      = iBegin;
@@ -2677,7 +2676,7 @@ void msrOptionsSubGroup::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsSubGroup::printHelp (ostream& os) const
+void optionsSubGroup::printHelp (ostream& os) const
 {
   
   // print the header and option names
@@ -2722,12 +2721,12 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
       if (fOptionsSubGroupItemsList.size ()) {    
         gIndenter++;
     
-        list<S_msrOptionsItem>::const_iterator
+        list<S_optionsItem>::const_iterator
           iBegin = fOptionsSubGroupItemsList.begin (),
           iEnd   = fOptionsSubGroupItemsList.end (),
           i      = iBegin;
         for ( ; ; ) {
-          S_msrOptionsItem
+          S_optionsItem
             optionsItem = (*i);
           bool
             optionsItemIsHidden =
@@ -2754,7 +2753,7 @@ void msrOptionsSubGroup::printHelp (ostream& os) const
   } // switch
 }
 
-void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
+void optionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
 {
   // print the header and option names
   os <<
@@ -2796,7 +2795,7 @@ void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
   if (fOptionsSubGroupItemsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsItem>::const_iterator
+    list<S_optionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin (),
       iEnd   = fOptionsSubGroupItemsList.end (),
       i      = iBegin;
@@ -2814,7 +2813,7 @@ void msrOptionsSubGroup::printOptionsSubGroupForcedHelp (ostream& os) const
     endl;
 }
 
-void msrOptionsSubGroup::printHelpSummary (
+void optionsSubGroup::printHelpSummary (
   ostream& os) const
 {
   // fetch maximum subgroups help headers size
@@ -2862,9 +2861,9 @@ void msrOptionsSubGroup::printHelpSummary (
   }
 }
 
-void msrOptionsSubGroup::printSpecificSubGroupHelp (
+void optionsSubGroup::printSpecificSubGroupHelp (
   ostream& os,
-  S_msrOptionsSubGroup
+  S_optionsSubGroup
            optionsSubGroup) const
 {
   // print only the summary if this is not the desired subgroup,
@@ -2880,9 +2879,9 @@ void msrOptionsSubGroup::printSpecificSubGroupHelp (
   }
  }
 
-void msrOptionsSubGroup::printOptionsItemForcedHelp (
+void optionsSubGroup::printOptionsItemForcedHelp (
   ostream&         os,
-  S_msrOptionsItem targetOptionsItem) const
+  S_optionsItem targetOptionsItem) const
 {
   // print the header
   os <<
@@ -2900,12 +2899,12 @@ void msrOptionsSubGroup::printOptionsItemForcedHelp (
   if (fOptionsSubGroupItemsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsItem>::const_iterator
+    list<S_optionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin (),
       iEnd   = fOptionsSubGroupItemsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      S_msrOptionsItem
+      S_optionsItem
         optionsItem = (*i);
         
       if (optionsItem == targetOptionsItem) {
@@ -2926,7 +2925,7 @@ void msrOptionsSubGroup::printOptionsItemForcedHelp (
   }
 }
 
-void msrOptionsSubGroup::printOptionsValues (
+void optionsSubGroup::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -2945,7 +2944,7 @@ void msrOptionsSubGroup::printOptionsValues (
   if (fOptionsSubGroupItemsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsItem>::const_iterator
+    list<S_optionsItem>::const_iterator
       iBegin = fOptionsSubGroupItemsList.begin (),
       iEnd   = fOptionsSubGroupItemsList.end (),
       i      = iBegin;
@@ -2962,23 +2961,23 @@ void msrOptionsSubGroup::printOptionsValues (
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt)
+ostream& operator<< (ostream& os, const S_optionsSubGroup& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_msrOptionsGroup msrOptionsGroup::create (
+S_optionsGroup optionsGroup::create (
   string optionsGroupHelpHeader,
   string optionGroupShortName,
   string optionGroupLongName,
   string optionGroupDescription,
-  S_msrOptionsHandler
+  S_optionsHandler
          optionsHandlerUplink)
 {
-  msrOptionsGroup* o = new
-    msrOptionsGroup (
+  optionsGroup* o = new
+    optionsGroup (
       optionsGroupHelpHeader,
       optionGroupShortName,
       optionGroupLongName,
@@ -2988,14 +2987,14 @@ S_msrOptionsGroup msrOptionsGroup::create (
   return o;
 }
 
-msrOptionsGroup::msrOptionsGroup (
+optionsGroup::optionsGroup (
   string optionsGroupHelpHeader,
   string optionGroupShortName,
   string optionGroupLongName,
   string optionGroupDescription,
-  S_msrOptionsHandler
+  S_optionsHandler
          optionsHandlerUplink)
-  : msrOptionsElement (
+  : optionsElement (
       optionGroupShortName,
       optionGroupLongName,
       optionGroupDescription)
@@ -3005,11 +3004,11 @@ msrOptionsGroup::msrOptionsGroup (
   fOptionsGroupHelpHeader = optionsGroupHelpHeader;
 }
 
-msrOptionsGroup::~msrOptionsGroup()
+optionsGroup::~optionsGroup()
 {}
 
-void msrOptionsGroup::setOptionsHandlerUplink (
-  S_msrOptionsHandler optionsHandler)
+void optionsGroup::setOptionsHandlerUplink (
+  S_optionsHandler optionsHandler)
 {
   // sanity check
   msrAssert (
@@ -3021,7 +3020,7 @@ void msrOptionsGroup::setOptionsHandlerUplink (
     optionsHandler;
 }
 
-void msrOptionsGroup::underlineHeader (ostream& os) const
+void optionsGroup::underlineHeader (ostream& os) const
 {
   for (unsigned int i = 0; i < fOptionsGroupHelpHeader.size (); i++) {
     os << "-";
@@ -3030,8 +3029,8 @@ void msrOptionsGroup::underlineHeader (ostream& os) const
     endl;
 }
 
-void msrOptionsGroup::registerOptionsGroupInHandler (
-  S_msrOptionsHandler optionsHandler)
+void optionsGroup::registerOptionsGroupInHandler (
+  S_optionsHandler optionsHandler)
 {
   // sanity check
   msrAssert (
@@ -3046,7 +3045,7 @@ void msrOptionsGroup::registerOptionsGroupInHandler (
     registerOptionsElementInHandler (this);
 
   for (
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       i = fOptionsGroupSubGroupsList.begin ();
     i != fOptionsGroupSubGroupsList.end ();
     i++) {
@@ -3057,8 +3056,8 @@ void msrOptionsGroup::registerOptionsGroupInHandler (
   } // for
 }
 
-void  msrOptionsGroup::appendOptionsSubGroup (
-  S_msrOptionsSubGroup optionsSubGroup)
+void  optionsGroup::appendOptionsSubGroup (
+  S_optionsSubGroup optionsSubGroup)
 {
   // sanity check
   msrAssert (
@@ -3074,13 +3073,13 @@ void  msrOptionsGroup::appendOptionsSubGroup (
     setOptionsGroupUplink (this);
 }
 
-S_msrOptionsElement msrOptionsGroup::fetchOptionElement (
+S_optionsElement optionsGroup::fetchOptionElement (
   string optiontElementName)
 {
-  S_msrOptionsElement result;
+  S_optionsElement result;
   
   for (
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       i = fOptionsGroupSubGroupsList.begin ();
     i != fOptionsGroupSubGroupsList.end ();
     i++) {
@@ -3095,7 +3094,7 @@ S_msrOptionsElement msrOptionsGroup::fetchOptionElement (
   return result;
 }
 
-void msrOptionsGroup::print (ostream& os) const
+void optionsGroup::print (ostream& os) const
 {
   const int fieldWidth = 27;
   
@@ -3105,7 +3104,7 @@ void msrOptionsGroup::print (ostream& os) const
 
   gIndenter++;
 
-  msrOptionsElement::printElementEssentials (
+  optionsElement::printElementEssentials (
     os, fieldWidth);
 
   os <<
@@ -3120,7 +3119,7 @@ void msrOptionsGroup::print (ostream& os) const
     
     gIndenter++;
     
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin (),
       iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
@@ -3137,7 +3136,7 @@ void msrOptionsGroup::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsGroup::printHelp (ostream& os) const
+void optionsGroup::printHelp (ostream& os) const
 {
   // print the header and option names
   os <<
@@ -3169,7 +3168,7 @@ void msrOptionsGroup::printHelp (ostream& os) const
   if (fOptionsGroupSubGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin (),
       iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
@@ -3184,9 +3183,9 @@ void msrOptionsGroup::printHelp (ostream& os) const
   }
 }
 
-void msrOptionsGroup::printOptionsSubGroupForcedHelp (
+void optionsGroup::printOptionsSubGroupForcedHelp (
   ostream&             os,
-  S_msrOptionsSubGroup targetOptionsSubGroup) const
+  S_optionsSubGroup targetOptionsSubGroup) const
 {
   // print the header and option names
   os <<
@@ -3218,12 +3217,12 @@ void msrOptionsGroup::printOptionsSubGroupForcedHelp (
   if (fOptionsGroupSubGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin (),
       iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      S_msrOptionsSubGroup
+      S_optionsSubGroup
         optionsSubGroup = (*i);
         
       if (optionsSubGroup == targetOptionsSubGroup) {
@@ -3243,10 +3242,10 @@ void msrOptionsGroup::printOptionsSubGroupForcedHelp (
   }
 }
 
-void msrOptionsGroup::printOptionsItemForcedHelp (
+void optionsGroup::printOptionsItemForcedHelp (
   ostream&             os,
-  S_msrOptionsSubGroup targetOptionsSubGroup,
-  S_msrOptionsItem     targetOptionsItem) const
+  S_optionsSubGroup targetOptionsSubGroup,
+  S_optionsItem     targetOptionsItem) const
 {
   // print the header and option names
   os <<
@@ -3278,12 +3277,12 @@ void msrOptionsGroup::printOptionsItemForcedHelp (
   if (fOptionsGroupSubGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin (),
       iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
     for ( ; ; ) {
-      S_msrOptionsSubGroup
+      S_optionsSubGroup
         optionsSubGroup = (*i);
         
       if (optionsSubGroup == targetOptionsSubGroup) {
@@ -3308,7 +3307,7 @@ void msrOptionsGroup::printOptionsItemForcedHelp (
   }
 }
 
-void msrOptionsGroup::printHelpSummary (ostream& os) const
+void optionsGroup::printHelpSummary (ostream& os) const
 {
   // the description is the header of the information
   os <<
@@ -3340,7 +3339,7 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
   if (fOptionsGroupSubGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin (),
       iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
@@ -3356,9 +3355,9 @@ void msrOptionsGroup::printHelpSummary (ostream& os) const
   }
 }
 
-void msrOptionsGroup::printSpecificSubGroupHelp (
+void optionsGroup::printSpecificSubGroupHelp (
   ostream& os,
-  S_msrOptionsSubGroup
+  S_optionsSubGroup
            optionsSubGroup) const
 {
   // the description is the header of the information
@@ -3392,7 +3391,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
   if (fOptionsGroupSubGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin (),
       iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
@@ -3409,7 +3408,7 @@ void msrOptionsGroup::printSpecificSubGroupHelp (
   }
 }
 
-void msrOptionsGroup::printOptionsValues (
+void optionsGroup::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
@@ -3430,7 +3429,7 @@ void msrOptionsGroup::printOptionsValues (
   if (fOptionsGroupSubGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsSubGroup>::const_iterator
+    list<S_optionsSubGroup>::const_iterator
       iBegin = fOptionsGroupSubGroupsList.begin (),
       iEnd   = fOptionsGroupSubGroupsList.end (),
       i      = iBegin;
@@ -3447,7 +3446,7 @@ void msrOptionsGroup::printOptionsValues (
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
+ostream& operator<< (ostream& os, const S_optionsGroup& elt)
 {
   elt->print (os);
   return os;
@@ -3455,7 +3454,7 @@ ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt)
 
 //______________________________________________________________________________
 /* JMI
-S_msrOptionsHandler msrOptionsHandler::create (
+S_optionsHandler optionsHandler::create (
   string           optionsHandlerHelpHeader,
   string           optionsHandlerValuesHeader,
   string           optionHandlerHelpShortName,
@@ -3466,8 +3465,8 @@ S_msrOptionsHandler msrOptionsHandler::create (
   string           optionHandlerDescription,
   indentedOstream& optionsHandlerLogIOstream)
 {
-  msrOptionsHandler* o = new
-    msrOptionsHandler (
+  optionsHandler* o = new
+    optionsHandler (
       optionsHandlerHelpHeader,
       optionsHandlerValuesHeader,
       optionHandlerHelpShortName,
@@ -3482,7 +3481,7 @@ S_msrOptionsHandler msrOptionsHandler::create (
 }
 */
 
-msrOptionsHandler::msrOptionsHandler (
+optionsHandler::optionsHandler (
   string           optionsHandlerHelpHeader,
   string           optionsHandlerValuesHeader,
   string           optionHandlerHelpShortName,
@@ -3492,7 +3491,7 @@ msrOptionsHandler::msrOptionsHandler (
   string           optionHandlerPreamble,
   string           optionHandlerDescription,
   indentedOstream& optionsHandlerLogIOstream)
-  : msrOptionsElement (
+  : optionsElement (
       optionHandlerHelpShortName,
       optionHandlerHelpLongName,
       optionHandlerDescription),
@@ -3521,10 +3520,10 @@ msrOptionsHandler::msrOptionsHandler (
   fMaximumDisplayNameWidth = 1;
 }
 
-msrOptionsHandler::~msrOptionsHandler()
+optionsHandler::~optionsHandler()
 {}
 
-void msrOptionsHandler::registerOptionsHandlerInItself ()
+void optionsHandler::registerOptionsHandlerInItself ()
 {
   this->
     registerOptionsElementInHandler (this);
@@ -3539,7 +3538,7 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
 
 //* JMI
   for (
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       i = fOptionsHandlerOptionsGroupsList.begin ();
     i != fOptionsHandlerOptionsGroupsList.end ();
     i++) {
@@ -3551,13 +3550,13 @@ void msrOptionsHandler::registerOptionsHandlerInItself ()
  // */
 }
 
-S_msrOptionsElement msrOptionsHandler::fetchOptionsElementFromMap (
+S_optionsElement optionsHandler::fetchOptionsElementFromMap (
   string optionsElementName) const
 {
-  S_msrOptionsElement result;
+  S_optionsElement result;
   
   // is optionsItemName known in options elements map?
-  map<string, S_msrOptionsElement>::const_iterator
+  map<string, S_optionsElement>::const_iterator
     it =
       fOptionsElementsMap.find (
         optionsElementName);
@@ -3570,7 +3569,7 @@ S_msrOptionsElement msrOptionsHandler::fetchOptionsElementFromMap (
   return result;
 }
 
-string msrOptionsHandler::helpNamesBetweenParentheses () const
+string optionsHandler::helpNamesBetweenParentheses () const
 {
   stringstream s;
   
@@ -3607,10 +3606,10 @@ string msrOptionsHandler::helpNamesBetweenParentheses () const
   return s.str ();
 }
 
-void msrOptionsHandler::registerOptionsNamesInHandler (
+void optionsHandler::registerOptionsNamesInHandler (
   string              optionShortName,
   string              optionLongName,
-  S_msrOptionsElement optionsElement)
+  S_optionsElement optionsElement)
 {
   int
     optionShortNameSize =
@@ -3643,7 +3642,7 @@ void msrOptionsHandler::registerOptionsNamesInHandler (
   }
   
   for (
-    map<string, S_msrOptionsElement>::iterator i =
+    map<string, S_optionsElement>::iterator i =
       fOptionsElementsMap.begin ();
     i != fOptionsElementsMap.end ();
     i++) {
@@ -3701,8 +3700,8 @@ void msrOptionsHandler::registerOptionsNamesInHandler (
   }
 }
 
-void msrOptionsHandler::registerOptionsElementInHandler (
-  S_msrOptionsElement optionsElement)
+void optionsHandler::registerOptionsElementInHandler (
+  S_optionsElement optionsElement)
 {
   string
     optionShortName =
@@ -3718,14 +3717,15 @@ void msrOptionsHandler::registerOptionsElementInHandler (
     
   if (
     // options subgroup?
-    S_msrOptionsSubGroup
-      optionsSubGroup =
-        dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
+    S_optionsSubGroup
+      subGroup =
+        dynamic_cast<optionsSubGroup*>(&(*optionsElement))
     ) {    
 
     string
       optionHelpHeader=
-        optionsSubGroup->getOptionsSubGroupHelpHeader ();
+        subGroup->
+          getOptionsSubGroupHelpHeader ();
     int
       optionHelpHeaderSize =
         optionHelpHeader.size ();
@@ -3738,7 +3738,7 @@ void msrOptionsHandler::registerOptionsElementInHandler (
   }
 }
 
-void msrOptionsHandler::print (ostream& os) const
+void optionsHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
   
@@ -3774,7 +3774,7 @@ void msrOptionsHandler::print (ostream& os) const
     
     gIndenter++;
     
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
@@ -3791,7 +3791,7 @@ void msrOptionsHandler::print (ostream& os) const
   gIndenter--;
 }
 
-void msrOptionsHandler::printHelp (ostream& os) const
+void optionsHandler::printHelp (ostream& os) const
 {
   // print the options handler preamble
   os <<
@@ -3820,7 +3820,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
@@ -3835,7 +3835,7 @@ void msrOptionsHandler::printHelp (ostream& os) const
   }
 }
 
-void msrOptionsHandler::printHelpSummary (ostream& os) const
+void optionsHandler::printHelpSummary (ostream& os) const
 {
   // print the options handler preamble
   os <<
@@ -3864,7 +3864,7 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
@@ -3879,9 +3879,9 @@ void msrOptionsHandler::printHelpSummary (ostream& os) const
   }
 }
 
-void msrOptionsHandler::printSpecificSubGroupHelp (
+void optionsHandler::printSpecificSubGroupHelp (
   ostream& os,
-  S_msrOptionsSubGroup
+  S_optionsSubGroup
            optionsSubGroup) const
 {
   // print the options handler help header and element names
@@ -3896,7 +3896,7 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
   if (fOptionsHandlerOptionsGroupsList.size ()) {    
     gIndenter++;
 
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
@@ -3914,12 +3914,12 @@ void msrOptionsHandler::printSpecificSubGroupHelp (
   }
 }
 
-void msrOptionsHandler::printSpecificItemHelp (
+void optionsHandler::printSpecificItemHelp (
   ostream& os,
   string   optionsItemName) const
 {  
   // is optionsItemName known in options elements map?
-  S_msrOptionsElement
+  S_optionsElement
     optionsElement =
       fetchOptionsElementFromMap (
         optionsItemName);
@@ -3930,7 +3930,7 @@ void msrOptionsHandler::printSpecificItemHelp (
 
     s <<
       "option name '" << optionsItemName <<
-      "' is not well handled in msrOptionsHandler::printSpecificItemHelp()";
+      "' is not well handled in optionsHandler::printSpecificItemHelp()";
       
     optionError (s.str ());
     abort ();
@@ -3940,26 +3940,26 @@ void msrOptionsHandler::printSpecificItemHelp (
     // optionsItemName is known, let's handle it
     if (
       // options handler?
-      S_msrOptionsHandler
-        optionsHandler =
-          dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
+      S_optionsHandler
+        handler =
+          dynamic_cast<optionsHandler*>(&(*optionsElement))
       ) {
       // print the option handler help or help summary
       if (
         optionsItemName ==
-          optionsHandler->
+          handler->
             getOptionHandlerHelpSummaryShortName ()
           ||
         optionsItemName ==
-          optionsHandler->
+          handler->
             getOptionHandlerHelpSummaryLongName ()
          ) {
-        optionsHandler->
+        handler->
           printHelpSummary (
             fOptionsHandlerLogIOstream);
       }
       else {
-        optionsHandler->
+        handler->
           printHelp (
             fOptionsHandlerLogIOstream);
       }
@@ -3970,9 +3970,9 @@ void msrOptionsHandler::printSpecificItemHelp (
     
     else if (
       // options group?
-      S_msrOptionsGroup
-        optionsGroup =
-          dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
+      S_optionsGroup
+        group =
+          dynamic_cast<optionsGroup*>(&(*optionsElement))
       ) {
       // print the help
       fOptionsHandlerLogIOstream <<
@@ -3980,13 +3980,13 @@ void msrOptionsHandler::printSpecificItemHelp (
         "--- Help for options item name '" <<
         optionsItemName <<
         "' for group \"" <<
-        optionsGroup->
+        group->
           getOptionsGroupHelpHeader () <<
         "\" ---" <<
         endl <<
         endl;
         
-      optionsGroup->
+      group->
         printHelp (
           fOptionsHandlerLogIOstream);
       
@@ -3996,14 +3996,14 @@ void msrOptionsHandler::printSpecificItemHelp (
     
     else if (
       // options subgroup?
-      S_msrOptionsSubGroup
-        optionsSubGroup =
-          dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
+      S_optionsSubGroup
+        subGroup =
+          dynamic_cast<optionsSubGroup*>(&(*optionsElement))
       ) {
       // get the options group uplink
-      S_msrOptionsGroup
-        optionsGroup =
-          optionsSubGroup->
+      S_optionsGroup
+        group =
+          subGroup->
             getOptionsGroupUplink ();
           
       // print the help
@@ -4012,38 +4012,38 @@ void msrOptionsHandler::printSpecificItemHelp (
         "--- Help for options item name '" <<
         optionsItemName <<
         "' for subgroup \"" <<
-        optionsSubGroup->
+        subGroup->
           getOptionsSubGroupHelpHeader () <<
         "\"" <<
         " in group \"" <<
-        optionsGroup->
+        group->
           getOptionsGroupHelpHeader () <<
         "\" ---" <<
         endl <<
         endl;
 
-      optionsGroup->
+      group->
         printOptionsSubGroupForcedHelp (
           fOptionsHandlerLogIOstream,
-          optionsSubGroup);
+          subGroup);
     }
     
     else if (
       // options item?
-      S_msrOptionsItem
-        optionsItem =
-          dynamic_cast<msrOptionsItem*>(&(*optionsElement))
+      S_optionsItem
+        item =
+          dynamic_cast<optionsItem*>(&(*optionsElement))
       ) {
       // get the options subgroup uplink
-      S_msrOptionsSubGroup
-        optionsSubGroup =
-          optionsItem->
+      S_optionsSubGroup
+        subGroup =
+          item->
             getOptionsSubGroupUplink ();
           
       // get the options group uplink
-      S_msrOptionsGroup
-        optionsGroup =
-          optionsSubGroup->
+      S_optionsGroup
+        group =
+          subGroup->
             getOptionsGroupUplink ();
 
       // print the help
@@ -4052,21 +4052,21 @@ void msrOptionsHandler::printSpecificItemHelp (
         "--- Help for options item name '" <<
         optionsItemName <<
         "' in subgroup \"" <<
-        optionsSubGroup->
+        subGroup->
           getOptionsSubGroupHelpHeader () <<
         "\"" <<
         " in group \"" <<
-        optionsGroup->
+        group->
           getOptionsGroupHelpHeader () <<
         "\" ---" <<
         endl <<
         endl;
 
-      optionsGroup->
+      group->
         printOptionsItemForcedHelp (
           fOptionsHandlerLogIOstream,
-          optionsSubGroup,
-          optionsItem);
+          subGroup,
+          item);
     }
     
     else {
@@ -4083,7 +4083,7 @@ void msrOptionsHandler::printSpecificItemHelp (
   }
 }
 
-void msrOptionsHandler::printAllOptionsValues (
+void optionsHandler::printAllOptionsValues (
   ostream& os) const
 {
   // print the options handler values header
@@ -4100,7 +4100,7 @@ void msrOptionsHandler::printAllOptionsValues (
     
     gIndenter++;
 
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
@@ -4117,14 +4117,14 @@ void msrOptionsHandler::printAllOptionsValues (
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt)
+ostream& operator<< (ostream& os, const S_optionsHandler& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrOptionsHandler::appendOptionsGroup (
-  S_msrOptionsGroup optionsGroup)
+void optionsHandler::appendOptionsGroup (
+  S_optionsGroup optionsGroup)
 {
   // sanity check
   msrAssert (
@@ -4140,13 +4140,13 @@ void msrOptionsHandler::appendOptionsGroup (
     setOptionsHandlerUplink (this);
   }
 
-S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
+S_optionsElement optionsHandler::fetchOptionElement (
   string optiontElementName)
 {
-  S_msrOptionsElement result;
+  S_optionsElement result;
   
   for (
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       i = fOptionsHandlerOptionsGroupsList.begin ();
     i != fOptionsHandlerOptionsGroupsList.end ();
     i++) {
@@ -4161,7 +4161,7 @@ S_msrOptionsElement msrOptionsHandler::fetchOptionElement (
   return result;
 }
 
-const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
+const vector<string> optionsHandler::decipherOptionsAndArguments (
   int   argc,
   char* argv[])
 {
@@ -4175,7 +4175,7 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
     if (fOptionsElementsMap.size ()) {
       gIndenter++;
       
-      map<string, S_msrOptionsElement>::const_iterator
+      map<string, S_optionsElement>::const_iterator
         iBegin = fOptionsElementsMap.begin (),
         iEnd   = fOptionsElementsMap.end (),
         i      = iBegin;
@@ -4350,11 +4350,11 @@ const vector<string> msrOptionsHandler::decipherOptionsAndArguments (
   return fArgumentsVector;
 }
 
-void msrOptionsHandler::handleOptionsItemName (
+void optionsHandler::handleOptionsItemName (
   string optionsItemName)
 {
   // is optionsItemName known in options elements map?
-  S_msrOptionsElement
+  S_optionsElement
     optionsElement =
       fetchOptionsElementFromMap (
         optionsItemName);
@@ -4405,26 +4405,26 @@ void msrOptionsHandler::handleOptionsItemName (
     // handle the option element
     if (
       // options handler?
-      S_msrOptionsHandler
-        optionsHandler =
-          dynamic_cast<msrOptionsHandler*>(&(*optionsElement))
+      S_optionsHandler
+        handler =
+          dynamic_cast<optionsHandler*>(&(*optionsElement))
       ) {
       // print the option handler help or help summary
       if (
         optionsItemName ==
-          optionsHandler->
+          handler->
             getOptionHandlerHelpSummaryShortName ()
           ||
         optionsItemName ==
-          optionsHandler->
+          handler->
             getOptionHandlerHelpSummaryLongName ()
          ) {
-        optionsHandler->
+        handler->
           printHelpSummary (
             fOptionsHandlerLogIOstream);
       }
       else {
-        optionsHandler->
+        handler->
           printHelp (
             fOptionsHandlerLogIOstream);
       }
@@ -4435,55 +4435,55 @@ void msrOptionsHandler::handleOptionsItemName (
     
     else if (
       // options group?
-      S_msrOptionsGroup
-        optionsGroup =
-          dynamic_cast<msrOptionsGroup*>(&(*optionsElement))
+      S_optionsGroup
+        group =
+          dynamic_cast<optionsGroup*>(&(*optionsElement))
       ) {
       // print the help
       fOptionsHandlerLogIOstream <<
         endl <<
         "--- Help for group \"" <<
-        optionsGroup->
+        group->
           getOptionsGroupHelpHeader () <<
         "\" ---" <<
         endl <<
         endl;
         
-      optionsGroup->
+      group->
         printHelp (
           fOptionsHandlerLogIOstream);
     }
     
     else if (
       // options subgroup?
-      S_msrOptionsSubGroup
-        optionsSubGroup =
-          dynamic_cast<msrOptionsSubGroup*>(&(*optionsElement))
+      S_optionsSubGroup
+        subGroup =
+          dynamic_cast<optionsSubGroup*>(&(*optionsElement))
       ) {
       // get the options group uplink
-      S_msrOptionsGroup
-        optionsGroup =
-          optionsSubGroup->
+      S_optionsGroup
+        group =
+          subGroup->
             getOptionsGroupUplink ();
           
       // print the help
       fOptionsHandlerLogIOstream <<
         endl <<
         "--- Help for subgroup \"" <<
-        optionsSubGroup->
+        subGroup->
           getOptionsSubGroupHelpHeader () <<
         "\"" <<
         " in group \"" <<
-        optionsGroup->
+        group->
           getOptionsGroupHelpHeader () <<
         "\" ---" <<
         endl <<
         endl;
 
-      optionsGroup->
+      group->
         printOptionsSubGroupForcedHelp (
           fOptionsHandlerLogIOstream,
-          optionsSubGroup);
+          subGroup);
     }
     
     else {
@@ -4491,12 +4491,12 @@ void msrOptionsHandler::handleOptionsItemName (
       
       if (
         // version item?
-        S_msrOptionsVersionItem
-          optionsVersionItem =
-            dynamic_cast<msrOptionsVersionItem*>(&(*optionsElement))
+        S_optionsVersionItem
+          versionItem =
+            dynamic_cast<optionsVersionItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        optionsVersionItem->
+        versionItem->
           printVersion (
             fOptionsHandlerLogIOstream);
 
@@ -4506,12 +4506,12 @@ void msrOptionsHandler::handleOptionsItemName (
       
       else if (
         // about item?
-        S_msrOptionsAboutItem
-          optionsAboutItem =
-            dynamic_cast<msrOptionsAboutItem*>(&(*optionsElement))
+        S_optionsAboutItem
+          aboutItem =
+            dynamic_cast<optionsAboutItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        optionsAboutItem->
+        aboutItem->
           printAbout (
             fOptionsHandlerLogIOstream);
 
@@ -4521,12 +4521,12 @@ void msrOptionsHandler::handleOptionsItemName (
       
       else if (
         // contact item?
-        S_msrOptionsContactItem
-          optionsContactItem =
-            dynamic_cast<msrOptionsContactItem*>(&(*optionsElement))
+        S_optionsContactItem
+          contactItem =
+            dynamic_cast<optionsContactItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        optionsContactItem->
+        contactItem->
           printContact (
             fOptionsHandlerLogIOstream);
 
@@ -4536,12 +4536,12 @@ void msrOptionsHandler::handleOptionsItemName (
       
       else if (
         // help usage item?
-        S_msrOptionsHelpUsageItem
-          optionsHelpUsageItem =
-            dynamic_cast<msrOptionsHelpUsageItem*>(&(*optionsElement))
+        S_optionsHelpUsageItem
+          helpUsageItem =
+            dynamic_cast<optionsHelpUsageItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        optionsHelpUsageItem->
+        helpUsageItem->
           printHelpUsage (
             fOptionsHandlerLogIOstream);
 
@@ -4551,9 +4551,9 @@ void msrOptionsHandler::handleOptionsItemName (
       
       else if (
         // help summary item?
-        S_msrOptionsHelpSummaryItem
-          optionsHelpSummaryItem =
-            dynamic_cast<msrOptionsHelpSummaryItem*>(&(*optionsElement))
+        S_optionsHelpSummaryItem
+          helpSummaryItem =
+            dynamic_cast<optionsHelpSummaryItem*>(&(*optionsElement))
         ) {
         // handle it at once
         printHelpSummary (
@@ -4565,156 +4565,156 @@ void msrOptionsHandler::handleOptionsItemName (
       
       else if (
         // combined items item?
-        S_msrOptionsCombinedItemsItem
-          optionsCombinedItemsItem =
-            dynamic_cast<msrOptionsCombinedItemsItem*>(&(*optionsElement))
+        S_optionsCombinedItemsItem
+          combinedItemsItem =
+            dynamic_cast<optionsCombinedItemsItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        optionsCombinedItemsItem->
+        combinedItemsItem->
           setCombinedItemsVariablesValue (true);
       }
       
       else if (
         // boolean item?
-        S_msrOptionsBooleanItem
-          optionsBooleanItem =
-            dynamic_cast<msrOptionsBooleanItem*>(&(*optionsElement))
+        S_optionsBooleanItem
+          booleanItem =
+            dynamic_cast<optionsBooleanItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        optionsBooleanItem->
+        booleanItem->
           setBooleanItemVariableValue (true);              
       }
       
       else if (
         // two booleans item?
-        S_msrOptionsTwoBooleansItem
-          optionsTwoBooleansItem =
-            dynamic_cast<msrOptionsTwoBooleansItem*>(&(*optionsElement))
+        S_optionsTwoBooleansItem
+          twoBooleansItem =
+            dynamic_cast<optionsTwoBooleansItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        optionsTwoBooleansItem->
+        twoBooleansItem->
           setTwoBooleansItemVariableValue (true);              
       }
       
       else if (
         // three booleans item?
-        S_msrOptionsThreeBooleansItem
-          optionsThreeBooleansItem =
-            dynamic_cast<msrOptionsThreeBooleansItem*>(&(*optionsElement))
+        S_optionsThreeBooleansItem
+          threeBooleansItem =
+            dynamic_cast<optionsThreeBooleansItem*>(&(*optionsElement))
         ) {
         // handle it at once
-        optionsThreeBooleansItem->
+        threeBooleansItem->
           setThreeBooleansItemVariableValue (true);              
       }
       
       else if (
         // item help item?
-        S_msrOptionsItemHelpItem
-          optionsItemHelpItem =
-            dynamic_cast<msrOptionsItemHelpItem*>(&(*optionsElement))
+        S_optionsItemHelpItem
+          itemHelpItem =
+            dynamic_cast<optionsItemHelpItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsItemHelpItem;
+        fPendingOptionsItem = itemHelpItem;
       }
       
       else if (
         // integer item?
-        S_msrOptionsIntegerItem
-          optionsIntegerItem =
-            dynamic_cast<msrOptionsIntegerItem*>(&(*optionsElement))
+        S_optionsIntegerItem
+          integerItem =
+            dynamic_cast<optionsIntegerItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsIntegerItem;
+        fPendingOptionsItem = integerItem;
       }
       
       else if (
         // float item?
-        S_msrOptionsFloatItem
-          optionsFloatItem =
-            dynamic_cast<msrOptionsFloatItem*>(&(*optionsElement))
+        S_optionsFloatItem
+          floatItem =
+            dynamic_cast<optionsFloatItem*>(&(*optionsElement))
         ) {              
         // wait until the value is met
-        fPendingOptionsItem = optionsFloatItem;
+        fPendingOptionsItem = floatItem;
       }
       
       else if (
         // string item?
-        S_msrOptionsStringItem
-          optionsStringItem =
-            dynamic_cast<msrOptionsStringItem*>(&(*optionsElement))
+        S_optionsStringItem
+          stringItem =
+            dynamic_cast<optionsStringItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsStringItem;
+        fPendingOptionsItem = stringItem;
       }
       
       else if (
         // rational item?
-        S_msrOptionsRationalItem
-          optionsRationalItem =
-            dynamic_cast<msrOptionsRationalItem*>(&(*optionsElement))
+        S_optionsRationalItem
+          rationalItem =
+            dynamic_cast<optionsRationalItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsRationalItem;
+        fPendingOptionsItem = rationalItem;
       }
 
       else if (
         // numbers set item?
-        S_msrOptionsNumbersSetItem
-          optionsNumbersSetItem =
-            dynamic_cast<msrOptionsNumbersSetItem*>(&(*optionsElement))
+        S_optionsNumbersSetItem
+          numbersSetItem =
+            dynamic_cast<optionsNumbersSetItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsNumbersSetItem;
+        fPendingOptionsItem = numbersSetItem;
       }
 
       else if (
         // pitches language item?
-        S_msrOptionsPitchesLanguageItem
-          optionsPitchesLanguageItem =
-            dynamic_cast<msrOptionsPitchesLanguageItem*>(&(*optionsElement))
+        S_optionsPitchesLanguageItem
+          pitchesLanguageItem =
+            dynamic_cast<optionsPitchesLanguageItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsPitchesLanguageItem;
+        fPendingOptionsItem = pitchesLanguageItem;
       }
 
       else if (
         // acccidentals style item?
-        S_msrOptionsAccidentalStyleItem
-          optionsAccidentalStyleItem =
-            dynamic_cast<msrOptionsAccidentalStyleItem*>(&(*optionsElement))
+        S_optionsAccidentalStyleItem
+          accidentalStyleItem =
+            dynamic_cast<optionsAccidentalStyleItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsAccidentalStyleItem;
+        fPendingOptionsItem = accidentalStyleItem;
       }
 
       else if (
         // chords language item?
-        S_msrOptionsChordsLanguageItem
-          optionsChordsLanguageItem =
-            dynamic_cast<msrOptionsChordsLanguageItem*>(&(*optionsElement))
+        S_optionsChordsLanguageItem
+          chordsLanguageItem =
+            dynamic_cast<optionsChordsLanguageItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsChordsLanguageItem;
+        fPendingOptionsItem = chordsLanguageItem;
       }
 
       else if (
         // part rename item?
-        S_msrOptionsPartRenameItem
-          optionsPartRenameItem =
-            dynamic_cast<msrOptionsPartRenameItem*>(&(*optionsElement))
+        S_optionsPartRenameItem
+          partRenameItem =
+            dynamic_cast<optionsPartRenameItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsPartRenameItem;
+        fPendingOptionsItem = partRenameItem;
       }
 
       else if (
         // midi tempo item?
-        S_msrOptionsMidiTempoItem
-          optionsMidiTempoItem =
-            dynamic_cast<msrOptionsMidiTempoItem*>(&(*optionsElement))
+        S_optionsMidiTempoItem
+          midiTempoItem =
+            dynamic_cast<optionsMidiTempoItem*>(&(*optionsElement))
         ) {
         // wait until the value is met
-        fPendingOptionsItem = optionsMidiTempoItem;
+        fPendingOptionsItem = midiTempoItem;
       }
 
       else {
@@ -4730,7 +4730,7 @@ void msrOptionsHandler::handleOptionsItemName (
   }
 }
 
-void msrOptionsHandler::handleOptionsItemValueOrArgument (
+void optionsHandler::handleOptionsItemValueOrArgument (
   string theString)
 {
   if (fPendingOptionsItem) {
@@ -4738,23 +4738,23 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
     if (
       // item help item?
-      S_msrOptionsItemHelpItem
-        optionsItemHelpItem =
-          dynamic_cast<msrOptionsItemHelpItem*>(&(*fPendingOptionsItem))
+      S_optionsItemHelpItem
+        itemHelpItem =
+          dynamic_cast<optionsItemHelpItem*>(&(*fPendingOptionsItem))
       ) {
       // handle the option item
       printSpecificItemHelp (
         fOptionsHandlerLogIOstream,
         theString);
 
-      fPendingOptionsItem = (void*)0;
+      fPendingOptionsItem = 0;
       }
     
     else if (
       // integer item?
-      S_msrOptionsIntegerItem
-        optionsIntegerItem =
-          dynamic_cast<msrOptionsIntegerItem*>(&(*fPendingOptionsItem))
+      S_optionsIntegerItem
+        integerItem =
+          dynamic_cast<optionsIntegerItem*>(&(*fPendingOptionsItem))
       ) {
       // handle the option item
 
@@ -4765,18 +4765,18 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         s >> integerValue;
       }
       
-      optionsIntegerItem->
+      integerItem->
         setIntegerItemVariableValue (
           integerValue);
 
-      fPendingOptionsItem = (void*)0;
+      fPendingOptionsItem = 0;
       }
     
     else if (
       // float item?
-      S_msrOptionsFloatItem
-        optionsFloatItem =
-          dynamic_cast<msrOptionsFloatItem*>(&(*fPendingOptionsItem))
+      S_optionsFloatItem
+        floatItem =
+          dynamic_cast<optionsFloatItem*>(&(*fPendingOptionsItem))
       ) {              
       // handle the option item
       float floatValue;
@@ -4786,32 +4786,32 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         s >> floatValue;
       }
       
-      optionsFloatItem->
+      floatItem->
         setFloatItemVariableValue (
           floatValue);
 
-      fPendingOptionsItem = (void*)0;
+      fPendingOptionsItem = 0;
     }
     
     else if (
       // string item?
-      S_msrOptionsStringItem
-        optionsStringItem =
-          dynamic_cast<msrOptionsStringItem*>(&(*fPendingOptionsItem))
+      S_optionsStringItem
+        stringItem =
+          dynamic_cast<optionsStringItem*>(&(*fPendingOptionsItem))
       ) {
       // handle the option item
-      optionsStringItem->
+      stringItem->
         setStringItemVariableValue (
           theString);
 
-      fPendingOptionsItem = (void*)0;
+      fPendingOptionsItem = 0;
     }
     
     else if (
       // rational item?
-      S_msrOptionsRationalItem
-        optionsRationalItem =
-          dynamic_cast<msrOptionsRationalItem*>(&(*fPendingOptionsItem))
+      S_optionsRationalItem
+        rationalItem =
+          dynamic_cast<optionsRationalItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the fraction:
       // decipher it to extract numerator and denominator values
@@ -4856,7 +4856,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         
         printSpecificSubGroupHelp (
           fOptionsHandlerLogIOstream,
-          optionsRationalItem->
+          rationalItem->
             getOptionsSubGroupUplink ());
             
         exit (4);
@@ -4888,35 +4888,35 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           endl;
       }
 
-      optionsRationalItem->
+      rationalItem->
         setRationalItemVariableValue (
           rationalValue);
 
-      fPendingOptionsItem = (void*)0;
+      fPendingOptionsItem = 0;
     }
 
     else if (
       // numbers set item?
-      S_msrOptionsNumbersSetItem
-        optionsNumbersSetItem =
-          dynamic_cast<msrOptionsNumbersSetItem*>(&(*fPendingOptionsItem))
+      S_optionsNumbersSetItem
+        numbersSetItem =
+          dynamic_cast<optionsNumbersSetItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the set specification,
       // decipher it
-      optionsNumbersSetItem->
+      numbersSetItem->
         setNumbersSetItemVariableValue (
           decipherNumbersSetSpecification (
             theString, false) // 'true' to debug it
           );
 
-      fPendingOptionsItem = (void*)0;
+      fPendingOptionsItem = 0;
     }
     
     else if (
       // pitches language item?
-      S_msrOptionsPitchesLanguageItem
-        optionsPitchesLanguageKindItem =
-          dynamic_cast<msrOptionsPitchesLanguageItem*>(&(*fPendingOptionsItem))
+      S_optionsPitchesLanguageItem
+        pitchesLanguageKindItem =
+          dynamic_cast<optionsPitchesLanguageItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the language name:     
       // is it in the pitches languages map?
@@ -4953,7 +4953,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         exit (4);
       }
     
-      optionsPitchesLanguageKindItem->
+      pitchesLanguageKindItem->
         setPitchesLanguageKindItemVariableValue (
           (*it).second);
 
@@ -4962,9 +4962,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
     else if (
       // accidental style item?
-      S_msrOptionsAccidentalStyleItem
-        optionsAccidentalStyleKindItem =
-          dynamic_cast<msrOptionsAccidentalStyleItem*>(&(*fPendingOptionsItem))
+      S_optionsAccidentalStyleItem
+        accidentalStyleKindItem =
+          dynamic_cast<optionsAccidentalStyleItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the language name:     
       // is it in the accidental styles map?
@@ -5001,7 +5001,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         exit (4);
       }
     
-      optionsAccidentalStyleKindItem->
+      accidentalStyleKindItem->
         setAccidentalStyleKindItemVariableValue (
           (*it).second);
 
@@ -5010,9 +5010,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
     else if (
       // chords language item?
-      S_msrOptionsChordsLanguageItem
-        optionsChordsLanguageItem =
-          dynamic_cast<msrOptionsChordsLanguageItem*>(&(*fPendingOptionsItem))
+      S_optionsChordsLanguageItem
+        chordsLanguageItem =
+          dynamic_cast<optionsChordsLanguageItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the language name:     
       // is it in the chords languages map?
@@ -5048,7 +5048,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         exit (4);
       }
     
-      optionsChordsLanguageItem->
+      chordsLanguageItem->
         setChordsLanguageKindItemVariableValue (
           (*it).second);
 
@@ -5057,9 +5057,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
     
     else if (
       // part rename item?
-      S_msrOptionsPartRenameItem
-        optionsPartRenameItem =
-          dynamic_cast<msrOptionsPartRenameItem*>(&(*fPendingOptionsItem))
+      S_optionsPartRenameItem
+        partRenameItem =
+          dynamic_cast<optionsPartRenameItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the part rename specification
       // decipher it to extract the old and new part names
@@ -5102,7 +5102,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         
         printSpecificSubGroupHelp (
           fOptionsHandlerLogIOstream,
-          optionsPartRenameItem->
+          partRenameItem->
             getOptionsSubGroupUplink ());
             
         exit (4);
@@ -5120,16 +5120,16 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       }
 
       map<string, string>
-        optionsPartRenameItemVariable =
-          optionsPartRenameItem->
+        partRenameItemVariable =
+          partRenameItem->
             getOptionsPartRenameItemVariable ();
             
       // is this part name in the part renaming map?
       map<string, string>::iterator
         it =
-          optionsPartRenameItemVariable.find (oldPartName);
+          partRenameItemVariable.find (oldPartName);
             
-      if (it != optionsPartRenameItemVariable.end ()) {
+      if (it != partRenameItemVariable.end ()) {
         // yes, issue error message
         stringstream s;
 
@@ -5142,7 +5142,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
       }
       
       else {
-        optionsPartRenameItem->
+        partRenameItem->
           setPartRenameItemVariableValue (
             oldPartName, newPartName);
       }
@@ -5152,9 +5152,9 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
 
     else if (
       // midi tempo item?
-      S_msrOptionsMidiTempoItem
-        optionsMidiTempoItem =
-          dynamic_cast<msrOptionsMidiTempoItem*>(&(*fPendingOptionsItem))
+      S_optionsMidiTempoItem
+        midiTempoItem =
+          dynamic_cast<optionsMidiTempoItem*>(&(*fPendingOptionsItem))
       ) {
       // theString contains the midi tempo specification
       // decipher it to extract duration and perSecond values
@@ -5197,7 +5197,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
         
         printSpecificSubGroupHelp (
           fOptionsHandlerLogIOstream,
-          optionsMidiTempoItem->
+          midiTempoItem->
             getOptionsSubGroupUplink ());
             
         exit (4);
@@ -5221,7 +5221,7 @@ void msrOptionsHandler::handleOptionsItemValueOrArgument (
           midiTempoPerSecond <<
           endl;
 
-      optionsMidiTempoItem->
+      midiTempoItem->
         setMidiTempoItemVariableValue (
           pair<string, int> (
             midiTempoDuration, midiTempoPerSecond));

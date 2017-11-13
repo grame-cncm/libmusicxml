@@ -33,27 +33,27 @@ namespace MusicXML2
 //______________________________________________________________________________
 // PRE-declarations for class dependencies
 
-class msrOptionsElement;
-typedef SMARTP<msrOptionsElement> S_msrOptionsElement;
+class optionsElement;
+typedef SMARTP<optionsElement> S_optionsElement;
 
-class msrOptionsSubGroup;
-typedef SMARTP<msrOptionsSubGroup> S_msrOptionsSubGroup;
+class optionsSubGroup;
+typedef SMARTP<optionsSubGroup> S_optionsSubGroup;
 
-class msrOptionsGroup;
-typedef SMARTP<msrOptionsGroup> S_msrOptionsGroup;
+class optionsGroup;
+typedef SMARTP<optionsGroup> S_optionsGroup;
 
-class EXP msrOptionsHandler;
-typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
+class EXP optionsHandler;
+typedef SMARTP<optionsHandler> S_optionsHandler;
 
 //______________________________________________________________________________
-class msrOptionsElement : public smartable
+class optionsElement : public smartable
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsElement> create (
+    static SMARTP<optionsElement> create (
       string optionsElementShortName,
       string optionsElementLongName,
       string optionsElementDescription);
@@ -63,12 +63,12 @@ class msrOptionsElement : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsElement (
+    optionsElement (
       string optionsElementShortName,
       string optionsElementLongName,
       string optionsElementDescription);
 
-    virtual ~msrOptionsElement();
+    virtual ~optionsElement();
 
   public:
 
@@ -104,7 +104,7 @@ class msrOptionsElement : public smartable
     string                operator() () const
                               { return fOptionsElementDescription; }
   
-    S_msrOptionsElement   fetchOptionElement ( // JMI
+    S_optionsElement      fetchOptionElement ( // JMI
                             string optiontElementName);
                             
     // print
@@ -131,33 +131,33 @@ class msrOptionsElement : public smartable
 
     bool                  fOptionsElementIsHidden;
 };
-typedef SMARTP<msrOptionsElement> S_msrOptionsElement;
-EXP ostream& operator<< (ostream& os, const S_msrOptionsElement& elt);
+typedef SMARTP<optionsElement> S_optionsElement;
+EXP ostream& operator<< (ostream& os, const S_optionsElement& elt);
 
 //______________________________________________________________________________
-class msrOptionsItem : public msrOptionsElement
+class optionsItem : public optionsElement
 {
   public:
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription);
+    static SMARTP<optionsItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription);
+    optionsItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
   
-    virtual ~msrOptionsItem();
+    virtual ~optionsItem();
 
   public:
   
@@ -165,16 +165,16 @@ class msrOptionsItem : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  setOptionsSubGroupUplink (
-                            S_msrOptionsSubGroup optionsSubGroup);
+                            S_optionsSubGroup optionsSubGroup);
 
-    S_msrOptionsSubGroup  getOptionsSubGroupUplink () const
+    S_optionsSubGroup     getOptionsSubGroupUplink () const
                               { return fOptionsSubGroupUplink; }
         
     // services
     // ------------------------------------------------------
 
     void                  registerOptionsItemInHandler (
-                            S_msrOptionsHandler optionsHandler);
+                            S_optionsHandler optionsHandler);
 
     // print
     // ------------------------------------------------------
@@ -190,20 +190,20 @@ class msrOptionsItem : public msrOptionsElement
     // fields
     // ------------------------------------------------------
 
-    S_msrOptionsSubGroup  fOptionsSubGroupUplink;
+    S_optionsSubGroup     fOptionsSubGroupUplink;
 };
-typedef SMARTP<msrOptionsItem> S_msrOptionsItem;
-EXP ostream& operator<< (ostream& os, const S_msrOptionsItem& elt);
+typedef SMARTP<optionsItem> S_optionsItem;
+EXP ostream& operator<< (ostream& os, const S_optionsItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsVersionItem : public msrOptionsItem
+class optionsVersionItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsVersionItem> create (
+    static SMARTP<optionsVersionItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
@@ -213,12 +213,12 @@ class msrOptionsVersionItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsVersionItem (
+    optionsVersionItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~msrOptionsVersionItem();
+    virtual ~optionsVersionItem ();
 
   public:
   
@@ -244,18 +244,18 @@ class msrOptionsVersionItem : public msrOptionsItem
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<msrOptionsVersionItem> S_msrOptionsVersionItem;
-ostream& operator<< (ostream& os, const S_msrOptionsVersionItem& elt);
+typedef SMARTP<optionsVersionItem> S_optionsVersionItem;
+ostream& operator<< (ostream& os, const S_optionsVersionItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsAboutItem : public msrOptionsItem
+class optionsAboutItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsAboutItem> create (
+    static SMARTP<optionsAboutItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
@@ -265,12 +265,12 @@ class msrOptionsAboutItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsAboutItem (
+    optionsAboutItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~msrOptionsAboutItem();
+    virtual ~optionsAboutItem();
 
   public:
   
@@ -296,18 +296,18 @@ class msrOptionsAboutItem : public msrOptionsItem
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<msrOptionsAboutItem> S_msrOptionsAboutItem;
-ostream& operator<< (ostream& os, const S_msrOptionsAboutItem& elt);
+typedef SMARTP<optionsAboutItem> S_optionsAboutItem;
+ostream& operator<< (ostream& os, const S_optionsAboutItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsContactItem : public msrOptionsItem
+class optionsContactItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsContactItem> create (
+    static SMARTP<optionsContactItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
@@ -317,12 +317,12 @@ class msrOptionsContactItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsContactItem (
+    optionsContactItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~msrOptionsContactItem();
+    virtual ~optionsContactItem();
 
   public:
   
@@ -348,18 +348,18 @@ class msrOptionsContactItem : public msrOptionsItem
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<msrOptionsContactItem> S_msrOptionsContactItem;
-ostream& operator<< (ostream& os, const S_msrOptionsContactItem& elt);
+typedef SMARTP<optionsContactItem> S_optionsContactItem;
+ostream& operator<< (ostream& os, const S_optionsContactItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsHelpUsageItem : public msrOptionsItem
+class optionsHelpUsageItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsHelpUsageItem> create (
+    static SMARTP<optionsHelpUsageItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
@@ -369,12 +369,12 @@ class msrOptionsHelpUsageItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsHelpUsageItem (
+    optionsHelpUsageItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~msrOptionsHelpUsageItem();
+    virtual ~optionsHelpUsageItem ();
 
   public:
   
@@ -400,18 +400,18 @@ class msrOptionsHelpUsageItem : public msrOptionsItem
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<msrOptionsHelpUsageItem> S_msrOptionsHelpUsageItem;
-ostream& operator<< (ostream& os, const S_msrOptionsHelpUsageItem& elt);
+typedef SMARTP<optionsHelpUsageItem> S_optionsHelpUsageItem;
+ostream& operator<< (ostream& os, const S_optionsHelpUsageItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsHelpSummaryItem : public msrOptionsItem
+class optionsHelpSummaryItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsHelpSummaryItem> create (
+    static SMARTP<optionsHelpSummaryItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
@@ -421,12 +421,12 @@ class msrOptionsHelpSummaryItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsHelpSummaryItem (
+    optionsHelpSummaryItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~msrOptionsHelpSummaryItem();
+    virtual ~optionsHelpSummaryItem();
 
   public:
   
@@ -452,18 +452,18 @@ class msrOptionsHelpSummaryItem : public msrOptionsItem
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<msrOptionsHelpSummaryItem> S_msrOptionsHelpSummaryItem;
-ostream& operator<< (ostream& os, const S_msrOptionsHelpSummaryItem& elt);
+typedef SMARTP<optionsHelpSummaryItem> S_optionsHelpSummaryItem;
+ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsCombinedItemsItem : public msrOptionsItem
+class optionsCombinedItemsItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsCombinedItemsItem> create (
+    static SMARTP<optionsCombinedItemsItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
@@ -475,21 +475,21 @@ class msrOptionsCombinedItemsItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsCombinedItemsItem (
+    optionsCombinedItemsItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
       string optionsCombinedItemsItemVariableDisplayName,
       bool&  optionsCombinedItemsItemVariable);
       
-    virtual ~msrOptionsCombinedItemsItem();
+    virtual ~optionsCombinedItemsItem();
 
   public:
   
     // set and get
     // ------------------------------------------------------
 
-    const list<S_msrOptionsItem>&
+    const list<S_optionsItem>&
                           getOptionsCombinedItemsList ()
                               {
                                 return
@@ -507,7 +507,7 @@ class msrOptionsCombinedItemsItem : public msrOptionsItem
     // ------------------------------------------------------
 
     void                  appendOptionsItemToCombinedItemsList (
-                            S_msrOptionsItem optionsItem);
+                            S_optionsItem optionsItem);
 
     void                  appendOptionsItemToCombinedItemsList (
                             string optionsItemName);
@@ -534,21 +534,21 @@ class msrOptionsCombinedItemsItem : public msrOptionsItem
     string                fOptionsCombinedItemsItemVariableDisplayName;
     bool&                 fOptionsCombinedItemsItemVariable;
 
-    list<S_msrOptionsItem>
+    list<S_optionsItem>
                           fOptionsCombinedItemsList;
 };
-typedef SMARTP<msrOptionsCombinedItemsItem> S_msrOptionsCombinedItemsItem;
-ostream& operator<< (ostream& os, const S_msrOptionsCombinedItemsItem& elt);
+typedef SMARTP<optionsCombinedItemsItem> S_optionsCombinedItemsItem;
+ostream& operator<< (ostream& os, const S_optionsCombinedItemsItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsBooleanItem : public msrOptionsItem
+class optionsBooleanItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsBooleanItem> create (
+    static SMARTP<optionsBooleanItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
@@ -560,14 +560,14 @@ class msrOptionsBooleanItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsBooleanItem (
+    optionsBooleanItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
       string optionsBooleanItemVariableDisplayName,
       bool&  optionsBooleanItemVariable);
       
-    virtual ~msrOptionsBooleanItem();
+    virtual ~optionsBooleanItem();
 
   public:
   
@@ -606,18 +606,18 @@ class msrOptionsBooleanItem : public msrOptionsItem
     string                fOptionsBooleanItemVariableDisplayName;
     bool&                 fOptionsBooleanItemVariable;
 };
-typedef SMARTP<msrOptionsBooleanItem> S_msrOptionsBooleanItem;
-ostream& operator<< (ostream& os, const S_msrOptionsBooleanItem& elt);
+typedef SMARTP<optionsBooleanItem> S_optionsBooleanItem;
+ostream& operator<< (ostream& os, const S_optionsBooleanItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsTwoBooleansItem : public msrOptionsItem
+class optionsTwoBooleansItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsTwoBooleansItem> create (
+    static SMARTP<optionsTwoBooleansItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
@@ -630,7 +630,7 @@ class msrOptionsTwoBooleansItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsTwoBooleansItem (
+    optionsTwoBooleansItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
@@ -638,7 +638,7 @@ class msrOptionsTwoBooleansItem : public msrOptionsItem
       bool&  optionsTwoBooleansItemVariable,
       bool&  optionsTwoBooleansItemSecondaryVariable);
       
-    virtual ~msrOptionsTwoBooleansItem();
+    virtual ~optionsTwoBooleansItem();
 
   public:
   
@@ -682,18 +682,18 @@ class msrOptionsTwoBooleansItem : public msrOptionsItem
     
     bool&                 fOptionsTwoBooleansItemSecondaryVariable;
 };
-typedef SMARTP<msrOptionsTwoBooleansItem> S_msrOptionsTwoBooleansItem;
-ostream& operator<< (ostream& os, const S_msrOptionsTwoBooleansItem& elt);
+typedef SMARTP<optionsTwoBooleansItem> S_optionsTwoBooleansItem;
+ostream& operator<< (ostream& os, const S_optionsTwoBooleansItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsThreeBooleansItem : public msrOptionsItem
+class optionsThreeBooleansItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsThreeBooleansItem> create (
+    static SMARTP<optionsThreeBooleansItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
@@ -707,7 +707,7 @@ class msrOptionsThreeBooleansItem : public msrOptionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsThreeBooleansItem (
+    optionsThreeBooleansItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription,
@@ -716,7 +716,7 @@ class msrOptionsThreeBooleansItem : public msrOptionsItem
       bool&  optionsThreeBooleansItemSecondaryVariable,
       bool&  optionsThreeBooleansItemTertiaryVariable);
       
-    virtual ~msrOptionsThreeBooleansItem();
+    virtual ~optionsThreeBooleansItem();
 
   public:
   
@@ -763,53 +763,53 @@ class msrOptionsThreeBooleansItem : public msrOptionsItem
     bool&                 fOptionsThreeBooleansItemSecondaryVariable;
     bool&                 fOptionsThreeBooleansItemTertiaryVariable;
 };
-typedef SMARTP<msrOptionsThreeBooleansItem> S_msrOptionsThreeBooleansItem;
-ostream& operator<< (ostream& os, const S_msrOptionsThreeBooleansItem& elt);
+typedef SMARTP<optionsThreeBooleansItem> S_optionsThreeBooleansItem;
+ostream& operator<< (ostream& os, const S_optionsThreeBooleansItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsValuedItem : public msrOptionsItem
+class optionsValuedItem : public optionsItem
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrOptionsValuedItemKind {
+    enum optionsValuedItemKind {
       kOptionsItemHasNoArgument,
       kOptionsItemHasARequiredArgument,
       kOptionsItemHasAnOptionsArgument };
           
     static string optionsItemKindAsString (
-      msrOptionsValuedItemKind optionsItemKind);
+      optionsValuedItemKind optionsItemKind);
 
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsValuedItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification);
+    static SMARTP<optionsValuedItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsValueSpecification);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsValuedItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification);
+    optionsValuedItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription,
+      string optionsValueSpecification);
   
-    virtual ~msrOptionsValuedItem();
+    virtual ~optionsValuedItem();
 
   public:
   
     // set and get
     // ------------------------------------------------------
 
-    msrOptionsValuedItemKind
+    optionsValuedItemKind
                           getOptionsItemKind () const
                               { return fOptionsItemKind; }
     
@@ -820,7 +820,7 @@ class msrOptionsValuedItem : public msrOptionsItem
     // ------------------------------------------------------
 
     void                  registerOptionsItemInHandler (
-                            S_msrOptionsHandler optionsHandler);
+                            S_optionsHandler optionsHandler);
 
     // print
     // ------------------------------------------------------
@@ -842,29 +842,22 @@ class msrOptionsValuedItem : public msrOptionsItem
     // fields
     // ------------------------------------------------------
 
-    msrOptionsValuedItemKind
-                          fOptionsItemKind;
+    optionsValuedItemKind fOptionsItemKind;
 
     string                fOptionsValueSpecification;
 };
-typedef SMARTP<msrOptionsValuedItem> S_msrOptionsValuedItem;
-EXP ostream& operator<< (ostream& os, const S_msrOptionsValuedItem& elt);
+typedef SMARTP<optionsValuedItem> S_optionsValuedItem;
+EXP ostream& operator<< (ostream& os, const S_optionsValuedItem& elt);
 
 //______________________________________________________________________________
-/*!
-\brief An option to provide help on any option.
-
-  An element is represented by its name and the
-  list of its enclosed elements plus optional parameters.
-*/
-class msrOptionsItemHelpItem : public msrOptionsValuedItem
+class optionsItemHelpItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsItemHelpItem> create (
+    static SMARTP<optionsItemHelpItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -875,7 +868,7 @@ class msrOptionsItemHelpItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsItemHelpItem (
+    optionsItemHelpItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -884,7 +877,7 @@ class msrOptionsItemHelpItem : public msrOptionsValuedItem
   protected:
 
 
-    virtual ~msrOptionsItemHelpItem();
+    virtual ~optionsItemHelpItem();
 
   public:
   
@@ -907,18 +900,18 @@ class msrOptionsItemHelpItem : public msrOptionsValuedItem
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<msrOptionsItemHelpItem> S_msrOptionsItemHelpItem;
-ostream& operator<< (ostream& os, const S_msrOptionsItemHelpItem& elt);
+typedef SMARTP<optionsItemHelpItem> S_optionsItemHelpItem;
+ostream& operator<< (ostream& os, const S_optionsItemHelpItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsIntegerItem : public msrOptionsValuedItem
+class optionsIntegerItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsIntegerItem> create (
+    static SMARTP<optionsIntegerItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -931,7 +924,7 @@ class msrOptionsIntegerItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsIntegerItem (
+    optionsIntegerItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -942,7 +935,7 @@ class msrOptionsIntegerItem : public msrOptionsValuedItem
   protected:
 
 
-    virtual ~msrOptionsIntegerItem();
+    virtual ~optionsIntegerItem();
 
   public:
   
@@ -980,18 +973,18 @@ class msrOptionsIntegerItem : public msrOptionsValuedItem
     string                fOptionsIntegerItemVariableDisplayName;
     int&                  fOptionsIntegerItemVariable;
 };
-typedef SMARTP<msrOptionsIntegerItem> S_msrOptionsIntegerItem;
-ostream& operator<< (ostream& os, const S_msrOptionsIntegerItem& elt);
+typedef SMARTP<optionsIntegerItem> S_optionsIntegerItem;
+ostream& operator<< (ostream& os, const S_optionsIntegerItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsFloatItem : public msrOptionsValuedItem
+class optionsFloatItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsFloatItem> create (
+    static SMARTP<optionsFloatItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1004,7 +997,7 @@ class msrOptionsFloatItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsFloatItem (
+    optionsFloatItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1012,7 +1005,7 @@ class msrOptionsFloatItem : public msrOptionsValuedItem
       string             optionsFloatItemVariableDisplayName,
       float&             optionsFloatItemVariable);
       
-    virtual ~msrOptionsFloatItem();
+    virtual ~optionsFloatItem();
 
   public:
   
@@ -1051,18 +1044,18 @@ class msrOptionsFloatItem : public msrOptionsValuedItem
     string                fOptionsFloatItemVariableDisplayName;
     float&                fOptionsFloatItemVariable;
 };
-typedef SMARTP<msrOptionsFloatItem> S_msrOptionsFloatItem;
-ostream& operator<< (ostream& os, const S_msrOptionsFloatItem& elt);
+typedef SMARTP<optionsFloatItem> S_optionsFloatItem;
+ostream& operator<< (ostream& os, const S_optionsFloatItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsStringItem : public msrOptionsValuedItem
+class optionsStringItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsStringItem> create (
+    static SMARTP<optionsStringItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1075,7 +1068,7 @@ class msrOptionsStringItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsStringItem (
+    optionsStringItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1083,7 +1076,7 @@ class msrOptionsStringItem : public msrOptionsValuedItem
       string             optionsStringItemVariableDisplayName,
       string&            optionsStringItemVariable);
       
-    virtual ~msrOptionsStringItem();
+    virtual ~optionsStringItem();
 
   public:
   
@@ -1122,18 +1115,18 @@ class msrOptionsStringItem : public msrOptionsValuedItem
     string                fOptionsStringItemVariableDisplayName;
     string&               fOptionsStringItemVariable;
 };
-typedef SMARTP<msrOptionsStringItem> S_msrOptionsStringItem;
-ostream& operator<< (ostream& os, const S_msrOptionsStringItem& elt);
+typedef SMARTP<optionsStringItem> S_optionsStringItem;
+ostream& operator<< (ostream& os, const S_optionsStringItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsRationalItem : public msrOptionsValuedItem
+class optionsRationalItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsRationalItem> create (
+    static SMARTP<optionsRationalItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1146,7 +1139,7 @@ class msrOptionsRationalItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsRationalItem (
+    optionsRationalItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1154,7 +1147,7 @@ class msrOptionsRationalItem : public msrOptionsValuedItem
       string             optionsRationalItemVariableDisplayName,
       rational&          optionsRationalItemVariable);
       
-    virtual ~msrOptionsRationalItem();
+    virtual ~optionsRationalItem();
 
   public:
   
@@ -1193,18 +1186,18 @@ class msrOptionsRationalItem : public msrOptionsValuedItem
     string                fOptionsRationalItemVariableDisplayName;
     rational&             fOptionsRationalItemVariable;
 };
-typedef SMARTP<msrOptionsRationalItem> S_msrOptionsRationalItem;
-ostream& operator<< (ostream& os, const S_msrOptionsRationalItem& elt);
+typedef SMARTP<optionsRationalItem> S_optionsRationalItem;
+ostream& operator<< (ostream& os, const S_optionsRationalItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsNumbersSetItem : public msrOptionsValuedItem
+class optionsNumbersSetItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsNumbersSetItem> create (
+    static SMARTP<optionsNumbersSetItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1217,7 +1210,7 @@ class msrOptionsNumbersSetItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsNumbersSetItem (
+    optionsNumbersSetItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1225,7 +1218,7 @@ class msrOptionsNumbersSetItem : public msrOptionsValuedItem
       string             optionsNumbersSetItemVariableDisplayName,
       set<int>&          optionsNumbersSetItemVariable);
       
-    virtual ~msrOptionsNumbersSetItem();
+    virtual ~optionsNumbersSetItem();
 
   public:
   
@@ -1264,18 +1257,18 @@ class msrOptionsNumbersSetItem : public msrOptionsValuedItem
     string                fOptionsNumbersSetItemVariableDisplayName;
     set<int>&             fOptionsNumbersSetItemVariable;
 };
-typedef SMARTP<msrOptionsNumbersSetItem> S_msrOptionsNumbersSetItem;
-ostream& operator<< (ostream& os, const S_msrOptionsNumbersSetItem& elt);
+typedef SMARTP<optionsNumbersSetItem> S_optionsNumbersSetItem;
+ostream& operator<< (ostream& os, const S_optionsNumbersSetItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsPitchesLanguageItem : public msrOptionsValuedItem
+class optionsPitchesLanguageItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsPitchesLanguageItem> create (
+    static SMARTP<optionsPitchesLanguageItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1289,7 +1282,7 @@ class msrOptionsPitchesLanguageItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsPitchesLanguageItem (
+    optionsPitchesLanguageItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1298,7 +1291,7 @@ class msrOptionsPitchesLanguageItem : public msrOptionsValuedItem
       msrQuarterTonesPitchesLanguageKind&
                          optionsPitchesLanguageKindItemVariable);
       
-    virtual ~msrOptionsPitchesLanguageItem();
+    virtual ~optionsPitchesLanguageItem();
 
   public:
   
@@ -1338,18 +1331,18 @@ class msrOptionsPitchesLanguageItem : public msrOptionsValuedItem
     msrQuarterTonesPitchesLanguageKind&
                           fOptionsPitchesLanguageKindItemVariable;
 };
-typedef SMARTP<msrOptionsPitchesLanguageItem> S_msrOptionsPitchesLanguageItem;
-ostream& operator<< (ostream& os, const S_msrOptionsPitchesLanguageItem& elt);
+typedef SMARTP<optionsPitchesLanguageItem> S_optionsPitchesLanguageItem;
+ostream& operator<< (ostream& os, const S_optionsPitchesLanguageItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
+class optionsAccidentalStyleItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsAccidentalStyleItem> create (
+    static SMARTP<optionsAccidentalStyleItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1363,7 +1356,7 @@ class msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsAccidentalStyleItem (
+    optionsAccidentalStyleItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1372,7 +1365,7 @@ class msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
       lpsrAccidentalStyleKind&
                          optionsAccidentalStyleKindItemVariable);
       
-    virtual ~msrOptionsAccidentalStyleItem();
+    virtual ~optionsAccidentalStyleItem();
 
   public:
   
@@ -1412,18 +1405,18 @@ class msrOptionsAccidentalStyleItem : public msrOptionsValuedItem
     lpsrAccidentalStyleKind&
                           fOptionsAccidentalStyleKindItemVariable;
 };
-typedef SMARTP<msrOptionsAccidentalStyleItem> S_msrOptionsAccidentalStyleItem;
-ostream& operator<< (ostream& os, const S_msrOptionsAccidentalStyleItem& elt);
+typedef SMARTP<optionsAccidentalStyleItem> S_optionsAccidentalStyleItem;
+ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsChordsLanguageItem : public msrOptionsValuedItem
+class optionsChordsLanguageItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsChordsLanguageItem> create (
+    static SMARTP<optionsChordsLanguageItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1437,7 +1430,7 @@ class msrOptionsChordsLanguageItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsChordsLanguageItem (
+    optionsChordsLanguageItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1446,7 +1439,7 @@ class msrOptionsChordsLanguageItem : public msrOptionsValuedItem
       lpsrChordsLanguageKind&
                          optionsChordsLanguageKindItemVariable);
       
-    virtual ~msrOptionsChordsLanguageItem();
+    virtual ~optionsChordsLanguageItem();
 
   public:
   
@@ -1486,18 +1479,18 @@ class msrOptionsChordsLanguageItem : public msrOptionsValuedItem
     lpsrChordsLanguageKind&
                           fOptionsChordsLanguageKindItemVariable;
 };
-typedef SMARTP<msrOptionsChordsLanguageItem> S_msrOptionsChordsLanguageItem;
-ostream& operator<< (ostream& os, const S_msrOptionsChordsLanguageItem& elt);
+typedef SMARTP<optionsChordsLanguageItem> S_optionsChordsLanguageItem;
+ostream& operator<< (ostream& os, const S_optionsChordsLanguageItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsPartRenameItem : public msrOptionsValuedItem
+class optionsPartRenameItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsPartRenameItem> create (
+    static SMARTP<optionsPartRenameItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1511,7 +1504,7 @@ class msrOptionsPartRenameItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsPartRenameItem (
+    optionsPartRenameItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1520,7 +1513,7 @@ class msrOptionsPartRenameItem : public msrOptionsValuedItem
       map<string, string>&
                          optionsPartRenameItemVariable);
       
-    virtual ~msrOptionsPartRenameItem();
+    virtual ~optionsPartRenameItem();
 
   public:
   
@@ -1568,18 +1561,18 @@ class msrOptionsPartRenameItem : public msrOptionsValuedItem
     string                fOptionsPartRenameItemVariableDisplayName;
     map<string, string>&  fOptionsPartRenameItemVariable;
 };
-typedef SMARTP<msrOptionsPartRenameItem> S_msrOptionsPartRenameItem;
-ostream& operator<< (ostream& os, const S_msrOptionsPartRenameItem& elt);
+typedef SMARTP<optionsPartRenameItem> S_optionsPartRenameItem;
+ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
 
 //______________________________________________________________________________
-class msrOptionsMidiTempoItem : public msrOptionsValuedItem
+class optionsMidiTempoItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsMidiTempoItem> create (
+    static SMARTP<optionsMidiTempoItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1593,7 +1586,7 @@ class msrOptionsMidiTempoItem : public msrOptionsValuedItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsMidiTempoItem (
+    optionsMidiTempoItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
@@ -1602,7 +1595,7 @@ class msrOptionsMidiTempoItem : public msrOptionsValuedItem
       pair<string, int>&
                          optionsMidiTempoItemVariable);
       
-    virtual ~msrOptionsMidiTempoItem();
+    virtual ~optionsMidiTempoItem();
 
   public:
   
@@ -1648,23 +1641,23 @@ class msrOptionsMidiTempoItem : public msrOptionsValuedItem
     string                fOptionsMidiTempoItemVariableDisplayName;
     pair<string, int>&    fOptionsMidiTempoItemVariable;
 };
-typedef SMARTP<msrOptionsMidiTempoItem> S_msrOptionsMidiTempoItem;
-ostream& operator<< (ostream& os, const S_msrOptionsMidiTempoItem& elt);
+typedef SMARTP<optionsMidiTempoItem> S_optionsMidiTempoItem;
+ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt);
 
 //_______________________________________________________________________________
-class msrOptionsSubGroup : public msrOptionsElement
+class optionsSubGroup : public optionsElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrOptionsSubGroupDescriptionVisibilityKind {
+    enum optionsSubGroupDescriptionVisibilityKind {
       kAlwaysShowDescription,
       kHideDescriptionByDefault };
           
     static string optionsSubGroupDescriptionVisibilityKindAsString (
-      msrOptionsSubGroupDescriptionVisibilityKind
+      optionsSubGroupDescriptionVisibilityKind
         optionsSubGroupDescriptionVisibilityKind);
 
   public:
@@ -1672,14 +1665,14 @@ class msrOptionsSubGroup : public msrOptionsElement
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsSubGroup> create (
+    static SMARTP<optionsSubGroup> create (
       string optionsSubGroupHelpHeader,
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
       string optionsSubGroupDescription,
-      msrOptionsSubGroupDescriptionVisibilityKind
+      optionsSubGroupDescriptionVisibilityKind
              optionsSubGroupDescriptionVisibilityKind,
-      S_msrOptionsGroup
+      S_optionsGroup
              optionsGroupUplink);
      
   protected:
@@ -1687,17 +1680,17 @@ class msrOptionsSubGroup : public msrOptionsElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsSubGroup (
+    optionsSubGroup (
       string optionsSubGroupHelpHeader,
       string optionsSubGroupShortName,
       string optionsSubGroupLongName,
       string optionsSubGroupDescription,
-      msrOptionsSubGroupDescriptionVisibilityKind
+      optionsSubGroupDescriptionVisibilityKind
              optionsSubGroupDescriptionVisibilityKind,
-      S_msrOptionsGroup
+      S_optionsGroup
              optionsGroupUplink);
     
-    virtual ~msrOptionsSubGroup();
+    virtual ~optionsSubGroup();
 
   public:
   
@@ -1705,19 +1698,19 @@ class msrOptionsSubGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  setOptionsGroupUplink (
-                            S_msrOptionsGroup optionsGroup)
+                            S_optionsGroup optionsGroup)
                               {
                                 fOptionsGroupUplink =
                                   optionsGroup;
                               }
 
-    S_msrOptionsGroup     getOptionsGroupUplink () const
+    S_optionsGroup        getOptionsGroupUplink () const
                               { return fOptionsGroupUplink; }
     
     string                getOptionsSubGroupHelpHeader () const
                               { return fOptionsSubGroupHelpHeader; }
                               
-    msrOptionsSubGroupDescriptionVisibilityKind
+    optionsSubGroupDescriptionVisibilityKind
                           getOptionsSubGroupIsHiddenByDefault () const
                               {
                                 return
@@ -1730,12 +1723,12 @@ class msrOptionsSubGroup : public msrOptionsElement
     void                  underlineHeader (ostream& os) const;
 
     void                  registerOptionsSubGroupInHandler (
-                            S_msrOptionsHandler optionsHandler);
+                            S_optionsHandler optionsHandler);
 
     void                  appendOptionsItem (
-                            S_msrOptionsItem optionsItem);
+                            S_optionsItem optionsItem);
 
-    S_msrOptionsElement   fetchOptionElement (
+    S_optionsElement      fetchOptionElement (
                             string optiontElementName);
                             
     // print
@@ -1750,13 +1743,13 @@ class msrOptionsSubGroup : public msrOptionsElement
 
     void                  printOptionsItemForcedHelp (
                             ostream&         os,
-                            S_msrOptionsItem targetOptionsItem) const;
+                            S_optionsItem targetOptionsItem) const;
 
     void                  printHelpSummary (ostream& os) const;
 
     void                  printSpecificSubGroupHelp (
                             ostream& os,
-                            S_msrOptionsSubGroup
+                            S_optionsSubGroup
                                      optionsSubGroup) const;
 
     void                  printOptionsValues (
@@ -1768,33 +1761,32 @@ class msrOptionsSubGroup : public msrOptionsElement
     // fields
     // ------------------------------------------------------
 
-    S_msrOptionsGroup     fOptionsGroupUplink;
+    S_optionsGroup        fOptionsGroupUplink;
 
     string                fOptionsSubGroupHelpHeader;
 
-    msrOptionsSubGroupDescriptionVisibilityKind
+    optionsSubGroupDescriptionVisibilityKind
                           fOptionsSubGroupDescriptionVisibilityKind;
   
-    list<S_msrOptionsItem>
-                          fOptionsSubGroupItemsList;
+    list<S_optionsItem>   fOptionsSubGroupItemsList;
 };
-typedef SMARTP<msrOptionsSubGroup> S_msrOptionsSubGroup;
-ostream& operator<< (ostream& os, const S_msrOptionsSubGroup& elt);
+typedef SMARTP<optionsSubGroup> S_optionsSubGroup;
+ostream& operator<< (ostream& os, const S_optionsSubGroup& elt);
 
 //_______________________________________________________________________________
-class msrOptionsGroup : public msrOptionsElement
+class optionsGroup : public optionsElement
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<msrOptionsGroup> create (
+    static SMARTP<optionsGroup> create (
       string optionsGroupHelpHeader,
       string optionGroupShortName,
       string optionGroupLongName,
       string optionGroupDescription,
-      S_msrOptionsHandler
+      S_optionsHandler
              optionsHandlerUplink);
      
   protected:
@@ -1802,15 +1794,15 @@ class msrOptionsGroup : public msrOptionsElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsGroup (
+    optionsGroup (
       string optionsGroupHelpHeader,
       string optionGroupShortName,
       string optionGroupLongName,
       string optionGroupDescription,
-      S_msrOptionsHandler
+      S_optionsHandler
              optionsHandlerUplink);
       
-    virtual ~msrOptionsGroup();
+    virtual ~optionsGroup();
 
   public:
   
@@ -1818,9 +1810,9 @@ class msrOptionsGroup : public msrOptionsElement
     // ------------------------------------------------------
 
     void                  setOptionsHandlerUplink (
-                            S_msrOptionsHandler optionsHandler);
+                            S_optionsHandler optionsHandler);
 
-    S_msrOptionsHandler   getOptionsHandlerUplink () const
+    S_optionsHandler      getOptionsHandlerUplink () const
                               { return fOptionsHandlerUplink; }
 
     string                getOptionsGroupHelpHeader () const
@@ -1832,12 +1824,12 @@ class msrOptionsGroup : public msrOptionsElement
     void                  underlineHeader (ostream& os) const;
 
     void                  registerOptionsGroupInHandler (
-                            S_msrOptionsHandler optionsHandler);
+                            S_optionsHandler optionsHandler);
 
     void                  appendOptionsSubGroup (
-                            S_msrOptionsSubGroup optionsSubGroup);
+                            S_optionsSubGroup optionsSubGroup);
         
-    S_msrOptionsElement   fetchOptionElement (
+    S_optionsElement      fetchOptionElement (
                             string optiontElementName);
                             
     // print
@@ -1849,18 +1841,18 @@ class msrOptionsGroup : public msrOptionsElement
 
     void                  printOptionsSubGroupForcedHelp (
                             ostream&             os,
-                            S_msrOptionsSubGroup targetOptionsSubGroup) const;
+                            S_optionsSubGroup targetOptionsSubGroup) const;
 
     void                  printOptionsItemForcedHelp (
-                            ostream&             os,
-                            S_msrOptionsSubGroup targetOptionsSubGroup,
-                            S_msrOptionsItem     targetOptionsItem) const;
+                            ostream&          os,
+                            S_optionsSubGroup targetOptionsSubGroup,
+                            S_optionsItem     targetOptionsItem) const;
 
     void                  printHelpSummary (ostream& os) const;
     
     void                  printSpecificSubGroupHelp (
                             ostream& os,
-                            S_msrOptionsSubGroup
+                            S_optionsSubGroup
                                      optionsSubGroup) const;
 
     void                  printOptionsValues (
@@ -1872,7 +1864,7 @@ class msrOptionsGroup : public msrOptionsElement
     // uplink
     // ------------------------------------------------------
 
-    S_msrOptionsHandler   fOptionsHandlerUplink;
+    S_optionsHandler      fOptionsHandlerUplink;
     
   private:
 
@@ -1881,21 +1873,21 @@ class msrOptionsGroup : public msrOptionsElement
 
     string                fOptionsGroupHelpHeader;
 
-    list<S_msrOptionsSubGroup>
+    list<S_optionsSubGroup>
                           fOptionsGroupSubGroupsList;
 };
-typedef SMARTP<msrOptionsGroup> S_msrOptionsGroup;
-ostream& operator<< (ostream& os, const S_msrOptionsGroup& elt);
+typedef SMARTP<optionsGroup> S_optionsGroup;
+ostream& operator<< (ostream& os, const S_optionsGroup& elt);
 
 //_______________________________________________________________________________
-class EXP msrOptionsHandler : public msrOptionsElement
+class EXP optionsHandler : public optionsElement
 {
   public:
   
     // creation
     // ------------------------------------------------------
 /* JMI this a pure virtual class
-    static SMARTP<msrOptionsHandler> create (
+    static SMARTP<optionsHandler> create (
       string           optionsHandlerHelpHeader,
       string           optionsHandlerValuesHeader,
       string           optionHandlerHelpShortName,
@@ -1912,7 +1904,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrOptionsHandler (
+    optionsHandler (
       string           optionsHandlerHelpHeader,
       string           optionsHandlerValuesHeader,
       string           optionHandlerHelpShortName,
@@ -1923,7 +1915,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
       string           optionHandlerDescription,
       indentedOstream& optionsHandlerLogIOstream);
       
-    virtual ~msrOptionsHandler();
+    virtual ~optionsHandler();
 
   private:
 
@@ -1959,7 +1951,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     string                getProgramName () const
                               { return fProgramName; }
                               
-    const list<S_msrOptionsElement>&
+    const list<S_optionsElement>&
                           getCommandOptionsElements () const
                               { return fCommandOptionsElements; }
                               
@@ -1986,25 +1978,25 @@ class EXP msrOptionsHandler : public msrOptionsElement
     // services
     // ------------------------------------------------------
 
-    S_msrOptionsElement   fetchOptionsElementFromMap (
+    S_optionsElement      fetchOptionsElementFromMap (
                             string optionsElementName) const;
 
     string                helpNamesBetweenParentheses () const; // JMI ???
 
     void                  registerOptionsNamesInHandler (
-                            string              optionShortName,
-                            string              optionLongName,
-                            S_msrOptionsElement optionsElement);
+                            string           optionShortName,
+                            string           optionLongName,
+                            S_optionsElement optionsElement);
       
     void                  registerOptionsHandlerInItself ();
 
     void                  registerOptionsElementInHandler (
-                            S_msrOptionsElement optionsElement);
+                            S_optionsElement optionsElement);
 
     void                  appendOptionsGroup (
-                            S_msrOptionsGroup optionsGroup);
+                            S_optionsGroup optionsGroup);
 
-    S_msrOptionsElement   fetchOptionElement (
+    S_optionsElement      fetchOptionElement (
                             string optiontElementName);
                             
     void                  handleOptionsItemName (
@@ -2035,7 +2027,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     
     void                  printSpecificSubGroupHelp (
                             ostream& os,
-                            S_msrOptionsSubGroup
+                            S_optionsSubGroup
                                      optionsSubGroup) const;
 
     void                  printSpecificItemHelp (
@@ -2058,14 +2050,13 @@ class EXP msrOptionsHandler : public msrOptionsElement
 
     string                fOptionHandlerPreamble;
 
-    S_msrOptionsItem      fPendingOptionsItem;
+    S_optionsItem         fPendingOptionsItem;
 
     vector<string>        fArgumentsVector;
     
-    list<S_msrOptionsGroup>
-                          fOptionsHandlerOptionsGroupsList;
+    list<S_optionsGroup>  fOptionsHandlerOptionsGroupsList;
 
-    map<string, S_msrOptionsElement>
+    map<string, S_optionsElement>
                           fOptionsElementsMap;
     
     int                   fMaximumSubGroupsHelpHeadersSize;
@@ -2075,7 +2066,7 @@ class EXP msrOptionsHandler : public msrOptionsElement
     
     int                   fMaximumDisplayNameWidth;
 
-    list<S_msrOptionsElement>
+    list<S_optionsElement>
                           fCommandOptionsElements;
 
     string                fProgramName;
@@ -2085,11 +2076,9 @@ class EXP msrOptionsHandler : public msrOptionsElement
     
     indentedOstream&      fOptionsHandlerLogIOstream;
 };
-typedef SMARTP<msrOptionsHandler> S_msrOptionsHandler;
-ostream& operator<< (ostream& os, const S_msrOptionsHandler& elt);
+typedef SMARTP<optionsHandler> S_optionsHandler;
+ostream& operator<< (ostream& os, const S_optionsHandler& elt);
 
-
-/*! @} */
 
 }
 

@@ -15,7 +15,7 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, set::precision, ...
 
-#include "xml2lilypondOptionsHandling.h"
+#include "xml2lyOptionsHandling.h"
 
 #include "generalOptions.h"
 #include "mxmlOptions.h"
@@ -34,32 +34,32 @@ namespace MusicXML2
 #define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
-S_xml2lilypondOptionsHandler xml2lilypondOptionsHandler::create (
+S_xml2lyOptionsHandler xml2lyOptionsHandler::create (
   indentedOstream& ios)
 {
-  xml2lilypondOptionsHandler* o = new
-    xml2lilypondOptionsHandler (
+  xml2lyOptionsHandler* o = new
+    xml2lyOptionsHandler (
       ios);
   assert(o!=0);
   return o;
 }
 
-xml2lilypondOptionsHandler::xml2lilypondOptionsHandler (
+xml2lyOptionsHandler::xml2lyOptionsHandler (
   indentedOstream& ios)
-  : msrOptionsHandler (
+  : optionsHandler (
     "Available options",
     "Options values",
     "h", "help",
     "hs", "helpSummary",
 R"(
-                Welcome to xml2lilypond v0.1.0, 
+                      Welcome to xml2ly, 
               the MusicXML to LilyPond translator
           delivered as part of the libmusicxml2 library.
       https://github.com/grame-cncm/libmusicxml/tree/lilypond
 
 Usage:
 
-    xml2lilypond [options] [MusicXMLFile|-] [options] 
+    xml2ly [options] [MusicXMLFile|-] [options] 
 )",
 R"(
 Options '-h, -help' print the full help,
@@ -70,10 +70,10 @@ while '-hs, -helpSummary' only print a help summary.)",
   initializeOptionsHandler ();
 }
 
-xml2lilypondOptionsHandler::~xml2lilypondOptionsHandler ()
+xml2lyOptionsHandler::~xml2lyOptionsHandler ()
 {}
 
-void xml2lilypondOptionsHandler::initializeOptionsHandler ()
+void xml2lyOptionsHandler::initializeOptionsHandler ()
 {
   // initialize options handling
   // ------------------------------------------------------
@@ -116,7 +116,7 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
   if (TRACE_OPTIONS) {
     // print the options handler initial state
     fOptionsHandlerLogIOstream <<
-      "xml2lilypondOptionsHandler has been initialized as:" <<
+      "xml2lyOptionsHandler has been initialized as:" <<
       endl;
   
     gIndenter++;
@@ -137,7 +137,7 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
 
   if (TRACE_OPTIONS) {
     fOptionsHandlerLogIOstream <<
-      "xml2lilypondOptionsHandler help:" <<
+      "xml2lyOptionsHandler help:" <<
       endl;
 
     this->
@@ -146,7 +146,7 @@ void xml2lilypondOptionsHandler::initializeOptionsHandler ()
   }
 }
 
-void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
+void xml2lyOptionsHandler::checkOptionsAndArguments ()
 {
   unsigned int argumentsNumber =
     fArgumentsVector.size ();
@@ -280,12 +280,12 @@ void xml2lilypondOptionsHandler::checkOptionsAndArguments ()
     fCommandLineWithLongOptions;
 }
 
-void xml2lilypondOptionsHandler::print (ostream& os) const
+void xml2lyOptionsHandler::print (ostream& os) const
 {
   const int fieldWidth = 27;
   
   os <<
-    "xml2lilypondOptionsHandler:" <<
+    "xml2lyOptionsHandler:" <<
     endl;
 
   gIndenter++;
@@ -314,7 +314,7 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
     
     gIndenter++;
 
-    list<S_msrOptionsGroup>::const_iterator
+    list<S_optionsGroup>::const_iterator
       iBegin = fOptionsHandlerOptionsGroupsList.begin (),
       iEnd   = fOptionsHandlerOptionsGroupsList.end (),
       i      = iBegin;
@@ -333,7 +333,7 @@ void xml2lilypondOptionsHandler::print (ostream& os) const
   os << endl;
 }
 
-ostream& operator<< (ostream& os, const S_xml2lilypondOptionsHandler& elt)
+ostream& operator<< (ostream& os, const S_xml2lyOptionsHandler& elt)
 {
   elt->print (os);
   return os;
