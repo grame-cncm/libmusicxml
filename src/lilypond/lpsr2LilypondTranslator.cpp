@@ -38,7 +38,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   indentedOstream& logIOstream,
   indentedOstream& lilypondOutputStream,
   S_lpsrScore      lpsrScore)
-    : fLogIOstream (
+    : fLogOutputStream (
         logIOstream),
       fLilypondCodeIOstream (
         lilypondOutputStream)
@@ -2358,15 +2358,15 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   // generate the default 'indent' setting ready for the user
   fLilypondCodeIOstream << left <<
     setw (fieldWidth) <<
-    "indent" << " = " <<
-    setprecision(4) << 5 << "\\cm" << // JMI
+    "% indent" << " = " <<
+    setprecision(4) << 2.5 << "\\cm" << // JMI
     endl;
 
   // generate the default 'short-indent' setting ready for the user
   fLilypondCodeIOstream << left <<
     setw (fieldWidth) <<
-    "short-indent" << " = " <<
-    setprecision(4) << 4 << "\\cm" << // JMI
+    "% short-indent" << " = " <<
+    setprecision(4) << 1.5 << "\\cm" << // JMI
     endl;
 
   fLilypondCodeIOstream << endl;
@@ -2655,6 +2655,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       break;
       
     case msrPartGroup::kPartGroupImplicitNo:
+      if (gLilypondOptions->fComments) {
+        fLilypondCodeIOstream << left <<
+          setw (commentFieldWidth);
+      }
+      
       if (partGroupName.size ()) {
         fLilypondCodeIOstream <<
           "\\set StaffGroup.instrumentName = \"" <<
@@ -2684,6 +2689,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           else
             fLilypondCodeIOstream << = "\\new GrandStaff";
             */
+            
           switch (partGroupBarlineKind) {
             case msrPartGroup::kPartGroupBarlineYes:
               fLilypondCodeIOstream <<
@@ -2729,8 +2735,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           break;
       } // switch
   
-      fLilypondCodeIOstream << left <<
-        setw (commentFieldWidth) <<
+      fLilypondCodeIOstream <<
         " <<";
         
       if (gLilypondOptions->fComments) {
@@ -3578,10 +3583,22 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPartGroup& elt)
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
 {
+  string
+    partCombinedName =
+      elt->getPartCombinedName ();
+      
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrPart" <<
-      elt->getPartCombinedName () <<
+      partCombinedName <<
+      endl;
+  }
+
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceGeneral) {
+    fLogOutputStream <<
+      endl <<
+      "<!--=== part \"" << partCombinedName << "\"" <<
+      ", line " << elt->getInputLineNumber () << " ===-->" <<
       endl;
   }
 
@@ -4222,7 +4239,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
       elt->getMeasureNumber ();
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
-    fLogIOstream <<
+    fLogOutputStream <<
       endl <<
       "% <!--=== measure " << measureNumber <<
       ", line " << inputLineNumber << " ===-->" <<
@@ -4232,6 +4249,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   // take this measure into account
   fMeasuresCounter++;
   
+  // force durations to be displayed explicitly
+  // at the beginning of the measure
+  fLastMetWholeNotes = rational (0, 1);
+
   // get measure kind
   msrMeasure::msrMeasureKind
     measureKind =
@@ -4327,13 +4348,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
             elt->getMeasureLength ();
 
         rational
-          measureFullMeasureLength =
-            elt->getMeasureFullMeasureLength ();
+          fullMeasureLength =
+            elt->getFullMeasureLength ();
 
         // we should set the score measure length in this case
         rational
           ratioToFullLength =
-            measureLength / measureFullMeasureLength;
+            measureLength / fullMeasureLength;
         ratioToFullLength.rationalise ();
   
         if (gGeneralOptions->fTraceMeasures) {
@@ -4349,7 +4370,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
             "% measureLength" << " = " << measureLength <<
             endl <<
             setw (fieldWidth) <<
-            "% measureFullMeasureLength" << " = " << measureFullMeasureLength <<
+            "% fullMeasureLength" << " = " << fullMeasureLength <<
             endl <<
             setw (fieldWidth) <<
             "% ratioToFullLength" << " = " << ratioToFullLength <<
@@ -4422,7 +4443,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           wholeNotesAsLilypondString (
             inputLineNumber,
             elt->
-              getMeasureFullMeasureLength ()) <<
+              getFullMeasureLength ()) <<
           " | " <<
           endl;
       }
@@ -6226,15 +6247,38 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotes& elt)
 
  // JMI exists? if (elt->getGraceNotesIsSlashed ())
   fLilypondCodeIOstream <<
-    "\\afterGrace ";
+    "\\afterGrace { ";
+}
 
-/* JMI
-  printNoteAsLilypondString (
-    elt->getAfterGraceNotesNote ());
+void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotesContents& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrAfterGraceNotesContents" <<
+      endl;
+  }
+
+  // write a first closing right bracket right now
+  fLilypondCodeIOstream <<
+    "} { ";
+
+  // save fLastMetWholeNotes
+  fSavedLastMetWholeNotes = fLastMetWholeNotes;
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotesContents& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting msrAfterGraceNotesContents" <<
+      endl;
+  }
 
   fLilypondCodeIOstream <<
-    " { ";
-    */
+    "} ";
+
+  // restore fLastMetWholeNotes
+  fLastMetWholeNotes = fSavedLastMetWholeNotes;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotes& elt)
@@ -6244,9 +6288,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotes& elt)
       "% --> End visiting msrAfterGraceNotes" <<
       endl;
   }
-
-  fLilypondCodeIOstream <<
-    "} ";
 }
 
 //________________________________________________________________________

@@ -195,6 +195,9 @@ string msrOctaveShift::octaveShiftKindAsString () const
   string result;
   
   switch (fOctaveShiftKind) {
+    case k_NoOctaveShift:
+      result = "none";
+      break;
     case kOctaveShiftUp:
       result = "up";
       break;
@@ -2898,6 +2901,9 @@ string msrWedge::wedgeKindAsString ()
   stringstream s;
   
   switch (fWedgeKind) {
+    case msrWedge::k_NoWedgeKind:
+      s << "none";
+      break;
     case msrWedge::kCrescendoWedge:
       s << "crescendo";
       break;
@@ -3522,6 +3528,183 @@ void msrGraceNotes::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrAfterGraceNotesContents msrAfterGraceNotesContents::create (
+  int        inputLineNumber,
+  S_msrVoice afterGraceNotesContentsVoiceUplink)
+{
+  msrAfterGraceNotesContents* o =
+    new msrAfterGraceNotesContents (
+      inputLineNumber,
+      afterGraceNotesContentsVoiceUplink);
+  assert(o!=0);
+
+  return o;
+}
+
+msrAfterGraceNotesContents::msrAfterGraceNotesContents (
+  int        inputLineNumber,
+  S_msrVoice afterGraceNotesContentsVoiceUplink)
+    : msrElement (inputLineNumber)
+{
+  // sanity check
+  msrAssert(
+    afterGraceNotesContentsVoiceUplink != 0,
+    "afterGraceNotesContentsVoiceUplink is null");
+  
+  // set after notes contents's voice uplink
+  fAfterGraceNotesContentsVoiceUplink =
+    afterGraceNotesContentsVoiceUplink;
+}
+
+msrAfterGraceNotesContents::~msrAfterGraceNotesContents()
+{}
+
+S_msrPart msrAfterGraceNotesContents::fetchAfterGraceNotesContentsPartUplink () const
+{
+  return
+    fAfterGraceNotesContentsVoiceUplink->
+      fetchVoicePartUplink ();
+}
+
+S_msrAfterGraceNotesContents msrAfterGraceNotesContents::createAfterGraceNotesContentsNewbornClone (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceGraceNotes) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of after grace notes" <<
+      endl;
+  }
+
+  // sanity check
+  msrAssert(
+    containingVoice != 0,
+    "containingVoice is null");
+        
+  S_msrAfterGraceNotesContents
+    newbornClone =
+      msrAfterGraceNotesContents::create (
+        fInputLineNumber,
+        containingVoice);
+    
+  return newbornClone;
+}
+
+void msrAfterGraceNotesContents::appendNoteToAfterGraceNotesContents (
+  S_msrNote note)
+{
+  fAfterGraceNotesContentsNotesList.push_back (note);
+}
+
+void msrAfterGraceNotesContents::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    gLogIOstream <<
+      "% ==> msrAfterGraceNotesContents::acceptIn()" <<
+      endl;
+      
+  if (visitor<S_msrAfterGraceNotesContents>*
+    p =
+      dynamic_cast<visitor<S_msrAfterGraceNotesContents>*> (v)) {
+        S_msrAfterGraceNotesContents elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors)
+          gLogIOstream <<
+            "% ==> Launching msrAfterGraceNotesContents::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrAfterGraceNotesContents::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors)
+    gLogIOstream <<
+      "% ==> msrAfterGraceNotesContents::acceptOut()" <<
+      endl;
+
+  if (visitor<S_msrAfterGraceNotesContents>*
+    p =
+      dynamic_cast<visitor<S_msrAfterGraceNotesContents>*> (v)) {
+        S_msrAfterGraceNotesContents elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors)
+          gLogIOstream <<
+            "% ==> Launching msrAfterGraceNotesContents::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrAfterGraceNotesContents::browseData (basevisitor* v)
+{
+  list<S_msrNote>::const_iterator i;
+
+  for (
+    i=fAfterGraceNotesContentsNotesList.begin ();
+    i!=fAfterGraceNotesContentsNotesList.end ();
+    i++) {
+    // browse the note
+    msrBrowser<msrNote> browser (v);
+    browser.browse (*(*i));
+  } // for
+}
+
+ostream& operator<< (ostream& os, const S_msrAfterGraceNotesContents& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrAfterGraceNotesContents::afterGraceNotesContentsAsShortString () const
+{
+  stringstream s;
+
+  s <<
+    "AfterGraceNotesContents" <<
+    ", " <<
+    singularOrPlural (
+      fAfterGraceNotesContentsNotesList.size (), "note", "notes");
+
+
+  list<S_msrNote>::const_iterator
+    iBegin = fAfterGraceNotesContentsNotesList.begin (),
+    iEnd   = fAfterGraceNotesContentsNotesList.end (),
+    i      = iBegin;
+    
+  for ( ; ; ) {
+    s << (*i)->noteAsShortString ();
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  return s.str ();
+}
+
+void msrAfterGraceNotesContents::print (ostream& os)
+{
+  os <<
+    "AfterGraceNotesContents" <<
+    ", " <<
+    singularOrPlural (
+      fAfterGraceNotesContentsNotesList.size (), "note", "notes") <<
+    ", line " << fInputLineNumber <<
+    endl;
+  
+  gIndenter++;
+
+  list<S_msrNote>::const_iterator
+    iBegin = fAfterGraceNotesContentsNotesList.begin (),
+    iEnd   = fAfterGraceNotesContentsNotesList.end (),
+    i      = iBegin;
+    
+  for ( ; ; ) {
+    os << (*i);
+    if (++i == iEnd) break;
+ // JMI   os << endl;
+  } // for
+      
+  gIndenter--;
+}
+
+//______________________________________________________________________________
 S_msrAfterGraceNotes msrAfterGraceNotes::create (
   int        inputLineNumber,
   S_msrNote  afterGraceNotesNote,
@@ -3555,17 +3738,18 @@ msrAfterGraceNotes::msrAfterGraceNotes (
   fAfterGraceNotesVoiceUplink =
     afterGraceNotesVoiceUplink;
 
-  // sanity check
-  msrAssert(
-    afterGraceNotesVoiceUplink != 0,
-    "afterGraceNotesVoiceUplink is null");
-
-  // set gracenote's note uplink
+  // pupulate this after grace notes
   fAfterGraceNotesNote =
     afterGraceNotesNote;
     
   fAfterGraceNotesIsSlashed =
     aftergracenoteIsSlashed;
+
+  // create the after grace notes contents
+  fAfterGraceNotesContents =
+    msrAfterGraceNotesContents::create (
+      inputLineNumber,
+      afterGraceNotesVoiceUplink);
 }
 
 msrAfterGraceNotes::~msrAfterGraceNotes()
@@ -3597,13 +3781,7 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
   msrAssert(
     containingVoice != 0,
     "containingVoice is null");
-    
-  /* JMI ???
-  // set after grace note's part uplink
-  o->fAfterGraceNotesPartUplink =
-    afterGraceNotesPartUplink;
-    */
-    
+        
   S_msrAfterGraceNotes
     newbornClone =
       msrAfterGraceNotes::create (
@@ -3612,15 +3790,15 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
         fAfterGraceNotesIsSlashed,
         containingVoice);
   
-  newbornClone->fAfterGraceNotesIsSlashed =
-    fAfterGraceNotesIsSlashed;
-  
   return newbornClone;
 }
 
-void msrAfterGraceNotes::appendNoteToAfterGraceNotes (S_msrNote note)
+void msrAfterGraceNotes::appendNoteToAfterGraceNotesContents (
+  S_msrNote note)
 {
-  fAfterGraceNotesNotesList.push_back (note);
+  fAfterGraceNotesContents->
+    appendNoteToAfterGraceNotesContents (
+      note);
 }
 
 void msrAfterGraceNotes::acceptIn (basevisitor* v) {
@@ -3665,18 +3843,17 @@ void msrAfterGraceNotes::browseData (basevisitor* v)
 {
   list<S_msrNote>::const_iterator i;
 
-  // browse the afterGraceNotes note
-  msrBrowser<msrNote> browser (v);
-  browser.browse (*fAfterGraceNotesNote);
-
-  for (
-    i=fAfterGraceNotesNotesList.begin ();
-    i!=fAfterGraceNotesNotesList.end ();
-    i++) {
-    // browse the note
+  {
+    // browse the afterGraceNotes note
     msrBrowser<msrNote> browser (v);
-    browser.browse (*(*i));
-  } // for
+    browser.browse (*fAfterGraceNotesNote);
+  }
+
+  {
+    // browse the afterGraceNotesContents
+    msrBrowser<msrAfterGraceNotesContents> browser (v);
+    browser.browse (*fAfterGraceNotesContents);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt)
@@ -3690,18 +3867,11 @@ string msrAfterGraceNotes::afterGraceNotesAsShortString () const
   stringstream s;
 
   s <<
-    "AfterGraceNotes" " ";
-
-  list<S_msrNote>::const_iterator
-    iBegin = fAfterGraceNotesNotesList.begin (),
-    iEnd   = fAfterGraceNotesNotesList.end (),
-    i      = iBegin;
-    
-  for ( ; ; ) {
-    s << (*i)->noteAsShortString ();
-    if (++i == iEnd) break;
-    s << " ";
-  } // for
+    "AfterGraceNotes " <<
+    ", AfterGraceNotesNote: " <<
+    fAfterGraceNotesNote->noteAsShortString () <<
+    ", fAfterGraceNotesContents: " <<
+    fAfterGraceNotesContents->afterGraceNotesContentsAsShortString ();
 
   return s.str ();
 }
@@ -3711,9 +3881,6 @@ void msrAfterGraceNotes::print (ostream& os)
   os <<
     "AfterGraceNotes" <<
     ", line " << fInputLineNumber <<
-    ", " <<
-    singularOrPlural (
-      fAfterGraceNotesNotesList.size (), "note", "notes") <<
     ", slashed: " <<
     booleanAsString (fAfterGraceNotesIsSlashed) <<
     endl;
@@ -3731,24 +3898,9 @@ void msrAfterGraceNotes::print (ostream& os)
 
   // print the afterGraceNotes contents
   os <<
-    "Contents:" <<
+    fAfterGraceNotesContents <<
     endl;
 
-  gIndenter++;
-
-  list<S_msrNote>::const_iterator
-    iBegin = fAfterGraceNotesNotesList.begin (),
-    iEnd   = fAfterGraceNotesNotesList.end (),
-    i      = iBegin;
-    
-  for ( ; ; ) {
-    os << (*i);
-    if (++i == iEnd) break;
- // JMI   os << endl;
-  } // for
-
-  gIndenter--;
-      
   gIndenter--;
 }
 
@@ -6240,11 +6392,11 @@ ostream& operator<< (ostream& os, const S_msrNote& elt)
 void msrNote::print (ostream& os)
 {
   rational
-    measureFullMeasureLength =
+    fullMeasureLength =
       fNoteMeasureUplink
         ? 
           fNoteMeasureUplink->
-            getMeasureFullMeasureLength ()
+            getFullMeasureLength ()
         : rational (0, 1); // JMI
   
   // print the note itself and its positionInMeasure
@@ -6298,14 +6450,14 @@ void msrNote::print (ostream& os)
 
     // full measure length,
     // may be unknown if there is no time signature
-    if (measureFullMeasureLength.getNumerator () == 0) {
+    if (fullMeasureLength.getNumerator () == 0) {
       os <<
         ", full measure length unknown, no time signature";
     }
     else {
       os <<
         ", " <<
-        measureFullMeasureLength <<
+        fullMeasureLength <<
         " per full measure";
     }
 
@@ -7506,11 +7658,11 @@ string msrChord::chordAsString () const
 void msrChord::print (ostream& os)
 {
   rational
-    measureFullMeasureLength =
+    fullMeasureLength =
       fChordMeasureUplink
         ? 
           fChordMeasureUplink->
-            getMeasureFullMeasureLength ()
+            getFullMeasureLength ()
         : rational (0, 1); // JMI
     
   os <<
@@ -7528,7 +7680,7 @@ void msrChord::print (ostream& os)
     ":" <<
     fChordPositionInMeasure <<
     "/" <<
-    measureFullMeasureLength;
+    fullMeasureLength;
 
   // print simplified position in measure if relevant
 // JMI  if (fChordMeasureUplink) {
@@ -15511,8 +15663,8 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
         containingSegment);
 
   // lengthes
-  newbornClone->fMeasureFullMeasureLength =
-    fMeasureFullMeasureLength;
+  newbornClone->fFullMeasureLength =
+    fFullMeasureLength;
     
   // don't take fMeasureLength over,
   // it will be computed on the fly
@@ -15571,8 +15723,8 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         containingSegment);
 
   // lengthes
-  measureDeepCopy->fMeasureFullMeasureLength =
-    fMeasureFullMeasureLength;
+  measureDeepCopy->fFullMeasureLength =
+    fFullMeasureLength;
     
   measureDeepCopy->fMeasureLength =
     fMeasureLength;
@@ -15693,12 +15845,12 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   return measureDeepCopy;
 }
 
-string msrMeasure::measureFullMeasureLengthAsMSRString ()
+string msrMeasure::fullMeasureLengthAsMSRString ()
 {
   return
     wholeNotesAsMsrString (
       fInputLineNumber,
-      fMeasureFullMeasureLength);
+      fFullMeasureLength);
 }
 
 void msrMeasure::setMeasureLength (
@@ -15808,7 +15960,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
   fMeasureElementsList.push_back (time);
 
   // set the measure whole notes per full measure
-  setMeasureFullMeasureLengthFromTime (
+  setFullMeasureLengthFromTime (
     time);
     
 /* JMI
@@ -15831,7 +15983,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     setMeasureKind (
       kSenzaMisuraMeasureKind);
     
-    fMeasureFullMeasureLength = INT_MAX; // JMI
+    fFullMeasureLength = INT_MAX; // JMI
   }
   
   else {
@@ -15860,7 +16012,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         endl;
     }
     
-    fMeasureFullMeasureLength =
+    fFullMeasureLength =
       wholeNotesPerMeasure.getNumerator ()
         *
       partDivisionsPerQuarterNote * 4 // hence a whole note
@@ -15878,7 +16030,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
         "\"" <<
         " has " <<
         singularOrPlural (
-          fMeasureFullMeasureLength,
+          fFullMeasureLength,
           "wholeNotes per full measure",
           "division per full measure") <<
         endl;
@@ -15918,7 +16070,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
   fMeasureElementsList.push_back (time);
 }
 
-void msrMeasure::setMeasureFullMeasureLengthFromTime (
+void msrMeasure::setFullMeasureLengthFromTime (
   S_msrTime time)
 {
   // sanity check
@@ -15978,7 +16130,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     setMeasureKind (
       kSenzaMisuraMeasureKind);
     
-    fMeasureFullMeasureLength =
+    fFullMeasureLength =
       rational (INT_MAX, 1);
   }
   
@@ -16022,7 +16174,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
     }
 
     // set full measure length
-    fMeasureFullMeasureLength =
+    fFullMeasureLength =
       wholeNotesPerMeasure;
 
     if (
@@ -16039,7 +16191,7 @@ void msrMeasure::setMeasureFullMeasureLengthFromTime (
             getVoiceName () <<
         "\"" <<
         " has full measure length " <<
-        fMeasureFullMeasureLength <<
+        fFullMeasureLength <<
         " whole notes" <<
         endl;
     }
@@ -16154,7 +16306,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       fMeasureLength);
 
   // determine if the note occupies a full measure
-  if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
+  if (noteSoundingWholeNotes == fFullMeasureLength)
     note->
       setNoteOccupiesAFullMeasure ();
     
@@ -16313,7 +16465,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
         fMeasureLength);
   
     // determine if the note occupies a full measure
-    if (noteSoundingWholeNotes == fMeasureFullMeasureLength)
+    if (noteSoundingWholeNotes == fFullMeasureLength)
       note->
         setNoteOccupiesAFullMeasure ();
       
@@ -17024,7 +17176,7 @@ void msrMeasure::bringMeasureToMeasureLength (
             getVoicePartRelativeID ());
 
     // does the skip occupy a full measure?
-    if (skipDuration == fMeasureFullMeasureLength)
+    if (skipDuration == fFullMeasureLength)
       skip->
         setNoteOccupiesAFullMeasure ();
   
@@ -17379,6 +17531,161 @@ S_msrElement msrMeasure::removeLastElementFromMeasure (
 }
 */
 
+void msrMeasure::determineMeasureKind (
+  int inputLineNumber)
+{
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+    
+  // determine the measure kind
+  if (fMeasureLength == fFullMeasureLength) {
+    // full measure
+    if (gGeneralOptions->fTraceMeasures) {
+      gLogIOstream <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is full" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kFullMeasureKind);
+  }
+  
+  else if (fMeasureLength.getNumerator () == 0) { // JMI
+    // empty measure
+    if (gGeneralOptions->fTraceMeasures) {
+      gLogIOstream <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **empty**" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kEmptyMeasureKind);
+  }
+  
+  else if (fMeasureLength < fFullMeasureLength) {
+    //  incomplete measure
+    switch (fMeasureFirstInSegmentKind) {
+      case msrMeasure::kMeasureFirstInSegmentYes:
+        if (gGeneralOptions->fTraceMeasures) {
+          gLogIOstream <<
+          "Measure '" << fMeasureNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is an **upbeat**" <<
+          ", line " << inputLineNumber <<
+          endl;
+        }
+    
+        setMeasureKind (
+          kUpbeatMeasureKind);
+        break;
+        
+      case msrMeasure::kMeasureFirstInSegmentNo:
+        if (gGeneralOptions->fTraceMeasures) {
+          gLogIOstream <<
+          "Measure '" << fMeasureNumber <<
+          "' in voice \"" << voice->getVoiceName () <<
+          "\", is **underfull**" <<
+          ", line " << inputLineNumber <<
+          endl;
+        }
+    
+        setMeasureKind (
+          kUnderfullMeasureKind);
+        break;
+    } // switch
+  }
+
+  else if (fMeasureLength > fFullMeasureLength) {
+    // overfull measure
+    if (gGeneralOptions->fTraceMeasures) {
+      gLogIOstream <<
+      "Measure '" << fMeasureNumber <<
+      "' in voice \"" << voice->getVoiceName () <<
+      "\", is **overfull**" <<
+      ", line " << inputLineNumber <<
+      endl;
+    }
+
+    setMeasureKind (
+      kOverfullMeasureKind);
+  }
+}
+
+void msrMeasure::appendARestToFinalizeMeasure (
+  int inputLineNumber)
+{
+  // fetch the part measure length high tide
+  rational
+    partMeasureLengthHighTide =
+      fetchMeasurePartUplink ()->
+        getPartMeasureLengthHighTide ();
+    
+  rational
+    lengthToReach =
+      partMeasureLengthHighTide;
+
+  if (fMeasureLength < lengthToReach) {
+    // appending a rest to this measure to reach lengthToReach 
+    rational
+      restDuration =
+        lengthToReach - fMeasureLength;
+      
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fMeasureSegmentUplink->
+          getSegmentVoiceUplink ();
+    
+    // create the rest
+    S_msrNote
+      rest =
+        msrNote::createRestNote (
+          inputLineNumber,
+ // JMI         49, // JMI
+          restDuration,
+          restDuration,
+          0, // dots number JMI ???
+          voice->
+            getVoiceStaffUplink ()->getStaffNumber (),
+          voice->
+            getVoicePartRelativeID ());
+
+    // does the rest occupy a full measure?
+    if (restDuration == fFullMeasureLength)
+      rest->
+        setNoteOccupiesAFullMeasure ();
+  
+    // register rest's position in measure
+    rest->
+      setNotePositionInMeasure (fMeasureLength);
+           
+    if (gGeneralOptions->fTraceMeasures)
+      gLogIOstream <<
+       "Appending '" << rest->noteAsString () <<
+       " (" << restDuration << " rest whole notes)'" <<
+       " to finalize \"" << voice->getVoiceName () <<
+       "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
+       " % --> @" << fMeasureNumber << // JMI
+       ":" << partMeasureLengthHighTide <<
+        ", restDuration = " << restDuration <<
+       endl;
+
+    // append the rest to the measure elements list
+    // only now to make it possible to remove it afterwards
+    // if it happens to be the first note of a chord
+    appendNoteToMeasure (rest);
+  }
+}
+
 void msrMeasure::finalizeMeasure (
   int inputLineNumber)
 {
@@ -17410,7 +17717,7 @@ void msrMeasure::finalizeMeasure (
       "measureLength" << " = " << fMeasureLength <<
       endl <<
       setw (fieldWidth) <<
-      "fMeasureFullMeasureLength" << " = " << fMeasureFullMeasureLength <<
+      "fFullMeasureLength" << " = " << fFullMeasureLength <<
       endl <<
       setw (fieldWidth) <<
       "partMeasureLengthHighTide" << " = " <<
@@ -17420,150 +17727,31 @@ void msrMeasure::finalizeMeasure (
     gIndenter--;
   }
 
-  if (fMeasureKind != msrMeasure::kSenzaMisuraMeasureKind) {
-    switch (fMeasureCreatedAfterARepeatKind) {
-      case msrMeasure::kMeasureCreatedAfterARepeatYes:
-        // such a measure should not be completed with rests!
-        break;
-        
-      case msrMeasure::kMeasureCreatedAfterARepeatNo:
-        {
-          rational
-            lengthToReach =
-              partMeasureLengthHighTide;
-      
-          if (fMeasureLength < lengthToReach) {
-            // appending a rest to this measure to reach lengthToReach 
-            rational
-              restDuration =
-                lengthToReach - fMeasureLength;
-              
-            // create the rest
-            S_msrNote
-              rest =
-                msrNote::createRestNote (
-                  inputLineNumber,
-         // JMI         49, // JMI
-                  restDuration,
-                  restDuration,
-                  0, // dots number JMI ???
-                  voice->
-                    getVoiceStaffUplink ()->getStaffNumber (),
-                  voice->
-                    getVoicePartRelativeID ());
-        
-            // does the rest occupy a full measure?
-            if (restDuration == fMeasureFullMeasureLength)
-              rest->
-                setNoteOccupiesAFullMeasure ();
-          
-            // register rest's position in measure
-            rest->
-              setNotePositionInMeasure (fMeasureLength);
-                   
-            if (gGeneralOptions->fTraceMeasures)
-              gLogIOstream <<
-               "Appending '" << rest->noteAsString () <<
-               " (" << restDuration << " rest whole notes)'" <<
-               " to finalize \"" << voice->getVoiceName () <<
-               "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
-               " % --> @" << fMeasureNumber << // JMI
-               ":" << partMeasureLengthHighTide <<
-                ", restDuration = " << restDuration <<
-               endl;
-        
-            // append the rest to the measure elements list
-            // only now to make it possible to remove it afterwards
-            // if it happens to be the first note of a chord
-            appendNoteToMeasure (rest);
-          }
-        }
-        break;
-    } // switch
+  switch (fMeasureKind) {
+    case msrMeasure::kSenzaMisuraMeasureKind:
+      break;
 
-    // determine the measure kind
-    if (fMeasureLength == fMeasureFullMeasureLength) {
-      // full measure
-      if (gGeneralOptions->fTraceMeasures) {
-        gLogIOstream <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" << voice->getVoiceName () <<
-        "\", is full" <<
-        ", line " << inputLineNumber <<
-        endl;
-      }
-  
-      setMeasureKind (
-        kFullMeasureKind);
-    }
-    
-    else if (fMeasureLength.getNumerator () == 0) { // JMI
-      // empty measure
-      if (gGeneralOptions->fTraceMeasures) {
-        gLogIOstream <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" << voice->getVoiceName () <<
-        "\", is **empty**" <<
-        ", line " << inputLineNumber <<
-        endl;
-      }
-  
-      setMeasureKind (
-        kEmptyMeasureKind);
-    }
-    
-    else if (fMeasureLength < fMeasureFullMeasureLength) {
-      //  incomplete measure
-      switch (fMeasureFirstInSegmentKind) {
-        case msrMeasure::kMeasureFirstInSegmentYes:
-          if (gGeneralOptions->fTraceMeasures) {
-            gLogIOstream <<
-            "Measure '" << fMeasureNumber <<
-            "' in voice \"" << voice->getVoiceName () <<
-            "\", is **incomplete left**" <<
-            ", line " << inputLineNumber <<
-            endl;
-          }
-      
-          setMeasureKind (
-            kUpbeatMeasureKind);
+    case msrMeasure::kUnknownMeasureKind:
+    case msrMeasure::kFullMeasureKind:
+    case msrMeasure::kUpbeatMeasureKind:
+    case msrMeasure::kUnderfullMeasureKind:
+    case msrMeasure::kOverfullMeasureKind:
+    case msrMeasure::kEmptyMeasureKind:
+      switch (fMeasureCreatedAfterARepeatKind) {
+        case msrMeasure::kMeasureCreatedAfterARepeatYes:
+          // such a measure should not be completed with a rest!
           break;
           
-        case msrMeasure::kMeasureFirstInSegmentNo:
-          if (gGeneralOptions->fTraceMeasures) {
-            gLogIOstream <<
-            "Measure '" << fMeasureNumber <<
-            "' in voice \"" << voice->getVoiceName () <<
-            "\", is **underfull**" <<
-            ", line " << inputLineNumber <<
-            endl;
-          }
-      
-          setMeasureKind (
-            kUnderfullMeasureKind);
+        case msrMeasure::kMeasureCreatedAfterARepeatNo:
+          appendARestToFinalizeMeasure (
+            inputLineNumber);
           break;
       } // switch
-    }
   
-    else if (fMeasureLength > fMeasureFullMeasureLength) {
-      // overfull measure
-      if (gGeneralOptions->fTraceMeasures) {
-        gLogIOstream <<
-        "Measure '" << fMeasureNumber <<
-        "' in voice \"" << voice->getVoiceName () <<
-        "\", is **overfull**" <<
-        ", line " << inputLineNumber <<
-        endl;
-      }
-  
-      setMeasureKind (
-        kOverfullMeasureKind);
-    }
-  }
-
-  else {
-    // leave measure as it it JMI ???
-  }
+      determineMeasureKind (
+        inputLineNumber);
+      break;
+  } // switch
 }
 
 void msrMeasure::acceptIn (basevisitor* v) {
@@ -17731,9 +17919,9 @@ void msrMeasure::print (ostream& os)
 /* JMI
     ", measureLengthAsMSRString: " <<
     measureLengthAsMSRString () <<
-    ", measureFullMeasureLengthAsMSRString: " <<
-    measureFullMeasureLengthAsMSRString () <<
-    ", " << fMeasureFullMeasureLength << " per full measure" <<
+    ", fullMeasureLengthAsMSRString: " <<
+    fullMeasureLengthAsMSRString () <<
+    ", " << fFullMeasureLength << " per full measure" <<
     */
     ", " <<
     msrMeasure::measureFirstInSegmentKindAsString (
@@ -17754,7 +17942,7 @@ void msrMeasure::print (ostream& os)
     endl <<
     "Length: " << fMeasureLength << " whole notes" <<
     endl <<
-    "Full measure length: " << fMeasureFullMeasureLength << " whole notes" <<
+    "Full measure length: " << fFullMeasureLength << " whole notes" <<
     endl;
   gIndenter--;
 
@@ -18030,7 +18218,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   if (partCurrentTime) {
   // set the measure length in whole notes per full measure
     newMeasure->
-      setMeasureFullMeasureLengthFromTime (
+      setFullMeasureLengthFromTime (
         partCurrentTime);
   }
 
@@ -22486,7 +22674,8 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
 }
 
 void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
-  int inputLineNumber)
+  int inputLineNumber,
+  int fullMeasureLength)
 {
 /*
   This method is used for repeats
@@ -22521,6 +22710,10 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
         fVoiceCurrentMeasureNumber,
         fVoiceLastSegment);
 
+  // set it's full measure length
+  newMeasure->setFullMeasureLength (
+    fullMeasureLength);
+    
   // set it as being created after a repeat
   newMeasure->
     setMeasureCreatedAfterARepeatKind (
@@ -23596,6 +23789,12 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
+        // fetch last measure's full measure length
+        int fullMeasureLength =
+          fVoiceLastSegment->
+            getSegmentMeasuresList ().back ()->
+                getFullMeasureLength ();
+              
         // finalize current measure in voice
         finalizeCurrentMeasureInVoice (
           inputLineNumber);
@@ -23638,11 +23837,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
             getVoiceName () <<
             "\"" <<
             endl;
-      /*
-        repeat->
-          setRepeatCommonSegment (
-            fVoiceLastSegment);
-            */
+
         repeat->
           setRepeatCommonPart (
             repeatCommonPart);
@@ -23670,11 +23865,8 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
             endl;
 
         createNewLastSegmentAndANewMeasureAfterARepeat (
-          inputLineNumber);
-        /* JMI BOF
-        createNewLastSegmentForVoice (
-          inputLineNumber);
-          */
+          inputLineNumber,
+          fullMeasureLength);
       }
       break;
   } // switch
@@ -24505,6 +24697,12 @@ void msrVoice::appendRepeatEndingToVoice (
             ", line " << inputLineNumber <<
             endl;
       
+        // fetch last measure's full measure length
+        int fullMeasureLength =
+          fVoiceLastSegment->
+            getSegmentMeasuresList ().back ()->
+                getFullMeasureLength ();
+              
         S_msrRepeatEnding
           repeatEnding =
             msrRepeatEnding::create (
@@ -24534,7 +24732,8 @@ void msrVoice::appendRepeatEndingToVoice (
             endl;
             
         createNewLastSegmentAndANewMeasureAfterARepeat (
-          inputLineNumber);
+          inputLineNumber,
+          fullMeasureLength);
       }
       break;
   } // switch
@@ -26222,8 +26421,8 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   // append the time to this staff
   appendTimeToStaff (time);
 
-  // set fMeasureFullMeasureLength accordingly JMI
- // setMeasureFullMeasureLengthFromTime (
+  // set fFullMeasureLength accordingly JMI
+ // setFullMeasureLengthFromTime (
  //   partCurrentTime);
           
   // register the voice by its relative number

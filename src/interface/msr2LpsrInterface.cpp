@@ -57,7 +57,6 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
       "Pass 3: translating the MSR into a LPSR" <<
       endl <<
       separator <<
-      endl <<
       endl;
   }
   

@@ -536,10 +536,22 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrPart& elt)
 {
+  string
+    partCombinedName =
+      elt->getPartCombinedName ();
+      
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrPart " <<
-      elt->getPartCombinedName () <<
+      partCombinedName <<
+      endl;
+  }
+
+  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceGeneral) {
+    fLogOutputStream <<
+      endl <<
+      "<!--=== part \"" << partCombinedName << "\"" <<
+      ", line " << elt->getInputLineNumber () << " ===-->" <<
       endl;
   }
 
@@ -550,13 +562,6 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
     elt->createPartNewbornClone (
       fPartGroupsStack.top ());
 
-/* JMI
-  // setup it durations to divisions data
-  fCurrentPartClone->
-    setupDurationsDivisions (
-      elt->getPartDivisionsPerQuarterNote ());
-  */
-    
   // add it to the partGroup clone
   if (gGeneralOptions->fTraceParts)
     fLogOutputStream <<
@@ -1517,9 +1522,9 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
 
   // get the full measure length
   rational
-    measureFullMeasureLength =
+    fullMeasureLength =
       fCurrentMeasureClone->
-        getMeasureFullMeasureLength ();
+        getFullMeasureLength ();
     
   if (gGeneralOptions->fTraceMeasures) {
     fLogOutputStream <<
@@ -1539,13 +1544,13 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kUnknownMeasureKind; // JMI
  // JMI     fMeasureKind = kFullMeasure; // may be changed afterwards
     
-  if (measureLength == measureFullMeasureLength ) {
+  if (measureLength == fullMeasureLength ) {
     // this measure is full
     measureKind =
       msrMeasure::kFullMeasureKind;
   }
       
-  else if (measureLength < measureFullMeasureLength) {
+  else if (measureLength < fullMeasureLength) {
     /*
     if (fSegmentMeasuresList.size () == 1) { // JMI
       // this is the first measure in the segment
@@ -1565,7 +1570,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       msrMeasure::kUpbeatMeasureKind; // JMI
   }
 
-  else if (measureLength > measureFullMeasureLength) {
+  else if (measureLength > fullMeasureLength) {
     // this measure is overfull
     measureKind =
       msrMeasure::kOverfullMeasureKind;
@@ -2873,7 +2878,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         }
   
         fPendingAfterGraceNotes->
-          appendNoteToAfterGraceNotes (
+          appendNoteToAfterGraceNotesContents (
             fCurrentNoteClone);
       }
       

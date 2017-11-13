@@ -4370,6 +4370,7 @@ void optionsHandler::handleOptionsItemName (
       "' is unknown, see help summary above";      
 
     optionError (s.str ());
+    exit (6);
   }
   
   else {

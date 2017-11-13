@@ -173,7 +173,9 @@ class lpsr2LilypondTranslator :
   // grace notes
 
   public visitor<S_msrGraceNotes>,
+  
   public visitor<S_msrAfterGraceNotes>,
+  public visitor<S_msrAfterGraceNotesContents>,
   
   // notes
 
@@ -430,6 +432,8 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrAfterGraceNotes& elt);
     virtual void visitEnd   (S_msrAfterGraceNotes& elt);
+    virtual void visitStart (S_msrAfterGraceNotesContents& elt);
+    virtual void visitEnd   (S_msrAfterGraceNotesContents& elt);
 
     virtual void visitStart (S_msrNote& elt);
     virtual void visitEnd   (S_msrNote& elt);
@@ -531,6 +535,7 @@ class lpsr2LilypondTranslator :
     // durations
     
     rational              fLastMetWholeNotes;
+    rational              fSavedLastMetWholeNotes;
     
     string                durationAsLilypondString (
                             int      inputLineNumber,
@@ -620,7 +625,7 @@ class lpsr2LilypondTranslator :
     S_msrOptions          fMsrOptions;
     S_lpsrOptions         fLpsrOptions;
     
-    indentedOstream&      fLogIOstream;
+    indentedOstream&      fLogOutputStream;
     indentedOstream&      fLilypondCodeIOstream;
     
     // the LPSR score we're visiting

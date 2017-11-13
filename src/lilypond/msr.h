@@ -2937,10 +2937,17 @@ class msrMeasure : public msrElement
 
     // lengthes
     
-    rational              getMeasureFullMeasureLength () const
+    void                  setFullMeasureLength (
+                            rational fullMeasureLength)
+                              {
+                                fFullMeasureLength =
+                                  fullMeasureLength;
+                              }
+
+    rational              getFullMeasureLength () const
                               {
                                 return
-                                  fMeasureFullMeasureLength;
+                                  fFullMeasureLength;
                               }
 
     void                  setMeasureLength (
@@ -3022,7 +3029,7 @@ class msrMeasure : public msrElement
 
     // lengthes
 
-    string                measureFullMeasureLengthAsMSRString ();
+    string                fullMeasureLengthAsMSRString ();
 
     string                measureLengthAsMSRString ();
 
@@ -3046,7 +3053,7 @@ class msrMeasure : public msrElement
 
     void                  appendTimeToMeasure (S_msrTime time);
 
-    void                  setMeasureFullMeasureLengthFromTime (
+    void                  setFullMeasureLengthFromTime (
                             S_msrTime time);
   
     void                  appendTimeToMeasureClone (S_msrTime time);
@@ -3212,6 +3219,12 @@ class msrMeasure : public msrElement
 
     // finalization
 
+    void                  determineMeasureKind (
+                            int inputLineNumber);
+
+    void                  appendARestToFinalizeMeasure (
+                            int inputLineNumber);
+
     void                  finalizeMeasure (
                             int inputLineNumber);
 
@@ -3240,7 +3253,7 @@ class msrMeasure : public msrElement
 
     // lengthes
     
-    rational              fMeasureFullMeasureLength;
+    rational              fFullMeasureLength;
     
     rational              fMeasureLength;
 
@@ -3665,6 +3678,87 @@ typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
 
 //______________________________________________________________________________
+class msrAfterGraceNotesContents : public msrElement
+{
+  public:
+        
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrAfterGraceNotesContents> create (
+      int        inputLineNumber,
+      S_msrVoice afterGraceNotesContentsVoiceUplink);
+    
+    SMARTP<msrAfterGraceNotesContents> createAfterGraceNotesContentsNewbornClone (
+      S_msrVoice containingVoice);
+
+    SMARTP<msrVoice> createAfterGraceNotesContentsDeepCopy (
+      S_msrVoice containingVoice);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrAfterGraceNotesContents (
+      int        inputLineNumber,
+      S_msrVoice afterGraceNotesContentsVoiceUplink);
+      
+    virtual ~msrAfterGraceNotesContents();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+                              
+    const list<S_msrNote>&
+                          getAfterGraceNotesContentsNotesList ()
+                              {
+                                return
+                                  fAfterGraceNotesContentsNotesList;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // uplinks
+    S_msrPart             fetchAfterGraceNotesContentsPartUplink () const;
+
+    // notes
+    void                  appendNoteToAfterGraceNotesContents (
+                            S_msrNote note);
+
+    // strings
+    string                afterGraceNotesContentsAsShortString () const;
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // uplinks
+    S_msrVoice            fAfterGraceNotesContentsVoiceUplink;
+
+    // the notes list
+    list<S_msrNote>       fAfterGraceNotesContentsNotesList;
+};
+typedef SMARTP<msrAfterGraceNotesContents> S_msrAfterGraceNotesContents;
+EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotesContents& elt);
+
+//______________________________________________________________________________
 class msrAfterGraceNotes : public msrElement
 {
   public:
@@ -3704,17 +3798,12 @@ class msrAfterGraceNotes : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    S_msrNote             getAfterGraceNotesNote ()
+    S_msrNote             getAfterGraceNotesNote () const
                               { return fAfterGraceNotesNote; }
 
-    list<S_msrNote>&      getAfterGraceNotesNotesList ()
-                              { return fAfterGraceNotesNotesList; }
-
-    void                  setAfterGraceNotesIsSlashed ()
-                              { fAfterGraceNotesIsSlashed = true; }
-                              
-    bool                  getAfterGraceNotesIsSlashed () const
-                              { return fAfterGraceNotesIsSlashed; }
+    S_msrAfterGraceNotesContents
+                          getfAfterGraceNotesContents () const
+                              { return fAfterGraceNotesContents; }
 
     // services
     // ------------------------------------------------------
@@ -3723,7 +3812,8 @@ class msrAfterGraceNotes : public msrElement
     S_msrPart             fetchAfterGraceNotesPartUplink () const;
 
     // notes
-    void                  appendNoteToAfterGraceNotes (S_msrNote note);
+    void                  appendNoteToAfterGraceNotesContents (
+                            S_msrNote note);
 
     // strings
     string                afterGraceNotesAsShortString () const;
@@ -3751,9 +3841,10 @@ class msrAfterGraceNotes : public msrElement
 
     S_msrNote             fAfterGraceNotesNote;
 
-    list<S_msrNote>       fAfterGraceNotesNotesList;
-
     bool                  fAfterGraceNotesIsSlashed;
+
+    S_msrAfterGraceNotesContents
+                          fAfterGraceNotesContents;
 };
 typedef SMARTP<msrAfterGraceNotes> S_msrAfterGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt);
@@ -8773,7 +8864,8 @@ class msrVoice : public msrElement
                             S_msrMeasure firstMeasure);
 
     void                  createNewLastSegmentAndANewMeasureAfterARepeat (
-                            int inputLineNumber);
+                            int inputLineNumber,
+                            int fullMeasureLength);
                             
     // stanzas
 // virer catchup JMI
