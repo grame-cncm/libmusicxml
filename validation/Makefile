@@ -15,11 +15,12 @@ lilysvg  := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
 
 validxml 	    = $(patsubst %.xml, %.outxml, $(readout))
 validgmn 	    = $(patsubst %.gmn, %.outgmn, $(gmnout))
+validlily 	    = $(patsubst %.ly, %.outly, $(lilyout))
 validguidosvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 validlilysvg 	= $(patsubst %.svg, %.outsvg, $(guidosvg))
 
 XML2GUIDO ?= xml2guido
-XML2LILY  ?= ../cmake/macos/Release/xml2lilypond
+XML2LILY  ?= ../build/macosx/xcode/Release/xml2lilypond
 
 .PHONY: read guido
 
@@ -91,6 +92,8 @@ validxml: $(validxml)
 
 validgmn: $(validgmn)
 
+validlily: $(validlily)
+
 
 #########################################################################
 # rules for xmlread
@@ -130,6 +133,11 @@ $(version)/lilysvg/%.svg: $(version)/gmn/%.gmn
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
 %.outgmn: %.gmn
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
+	@[ -f  $(tmp) ] || echo $< : new file
+	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
+
+%.outly: %.ly
 	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
