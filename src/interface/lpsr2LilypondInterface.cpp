@@ -68,10 +68,11 @@ void generateLilypondCodeFromLpsrScore (
   // build the LPSR score    
   translator.generateLilypondCodeFromLpsrScore ();
   
-  if (gGeneralOptions->fTraceGeneral)
+  if (gGeneralOptions->fTraceGeneral) {
     logIOstream <<
       separator <<
       endl;
+  }
 
   clock_t endClock = clock();
 

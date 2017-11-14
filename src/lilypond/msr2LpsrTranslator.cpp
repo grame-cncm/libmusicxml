@@ -392,13 +392,14 @@ void msr2LpsrTranslator::visitStart (S_msrPartGroup& elt)
 
   // push it onto this visitors's stack,
   // making it the current partGroup block
-  if (gGeneralOptions->fTracePartGroups)
+  if (gGeneralOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Pushing part group clone " <<
       partGroupClone->getPartGroupCombinedName () <<
       " onto stack" <<
       endl;
-
+  }
+  
   fPartGroupsStack.push (
     partGroupClone);
   
@@ -445,12 +446,13 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     // add the current partgroup clone to the MSR score clone
     // if it is the top-level one, i.e it's alone in the stack
     
-    if (gGeneralOptions->fTracePartGroups)
+    if (gGeneralOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Adding part group clone " <<
         currentPartGroup->getPartGroupCombinedName () <<
         " to MSR score" <<
         endl;
+    }
 
     fCurrentMsrScoreClone->
       addPartGroupToScore (currentPartGroup);
@@ -461,12 +463,13 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
   else {
 
     // pop current partGroup from this visitors's stack
-    if (gGeneralOptions->fTracePartGroups)
+    if (gGeneralOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Popping part group clone " <<
         fPartGroupsStack.top ()->getPartGroupCombinedName () <<
         " from stack" <<
         endl;
+    }
 
     fPartGroupsStack.pop ();
 
@@ -490,7 +493,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     // add the current partgroup clone to the LPSR score's parallel music
     // if it is the top-level one, i.e it's alone in the stack
     
-    if (gGeneralOptions->fTracePartGroups)
+    if (gGeneralOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Adding part group block clone for part group " <<
         currentPartGroupBlock->
@@ -498,6 +501,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
             getPartGroupCombinedName () <<
         " to LPSR score" <<
         endl;
+    }
 
     // append the current partgroup block to the score block
     // if it is the top-level one, i.e it's alone in the stack
@@ -513,7 +517,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
 
   else {
     // pop current partGroup block from this visitors's stack
-    if (gGeneralOptions->fTracePartGroups)
+    if (gGeneralOptions->fTracePartGroups) {
       fLogOutputStream <<
         "Popping part group block clone for part group " <<
         currentPartGroupBlock->
@@ -521,6 +525,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
             getPartGroupCombinedName () <<
         " from stack" <<
         endl;
+    }
 
     fPartGroupBlocksStack.pop ();
 
@@ -562,7 +567,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fPartGroupsStack.top ());
 
   // add it to the partGroup clone
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
       "Adding part clone " <<
       fCurrentPartClone->getPartCombinedName () <<
@@ -570,6 +575,7 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fPartGroupsStack.top ()->getPartGroupCombinedName () <<
       "\"" <<
       endl;
+  }
 
   fPartGroupsStack.top ()->
     appendPartToPartGroup (fCurrentPartClone);
@@ -580,12 +586,13 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
       fCurrentPartClone);
 
   // append it to the current partGroup block
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
       "Appending part block " <<
       fPartGroupsStack.top ()->getPartGroupCombinedName () <<
       " to stack" <<
       endl;
+  }
 
   fPartGroupBlocksStack.top ()->
     appendElementToPartGroupBlock (fCurrentPartBlock);
@@ -1091,11 +1098,12 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             elt->fetchVoicePartUplink ()->
               getPartCombinedName ();
                           
-          if (gGeneralOptions->fTraceHarmonies)
+          if (gGeneralOptions->fTraceHarmonies) {
             fLogOutputStream <<
               "Creating a ChordNames context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
               endl;
+          }
   
           S_lpsrContext
             chordNamesContext =
@@ -1106,11 +1114,12 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 voiceName);
   
           // append it to the current part block
-          if (gGeneralOptions->fTraceHarmonies)
+          if (gGeneralOptions->fTraceHarmonies) {
             fLogOutputStream <<
               "Appending the ChordNames context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
               endl;
+          }
   
           fCurrentPartBlock->
             appendElementToPartBlock (
@@ -1165,11 +1174,12 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             elt->fetchVoicePartUplink ()->
               getPartCombinedName ();
                           
-          if (gGeneralOptions->fTraceHarmonies)
+          if (gGeneralOptions->fTraceHarmonies) {
             fLogOutputStream <<
               "Creating a FiguredBass context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
               endl;
+          }
   
           S_lpsrContext
             figuredBassContext =
@@ -1180,11 +1190,12 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 voiceName);
   
           // append it to the current part block
-          if (gGeneralOptions->fTraceHarmonies)
+          if (gGeneralOptions->fTraceHarmonies) {
             fLogOutputStream <<
               "Appending the FiguredBass context for \"" << voiceName <<
               "\" in part " << partCombinedName <<
               endl;
+          }
   
           fCurrentPartBlock->
             appendElementToPartBlock (
@@ -1779,12 +1790,13 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     
   if (eltNoteUplink) {
     // set syllable clone's note uplink to the clone of elt's note uplink
-    if (gGeneralOptions->fTraceLyrics)
+    if (gGeneralOptions->fTraceLyrics) {
       fLogOutputStream <<
         "Setting syllable note uplink " <<
         fCurrentSyllableClone->syllableAsString () <<
         " to " << eltNoteUplink->noteAsShortString () <<
         endl;
+    }
 
     fCurrentSyllableClone->
       setSyllableNoteUplink (
@@ -2530,13 +2542,14 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
       // fPendingAfterGraceNotes already contains
       // the afterGraceNotes to use
       
-      if (gGeneralOptions->fTraceGraceNotes)
+      if (gGeneralOptions->fTraceGraceNotes) {
         fLogOutputStream <<
           "Optimising grace notes " << 
           elt->graceNotesAsShortString () <<
           "into after grace notes" <<
           endl;
-
+      }
+      
       // append the after grace notes to the current voice clone
       fCurrentVoiceClone->
         appendAfterGraceNotesToVoice (
@@ -2567,12 +2580,13 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
     // skip grance notes in the other voices of the part
 
     // create skip graceNotes clone
-    if (gGeneralOptions->fTraceGraceNotes)
+    if (gGeneralOptions->fTraceGraceNotes) {
       fLogOutputStream <<
         "Creating a skip clone of grace notes " <<
         elt->graceNotesAsShortString () <<
         " to work around LilyPond issue 34" <<
         endl;
+    }
   
     S_msrGraceNotes
       skipGraceNotes =
@@ -2628,7 +2642,7 @@ void msr2LpsrTranslator::prependSkipGraceNotesToPartOtherVoices (
   S_msrVoice      voiceClone,
   S_msrGraceNotes skipGraceNotes)
 {
-    if (gGeneralOptions->fTraceGraceNotes)
+    if (gGeneralOptions->fTraceGraceNotes) {
       fLogOutputStream <<
         "--> prepending a skip graceNotes clone " <<
         skipGraceNotes->graceNotesAsShortString () <<
@@ -2637,6 +2651,7 @@ void msr2LpsrTranslator::prependSkipGraceNotesToPartOtherVoices (
         " in part " <<
         partClone->getPartCombinedName () <<
         endl;
+    }
   
   map<int, S_msrStaff>
     partStavesMap =
@@ -3204,13 +3219,14 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
       elt->createTupletNewbornClone ();
 
   // register it in this visitor
-  if (gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tupletClone->tupletAsString () <<
       "' to tuplets stack" <<
       endl;
-      
+  }
+  
   fTupletClonesStack.push (tupletClone);
 }
 
@@ -3223,19 +3239,19 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
       endl;
   }
 
-  if (gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet '" <<
       elt->tupletAsString () <<
       "' from tuplets stack" <<
       endl;
+  }
       
-    fTupletClonesStack.pop ();
+  fTupletClonesStack.pop ();
 
   if (fTupletClonesStack.size ()) {
-    
     // tuplet is a nested tuplet
-    if (gGeneralOptions->fTraceTuplets)
+    if (gGeneralOptions->fTraceTuplets) {
       fLogOutputStream <<
         "Adding nested tuplet '" <<
       elt->tupletAsString () <<
@@ -3243,6 +3259,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
       fTupletClonesStack.top ()->tupletAsString () <<
       "'" <<
       endl;
+    }
     
     fTupletClonesStack.top ()->
       addTupletToTupletClone (elt);
@@ -3251,13 +3268,14 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
   else {
     // tuplet is a top level tuplet
     
-    if (gGeneralOptions->fTraceTuplets)
+    if (gGeneralOptions->fTraceTuplets) {
       fLogOutputStream <<
         "Adding top level tuplet '" <<
       elt->tupletAsString () <<
       "' to voice" <<
       fCurrentVoiceClone->getVoiceName () <<
       endl;
+    }
       
     fCurrentVoiceClone->
       appendTupletToVoice (elt);
@@ -3275,9 +3293,10 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
   }
 
   // we don't need the kTieStop or kContinue for LilyPond
-  if (elt->getTieKind () == msrTie::kStartTie)
+  if (elt->getTieKind () == msrTie::kStartTie) {
     fCurrentNoteClone->
       setNoteTie (elt);
+  }
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTie& elt)
@@ -3452,7 +3471,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 
 /* JMI
   // create a repeat clone
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Creating a repeat newborn clone" <<
       ", line " << elt->getInputLineNumber () <<
@@ -3462,6 +3481,7 @@ void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
           getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   fCurrentRepeatClone =
     elt->
@@ -3486,11 +3506,12 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
 
 /* JMI
   // append the repeat clone to the current part clone
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat to part clone " <<
       fCurrentPartClone->getPartCombinedName () << "\"" <<
       endl;
+  }
 
   fCurrentPartClone-> // no test needed JMI
     appendRepeatCloneToPart (
@@ -3550,17 +3571,18 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 */
 
   // create a repeat common part clone and append it to voice clone
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat clone to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
+  }
 
  // JMI fCurrentRepeatClone =
-    fCurrentVoiceClone->
-      createRepeatAndAppendItToVoice (
-        elt->getInputLineNumber ());
+  fCurrentVoiceClone->
+    createRepeatAndAppendItToVoice (
+      elt->getInputLineNumber ());
 }
 
 //________________________________________________________________________
@@ -3582,18 +3604,19 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
   }
 
   // create a repeat ending clone and append it to voice clone
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat ending clone to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
+  }
 
-    fCurrentVoiceClone->
-      appendRepeatEndingToVoice (
-        elt->getInputLineNumber (),
-        elt->getRepeatEndingNumber (),
-        elt->getRepeatEndingKind ());
+  fCurrentVoiceClone->
+    appendRepeatEndingToVoice (
+      elt->getInputLineNumber (),
+      elt->getRepeatEndingNumber (),
+      elt->getRepeatEndingKind ());
 }
 
 //________________________________________________________________________
@@ -3629,12 +3652,13 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 //         fCurrentSegmentClonesStack.top (),
 
   // set last segment as the measure repeat pattern segment
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measure repeat pattern segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
+  }
 
 /* JMI
  *
@@ -3646,12 +3670,13 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
         fCurrentVoiceClone);
         
   // set last segment as the multiple rest contents segment
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Setting current last segment as multiple rest contents segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   multipleRestContents->
     setMultipleRestContentsSegment (
@@ -3672,12 +3697,13 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
         getVoiceLastSegment ());
 
   // set last segment as the measure repeat replicas segment
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Setting current last segment as measure repeat replicas segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   measureRepeatClone->
     setMeasureRepeatReplicasSegment (
@@ -3686,11 +3712,12 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 
   // create a new last segment to collect the remainder of the voice,
   // containing the next, yet incomplete, measure
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
     fLogOutputStream <<
       "Creating a new last segment with the measure repeat next measure for voice \"" <<
       fCurrentVoiceClone->getVoiceName () << "\"" <<
       endl;
+  }
 
   // append the measure repeat to the new last segment
   fCurrentVoiceClone->
@@ -3793,11 +3820,12 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
     
   // create a new last segment to collect the remainder of the voice,
   // containing the next, yet incomplete, measure
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
     fLogOutputStream <<
       "Creating a new last segment for the remainder of voice \"" <<
       fCurrentVoiceClone->getVoiceName () << "\"" <<
       endl;
+  }
 
   fCurrentVoiceClone->
     createNewLastSegmentForVoice (
@@ -3825,11 +3853,12 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
   gIndenter++;
 
   // create a new last segment to collect the multiple rest contents
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
     fLogOutputStream <<
       "Creating a new last segment for a multiple rest contents for voice \"" <<
       fCurrentVoiceClone->getVoiceName () << "\"" <<
       endl;
+  }
       
   fCurrentVoiceClone->
     createNewLastSegmentForVoice (
@@ -3852,12 +3881,13 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
       fCurrentVoiceClone);
 
   // set last segment as the multiple rest contents segment
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Setting current last segment as multiple rest contents segment in voice \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
+  }
 
   fCurrentMultipleRestContentsClone->
     setMultipleRestContentsSegment (
@@ -3895,11 +3925,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     
     case msrBarline::kStandaloneBarline:
       {
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Handling kStandaloneBarline in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
 
         // append the barline to the current voice clone
         fCurrentVoiceClone->
@@ -3909,11 +3940,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       
     case msrBarline::kRepeatStartBarline:
       {
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Handling kRepeatStart in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
     
         // append the barline to the current voice clone
         fCurrentVoiceClone->
@@ -3923,22 +3955,24 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 
     case msrBarline::kRepeatEndBarline:
       {
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Handling kRepeatEnd in voice " <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
   
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
 /*
         // append the repeat clone to the current part clone
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Appending a repeat to part clone " <<
             fCurrentPartClone->getPartCombinedName () << "\"" <<
             endl;
+        }
   
         fCurrentPartClone-> // no test needed JMI
           createRepeatAndAppendItToPart (
@@ -3950,19 +3984,21 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
     case msrBarline::kHookedEndingStartBarline:
       {
         /* JMI
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Handling kHookedEndingStart in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
 
         if (! fRepeatHasBeenCreatedForCurrentPartClone) {
           // append a repeat clone to the current part clone
-          if (gGeneralOptions->fTraceRepeats)
+          if (gGeneralOptions->fTraceRepeats) {
             fLogOutputStream <<
               "Appending a repeat to part clone " <<
               fCurrentPartClone->getPartCombinedName () << "\"" <<
               endl;
+        }
     
           fCurrentPartClone-> // no null test needed JMI
             createRepeatAndAppendItToPart (
@@ -3980,21 +4016,23 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       
     case msrBarline::kHookedEndingEndBarline:
       {
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Handling kHookedEndingEnd in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
   
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
     
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Appending a hooked repeat ending clone to voice clone \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
 
         fCurrentPartClone->
           appendRepeatEndingToPart (
@@ -4006,11 +4044,12 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       
     case msrBarline::kHooklessEndingStartBarline:
       {
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Handling kHooklessEndingStart in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
   
         // append the barline to the current voice clone
         fCurrentVoiceClone->
@@ -4020,21 +4059,23 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 
     case msrBarline::kHooklessEndingEndBarline:
       {
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Handling kHooklessEndingEnd in voice \"" <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
   
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
 
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Appending a hookless repeat ending clone to voice clone \" " <<
             fCurrentVoiceClone->getVoiceName () << "\"" <<
             endl;
+        }
 
         fCurrentPartClone->
           appendRepeatEndingToPart (

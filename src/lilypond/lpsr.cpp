@@ -48,40 +48,46 @@ lpsrElement::lpsrElement (
 lpsrElement::~lpsrElement()
 {}
 
-void lpsrElement::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrElement::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrElement::acceptIn()" <<
       endl;
-      
+  }
+  
   if (visitor<S_lpsrElement>*
     p =
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrElement::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrElement::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrElement::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrElement::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrElement>*
     p =
       dynamic_cast<visitor<S_lpsrElement>*> (v)) {
         S_lpsrElement elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrElement::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -113,50 +119,57 @@ lpsrParallelMusic::lpsrParallelMusic (
 lpsrParallelMusic::~lpsrParallelMusic()
 {}
 
-void lpsrParallelMusic::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrParallelMusic::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrParallelMusic::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrParallelMusic>*
     p =
       dynamic_cast<visitor<S_lpsrParallelMusic>*> (v)) {
         S_lpsrParallelMusic elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrParallelMusic::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrParallelMusic::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrParallelMusic::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrParallelMusic::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrParallelMusic>*
     p =
       dynamic_cast<visitor<S_lpsrParallelMusic>*> (v)) {
         S_lpsrParallelMusic elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrParallelMusic::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void lpsrParallelMusic::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrParallelMusic::browseData()" <<
       endl;
+  }
   
   for (
     vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin ();
@@ -167,10 +180,11 @@ void lpsrParallelMusic::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrParallelMusic::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lpsrParallelMusic& elt)
@@ -232,40 +246,46 @@ lpsrComment::lpsrComment (
 lpsrComment::~lpsrComment()
 {}
 
-void lpsrComment::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrComment::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrComment::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrComment>*
     p =
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrComment::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrComment::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrComment::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrComment::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrComment>*
     p =
       dynamic_cast<visitor<S_lpsrComment>*> (v)) {
         S_lpsrComment elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrComment::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -321,40 +341,46 @@ lpsrBarNumberCheck::lpsrBarNumberCheck (
 lpsrBarNumberCheck::~lpsrBarNumberCheck()
 {}
 
-void lpsrBarNumberCheck::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrBarNumberCheck::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrBarNumberCheck::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_lpsrBarNumberCheck>*> (v)) {
         S_lpsrBarNumberCheck elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrBarNumberCheck::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrBarNumberCheck::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrBarNumberCheck::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_lpsrBarNumberCheck>*> (v)) {
         S_lpsrBarNumberCheck elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrBarNumberCheck::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -399,40 +425,46 @@ lpsrUseVoiceCommand::lpsrUseVoiceCommand (
 lpsrUseVoiceCommand::~lpsrUseVoiceCommand()
 {}
 
-void lpsrUseVoiceCommand::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrUseVoiceCommand::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrUseVoiceCommand::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrUseVoiceCommand>*
     p =
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrUseVoiceCommand::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrUseVoiceCommand::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrUseVoiceCommand::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrUseVoiceCommand>*
     p =
       dynamic_cast<visitor<S_lpsrUseVoiceCommand>*> (v)) {
         S_lpsrUseVoiceCommand elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrUseVoiceCommand::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -484,40 +516,46 @@ lpsrNewLyricsBlock::lpsrNewLyricsBlock (
 lpsrNewLyricsBlock::~lpsrNewLyricsBlock()
 {}
 
-void lpsrNewLyricsBlock::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrNewLyricsBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewLyricsBlock::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrNewLyricsBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrNewLyricsBlock::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrNewLyricsBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewLyricsBlock::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrNewLyricsBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewLyricsBlock>*> (v)) {
         S_lpsrNewLyricsBlock elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewLyricsBlock::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -599,40 +637,46 @@ lpsrLilypondVarValAssoc::~lpsrLilypondVarValAssoc()
 string const lpsrLilypondVarValAssoc::g_VarValAssocNoUnit    = "";
 string const lpsrLilypondVarValAssoc::g_VarValAssocNoComment = "";
 
-void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrLilypondVarValAssoc::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrLilypondVarValAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrLilypondVarValAssoc>*> (v)) {
         S_lpsrLilypondVarValAssoc elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrLilypondVarValAssoc::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrLilypondVarValAssoc::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrLilypondVarValAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrLilypondVarValAssoc>*> (v)) {
         S_lpsrLilypondVarValAssoc elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrLilypondVarValAssoc::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -794,40 +838,46 @@ lpsrSchemeVarValAssoc::~lpsrSchemeVarValAssoc()
 string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoUnit    = "";
 string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment = "";
 
-void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrSchemeVarValAssoc::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrSchemeVarValAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeVarValAssoc>*> (v)) {
         S_lpsrSchemeVarValAssoc elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeVarValAssoc::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrSchemeVarValAssoc::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrSchemeVarValAssoc>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeVarValAssoc>*> (v)) {
         S_lpsrSchemeVarValAssoc elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeVarValAssoc::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -936,40 +986,46 @@ lpsrSchemeFunction::lpsrSchemeFunction (
 lpsrSchemeFunction::~lpsrSchemeFunction()
 {}
 
-void lpsrSchemeFunction::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrSchemeFunction::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrSchemeFunction::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrSchemeFunction>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeFunction::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrSchemeFunction::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrSchemeFunction::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrSchemeFunction::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrSchemeFunction>*
     p =
       dynamic_cast<visitor<S_lpsrSchemeFunction>*> (v)) {
         S_lpsrSchemeFunction elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrSchemeFunction::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1022,40 +1078,46 @@ lpsrNewStaffgroupBlock::lpsrNewStaffgroupBlock (
 lpsrNewStaffgroupBlock::~lpsrNewStaffgroupBlock()
 {}
 
-void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrNewStaffgroupBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrNewStaffgroupBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffgroupBlock::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrNewStaffgroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffgroupBlock>*> (v)) {
         S_lpsrNewStaffgroupBlock elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffgroupBlock::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1107,40 +1169,46 @@ lpsrNewStaffTuningBlock::lpsrNewStaffTuningBlock (
 lpsrNewStaffTuningBlock::~lpsrNewStaffTuningBlock()
 {}
 
-void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrNewStaffTuningBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
         S_lpsrNewStaffTuningBlock elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrNewStaffTuningBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffTuningBlock::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrNewStaffTuningBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffTuningBlock>*> (v)) {
         S_lpsrNewStaffTuningBlock elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffTuningBlock::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1185,40 +1253,46 @@ lpsrNewStaffBlock::lpsrNewStaffBlock (
 lpsrNewStaffBlock::~lpsrNewStaffBlock()
 {}
 
-void lpsrNewStaffBlock::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrNewStaffBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffBlock::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrNewStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrNewStaffBlock::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrNewStaffBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrNewStaffBlock::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrNewStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrNewStaffBlock>*> (v)) {
         S_lpsrNewStaffBlock elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrNewStaffBlock::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1270,40 +1344,46 @@ lpsrVariableUseCommand::lpsrVariableUseCommand (
 lpsrVariableUseCommand::~lpsrVariableUseCommand()
 {}
 
-void lpsrVariableUseCommand::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrVariableUseCommand::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrVariableUseCommand::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrVariableUseCommand>*
     p =
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrVariableUseCommand::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrVariableUseCommand::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrVariableUseCommand::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrVariableUseCommand>*
     p =
       dynamic_cast<visitor<S_lpsrVariableUseCommand>*> (v)) {
         S_lpsrVariableUseCommand elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrVariableUseCommand::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1361,40 +1441,46 @@ lpsrContext::lpsrContext (
 lpsrContext::~lpsrContext()
 {}
 
-void lpsrContext::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrContext::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrContext::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrContext>*
     p =
       dynamic_cast<visitor<S_lpsrContext>*> (v)) {
         S_lpsrContext elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrContext::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrContext::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrContext::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrContext::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrContext>*
     p =
       dynamic_cast<visitor<S_lpsrContext>*> (v)) {
         S_lpsrContext elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrContext::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1483,40 +1569,46 @@ lpsrBarCommand::lpsrBarCommand (
 lpsrBarCommand::~lpsrBarCommand()
 {}
 
-void lpsrBarCommand::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrBarCommand::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrBarCommand::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrBarCommand>*
     p =
       dynamic_cast<visitor<S_lpsrBarCommand>*> (v)) {
         S_lpsrBarCommand elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrBarCommand::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrBarCommand::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrBarCommand::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrBarCommand::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrBarCommand>*
     p =
       dynamic_cast<visitor<S_lpsrBarCommand>*> (v)) {
         S_lpsrBarCommand elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrBarCommand::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1554,11 +1646,12 @@ lpsrMelismaCommand::lpsrMelismaCommand (
   lpsrMelismaKind melismaKind)
     : lpsrElement (inputLineNumber)
 {
-  if (gGeneralOptions->fTraceLyrics)
+  if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
       "--> creating lpsrMelismaCommand " <<
       melismaKindAsString (melismaKind) <<
       endl;
+  }
   
   fMelismaKind = melismaKind;
 }
@@ -1566,40 +1659,46 @@ lpsrMelismaCommand::lpsrMelismaCommand (
 lpsrMelismaCommand::~lpsrMelismaCommand()
 {}
 
-void lpsrMelismaCommand::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrMelismaCommand::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrMelismaCommand::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrMelismaCommand>*
     p =
       dynamic_cast<visitor<S_lpsrMelismaCommand>*> (v)) {
         S_lpsrMelismaCommand elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrMelismaCommand::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrMelismaCommand::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrMelismaCommand::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrMelismaCommand::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrMelismaCommand>*
     p =
       dynamic_cast<visitor<S_lpsrMelismaCommand>*> (v)) {
         S_lpsrMelismaCommand elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrMelismaCommand::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1998,40 +2097,46 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
   return result;
 }
 
-void lpsrHeader::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrHeader::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrHeader::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrHeader>*
     p =
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrHeader::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrHeader::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrHeader::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrHeader::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrHeader>*
     p =
       dynamic_cast<visitor<S_lpsrHeader>*> (v)) {
         S_lpsrHeader elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrHeader::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -2257,40 +2362,46 @@ lpsrPaper::lpsrPaper (
 lpsrPaper::~lpsrPaper()
 {}
 
-void lpsrPaper::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrPaper::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPaper::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrPaper>*
     p =
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPaper::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrPaper::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrPaper::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPaper::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrPaper>*
     p =
       dynamic_cast<visitor<S_lpsrPaper>*> (v)) {
         S_lpsrPaper elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPaper::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -2470,40 +2581,46 @@ lpsrLayout::lpsrLayout (
 lpsrLayout::~lpsrLayout()
 {}
 
-void lpsrLayout::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrLayout::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrLayout::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrLayout>*
     p =
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrLayout::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrLayout::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrLayout::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrLayout::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrLayout>*
     p =
       dynamic_cast<visitor<S_lpsrLayout>*> (v)) {
         S_lpsrLayout elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrLayout::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -2615,50 +2732,57 @@ void lpsrStaffBlock::appendLyricsUseToStaffBlock (S_msrStanza stanza)
   fStaffBlockElements.push_back (newLyricsCommand);
 }
 
-void lpsrStaffBlock::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrStaffBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrStaffBlock::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrStaffBlock::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrStaffBlock::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrStaffBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrStaffBlock::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrStaffBlock>*
     p =
       dynamic_cast<visitor<S_lpsrStaffBlock>*> (v)) {
         S_lpsrStaffBlock elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrStaffBlock::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void lpsrStaffBlock::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrStaffBlock::browseData()" <<
       endl;
+  }
 
   for (
     list<S_msrElement>::const_iterator i = fStaffBlockElements.begin ();
@@ -2669,10 +2793,11 @@ void lpsrStaffBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrStaffBlock::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lpsrStaffBlock& scr)
@@ -2755,50 +2880,57 @@ lpsrPartBlock::lpsrPartBlock (
 lpsrPartBlock::~lpsrPartBlock()
 {}
 
-void lpsrPartBlock::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrPartBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartBlock::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrPartBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartBlock::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrPartBlock::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrPartBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartBlock::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrPartBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartBlock>*> (v)) {
         S_lpsrPartBlock elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartBlock::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void lpsrPartBlock::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartBlock::browseData()" <<
       endl;
+  }
 
   for (
     list<S_msrElement>::const_iterator i = fPartBlockElements.begin ();
@@ -2809,10 +2941,11 @@ void lpsrPartBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrPartBlock::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lpsrPartBlock& scr)
@@ -2889,50 +3022,57 @@ lpsrPartGroupBlock::lpsrPartGroupBlock (
 lpsrPartGroupBlock::~lpsrPartGroupBlock()
 {}
 
-void lpsrPartGroupBlock::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrPartGroupBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartGroupBlock::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrPartGroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
         S_lpsrPartGroupBlock elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrPartGroupBlock::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrPartGroupBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartGroupBlock::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrPartGroupBlock>*
     p =
       dynamic_cast<visitor<S_lpsrPartGroupBlock>*> (v)) {
         S_lpsrPartGroupBlock elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrPartGroupBlock::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void lpsrPartGroupBlock::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrPartGroupBlock::browseData()" <<
       endl;
+  }
 
   for (
     list<S_msrElement>::const_iterator i = fPartGroupBlockElements.begin ();
@@ -2943,10 +3083,11 @@ void lpsrPartGroupBlock::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrPartGroupBlock::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& scr)
@@ -3027,12 +3168,13 @@ lpsrScoreBlock::~lpsrScoreBlock()
 void lpsrScoreBlock::appendPartGroupBlockToParallelMusic (
   S_lpsrPartGroupBlock partGroupBlock)
 {
-  if (gGeneralOptions->fTracePartGroups)
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName() <<
        " to LPSR score" <<
        endl;
+  }
 
   fScoreBlockParallelMusic->
     addElementToParallelMusic (partGroupBlock);
@@ -3043,12 +3185,13 @@ void lpsrScoreBlock::appendPartGroupBlockToParallelMusic (
 void lpsrScoreBlock::appendVoiceUseToParallelMusic (
   S_lpsrUseVoiceCommand voiceUse)
 {
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName() <<
        "\" to LPSR score" <<
        endl;
+  }
 
   fScoreBlockParallelMusic->
     addElementToParallelMusic (voiceUse);
@@ -3059,61 +3202,69 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusic (
 void lpsrScoreBlock::appendLyricsUseToParallelMusic (
   S_lpsrNewLyricsBlock lyricsUse)
 {
-  if (gGeneralOptions->fTraceLyrics)
+  if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName() <<
        " to LPSR score" <<
        endl;
+  }
 
   fScoreBlockParallelMusic->
     addElementToParallelMusic (lyricsUse);
 }
 
-void lpsrScoreBlock::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrScoreBlock::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScoreBlock::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrScoreBlock>*
     p =
       dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
         S_lpsrScoreBlock elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrScoreBlock::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrScoreBlock::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrScoreBlock::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScoreBlock::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrScoreBlock>*
     p =
       dynamic_cast<visitor<S_lpsrScoreBlock>*> (v)) {
         S_lpsrScoreBlock elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrScoreBlock::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void lpsrScoreBlock::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScoreBlock::browseData()" <<
       endl;
+  }
 
   {
     // browse the score command parallel music
@@ -3143,10 +3294,11 @@ void lpsrScoreBlock::browseData (basevisitor* v)
     browser.browse (*fScoreBlockMidi);
   }
 
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrScoreBlock::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lpsrScoreBlock& scr)
@@ -3834,50 +3986,57 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
     appendLyricsUseToParallelMusic (newLyricsCommand);
 }
 
-void lpsrScore::acceptIn (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrScore::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScore::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_lpsrScore>*
     p =
       dynamic_cast<visitor<S_lpsrScore>*> (v)) {
         S_lpsrScore elem = this;
         
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrScore::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void lpsrScore::acceptOut (basevisitor* v) {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+void lpsrScore::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScore::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_lpsrScore>*
     p =
       dynamic_cast<visitor<S_lpsrScore>*> (v)) {
         S_lpsrScore elem = this;
       
-        if (gLpsrOptions->fTraceLpsrVisitors)
+        if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
             "% ==> Launching lpsrScore::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void lpsrScore::browseData (basevisitor* v)
 {
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% ==> lpsrScore::browseData()" <<
       endl;
+  }
 
   {
     // browse the score LilyPond version
@@ -3992,10 +4151,11 @@ void lpsrScore::browseData (basevisitor* v)
     browser.browse (*fScoreBlock);
   }
 
-  if (gLpsrOptions->fTraceLpsrVisitors)
+  if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
       "% <== lpsrScore::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lpsrScore& scr)

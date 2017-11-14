@@ -1653,13 +1653,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_partwise& elt)
       endl;
   }
 
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
       "Analysing the score partwise" <<
       endl;
+  }
 
   fScoreNumberOfMeasures = 0;
 }
+
 /*
   <part-list>
     <part-group number="1" type="start">
@@ -1732,11 +1734,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_list& elt)
     <score-part id="P2">
 */
 
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
       "Analysing part list" <<
       endl;
-
+  }
+  
   gIndenter++;
 }
 
@@ -2241,12 +2244,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
 
   fCurrentPartID = elt->getAttributeValue ("id");
 
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     fLogOutputStream <<
       "Found part name \"" << fCurrentPartID << "\"" <<
       " in part list" <<
       ", line " << inputLineNumber <<
       endl;
+  }
 
   fCurrentPartName = "";
   fCurrentPartNameDisplayText = "";
@@ -2398,7 +2402,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
    fLogOutputStream <<
     "--------------------------------------------" <<
     endl <<
@@ -2406,17 +2410,19 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     ", fCurrentPartsPosition = " << fCurrentPartsPosition <<
     ", line " << inputLineNumber <<
     endl;
+  }
 
   gIndenter++;
 
   // create the part
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
    fLogOutputStream <<
     "--------------------------------------------" <<
     endl <<
     "Creating part \"" << fCurrentPartID << "\"" <<
     ", line " << inputLineNumber <<
     endl;
+  }
 
   S_msrPart
     part =
@@ -2908,12 +2914,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
   }
   
   else {
-    if (gGeneralOptions->fTraceLyrics)
+    if (gGeneralOptions->fTraceLyrics) {
       fLogOutputStream <<
         "--> setting fCurrentStanzaNumber to " <<
         stanzaNumber <<
         ", line " << elt->getInputLineNumber () <<
         endl;
+    }
         
     // register it as current stanza number, JMI
     // that remains set another positive value is met,

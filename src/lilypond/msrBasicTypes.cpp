@@ -3962,17 +3962,18 @@ string msrChordItem::chordItemAsString () const
 
 /* JMI
 void msrChordItem::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrChordItem::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrChordItem>*
     p =
       dynamic_cast<visitor<S_msrChordItem>*> (v)) {
         S_msrChordItem elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordItem::visitStart()" <<
              endl;
@@ -3981,17 +3982,18 @@ void msrChordItem::acceptIn (basevisitor* v) {
 }
 
 void msrChordItem::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrChordItem::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrChordItem>*
     p =
       dynamic_cast<visitor<S_msrChordItem>*> (v)) {
         S_msrChordItem elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordItem::visitEnd()" <<
             endl;
@@ -5109,17 +5111,18 @@ string msrChordIntervals::chordIntervalsAsString () const
 
 /* JMI
 void msrChordIntervals::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrChordIntervals::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrChordIntervals>*
     p =
       dynamic_cast<visitor<S_msrChordIntervals>*> (v)) {
         S_msrChordIntervals elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordIntervals::visitStart()" <<
              endl;
@@ -5128,17 +5131,18 @@ void msrChordIntervals::acceptIn (basevisitor* v) {
 }
 
 void msrChordIntervals::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrChordIntervals::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrChordIntervals>*
     p =
       dynamic_cast<visitor<S_msrChordIntervals>*> (v)) {
         S_msrChordIntervals elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChordIntervals::visitEnd()" <<
             endl;

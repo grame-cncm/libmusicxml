@@ -37,40 +37,46 @@ msrElement::msrElement (
 msrElement::~msrElement()
 {}
 
-void msrElement::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrElement::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrElement::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrElement>*
     p =
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrElement::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrElement::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrElement::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrElement::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrElement>*
     p =
       dynamic_cast<visitor<S_msrElement>*> (v)) {
         S_msrElement elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrElement::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -143,40 +149,46 @@ msrOctaveShift::msrOctaveShift (
 msrOctaveShift::~msrOctaveShift()
 {}
 
-void msrOctaveShift::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrOctaveShift::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrOctaveShift::acceptIn()" <<
       endl;
-      
+  }
+  
   if (visitor<S_msrOctaveShift>*
     p =
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrOctaveShift::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrOctaveShift::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrOctaveShift::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrOctaveShift::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrOctaveShift>*
     p =
       dynamic_cast<visitor<S_msrOctaveShift>*> (v)) {
         S_msrOctaveShift elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrOctaveShift::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -258,40 +270,46 @@ msrAccordionRegistration::msrAccordionRegistration (
 msrAccordionRegistration::~msrAccordionRegistration()
 {}
 
-void msrAccordionRegistration::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrAccordionRegistration::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrAccordionRegistration::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrAccordionRegistration>*
     p =
       dynamic_cast<visitor<S_msrAccordionRegistration>*> (v)) {
         S_msrAccordionRegistration elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrAccordionRegistration::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrAccordionRegistration::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrAccordionRegistration::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrAccordionRegistration::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrAccordionRegistration>*
     p =
       dynamic_cast<visitor<S_msrAccordionRegistration>*> (v)) {
         S_msrAccordionRegistration elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrAccordionRegistration::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -353,40 +371,46 @@ msrStem::msrStem (
 msrStem::~msrStem()
 {}
 
-void msrStem::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStem::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStem::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrStem>*
     p =
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStem::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrStem::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStem::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStem::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrStem>*
     p =
       dynamic_cast<visitor<S_msrStem>*> (v)) {
         S_msrStem elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStem::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -465,40 +489,46 @@ msrBeam::msrBeam (
 msrBeam::~msrBeam()
 {}
 
-void msrBeam::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrBeam::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrBeam::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrBeam>*
     p =
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBeam::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrBeam::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrBeam::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrBeam::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrBeam>*
     p =
       dynamic_cast<visitor<S_msrBeam>*> (v)) {
         S_msrBeam elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBeam::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -669,40 +699,46 @@ string msrArticulation::articulationPlacementKindAsString () const
       fArticulationPlacementKind);
 }
 
-void msrArticulation::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrArticulation::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrArticulation::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrArticulation>*
     p =
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrArticulation::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrArticulation::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrArticulation::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrArticulation::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrArticulation>*
     p =
       dynamic_cast<visitor<S_msrArticulation>*> (v)) {
         S_msrArticulation elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrArticulation::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -768,40 +804,46 @@ string msrArpeggiato::arpeggiatoDirectionKindAsString () const
     msrDirectionKindAsString (fArpeggiatoDirectionKind);
 }
 
-void msrArpeggiato::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrArpeggiato::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrArpeggiato::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrArpeggiato>*
     p =
       dynamic_cast<visitor<S_msrArpeggiato>*> (v)) {
         S_msrArpeggiato elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrArpeggiato::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrArpeggiato::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrArpeggiato::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrArpeggiato::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrArpeggiato>*
     p =
       dynamic_cast<visitor<S_msrArpeggiato>*> (v)) {
         S_msrArpeggiato elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrArpeggiato::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -891,40 +933,46 @@ string msrNonArpeggiato::nonArpeggiatoTypeKindAsString () const
     nonArpeggiatoTypeKindAsString (fNonArpeggiatoTypeKind);
 }
 
-void msrNonArpeggiato::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrNonArpeggiato::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrNonArpeggiato::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrNonArpeggiato>*
     p =
       dynamic_cast<visitor<S_msrNonArpeggiato>*> (v)) {
         S_msrNonArpeggiato elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrNonArpeggiato::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrNonArpeggiato::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrNonArpeggiato::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrNonArpeggiato::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrNonArpeggiato>*
     p =
       dynamic_cast<visitor<S_msrNonArpeggiato>*> (v)) {
         S_msrNonArpeggiato elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrNonArpeggiato::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1065,40 +1113,46 @@ string msrTechnical::technicalAccidentalMarkKindAsString () const
 }
 */
 
-void msrTechnical::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTechnical::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTechnical::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTechnical>*
     p =
       dynamic_cast<visitor<S_msrTechnical>*> (v)) {
         S_msrTechnical elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTechnical::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTechnical::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTechnical::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTechnical::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTechnical>*
     p =
       dynamic_cast<visitor<S_msrTechnical>*> (v)) {
         S_msrTechnical elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTechnical::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1194,40 +1248,46 @@ string msrTechnicalWithInteger::technicalWithIntegerPlacementKindAsString () con
       fTechnicalWithIntegerPlacementKind);
 }
 
-void msrTechnicalWithInteger::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTechnicalWithInteger::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTechnicalWithInteger::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTechnicalWithInteger>*
     p =
       dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
         S_msrTechnicalWithInteger elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTechnicalWithInteger::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTechnicalWithInteger::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTechnicalWithInteger::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTechnicalWithInteger::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTechnicalWithInteger>*
     p =
       dynamic_cast<visitor<S_msrTechnicalWithInteger>*> (v)) {
         S_msrTechnicalWithInteger elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTechnicalWithInteger::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1335,40 +1395,46 @@ string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
       fTechnicalWithStringPlacementKind);
 }
 
-void msrTechnicalWithString::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTechnicalWithString::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTechnicalWithString::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTechnicalWithString>*
     p =
       dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
         S_msrTechnicalWithString elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTechnicalWithString::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTechnicalWithString::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTechnicalWithString::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTechnicalWithString::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTechnicalWithString>*
     p =
       dynamic_cast<visitor<S_msrTechnicalWithString>*> (v)) {
         S_msrTechnicalWithString elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTechnicalWithString::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1438,40 +1504,46 @@ msrFermata::msrFermata (
 msrFermata::~msrFermata()
 {}
 
-void msrFermata::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrFermata::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrFermata::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrFermata>*
     p =
       dynamic_cast<visitor<S_msrFermata>*> (v)) {
         S_msrFermata elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFermata::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrFermata::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrFermata::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrFermata::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrFermata>*
     p =
       dynamic_cast<visitor<S_msrFermata>*> (v)) {
         S_msrFermata elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFermata::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1669,40 +1741,46 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
   return result;
 }
 
-void msrOrnament::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrOrnament::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrOrnament::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrOrnament>*
     p =
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrOrnament::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrOrnament::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrOrnament::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrOrnament::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrOrnament>*
     p =
       dynamic_cast<visitor<S_msrOrnament>*> (v)) {
         S_msrOrnament elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrOrnament::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1801,40 +1879,46 @@ string msrSingleTremolo::singleTremoloPlacementKindAsString () const
       fSingleTremoloPlacementKind);
 }
 
-void msrSingleTremolo::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSingleTremolo::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSingleTremolo::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrSingleTremolo>*
     p =
       dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
         S_msrSingleTremolo elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSingleTremolo::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrSingleTremolo::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSingleTremolo::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSingleTremolo::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrSingleTremolo>*
     p =
       dynamic_cast<visitor<S_msrSingleTremolo>*> (v)) {
         S_msrSingleTremolo elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSingleTremolo::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -1975,10 +2059,11 @@ int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceTremolos)
+  if (gGeneralOptions->fTraceTremolos) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a double tremolo" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -2261,40 +2346,46 @@ string msrDoubleTremolo::doubleTremoloPlacementKindAsString () const
       fDoubleTremoloPlacementKind);
 }
 
-void msrDoubleTremolo::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrDoubleTremolo::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrDoubleTremolo::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrDoubleTremolo>*
     p =
       dynamic_cast<visitor<S_msrDoubleTremolo>*> (v)) {
         S_msrDoubleTremolo elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrDoubleTremolo::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrDoubleTremolo::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrDoubleTremolo::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrDoubleTremolo::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrDoubleTremolo>*
     p =
       dynamic_cast<visitor<S_msrDoubleTremolo>*> (v)) {
         S_msrDoubleTremolo elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrDoubleTremolo::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -2348,7 +2439,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
     ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
     ", " << fDoubleTremoloSoundingWholeNotes << " sound whole notes";
 
-  if (fDoubleTremoloFirstElement) // it may not yet be set
+  if (fDoubleTremoloFirstElement) { // it may not be set yet
     s <<
       ", first element " << " = ";
       
@@ -2387,8 +2478,9 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         break;
     } // switch
+  }
       
-  if (fDoubleTremoloSecondElement) // it may not yet be set
+  if (fDoubleTremoloSecondElement) { // it may not be set yet
     s <<
       ", second element " << " = ";
       
@@ -2427,6 +2519,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         break;
     } // switch
+  }
 
   return s.str ();
 }
@@ -2510,40 +2603,46 @@ msrRehearsal::msrRehearsal (
 msrRehearsal::~msrRehearsal()
 {}
 
-void msrRehearsal::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRehearsal::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRehearsal::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrRehearsal>*
     p =
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRehearsal::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrRehearsal::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRehearsal::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRehearsal::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrRehearsal>*
     p =
       dynamic_cast<visitor<S_msrRehearsal>*> (v)) {
         S_msrRehearsal elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRehearsal::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -2725,40 +2824,46 @@ string msrDynamics::dynamicsPlacementKindAsString () const
       fDynamicsPlacementKind);
 }
 
-void msrDynamics::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrDynamics::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrDynamics::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrDynamics>*
     p =
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrDynamics::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrDynamics::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrDynamics::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrDynamics::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrDynamics>*
     p =
       dynamic_cast<visitor<S_msrDynamics>*> (v)) {
         S_msrDynamics elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrDynamics::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -2807,40 +2912,46 @@ msrOtherDynamics::msrOtherDynamics (
 msrOtherDynamics::~msrOtherDynamics()
 {}
 
-void msrOtherDynamics::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrOtherDynamics::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrOtherDynamics::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrOtherDynamics>*
     p =
       dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
         S_msrOtherDynamics elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrOtherDynamics::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrOtherDynamics::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrOtherDynamics::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrOtherDynamics::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrOtherDynamics>*
     p =
       dynamic_cast<visitor<S_msrOtherDynamics>*> (v)) {
         S_msrOtherDynamics elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrOtherDynamics::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -2918,40 +3029,46 @@ string msrWedge::wedgeKindAsString ()
   return s.str ();
 }
 
-void msrWedge::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrWedge::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrWedge::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrWedge>*
     p =
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrWedge::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrWedge::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrWedge::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrWedge::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrWedge>*
     p =
       dynamic_cast<visitor<S_msrWedge>*> (v)) {
         S_msrWedge elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrWedge::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -3017,40 +3134,46 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
   return s.str ();
 }
 
-void msrTie::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTie::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTie::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTie>*
     p =
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTie::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTie::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTie::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTie::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTie>*
     p =
       dynamic_cast<visitor<S_msrTie>*> (v)) {
         S_msrTie elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTie::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -3097,40 +3220,46 @@ msrSlur::msrSlur (
 msrSlur::~msrSlur()
 {}
 
-void msrSlur::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSlur::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSlur::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrSlur>*
     p =
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSlur::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrSlur::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSlur::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSlur::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrSlur>*
     p =
       dynamic_cast<visitor<S_msrSlur>*> (v)) {
         S_msrSlur elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSlur::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -3245,40 +3374,46 @@ string msrLigature::ligatureKindAsString ()
   return ligatureKindAsString (fLigatureKind);
 }
 
-void msrLigature::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrLigature::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrLigature::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrLigature>*
     p =
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrLigature::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrLigature::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrLigature::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrLigature::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrLigature>*
     p =
       dynamic_cast<visitor<S_msrLigature>*> (v)) {
         S_msrLigature elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrLigature::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -3421,40 +3556,46 @@ void msrGraceNotes::appendNoteToGraceNotes (S_msrNote note)
   fGraceNotesNotesList.push_back (note);
 }
 
-void msrGraceNotes::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrGraceNotes::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrGraceNotes::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrGraceNotes>*
     p =
       dynamic_cast<visitor<S_msrGraceNotes>*> (v)) {
         S_msrGraceNotes elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrGraceNotes::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrGraceNotes::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrGraceNotes::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrGraceNotes::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrGraceNotes>*
     p =
       dynamic_cast<visitor<S_msrGraceNotes>*> (v)) {
         S_msrGraceNotes elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrGraceNotes::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -3595,40 +3736,46 @@ void msrAfterGraceNotesContents::appendNoteToAfterGraceNotesContents (
   fAfterGraceNotesContentsNotesList.push_back (note);
 }
 
-void msrAfterGraceNotesContents::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrAfterGraceNotesContents::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrAfterGraceNotesContents::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrAfterGraceNotesContents>*
     p =
       dynamic_cast<visitor<S_msrAfterGraceNotesContents>*> (v)) {
         S_msrAfterGraceNotesContents elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrAfterGraceNotesContents::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrAfterGraceNotesContents::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrAfterGraceNotesContents::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrAfterGraceNotesContents::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrAfterGraceNotesContents>*
     p =
       dynamic_cast<visitor<S_msrAfterGraceNotesContents>*> (v)) {
         S_msrAfterGraceNotesContents elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrAfterGraceNotesContents::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -3801,40 +3948,46 @@ void msrAfterGraceNotes::appendNoteToAfterGraceNotesContents (
       note);
 }
 
-void msrAfterGraceNotes::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrAfterGraceNotes::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrAfterGraceNotes::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrAfterGraceNotes>*
     p =
       dynamic_cast<visitor<S_msrAfterGraceNotes>*> (v)) {
         S_msrAfterGraceNotes elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrAfterGraceNotes::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrAfterGraceNotes::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrAfterGraceNotes::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrAfterGraceNotes::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrAfterGraceNotes>*
     p =
       dynamic_cast<visitor<S_msrAfterGraceNotes>*> (v)) {
         S_msrAfterGraceNotes elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrAfterGraceNotes::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -5382,13 +5535,14 @@ void msrNote::setNoteStem (S_msrStem stem)
 
 void msrNote::setNoteBelongsToAChord ()
 {
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Setting note '" <<
       noteAsShortStringWithRawWholeNotes () <<
       "' to belong to a chord"
       ", line " << fInputLineNumber <<
       endl;
+  }
 
   fNoteBelongsToAChord = true;
   fNoteKind = msrNote::kChordMemberNote;
@@ -5419,7 +5573,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
       </note>
   */
 
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes) {
     gLogIOstream <<
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
@@ -5428,6 +5582,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
       actualNotes << "/" << normalNotes <<
       "', line " << fInputLineNumber <<
       endl;
+  }
 
   // the display whole notes are known, compute the sounding ones
   fNoteSoundingWholeNotes =
@@ -5439,11 +5594,12 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 
   fNoteSoundingWholeNotes.rationalise ();
 
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes) {
     gLogIOstream <<
       "The result is: '" <<
       noteAsShortString () <<
       endl;
+  }
 }
 
 void msrNote::addBeamToNote (S_msrBeam beam)
@@ -5458,14 +5614,15 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
 
 void msrNote::addTechnicalToNote (S_msrTechnical technical)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical '" <<
       technical->technicalAsString () <<
       "' to note '" << noteAsShortString () <<
       "', line " << fInputLineNumber <<
       endl;
-
+  }
+  
   // append the technical to the note technicals list
   fNoteTechnicals.push_back (technical);
 
@@ -5477,13 +5634,14 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
 void msrNote::addTechnicalWithIntegerToNote (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with integer '" <<
       technicalWithInteger->technicalWithIntegerAsString () <<
       "' to note '" << noteAsShortString () <<
       "', line " << fInputLineNumber <<
       endl;
+  }
 
   // append the technical with integer to the note technicals with integers list
   fNoteTechnicalWithIntegers.push_back (technicalWithInteger);
@@ -5496,13 +5654,14 @@ void msrNote::addTechnicalWithIntegerToNote (
 void msrNote::addTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with string'" <<
       technicalWithString->technicalWithStringAsString () <<
       "' to note '" << noteAsShortString () <<
       "', line " << fInputLineNumber <<
       endl;
+  }
 
   // append the technical with integer to the note technicals with integers list
   fNoteTechnicalWithStrings.push_back (technicalWithString);
@@ -5538,12 +5697,13 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
 
 void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
 {
-  if (gGeneralOptions->fTraceTremolos)
+  if (gGeneralOptions->fTraceTremolos) {
     gLogIOstream <<
       "Adding singleTremolo " << trem->singleTremoloAsString () <<
       " to note " << noteAsShortString () <<
       ", line " << trem->getInputLineNumber () <<
       endl;
+  }
 
   // register the singleTremolo in the note
   fNoteSingleTremolo = trem;
@@ -5569,10 +5729,11 @@ void msrNote::addWordsToNote (S_msrWords words)
 
 void msrNote::addSlurToNote (S_msrSlur slur)
 {
-  if (gGeneralOptions->fTraceSlurs)
+  if (gGeneralOptions->fTraceSlurs) {
     gLogIOstream <<
-      "Adding slur " << slur << " to note " << noteAsString ()
-       << endl;
+      "Adding slur " << slur << " to note " << noteAsString () <<
+       endl;
+  }
 
   if (fNoteSlurs.size ()) {
     if (
@@ -5613,10 +5774,11 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 
 void msrNote::addLigatureToNote (S_msrLigature ligature)
 {
-  if (gGeneralOptions->fTraceLigatures)
+  if (gGeneralOptions->fTraceLigatures) {
     gLogIOstream <<
-      "Adding ligature " << ligature << " to note " << noteAsString ()
-       << endl;
+      "Adding ligature " << ligature << " to note " << noteAsString () <<
+       endl;
+  }
 
   if (fNoteLigatures.size ()) {
     if (
@@ -5686,74 +5848,81 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
-  if (gGeneralOptions->fTraceLyrics)
+  if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending syllable '" <<
       syllable->syllableAsString () <<
       "' to note " << noteAsString () <<
       endl;
-
+  }
+  
   fNoteSyllables.push_back (syllable);
 }
 
 void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Setting note '" << noteAsShortString ()  << "'" <<
       " harmony to '" << harmony->harmonyAsString () << "'" <<
       endl;
-      
+  }
+  
   fNoteHarmony = harmony;
 }
 
 void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies)
+  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Setting note '" << noteAsShortString ()  << "'" <<
       " figured bass to '" << figuredBass->figuredBassAsString () << "'" <<
       endl;
+  }
       
   fNoteFiguredBass = figuredBass;
 }
 
 void msrNote::acceptIn (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrNote::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrNote>*
     p =
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrNote::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
 void msrNote::acceptOut (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrNote::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrNote>*
     p =
       dynamic_cast<visitor<S_msrNote>*> (v)) {
         S_msrNote elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrNote::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -7148,7 +7317,7 @@ S_msrChord msrChord::createChordNewbornClone (
 void msrChord::setChordSoundingWholeNotes (
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Setting chord sounding whole notes to '" <<
       wholeNotes <<
@@ -7156,6 +7325,7 @@ void msrChord::setChordSoundingWholeNotes (
       chordAsString () <<
       "'" <<
       endl;
+  }
 
   fChordSoundingWholeNotes = wholeNotes;
 }
@@ -7163,7 +7333,7 @@ void msrChord::setChordSoundingWholeNotes (
 void msrChord::setChordDisplayWholeNotes (
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Setting chord displayed whole notes to '" <<
       wholeNotes <<
@@ -7171,6 +7341,7 @@ void msrChord::setChordDisplayWholeNotes (
       chordAsString () <<
       "'" <<
       endl;
+  }
 
   fChordDisplayWholeNotes = wholeNotes;
 }
@@ -7206,7 +7377,7 @@ string msrChord::chordGraphicDurationAsMsrString () const
 
 void msrChord::addFirstNoteToChord (S_msrNote note)
 {
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Adding first note '" <<
       note->noteAsString () <<
@@ -7214,6 +7385,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
       chordAsString () <<
       "'" <<
       endl;
+  }
 
   fChordNotes.push_back (note);
   
@@ -7232,7 +7404,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
 
 void msrChord::addAnotherNoteToChord (S_msrNote note)
 {
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Adding another note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
@@ -7240,6 +7412,7 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
       chordAsString () <<
       "'" <<
       endl;
+  }
 
   fChordNotes.push_back (note);
   
@@ -7294,24 +7467,26 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) // JMI
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) { // JMI
     gLogIOstream <<
       "Adding articulation '" <<
       art->articulationKindAsString () <<
       "' to chord" <<
       endl;
+  }
 
   fChordArticulations.push_back (art);
 }
 
 void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
 {
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Adding singleTremolo '" <<
       trem->singleTremoloAsString () <<
       "' to chord" <<
       endl;
+  }
 
   fChordSingleTremolo = trem;
 }
@@ -7333,12 +7508,13 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical '" <<
       tech->technicalAsString () <<
       "' to chord" <<
       endl;
+  }
 
   fChordTechnicals.push_back (tech);
 }
@@ -7361,12 +7537,13 @@ void msrChord::addTechnicalWithIntegerToChord (
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical with integer '" <<
       tech->technicalWithIntegerAsString () <<
       "' to chord" <<
       endl;
+  }
 
   fChordTechnicalWithIntegers.push_back (tech);
 }
@@ -7389,12 +7566,13 @@ void msrChord::addTechnicalWithStringToChord (
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical with integer '" <<
       tech->technicalWithStringAsString () <<
       "' to chord" <<
       endl;
+  }
 
   fChordTechnicalWithStrings.push_back (tech);
 }
@@ -7415,50 +7593,57 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Adding ornament '" <<
       orn->ornamentKindAsString () <<
       "' to chord" <<
       endl;
+  }
 
   fChordOrnaments.push_back (orn);
 }
 
-void msrChord::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrChord::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrChord::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrChord>*
     p =
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChord::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrChord::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrChord::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrChord::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrChord>*
     p =
       dynamic_cast<visitor<S_msrChord>*> (v)) {
         S_msrChord elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrChord::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -7579,7 +7764,7 @@ ostream& operator<< (ostream& os, const S_msrChord& elt)
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceChords)
+  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceChords) {
     gLogIOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
@@ -8547,40 +8732,46 @@ string msrDivisions::tupletWholeNotesAsMsrString (
 msrDivisions::~msrDivisions()
 {}
 
-void msrDivisions::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrDivisions::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrDivisions::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrDivisions>*
     p =
       dynamic_cast<visitor<S_msrDivisions>*> (v)) {
         S_msrDivisions elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrDivisions::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrDivisions::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrDivisions::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrDivisions::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrDivisions>*
     p =
       dynamic_cast<visitor<S_msrDivisions>*> (v)) {
         S_msrDivisions elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrDivisions::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -8667,12 +8858,13 @@ msrBarCheck::~msrBarCheck()
 
 void msrBarCheck::setNextBarNumber (string number)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting bar check next bar number to '" <<
       number <<
       "'" <<
       endl;
+  }
 
   fNextBarNumber = number;
 }
@@ -8689,40 +8881,46 @@ string msrBarCheck::barCheckAsString () const
   return s.str ();
 }
 
-void msrBarCheck::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrBarCheck::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrBarCheck::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrBarCheck>*
     p =
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarCheck::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrBarCheck::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrBarCheck::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrBarCheck::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrBarCheck>*
     p =
       dynamic_cast<visitor<S_msrBarCheck>*> (v)) {
         S_msrBarCheck elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarCheck::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -8777,40 +8975,46 @@ string msrBarNumberCheck::barNumberCheckAsString () const
   return s.str ();
 }
 
-void msrBarNumberCheck::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrBarNumberCheck::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrBarNumberCheck::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarNumberCheck::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrBarNumberCheck::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrBarNumberCheck::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrBarNumberCheck::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrBarNumberCheck>*
     p =
       dynamic_cast<visitor<S_msrBarNumberCheck>*> (v)) {
         S_msrBarNumberCheck elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarNumberCheck::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -8849,10 +9053,11 @@ msrLineBreak::msrLineBreak (
 {
   fNextBarNumber = nextBarNumber; 
 
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "-=> Creating a break before measure " << fNextBarNumber <<
       endl;
+  }
 }
 
 msrLineBreak::~msrLineBreak()
@@ -8869,40 +9074,46 @@ string msrLineBreak::lineBreakAsString () const
   return s.str ();
 }
 
-void msrLineBreak::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrLineBreak::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrLineBreak::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrLineBreak>*
     p =
       dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
         S_msrLineBreak elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrLineBreak::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrLineBreak::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrLineBreak::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrLineBreak::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrLineBreak>*
     p =
       dynamic_cast<visitor<S_msrLineBreak>*> (v)) {
         S_msrLineBreak elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrLineBreak::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -8938,10 +9149,11 @@ msrPageBreak::msrPageBreak (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures)
+  if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "-=> Creating a page break" <<
       endl;
+  }
 }
 
 msrPageBreak::~msrPageBreak()
@@ -8957,40 +9169,46 @@ string msrPageBreak::pageBreakAsString () const
   return s.str ();
 }
 
-void msrPageBreak::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPageBreak::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPageBreak::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrPageBreak>*
     p =
       dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
         S_msrPageBreak elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPageBreak::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrPageBreak::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPageBreak::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPageBreak::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrPageBreak>*
     p =
       dynamic_cast<visitor<S_msrPageBreak>*> (v)) {
         S_msrPageBreak elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPageBreak::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -9186,7 +9404,7 @@ string msrTuplet::tupletShowTypeKindAsString (
       
 void msrTuplet::addNoteToTuplet (S_msrNote note)
 {
-  if (gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
@@ -9195,6 +9413,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
       tupletAsShortString () <<
       "'" <<
       endl;
+  }
 
   fTupletElements.push_back (note);
 
@@ -9222,7 +9441,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding chord '" <<
       chord->chordAsString () <<
@@ -9230,6 +9449,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
       tupletAsString () <<
       "'" <<
       endl;
+  }
 
   fTupletElements.push_back (chord);
     
@@ -9253,7 +9473,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
-  if (gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->tupletAsString () <<
@@ -9261,6 +9481,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
       tupletAsString () <<
       "'" <<
       endl;
+  }
 
 /* JMI
   // unapply containing tuplet factor,
@@ -9302,7 +9523,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 
 void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
-  if (gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->tupletAsString () <<
@@ -9310,6 +9531,7 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
       tupletAsString () <<
       "'" <<
       endl;
+  }
 
   // dont' unapply containing tuplet factor,
   // this has been done when building the MSR from MusicXML
@@ -9331,7 +9553,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
   int       inputLineNumber,
   S_msrNote note)
 {
-  if (gGeneralOptions->fTraceTuplets)
+  if (gGeneralOptions->fTraceTuplets) {
     gLogIOstream <<
       "Removing first note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
@@ -9339,6 +9561,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
       tupletAsString () <<
       "'" <<
       endl;
+  }
 
   if (fTupletElements.size ()) {
     S_msrElement
@@ -9609,40 +9832,46 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
     containingTupletNormalNotes;
 }
 
-void msrTuplet::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTuplet::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTuplet::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTuplet>*
     p =
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTuplet::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTuplet::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTuplet::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTuplet::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTuplet>*
     p =
       dynamic_cast<visitor<S_msrTuplet>*> (v)) {
         S_msrTuplet elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTuplet::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -9908,40 +10137,46 @@ float msrPageGeometry::globalStaffSize () const
     return 20.0; // LilyPond default
 }
 
-void msrPageGeometry::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPageGeometry::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPageGeometry::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrPageGeometry>*
     p =
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPageGeometry::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrPageGeometry::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPageGeometry::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPageGeometry::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrPageGeometry>*
     p =
       dynamic_cast<visitor<S_msrPageGeometry>*> (v)) {
         S_msrPageGeometry elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPageGeometry::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -10154,40 +10389,46 @@ msrCreditWords::msrCreditWords (
 msrCreditWords::~msrCreditWords()
 {}
 
-void msrCreditWords::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrCreditWords::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrCreditWords::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrCreditWords>*
     p =
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrCreditWords::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrCreditWords::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrCreditWords::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrCreditWords::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrCreditWords>*
     p =
       dynamic_cast<visitor<S_msrCreditWords>*> (v)) {
         S_msrCreditWords elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrCreditWords::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -10285,40 +10526,46 @@ void msrCredit::appendCreditWordsToCredit (
   fCreditWordsList.push_back (creditWords);
 }
 
-void msrCredit::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrCredit::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrCredit::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrCredit>*
     p =
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrCredit::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrCredit::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrCredit::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrCredit::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrCredit>*
     p =
       dynamic_cast<visitor<S_msrCredit>*> (v)) {
         S_msrCredit elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrCredit::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -10426,40 +10673,46 @@ msrVarValAssoc::msrVarValAssoc (
 msrVarValAssoc::~msrVarValAssoc()
 {}
 
-void msrVarValAssoc::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrVarValAssoc::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrVarValAssoc::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrVarValAssoc>*
     p =
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVarValAssoc::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrVarValAssoc::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrVarValAssoc::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrVarValAssoc::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrVarValAssoc>*
     p =
       dynamic_cast<visitor<S_msrVarValAssoc>*> (v)) {
         S_msrVarValAssoc elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVarValAssoc::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -10528,40 +10781,46 @@ msrLayout::msrLayout (
 msrLayout::~msrLayout()
 {}
 
-void msrLayout::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrLayout::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrLayout::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrLayout>*
     p =
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrLayout::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrLayout::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrLayout::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrLayout::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrLayout>*
     p =
       dynamic_cast<visitor<S_msrLayout>*> (v)) {
         S_msrLayout elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrLayout::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -10661,40 +10920,46 @@ bool msrClef::isEqualTo (S_msrClef otherClef) const
   return fClefKind == otherClef->fClefKind;
 }
 
-void msrClef::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrClef::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrClef::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrClef>*
     p =
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrClef::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrClef::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrClef::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrClef::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrClef>*
     p =
       dynamic_cast<visitor<S_msrClef>*> (v)) {
         S_msrClef elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrClef::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -10887,40 +11152,46 @@ void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
   fKeyOctave = keyOctave;
 }
 
-void msrHumdrumScotKeyItem::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrHumdrumScotKeyItem::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrHumdrumScotKeyItem>*
     p =
       dynamic_cast<visitor<S_msrHumdrumScotKeyItem>*> (v)) {
         S_msrHumdrumScotKeyItem elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrHumdrumScotKeyItem::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrHumdrumScotKeyItem::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrHumdrumScotKeyItem::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrHumdrumScotKeyItem>*
     p =
       dynamic_cast<visitor<S_msrHumdrumScotKeyItem>*> (v)) {
         S_msrHumdrumScotKeyItem elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHumdrumScotKeyItem::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -11096,40 +11367,46 @@ void msrKey::appendHumdrumScotKeyItem (
     fHumdrumScotKeyItemsVector.end (), item);
 }
 
-void msrKey::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrKey::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrKey::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrKey>*
     p =
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrKey::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrKey::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrKey::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrKey::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrKey>*
     p =
       dynamic_cast<visitor<S_msrKey>*> (v)) {
         S_msrKey elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrKey::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -11381,40 +11658,46 @@ int msrTimeItem::getTimeBeatsNumber () const
   return result;
 }
 
-void msrTimeItem::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTimeItem::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTimeItem::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTimeItem>*
     p =
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTimeItem::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTimeItem::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTimeItem::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTimeItem::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTimeItem>*
     p =
       dynamic_cast<visitor<S_msrTimeItem>*> (v)) {
         S_msrTimeItem elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTimeItem::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -11656,40 +11939,46 @@ rational msrTime::wholeNotesPerMeasure () const
   return result;
 }
 
-void msrTime::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTime::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTime::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTime>*
     p =
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTime::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTime::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTime::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTime::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTime>*
     p =
       dynamic_cast<visitor<S_msrTime>*> (v)) {
         S_msrTime elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTime::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -11965,40 +12254,46 @@ bool msrTranspose::isEqualTo (S_msrTranspose otherTranspose) const
       otherTranspose->fTransposeDouble;
 }
 
-void msrTranspose::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTranspose::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTranspose::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTranspose>*
     p =
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTranspose::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTranspose::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTranspose::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTranspose::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTranspose>*
     p =
       dynamic_cast<visitor<S_msrTranspose>*> (v)) {
         S_msrTranspose elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTranspose::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -12112,40 +12407,46 @@ msrWords::msrWords (
 msrWords::~msrWords()
 {}
 
-void msrWords::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrWords::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrWords::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrWords>*
     p =
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrWords::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrWords::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrWords::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrWords::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrWords>*
     p =
       dynamic_cast<visitor<S_msrWords>*> (v)) {
         S_msrWords elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrWords::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -12308,50 +12609,57 @@ msrTempo::~msrTempo()
 
 void msrTempo::setTempoIndication (string indication)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "Setting indication of tempo " <<
       fTempoUnit << " = " << fPerMinute <<
       " to \"" << indication << "\"" <<
       endl;
+  }
       
   fTempoIndication = indication;
 }
 
-void msrTempo::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTempo::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTempo::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrTempo>*
     p =
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempo::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrTempo::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrTempo::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrTempo::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrTempo>*
     p =
       dynamic_cast<visitor<S_msrTempo>*> (v)) {
         S_msrTempo elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrTempo::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -12606,40 +12914,46 @@ string msrSyllable::syllableWholeNotesAsMsrString ()
       fSyllableWholeNotes);
 }
 
-void msrSyllable::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSyllable::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSyllable::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrSyllable>*
     p =
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSyllable::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrSyllable::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSyllable::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSyllable::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrSyllable>*
     p =
       dynamic_cast<visitor<S_msrSyllable>*> (v)) {
         S_msrSyllable elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSyllable::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -13066,10 +13380,11 @@ void msrStanza::initializeStanza ()
       break;
   } // switch
  
-  if (gGeneralOptions->fTraceLyrics)
+  if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
       "-=> Initializing stanza " << getStanzaName () <<
       endl;
+  }
 
   fStanzaTextPresent = false;
 }
@@ -13184,11 +13499,12 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
-  if (gGeneralOptions->fTraceLyrics)
+  if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending syllable '" << syllable->syllableAsString () <<
       "' to stanza " << getStanzaName () <<
       endl;
+  }
       
   // append the syllable to this stanza
   fSyllables.push_back (syllable);
@@ -13564,50 +13880,57 @@ S_msrSyllable msrStanza::appendLineLineBreakSyllableToStanza (
   return syllable;
 }
 
-void msrStanza::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStanza::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStanza::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrStanza>*
     p =
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStanza::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrStanza::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStanza::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStanza::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrStanza>*
     p =
       dynamic_cast<visitor<S_msrStanza>*> (v)) {
         S_msrStanza elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStanza::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrStanza::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStanza::browseData()" <<
       endl;
+  }
 
   gIndenter++;
   
@@ -13623,10 +13946,11 @@ void msrStanza::browseData (basevisitor* v)
 
   gIndenter--;
 
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% <== msrStanza::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrStanza& elt)
@@ -13956,40 +14280,46 @@ string msrHarmonyDegree::harmonyDegreeAsString () const
   return s.str ();
 }
 
-void msrHarmonyDegree::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrHarmonyDegree::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrHarmonyDegree::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrHarmonyDegree>*
     p =
       dynamic_cast<visitor<S_msrHarmonyDegree>*> (v)) {
         S_msrHarmonyDegree elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarmonyDegree::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrHarmonyDegree::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrHarmonyDegree::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrHarmonyDegree::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrHarmonyDegree>*
     p =
       dynamic_cast<visitor<S_msrHarmonyDegree>*> (v)) {
         S_msrHarmonyDegree elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarmonyDegree::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -14211,40 +14541,46 @@ string msrHarmony::harmonyAsString () const
   return s.str ();
 }
 
-void msrHarmony::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrHarmony::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrHarmony::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrHarmony>*
     p =
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarmony::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrHarmony::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrHarmony::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrHarmony::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrHarmony>*
     p =
       dynamic_cast<visitor<S_msrHarmony>*> (v)) {
         S_msrHarmony elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarmony::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -14551,40 +14887,46 @@ string msrFigure::figureAsString () const
   return s.str ();
 }
 
-void msrFigure::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrFigure::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrFigure::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrFigure>*
     p =
       dynamic_cast<visitor<S_msrFigure>*> (v)) {
         S_msrFigure elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFigure::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrFigure::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrFigure::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrFigure::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrFigure>*
     p =
       dynamic_cast<visitor<S_msrFigure>*> (v)) {
         S_msrFigure elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFigure::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -14811,40 +15153,46 @@ string msrFiguredBass::figuredBassAsString () const
   return s.str ();
 }
 
-void msrFiguredBass::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrFiguredBass::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrFiguredBass::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrFiguredBass>*
     p =
       dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
         S_msrFiguredBass elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFiguredBass::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrFiguredBass::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrFiguredBass::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrFiguredBass::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrFiguredBass>*
     p =
       dynamic_cast<visitor<S_msrFiguredBass>*> (v)) {
         S_msrFiguredBass elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrFiguredBass::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -14919,40 +15267,46 @@ msrSegno::msrSegno (
 msrSegno::~msrSegno()
 {}
 
-void msrSegno::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSegno::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSegno::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrSegno>*
     p =
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSegno::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrSegno::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSegno::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSegno::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrSegno>*
     p =
       dynamic_cast<visitor<S_msrSegno>*> (v)) {
         S_msrSegno elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSegno::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -14993,40 +15347,46 @@ msrCoda::msrCoda (
 msrCoda::~msrCoda()
 {}
 
-void msrCoda::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrCoda::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrCoda::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrCoda>*
     p =
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrCoda::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrCoda::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrCoda::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrCoda::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrCoda>*
     p =
       dynamic_cast<visitor<S_msrCoda>*> (v)) {
         S_msrCoda elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrCoda::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -15067,40 +15427,46 @@ msrEyeGlasses::msrEyeGlasses (
 msrEyeGlasses::~msrEyeGlasses()
 {}
 
-void msrEyeGlasses::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrEyeGlasses::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrEyeGlasses::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrEyeGlasses>*
     p =
       dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
         S_msrEyeGlasses elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrEyeGlasses::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrEyeGlasses::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrEyeGlasses::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrEyeGlasses::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrEyeGlasses>*
     p =
       dynamic_cast<visitor<S_msrEyeGlasses>*> (v)) {
         S_msrEyeGlasses elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrEyeGlasses::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -15206,40 +15572,46 @@ string msrPedal::pedalSignAsString ()
   return result;
 }
 
-void msrPedal::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPedal::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPedal::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrPedal>*
     p =
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPedal::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrPedal::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPedal::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPedal::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrPedal>*
     p =
       dynamic_cast<visitor<S_msrPedal>*> (v)) {
         S_msrPedal elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPedal::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -15323,40 +15695,46 @@ msrBarline::msrBarline (
 msrBarline::~msrBarline()
 {}
 
-void msrBarline::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrBarline::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrBarline::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrBarline>*
     p =
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarline::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrBarline::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrBarline::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrBarline::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrBarline>*
     p =
       dynamic_cast<visitor<S_msrBarline>*> (v)) {
         S_msrBarline elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrBarline::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -16096,7 +16474,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
       wholeNotesPerMeasure.getDenominator ();
     
   
-    if (gGeneralOptions->fTraceMeasures)
+    if (gGeneralOptions->fTraceMeasures) {
       gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -17795,50 +18173,57 @@ void msrMeasure::finalizeMeasure (
   } // switch
 }
 
-void msrMeasure::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMeasure::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasure::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrMeasure>*
     p =
       dynamic_cast<visitor<S_msrMeasure>*> (v)) {
         S_msrMeasure elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasure::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrMeasure::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMeasure::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasure::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrMeasure>*
     p =
       dynamic_cast<visitor<S_msrMeasure>*> (v)) {
         S_msrMeasure elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasure::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrMeasure::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasure::browseData()" <<
       endl;
+  }
 
   for (
     list<S_msrElement>::const_iterator i = fMeasureElementsList.begin ();
@@ -17849,10 +18234,11 @@ void msrMeasure::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% <== msrMeasure::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrMeasure& elt)
@@ -18508,7 +18894,7 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending harmony " << harmony->harmonyAsString () <<
       " to segment " << segmentAsString () <<
@@ -18516,6 +18902,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18529,7 +18916,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 
 void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending harmony " << harmony->harmonyAsString () <<
       " to segment clone " << segmentAsString () <<
@@ -18537,6 +18924,7 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18551,7 +18939,7 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 void msrSegment::appendFiguredBassToSegment (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending figured bass " << figuredBass->figuredBassAsString () <<
       " to segment " << segmentAsString () <<
@@ -18559,6 +18947,7 @@ void msrSegment::appendFiguredBassToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18573,7 +18962,7 @@ void msrSegment::appendFiguredBassToSegment (
 void msrSegment::appendFiguredBassToSegmentClone (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending figured bass " << figuredBass->figuredBassAsString () <<
       " to segment clone " << segmentAsString () <<
@@ -18581,6 +18970,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18594,7 +18984,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
 
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending segno " <<
       " to segment " << segmentAsString () <<
@@ -18602,6 +18992,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18615,7 +19006,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending coda " <<
       " to segment " << segmentAsString () <<
@@ -18623,6 +19014,7 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18637,7 +19029,7 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
 void msrSegment::appendEyeGlassesToSegment (
   S_msrEyeGlasses eyeGlasses)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending eyeglasses " <<
       " to segment " << segmentAsString () <<
@@ -18645,6 +19037,7 @@ void msrSegment::appendEyeGlassesToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18658,7 +19051,7 @@ void msrSegment::appendEyeGlassesToSegment (
 
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending pedal " <<
       " to segment " << segmentAsString () <<
@@ -18666,6 +19059,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18703,7 +19097,7 @@ void msrSegment::appendTransposeToSegment (
 void msrSegment::appendStaffDetailsToSegment (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending staff details " <<
       " to segment " << segmentAsString () <<
@@ -18711,6 +19105,7 @@ void msrSegment::appendStaffDetailsToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   if (fSegmentMeasuresList.size () == 0) { // JMI
@@ -18741,7 +19136,7 @@ void msrSegment::appendStaffDetailsToSegment (
 
 void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending break " <<
       " to segment " << segmentAsString () <<
@@ -18749,6 +19144,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18762,7 +19158,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 
 void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending break " <<
       " to segment " << segmentAsString () <<
@@ -18770,6 +19166,7 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18784,7 +19181,7 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 void msrSegment::appendBarNumberCheckToSegment (
   S_msrBarNumberCheck barNumberCheck)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending bar number check " <<
       " to segment " << segmentAsString () <<
@@ -18792,6 +19189,7 @@ void msrSegment::appendBarNumberCheckToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18806,7 +19204,7 @@ void msrSegment::appendBarNumberCheckToSegment (
 void msrSegment::appendTempoToSegment (
   S_msrTempo tempo)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending tempo " <<
       " to segment " << segmentAsString () <<
@@ -18814,6 +19212,7 @@ void msrSegment::appendTempoToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18828,7 +19227,7 @@ void msrSegment::appendTempoToSegment (
 void msrSegment::appendRehearsalToSegment (
   S_msrRehearsal rehearsal)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending rehearsal " <<
       " to segment " << segmentAsString () <<
@@ -18836,6 +19235,7 @@ void msrSegment::appendRehearsalToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18850,7 +19250,7 @@ void msrSegment::appendRehearsalToSegment (
 void msrSegment::appendOctaveShiftToSegment (
   S_msrOctaveShift octaveShift)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
@@ -18859,6 +19259,7 @@ void msrSegment::appendOctaveShiftToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18874,7 +19275,7 @@ void msrSegment::appendAccordionRegistrationToSegment (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
@@ -18883,6 +19284,7 @@ void msrSegment::appendAccordionRegistrationToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -18899,7 +19301,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending staff pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
@@ -18908,6 +19310,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -19247,7 +19650,7 @@ void msrSegment::appendNoteToSegmentClone (S_msrNote note)
 void msrSegment::appendDoubleTremoloToSegment ( // XXL
   S_msrDoubleTremolo doubleTremolo)
 {
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending double tremolo " <<
       doubleTremolo->doubleTremoloAsShortString () <<
@@ -19256,6 +19659,7 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -19269,7 +19673,7 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
 void msrSegment::appendMeasureRepeatToSegment (
   S_msrMeasureRepeat measureRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending measure repeat '" <<
       measureRepeat->measureRepeatAsString () <<
@@ -19278,6 +19682,7 @@ void msrSegment::appendMeasureRepeatToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -19291,7 +19696,7 @@ void msrSegment::appendMeasureRepeatToSegment (
 void msrSegment::appendMultipleRestToSegment (
   S_msrMultipleRest multipleRest)
 {
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments)
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
@@ -19300,6 +19705,7 @@ void msrSegment::appendMultipleRestToSegment (
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -19520,50 +19926,57 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   return result;
 }
 
-void msrSegment::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSegment::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSegment::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrSegment>*
     p =
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSegment::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrSegment::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrSegment::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSegment::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrSegment>*
     p =
       dynamic_cast<visitor<S_msrSegment>*> (v)) {
         S_msrSegment elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrSegment::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrSegment::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrSegment::browseData()" <<
       endl;
+  }
 
 /* JMI
   gLogIOstream <<
@@ -19581,10 +19994,11 @@ void msrSegment::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% <== msrSegment::browseData()" <<
       endl;
+  }
 }
 
 string msrSegment::segmentAsString ()
@@ -19598,15 +20012,17 @@ string msrSegment::segmentAsString ()
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
   
-  if (! fSegmentMeasuresList.size ())
+  if (! fSegmentMeasuresList.size ()) {
     s <<
       " (0 measures)";
-  else
+  }
+  else {
     s <<
       " (" <<
       singularOrPlural (
         fSegmentMeasuresList.size (), "measure", " measures") <<
       ")";
+  }
 
   return s.str ();
 }
@@ -19717,11 +20133,12 @@ msrRepeatCommonPart::~msrRepeatCommonPart()
 S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a " <<
       repeatCommonPartAsString () <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -19747,11 +20164,12 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
 S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a " <<
       repeatCommonPartAsString () <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -19790,40 +20208,46 @@ void msrRepeatCommonPart::appendElementToRepeatCommonPart (
 }
 */
 
-void msrRepeatCommonPart::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRepeatCommonPart::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRepeatCommonPart::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrRepeatCommonPart>*
     p =
       dynamic_cast<visitor<S_msrRepeatCommonPart>*> (v)) {
         S_msrRepeatCommonPart elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatCommonPart::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrRepeatCommonPart::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRepeatCommonPart::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRepeatCommonPart::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrRepeatCommonPart>*
     p =
       dynamic_cast<visitor<S_msrRepeatCommonPart>*> (v)) {
         S_msrRepeatCommonPart elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatCommonPart::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -19913,11 +20337,12 @@ msrRepeatEnding::~msrRepeatEnding()
 S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a " <<
       repeatEndingAsString () <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -19956,11 +20381,12 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
 S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a " <<
       repeatEndingAsString () <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20009,40 +20435,46 @@ void msrRepeatEnding::appendElementToRepeatEnding (
 }
 */
 
-void msrRepeatEnding::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRepeatEnding::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRepeatEnding::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrRepeatEnding>*
     p =
       dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
         S_msrRepeatEnding elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatEnding::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrRepeatEnding::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRepeatEnding::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRepeatEnding::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrRepeatEnding>*
     p =
       dynamic_cast<visitor<S_msrRepeatEnding>*> (v)) {
         S_msrRepeatEnding elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatEnding::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -20141,10 +20573,11 @@ msrRepeat::~msrRepeat()
 S_msrRepeat msrRepeat::createRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a repeat" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20171,10 +20604,11 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
 S_msrRepeat msrRepeat::createRepeatDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a deep copy of a repeat" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20226,7 +20660,7 @@ void msrRepeat::setRepeatCommonPart (
     repeatCommonPart != 0,
     "repeatCommonPart is null");
     
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting repeat common part with segment containing " <<
       singularOrPlural (
@@ -20236,6 +20670,7 @@ void msrRepeat::setRepeatCommonPart (
         "measure",
         "measures") <<
       endl;
+  }
       
   fRepeatCommonPart = repeatCommonPart;
 }
@@ -20243,7 +20678,7 @@ void msrRepeat::setRepeatCommonPart (
 void msrRepeat::setRepeatCommonSegment (
   S_msrSegment repeatCommonSegment)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting repeat common segment containing " <<
       singularOrPlural (
@@ -20252,6 +20687,7 @@ void msrRepeat::setRepeatCommonSegment (
         "measure",
         "measures") <<
       endl;
+  }
       
   // sanity check
   msrAssert(
@@ -20270,12 +20706,13 @@ void msrRepeat::addRepeatEnding (
     repeatEnding != 0,
     "repeatEnding is null");
     
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Adding ending '" <<
       repeatEnding->repeatEndingAsString () <<
       "' to repeat" <<
       endl;
+  }
       
   fRepeatEndings.push_back (repeatEnding);
 
@@ -20285,40 +20722,46 @@ void msrRepeat::addRepeatEnding (
       ++ fRepeatEndingsInternalCounter);
 }
 
-void msrRepeat::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRepeat::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRepeat::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrRepeat>*
     p =
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeat::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrRepeat::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRepeat::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRepeat::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrRepeat>*
     p =
       dynamic_cast<visitor<S_msrRepeat>*> (v)) {
         S_msrRepeat elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeat::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -20454,10 +20897,11 @@ msrMeasureRepeatPattern::~msrMeasureRepeatPattern()
 S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a measure repeat pattern" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20482,10 +20926,11 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternNew
 S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a measure repeat pattern" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20511,7 +20956,7 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternDee
 void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
     S_msrSegment measureRepeatPatternSegment)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat pattern segment containing " <<
       singularOrPlural (
@@ -20519,6 +20964,7 @@ void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
         "measure",
         "measures") <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -20543,50 +20989,57 @@ int msrMeasureRepeatPattern::measureRepeatPatternMeasuresNumber () const
   return result;
 }
 
-void msrMeasureRepeatPattern::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMeasureRepeatPattern::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeatPattern::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrMeasureRepeatPattern>*
     p =
       dynamic_cast<visitor<S_msrMeasureRepeatPattern>*> (v)) {
         S_msrMeasureRepeatPattern elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasureRepeatPattern::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrMeasureRepeatPattern::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMeasureRepeatPattern::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeatPattern::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrMeasureRepeatPattern>*
     p =
       dynamic_cast<visitor<S_msrMeasureRepeatPattern>*> (v)) {
         S_msrMeasureRepeatPattern elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasureRepeatPattern::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrMeasureRepeatPattern::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeatPattern::browseData()" <<
       endl;
+  }
 
   if (fMeasureRepeatPatternSegment) {
     // browse the pattern segment
@@ -20681,10 +21134,11 @@ msrMeasureRepeatReplicas::~msrMeasureRepeatReplicas()
 S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a measure repeat replicas" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20709,10 +21163,11 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
 S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a deep copy of a measure repeat replicas" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20741,7 +21196,7 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
 void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
     S_msrSegment measureRepeatReplicasSegment)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
@@ -20749,6 +21204,7 @@ void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
         "measure",
         "measures") <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -20773,50 +21229,57 @@ int msrMeasureRepeatReplicas::measureRepeatReplicasMeasuresNumber () const
   return result;
 }
 
-void msrMeasureRepeatReplicas::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMeasureRepeatReplicas::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeatReplicas::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrMeasureRepeatReplicas>*
     p =
       dynamic_cast<visitor<S_msrMeasureRepeatReplicas>*> (v)) {
         S_msrMeasureRepeatReplicas elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasureRepeatReplicas::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrMeasureRepeatReplicas::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMeasureRepeatReplicas::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeatReplicas::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrMeasureRepeatReplicas>*
     p =
       dynamic_cast<visitor<S_msrMeasureRepeatReplicas>*> (v)) {
         S_msrMeasureRepeatReplicas elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasureRepeatReplicas::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrMeasureRepeatReplicas::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeatReplicas::browseData()" <<
       endl;
+  }
 
   if (fMeasureRepeatReplicasSegment) {
   // browse the replicas segment
@@ -20918,10 +21381,11 @@ msrMeasureRepeat::~msrMeasureRepeat()
 S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a measure repeat" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20950,10 +21414,11 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
 S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a deep copy of a measure repeat" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -20993,7 +21458,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
 void msrMeasureRepeat::setMeasureRepeatPattern (
   S_msrMeasureRepeatPattern measureRepeatPattern)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat pattern containing " <<
       singularOrPlural (
@@ -21002,6 +21467,7 @@ void msrMeasureRepeat::setMeasureRepeatPattern (
         "measure",
         "measures") <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -21014,7 +21480,7 @@ void msrMeasureRepeat::setMeasureRepeatPattern (
 void msrMeasureRepeat::setMeasureRepeatReplicas (
   S_msrMeasureRepeatReplicas measureRepeatReplicas)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat replicas containing " <<
       singularOrPlural (
@@ -21023,6 +21489,7 @@ void msrMeasureRepeat::setMeasureRepeatReplicas (
         "measure",
         "measures") <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -21041,50 +21508,57 @@ int msrMeasureRepeat::measureRepeatReplicasNumber () const
     measureRepeatPatternMeasuresNumber ();    
 }
 
-void msrMeasureRepeat::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMeasureRepeat::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeat::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrMeasureRepeat>*
     p =
       dynamic_cast<visitor<S_msrMeasureRepeat>*> (v)) {
         S_msrMeasureRepeat elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasureRepeat::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrMeasureRepeat::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMeasureRepeat::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeat::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrMeasureRepeat>*
     p =
       dynamic_cast<visitor<S_msrMeasureRepeat>*> (v)) {
         S_msrMeasureRepeat elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMeasureRepeat::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrMeasureRepeat::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMeasureRepeat::browseData()" <<
       endl;
+  }
 
   if (fMeasureRepeatPattern) {
   // browse the measdure repeat pattern
@@ -21104,10 +21578,11 @@ void msrMeasureRepeat::browseData (basevisitor* v)
     score->getInhibitMeasureRepeatReplicasBrowsing ();
 
   if (inhibitMeasureRepeatReplicasBrowsing) {
-    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats)
+    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats) {
       gLogIOstream <<
         "% ==> visiting measure repeat replicas is inhibited" <<
         endl;
+    }
   }
 
   if (fMeasureRepeatReplicas) {
@@ -21230,10 +21705,11 @@ msrMultipleRestContents::~msrMultipleRestContents()
 S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a multiple rest contents" <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -21252,7 +21728,7 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNew
 void msrMultipleRestContents::setMultipleRestContentsSegment (
     S_msrSegment multipleRestContentsSegment)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting multiple rest contents segment containing " <<
       singularOrPlural (
@@ -21260,6 +21736,7 @@ void msrMultipleRestContents::setMultipleRestContentsSegment (
         "measure",
         "measures") <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -21284,50 +21761,57 @@ int msrMultipleRestContents::multipleRestContentsMeasuresNumber () const
   return result;
 }
 
-void msrMultipleRestContents::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMultipleRestContents::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMultipleRestContents::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrMultipleRestContents>*
     p =
       dynamic_cast<visitor<S_msrMultipleRestContents>*> (v)) {
         S_msrMultipleRestContents elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMultipleRestContents::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrMultipleRestContents::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMultipleRestContents::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMultipleRestContents::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrMultipleRestContents>*
     p =
       dynamic_cast<visitor<S_msrMultipleRestContents>*> (v)) {
         S_msrMultipleRestContents elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMultipleRestContents::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrMultipleRestContents::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMultipleRestContents::browseData()" <<
       endl;
+  }
 
   if (fMultipleRestContentsSegment) {
   // browse the pattern segment
@@ -21427,11 +21911,12 @@ msrMultipleRest::~msrMultipleRest()
 S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of multiple rest " <<
       multipleRestAsString () <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -21451,7 +21936,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
 void msrMultipleRest::setMultipleRestContents (
   S_msrMultipleRestContents multipleRestContents)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting multiple rest segment containing " <<
       singularOrPlural (
@@ -21460,6 +21945,7 @@ void msrMultipleRest::setMultipleRestContents (
         "measure",
         "measures") <<
       endl;
+  }
       
   // sanity check
   msrAssert (
@@ -21469,50 +21955,57 @@ void msrMultipleRest::setMultipleRestContents (
   fMultipleRestContents = multipleRestContents;
 }
 
-void msrMultipleRest::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMultipleRest::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMultipleRest::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrMultipleRest>*
     p =
       dynamic_cast<visitor<S_msrMultipleRest>*> (v)) {
         S_msrMultipleRest elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMultipleRest::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrMultipleRest::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMultipleRest::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMultipleRest::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrMultipleRest>*
     p =
       dynamic_cast<visitor<S_msrMultipleRest>*> (v)) {
         S_msrMultipleRest elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMultipleRest::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrMultipleRest::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMultipleRest::browseData()" <<
       endl;
+  }
 
   // get the part uplink
   S_msrPart
@@ -21653,11 +22146,12 @@ msrRepeatCoda::~msrRepeatCoda()
 S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a " <<
       repeatCodaAsString () <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -21685,11 +22179,12 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
 S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a " <<
       repeatCodaAsString () <<
       endl;
+  }
   
   // sanity check
   msrAssert(
@@ -21730,40 +22225,46 @@ void msrRepeatCoda::appendElementToRepeatCoda (
 }
 */
 
-void msrRepeatCoda::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRepeatCoda::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRepeatCoda::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrRepeatCoda>*
     p =
       dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
         S_msrRepeatCoda elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatCoda::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrRepeatCoda::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrRepeatCoda::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrRepeatCoda::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrRepeatCoda>*
     p =
       dynamic_cast<visitor<S_msrRepeatCoda>*> (v)) {
         S_msrRepeatCoda elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrRepeatCoda::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -21830,11 +22331,12 @@ msrHarpPedalsTuning::~msrHarpPedalsTuning()
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a " <<
       harpPedalsTuningAsString () <<
       endl;
+  }
   
   S_msrHarpPedalsTuning
     newbornClone = 0; // JMI
@@ -21844,11 +22346,12 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a newborn clone of a " <<
       harpPedalsTuningAsString () <<
       endl;
+  }
   
   S_msrHarpPedalsTuning
     harpPedalsTuningDeepCopy = 0; // JMI
@@ -21887,40 +22390,46 @@ void msrHarpPedalsTuning::addPedalTuning (
   fHarpPedalsAlterationKindsMap [diatonicPitchKind] = alterationKind;
 }
 
-void msrHarpPedalsTuning::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrHarpPedalsTuning::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrHarpPedalsTuning::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrHarpPedalsTuning>*
     p =
       dynamic_cast<visitor<S_msrHarpPedalsTuning>*> (v)) {
         S_msrHarpPedalsTuning elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarpPedalsTuning::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrHarpPedalsTuning::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrHarpPedalsTuning::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrHarpPedalsTuning::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrHarpPedalsTuning>*
     p =
       dynamic_cast<visitor<S_msrHarpPedalsTuning>*> (v)) {
         S_msrHarpPedalsTuning elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrHarpPedalsTuning::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -22510,7 +23019,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     fVoiceInitialRepeatsAndSegments.size ();
     
   if (numberOfInitialRepeatsAndSegments) {
-     if (gGeneralOptions->fTraceVoices) {
+    if (gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
         "There are " <<
         numberOfInitialRepeatsAndSegments <<
@@ -22856,11 +23365,12 @@ void msrVoice::catchUpWithVoiceMuteStanza (S_msrStanza stanza)
         getSyllables ();
 
   if (muteSyllables.size ()) {
-    if (gGeneralOptions->fTraceLyrics)
+    if (gGeneralOptions->fTraceLyrics) {
       gLogIOstream <<
         "Copying current contents of voice mute stanza to " <<
         stanza->getStanzaName () <<
         endl;
+    }
         
     for (
       vector<S_msrSyllable>::const_iterator i =
@@ -22910,13 +23420,14 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
   
   else {
     // no, create it and add it to the voice
-    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics)
+    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics) {
       gLogIOstream <<
         "-=> Creating stanza " << stanzaNumber <<
         " in voice \"" << getVoiceName () << "\"" <<
         ", line " << inputLineNumber <<
         ", fVoiceStanzasMap.size () = " << fVoiceStanzasMap.size () <<
         endl;
+    }
 
     stanza =
       addStanzaToVoiceByItsNumber (
@@ -23000,11 +23511,12 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time)
 
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
       
   switch (fVoiceKind) {
     case msrVoice::kHarmonyVoice:
@@ -23045,11 +23557,12 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 
 void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
+  }
       
   switch (fVoiceKind) {
     case msrVoice::kHarmonyVoice:
@@ -23093,12 +23606,13 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 void msrVoice::appendFiguredBassToVoice (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
-      
+  }
+
   switch (fVoiceKind) {
     case msrVoice::kFiguredBassVoice:
       // create the voice last segment and first measure if needed
@@ -23139,11 +23653,12 @@ void msrVoice::appendFiguredBassToVoice (
 void msrVoice::appendFiguredBassToVoiceClone (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
+  }
       
   switch (fVoiceKind) {
     case msrVoice::kFiguredBassVoice:
@@ -23188,7 +23703,7 @@ void msrVoice::fillVoiceWithSkipsUpToMeasure ( // JMI
   int    inputLineNumber,
   string measureNumber)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions) {
     gLogIOstream <<
       "Filling voice \"" <<
       getVoiceName () <<
@@ -23196,6 +23711,7 @@ void msrVoice::fillVoiceWithSkipsUpToMeasure ( // JMI
       measureNumber <<
       "', line " << inputLineNumber <<
       endl;
+  }
 }
 
 void msrVoice::bringVoiceToMeasureLength (
@@ -23237,12 +23753,13 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 void msrVoice::appendStaffDetailsToVoice (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending staff details '" <<
       staffDetails->staffDetailsAsShortString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
 /* JMI
   // register staff details in voice
@@ -23260,10 +23777,11 @@ void msrVoice::appendStaffDetailsToVoice (
 /* JMI
 void msrVoice::appendWordsToVoice (S_msrWords words)
 {
-  if (gGeneralOptions->fTraceWords)
+  if (gGeneralOptions->fTraceWords) {
     gLogIOstream <<
       "Appending words '" << words->wordsAsString () <<
       "' to voice " << getVoiceName () << endl;
+  }
 
   S_msrElement w = words;
   fVoiceLastSegment->
@@ -23273,11 +23791,12 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
 
 void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
-  if (gMsrOptions->fTraceMsr)
+  if (gMsrOptions->fTraceMsr) {
     gLogIOstream <<
       "Appending tempo '" << tempo->tempoAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23289,13 +23808,14 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 
 void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 {
-  if (gMsrOptions->fTraceMsr)
+  if (gMsrOptions->fTraceMsr) {
     gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
       "', size: " << octaveShift->getOctaveShiftSize () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23309,12 +23829,13 @@ void msrVoice::appendAccordionRegistrationToVoice (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23329,12 +23850,13 @@ void msrVoice::appendHarpPedalsTuningToVoice (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23347,11 +23869,12 @@ void msrVoice::appendHarpPedalsTuningToVoice (
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending rehearsal '" << rehearsal->getRehearsalText () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23364,13 +23887,14 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 void msrVoice::appendVoiceStaffChangeToVoice (
   S_msrVoiceStaffChange voiceStaffChange)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
       "Append voice staff change " <<
       voiceStaffChange->voiceStaffChangeAsString () <<
       " to voice " <<
       " \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -23853,13 +24377,14 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
           inputLineNumber);
           
         // create a repeat
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "-=> Creating and appending a repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
             endl;
+        }
       
         S_msrRepeat
           repeat =
@@ -23868,13 +24393,14 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
               this);
 
         // create a repeat common part from current last segment
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "-=> Creating a repeat common part from current last segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
             endl;
+        }
       
         S_msrRepeatCommonPart
           repeatCommonPart =
@@ -23884,24 +24410,26 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
               repeat);
 
         // set current last segment as the repeat common segment
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting repeat common part in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
+        }
 
         repeat->
           setRepeatCommonPart (
             repeatCommonPart);
           
         // register repeat as the (new) current repeat
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Registering repeat as the new current repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
+        }
                 
         fVoiceCurrentRepeat =
           repeat;
@@ -23911,11 +24439,12 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
           repeat);
       
         // create a new last segment containing a new measure for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
+        }
 
         createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber,
@@ -23951,12 +24480,13 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         }
       
         // print current voice contents
-        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             endl <<
             "The current contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24083,22 +24613,24 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         
         // create a new last segment to collect the measure repeat replicas,
         // containing the first, yet incomplete, replica
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a new last segment with the first replica for voice \"" <<
             fVoiceName << "\"" <<
             endl;
+        }
             
         createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           firstReplicaMeasure);
 
         // print resulting voice contents
-        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24121,11 +24653,12 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
       {
         /* JMI
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24189,11 +24722,12 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         voiceLastSegmentMeasureList.pop_back ();
 
          // create the measure repeat replicas contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a measure repeat replicas contents for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         S_msrMeasureRepeatReplicas
           measureRepeatReplicas =
@@ -24214,12 +24748,13 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 
 /* JMI BOF
        // set last segment as the measure repeat replicas segment
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting current last segment as measure repeat replicas segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
+        }
       
         fVoicePendingMeasureRepeat->
           setMeasureRepeatReplicas (
@@ -24230,12 +24765,13 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
           fVoicePendingMeasureRepeat);
 
         // set multipleRestContents as the multiple rest contents
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
+        }
       
         fVoicePendingMultipleRest->
           setMultipleRestContents (
@@ -24248,11 +24784,12 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 
 /* JMI
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24261,22 +24798,24 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
 
         // create a new last segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a new last segment with the measure repeat next measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
+        }
             
         createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
           nextMeasureAfterMeasureRepeat);
 
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24368,11 +24907,12 @@ void msrVoice::createMultipleRestInVoice (
 
         // create a new segment to collect the multiple rest measures,
         // containing the first, rest measure
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a new last segment containing the first rest measure in voice \"" <<
             fVoiceName << "\"" <<
             endl;
+        }
             
         createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
@@ -24390,11 +24930,12 @@ void msrVoice::createMultipleRestInVoice (
           inputLineNumber);
             
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24426,11 +24967,12 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
 /*
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24494,11 +25036,12 @@ void msrVoice::appendPendingMultipleRestToVoice (
         voiceLastSegmentMeasureList.pop_back ();
 
         // create the multiple rest contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         S_msrMultipleRestContents
           multipleRestContents =
@@ -24507,24 +25050,26 @@ void msrVoice::appendPendingMultipleRestToVoice (
               this);
 
         // set voice last segment as the multiple rest segment
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
+        }
       
         multipleRestContents->
           setMultipleRestContentsSegment (
             fVoiceLastSegment);
 
         // set multipleRestContents as the multiple rest contents
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
+        }
       
         fVoicePendingMultipleRest->
           setMultipleRestContents (
@@ -24536,11 +25081,12 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
 /* JMI
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24549,11 +25095,12 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
         // create a new segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a new last segment with the measure after the multiple rests for voice \"" <<
             fVoiceName << "\"" <<
             endl;
+        }
             
         createNewLastSegmentFromFirstMeasureForVoice (
           inputLineNumber,
@@ -24567,11 +25114,12 @@ void msrVoice::appendPendingMultipleRestToVoice (
             nextMeasureAfterMultipleRest);
 */
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24607,11 +25155,13 @@ void msrVoice::appendMultipleRestCloneToVoice (
 
 /*
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
+
         gIndenter++;
         print (gLogIOstream);
         gIndenter--;
@@ -24622,11 +25172,12 @@ void msrVoice::appendMultipleRestCloneToVoice (
           multipleRest);
 
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+        }
 
         gIndenter++;
         print (gLogIOstream);
@@ -24651,20 +25202,22 @@ void msrVoice::appendRepeatCloneToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending repeat clone to voice clone \"" <<
             getVoiceName () <<  "\"" <<
             endl;
+        }
       
         // create a repeat common part from current last segment
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "-=> Creating a repeat clone common part from current last segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
             endl;
+        }
       
         S_msrRepeatCommonPart
           repeatCommonPart =
@@ -24674,24 +25227,21 @@ void msrVoice::appendRepeatCloneToVoice (
               repeatCLone);
 
         // set current last segment as the repeat common segment
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting repeat common part in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
-      /*
-        repeat->
-          setRepeatCommonSegment (
-            fVoiceLastSegment);
-            */
+        }
+
         repeatCLone->
           setRepeatCommonPart (
             repeatCommonPart);
 
-/*
+/* JMI
         // set current last segment as the repeat common segment
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Segging current last segment as repeat common segment in voice \"" <<
             getVoiceName () <<
@@ -24703,12 +25253,13 @@ void msrVoice::appendRepeatCloneToVoice (
             fVoiceLastSegment);
  */         
         // register repeat clone as the (new) current repeat
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Registering repeat clone as the new current repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
+        }
       
         fVoiceCurrentRepeat =
           repeatCLone;
@@ -24718,11 +25269,12 @@ void msrVoice::appendRepeatCloneToVoice (
           repeatCLone);
       
         // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a new last segment for voice BOF JMI \"" <<
             fVoiceName << "\"" <<
             endl;
+        }
             
         createNewLastSegmentForVoice (
           inputLineNumber);
@@ -24743,12 +25295,13 @@ void msrVoice::appendRepeatEndingToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending a repeat ending to voice \"" <<
             getVoiceName () <<  "\"" <<
             ", line " << inputLineNumber <<
             endl;
+        }
       
         // fetch last measure's full measure length
         int fullMeasureLength =
@@ -24766,22 +25319,24 @@ void msrVoice::appendRepeatEndingToVoice (
               fVoiceCurrentRepeat);
       
         // add the repeat ending it to the voice current repeat
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending repeat ending to current repeat in voice \"" <<
             fVoiceName <<
             "\"" <<
             endl;
+        }
             
         fVoiceCurrentRepeat->
           addRepeatEnding (repeatEnding);
       
         // create a new last segment containing a new measure for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
+        }
             
         createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber,
@@ -24801,12 +25356,13 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
     case msrVoice::kFiguredBassVoice:
       {
         // add the repeat ending it to the voice current repeat
-        if (gGeneralOptions->fTraceRepeats)
+        if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending repeat ending clone to current repeat in voice \"" <<
             fVoiceName <<
             "\"" <<
             endl;
+        }
             
         // sanity check
         msrAssert(
@@ -24817,12 +25373,13 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
           addRepeatEnding (repeatEndingClone);
       
         // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices)
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "-=> Creating a new last segment for voice \"" <<
             fVoiceName <<
             "\"" <<
             endl;
+        }
             
         createNewLastSegmentForVoice (
           repeatEndingClone->getInputLineNumber ());
@@ -24833,12 +25390,14 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Prepending barline '" <<
       barline->barlineAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
-      ":" << endl;
+      ":" <<
+      endl;
+  }
       
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -24850,12 +25409,14 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending barline '" <<
       barline->barlineAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
-      ":" << endl;
+      ":" <<
+      endl;
+  }
       
   // create the voice last segment and first measure if needed
  // appendAFirstMeasureToVoiceIfNotYetDone (
@@ -24867,10 +25428,11 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending a segno to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -24882,10 +25444,12 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 
 void msrVoice::appendCodaToVoice (S_msrCoda coda)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending a coda to voice \"" << getVoiceName () << "\"" <<
-      ":" << endl;
+      ":" <<
+      endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -24897,10 +25461,11 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda)
 
 void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 {
-  if (gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending a eyeGlasses to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -24912,10 +25477,11 @@ void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 
 void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 {
-  if (gGeneralOptions->fTraceNotes)
+  if (gGeneralOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending a pedal to voice \"" << getVoiceName () << "\"" <<
       endl;
+  }
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
@@ -24929,11 +25495,12 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 S_msrElement msrVoice::removeLastElementFromVoice (  // JMI
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Removing last note" <<
       " from voice " << getVoiceName () <<
       endl;
+  }
 
   return
     fVoiceLastSegment->
@@ -25023,50 +25590,57 @@ void msrVoice::finalizeVoice ( // JMI ???
   }
 }
 
-void msrVoice::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrVoice::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrVoice::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrVoice>*
     p =
       dynamic_cast<visitor<S_msrVoice>*> (v)) {
         S_msrVoice elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVoice::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrVoice::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrVoice::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrVoice::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrVoice>*
     p =
       dynamic_cast<visitor<S_msrVoice>*> (v)) {
         S_msrVoice elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVoice::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrVoice::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrVoice::browseData()" <<
       endl;
+  }
 
   // browse the voice initial repeats and segments
   if (fVoiceInitialRepeatsAndSegments.size ()) {
@@ -25100,10 +25674,11 @@ void msrVoice::browseData (basevisitor* v)
     } // for
   }
 
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% <== msrVoice::browseData()" <<
       endl;
+  }
 }
 
 string msrVoice::voiceKindAsString (
@@ -25388,40 +25963,46 @@ S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberNewbornClone ()
   return newbornClone;
 }
 
-void msrStaffLinesNumber::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStaffLinesNumber::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStaffLinesNumber::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrStaffLinesNumber>*
     p =
       dynamic_cast<visitor<S_msrStaffLinesNumber>*> (v)) {
         S_msrStaffLinesNumber elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffLinesNumber::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrStaffLinesNumber::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStaffLinesNumber::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStaffLinesNumber::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrStaffLinesNumber>*
     p =
       dynamic_cast<visitor<S_msrStaffLinesNumber>*> (v)) {
         S_msrStaffLinesNumber elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffLinesNumber::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -25521,29 +26102,33 @@ void msrStaffTuning::acceptIn (basevisitor* v)
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffTuning::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrStaffTuning::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStaffTuning::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStaffTuning::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrStaffTuning>*
     p =
       dynamic_cast<visitor<S_msrStaffTuning>*> (v)) {
         S_msrStaffTuning elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffTuning::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -25674,40 +26259,46 @@ S_msrStaffDetails msrStaffDetails::createStaffDetailsNewbornClone (
   return newbornClone;
 }
 
-void msrStaffDetails::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStaffDetails::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStaffDetails::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrStaffDetails>*
     p =
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffDetails::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrStaffDetails::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStaffDetails::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStaffDetails::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrStaffDetails>*
     p =
       dynamic_cast<visitor<S_msrStaffDetails>*> (v)) {
         S_msrStaffDetails elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaffDetails::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -25995,12 +26586,13 @@ void msrStaff::initializeStaff ()
       break;
   } // switch
 
-  if (gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
       "-=> Initializing staff \"" << fStaffName <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   // check the staff number
   switch (fStaffKind) {
@@ -26094,7 +26686,7 @@ void msrStaff::initializeStaff ()
     }
     /* JMI
     else {
-      if (gGeneralOptions->fTraceStaves)
+      if (gGeneralOptions->fTraceStaves) {
         gLogIOstream <<
           "Appending default treble clef " <<
           " to staff \"" <<
@@ -26102,6 +26694,7 @@ void msrStaff::initializeStaff ()
           "\" in part " <<
           fStaffPartUplink->getPartCombinedName () <<
           endl;
+      }
 
       // create the implicit initial G line 2 clef
       appendClefToStaff (
@@ -26132,10 +26725,10 @@ void msrStaff::initializeStaff ()
       }
 
       appendKeyToStaff (key);
-      }
+    }
       /* JMI
     else {
-      if (gGeneralOptions->fTraceStaves)
+      if (gGeneralOptions->fTraceStaves) {
         gLogIOstream <<
           "Appending default C major key " <<
           " to staff \"" <<
@@ -26143,6 +26736,7 @@ void msrStaff::initializeStaff ()
           "\" in part " <<
           fStaffPartUplink->getPartCombinedName () <<
           endl;
+      }
           
       // create the implicit initial C major key
       appendKeyToStaff (
@@ -26186,7 +26780,7 @@ void msrStaff::initializeStaff ()
       // time is crucially needed for measures management,
       // we cannot stay without any
 
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes)
+      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes) {
         gLogIOstream <<
           "Appending default 4/4 time " <<
           " to staff \"" <<
@@ -26194,6 +26788,7 @@ void msrStaff::initializeStaff ()
           "\" in part " <<
           fStaffPartUplink->getPartCombinedName () <<
           endl;
+      }
           
       // append the implicit initial 4/4 time signature
       appendTimeToStaff (
@@ -26479,13 +27074,14 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
  //   partCurrentTime);
           
   // register the voice by its relative number
-  if (gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Voice " << voicePartRelativeID <<
       " in staff " << getStaffName () <<
       " gets staff relative number " <<
       fStaffRegisteredVoicesCounter <<
       endl;
+  }
     
   fStaffVoiceRelativeNumberToVoiceMap [fStaffRegisteredVoicesCounter] =
     voice;
@@ -26506,7 +27102,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
 {
   S_msrVoice result; // JMI avoid repetivite messages!
 
-  if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
       "Fetching part-relative voice ID " <<
       voicePartRelativeID <<
@@ -26515,6 +27111,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
       " in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i =
@@ -26576,7 +27173,7 @@ void msrStaff::registerVoiceInStaff (
   }
 
   // register voice in this staff
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " << fStaffRegisteredVoicesCounter <<
@@ -26584,6 +27181,7 @@ void msrStaff::registerVoiceInStaff (
       "\", line " << inputLineNumber <<
 // JMI       " in part " << fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   // register is by its relative number
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
@@ -26811,13 +27409,14 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
 
 void msrStaff::createRepeatAndAppendItToStaff (int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating and appending a repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -26834,13 +27433,14 @@ void msrStaff::appendRepeatEndingToStaff (
   msrRepeatEnding::msrRepeatEndingKind
             repeatEndingKind)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat ending to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -26859,13 +27459,14 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
   int measureRepeatMeasuresNumber,
   int measureRepeatSlashes)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a measure repeat from it's first measure in staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -26882,13 +27483,14 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
 void msrStaff::appendPendingMeasureRepeatToStaff (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending the pending measure repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -26904,7 +27506,7 @@ void msrStaff::createMultipleRestInStaff (
   int inputLineNumber,
   int multipleRestMeasuresNumber)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "-=> Creating a multiple rest in staff \"" <<
       getStaffName () <<
@@ -26914,6 +27516,7 @@ void msrStaff::createMultipleRestInStaff (
       singularOrPlural (
         multipleRestMeasuresNumber, "measure", "measures") <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -26929,13 +27532,14 @@ void msrStaff::createMultipleRestInStaff (
 void msrStaff::appendPendingMultipleRestToStaff (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending the pending multiple rest to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -26951,7 +27555,7 @@ void msrStaff::appendMultipleRestCloneToStaff (
   int               inputLineNumber,
   S_msrMultipleRest multipleRest)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
@@ -26959,6 +27563,7 @@ void msrStaff::appendMultipleRestCloneToStaff (
       getStaffName () <<
       "\"" <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -26975,13 +27580,14 @@ void msrStaff::appendRepeatCloneToStaff (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat clone to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -26996,13 +27602,14 @@ void msrStaff::appendRepeatCloneToStaff (
 void msrStaff::appendRepeatEndingCloneToStaff (
   S_msrRepeatEnding repeatEndingClone)
 {
-  if (gGeneralOptions->fTraceRepeats)
+  if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat ending clone to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -27083,7 +27690,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
 void msrStaff::appendStaffDetailsToStaff (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceStaves)
+  if (gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending staff details '" <<
       staffDetails->staffDetailsAsShortString () <<
@@ -27092,6 +27699,7 @@ void msrStaff::appendStaffDetailsToStaff (
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
+  }
 
   // register staff details in staff
   fCurrentStaffStaffDetails = staffDetails;
@@ -27231,50 +27839,57 @@ void msrStaff::finalizeStaff (int inputLineNumber)
   } // for
 }
 
-void msrStaff::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStaff::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStaff::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrStaff>*
     p =
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaff::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrStaff::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrStaff::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStaff::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrStaff>*
     p =
       dynamic_cast<visitor<S_msrStaff>*> (v)) {
         S_msrStaff elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrStaff::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrStaff::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrStaff::browseData()" <<
       endl;
+  }
 
   /*
     fPartCurrentClef, fPartCurrentKey and fPartCurrentTime are used
@@ -27312,10 +27927,11 @@ void msrStaff::browseData (basevisitor* v)
     } // for
   }
 
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% <== msrStaff::browseData()" <<
       endl;
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrStaff& elt)
@@ -27628,40 +28244,46 @@ S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
   return newbornClone;
 }
 
-void msrVoiceStaffChange::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrVoiceStaffChange::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrVoiceStaffChange::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrVoiceStaffChange>*
     p =
       dynamic_cast<visitor<S_msrVoiceStaffChange>*> (v)) {
         S_msrVoiceStaffChange elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVoiceStaffChange::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrVoiceStaffChange::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrVoiceStaffChange::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrVoiceStaffChange::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrVoiceStaffChange>*
     p =
       dynamic_cast<visitor<S_msrVoiceStaffChange>*> (v)) {
         S_msrVoiceStaffChange elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrVoiceStaffChange::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -27738,11 +28360,12 @@ msrPart::msrPart (
 
 void msrPart::initializePart ()
 {
-  if (gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceParts) {
     gLogIOstream <<
       "Creating part \"" << getPartCombinedName () << "\"" <<
       endl;
-
+  }
+  
   // is this part name in the part renaming map?
   map<string, string>::const_iterator
     it =
@@ -27980,7 +28603,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         K_PART_HARMONY_STAFF_NUMBER);
       
     // create the part harmony voice  
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
         "-=> Creating the harmony voice " <<
         " with number " << K_PART_HARMONY_VOICE_NUMBER <<
@@ -27988,6 +28611,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         getPartCombinedName () <<
         ", line " << inputLineNumber <<
         endl;
+    }
 
 /* JMI
     // create a deep copy of the part master voice
@@ -28066,7 +28690,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
         K_PART_FIGURED_BASS_STAFF_NUMBER);
       
     // create the part figured bass voice  
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices)
+    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
         "-=> Creating the figured bass voice " <<
         " with number " << K_PART_FIGURED_BASS_VOICE_NUMBER <<
@@ -28074,6 +28698,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
         getPartCombinedName () <<
         ", line " << inputLineNumber <<
         endl;
+    }
 
 /* JMI
     // create a deep copy of the part master voice
@@ -28201,21 +28826,23 @@ void msrPart::setPartMsrName (string partMsrName)
     // yes, rename the part accordinglingly
     fPartMsrName = (*it).second;
 
-    if (gGeneralOptions->fTraceParts)
+    if (gGeneralOptions->fTraceParts) {
       gLogIOstream <<
         "Setting part name of " << getPartCombinedName () <<
         " to \"" << fPartMsrName << "\"" <<
          endl;
+    }
   }
   else {
     // use the argument
     fPartMsrName = partMsrName;
 
-    if (gGeneralOptions->fTraceParts)
+    if (gGeneralOptions->fTraceParts) {
       gLogIOstream <<
         "Keeping partID \"" << partMsrName <<
         "\" as part name  for " << getPartCombinedName () <<
       endl;
+    }
   }
 }
 
@@ -28324,12 +28951,13 @@ void msrPart::complementPartVoicesUpToMeasure (
 void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
     gLogIOstream <<
       "Appending staff details\"" <<
       staffDetails->staffDetailsAsShortString () <<
       "\" to part " << getPartCombinedName () <<
     endl;
+  }
 
   // register staff details in part
   fCurrentPartStaffDetails = staffDetails;
@@ -28386,7 +29014,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
       "Appending key '" <<
       key->keyAsString () <<
       "' to part " << getPartCombinedName () <<
-    endl;
+      endl;
   }
   
   // set part key
@@ -28413,7 +29041,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
       "Appending time '" <<
       time->timeAsString () <<
       "' to part " << getPartCombinedName () <<
-    endl;
+      endl;
   }
   
   // set part time
@@ -28448,7 +29076,7 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
       "Appending time '" <<
       time->timeAsString () <<
       "' to part clone " << getPartCombinedName () <<
-    endl;
+      endl;
   }
   
   // set part time
@@ -28469,12 +29097,13 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
 
 void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceParts) {
     gLogIOstream <<
       "Appending transpose \"" <<
       transpose->transposeAsString () <<
       "\" to part " << getPartCombinedName () <<
     endl;
+  }
 
   // set part current transpose
   fPartCurrentTranspose = transpose;
@@ -28850,7 +29479,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
       if (! fPartHarmoniesSupplierVoice) {
         // first harmonies supplier voice met in this part,
         // set part harmonies supplier voice accordingly
-        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
+        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
           gLogIOstream <<
             "Setting voice \"" <<
             partHarmoniesSupplierVoice->
@@ -28859,6 +29488,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
             getPartCombinedName () <<
             ", line " << inputLineNumber <<
             endl;
+        }
     
         fPartHarmoniesSupplierVoice =
           partHarmoniesSupplierVoice;
@@ -28932,7 +29562,7 @@ void msrPart::appendHarmonyToPart (
         harmoniesSupplierVoice);
     
       // append the harmony to the part harmony voice
-      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
+      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
         gLogIOstream <<
           "Appending harmony '" <<
           harmony->harmonyAsString () <<
@@ -28940,6 +29570,7 @@ void msrPart::appendHarmonyToPart (
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
           endl;
+      }
     
       fPartHarmonyVoice->
         appendHarmonyToVoice (harmony);
@@ -28990,7 +29621,7 @@ void msrPart::appendHarmonyToPartClone (
         */
     
       // append the harmony to the part harmony voice
-      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
+      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
         gLogIOstream <<
           "Appending harmony '" <<
           harmony->harmonyAsString () <<
@@ -28998,6 +29629,7 @@ void msrPart::appendHarmonyToPartClone (
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
           endl;
+      }
     
       fPartHarmonyVoice->
         appendHarmonyToVoiceClone (harmony);
@@ -29046,7 +29678,7 @@ void msrPart::appendFiguredBassToPart (
         figuredBassSupplierVoice);
     
       // append the figured bass to the part figured bass voice
-      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts)
+      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->figuredBassAsString () <<
@@ -29054,6 +29686,7 @@ void msrPart::appendFiguredBassToPart (
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
           endl;
+      }
     
       fPartFiguredBassVoice->
         appendFiguredBassToVoice (figuredBass);
@@ -29104,7 +29737,7 @@ void msrPart::appendFiguredBassToPartClone (
         */
     
       // append the figured bass to the part figured bass voice
-      if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceParts)
+      if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->figuredBassAsString () <<
@@ -29112,6 +29745,7 @@ void msrPart::appendFiguredBassToPartClone (
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
           endl;
+      }
     
       fPartFiguredBassVoice->
         appendFiguredBassToVoiceClone (figuredBass);
@@ -29145,13 +29779,14 @@ void msrPart::appendAccordionRegistrationToPart (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
       "' to part " <<
       getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -29167,13 +29802,14 @@ void msrPart::appendHarpPedalsTuningToPart (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts)
+  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
       "' to part " <<
       getPartCombinedName () <<
       endl;
+  }
 
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -29399,50 +30035,57 @@ void msrPart::finalizePart (
   }
 }
 
-void msrPart::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPart::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPart::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrPart>*
     p =
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPart::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrPart::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPart::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPart::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrPart>*
     p =
       dynamic_cast<visitor<S_msrPart>*> (v)) {
         S_msrPart elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPart::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrPart::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPart::browseData()" <<
       endl;
+  }
 
   // don't browse the harmony staff specifically,
   // it's part of fPartStavesMap
@@ -29811,7 +30454,7 @@ msrPartGroup::msrPartGroup (
 
   fPartGroupScoreUplink     = partGroupScoreUplink;
   
-  if (gGeneralOptions->fTracePartGroups)
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -29819,6 +30462,7 @@ msrPartGroup::msrPartGroup (
       ", partGroupAbsoluteNumber = " << fPartGroupAbsoluteNumber <<
       ", line " << inputLineNumber <<
       endl;
+  }
 }
 
 msrPartGroup::~msrPartGroup()
@@ -29828,13 +30472,14 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   S_msrPartGroup partGroupClone,
   S_msrScore     scoreClone)
 {
-  if (gGeneralOptions->fTracePartGroups)
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
       "-=> Creating a newborn clone part group " <<
       getPartGroupCombinedName () <<
       endl;
+  }
 
   // don't check against 0, since the partGroup stack JMI
   // that it comes from may be empty
@@ -30056,10 +30701,11 @@ void msrPartGroup::removePartFromPartGroup (
 void msrPartGroup::prependSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
-  if (gGeneralOptions->fTracePartGroups)
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Prepending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
+  }
 
   // register it in this part group
   fPartGroupElements.push_front (partGroup);
@@ -30068,10 +30714,11 @@ void msrPartGroup::prependSubPartGroupToPartGroup (
 void msrPartGroup::appendSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
-  if (gGeneralOptions->fTracePartGroups)
+  if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "Appending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
+  }
 
   // register it in this part group
   fPartGroupElements.push_back (partGroup);
@@ -30277,50 +30924,57 @@ void msrPartGroup::collectPartGroupPartsList (
   } // for
 }
 
-void msrPartGroup::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPartGroup::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPartGroup::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrPartGroup>*
     p =
       dynamic_cast<visitor<S_msrPartGroup>*> (v)) {
         S_msrPartGroup elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPartGroup::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrPartGroup::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrPartGroup::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPartGroup::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrPartGroup>*
     p =
       dynamic_cast<visitor<S_msrPartGroup>*> (v)) {
         S_msrPartGroup elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrPartGroup::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrPartGroup::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrPartGroup::browseData()" <<
       endl;
+  }
   
   for (
     list<S_msrElement>::const_iterator i = fPartGroupElements.begin ();
@@ -30331,10 +30985,11 @@ void msrPartGroup::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% <== msrPartGroup::browseData()" <<
       endl;
+  }
 }
 
 string msrPartGroup::partGroupImplicitKindAsString (
@@ -30752,40 +31407,46 @@ void msrIdentification::setScoreInstrumentAssoc (
       "score-instrument", val);
 }
 
-void msrIdentification::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrIdentification::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrIdentification::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrIdentification>*
     p =
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrIdentification::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrIdentification::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrIdentification::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrIdentification::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrIdentification>*
     p =
       dynamic_cast<visitor<S_msrIdentification>*> (v)) {
         S_msrIdentification elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrIdentification::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
@@ -31194,50 +31855,57 @@ S_msrPartGroup msrScore::fetchScorePartGroup (
 }
 */
 
-void msrScore::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrScore::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrScore::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrScore>*
     p =
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrScore::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrScore::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrScore::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrScore::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrScore>*
     p =
       dynamic_cast<visitor<S_msrScore>*> (v)) {
         S_msrScore elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrScore::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
 
 void msrScore::browseData (basevisitor* v)
 {
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrScore::browseData()" <<
       endl;
+  }
     
   if (fIdentification) {
     // browse identification
@@ -31269,11 +31937,12 @@ void msrScore::browseData (basevisitor* v)
     browser.browse (*(*i));
   } // for
 
-  if (gMsrOptions->fTraceMsrVisitors)
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% <== msrScore::browseData()" <<
       endl;
   }
+}
 
 ostream& operator<< (ostream& os, const S_msrScore& elt)
 {
@@ -31424,40 +32093,46 @@ msrMidi::msrMidi (
 msrMidi::~msrMidi()
 {}
 
-void msrMidi::acceptIn (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMidi::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMidi::acceptIn()" <<
       endl;
+  }
       
   if (visitor<S_msrMidi>*
     p =
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
         
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMidi::visitStart()" <<
-             endl;
+            endl;
+        }
         p->visitStart (elem);
   }
 }
 
-void msrMidi::acceptOut (basevisitor* v) {
-  if (gMsrOptions->fTraceMsrVisitors)
+void msrMidi::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "% ==> msrMidi::acceptOut()" <<
       endl;
+  }
 
   if (visitor<S_msrMidi>*
     p =
       dynamic_cast<visitor<S_msrMidi>*> (v)) {
         S_msrMidi elem = this;
       
-        if (gMsrOptions->fTraceMsrVisitors)
+        if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
             "% ==> Launching msrMidi::visitEnd()" <<
             endl;
+        }
         p->visitEnd (elem);
   }
 }
