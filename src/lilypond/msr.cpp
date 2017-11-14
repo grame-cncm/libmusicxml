@@ -9013,33 +9013,53 @@ void msrPageBreak::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
-  int      inputLineNumber,
-  int      number,
-  int      actualNotes,
-  int      normalNotes,
-  rational notePositionInMeasure)
+  int       inputLineNumber,
+  int       tupletNumber,
+  msrTupletBracketKind
+            tupletBracketKind,
+  msrTupletShowNumberKind
+            tupletShowNumberKind,
+  msrTupletShowTypeKind
+            tupletShowTypeKind,
+  int       tupletActualNotes,
+  int       tupletNormalNotes,
+  rational  notePositionInMeasure)
 {
   msrTuplet* o =
     new msrTuplet (
       inputLineNumber,
-      number, actualNotes, normalNotes,
+      tupletNumber,
+      tupletBracketKind,
+      tupletShowNumberKind,
+      tupletShowTypeKind,
+      tupletActualNotes, tupletNormalNotes,
       notePositionInMeasure);
   assert(o!=0);
   return o;
 }
 
 msrTuplet::msrTuplet (
-  int      inputLineNumber,
-  int      number,
-  int      actualNotes,
-  int      normalNotes,
-  rational notePositionInMeasure)
+  int       inputLineNumber,
+  int       tupletNumber,
+  msrTupletBracketKind
+            tupletBracketKind,
+  msrTupletShowNumberKind
+            tupletShowNumberKind,
+  msrTupletShowTypeKind
+            tupletShowTypeKind,
+  int       tupletActualNotes,
+  int       tupletNormalNotes,
+  rational  notePositionInMeasure)
     : msrElement (inputLineNumber)
 {  
-  fTupletNumber = number;
+  fTupletNumber = tupletNumber;
   
-  fTupletActualNotes = actualNotes;
-  fTupletNormalNotes = normalNotes;
+  fTupletBracketKind    = tupletBracketKind;
+  fTupletShowNumberKind = tupletShowNumberKind;
+  fTupletShowTypeKind   = tupletShowTypeKind;
+
+  fTupletActualNotes = tupletActualNotes;
+  fTupletNormalNotes = tupletNormalNotes;
   
   fTupletSoundingWholeNotes = rational (0, 1);
   fTupletDisplayWholeNotes  = rational (0, 1);
@@ -9065,6 +9085,9 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
       msrTuplet::create (
         fInputLineNumber,
         fTupletNumber,
+        fTupletBracketKind,
+        fTupletShowNumberKind,
+        fTupletShowTypeKind,
         fTupletActualNotes,
         fTupletNormalNotes,
         fTupletPositionInMeasure);
@@ -9081,40 +9104,60 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
   return newbornClone;
 }
 
-string msrTuplet::tupletKindAsString (
-  msrTupletKind tupletKind)
+string msrTuplet::tupletTypeKindAsString (
+  msrTupletTypeKind tupletTypeKind)
 {
   string result;
-  
-  switch (tupletKind) {
-    case msrTuplet::kStartTuplet:
-      result = "startTuplet";
+
+  switch (tupletTypeKind) {
+    case msrTuplet::k_NoTupletType:
+      result = "none";
       break;
-    case msrTuplet::kContinueTuplet:
-      result = "continueTuplet";
+    case msrTuplet::kTupletTypeStart:
+      result = "start";
       break;
-    case msrTuplet::kStopTuplet:
-      result = "stopTuplet";
+    case msrTuplet::kTupletTypeContinue:
+      result = "continue";
       break;
-    case msrTuplet::k_NoTuplet:
-      result = "NoTuplet";
+    case msrTuplet::kTupletTypeStop:
+      result = "stop";
       break;
   } // switch
 
   return result;
 }
-      
+
+string msrTuplet::tupletBracketKindAsString (
+  msrTupletBracketKind tupletBracketKind)
+{
+  string result;
+
+  switch (tupletBracketKind) {
+    case msrTuplet::kTupletBracketYes:
+      result = "tupletBracketYes";
+      break;
+    case msrTuplet::kTupletBracketNo:
+      result = "tupletBracketNo";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrTuplet::tupletShowNumberKindAsString (
   msrTupletShowNumberKind tupletShowNumberKind)
 {
   string result;
   
   switch (tupletShowNumberKind) {
-    case msrTuplet::kTupletShowNumberYes:
-      result = "tupletShowNumberYes";
+    case msrTuplet::kTupletShowNumberActual:
+      result = "tupletShowNumberActual";
       break;
-    case msrTuplet::kTupletShowNumberNo:
-      result = "tupletShowNumberNo";
+    case msrTuplet::kTupletShowNumberBoth:
+      result = "tupletShowNumberBoth";
+      break;
+    case msrTuplet::kTupletShowNumberNone:
+      result = "tupletShowNumberNone";
       break;
   } // switch
 
@@ -9766,15 +9809,46 @@ void msrTuplet::print (ostream& os)
     fTupletDisplayWholeNotes << " disp" <<
     ", meas "<<
     fTupletMeasureNumber <<
-    ":";
-    
+    endl;
+
+  gIndenter++;
+  
+  const int fieldWidth = 22;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "(TupletBracketKind" << " : " <<
+    tupletBracketKindAsString (
+      fTupletBracketKind) <<
+    ")" <<
+    endl <<
+    setw (fieldWidth) <<
+    "(TupletShowNumberKind" << " : " <<
+    tupletShowNumberKindAsString (
+      fTupletShowNumberKind) <<
+    ")" <<
+    endl <<
+    setw (fieldWidth) <<
+    "(TupletShowTypeKind" << " : " <<
+    tupletShowTypeKindAsString (
+      fTupletShowTypeKind) <<
+    ")" <<
+    endl;
+
+/* JMI ???
+  os << left <<
+    setw (fieldWidth) <<
+    "(position in measure" << " : ";
   if (fTupletPositionInMeasure.getNumerator () < 0)
-    os << "?";
+    os << "???)";
   else
-    os << fTupletPositionInMeasure;
+    os << fTupletPositionInMeasure << ")";
   os <<
     endl;
-  
+    */
+
+  gIndenter--;
+
   if (fTupletElements.size ()) {
     gIndenter++;
 
@@ -9785,7 +9859,7 @@ void msrTuplet::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-  // JMI    os << endl;
+      // no endl here
     } // for
     
     gIndenter--;

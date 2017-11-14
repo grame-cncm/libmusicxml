@@ -596,8 +596,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_creator& elt )
     stringstream s;
 
     s <<
-      "creator type '" << creatorType << "'" <<
-      " is unknown";
+      "creator type \"" << creatorType <<
+      "\" is unknown";
 
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -1291,7 +1291,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_clef_octave_change& elt )
     stringstream s;
     
     s <<
-      "octave change \"" << fCurrentClefOctaveChange <<
+      "clef-octave-change \"" << fCurrentClefOctaveChange <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -1974,7 +1974,7 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
       stringstream s;
       
       s << 
-        "ERROR: unknown key fifths number \"" << fCurrentKeyFifths << "\"";
+        "unknown key fifths number \"" << fCurrentKeyFifths << "\"";
         
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -2335,7 +2335,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_relation& elt )
       stringstream s;
       
       s <<
-        "interchangeable symbol " << timeRelation << " is unknown";
+        "time-relation " << timeRelation << " is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -2861,7 +2861,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
       stringstream s;
   
       s <<
-        "octave shift size \"" << octaveShiftSize <<
+        "octave-shift size \"" << octaveShiftSize <<
         "\" is unknown";
         
       msrMusicXMLError (
@@ -2890,7 +2890,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
     stringstream s;
     
     s <<
-      "octave shift type \"" << type <<
+      "octave-shift type \"" << type <<
       "\"" << "is unknown";
       
     msrMusicXMLError (
@@ -3686,7 +3686,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
       if (showFrets.size ()) {
         stringstream s;
         
-        s << "show frets " << showFrets << " unknown";
+        s << "show-frets " << showFrets << " unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -3830,7 +3830,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_type& elt )
   else {
     stringstream s;
     
-    s << "staff type" << staffType << "unknown";
+    s << "staff-type" << staffType << "unknown";
     
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -4318,7 +4318,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
       if (tiedType.size ()) {
         stringstream s;
         
-        s << "tied type" << fCurrentSlurType << "unknown";
+        s << "tied type '" << fCurrentSlurType << "' inside a slur is unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -4334,7 +4334,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
       if (tiedType.size ()) {
         stringstream s;
         
-        s << "tied type" << fCurrentSlurType << "unknown";
+        s << "tied type '" << fCurrentSlurType << "' inside a ligature is unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -4387,41 +4387,38 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  fCurrentSlurNumber =
-    elt->getAttributeIntValue ("number", 0);
+  // number
+  
+  fCurrentSlurNumber = elt->getAttributeIntValue ("number", 0);
 
-  fCurrentSlurType =
-    elt->getAttributeValue ("type");
+  // type
+  
+  fCurrentSlurType = elt->getAttributeValue ("type");
 
   fCurrentSlurPlacement =
     elt->getAttributeValue ("placement");
 
   if      (fCurrentSlurType == "start") {
-    
     fCurrentSlurKind = msrSlur::kStartSlur;
-    fOnGoingSlur = true;
-    
+    fOnGoingSlur = true;    
   }
   else if (fCurrentSlurType == "continue") {
-    
     fCurrentSlurKind = msrSlur::kContinueSlur;
-    
   }
   else if (fCurrentSlurType == "stop") {
-    
     fCurrentSlurKind = msrSlur::kStopSlur;
     fOnGoingSlur = false;
-    
   }
   else {
-
     // inner slur notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs 
     if (! fOnGoingSlur)
       if (fCurrentSlurType.size ()) {
         stringstream s;
         
-        s << "slur type" << fCurrentSlurType << "unknown";
+        s <<
+          "slur type \"" << fCurrentSlurType <<
+          "\" is unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -4463,31 +4460,31 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  fCurrentLigatureNumber =
+  // number
+  
+  fCurrentLigatureNumber = // JMI ligature ???
     elt->getAttributeIntValue ("number", 0);
 
+  //type
+  
   fCurrentLigatureType =
     elt->getAttributeValue ("type");
 
+  // placement
+  
   fCurrentLigaturePlacement =
     elt->getAttributeValue ("placement");
 
   if      (fCurrentLigatureType == "start") {
-    
     fCurrentLigatureKind = msrLigature::kStartLigature;
     fOnGoingLigature = true;
-    
   }
   else if (fCurrentLigatureType == "continue") { // JMI ???
-    
     fCurrentLigatureKind = msrLigature::kContinueLigature;
-    
   }
   else if (fCurrentLigatureType == "stop") {
-    
     fCurrentLigatureKind = msrLigature::kStopLigature;
     fOnGoingLigature = false;
-    
   }
   else {
 
@@ -4497,7 +4494,9 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
       if (fCurrentLigatureType.size ()) {
         stringstream s;
         
-        s << "ligature type" << fCurrentLigatureType << "unknown";
+        s <<
+          "ligature type \"" << fCurrentLigatureType <<
+          "\" is unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -4752,7 +4751,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
   else {
     stringstream s;
     
-    s << "--> syllabic \"" << fCurrentSyllabic << "\" is unknown";
+    s <<
+      "syllabic \"" << fCurrentSyllabic <<
+      "\" is unknown";
     
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -4893,7 +4894,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
     else if (extendType.size ()) {
         stringstream s;
         
-        s << "extend type" << extendType << "unknown";
+        s <<
+          "extend type \"" << extendType <<
+          "\" is unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -5286,7 +5289,9 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
     if (implicit.size ()) {
       stringstream s;
       
-      s << "implicit " << implicit << " is unknown";
+      s <<
+        "implicit \"" << implicit <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -5490,8 +5495,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
     else {
       stringstream s;
   
-      s << "unknown 'new-system' value '" << newSystem <<
-      "' in '<print />', should be 'yes', 'no' or empty";
+      s << "new-system \"" << newSystem <<
+      "\" is unknown in '<print />', should be 'yes', 'no' or empty";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -5541,8 +5546,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
     else {
       stringstream s;
   
-      s << "unknown 'new-page' value '" << newPage <<
-      "' in '<print />', should be 'yes', 'no' or empty";
+      s << "new-page \"" << newPage <<
+      "\" is unknown in '<print />', should be 'yes', 'no' or empty";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -5717,6 +5722,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
   fCurrentBarlineRepeatDirectionKind = msrBarline::k_NoRepeatDirection;
   fCurrentBarlineRepeatWingedKind    = msrBarline::k_NoRepeatWinged;
 
+  // location
+  
   string
     location =
       elt->getAttributeValue ("location");
@@ -5737,7 +5744,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
     stringstream s;
     
     s <<
-      "barline location " << location << " is unknown";
+      "barline location \"" << location <<
+      "\" is unknown";
       
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -5812,7 +5820,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
       gGeneralOptions->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
-      "barline style " + barStyle + " is unknown");
+      "bar-style \"" + barStyle + "\" is unknown");
   }
 }
 
@@ -6015,7 +6023,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     if (line.size ()) {
       stringstream s;
       
-      s << "pedal line '" << line << "' is unknown";
+      s <<
+        "pedal line \"" << line <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -6041,7 +6051,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
     if (sign.size ()) {
       stringstream s;
       
-      s << "pedal sign '" << sign << "' is unknown";
+      s <<
+        "pedal sign \"" << sign <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -6109,9 +6121,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
     stringstream s;
     
     s <<
-      "ending type " <<
-      type <<
-      " is unknown";
+      "ending type \"" << type <<
+      "\" is unknown";
     
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -6154,9 +6165,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
     stringstream s;
     
     s <<
-      "repeat direction '" <<
-      direction <<
-      "' is unknown";
+      "repeat direction \"" << direction <<
+      "\" is unknown";
     
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -6193,9 +6203,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
       stringstream s;
       
       s <<
-        "repeat winged '" <<
-        winged <<
-        "' is unknown";
+        "repeat winged \"" << winged <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -6770,7 +6779,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
     if (notePrintObject.size ()) {
       stringstream s;
       
-      s << "note print-object " << notePrintObject << " is unknown";
+      s <<
+        "note print-object \"" << notePrintObject <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -7019,9 +7030,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
       stringstream s;
       
       s <<
-        endl << 
-        "--> unknown note type " << noteType <<
-        endl;
+        "note type \"" << noteType <<
+        "\" is unknown";
   
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -7031,11 +7041,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
     }
   }
 
+  // size
+  
   {
     string noteTypeSize = elt->getAttributeValue ("size");
   
-    if (noteTypeSize == "cue") {
-       // USE IT! JMI ???
+    if (noteTypeSize == "cue") { // USE IT! JMI ???
     }
   
     else {
@@ -7044,7 +7055,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
           gGeneralOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
-            "unknown note type size \"" + noteTypeSize + "\"");
+            "note type size \"" + noteTypeSize + "\" is unknown");
     }
   }
   
@@ -7178,9 +7189,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
       stringstream s;
       
       s <<
-        endl << 
-        "--> unknown note head " << noteHead <<
-        endl;
+        "note head \"" << noteHead <<
+        "\" is unknown";
   
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -7190,6 +7200,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
     }
   }
 
+  // filled
+  
   {
     string noteHeadFilled = elt->getAttributeValue ("filled");
     
@@ -7201,7 +7213,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
       if (noteHeadFilled.size ()) {
         stringstream s;
         
-        s << "note head filled " << noteHeadFilled << " is unknown";
+        s <<
+          "note head filled \"" << noteHeadFilled <<
+          "\" is unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -7212,6 +7226,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
     }
   }
 
+  // parentheses
+  
   {
     string noteHeadParentheses = elt->getAttributeValue ("parentheses");
     
@@ -7223,7 +7239,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
       if (noteHeadParentheses.size ()) {
         stringstream s;
         
-        s << "note head parentheses " << noteHeadParentheses << " is unknown";
+        s <<
+          "note head parentheses \"" << noteHeadParentheses <<
+          "\" is unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -7336,7 +7354,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
       if (accidentalValue.size ()) {
         stringstream s;
         
-        s << "accidental " << accidentalValue << " is unknown";
+        s <<
+          "accidental \"" << accidentalValue <<
+          "\" is unknown";
         
         msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -7365,7 +7385,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
       if (editorialAccidental.size ()) {
         stringstream s;
         
-        s << "editorial accidental " << editorialAccidental << " is unknown";
+        s <<
+          "editorial accidental \"" << editorialAccidental <<
+          "\" is unknown";
         
         msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -7394,7 +7416,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
       if (cautionaryAccidental.size ()) {
         stringstream s;
         
-        s << "cautionary accidental " << cautionaryAccidental << " is unknown";
+        s <<
+          "cautionary accidental \"" << cautionaryAccidental <<
+          "\" is unknown";
         
         msrMusicXMLError (
           gGeneralOptions->fInputSourceName,
@@ -7438,7 +7462,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
     
     s <<
       "stem \"" << fCurrentBeamValue <<
-      "\"" << "is unknown";
+      "\" is unknown";
       
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -7540,10 +7564,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
 
   string beatRepeatUseDots = elt->getAttributeValue ("use-dots");
 
+/* JMI
   if      (beatRepeatUseDots == "yes")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
   else if (beatRepeatUseDots == "no")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
   else {
     stringstream s;
     
@@ -7555,6 +7580,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_repeat& elt )
       __FILE__, __LINE__,
       s.str ());
   }
+  */
 }
        
 void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
@@ -7608,7 +7634,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
   else {
     stringstream s;
     
-    s << "measure repeat type '" << measureRepeatType << "' is unknown";
+    s <<
+      "measure-repeat type \"" << measureRepeatType <<
+      "\" is unknown";
     
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -7632,10 +7660,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
 
   string multipleRestUseSymbols = elt->getAttributeValue ("use-symbols");
 
+/* JMI
   if      (multipleRestUseSymbols == "yes")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
   else if (multipleRestUseSymbols == "no")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
   else {
     if (multipleRestUseSymbols.size ()) {
       stringstream s;
@@ -7652,6 +7681,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
         s.str ());
       }
   }
+  */
 
   // register number of remeaining rest measures
   fRemainingMultipleRestMeasuresNumber =
@@ -7674,6 +7704,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // type
+  
   string slashType = elt->getAttributeValue ("type");
 
   if      (slashType == "start")
@@ -7683,7 +7715,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
   else {
     stringstream s;
     
-    s << "slash type " << slashType << " is unknown";
+    s <<
+      "slash type \"" << slashType <<
+      "\" is unknown";
     
     msrMusicXMLError (
       gGeneralOptions->fInputSourceName,
@@ -7692,6 +7726,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
       s.str ());
   }
 
+  // use-dots
+  
   string slashUseDots = elt->getAttributeValue ("use-dots");
 
   if      (slashUseDots == "yes")
@@ -7702,7 +7738,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
     if (slashUseDots.size ()) {
       stringstream s;
       
-      s << "slash use dots " << slashUseDots << " is unknown";
+      s <<
+        "slash use-dots \"" << slashUseDots <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -7711,6 +7749,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
         s.str ());
     }
   }
+
+  // use-stems
 
   string slashUseStems = elt->getAttributeValue ("use-stems");
 
@@ -7722,7 +7762,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_slash& elt )
     if (slashUseStems.size ()) {
       stringstream s;
       
-      s << "slash use stems " << slashUseStems << " is unknown";
+      s <<
+        "slash use-stems \"" << slashUseStems <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -8553,8 +8595,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
       stringstream s;
       
       s <<
-        "arpeggiate direction \"" << directionString <<
-        "\"" << "is unknown";
+        "arpeggiate direction \"" << directionString << "\"" << "is unknown";
         
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -8723,7 +8764,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_arrow& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "arrow placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -8787,7 +8828,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_bend& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "bend placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -8834,7 +8875,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_double_tongue& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "double-tongue placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -8880,7 +8921,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_down_bow& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "down-bow placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -8926,7 +8967,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "fingering placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -8973,7 +9014,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingernails& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "fingernails placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9019,7 +9060,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "fret placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9066,7 +9107,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "hammer-on placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9115,7 +9156,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "handbell placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9162,7 +9203,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmonic& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "harmonic placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9208,7 +9249,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_heel& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "heel placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9254,7 +9295,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_hole& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "hole placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9300,7 +9341,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_open_string& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "open-string placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9348,7 +9389,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_technical& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "other-technical placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9397,7 +9438,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pluck& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "pluck placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9446,7 +9487,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "pull-off placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9493,7 +9534,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "snap-pizzicato placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9539,7 +9580,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stopped& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "stopped placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9614,7 +9655,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "string placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9661,7 +9702,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tap& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "tap placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9707,7 +9748,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_thumb_position& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "thumb-position placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9753,7 +9794,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_toe& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "toe placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9799,7 +9840,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_triple_tongue& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "triple-tongue placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -9845,7 +9886,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_up_bow& elt )
     stringstream s;
     
     s <<
-      "placement \"" << placement <<
+      "up-bow placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10031,7 +10072,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     stringstream s;
     
     s <<
-      "--> tremolo value \"" << tremoloMarksNumber <<
+      "tremolo value \"" << tremoloMarksNumber <<
       "\" should be between 0 and 8";
     
     msrMusicXMLError (
@@ -10040,6 +10081,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // type
   
   string tremoloType = elt->getAttributeValue ("type");
 
@@ -10058,7 +10101,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
     stringstream s;
     
     s <<
-      "--> tremolo type \"" << tremoloType <<
+      "tremolo type \"" << tremoloType <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10067,6 +10110,8 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // placement
   
   string
     tremoloPlacement =
@@ -10329,7 +10374,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
       stringstream s;
       
       s <<
-        "wavy line ype \"" << wavyLineType <<
+        "wavy-line type \"" << wavyLineType <<
         "\" is unknown";
       
       msrMusicXMLError (
@@ -10360,7 +10405,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
     stringstream s;
     
     s <<
-      "ornament placement \"" << placement <<
+      "wavy-line placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10407,7 +10452,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "turn placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10454,7 +10499,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "inverted-turn placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10501,7 +10546,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "delayed-turn placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10548,7 +10593,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "delayed-inverted-turn placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10595,7 +10640,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "vertical-turn placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10642,7 +10687,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "mordent placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10689,7 +10734,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "inverted-mordent placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10736,7 +10781,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "schleifer placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10783,7 +10828,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
     stringstream s;
     
     s <<
-      "dynamics placement \"" << placement <<
+      "shake placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10813,8 +10858,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  string accidentalMark =
-    elt->getValue ();
+  string accidentalMark = elt->getValue ();
 
   msrAlterationKind
     currentOrnamentAccidentalMark;
@@ -10850,7 +10894,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     stringstream s;
     
     s <<
-      "accidental mark \"" << accidentalMark <<
+      "accidental-mark \"" << accidentalMark <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -10876,7 +10920,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     stringstream s;
     
     s <<
-      "ornament placement \"" << placement <<
+      "accidental-mark placement \"" << placement <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -12225,7 +12269,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
         gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         __FILE__, __LINE__,
-        "unknown grace slash \"" + slash + "\", should be 'yes' or 'no'");
+        "grace slash \"" + slash + "\" unknown, should be 'yes' or 'no'");
     }
   }
 }
@@ -12466,82 +12510,127 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   // number
 
   fCurrentTupletNumber = elt->getAttributeIntValue ("number", 0);
+
+  // bracket
+
+  {
+    string tupletBracket = elt->getAttributeValue ("bracket");
+      
+    fCurrentTupletBracketKind = msrTuplet::kTupletBracketYes; // option ??? JMI
     
-  string tupletType =
-    elt->getAttributeValue("type");
-  
-  /* JMI* /
-  fLogOutputStream <<
-    "--> mxmlTree2MsrTranslator::visitStart ( S_tuplet, fCurrentTupletNumber = " <<
-    fCurrentTupletNumber << ", tupletType = " << tupletType <<endl;
- // */
-  
-  fCurrentTupletKind = msrTuplet::k_NoTuplet;
-  
-  if      (tupletType == "start")
-    fCurrentTupletKind = msrTuplet::kStartTuplet;
-  else if (tupletType == "continue")
-    fCurrentTupletKind = msrTuplet::kContinueTuplet;
-  else if (tupletType == "stop")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
-  else {
-    stringstream s;
+    if      (tupletBracket == "yes")
+      fCurrentTupletBracketKind = msrTuplet::kTupletBracketYes;
+    else if (tupletBracket == "no")
+      fCurrentTupletBracketKind = msrTuplet::kTupletBracketNo;
+    else {
+      if (tupletBracket.size ()) {
+        stringstream s;
+        
+        s <<
+          "tuplet bracket \"" << tupletBracket <<
+          "\" is unknown";
+        
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      else {
+        stringstream s;
+        
+        s <<
+          "tuplet bracket is empty: this is implementation dependent," <<
+          " \"yes\" is assumed" ;
+        
+        msrMusicXMLWarning (
+          inputLineNumber,
+          s.str ());
+      }
+    }
+  }
+
+  // type
+
+  {
+    string tupletType = elt->getAttributeValue ("type");
+      
+    fCurrentTupletTypeKind = msrTuplet::k_NoTupletType;
     
-    s << "tuplet type " << tupletType << " is unknown";
-    
-    msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
+    if      (tupletType == "start")
+      fCurrentTupletTypeKind = msrTuplet::kTupletTypeStart;
+    else if (tupletType == "continue")
+      fCurrentTupletTypeKind = msrTuplet::kTupletTypeContinue;
+    else if (tupletType == "stop")
+      fCurrentTupletTypeKind = msrTuplet::kTupletTypeStop;
+    else {
+      stringstream s;
+      
+      s <<
+        "tuplet type \"" << tupletType <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gGeneralOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
   }
 
   // show-number
 
-  string tupletShowNumber = elt->getAttributeValue("show-number");
-
-  fTupletShowNumberKind =
-    msrTuplet::kTupletShowNumberNo; // default value
+  {
+    string tupletShowNumber = elt->getAttributeValue ("show-number");
   
-  if      (tupletShowNumber == "yes") {
-    fTupletShowNumberKind = msrTuplet::kTupletShowNumberYes;
+    fTupletShowNumberKind =
+      msrTuplet::kTupletShowNumberActual; // default value
+    
+    if      (tupletShowNumber == "actual") {
+      fTupletShowNumberKind = msrTuplet::kTupletShowNumberActual;
+    }
+    else if (tupletShowNumber == "both") {
+      fTupletShowNumberKind = msrTuplet::kTupletShowNumberBoth;
+    }
+    else if (tupletShowNumber == "none") {
+      fTupletShowNumberKind = msrTuplet::kTupletShowNumberNone;
+    }
+    else {
+      if (tupletShowNumber.size ()) {
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          "tuplet show-number \"" + tupletShowNumber + "\" is unknown");
+      }
+    }
   }
-
-  else if (tupletShowNumber == "no") {
-    fTupletShowNumberKind = msrTuplet::kTupletShowNumberNo;
-  }
-
-  else {
-    if (tupletShowNumber.size ())
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        "tuplet show number \"" + tupletShowNumber + "\" is unknown");
-  }
-
+  
   // show-type
-  
-  string tupletShowType = elt->getAttributeValue("show-type");
 
-  fTupletShowTypeKind = msrTuplet::kTupletShowTypeNone; // default value
+  {
+    string tupletShowType = elt->getAttributeValue ("show-type");
   
-  if      (tupletShowType == "actual") {
-    fTupletShowTypeKind = msrTuplet::kTupletShowTypeActual;
-  }
-  else if (tupletShowType == "both") {
-    fTupletShowTypeKind = msrTuplet::kTupletShowTypeBoth;
-  }
-  else if (tupletShowType == "none") {
-    fTupletShowTypeKind = msrTuplet::kTupletShowTypeNone;
-  }
-  else {
-    if (tupletShowType.size ())
-      msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        "tuplet show type \"" + tupletShowType + "\" is unknown");
+    fTupletShowTypeKind = msrTuplet::kTupletShowTypeNone; // default value
+    
+    if      (tupletShowType == "actual") {
+      fTupletShowTypeKind = msrTuplet::kTupletShowTypeActual;
+    }
+    else if (tupletShowType == "both") {
+      fTupletShowTypeKind = msrTuplet::kTupletShowTypeBoth;
+    }
+    else if (tupletShowType == "none") {
+      fTupletShowTypeKind = msrTuplet::kTupletShowTypeNone;
+    }
+    else {
+      if (tupletShowType.size ()) {
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          "tuplet show-type \"" + tupletShowType + "\" is unknown");
+      }
+    }
   }  
 
   if (
@@ -12552,8 +12641,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
       "fCurrentTupletNumber: " <<
       fCurrentTupletNumber <<
       "tupletType: " <<
-      msrTuplet::tupletKindAsString (
-        fCurrentTupletKind) <<
+      msrTuplet::tupletTypeKindAsString (
+        fCurrentTupletTypeKind) <<
+      "tupletBracket: " <<
+      msrTuplet::tupletBracketKindAsString (
+        fCurrentTupletBracketKind) <<
       "tupletShowNumber: " <<
       msrTuplet::tupletShowNumberKindAsString (
         fTupletShowNumberKind) <<
@@ -12658,7 +12750,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
         gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         __FILE__, __LINE__,
-        "unknown rest measure \"" + restMeasure + "\"");
+        "rest measure \"" + restMeasure + "\" is unknown");
   }
 }
 
@@ -13245,6 +13337,9 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
       msrTuplet::create (
         firstNote->getInputLineNumber (),
         fCurrentTupletNumber,
+        fCurrentTupletBracketKind,
+        fTupletShowNumberKind,
+        fTupletShowTypeKind,
         fCurrentActualNotes,
         fCurrentNormalNotes,
         firstNote->getNotePositionInMeasure ());
@@ -15402,12 +15497,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     // JMI
   }
 
-  switch (fCurrentTupletKind) {
-    case msrTuplet::kStartTuplet:
+  switch (fCurrentTupletTypeKind) {
+    case msrTuplet::kTupletTypeStart:
       {
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets) {
           fLogOutputStream <<
-            "--> kStartTuplet: note = '" <<
+            "--> kTupletTypeStart: note = '" <<
             note->
               noteAsShortStringWithRawWholeNotes () <<
             "', line " << inputLineNumber <<
@@ -15427,11 +15522,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
         // swith to continuation mode
         // this is handy in case the forthcoming tuplet members
         // are not explictly of the "continue" type
-        fCurrentTupletKind = msrTuplet::kContinueTuplet;
+        fCurrentTupletTypeKind = msrTuplet::kTupletTypeContinue;
       }
       break;
 
-    case msrTuplet::kContinueTuplet:
+    case msrTuplet::kTupletTypeContinue:
       {
         if (fTupletsStack.size ()) {
           S_msrTuplet
@@ -15441,7 +15536,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
         // populate the tuplet at the top of the stack
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
           fLogOutputStream <<
-            "--> kContinueTuplet: adding tuplet member note '" <<
+            "--> kTupletTypeContinue: adding tuplet member note '" <<
             note->
               noteAsShortStringWithRawWholeNotes () <<
             "' to stack top tuplet '" <<
@@ -15480,7 +15575,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
       }
       break;
 
-    case msrTuplet::kStopTuplet:
+    case msrTuplet::kTupletTypeStop:
       {
         if (fTupletsStack.size ()) {
           S_msrTuplet
@@ -15490,7 +15585,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
         // populate the tuplet at the top of the stack
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets)
           fLogOutputStream <<
-            "--> kStopTuplet: adding tuplet member note '" <<
+            "--> kTupletTypeStop: adding tuplet member note '" <<
             note->
               noteAsShortStringWithRawWholeNotes () <<
             "' to stack top tuplet '" <<
@@ -15541,7 +15636,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
       }
       break;
 
-    case msrTuplet::k_NoTuplet:
+    case msrTuplet::k_NoTupletType:
       break;
   } // switch
 }
@@ -16480,26 +16575,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
   // check harmony kind
   if      (kind == "major")
     fCurrentHarmonyKind = kMajorHarmony;
-    
   else if (kind == "minor")
     fCurrentHarmonyKind = kMinorHarmony;
-    
   else if (kind == "augmented")
     fCurrentHarmonyKind = kAugmentedHarmony;
-    
   else if (kind == "diminished")
     fCurrentHarmonyKind = kDiminishedHarmony;
     
-    
   else if (kind == "dominant")
     fCurrentHarmonyKind = kDominantHarmony;
-    
   else if (kind == "major-seventh")
     fCurrentHarmonyKind = kMajorSeventhHarmony;
-    
   else if (kind == "minor-seventh")
     fCurrentHarmonyKind = kMinorSeventhHarmony;
-    
   else if (kind == "diminished-seventh")
     fCurrentHarmonyKind = kDiminishedSeventhHarmony;
     
@@ -16512,73 +16600,52 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
     
   else if (kind == "major-sixth")
     fCurrentHarmonyKind = kMajorSixthHarmony;
-    
   else if (kind == "minor-sixth")
     fCurrentHarmonyKind = kMinorSixthHarmony;
     
-    
   else if (kind == "dominant-ninth")
     fCurrentHarmonyKind = kDominantNinthHarmony;
-    
   else if (kind == "major-ninth")
     fCurrentHarmonyKind = kMajorNinthHarmony;
-    
   else if (kind == "minor-ninth")
     fCurrentHarmonyKind = kMinorNinthHarmony;
     
-    
   else if (kind == "dominant-11th")
     fCurrentHarmonyKind = kDominantEleventhHarmony;
-    
   else if (kind == "major-11th")
     fCurrentHarmonyKind = kMajorEleventhHarmony;
-    
   else if (kind == "minor-11th")
     fCurrentHarmonyKind = kMinorEleventhHarmony;
     
-    
   else if (kind == "dominant-13th")
     fCurrentHarmonyKind = kDominantThirteenthHarmony;
-    
   else if (kind == "major-13th")
     fCurrentHarmonyKind = kMajorThirteenthHarmony;
-    
   else if (kind == "minor-13th")
     fCurrentHarmonyKind = kMinorThirteenthHarmony;
-
     
   else if (kind == "suspended-second")
     fCurrentHarmonyKind = kSuspendedSecondHarmony;
-    
   else if (kind == "suspended-fourth")
     fCurrentHarmonyKind = kSuspendedFourthHarmony;
     
-
   else if (kind == "Neapolitan")
     fCurrentHarmonyKind = kNeapolitanHarmony;
-    
   else if (kind == "Italian")
     fCurrentHarmonyKind = kItalianHarmony;
-    
   else if (kind == "French")
     fCurrentHarmonyKind = kFrenchHarmony;
-    
   else if (kind == "German")
     fCurrentHarmonyKind = kGermanHarmony;
-    
 
   else if (kind == "pedal")
     fCurrentHarmonyKind = kPedalHarmony;
-    
   else if (kind == "power")
     fCurrentHarmonyKind = kPowerHarmony;
-    
   else if (kind == "Tristan")
     fCurrentHarmonyKind = kTristanHarmony;
-    
   else if (kind == "other")
     fCurrentHarmonyKind = kOtherHarmony;
-    
   else if (kind == "none") {
     fCurrentHarmonyKind = kNoneHarmony;
   }
@@ -16589,7 +16656,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         gGeneralOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
-        "unknown harmony kind \"" + kind + "\"");
+        "harmony kind \"" + kind + "\" os unknown");
     }
     else {
       msrMusicXMLWarning (
@@ -16605,18 +16672,18 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
 
   string kindUseSymbols = elt->getAttributeValue ("use-symbols");
 
+/* JMI
   if      (kindUseSymbols == "yes")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
   else if (kindUseSymbols == "no")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
   else {
     if (kindUseSymbols.size ()) {
       stringstream s;
       
       s <<
-        "kind use symbols " <<
-        kindUseSymbols <<
-        " is unknown";
+        "kind use-symbols \"" << kindUseSymbols <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -16625,24 +16692,25 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         s.str ());
       }
   }
+*/
 
   // harmony use stack degrees
   // ----------------------------------
   
   string kindStackDegrees = elt->getAttributeValue ("stack-degrees");
 
+/* JMI
   if      (kindStackDegrees == "yes")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
   else if (kindStackDegrees == "no")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
   else {
     if (kindStackDegrees.size ()) {
       stringstream s;
       
       s <<
-        "kind use symbols " <<
-        kindStackDegrees <<
-        " is unknown";
+        "kind stack-degrees " << kindStackDegrees <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -16651,24 +16719,25 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         s.str ());
       }
   }
+  */
 
   // harmony use parentheses degrees
   // ----------------------------------
   
   string kindParenthesesDegrees = elt->getAttributeValue ("parentheses-degrees");
 
+/* JMI
   if      (kindParenthesesDegrees == "yes")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
   else if (kindParenthesesDegrees == "no")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
   else {
     if (kindParenthesesDegrees.size ()) {
       stringstream s;
       
       s <<
-        "kind use symbols " <<
-        kindParenthesesDegrees <<
-        " is unknown";
+        "kind parentheses-degrees \"" << kindParenthesesDegrees <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -16677,24 +16746,25 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         s.str ());
       }
   }
+  */
 
   // harmony use bracket degrees
   // ------------------
   
   string kindBracketDegrees = elt->getAttributeValue ("bracket-degrees");
 
+/* JMI
   if      (kindBracketDegrees == "yes")
-    fCurrentTupletKind = msrTuplet::kStartTuplet; // JMI
+    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
   else if (kindBracketDegrees == "no")
-    fCurrentTupletKind = msrTuplet::kStopTuplet;
+    fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
   else {
     if (kindBracketDegrees.size ()) {
       stringstream s;
       
       s <<
-        "kind use symbols " <<
-        kindBracketDegrees <<
-        " is unknown";
+        "kind bracket-degrees \"" << kindBracketDegrees <<
+        "\" is unknown";
       
       msrMusicXMLError (
         gGeneralOptions->fInputSourceName,
@@ -16703,6 +16773,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
         s.str ());
       }
   }
+  */
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_inversion& elt )
@@ -16879,7 +16950,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_type& elt )
         gGeneralOptions->fInputSourceName,
         elt->getInputLineNumber (),
         __FILE__, __LINE__,
-        "unknown harmony degree type \"" + degreeType + "\"");
+        "harmony degree-type \"" + degreeType + "\" is unknown");
   }
 }
 
