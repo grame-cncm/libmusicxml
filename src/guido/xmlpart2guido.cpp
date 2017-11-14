@@ -1320,14 +1320,14 @@ namespace MusicXML2
             fBeamStack.push(toto2);
             
             /// Using \beamBegin:NUMBER
-            //stringstream tagName;
-            //tagName << "beamBegin" << ":"<< lastBeamInternalNumber;
-            //Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
-            //add (tag);
+            stringstream tagName;
+            tagName << "beamBegin" << ":"<< lastBeamInternalNumber;
+            Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
+            add (tag);
             
             /// OR using \beam(...)
-            Sguidoelement tag = guidotag::create("beam");
-            push (tag);
+            //Sguidoelement tag = guidotag::create("beam");
+            //push (tag);
             
             //cout<<"Beam Begin "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
         }
@@ -1361,13 +1361,13 @@ namespace MusicXML2
                 }
                 
                 /// using \beamEnd:NUMBER
-                //stringstream tagName;
-                //tagName << "beamEnd" << ":"<< lastBeamInternalNumber;
-                //Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
-                //add (tag);
+                stringstream tagName;
+                tagName << "beamEnd" << ":"<< lastBeamInternalNumber;
+                Sguidoelement tag = guidotag::create(tagName.str());	// poor support of the begin end form in guido
+                add (tag);
                 
                 /// OR using \beam(...)
-                pop();
+                //pop();
                 
                 //cout<<"Beam END "<<lastBeamInternalNumber<<" xml:"<<(*i)->getAttributeIntValue("number", 0)<<endl;
                 
@@ -2033,12 +2033,31 @@ namespace MusicXML2
     guidonoteduration xmlpart2guido::noteDuration ( const notevisitor& nv )
     {
         guidonoteduration dur(0,0);
-        /*if (nv.getType() == kRest) {
-            rational r(nv.getDuration(), fCurrentDivision*4);
-            r.rationalise();
-            dur.set (r.getNumerator(), r.getDenominator());
+        if (nv.getType() == kRest) {
+            /* OLD WAY
+             rational r(nv.getDuration(), fCurrentDivision*4);
+             r.rationalise();
+             dur.set (r.getNumerator(), r.getDenominator());
+             */
+            
+            // Do as in Notes but be aware of TYPE = WHOLE for Rests which should be ignored if we are not 4/4 or similar!
+            
+            if ( (nv.getGraphicType() == "whole") && (true) ) {
+                rational r(nv.getDuration(), fCurrentDivision*4);
+                r.rationalise();
+                dur.set (r.getNumerator(), r.getDenominator());
+            } else {
+                rational r = NoteType::type2rational(NoteType::xml(nv.getGraphicType()));
+                if (r.getNumerator() == 0) // graphic type missing or unknown
+                    r.set (nv.getDuration(), fCurrentDivision*4);
+                r.rationalise();
+                rational tm = nv.getTimeModification();
+                r *= tm;
+                r.rationalise();
+                dur.set (r.getNumerator(), r.getDenominator(), nv.getDots());
+            }
         }
-        else {*/
+        else {
             rational r = NoteType::type2rational(NoteType::xml(nv.getGraphicType()));
             if (r.getNumerator() == 0) // graphic type missing or unknown
                 r.set (nv.getDuration(), fCurrentDivision*4);
@@ -2047,7 +2066,7 @@ namespace MusicXML2
             r *= tm;
             r.rationalise();
             dur.set (r.getNumerator(), r.getDenominator(), nv.getDots());
-        //}
+        }
         return dur;
     }
     
