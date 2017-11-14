@@ -118,7 +118,7 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-$(XML2LY) $<  > $@ || rm $@
+	-$(XML2LY) -q $<  > $@ || rm $@
 
 #########################################################################
 # rules for lilypond with svg backend
