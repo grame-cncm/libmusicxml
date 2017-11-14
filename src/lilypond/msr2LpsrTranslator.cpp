@@ -3228,6 +3228,15 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
   }
   
   fTupletClonesStack.push (tupletClone);
+
+  switch (elt->getTupletLineShapeKind ()) {
+    case msrTuplet::kTupletLineShapeStraight:
+      break;
+    case msrTuplet::kTupletLineShapeCurved:
+      fLpsrScore->
+        setTupletsCurvedBracketsSchemeFunctionIsNeeded ();   
+      break;
+  } // switch
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)

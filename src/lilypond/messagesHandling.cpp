@@ -30,11 +30,8 @@ void msrAssert (
 {
   if (! condition) {
     gLogIOstream <<
-      endl <<
       "#### msrAssert failure: " << messageIfFalse <<
-      endl <<
-      "exiting." <<
-      endl <<
+      ", exiting." <<
       endl;
      
     exit (33);

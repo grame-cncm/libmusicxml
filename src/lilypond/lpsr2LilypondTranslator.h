@@ -535,7 +535,6 @@ class lpsr2LilypondTranslator :
     // durations
     
     rational              fLastMetWholeNotes;
-    rational              fSavedLastMetWholeNotes;
     
     string                durationAsLilypondString (
                             int      inputLineNumber,

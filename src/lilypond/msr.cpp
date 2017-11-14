@@ -9235,12 +9235,16 @@ S_msrTuplet msrTuplet::create (
   int       tupletNumber,
   msrTupletBracketKind
             tupletBracketKind,
+  msrTupletLineShapeKind
+            tupletLineShapeKind,
   msrTupletShowNumberKind
             tupletShowNumberKind,
   msrTupletShowTypeKind
             tupletShowTypeKind,
   int       tupletActualNotes,
   int       tupletNormalNotes,
+  rational  memberNotesSoundingWholeNotes,
+  rational  memberNotesDisplayWholeNotes,
   rational  notePositionInMeasure)
 {
   msrTuplet* o =
@@ -9248,9 +9252,13 @@ S_msrTuplet msrTuplet::create (
       inputLineNumber,
       tupletNumber,
       tupletBracketKind,
+      tupletLineShapeKind,
       tupletShowNumberKind,
       tupletShowTypeKind,
-      tupletActualNotes, tupletNormalNotes,
+      tupletActualNotes,
+      tupletNormalNotes,
+      memberNotesSoundingWholeNotes,
+      memberNotesDisplayWholeNotes,
       notePositionInMeasure);
   assert(o!=0);
   return o;
@@ -9261,23 +9269,31 @@ msrTuplet::msrTuplet (
   int       tupletNumber,
   msrTupletBracketKind
             tupletBracketKind,
+  msrTupletLineShapeKind
+            tupletLineShapeKind,
   msrTupletShowNumberKind
             tupletShowNumberKind,
   msrTupletShowTypeKind
             tupletShowTypeKind,
   int       tupletActualNotes,
   int       tupletNormalNotes,
+  rational  memberNotesSoundingWholeNotes,
+  rational  memberNotesDisplayWholeNotes,
   rational  notePositionInMeasure)
     : msrElement (inputLineNumber)
 {  
   fTupletNumber = tupletNumber;
   
   fTupletBracketKind    = tupletBracketKind;
+  fTupletLineShapeKind  = tupletLineShapeKind;
   fTupletShowNumberKind = tupletShowNumberKind;
   fTupletShowTypeKind   = tupletShowTypeKind;
 
   fTupletActualNotes = tupletActualNotes;
   fTupletNormalNotes = tupletNormalNotes;
+
+  fMemberNotesSoundingWholeNotes = memberNotesSoundingWholeNotes;
+  fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
   
   fTupletSoundingWholeNotes = rational (0, 1);
   fTupletDisplayWholeNotes  = rational (0, 1);
@@ -9304,10 +9320,13 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
         fInputLineNumber,
         fTupletNumber,
         fTupletBracketKind,
+        fTupletLineShapeKind,
         fTupletShowNumberKind,
         fTupletShowTypeKind,
         fTupletActualNotes,
         fTupletNormalNotes,
+        fMemberNotesSoundingWholeNotes,
+        fMemberNotesDisplayWholeNotes,
         fTupletPositionInMeasure);
 
   newbornClone->fTupletSoundingWholeNotes =
@@ -9356,6 +9375,23 @@ string msrTuplet::tupletBracketKindAsString (
       break;
     case msrTuplet::kTupletBracketNo:
       result = "tupletBracketNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTuplet::tupletLineShapeKindAsString (
+  msrTupletLineShapeKind tupletLineShapeKind)
+{
+  string result;
+
+  switch (tupletLineShapeKind) {
+    case msrTuplet::kTupletLineShapeStraight:
+      result = "tupletLineShapeStraight";
+      break;
+    case msrTuplet::kTupletLineShapeCurved:
+      result = "tupletLineShapeCurved";
       break;
   } // switch
 
@@ -10042,26 +10078,37 @@ void msrTuplet::print (ostream& os)
 
   gIndenter++;
   
-  const int fieldWidth = 22;
-  
+  const int fieldWidth = 30;
+
   os << left <<
     setw (fieldWidth) <<
-    "(TupletBracketKind" << " : " <<
+    "TupletBracketKind" << " : " <<
     tupletBracketKindAsString (
       fTupletBracketKind) <<
-    ")" <<
     endl <<
     setw (fieldWidth) <<
-    "(TupletShowNumberKind" << " : " <<
+    "TupletLineShapeKind" << " : " <<
+    tupletLineShapeKindAsString (
+      fTupletLineShapeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "TupletShowNumberKind" << " : " <<
     tupletShowNumberKindAsString (
       fTupletShowNumberKind) <<
-    ")" <<
     endl <<
     setw (fieldWidth) <<
-    "(TupletShowTypeKind" << " : " <<
+    "TupletShowTypeKind" << " : " <<
     tupletShowTypeKindAsString (
       fTupletShowTypeKind) <<
-    ")" <<
+    endl <<
+    setw (fieldWidth) <<
+    "MemberNotesSoundingWholeNotes" << " : " <<
+    fMemberNotesSoundingWholeNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "MemberNotesDisplayWholeNotes" << " : " <<
+    fMemberNotesDisplayWholeNotes <<
+    endl <<
     endl;
 
 /* JMI ???
@@ -18342,8 +18389,8 @@ void msrMeasure::print (ostream& os)
     endl <<
     "Measure " << fMeasureNumber <<
     ", " << measureKindAsString () <<
-    ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
 /* JMI
+    ", measureOrdinalNumber = " << fMeasureOrdinalNumber <<
     ", measureLengthAsMSRString: " <<
     measureLengthAsMSRString () <<
     ", fullMeasureLengthAsMSRString: " <<

@@ -1489,6 +1489,8 @@ class mxmlTree2MsrTranslator :
                               fCurrentTupletTypeKind;
     msrTuplet::msrTupletBracketKind
                               fCurrentTupletBracketKind;
+    msrTuplet::msrTupletLineShapeKind
+                              fCurrentTupletLineShapeKind;
     msrTuplet::msrTupletShowNumberKind
                               fTupletShowNumberKind;
     msrTuplet::msrTupletShowTypeKind

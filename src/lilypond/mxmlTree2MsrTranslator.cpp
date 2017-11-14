@@ -12557,6 +12557,35 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     }
   }
 
+  // line-shape
+
+  {
+    string tupletLineShape = elt->getAttributeValue ("line-shape");
+      
+    fCurrentTupletLineShapeKind =
+      msrTuplet::kTupletLineShapeStraight; // default value
+    
+    if      (tupletLineShape == "straight")
+      fCurrentTupletLineShapeKind = msrTuplet::kTupletLineShapeStraight;
+    else if (tupletLineShape == "curved")
+      fCurrentTupletLineShapeKind = msrTuplet::kTupletLineShapeCurved;
+    else {
+      if (tupletLineShape.size ()) {
+        stringstream s;
+        
+        s <<
+          "tuplet line-shape \"" << tupletLineShape <<
+          "\" is unknown";
+        
+        msrMusicXMLError (
+          gGeneralOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+    }
+  }
+
   // type
 
   {
@@ -13356,16 +13385,30 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
       endl;
   }
       
+  // account for note duration
+  rational
+    memberNotesSoundingWholeNotes =
+      firstNote->getNoteSoundingWholeNotes ();
+  memberNotesSoundingWholeNotes.rationalise ();
+  
+  rational
+    memberNotesDisplayWholeNotes =
+      firstNote->getNoteDisplayWholeNotes ();  
+  memberNotesDisplayWholeNotes.rationalise ();
+
   S_msrTuplet
     tuplet =
       msrTuplet::create (
         firstNote->getInputLineNumber (),
         fCurrentTupletNumber,
         fCurrentTupletBracketKind,
+        fCurrentTupletLineShapeKind,
         fTupletShowNumberKind,
         fTupletShowTypeKind,
         fCurrentActualNotes,
         fCurrentNormalNotes,
+        memberNotesSoundingWholeNotes,
+        memberNotesDisplayWholeNotes,
         firstNote->getNotePositionInMeasure ());
 
   // add note as first note of the stack top tuplet

@@ -6731,6 +6731,12 @@ class msrTuplet : public msrElement
     static string tupletBracketKindAsString (
       msrTupletBracketKind tupletBracketKind);
       
+    enum msrTupletLineShapeKind {
+      kTupletLineShapeStraight, kTupletLineShapeCurved};
+      
+    static string tupletLineShapeKindAsString (
+      msrTupletLineShapeKind tupletLineShapeKind);
+      
     enum msrTupletShowNumberKind {
       kTupletShowNumberActual, kTupletShowNumberBoth, kTupletShowNumberNone };
 
@@ -6751,12 +6757,16 @@ class msrTuplet : public msrElement
       int       tupletNumber,
       msrTupletBracketKind
                 tupletBracketKind,
+      msrTupletLineShapeKind
+                tupletLineShapeKind,
       msrTupletShowNumberKind
                 tupletShowNumberKind,
       msrTupletShowTypeKind
                 tupletShowTypeKind,
       int       tupletActualNotes,
       int       tupletNormalNotes,
+      rational  memberNotesSoundingWholeNotes,
+      rational  memberNotesDisplayWholeNotes,
       rational  notePositionInMeasure); // JMI
 
     SMARTP<msrTuplet> createTupletNewbornClone ();
@@ -6773,12 +6783,16 @@ class msrTuplet : public msrElement
       int       tupletNumber,
       msrTupletBracketKind
                 tupletBracketKind,
+      msrTupletLineShapeKind
+                tupletLineShapeKind,
       msrTupletShowNumberKind
                 tupletShowNumberKind,
       msrTupletShowTypeKind
                 tupletShowTypeKind,
       int       tupletActualNotes,
       int       tupletNormalNotes,
+      rational  memberNotesSoundingWholeNotes,
+      rational  memberNotesDisplayWholeNotes,
       rational  notePositionInMeasure);
       
     virtual ~msrTuplet();
@@ -6794,6 +6808,10 @@ class msrTuplet : public msrElement
     msrTupletBracketKind  getTupletBracketKind () const
                               { return fTupletBracketKind; }
 
+    msrTupletLineShapeKind
+                          getTupletLineShapeKind () const
+                              { return fTupletLineShapeKind; }
+
     msrTupletShowNumberKind
                           getTupletShowNumberKind () const
                               { return fTupletShowNumberKind; }
@@ -6806,6 +6824,11 @@ class msrTuplet : public msrElement
     int                   getTupletNormalNotes () const
                               { return fTupletNormalNotes; }
     
+    rational              getMemberNotesSoundingWholeNotes () const
+                              { return fMemberNotesSoundingWholeNotes; }
+    rational              getMemberNotesDisplayWholeNotes () const
+                              { return fMemberNotesDisplayWholeNotes; }
+
     const list<S_msrElement>&
                           getTupletElements () const
                               { return fTupletElements; }
@@ -6885,6 +6908,9 @@ class msrTuplet : public msrElement
     
     msrTupletBracketKind  fTupletBracketKind;
               
+    msrTupletLineShapeKind
+                          fTupletLineShapeKind;
+              
     msrTupletShowNumberKind
                           fTupletShowNumberKind;
               
@@ -6892,6 +6918,9 @@ class msrTuplet : public msrElement
               
     int                   fTupletActualNotes;
     int                   fTupletNormalNotes;
+
+    rational              fMemberNotesSoundingWholeNotes;
+    rational              fMemberNotesDisplayWholeNotes;
 
     rational              fTupletSoundingWholeNotes;
     rational              fTupletDisplayWholeNotes;

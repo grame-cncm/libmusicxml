@@ -899,18 +899,18 @@ string lpsr2LilypondTranslator::durationAsLilypondString (
 {
   string result;
   
-  bool explicitDuration;
+  bool generateExplicitDuration;
   
   if (wholeNotes != fLastMetWholeNotes) {
-    explicitDuration = true;
+    generateExplicitDuration = true;
     fLastMetWholeNotes = wholeNotes;
   }
   else {
-    explicitDuration =
+    generateExplicitDuration =
       gLilypondOptions->fAllDurations;
   }
   
-  if (explicitDuration)
+  if (generateExplicitDuration)
     result =
       wholeNotesAsLilypondString (
         inputLineNumber,
@@ -2435,7 +2435,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
   }
 
   fLilypondCodeIOstream <<
-    "\\layout" << " {" <<
+R"(\layout {
+  \context {
+    \Score
+    autoBeaming = ##f % to display tuplets brackets
+  })" <<
     endl;
 
   gIndenter++;
@@ -3872,6 +3876,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   } // switch
 
   // force durations to be displayed explicitly
+  // at the beginning of the voice
   fLastMetWholeNotes = rational (0, 1);
 }
 
@@ -6231,6 +6236,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrGraceNotes& elt)
     fLilypondCodeIOstream <<
       "\\grace"; // JMI "\\acciaccatura" \\appoggiatura
   fLilypondCodeIOstream << " { ";
+
+  // force durations to be displayed explicitly
+  // at the beginning of the grace notes
+  fLastMetWholeNotes = rational (0, 1);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrGraceNotes& elt)
@@ -6271,10 +6280,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrAfterGraceNotesContents& elt)
   fLilypondCodeIOstream <<
     "} { ";
 
-/* JMI
-  // save fLastMetWholeNotes
-  fSavedLastMetWholeNotes = fLastMetWholeNotes;
-  */
+  // force durations to be displayed explicitly
+  // at the beginning of the after grace notes contents
+  fLastMetWholeNotes = rational (0, 1);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotesContents& elt)
@@ -6287,11 +6295,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotesContents& elt)
 
   fLilypondCodeIOstream <<
     "} ";
-
-/* JMI
-  // restore fLastMetWholeNotes
-  fLastMetWholeNotes = fSavedLastMetWholeNotes;
-  */
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrAfterGraceNotes& elt)
@@ -7572,6 +7575,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (fTupletsStack.size ()) {
     // elt is a nested tuplet
 
@@ -7594,6 +7600,107 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
       endl;
   }
 
+  // get bracket kind
+  msrTuplet::msrTupletBracketKind
+    tupletBracketKind =
+      elt->getTupletBracketKind ();
+
+  switch (tupletBracketKind) {
+    case msrTuplet::kTupletBracketYes:
+    /* JMI
+      fLilypondCodeIOstream <<
+        "%{kTupletBracketYes%}" <<
+        endl;
+        */
+      break;
+    case msrTuplet::kTupletBracketNo:
+      fLilypondCodeIOstream <<
+        "\\once \\omit TupletBracket" <<
+        endl;
+      break;
+  } // switch
+
+  // get line shape kind
+  msrTuplet::msrTupletLineShapeKind
+    tupletLineShapeKind =
+      elt->getTupletLineShapeKind ();
+
+  switch (tupletLineShapeKind) {
+    case msrTuplet::kTupletLineShapeStraight:
+      break;
+    case msrTuplet::kTupletLineShapeCurved:
+      fLilypondCodeIOstream <<
+        "\\temporary \\tupletsCurvedBrackets" <<
+        endl;
+      break;
+  } // switch
+
+  // get show number kind
+  msrTuplet::msrTupletShowNumberKind
+    tupletShowNumberKind =
+      elt->getTupletShowNumberKind ();
+
+  switch (tupletShowNumberKind) {
+    case msrTuplet::kTupletShowNumberActual:
+    /* JMI
+      fLilypondCodeIOstream <<
+        "%{tupletShowNumberActual%}" <<
+        endl;
+        */
+      break;
+    case msrTuplet::kTupletShowNumberBoth:
+      fLilypondCodeIOstream <<
+        "\\once \\override TupletNumber.text = #tuplet-number::calc-fraction-text" <<
+        endl;
+      break;
+    case msrTuplet::kTupletShowNumberNone:
+      fLilypondCodeIOstream <<
+        "\\once \\omit TupletNumber" <<
+        endl;
+      break;
+  } // switch
+
+  // get show type kind
+  msrTuplet::msrTupletShowTypeKind
+    tupletShowTypeKind =
+      elt->getTupletShowTypeKind ();
+
+  rational
+    memberNoteDisplayWholeNotes =
+      elt->getMemberNotesDisplayWholeNotes ();
+
+  switch (tupletShowTypeKind) {
+    case msrTuplet::kTupletShowTypeActual:
+      fLilypondCodeIOstream <<
+        "\\once \\override TupletNumber.text = #(tuplet-number::append-note-wrapper tuplet-number::calc-fraction-text \"" <<
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          memberNoteDisplayWholeNotes) <<
+        "\")" <<
+        endl;
+      break;
+    case msrTuplet::kTupletShowTypeBoth:
+      fLilypondCodeIOstream <<
+        "\\once \\override TupletNumber.text = #(tuplet-number::fraction-with-notes \"" <<
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          memberNoteDisplayWholeNotes) <<
+        "\" \"" <<
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          memberNoteDisplayWholeNotes) <<
+        "\")" <<
+        endl;
+      break;
+    case msrTuplet::kTupletShowTypeNone:
+    /* JMI
+      fLilypondCodeIOstream <<
+        "%{tupletShowTypeNone%}" <<
+        endl;
+        */
+      break;
+  } // switch
+
   fLilypondCodeIOstream <<
     "\\tuplet " <<
     elt->getTupletActualNotes () <<
@@ -7603,6 +7710,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
   fTupletsStack.push (elt);
 
   gIndenter++;
+
+  // force durations to be displayed explicitly
+  // at the beginning of the tuplet
+  fLastMetWholeNotes = rational (0, 1);
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
@@ -7623,6 +7734,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTuplet& elt)
   fLilypondCodeIOstream <<
     "}" <<
     endl;
+
+  // get line shape kind
+  msrTuplet::msrTupletLineShapeKind
+    tupletLineShapeKind =
+      elt->getTupletLineShapeKind ();
+
+  switch (tupletLineShapeKind) {
+    case msrTuplet::kTupletLineShapeStraight:
+      break;
+    case msrTuplet::kTupletLineShapeCurved:
+      fLilypondCodeIOstream <<
+        "\\undo \\tupletsCurvedBrackets" <<
+        endl;
+      break;
+  } // switch
 
   fTupletsStack.pop ();
 }
