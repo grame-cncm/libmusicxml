@@ -6678,10 +6678,10 @@ void msrNote::print (ostream& os)
       os <<
         "note measure number is empty in:" <<
         endl;
-      this->print (os);
-      os <<
-        endl;
-        
+//      this->print (os); // this creates a loop (we're in already in the print method)
+//      os <<
+//        endl;
+		
       stringstream s;
 
       s <<
@@ -23790,8 +23790,7 @@ void msrVoice::appendStaffDetailsToVoice (
   appendAFirstMeasureToVoiceIfNotYetDone (
     staffDetails->getInputLineNumber ());
 
-  fVoiceLastSegment->
-    appendStaffDetailsToSegment (staffDetails);
+  if (fVoiceLastSegment) fVoiceLastSegment->appendStaffDetailsToSegment (staffDetails);
 }
 
 /* JMI
@@ -25347,8 +25346,8 @@ void msrVoice::appendRepeatEndingToVoice (
             endl;
         }
             
-        fVoiceCurrentRepeat->
-          addRepeatEnding (repeatEnding);
+		if (fVoiceCurrentRepeat) fVoiceCurrentRepeat->addRepeatEnding (repeatEnding);
+		else return;
       
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
