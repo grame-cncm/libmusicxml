@@ -21870,7 +21870,6 @@ void msrMultipleRestContents::print (ostream& os)
   os <<
     endl <<
     multipleRestContentsAsString () <<
-    "MultipleRestContents" <<
     endl <<
     endl;
   
@@ -30160,14 +30159,19 @@ void msrPart::print (ostream& os)
   
   const int fieldWidth = 27;
 
+  os << left <<
+    setw (fieldWidth) <<
+    "PartPartGroupUplink" << " : ";
   if (fPartPartGroupUplink) {
     // it may be empty
-    os << left <<
-      setw (fieldWidth) <<
-      "PartPartGroupUplink" << " : " <<
-      fPartPartGroupUplink->getPartGroupCombinedName () <<
-      endl;
+    os <<
+      fPartPartGroupUplink->getPartGroupCombinedName ();
   }
+  else {
+    os << "none";
+  }
+  os <<
+    endl;
   
   os << left <<
     setw (fieldWidth) <<
@@ -30414,7 +30418,6 @@ S_msrPartGroup msrPartGroup::create (
   string                   partGroupAbbreviation,
   msrPartGroupSymbolKind   partGroupSymbolKind,
   int                      partGroupSymbolDefaultX,
-  msrPartGroupImplicitKind partGroupImplicitKind,
   msrPartGroupBarlineKind  partGroupBarlineKind,
   S_msrPartGroup           partGroupPartGroupUplink,
   S_msrScore               partGroupScoreUplink)
@@ -30430,11 +30433,46 @@ S_msrPartGroup msrPartGroup::create (
       partGroupAbbreviation,
       partGroupSymbolKind,
       partGroupSymbolDefaultX,
-      partGroupImplicitKind,
+      msrPartGroup::kPartGroupImplicitNo,
       partGroupBarlineKind,
       partGroupPartGroupUplink,
       partGroupScoreUplink);
   assert(o!=0);
+  return o;
+}
+
+S_msrPartGroup msrPartGroup::createImplicitPartGroup (
+  int                      partGroupNumber,
+  int                      partGroupAbsoluteNumber,
+  string                   partGroupName,
+  string                   partGroupNameDisplayText,
+  string                   partGroupAccidentalText,
+  string                   partGroupAbbreviation,
+  msrPartGroupBarlineKind  partGroupBarlineKind,
+  S_msrScore               partGroupScoreUplink)
+{
+  msrPartGroup* o =
+    new msrPartGroup (
+      0,                                 // inputLineNumber
+      partGroupNumber,
+      partGroupAbsoluteNumber,
+      partGroupName,
+      partGroupNameDisplayText,
+      partGroupAccidentalText,
+      partGroupAbbreviation,
+      msrPartGroup::k_NoPartGroupSymbol, // partGroupSymbolKind
+      0,                                 // partGroupSymbolDefaultX,
+      msrPartGroup::kPartGroupImplicitYes,
+      partGroupBarlineKind,
+      0,                                 // partGroupPartGroupUplink,
+                                         // will be set below
+      partGroupScoreUplink);
+  assert(o!=0);
+
+  // the implicit part group it the top-most one:
+  // set its group uplink points to itself
+  o->fPartGroupPartGroupUplink = o;
+  
   return o;
 }
 
@@ -30454,6 +30492,21 @@ msrPartGroup::msrPartGroup (
   S_msrScore               partGroupScoreUplink)
     : msrElement (inputLineNumber)
 {
+  // no sanity check on partGroupPartGroupUplink here,
+  // it will be set after all 'real' (i.e. not implicit)
+  // part groups and part have been analyzed
+  fPartGroupPartGroupUplink = partGroupPartGroupUplink;
+
+/* JMI
+  // sanity check
+  msrAssert (
+    fPartGroupScoreUplink != 0,
+    "fPartGroupScoreUplink is null");
+    */
+    
+  fPartGroupScoreUplink     = partGroupScoreUplink;
+
+  // other fields
   fPartGroupNumber          = partGroupNumber;
   fPartGroupAbsoluteNumber  = partGroupAbsoluteNumber;
           
@@ -30471,10 +30524,6 @@ msrPartGroup::msrPartGroup (
     
   fPartGroupBarlineKind     = partGroupBarlineKind;
 
-  fPartGroupPartGroupUplink = partGroupPartGroupUplink;
-
-  fPartGroupScoreUplink     = partGroupScoreUplink;
-  
   if (gGeneralOptions->fTracePartGroups) {
     gLogIOstream <<
       "--------------------------------------------" <<
@@ -30502,10 +30551,9 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
       endl;
   }
 
-  // don't check against 0, since the partGroup stack JMI
+  // don't check partGroupClone against 0, since the partGroup stack JMI
   // that it comes from may be empty
 /* JMI
-
   // sanity check
   msrAssert(
     partGroupClone != 0,
@@ -30529,10 +30577,12 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
         fPartGroupAbbreviation,
         fPartGroupSymbolKind,
         fPartGroupSymbolDefaultX,
-        fPartGroupImplicitKind,
         fPartGroupBarlineKind,
         partGroupClone,
         scoreClone);
+  
+  newbornClone->fPartGroupImplicitKind =
+    fPartGroupImplicitKind;
   
   newbornClone->fPartGroupInstrumentName =
     fPartGroupInstrumentName;
@@ -31123,11 +31173,45 @@ void msrPartGroup::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
+    "PartGroupPartGroupUplink" << " : ";
+
+  if (fPartGroupPartGroupUplink) {
+    // it may be empty
+    os <<
+      fPartGroupPartGroupUplink->
+        getPartGroupCombinedName ();
+  }
+  else {
+    os <<
+      "none";
+  }
+  os <<
+    endl;
+
+  os << left <<
+    setw (fieldWidth) <<
     "PartGroupName" << " : \"" <<
     fPartGroupName <<
     "\"" <<
-    endl <<
+    endl;
+
+   os << left <<
     setw (fieldWidth) <<
+    "PartGroupPartGroupUplink" << " : ";
+  if (fPartGroupPartGroupUplink)
+    os <<
+      "\"" <<
+      fPartGroupPartGroupUplink->
+        getPartGroupCombinedName () <<
+      "\"";
+  else
+    os <<
+    "none";
+  os <<
+    endl;
+
+  os << left <<
+   setw (fieldWidth) <<
     "PartGroupNameDisplayText" << " : \"" <<
     fPartGroupNameDisplayText <<
     "\"" <<
@@ -31164,20 +31248,6 @@ void msrPartGroup::print (ostream& os)
     "PartGroupBarline" << " : " <<
     partGroupBarlineKindAsString (
       fPartGroupBarlineKind) <<
-    endl;
-
-  os << left <<
-    setw (fieldWidth) <<
-    "PartGroupPartGroupUplink" << " : ";
-  if (fPartGroupPartGroupUplink)
-    os <<
-      "\"" <<
-      fPartGroupPartGroupUplink->
-        getPartGroupCombinedName () <<
-      "\"";
-  else
-    os << "none";
-  os <<
     endl;
 
   if (fPartGroupElements.size ()) {

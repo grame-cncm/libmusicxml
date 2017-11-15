@@ -7766,7 +7766,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
     case msrTie::k_NoTie:
       break;
     case msrTie::kStartTie:
-      fLilypondCodeIOstream << "~ ";
+ // JMI     fLilypondCodeIOstream << "~ ";
       break;
     case msrTie::kContinueTie:
       break;

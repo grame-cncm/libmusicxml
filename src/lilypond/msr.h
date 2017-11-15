@@ -8285,14 +8285,15 @@ class msrMultipleRestContents : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // uplink
+    S_msrVoice            getMultipleRestContentsVoiceUplink () const
+                            { return fMultipleRestContentsVoiceUplink; }
+
     void                  setMultipleRestContentsSegment (
                             S_msrSegment multipleRestContentsSegment);
 
     S_msrSegment          getMultipleRestContentsSegment () const
                               { return fMultipleRestContentsSegment; }
-
-    S_msrVoice            getMultipleRestContentsVoiceUplink () const
-                            { return fMultipleRestContentsVoiceUplink; }
 
     // services
     // ------------------------------------------------------
@@ -8319,9 +8320,10 @@ class msrMultipleRestContents : public msrElement
     // fields
     // ------------------------------------------------------
 
-    S_msrSegment          fMultipleRestContentsSegment;
-
+    // uplink
     S_msrVoice            fMultipleRestContentsVoiceUplink;
+    
+    S_msrSegment          fMultipleRestContentsSegment;
 };
 typedef SMARTP<msrMultipleRestContents> S_msrMultipleRestContents;
 EXP ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt);
@@ -10298,9 +10300,18 @@ class msrPartGroup : public msrElement
       string                   partGroupAbbreviation,
       msrPartGroupSymbolKind   partGroupSymbolKind,
       int                      partGroupSymbolDefaultX,
-      msrPartGroupImplicitKind partGroupImplicitKind,
       msrPartGroupBarlineKind  partGroupBarlineKind,
       S_msrPartGroup           partGroupPartGroupUplink,
+      S_msrScore               partGroupScoreUplink);
+
+    static SMARTP<msrPartGroup> createImplicitPartGroup (
+      int                      partGroupNumber,
+      int                      partGroupAbsoluteNumber,
+      string                   partGroupName,
+      string                   partGroupNameDisplayText,
+      string                   partGroupAccidentalText,
+      string                   partGroupAbbreviation,
+      msrPartGroupBarlineKind  partGroupBarlineKind,
       S_msrScore               partGroupScoreUplink);
 
     SMARTP<msrPartGroup> createPartGroupNewbornClone (

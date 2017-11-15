@@ -1065,7 +1065,6 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
         fCurrentPartGroupAbbreviation,
         fCurrentPartGroupSymbolKind,
         fCurrentPartGroupSymbolDefaultX,
-        msrPartGroup::kPartGroupImplicitNo,
         fCurrentPartGroupBarlineKind,
         0, // partGroupPartGroupUplink will be set upon 'stop'
         fMsrScore);
@@ -1224,19 +1223,14 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
   fPartGroupsCounter++;
 
   fImplicitPartGroup =
-    msrPartGroup::create (
-      inputLineNumber,
+    msrPartGroup::createImplicitPartGroup (
       fCurrentPartGroupNumber,
       fPartGroupsCounter,
       "Implicit", // partGroupName
       "",         // PartGroupNameDisplayText
       "",         // partGroupAccidentalText
       "Impl.",    // partGroupAbbreviation
-      msrPartGroup::k_NoPartGroupSymbol,
-      0,          // partGroupSymbolDefaultX
-      msrPartGroup::kPartGroupImplicitYes,
       msrPartGroup::kPartGroupBarlineYes,
-      0,          // partGroupPartGroupUplink, 0 for top level part group 
       fMsrScore);
 
   // append it to the MSR score
