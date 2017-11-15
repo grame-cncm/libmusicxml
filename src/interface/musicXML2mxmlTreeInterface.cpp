@@ -55,6 +55,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   xmlreader r;
   
   SXMLFile xmlFile = r.read (fileName);
+  if (!xmlFile) return Sxmlelement(0);
 
   clock_t endClock = clock();
 
