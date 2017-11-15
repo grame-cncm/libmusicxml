@@ -17183,19 +17183,11 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   // determine if the measureRepeat occupies a full measure
 // XXL  JMI  if (measureRepeatSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // measureRepeat->setmeasureRepeatOccupiesAFullMeasure ();
+*/
 
   // append the measureRepeat to the measure elements list
   fMeasureElementsList.push_back (measureRepeat);
-*/
-
-/* JMI
-  // bring harmony voice to the same measure length
-  fMeasureDirectPartUplink->
-    getPartHarmonyVoice ()->
-      bringVoiceToMeasureLength (
-        inputLineNumber,
-        fMeasureLength);
-        */
+//*/
 }
 
 void msrMeasure::appendMultipleRestToMeasure (
@@ -17258,6 +17250,7 @@ void msrMeasure::appendMultipleRestToMeasure (
     updatePartMeasureLengthHighTide (
       inputLineNumber,
       fMeasureLength);
+*/
 
   // determine if the multipleRest occupies a full measure
 // XXL  JMI  if (multipleRestSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
@@ -17265,16 +17258,6 @@ void msrMeasure::appendMultipleRestToMeasure (
 
   // append the multipleRest to the measure elements list
   fMeasureElementsList.push_back (multipleRest);
-*/
-
-/* JMI
-  // bring harmony voice to the same measure length
-  fMeasureDirectPartUplink->
-    getPartHarmonyVoice ()->
-      bringVoiceToMeasureLength (
-        inputLineNumber,
-        fMeasureLength);
-        */
 }
 
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
@@ -17339,15 +17322,6 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 
   // append the chord to the measure elements list
   fMeasureElementsList.push_back (chord);
-
-/* JMI
-  // bring harmony voice to the new measure length
-  fetchMeasurePartUplink->
-    getPartHarmonyVoice ()->
-      bringVoiceToMeasureLength (
-        inputLineNumber,
-        fMeasureLength);
-        */
 }
 
 void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
