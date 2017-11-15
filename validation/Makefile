@@ -118,7 +118,7 @@ $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-$(XML2LY) $<  > $@ || rm $@
+	-$(XML2LY) -q $< | grep -v "^% on ..* CET" > $@ || rm $@
 
 #########################################################################
 # rules for lilypond with svg backend
@@ -129,16 +129,16 @@ $(version)/lilysvg/%.svg: $(version)/gmn/%.gmn
 #########################################################################
 # rules for xml output validation
 %.outxml: %.xml
-	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
 %.outgmn: %.gmn
-	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)
 
 %.outly: %.ly
-	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))	
+	$(eval tmp := $(patsubst $(version)/%, $(VERSION)/%, $<))
 	@[ -f  $(tmp) ] || echo $< : new file
 	@diff $<  $(tmp) 2>/dev/null >/dev/null || ([ -f  $(tmp) ] && echo "open -t $< $(patsubst $(version)/%, $(VERSION)/%, $<) # to check changes"; true)

@@ -551,7 +551,8 @@ void xmlpart2guido::visitEnd ( S_clef& elt )
   string param;
   if (clefvisitor::fLine != clefvisitor::kStandardLine) 
     s << clefvisitor::fLine;
-    s >> param;
+	
+  s >> param;
   if (clefvisitor::fOctaveChange == 1)
     param += "+8";
   else if (clefvisitor::fOctaveChange == -1)
