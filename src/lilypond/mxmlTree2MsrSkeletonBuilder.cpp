@@ -1333,7 +1333,8 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
       // append part to current part group
       S_msrPartGroup
         currentPartGroup =
-          partGroupsDescrStackTop->getPartGroup ();
+          partGroupsDescrStackTop->
+            getPartGroup ();
 
       currentPartGroup->
         appendPartToPartGroup (

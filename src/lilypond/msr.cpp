@@ -6681,7 +6681,7 @@ void msrNote::print (ostream& os)
 //      this->print (os); // this creates a loop (we're in already in the print method)
 //      os <<
 //        endl;
-		
+    
       stringstream s;
 
       s <<
@@ -25346,8 +25346,8 @@ void msrVoice::appendRepeatEndingToVoice (
             endl;
         }
             
-		if (fVoiceCurrentRepeat) fVoiceCurrentRepeat->addRepeatEnding (repeatEnding);
-		else return;
+    if (fVoiceCurrentRepeat) fVoiceCurrentRepeat->addRepeatEnding (repeatEnding);
+    else return;
       
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
@@ -30706,9 +30706,13 @@ void msrPartGroup::appendPartToPartGroup (S_msrPart part)
       " to part group " << fPartGroupNumber <<
       endl;
   }
-  
+
+  // register part into this part group's data
   fPartGroupPartsMap [part->getPartID ()] = part;
   fPartGroupElements.push_back (part);
+
+  // set part's partgroup uplink
+  part->setPartPartGroupUplink (this);
 }
 
 void msrPartGroup::removePartFromPartGroup (

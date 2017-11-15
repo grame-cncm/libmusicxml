@@ -9778,6 +9778,10 @@ class msrPart : public msrElement
     
     // uplinks
     
+    void                  setPartPartGroupUplink (
+                            S_msrPartGroup partGroup)
+                              { fPartPartGroupUplink = partGroup; };
+
     S_msrPartGroup        getPartPartGroupUplink () const
                               { return fPartPartGroupUplink; }
               

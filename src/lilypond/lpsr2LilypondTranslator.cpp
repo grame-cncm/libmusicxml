@@ -8556,8 +8556,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   }
 
   fLilypondCodeIOstream <<
-    endl <<
-    endl <<
     "R1";
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
@@ -8577,7 +8575,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting msrMultipleRest" <<
+      "% --> End visiting msrMultipleRest" <<
       endl;
   }
     

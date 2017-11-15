@@ -110,7 +110,7 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "pg", "displayPartGroups",
+          "dpg", "displayPartGroups",
 R"(Write the structure of the part groups to standard error.)",
           "displayPartGroups",
           fDisplayPartGroups));
