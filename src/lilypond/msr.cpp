@@ -17119,23 +17119,23 @@ void msrMeasure::appendDoubleTremoloToMeasure (
         */
 }
 
-void msrMeasure::appendMeasureRepeatToMeasure (
-  S_msrMeasureRepeat measureRepeat)
+void msrMeasure::appendMeasuresRepeatToMeasure (
+  S_msrMeasuresRepeat measuresRepeat)
 {
   /*
   int inputLineNumber =
-    measureRepeat->getInputLineNumber ();
+    measuresRepeat->getInputLineNumber ();
     */
     
 /* JMI  
   // populate measure uplink
-  measureRepeat->setMeasureRepeatMeasureUplink (this);
+  measuresRepeat->setMeasuresRepeatMeasureUplink (this);
 */
 
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      measureRepeat->measureRepeatAsString () <<
+      measuresRepeat->measuresRepeatAsString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -17146,33 +17146,33 @@ void msrMeasure::appendMeasureRepeatToMeasure (
   }
   
 /* JMI
-  // register measureRepeat measure number
-  measureRepeat->
-    setmeasureRepeatMeasureNumber (fMeasureNumber);
+  // register measuresRepeat measure number
+  measuresRepeat->
+    setmeasuresRepeatMeasureNumber (fMeasureNumber);
   
-  // register measureRepeat measure position
-  measureRepeat->
-    setmeasureRepeatPositionInMeasure (
+  // register measuresRepeat measure position
+  measuresRepeat->
+    setmeasuresRepeatPositionInMeasure (
       fMeasureLength);
 
   // copy measure number to first note, that was created beforehand
-  measureRepeat->
-    setmeasureRepeatMeasureNumber (
+  measuresRepeat->
+    setmeasuresRepeatMeasureNumber (
       fMeasureNumber);
   
   // copy measure position to first note, that was created beforehand
-  measureRepeat->
-    setmeasureRepeatPositionInMeasure (
+  measuresRepeat->
+    setmeasuresRepeatPositionInMeasure (
       fMeasureLength);
 
-  // fetch measureRepeat sounding whole notes
-  int measureRepeatSoundingWholeNotes =
-    measureRepeat->getmeasureRepeatSoundingWholeNotes ();
+  // fetch measuresRepeat sounding whole notes
+  int measuresRepeatSoundingWholeNotes =
+    measuresRepeat->getmeasuresRepeatSoundingWholeNotes ();
     
-  // account for measureRepeat duration in measure length
+  // account for measuresRepeat duration in measure length
   setMeasureLength (
     inputLineNumber,
-    fMeasureLength + measureRepeatSoundingWholeNotes);
+    fMeasureLength + measuresRepeatSoundingWholeNotes);
 
   // update part measure length high tide if need be
   fMeasureDirectPartUplink->
@@ -17180,13 +17180,13 @@ void msrMeasure::appendMeasureRepeatToMeasure (
       inputLineNumber,
       fMeasureLength);
 
-  // determine if the measureRepeat occupies a full measure
-// XXL  JMI  if (measureRepeatSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
-    // measureRepeat->setmeasureRepeatOccupiesAFullMeasure ();
+  // determine if the measuresRepeat occupies a full measure
+// XXL  JMI  if (measuresRepeatSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
+    // measuresRepeat->setmeasuresRepeatOccupiesAFullMeasure ();
 */
 
-  // append the measureRepeat to the measure elements list
-  fMeasureElementsList.push_back (measureRepeat);
+  // append the measuresRepeat to the measure elements list
+  fMeasureElementsList.push_back (measuresRepeat);
 //*/
 }
 
@@ -19691,13 +19691,13 @@ void msrSegment::appendDoubleTremoloToSegment ( // XXL
     appendDoubleTremoloToMeasure (doubleTremolo);
 }
 
-void msrSegment::appendMeasureRepeatToSegment (
-  S_msrMeasureRepeat measureRepeat)
+void msrSegment::appendMeasuresRepeatToSegment (
+  S_msrMeasuresRepeat measuresRepeat)
 {
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending measure repeat '" <<
-      measureRepeat->measureRepeatAsString () <<
+      measuresRepeat->measuresRepeatAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -19711,7 +19711,7 @@ void msrSegment::appendMeasureRepeatToSegment (
     "fSegmentMeasuresList is empty");
     
   fSegmentMeasuresList.back ()->
-    appendMeasureRepeatToMeasure (measureRepeat);
+    appendMeasuresRepeatToMeasure (measuresRepeat);
 }
 
 void msrSegment::appendMultipleRestToSegment (
@@ -20892,30 +20892,30 @@ void msrRepeat::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrMeasureRepeatPattern msrMeasureRepeatPattern::create (
+S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::create (
   int        inputLineNumber,
   S_msrVoice voiceUplink)
 {
-  msrMeasureRepeatPattern* o =
-    new msrMeasureRepeatPattern (
+  msrMeasuresRepeatPattern* o =
+    new msrMeasuresRepeatPattern (
       inputLineNumber,
       voiceUplink);
   assert(o!=0);
   return o;
 }
 
-msrMeasureRepeatPattern::msrMeasureRepeatPattern (
+msrMeasuresRepeatPattern::msrMeasuresRepeatPattern (
   int        inputLineNumber,
   S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
-  fMeasureRepeatPatternVoiceUplink = voiceUplink;
+  fMeasuresRepeatPatternVoiceUplink = voiceUplink;
 }
 
-msrMeasureRepeatPattern::~msrMeasureRepeatPattern()
+msrMeasuresRepeatPattern::~msrMeasuresRepeatPattern()
 {}
 
-S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternNewbornClone (
+S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPatternNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats) {
@@ -20929,22 +20929,22 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternNew
     containingVoice != 0,
     "containingVoice is null");
     
-  S_msrMeasureRepeatPattern
+  S_msrMeasuresRepeatPattern
     newbornClone =
-      msrMeasureRepeatPattern::create (
+      msrMeasuresRepeatPattern::create (
         fInputLineNumber,
         containingVoice);
 
   // segment
 
   // uplinks
-  newbornClone->fMeasureRepeatPatternVoiceUplink =
+  newbornClone->fMeasuresRepeatPatternVoiceUplink =
     containingVoice;
     
   return newbornClone;
 }
 
-S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternDeepCopy (
+S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPatternDeepCopy (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats) {
@@ -20958,30 +20958,30 @@ S_msrMeasureRepeatPattern msrMeasureRepeatPattern::createMeasureRepeatPatternDee
     containingVoice != 0,
     "containingVoice is null");
     
-  S_msrMeasureRepeatPattern
-    measureRepeatPatternDeepCopy =
-      msrMeasureRepeatPattern::create (
+  S_msrMeasuresRepeatPattern
+    measuresRepeatPatternDeepCopy =
+      msrMeasuresRepeatPattern::create (
         fInputLineNumber,
         containingVoice);
 
   // segment
-  // fMeasureRepeatPatternSegment JMI ???
+  // fMeasuresRepeatPatternSegment JMI ???
   
   // uplinks
-  measureRepeatPatternDeepCopy->fMeasureRepeatPatternVoiceUplink =
+  measuresRepeatPatternDeepCopy->fMeasuresRepeatPatternVoiceUplink =
     containingVoice;
     
-  return measureRepeatPatternDeepCopy;
+  return measuresRepeatPatternDeepCopy;
 }
 
-void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
-    S_msrSegment measureRepeatPatternSegment)
+void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
+    S_msrSegment measuresRepeatPatternSegment)
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat pattern segment containing " <<
       singularOrPlural (
-          measureRepeatPatternMeasuresNumber (),
+          measuresRepeatPatternMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -20989,20 +20989,20 @@ void msrMeasureRepeatPattern::setMeasureRepeatPatternSegment (
       
   // sanity check
   msrAssert (
-    measureRepeatPatternSegment != 0,
-    "measureRepeatPatternSegment is null");
+    measuresRepeatPatternSegment != 0,
+    "measuresRepeatPatternSegment is null");
 
-  fMeasureRepeatPatternSegment =
-    measureRepeatPatternSegment;
+  fMeasuresRepeatPatternSegment =
+    measuresRepeatPatternSegment;
 }
 
-int msrMeasureRepeatPattern::measureRepeatPatternMeasuresNumber () const
+int msrMeasuresRepeatPattern::measuresRepeatPatternMeasuresNumber () const
 {
   int result;
 
-  if (fMeasureRepeatPatternSegment)
+  if (fMeasuresRepeatPatternSegment)
     result =
-      fMeasureRepeatPatternSegment->
+      fMeasuresRepeatPatternSegment->
       getSegmentMeasuresList ().size ();
   else
     result = 0;
@@ -21010,82 +21010,82 @@ int msrMeasureRepeatPattern::measureRepeatPatternMeasuresNumber () const
   return result;
 }
 
-void msrMeasureRepeatPattern::acceptIn (basevisitor* v)
+void msrMeasuresRepeatPattern::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeatPattern::acceptIn()" <<
+      "% ==> msrMeasuresRepeatPattern::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_msrMeasureRepeatPattern>*
+  if (visitor<S_msrMeasuresRepeatPattern>*
     p =
-      dynamic_cast<visitor<S_msrMeasureRepeatPattern>*> (v)) {
-        S_msrMeasureRepeatPattern elem = this;
+      dynamic_cast<visitor<S_msrMeasuresRepeatPattern>*> (v)) {
+        S_msrMeasuresRepeatPattern elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasureRepeatPattern::visitStart()" <<
+            "% ==> Launching msrMeasuresRepeatPattern::visitStart()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrMeasureRepeatPattern::acceptOut (basevisitor* v)
+void msrMeasuresRepeatPattern::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeatPattern::acceptOut()" <<
+      "% ==> msrMeasuresRepeatPattern::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_msrMeasureRepeatPattern>*
+  if (visitor<S_msrMeasuresRepeatPattern>*
     p =
-      dynamic_cast<visitor<S_msrMeasureRepeatPattern>*> (v)) {
-        S_msrMeasureRepeatPattern elem = this;
+      dynamic_cast<visitor<S_msrMeasuresRepeatPattern>*> (v)) {
+        S_msrMeasuresRepeatPattern elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasureRepeatPattern::visitEnd()" <<
+            "% ==> Launching msrMeasuresRepeatPattern::visitEnd()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrMeasureRepeatPattern::browseData (basevisitor* v)
+void msrMeasuresRepeatPattern::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeatPattern::browseData()" <<
+      "% ==> msrMeasuresRepeatPattern::browseData()" <<
       endl;
   }
 
-  if (fMeasureRepeatPatternSegment) {
+  if (fMeasuresRepeatPatternSegment) {
     // browse the pattern segment
     msrBrowser<msrSegment> browser (v);
-    browser.browse (*fMeasureRepeatPatternSegment);
+    browser.browse (*fMeasuresRepeatPatternSegment);
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrMeasureRepeatPattern& elt)
+ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt)
 {
   elt->print (os);
   return os;
 }
 
-string msrMeasureRepeatPattern::measureRepeatPatternAsString () const
+string msrMeasuresRepeatPattern::measuresRepeatPatternAsString () const
 {
   stringstream s;
 
   s <<
 
-    "MeasureRepeatPattern" <<
+    "MeasuresRepeatPattern" <<
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      measureRepeatPatternMeasuresNumber (),
+      measuresRepeatPatternMeasuresNumber (),
       "repeated measure",
       "repeated measures") <<
     ")"; 
@@ -21093,12 +21093,12 @@ string msrMeasureRepeatPattern::measureRepeatPatternAsString () const
   return s.str ();
 }
 
-void msrMeasureRepeatPattern::print (ostream& os)
+void msrMeasuresRepeatPattern::print (ostream& os)
 {
   os <<
     endl <<
-    measureRepeatPatternAsString () <<
-    "MeasureRepeatPattern" <<
+    measuresRepeatPatternAsString () <<
+    "MeasuresRepeatPattern" <<
     endl <<
     endl;
   
@@ -21108,7 +21108,7 @@ void msrMeasureRepeatPattern::print (ostream& os)
   os <<
     "Pattern segment:";
 
-  if (! fMeasureRepeatPatternSegment) {
+  if (! fMeasuresRepeatPatternSegment) {
     os <<
       " none" <<
       endl;
@@ -21120,7 +21120,7 @@ void msrMeasureRepeatPattern::print (ostream& os)
     gIndenter++;
     
     os <<
-      fMeasureRepeatPatternSegment;
+      fMeasuresRepeatPatternSegment;
 
     gIndenter--;
   }
@@ -21129,30 +21129,30 @@ void msrMeasureRepeatPattern::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::create (
+S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::create (
   int          inputLineNumber,
   S_msrVoice   voiceUplink)
 {
-  msrMeasureRepeatReplicas* o =
-    new msrMeasureRepeatReplicas (
+  msrMeasuresRepeatReplicas* o =
+    new msrMeasuresRepeatReplicas (
       inputLineNumber,
       voiceUplink);
   assert(o!=0);
   return o;
 }
 
-msrMeasureRepeatReplicas::msrMeasureRepeatReplicas (
+msrMeasuresRepeatReplicas::msrMeasuresRepeatReplicas (
   int        inputLineNumber,
   S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
-  fMeasureRepeatReplicasVoiceUplink = voiceUplink;
+  fMeasuresRepeatReplicasVoiceUplink = voiceUplink;
 }
 
-msrMeasureRepeatReplicas::~msrMeasureRepeatReplicas()
+msrMeasuresRepeatReplicas::~msrMeasuresRepeatReplicas()
 {}
 
-S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasNewbornClone (
+S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatReplicasNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats) {
@@ -21166,22 +21166,22 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
     containingVoice != 0,
     "containingVoice is null");
     
-  S_msrMeasureRepeatReplicas
+  S_msrMeasuresRepeatReplicas
     newbornClone =
-      msrMeasureRepeatReplicas::create (
+      msrMeasuresRepeatReplicas::create (
         fInputLineNumber,
         containingVoice);
 
   // segment
 
   // uplinks
-  newbornClone->fMeasureRepeatReplicasVoiceUplink =
+  newbornClone->fMeasuresRepeatReplicasVoiceUplink =
     containingVoice;
     
   return newbornClone;
 }
 
-S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicasDeepCopy (
+S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatReplicasDeepCopy (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats) {
@@ -21195,33 +21195,33 @@ S_msrMeasureRepeatReplicas msrMeasureRepeatReplicas::createMeasureRepeatReplicas
     containingVoice != 0,
     "containingVoice is null");
     
-  S_msrMeasureRepeatReplicas
-    measureRepeatReplicasDeepCopy =
-      msrMeasureRepeatReplicas::create (
+  S_msrMeasuresRepeatReplicas
+    measuresRepeatReplicasDeepCopy =
+      msrMeasuresRepeatReplicas::create (
         fInputLineNumber,
         containingVoice);
 
   // segment
-  measureRepeatReplicasDeepCopy->fMeasureRepeatReplicasSegment =
-    fMeasureRepeatReplicasSegment->
+  measuresRepeatReplicasDeepCopy->fMeasuresRepeatReplicasSegment =
+    fMeasuresRepeatReplicasSegment->
       createSegmentDeepCopy (
         containingVoice);
 
   // uplinks
-  measureRepeatReplicasDeepCopy->fMeasureRepeatReplicasVoiceUplink =
+  measuresRepeatReplicasDeepCopy->fMeasuresRepeatReplicasVoiceUplink =
     containingVoice;
     
-  return measureRepeatReplicasDeepCopy;
+  return measuresRepeatReplicasDeepCopy;
 }
 
-void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
-    S_msrSegment measureRepeatReplicasSegment)
+void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
+    S_msrSegment measuresRepeatReplicasSegment)
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
-          measureRepeatReplicasMeasuresNumber (),
+          measuresRepeatReplicasMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -21229,20 +21229,20 @@ void msrMeasureRepeatReplicas::setMeasureRepeatReplicasSegment (
       
   // sanity check
   msrAssert (
-    measureRepeatReplicasSegment != 0,
-    "measureRepeatReplicasSegment is null");
+    measuresRepeatReplicasSegment != 0,
+    "measuresRepeatReplicasSegment is null");
 
-  fMeasureRepeatReplicasSegment =
-    measureRepeatReplicasSegment;
+  fMeasuresRepeatReplicasSegment =
+    measuresRepeatReplicasSegment;
 }
 
-int msrMeasureRepeatReplicas::measureRepeatReplicasMeasuresNumber () const
+int msrMeasuresRepeatReplicas::measuresRepeatReplicasMeasuresNumber () const
 {
   int result;
 
-  if (fMeasureRepeatReplicasSegment)
+  if (fMeasuresRepeatReplicasSegment)
     result =
-      fMeasureRepeatReplicasSegment->
+      fMeasuresRepeatReplicasSegment->
       getSegmentMeasuresList ().size ();
   else
     result = 0;
@@ -21250,82 +21250,82 @@ int msrMeasureRepeatReplicas::measureRepeatReplicasMeasuresNumber () const
   return result;
 }
 
-void msrMeasureRepeatReplicas::acceptIn (basevisitor* v)
+void msrMeasuresRepeatReplicas::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeatReplicas::acceptIn()" <<
+      "% ==> msrMeasuresRepeatReplicas::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_msrMeasureRepeatReplicas>*
+  if (visitor<S_msrMeasuresRepeatReplicas>*
     p =
-      dynamic_cast<visitor<S_msrMeasureRepeatReplicas>*> (v)) {
-        S_msrMeasureRepeatReplicas elem = this;
+      dynamic_cast<visitor<S_msrMeasuresRepeatReplicas>*> (v)) {
+        S_msrMeasuresRepeatReplicas elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasureRepeatReplicas::visitStart()" <<
+            "% ==> Launching msrMeasuresRepeatReplicas::visitStart()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrMeasureRepeatReplicas::acceptOut (basevisitor* v)
+void msrMeasuresRepeatReplicas::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeatReplicas::acceptOut()" <<
+      "% ==> msrMeasuresRepeatReplicas::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_msrMeasureRepeatReplicas>*
+  if (visitor<S_msrMeasuresRepeatReplicas>*
     p =
-      dynamic_cast<visitor<S_msrMeasureRepeatReplicas>*> (v)) {
-        S_msrMeasureRepeatReplicas elem = this;
+      dynamic_cast<visitor<S_msrMeasuresRepeatReplicas>*> (v)) {
+        S_msrMeasuresRepeatReplicas elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasureRepeatReplicas::visitEnd()" <<
+            "% ==> Launching msrMeasuresRepeatReplicas::visitEnd()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrMeasureRepeatReplicas::browseData (basevisitor* v)
+void msrMeasuresRepeatReplicas::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeatReplicas::browseData()" <<
+      "% ==> msrMeasuresRepeatReplicas::browseData()" <<
       endl;
   }
 
-  if (fMeasureRepeatReplicasSegment) {
+  if (fMeasuresRepeatReplicasSegment) {
   // browse the replicas segment
     msrBrowser<msrSegment> browser (v);
-    browser.browse (*fMeasureRepeatReplicasSegment);
+    browser.browse (*fMeasuresRepeatReplicasSegment);
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrMeasureRepeatReplicas& elt)
+ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt)
 {
   elt->print (os);
   return os;
 }
 
-string msrMeasureRepeatReplicas::measureRepeatReplicasAsString () const
+string msrMeasuresRepeatReplicas::measuresRepeatReplicasAsString () const
 {
   stringstream s;
 
   s <<
 
-    "MeasureRepeatReplicas" <<
+    "MeasuresRepeatReplicas" <<
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      measureRepeatReplicasMeasuresNumber (),
+      measuresRepeatReplicasMeasuresNumber (),
       "replicas measure",
       "replicas measures") <<
     ")"; 
@@ -21333,11 +21333,11 @@ string msrMeasureRepeatReplicas::measureRepeatReplicasAsString () const
   return s.str ();
 }
 
-void msrMeasureRepeatReplicas::print (ostream& os)
+void msrMeasuresRepeatReplicas::print (ostream& os)
 {
   os <<
     endl <<
-    measureRepeatReplicasAsString () <<
+    measuresRepeatReplicasAsString () <<
     endl <<
     endl;
   
@@ -21347,7 +21347,7 @@ void msrMeasureRepeatReplicas::print (ostream& os)
   os <<
     "Replicas segment:";
 
-  if (! fMeasureRepeatReplicasSegment) {
+  if (! fMeasuresRepeatReplicasSegment) {
     os <<
       " none" <<
       endl;
@@ -21359,7 +21359,7 @@ void msrMeasureRepeatReplicas::print (ostream& os)
     gIndenter++;
     
     os <<
-      fMeasureRepeatReplicasSegment;
+      fMeasuresRepeatReplicasSegment;
 
     gIndenter--;
   }
@@ -21368,38 +21368,39 @@ void msrMeasureRepeatReplicas::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_msrMeasureRepeat msrMeasureRepeat::create (
+S_msrMeasuresRepeat msrMeasuresRepeat::create (
   int        inputLineNumber,
-  int        measureRepeatMeasuresNumber,
-  int        measureRepeatSlashesNumber,
+  int        measuresRepeatMeasuresNumber,
+  int        measuresRepeatSlashesNumber,
   S_msrVoice voiceUplink)
 {
-  msrMeasureRepeat* o =
-    new msrMeasureRepeat (
+  msrMeasuresRepeat* o =
+    new msrMeasuresRepeat (
       inputLineNumber,
-      measureRepeatMeasuresNumber, measureRepeatSlashesNumber,
+      measuresRepeatMeasuresNumber,
+      measuresRepeatSlashesNumber,
       voiceUplink);
   assert(o!=0);
   return o;
 }
 
-msrMeasureRepeat::msrMeasureRepeat (
+msrMeasuresRepeat::msrMeasuresRepeat (
   int        inputLineNumber,
-  int        measureRepeatMeasuresNumber,
-  int        measureRepeatSlashesNumber,
+  int        measuresRepeatMeasuresNumber,
+  int        measuresRepeatSlashesNumber,
   S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
-  fMeasureRepeatMeasuresNumber = measureRepeatMeasuresNumber;
-  fMeasureRepeatSlashesNumber  = measureRepeatSlashesNumber;
+  fMeasuresRepeatMeasuresNumber = measuresRepeatMeasuresNumber;
+  fMeasuresRepeatSlashesNumber  = measuresRepeatSlashesNumber;
 
-  fMeasureRepeatVoiceUplink = voiceUplink;
+  fMeasuresRepeatVoiceUplink = voiceUplink;
 }
 
-msrMeasureRepeat::~msrMeasureRepeat()
+msrMeasuresRepeat::~msrMeasuresRepeat()
 {}
 
-S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
+S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats) {
@@ -21413,12 +21414,12 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
     containingVoice != 0,
     "containingVoice is null");
     
-  S_msrMeasureRepeat
+  S_msrMeasuresRepeat
     newbornClone =
-      msrMeasureRepeat::create (
+      msrMeasuresRepeat::create (
         fInputLineNumber,
-        fMeasureRepeatMeasuresNumber,
-        fMeasureRepeatSlashesNumber,
+        fMeasuresRepeatMeasuresNumber,
+        fMeasuresRepeatSlashesNumber,
         containingVoice);
 
   // numbers
@@ -21432,7 +21433,7 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatNewbornClone (
   return newbornClone;
 }
 
-S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
+S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatDeepCopy (
   S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceRepeats) {
@@ -21446,45 +21447,45 @@ S_msrMeasureRepeat msrMeasureRepeat::createMeasureRepeatDeepCopy (
     containingVoice != 0,
     "containingVoice is null");
     
-  S_msrMeasureRepeat
-    measureRepeatDeepCopy =
-      msrMeasureRepeat::create (
+  S_msrMeasuresRepeat
+    measuresRepeatDeepCopy =
+      msrMeasuresRepeat::create (
         fInputLineNumber,
-        fMeasureRepeatMeasuresNumber,
-        fMeasureRepeatSlashesNumber,
+        fMeasuresRepeatMeasuresNumber,
+        fMeasuresRepeatSlashesNumber,
         containingVoice);
 
   // numbers
 
   // repeat pattern
-  measureRepeatDeepCopy->fMeasureRepeatPattern =
-    fMeasureRepeatPattern->
-      createMeasureRepeatPatternDeepCopy (
+  measuresRepeatDeepCopy->fMeasuresRepeatPattern =
+    fMeasuresRepeatPattern->
+      createMeasuresRepeatPatternDeepCopy (
         containingVoice);
         
   // repeat replicas
 
-   measureRepeatDeepCopy->fMeasureRepeatReplicas =
-    fMeasureRepeatReplicas->
-      createMeasureRepeatReplicasDeepCopy (
+   measuresRepeatDeepCopy->fMeasuresRepeatReplicas =
+    fMeasuresRepeatReplicas->
+      createMeasuresRepeatReplicasDeepCopy (
         containingVoice);
         
   // uplinks
-  measureRepeatDeepCopy->fMeasureRepeatVoiceUplink =
+  measuresRepeatDeepCopy->fMeasuresRepeatVoiceUplink =
     containingVoice;
     
-  return measureRepeatDeepCopy;
+  return measuresRepeatDeepCopy;
 }
 
-void msrMeasureRepeat::setMeasureRepeatPattern (
-  S_msrMeasureRepeatPattern measureRepeatPattern)
+void msrMeasuresRepeat::setMeasuresRepeatPattern (
+  S_msrMeasuresRepeatPattern measuresRepeatPattern)
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat pattern containing " <<
       singularOrPlural (
-        measureRepeatPattern->
-          measureRepeatPatternMeasuresNumber (),
+        measuresRepeatPattern->
+          measuresRepeatPatternMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -21492,21 +21493,21 @@ void msrMeasureRepeat::setMeasureRepeatPattern (
       
   // sanity check
   msrAssert (
-    measureRepeatPattern != 0,
-    "measureRepeatPattern is null");
+    measuresRepeatPattern != 0,
+    "measuresRepeatPattern is null");
 
-  fMeasureRepeatPattern = measureRepeatPattern;
+  fMeasuresRepeatPattern = measuresRepeatPattern;
 }
 
-void msrMeasureRepeat::setMeasureRepeatReplicas (
-  S_msrMeasureRepeatReplicas measureRepeatReplicas)
+void msrMeasuresRepeat::setMeasuresRepeatReplicas (
+  S_msrMeasuresRepeatReplicas measuresRepeatReplicas)
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat replicas containing " <<
       singularOrPlural (
-        measureRepeatReplicas->
-          measureRepeatReplicasMeasuresNumber (),
+        measuresRepeatReplicas->
+          measuresRepeatReplicasMeasuresNumber (),
         "measure",
         "measures") <<
       endl;
@@ -21514,91 +21515,91 @@ void msrMeasureRepeat::setMeasureRepeatReplicas (
       
   // sanity check
   msrAssert (
-    measureRepeatReplicas != 0,
-    "measureRepeatReplicas is null");
+    measuresRepeatReplicas != 0,
+    "measuresRepeatReplicas is null");
 
-  fMeasureRepeatReplicas = measureRepeatReplicas;
+  fMeasuresRepeatReplicas = measuresRepeatReplicas;
 }
 
-int msrMeasureRepeat::measureRepeatReplicasNumber () const
+int msrMeasuresRepeat::measuresRepeatReplicasNumber () const
 {
   // compute replicas number
   return
-    measureRepeatReplicasMeasuresNumber ()
+    measuresRepeatReplicasMeasuresNumber ()
       /
-    measureRepeatPatternMeasuresNumber ();    
+    measuresRepeatPatternMeasuresNumber ();    
 }
 
-void msrMeasureRepeat::acceptIn (basevisitor* v)
+void msrMeasuresRepeat::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeat::acceptIn()" <<
+      "% ==> msrMeasuresRepeat::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_msrMeasureRepeat>*
+  if (visitor<S_msrMeasuresRepeat>*
     p =
-      dynamic_cast<visitor<S_msrMeasureRepeat>*> (v)) {
-        S_msrMeasureRepeat elem = this;
+      dynamic_cast<visitor<S_msrMeasuresRepeat>*> (v)) {
+        S_msrMeasuresRepeat elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasureRepeat::visitStart()" <<
+            "% ==> Launching msrMeasuresRepeat::visitStart()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrMeasureRepeat::acceptOut (basevisitor* v)
+void msrMeasuresRepeat::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeat::acceptOut()" <<
+      "% ==> msrMeasuresRepeat::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_msrMeasureRepeat>*
+  if (visitor<S_msrMeasuresRepeat>*
     p =
-      dynamic_cast<visitor<S_msrMeasureRepeat>*> (v)) {
-        S_msrMeasureRepeat elem = this;
+      dynamic_cast<visitor<S_msrMeasuresRepeat>*> (v)) {
+        S_msrMeasuresRepeat elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrMeasureRepeat::visitEnd()" <<
+            "% ==> Launching msrMeasuresRepeat::visitEnd()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrMeasureRepeat::browseData (basevisitor* v)
+void msrMeasuresRepeat::browseData (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrMeasureRepeat::browseData()" <<
+      "% ==> msrMeasuresRepeat::browseData()" <<
       endl;
   }
 
-  if (fMeasureRepeatPattern) {
+  if (fMeasuresRepeatPattern) {
   // browse the measdure repeat pattern
-    msrBrowser<msrMeasureRepeatPattern> browser (v);
-    browser.browse (*fMeasureRepeatPattern);
+    msrBrowser<msrMeasuresRepeatPattern> browser (v);
+    browser.browse (*fMeasuresRepeatPattern);
   }
 
   // fetch the score
   S_msrScore
     score =
-      fMeasureRepeatVoiceUplink->
+      fMeasuresRepeatVoiceUplink->
         fetchVoicePartUplink ()->
           getPartPartGroupUplink ()->
             getPartGroupScoreUplink ();
               
-  bool inhibitMeasureRepeatReplicasBrowsing =
-    score->getInhibitMeasureRepeatReplicasBrowsing ();
+  bool inhibitMeasuresRepeatReplicasBrowsing =
+    score->getInhibitMeasuresRepeatReplicasBrowsing ();
 
-  if (inhibitMeasureRepeatReplicasBrowsing) {
+  if (inhibitMeasuresRepeatReplicasBrowsing) {
     if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats) {
       gLogIOstream <<
         "% ==> visiting measure repeat replicas is inhibited" <<
@@ -21606,72 +21607,71 @@ void msrMeasureRepeat::browseData (basevisitor* v)
     }
   }
 
-  if (fMeasureRepeatReplicas) {
-    if (! inhibitMeasureRepeatReplicasBrowsing) {
+  if (fMeasuresRepeatReplicas) {
+    if (! inhibitMeasuresRepeatReplicasBrowsing) {
       // browse the measure repeat replicas
-      msrBrowser<msrMeasureRepeatReplicas> browser (v);
-      browser.browse (*fMeasureRepeatReplicas);
+      msrBrowser<msrMeasuresRepeatReplicas> browser (v);
+      browser.browse (*fMeasuresRepeatReplicas);
     }
   }
 }
 
-ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt)
+ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt)
 {
   elt->print (os);
   return os;
 }
 
-string msrMeasureRepeat::measureRepeatAsString () const
+string msrMeasuresRepeat::measuresRepeatAsString () const
 {
   stringstream s;
 
   s <<
 
-    "MeasureRepeat" <<
+    "MeasuresRepeat" <<
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      measureRepeatPatternMeasuresNumber (),
+      measuresRepeatPatternMeasuresNumber (),
       "repeated measure",
       "repeated measures") <<
     ", " <<
     singularOrPlural (
-      measureRepeatReplicasMeasuresNumber (),
+      measuresRepeatReplicasMeasuresNumber (),
       "replicas measure",
       "replicas measures") <<
     ", " <<
-    measureRepeatReplicasNumber () << " replicas" <<
+    measuresRepeatReplicasNumber () << " replicas" <<
     ")"; 
 
   return s.str ();
 }
 
-void msrMeasureRepeat::print (ostream& os)
+void msrMeasuresRepeat::print (ostream& os)
 {
   os <<
     endl <<
-    "MeasureRepeat" <<
+    "MeasuresRepeat" <<
     ", line " << fInputLineNumber <<
     " (" <<
     singularOrPlural (
-      measureRepeatPatternMeasuresNumber (),
+      measuresRepeatPatternMeasuresNumber (),
       "repeated measure",
       "repeated measures") <<
     ", " <<
     singularOrPlural (
-      measureRepeatReplicasMeasuresNumber (),
+      measuresRepeatReplicasMeasuresNumber (),
       "replicas measure",
       "replicas measures") <<
     ", " <<
-    measureRepeatReplicasNumber () << " replicas" <<
+    measuresRepeatReplicasNumber () << " replicas" <<
     ")" <<
-    endl <<
     endl;
   
   gIndenter++;
   
   // print the measure repeat pattern
-  if (! fMeasureRepeatPattern) {
+  if (! fMeasuresRepeatPattern) {
     os <<
       "Measure repeat pattern: none" <<
       endl;
@@ -21679,13 +21679,11 @@ void msrMeasureRepeat::print (ostream& os)
 
   else {
     os <<
-      fMeasureRepeatPattern;
+      fMeasuresRepeatPattern;
   }
-
-  os << endl;
   
   // print the measure repeat replicas
-  if (! fMeasureRepeatReplicas) {
+  if (! fMeasuresRepeatReplicas) {
     os <<
       "Measure repeat replicas: none" <<
       endl;
@@ -21693,7 +21691,7 @@ void msrMeasureRepeat::print (ostream& os)
 
   else {
     os <<
-      fMeasureRepeatReplicas;
+      fMeasuresRepeatReplicas;
   }
       
   gIndenter--;
@@ -24473,10 +24471,10 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
   } // switch
 }
 
-void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
+void msrVoice::createMeasuresRepeatFromItsFirstMeasureInVoice (
   int inputLineNumber,
-  int measureRepeatMeasuresNumber,
-  int measureRepeatSlashes)
+  int measuresRepeatMeasuresNumber,
+  int measuresRepeatSlashes)
 {
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
@@ -24485,12 +24483,18 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
     case msrVoice::kFiguredBassVoice:
       {
         // create a measure repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
-            "-=> Creating a " <<
-            measureRepeatMeasuresNumber <<
+            "Creating a " <<
+            measuresRepeatMeasuresNumber <<
             " measure, " <<
-            measureRepeatSlashes <<
+            measuresRepeatSlashes <<
             " slashes repeat from it's first measure in voice \"" <<
             getVoiceName () <<
             "\"" <<
@@ -24499,7 +24503,15 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
         }
       
         // print current voice contents
-        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
             endl <<
             "The current contents of voice \"" <<
@@ -24513,7 +24525,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
 
         // this occurs after an empty measure has just been created,
         // hence the repeated measure/measures is/are the
-        // measureRepeatMeasuresNumber measures preceding the last one
+        // measuresRepeatMeasuresNumber measures preceding the last one
 
         int
           lastSegmentMeasuresNumber =
@@ -24523,12 +24535,12 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             lastSegmentMeasuresNumber - 1;
             
         if (
-          availableMeasuresNumber < measureRepeatMeasuresNumber) {
+          availableMeasuresNumber < measuresRepeatMeasuresNumber) {
           stringstream s;
 
           s <<
             "attempting to create a measure repeat with " <<
-            measureRepeatMeasuresNumber <<
+            measuresRepeatMeasuresNumber <<
             " measures while current last segment only has " <<
             availableMeasuresNumber <<
             " available";
@@ -24549,12 +24561,14 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             removeLastMeasureFromVoice (
               inputLineNumber);
 
+/*
         // grab the (new current) last measure from the voice,
         // which is the repeated measure
         S_msrMeasure
           repeatedMeasure =
             removeLastMeasureFromVoice (
               inputLineNumber);
+*/
 
         // create the measure repeat repeated segment
         S_msrSegment
@@ -24564,17 +24578,25 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
               this);
 
         // remove the repeated measure(s) for the last segment
-        // and preppend  them to the repeated segment
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        // and prepend  them to the repeated segment
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
-            "-=> Removing the last " <<
-            measureRepeatMeasuresNumber <<
+            "Removing the last " <<
+            measuresRepeatMeasuresNumber <<
             " measures (to be repeated) from voice \"" <<
             fVoiceName <<
             endl;
         }
 
-        for (int i = 0; i< measureRepeatMeasuresNumber; i++) {
+        for (int i = 0; i< measuresRepeatMeasuresNumber; i++) {
           S_msrMeasure
             lastMeasure =
               removeLastMeasureFromVoice (
@@ -24583,29 +24605,51 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           repeatedSegment->
             prependMeasureToSegment (
               lastMeasure);
-        }
-            
+        } // for
+
+        
+  if (true || gGeneralOptions->fTraceParts) { // JMI
+    gLogIOstream <<
+      endl <<
+      "*********** repeatedSegment:" <<
+      endl <<
+      endl <<
+      repeatedSegment <<
+      "***********" <<
+      endl <<
+      endl;
+  }
+
+        
         // create the measure pattern
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
-            "-=> Creating a measure pattern for voice \"" <<
+            "Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
         }
         
-        S_msrMeasureRepeatPattern
-          measureRepeatPattern =
-            msrMeasureRepeatPattern::create (
+        S_msrMeasuresRepeatPattern
+          measuresRepeatPattern =
+            msrMeasuresRepeatPattern::create (
               inputLineNumber,
               this);
 
         // set the repeated segment as the measure repeat pattern segment
-        measureRepeatPattern->
-          setMeasureRepeatPatternSegment (
+        measuresRepeatPattern->
+          setMeasuresRepeatPatternSegment (
             repeatedSegment);
             
         // create the measure repeat
-        if (fVoicePendingMeasureRepeat) {
+        if (fVoicePendingMeasuresRepeat) {
           stringstream s;
 
           s <<
@@ -24618,21 +24662,29 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
             s.str ());
         }
         
-        fVoicePendingMeasureRepeat =
-          msrMeasureRepeat::create (
+        fVoicePendingMeasuresRepeat =
+          msrMeasuresRepeat::create (
             inputLineNumber,
-            measureRepeatMeasuresNumber,
-            measureRepeatSlashes,
+            measuresRepeatMeasuresNumber,
+            measuresRepeatSlashes,
             this);
 
         // set the measure repeat pattern
-        fVoicePendingMeasureRepeat->
-          setMeasureRepeatPattern (
-            measureRepeatPattern);
+        fVoicePendingMeasuresRepeat->
+          setMeasuresRepeatPattern (
+            measuresRepeatPattern);
         
         // create a new last segment to collect the measure repeat replicas,
         // containing the first, yet incomplete, replica
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
             "-=> Creating a new last segment with the first replica for voice \"" <<
             fVoiceName << "\"" <<
@@ -24644,7 +24696,15 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
           firstReplicaMeasure);
 
         // print resulting voice contents
-        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -24661,7 +24721,7 @@ void msrVoice::createMeasureRepeatFromItsFirstMeasureInVoice (
   } // switch
 }
 
-void msrVoice::appendPendingMeasureRepeatToVoice (
+void msrVoice::appendPendingMeasuresRepeatToVoice (
   int inputLineNumber)
 {
   switch (fVoiceKind) {
@@ -24670,22 +24730,34 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        /* JMI
+        //* JMI
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
-        }
 
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
-*/
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
+
+          gLogIOstream <<
+            "<==================" <<
+            endl;
+        }
+//*/
 
         // does the pending measure repeat exist?
-        if (! fVoicePendingMeasureRepeat) {
+        if (! fVoicePendingMeasuresRepeat) {
           stringstream s;
 
           s <<
@@ -24722,16 +24794,16 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         }
 
         S_msrMeasure
-          nextMeasureAfterMeasureRepeat =
+          nextMeasureAfterMeasuresRepeat =
             voiceLastSegmentMeasureList.back ();
 
             /* JMI
         gLogIOstream <<
           endl <<
-          "==========> nextMeasureAfterMeasureRepeat:" <<
+          "==========> nextMeasureAfterMeasuresRepeat:" <<
           endl;
           
-        nextMeasureAfterMeasureRepeat->print (gLogIOstream);
+        nextMeasureAfterMeasuresRepeat->print (gLogIOstream);
           
         gLogIOstream <<
           endl;
@@ -24741,68 +24813,97 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         voiceLastSegmentMeasureList.pop_back ();
 
          // create the measure repeat replicas contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
             "-=> Creating a measure repeat replicas contents for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
         }
 
-        S_msrMeasureRepeatReplicas
-          measureRepeatReplicas =
-            msrMeasureRepeatReplicas::create (
+        S_msrMeasuresRepeatReplicas
+          measuresRepeatReplicas =
+            msrMeasuresRepeatReplicas::create (
               inputLineNumber,
               this);
 
         // set the voice last segment as the measure repeat replicas segment
-        measureRepeatReplicas->
-          setMeasureRepeatReplicasSegment (
+        measuresRepeatReplicas->
+          setMeasuresRepeatReplicasSegment (
             fVoiceLastSegment);
 
-        // set the measure repeat replicas contents
-        fVoicePendingMeasureRepeat->
-          setMeasureRepeatReplicas (
-            measureRepeatReplicas);
-        
 
-/* JMI BOF
-       // set last segment as the measure repeat replicas segment
-        if (gGeneralOptions->fTraceRepeats) {
+
+
+
+        
+  if (true || gGeneralOptions->fTraceParts) { // JMI
+    gLogIOstream <<
+      endl <<
+      "*********** measuresRepeatReplicas:" <<
+      endl <<
+      endl <<
+      measuresRepeatReplicas <<
+      "***********" <<
+      endl <<
+      endl;
+  }
+
+
+        // set the measure repeat replicas contents
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
-            "Setting current last segment as measure repeat replicas segment in voice \"" <<
+            "Setting pending measure repeat replicas segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
         }
-      
-        fVoicePendingMeasureRepeat->
-          setMeasureRepeatReplicas (
-            fVoiceLastSegment);
+        
+        fVoicePendingMeasuresRepeat->
+          setMeasuresRepeatReplicas (
+            measuresRepeatReplicas);
 
         // append pending measure repeat to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
-          fVoicePendingMeasureRepeat);
+          fVoicePendingMeasuresRepeat);
 
-        // set multipleRestContents as the multiple rest contents
-        if (gGeneralOptions->fTraceRepeats) {
+        // create a new last segment to collect the remainder of the voice,
+        // containing the next, yet incomplete, measure
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
           gLogIOstream <<
-            "Setting current last segment as multiple rest segment in voice \"" <<
-            getVoiceName () <<
-            "\"" <<
+            "-=> Creating a new last segment with the measure repeat next measure for voice \"" <<
+            fVoiceName << "\"" <<
             endl;
         }
-      
-        fVoicePendingMultipleRest->
-          setMultipleRestContents (
-            multipleRestContents);
-*/
+            
+        createNewLastSegmentFromFirstMeasureForVoice (
+          inputLineNumber,
+          nextMeasureAfterMeasuresRepeat);
 
-
-
-
-
-/* JMI
-        // print current voice contents
+        // print resulting voice contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
@@ -24813,35 +24914,9 @@ void msrVoice::appendPendingMeasureRepeatToVoice (
         gIndenter++;
         print (gLogIOstream);
         gIndenter--;
-        */
-
-        // create a new last segment to collect the remainder of the voice,
-        // containing the next, yet incomplete, measure
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "-=> Creating a new last segment with the measure repeat next measure for voice \"" <<
-            fVoiceName << "\"" <<
-            endl;
-        }
-            
-        createNewLastSegmentFromFirstMeasureForVoice (
-          inputLineNumber,
-          nextMeasureAfterMeasureRepeat);
-
-        // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-          gLogIOstream <<
-            "The resulting voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-        }
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
-
+        
         // forget about this pending measure repeat
-        fVoicePendingMeasureRepeat = (void*)0;
+        fVoicePendingMeasuresRepeat = (void*)0;
       }
       break;
   } // switch
@@ -27473,10 +27548,10 @@ void msrStaff::appendRepeatEndingToStaff (
   } // for
 }
 
-void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
+void msrStaff::createMeasuresRepeatFromItsFirstMeasureInStaff (
   int inputLineNumber,
-  int measureRepeatMeasuresNumber,
-  int measureRepeatSlashes)
+  int measuresRepeatMeasuresNumber,
+  int measuresRepeatSlashes)
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
@@ -27492,14 +27567,14 @@ void msrStaff::createMeasureRepeatFromItsFirstMeasureInStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
-      createMeasureRepeatFromItsFirstMeasureInVoice (
+      createMeasuresRepeatFromItsFirstMeasureInVoice (
         inputLineNumber,
-        measureRepeatMeasuresNumber,
-        measureRepeatSlashes);
+        measuresRepeatMeasuresNumber,
+        measuresRepeatSlashes);
   } // for
 }
 
-void msrStaff::appendPendingMeasureRepeatToStaff (
+void msrStaff::appendPendingMeasuresRepeatToStaff (
   int inputLineNumber)
 {
   if (gGeneralOptions->fTraceRepeats) {
@@ -27516,7 +27591,7 @@ void msrStaff::appendPendingMeasureRepeatToStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
-      appendPendingMeasureRepeatToVoice (
+      appendPendingMeasuresRepeatToVoice (
         inputLineNumber);
   } // for
 }
@@ -29237,18 +29312,18 @@ void msrPart::appendRepeatEndingCloneToPart (
   } // for
 }
 
-void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
+void msrPart::createMeasuresRepeatFromItsFirstMeasureInPart (
   int inputLineNumber,
-  int measureRepeatMeasuresNumber,
-  int measureRepeatSlashes)
+  int measuresRepeatMeasuresNumber,
+  int measuresRepeatSlashes)
 {
   /* JMI
   // create measure repeat from its first measure in master staff specifically
   fPartMasterStaff->
-    createMeasureRepeatFromItsFirstMeasureInStaff (
+    createMeasuresRepeatFromItsFirstMeasureInStaff (
       inputLineNumber,
-      measureRepeatMeasuresNumber,
-      measureRepeatSlashes);
+      measuresRepeatMeasuresNumber,
+      measuresRepeatSlashes);
   */
   
   // create measure repeat from its first measure in registered staves
@@ -29257,20 +29332,20 @@ void msrPart::createMeasureRepeatFromItsFirstMeasureInPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      createMeasureRepeatFromItsFirstMeasureInStaff (
+      createMeasuresRepeatFromItsFirstMeasureInStaff (
         inputLineNumber,
-        measureRepeatMeasuresNumber,
-        measureRepeatSlashes);
+        measuresRepeatMeasuresNumber,
+        measuresRepeatSlashes);
   } // for
 }
 
-void msrPart::appendPendingMeasureRepeatToPart (
+void msrPart::appendPendingMeasuresRepeatToPart (
   int inputLineNumber)
 {
   /* JMI
   // append pending measure repeat to master staff specifically
   fPartMasterStaff->
-    appendPendingMeasureRepeatToStaff (
+    appendPendingMeasuresRepeatToStaff (
       inputLineNumber);
 */
   
@@ -29280,7 +29355,7 @@ void msrPart::appendPendingMeasureRepeatToPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      appendPendingMeasureRepeatToStaff (
+      appendPendingMeasuresRepeatToStaff (
         inputLineNumber);
   } // for
 }
@@ -30595,7 +30670,8 @@ string msrPartGroup::getPartGroupCombinedName () const
 
   s <<
     "PartGroup_" << fPartGroupAbsoluteNumber <<
-    " (part group number '" << fPartGroupNumber << "')";
+    " ('" << fPartGroupNumber <<
+    "', partGroupName \"" << fPartGroupName << "\")";
 
   return s.str ();
 }
@@ -31786,7 +31862,7 @@ msrScore::msrScore (
       inputLineNumber);
 
   // measure repeats replicas should be browsed by default
-  fInhibitMeasureRepeatReplicasBrowsing = false;
+  fInhibitMeasuresRepeatReplicasBrowsing = false;
 
   // multiple rest measures should be browsed by default
   fInhibitMultipleRestMeasuresBrowsing = false;
@@ -31818,8 +31894,8 @@ S_msrScore msrScore::createScoreNewbornClone ()
   } // for
 */
 
-  newbornClone->fInhibitMeasureRepeatReplicasBrowsing =
-    fInhibitMeasureRepeatReplicasBrowsing;
+  newbornClone->fInhibitMeasuresRepeatReplicasBrowsing =
+    fInhibitMeasuresRepeatReplicasBrowsing;
     
   newbornClone->fInhibitMultipleRestMeasuresBrowsing =
     fInhibitMultipleRestMeasuresBrowsing;

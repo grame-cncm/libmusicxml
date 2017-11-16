@@ -188,8 +188,9 @@ class mxmlTree2MsrTranslator :
   
   public visitor<S_measure>,
   public visitor<S_print>,
+  public visitor<S_measure_numbering>,
   
-  // ?
+  // ???
   
   public visitor<S_barline>,
   public visitor<S_segno>,
@@ -658,6 +659,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     virtual void visitStart ( S_print& elt);
+    virtual void visitStart ( S_measure_numbering& elt);
     
     virtual void visitStart ( S_barline& elt);
     virtual void visitStart ( S_segno& elt);
@@ -938,10 +940,10 @@ class mxmlTree2MsrTranslator :
 
     int                       fCurrentBeatRepeatSlashes;
 
-    msrMeasureRepeat::msrMeasureRepeatKind
-                              fCurrentMeasureRepeatKind;
-    int                       fCurrentMeasureRepeatMeasuresNumber;
-    int                       fCurrentMeasureRepeatSlashesNumber;
+    msrMeasuresRepeat::msrMeasuresRepeatKind
+                              fCurrentMeasuresRepeatKind;
+    int                       fCurrentMeasuresRepeatMeasuresNumber;
+    int                       fCurrentMeasuresRepeatSlashesNumber;
     
     msrMultipleRest::msrMultipleRestKind
                               fCurrentMultipleRestKind;

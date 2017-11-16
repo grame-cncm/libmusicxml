@@ -229,9 +229,9 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrRepeatCommonPart>,
   public visitor<S_msrRepeatEnding>,
   
-  public visitor<S_msrMeasureRepeat>,
-  public visitor<S_msrMeasureRepeatPattern>,
-  public visitor<S_msrMeasureRepeatReplicas>,
+  public visitor<S_msrMeasuresRepeat>,
+  public visitor<S_msrMeasuresRepeatPattern>,
+  public visitor<S_msrMeasuresRepeatReplicas>,
   
   public visitor<S_msrMultipleRest>,
   public visitor<S_msrMultipleRestContents>,
@@ -494,12 +494,12 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrRepeatEnding& elt);
     virtual void visitEnd   (S_msrRepeatEnding& elt);
 
-    virtual void visitStart (S_msrMeasureRepeat& elt);
-    virtual void visitEnd   (S_msrMeasureRepeat& elt);
-    virtual void visitStart (S_msrMeasureRepeatPattern& elt);
-    virtual void visitEnd   (S_msrMeasureRepeatPattern& elt);
-    virtual void visitStart (S_msrMeasureRepeatReplicas& elt);
-    virtual void visitEnd   (S_msrMeasureRepeatReplicas& elt);
+    virtual void visitStart (S_msrMeasuresRepeat& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeat& elt);
+    virtual void visitStart (S_msrMeasuresRepeatPattern& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeatPattern& elt);
+    virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
     
     virtual void visitStart (S_msrMultipleRest& elt);
     virtual void visitEnd   (S_msrMultipleRest& elt);

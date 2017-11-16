@@ -53,7 +53,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // since Lilypond only needs the repeat measure
   fVisitedLpsrScore->
     getMsrScore ()->
-      setInhibitMeasureRepeatReplicasBrowsing ();
+      setInhibitMeasuresRepeatReplicasBrowsing ();
 
   // inhibit the browsing of multiple rest replicas,
   // since Lilypond only needs the measure number
@@ -8371,22 +8371,22 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRehearsal& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting msrMeasureRepeat" <<
+      "% --> Start visiting msrMeasuresRepeat" <<
       endl;
   }
 
   int repeatMeasuresNumber =
-    elt->measureRepeatPatternMeasuresNumber ();
+    elt->measuresRepeatPatternMeasuresNumber ();
 
   int replicasMeasuresNumber =
-    elt->measureRepeatReplicasMeasuresNumber ();
+    elt->measuresRepeatReplicasMeasuresNumber ();
     
   int replicasNumber =
-    elt->measureRepeatReplicasNumber ();
+    elt->measuresRepeatReplicasNumber ();
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
     fLilypondCodeIOstream <<
@@ -8412,7 +8412,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
       setw (commentFieldWidth) <<
       "% start of measure repeat" <<
       singularOrPlural (
-        elt->measureRepeatReplicasNumber (),
+        elt->measuresRepeatReplicasNumber (),
         "replica",
         "replicas") <<
       ", line " << elt->getInputLineNumber () <<
@@ -8430,11 +8430,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeat& elt)
     gIndenter++;
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting msrMeasureRepeat" <<
+      "% --> Start visiting msrMeasuresRepeat" <<
       endl;
   }
 
@@ -8451,7 +8451,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
       setw (commentFieldWidth) << left <<
       "% end of measure repeat" <<
       singularOrPlural (
-        elt->measureRepeatReplicasNumber (),
+        elt->measuresRepeatReplicasNumber (),
         "replica",
         "replicas") <<
       ", line " << elt->getInputLineNumber () <<
@@ -8460,11 +8460,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeat& elt)
   }
 }
 
-void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "%--> Start visiting msrMeasureRepeatPattern" <<
+      "%--> Start visiting msrMeasuresRepeatPattern" <<
       endl;
   }
 
@@ -8473,22 +8473,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
   // JMI
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "%--> End visiting msrMeasureRepeatPattern" <<
+      "%--> End visiting msrMeasuresRepeatPattern" <<
       endl;
   }
 
   gIndenter--;
 }
   
-void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
+void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "%--> Start visiting msrMeasureRepeatReplicas" <<
+      "%--> Start visiting msrMeasuresRepeatReplicas" <<
       endl;
   }
 
@@ -8497,11 +8497,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
   // JMI
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
+void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "%--> End visiting msrMeasureRepeatReplicas" <<
+      "%--> End visiting msrMeasuresRepeatReplicas" <<
       endl;
   }
 

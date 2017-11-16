@@ -107,9 +107,6 @@ void msrError (
       baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
       endl;
   }
-
-  if (! gGeneralOptions->fIgnoreErrors)
-    exit (17);
 }
 
 //______________________________________________________________________________
@@ -127,6 +124,9 @@ void msrMusicXMLError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+  if (! gGeneralOptions->fIgnoreErrors)
+    exit (15);
 }
 
 //______________________________________________________________________________
@@ -144,6 +144,9 @@ void lpsrMusicXMLError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+  if (! gGeneralOptions->fIgnoreErrors)
+    exit (16);
 }
 
 //______________________________________________________________________________
@@ -161,6 +164,8 @@ void msrInternalError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+  abort ();
 }
 
 

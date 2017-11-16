@@ -67,11 +67,11 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   fCurrentBeatRepeatSlashes = -1;
 
-  fCurrentMeasureRepeatKind =
-    msrMeasureRepeat::k_NoMeasureRepeat;
+  fCurrentMeasuresRepeatKind =
+    msrMeasuresRepeat::k_NoMeasuresRepeat;
 
-  fCurrentMeasureRepeatMeasuresNumber = -1;
-  fCurrentMeasureRepeatSlashesNumber  = -1;
+  fCurrentMeasuresRepeatMeasuresNumber = -1;
+  fCurrentMeasuresRepeatSlashesNumber  = -1;
   
   fCurrentMultipleRestMeasuresNumber   = 0;
   fRemainingMultipleRestMeasuresNumber = 0;
@@ -5694,6 +5694,64 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-repeat.htm
 */
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt ) 
+{
+/*
+<!--
+  The measure-numbering element describes how measure
+  numbers are displayed on this part. Values may be none,
+  measure, or system. The number attribute from the measure
+  element is used for printing. Measures with an implicit
+  attribute set to "yes" never display a measure number,
+  regardless of the measure-numbering setting.
+-->
+<!ELEMENT measure-numbering (#PCDATA)>
+<!ATTLIST measure-numbering
+    %print-style-align;
+>
+
+        <measure-numbering>none</measure-numbering>
+
+*/
+
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_print" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  string measureNumberingString = elt->getValue ();
+
+  /* JMI
+  fCurrentBarlineStyleKind =
+    msrBarline::k_NoStyle; // default value
+*/
+
+  if      (measureNumberingString == "none") {
+ //   fCurrentBarlineStyleKind =
+ //     msrBarline::kRegularStyle;
+  }
+  else if (measureNumberingString == "measure") {
+//    fCurrentBarlineStyleKind =
+ //     msrBarline::kDottedStyle;
+  }
+  else if (measureNumberingString == "system") {
+ //   fCurrentBarlineStyleKind =
+ //     msrBarline::kDashedStyle;
+  }
+  else {
+    msrMusicXMLError (
+      gGeneralOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "measure-numbering \"" + measureNumberingString + "\" is unknown");
+  }
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_barline& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -7610,31 +7668,35 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
 
   int inputLineNumber = elt->getInputLineNumber ();
   
-  fCurrentMeasureRepeatMeasuresNumber = (int)(*elt);
+  fCurrentMeasuresRepeatMeasuresNumber = (int)(*elt);
 
-  string measureRepeatType =
-    elt->getAttributeValue ("type");
-
-  fCurrentMeasureRepeatSlashesNumber =
+  // slashes
+  
+  fCurrentMeasuresRepeatSlashesNumber =
     elt->getAttributeIntValue ("slashes", 1); // default value
 
-  fCurrentMeasureRepeatKind = msrMeasureRepeat::k_NoMeasureRepeat;
+  // type
   
-  if      (measureRepeatType == "start") {
-    fCurrentMeasureRepeatKind = msrMeasureRepeat::kStartMeasureRepeat; // JMI
+  string measuresRepeatType =
+    elt->getAttributeValue ("type");
+
+  fCurrentMeasuresRepeatKind = msrMeasuresRepeat::k_NoMeasuresRepeat;
+  
+  if      (measuresRepeatType == "start") {
+    fCurrentMeasuresRepeatKind = msrMeasuresRepeat::kStartMeasuresRepeat; // JMI
 
     fCurrentPart->
-      createMeasureRepeatFromItsFirstMeasureInPart (
+      createMeasuresRepeatFromItsFirstMeasureInPart (
         inputLineNumber,
-        fCurrentMeasureRepeatMeasuresNumber,
-        fCurrentMeasureRepeatSlashesNumber);
+        fCurrentMeasuresRepeatMeasuresNumber,
+        fCurrentMeasuresRepeatSlashesNumber);
   }
   
-  else if (measureRepeatType == "stop") {
-    fCurrentMeasureRepeatKind = msrMeasureRepeat::kStopMeasureRepeat; // JMI
+  else if (measuresRepeatType == "stop") {
+    fCurrentMeasuresRepeatKind = msrMeasuresRepeat::kStopMeasuresRepeat; // JMI
 
     fCurrentPart->
-      appendPendingMeasureRepeatToPart (
+      appendPendingMeasuresRepeatToPart (
         inputLineNumber);
   }
   
@@ -7642,7 +7704,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
     stringstream s;
     
     s <<
-      "measure-repeat type \"" << measureRepeatType <<
+      "measure-repeat type \"" << measuresRepeatType <<
       "\" is unknown";
     
     msrMusicXMLError (

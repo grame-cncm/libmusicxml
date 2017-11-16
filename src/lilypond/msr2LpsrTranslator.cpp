@@ -3231,7 +3231,6 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
 
   switch (elt->getTupletLineShapeKind ()) {
     case msrTuplet::kTupletLineShapeStraight:
-      break;
     case msrTuplet::kTupletLineShapeCurved:
       fLpsrScore->
         setTupletsCurvedBracketsSchemeFunctionIsNeeded ();   
@@ -3629,11 +3628,11 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrMeasureRepeat& elt)
+void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrMeasureRepeat" <<
+      "--> Start visiting msrMeasuresRepeat" <<
       endl;
   }
 
@@ -3642,20 +3641,20 @@ void msr2LpsrTranslator::visitStart (S_msrMeasureRepeat& elt)
   // JMI
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
+void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrMeasureRepeat" <<
+      "--> End visiting msrMeasuresRepeat" <<
       endl;
   }
 
   gIndenter--;
   
   // create the measure repeat clone
-  S_msrMeasureRepeat
-    measureRepeatClone =
-      elt->createMeasureRepeatNewbornClone (
+  S_msrMeasuresRepeat
+    measuresRepeatClone =
+      elt->createMeasuresRepeatNewbornClone (
         fCurrentVoiceClone);
 
 //         fCurrentSegmentClonesStack.top (),
@@ -3700,8 +3699,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
 
 
 
-  measureRepeatClone->
-    setMeasureRepeatPatternSegment (
+  measuresRepeatClone->
+    setMeasuresRepeatPatternSegment (
       fCurrentVoiceClone->
         getVoiceLastSegment ());
 
@@ -3714,8 +3713,8 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
       endl;
   }
 
-  measureRepeatClone->
-    setMeasureRepeatReplicasSegment (
+  measuresRepeatClone->
+    setMeasuresRepeatReplicasSegment (
       fCurrentVoiceClone->
         getVoiceLastSegment ());
 
@@ -3731,71 +3730,71 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeat& elt)
   // append the measure repeat to the new last segment
   fCurrentVoiceClone->
     getVoiceLastSegment ()->
-      appendMeasureRepeatToSegment (
-        measureRepeatClone);
+      appendMeasuresRepeatToSegment (
+        measuresRepeatClone);
         */
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatPattern& elt)
+void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrMeasureRepeatPattern" <<
+      "--> Start visiting msrMeasuresRepeatPattern" <<
       endl;
   }
 
   gIndenter++;
 
   // create a measure repeat pattern clone
-  fCurrentMeasureRepeatPatternClone =
-    elt->createMeasureRepeatPatternNewbornClone (
+  fCurrentMeasuresRepeatPatternClone =
+    elt->createMeasuresRepeatPatternNewbornClone (
       fCurrentVoiceClone);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatPattern& elt)
+void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrMeasureRepeatPattern" <<
+      "--> End visiting msrMeasuresRepeatPattern" <<
       endl;
   }
 
   gIndenter--;
 
   // forget about the current measure repeat pattern clone
-  fCurrentMeasureRepeatPatternClone = (void*)0;
+  fCurrentMeasuresRepeatPatternClone = (void*)0;
 }
 
 //________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrMeasureRepeatReplicas& elt)
+void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> Start visiting msrMeasureRepeatReplicas" <<
+      "--> Start visiting msrMeasuresRepeatReplicas" <<
       endl;
   }
 
   gIndenter++;
 
   // create a measure repeat replicas clone
-  fCurrentMeasureRepeatReplicasClone =
-    elt->createMeasureRepeatReplicasNewbornClone (
+  fCurrentMeasuresRepeatReplicasClone =
+    elt->createMeasuresRepeatReplicasNewbornClone (
       fCurrentVoiceClone);
 }
 
-void msr2LpsrTranslator::visitEnd (S_msrMeasureRepeatReplicas& elt)
+void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
-      "--> End visiting msrMeasureRepeatReplicas" <<
+      "--> End visiting msrMeasuresRepeatReplicas" <<
       endl;
   }
 
   gIndenter--;
 
   // forget about the current measure repeat replicas clone
-  fCurrentMeasureRepeatReplicasClone = (void*)0;
+  fCurrentMeasuresRepeatReplicasClone = (void*)0;
 }
 
 //________________________________________________________________________

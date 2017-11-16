@@ -72,8 +72,8 @@ typedef SMARTP<msrVoiceStaffChange> S_msrVoiceStaffChange;
 class msrNote;
 typedef SMARTP<msrNote> S_msrNote;
 
-class msrMeasureRepeat;
-typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;
+class msrMeasuresRepeat;
+typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
 
 class msrMultipleRest;
 typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
@@ -3130,8 +3130,8 @@ class msrMeasure : public msrElement
 
     // repeats
     
-    void                  appendMeasureRepeatToMeasure (
-                            S_msrMeasureRepeat measureRepeat);
+    void                  appendMeasuresRepeatToMeasure (
+                            S_msrMeasuresRepeat measuresRepeat);
 
     void                  appendMultipleRestToMeasure (
                             S_msrMultipleRest multipleRest);
@@ -3470,8 +3470,8 @@ class msrSegment : public msrElement
     void                  appendDoubleTremoloToSegment (
                             S_msrDoubleTremolo doubleTremolo);
 
-    void                  appendMeasureRepeatToSegment (
-                            S_msrMeasureRepeat measureRepeat);
+    void                  appendMeasuresRepeatToSegment (
+                            S_msrMeasuresRepeat measuresRepeat);
 
     // repeats
     
@@ -7958,21 +7958,21 @@ typedef SMARTP<msrRepeat> S_msrRepeat;
 EXP ostream& operator<< (ostream& os, const S_msrRepeat& elt);
 
 //______________________________________________________________________________
-class msrMeasureRepeatPattern : public msrElement
+class msrMeasuresRepeatPattern : public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrMeasureRepeatPattern> create (
+    static SMARTP<msrMeasuresRepeatPattern> create (
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternNewbornClone (
+    SMARTP<msrMeasuresRepeatPattern> createMeasuresRepeatPatternNewbornClone (
       S_msrVoice containingVoice);
 
-    SMARTP<msrMeasureRepeatPattern> createMeasureRepeatPatternDeepCopy (
+    SMARTP<msrMeasuresRepeatPattern> createMeasuresRepeatPatternDeepCopy (
       S_msrVoice containingVoice);
 
   protected:
@@ -7980,11 +7980,11 @@ class msrMeasureRepeatPattern : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasureRepeatPattern (
+    msrMeasuresRepeatPattern (
       int        inputLineNumber,
       S_msrVoice voiceUplink);
       
-    virtual ~msrMeasureRepeatPattern();
+    virtual ~msrMeasuresRepeatPattern();
   
   public:
 
@@ -7992,22 +7992,22 @@ class msrMeasureRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     // segment
-    void                  setMeasureRepeatPatternSegment (
-                            S_msrSegment measureRepeatPatternSegment);
+    void                  setMeasuresRepeatPatternSegment (
+                            S_msrSegment measuresRepeatPatternSegment);
                               
-    S_msrSegment          getMeasureRepeatPatternSegment () const
-                              { return fMeasureRepeatPatternSegment; }
+    S_msrSegment          getMeasuresRepeatPatternSegment () const
+                              { return fMeasuresRepeatPatternSegment; }
 
     // uplinks
-    S_msrVoice            getMeasureRepeatPatternVoiceUplink () const
-                            { return fMeasureRepeatPatternVoiceUplink; }
+    S_msrVoice            getMeasuresRepeatPatternVoiceUplink () const
+                            { return fMeasuresRepeatPatternVoiceUplink; }
 
     // services
     // ------------------------------------------------------
 
-    int                   measureRepeatPatternMeasuresNumber () const;
+    int                   measuresRepeatPatternMeasuresNumber () const;
         
-    string                measureRepeatPatternAsString () const;
+    string                measuresRepeatPatternAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -8028,30 +8028,30 @@ class msrMeasureRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     // segment
-    S_msrSegment          fMeasureRepeatPatternSegment;
+    S_msrSegment          fMeasuresRepeatPatternSegment;
 
     // uplinks
-    S_msrVoice            fMeasureRepeatPatternVoiceUplink;
+    S_msrVoice            fMeasuresRepeatPatternVoiceUplink;
 };
-typedef SMARTP<msrMeasureRepeatPattern> S_msrMeasureRepeatPattern;
-EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeatPattern& elt);
+typedef SMARTP<msrMeasuresRepeatPattern> S_msrMeasuresRepeatPattern;
+EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt);
 
 //______________________________________________________________________________
-class msrMeasureRepeatReplicas : public msrElement
+class msrMeasuresRepeatReplicas : public msrElement
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrMeasureRepeatReplicas> create (
+    static SMARTP<msrMeasuresRepeatReplicas> create (
       int        inputLineNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasNewbornClone (
+    SMARTP<msrMeasuresRepeatReplicas> createMeasuresRepeatReplicasNewbornClone (
       S_msrVoice containingVoice);
 
-    SMARTP<msrMeasureRepeatReplicas> createMeasureRepeatReplicasDeepCopy (
+    SMARTP<msrMeasuresRepeatReplicas> createMeasuresRepeatReplicasDeepCopy (
       S_msrVoice containingVoice);
 
   protected:
@@ -8059,11 +8059,11 @@ class msrMeasureRepeatReplicas : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasureRepeatReplicas (
+    msrMeasuresRepeatReplicas (
       int        inputLineNumber,
       S_msrVoice voiceUplink);
       
-    virtual ~msrMeasureRepeatReplicas();
+    virtual ~msrMeasuresRepeatReplicas();
   
   public:
 
@@ -8071,24 +8071,24 @@ class msrMeasureRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     // segment
-    void                  setMeasureRepeatReplicasSegment (
-                            S_msrSegment measureRepeatReplicasSegment);
+    void                  setMeasuresRepeatReplicasSegment (
+                            S_msrSegment measuresRepeatReplicasSegment);
 
-    S_msrSegment          getMeasureRepeatReplicasSegment () const
-                              { return fMeasureRepeatReplicasSegment; }
+    S_msrSegment          getMeasuresRepeatReplicasSegment () const
+                              { return fMeasuresRepeatReplicasSegment; }
 
     // uplinks
-    S_msrVoice            getMeasureRepeatReplicasVoiceUplink () const
-                            { return fMeasureRepeatReplicasVoiceUplink; }
+    S_msrVoice            getMeasuresRepeatReplicasVoiceUplink () const
+                            { return fMeasuresRepeatReplicasVoiceUplink; }
 
     // services
     // ------------------------------------------------------
 
-    int                   measureRepeatReplicasMeasuresNumber () const;
+    int                   measuresRepeatReplicasMeasuresNumber () const;
     
-    int                   measureRepeatReplicasNumber () const;
+    int                   measuresRepeatReplicasNumber () const;
 
-    string                measureRepeatReplicasAsString () const;
+    string                measuresRepeatReplicasAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -8109,42 +8109,42 @@ class msrMeasureRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     // segment
-    S_msrSegment          fMeasureRepeatReplicasSegment;
+    S_msrSegment          fMeasuresRepeatReplicasSegment;
 
     // uplinks
-    S_msrVoice            fMeasureRepeatReplicasVoiceUplink;
+    S_msrVoice            fMeasuresRepeatReplicasVoiceUplink;
 };
-typedef SMARTP<msrMeasureRepeatReplicas> S_msrMeasureRepeatReplicas;
-EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeatReplicas& elt);
+typedef SMARTP<msrMeasuresRepeatReplicas> S_msrMeasuresRepeatReplicas;
+EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt);
 
 //______________________________________________________________________________
-class msrMeasureRepeat : public msrElement
+class msrMeasuresRepeat : public msrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
 
-    enum msrMeasureRepeatKind {
-      kStartMeasureRepeat, kStopMeasureRepeat, 
-      k_NoMeasureRepeat };
+    enum msrMeasuresRepeatKind {
+      k_NoMeasuresRepeat,
+      kStartMeasuresRepeat, kStopMeasuresRepeat };
 
-    static string measureRepeatKindAsString (
-      msrMeasureRepeatKind measureRepeatKind);
+    static string measuresRepeatKindAsString (
+      msrMeasuresRepeatKind measuresRepeatKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrMeasureRepeat> create (
+    static SMARTP<msrMeasuresRepeat> create (
       int        inputLineNumber,
-      int        measureRepeatMeasuresNumber,
-      int        measureRepeatSlashesNumber,
+      int        measuresRepeatMeasuresNumber,
+      int        measuresRepeatSlashesNumber,
       S_msrVoice voiceUplink);
     
-    SMARTP<msrMeasureRepeat> createMeasureRepeatNewbornClone (
+    SMARTP<msrMeasuresRepeat> createMeasuresRepeatNewbornClone (
       S_msrVoice containingVoice);
 
-    SMARTP<msrMeasureRepeat> createMeasureRepeatDeepCopy (
+    SMARTP<msrMeasuresRepeat> createMeasuresRepeatDeepCopy (
       S_msrVoice containingVoice);
 
   protected:
@@ -8152,13 +8152,13 @@ class msrMeasureRepeat : public msrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrMeasureRepeat (
+    msrMeasuresRepeat (
       int        inputLineNumber,
-      int        measureRepeatMeasuresNumber,
-      int        measureRepeatSlashesNumber,
+      int        measuresRepeatMeasuresNumber,
+      int        measuresRepeatSlashesNumber,
       S_msrVoice voiceUplink);
       
-    virtual ~msrMeasureRepeat();
+    virtual ~msrMeasuresRepeat();
   
   public:
 
@@ -8166,54 +8166,54 @@ class msrMeasureRepeat : public msrElement
     // ------------------------------------------------------
 
     // numbers
-    int                   getMeasureRepeatMeasuresNumber () const
-                              { return fMeasureRepeatMeasuresNumber; }
+    int                   getMeasuresRepeatMeasuresNumber () const
+                              { return fMeasuresRepeatMeasuresNumber; }
                               
-    int                   getMeasureRepeatSlashesNumber () const
-                              { return fMeasureRepeatSlashesNumber; }
+    int                   getMeasuresRepeatSlashesNumber () const
+                              { return fMeasuresRepeatSlashesNumber; }
                               
     // repeat pattern
-    void                  setMeasureRepeatPattern (
-                            S_msrMeasureRepeatPattern
-                              measureRepeatPattern);
+    void                  setMeasuresRepeatPattern (
+                            S_msrMeasuresRepeatPattern
+                              measuresRepeatPattern);
                   
-    S_msrMeasureRepeatPattern
-                          getMeasureRepeatPattern () const
-                              { return fMeasureRepeatPattern; }
+    S_msrMeasuresRepeatPattern
+                          getMeasuresRepeatPattern () const
+                              { return fMeasuresRepeatPattern; }
 
     // repeat replicas
-    void                  setMeasureRepeatReplicas (
-                            S_msrMeasureRepeatReplicas
-                              measureRepeatReplicas);
+    void                  setMeasuresRepeatReplicas (
+                            S_msrMeasuresRepeatReplicas
+                              measuresRepeatReplicas);
                   
-    S_msrMeasureRepeatReplicas
-                          getMeasureRepeatReplicas () const
-                              { return fMeasureRepeatReplicas; }
+    S_msrMeasuresRepeatReplicas
+                          getMeasuresRepeatReplicas () const
+                              { return fMeasuresRepeatReplicas; }
 
     // uplinks
-    S_msrVoice            getMeasureRepeatVoiceUplink () const
-                            { return fMeasureRepeatVoiceUplink; }
+    S_msrVoice            getMeasuresRepeatVoiceUplink () const
+                            { return fMeasuresRepeatVoiceUplink; }
 
     // services
     // ------------------------------------------------------
 
-    int                   measureRepeatPatternMeasuresNumber () const
+    int                   measuresRepeatPatternMeasuresNumber () const
                             {
                               return
-                                fMeasureRepeatPattern->
-                                  measureRepeatPatternMeasuresNumber ();
+                                fMeasuresRepeatPattern->
+                                  measuresRepeatPatternMeasuresNumber ();
                             }
     
-    int                   measureRepeatReplicasMeasuresNumber () const
+    int                   measuresRepeatReplicasMeasuresNumber () const
                             {
                               return
-                                fMeasureRepeatReplicas->
-                                  measureRepeatReplicasMeasuresNumber ();
+                                fMeasuresRepeatReplicas->
+                                  measuresRepeatReplicasMeasuresNumber ();
                             }
     
-    int                   measureRepeatReplicasNumber () const;
+    int                   measuresRepeatReplicasNumber () const;
 
-    string                measureRepeatAsString () const;
+    string                measuresRepeatAsString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -8234,22 +8234,22 @@ class msrMeasureRepeat : public msrElement
     // ------------------------------------------------------
 
     // numbers
-    int                   fMeasureRepeatMeasuresNumber;
-    int                   fMeasureRepeatSlashesNumber;
+    int                   fMeasuresRepeatMeasuresNumber;
+    int                   fMeasuresRepeatSlashesNumber;
 
     // repeat pattern
-    S_msrMeasureRepeatPattern
-                          fMeasureRepeatPattern;
+    S_msrMeasuresRepeatPattern
+                          fMeasuresRepeatPattern;
     
     // repeat replicas
-    S_msrMeasureRepeatReplicas
-                          fMeasureRepeatReplicas;
+    S_msrMeasuresRepeatReplicas
+                          fMeasuresRepeatReplicas;
 
     // uplinks
-    S_msrVoice            fMeasureRepeatVoiceUplink;
+    S_msrVoice            fMeasuresRepeatVoiceUplink;
 };
-typedef SMARTP<msrMeasureRepeat> S_msrMeasureRepeat;
-EXP ostream& operator<< (ostream& os, const S_msrMeasureRepeat& elt);
+typedef SMARTP<msrMeasuresRepeat> S_msrMeasuresRepeat;
+EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt);
 
 //______________________________________________________________________________
 class msrMultipleRestContents : public msrElement
@@ -8514,9 +8514,9 @@ class msrVoice : public msrElement
     // ------------------------------------------------------
 
     enum msrVoiceKind {
-      kMasterVoice,
+      kMasterVoice,        // could be used to create master voices with no music JMI
       kRegularVoice,
-      kHarmonyVoice,      // for MusicXML <harmony/>, LilyPond ChordNames
+      kHarmonyVoice,       // for MusicXML <harmony/>, LilyPond ChordNames
       kFiguredBassVoice }; // for MusicXML <figured-bass/>, LilyPond ChordNames
           
     static string voiceKindAsString (
@@ -8886,12 +8886,12 @@ class msrVoice : public msrElement
     void                  createRepeatAndAppendItToVoice (
                             int inputLineNumber);
     
-    void                  createMeasureRepeatFromItsFirstMeasureInVoice (
+    void                  createMeasuresRepeatFromItsFirstMeasureInVoice (
                             int inputLineNumber,
-                            int measureRepeatMeasuresNumber,
-                            int measureRepeatSlashes);
+                            int measuresRepeatMeasuresNumber,
+                            int measuresRepeatSlashes);
 
-    void                  appendPendingMeasureRepeatToVoice (
+    void                  appendPendingMeasuresRepeatToVoice (
                             int inputLineNumber);
                             
     void                  createMultipleRestInVoice (
@@ -9036,13 +9036,13 @@ class msrVoice : public msrElement
     // the last msrRepeat in fVoiceInitialRepeatsAndSegments
     S_msrRepeat           fVoiceCurrentRepeat;
 
-    // fVoicePendingMeasureRepeat is null
-    // or the last msrMeasureRepeat created with its repeated measure,
+    // fVoicePendingMeasuresRepeat is null
+    // or the last msrMeasuresRepeat created with its repeated measure,
     // but not yet appended to the voice
-    S_msrMeasureRepeat    fVoicePendingMeasureRepeat;
+    S_msrMeasuresRepeat   fVoicePendingMeasuresRepeat;
 
-    // fVoicePendingMeasureRepeat is null
-    // or the last msrMeasureRepeat created with its repeated measure,
+    // fVoicePendingMeasuresRepeat is null
+    // or the last msrMeasuresRepeat created with its repeated measure,
     // but not yet appended to the voice
     S_msrMultipleRest     fVoicePendingMultipleRest;
     bool                  fVoiceContainsMultipleRests;
@@ -9523,12 +9523,12 @@ class msrStaff : public msrElement
     void                  createRepeatAndAppendItToStaff (
                             int inputLineNumber);
     
-    void                  createMeasureRepeatFromItsFirstMeasureInStaff (
+    void                  createMeasuresRepeatFromItsFirstMeasureInStaff (
                             int inputLineNumber,
-                            int measureRepeatMeasuresNumber,
-                            int measureRepeatSlashes);
+                            int measuresRepeatMeasuresNumber,
+                            int measuresRepeatSlashes);
     
-    void                  appendPendingMeasureRepeatToStaff (
+    void                  appendPendingMeasuresRepeatToStaff (
                             int inputLineNumber);
                             
     void                  createMultipleRestInStaff (
@@ -10051,15 +10051,15 @@ class msrPart : public msrElement
     void                  appendRepeatEndingCloneToPart (
                             S_msrRepeatEnding repeatEndingCLone);
 
-    void                  createMeasureRepeatFromItsFirstMeasureInPart (
+    void                  createMeasuresRepeatFromItsFirstMeasureInPart (
                             int inputLineNumber,
-                            int measureRepeatMeasuresNumber,
-                            int measureRepeatSlashes);
+                            int measuresRepeatMeasuresNumber,
+                            int measuresRepeatSlashes);
 
-    void                  appendPendingMeasureRepeatToPart (
+    void                  appendPendingMeasuresRepeatToPart (
                             int inputLineNumber);
                             
-    void                  appendMeasureRepeatCloneToPart (
+    void                  appendMeasuresRepeatCloneToPart (
                             int               inputLineNumber,
                             S_msrMultipleRest multipleRest);
   
@@ -10580,17 +10580,17 @@ class msrScore : public msrElement
     int                   getScoreNumberOfMeasures () const
                               { return fScoreNumberOfMeasures; }
         
-    void                  setInhibitMeasureRepeatReplicasBrowsing ()
+    void                  setInhibitMeasuresRepeatReplicasBrowsing ()
                               {
-                                fInhibitMeasureRepeatReplicasBrowsing =
+                                fInhibitMeasuresRepeatReplicasBrowsing =
                                   true;
                               }
                             
-    bool                  getInhibitMeasureRepeatReplicasBrowsing ()
+    bool                  getInhibitMeasuresRepeatReplicasBrowsing ()
                             const
                               {
                                 return
-                                  fInhibitMeasureRepeatReplicasBrowsing;
+                                  fInhibitMeasuresRepeatReplicasBrowsing;
                               };
 
     void                  setInhibitMultipleRestMeasuresBrowsing ()
@@ -10657,7 +10657,7 @@ class msrScore : public msrElement
     
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure
-    bool                  fInhibitMeasureRepeatReplicasBrowsing;
+    bool                  fInhibitMeasuresRepeatReplicasBrowsing;
 
     // in <multiple-rest/>, the rest measures are explicit,
     // whereas LilyPond only needs the number of rest measures
