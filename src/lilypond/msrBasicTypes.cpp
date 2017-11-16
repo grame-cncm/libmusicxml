@@ -33,6 +33,8 @@
 
 #include "generalOptions.h"
 
+#include "xml2lyOptionsHandling.h"
+
 
 using namespace std;
 
@@ -2513,7 +2515,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2560,7 +2562,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2609,7 +2611,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2656,7 +2658,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2703,7 +2705,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2750,7 +2752,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2797,7 +2799,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2817,7 +2819,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2929,7 +2931,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2947,7 +2949,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3319,7 +3321,7 @@ float msrFontSize::getFontNumericSize ()
           fontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           0, // JMI
           __FILE__, __LINE__,
           s.str ());
@@ -3748,7 +3750,7 @@ string wholeNotesAsMsrString (
               " whole notes cannot be represented as an MSR string";
   
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());

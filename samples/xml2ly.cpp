@@ -340,11 +340,11 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      gGeneralOptions->fInputSourceName;
+      gXml2lyOptions->fInputSourceName;
       
   string
     outputFileName =
-      gGeneralOptions->fOutputFileName;
+      gXml2lyOptions->fOutputFileName;
 
   int
     outputFileNameSize =
@@ -374,7 +374,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogIOstream <<
-      "Time is " << gGeneralOptions->fTranslationDate <<
+      "Time is " << gXml2lyOptions->fTranslationDate <<
       endl;      
 
     gLogIOstream <<

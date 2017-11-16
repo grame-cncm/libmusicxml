@@ -15,6 +15,8 @@
 
 #include "msr.h"
 
+#include "msrOptions.h"
+
 namespace MusicXML2
 {
 
@@ -81,7 +83,7 @@ class msr2SummaryVisitor :
   public:
   
     msr2SummaryVisitor (
-      S_msrOptions&         msrOpts,
+      S_msrOptions&    msrOpts,
       indentedOstream& ios);
         
     virtual ~msr2SummaryVisitor ();

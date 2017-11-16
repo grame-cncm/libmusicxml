@@ -54,36 +54,39 @@ void msrWarning (
 
 //______________________________________________________________________________
 void lpsrMusicXMLWarning (
+  string inputSourceName,
   int    inputLineNumber,
   string message)
 {
   msrWarning (
     "LPSR",
-    gGeneralOptions->fInputSourceName,
+    inputSourceName,
     inputLineNumber,
     message);
 }
 
 //______________________________________________________________________________
 void msrMusicXMLWarning (
+  string inputSourceName,
   int    inputLineNumber,
   string message)
 {
   msrWarning (
     "MusicXML",
-    gGeneralOptions->fInputSourceName,
+    inputSourceName,
     inputLineNumber,
     message);
 }
 
 //______________________________________________________________________________
 void msrInternalWarning (
+  string inputSourceName,
   int    inputLineNumber,
   string message)
 {
   msrWarning (
     "INTERNAL",
-    gGeneralOptions->fInputSourceName,
+    inputSourceName,
     inputLineNumber,
     message);
 }

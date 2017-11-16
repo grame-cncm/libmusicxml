@@ -63,103 +63,6 @@ generalOptions::~generalOptions ()
 void generalOptions::initializeGeneralOptions (
   bool boolOptionsInitialValue)
 {
-  // register translation date
-  // ------------------------------------------------------
-
-  {
-    time_t      translationRawtime;
-    struct tm*  translationTimeinfo;
-    char buffer [80];
-  
-    time (&translationRawtime);
-    translationTimeinfo = localtime (&translationRawtime);
-  
-    strftime (buffer, 80, "%A %F @ %T %Z", translationTimeinfo);
-    fTranslationDate = buffer;
-  }
-
-
-  // version
-  // --------------------------------------
-
-  {
-    // variables  
-    
-    // options
-  
-    S_optionsSubGroup
-      versionSubGroup =
-        optionsSubGroup::create (
-          "Version",
-          "hgb", "helpGeneralVersion",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-    
-    appendOptionsSubGroup (versionSubGroup);
-  
-    versionSubGroup->
-      appendOptionsItem (
-        optionsVersionItem::create (
-          "v", "version",
-R"(Display xml2ly's version number and history and exit.)"));
-  }
-
-
-  // about
-  // --------------------------------------
-
-  {
-    // variables  
-    
-    // options
-  
-    S_optionsSubGroup
-      aboutSubGroup =
-        optionsSubGroup::create (
-          "About",
-          "hga", "helpGeneralAbout",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-    
-    appendOptionsSubGroup (aboutSubGroup);
-  
-    aboutSubGroup->
-      appendOptionsItem (
-        optionsAboutItem::create (
-          "a", "about",
-R"(Display information about xml2ly and exit.)"));
-  }
-
-
-  // contact
-  // --------------------------------------
-
-  {
-    // variables  
-    
-    // options
-  
-    S_optionsSubGroup
-      contactSubGroup =
-        optionsSubGroup::create (
-          "Contact",
-          "hgc", "helpGeneralContact",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-    
-    appendOptionsSubGroup (contactSubGroup);
-  
-    contactSubGroup->
-      appendOptionsItem (
-        optionsContactItem::create (
-          "c", "contact",
-R"(Display information about how to contacct xml2ly maintainers and exit.)"));
-  }
-
-
   // help
   // --------------------------------------
 
@@ -189,7 +92,7 @@ R"(Print options usage help.)"));
       appendOptionsItem (
         optionsHelpSummaryItem::create (
           "hs", "helpSummary",
-R"(Display xml2ly's help summary and exit.)"));
+R"(Display a help summary and exit.)"));
   
     helpGeneralOptionsHelpSubGroup->
       appendOptionsItem (
@@ -197,50 +100,6 @@ R"(Display xml2ly's help summary and exit.)"));
         "ih", "itemHelp",
 R"(Print help about 'itemName'.)",
         "itemName"));
-  }
-
-
-  // output file
-  // --------------------------------------
-
-  {
-    // variables  
-  
-    fAutoOutputFile = false;
-    
-    // options
-  
-    S_optionsSubGroup
-      outputFileSubGroup =
-        optionsSubGroup::create (
-          "Output file",
-          "hgof", "helpGeneralOutputFile",
-R"()",
-        optionsSubGroup::kAlwaysShowDescription,
-        this);
-            
-    appendOptionsSubGroup (outputFileSubGroup);
-    
-    outputFileSubGroup->
-      appendOptionsItem (
-        optionsStringItem::create (
-          "o", "outputFileName",
-R"(Write LilyPond code to file 'fileName' instead of standard output.)",
-          "fileName",
-          "outputFileName",
-          fOutputFileName));  
-  
-    outputFileSubGroup->
-      appendOptionsItem (
-        optionsBooleanItem::create (
-          "ao", "autoOutputFileName",
-R"(This option can only be used when reading from a file.
-Write LilyPond code to a file in the current working directory.
-The file name is derived from that of the input file,
-replacing any suffix after the the '.' by 'ly'
-or adding '.ly' if none is present.)",
-          "autoOutputFileName",
-          fAutoOutputFile));
   }
 
 
@@ -900,23 +759,6 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
     fCommandLineWithShortOptions;
 
   
-  // input
-  // --------------------------------------
-
-  clone->fInputSourceName =
-    fInputSourceName;
-      
-  clone->fTranslationDate =
-    fTranslationDate;
-
-
-  // output file
-  // --------------------------------------
-
-  clone->fAutoOutputFile =
-    fAutoOutputFile;
-
-  
   // trace and display
   // --------------------------------------
 
@@ -1054,6 +896,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
 
   gIndenter++;
 
+/*
   // command line
   // --------------------------------------
 
@@ -1092,6 +935,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+*/
 
   // trace and display
   // --------------------------------------

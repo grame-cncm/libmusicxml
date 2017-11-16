@@ -18,10 +18,12 @@
 
 #include "messagesHandling.h"
 
+#include "msr2Summary.h"
+
 #include "mxmlOptions.h"
 #include "msrOptions.h"
 
-#include "msr2Summary.h"
+#include "xml2lyOptionsHandling.h"
 
 #include "mxmlTree2MsrSkeletonBuilder.h"
 
@@ -759,7 +761,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStartingAtCurrentPosit
           " could not be inserted in part groups to be stopped list";
           
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -838,7 +840,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStartingList (
         " could not be inserted in part groups to be stopped list";
         
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -914,7 +916,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStoppingList (
         " could not be inserted in part groups to be stopped list";
         
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -1121,7 +1123,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
       "' has not been started, it cannot be stopped";
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1324,7 +1326,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
           ", since the stack is empty";
           
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());            
@@ -1381,7 +1383,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               ", since the stack is empty";
               
             msrMusicXMLError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               stopInputLineNumber,
               __FILE__, __LINE__,
               s.str ());            
@@ -1422,7 +1424,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
                   " into";
                   
                 msrInternalError (
-                  gGeneralOptions->fInputSourceName,
+                  gXml2lyOptions->fInputSourceName,
                   stopInputLineNumber,
                   __FILE__, __LINE__,
                   s.str ());
@@ -1505,7 +1507,7 @@ R"(Please contact the maintainers of xml2ly (see '-c, -contact'):
   of a score exhibiting overlapping part groups)";
               
             msrMusicXMLError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               stopInputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -1976,7 +1978,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
         "\"";
 
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2070,7 +2072,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_display_text& elt)
     fCurrentPartAbbreviationDisplayText = elt->getValue();
   else {
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       "<display-text /> is out of context");
@@ -2136,7 +2138,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
         "unknown part group symbol \"" + groupSymbol + "\"";
         
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         elt->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -2169,7 +2171,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_group_barline& elt)
       "unknown part group barline \"" + groupBarline + "\"";
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -2527,6 +2529,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
         "' since it is the only part in the <part-list />";
 
       msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         s.str ());
     }
@@ -2542,6 +2545,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       s >> fCurrentPartID;
   
       msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         "part 'id' is empty, creating one as '" + fCurrentPartID + "'");
     }
@@ -2562,7 +2566,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       "\" is not known in the <part-list />";
     
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -2623,7 +2627,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
         " while the other ones have " << fScoreNumberOfMeasures;
         
       msrMusicXMLError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         elt->getInputLineNumber (),
       __FILE__, __LINE__,
         s.str ());
@@ -2904,6 +2908,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
   
   if (stanzaNumber.size () == 0) {
     msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       "lyric number is empty");
   }

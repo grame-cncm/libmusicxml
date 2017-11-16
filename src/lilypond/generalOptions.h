@@ -31,6 +31,7 @@ class generalOptions : public optionsGroup
       S_optionsHandler optionsHandler);
         
     SMARTP<generalOptions>        createCloneWithDetailedTrace ();
+
   public:
 
     // initialisation
@@ -71,21 +72,6 @@ class generalOptions : public optionsGroup
     string                fCommandLineWithShortOptions;
 
 
-    // input
-    // --------------------------------------
-
-    string                fInputSourceName;
-    
-    string                fTranslationDate;
-
-
-    // output file
-    // --------------------------------------
-
-    string                fOutputFileName;
-    bool                  fAutoOutputFile;
-
-    
     // trace and display
     // --------------------------------------
   

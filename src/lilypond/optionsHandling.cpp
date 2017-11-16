@@ -17,7 +17,7 @@
 
 #include <regex>
 
-#include "version.h"
+//#include "version.h"
 #include "utilities.h"
 
 #include "messagesHandling.h"
@@ -378,13 +378,9 @@ void optionsVersionItem::printVersion (ostream& os) const
 {  
   os <<
     endl <<
-    "This is xml2ly" <<
-    " version " << currentVersionNumber () <<
+    "optionsVersionItem???" <<
     endl <<
     endl;
-
-  // print versions history
-  printVersionsHistory (os);
 }
 
 void optionsVersionItem::printOptionsValues (

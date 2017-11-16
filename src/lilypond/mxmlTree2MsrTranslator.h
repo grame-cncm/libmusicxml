@@ -887,7 +887,16 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_midi_instrument& elt);
 
   private:
-                     
+
+    
+    // the MSR score we are populating
+    // ------------------------------------------------------
+    
+    S_msrScore                fMsrScore;
+
+    // the log output stream
+    // ------------------------------------------------------
+
     indentedOstream&          fLogOutputStream;
     
     // divisions per quarter note
@@ -896,11 +905,6 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentDivisionsPerQuarterNote;
     S_msrDivisions            fCurrentDivisions;
     
-    // the MSR score we are populating
-    // ------------------------------------------------------
-    
-    S_msrScore                fMsrScore;
-
     // geometry handling
     // ------------------------------------------------------
     

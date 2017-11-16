@@ -16,10 +16,13 @@
 
 #include "version.h"
 
+#include "msr.h"
+
 #include "mxmlOptions.h"
 #include "msrOptions.h"
 
-#include "msr.h"
+#include "xml2lyOptionsHandling.h"
+
 
 using namespace std;
 
@@ -2133,7 +2136,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
       gIndenter--;
         
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         note->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -2192,7 +2195,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
       gIndenter--;
                 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         chord->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -2251,7 +2254,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
       gIndenter--;
         
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         note->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -2309,7 +2312,7 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
       gIndenter--;
         
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         chord->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -2454,7 +2457,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         else {
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "notes double tremolo first element should be a note");
@@ -2471,7 +2474,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         else {
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "chords double tremolo first element should be a chord");
@@ -2495,7 +2498,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         else {
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "notes double tremolo second element should be a note");
@@ -2512,7 +2515,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
         }
         else {
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             fInputLineNumber,
             __FILE__, __LINE__,
             "chords double tremolo second element should be a chord");
@@ -5755,6 +5758,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
         slur->getInputLineNumber ();
         
       msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
         slur->getInputLineNumber (),
         s.str ());
         
@@ -5800,6 +5804,7 @@ void msrNote::addLigatureToNote (S_msrLigature ligature)
         ligature->getInputLineNumber ();
         
       msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
         ligature->getInputLineNumber (),
         s.str ());
         
@@ -6690,6 +6695,7 @@ void msrNote::print (ostream& os)
       
  // JMI     msrInternalError (
       msrInternalWarning (
+        gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         s.str ());
     }
@@ -8175,7 +8181,7 @@ int msrDivisions::durationKindAsDivisions (
   printDurationKindsDivisions (s);
   
   msrInternalError (
-    gGeneralOptions->fInputSourceName,
+    gXml2lyOptions->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -8285,7 +8291,7 @@ string msrDivisions::divisionsAsMsrString (
       printDurationKindsDivisions (gLogIOstream);
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -8512,7 +8518,7 @@ string msrDivisions::wholeNotesAsMsrString (
       printDurationKindsDivisions (gLogIOstream);
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -9644,7 +9650,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
       " since it has not been found";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -9666,7 +9672,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
       " since it has not been found";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -9708,7 +9714,7 @@ void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
     
     else {
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "tuplet member should be a note, a chord or another tuplet");
@@ -9763,7 +9769,7 @@ rational msrTuplet::setTupletPositionInMeasure (
     
     else {
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "tuplet member should be a note, a chord or another tuplet");
@@ -9979,7 +9985,7 @@ string msrTuplet::tupletAsShortString () const
       
       else {
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tuplet member should be a note, a chord or another tuplet");
@@ -10045,7 +10051,7 @@ string msrTuplet::tupletAsString () const
       
       else {
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           "tuplet member should be a note, a chord or another tuplet");
@@ -11782,7 +11788,7 @@ string msrTimeItem::timeItemAsString () const
   
   else {
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "time item beats numbers vector is empty");
@@ -11973,7 +11979,7 @@ rational msrTime::wholeNotesPerMeasure () const
 
   else {
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       fInputLineNumber,
       __FILE__, __LINE__,
       "time items vector is empty");
@@ -12180,7 +12186,7 @@ string msrTime::timeAsString () const
   else {
     if (fTimeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "time  items vector is empty");
@@ -13343,7 +13349,7 @@ string msrSyllable::syllableAsString ()
       
     case k_NoSyllable:
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -13585,7 +13591,7 @@ void msrStanza::appendSyllableToStanza (
       
     case msrSyllable::k_NoSyllable:
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
         __FILE__, __LINE__,
         "syllable type has not been set");
@@ -17877,7 +17883,7 @@ void msrMeasure::removeNoteFromMeasure (
     " since it has not been found";
 
   msrInternalError (
-    gGeneralOptions->fInputSourceName,
+    gXml2lyOptions->fInputSourceName,
     inputLineNumber,
     __FILE__, __LINE__,
     s.str ());
@@ -18808,7 +18814,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
     gIndenter--;
     
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       clef->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
@@ -19390,7 +19396,7 @@ void msrSegment::bringSegmentToMeasureLength (
     gIndenter--;
     
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -19453,6 +19459,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
 
     // JMI  msrInternalError (
     msrInternalWarning (
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -19509,6 +19516,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
 
   // JMI  msrInternalError (
     msrInternalWarning (
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -19887,7 +19895,7 @@ void msrSegment::removeNoteFromSegment (
       " since it is empty";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -19917,7 +19925,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
       "' since it is empty";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -22399,7 +22407,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       "' has already been specified";
       
     msrMusicXMLError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       intputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -22641,7 +22649,7 @@ void msrVoice::setVoiceNameFromNumber (
           "' voice cannot get its name from its number";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -22720,7 +22728,7 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_MASTER_VOICE_NUMBER;
           
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -22737,7 +22745,7 @@ void msrVoice::initializeVoice (
           " is not in the 0..4 range";
           
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -22753,7 +22761,7 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_HARMONY_VOICE_NUMBER;
           
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -22769,7 +22777,7 @@ void msrVoice::initializeVoice (
           " is not equal to " << K_PART_FIGURED_BASS_VOICE_NUMBER;
           
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -23084,7 +23092,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
           "\" initial repeats and segments element should be a repeat or a segment";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -23315,7 +23323,7 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
       endl;
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -23564,7 +23572,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
           "\"";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           harmony->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -23612,7 +23620,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
           "\"";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           harmony->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -23659,7 +23667,7 @@ void msrVoice::appendFiguredBassToVoice (
           "\"";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           figuredBass->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -23708,7 +23716,7 @@ void msrVoice::appendFiguredBassToVoiceClone (
           "\"";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           figuredBass->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
@@ -24546,7 +24554,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasureInVoice (
             " available";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -24656,7 +24664,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasureInVoice (
             "attempting to create a measure repeat while another one is pending";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -24764,7 +24772,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
             "attempting to append a pending measure repeat which doesn't exist";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -24787,7 +24795,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
             "attempting to grab first measure of voice last segment, that contains none";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -24987,7 +24995,7 @@ void msrVoice::createMultipleRestInVoice (
             "attempting to create a multiple rest while another one is pending";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -25081,7 +25089,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "attempting to append a pending multiple rest which doesn't exist";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -25102,7 +25110,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "attempting to grab first measure of voice last segment, that contains none";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -26723,7 +26731,7 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_HARMONY_STAFF_NUMBER;
           
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -26739,7 +26747,7 @@ void msrStaff::initializeStaff ()
           " is not equal to " << K_PART_FIGURED_BASS_STAFF_NUMBER;
           
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -27127,7 +27135,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -27260,7 +27268,7 @@ void msrStaff::registerVoiceInStaff (
       
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -29477,7 +29485,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
       " already exists in part " << getPartCombinedName ();
 
     msrInternalError ( // JMI ???
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -29606,7 +29614,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
           " \"" << partHarmoniesSupplierVoice->getVoiceName () << "\"";
     
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -29628,7 +29636,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
            "\"";
     
         msrMusicXMLError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -29685,7 +29693,7 @@ void msrPart::appendHarmonyToPart (
           "\"";
     
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -29744,7 +29752,7 @@ void msrPart::appendHarmonyToPartClone (
           "\"";
     
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -29801,7 +29809,7 @@ void msrPart::appendFiguredBassToPart (
           "\"";
     
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -29860,7 +29868,7 @@ void msrPart::appendFiguredBassToPartClone (
           "\"";
     
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -30112,6 +30120,7 @@ void msrPart::finalizePart (
       " appears in the part list, but doesn't contain any stave";
 
     msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       s.str ());
   }
@@ -30695,6 +30704,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
       getPartGroupCombinedName ();
 
     msrMusicXMLWarning ( // JMI
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       s.str ());
 
@@ -30840,7 +30850,7 @@ void msrPartGroup::removePartFromPartGroup (
         " is not a part group nor a part";
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -30928,7 +30938,7 @@ void msrPartGroup::printPartGroupParts (
         " is not a part group nor a part";
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -31015,7 +31025,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
         " is not a part group nor a part";
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -31066,7 +31076,7 @@ void msrPartGroup::collectPartGroupPartsList (
         " is not a part group nor a part";
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
@@ -31914,7 +31924,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
       "' already exists in this score";
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       partGroup->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());

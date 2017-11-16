@@ -22,6 +22,8 @@
 #include "messagesHandling.h"
 #include "generalOptions.h"
 
+#include "xml2lyOptionsHandling.h"
+
 #include "lpsrBasicTypes.h"
 
 
@@ -129,7 +131,7 @@ string wholeNotesAsLilypondString (
               " whole notes cannot be represented as an MSR string";
   
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());

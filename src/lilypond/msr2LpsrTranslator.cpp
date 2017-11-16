@@ -23,6 +23,8 @@
 #include "msrOptions.h"
 #include "lilypondOptions.h"
 
+#include "xml2lyOptionsHandling.h"
+
 #include "msr2LpsrTranslator.h"
 
 
@@ -1028,7 +1030,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     
     case msrVoice::kMasterVoice:
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
         "a master voice is not expected in msr2LpsrTranslator");
@@ -1227,7 +1229,7 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
   switch (elt->getVoiceKind ()) {
     case msrVoice::kMasterVoice:
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         elt->getInputLineNumber (),
         __FILE__, __LINE__,
         "a master voice is not expected in msr2LpsrTranslator"); // JMI
@@ -1600,7 +1602,7 @@ void msr2LpsrTranslator::finalizeCurrentMeasureClone (
       originalMeasure;
 
     msrInternalError (
-      gGeneralOptions->fInputSourceName,
+      gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
@@ -1646,7 +1648,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasure& elt)
           "\" is of unknown kind";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2839,7 +2841,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
-            gGeneralOptions->fInputSourceName,
+            gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
             s.str ());
@@ -2854,7 +2856,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "' met outside of a double tremolo";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2907,7 +2909,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "'";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2930,7 +2932,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           " appears outside of a chord";
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3174,7 +3176,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
-        gGeneralOptions->fInputSourceName,
+        gXml2lyOptions->fInputSourceName,
         elt->getInputLineNumber (),
         __FILE__, __LINE__,
         s.str ());
@@ -4221,6 +4223,7 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       " is not handled";
 
     msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       s.str ());
   }

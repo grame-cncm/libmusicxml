@@ -28,22 +28,25 @@ void msrAssert (
 void msrWarning (
   std::string context,
   std::string inputSourceName,
-  int    inputLineNumber,
+  int         inputLineNumber,
   std::string message);
 
 //______________________________________________________________________________
 void msrMusicXMLWarning (
-  int    inputLineNumber,
+  std::string inputSourceName,
+  int         inputLineNumber,
   std::string message);
 
 //______________________________________________________________________________
 void lpsrMusicXMLWarning (
-  int    inputLineNumber,
+  std::string inputSourceName,
+  int         inputLineNumber,
   std::string message);
 
 //______________________________________________________________________________
 void msrInternalWarning (
-  int    inputLineNumber,
+  std::string inputSourceName,
+  int         inputLineNumber,
   std::string message);
 
 //______________________________________________________________________________
