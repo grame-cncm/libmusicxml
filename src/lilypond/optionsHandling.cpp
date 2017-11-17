@@ -279,7 +279,7 @@ void optionsItem::setOptionsSubGroupUplink (
 {
   // sanity check
   msrAssert (
-    optionsSubGroup != 0,
+    optionsSubGroup != (void*)0,
     "optionsSubGroup is null");
 
   // set the uplink
@@ -778,7 +778,7 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
 {
   // sanity check
   msrAssert (
-    optionsItem != 0,
+    optionsItem != (void*)0,
     "optionsItem is null");
     
   fOptionsCombinedItemsList.push_back (
@@ -797,7 +797,7 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
 
   // sanity check
   msrAssert (
-    optionsHandler != 0,
+    optionsHandler != (void*)0,
     "optionsHandler is null");
     
   // is optionsItemName known in options elements map?
@@ -2589,7 +2589,7 @@ void optionsSubGroup::appendOptionsItem (
 {
   // sanity check
   msrAssert (
-    optionsItem != 0,
+    optionsItem != (void*)0,
     "optionsItem is null");
 
   // append options item
@@ -3008,7 +3008,7 @@ void optionsGroup::setOptionsHandlerUplink (
 {
   // sanity check
   msrAssert (
-    optionsHandler != 0,
+    optionsHandler != (void*)0,
     "optionsHandler is null");
 
   // set the uplink
@@ -3030,7 +3030,7 @@ void optionsGroup::registerOptionsGroupInHandler (
 {
   // sanity check
   msrAssert (
-    optionsHandler != 0,
+    optionsHandler != (void*)0,
     "optionsHandler is null");
 
   // set options handler uplink
@@ -3057,7 +3057,7 @@ void  optionsGroup::appendOptionsSubGroup (
 {
   // sanity check
   msrAssert (
-    optionsSubGroup != 0,
+    optionsSubGroup != (void*)0,
     "optionsSubGroup is null");
 
   // append options subgroup
@@ -4124,7 +4124,7 @@ void optionsHandler::appendOptionsGroup (
 {
   // sanity check
   msrAssert (
-    optionsGroup != 0,
+    optionsGroup != (void*)0,
     "optionsGroup is null");
 
   // append the options group

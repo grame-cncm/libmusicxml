@@ -1846,7 +1846,7 @@ S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
 
   // sanity check
   msrAssert(
-    noteUplink != 0,
+    noteUplink != (void*)0,
     "noteUplink is null");
 
   S_msrSingleTremolo
@@ -1990,7 +1990,7 @@ msrDoubleTremolo::msrDoubleTremolo (
 {
   // sanity check
   msrAssert (
-    voiceUplink != 0,
+    voiceUplink != (void*)0,
     "voiceUplink is null");
     
   // set the double tremolo voice uplink
@@ -2070,7 +2070,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
     
   S_msrDoubleTremolo
@@ -3462,7 +3462,7 @@ msrGraceNotes::msrGraceNotes (
 {
   // sanity check
   msrAssert(
-    graceNotesVoiceUplink != 0,
+    graceNotesVoiceUplink != (void*)0,
     "graceNotesVoiceUplink is null");
 
   fGraceNotesVoiceUplink =
@@ -3486,7 +3486,7 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
   
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
     
   S_msrGraceNotes
@@ -3692,7 +3692,7 @@ msrAfterGraceNotesContents::msrAfterGraceNotesContents (
 {
   // sanity check
   msrAssert(
-    afterGraceNotesContentsVoiceUplink != 0,
+    afterGraceNotesContentsVoiceUplink != (void*)0,
     "afterGraceNotesContentsVoiceUplink is null");
   
   // set after notes contents's voice uplink
@@ -3721,7 +3721,7 @@ S_msrAfterGraceNotesContents msrAfterGraceNotesContents::createAfterGraceNotesCo
 
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
         
   S_msrAfterGraceNotesContents
@@ -3881,7 +3881,7 @@ msrAfterGraceNotes::msrAfterGraceNotes (
 {
   // sanity check
   msrAssert(
-    afterGraceNotesVoiceUplink != 0,
+    afterGraceNotesVoiceUplink != (void*)0,
     "afterGraceNotesVoiceUplink is null");
   
   // set gracenote's voice uplink
@@ -3924,12 +3924,12 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
 
   // sanity check
   msrAssert(
-    noteClone != 0,
+    noteClone != (void*)0,
     "noteClone is null");
     
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
         
   S_msrAfterGraceNotes
@@ -4444,7 +4444,7 @@ S_msrNote msrNote::createNoteNewbornClone (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrNote
@@ -4670,7 +4670,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 /* JMI
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     */
     
@@ -7291,7 +7291,7 @@ S_msrChord msrChord::createChordNewbornClone (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrChord
@@ -12773,7 +12773,7 @@ msrSyllable::msrSyllable (
 {
   // sanity check
   msrAssert(
-    syllableStanzaUplink != 0,
+    syllableStanzaUplink != (void*)0,
     "syllableStanzaUplink is null");
     
   // set syllable's stanza uplink
@@ -12806,7 +12806,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrSyllable
@@ -12850,7 +12850,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrSyllable
@@ -13403,7 +13403,7 @@ msrStanza::msrStanza (
 
   // sanity check
   msrAssert(
-    stanzaVoiceUplink != 0,
+    stanzaVoiceUplink != (void*)0,
     "stanzaVoiceUplink is null");
 
   // set stanza's voice uplink
@@ -13465,7 +13465,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
 
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
     
   S_msrStanza
@@ -13510,7 +13510,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
     
   S_msrStanza
@@ -14109,7 +14109,7 @@ void msrHarmonyDegree::setHarmonyDegreeHarmonyUplink (
 {
   // sanity check
   msrAssert(
-    harmonyUplink != 0,
+    harmonyUplink != (void*)0,
      "harmonyUplink is null");
      
   fHarmonyDegreeHarmonyUplink =
@@ -14130,7 +14130,7 @@ S_msrHarmonyDegree msrHarmonyDegree::createHarmonyNewbornClone (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrHarmonyDegree
@@ -14157,7 +14157,7 @@ S_msrHarmonyDegree msrHarmonyDegree::createHarmonyDeepCopy (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrHarmonyDegree
@@ -14451,7 +14451,7 @@ msrHarmony::msrHarmony (
 {
   // sanity check
   msrAssert(
-    harmonyPartUplink != 0,
+    harmonyPartUplink != (void*)0,
      "harmonyPartUplink is null");
      
   // set harmony's part
@@ -14497,7 +14497,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrHarmony
@@ -14527,7 +14527,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrHarmony
@@ -14762,7 +14762,7 @@ msrFigure::msrFigure (
 {
   // sanity check
   msrAssert(
-    figurePartUplink != 0,
+    figurePartUplink != (void*)0,
     "figurePartUplink is null");
      
   // set figured's part uplink
@@ -14798,7 +14798,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrFigure
@@ -14826,7 +14826,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrFigure
@@ -15052,7 +15052,7 @@ msrFiguredBass::msrFiguredBass (
 {
   // sanity check
   msrAssert(
-    figuredBassPartUplink != 0,
+    figuredBassPartUplink != (void*)0,
     "figuredBassPartUplink is null");
      
   // set figuredBass's part uplink
@@ -15090,7 +15090,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrFiguredBass
@@ -15117,7 +15117,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
 
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrFiguredBass
@@ -16075,7 +16075,7 @@ msrMeasure::msrMeasure (
 {
   // sanity check
   msrAssert(
-    measureSegmentUplink != 0,
+    measureSegmentUplink != (void*)0,
     "measureSegmentUplink is null");
 
   // set measure's segment uplink
@@ -16158,7 +16158,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   
   // sanity check
   msrAssert(
-    containingSegment != 0,
+    containingSegment != (void*)0,
     "containingSegment is null");
 
   // create newborn clone
@@ -16218,7 +16218,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   
   // sanity check
   msrAssert(
-    containingSegment != 0,
+    containingSegment != (void*)0,
     "containingSegment is null");
 
   // create deep copy
@@ -16439,7 +16439,8 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
 {
   // sanity check
   msrAssert(
-    time != 0, "time is null");
+    time != (void*)0,
+    "time is null");
 
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -16549,7 +16550,8 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
 {
   // sanity check
   msrAssert(
-    time != 0, "time is null");
+    time != (void*)0,
+    "time is null");
 
   if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
@@ -16582,7 +16584,7 @@ void msrMeasure::setFullMeasureLengthFromTime (
 {
   // sanity check
   msrAssert(
-    time != 0,
+    time != (void*)0,
     "time is null");
 
   if (
@@ -18442,7 +18444,7 @@ msrSegment::msrSegment (
 {
   // sanity check
   msrAssert(
-    segmentVoicekUplink != 0,
+    segmentVoicekUplink != (void*)0,
     "segmentVoicekUplink is null");
     
   // set segment's voice uplink
@@ -18507,7 +18509,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
 
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
     
   S_msrSegment
@@ -18545,7 +18547,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
     
   S_msrSegment
@@ -20035,9 +20037,9 @@ string msrSegment::segmentAsString ()
   stringstream s;
 
   s <<
-    "Segment " <<
+    "Segment '" <<
     fSegmentAbsoluteNumber <<
-    " in voice \"" <<
+    "' in voice \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"";
   
@@ -20143,14 +20145,14 @@ msrRepeatCommonPart::msrRepeatCommonPart (
 {
   // sanity check
   msrAssert (
-    repeatCommonPartSegment != 0,
+    repeatCommonPartSegment != (void*)0,
     "repeatCommonPartSegment is null");
     
   fRepeatCommonPartSegment = repeatCommonPartSegment;
   
   // sanity check
   msrAssert (
-    repeatUplink != 0,
+    repeatUplink != (void*)0,
     "repeatUplink is null");
     
   fRepeatCommonPartRepeatUplink = repeatUplink;
@@ -20158,75 +20160,6 @@ msrRepeatCommonPart::msrRepeatCommonPart (
 
 msrRepeatCommonPart::~msrRepeatCommonPart()
 {}
-
-S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
-  S_msrRepeat containingRepeat)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
-      repeatCommonPartAsString () <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingRepeat != 0,
-    "containingRepeat is null");
-    
-  S_msrRepeatCommonPart
-    newbornClone =
-      msrRepeatCommonPart::create (
-        fInputLineNumber,
-        containingRepeat->
-          getRepeatCommonPart ()->
-            getRepeatCommonPartSegment (), // JMI
-        containingRepeat);
-      
-  // segment
-
-  // uplinks
-
-  return newbornClone;
-}
-
-S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
-  S_msrRepeat containingRepeat)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
-      repeatCommonPartAsString () <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingRepeat != 0,
-    "containingRepeat is null");
-    
-  S_msrRepeatCommonPart
-    repeatCommonPartDeepCopy =
-      msrRepeatCommonPart::create (
-        fInputLineNumber,
-        containingRepeat->
-          getRepeatCommonPart ()->
-            getRepeatCommonPartSegment (), // JMI
-        containingRepeat);
-    
-  // segment
-  repeatCommonPartDeepCopy->fRepeatCommonPartSegment =
-    fRepeatCommonPartSegment->
-      createSegmentDeepCopy (
-        fRepeatCommonPartRepeatUplink->
-          getRepeatVoiceUplink ());
-    
-  // uplinks
-  repeatCommonPartDeepCopy->fRepeatCommonPartRepeatUplink =
-    containingRepeat;
-
-  return repeatCommonPartDeepCopy;
-}
 
 /* JMI
 void msrRepeatCommonPart::appendElementToRepeatCommonPart (
@@ -20363,98 +20296,6 @@ msrRepeatEnding::msrRepeatEnding (
 msrRepeatEnding::~msrRepeatEnding()
 {}
 
-S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
-  S_msrRepeat containingRepeat)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
-      repeatEndingAsString () <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingRepeat != 0,
-    "containingRepeat is null");
-    
-  S_msrRepeatEnding
-    newbornClone =
-      msrRepeatEnding::create (
-        fInputLineNumber,
-        fRepeatEndingNumber,
-        fRepeatEndingKind,
-        containingRepeat->
-          getRepeatCommonPart ()->
-            getRepeatCommonPartSegment (), // JMI
-        containingRepeat);
-  
-  // numbers
-  newbornClone->fRepeatEndingNumber =
-    fRepeatEndingNumber;
-    
-  newbornClone->fRepeatEndingInternalNumber =
-    fRepeatEndingInternalNumber;
-    
-  // kind
-  newbornClone->fRepeatEndingKind =
-    fRepeatEndingKind;
-    
-  // segment
-
-  // uplinks
-
-  return newbornClone;
-}
-
-S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
-  S_msrRepeat containingRepeat)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
-      repeatEndingAsString () <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingRepeat != 0,
-    "containingRepeat is null");
-    
-  S_msrRepeatEnding
-    repeatEndingDeepCopy =
-      msrRepeatEnding::create (
-        fInputLineNumber,
-        fRepeatEndingNumber,
-        fRepeatEndingKind,
-        containingRepeat->
-          getRepeatCommonPart ()->
-            getRepeatCommonPartSegment (), // JMI
-        containingRepeat);
-    
-  // numbers
-  repeatEndingDeepCopy->fRepeatEndingInternalNumber =
-    fRepeatEndingInternalNumber;
-    
-  // kind
-  repeatEndingDeepCopy->fRepeatEndingKind =
-    fRepeatEndingKind;
-    
-  // segment
-  repeatEndingDeepCopy->fRepeatEndingSegment =
-    fRepeatEndingSegment->
-      createSegmentDeepCopy (
-        fRepeatEndingRepeatUplink->
-          getRepeatVoiceUplink ());
-    
-  // uplinks
-  repeatEndingDeepCopy->fRepeatEndingRepeatUplink =
-    containingRepeat;
-
-  return repeatEndingDeepCopy;
-}
-
 /* JMI
 void msrRepeatEnding::appendElementToRepeatEnding (
   S_msrElement elem) // JMI ???
@@ -20590,7 +20431,7 @@ msrRepeat::msrRepeat (
   
   // sanity check
   msrAssert(
-    voiceUplink != 0,
+    voiceUplink != (void*)0,
     "voiceUplink is null");
     
   fRepeatVoiceUplink = voiceUplink;
@@ -20599,94 +20440,12 @@ msrRepeat::msrRepeat (
 msrRepeat::~msrRepeat()
 {}
 
-S_msrRepeat msrRepeat::createRepeatNewbornClone (
-  S_msrVoice containingVoice)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a repeat" <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingVoice != 0,
-    "containingVoice is null");
-    
-  S_msrRepeat
-    newbornClone =
-      msrRepeat::create (
-        fInputLineNumber,
-        containingVoice);
-
-  // common segment
-
-  // repeat endings
-  newbornClone->fRepeatEndingsInternalCounter =
-    fRepeatEndingsInternalCounter;
-    
-  // uplinks
-
-  return newbornClone;
-}
-
-S_msrRepeat msrRepeat::createRepeatDeepCopy (
-  S_msrVoice containingVoice)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a deep copy of a repeat" <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingVoice != 0,
-    "containingVoice is null");
-    
-  S_msrRepeat
-    repeatDeepCopy =
-      msrRepeat::create (
-        fInputLineNumber,
-        containingVoice);
-/*
-  // common segment
-  repeatDeepCopy->fRepeatCommonSegment =
-    fRepeatCommonSegment->
-      createSegmentDeepCopy (
-        containingVoice);
-  */      
-  // common part
-  repeatDeepCopy->fRepeatCommonPart =
-    fRepeatCommonPart->
-      createRepeatCommonPartDeepCopy (
-        repeatDeepCopy);
-        
-  // repeat endings
-  for (
-    vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin ();
-    i != fRepeatEndings.end ();
-    i++) {
-    repeatDeepCopy->
-      addRepeatEnding (
-        (*i)->createRepeatEndingDeepCopy (
-          repeatDeepCopy));
-  } // for
-
-  repeatDeepCopy->fRepeatEndingsInternalCounter =
-    fRepeatEndingsInternalCounter;
-
-  // uplinks
-  
-  return repeatDeepCopy;
-}
-
 void msrRepeat::setRepeatCommonPart (
   S_msrRepeatCommonPart repeatCommonPart)
 {
   // sanity check
   msrAssert(
-    repeatCommonPart != 0,
+    repeatCommonPart != (void*)0,
     "repeatCommonPart is null");
     
   if (gGeneralOptions->fTraceRepeats) {
@@ -20720,7 +20479,7 @@ void msrRepeat::setRepeatCommonSegment (
       
   // sanity check
   msrAssert(
-    repeatCommonSegment != 0,
+    repeatCommonSegment != (void*)0,
     "repeatCommonSegment is null");
     
   fRepeatCommonSegment = repeatCommonSegment;
@@ -20732,7 +20491,7 @@ void msrRepeat::addRepeatEnding (
 {
   // sanity check
   msrAssert(
-    repeatEnding != 0,
+    repeatEnding != (void*)0,
     "repeatEnding is null");
     
   if (gGeneralOptions->fTraceRepeats) {
@@ -20901,86 +20660,32 @@ void msrRepeat::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::create (
-  int        inputLineNumber,
-  S_msrVoice voiceUplink)
+  int                 inputLineNumber,
+  S_msrMeasuresRepeat measuresRepeatUplink)
 {
   msrMeasuresRepeatPattern* o =
     new msrMeasuresRepeatPattern (
       inputLineNumber,
-      voiceUplink);
+      measuresRepeatUplink);
   assert(o!=0);
   return o;
 }
 
 msrMeasuresRepeatPattern::msrMeasuresRepeatPattern (
-  int        inputLineNumber,
-  S_msrVoice voiceUplink)
+  int                 inputLineNumber,
+  S_msrMeasuresRepeat measuresRepeatUplink)
     : msrElement (inputLineNumber)
 {
-  fMeasuresRepeatPatternVoiceUplink = voiceUplink;
+  // sanity check
+  msrAssert (
+    measuresRepeatUplink != (void*)0,
+    "measuresRepeatUplink is null");
+    
+  fMeasuresRepeatUplink = measuresRepeatUplink;
 }
 
 msrMeasuresRepeatPattern::~msrMeasuresRepeatPattern()
 {}
-
-S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPatternNewbornClone (
-  S_msrVoice containingVoice)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a measure repeat pattern" <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingVoice != 0,
-    "containingVoice is null");
-    
-  S_msrMeasuresRepeatPattern
-    newbornClone =
-      msrMeasuresRepeatPattern::create (
-        fInputLineNumber,
-        containingVoice);
-
-  // segment
-
-  // uplinks
-  newbornClone->fMeasuresRepeatPatternVoiceUplink =
-    containingVoice;
-    
-  return newbornClone;
-}
-
-S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPatternDeepCopy (
-  S_msrVoice containingVoice)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a measure repeat pattern" <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingVoice != 0,
-    "containingVoice is null");
-    
-  S_msrMeasuresRepeatPattern
-    measuresRepeatPatternDeepCopy =
-      msrMeasuresRepeatPattern::create (
-        fInputLineNumber,
-        containingVoice);
-
-  // segment
-  // fMeasuresRepeatPatternSegment JMI ???
-  
-  // uplinks
-  measuresRepeatPatternDeepCopy->fMeasuresRepeatPatternVoiceUplink =
-    containingVoice;
-    
-  return measuresRepeatPatternDeepCopy;
-}
 
 void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
     S_msrSegment measuresRepeatPatternSegment)
@@ -20997,7 +20702,7 @@ void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
       
   // sanity check
   msrAssert (
-    measuresRepeatPatternSegment != 0,
+    measuresRepeatPatternSegment != (void*)0,
     "measuresRepeatPatternSegment is null");
 
   fMeasuresRepeatPatternSegment =
@@ -21106,7 +20811,6 @@ void msrMeasuresRepeatPattern::print (ostream& os)
   os <<
     endl <<
     measuresRepeatPatternAsString () <<
-    "MeasuresRepeatPattern" <<
     endl <<
     endl;
   
@@ -21138,89 +20842,32 @@ void msrMeasuresRepeatPattern::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::create (
-  int          inputLineNumber,
-  S_msrVoice   voiceUplink)
+  int                 inputLineNumber,
+  S_msrMeasuresRepeat measuresRepeatUplink)
 {
   msrMeasuresRepeatReplicas* o =
     new msrMeasuresRepeatReplicas (
       inputLineNumber,
-      voiceUplink);
+      measuresRepeatUplink);
   assert(o!=0);
   return o;
 }
 
 msrMeasuresRepeatReplicas::msrMeasuresRepeatReplicas (
-  int        inputLineNumber,
-  S_msrVoice voiceUplink)
+  int                 inputLineNumber,
+  S_msrMeasuresRepeat measuresRepeatUplink)
     : msrElement (inputLineNumber)
 {
-  fMeasuresRepeatReplicasVoiceUplink = voiceUplink;
+  // sanity check
+  msrAssert (
+    measuresRepeatUplink != (void*)0,
+    "measuresRepeatUplink is null");
+    
+  fMeasuresRepeatUplink = measuresRepeatUplink;
 }
 
 msrMeasuresRepeatReplicas::~msrMeasuresRepeatReplicas()
 {}
-
-S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatReplicasNewbornClone (
-  S_msrVoice containingVoice)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a measure repeat replicas" <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingVoice != 0,
-    "containingVoice is null");
-    
-  S_msrMeasuresRepeatReplicas
-    newbornClone =
-      msrMeasuresRepeatReplicas::create (
-        fInputLineNumber,
-        containingVoice);
-
-  // segment
-
-  // uplinks
-  newbornClone->fMeasuresRepeatReplicasVoiceUplink =
-    containingVoice;
-    
-  return newbornClone;
-}
-
-S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatReplicasDeepCopy (
-  S_msrVoice containingVoice)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a deep copy of a measure repeat replicas" <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingVoice != 0,
-    "containingVoice is null");
-    
-  S_msrMeasuresRepeatReplicas
-    measuresRepeatReplicasDeepCopy =
-      msrMeasuresRepeatReplicas::create (
-        fInputLineNumber,
-        containingVoice);
-
-  // segment
-  measuresRepeatReplicasDeepCopy->fMeasuresRepeatReplicasSegment =
-    fMeasuresRepeatReplicasSegment->
-      createSegmentDeepCopy (
-        containingVoice);
-
-  // uplinks
-  measuresRepeatReplicasDeepCopy->fMeasuresRepeatReplicasVoiceUplink =
-    containingVoice;
-    
-  return measuresRepeatReplicasDeepCopy;
-}
 
 void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
     S_msrSegment measuresRepeatReplicasSegment)
@@ -21237,7 +20884,7 @@ void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
       
   // sanity check
   msrAssert (
-    measuresRepeatReplicasSegment != 0,
+    measuresRepeatReplicasSegment != (void*)0,
     "measuresRepeatReplicasSegment is null");
 
   fMeasuresRepeatReplicasSegment =
@@ -21399,7 +21046,18 @@ msrMeasuresRepeat::msrMeasuresRepeat (
   S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
+  // sanity check
+  msrAssert (
+    measuresRepeatMeasuresNumber > 0,
+    "measuresRepeatMeasuresNumber is not positive");
+
   fMeasuresRepeatMeasuresNumber = measuresRepeatMeasuresNumber;
+
+  // sanity check
+  msrAssert (
+    measuresRepeatSlashesNumber > 0,
+    "measuresRepeatSlashesNumber is not positive");
+
   fMeasuresRepeatSlashesNumber  = measuresRepeatSlashesNumber;
 
   fMeasuresRepeatVoiceUplink = voiceUplink;
@@ -21407,83 +21065,6 @@ msrMeasuresRepeat::msrMeasuresRepeat (
 
 msrMeasuresRepeat::~msrMeasuresRepeat()
 {}
-
-S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
-  S_msrVoice containingVoice)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a newborn clone of a measure repeat" <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingVoice != 0,
-    "containingVoice is null");
-    
-  S_msrMeasuresRepeat
-    newbornClone =
-      msrMeasuresRepeat::create (
-        fInputLineNumber,
-        fMeasuresRepeatMeasuresNumber,
-        fMeasuresRepeatSlashesNumber,
-        containingVoice);
-
-  // numbers
-  
-  // repeat pattern
-
-  // repeat replicas
-
-  // uplinks
-
-  return newbornClone;
-}
-
-S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatDeepCopy (
-  S_msrVoice containingVoice)
-{
-  if (gGeneralOptions->fTraceRepeats) {
-    gLogIOstream <<
-      "-=> Creating a deep copy of a measure repeat" <<
-      endl;
-  }
-  
-  // sanity check
-  msrAssert(
-    containingVoice != 0,
-    "containingVoice is null");
-    
-  S_msrMeasuresRepeat
-    measuresRepeatDeepCopy =
-      msrMeasuresRepeat::create (
-        fInputLineNumber,
-        fMeasuresRepeatMeasuresNumber,
-        fMeasuresRepeatSlashesNumber,
-        containingVoice);
-
-  // numbers
-
-  // repeat pattern
-  measuresRepeatDeepCopy->fMeasuresRepeatPattern =
-    fMeasuresRepeatPattern->
-      createMeasuresRepeatPatternDeepCopy (
-        containingVoice);
-        
-  // repeat replicas
-
-   measuresRepeatDeepCopy->fMeasuresRepeatReplicas =
-    fMeasuresRepeatReplicas->
-      createMeasuresRepeatReplicasDeepCopy (
-        containingVoice);
-        
-  // uplinks
-  measuresRepeatDeepCopy->fMeasuresRepeatVoiceUplink =
-    containingVoice;
-    
-  return measuresRepeatDeepCopy;
-}
 
 void msrMeasuresRepeat::setMeasuresRepeatPattern (
   S_msrMeasuresRepeatPattern measuresRepeatPattern)
@@ -21501,7 +21082,7 @@ void msrMeasuresRepeat::setMeasuresRepeatPattern (
       
   // sanity check
   msrAssert (
-    measuresRepeatPattern != 0,
+    measuresRepeatPattern != (void*)0,
     "measuresRepeatPattern is null");
 
   fMeasuresRepeatPattern = measuresRepeatPattern;
@@ -21523,19 +21104,26 @@ void msrMeasuresRepeat::setMeasuresRepeatReplicas (
       
   // sanity check
   msrAssert (
-    measuresRepeatReplicas != 0,
+    measuresRepeatReplicas != (void*)0,
     "measuresRepeatReplicas is null");
 
   fMeasuresRepeatReplicas = measuresRepeatReplicas;
 }
 
 int msrMeasuresRepeat::measuresRepeatReplicasNumber () const
-{
-  // compute replicas number
+{  
+  int patternMeasuresNumber =
+    measuresRepeatPatternMeasuresNumber ();
+    
+  // sanity check
+  msrAssert (
+    patternMeasuresNumber > 0,
+    "patternMeasuresNumber is not positive");
+
   return
     measuresRepeatReplicasMeasuresNumber ()
       /
-    measuresRepeatPatternMeasuresNumber ();    
+    patternMeasuresNumber;    
 }
 
 void msrMeasuresRepeat::acceptIn (basevisitor* v)
@@ -21664,15 +21252,15 @@ void msrMeasuresRepeat::print (ostream& os)
     " (" <<
     singularOrPlural (
       measuresRepeatPatternMeasuresNumber (),
-      "repeated measure",
-      "repeated measures") <<
+      "pattern measure",
+      "pattern measures") <<
     ", " <<
+    /* JMI ???
     singularOrPlural (
       measuresRepeatReplicasMeasuresNumber (),
-      "replicas measure",
+      "replica measure",
       "replicas measures") <<
-    ", " <<
-    measuresRepeatReplicasNumber () << " replicas" <<
+      */
     ")" <<
     endl;
   
@@ -21687,7 +21275,8 @@ void msrMeasuresRepeat::print (ostream& os)
 
   else {
     os <<
-      fMeasuresRepeatPattern;
+      fMeasuresRepeatPattern <<
+      endl;
   }
   
   // print the measure repeat replicas
@@ -21740,7 +21329,7 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNew
   
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
     
   S_msrMultipleRestContents
@@ -21767,7 +21356,7 @@ void msrMultipleRestContents::setMultipleRestContentsSegment (
       
   // sanity check
   msrAssert (
-    multipleRestContentsSegment != 0,
+    multipleRestContentsSegment != (void*)0,
     "multipleRestContentsSegment is null");
 
   fMultipleRestContentsSegment =
@@ -21946,7 +21535,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
   
   // sanity check
   msrAssert(
-    containingVoice != 0,
+    containingVoice != (void*)0,
     "containingVoice is null");
     
   S_msrMultipleRest
@@ -21975,7 +21564,7 @@ void msrMultipleRest::setMultipleRestContents (
       
   // sanity check
   msrAssert (
-    multipleRestContents != 0,
+    multipleRestContents != (void*)0,
     "multipleRestContents is null");
 
   fMultipleRestContents = multipleRestContents;
@@ -22153,14 +21742,14 @@ msrRepeatCoda::msrRepeatCoda (
 {
   // sanity check
   msrAssert (
-    repeatCodaSegment != 0,
+    repeatCodaSegment != (void*)0,
     "repeatCodaSegment is null");
     
   fRepeatCodaSegment = repeatCodaSegment;
   
   // sanity check
   msrAssert (
-    repeatUplink != 0,
+    repeatUplink != (void*)0,
     "repeatUplink is null");
     
   fRepeatCodaRepeatUplink = repeatUplink;
@@ -22181,7 +21770,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
   
   // sanity check
   msrAssert(
-    containingRepeat != 0,
+    containingRepeat != (void*)0,
     "containingRepeat is null");
     
   S_msrRepeatCoda
@@ -22214,7 +21803,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   
   // sanity check
   msrAssert(
-    containingRepeat != 0,
+    containingRepeat != (void*)0,
     "containingRepeat is null");
     
   S_msrRepeatCoda
@@ -22588,7 +22177,7 @@ msrVoice::msrVoice (
   
   // sanity check
   msrAssert(
-    voiceStaffUplink != 0,
+    voiceStaffUplink != (void*)0,
     "voiceStaffUplink is null");
 
   // set voice staff uplink
@@ -22893,7 +22482,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 
   // sanity check
   msrAssert(
-    staffClone != 0,
+    staffClone != (void*)0,
     "staffClone is null");
     
   S_msrVoice
@@ -22974,7 +22563,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 
   // sanity check
   msrAssert(
-    containingStaff != 0,
+    containingStaff != (void*)0,
     "containingStaff is null");
     
   if (gGeneralOptions->fTraceVoicesDetails) {
@@ -23067,11 +22656,13 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         
       if (
         S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(**i))
-        ) {    
+        ) {
+          /* JMI ???
         // create the repeat deep copy
         elementDeepCopy =
           repeat->createRepeatDeepCopy (
             voiceDeepCopy);
+            */
       }
     
       else if (
@@ -24383,7 +23974,8 @@ void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
     appendPageBreakToSegment (pageBreak);
 }
 
-void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
+void msrVoice::createRepeatAndAppendItToVoice (
+  int inputLineNumber)
 {
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
@@ -24401,26 +23993,25 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
         finalizeCurrentMeasureInVoice (
           inputLineNumber);
           
-        // create a repeat
+        // create the repeat
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "-=> Creating and appending a repeat in voice \"" <<
+            "Creating and appending a repeat in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
             endl;
         }
       
-        S_msrRepeat
-          repeat =
-            msrRepeat::create (
-              inputLineNumber,
-              this);
+        fVoiceCurrentRepeat =
+          msrRepeat::create (
+            inputLineNumber,
+            this);
 
         // create a repeat common part from current last segment
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "-=> Creating a repeat common part from current last segment in voice \"" <<
+            "Creating a repeat common part from current last segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -24432,7 +24023,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
             msrRepeatCommonPart::create (
               inputLineNumber,
               fVoiceLastSegment,
-              repeat);
+              fVoiceCurrentRepeat);
 
         // set current last segment as the repeat common segment
         if (gGeneralOptions->fTraceRepeats) {
@@ -24443,25 +24034,21 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
             endl;
         }
 
-        repeat->
+        fVoiceCurrentRepeat->
           setRepeatCommonPart (
             repeatCommonPart);
           
-        // register repeat as the (new) current repeat
+        // append it to the list of repeats and segments
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "Registering repeat as the new current repeat in voice \"" <<
+            "Appending repeat to the initial repeats and segments in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
         }
-                
-        fVoiceCurrentRepeat =
-          repeat;
-      
-        // append it to the list of repeats and segments
+                      
         fVoiceInitialRepeatsAndSegments.push_back (
-          repeat);
+          fVoiceCurrentRepeat);
       
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
@@ -24479,7 +24066,7 @@ void msrVoice::createRepeatAndAppendItToVoice (int inputLineNumber)
   } // switch
 }
 
-void msrVoice::createMeasuresRepeatFromItsFirstMeasureInVoice (
+void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
   int inputLineNumber,
   int measuresRepeatMeasuresNumber,
   int measuresRepeatSlashes)
@@ -24569,15 +24156,6 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasureInVoice (
             removeLastMeasureFromVoice (
               inputLineNumber);
 
-/*
-        // grab the (new current) last measure from the voice,
-        // which is the repeated measure
-        S_msrMeasure
-          repeatedMeasure =
-            removeLastMeasureFromVoice (
-              inputLineNumber);
-*/
-
         // create the measure repeat repeated segment
         S_msrSegment
           repeatedSegment =
@@ -24615,49 +24193,8 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasureInVoice (
               lastMeasure);
         } // for
 
-        
-  if (true || gGeneralOptions->fTraceParts) { // JMI
-    gLogIOstream <<
-      endl <<
-      "*********** repeatedSegment:" <<
-      endl <<
-      endl <<
-      repeatedSegment <<
-      "***********" <<
-      endl <<
-      endl;
-  }
-
-        
-        // create the measure pattern
-        if (
-          gGeneralOptions->fTraceMeasures
-            ||
-          gGeneralOptions->fTraceRepeats
-            ||
-          gGeneralOptions->fTraceSegments
-            ||
-          gGeneralOptions->fTraceVoices
-          ) {
-          gLogIOstream <<
-            "Creating a measure pattern for voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-        }
-        
-        S_msrMeasuresRepeatPattern
-          measuresRepeatPattern =
-            msrMeasuresRepeatPattern::create (
-              inputLineNumber,
-              this);
-
-        // set the repeated segment as the measure repeat pattern segment
-        measuresRepeatPattern->
-          setMeasuresRepeatPatternSegment (
-            repeatedSegment);
-            
         // create the measure repeat
-        if (fVoicePendingMeasuresRepeat) {
+        if (fVoiceCurrentMeasuresRepeat) {
           stringstream s;
 
           s <<
@@ -24670,15 +24207,42 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasureInVoice (
             s.str ());
         }
         
-        fVoicePendingMeasuresRepeat =
+        fVoiceCurrentMeasuresRepeat =
           msrMeasuresRepeat::create (
             inputLineNumber,
             measuresRepeatMeasuresNumber,
             measuresRepeatSlashes,
             this);
 
+        // create the measures repeat pattern
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
+          gLogIOstream <<
+            "Creating a measure repeat pattern for voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+        }
+        
+        S_msrMeasuresRepeatPattern
+          measuresRepeatPattern =
+            msrMeasuresRepeatPattern::create (
+              inputLineNumber,
+              fVoiceCurrentMeasuresRepeat);
+
+        // set the repeated segment as the measure repeat pattern segment
+        measuresRepeatPattern->
+          setMeasuresRepeatPatternSegment (
+            repeatedSegment);
+            
         // set the measure repeat pattern
-        fVoicePendingMeasuresRepeat->
+        fVoiceCurrentMeasuresRepeat->
           setMeasuresRepeatPattern (
             measuresRepeatPattern);
         
@@ -24694,7 +24258,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasureInVoice (
           gGeneralOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "-=> Creating a new last segment with the first replica for voice \"" <<
+            "-=> Creating a new last segment with the first replica ZZZ for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -24738,34 +24302,8 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        //* JMI
-        // print current voice contents
-        if (
-          gGeneralOptions->fTraceMeasures
-            ||
-          gGeneralOptions->fTraceRepeats
-            ||
-          gGeneralOptions->fTraceSegments
-            ||
-          gGeneralOptions->fTraceVoices
-          ) {
-          gLogIOstream <<
-            "==================> The current voice contents of voice \"" <<
-            fVoiceName << "\" is:" <<
-            endl;
-
-          gIndenter++;
-          print (gLogIOstream);
-          gIndenter--;
-
-          gLogIOstream <<
-            "<==================" <<
-            endl;
-        }
-//*/
-
-        // does the pending measure repeat exist?
-        if (! fVoicePendingMeasuresRepeat) {
+        // does the current measures repeat exist?
+        if (! fVoiceCurrentMeasuresRepeat) {
           stringstream s;
 
           s <<
@@ -24805,22 +24343,10 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           nextMeasureAfterMeasuresRepeat =
             voiceLastSegmentMeasureList.back ();
 
-            /* JMI
-        gLogIOstream <<
-          endl <<
-          "==========> nextMeasureAfterMeasuresRepeat:" <<
-          endl;
-          
-        nextMeasureAfterMeasuresRepeat->print (gLogIOstream);
-          
-        gLogIOstream <<
-          endl;
-*/
-
         // remove the next measure from the last segment's measure list
         voiceLastSegmentMeasureList.pop_back ();
 
-         // create the measure repeat replicas contents
+        // create the measure repeat replicas contents
         if (
           gGeneralOptions->fTraceMeasures
             ||
@@ -24831,7 +24357,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           gGeneralOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "-=> Creating a measure repeat replicas contents for voice \"" <<
+            "-=> Creating a measure repeat replicas FEE contents for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
         }
@@ -24840,32 +24366,17 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           measuresRepeatReplicas =
             msrMeasuresRepeatReplicas::create (
               inputLineNumber,
-              this);
+              fVoiceCurrentMeasuresRepeat);
 
         // set the voice last segment as the measure repeat replicas segment
         measuresRepeatReplicas->
           setMeasuresRepeatReplicasSegment (
             fVoiceLastSegment);
 
+        fVoiceCurrentMeasuresRepeat->
+          setMeasuresRepeatReplicas (
+            measuresRepeatReplicas);
 
-
-
-
-        
-  if (true || gGeneralOptions->fTraceParts) { // JMI
-    gLogIOstream <<
-      endl <<
-      "*********** measuresRepeatReplicas:" <<
-      endl <<
-      endl <<
-      measuresRepeatReplicas <<
-      "***********" <<
-      endl <<
-      endl;
-  }
-
-
-        // set the measure repeat replicas contents
         if (
           gGeneralOptions->fTraceMeasures
             ||
@@ -24882,13 +24393,33 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
             endl;
         }
         
-        fVoicePendingMeasuresRepeat->
+        fVoiceCurrentMeasuresRepeat->
           setMeasuresRepeatReplicas (
             measuresRepeatReplicas);
 
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
+          gLogIOstream <<
+            "Setting measures repeat segment to voice last segment CCC for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+        }
+
+        fVoiceCurrentMeasuresRepeat->
+          getMeasuresRepeatReplicas ()->
+            setMeasuresRepeatReplicasSegment (
+              fVoiceLastSegment);
+
         // append pending measure repeat to the list of repeats and segments
         fVoiceInitialRepeatsAndSegments.push_back (
-          fVoicePendingMeasuresRepeat);
+          fVoiceCurrentMeasuresRepeat);
 
         // create a new last segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
@@ -24902,7 +24433,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           gGeneralOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "-=> Creating a new last segment with the measure repeat next measure for voice \"" <<
+            "Creating a new last segment with the AAA measures repeat next measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -24924,7 +24455,153 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
         gIndenter--;
         
         // forget about this pending measure repeat
-        fVoicePendingMeasuresRepeat = (void*)0;
+ // JMI ???       fVoiceCurrentMeasuresRepeat = (void*)0;
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
+  int inputLineNumber,
+  int measuresRepeatMeasuresNumber,
+  int measuresRepeatSlashesNumber)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      {
+        // fetch last measure's full measure length
+        int fullMeasureLength =
+          fVoiceLastSegment->
+            getSegmentMeasuresList ().back ()->
+                getFullMeasureLength ();
+
+        // does the pending measure repeat exist?
+        if (fVoiceCurrentMeasuresRepeat) {
+          stringstream s;
+
+          s <<
+            "attempting to create a measures repeat while another one is pending";
+
+          msrInternalError (
+            gXml2lyOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+
+        // create the measures repeat
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating and appending a measures repeat in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
+        fVoiceCurrentMeasuresRepeat =
+          msrMeasuresRepeat::create (
+            inputLineNumber,
+            measuresRepeatMeasuresNumber,
+            measuresRepeatSlashesNumber,
+            this);
+
+        // create a measures repeat pattern from current last segment
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating a measures repeat pattern from current last segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
+        S_msrMeasuresRepeatPattern
+          measuresRepeatPattern =
+            msrMeasuresRepeatPattern::create (
+              inputLineNumber,
+              fVoiceCurrentMeasuresRepeat);
+
+        // set current last segment as the measures repeat pattern segment
+        measuresRepeatPattern->
+          setMeasuresRepeatPatternSegment (
+            fVoiceLastSegment);
+            
+
+        // set the measures repeat pattern
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Setting repeat common part in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+
+        fVoiceCurrentMeasuresRepeat->
+          setMeasuresRepeatPattern (
+            measuresRepeatPattern);
+
+        // create a new last segment containing a new measure for the voice
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+          gLogIOstream <<
+            "-=> Creating a new last segment containing a new measure for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+        }
+
+        createNewLastSegmentAndANewMeasureAfterARepeat (
+          inputLineNumber,
+          fullMeasureLength);
+
+        // append the measures repeat to the list of repeats and segments
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Appending measures repeat to the list of initial repeats and segments in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+                      
+        fVoiceInitialRepeatsAndSegments.push_back (
+          fVoiceCurrentMeasuresRepeat);
+      
+        // create a new last segment to collect the remainder of the voice,
+        // containing the next, yet incomplete, measure
+        if (
+          gGeneralOptions->fTraceMeasures
+            ||
+          gGeneralOptions->fTraceRepeats
+            ||
+          gGeneralOptions->fTraceSegments
+            ||
+          gGeneralOptions->fTraceVoices
+          ) {
+          gLogIOstream <<
+            "-=> Creating a new last segment for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+        }
+            
+        createNewLastSegmentForVoice (
+          inputLineNumber);
+
+        // print resulting voice contents
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+          gLogIOstream <<
+            "==================> The current voice contents of voice \"" <<
+            fVoiceName << "\" is:" <<
+            endl;
+        }
+
+        gIndenter++;
+        print (gLogIOstream);
+        gIndenter--;
+        
+        // forget about this pending measure repeat
+    // JMI ???    fVoiceCurrentMeasuresRepeat = (void*)0;
       }
       break;
   } // switch
@@ -25295,7 +24972,7 @@ void msrVoice::appendRepeatCloneToVoice (
 {
   // sanity check
   msrAssert(
-    repeatCLone != 0,
+    repeatCLone != (void*)0,
     "repeatCLone is null");
       
   switch (fVoiceKind) {
@@ -25384,7 +25061,7 @@ void msrVoice::appendRepeatCloneToVoice (
       break;
   } // switch
 }
-    
+
 void msrVoice::appendRepeatEndingToVoice (
   int       inputLineNumber,
   string    repeatEndingNumber, // may be "1, 2"
@@ -25410,7 +25087,13 @@ void msrVoice::appendRepeatEndingToVoice (
           fVoiceLastSegment->
             getSegmentMeasuresList ().back ()->
                 getFullMeasureLength ();
-              
+
+        // sanity check
+        msrAssert (
+          fVoiceCurrentRepeat != (void*)0,
+          "fVoiceCurrentRepeat is null");
+
+        // create a repeat ending
         S_msrRepeatEnding
           repeatEnding =
             msrRepeatEnding::create (
@@ -25429,9 +25112,91 @@ void msrVoice::appendRepeatEndingToVoice (
             endl;
         }
             
-    if (fVoiceCurrentRepeat) fVoiceCurrentRepeat->addRepeatEnding (repeatEnding);
-    else return;
+        fVoiceCurrentRepeat->
+          addRepeatEnding (repeatEnding);
       
+        // create a new last segment containing a new measure for the voice
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+          gLogIOstream <<
+            "-=> Creating a new last segment containing a new measure for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+        }
+            
+        createNewLastSegmentAndANewMeasureAfterARepeat (
+          inputLineNumber,
+          fullMeasureLength);
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::appendMeasuresRepeatReplicaToVoice (
+  int       inputLineNumber)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      {
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Appending a measures repeat replica to voice \"" <<
+            getVoiceName () <<  "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
+        // fetch last measure's full measure length
+        int fullMeasureLength =
+          fVoiceLastSegment->
+            getSegmentMeasuresList ().back ()->
+              getFullMeasureLength ();
+
+        if (gGeneralOptions->fTraceRepeats) { // JMI
+          gLogIOstream <<
+            endl <<
+            "***********" <<
+            endl <<
+            endl;
+          print (gLogIOstream);
+          gLogIOstream <<
+            "***********" <<
+            endl <<
+            endl;
+        }
+        
+        // sanity check
+        msrAssert (
+          fVoiceCurrentMeasuresRepeat != (void*)0,
+          "fVoiceCurrentMeasuresRepeat is null");
+                
+        // create a measures repeat replicas
+        S_msrMeasuresRepeatReplicas
+          measuresRepeatReplicas =
+            msrMeasuresRepeatReplicas::create (
+              inputLineNumber,
+              fVoiceCurrentMeasuresRepeat);
+
+        // set the voice last segment as the measure repeat replicas segment
+        measuresRepeatReplicas->
+          setMeasuresRepeatReplicasSegment (
+            fVoiceLastSegment);
+        
+        // set the measures repeat replicas in the voice current measures repeat
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Setting the measures repeat replica to current measures repeat BBB in voice \"" <<
+            fVoiceName <<
+            "\"" <<
+            endl;
+        }
+            
+        fVoiceCurrentMeasuresRepeat->
+          setMeasuresRepeatReplicas (
+            measuresRepeatReplicas);
+
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
@@ -25468,7 +25233,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
             
         // sanity check
         msrAssert(
-          fVoiceCurrentRepeat != 0,
+          fVoiceCurrentRepeat != (void*)0,
           "fVoiceCurrentRepeat is null");
           
         fVoiceCurrentRepeat->
@@ -25966,7 +25731,7 @@ void msrVoice::print (ostream& os)
   /* JMI
   // sanity check
   msrAssert (
-    fVoiceLastSegment != 0,
+    fVoiceLastSegment != (void*)0,
     "fVoiceLastSegment is null");
     */
 
@@ -26629,7 +26394,7 @@ msrStaff::msrStaff (
 {
   // sanity check
   msrAssert(
-    staffPartUplink != 0,
+    staffPartUplink != (void*)0,
     "staffPartUplink is null");
 
   // set staff part uplink
@@ -26951,7 +26716,7 @@ S_msrStaff msrStaff::createStaffNewbornClone (
   
   // sanity check
   msrAssert(
-    containingPart != 0,
+    containingPart != (void*)0,
     "containingPart is null");
     
   S_msrStaff
@@ -27069,7 +26834,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
 
     // sanity check
     msrAssert (
-      voice != 0,
+      voice != (void*)0,
       "voice is null");
     
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
@@ -27245,7 +27010,7 @@ void msrStaff::registerVoiceInStaff (
 {
   // sanity check
   msrAssert (
-    voice != 0,
+    voice != (void*)0,
     "voice is null");
     
   // take this new voice into account
@@ -27556,7 +27321,7 @@ void msrStaff::appendRepeatEndingToStaff (
   } // for
 }
 
-void msrStaff::createMeasuresRepeatFromItsFirstMeasureInStaff (
+void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
   int inputLineNumber,
   int measuresRepeatMeasuresNumber,
   int measuresRepeatSlashes)
@@ -27575,7 +27340,7 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasureInStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
-      createMeasuresRepeatFromItsFirstMeasureInVoice (
+      createMeasuresRepeatFromItsFirstMeasuresInVoice (
         inputLineNumber,
         measuresRepeatMeasuresNumber,
         measuresRepeatSlashes);
@@ -28449,7 +28214,7 @@ msrPart::msrPart (
 /* JMI
   // sanity check
   msrAssert(
-    partPartGroupUplink != 0,
+    partPartGroupUplink != (void*)0,
     "partPartGroupUplink is null");
     */
     
@@ -28518,7 +28283,7 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 
   // sanity check
   msrAssert(
-    partGroupClone != 0,
+    partGroupClone != (void*)0,
     "partGroupClone is null");
     
   S_msrPart
@@ -29320,7 +29085,7 @@ void msrPart::appendRepeatEndingCloneToPart (
   } // for
 }
 
-void msrPart::createMeasuresRepeatFromItsFirstMeasureInPart (
+void msrPart::createMeasuresRepeatFromItsFirstMeasuresInPart (
   int inputLineNumber,
   int measuresRepeatMeasuresNumber,
   int measuresRepeatSlashes)
@@ -29328,7 +29093,7 @@ void msrPart::createMeasuresRepeatFromItsFirstMeasureInPart (
   /* JMI
   // create measure repeat from its first measure in master staff specifically
   fPartMasterStaff->
-    createMeasuresRepeatFromItsFirstMeasureInStaff (
+    createMeasuresRepeatFromItsFirstMeasuresInStaff (
       inputLineNumber,
       measuresRepeatMeasuresNumber,
       measuresRepeatSlashes);
@@ -29340,7 +29105,7 @@ void msrPart::createMeasuresRepeatFromItsFirstMeasureInPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      createMeasuresRepeatFromItsFirstMeasureInStaff (
+      createMeasuresRepeatFromItsFirstMeasuresInStaff (
         inputLineNumber,
         measuresRepeatMeasuresNumber,
         measuresRepeatSlashes);
@@ -30583,7 +30348,7 @@ msrPartGroup::msrPartGroup (
 /* JMI
   // sanity check
   msrAssert (
-    fPartGroupScoreUplink != 0,
+    fPartGroupScoreUplink != (void*)0,
     "fPartGroupScoreUplink is null");
     */
     
@@ -30639,13 +30404,13 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
 /* JMI
   // sanity check
   msrAssert(
-    partGroupClone != 0,
+    partGroupClone != (void*)0,
     "partGroupClone is null");
     */
     
   // sanity check
   msrAssert(
-    scoreClone != 0,
+    scoreClone != (void*)0,
     "scoreClone is null");
     
   S_msrPartGroup
@@ -30691,7 +30456,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 {
   // sanity check
   msrAssert (
-    partID.size () != 0,
+    partID.size () > 0,
     "partID is empty");
 
   // has this partID already been added to this part?
@@ -32374,3 +32139,454 @@ void initializeMSR ()
 
 
 }
+
+
+/*
+
+S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a measure repeat" <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != (void*)0,
+    "containingVoice is null");
+    
+  S_msrMeasuresRepeat
+    newbornClone =
+      msrMeasuresRepeat::create (
+        fInputLineNumber,
+        fMeasuresRepeatMeasuresNumber,
+        fMeasuresRepeatSlashesNumber,
+        containingVoice);
+
+  // numbers
+  
+  // repeat pattern
+
+  // repeat replicas
+
+  // uplinks
+
+  return newbornClone;
+}
+
+S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a deep copy of a measure repeat" <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != (void*)0,
+    "containingVoice is null");
+    
+  S_msrMeasuresRepeat
+    measuresRepeatDeepCopy =
+      msrMeasuresRepeat::create (
+        fInputLineNumber,
+        fMeasuresRepeatMeasuresNumber,
+        fMeasuresRepeatSlashesNumber,
+        containingVoice);
+
+  // numbers
+
+  // repeat pattern
+  measuresRepeatDeepCopy->fMeasuresRepeatPattern =
+    fMeasuresRepeatPattern->
+      createMeasuresRepeatPatternDeepCopy (
+        containingVoice);
+        
+  // repeat replicas
+
+   measuresRepeatDeepCopy->fMeasuresRepeatReplicas =
+    fMeasuresRepeatReplicas->
+      createMeasuresRepeatReplicasDeepCopy (
+        containingVoice);
+        
+  // uplinks
+  measuresRepeatDeepCopy->fMeasuresRepeatVoiceUplink =
+    containingVoice;
+    
+  return measuresRepeatDeepCopy;
+}
+
+
+S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatReplicasNewbornClone (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a measure repeat replicas" <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != (void*)0,
+    "containingVoice is null");
+    
+  S_msrMeasuresRepeatReplicas
+    newbornClone =
+      msrMeasuresRepeatReplicas::create (
+        fInputLineNumber,
+        fMeasuresRepeatUplink); // JMI
+
+  // segment
+
+  // uplinks
+  newbornClone->fMeasuresRepeatUplink =
+    fMeasuresRepeatUplink; // JMI
+    
+  return newbornClone;
+}
+
+S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatReplicasDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a deep copy of a measure repeat replicas" <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != (void*)0,
+    "containingVoice is null");
+    
+  S_msrMeasuresRepeatReplicas
+    measuresRepeatReplicasDeepCopy =
+      msrMeasuresRepeatReplicas::create (
+        fInputLineNumber,
+        fMeasuresRepeatUplink); // JMI
+
+  // segment
+  measuresRepeatReplicasDeepCopy->fMeasuresRepeatReplicasSegment =
+    fMeasuresRepeatReplicasSegment->
+      createSegmentDeepCopy (
+        containingVoice); // JMI
+
+  // uplinks
+  measuresRepeatReplicasDeepCopy->fMeasuresRepeatUplink =
+    fMeasuresRepeatUplink; // JMI
+    
+  return measuresRepeatReplicasDeepCopy;
+}
+
+
+S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPatternNewbornClone (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a measure repeat pattern" <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != (void*)0,
+    "containingVoice is null");
+    
+  S_msrMeasuresRepeatPattern
+    newbornClone =
+      msrMeasuresRepeatPattern::create (
+        fInputLineNumber,
+        fMeasuresRepeatUplink); // JMI
+
+  // segment
+
+  // uplinks
+  newbornClone->fMeasuresRepeatUplink =
+    fMeasuresRepeatUplink; // JMI
+    
+  return newbornClone;
+}
+
+S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPatternDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a measure repeat pattern" <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != (void*)0,
+    "containingVoice is null");
+    
+  S_msrMeasuresRepeatPattern
+    measuresRepeatPatternDeepCopy =
+      msrMeasuresRepeatPattern::create (
+        fInputLineNumber,
+        fMeasuresRepeatUplink); // JMI
+
+  // segment
+  // fMeasuresRepeatPatternSegment JMI ???
+  
+  // uplinks
+  measuresRepeatPatternDeepCopy->fMeasuresRepeatUplink =
+    fMeasuresRepeatUplink; // JMI
+    
+  return measuresRepeatPatternDeepCopy;
+}
+
+
+S_msrRepeat msrRepeat::createRepeatNewbornClone (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a repeat" <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != (void*)0,
+    "containingVoice is null");
+    
+  S_msrRepeat
+    newbornClone =
+      msrRepeat::create (
+        fInputLineNumber,
+        containingVoice);
+
+  // common segment
+
+  // repeat endings
+  newbornClone->fRepeatEndingsInternalCounter =
+    fRepeatEndingsInternalCounter;
+    
+  // uplinks
+
+  return newbornClone;
+}
+
+S_msrRepeat msrRepeat::createRepeatDeepCopy (
+  S_msrVoice containingVoice)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a deep copy of a repeat" <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingVoice != (void*)0,
+    "containingVoice is null");
+    
+  S_msrRepeat
+    repeatDeepCopy =
+      msrRepeat::create (
+        fInputLineNumber,
+        containingVoice);
+/ *
+  // common segment
+  repeatDeepCopy->fRepeatCommonSegment =
+    fRepeatCommonSegment->
+      createSegmentDeepCopy (
+        containingVoice);
+  * /      
+  // common part
+  repeatDeepCopy->fRepeatCommonPart =
+    fRepeatCommonPart->
+      createRepeatCommonPartDeepCopy (
+        repeatDeepCopy);
+        
+  // repeat endings
+  for (
+    vector<S_msrRepeatEnding>::const_iterator i = fRepeatEndings.begin ();
+    i != fRepeatEndings.end ();
+    i++) {
+    repeatDeepCopy->
+      addRepeatEnding (
+        (*i)->createRepeatEndingDeepCopy (
+          repeatDeepCopy));
+  } // for
+
+  repeatDeepCopy->fRepeatEndingsInternalCounter =
+    fRepeatEndingsInternalCounter;
+
+  // uplinks
+  
+  return repeatDeepCopy;
+}
+
+S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
+  S_msrRepeat containingRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a " <<
+      repeatEndingAsString () <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != (void*)0,
+    "containingRepeat is null");
+    
+  S_msrRepeatEnding
+    newbornClone =
+      msrRepeatEnding::create (
+        fInputLineNumber,
+        fRepeatEndingNumber,
+        fRepeatEndingKind,
+        containingRepeat->
+          getRepeatCommonPart ()->
+            getRepeatCommonPartSegment (), // JMI
+        containingRepeat);
+  
+  // numbers
+  newbornClone->fRepeatEndingNumber =
+    fRepeatEndingNumber;
+    
+  newbornClone->fRepeatEndingInternalNumber =
+    fRepeatEndingInternalNumber;
+    
+  // kind
+  newbornClone->fRepeatEndingKind =
+    fRepeatEndingKind;
+    
+  // segment
+
+  // uplinks
+
+  return newbornClone;
+}
+
+S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
+  S_msrRepeat containingRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a " <<
+      repeatEndingAsString () <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != (void*)0,
+    "containingRepeat is null");
+    
+  S_msrRepeatEnding
+    repeatEndingDeepCopy =
+      msrRepeatEnding::create (
+        fInputLineNumber,
+        fRepeatEndingNumber,
+        fRepeatEndingKind,
+        containingRepeat->
+          getRepeatCommonPart ()->
+            getRepeatCommonPartSegment (), // JMI
+        containingRepeat);
+    
+  // numbers
+  repeatEndingDeepCopy->fRepeatEndingInternalNumber =
+    fRepeatEndingInternalNumber;
+    
+  // kind
+  repeatEndingDeepCopy->fRepeatEndingKind =
+    fRepeatEndingKind;
+    
+  // segment
+  repeatEndingDeepCopy->fRepeatEndingSegment =
+    fRepeatEndingSegment->
+      createSegmentDeepCopy (
+        fRepeatEndingRepeatUplink->
+          getRepeatVoiceUplink ());
+    
+  // uplinks
+  repeatEndingDeepCopy->fRepeatEndingRepeatUplink =
+    containingRepeat;
+
+  return repeatEndingDeepCopy;
+}
+
+S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
+  S_msrRepeat containingRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a " <<
+      repeatCommonPartAsString () <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != (void*)0,
+    "containingRepeat is null");
+    
+  S_msrRepeatCommonPart
+    newbornClone =
+      msrRepeatCommonPart::create (
+        fInputLineNumber,
+        containingRepeat->
+          getRepeatCommonPart ()->
+            getRepeatCommonPartSegment (), // JMI
+        containingRepeat);
+      
+  // segment
+
+  // uplinks
+
+  return newbornClone;
+}
+
+S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
+  S_msrRepeat containingRepeat)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "-=> Creating a newborn clone of a " <<
+      repeatCommonPartAsString () <<
+      endl;
+  }
+  
+  // sanity check
+  msrAssert(
+    containingRepeat != (void*)0,
+    "containingRepeat is null");
+    
+  S_msrRepeatCommonPart
+    repeatCommonPartDeepCopy =
+      msrRepeatCommonPart::create (
+        fInputLineNumber,
+        containingRepeat->
+          getRepeatCommonPart ()->
+            getRepeatCommonPartSegment (), // JMI
+        containingRepeat);
+    
+  // segment
+  repeatCommonPartDeepCopy->fRepeatCommonPartSegment =
+    fRepeatCommonPartSegment->
+      createSegmentDeepCopy (
+        fRepeatCommonPartRepeatUplink->
+          getRepeatVoiceUplink ());
+    
+  // uplinks
+  repeatCommonPartDeepCopy->fRepeatCommonPartRepeatUplink =
+    containingRepeat;
+
+  return repeatCommonPartDeepCopy;
+}
+
+
+ 
+*/

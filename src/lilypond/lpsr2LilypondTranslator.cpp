@@ -8424,7 +8424,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
   fLilypondCodeIOstream <<
     endl <<
     endl <<
-    "\\repeat" "percent " <<
+    "\\repeat percent " <<
     replicasNumber + 1 <<
      " { " <<
     endl;
@@ -8494,9 +8494,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
       endl;
   }
 
-  gIndenter++;
+  // output the start of the ending
+  if (gLilypondOptions->fComments) {  
+    fLilypondCodeIOstream << left <<
+      setw (commentFieldWidth) <<
+      "{" << "% start of measures repeat replicas" <<
+      endl;
+  }
+  else {
+    fLilypondCodeIOstream <<
+      endl <<
+      "{" <<
+      endl;
+  }
 
-  // JMI
+  gIndenter++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)

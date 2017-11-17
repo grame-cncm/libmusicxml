@@ -7676,12 +7676,14 @@ class msrRepeatCommonPart : public msrElement
       int          inputLineNumber,
       S_msrSegment segment,
       S_msrRepeat  repeatUplink);
-    
+
+    /* JMI
     SMARTP<msrRepeatCommonPart> createRepeatCommonPartNewbornClone (
       S_msrRepeat containingRepeat);
 
     SMARTP<msrRepeatCommonPart> createRepeatCommonPartDeepCopy (
       S_msrRepeat containingRepeat);
+      */
 
   protected:
 
@@ -7733,11 +7735,11 @@ class msrRepeatCommonPart : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // segment
-    S_msrSegment          fRepeatCommonPartSegment;
-
     // uplinks
     S_msrRepeat           fRepeatCommonPartRepeatUplink;
+
+    // segment
+    S_msrSegment          fRepeatCommonPartSegment;
 };
 typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt);
@@ -7767,11 +7769,13 @@ class msrRepeatEnding : public msrElement
       S_msrSegment        segment,
       S_msrRepeat         repeatUplink);
     
+    /* JMI
     SMARTP<msrRepeatEnding> createRepeatEndingNewbornClone (
       S_msrRepeat containingRepeat);
 
     SMARTP<msrRepeatEnding> createRepeatEndingDeepCopy (
       S_msrRepeat containingRepeat);
+      */
 
   protected:
 
@@ -7846,6 +7850,9 @@ class msrRepeatEnding : public msrElement
     // fields
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrRepeat           fRepeatEndingRepeatUplink;
+
     // numbers
     string                fRepeatEndingNumber; // may be "1, 2"
     int                   fRepeatEndingInternalNumber; // internally assigned
@@ -7855,9 +7862,6 @@ class msrRepeatEnding : public msrElement
 
     // segment
     S_msrSegment          fRepeatEndingSegment;
-
-    // uplinks
-    S_msrRepeat           fRepeatEndingRepeatUplink;
 };
 typedef SMARTP<msrRepeatEnding> S_msrRepeatEnding;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatEnding& elt);
@@ -7873,12 +7877,14 @@ class msrRepeat : public msrElement
     static SMARTP<msrRepeat> create (
       int        inputLineNumber,
       S_msrVoice voiceUplink);
-    
+
+    /* JMI
     SMARTP<msrRepeat> createRepeatNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrRepeat> createRepeatDeepCopy (
       S_msrVoice containingVoice);
+      */
 
   protected:
 
@@ -7966,14 +7972,16 @@ class msrMeasuresRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasuresRepeatPattern> create (
-      int        inputLineNumber,
-      S_msrVoice voiceUplink);
+      int                 inputLineNumber,
+      S_msrMeasuresRepeat measuresRepeatUplink);
     
+    /* JMI
     SMARTP<msrMeasuresRepeatPattern> createMeasuresRepeatPatternNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrMeasuresRepeatPattern> createMeasuresRepeatPatternDeepCopy (
       S_msrVoice containingVoice);
+*/
 
   protected:
 
@@ -7981,8 +7989,8 @@ class msrMeasuresRepeatPattern : public msrElement
     // ------------------------------------------------------
 
     msrMeasuresRepeatPattern (
-      int        inputLineNumber,
-      S_msrVoice voiceUplink);
+      int                 inputLineNumber,
+      S_msrMeasuresRepeat measuresRepeatUplink);
       
     virtual ~msrMeasuresRepeatPattern();
   
@@ -7999,8 +8007,8 @@ class msrMeasuresRepeatPattern : public msrElement
                               { return fMeasuresRepeatPatternSegment; }
 
     // uplinks
-    S_msrVoice            getMeasuresRepeatPatternVoiceUplink () const
-                            { return fMeasuresRepeatPatternVoiceUplink; }
+    S_msrMeasuresRepeat   getMeasuresRepeatUplink () const
+                            { return fMeasuresRepeatUplink; }
 
     // services
     // ------------------------------------------------------
@@ -8026,12 +8034,12 @@ class msrMeasuresRepeatPattern : public msrElement
 
     // fields
     // ------------------------------------------------------
+    
+    // uplinks
+    S_msrMeasuresRepeat   fMeasuresRepeatUplink;
 
     // segment
     S_msrSegment          fMeasuresRepeatPatternSegment;
-
-    // uplinks
-    S_msrVoice            fMeasuresRepeatPatternVoiceUplink;
 };
 typedef SMARTP<msrMeasuresRepeatPattern> S_msrMeasuresRepeatPattern;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt);
@@ -8045,14 +8053,16 @@ class msrMeasuresRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrMeasuresRepeatReplicas> create (
-      int        inputLineNumber,
-      S_msrVoice voiceUplink);
+      int                 inputLineNumber,
+      S_msrMeasuresRepeat measuresRepeatUplink);
     
+    /* JMI
     SMARTP<msrMeasuresRepeatReplicas> createMeasuresRepeatReplicasNewbornClone (
       S_msrVoice containingVoice);
 
     SMARTP<msrMeasuresRepeatReplicas> createMeasuresRepeatReplicasDeepCopy (
       S_msrVoice containingVoice);
+      */
 
   protected:
 
@@ -8060,8 +8070,8 @@ class msrMeasuresRepeatReplicas : public msrElement
     // ------------------------------------------------------
 
     msrMeasuresRepeatReplicas (
-      int        inputLineNumber,
-      S_msrVoice voiceUplink);
+      int                 inputLineNumber,
+      S_msrMeasuresRepeat measuresRepeatUplink);
       
     virtual ~msrMeasuresRepeatReplicas();
   
@@ -8070,16 +8080,15 @@ class msrMeasuresRepeatReplicas : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrMeasuresRepeat   getMeasuresRepeatUplink () const
+                            { return fMeasuresRepeatUplink; }
     // segment
     void                  setMeasuresRepeatReplicasSegment (
                             S_msrSegment measuresRepeatReplicasSegment);
 
     S_msrSegment          getMeasuresRepeatReplicasSegment () const
                               { return fMeasuresRepeatReplicasSegment; }
-
-    // uplinks
-    S_msrVoice            getMeasuresRepeatReplicasVoiceUplink () const
-                            { return fMeasuresRepeatReplicasVoiceUplink; }
 
     // services
     // ------------------------------------------------------
@@ -8108,11 +8117,11 @@ class msrMeasuresRepeatReplicas : public msrElement
     // fields
     // ------------------------------------------------------
 
+    // uplinks
+    S_msrMeasuresRepeat   fMeasuresRepeatUplink;
+
     // segment
     S_msrSegment          fMeasuresRepeatReplicasSegment;
-
-    // uplinks
-    S_msrVoice            fMeasuresRepeatReplicasVoiceUplink;
 };
 typedef SMARTP<msrMeasuresRepeatReplicas> S_msrMeasuresRepeatReplicas;
 EXP ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt);
@@ -8885,25 +8894,6 @@ class msrVoice : public msrElement
     
     void                  createRepeatAndAppendItToVoice (
                             int inputLineNumber);
-    
-    void                  createMeasuresRepeatFromItsFirstMeasureInVoice (
-                            int inputLineNumber,
-                            int measuresRepeatMeasuresNumber,
-                            int measuresRepeatSlashes);
-
-    void                  appendPendingMeasuresRepeatToVoice (
-                            int inputLineNumber);
-                            
-    void                  createMultipleRestInVoice (
-                            int inputLineNumber,
-                            int multipleRestMeasuresNumber);
-
-    void                  appendPendingMultipleRestToVoice (
-                            int inputLineNumber);
-                            
-    void                  appendMultipleRestCloneToVoice (
-                            int               inputLineNumber,
-                            S_msrMultipleRest multipleRest);
   
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
@@ -8917,6 +8907,37 @@ class msrVoice : public msrElement
 
     void                  appendRepeatEndingCloneToVoice (
                             S_msrRepeatEnding repeatEndingClone);
+
+    // multiple rests
+
+    void                  createMultipleRestInVoice (
+                            int inputLineNumber,
+                            int multipleRestMeasuresNumber);
+
+    void                  appendPendingMultipleRestToVoice (
+                            int inputLineNumber);
+                            
+    void                  appendMeasuresRepeatReplicaToVoice (
+                            int       inputLineNumber);
+
+    void                  appendMultipleRestCloneToVoice (
+                            int               inputLineNumber,
+                            S_msrMultipleRest multipleRest);
+  
+    // measures repeats
+    
+    void                  createMeasuresRepeatFromItsFirstMeasuresInVoice (
+                            int inputLineNumber,
+                            int measuresRepeatMeasuresNumber,
+                            int measuresRepeatSlashes);
+
+    void                  appendPendingMeasuresRepeatToVoice (
+                            int inputLineNumber);
+                            
+    void                  createMeasuresRepeatAndAppendItToVoiceClone (
+                            int inputLineNumber,
+                            int measuresRepeatMeasuresNumber,
+                            int measuresRepeatSlashesNumber);
 
     // segments
     
@@ -9036,12 +9057,12 @@ class msrVoice : public msrElement
     // the last msrRepeat in fVoiceInitialRepeatsAndSegments
     S_msrRepeat           fVoiceCurrentRepeat;
 
-    // fVoicePendingMeasuresRepeat is null
+    // fVoiceCurrentMeasuresRepeat is null
     // or the last msrMeasuresRepeat created with its repeated measure,
     // but not yet appended to the voice
-    S_msrMeasuresRepeat   fVoicePendingMeasuresRepeat;
+    S_msrMeasuresRepeat   fVoiceCurrentMeasuresRepeat;
 
-    // fVoicePendingMeasuresRepeat is null
+    // fVoiceCurrentMeasuresRepeat is null
     // or the last msrMeasuresRepeat created with its repeated measure,
     // but not yet appended to the voice
     S_msrMultipleRest     fVoicePendingMultipleRest;
@@ -9523,7 +9544,7 @@ class msrStaff : public msrElement
     void                  createRepeatAndAppendItToStaff (
                             int inputLineNumber);
     
-    void                  createMeasuresRepeatFromItsFirstMeasureInStaff (
+    void                  createMeasuresRepeatFromItsFirstMeasuresInStaff (
                             int inputLineNumber,
                             int measuresRepeatMeasuresNumber,
                             int measuresRepeatSlashes);
@@ -10051,7 +10072,7 @@ class msrPart : public msrElement
     void                  appendRepeatEndingCloneToPart (
                             S_msrRepeatEnding repeatEndingCLone);
 
-    void                  createMeasuresRepeatFromItsFirstMeasureInPart (
+    void                  createMeasuresRepeatFromItsFirstMeasuresInPart (
                             int inputLineNumber,
                             int measuresRepeatMeasuresNumber,
                             int measuresRepeatSlashes);

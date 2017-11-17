@@ -5758,7 +5758,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt )
   else {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
+      inputLineNumber,
       __FILE__, __LINE__,
       "measure-numbering \"" + measureNumberingString + "\" is unknown");
   }
@@ -7699,7 +7699,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_repeat& elt )
     fCurrentMeasuresRepeatKind = msrMeasuresRepeat::kStartMeasuresRepeat; // JMI
 
     fCurrentPart->
-      createMeasuresRepeatFromItsFirstMeasureInPart (
+      createMeasuresRepeatFromItsFirstMeasuresInPart (
         inputLineNumber,
         fCurrentMeasuresRepeatMeasuresNumber,
         fCurrentMeasuresRepeatSlashesNumber);
@@ -7742,11 +7742,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
 
   string multipleRestUseSymbols = elt->getAttributeValue ("use-symbols");
 
-/* JMI
-  if      (multipleRestUseSymbols == "yes")
-    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
-  else if (multipleRestUseSymbols == "no")
-    fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
+  if      (multipleRestUseSymbols == "yes") {
+//    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
+  }
+  else if (multipleRestUseSymbols == "no") {
+ //   fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
+  }
   else {
     if (multipleRestUseSymbols.size ()) {
       stringstream s;
@@ -7763,7 +7764,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
         s.str ());
       }
   }
-  */
 
   // register number of remeaining rest measures
   fRemainingMultipleRestMeasuresNumber =
@@ -14886,7 +14886,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     if (fOnGoingChord) {
       // newNote is the first note after the chord
 
-  // JMI    msrAssert (fCurrentChord != 0, "fCurrentChord is null");
+      msrAssert ( // JMI ???
+        fCurrentChord != (void*)0,
+        "fCurrentChord is null");
       
       // forget about this chord
       if (gGeneralOptions->fTraceChords) {

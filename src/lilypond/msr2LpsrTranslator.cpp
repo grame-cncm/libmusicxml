@@ -59,7 +59,6 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fOnGoingFiguredBassVoice = false;
 
   // repeats
- // JMI fRepeatHasBeenCreatedForCurrentPartClone = false;
   fOnGoingRepeat         = false;
 
   // measures
@@ -3527,8 +3526,6 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeat& elt)
     appendRepeatCloneToPart (
       inputLineNumber,
       fCurrentRepeatClone);
-
-  // JMI fRepeatHasBeenCreatedForCurrentPartClone = false;
 */
 
   // forget about current repeat clone // JMI
@@ -3555,35 +3552,10 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       endl;
   }
 
-           /* JMI   
-  fLogOutputStream <<
-    endl <<
-    "*********** fCurrentPartClone" <<
-    endl <<
-    endl;
-  fCurrentPartClone->print (fLogOutputStream);
-  fLogOutputStream <<
-    "*********** fCurrentPartClone" <<
-    endl <<
-    endl;
-    */
-/* JMI
-  fLogOutputStream <<
-    endl <<
-    "*********** fCurrentRepeatClone" <<
-    endl <<
-    endl;
-  fCurrentRepeatClone->print (fLogOutputStream);
-  fLogOutputStream <<
-    "*********** fCurrentRepeatClone" <<
-    endl <<
-    endl;
-*/
-
-  // create a repeat common part clone and append it to voice clone
+  // create a repeat and append it to voice clone
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Appending a repeat clone to voice clone \"" <<
+      "Appending a repeat  to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
@@ -3639,8 +3611,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeat& elt)
   }
 
   gIndenter++;
-
-  // JMI
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
@@ -3652,14 +3622,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
   }
 
   gIndenter--;
-  
-  // create the measure repeat clone
-  S_msrMeasuresRepeat
-    measuresRepeatClone =
-      elt->createMeasuresRepeatNewbornClone (
-        fCurrentVoiceClone);
-
-//         fCurrentSegmentClonesStack.top (),
 
   // set last segment as the measure repeat pattern segment
   if (gGeneralOptions->fTraceRepeats) {
@@ -3669,72 +3631,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeat& elt)
       "\"" <<
       endl;
   }
-
-/* JMI
- *
- *   // create a multiple rest contents
-  S_msrMultipleRestContents
-    multipleRestContents =
-      msrMultipleRestContents::create (
-        elt->getInputLineNumber (),
-        fCurrentVoiceClone);
-        
-  // set last segment as the multiple rest contents segment
-  if (gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Setting current last segment as multiple rest contents segment in voice \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      endl;
-  }
-
-  multipleRestContents->
-    setMultipleRestContentsSegment (
-      fCurrentVoiceClone->
-        getVoiceLastSegment ());
-
-  // set the multiple rest clone's contents
-  multipleRestClone->
-    setMultipleRestContents (
-      multipleRestContents);
-    
-
-
-
-  measuresRepeatClone->
-    setMeasuresRepeatPatternSegment (
-      fCurrentVoiceClone->
-        getVoiceLastSegment ());
-
-  // set last segment as the measure repeat replicas segment
-  if (gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Setting current last segment as measure repeat replicas segment in voice \"" <<
-      fCurrentVoiceClone->getVoiceName () <<
-      "\"" <<
-      endl;
-  }
-
-  measuresRepeatClone->
-    setMeasuresRepeatReplicasSegment (
-      fCurrentVoiceClone->
-        getVoiceLastSegment ());
-
-  // create a new last segment to collect the remainder of the voice,
-  // containing the next, yet incomplete, measure
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-    fLogOutputStream <<
-      "Creating a new last segment with the measure repeat next measure for voice \"" <<
-      fCurrentVoiceClone->getVoiceName () << "\"" <<
-      endl;
-  }
-
-  // append the measure repeat to the new last segment
-  fCurrentVoiceClone->
-    getVoiceLastSegment ()->
-      appendMeasuresRepeatToSegment (
-        measuresRepeatClone);
-        */
 }
 
 //________________________________________________________________________
@@ -3747,11 +3643,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatPattern& elt)
   }
 
   gIndenter++;
-
-  // create a measure repeat pattern clone
-  fCurrentMeasuresRepeatPatternClone =
-    elt->createMeasuresRepeatPatternNewbornClone (
-      fCurrentVoiceClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
@@ -3763,6 +3654,28 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
   }
 
   gIndenter--;
+
+  // get the measures repeat uplink
+  S_msrMeasuresRepeat
+    measuresRepeat =
+      elt->getMeasuresRepeatUplink ();
+
+  // create a measures repeat and append it to voice clone
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Appending a measures repeat to voice clone \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
+  fCurrentVoiceClone->
+    createMeasuresRepeatAndAppendItToVoiceClone (
+      elt->getInputLineNumber (),
+      measuresRepeat->
+        getMeasuresRepeatMeasuresNumber (),
+      measuresRepeat->
+        getMeasuresRepeatSlashesNumber ());
 
   // forget about the current measure repeat pattern clone
   fCurrentMeasuresRepeatPatternClone = (void*)0;
@@ -3778,11 +3691,6 @@ void msr2LpsrTranslator::visitStart (S_msrMeasuresRepeatReplicas& elt)
   }
 
   gIndenter++;
-
-  // create a measure repeat replicas clone
-  fCurrentMeasuresRepeatReplicasClone =
-    elt->createMeasuresRepeatReplicasNewbornClone (
-      fCurrentVoiceClone);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
@@ -3795,8 +3703,21 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
 
   gIndenter--;
 
+  // create a measures repeat replica clone and append it to voice clone
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Appending a repeat replica clone to voice clone \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
+  fCurrentVoiceClone->
+    appendMeasuresRepeatReplicaToVoice (
+      elt->getInputLineNumber ());
+
   // forget about the current measure repeat replicas clone
-  fCurrentMeasuresRepeatReplicasClone = (void*)0;
+ // JMI ??? fCurrentMeasuresRepeatReplicasClone = (void*)0;
 }
 
 //________________________________________________________________________
@@ -3918,19 +3839,6 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       endl;
   }
 
-           /* JMI   
-  fLogOutputStream <<
-    endl <<
-    "***********" <<
-    endl <<
-    endl;
-  fCurrentPartClone->print (fLogOutputStream);
-  fLogOutputStream <<
-    "***********" <<
-    endl <<
-    endl;
-*/
-
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kStandaloneBarline:
@@ -3993,31 +3901,6 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             
     case msrBarline::kHookedEndingStartBarline:
       {
-        /* JMI
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Handling kHookedEndingStart in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-
-        if (! fRepeatHasBeenCreatedForCurrentPartClone) {
-          // append a repeat clone to the current part clone
-          if (gGeneralOptions->fTraceRepeats) {
-            fLogOutputStream <<
-              "Appending a repeat to part clone " <<
-              fCurrentPartClone->getPartCombinedName () << "\"" <<
-              endl;
-        }
-    
-          fCurrentPartClone-> // no null test needed JMI
-            createRepeatAndAppendItToPart (
-              inputLineNumber);
-  
-          fRepeatHasBeenCreatedForCurrentPartClone = true;
-        }
-        */
-
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
@@ -4329,4 +4212,32 @@ void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
     appendVoiceUseToStoreBlock (fCurrentVoiceClone);
 */
 
+
+
+
+
+           /* JMI   
+  fLogOutputStream <<
+    endl <<
+    "*********** fCurrentPartClone" <<
+    endl <<
+    endl;
+  fCurrentPartClone->print (fLogOutputStream);
+  fLogOutputStream <<
+    "*********** fCurrentPartClone" <<
+    endl <<
+    endl;
+    */
+/* JMI
+  fLogOutputStream <<
+    endl <<
+    "*********** fCurrentRepeatClone" <<
+    endl <<
+    endl;
+  fCurrentRepeatClone->print (fLogOutputStream);
+  fLogOutputStream <<
+    "*********** fCurrentRepeatClone" <<
+    endl <<
+    endl;
+*/
 
