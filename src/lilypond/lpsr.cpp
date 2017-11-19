@@ -2694,7 +2694,7 @@ lpsrStaffBlock::lpsrStaffBlock (
 {
   // sanity check
   msrAssert (
-    staff != (void*)0,
+    staff != nullptr,
     "staff is null");
     
   fStaff = staff;
@@ -2865,7 +2865,7 @@ lpsrPartBlock::lpsrPartBlock (
 {
   // sanity check
   msrAssert (
-    part != (void*)0,
+    part != nullptr,
     "part is null");
     
   fPart = part;

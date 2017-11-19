@@ -3908,7 +3908,7 @@ S_msrChordItem msrChordItem::createHarmonyNewbornClone (
 
   // sanity check
   basicMsrAssert(
-    containingPart != (void*)0,
+    containingPart != nullptr,
     "containingPart is null");
     
   S_msrChordItem
@@ -3935,7 +3935,7 @@ S_msrChordItem msrChordItem::createHarmonyDeepCopy (
 
   // sanity check
   basicMsrAssert(
-    containingPart != (void*)0,
+    containingPart != nullptr,
     "containingPart is null");
     
   S_msrChordItem
@@ -5044,7 +5044,7 @@ S_msrChordIntervals msrChordIntervals::createHarmonyNewbornClone (
 
   // sanity check
   basicMsrAssert(
-    containingPart != (void*)0,
+    containingPart != nullptr,
     "containingPart is null");
     
   S_msrChordIntervals
@@ -5071,7 +5071,7 @@ S_msrChordIntervals msrChordIntervals::createHarmonyDeepCopy (
 
   // sanity check
   basicMsrAssert(
-    containingPart != (void*)0,
+    containingPart != nullptr,
     "containingPart is null");
     
   S_msrChordIntervals

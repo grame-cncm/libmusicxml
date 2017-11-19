@@ -1002,7 +1002,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_credit& elt )
   fMsrScore->
     appendCreditToScore (fCurrentCredit);
   
-  fCurrentCredit = (void*)0;
+  fCurrentCredit = nullptr;
 }
 
 //________________________________________________________________________
@@ -1165,7 +1165,7 @@ void mxmlTree2MsrTranslator::visitStart (S_attributes& elt)
       endl;
   }
 
-  fCurrentTime = (void*)0;
+  fCurrentTime = nullptr;
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
@@ -1578,7 +1578,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key& elt )
 
   // Humdrum-Scot
 
-  fCurrentHumdrumScotKeyItem = (void*)0;
+  fCurrentHumdrumScotKeyItem = nullptr;
 }
   
 void mxmlTree2MsrTranslator::visitStart ( S_cancel& elt )
@@ -1772,7 +1772,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
       keyAlterationKind);
 
   // forget about this item
-  fCurrentHumdrumScotKeyItem = (void*)0;
+  fCurrentHumdrumScotKeyItem = nullptr;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_key_octave& elt )
@@ -2729,8 +2729,8 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
 
   fCurrentWordsContents = ""; // there can be several such
 
-  fCurrentMetronomeWords = (void*)0;
-  fCurrentMetronomeTempo = (void*)0;
+  fCurrentMetronomeWords = nullptr;
+  fCurrentMetronomeTempo = nullptr;
 
   fOnGoingDirection = true;
 }
@@ -3793,8 +3793,8 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
 
   fCurrentStaffDetailsStaffSize = 0;
   
-  fCurrentStaffLinesNumber = (void*)0;
-  fCurrentStaffTuning = (void*)0;
+  fCurrentStaffLinesNumber = nullptr;
+  fCurrentStaffTuning = nullptr;
   
   fCurrentStaffDetailsCapo = 0;
 
@@ -5794,12 +5794,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
   fCurrentBarlineHasSegno = false;
   fCurrentBarlineHasCoda  = false;
 
-  fCurrentBarlineLocationKind        = msrBarline::k_NoLocation;
-  fCurrentBarlineStyleKind           = msrBarline::k_NoStyle;
-  fCurrentBarlineEndingTypeKind      = msrBarline::k_NoEndingType;
-  fCurrentBarlineRepeatDirectionKind = msrBarline::k_NoRepeatDirection;
-  fCurrentBarlineRepeatWingedKind    = msrBarline::k_NoRepeatWinged;
+  fCurrentBarlineLocationKind        = msrBarline::k_NoBarlineLocation;
+  fCurrentBarlineStyleKind           = msrBarline::k_NoBarlineStyle;
+  fCurrentBarlineEndingTypeKind      = msrBarline::k_NoBarlineEnding;
+  fCurrentBarlineRepeatDirectionKind = msrBarline::k_NoBarlineRepeatDirection;
+  fCurrentBarlineRepeatWingedKind    = msrBarline::k_NoBarlineRepeatWinged;
 
+  fCurrentBarlineTimes = 2; // default value JMI ???
+  
   // location
   
   string
@@ -5807,16 +5809,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
       elt->getAttributeValue ("location");
 
   fCurrentBarlineLocationKind =
-    msrBarline::kRightLocation; // by default
+    msrBarline::kBarlineLocationRight; // by default
     
   if       (location == "left") {
-    fCurrentBarlineLocationKind = msrBarline::kLeftLocation;
+    fCurrentBarlineLocationKind = msrBarline::kBarlineLocationLeft;
   }
   else  if (location == "middle") {
-    fCurrentBarlineLocationKind = msrBarline::kMiddleLocation;
+    fCurrentBarlineLocationKind = msrBarline::kBarlineLocationMiddle;
   }
   else if  (location == "right") {
-    fCurrentBarlineLocationKind = msrBarline::kRightLocation;
+    fCurrentBarlineLocationKind = msrBarline::kBarlineLocationRight;
   }
   else {
     stringstream s;
@@ -5847,51 +5849,51 @@ void mxmlTree2MsrTranslator::visitStart ( S_bar_style& elt )
   string barStyle = elt->getValue();
 
   fCurrentBarlineStyleKind =
-    msrBarline::k_NoStyle; // default value
+    msrBarline::kBarlineStyleNone; // default value
 
   if      (barStyle == "regular") {
     fCurrentBarlineStyleKind =
-      msrBarline::kRegularStyle;
+      msrBarline::kBarlineStyleRegular;
   }
   else if (barStyle == "dotted") {
     fCurrentBarlineStyleKind =
-      msrBarline::kDottedStyle;
+      msrBarline::kBarlineStyleDotted;
   }
   else if (barStyle == "dashed") {
     fCurrentBarlineStyleKind =
-      msrBarline::kDashedStyle;
+      msrBarline::kBarlineStyleDashed;
   }
   else if (barStyle == "heavy") {
     fCurrentBarlineStyleKind =
-      msrBarline::kHeavyStyle;
+      msrBarline::kBarlineStyleHeavy;
   }
   else if (barStyle == "light-light") {
     fCurrentBarlineStyleKind =
-      msrBarline::kLightLightStyle;
+      msrBarline::kBarlineStyleLightLight;
   }
   else if (barStyle == "light-heavy") {
     fCurrentBarlineStyleKind =
-      msrBarline::kLightHeavyStyle;
+      msrBarline::kBarlineStyleLightHeavy;
   }
   else if (barStyle == "heavy-light") {
     fCurrentBarlineStyleKind =
-      msrBarline::kHeavyLightStyle;
+      msrBarline::kBarlineStyleHeavyLight;
   }
   else if (barStyle == "heavy-heavy") {
     fCurrentBarlineStyleKind =
-      msrBarline::kHeavyHeavyStyle;
+      msrBarline::kBarlineStyleHeavyHeavy;
   }
   else if (barStyle == "tick") {
     fCurrentBarlineStyleKind =
-      msrBarline::kTickStyle;
+      msrBarline::kBarlineStyleTick;
   }
   else if (barStyle == "short") {
     fCurrentBarlineStyleKind =
-      msrBarline::kShortStyle;
+      msrBarline::kBarlineStyleShort;
   }
   else if (barStyle == "none") {
     fCurrentBarlineStyleKind =
-      msrBarline::kNoneStyle;
+      msrBarline::kBarlineStyleNone;
   }
   else {
     msrMusicXMLError (
@@ -6180,33 +6182,40 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
   fCurrentBarlineEndingNumber =
     elt->getAttributeValue ("number"); // may be "1, 2"
 
-  string type =
-    elt->getAttributeValue ("type");
+  // type
+
+  {
+    string type =
+      elt->getAttributeValue ("type");
+        
+    fCurrentBarlineEndingTypeKind =
+      msrBarline::k_NoBarlineEnding;
+
+    if       (type == "start") {
+      fCurrentBarlineEndingTypeKind =
+        msrBarline::kBarlineEndingTypeStart;
+    }
+    else  if (type == "stop") {
+      fCurrentBarlineEndingTypeKind =
+        msrBarline::kBarlineEndingTypeStop;
+    }
+    else  if (type == "discontinue") {
+      fCurrentBarlineEndingTypeKind =
+        msrBarline::kBarlineEndingTypeDiscontinue;
+    }
+    else {
+      stringstream s;
       
-  if       (type == "start") {
-    fCurrentBarlineEndingTypeKind =
-      msrBarline::kStartEndingType;
-  }
-  else  if (type == "stop") {
-    fCurrentBarlineEndingTypeKind =
-      msrBarline::kStopEndingType;
-  }
-  else  if (type == "discontinue") {
-    fCurrentBarlineEndingTypeKind =
-      msrBarline::kDiscontinueEndingType;
-  }
-  else {
-    stringstream s;
-    
-    s <<
-      "ending type \"" << type <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      __FILE__, __LINE__,
-      s.str ());
+      s <<
+        "ending type \"" << type <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        __FILE__, __LINE__,
+        s.str ());
+    }
   }
 }
 
@@ -6219,69 +6228,30 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
       endl;
   }
 
-  string direction =
-    elt->getAttributeValue ("direction");
-
-  string winged =
-    elt->getAttributeValue ("winged");
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  fCurrentBarlineRepeatDirectionKind =
-    msrBarline::k_NoRepeatDirection;
-    
-  if       (direction == "forward") {
-    fCurrentBarlineRepeatDirectionKind =
-      msrBarline::kForwardRepeatDirection;
-  }
-  else  if (direction == "backward") {
-    fCurrentBarlineRepeatDirectionKind =
-      msrBarline::kBackwardRepeatDirection;
-  }
-  else {
-    stringstream s;
-    
-    s <<
-      "repeat direction \"" << direction <<
-      "\" is unknown";
-    
-    msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
+  // direction
 
-  fCurrentBarlineRepeatWingedKind =
-    msrBarline::k_NoRepeatWinged;
-
-  if (winged.size ()) {
-    if       (winged == "none") {
-      fCurrentBarlineRepeatWingedKind =
-        msrBarline::kNoneRepeatWinged;
+  {
+    string direction = elt->getAttributeValue ("direction");
+  
+    fCurrentBarlineRepeatDirectionKind =
+      msrBarline::k_NoBarlineRepeatDirection;
+      
+    if       (direction == "forward") {
+      fCurrentBarlineRepeatDirectionKind =
+        msrBarline::kBarlineRepeatDirectionForward;
     }
-    else if (winged == "straight") {
-      fCurrentBarlineRepeatWingedKind =
-        msrBarline::kStraightRepeatWinged;
-    }
-    else  if (winged == "curved") {
-      fCurrentBarlineRepeatWingedKind =
-        msrBarline::kCurvedRepeatWinged;
-    }
-    else  if (winged == "doubleStraight") {
-      fCurrentBarlineRepeatWingedKind =
-        msrBarline::kDoubleStraightRepeatWinged;
-    }
-    else  if (winged == "doubleCurved") {
-      fCurrentBarlineRepeatWingedKind =
-        msrBarline::kDoubleCurvedRepeatWinged;
+    else  if (direction == "backward") {
+      fCurrentBarlineRepeatDirectionKind =
+        msrBarline::kBarlineRepeatDirectionBackward;
     }
     else {
       stringstream s;
       
       s <<
-        "repeat winged \"" << winged <<
+        "repeat direction \"" << direction <<
         "\" is unknown";
       
       msrMusicXMLError (
@@ -6290,6 +6260,58 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
         __FILE__, __LINE__,
         s.str ());
     }
+  }
+  
+  // winged
+
+  {
+    string winged = elt->getAttributeValue ("winged");
+  
+    fCurrentBarlineRepeatWingedKind =
+      msrBarline::kBarlineRepeatWingedNone; // default value
+  
+    if (winged.size ()) {
+      if       (winged == "none") {
+        fCurrentBarlineRepeatWingedKind =
+          msrBarline::kBarlineRepeatWingedNone;
+      }
+      else if (winged == "straight") {
+        fCurrentBarlineRepeatWingedKind =
+          msrBarline::kBarlineRepeatWingedStraight;
+      }
+      else  if (winged == "curved") {
+        fCurrentBarlineRepeatWingedKind =
+          msrBarline::kBarlineRepeatWingedCurved;
+      }
+      else  if (winged == "doubleStraight") {
+        fCurrentBarlineRepeatWingedKind =
+          msrBarline::kBarlineRepeatWingedDoubleStraight;
+      }
+      else  if (winged == "doubleCurved") {
+        fCurrentBarlineRepeatWingedKind =
+          msrBarline::kBarlineRepeatWingedDoubleCurved;
+      }
+      else {
+        stringstream s;
+        
+        s <<
+          "repeat winged \"" << winged <<
+          "\" is unknown";
+        
+        msrMusicXMLError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+    }
+  }
+
+  // times
+
+  {
+    fCurrentBarlineTimes =
+      elt->getAttributeIntValue ("times", 2); // default value JMI ???
   }
 }
 
@@ -6332,7 +6354,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineEndingTypeKind,
         fCurrentBarlineEndingNumber,
         fCurrentBarlineRepeatDirectionKind,
-        fCurrentBarlineRepeatWingedKind);
+        fCurrentBarlineRepeatWingedKind,
+        fCurrentBarlineTimes);
 
   // don't display the barline yet in case of debug,
   // wait until its category is defined
@@ -6349,11 +6372,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   bool barlineIsAlright = false;
 
   if (
-    fCurrentBarlineLocationKind == msrBarline::kLeftLocation
+    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
       &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kStartEndingType
+    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kForwardRepeatDirection) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward) {
     // hooked ending start
     // ------------------------------------------------------
     handleHookedEndingStart (elt, barline);
@@ -6362,9 +6385,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
 
   else if (
-    fCurrentBarlineLocationKind == msrBarline::kLeftLocation
+    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kForwardRepeatDirection) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward) {
     // repeat start
     // ------------------------------------------------------
     
@@ -6383,9 +6406,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
   
   else if (
-    fCurrentBarlineLocationKind == msrBarline::kLeftLocation
+    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
       &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kStartEndingType) { // no forward
+    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart) { // no forward
     // hookless ending start
     // ------------------------------------------------------
     handleHooklessEndingStart (elt, barline);
@@ -6394,11 +6417,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
 
   else if (
-    fCurrentBarlineLocationKind == msrBarline::kRightLocation
+    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
       &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kStopEndingType
+    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStop
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBackwardRepeatDirection) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward) {
     // hooked ending end
     // ------------------------------------------------------
     
@@ -6418,9 +6441,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
 
   else if (
-    fCurrentBarlineLocationKind == msrBarline::kRightLocation
+    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBackwardRepeatDirection) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward) {
     // repeat end
     // ------------------------------------------------------
     
@@ -6439,9 +6462,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   }
 
   else if (
-    fCurrentBarlineLocationKind == msrBarline::kRightLocation
+    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
       &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kDiscontinueEndingType) {
+    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeDiscontinue) {
     // hookless ending end
     // ------------------------------------------------------
     handleHooklessEndingEnd (elt, barline);
@@ -6453,7 +6476,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
     switch (fCurrentBarlineStyleKind) {
       
-      case msrBarline::kRegularStyle:
+      case msrBarline::kBarlineStyleRegular:
       //---------------------------------------
         // don't handle regular barlines specifically,
         // they'll handled later by the software
@@ -6461,7 +6484,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6470,11 +6493,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
         
-      case msrBarline::kDottedStyle:
+      case msrBarline::kBarlineStyleDotted:
       //---------------------------------------
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6483,11 +6506,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
         
-      case msrBarline::kDashedStyle:
+      case msrBarline::kBarlineStyleDashed:
       //---------------------------------------    
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6496,11 +6519,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
         
-      case msrBarline::kHeavyStyle:
+      case msrBarline::kBarlineStyleHeavy:
       //---------------------------------------    
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6509,11 +6532,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
         
-      case msrBarline::kLightLightStyle:
+      case msrBarline::kBarlineStyleLightLight:
       //---------------------------------------
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
   
         // append the bar line to the current part
         fCurrentPart->
@@ -6522,7 +6545,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
         
-      case msrBarline::kLightHeavyStyle:
+      case msrBarline::kBarlineStyleLightHeavy:
       //---------------------------------------
   
 /* JMI
@@ -6539,7 +6562,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6548,11 +6571,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;        
         break;
   
-      case msrBarline::kHeavyLightStyle:
+      case msrBarline::kBarlineStyleHeavyLight:
       //---------------------------------------
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6561,11 +6584,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
          
-      case msrBarline::kHeavyHeavyStyle:
+      case msrBarline::kBarlineStyleHeavyHeavy:
       //---------------------------------------    
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6574,11 +6597,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
         
-      case msrBarline::kTickStyle:
+      case msrBarline::kBarlineStyleTick:
       //---------------------------------------
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6587,11 +6610,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
         
-      case msrBarline::kShortStyle:
+      case msrBarline::kBarlineStyleShort:
       //---------------------------------------
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6600,11 +6623,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
   
-      case msrBarline::kNoneStyle:
+      case msrBarline::kBarlineStyleNone:
       //---------------------------------------
         // set the barline category
         barline->
-          setBarlineCategory (msrBarline::kStandaloneBarline);
+          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
         
         // append the bar line to the current part
         fCurrentPart->
@@ -6613,7 +6636,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         barlineIsAlright = true;
         break;
   
-      case msrBarline::k_NoStyle:
+      case msrBarline::k_NoBarlineStyle:
       //---------------------------------------
         {
           // no <bar-style> has been found
@@ -6690,18 +6713,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     
     s << left <<
       "cannot handle a barline containing:" <<
-      endl <<
-      "location = " << fCurrentBarlineLocationKind <<
-      endl <<
-      "style = " << fCurrentBarlineStyleKind <<
-      endl <<
-      "ending type = " << fCurrentBarlineEndingTypeKind <<
-      endl <<
-      "ending number = " << fCurrentBarlineEndingNumber <<
-      endl <<
-      "repeat direction = " << fCurrentBarlineRepeatDirectionKind <<
-      endl <<
-      "repeat winged = " << fCurrentBarlineRepeatWingedKind;
+      ", location = " << fCurrentBarlineLocationKind <<
+      ", style = " << fCurrentBarlineStyleKind <<
+      ", ending type = " << fCurrentBarlineEndingTypeKind <<
+      ", ending number = " << fCurrentBarlineEndingNumber <<
+      ", repeat direction = " << fCurrentBarlineRepeatDirectionKind <<
+      ", repeat winged = " << fCurrentBarlineRepeatWingedKind;
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -6825,11 +6842,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentNoteHasStanza = false;
   fCurrentNoteHasLyrics = false;
 
-  fCurrentStem = (void*)0;
+  fCurrentStem = nullptr;
 
   fCurrentMusicXMLTremoloTypeKind = k_NoTremolo;
 
-  fCurrentTie = (void*)0;
+  fCurrentTie = nullptr;
   fCurrentTiedOrientation = "";
   
   fCurrentSlurNumber = -1;
@@ -13831,7 +13848,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
     note->
       addSingleTremoloToNote (fCurrentSingleTremolo);
       
-    fCurrentSingleTremolo = (void*)0;
+    fCurrentSingleTremolo = nullptr;
   }
 }
 
@@ -14887,7 +14904,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // newNote is the first note after the chord
 
       msrAssert ( // JMI ???
-        fCurrentChord != (void*)0,
+        fCurrentChord != nullptr,
         "fCurrentChord is null");
       
       // forget about this chord
@@ -14899,7 +14916,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           endl;
       }
       
-      fCurrentChord = (void*)0;
+      fCurrentChord = nullptr;
 
       if (fCurrentDoubleTremolo) {
         // forget about a double tremolo containing a chord
@@ -15151,7 +15168,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     if (fCurrentGraceNotes)
       // this is the first note after the grace notes,
       // forget about the latter
-      fCurrentGraceNotes = (void*)0;
+      fCurrentGraceNotes = nullptr;
   
     // attach the pending elements, if any, to the note
     attachPendingElementsToNote (newNote);
@@ -16200,49 +16217,10 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
       endl;
   }
 
-/* JMI
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
-  // create a new last segment to collect the repeat ending contents
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
-    fLogOutputStream <<
-      "Creating a new last segment for a repeat ending contents for voice \"" <<
-      currentVoice->getVoiceName () << "\"" <<
-      endl;
-  }
-      
-  currentVoice->
-    createNewLastSegmentForVoice (
-      elt->getInputLineNumber ());
-*/
-
-/* JMI
-  // append a pending repeat if needed to current voice
-  if (! fRepeatHasBeenCreatedForCurrentPart) {
-    if (gGeneralOptions->fTraceGeneral) {
-      fLogOutputStream <<
-        "Appending a repeat to part " <<
-        fCurrentPart->getPartCombinedName () <<
-        endl;
-    }
-  
-    fCurrentPart->
-      createRepeatAndAppendItToPart (inputLineNumber);
-
-    fRepeatHasBeenCreatedForCurrentPart = true;  
-  }
-*/
-
   // set the barline category
   barline->
     setBarlineCategory (
-      msrBarline::kRepeatStartBarline);
+      msrBarline::kBarlineCategoryRepeatStart);
 
   // append the bar line to the current part
   fCurrentPart->
@@ -16283,7 +16261,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   // set the barline category
   barline->
     setBarlineCategory (
-      msrBarline::kRepeatEndBarline);
+      msrBarline::kBarlineCategoryRepeatEnd);
 
   // append the bar line to the current part
   fCurrentPart->
@@ -16304,17 +16282,18 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
           inputLineNumber,
           false, // no segno
           false, // no coda
-          msrBarline::kLeftLocation,
-          msrBarline::kHeavyLightStyle,
-          msrBarline::kStartEndingType,
+          msrBarline::kBarlineLocationLeft,
+          msrBarline::kBarlineStyleHeavyLight,
+          msrBarline::kBarlineEndingTypeStart,
           fCurrentBarlineEndingNumber,
-          msrBarline::kForwardRepeatDirection,
-          fCurrentBarlineRepeatWingedKind);
+          msrBarline::kBarlineRepeatDirectionForward,
+          fCurrentBarlineRepeatWingedKind,
+          fCurrentBarlineTimes);
 
     // set the implicit barline category
     implicitBarline->
       setBarlineCategory (
-        msrBarline::kRepeatStartBarline);
+        msrBarline::kBarlineCategoryRepeatStart);
   
     // prepend the implicit barline to the voice
     currentVoice->
@@ -16322,17 +16301,6 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
             
     if (! fRepeatHasBeenCreatedForCurrentPart) {
   /*  JMI
-      if (gGeneralOptions->fTrace) {
-        fLogOutputStream <<
-          "Appending an implicit repeat to part " <<
-          fCurrentPart->getPartCombinedName () <<
-          endl;
-      }
-
-      fCurrentPart->
-        createRepeatAndAppendItToPart (inputLineNumber);
-  
-      fRepeatHasBeenCreatedForCurrentPart = true;  
 */
     }
   }
@@ -16346,7 +16314,8 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
 
   fCurrentPart->
     createRepeatAndAppendItToPart (
-      inputLineNumber);
+      inputLineNumber,
+      barline->getBarlineTimes ());
 
   fRepeatHasBeenCreatedForCurrentPart = true;  
 }
@@ -16390,7 +16359,8 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
  
     fCurrentPart->
       createRepeatAndAppendItToPart (
-        inputLineNumber);
+        inputLineNumber,
+        barline->getBarlineTimes ());
 
     fRepeatHasBeenCreatedForCurrentPart = true;  
   }
@@ -16410,7 +16380,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
   // set the barline category
   barline->
     setBarlineCategory (
-      msrBarline::kHookedEndingStartBarline);
+      msrBarline::kBarlineCategoryHookedEndingStart);
   
   // append the bar line to the current part
   fCurrentPart->
@@ -16451,7 +16421,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
   // set the barline category
   barline->
     setBarlineCategory (
-      msrBarline::kHookedEndingEndBarline);
+      msrBarline::kBarlineCategoryHookedEndingEnd);
 
   // append the bar line to the current part
   fCurrentPart->
@@ -16503,7 +16473,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingStart (
   // set the barline category
   barline->
     setBarlineCategory (
-      msrBarline::kHooklessEndingStartBarline);
+      msrBarline::kBarlineCategoryHooklessEndingStart);
   
   // append the bar line to the current part
   fCurrentPart->
@@ -16553,7 +16523,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
   // set the barline category
   barline->
     setBarlineCategory (
-      msrBarline::kHooklessEndingEndBarline);
+      msrBarline::kBarlineCategoryHooklessEndingEnd);
   
   // append the bar line to the current part
   fCurrentPart->

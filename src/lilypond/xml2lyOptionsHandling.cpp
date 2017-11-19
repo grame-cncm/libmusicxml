@@ -569,6 +569,17 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
 void initializeXml2lyOptionsHandling (
   S_optionsHandler optionsHandler)
 {  
+  // enlist versions information
+  // ------------------------------------------------------
+
+  enlistVersion (
+    "Initial", "early 2016",
+    "Start as a clone of xml2guido");
+    
+  enlistVersion (
+    "alpha1", "November 2017",
+    "First draft version");
+  
   // create the options variables
   // ------------------------------------------------------
   

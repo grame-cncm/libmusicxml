@@ -3629,7 +3629,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrPart& elt)
       endl;
   }
 
-  fCurrentPart = (void*)0;
+  fCurrentPart = nullptr;
 }
 
 //________________________________________________________________________
@@ -3850,7 +3850,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
       endl <<
       endl;
 
-  fRelativeOctaveReference = (void*)0;
+  fRelativeOctaveReference = nullptr;
 
   fVoiceIsCurrentlySenzaMisura = false;
   
@@ -3955,7 +3955,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       break;
   } // switch
 
-  fCurrentVoice = (void*)0;
+  fCurrentVoice = nullptr;
   fOnGoingVoice = false;
 }
 
@@ -7862,42 +7862,42 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 
   switch (elt->getBarlineCategory ()) {
     
-    case msrBarline::kStandaloneBarline:
+    case msrBarline::kBarlineCategoryStandalone:
       fLilypondCodeIOstream <<
         endl <<
         endl; // JMI
       
       switch (elt->getStyle ()) {
-        case msrBarline::k_NoStyle:
+        case msrBarline::k_NoBarlineStyle:
           break;
-        case msrBarline::kRegularStyle:
+        case msrBarline::kBarlineStyleRegular:
           fLilypondCodeIOstream << "\\bar \"|\"";
           break;
-        case msrBarline::kDottedStyle:
+        case msrBarline::kBarlineStyleDotted:
           fLilypondCodeIOstream << "\\bar \";\"";
           break;
-        case msrBarline::kDashedStyle:
+        case msrBarline::kBarlineStyleDashed:
           fLilypondCodeIOstream << "\\bar \"!\"";
           break;
-        case msrBarline::kHeavyStyle:
+        case msrBarline::kBarlineStyleHeavy:
           fLilypondCodeIOstream << "\\bar \".\"";
           break;
-        case msrBarline::kLightLightStyle:
+        case msrBarline::kBarlineStyleLightLight:
           fLilypondCodeIOstream << "\\bar \"||\"";
           break;
-        case msrBarline::kLightHeavyStyle:
+        case msrBarline::kBarlineStyleLightHeavy:
           fLilypondCodeIOstream << "\\bar \"|.\"";
           break;
-        case msrBarline::kHeavyLightStyle:
+        case msrBarline::kBarlineStyleHeavyLight:
           fLilypondCodeIOstream << "\\bar \".|\"";
           break;
-        case msrBarline::kHeavyHeavyStyle:
+        case msrBarline::kBarlineStyleHeavyHeavy:
           fLilypondCodeIOstream << "\\bar \"..\"";
           break;
-        case msrBarline::kTickStyle:
+        case msrBarline::kBarlineStyleTick:
           fLilypondCodeIOstream << "\\bar \"'\"";
           break;
-        case msrBarline::kShortStyle:
+        case msrBarline::kBarlineStyleShort:
           fLilypondCodeIOstream << "\\bar \"'\""; // JMI
           /* JMI ??? from gregorian.ly
           divisioMaior = {
@@ -7907,7 +7907,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           }
           */
           break;
-        case msrBarline::kNoneStyle:
+        case msrBarline::kBarlineStyleNone:
           fLilypondCodeIOstream << "\\bar \"\"";
           break;
       } // switch
@@ -7932,12 +7932,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
       break;
 
-    case msrBarline::kRepeatStartBarline:
-    case msrBarline::kRepeatEndBarline:
-    case msrBarline::kHookedEndingStartBarline:
-    case msrBarline::kHookedEndingEndBarline:
-    case msrBarline::kHooklessEndingStartBarline:
-    case msrBarline::kHooklessEndingEndBarline:
+    case msrBarline::kBarlineCategoryRepeatStart:
+    case msrBarline::kBarlineCategoryRepeatEnd:
+    case msrBarline::kBarlineCategoryHookedEndingStart:
+    case msrBarline::kBarlineCategoryHookedEndingEnd:
+    case msrBarline::kBarlineCategoryHooklessEndingStart:
+    case msrBarline::kBarlineCategoryHooklessEndingEnd:
       // should not occur, since
       // LilyPond will take care of displaying the repeat
       break;
@@ -8069,7 +8069,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 
   stringstream s;
   s <<
-    "\\repeat volta " << fCurrentRepeatEndingsNumber << " {";
+    "\\repeat volta " << fCurrentRepeatEndingsNumber << " {"; // elt->getRepeatTimes () JMI
   
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<

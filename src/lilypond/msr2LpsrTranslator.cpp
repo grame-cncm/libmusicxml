@@ -341,7 +341,7 @@ void msr2LpsrTranslator::visitEnd (S_msrCredit& elt)
       endl;
   }
 
-  fCurrentCredit = (void*)0;
+  fCurrentCredit = nullptr;
 }
 
 void msr2LpsrTranslator::visitStart (S_msrCreditWords& elt)
@@ -653,8 +653,8 @@ void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
       endl;
   }
 
-  fCurrentStaffLinesNumberClone = (void*)0;
-  fCurrentStaffTuningClone      = (void*)0;
+  fCurrentStaffLinesNumberClone = nullptr;
+  fCurrentStaffTuningClone      = nullptr;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
@@ -1211,7 +1211,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
   // clear the voice notes map
   fVoiceNotesMap.clear ();
 
-  fFirstNoteCloneInVoice = (void*)0;
+  fFirstNoteCloneInVoice = nullptr;
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
@@ -1430,7 +1430,7 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
       endl;
   }
 
-  fCurrentFiguredBass = (void*)0;
+  fCurrentFiguredBass = nullptr;
 }
 
 //________________________________________________________________________
@@ -1494,7 +1494,7 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
       setNextBarNumber (
         measureNumber);
       
-    fLastBarCheck = (void*)0;
+    fLastBarCheck = nullptr;
   }
 }
 
@@ -2288,7 +2288,7 @@ void msr2LpsrTranslator::visitEnd (S_msrDoubleTremolo& elt)
       fCurrentDoubleTremoloClone);
 
   // forget about it
-  fCurrentDoubleTremoloClone = (void*)0;
+  fCurrentDoubleTremoloClone = nullptr;
   
   fOnGoingDoubleTremolo = false;
 }
@@ -2621,7 +2621,7 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotes& elt)
   }
 
   // forget about these grace notes if any
-  fCurrentGraceNotesClone = (void*)0;
+  fCurrentGraceNotesClone = nullptr;
 
   if (fPendingAfterGraceNotes) {
     // remove the current afterGraceNotes note clone
@@ -2631,10 +2631,10 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotes& elt)
         elt->getInputLineNumber (),
         fCurrentAfterGraceNotesNote);
         
-    fCurrentAfterGraceNotesNote = (void*)0;
+    fCurrentAfterGraceNotesNote = nullptr;
   
     // forget these after grace notes if any
-    fPendingAfterGraceNotes = (void*)0;
+    fPendingAfterGraceNotes = nullptr;
   }
 }
 
@@ -3564,7 +3564,10 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
  // JMI fCurrentRepeatClone =
   fCurrentVoiceClone->
     createRepeatAndAppendItToVoice (
-      elt->getInputLineNumber ());
+      elt->getInputLineNumber (),
+      elt->
+        getRepeatCommonPartRepeatUplink ()->
+          getRepeatTimes ());
 }
 
 //________________________________________________________________________
@@ -3678,7 +3681,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatPattern& elt)
         getMeasuresRepeatSlashesNumber ());
 
   // forget about the current measure repeat pattern clone
-  fCurrentMeasuresRepeatPatternClone = (void*)0;
+  fCurrentMeasuresRepeatPatternClone = nullptr;
 }
 
 //________________________________________________________________________
@@ -3717,7 +3720,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMeasuresRepeatReplicas& elt)
       elt->getInputLineNumber ());
 
   // forget about the current measure repeat replicas clone
- // JMI ??? fCurrentMeasuresRepeatReplicasClone = (void*)0;
+ // JMI ??? fCurrentMeasuresRepeatReplicasClone = nullptr;
 }
 
 //________________________________________________________________________
@@ -3769,7 +3772,7 @@ void msr2LpsrTranslator::visitEnd (S_msrMultipleRest& elt)
       multipleRestClone);
       
   // forget about the current multiple rest contents clone
-  fCurrentMultipleRestContentsClone = (void*)0;
+  fCurrentMultipleRestContentsClone = nullptr;
 }
 
 //________________________________________________________________________
@@ -3841,7 +3844,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
 
   switch (elt->getBarlineCategory ()) {
     
-    case msrBarline::kStandaloneBarline:
+    case msrBarline::kBarlineCategoryStandalone:
       {
         if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
@@ -3856,7 +3859,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
       
-    case msrBarline::kRepeatStartBarline:
+    case msrBarline::kBarlineCategoryRepeatStart:
       {
         if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
@@ -3871,7 +3874,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
 
-    case msrBarline::kRepeatEndBarline:
+    case msrBarline::kBarlineCategoryRepeatEnd:
       {
         if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
@@ -3899,7 +3902,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         }
       break;
             
-    case msrBarline::kHookedEndingStartBarline:
+    case msrBarline::kBarlineCategoryHookedEndingStart:
       {
         // append the barline to the current voice clone
         fCurrentVoiceClone->
@@ -3907,7 +3910,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
       
-    case msrBarline::kHookedEndingEndBarline:
+    case msrBarline::kBarlineCategoryHookedEndingEnd:
       {
         if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
@@ -3935,7 +3938,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
       
-    case msrBarline::kHooklessEndingStartBarline:
+    case msrBarline::kBarlineCategoryHooklessEndingStart:
       {
         if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
@@ -3950,7 +3953,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       }
       break;
 
-    case msrBarline::kHooklessEndingEndBarline:
+    case msrBarline::kBarlineCategoryHooklessEndingEnd:
       {
         if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<

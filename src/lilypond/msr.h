@@ -7467,52 +7467,60 @@ class msrBarline : public msrElement
     // data types
     // ------------------------------------------------------
 
+    // location
     enum msrBarlineLocationKind {
-      k_NoLocation,
-      kLeftLocation, kMiddleLocation, kRightLocation }; // kRightLocation by default
+      k_NoBarlineLocation,
+      kBarlineLocationLeft, kBarlineLocationMiddle, kBarlineLocationRight };
+        // kBarlineLocationRight by default
         
     static string barlineLocationKindAsString (
       msrBarlineLocationKind barlineLocationKind);
-      
+
+    // style
     enum msrBarlineStyleKind {
-      k_NoStyle,
-      kRegularStyle,  // by default
-      kDottedStyle, kDashedStyle, kHeavyStyle,
-      kLightLightStyle, kLightHeavyStyle, kHeavyLightStyle, kHeavyHeavyStyle,
-      kTickStyle, kShortStyle,
-      kNoneStyle};
+      k_NoBarlineStyle,
+      kBarlineStyleRegular,  // by default
+      kBarlineStyleDotted, kBarlineStyleDashed, kBarlineStyleHeavy,
+      kBarlineStyleLightLight, kBarlineStyleLightHeavy,
+      kBarlineStyleHeavyLight, kBarlineStyleHeavyHeavy,
+      kBarlineStyleTick, kBarlineStyleShort,
+      kBarlineStyleNone };
 
     static string barlineStyleKindAsString (
       msrBarlineStyleKind barlineStyleKind);
-      
+
+    // ending type
     enum msrBarlineEndingTypeKind {
-      k_NoEndingType,
-      kStartEndingType, kStopEndingType, kDiscontinueEndingType};
+      k_NoBarlineEnding,
+      kBarlineEndingTypeStart, kBarlineEndingTypeStop, kBarlineEndingTypeDiscontinue };
 
     static string barlineEndingTypeKindAsString (
       msrBarlineEndingTypeKind barlineEndingTypeKind);
-      
+
+    // repeat direction
     enum msrBarlineRepeatDirectionKind {
-      k_NoRepeatDirection,
-      kForwardRepeatDirection, kBackwardRepeatDirection};
+      k_NoBarlineRepeatDirection,
+      kBarlineRepeatDirectionForward, kBarlineRepeatDirectionBackward };
 
     static string barlineRepeatDirectionKindAsString (
       msrBarlineRepeatDirectionKind barlineRepeatDirectionKind);
-      
+
+    // repeat winged
     enum msrBarlineRepeatWingedKind {
-      k_NoRepeatWinged,
-      kNoneRepeatWinged,
-      kStraightRepeatWinged, kCurvedRepeatWinged,
-      kDoubleStraightRepeatWinged, kDoubleCurvedRepeatWinged };
+      k_NoBarlineRepeatWinged,
+      kBarlineRepeatWingedNone,
+      kBarlineRepeatWingedStraight, kBarlineRepeatWingedCurved,
+      kBarlineRepeatWingedDoubleStraight, kBarlineRepeatWingedDoubleCurved };
 
     static string barlineRepeatWingedKindAsString (
       msrBarlineRepeatWingedKind barlineRepeatWingedKind);
-      
+
+    // category
     enum msrBarlineCategoryKind {
-      kStandaloneBarline,
-      kRepeatStartBarline, kRepeatEndBarline,
-      kHookedEndingStartBarline, kHookedEndingEndBarline,
-      kHooklessEndingStartBarline, kHooklessEndingEndBarline};
+      kBarlineCategoryStandalone,
+      kBarlineCategoryRepeatStart, kBarlineCategoryRepeatEnd,
+      kBarlineCategoryHookedEndingStart, kBarlineCategoryHookedEndingEnd,
+      kBarlineCategoryHooklessEndingStart, kBarlineCategoryHooklessEndingEnd };
       
     static string barlineCategoryKindAsString (
       msrBarlineCategoryKind barlineCategoryKind);
@@ -7529,7 +7537,8 @@ class msrBarline : public msrElement
       msrBarlineEndingTypeKind      endingType,
       string                        endingNumber,
       msrBarlineRepeatDirectionKind repeatDirection,
-      msrBarlineRepeatWingedKind    repeatWinged);
+      msrBarlineRepeatWingedKind    repeatWinged,
+      int                           barlineTimes);
 
   protected:
 
@@ -7545,7 +7554,8 @@ class msrBarline : public msrElement
       msrBarlineEndingTypeKind      endingType,
       string                        endingNumber,
       msrBarlineRepeatDirectionKind repeatDirection,
-      msrBarlineRepeatWingedKind    repeatWinged);
+      msrBarlineRepeatWingedKind    repeatWinged,
+      int                           barlineTimes);
       
     virtual ~msrBarline();
   
@@ -7580,6 +7590,9 @@ class msrBarline : public msrElement
     msrBarlineRepeatWingedKind
                           getRepeatWinged () const
                               { return fRepeatWingedKind; }
+                    
+    int                   getBarlineTimes () const
+                              { return fBarlineTimes; }
                     
     const list<int>&      getEndingNumbersList () const
                               { return fEndingNumbersList; }
@@ -7651,6 +7664,8 @@ class msrBarline : public msrElement
                           fRepeatDirectionKind;
     msrBarlineRepeatWingedKind
                           fRepeatWingedKind;
+
+    int                   fBarlineTimes;
 
     msrBarlineCategoryKind
                           fBarlineCategoryKind;
@@ -7876,6 +7891,7 @@ class msrRepeat : public msrElement
 
     static SMARTP<msrRepeat> create (
       int        inputLineNumber,
+      int        repeatTimes,
       S_msrVoice voiceUplink);
 
     /* JMI
@@ -7893,6 +7909,7 @@ class msrRepeat : public msrElement
 
     msrRepeat (
       int        inputLineNumber,
+      int        repeatTimes,
       S_msrVoice voiceUplink);
       
     virtual ~msrRepeat();
@@ -7901,6 +7918,12 @@ class msrRepeat : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // times
+
+    
+    int                   getRepeatTimes () const
+                              { return fRepeatTimes; }
 
     // common part
     void                  setRepeatCommonPart (
@@ -7948,6 +7971,7 @@ class msrRepeat : public msrElement
     // fields
     // ------------------------------------------------------
 
+    int                   fRepeatTimes;
     // common part
   //  S_msrSegment          fRepeatCommonSegment;
     S_msrRepeatCommonPart fRepeatCommonPart;
@@ -8705,13 +8729,6 @@ class msrVoice : public msrElement
 
     void                  changeVoiceIdentity ( // after a deep copy
                             int voicePartRelativeID);
-                            
-    // divisions
-
-/* JMI
-    void                  appendDivisionsToVoice (
-                            S_msrDivisions divisions);
-*/
 
     // voice kind
 
@@ -8893,7 +8910,8 @@ class msrVoice : public msrElement
     // repeats
     
     void                  createRepeatAndAppendItToVoice (
-                            int inputLineNumber);
+                            int inputLineNumber,
+                            int repeatTimes);
   
     void                  appendRepeatCloneToVoice (
                             int         inputLineNumber,
@@ -9042,19 +9060,19 @@ class msrVoice : public msrElement
     // voice internal handling
     
     // fVoiceLastSegment contains the music
-    // not yet stored in fVoiceInitialRepeatsAndSegments,
+    // not yet stored in fVoiceInitialElements,
     // it is thus logically the end of the latter,
     // and is created implicitly for every voice.
     // Is is needed 'outside' of the 'list<S_msrElement>'
     // because it is not a mere S_msrElement, but a S_msrSegment
-    list<S_msrElement>    fVoiceInitialRepeatsAndSegments;
+    list<S_msrElement>    fVoiceInitialElements;
     S_msrSegment          fVoiceLastSegment;
 
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment          fVoiceFirstSegment;
 
     // fVoiceCurrentRepeat is null or
-    // the last msrRepeat in fVoiceInitialRepeatsAndSegments
+    // the last msrRepeat in fVoiceInitialElements
     S_msrRepeat           fVoiceCurrentRepeat;
 
     // fVoiceCurrentMeasuresRepeat is null
@@ -9542,7 +9560,8 @@ class msrStaff : public msrElement
     // repeats
     
     void                  createRepeatAndAppendItToStaff (
-                            int inputLineNumber);
+                            int inputLineNumber,
+                            int repeatTimes);
     
     void                  createMeasuresRepeatFromItsFirstMeasuresInStaff (
                             int inputLineNumber,
@@ -9578,7 +9597,8 @@ class msrStaff : public msrElement
 
 /* JMI
     void                  createRepeatAndAppendItToAllStaffVoices (
-                            int inputLineNumber);
+                            int inputLineNumber,
+                            int repeatTimes);
     */
     
     // barlines
@@ -10057,7 +10077,8 @@ class msrPart : public msrElement
     // repeats
     
     void                  createRepeatAndAppendItToPart (
-                            int inputLineNumber);
+                            int inputLineNumber,
+                            int repeatTimes);
     
     void                  appendRepeatCloneToPart (
                             int         inputLineNumber,

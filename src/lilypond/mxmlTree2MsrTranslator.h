@@ -1206,6 +1206,8 @@ class mxmlTree2MsrTranslator :
     msrBarline::msrBarlineRepeatWingedKind
                               fCurrentBarlineRepeatWingedKind;
 
+    int                       fCurrentBarlineTimes;
+
     // repeats handling
     // ------------------------------------------------------
     
