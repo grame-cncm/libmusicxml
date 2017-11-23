@@ -24,4 +24,6 @@ class libMusicXMLAdapter
 		std::string		musicxml2guidoVersionStr();
 
 		std::string		string2guido(const std::string& buff, bool generateBars);
+
+		std::string		xmlStringTranspose(const std::string& buff, int interval);
 };
