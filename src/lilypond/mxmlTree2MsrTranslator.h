@@ -1190,8 +1190,13 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     bool                      fOnGoingBarline;
-    bool                      fCurrentBarlineHasSegno;
-    bool                      fCurrentBarlineHasCoda;
+
+    S_msrBarline              fCurrentEndingStartBarline;
+    
+    msrBarline::msrBarlineHasSegnoKind
+                              fCurrentBarlineHasSegnoKind;
+    msrBarline::msrBarlineHasCodaKind
+                              fCurrentBarlineHasCodaKind;
     string                    fCurrentBarlineEndingNumber; // vector<string> ??? JMI
                                 // may be "1, 2"
 
@@ -1211,29 +1216,35 @@ class mxmlTree2MsrTranslator :
     // repeats handling
     // ------------------------------------------------------
     
-    stack<S_msrBarline>       fPendingBarlines;
-    bool                      fRepeatHasBeenCreatedForCurrentPart;
+    bool                      fOnGoingRepeat;
     
-    void                      handleRepeatStart (
-                                S_barline     elt,
-                                S_msrBarline& barline);
+    void                      createAndPrependImplicitBarLine (
+                                int inputLineNumber);
 
     void                      handleRepeatEnd (
                                 S_barline     elt,
                                 S_msrBarline& barline);
 
+    void                      handleRepeatStart (
+                                S_barline     elt,
+                                S_msrBarline& barline);
+
+    void                      handleEndingStart (
+                                S_barline     elt,
+                                S_msrBarline& barline);
+/* JMI
     void                      handleHookedEndingStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
-
+*/
     void                      handleHookedEndingEnd (
                                 S_barline     elt,
                                 S_msrBarline& barline);
-    
+    /* JMI
     void                      handleHooklessEndingStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
-
+*/
     void                      handleHooklessEndingEnd (
                                 S_barline     elt,
                                 S_msrBarline& barline);

@@ -306,6 +306,15 @@ int main (int argc, char *argv[])
   }
   */
 
+/* JMI
+  S_barline    one;
+  S_msrBarline two;
+  one = two;
+
+ /home/user/libmusicxml-git/cmake/../src/lib/smartpointer.h:123:16: error: invalid cast from type 'MusicXML2::SMARTP<MusicXML2::msrBarline>' to type 'MusicXML2::musicxml<24>*'
+make[2]: *** [CMakeFiles/xml2ly.dir/home/user/libmusicxml-git/samples/xml2ly.o] Error 1
+*/
+  
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 

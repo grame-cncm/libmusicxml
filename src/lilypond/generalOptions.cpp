@@ -952,7 +952,7 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
      endl <<
     setw (fieldWidth) << "traceDetailedMeasureNumbersSet" << " : ";
         
-  if (fTraceDetailedMeasureNumbersSet.empty ())
+  if (! fTraceDetailedMeasureNumbersSet.size ())
     gLogIOstream << "none";
     
   else {

@@ -1108,7 +1108,7 @@ void splitStringContainingEndOfLines (
 //______________________________________________________________________________
 string baseName (const string &filename)
 {
-  if (filename.empty ()) {
+  if (! filename.size ()) {
       return {};
   }
 

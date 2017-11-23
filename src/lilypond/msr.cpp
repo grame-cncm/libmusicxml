@@ -15694,8 +15694,8 @@ void msrPedal::print (ostream& os)
 //______________________________________________________________________________
 S_msrBarline msrBarline::create (
   int                           inputLineNumber,
-  bool                          barlineHasSegno,
-  bool                          barlineHasCoda,
+  msrBarlineHasSegnoKind        barlineHasSegnoKind,
+  msrBarlineHasCodaKind         barlineHasCodaKind,
   msrBarlineLocationKind        locationKind,
   msrBarlineStyleKind           styleKind,
   msrBarlineEndingTypeKind      endingTypeKind,
@@ -15707,7 +15707,7 @@ S_msrBarline msrBarline::create (
   msrBarline* o =
     new msrBarline (
       inputLineNumber,
-      barlineHasSegno, barlineHasCoda,
+      barlineHasSegnoKind, barlineHasCodaKind,
       locationKind, styleKind,
       endingTypeKind, endingNumber,
       repeatDirectionKind, repeatWingedKind,
@@ -15718,8 +15718,8 @@ S_msrBarline msrBarline::create (
 
 msrBarline::msrBarline (
   int                           inputLineNumber,
-  bool                          barlineHasSegno,
-  bool                          barlineHasCoda,
+  msrBarlineHasSegnoKind        barlineHasSegnoKind,
+  msrBarlineHasCodaKind         barlineHasCodaKind,
   msrBarlineLocationKind        locationKind,
   msrBarlineStyleKind           styleKind,
   msrBarlineEndingTypeKind      endingTypeKind,
@@ -15729,8 +15729,8 @@ msrBarline::msrBarline (
   int                           barlineTimes)
     : msrElement (inputLineNumber)
 {
-  fBarlineHasSegno = barlineHasSegno;
-  fBarlineHasCoda  = barlineHasCoda;
+  fBarlineHasSegnoKind = barlineHasSegnoKind;
+  fBarlineHasCodaKind  = barlineHasCodaKind;
   
   fLocationKind        = locationKind;
   fStyleKind           = styleKind;
@@ -15862,6 +15862,40 @@ string msrBarline::barlineCategoryKindAsString (
   return result;
 }
 
+string msrBarline::barlineHasSegnoKindAsString (
+  msrBarlineHasSegnoKind barlineHasSegnoKind)
+{
+  string result;
+
+  switch (barlineHasSegnoKind) {
+    case msrBarline::kBarlineHasSegnoYes:
+      result = "segno: yes";
+      break;
+    case msrBarline::kBarlineHasSegnoNo:
+      result = "segno: no";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrBarline::barlineHasCodaKindAsString (
+  msrBarlineHasCodaKind barlineHasCodaKind)
+{
+  string result;
+
+  switch (barlineHasCodaKind) {
+    case msrBarline::kBarlineHasCodaYes:
+      result = "coda: yes";
+      break;
+    case msrBarline::kBarlineHasCodaNo:
+      result = "coda: no";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrBarline::barlineStyleKindAsString (
   msrBarlineStyleKind barlineStyleKind)
 {
@@ -15869,7 +15903,7 @@ string msrBarline::barlineStyleKindAsString (
   
   switch (barlineStyleKind) {
     case k_NoBarlineStyle:
-      result = "k_NoBarlineStyle???";
+      result = "noBarlineStyle";
       break;
     case kBarlineStyleRegular:
       result = "regular";
@@ -15981,17 +16015,55 @@ string msrBarline::barlineRepeatWingedKindAsString (
   return result;
 }
 
+string msrBarline::endingNumbersListAsString () const
+{
+  stringstream s;
+
+  list<int>::const_iterator
+    iBegin = fEndingNumbersList.begin (),
+    iEnd   = fEndingNumbersList.end (),
+    i      = iBegin;
+  for ( ; ; ) {
+    s << (*i);
+    if (++i == iEnd) break;
+    s << " ";
+  } // for
+
+  return s.str ();
+}
+
 string msrBarline::barlineAsString () const
 {
   stringstream s;
 
   s <<
-    "Barline " << barlineCategoryKindAsString (fBarlineCategoryKind) <<
-    ", line " << fInputLineNumber <<
-    ", EndingType" << " : " <<
+    "Barline " <<
+    barlineCategoryKindAsString (fBarlineCategoryKind) <<
+    ", " <<
+    barlineHasSegnoKindAsString (
+      fBarlineHasSegnoKind) <<
+    ", " <<
+    barlineHasCodaKindAsString (
+      fBarlineHasCodaKind) <<
+    
+    ", " <<
+    barlineLocationKindAsString (fLocationKind) <<
+    ", " <<
+    barlineStyleKindAsString (fStyleKind) <<
+
+    ", " <<
     barlineEndingTypeKindAsString (fEndingTypeKind) <<
-    ", RepeatDirection" << " : " <<
-    barlineRepeatDirectionKindAsString (fRepeatDirectionKind);
+    ", " <<
+    endingNumbersListAsString () <<
+
+    ", " <<
+    barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
+    ", " <<
+    barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
+    
+    ", " <<
+    fBarlineTimes << " times" <<
+    ", line " << fInputLineNumber;
     
   return s.str ();
 }
@@ -15999,16 +16071,16 @@ string msrBarline::barlineAsString () const
 void msrBarline::print (ostream& os)
 {
   os <<
-    "Barline, " << barlineCategoryKindAsString (fBarlineCategoryKind) <<
-    ", line " << fInputLineNumber;
-
-  if (fBarlineHasSegno)
-    os << ", has segno";
-    
-  if (fBarlineHasCoda)
-    os << ", has coda";
-
-  os <<
+    "Barline, " <<
+    barlineCategoryKindAsString (
+      fBarlineCategoryKind) <<
+    ", " <<
+    barlineHasSegnoKindAsString (
+      fBarlineHasSegnoKind) <<
+    ", " <<
+    barlineHasCodaKindAsString (
+      fBarlineHasCodaKind) <<
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
@@ -16017,43 +16089,35 @@ void msrBarline::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "Location" << " : " <<
+    "location" << " : " <<
     barlineLocationKindAsString (fLocationKind) <<
     endl <<
     setw (fieldWidth) <<
-    "Style" << " : " <<
+    "style" << " : " <<
     barlineStyleKindAsString (fStyleKind) <<
     endl <<
+
     setw (fieldWidth) <<
-    "EndingType" << " : " <<
+    "endingType" << " : " <<
     barlineEndingTypeKindAsString (fEndingTypeKind) <<
-    endl;
-  
-  os <<
+    endl <<
     setw (fieldWidth) <<
-    "Ending number" << " : ";
-      
-  list<int>::const_iterator i;
-  for (i=fEndingNumbersList.begin (); i!=fEndingNumbersList.end (); i++) {
-    os << (*i) << " ";
-  } // for
-  
-  os <<
-    endl;
+    "ending number" << " : " <<
+    endingNumbersListAsString () <<
+    endl <<
  
-  os <<
     setw (fieldWidth) <<
-     "RepeatDirection" << " : " <<
+    "repeatDirection" << " : " <<
     barlineRepeatDirectionKindAsString (fRepeatDirectionKind) <<
     endl <<
   
     setw (fieldWidth) <<
-    "RepeatWinged" << " : " <<
+    "repeatWinged" << " : " <<
     barlineRepeatWingedKindAsString (fRepeatWingedKind) <<
     endl <<
   
     setw (fieldWidth) <<
-    "BarlineTimes" << " : " <<
+    "barlineTimes" << " : " <<
     fBarlineTimes <<
     endl;
      
@@ -16128,6 +16192,9 @@ void msrMeasure::initializeMeasure ()
   setMeasureLength (
     fInputLineNumber,
     rational (0, 1)); // ready to receive the first note
+
+  // measure doesn't contain music yet
+  fMeasureContainsMusic = false;
 }
 
 msrMeasure::~msrMeasure()
@@ -16914,6 +16981,9 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
@@ -17057,6 +17127,9 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
 
     // register note as the last one in this measure
     fMeasureLastHandledNote = note;
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
  // JMI }
 }
 
@@ -17125,6 +17198,9 @@ void msrMeasure::appendDoubleTremoloToMeasure (
 
   // append the doubleTremolo to the measure elements list
   fMeasureElementsList.push_back (doubleTremolo);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 
 /* JMI
   // bring harmony voice to the same measure length
@@ -17204,6 +17280,9 @@ void msrMeasure::appendMeasuresRepeatToMeasure (
 
   // append the measuresRepeat to the measure elements list
   fMeasureElementsList.push_back (measuresRepeat);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 //*/
 }
 
@@ -17275,6 +17354,9 @@ void msrMeasure::appendMultipleRestToMeasure (
 
   // append the multipleRest to the measure elements list
   fMeasureElementsList.push_back (multipleRest);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
@@ -17339,6 +17421,9 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 
   // append the chord to the measure elements list
   fMeasureElementsList.push_back (chord);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
@@ -17415,6 +17500,9 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // append the tuplet to the measure elements list
   fMeasureElementsList.push_back (tuplet);
 
+  // this measure contains music
+  fMeasureContainsMusic = true;
+
 /* JMI
   // bring harmony voice to the new measure length
   fetchMeasurePartUplink->
@@ -17462,6 +17550,9 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   
   // append the harmony to the measure elements list
   fMeasureElementsList.push_back (harmony);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
@@ -17503,6 +17594,9 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   
   // append the harmony to the measure elements list
   fMeasureElementsList.push_back (harmony);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::appendFiguredBassToMeasure (
@@ -17543,6 +17637,9 @@ void msrMeasure::appendFiguredBassToMeasure (
   
   // append the harmony to the measure elements list
   fMeasureElementsList.push_back (figuredBass);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::appendFiguredBassToMeasureClone (
@@ -17585,6 +17682,9 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   
   // append the harmony to the measure elements list
   fMeasureElementsList.push_back (figuredBass);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::bringMeasureToMeasureLength (
@@ -17656,6 +17756,9 @@ void msrMeasure::bringMeasureToMeasureLength (
     // if it happens to be the first note of a chord
     appendNoteToMeasure (skip);
 
+    // this measure contains music
+    fMeasureContainsMusic = true;
+
 /*
     // account for skip duration in measure length
     setMeasureLength (
@@ -17668,6 +17771,9 @@ void msrMeasure::appendGraceNotesToMeasure (
   S_msrGraceNotes graceNotes)
 {
   fMeasureElementsList.push_back (graceNotes);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
   
 void msrMeasure::prependGraceNotesToMeasure (
@@ -17706,12 +17812,18 @@ void msrMeasure::prependGraceNotesToMeasure (
       break;
     }
   } // for
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
   
 void msrMeasure::appendAfterGraceNotesToMeasure (
   S_msrAfterGraceNotes afterGraceNotes)
 {
   fMeasureElementsList.push_back (afterGraceNotes);
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
   
 void msrMeasure::prependAfterGraceNotesToMeasure (
@@ -17749,6 +17861,9 @@ void msrMeasure::prependAfterGraceNotesToMeasure (
       break;
     }
   } // for
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::appendTempoToMeasure (
@@ -17820,6 +17935,9 @@ void msrMeasure::appendBarNumberCheckToMeasure (
 void msrMeasure::prependOtherElementToMeasure (S_msrElement elem)
 {
   fMeasureElementsList.push_front (elem); // JMI
+
+  // this measure contains music
+  fMeasureContainsMusic = true;
 }
 
 void msrMeasure::appendOtherElementToMeasure  (S_msrElement elem)
@@ -18140,6 +18258,9 @@ void msrMeasure::appendARestToFinalizeMeasure (
     // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
     appendNoteToMeasure (rest);
+
+    // this measure contains music
+    fMeasureContainsMusic = true;
   }
 }
 
@@ -18341,10 +18462,10 @@ string msrMeasure::measureFirstInSegmentKindAsString (
 
   switch (measureFirstInSegmentKind) {
     case msrMeasure::kMeasureFirstInSegmentYes:
-      result = "first in segment";
+      result = "first in segment: yes";
       break;
     case msrMeasure::kMeasureFirstInSegmentNo:
-      result = "not first in segment";
+      result = "first in segment: no";
       break;
   } // switch
 
@@ -18358,10 +18479,10 @@ string msrMeasure::measureCreatedAfterARepeatKindAsString (
 
   switch (measureCreatedAfterARepeatKind) {
     case msrMeasure::kMeasureCreatedAfterARepeatYes:
-      result = "MeasureCreatedAfterARepeat: yes";
+      result = "measureCreatedAfterARepeat: yes";
       break;
     case msrMeasure::kMeasureCreatedAfterARepeatNo:
-      result = "MeasureCreatedAfterARepeat: no";
+      result = "measureCreatedAfterARepeat: no";
       break;
   } // switch
 
@@ -18389,25 +18510,39 @@ void msrMeasure::print (ostream& os)
     ", " << fFullMeasureLength << " per full measure" <<
     */
     ", " <<
-    msrMeasure::measureFirstInSegmentKindAsString (
-      fMeasureFirstInSegmentKind) << 
-    ", " <<
-    msrMeasure::measureCreatedAfterARepeatKindAsString (
-      fMeasureCreatedAfterARepeatKind) << 
-    ", " <<
     singularOrPlural (
       fMeasureElementsList.size (), "element", "elements") <<
     ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
-  os <<
-    "MeasureSegmentUplink: " <<
+
+  const int fieldWidth = 27;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "measureSegmentUplink" << " : " <<
     fMeasureSegmentUplink->segmentAsShortString () <<
     endl <<
-    "Length: " << fMeasureLength << " whole notes" <<
+    setw (fieldWidth) <<
+    msrMeasure::measureFirstInSegmentKindAsString (
+      fMeasureFirstInSegmentKind) << 
     endl <<
-    "Full measure length: " << fFullMeasureLength << " whole notes" <<
+    setw (fieldWidth) <<
+    "measureContainsMusic" << " : " <<
+    booleanAsString (
+      fMeasureContainsMusic) << 
+    endl <<
+    setw (fieldWidth) <<
+    msrMeasure::measureCreatedAfterARepeatKindAsString (
+      fMeasureCreatedAfterARepeatKind) << 
+    endl <<
+    setw (fieldWidth) <<
+    "length: " << fMeasureLength << " whole notes" <<
+    endl <<
+    setw (fieldWidth) <<
+    "full measure length" << " : " <<
+    fFullMeasureLength << " whole notes" <<
     endl;
   gIndenter--;
 
@@ -18750,7 +18885,8 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     lastMeasure =
       fSegmentMeasuresList.back ();
 
-  if (lastMeasure->getMeasureElementsList ().size ()) {
+// NO JMI  if (lastMeasure->getMeasureElementsList ().size ()) {
+  if (lastMeasure->getMeasureContainsMusic ()) {
     lastMeasure->
       finalizeMeasure (
         inputLineNumber);
@@ -18771,7 +18907,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     fSegmentMeasuresList.pop_back ();
   }
 
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) { // JMI
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       endl <<
       "*********>> Current voice \"" <<
@@ -19605,7 +19741,21 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
       endl;
   }
 
-  if (! fSegmentMeasuresList.size ()) {// JMI
+  if (! fSegmentMeasuresList.size ()) { // JMI
+    if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceSegments) { // JMI
+      gLogIOstream <<
+        endl <<
+        "*********>> Current voice \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        ", line " << barline->getInputLineNumber () <<
+        " contains:" <<
+        endl <<
+        fSegmentVoiceUplink <<
+        "<<*********" <<
+        endl <<
+        endl;
+    }
   }
   
   // sanity check
@@ -20242,7 +20392,10 @@ string msrRepeatCommonPart::repeatCommonPartAsString () const
 
   s <<
     "RepeatCommonPart" <<
-    ", line " << fInputLineNumber <<
+    ", repeat uplink: '" <<
+    fRepeatCommonPartRepeatUplink->
+      repeatAsString () <<
+    "', line " << fInputLineNumber <<
     endl;
 
   return s.str ();
@@ -20252,12 +20405,19 @@ void msrRepeatCommonPart::print (ostream& os)
 {
   os <<
     endl <<
-    repeatCommonPartAsString () <<
+    "RepeatCommonPart" <<
+    "', line " << fInputLineNumber <<
+    endl <<
     endl;
  
   gIndenter++;
 
   os <<
+    "Repeat uplink: '" <<
+    fRepeatCommonPartRepeatUplink->
+      repeatAsString () <<
+    endl <<
+    endl <<
     fRepeatCommonPartSegment;
 
   gIndenter--;
@@ -20393,10 +20553,14 @@ string msrRepeatEnding::repeatEndingAsString () const
   stringstream s;
 
   s <<
-    "RepeatEnding, " <<
+    "RepeatEnding" <<
+    ", " <<
     repeatEndingKindAsString (
       fRepeatEndingKind) <<
-    ", line " << fInputLineNumber <<
+    ", repeat uplink: '" <<
+    fRepeatEndingRepeatUplink->
+      repeatAsString () <<
+    "', line " << fInputLineNumber <<
     ", number " << fRepeatEndingNumber <<
     ", internal number " << fRepeatEndingInternalNumber <<
     endl;
@@ -20408,12 +20572,23 @@ void msrRepeatEnding::print (ostream& os)
 {
   os <<
     endl <<
-    repeatEndingAsString () <<
+    "RepeatEnding" <<
+    ", " <<
+    repeatEndingKindAsString (
+      fRepeatEndingKind) <<
+    ", line " << fInputLineNumber <<
+    ", number " << fRepeatEndingNumber <<
+    ", internal number " << fRepeatEndingInternalNumber <<
     endl;
- 
-  gIndenter++;
 
+  gIndenter++;
+      
   os <<
+    "Repeat uplink: '" <<
+    fRepeatEndingRepeatUplink->
+      repeatAsString () <<
+    endl <<
+    endl <<
     fRepeatEndingSegment;
 
   gIndenter--;
@@ -20594,10 +20769,24 @@ ostream& operator<< (ostream& os, const S_msrRepeat& elt)
   return os;
 }
 
+string msrRepeat::repeatAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Repeat" <<
+    ", " << fRepeatTimes << " times" <<
+    ", " <<
+    singularOrPlural (
+      fRepeatEndings.size (), "repeat ending", "repeat endings") <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
 void msrRepeat::print (ostream& os)
 {
   os <<
-    endl <<
     "Repeat" <<
     ", " << fRepeatTimes << " times" <<
     ", " <<
@@ -22844,9 +23033,9 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
   // create the segment
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Creating a new segment with first measure '" <<
+      "Creating a new segment with first measure '" <<
       firstMeasure->getMeasureNumber () <<
-      "'for voice \"" <<
+      "' for voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
@@ -22874,6 +23063,10 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
   If this measure remains empty because the end of measure
   follows the barline, it will be removed upon finalizeMeasure()
 */
+
+  // finalize the current measure
+  finalizeCurrentMeasureInVoice (
+    inputLineNumber);
 
   // create the segment
   if (gGeneralOptions->fTraceVoices) {
@@ -23989,7 +24182,101 @@ void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
     appendPageBreakToSegment (pageBreak);
 }
 
-void msrVoice::createRepeatAndAppendItToVoice (
+void msrVoice::createRepeatUponItsStartAndAppendItToVoice (
+  int inputLineNumber,
+  int repeatTimes)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      {
+        // fetch last measure's full measure length
+        int fullMeasureLength =
+          fVoiceLastSegment->
+            getSegmentMeasuresList ().back ()->
+                getFullMeasureLength ();
+              
+        // finalize current measure in voice
+        finalizeCurrentMeasureInVoice (
+          inputLineNumber);
+          
+        // create the repeat
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating and appending a repeat in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
+        fVoiceCurrentRepeat =
+          msrRepeat::create (
+            inputLineNumber,
+            repeatTimes,
+            this);
+
+        // create a repeat common part from current last segment
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating a repeat common part from current last segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
+        S_msrRepeatCommonPart
+          repeatCommonPart =
+            msrRepeatCommonPart::create (
+              inputLineNumber,
+              fVoiceLastSegment,
+              fVoiceCurrentRepeat);
+
+        // set the common part as the repeat common part
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Setting repeat common part in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+
+        fVoiceCurrentRepeat->
+          setRepeatCommonPart (
+            repeatCommonPart);
+          
+        // append repeat to the list of repeats and segments
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Appending repeat to the initial elements in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+                      
+        fVoiceInitialElements.push_back (
+          fVoiceCurrentRepeat);
+      
+        // create a new last segment containing a new measure for the voice
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+          gLogIOstream <<
+            "-=> Creating a new last segment containing a new measure for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+        }
+
+        createNewLastSegmentAndANewMeasureAfterARepeat (
+          inputLineNumber,
+          fullMeasureLength);
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
   int inputLineNumber,
   int repeatTimes)
 {
@@ -24078,6 +24365,134 @@ void msrVoice::createRepeatAndAppendItToVoice (
         createNewLastSegmentAndANewMeasureAfterARepeat (
           inputLineNumber,
           fullMeasureLength);
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
+  int inputLineNumber,
+  int repeatTimes)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      {
+        /*
+          grab the just created last measure from the voice,
+          (i.e. the one containing something like:
+          <barline location="left">
+            <ending number="1" type="start"/>
+          </barline>
+          which is the first ebding measure
+        */
+        
+        S_msrMeasure
+          firstEndingMeasure =
+            removeLastMeasureFromVoice (
+              inputLineNumber);
+
+/*
+        // fetch last measure's full measure length
+        int fullMeasureLength =
+          fVoiceLastSegment->
+            getSegmentMeasuresList ().back ()->
+                getFullMeasureLength ();
+              
+        // finalize current measure in voice
+        finalizeCurrentMeasureInVoice (
+          inputLineNumber);
+          */
+          
+        // create the repeat
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating and appending a repeat in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
+        fVoiceCurrentRepeat =
+          msrRepeat::create (
+            inputLineNumber,
+            repeatTimes,
+            this);
+
+        // create a repeat common part from current last segment
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Creating a repeat common part from current last segment in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
+        S_msrRepeatCommonPart
+          repeatCommonPart =
+            msrRepeatCommonPart::create (
+              inputLineNumber,
+              fVoiceLastSegment,
+              fVoiceCurrentRepeat);
+
+        // set current last segment as the repeat common segment
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Setting repeat common part in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+
+        fVoiceCurrentRepeat->
+          setRepeatCommonPart (
+            repeatCommonPart);
+          
+        // append it to the list of repeats and segments
+        if (gGeneralOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Appending repeat to the initial elements in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            endl;
+        }
+                      
+        fVoiceInitialElements.push_back (
+          fVoiceCurrentRepeat);
+      
+        // create a new last segment containing a new measure for the voice
+        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+          gLogIOstream <<
+            "Creating a new last segment with the first ending measure for voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+        }
+
+        createNewLastSegmentFromFirstMeasureForVoice (
+          inputLineNumber,
+          firstEndingMeasure);
+
+        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+          gLogIOstream <<
+            endl <<
+            "*********>> Current voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            " contains:" <<
+            endl;
+
+          print (gLogIOstream);
+
+          gLogIOstream <<
+            "<<*********" <<
+            endl <<
+            endl;
+        }
       }
       break;
   } // switch
@@ -24181,7 +24596,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
               this);
 
         // remove the repeated measure(s) for the last segment
-        // and prepend  them to the repeated segment
+        // and prepend them to the repeated segment
         if (
           gGeneralOptions->fTraceMeasures
             ||
@@ -24275,7 +24690,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
           gGeneralOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "-=> Creating a new last segment with the first replica ZZZ for voice \"" <<
+            "-=> Creating a new last segment with the first replica measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -25123,7 +25538,10 @@ void msrVoice::appendRepeatEndingToVoice (
         // add the repeat ending it to the voice current repeat
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "Appending repeat ending to current repeat in voice \"" <<
+            "Appending a " <<
+            msrRepeatEnding::repeatEndingKindAsString (
+              repeatEndingKind) <<
+            " repeat ending to current repeat in voice \"" <<
             fVoiceName <<
             "\"" <<
             endl;
@@ -25135,7 +25553,7 @@ void msrVoice::appendRepeatEndingToVoice (
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a new last segment containing a new measure for voice \"" <<
+            "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -27291,13 +27709,13 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
   } // for
 }    
 
-void msrStaff::createRepeatAndAppendItToStaff (
+void msrStaff::createRepeatUponItsStartAndAppendItToStaff (
   int inputLineNumber,
   int repeatTimes)
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating and appending a repeat to staff \"" <<
+      "Creating and appending a repeat to staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
@@ -27309,7 +27727,55 @@ void msrStaff::createRepeatAndAppendItToStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second->
-      createRepeatAndAppendItToVoice (
+      createRepeatUponItsStartAndAppendItToVoice (
+        inputLineNumber,
+        repeatTimes);
+  } // for
+}
+
+void msrStaff::createRepeatUponItsEndAndAppendItToStaff (
+  int inputLineNumber,
+  int repeatTimes)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Creating and appending a repeat to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      endl;
+  }
+
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++) {
+    (*i).second->
+      createRepeatUponItsEndAndAppendItToVoice (
+        inputLineNumber,
+        repeatTimes);
+  } // for
+}
+
+void msrStaff::createRepeatUponItsFirstEndingAndAppendItToStaff (
+  int inputLineNumber,
+  int repeatTimes)
+{
+  if (gGeneralOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Creating and appending a repeat to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      endl;
+  }
+
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++) {
+    (*i).second->
+      createRepeatUponItsFirstEndingAndAppendItToVoice (
         inputLineNumber,
         repeatTimes);
   } // for
@@ -29010,14 +29476,14 @@ void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 }
 
 
-void msrPart::createRepeatAndAppendItToPart (
+void msrPart::createRepeatUponItsStartAndAppendItToPart (
   int inputLineNumber,
   int repeatTimes)
 {
   /* JMI
   // create repeat and append it to master staff specifically
   fPartMasterStaff->
-    createRepeatAndAppendItToStaff (
+    createRepeatUponItsStartAndAppendItToStaff (
       inputLineNumber,
       repeatTimes);  
   */
@@ -29028,7 +29494,55 @@ void msrPart::createRepeatAndAppendItToPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      createRepeatAndAppendItToStaff (
+      createRepeatUponItsStartAndAppendItToStaff (
+        inputLineNumber,
+        repeatTimes);
+  } // for
+}
+
+void msrPart::createRepeatUponItsEndAndAppendItToPart (
+  int inputLineNumber,
+  int repeatTimes)
+{
+  /* JMI
+  // create repeat and append it to master staff specifically
+  fPartMasterStaff->
+    createRepeatUponItsEndAndAppendItToStaff (
+      inputLineNumber,
+      repeatTimes);  
+  */
+  
+  // create repeat and append it to registered staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    (*i).second->
+      createRepeatUponItsEndAndAppendItToStaff (
+        inputLineNumber,
+        repeatTimes);
+  } // for
+}
+
+void msrPart::createRepeatUponItsFirstEndingAndAppendItToPart (
+  int inputLineNumber,
+  int repeatTimes)
+{
+  /* JMI
+  // create repeat and append it to master staff specifically
+  fPartMasterStaff->
+    createRepeatUponItsFirstEndingAndAppendItToStaff (
+      inputLineNumber,
+      repeatTimes);  
+  */
+  
+  // create repeat and append it to registered staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    (*i).second->
+      createRepeatUponItsFirstEndingAndAppendItToStaff (
         inputLineNumber,
         repeatTimes);
   } // for
@@ -31449,7 +31963,7 @@ void msrIdentification::browseData (basevisitor* v)
     browser.browse (*fMovementTitle);
   }
 
-  if (!fComposers.empty ()) {
+  if (fComposers.size ()) {
     vector<S_msrVarValAssoc>::const_iterator i;
     for (i=fComposers.begin (); i!=fComposers.end (); i++) {
       // browse creator
@@ -31458,7 +31972,7 @@ void msrIdentification::browseData (basevisitor* v)
     } // for
   }
     
-  if (!fArrangers.empty ()) {
+  if (fArrangers.size ()) {
     vector<S_msrVarValAssoc>::const_iterator i;
     for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
       // browse creator
@@ -31467,7 +31981,7 @@ void msrIdentification::browseData (basevisitor* v)
     } // for
   }
     
-  if (!fPoets.empty ()) {
+  if (fPoets.size ()) {
     vector<S_msrVarValAssoc>::const_iterator i;
     for (i=fPoets.begin (); i!=fPoets.end (); i++) {
       // browse creator
@@ -31476,7 +31990,7 @@ void msrIdentification::browseData (basevisitor* v)
     } // for
   }
     
-  if (!fLyricists.empty ()) {
+  if (fLyricists.size ()) {
     vector<S_msrVarValAssoc>::const_iterator i;
     for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
       // browse creator
@@ -31491,7 +32005,7 @@ void msrIdentification::browseData (basevisitor* v)
     browser.browse (*fRights);
   }
 
-  if (!fSoftwares.empty ()) {
+  if (fSoftwares.size ()) {
     vector<S_msrVarValAssoc>::const_iterator i;
     for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
       // browse software
@@ -31549,7 +32063,7 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
 
-  if (! fComposers.empty ()) {
+  if (fComposers.size ()) {
     vector<S_msrVarValAssoc>::const_iterator
       iBegin = fComposers.begin (),
       iEnd   = fComposers.end (),
@@ -31563,7 +32077,7 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
-  if (! fArrangers.empty ()) {
+  if (fArrangers.size ()) {
     vector<S_msrVarValAssoc>::const_iterator
       iBegin = fArrangers.begin (),
       iEnd   = fArrangers.end (),
@@ -31577,7 +32091,7 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
-  if (! fPoets.empty ()) {
+  if (fPoets.size ()) {
     vector<S_msrVarValAssoc>::const_iterator
       iBegin = fPoets.begin (),
       iEnd   = fPoets.end (),
@@ -31591,7 +32105,7 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
-  if (! fLyricists.empty ()) {
+  if (fLyricists.size ()) {
     vector<S_msrVarValAssoc>::const_iterator
       iBegin = fLyricists.begin (),
       iEnd   = fLyricists.end (),
@@ -31610,7 +32124,7 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
-  if (!fSoftwares.empty ()) {
+  if (fSoftwares.size ()) {
     vector<S_msrVarValAssoc>::const_iterator
       iBegin = fSoftwares.begin (),
       iEnd   = fSoftwares.end (),

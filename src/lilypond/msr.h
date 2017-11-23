@@ -3018,6 +3018,9 @@ class msrMeasure : public msrElement
                           getMeasureElementsList () const
                               { return fMeasureElementsList; }
 
+    bool                  getMeasureContainsMusic () const
+                              { return fMeasureContainsMusic; }
+                              
     // services
     // ------------------------------------------------------
 
@@ -3288,6 +3291,7 @@ class msrMeasure : public msrElement
     // elements
 
     list<S_msrElement>    fMeasureElementsList;
+    bool                  fMeasureContainsMusic;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
 EXP ostream& operator<< (ostream& os, const S_msrMeasure& elt);
@@ -7524,14 +7528,28 @@ class msrBarline : public msrElement
       
     static string barlineCategoryKindAsString (
       msrBarlineCategoryKind barlineCategoryKind);
+
+    // segno
+    enum msrBarlineHasSegnoKind {
+      kBarlineHasSegnoYes, kBarlineHasSegnoNo};
+
+    static string barlineHasSegnoKindAsString (
+      msrBarlineHasSegnoKind barlineHasSegnoKind);
+
+    // coda
+    enum msrBarlineHasCodaKind {
+      kBarlineHasCodaYes, kBarlineHasCodaNo};
+
+    static string barlineHasCodaKindAsString (
+      msrBarlineHasCodaKind barlineHasCodaKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrBarline> create (
       int                           inputLineNumber,
-      bool                          barlineHasSegno,
-      bool                          barlineHasCoda,
+      msrBarlineHasSegnoKind        barlineHasSegnoKind,
+      msrBarlineHasCodaKind         barlineHasCodaKind,
       msrBarlineLocationKind        location,
       msrBarlineStyleKind           style,
       msrBarlineEndingTypeKind      endingType,
@@ -7547,8 +7565,8 @@ class msrBarline : public msrElement
 
     msrBarline (
       int                           inputLineNumber,
-      bool                          barlineHasSegno,
-      bool                          barlineHasCoda,
+      msrBarlineHasSegnoKind        barlineHasSegnoKind,
+      msrBarlineHasCodaKind         barlineHasCodaKind,
       msrBarlineLocationKind        location,
       msrBarlineStyleKind           style,
       msrBarlineEndingTypeKind      endingType,
@@ -7564,10 +7582,11 @@ class msrBarline : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    bool                  getBarlineHasSegno () const
-                              { return fBarlineHasSegno; }
-    bool                  getBarlineHasCoda () const
-                              { return fBarlineHasCoda; }
+    msrBarlineHasSegnoKind
+                          getBarlineHasSegnoKind () const
+                              { return fBarlineHasSegnoKind; }
+    msrBarlineHasCodaKind getBarlineHasCodaKind () const
+                              { return fBarlineHasCodaKind; }
 
     msrBarlineLocationKind
                           getLocation () const
@@ -7630,6 +7649,8 @@ class msrBarline : public msrElement
     // services
     // ------------------------------------------------------
 
+    string                endingNumbersListAsString () const;
+    
     string                barlineAsString () const;
 
     // visitors
@@ -7650,8 +7671,9 @@ class msrBarline : public msrElement
     // fields
     // ------------------------------------------------------
 
-    bool                  fBarlineHasSegno;
-    bool                  fBarlineHasCoda;
+    msrBarlineHasSegnoKind
+                          fBarlineHasSegnoKind;
+    msrBarlineHasCodaKind fBarlineHasCodaKind;
 
     msrBarlineLocationKind
                           fLocationKind;
@@ -7964,6 +7986,8 @@ class msrRepeat : public msrElement
     // print
     // ------------------------------------------------------
 
+    string                repeatAsString () const;
+    
     virtual void          print (ostream& os);
 
   private:
@@ -7973,7 +7997,7 @@ class msrRepeat : public msrElement
 
     int                   fRepeatTimes;
     // common part
-  //  S_msrSegment          fRepeatCommonSegment;
+  //  S_msrSegment          fRepeatCommonSegment; JMI
     S_msrRepeatCommonPart fRepeatCommonPart;
 
     // repeat endings
@@ -8909,7 +8933,15 @@ class msrVoice : public msrElement
 
     // repeats
     
-    void                  createRepeatAndAppendItToVoice (
+    void                  createRepeatUponItsStartAndAppendItToVoice (
+                            int inputLineNumber,
+                            int repeatTimes);
+  
+    void                  createRepeatUponItsEndAndAppendItToVoice (
+                            int inputLineNumber,
+                            int repeatTimes);
+  
+    void                  createRepeatUponItsFirstEndingAndAppendItToVoice (
                             int inputLineNumber,
                             int repeatTimes);
   
@@ -9559,7 +9591,15 @@ class msrStaff : public msrElement
 
     // repeats
     
-    void                  createRepeatAndAppendItToStaff (
+    void                  createRepeatUponItsStartAndAppendItToStaff (
+                            int inputLineNumber,
+                            int repeatTimes);
+    
+    void                  createRepeatUponItsEndAndAppendItToStaff (
+                            int inputLineNumber,
+                            int repeatTimes);
+    
+    void                  createRepeatUponItsFirstEndingAndAppendItToStaff (
                             int inputLineNumber,
                             int repeatTimes);
     
@@ -10076,7 +10116,15 @@ class msrPart : public msrElement
               
     // repeats
     
-    void                  createRepeatAndAppendItToPart (
+    void                  createRepeatUponItsStartAndAppendItToPart (
+                            int inputLineNumber,
+                            int repeatTimes);
+    
+    void                  createRepeatUponItsEndAndAppendItToPart (
+                            int inputLineNumber,
+                            int repeatTimes);
+    
+    void                  createRepeatUponItsFirstEndingAndAppendItToPart (
                             int inputLineNumber,
                             int repeatTimes);
     

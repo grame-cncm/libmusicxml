@@ -196,10 +196,11 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   
   // barline handling
   fOnGoingBarline      = false;
+  fCurrentEndingStartBarline = nullptr;
   fCurrentFigureNumber = -1;
   
   // repeats handling
-  fRepeatHasBeenCreatedForCurrentPart = false;
+  fOnGoingRepeat = false;
 
   // MusicXML notes handling
   fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
@@ -1123,7 +1124,9 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   fCurrentStaffNumber = 1; // default if there are no <staff> element
   fCurrentVoiceNumber = 1; // default if there are no <voice> element
 
-  fRepeatHasBeenCreatedForCurrentPart = false;
+  fCurrentEndingStartBarline = nullptr; // JMI
+
+  fOnGoingRepeat = false;
 
   gIndenter++;
 }
@@ -5791,8 +5794,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
 
   fCurrentBarlineEndingNumber    = ""; // may be "1, 2"
 
-  fCurrentBarlineHasSegno = false;
-  fCurrentBarlineHasCoda  = false;
+  fCurrentBarlineHasSegnoKind = msrBarline::kBarlineHasSegnoNo;
+  fCurrentBarlineHasCodaKind  = msrBarline::kBarlineHasCodaNo;
 
   fCurrentBarlineLocationKind        = msrBarline::k_NoBarlineLocation;
   fCurrentBarlineStyleKind           = msrBarline::k_NoBarlineStyle;
@@ -5803,37 +5806,39 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
   fCurrentBarlineTimes = 2; // default value JMI ???
   
   // location
+
+  {
+    string
+      location =
+        elt->getAttributeValue ("location");
   
-  string
-    location =
-      elt->getAttributeValue ("location");
-
-  fCurrentBarlineLocationKind =
-    msrBarline::kBarlineLocationRight; // by default
-    
-  if       (location == "left") {
-    fCurrentBarlineLocationKind = msrBarline::kBarlineLocationLeft;
-  }
-  else  if (location == "middle") {
-    fCurrentBarlineLocationKind = msrBarline::kBarlineLocationMiddle;
-  }
-  else if  (location == "right") {
-    fCurrentBarlineLocationKind = msrBarline::kBarlineLocationRight;
-  }
-  else {
-    stringstream s;
-    
-    s <<
-      "barline location \"" << location <<
-      "\" is unknown";
+    fCurrentBarlineLocationKind =
+      msrBarline::kBarlineLocationRight; // by default
       
-    msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      __FILE__, __LINE__,
-      s.str ());
+    if       (location == "left") {
+      fCurrentBarlineLocationKind = msrBarline::kBarlineLocationLeft;
+    }
+    else  if (location == "middle") {
+      fCurrentBarlineLocationKind = msrBarline::kBarlineLocationMiddle;
+    }
+    else if  (location == "right") {
+      fCurrentBarlineLocationKind = msrBarline::kBarlineLocationRight;
+    }
+    else {
+      stringstream s;
+      
+      s <<
+        "barline location \"" << location <<
+        "\" is unknown";
+        
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        __FILE__, __LINE__,
+        s.str ());
+    }
   }
-
+  
   fOnGoingBarline = true;
 }
 
@@ -5937,7 +5942,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_segno& elt )
   }
   
   else if (fOnGoingBarline) {
-    fCurrentBarlineHasSegno = true;
+    fCurrentBarlineHasSegnoKind = msrBarline::kBarlineHasSegnoYes;
   }
 }
 
@@ -5973,7 +5978,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_coda& elt )
   }
   
   else if (fOnGoingBarline) {
-    fCurrentBarlineHasCoda = true;
+    fCurrentBarlineHasCodaKind = msrBarline::kBarlineHasCodaYes;
   }
 }
 
@@ -6179,9 +6184,25 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
       endl;
   }
 
-  fCurrentBarlineEndingNumber =
-    elt->getAttributeValue ("number"); // may be "1, 2"
+  int inputLineNumber =
+    elt->getInputLineNumber ();
 
+  // number
+
+  {
+    fCurrentBarlineEndingNumber =
+      elt->getAttributeValue ("number"); // may be "1, 2"        
+
+    if (! fCurrentBarlineEndingNumber.size ()) {
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        "mandatory ending number is missing, assuming \"1\"");
+
+      fCurrentBarlineEndingNumber = "1";
+    }
+  }
+    
   // type
 
   {
@@ -6212,7 +6233,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
       
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         __FILE__, __LINE__,
         s.str ());
     }
@@ -6347,8 +6368,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     barline =
       msrBarline::create (
         inputLineNumber,
-        fCurrentBarlineHasSegno,
-        fCurrentBarlineHasCoda,
+        fCurrentBarlineHasSegnoKind,
+        fCurrentBarlineHasCodaKind,
         fCurrentBarlineLocationKind,
         fCurrentBarlineStyleKind,
         fCurrentBarlineEndingTypeKind,
@@ -6357,7 +6378,20 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWingedKind,
         fCurrentBarlineTimes);
 
-  // don't display the barline yet in case of debug,
+  if (gGeneralOptions->fTraceBarlines) {
+    fLogOutputStream <<
+      "Creating a barline in voice " <<
+      currentVoice->getVoiceName () << ":" <<
+      endl;
+      
+    gIndenter++;
+    
+    fLogOutputStream <<
+      barline;
+      
+    gIndenter--;
+  }
+
   // wait until its category is defined
   // to append the barline to the current segment
 
@@ -6376,6 +6410,20 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       &&
     fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
       &&
+    fCurrentBarlineEndingNumber.size () != 0) {
+    // ending start, don't know yet whether it's hooked or hookless
+    // ------------------------------------------------------
+    handleEndingStart (elt, barline);
+
+    barlineIsAlright = true;
+  }
+
+/* JMI
+  else if (
+    fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
+      &&
+    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStart
+      &&
     fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionForward) {
     // hooked ending start
     // ------------------------------------------------------
@@ -6383,6 +6431,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
     barlineIsAlright = true;
   }
+*/
 
   else if (
     fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
@@ -6404,7 +6453,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
     barlineIsAlright = true;
   }
-  
+
+  /* JMI
   else if (
     fCurrentBarlineLocationKind == msrBarline::kBarlineLocationLeft
       &&
@@ -6415,13 +6465,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
     barlineIsAlright = true;
   }
+*/
 
   else if (
     fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
       &&
     fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStop
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward) {
+    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward
+      &&
+    fCurrentBarlineEndingNumber.size () != 0) {
     // hooked ending end
     // ------------------------------------------------------
     
@@ -6464,7 +6517,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   else if (
     fCurrentBarlineLocationKind == msrBarline::kBarlineLocationRight
       &&
-    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeDiscontinue) {
+    fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeDiscontinue
+      &&
+    fCurrentBarlineEndingNumber.size () != 0) {
     // hookless ending end
     // ------------------------------------------------------
     handleHooklessEndingEnd (elt, barline);
@@ -6474,259 +6529,62 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
   else {
 
+    // set the barline category
     switch (fCurrentBarlineStyleKind) {
-      
       case msrBarline::kBarlineStyleRegular:
-      //---------------------------------------
-        // don't handle regular barlines specifically,
-        // they'll handled later by the software
-        // that handles the generated text output
-  
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-      
-        barlineIsAlright = true;
-        break;
-        
       case msrBarline::kBarlineStyleDotted:
-      //---------------------------------------
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-              
-        barlineIsAlright = true;
-        break;
-        
       case msrBarline::kBarlineStyleDashed:
-      //---------------------------------------    
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-      
-        barlineIsAlright = true;
-        break;
-        
       case msrBarline::kBarlineStyleHeavy:
-      //---------------------------------------    
-        // set the barline category
+      case msrBarline::kBarlineStyleLightLight:
+      case msrBarline::kBarlineStyleLightHeavy:
+      case msrBarline::kBarlineStyleHeavyLight:
+      case msrBarline::kBarlineStyleHeavyHeavy:
+      case msrBarline::kBarlineStyleTick:
+      case msrBarline::kBarlineStyleShort:
+      case msrBarline::kBarlineStyleNone:
         barline->
           setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
+              
         // append the bar line to the current part
+        if (gGeneralOptions->fTraceBarlines) {
+          fLogOutputStream <<
+            "Appending a barline to voice " <<
+            currentVoice->getVoiceName () << ":" <<
+            endl;
+            
+          gIndenter++;
+          
+          fLogOutputStream <<
+            barline;
+            
+          gIndenter--;
+        }
+      
         fCurrentPart->
           appendBarlineToPart (barline);
       
-        barlineIsAlright = true;
-        break;
-        
-      case msrBarline::kBarlineStyleLightLight:
-      //---------------------------------------
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-  
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-    
-        barlineIsAlright = true;
-        break;
-        
-      case msrBarline::kBarlineStyleLightHeavy:
-      //---------------------------------------
-  
-/* JMI
-      if (
-        fCurrentBarlineLocation == msrBarline::msrBarline::kRight) {
-   //       if (gGeneralOptions->fDebug)
-            fLogOutputStream <<
-              "--> input line " << inputLineNumber <<
-              endl <<
-              "--> barline, right:" <<
-      endl;
-            }
-*/
-
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-          
-        barlineIsAlright = true;        
-        break;
-  
-      case msrBarline::kBarlineStyleHeavyLight:
-      //---------------------------------------
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-          
-        barlineIsAlright = true;
-        break;
-         
-      case msrBarline::kBarlineStyleHeavyHeavy:
-      //---------------------------------------    
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-  
-        barlineIsAlright = true;
-        break;
-        
-      case msrBarline::kBarlineStyleTick:
-      //---------------------------------------
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-  
-        barlineIsAlright = true;
-        break;
-        
-      case msrBarline::kBarlineStyleShort:
-      //---------------------------------------
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-  
-        barlineIsAlright = true;
-        break;
-  
-      case msrBarline::kBarlineStyleNone:
-      //---------------------------------------
-        // set the barline category
-        barline->
-          setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
-        
-        // append the bar line to the current part
-        fCurrentPart->
-          appendBarlineToPart (barline);
-  
         barlineIsAlright = true;
         break;
   
       case msrBarline::k_NoBarlineStyle:
-      //---------------------------------------
-        {
-          // no <bar-style> has been found
-    /*
-          / *
-          While repeats can have forward or backward direction, endings can have three different type attributes: start, stop, and discontinue. The start value is used at the beginning of an ending, at the beginning of a measure. A typical first ending starts like this:
-          
-            <barline location="left">
-              <ending type="start" number="1"/>
-            </barline>
-          * /
-          if (
-            fCurrentBarlineLocation == msrBarline::msrBarline::kLeft
-              &&
-            fCurrentBarlineEndingType == msrBarline::kStart) {
-          }
-    
-          else if (
-            fCurrentBarlineLocation == msrBarline::msrBarline::kRight
-              &&
-            fCurrentBarlineEndingType == msrBarline::kStop) {
-            / *
-            The discontinue value is typically used for the last ending in a set,
-            where there is no downward hook to mark the end of an ending:
-            
-            <barline location="right">
-              <ending number="2" type="stop"/>
-            </barline>
-            * /
-     //       if (gGeneralOptions->fDebug)
-              fLogOutputStream <<
-                "--> input line " << inputLineNumber <<
-                endl <<
-                "--> barline with right and stop:" << endl <<
-                "    end of an hooked ending" <<
-                endl;
-      
-            // set the barline category
-            barline->
-              setBarlineCategory (msrBarline::kEndOfAHookedEnding);
-            
-            // append the bar line to the current part
-            fCurrentPart->
-              appendBarlineToPart (barline);
-  
-            barlineIsAlright = true;
-          }
-          
-          else if (
-            fCurrentBarlineLocation == msrBarline::msrBarline::kRight
-              &&
-            fCurrentBarlineEndingType == msrBarline::kDiscontinue) {
-          }
-        */
-        }
+        ; // no <bar-style> has been found
     } // switch
   }
-  
-  // now we can display the barline in case of debug
-  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceMeasures) {
-    fLogOutputStream <<
-      "Creating a barline in voice " <<
-      currentVoice->getVoiceName () << ":" <<
-      endl;
-    gIndenter++;
-    fLogOutputStream <<
-      barline;
-    gIndenter--;
-  }
-
+      
   // has this barline been handled?
   if (! barlineIsAlright) {
     stringstream s;
     
     s << left <<
       "cannot handle a barline containing:" <<
-      ", location = " << fCurrentBarlineLocationKind <<
-      ", style = " << fCurrentBarlineStyleKind <<
-      ", ending type = " << fCurrentBarlineEndingTypeKind <<
-      ", ending number = " << fCurrentBarlineEndingNumber <<
-      ", repeat direction = " << fCurrentBarlineRepeatDirectionKind <<
-      ", repeat winged = " << fCurrentBarlineRepeatWingedKind;
+      barline->barlineAsString ();
       
-    msrMusicXMLError (
+    msrInternalWarning (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
-      __FILE__, __LINE__,
       s.str ());
   }
-
+  
   fOnGoingBarline = false;
 }
   
@@ -13656,7 +13514,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
   S_msrNote note)
 {
   // attach the current articulations if any to the note
-  if (! fCurrentArticulations.empty ()) {
+  if (fCurrentArticulations.size ()) {
 
     if (gGeneralOptions->fTraceNotes) {
       fLogOutputStream <<
@@ -13665,7 +13523,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
         endl;
     }
 
-    while (! fCurrentArticulations.empty ()) {
+    while (fCurrentArticulations.size ()) {
       S_msrArticulation
         art =
           fCurrentArticulations.front();
@@ -13692,7 +13550,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
-  if (! fCurrentTechnicalsList.empty ()) {
+  if (fCurrentTechnicalsList.size ()) {
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
@@ -13701,7 +13559,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
         endl;
     }
 
-    while (! fCurrentTechnicalsList.empty ()) {
+    while (fCurrentTechnicalsList.size ()) {
       S_msrTechnical
         tech =
           fCurrentTechnicalsList.front();
@@ -13728,7 +13586,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
-  if (! fCurrentTechnicalWithIntegersList.empty ()) {
+  if (fCurrentTechnicalWithIntegersList.size ()) {
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
@@ -13737,7 +13595,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
         endl;
     }
 
-    while (! fCurrentTechnicalWithIntegersList.empty ()) {
+    while (fCurrentTechnicalWithIntegersList.size ()) {
       S_msrTechnicalWithInteger
         tech =
           fCurrentTechnicalWithIntegersList.front();
@@ -13764,7 +13622,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
   S_msrNote note)
 {
   // attach the current technicals if any to the note
-  if (! fCurrentTechnicalWithStringsList.empty ()) {
+  if (fCurrentTechnicalWithStringsList.size ()) {
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
@@ -13773,7 +13631,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
         endl;
     }
 
-    while (! fCurrentTechnicalWithStringsList.empty ()) {
+    while (fCurrentTechnicalWithStringsList.size ()) {
       S_msrTechnicalWithString
         tech =
           fCurrentTechnicalWithStringsList.front();
@@ -13800,7 +13658,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
   S_msrNote note)
 {
   // attach the current ornaments if any to the note
-  if (! fCurrentOrnamentsList.empty ()) {
+  if (fCurrentOrnamentsList.size ()) {
     
     if (gGeneralOptions->fTraceNotes) {
       fLogOutputStream <<
@@ -13809,7 +13667,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
         endl;
     }
 
-    while (! fCurrentOrnamentsList.empty ()) {
+    while (fCurrentOrnamentsList.size ()) {
       S_msrOrnament
         orn =
           fCurrentOrnamentsList.front();
@@ -13856,7 +13714,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
 void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
   S_msrChord chord)
 {
-  if (! fCurrentArticulations.empty ()) {
+  if (fCurrentArticulations.size ()) {
 
     if (gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
@@ -13888,7 +13746,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
 void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
   S_msrChord chord)
 {
-  if (! fCurrentOrnamentsList.empty ()) {
+  if (fCurrentOrnamentsList.size ()) {
 
     if (gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
@@ -13921,7 +13779,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending dynamics if any to the note
-  if (! fPendingDynamics.empty ()) {
+  if (fPendingDynamics.size ()) {
     bool delayAttachment = false;
     
     
@@ -13963,7 +13821,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
     }
     
     if (! delayAttachment) {
-      while (! fPendingDynamics.empty ()) {
+      while (fPendingDynamics.size ()) {
         S_msrDynamics
           dynamics =
             fPendingDynamics.front ();
@@ -13980,7 +13838,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending dynamics if any to the note
-  if (! fPendingOtherDynamics.empty ()) {
+  if (fPendingOtherDynamics.size ()) {
     bool delayAttachment = false;
     
     
@@ -14022,7 +13880,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
     }
     
     if (! delayAttachment) {
-      while (! fPendingOtherDynamics.empty ()) {
+      while (fPendingOtherDynamics.size ()) {
         S_msrOtherDynamics
           otherDynamics =
             fPendingOtherDynamics.front ();
@@ -14039,7 +13897,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
   S_msrNote note)
 {
   // attach the pending words if any to the note
-  if (! fPendingWords.empty ()) {
+  if (fPendingWords.size ()) {
     bool delayAttachment = false;
     
     if (gGeneralOptions->fTraceWords) {
@@ -14080,7 +13938,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
     }
 
     if (! delayAttachment) {
-      while (! fPendingWords.empty ()) {
+      while (fPendingWords.size ()) {
         S_msrWords
           words =
             fPendingWords.front ();
@@ -14097,7 +13955,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
   S_msrNote note)
 {
   // attach the pending slurs if any to the note
-  if (! fPendingSlurs.empty ()) {
+  if (fPendingSlurs.size ()) {
     bool delayAttachment = false;
         
     if (gGeneralOptions->fTraceSlurs) {
@@ -14138,7 +13996,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
     }
     
     if (! delayAttachment) {
-      while (! fPendingSlurs.empty ()) {
+      while (fPendingSlurs.size ()) {
         S_msrSlur
           slur =
             fPendingSlurs.front ();
@@ -14155,7 +14013,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
   S_msrNote note)
 {
   // attach the pending ligatures if any to the note
-  if (! fPendingLigatures.empty ()) {
+  if (fPendingLigatures.size ()) {
     bool delayAttachment = false;
         
     if (gGeneralOptions->fTraceLigatures) {
@@ -14196,7 +14054,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
     }
     
     if (! delayAttachment) {
-      while (! fPendingLigatures.empty ()) {
+      while (fPendingLigatures.size ()) {
         S_msrLigature
           ligature =
             fPendingLigatures.front ();
@@ -14213,7 +14071,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
   S_msrNote note)
 {
   // attach the pending wedges if any to the note
-  if (! fPendingWedges.empty ()) {
+  if (fPendingWedges.size ()) {
     bool delayAttachment = false;
         
     if (gGeneralOptions->fTraceWedges) {
@@ -14254,7 +14112,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
     }
     
     if (! delayAttachment) {
-      while (! fPendingWedges.empty ()) {
+      while (fPendingWedges.size ()) {
         S_msrWedge
           wedge =
             fPendingWedges.front ();
@@ -14656,7 +14514,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           fCurrentNoteSoundingWholeNotes);
 
     // append pending harmony degrees if any to harmony
-    while (! fCurrentHarmonyDegreesList.empty ()) {
+    while (fCurrentHarmonyDegreesList.size ()) {
       S_msrHarmonyDegree
         harmonyDegree =
           fCurrentHarmonyDegreesList.front ();
@@ -16198,6 +16056,50 @@ void mxmlTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
+  int inputLineNumber)
+{     
+  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Prepending an implicit repeat start barline at the beginning of part" <<
+      fCurrentPart->getPartCombinedName () <<
+      endl;
+  }
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  // create the implicit barline
+  S_msrBarline
+    implicitBarline =
+      msrBarline::create (
+        inputLineNumber,
+        msrBarline::kBarlineHasSegnoNo,
+        msrBarline::kBarlineHasCodaNo,
+        msrBarline::kBarlineLocationLeft,
+        msrBarline::kBarlineStyleHeavyLight,
+        msrBarline::kBarlineEndingTypeStart,
+        fCurrentBarlineEndingNumber,
+        msrBarline::kBarlineRepeatDirectionForward,
+        fCurrentBarlineRepeatWingedKind,
+        fCurrentBarlineTimes);
+
+  // set the implicit barline category
+  implicitBarline->
+    setBarlineCategory (
+      msrBarline::kBarlineCategoryRepeatStart);
+
+  // prepend the implicit barline to the voice
+  currentVoice->
+    prependBarlineToVoice (implicitBarline);
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::handleRepeatStart (
   S_barline     elt,
   S_msrBarline& barline)
@@ -16208,12 +16110,13 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start" <<
-      ", line " << inputLineNumber <<
+    /* JMI
       ", measure '" <<
         barline->getBarlineMeasureNumber () <<
       "', position " <<
       barline->getBarlinePositionInMeasure () <<
-      ", [barline: left and forward: repeat start]" <<
+      */
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -16222,12 +16125,23 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
     setBarlineCategory (
       msrBarline::kBarlineCategoryRepeatStart);
 
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Appending a repeat to part " <<
+      fCurrentPart->getPartCombinedName () <<
+      endl;
+  }
+
+  fCurrentPart->
+    createRepeatUponItsStartAndAppendItToPart (
+      inputLineNumber,
+      barline->getBarlineTimes ());
+
   // append the bar line to the current part
   fCurrentPart->
     appendBarlineToPart (barline);
 
-  // push the barline onto the stack
-  fPendingBarlines.push (barline);
+  fOnGoingRepeat = true;  
 }
 
 //______________________________________________________________________________
@@ -16241,22 +16155,15 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat end" <<
-      ", line " << inputLineNumber <<
+    /* JMI
       ", measure '" <<
         barline->getBarlineMeasureNumber () <<
       "', position " <<
       barline->getBarlinePositionInMeasure () <<
-      ", [barline: right and backward: repeat end]" <<
+      */
+      ", line " << inputLineNumber <<
       endl;
   }
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
 
   // set the barline category
   barline->
@@ -16267,43 +16174,11 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   fCurrentPart->
     appendBarlineToPart (barline);
 
-  if (fPendingBarlines.empty ()) {
-    if (gGeneralOptions->fTraceRepeats) {
-      fLogOutputStream <<
-        "There is an implicit repeat start at the beginning of part" <<
-        fCurrentPart->getPartCombinedName () <<
-        endl;
-    }
-
-    // create the implicit barline
-    S_msrBarline
-      implicitBarline =
-        msrBarline::create (
-          inputLineNumber,
-          false, // no segno
-          false, // no coda
-          msrBarline::kBarlineLocationLeft,
-          msrBarline::kBarlineStyleHeavyLight,
-          msrBarline::kBarlineEndingTypeStart,
-          fCurrentBarlineEndingNumber,
-          msrBarline::kBarlineRepeatDirectionForward,
-          fCurrentBarlineRepeatWingedKind,
-          fCurrentBarlineTimes);
-
-    // set the implicit barline category
-    implicitBarline->
-      setBarlineCategory (
-        msrBarline::kBarlineCategoryRepeatStart);
-  
-    // prepend the implicit barline to the voice
-    currentVoice->
-      prependBarlineToVoice (implicitBarline);
-            
-    if (! fRepeatHasBeenCreatedForCurrentPart) {
-  /*  JMI
-*/
-    }
-  }
+  // prepend an implicit bar line  to the part if needed
+  if (! fOnGoingRepeat) {
+    createAndPrependImplicitBarLine (
+      inputLineNumber);
+   }
 
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
@@ -16313,15 +16188,15 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   }
 
   fCurrentPart->
-    createRepeatAndAppendItToPart (
+    createRepeatUponItsEndAndAppendItToPart (
       inputLineNumber,
       barline->getBarlineTimes ());
 
-  fRepeatHasBeenCreatedForCurrentPart = true;  
+  fOnGoingRepeat = false;  
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::handleHookedEndingStart (
+void mxmlTree2MsrTranslator::handleEndingStart (
   S_barline     elt,
   S_msrBarline& barline)
 {
@@ -16330,16 +16205,27 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
 
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Handling repeat hooked ending start" <<
-      ", line " << inputLineNumber <<
+      "Handling repeat ending start" <<
+    /* JMI
       ", measure '" <<
         barline->getBarlineMeasureNumber () <<
       "', position " <<
       barline->getBarlinePositionInMeasure () <<
-      ", [barline: left, start and forward: hooked ending start]" <<
+    */
+      ", line " << inputLineNumber <<
       endl;
   }
 
+  // ending start, don't know yet whether it's hooked or hookless
+  fCurrentEndingStartBarline = barline;
+  
+  // prepend an implicit bar line  to the part if needed
+  if (! fOnGoingRepeat) {
+    createAndPrependImplicitBarLine (
+      inputLineNumber);
+   }
+
+/* JMI
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -16347,8 +16233,9 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
+*/
 
-  if (! fRepeatHasBeenCreatedForCurrentPart) {
+  if (! fOnGoingRepeat) {
     // append an implicit repeat to the current part
     if (gGeneralOptions->fTraceRepeats) {
       fLogOutputStream <<
@@ -16358,13 +16245,14 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
      }
  
     fCurrentPart->
-      createRepeatAndAppendItToPart (
+      createRepeatUponItsFirstEndingAndAppendItToPart (
         inputLineNumber,
         barline->getBarlineTimes ());
 
-    fRepeatHasBeenCreatedForCurrentPart = true;  
+    fOnGoingRepeat = true;  
   }
 
+/* JMI
   // create a new last segment to collect the repeat ending contents
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
     fLogOutputStream <<
@@ -16376,18 +16264,18 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
   currentVoice->
     createNewLastSegmentForVoice (
       elt->getInputLineNumber ());
+*/
 
+/* JMI
   // set the barline category
   barline->
     setBarlineCategory (
       msrBarline::kBarlineCategoryHookedEndingStart);
-  
+  */
+
   // append the bar line to the current part
   fCurrentPart->
     appendBarlineToPart (barline);
-
-  // push the barline onto the stack
-  fPendingBarlines.push (barline);
 }
 
 //______________________________________________________________________________
@@ -16401,15 +16289,17 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat hooked ending end" <<
-      ", line " << inputLineNumber <<
+    /* JMI
       ", measure '" <<
         barline->getBarlineMeasureNumber () <<
       "', position " <<
       barline->getBarlinePositionInMeasure () <<
-      "', [barline: right, stop, backward: hooked ending end]" <<
+      */
+      ", line " << inputLineNumber <<
       endl;
   }
 
+/* JMI
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -16417,7 +16307,21 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
+*/
 
+  if (! fOnGoingRepeat) {
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "met a repeat hooked ending out of context");
+  }
+
+  // set current barline start category
+  fCurrentEndingStartBarline->
+    setBarlineCategory (
+      msrBarline::kBarlineCategoryHookedEndingStart);
+  
   // set the barline category
   barline->
     setBarlineCategory (
@@ -16430,7 +16334,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
   // create a hooked repeat ending from the current segment
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Appending a new hookless repeat ending to part " <<
+      "Appending a new hooked repeat ending to part " <<
       fCurrentPart->getPartCombinedName () <<
       endl;
   }
@@ -16440,47 +16344,6 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
       msrRepeatEnding::kHookedEnding);
-}
-
-//______________________________________________________________________________
-void mxmlTree2MsrTranslator::handleHooklessEndingStart (
-  S_barline     elt,
-  S_msrBarline& barline)
-{
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
-  if (gGeneralOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Handling repeat hookless ending start" <<
-      ", line " << inputLineNumber <<
-      ", measure '" <<
-        barline->getBarlineMeasureNumber () <<
-      "', position " <<
-      barline->getBarlinePositionInMeasure () <<
-      ", [barline: left and start: hookless ending start]" <<
-      endl;
-  }
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
-  // set the barline category
-  barline->
-    setBarlineCategory (
-      msrBarline::kBarlineCategoryHooklessEndingStart);
-  
-  // append the bar line to the current part
-  fCurrentPart->
-    appendBarlineToPart (barline);
-
-  // push the barline onto the stack
-  fPendingBarlines.push (barline); // JMI
 }
 
 //______________________________________________________________________________
@@ -16503,15 +16366,17 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat hookless ending end" <<
-      ", line " << inputLineNumber <<
+    /* JMI
       ", measure '" <<
         barline->getBarlineMeasureNumber () <<
       "', position " <<
       barline->getBarlinePositionInMeasure () <<
-      ", [barline: right and discontinue: hookless ending end]" <<
+      */
+      ", line " << inputLineNumber <<
       endl;
   }
 
+/* JMI
   // fetch current voice
   S_msrVoice
     currentVoice =
@@ -16519,7 +16384,21 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
         inputLineNumber,
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
+*/
 
+  if (! fOnGoingRepeat) {
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "met a repeat hookless ending out of context");
+  }
+  
+  // set current barline start category
+  fCurrentEndingStartBarline->
+    setBarlineCategory (
+      msrBarline::kBarlineCategoryHooklessEndingStart);
+  
   // set the barline category
   barline->
     setBarlineCategory (
@@ -16542,6 +16421,11 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
       inputLineNumber,
       fCurrentBarlineEndingNumber,
       msrRepeatEnding::kHooklessEnding);
+
+  // forget about the current ending start barline
+  fCurrentEndingStartBarline = nullptr;
+  
+  fOnGoingRepeat = false;
 }
 
 //______________________________________________________________________________
@@ -17882,3 +17766,123 @@ void mxmlTree2MsrTranslator::visitStart ( S_midi_instrument& elt )
 
 
 } // namespace
+
+
+/* JMI
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::handleHookedEndingStart (
+  S_barline     elt,
+  S_msrBarline& barline)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Handling repeat hooked ending start" <<
+    / * JMI
+      ", measure '" <<
+        barline->getBarlineMeasureNumber () <<
+      "', position " <<
+      barline->getBarlinePositionInMeasure () <<
+    * /
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  if (! fOnGoingRepeat) {
+    // append an implicit repeat to the current part
+    if (gGeneralOptions->fTraceRepeats) {
+      fLogOutputStream <<
+        "Appending an implicit repeat to part " <<
+        fCurrentPart->getPartCombinedName () <<
+        endl;
+     }
+ 
+    fCurrentPart->
+      createRepeatUponItsFirstEndingAndAppendItToPart (
+        inputLineNumber,
+        barline->getBarlineTimes ());
+
+    fOnGoingRepeat = true;  
+  }
+
+  // create a new last segment to collect the repeat ending contents
+  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+    fLogOutputStream <<
+      "Creating a new last segment for a repeat ending contents for voice \"" <<
+      currentVoice->getVoiceName () << "\"" <<
+      endl;
+  }
+      
+  currentVoice->
+    createNewLastSegmentForVoice (
+      elt->getInputLineNumber ());
+
+  // set the barline category
+  barline->
+    setBarlineCategory (
+      msrBarline::kBarlineCategoryHookedEndingStart);
+  
+  // append the bar line to the current part
+  fCurrentPart->
+    appendBarlineToPart (barline);
+
+  // prepend an implicit bar line  to the part if needed
+  if (! fOnGoingRepeat) {
+    createAndPrependImplicitBarLine (
+      inputLineNumber);
+   }
+}
+*/
+
+
+/* JMI
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::handleHooklessEndingStart (
+  S_barline     elt,
+  S_msrBarline& barline)
+{
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Handling repeat hookless ending start" <<
+  / * JMI
+      ", measure '" <<
+      barline->getBarlineMeasureNumber () <<
+      "', position " <<
+      barline->getBarlinePositionInMeasure () <<
+ * /
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentStaffNumber,
+        fCurrentVoiceNumber);
+
+  // set the barline category
+  barline->
+    setBarlineCategory (
+      msrBarline::kBarlineCategoryHooklessEndingStart);
+  
+  // append the bar line to the current part
+  fCurrentPart->
+    appendBarlineToPart (barline);
+}
+*/
+

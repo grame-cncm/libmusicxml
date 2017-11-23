@@ -3076,7 +3076,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
         staffPartUplink->
           getPartName ();
     }
-    
+
+    /* JMI ???
     if (partName.size ()) {
       fLilypondCodeIOstream <<
         "\\set Staff.instrumentName = ";
@@ -3104,6 +3105,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           endl;
       }    
     }
+  */
   
     // get the part uplink abbreviation display text to be used
     string partAbbreviation =
@@ -7863,9 +7865,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
   switch (elt->getBarlineCategory ()) {
     
     case msrBarline::kBarlineCategoryStandalone:
+    /* JMI
       fLilypondCodeIOstream <<
         endl <<
-        endl; // JMI
+        endl;
+        */
       
       switch (elt->getStyle ()) {
         case msrBarline::k_NoBarlineStyle:
@@ -7924,12 +7928,23 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         endl;
 */
 
-      if (elt->getBarlineHasSegno ())
-        fLilypondCodeIOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.segno\" } ";
-      if (elt->getBarlineHasCoda ())
-        fLilypondCodeIOstream <<
-          "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
+      switch (elt->getBarlineHasSegnoKind ()) {
+        case msrBarline::kBarlineHasSegnoYes:
+          fLilypondCodeIOstream <<
+            "\\mark \\markup { \\musicglyph #\"scripts.segno\" } ";
+          break;
+        case msrBarline::kBarlineHasSegnoNo:
+          break;
+      } // switch
+
+      switch (elt->getBarlineHasCodaKind ()) {
+        case msrBarline::kBarlineHasCodaYes:
+          fLilypondCodeIOstream <<
+            "\\mark \\markup { \\musicglyph #\"scripts.coda\" } ";
+          break;
+        case msrBarline::kBarlineHasCodaNo:
+          break;
+      } // switch
       break;
 
     case msrBarline::kBarlineCategoryRepeatStart:
@@ -8164,7 +8179,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
     }
     else {
       fLilypondCodeIOstream <<
-        endl <<
         "}" <<
         endl;
     }
@@ -8200,7 +8214,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       }
       else {
         fLilypondCodeIOstream <<
-          endl <<
           "{" <<
           endl;
       }
@@ -8214,7 +8227,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
           endl;
       else
         fLilypondCodeIOstream <<
-          endl <<
           "{" <<
           endl;
       break;
@@ -8231,6 +8243,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       endl;
   }
 
+  gIndenter--;
+
   // output the end of the ending
   switch (elt->getRepeatEndingKind ()) {
     case msrRepeatEnding::kHookedEnding:
@@ -8242,7 +8256,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       }
       else {
         fLilypondCodeIOstream <<
-          endl <<
           "}" <<
           endl;
       }
@@ -8257,7 +8270,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       }
       else {
         fLilypondCodeIOstream <<
-          endl <<
           "}" <<
           endl;
       }
@@ -8281,13 +8293,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
     }
     else {
       fLilypondCodeIOstream <<
-        endl <<
         "}" <<
+        endl <<
         endl;
     }
   }
-
-  gIndenter--;
 }
 
 //________________________________________________________________________

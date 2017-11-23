@@ -597,7 +597,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gLogIOstream << left <<
     setw (fieldWidth) << "parts renaming" << " : ";
 
-  if (fPartsRenamingMap.empty ()) {
+  if (! fPartsRenamingMap.size ()) {
     gLogIOstream <<
       "none";
   }

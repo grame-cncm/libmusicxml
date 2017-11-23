@@ -334,7 +334,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartGroupsStack (
     "PartGroupsDescrStack:" <<
     endl;
 
-  if (! fPartGroupsDescrStack.empty ()) {
+  if (fPartGroupsDescrStack.size ()) {
     gIndenter++;
 
     list<S_mxmlPartGroupDescr>::const_iterator
@@ -531,7 +531,7 @@ void mxmlTree2MsrSkeletonBuilder::showPartsVector (
     "PartsVector:" <<
     endl;
     
-  if (! fPartsVector.empty ()) {
+  if (fPartsVector.size ()) {
     gIndenter++;
     
     for (unsigned int i = 0; i < fPartsVector.size (); i++) {

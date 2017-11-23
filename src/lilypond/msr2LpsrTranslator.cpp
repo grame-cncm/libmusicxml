@@ -3563,7 +3563,7 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
 
  // JMI fCurrentRepeatClone =
   fCurrentVoiceClone->
-    createRepeatAndAppendItToVoice (
+    createRepeatUponItsEndAndAppendItToVoice ( // JMI
       elt->getInputLineNumber (),
       elt->
         getRepeatCommonPartRepeatUplink ()->
@@ -3922,7 +3922,8 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // append the barline to the current voice clone
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
-    
+
+    /* JMI
         if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Appending a hooked repeat ending clone to voice clone \"" <<
@@ -3935,6 +3936,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             inputLineNumber,
             elt->getEndingNumber (),
             msrRepeatEnding::kHookedEnding);
+            */
       }
       break;
       
@@ -3966,6 +3968,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         fCurrentVoiceClone->
           appendBarlineToVoice (elt);
 
+/* JMI
         if (gGeneralOptions->fTraceRepeats) {
           fLogOutputStream <<
             "Appending a hookless repeat ending clone to voice clone \" " <<
@@ -3978,6 +3981,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
             inputLineNumber,
             elt->getEndingNumber (),
             msrRepeatEnding::kHookedEnding);
+            */
       }
       break;
   } // switch
