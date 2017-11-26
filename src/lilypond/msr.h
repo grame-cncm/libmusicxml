@@ -2935,6 +2935,12 @@ class msrMeasure : public msrElement
     int                   getMeasureOrdinalNumber () const
                               { return fMeasureOrdinalNumber; }
 
+
+    void                  setNextMeasureNumber (string nextMeasureNumber)
+                              { fNextMeasureNumber = nextMeasureNumber; }
+
+    string                getNextMeasureNumber () const
+                              { return fNextMeasureNumber; }
     // lengthes
     
     void                  setFullMeasureLength (
@@ -3199,7 +3205,6 @@ class msrMeasure : public msrElement
     // other elements
     
     void                  prependOtherElementToMeasure (S_msrElement elem);
-                      
     void                  appendOtherElementToMeasure (S_msrElement elem);
 
     // last element of measure
@@ -3263,6 +3268,7 @@ class msrMeasure : public msrElement
     // measure numbers
     
     string                fMeasureNumber;
+    string                fNextMeasureNumber;
     int                   fMeasureOrdinalNumber;
 
     // measure kind
@@ -3546,6 +3552,7 @@ class msrSegment : public msrElement
 
     // other elements
     
+    void                  prependOtherElementToSegment (S_msrElement elem);
     void                  appendOtherElementToSegment (S_msrElement elem);
 
     // removing elements
@@ -7711,7 +7718,6 @@ class msrRepeatCommonPart : public msrElement
 
     static SMARTP<msrRepeatCommonPart> create (
       int          inputLineNumber,
-      S_msrSegment segment,
       S_msrRepeat  repeatUplink);
 
     /* JMI
@@ -7729,7 +7735,6 @@ class msrRepeatCommonPart : public msrElement
 
     msrRepeatCommonPart (
       int          inputLineNumber,
-      S_msrSegment segment,
       S_msrRepeat  repeatUplink);
       
     virtual ~msrRepeatCommonPart();
@@ -7739,17 +7744,20 @@ class msrRepeatCommonPart : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    // segment
-    S_msrSegment          getRepeatCommonPartSegment () const
-                              { return fRepeatCommonPartSegment; }
-                
     // uplinks
     S_msrRepeat           getRepeatCommonPartRepeatUplink () const
                               { return fRepeatCommonPartRepeatUplink; }
 
+    // elements
+    const list<S_msrElement>&
+                          getRepeatCommonPartElementsList ()
+                              { return fRepeatCommonPartElementsList; }
+                
     // services
     // ------------------------------------------------------
   
+    void                  appendElementToRepeatCommonPart (S_msrElement elem);
+
     string                repeatCommonPartAsString () const;
 
  //  JMI void                  appendElementToRepeatCommonPart (S_msrElement elem);
@@ -7775,8 +7783,8 @@ class msrRepeatCommonPart : public msrElement
     // uplinks
     S_msrRepeat           fRepeatCommonPartRepeatUplink;
 
-    // segment
-    S_msrSegment          fRepeatCommonPartSegment;
+    // elements list
+    list<S_msrElement>    fRepeatCommonPartElementsList;
 };
 typedef SMARTP<msrRepeatCommonPart> S_msrRepeatCommonPart;
 EXP ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt);
@@ -7997,7 +8005,6 @@ class msrRepeat : public msrElement
 
     int                   fRepeatTimes;
     // common part
-  //  S_msrSegment          fRepeatCommonSegment; JMI
     S_msrRepeatCommonPart fRepeatCommonPart;
 
     // repeat endings
@@ -8918,6 +8925,7 @@ class msrVoice : public msrElement
 
     // other elements
     
+    void                  prependOtherElementToVoice (S_msrElement elem);
     void                  appendOtherElementToVoice (S_msrElement elem);
                             // for other types of elements not known
                             // in this header file, such as LPSR elements
@@ -8933,9 +8941,8 @@ class msrVoice : public msrElement
 
     // repeats
     
-    void                  createRepeatUponItsStartAndAppendItToVoice (
-                            int inputLineNumber,
-                            int repeatTimes);
+    void                  prepareForRepeatInVoice (
+                            int inputLineNumber);
   
     void                  createRepeatUponItsEndAndAppendItToVoice (
                             int inputLineNumber,
@@ -9092,19 +9099,19 @@ class msrVoice : public msrElement
     // voice internal handling
     
     // fVoiceLastSegment contains the music
-    // not yet stored in fVoiceInitialElements,
+    // not yet stored in fVoiceInitialElementsList,
     // it is thus logically the end of the latter,
     // and is created implicitly for every voice.
     // Is is needed 'outside' of the 'list<S_msrElement>'
     // because it is not a mere S_msrElement, but a S_msrSegment
-    list<S_msrElement>    fVoiceInitialElements;
+    list<S_msrElement>    fVoiceInitialElementsList;
     S_msrSegment          fVoiceLastSegment;
 
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment          fVoiceFirstSegment;
 
     // fVoiceCurrentRepeat is null or
-    // the last msrRepeat in fVoiceInitialElements
+    // the last msrRepeat in fVoiceInitialElementsList
     S_msrRepeat           fVoiceCurrentRepeat;
 
     // fVoiceCurrentMeasuresRepeat is null
@@ -9591,9 +9598,8 @@ class msrStaff : public msrElement
 
     // repeats
     
-    void                  createRepeatUponItsStartAndAppendItToStaff (
-                            int inputLineNumber,
-                            int repeatTimes);
+    void                  prepareForRepeatInStaff (
+                            int inputLineNumber);
     
     void                  createRepeatUponItsEndAndAppendItToStaff (
                             int inputLineNumber,
@@ -10116,9 +10122,8 @@ class msrPart : public msrElement
               
     // repeats
     
-    void                  createRepeatUponItsStartAndAppendItToPart (
-                            int inputLineNumber,
-                            int repeatTimes);
+    void                  prepareForRepeatInPart (
+                            int inputLineNumber);
     
     void                  createRepeatUponItsEndAndAppendItToPart (
                             int inputLineNumber,

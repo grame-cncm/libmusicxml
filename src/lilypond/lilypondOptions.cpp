@@ -194,6 +194,7 @@ The default is... 'default'.)",
           "accidentalStyle",
           fAccidentalStyleKind));
 
+/* JMI
     notesSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -202,6 +203,7 @@ R"(Generate '\compressMMRests' at the beginning of voices.
 By default, this command is commented.)",
           "compressMultiMeasureRests",
           fCompressMultiMeasureRests));
+*/
 
     notesSubGroup->
       appendOptionsItem (

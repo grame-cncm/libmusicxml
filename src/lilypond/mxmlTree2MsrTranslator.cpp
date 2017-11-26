@@ -16127,15 +16127,14 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
 
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Appending a repeat to part " <<
+      "Preparing for repeat in part " <<
       fCurrentPart->getPartCombinedName () <<
       endl;
   }
 
   fCurrentPart->
-    createRepeatUponItsStartAndAppendItToPart (
-      inputLineNumber,
-      barline->getBarlineTimes ());
+    prepareForRepeatInPart (
+      inputLineNumber);
 
   // append the bar line to the current part
   fCurrentPart->

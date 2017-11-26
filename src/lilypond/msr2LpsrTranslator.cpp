@@ -3471,12 +3471,37 @@ void msr2LpsrTranslator::visitEnd (S_msrPageBreak& elt)
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrRepeat& elt)
 {
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrRepeat" <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
+
+  fLogOutputStream <<
+    endl <<
+    "*********** fCurrentPartClone" <<
+    endl <<
+    endl;
+  fCurrentPartClone->print (fLogOutputStream);
+  fLogOutputStream <<
+    "*********** fCurrentPartClone" <<
+    endl <<
+    endl;
+
+  if (gGeneralOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Preparing for repeat in part clone" <<
+      fCurrentPartClone->getPartCombinedName () <<
+      endl;
+  }
+
+  fCurrentPartClone->
+    prepareForRepeatInPart (
+      inputLineNumber);
 
 /* JMI
   // create a repeat clone
@@ -3552,19 +3577,36 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatCommonPart& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   // create a repeat and append it to voice clone
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
-      "Appending a repeat  to voice clone \"" <<
+      "Appending a repeat to voice clone \"" <<
       fCurrentVoiceClone->getVoiceName () <<
       "\"" <<
       endl;
   }
 
- // JMI fCurrentRepeatClone =
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      endl <<
+      "*********>> msrRepeatCommonPart GGG " <<
+      ", line " << inputLineNumber <<
+      " contains:" <<
+      endl <<
+      elt <<
+      endl <<
+      "<<*********" <<
+      endl <<
+      endl;
+  }
+
+  // JMI fCurrentRepeatClone =
   fCurrentVoiceClone->
     createRepeatUponItsEndAndAppendItToVoice ( // JMI
-      elt->getInputLineNumber (),
+      inputLineNumber,
       elt->
         getRepeatCommonPartRepeatUplink ()->
           getRepeatTimes ());
@@ -3588,6 +3630,9 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   // create a repeat ending clone and append it to voice clone
   if (gGeneralOptions->fTraceRepeats) {
     fLogOutputStream <<
@@ -3597,9 +3642,23 @@ void msr2LpsrTranslator::visitEnd (S_msrRepeatEnding& elt)
       endl;
   }
 
+  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      endl <<
+      "*********>> msrRepeatEnding HHH " <<
+      ", line " << inputLineNumber <<
+      " contains:" <<
+      endl <<
+      elt <<
+      endl <<
+      "<<*********" <<
+      endl <<
+      endl;
+  }
+
   fCurrentVoiceClone->
     appendRepeatEndingToVoice (
-      elt->getInputLineNumber (),
+      inputLineNumber,
       elt->getRepeatEndingNumber (),
       elt->getRepeatEndingKind ());
 }
@@ -3842,149 +3901,19 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       endl;
   }
 
-  switch (elt->getBarlineCategory ()) {
-    
-    case msrBarline::kBarlineCategoryStandalone:
-      {
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Handling kStandaloneBarline in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
+  if (gGeneralOptions->fTraceBarlines) {
+    fLogOutputStream <<
+      "Handling '" <<
+      msrBarline::barlineCategoryKindAsString (
+        elt->getBarlineCategory ()) <<
+      "' in voice \"" <<
+      fCurrentVoiceClone->getVoiceName () << "\"" <<
+      endl;
+  }
 
-        // append the barline to the current voice clone
-        fCurrentVoiceClone->
-          appendBarlineToVoice (elt);
-      }
-      break;
-      
-    case msrBarline::kBarlineCategoryRepeatStart:
-      {
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Handling kRepeatStart in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-    
-        // append the barline to the current voice clone
-        fCurrentVoiceClone->
-          appendBarlineToVoice (elt);
-      }
-      break;
-
-    case msrBarline::kBarlineCategoryRepeatEnd:
-      {
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Handling kRepeatEnd in voice " <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-  
-        // append the barline to the current voice clone
-        fCurrentVoiceClone->
-          appendBarlineToVoice (elt);
-/*
-        // append the repeat clone to the current part clone
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Appending a repeat to part clone " <<
-            fCurrentPartClone->getPartCombinedName () << "\"" <<
-            endl;
-        }
-  
-        fCurrentPartClone-> // no test needed JMI
-          createRepeatAndAppendItToPart (
-            inputLineNumber);
-            */
-        }
-      break;
-            
-    case msrBarline::kBarlineCategoryHookedEndingStart:
-      {
-        // append the barline to the current voice clone
-        fCurrentVoiceClone->
-          appendBarlineToVoice (elt);
-      }
-      break;
-      
-    case msrBarline::kBarlineCategoryHookedEndingEnd:
-      {
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Handling kHookedEndingEnd in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-  
-        // append the barline to the current voice clone
-        fCurrentVoiceClone->
-          appendBarlineToVoice (elt);
-
-    /* JMI
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Appending a hooked repeat ending clone to voice clone \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-
-        fCurrentPartClone->
-          appendRepeatEndingToPart (
-            inputLineNumber,
-            elt->getEndingNumber (),
-            msrRepeatEnding::kHookedEnding);
-            */
-      }
-      break;
-      
-    case msrBarline::kBarlineCategoryHooklessEndingStart:
-      {
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Handling kHooklessEndingStart in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-  
-        // append the barline to the current voice clone
-        fCurrentVoiceClone->
-          appendBarlineToVoice (elt);
-      }
-      break;
-
-    case msrBarline::kBarlineCategoryHooklessEndingEnd:
-      {
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Handling kHooklessEndingEnd in voice \"" <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-  
-        // append the barline to the current voice clone
-        fCurrentVoiceClone->
-          appendBarlineToVoice (elt);
-
-/* JMI
-        if (gGeneralOptions->fTraceRepeats) {
-          fLogOutputStream <<
-            "Appending a hookless repeat ending clone to voice clone \" " <<
-            fCurrentVoiceClone->getVoiceName () << "\"" <<
-            endl;
-        }
-
-        fCurrentPartClone->
-          appendRepeatEndingToPart (
-            inputLineNumber,
-            elt->getEndingNumber (),
-            msrRepeatEnding::kHookedEnding);
-            */
-      }
-      break;
-  } // switch
+  // append the barline to the current voice clone
+  fCurrentVoiceClone->
+    appendBarlineToVoice (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrBarline& elt)

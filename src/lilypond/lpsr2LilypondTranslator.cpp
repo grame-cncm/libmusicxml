@@ -4500,6 +4500,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kFullMeasureKind:
+      fLilypondCodeIOstream <<
+        "| % " << measureNumber << // WRONG JMI
+        endl;
       break;
       
     case msrMeasure::kUpbeatMeasureKind:
@@ -4543,10 +4546,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
   } // switch
     
-  fLilypondCodeIOstream <<
-    "| % " << measureNumber <<
-    endl;
-
   if (gLilypondOptions->fComments) {
     gIndenter--;
 
@@ -7875,34 +7874,34 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         case msrBarline::k_NoBarlineStyle:
           break;
         case msrBarline::kBarlineStyleRegular:
-          fLilypondCodeIOstream << "\\bar \"|\"";
+          fLilypondCodeIOstream << "\\bar \"|\" ";
           break;
         case msrBarline::kBarlineStyleDotted:
-          fLilypondCodeIOstream << "\\bar \";\"";
+          fLilypondCodeIOstream << "\\bar \";\" ";
           break;
         case msrBarline::kBarlineStyleDashed:
-          fLilypondCodeIOstream << "\\bar \"!\"";
+          fLilypondCodeIOstream << "\\bar \"!\" ";
           break;
         case msrBarline::kBarlineStyleHeavy:
-          fLilypondCodeIOstream << "\\bar \".\"";
+          fLilypondCodeIOstream << "\\bar \".\" ";
           break;
         case msrBarline::kBarlineStyleLightLight:
-          fLilypondCodeIOstream << "\\bar \"||\"";
+          fLilypondCodeIOstream << "\\bar \"||\" ";
           break;
         case msrBarline::kBarlineStyleLightHeavy:
-          fLilypondCodeIOstream << "\\bar \"|.\"";
+          fLilypondCodeIOstream << "\\bar \"|.\" ";
           break;
         case msrBarline::kBarlineStyleHeavyLight:
-          fLilypondCodeIOstream << "\\bar \".|\"";
+          fLilypondCodeIOstream << "\\bar \".|\" ";
           break;
         case msrBarline::kBarlineStyleHeavyHeavy:
-          fLilypondCodeIOstream << "\\bar \"..\"";
+          fLilypondCodeIOstream << "\\bar \"..\" ";
           break;
         case msrBarline::kBarlineStyleTick:
-          fLilypondCodeIOstream << "\\bar \"'\"";
+          fLilypondCodeIOstream << "\\bar \"'\" ";
           break;
         case msrBarline::kBarlineStyleShort:
-          fLilypondCodeIOstream << "\\bar \"'\""; // JMI
+          fLilypondCodeIOstream << "\\bar \"'\" "; // JMI
           /* JMI ??? from gregorian.ly
           divisioMaior = {
             \once \override BreathingSign.stencil = #ly:breathing-sign::divisio-maior
@@ -7912,7 +7911,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           */
           break;
         case msrBarline::kBarlineStyleNone:
-          fLilypondCodeIOstream << "\\bar \"\"";
+          fLilypondCodeIOstream << "\\bar \"\" ";
           break;
       } // switch
 
@@ -8083,9 +8082,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
     fCurrentRepeatEndingsNumber = 2; // implicitly
 
   stringstream s;
-  s <<
-    "\\repeat volta " << fCurrentRepeatEndingsNumber << " {"; // elt->getRepeatTimes () JMI
   
+  s <<
+    "\\repeat volta " << elt->getRepeatTimes () << " {";
+  
+  fLilypondCodeIOstream <<
+    endl;
+
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
@@ -8099,6 +8102,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
   }
 
   gIndenter++;
+
+  int
+    repeatTimes =
+      elt->getRepeatTimes ();
+
+  if (repeatTimes > 2) {
+    fLilypondCodeIOstream <<
+      "<>^\"" << repeatTimes << " times\"" <<
+      endl;
+  }
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
