@@ -22,6 +22,8 @@
 
 #include "versions.h"
 
+#include "messagesHandling.h"
+
 #include "generalOptions.h"
 
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"

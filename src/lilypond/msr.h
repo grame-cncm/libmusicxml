@@ -4014,10 +4014,12 @@ class msrSyllable : public msrElement
       kSingleSyllable, kBeginSyllable, kMiddleSyllable, kEndSyllable,
       kRestSyllable, kSkipSyllable,
       kMelismaFirstSyllable, kMelismaOtherSyllable,
+/*
       kTiedSyllable,
       kSlurSyllable, kSlurBeyondEndSyllable,
       kLigatureSyllable, kLigatureBeyondEndSyllable,
       kBarcheckSyllable, kBarNumberCheckSyllable,
+*/
       kLineBreakSyllable, kPageBreakSyllable};
 
     static string syllableKindAsString (
@@ -4082,8 +4084,6 @@ class msrSyllable : public msrElement
                               { return fSyllableExtendKind; }
 
     // uplinks
-    void                  setSyllableNoteUplink (S_msrNote note);
-
     S_msrNote             getSyllableNoteUplink () const
                               { return fSyllableNoteUplink; }
 
@@ -4092,6 +4092,9 @@ class msrSyllable : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    void                  appendSyllableToNoteAndSetItsUplink (
+                            S_msrNote note);
 
     // texts lists
     static void           writeTextsList (
@@ -4104,6 +4107,8 @@ class msrSyllable : public msrElement
     string                syllableWholeNotesAsMsrString ();
     
     string                syllableKindAsString () const;
+    
+    string                syllableExtendKindAsString () const;
 
     // as string
     string                syllableAsString ();
@@ -5016,18 +5021,6 @@ class msrNote : public msrElement
     list<S_msrSyllable>   getNoteSyllables () const
                               { return fNoteSyllables; }              
 
-    void                  setNoteSyllableExtendKind (
-                            msrSyllable::msrSyllableExtendKind
-                              syllableExtendKind)
-                              {
-                                fNoteSyllableExtendKind =
-                                  syllableExtendKind;
-                              }
-
-    msrSyllable::msrSyllableExtendKind
-                          getNoteSyllableExtendKind () const
-                              { return fNoteSyllableExtendKind; }              
-
     // elements attached to the note
     // -------------------------------
 
@@ -5384,8 +5377,6 @@ class msrNote : public msrElement
     // ------------------------------------------------------
 
     list<S_msrSyllable>   fNoteSyllables;
-    msrSyllable::msrSyllableExtendKind
-                          fNoteSyllableExtendKind; // MEGA JMI
     
     // stem
     // ------------------------------------------------------
@@ -7023,25 +7014,15 @@ class msrStanza : public msrElement
 
     // constants
     // ------------------------------------------------------
-
-    const string K_MUTE_STANZA_NUMBER = "MUTE_STANZA";
     
-    // data types
-    // ------------------------------------------------------
-
-    enum msrStanzaKind {
-       kRegularStanza, kMuteStanza };
-
-    static string stanzaKindAsString (
-      msrStanzaKind stanzaKind);
-      
+    #define K_NO_STANZA_NUMBER "-1"
+  
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrStanza> create (
       int           inputLineNumber,
       string        stanzaNumber,
-      msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
     
     SMARTP<msrStanza> createStanzaNewbornClone (
@@ -7058,7 +7039,6 @@ class msrStanza : public msrElement
     msrStanza (
       int           inputLineNumber,
       string        stanzaNumber,
-      msrStanzaKind stanzaKind,
       S_msrVoice    stanzaVoiceUplink);
 
   public:
@@ -7083,11 +7063,7 @@ class msrStanza : public msrElement
                 
     // name
     string                getStanzaName () const;
-                
-    // kind
-    msrStanzaKind         getStanzaKind () const
-                              { return fStanzaKind; }
-                
+                                
     // contents
     const vector<S_msrSyllable>&
                           getSyllables () const
@@ -7123,6 +7099,7 @@ class msrStanza : public msrElement
                                             syllableKind,
                             rational        wholeNote);
 
+/* JMI
     S_msrSyllable         appendTiedSyllableToStanza (
                             int      inputLineNumber,
                             rational wholeNotes);
@@ -7150,8 +7127,13 @@ class msrStanza : public msrElement
     S_msrSyllable         appendBarcheckSyllableToStanza (
                             int    inputLineNumber,
                             string nextMeasureNumber);
+*/
 
-    S_msrSyllable         appendLineLineBreakSyllableToStanza (
+    S_msrSyllable         appendLineBreakSyllableToStanza (
+                            int    inputLineNumber,
+                            string nextMeasureNumber);
+                
+    S_msrSyllable         appendPageBreakSyllableToStanza (
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 
@@ -7180,9 +7162,6 @@ class msrStanza : public msrElement
     // The lyric number indicates multiple lines,
     // though a name can be used as well (as in Finale's verse/chorus/section specification)
     string                fStanzaNumber;
-
-    // kind
-    msrStanzaKind         fStanzaKind;
 
     // name
     string                fStanzaName;
@@ -8574,6 +8553,11 @@ class msrVoice : public msrElement
 {
   public:
     
+    // constants
+    // ------------------------------------------------------
+
+    #define K_NO_VOICE_NUMBER -39
+
     // data types
     // ------------------------------------------------------
 
@@ -8679,10 +8663,7 @@ class msrVoice : public msrElement
                               { return fVoiceName; }
 
     // stanzas
-    
-    S_msrStanza           getVoiceMuteStanza () const
-                              { return fVoiceMuteStanza; }
-               
+                   
     const map<string, S_msrStanza>&
                           getVoiceStanzasMap () const
                               { return fVoiceStanzasMap; }
@@ -8881,9 +8862,10 @@ class msrVoice : public msrElement
 
     // lyrics
     
-    void                  appendSyllableToVoice (
+    void                  appendSyllableToVoice ( // JMI
                             int           inputLineNumber,
                             string        stanzaNumber,
+                            string        stanzaName,
                             S_msrSyllable syllable);
 
     // bar checks
@@ -9018,9 +9000,6 @@ class msrVoice : public msrElement
     void                  addStanzaToVoiceWithoutCatchUp (
                             S_msrStanza stanza);
 
-    void                  catchUpWithVoiceMuteStanza (
-                            S_msrStanza stanza);
-                    
     void                  addStanzaToVoice (
                             S_msrStanza stanza);
 
@@ -9029,7 +9008,8 @@ class msrVoice : public msrElement
 
     S_msrStanza           createStanzaInVoiceIfNotYetDone (
                             int    inputLineNumber,
-                            string stanzaNumber);
+                            string stanzaNumber,
+                            string stanzaName);
     
     // finalization
     
@@ -9126,13 +9106,7 @@ class msrVoice : public msrElement
     bool                  fVoiceContainsMultipleRests;
 
     // stanzas
-    
-    // the mute stanza, collecting skips along the way,
-    // to be used as a 'prelude' by actual stanzas
-    // that start at later points
-    S_msrStanza           fVoiceMuteStanza;
-                            // K_MUTE_STANZA_NUMBER
-    
+        
     map<string, S_msrStanza>
                           fVoiceStanzasMap;
 };
@@ -9415,6 +9389,11 @@ EXP ostream& operator<< (ostream& os, const S_msrStaffDetails& elt);
 class msrStaff : public msrElement
 {
   public:
+
+    // constants
+    // ------------------------------------------------------
+
+    #define K_NO_STAFF_NUMBER -79
 
     // data types
     // ------------------------------------------------------

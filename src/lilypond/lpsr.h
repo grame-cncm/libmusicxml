@@ -106,85 +106,6 @@ template <typename T> class lpsrBrowser : public browser<T>
 };
 
 //______________________________________________________________________________
-class lpsrParallelMusic : public lpsrElement
-{
-  public:
-    
-    // data types
-    // ------------------------------------------------------
-
-    enum lpsrElementsSeparatorKind {
-      kEndOfLine, kSpace};
-
-    static string elementsSeparatorKindAsString (
-      lpsrElementsSeparatorKind elementsSeparatorKind);
-      
-    // creation from MusicXML
-    // ------------------------------------------------------
-
-    static SMARTP<lpsrParallelMusic> create (
-      int                       inputLineNumber,
-      lpsrElementsSeparatorKind elementsSeparatorKind);
-
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    lpsrParallelMusic (
-      int                       inputLineNumber,
-      lpsrElementsSeparatorKind elementsSeparatorKind);
-      
-    virtual ~lpsrParallelMusic();
-    
-  public:
-
-    // set and get
-    // ------------------------------------------------------
-
-    const vector<S_msrElement>&
-                          getParallelMusicElements () const
-                              { return fParallelMusicElements; }
-
-    // services
-    // ------------------------------------------------------
-
-    void                  addElementToParallelMusic (S_msrElement elem)
-                              { fParallelMusicElements.push_back(elem); }
-                    
-    S_msrElement          getLastElementOfParallelMusic()
-                              { return fParallelMusicElements.back(); }
-                    
-    void                  removeLastElementOfParallelMusic ()
-                              { fParallelMusicElements.pop_back(); }
-
-    // visitors
-    // ------------------------------------------------------
-
-    virtual void          acceptIn  (basevisitor* v);
-    virtual void          acceptOut (basevisitor* v);
-
-    virtual void          browseData (basevisitor* v);
-
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
-
-  private:
-  
-    // fields
-    // ------------------------------------------------------
-
-    vector<S_msrElement>  fParallelMusicElements;
-    lpsrElementsSeparatorKind
-                          fElementsSeparatorKind;
-
-};
-typedef SMARTP<lpsrParallelMusic> S_lpsrParallelMusic;
-EXP ostream& operator<< (ostream& os, const S_lpsrParallelMusic& elt);
-
-//______________________________________________________________________________
 class lpsrLilypondVarValAssoc : public lpsrElement
 {
   public:
@@ -2024,6 +1945,96 @@ typedef SMARTP<lpsrPartGroupBlock> S_lpsrPartGroupBlock;
 EXP ostream& operator<< (ostream& os, const S_lpsrPartGroupBlock& elt);
 
 //______________________________________________________________________________
+class lpsrParallelMusicBLock : public lpsrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum lpsrElementsSeparatorKind {
+      kEndOfLine, kSpace};
+
+    static string elementsSeparatorKindAsString (
+      lpsrElementsSeparatorKind elementsSeparatorKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrParallelMusicBLock> create (
+      int                       inputLineNumber,
+      lpsrElementsSeparatorKind elementsSeparatorKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrParallelMusicBLock (
+      int                       inputLineNumber,
+      lpsrElementsSeparatorKind elementsSeparatorKind);
+      
+    virtual ~lpsrParallelMusicBLock ();
+    
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    const list<S_lpsrPartGroupBlock>&
+                          getParallelMusicBLockPartGroupBlocks () const
+                              { return fParallelMusicBLockPartGroupBlocks; }
+
+    // services
+    // ------------------------------------------------------
+
+    void                  appendPartGroupBlockToParallelMusicBLock (
+                            S_lpsrPartGroupBlock partGroupBlock)
+                              {
+                                fParallelMusicBLockPartGroupBlocks.push_back (
+                                  partGroupBlock);
+                              }
+                    
+    S_lpsrPartGroupBlock
+                          getLastPartGroupBlockOfParallelMusicBLock ()
+                              {
+                                return
+                                  fParallelMusicBLockPartGroupBlocks.back ();
+                              }
+                    
+    void                  removeLastPartGroupBlockOfParallelMusicBLock () // JMI
+                              {
+                                fParallelMusicBLockPartGroupBlocks.pop_back ();
+                              }
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    list<S_lpsrPartGroupBlock>
+                          fParallelMusicBLockPartGroupBlocks;
+    
+    lpsrElementsSeparatorKind
+                          fElementsSeparatorKind;
+};
+typedef SMARTP<lpsrParallelMusicBLock> S_lpsrParallelMusicBLock;
+EXP ostream& operator<< (ostream& os, const S_lpsrParallelMusicBLock& elt);
+
+//______________________________________________________________________________
 class lpsrScoreBlock : public lpsrElement
 {
   public:
@@ -2049,8 +2060,12 @@ class lpsrScoreBlock : public lpsrElement
     // set and get
     // ------------------------------------------------------
 
-    S_lpsrParallelMusic   getScoreBlockParallelMusic () const
-                              { return fScoreBlockParallelMusic; }
+    S_lpsrParallelMusicBLock
+                          getScoreBlockParallelMusicBLock () const
+                              {
+                                return
+                                  fScoreBlockParallelMusicBLock;
+                              }
 
 /*
     const vector<S_msrElement>&
@@ -2066,14 +2081,16 @@ class lpsrScoreBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void                  appendPartGroupBlockToParallelMusic (
+    void                  appendPartGroupBlockToScoreBlock (
                             S_lpsrPartGroupBlock partGroupBlock);
 
+/* JMI
     void                  appendVoiceUseToParallelMusic (
                             S_lpsrUseVoiceCommand voiceUse);
 
     void                  appendLyricsUseToParallelMusic (
                             S_lpsrNewLyricsBlock lyricsUse);
+                            */
 
     // visitors
     // ------------------------------------------------------
@@ -2093,7 +2110,8 @@ class lpsrScoreBlock : public lpsrElement
     // fields
     // ------------------------------------------------------
 
-    S_lpsrParallelMusic   fScoreBlockParallelMusic;
+    S_lpsrParallelMusicBLock
+                          fScoreBlockParallelMusicBLock;
     
     S_lpsrLayout          fScoreBlockLayout;
     

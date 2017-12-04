@@ -160,6 +160,7 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
     
   // lyrics handling
   fCurrentStanzaNumber = -1; // JMI
+  fCurrentStanzaName = "";
 
   // harmonies handling
  
@@ -2716,22 +2717,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staff& elt)
     msrAssert (false, s.str ());
   }
   
-  S_msrStaff
-    staff =
-      createStaffIfNotYetDone (
-        inputLineNumber,
-        fCurrentStaffNumber);
-
-  if (gGeneralOptions->fTraceStaves) {
-    fLogOutputStream <<
-      "--> S_staff, fCurrentStaffNumber = " <<
-      fCurrentStaffNumber << endl <<
-    "--> S_staff, current staff name  = " <<
-      staff->getStaffName() <<
-      endl;
-  }
-
-  if (fOnGoingNote) {
+  if (fOnGoingNote) { // JMI
     // regular staff indication in note/rest
     fCurrentNoteStaffNumber = fCurrentStaffNumber;
   }
@@ -2748,39 +2734,14 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_voice& elt )
 
   fCurrentVoiceNumber = int(*elt);
   
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-  
-  if (fOnGoingNote) {
+  if (fOnGoingNote) { // JMI
     // regular voice indication in note/rest
     fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
-
-    S_msrStaff
-      staff =
-        createStaffIfNotYetDone (
-          inputLineNumber,
-          fCurrentNoteStaffNumber);
-  
-    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices) {
-      fLogOutputStream <<
-        "--> fCurrentNoteVoiceNumber        = " <<
-        fCurrentNoteVoiceNumber <<
-        endl <<
-        "--> S_voice, fCurrentNoteStaffNumber = " <<
-        fCurrentNoteStaffNumber <<
-        endl <<
-        "--> S_voice, current staff name  = " <<
-        staff->getStaffName() <<
-        endl;
-    }
-
-    S_msrVoice
-      currentVoice = // ??? JMI
-        createVoiceIfNotYetDone (
-          inputLineNumber,
-          fCurrentStaffNumber,
-          fCurrentVoiceNumber);
   }
+  
+  // don't attempt to create the voice now,
+  // it's staff number if any comes later!
+  // do it upton visitEnd ( S_note& )
 }
 
 //________________________________________________________________________
@@ -2860,14 +2821,42 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
   fCurrentNoteStaffNumber = fCurrentStaffNumber;
   fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
-  // fetch current voice
+  // should the staff be created?
+  S_msrStaff
+    staff =
+      createStaffIfNotYetDone (
+        inputLineNumber,
+        fCurrentNoteStaffNumber);
+
+  // should the voice be created?
   S_msrVoice
-    currentVoice =
+    voice =
       createVoiceIfNotYetDone (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
   
+  if (
+    gGeneralOptions->fTraceNotes
+      ||
+    gGeneralOptions->fTraceStaves
+      ||
+    gGeneralOptions->fTraceVoices) {
+    fLogOutputStream <<
+      "--> S_note, fCurrentNoteStaffNumber = " <<
+      fCurrentNoteStaffNumber <<
+      endl <<
+      "--> S_note, current staff name  = " <<
+      staff->getStaffName() <<
+      endl <<
+      "--> S_note, fCurrentNoteVoiceNumber        = " <<
+      fCurrentNoteVoiceNumber <<
+      endl <<
+      "--> S_note, current voice name  = " <<
+      voice->getVoiceName() <<
+      endl;
+  }
+
   fOnGoingNote = false;
 }
 
@@ -2903,30 +2892,67 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
       endl;
   }
 
-  string stanzaNumber =
-    elt->getAttributeValue ("number");
-  
-  if (stanzaNumber.size () == 0) {
-    msrMusicXMLWarning (
-      gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      "lyric number is empty");
-  }
-  
-  else {
-    if (gGeneralOptions->fTraceLyrics) {
-      fLogOutputStream <<
-        "--> setting fCurrentStanzaNumber to " <<
-        stanzaNumber <<
-        ", line " << elt->getInputLineNumber () <<
-        endl;
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
+  // number
+
+  {
+    string stanzaNumber =
+      elt->getAttributeValue ("number");
+    
+    if (stanzaNumber.size () == 0) {
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        "lyric number is empty");
     }
-        
-    // register it as current stanza number, JMI
-    // that remains set another positive value is met,
-    // thus allowing a skip syllable to be generated
-    // for notes without lyrics
-    fCurrentStanzaNumber = stanzaNumber;
+    
+    else {
+      if (gGeneralOptions->fTraceLyrics) {
+        fLogOutputStream <<
+          "--> setting fCurrentStanzaNumber to " <<
+          stanzaNumber <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+          
+      // register it as current stanza number, JMI
+      // that remains set another positive value is met,
+      // thus allowing a skip syllable to be generated
+      // for notes without lyrics
+      fCurrentStanzaNumber = stanzaNumber;
+    }
+  }
+
+  // name
+
+  {
+    string stanzaName =
+      elt->getAttributeValue ("name");
+    
+    if (stanzaName.size () == 0) {
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        "lyric name is empty");
+    }
+    
+    else {
+      if (gGeneralOptions->fTraceLyrics) {
+        fLogOutputStream <<
+          "--> setting fCurrentStanzaName to " <<
+          stanzaName <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+          
+      // register it as current stanza name, JMI
+      // that remains set another positive value is met,
+      // thus allowing a skip syllable to be generated
+      // for notes without lyrics
+      fCurrentStanzaName = stanzaName;
+    }
   }
 }
 
@@ -2985,7 +3011,8 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
       currentVoice->
         createStanzaInVoiceIfNotYetDone (
           inputLineNumber,
-          fCurrentStanzaNumber);
+          fCurrentStanzaNumber,
+          fCurrentStanzaName);
 }
 
 //______________________________________________________________________________

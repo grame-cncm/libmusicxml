@@ -81,7 +81,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentMultipleRestHasBeenCreated = false;
   
   // staff details handling
-  fStaffDetailsStaffNumber = -1;
+  fStaffDetailsStaffNumber = K_NO_STAFF_NUMBER;
   
   fCurrentStaffTypeKind =
     msrStaffDetails::kRegularStaffType;
@@ -102,13 +102,13 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentStaffDetailsStaffSize = 0;
 
   // staff handling
-  fCurrentStaffNumber = -1;
+  fCurrentStaffNumber = K_NO_STAFF_NUMBER;
 
   // voice handling
-  fCurrentVoiceNumber = -1;
+  fCurrentVoiceNumber = K_NO_VOICE_NUMBER;
 
   // clef handling
-  fCurrentClefStaffNumber = -1;
+  fCurrentClefStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentClefSign = "";
   fCurrentClefLine = -1;
   fCurrentClefOctaveChange = -77;
@@ -116,7 +116,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // key handling
   fCurrentKeyKind = msrKey::kTraditionalKind;
   
-  fCurrentKeyStaffNumber = -21;
+  fCurrentKeyStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentKeyFifths = -1;
   fCurrentKeyCancelFifths = -37;
   fCurrentKeyModeKind = msrKey::kMajorMode;
@@ -138,7 +138,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // direction handling
   fCurrentWordsContents = "";
-  fCurrentDirectionStaffNumber = 1; // it may be absent
+  fCurrentDirectionStaffNumber = K_NO_STAFF_NUMBER; // it may be absent
   fOnGoingDirection     = true;
 
   // direction-type handling
@@ -156,14 +156,15 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentMetronomeParentheses = false;
 
   // time handling
-  fCurrentTimeStaffNumber = -2;
+  fCurrentTimeStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentTimeBeats = "";
 
   // lyrics handling
   fOnGoingLyric = false;
-  fCurrentStanzaNumber = -1; // JMI
+  fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
+  fCurrentStanzaName = "";
+  
   fCurrentSyllabic = "";
-  fCurrentLyricElision = false;
 
   fCurrentSyllableKind       = msrSyllable::k_NoSyllable;
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
@@ -218,8 +219,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingNote = false;
 
   // note context
-  fCurrentNoteStaffNumber = 0;
-  fCurrentNoteVoiceNumber = 0;
+  fCurrentNoteStaffNumber = K_NO_STAFF_NUMBER;
+  fCurrentNoteVoiceNumber = K_NO_VOICE_NUMBER;
 
   // technicals handling
   fBendAlterValue = -39;
@@ -253,8 +254,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // forward handling
   fCurrentForwardDurationDivisions = 1;
-  fCurrentForwardStaffNumber = 1;
-  fCurrentForwardVoiceNumber = 1;
+  fCurrentForwardStaffNumber = K_NO_STAFF_NUMBER;
+  fCurrentForwardVoiceNumber = K_NO_VOICE_NUMBER;
   fOnGoingForward = false;
 }
 
@@ -316,8 +317,8 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
         
   // note context
   
-  fCurrentNoteStaffNumber = 0;
-  fCurrentNoteVoiceNumber = 0;
+  fCurrentNoteStaffNumber = 1; // may be absent
+  fCurrentNoteVoiceNumber = 1; // may be absent
 
   fCurrentNoteHasATimeModification = false;
   fCurrentActualNotes = -1;
@@ -442,18 +443,18 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   }
     
   // fetch registered voice displaying staff number
-  int voiceDisplayingStaffNumber = 1; // there may be no <staff /> markups
+  int voiceDisplayingStaffNumber = K_NO_VOICE_NUMBER;
+    // there may be no <staff /> markups
 
   if (fPartVoiceNumberToDisplayingStaffNumberMap.count (voiceNumber))
     voiceDisplayingStaffNumber =
       fPartVoiceNumberToDisplayingStaffNumberMap [
         voiceNumber];
 
-  if (staffNumber == voiceDisplayingStaffNumber) {
-    // voice 'voiceNumber' remains displayed by staff 'staffNumber'
-  }
-  
-  else {
+  if (
+    voiceDisplayingStaffNumber != K_NO_VOICE_NUMBER
+      &&
+    staffNumber == voiceDisplayingStaffNumber) {
     // voice 'voiceNumber' changes
     // from staff 'voiceDisplayingStaffNumber'
     // to staff 'staffNumber'
@@ -1121,8 +1122,8 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
 
   // miscellaneous
   fCurrentMeasureOrdinalNumber = 0;
-  fCurrentStaffNumber = 1; // default if there are no <staff> element
-  fCurrentVoiceNumber = 1; // default if there are no <voice> element
+  fCurrentStaffNumber = K_NO_STAFF_NUMBER; // default if there are no <staff> element
+  fCurrentVoiceNumber = K_NO_VOICE_NUMBER; // default if there are no <voice> element
 
   fCurrentEndingStartBarline = nullptr; // JMI
 
@@ -3557,7 +3558,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
   
   else if (fOnGoingNote) {
     // regular staff indication in note/rest
-    fCurrentNoteStaffNumber = fCurrentStaffNumber;
+    fCurrentNoteStaffNumber = fCurrentStaffNumber; // JMI
   }
   
   else if (fOnGoingDirection) {
@@ -4070,12 +4071,11 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
     S_msrStaff
       staff =
         fetchStaffFromCurrentPart (
-          inputLineNumber, fCurrentForwardVoiceNumber);
+          inputLineNumber,
+          fCurrentForwardVoiceNumber);
   
     if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices) {
       fLogOutputStream <<
-        "--> S_voice, fCurrentVoiceNumber         = " <<
-        fCurrentVoiceNumber << endl <<
         "--> S_voice, fCurrentForwardVoiceNumber = " <<
         fCurrentForwardVoiceNumber << endl <<
         "--> S_voice, current staff name  = " <<
@@ -4086,32 +4086,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
   
   else if (fOnGoingNote) {
     // regular voice indication in note/rest
-    fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
-
-    S_msrStaff
-      staff =
-        fetchStaffFromCurrentPart (
-          inputLineNumber, fCurrentNoteStaffNumber);
-  
-    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices) {
-      fLogOutputStream <<
-        "--> fCurrentNoteVoiceNumber        = " <<
-        fCurrentNoteVoiceNumber <<
-        endl <<
-        "--> S_voice, fCurrentNoteStaffNumber = " <<
-        fCurrentNoteStaffNumber <<
-        endl <<
-        "--> S_voice, current staff name  = " <<
-        staff->getStaffName() <<
-        endl;
-    }
-
-    S_msrVoice
-      currentVoice = // ???
-        fetchVoiceFromCurrentPart (
-          inputLineNumber,
-          fCurrentStaffNumber,
-          fCurrentVoiceNumber);
+    fCurrentNoteVoiceNumber = fCurrentVoiceNumber; // JMI
   }
   
   else {
@@ -4162,11 +4137,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceMeasures) {
+  if (
+    gGeneralOptions->fTraceMeasures
+      ||
+    gGeneralOptions->fTraceLyrics) {
     fLogOutputStream <<
       "Handling 'backup <<< " << fCurrentBackupDurationDivisions <<
       " divisions >>>" <<
-      ", line " << inputLineNumber <<
+      "', line " << inputLineNumber <<
       endl;
   }
 
@@ -4715,35 +4693,66 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     elt->getInputLineNumber ();
 
   // number
-  
-  string stanzaNumber =
-    elt->getAttributeValue ("number");
-  
-  if (stanzaNumber.size () == 0) {
-    msrMusicXMLWarning (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      "lyric number is empty");
+
+  {
+    string stanzaNumber =
+      elt->getAttributeValue ("number");
+    
+    if (stanzaNumber.size () == 0) {
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        "lyric number is empty");
+    }
+    
+    if (gGeneralOptions->fTraceLyrics) {
+      fLogOutputStream <<
+        "--> setting fCurrentStanzaNumber to " <<
+        stanzaNumber <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+        
+    // register it as current stanza number,
+    // that remains set another positive value is met,
+    // thus allowing a skip syllable to be generated
+    // for notes without lyrics
+    fCurrentStanzaNumber = stanzaNumber;
   }
   
-  if (gGeneralOptions->fTraceLyrics) {
-    fLogOutputStream <<
-      "--> setting fCurrentStanzaNumber to " <<
-      stanzaNumber <<
-      ", line " << inputLineNumber <<
-      endl;
+  // name
+
+  {
+    string stanzaName =
+      elt->getAttributeValue ("name");
+
+    if (stanzaName.size () == 0) {
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        "lyric name is empty");
+    }
+    
+    if (gGeneralOptions->fTraceLyrics) {
+      fLogOutputStream <<
+        "--> setting fCurrentStanzaName to " <<
+        stanzaName <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+        
+    // register it as current stanza name,
+    // that remains set another positive value is met,
+    // thus allowing a skip syllable to be generated
+    // for notes without lyrics
+    fCurrentStanzaName = stanzaName;
   }
-      
-  // register it as current stanza number,
-  // that remains set another positive value is met,
-  // thus allowing a skip syllable to be generated
-  // for notes without lyrics
-  fCurrentStanzaNumber = stanzaNumber;
-  
+
   fCurrentStanzaHasText = false;
-  fCurrentLyricElision = false;
 
   fCurrentNoteHasStanza = true;
+
+  fOnGoingSyllableExtend = false;
 
   fOnGoingLyric = true;
 }
@@ -4761,14 +4770,24 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
 
   fCurrentSyllabic = elt->getValue();
   
-  if      (fCurrentSyllabic == "single")
+  if      (fCurrentSyllabic == "single") {
     fCurrentSyllableKind = msrSyllable::kSingleSyllable;
-  else if (fCurrentSyllabic == "begin")
+  }
+  else if (fCurrentSyllabic == "begin") {
     fCurrentSyllableKind = msrSyllable::kBeginSyllable;
-  else if (fCurrentSyllabic == "middle")
+
+    fOnGoingMelisma = true;
+  }
+  else if (fCurrentSyllabic == "middle") {
     fCurrentSyllableKind = msrSyllable::kMiddleSyllable;
-  else if (fCurrentSyllabic == "end")
+
+    // keep fOnGoingMelisma true
+  }
+  else if (fCurrentSyllabic == "end") {
     fCurrentSyllableKind = msrSyllable::kEndSyllable;
+
+    fOnGoingMelisma = false;
+  }
   else {
     stringstream s;
     
@@ -4782,21 +4801,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
       __FILE__, __LINE__,
       s.str ());
   }
-
-  if (fCurrentLyricElision) { // JMI
-    if (fCurrentLyricTextsList.size ()) {
-      // fine, there are several <syllabic /> on the given note
-    }
-    else {
-      msrMusicXMLError (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        "there is an out of context <elision /> markup");
-    }
-
-    fCurrentLyricElision = false;
-  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_text& elt ) 
@@ -4809,41 +4813,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
 
   string text = elt->getValue();
 
-/* JMI
-  // text may be composed of only spaces, so:
-  string dest;
-  for_each (
-    text.begin (), text.end (), stringSpaceRemover (dest));
-
-  if (fCurrentLyricElision)
-    fCurrentLyricText += " " + dest; // append to a list? JMI
-  else
-    fCurrentLyricText = dest;
-*/
-
-/*
-  string textToUse;
-  
-  // text may be composed of only spaces, dont' skim them
-  for (
-    string::const_iterator i = text.begin ();
-    i != text.end ();
-    i++) {
-
-    if ((*i) == ' ')
-      textToUse += "@"; // TEMP JMI
-    else
-      textToUse += (*i);
-  } // for
-
-  // there can be several <text/>'s in a row, hence the concatenation
-  if (fCurrentLyricElision)
-    fCurrentLyricText += " " + textToUse; // append to a list? JMI
-  else
-    fCurrentLyricText += textToUse;
-*/
-
-  // there can be several <text/>'s in a row, hence the list
+  // there can be several <text/>'s and <elision/> in a row, hence the list
   fCurrentLyricTextsList.push_back (text);
   
   fCurrentStanzaHasText = true;
@@ -4859,6 +4829,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
       endl <<
       setw (fieldWidth) <<
       "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentStanzaName" << " = \"" << fCurrentStanzaName << "\"" <<
       endl <<
       setw (fieldWidth) <<
       "fCurrentSyllabic" << " = " << fCurrentSyllabic <<
@@ -4885,7 +4858,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_elision& elt )
       endl;
   }
 
-  fCurrentLyricElision = true;
+  string elisionValue = elt->getValue ();
+
+  if (! elisionValue.size ()) {
+    elisionValue = " ";
+  } 
+
+  // there can be several <text/>'s and <elision/> in a row, hence the list
+  fCurrentLyricTextsList.push_back (elisionValue);
+  
+  fCurrentStanzaHasText = true;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_extend& elt ) 
@@ -4899,7 +4881,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
   string extendType =
     elt->getAttributeValue ("type");
 
+
   if (fOnGoingLyric) {
+    fCurrentSyllableExtendKind =
+      msrSyllable::kStandaloneSyllableExtend; // default value
+
     if      (extendType == "start") {
       fCurrentSyllableExtendKind =
         msrSyllable::kStartSyllableExtend;
@@ -4925,11 +4911,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
           __FILE__, __LINE__,
           s.str ());
     }
-    else {
-      fCurrentSyllableExtendKind =
-        msrSyllable::kStandaloneSyllableExtend;
-    }
   }
+
+  else if (fOnGoingFiguredBass) { // JMI
+  }
+
+  fOnGoingSyllableExtend = true;
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
@@ -4979,6 +4966,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       msrSyllable::kRestSyllable;
   }
 
+  // get staff number
+  int staffNumber = 0; // JMI ???
+    
   if (gGeneralOptions->fTraceLyrics) {
     fLogOutputStream <<
       endl <<
@@ -4999,7 +4989,13 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   
       fLogOutputStream << left <<
         setw (fieldwidth) <<
+        "fCurrentNoteStaffNumber" << " = " << fCurrentNoteStaffNumber <<
+        endl <<
+        setw (fieldwidth) <<
         "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
+        endl <<
+        setw (fieldwidth) <<
+        "fCurrentStanzaName" << " = \"" << fCurrentStanzaName << "\"" <<
         endl <<
         setw (fieldwidth) <<
         "fCurrentLyricText" << " = ";
@@ -5009,10 +5005,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
         fLogOutputStream);
   
       fLogOutputStream << left <<
-        endl <<
-        setw (fieldwidth) <<
-        "fCurrentLyricElision" << " = " <<
-        booleanAsString (fCurrentLyricElision) <<
         endl <<
         setw (fieldwidth) <<
         "fCurrentSyllableExtendKind" << " = " <<
@@ -5106,7 +5098,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
+        fCurrentNoteVoiceNumber);
 
   // fetch stanzaNumber in current voice
   S_msrStanza
@@ -5114,7 +5106,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       currentVoice->
         createStanzaInVoiceIfNotYetDone (
           inputLineNumber,
-          fCurrentStanzaNumber);
+          fCurrentStanzaNumber,
+          fCurrentStanzaName);
 
   S_msrSyllable
     syllable;
@@ -5181,7 +5174,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       endl;
   }
 
-  //     fCurrentLyricElision ??? JMI
   if (gGeneralOptions->fTraceLyrics) {      
     fLogOutputStream <<
       "Creating a \"" <<
@@ -5206,8 +5198,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       ", syllabic = \"" <<
       msrSyllable::syllableKindAsString (
         fCurrentSyllableKind) << "\"" <<
-      ", elision: " <<
-      booleanAsString (fCurrentLyricElision) << 
       ", in stanza " << stanza->getStanzaName () <<
       endl;
   }
@@ -5217,7 +5207,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     msrSyllable::create (
       inputLineNumber,
       fCurrentSyllableKind,
-      msrSyllable::k_NoSyllableExtend,
+      fCurrentSyllableExtendKind,
       fCurrentNoteSoundingWholeNotesFromDuration,
       stanza);
 
@@ -5233,7 +5223,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   // forget about those texts
   fCurrentLyricTextsList.clear ();
   
-  // setSyllableNoteUplink() will be called in handleLyrics(),
+  // appendSyllableToNoteAndSetItsUplink() will be called in handleLyrics(),
   // after the note has been created
     
   // append syllable to current note's syllables list
@@ -5246,11 +5236,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
   // register current note as having lyrics
   fCurrentNoteHasLyrics = true;
-
-  // the presence of a '<lyric />' ends the effect
-  // of an on going syllable extend
-  fOnGoingSyllableExtend = false;
-
   fCurrentNoteHasStanza = true;
 
   fOnGoingLyric = false;
@@ -6687,8 +6672,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentActualNotes = -1;
   fCurrentNormalNotes = -1;
 
-  // keep fCurrentStanzaNumber unchanged,
-  // for use by notes without lyrics
+  fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
   
   fCurrentSyllabic = "";
   fCurrentLyricTextsList.clear ();
@@ -10174,7 +10158,7 @@ Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
             fetchVoiceFromCurrentPart (
               inputLineNumber,
               fCurrentNoteStaffNumber,
-              fCurrentVoiceNumber);
+              fCurrentNoteVoiceNumber);
 
         // create a double tremolo
         if (gGeneralOptions->fTraceTremolos) {
@@ -13413,7 +13397,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   
   if (gGeneralOptions->fTraceTuplets) {
     displayLastHandledTupletInVoice (
-      "############## After  fLastHandledNoteInVoice");
+      "############## After  fLastHandledTupletInVoice");
   }
   */
 }
@@ -13435,7 +13419,7 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
       fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
+        fCurrentNoteVoiceNumber);
 
   // get tuplet from top of tuplet stack
   S_msrTuplet
@@ -14222,6 +14206,34 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   fCurrentNoteStaffNumber = fCurrentStaffNumber;
   fCurrentNoteVoiceNumber = fCurrentVoiceNumber;
 
+  // fetch the staff
+  S_msrStaff
+    staff =
+      fetchStaffFromCurrentPart (
+        inputLineNumber,
+        fCurrentNoteStaffNumber);
+
+  if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices) {
+    fLogOutputStream <<
+      "--> fCurrentNoteVoiceNumber        = " <<
+      fCurrentNoteVoiceNumber <<
+      endl <<
+      "--> S_voice, fCurrentNoteStaffNumber = " <<
+      fCurrentNoteStaffNumber <<
+      endl <<
+      "--> S_voice, current staff name  = " <<
+      staff->getStaffName() <<
+      endl;
+  }
+
+  // fetch the voice
+  S_msrVoice
+    voice =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentNoteVoiceNumber);
+
   if (gGeneralOptions->fTraceNotes) {
     fLogOutputStream <<
       "--> Gathered note information:" <<
@@ -14266,14 +14278,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
     gIndenter--;
   }
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentNoteStaffNumber,
-        fCurrentNoteVoiceNumber);
 
 /* JMI
   if (gGeneralOptions->fTraceNotes) { // JMI
@@ -14540,7 +14544,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     // append the current harmony to the current part
     fCurrentPart->
       appendHarmonyToPart (
-        currentVoice,
+        voice,
         harmony);
 
     fPendingHarmony = false;
@@ -14601,18 +14605,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       fPendingFiguredBassFigures.clear ();
     }
   
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        fetchVoiceFromCurrentPart ( // JMI
-          inputLineNumber,
-          fCurrentNoteStaffNumber,
-          fCurrentNoteVoiceNumber);
-  
     // append the figured bass to the current part
     fCurrentPart->
       appendFiguredBassToPart (
-        currentVoice,
+        voice,
         figuredBass);
   
     fPendingFiguredBass = false;
@@ -14631,7 +14627,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   else if (fCurrentNoteBelongsToAChord) {
     
     // note is the second, third, ..., member of a chord
-    // whose first member is 'fLastHandledNoteInVoice [currentVoice]'
+    // whose first member is 'fLastHandledNoteInVoiceMap [currentVoice]'
     handleNoteBelongingToAChord (
       newNote);
     
@@ -14788,25 +14784,23 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // keep track of current note in the current voice,
   // in case we learn later by <chord/> in the next note
   // that it is actually the first note of a chord
-  /* JMI
-  if (gGeneralOptions->fTraceNotes) {
-    displayLastHandledNoteInVoice (
-      "############## Before fLastHandledNoteInVoice");
+
+  if (gGeneralOptions->fTraceChords) {
+    displayLastHandledNoteInVoiceMap (
+      "############## Before handleLyrics()");
   }
-  */
-  
+
   // lyrics if any have to be handled in all cases
   handleLyrics (
-    currentVoice, newNote);
+    voice,
+    newNote);
 
-  fLastHandledNoteInVoice [currentVoice] = newNote;
+  fLastHandledNoteInVoiceMap [voice] = newNote;
 
-  /* JMI
-  if (gGeneralOptions->fTraceNotes) {
-    displayLastHandledNoteInVoice (
-      "############## After  fLastHandledNoteInVoice");
+  if (gGeneralOptions->fTraceChords) {
+    displayLastHandledNoteInVoiceMap (
+      "############## After handleLyrics()");
   }
-  */
   
   fOnGoingNote = false;
 }
@@ -14850,7 +14844,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
+        fCurrentNoteVoiceNumber);
     
   if (gGeneralOptions->fTraceNotes) {    
     fLogOutputStream <<
@@ -14915,7 +14909,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       // register that last handled note if any is followed by grace notes
       S_msrNote
         lastHandledNoteInVoice =
-          fLastHandledNoteInVoice [currentVoice];
+          fetchLastHandledNoteInVoiceFromMap (
+            currentVoice);
           
       if (lastHandledNoteInVoice)
         lastHandledNoteInVoice->
@@ -15102,6 +15097,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
       booleanAsString (
         fCurrentNoteHasLyrics) <<
       ", fCurrentStanzaNumber = " << fCurrentStanzaNumber <<
+      ", fCurrentStanzaName = " << fCurrentStanzaName << "\"" <<
       endl;
   }
 
@@ -15123,12 +15119,14 @@ void mxmlTree2MsrTranslator::handleLyrics (
         
       // set syllables note uplink to newNote
       syllable->
-        setSyllableNoteUplink (newNote);
+        appendSyllableToNoteAndSetItsUplink (
+          newNote);
     } // for
 
     // forget all of newNote's syllables
     fCurrentNoteSyllables.clear ();
 
+/* JMI
     // this is the end of any melisma that may precede newNote
     if (fOnGoingMelisma) {
       if (gGeneralOptions->fTraceLyrics) {
@@ -15141,74 +15139,34 @@ void mxmlTree2MsrTranslator::handleLyrics (
           
       fOnGoingMelisma = false;
     }
+    */
   }
 
   else {
     // newNote has no lyrics attached to it
 
-    // fetch stanzaNumber in current voice
-    S_msrStanza
-      stanza =
-        currentVoice->
-          createStanzaInVoiceIfNotYetDone (
-            inputLineNumber,
-            fCurrentStanzaNumber);
+    if (! fCurrentNoteBelongsToAChord) { // JMI
+      // the current voice's stanzas map
+      const map<string, S_msrStanza>&
+        voiceStanzasMap =
+          currentVoice->
+            getVoiceStanzasMap ();
+            
+      for (
+        map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
+        i != voiceStanzasMap.end ();
+        i++) {
+        S_msrStanza stanza = (*i).second;
 
- // JMI   if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
-    if (fOnGoingSyllableExtend) {
-      // newNote has no lyrics, and inside a melisma
-      
-      // determine the kind of melisma syllable to be created
-      msrSyllable::msrSyllableKind syllableKind;
-      
-      if (fLastHandledNoteInVoiceHasLyrics) {
-        syllableKind =
-          msrSyllable::kMelismaFirstSyllable;
-
-        // this is the beginning of a melisma
+        // create a skip syllable
         if (gGeneralOptions->fTraceLyrics) {
           fLogOutputStream <<
-            "Start of a melisma" <<
+            "Creating a skip syllable due to extend or begin" <<
             " on note '" << newNote->noteAsShortString () << "'" <<
             ", line " << inputLineNumber  <<
             endl;
         }
-            
-        fOnGoingMelisma = true;
-      }
-      else {
-        syllableKind =
-          msrSyllable::kMelismaOtherSyllable;
 
-        // leave fOnGoingMelisma true
-      }
-
-      // create a melisma syllable
-      S_msrSyllable
-        melismaSyllable =
-          msrSyllable::create (
-            inputLineNumber,
-            syllableKind,
-            msrSyllable::k_NoSyllableExtend,
-            fCurrentNoteSoundingWholeNotes,
-            stanza);
-          
-      // append syllable to current voice
-      currentVoice->
-        appendSyllableToVoice (
-          inputLineNumber,
-          fCurrentStanzaNumber,
-          melismaSyllable);
-    }
-
-    else {
-      // newNote has no lyrics, and outside of a melisma
-
-      // a chord member note is heard on the same syllable
-      // as the previous note
-
-      if (! fCurrentNoteBelongsToAChord) { // JMI
-        // create a skip syllable
         S_msrSyllable
           skipSyllable =
             msrSyllable::create (
@@ -15218,22 +15176,79 @@ void mxmlTree2MsrTranslator::handleLyrics (
               fCurrentNoteSoundingWholeNotes,
               stanza);
             
+        // append syllable to stanza
+        stanza->
+          appendSyllableToStanza (
+            skipSyllable);
+      } // for
+    }
+  }
+      
+   // JMI   if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
+   //   if (fOnGoingSyllableExtend || fOnGoingMelisma) {
+
+        /* JMI
+        // newNote has no lyrics, and inside a melisma
+        
+        // determine the kind of melisma syllable to be created
+        msrSyllable::msrSyllableKind syllableKind;
+        
+        if (fLastHandledNoteInVoiceHasLyrics) {
+          syllableKind =
+            msrSyllable::kMelismaFirstSyllable;
+  
+          // this is the beginning of a melisma
+          if (gGeneralOptions->fTraceLyrics) {
+            fLogOutputStream <<
+              "Start of a melisma" <<
+              " on note '" << newNote->noteAsShortString () << "'" <<
+              ", line " << inputLineNumber  <<
+              endl;
+          }
+              
+          fOnGoingMelisma = true;
+        }
+        else {
+          syllableKind =
+            msrSyllable::kMelismaOtherSyllable;
+  
+          // leave fOnGoingMelisma true
+        }
+  
+        // create a melisma syllable
+        S_msrSyllable
+          melismaSyllable =
+            msrSyllable::create (
+              inputLineNumber,
+              syllableKind,
+              msrSyllable::k_NoSyllableExtend,
+              fCurrentNoteSoundingWholeNotes,
+              stanza);
+            
         // append syllable to current voice
         currentVoice->
           appendSyllableToVoice (
             inputLineNumber,
             fCurrentStanzaNumber,
-            skipSyllable);
+            melismaSyllable);
       }
-    }
-  }
+  
+      else {
+      
+        // newNote has no lyrics, and outside of a melisma
+      */
+  
+        // a chord member note is heard on the same syllable
+        // as the previous note
+  
 
   // register whether the new last handled note has lyrics
   fLastHandledNoteInVoiceHasLyrics =
     fCurrentNoteHasLyrics;
 
+/* JMI
   // is '<extend />' active for newNote?
-  switch (fCurrentSyllableExtendKind) {
+  switch (fCurrentSyllableExtendKind) { // JMI
     case msrSyllable::kStandaloneSyllableExtend:
       fOnGoingSyllableExtend = true;
       break;
@@ -15249,13 +15264,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
     case msrSyllable::k_NoSyllableExtend:
       break;
   } // switch
-
-  if (fOnGoingSyllableExtend) { // JMI
-    // register newNote's extend kind
-    newNote->
-      setNoteSyllableExtendKind (
-        fCurrentSyllableExtendKind);
-  }
+  */
 }
 
 //______________________________________________________________________________
@@ -15269,9 +15278,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   a missing duration indicates the same length as the previous
   note, but the MusicXML format requires a duration for chord
   notes too.
-  *
+  
   Here:
-    fLastHandledNoteInVoice is the note preceding newChordNote
+    fLastHandledNoteInVoiceMap contains the note preceding newChordNote
     if we're not yet ??? JMI
 */
 
@@ -15314,22 +15323,51 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentNoteStaffNumber,
-          fCurrentVoiceNumber);
+          fCurrentNoteVoiceNumber);
 
+    // sanity check JMI ???
+    msrAssert (
+      currentVoice != nullptr,
+      "currentVoice is null");
+    
     // fetch this chord's first note,
     // i.e the last handled note for this voice
     S_msrNote
       chordFirstNote =
-       fLastHandledNoteInVoice [currentVoice];
+        fetchLastHandledNoteInVoiceFromMap (
+          currentVoice);
     
     if (! chordFirstNote) {
+      fLogOutputStream << left <<
+        "handleNoteBelongingToAChord():" <<
+        endl <<
+        "chordFirstNote is null on " <<
+        newChordNote->noteAsString () <<
+        endl <<
+        "fCurrentNoteStaffNumber = " << fCurrentNoteStaffNumber <<
+        endl <<
+        "fCurrentNoteVoiceNumber = " << fCurrentNoteVoiceNumber <<
+        endl <<
+        endl <<
+        "current voice:" <<
+        endl <<
+        currentVoice <<
+        endl;
+
+      displayLastHandledNoteInVoiceMap (
+        "############## BEFORE EXIT");
+
       stringstream s;
 
       s <<
         "handleNoteBelongingToAChord():" <<
         endl <<
         "chordFirstNote is null on " <<
-        newChordNote->noteAsString ();
+        newChordNote->noteAsString () <<
+        endl <<
+        "fCurrentNoteStaffNumber = " << fCurrentNoteStaffNumber <<
+        endl <<
+        "fCurrentNoteVoiceNumber = " << fCurrentNoteVoiceNumber;
         
       msrInternalError (
         gXml2lyOptions->fInputSourceName,
@@ -15769,12 +15807,13 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         fetchVoiceFromCurrentPart (
           inputLineNumber,
           fCurrentNoteStaffNumber,
-          fCurrentVoiceNumber);
+          fCurrentNoteVoiceNumber);
 
     // fetch last handled note for this voice
     S_msrNote
       lastHandledNoteInVoice =
-        fLastHandledNoteInVoice [currentVoice];
+        fetchLastHandledNoteInVoiceFromMap (
+          currentVoice);
 
     if (! lastHandledNoteInVoice) {
       stringstream s;
@@ -15921,7 +15960,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
       fetchVoiceFromCurrentPart (
         inputLineNumber,
         fCurrentNoteStaffNumber,
-        fCurrentVoiceNumber);
+        fCurrentNoteVoiceNumber);
 
   // handle tuplets pending on the tuplet stack
   while (fTupletsStack.size ()) {
@@ -15979,14 +16018,30 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   } // while
 }
 
-void mxmlTree2MsrTranslator::displayLastHandledNoteInVoice (string header)
+S_msrNote mxmlTree2MsrTranslator::fetchLastHandledNoteInVoiceFromMap (
+  S_msrVoice voice)
+{
+  S_msrNote result;
+
+  map<S_msrVoice, S_msrNote>::const_iterator
+    it =
+      fLastHandledNoteInVoiceMap.find (voice);
+
+  if (it != fLastHandledNoteInVoiceMap.end ())
+    result = (*it).second;
+
+  return result;
+}
+
+void mxmlTree2MsrTranslator::displayLastHandledNoteInVoiceMap (
+  string header)
 {
   fLogOutputStream <<
     endl <<
     header <<
-    ", fLastHandledNoteInVoice contains:";
+    ", fLastHandledNoteInVoiceMap contains:";
 
-  if (! fLastHandledNoteInVoice.size ()) {
+  if (! fLastHandledNoteInVoiceMap.size ()) {
     fLogOutputStream <<
       " none" <<
       endl;
@@ -15994,26 +16049,47 @@ void mxmlTree2MsrTranslator::displayLastHandledNoteInVoice (string header)
   
   else {
     map<S_msrVoice, S_msrNote>::const_iterator
-      iBegin = fLastHandledNoteInVoice.begin (),
-      iEnd   = fLastHandledNoteInVoice.end (),
+      iBegin = fLastHandledNoteInVoiceMap.begin (),
+      iEnd   = fLastHandledNoteInVoiceMap.end (),
       i      = iBegin;
       
-    fLogOutputStream << endl;
+    fLogOutputStream <<
+      endl;
     
     gIndenter++;
     for ( ; ; ) {
+      S_msrVoice voice = (*i).first;
+      S_msrNote  note  = (*i).second;
+
       fLogOutputStream <<
-        "\"" << (*i).first->getVoiceName () <<
-        "\" ----> " << (*i).second->noteAsString ();
+        "\"" << voice->getVoiceName () <<
+        "\": " <<
+        endl;
+
+      // sanity check
+      msrAssert (
+        note != nullptr,
+        "note is null");
+      
+      gIndenter++;
+
+      fLogOutputStream <<
+        note;
+
+      gIndenter--;
+    
       if (++i == iEnd) break;
-      fLogOutputStream << endl;
+      
+      fLogOutputStream <<
+        endl;
     } // for
-    fLogOutputStream <<
-      endl;
+    
     gIndenter--;
   }
 
   fLogOutputStream <<
+    "-------------------------------------" <<
+    endl <<
     endl;
 }
 

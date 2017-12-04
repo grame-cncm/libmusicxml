@@ -508,7 +508,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPartGroup& elt)
     // if it is the top-level one, i.e it's alone in the stack
    // JMI BOF if (fPartGroupBlocksStack.size () == 1)
       scoreBlock->
-        appendPartGroupBlockToParallelMusic (
+        appendPartGroupBlockToScoreBlock (
           fPartGroupBlocksStack.top ());
           
     // pop current partGroup block from this visitors's stack,
@@ -1728,11 +1728,13 @@ void msr2LpsrTranslator::visitStart (S_msrStanza& elt)
     
     // append the stanza clone to the LPSR score elements list
     fLpsrScore ->
-      appendStanzaToScoreElements (fCurrentStanzaClone);
+      appendStanzaToScoreElements (
+        fCurrentStanzaClone);
   
     // append a use of the stanza to the current staff block
     fCurrentStaffBlock ->
-      appendLyricsUseToStaffBlock (fCurrentStanzaClone);
+      appendLyricsUseToStaffBlock (
+        fCurrentStanzaClone);
 //  }
 //  else
   //  fCurrentStanzaClone = 0; // JMI
@@ -1753,7 +1755,10 @@ void msr2LpsrTranslator::visitEnd (S_msrStanza& elt)
       endl;
   }
 
-  fOnGoingStanza = true;
+  // forget about this stanza
+  fCurrentStanzaClone = nullptr;
+  
+  fOnGoingStanza = false;
 }
 
 //________________________________________________________________________
@@ -1772,22 +1777,26 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
       fCurrentPartClone);
 
   // add it to the current stanza clone or current note clone
-
-  if (fOnGoingStanza) // fCurrentStanzaClone JM
+  if (fOnGoingStanza) { // fCurrentStanzaClone JM
     // visiting a syllable as a stanza member
     fCurrentStanzaClone->
-      appendSyllableToStanza (fCurrentSyllableClone);
+      appendSyllableToStanza (
+        fCurrentSyllableClone);
+  }
   
-  if (fOnGoingNote) { // JMI
+  else if (fOnGoingNote) { // JMI
     // visiting a syllable as attached to a note
-    fCurrentNoteClone->
-      appendSyllableToNote (fCurrentSyllableClone);
+    fCurrentSyllableClone->
+      appendSyllableToNoteAndSetItsUplink (
+        fCurrentNoteClone);
   }
 
-  // get elt's note uplink
+/* JMI
+  // get syllable's note uplink
   S_msrNote
     eltNoteUplink =
-      fVoiceNotesMap [elt->getSyllableNoteUplink ()];
+      fVoiceNotesMap [
+        elt->getSyllableNoteUplink ()];
     
   if (eltNoteUplink) {
     // set syllable clone's note uplink to the clone of elt's note uplink
@@ -1800,12 +1809,14 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     }
 
     fCurrentSyllableClone->
-      setSyllableNoteUplink (
+      appendSyllableToNoteAndSetItsUplink (
         eltNoteUplink);
   }
+*/
     
   // a syllable ends the sysllable extend range if any
   if (fOnGoingSyllableExtend) {
+    /* JMI ???
     // create melisma end command
     S_lpsrMelismaCommand
       melismaCommand =
@@ -1816,6 +1827,7 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     // append it to current voice clone
     fCurrentVoiceClone->
       appendOtherElementToVoice (melismaCommand);
+*/
 
     fOnGoingSyllableExtend = false;
   }
@@ -2970,6 +2982,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       break;
   } // switch
 
+/* JMI
   // handle melisma
   msrSyllable::msrSyllableExtendKind
     noteSyllableExtendKind =
@@ -2978,6 +2991,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   switch (noteSyllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
       {
+        / * JMI ???
         // create melisma start command
         S_lpsrMelismaCommand
           melismaCommand =
@@ -2989,7 +3003,8 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         fCurrentVoiceClone->
           appendOtherElementToVoice (melismaCommand);
 
-        // append 
+        // append
+        * /
 
         fOnGoingSyllableExtend = true;
       }
@@ -3003,6 +3018,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
     case msrSyllable::k_NoSyllableExtend:
       break;
   } // switch
+*/
 
   fOnGoingNote = false;
 }

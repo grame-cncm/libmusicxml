@@ -110,10 +110,22 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fOnGoingChord = false; // JMI
 
   // stanzas
-  fOngoingNonEmptyStanza = false;
+  fGenerateCodeForOngoingNonEmptyStanza = false;
 
   // score blocks
   fOnGoingScoreBlock = false;
+
+  // part group blocks
+  fNumberOfPartGroupBlocks = -1;
+  fPartGroupBlocksCounter  = 0;;
+
+  // part blocks
+  fNumberOfPartBlocks = -1;
+  fPartBlocksCounter  = 0;;
+
+  // staff blocks
+  fNumberOfStaffBlocks = -1;
+  fStaffBlocksCounter  = 0;;
 };
   
 lpsr2LilypondTranslator::~lpsr2LilypondTranslator ()
@@ -1999,6 +2011,50 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::generateMultilineName (string theString)
+{
+  string result;
+
+  stringstream s;
+
+  s <<
+     "\\markup { \\center-column { ";
+     
+  list<string> chunksList;
+
+  splitStringContainingEndOfLines (
+    theString,
+    chunksList);
+
+  if (chunksList.size ()) {
+    /*
+      \markup { \center-column {
+        \line {"Long"} \line {"Staff"} \line {"Name"}
+        } }
+    */
+
+    // generate a markup containing the chunks
+    list<string>::const_iterator
+      iBegin = chunksList.begin (),
+      iEnd   = chunksList.end (),
+      i      = iBegin;
+    
+    for ( ; ; ) {
+      s <<
+        "\\line { \"" << (*i) << "\" }";
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+
+    s <<
+      " } } " <<
+      endl;
+  }
+
+  return s.str ();
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrScore& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -2437,14 +2493,20 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
   }
 
   fLilypondCodeIOstream <<
-R"(\layout {
-  \context {
-    \Score
-    autoBeaming = ##f % to display tuplets brackets
-  })" <<
+    "\\layout {" <<
     endl;
 
   gIndenter++;
+
+  fLilypondCodeIOstream <<
+    "\\context {" <<
+    endl <<
+    gTab << "\\Score" <<
+    endl <<
+    gTab << "autoBeaming = ##f % to display tuplets brackets" <<
+    endl <<
+    "}" <<
+    endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrLayout& elt)
@@ -2563,15 +2625,19 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScoreBlock& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusic& elt)
+void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusicBLock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting lpsrParallelMusic" <<
+      "% --> Start visiting lpsrParallelMusicBLock" <<
       endl;
   }
-
-  if (elt->getParallelMusicElements ().size ()) { // JMI
+  
+  fNumberOfPartGroupBlocks =
+    elt->
+      getParallelMusicBLockPartGroupBlocks ().size ();
+    
+  if (fNumberOfPartGroupBlocks) {
     if (gLilypondOptions->fComments) {
       fLilypondCodeIOstream << left <<
         setw (commentFieldWidth) <<
@@ -2589,17 +2655,19 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrParallelMusic& elt)
   
     gIndenter++;
   }
+
+  fCurrentParallelMusicBLock = elt;
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusic& elt)
+void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> End visiting lpsrParallelMusic" <<
+      "% --> End visiting lpsrParallelMusicBLock" <<
       endl;
   }
-
-  if (elt->getParallelMusicElements ().size ()) { // JMI
+    
+  if (fNumberOfPartGroupBlocks) {
     gIndenter--;
     
     if (gLilypondOptions->fComments) {
@@ -2629,6 +2697,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       endl;
   }
 
+  fPartGroupBlocksCounter++;
+
+  fNumberOfPartBlocks =
+    elt -> getPartGroupBlockElements ().size ();
+    
   // fetch part group
   S_msrPartGroup
     partGroup =
@@ -2825,8 +2898,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
           partGroup->getPartGroupCombinedName ();
           
       fLilypondCodeIOstream <<
-        endl <<
         endl;
+
+      if (fPartGroupBlocksCounter != fNumberOfPartGroupBlocks) {
+        fLilypondCodeIOstream <<
+          endl;
+      }
       break;
   } // switch
 }
@@ -2840,6 +2917,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
       endl;
   }
 
+  fPartBlocksCounter++;
+
+  fNumberOfStaffBlocks =
+    elt->getPartBlockElements ().size ();
+    
   // fetch part block's part
   S_msrPart
     part =
@@ -2934,53 +3016,13 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
     }
     
     fLilypondCodeIOstream <<
-      endl <<
       endl;
+
+    if (fPartBlocksCounter != fNumberOfPartBlocks) {
+      fLilypondCodeIOstream <<
+        endl;
+    }
   }
-}
-
-//________________________________________________________________________
-string lpsr2LilypondTranslator::generateMultilineName (string theString)
-{
-  string result;
-
-  stringstream s;
-
-  s <<
-     "\\markup { \\center-column { ";
-     
-  list<string> chunksList;
-
-  splitStringContainingEndOfLines (
-    theString,
-    chunksList);
-
-  if (chunksList.size ()) {
-    /*
-      \markup { \center-column {
-        \line {"Long"} \line {"Staff"} \line {"Name"}
-        } }
-    */
-
-    // generate a markup containing the chunks
-    list<string>::const_iterator
-      iBegin = chunksList.begin (),
-      iEnd   = chunksList.end (),
-      i      = iBegin;
-    
-    for ( ; ; ) {
-      s <<
-        "\\line { \"" << (*i) << "\" }";
-      if (++i == iEnd) break;
-      s << " ";
-    } // for
-
-    s <<
-      " } } " <<
-      endl;
-  }
-
-  return s.str ();
 }
 
 //________________________________________________________________________
@@ -2992,6 +3034,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       endl;
   }
 
+  fStaffBlocksCounter++;
+  
   S_msrStaff
     staff =
       elt->getStaff ();
@@ -3170,8 +3214,12 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
   }
 
   fLilypondCodeIOstream <<
-    endl <<
     endl;
+
+  if (fStaffBlocksCounter != fNumberOfStaffBlocks) {
+    fLilypondCodeIOstream <<
+      endl;
+  }
 }
 
 /*
@@ -3354,6 +3402,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
   }
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
+    S_msrStanza stanza = elt->getStanza ();
+    
     fLilypondCodeIOstream <<
       "\\new Lyrics" <<
       endl;
@@ -3361,17 +3411,25 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrNewLyricsBlock& elt)
     gIndenter++;
     
     fLilypondCodeIOstream <<
-      /* JMI
-        "\\lyricsto " <<
-        "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
-        endl <<
-        */
-      "\\with { associatedVoice = " <<
-      "\""  << elt->getVoice ()->getVoiceName () << "\""  <<
+      "\\with {" <<
+      endl <<
+      gTab << "associatedVoice = " <<
+      "\""  << elt->getVoice ()->getVoiceName () << "\"" <<
+      endl;
+
+    if (gMsrOptions->fAddStanzasNumbers) {
+      fLilypondCodeIOstream <<
+        gTab << "stanza = \"" <<
+        stanza->getStanzaNumber () <<
+        ".\"" <<
+        endl;
+    }
+    
+    fLilypondCodeIOstream <<
       "}" <<
       endl <<
 
-      "\\" << elt->getStanza ()->getStanzaName () <<
+      "\\" << stanza->getStanzaName () <<
       endl;
 
     gIndenter--;
@@ -4588,15 +4646,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
     // don't generate code for the stanza inside the code for the voice
-    fOngoingNonEmptyStanza =
-      ! fOnGoingVoice && elt->getStanzaTextPresent ();
+    fGenerateCodeForOngoingNonEmptyStanza =
+      ! fOnGoingVoice
+        &&
+      elt->getStanzaTextPresent ();
 
-    if (fOngoingNonEmptyStanza) {
+    if (fGenerateCodeForOngoingNonEmptyStanza) {
       fLilypondCodeIOstream <<
-        elt->getStanzaName () << " = " << "\\lyricmode" << " {" <<
+        elt->getStanzaName () << " = " << "\\lyricmode {" <<
         endl;
         
       gIndenter++;
+
+      fLilypondCodeIOstream <<
+        gTab; // JMI ???
     }
   }
 }
@@ -4612,7 +4675,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
   }
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
-    if (fOngoingNonEmptyStanza) {
+    if (fGenerateCodeForOngoingNonEmptyStanza) {
       gIndenter--;
     
       fLilypondCodeIOstream <<
@@ -4622,7 +4685,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStanza& elt)
         endl;
     }
 
-    fOngoingNonEmptyStanza = false;
+    fGenerateCodeForOngoingNonEmptyStanza = false;
   }
 }
 
@@ -4638,15 +4701,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
   }
 
   if (! gLilypondOptions->fNoLilypondLyrics) {
-    if (
-    (gGeneralOptions->fTraceLyrics || fOngoingNonEmptyStanza)
-  && ! fOnGoingVoice    ) { // JMI
-      
+    if (fGenerateCodeForOngoingNonEmptyStanza) {
       switch (elt->getSyllableKind ()) {
         case msrSyllable::kSingleSyllable:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
+            
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
@@ -4656,28 +4717,27 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
+            
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
-            " ";
+            " -- ";
           break;
           
         case msrSyllable::kMiddleSyllable:
-          fLilypondCodeIOstream <<
-            "-- ";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
+            
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
-            " ";
+            " -- ";
           break;
           
         case msrSyllable::kEndSyllable:
-          fLilypondCodeIOstream <<
-            "-- ";
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
+            
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
@@ -4687,6 +4747,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
+            
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
@@ -4728,10 +4789,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             that has to be added to the melisma.
           */
           fLilypondCodeIOstream <<
-            "_ " << // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
+            "_ kMelismaOtherSyllable " << // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
             elt->syllableWholeNotesAsMsrString () << " ";
           break;
-          
+
+          /* JMI
         case msrSyllable::kTiedSyllable:
           fLilypondCodeIOstream <<
             "%{ ~ " << "\"";
@@ -4796,13 +4858,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " %}" <<
             endl;
           break;
+    */
     
         case msrSyllable::kLineBreakSyllable:
           fLilypondCodeIOstream <<
             "%{ break " << "\"";
+            
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
+            
           fLilypondCodeIOstream <<
             "\"" << " %}" <<
             endl;
@@ -4811,9 +4876,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kPageBreakSyllable:
           fLilypondCodeIOstream <<
             "%{ pageBreak " << "\"";
+            
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
+            
           fLilypondCodeIOstream <<
             "\"" << " %}" <<
             endl;

@@ -18,24 +18,13 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <iostream>
-#include <map>
-
-#include "smartpointer.h"
-#include "rational.h"
-
 #include "msrOptions.h"
 
 #include "msr.h"
-#include "exports.h"
 
 
 namespace MusicXML2 
 {
-
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
 
 /*!
 \addtogroup Converting MusicXML to MSR format

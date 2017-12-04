@@ -1117,12 +1117,14 @@ class mxmlTree2MsrTranslator :
                               fFirstSyllableInLigatureKind;
     // the last lyric fragment met
     list<string>              fCurrentLyricTextsList;
-    bool                      fCurrentLyricElision;
+    
     msrSyllable::msrSyllableExtendKind
                               fCurrentSyllableExtendKind;
     bool                      fOnGoingSyllableExtend;
     
     string                    fCurrentStanzaNumber;
+    string                    fCurrentStanzaName;
+    
     bool                      fCurrentNoteHasStanza;
     bool                      fCurrentNoteHasLyrics;
     bool                      fCurrentStanzaHasText;
@@ -1485,11 +1487,14 @@ class mxmlTree2MsrTranslator :
                                 S_msrNote newChordNote);
     
     map<S_msrVoice, S_msrNote>
-                              fLastHandledNoteInVoice;
+                              fLastHandledNoteInVoiceMap;
                                 // may be the first note of a chord
                                 // or subject to aftergrace optimisation
-                              
-    void                      displayLastHandledNoteInVoice (
+
+    S_msrNote                 fetchLastHandledNoteInVoiceFromMap (
+                                S_msrVoice voice);
+                                
+    void                      displayLastHandledNoteInVoiceMap (
                                 string header);
 
     // tuplets handling

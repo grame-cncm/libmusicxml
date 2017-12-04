@@ -14,7 +14,9 @@
 # pragma warning (disable : 4786)
 #endif
 
-//#include "generalOptions.h"
+#include "messagesHandling.h"
+
+#include "generalOptions.h"
 
 #include "lpsr2LilypondTranslator.h"
 

@@ -524,6 +524,7 @@ class mxmlTree2MsrSkeletonBuilder :
     // ------------------------------------------------------
         
     string                    fCurrentStanzaNumber;
+    string                    fCurrentStanzaName;
     
 
     // harmonies handling

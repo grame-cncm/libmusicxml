@@ -333,7 +333,7 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
   {
     // variables
     
-    fShowMsrStanzas  = boolOptionsInitialValue;
+    fAddStanzasNumbers  = false;
   
     // options
   
@@ -350,12 +350,11 @@ R"()",
     lyricsSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "sms", "showMsrStanzas",
-R"(Show MSR stanzas even when they're empty.)",
-          "showMsrStanzas",
-          fShowMsrStanzas));
+          "asn", "addStanzasNumbers",
+R"(Add stanzas numbers to lyrics.)",
+          "addStanzasNumbers",
+          fAddStanzasNumbers));
   }     
-
 
   // harmonies
   // --------------------------------------
@@ -489,10 +488,9 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // lyrics
   // --------------------------------------
-    
-  clone->fShowMsrStanzas =
-    fShowMsrStanzas;
 
+  clone->fAddStanzasNumbers =
+    fAddStanzasNumbers;
 
   // harmonies
   // --------------------------------------
@@ -669,7 +667,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
    
   // lyrics
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Lyrics:" <<
     endl;
@@ -677,8 +675,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream <<
-    setw (fieldWidth) << "showMsrStanzas" << " : " <<
-    booleanAsString (fShowMsrStanzas) <<
+    setw (fieldWidth) << "addStanzasNumbers" << " : " <<
+    booleanAsString (fAddStanzasNumbers) <<
     endl;
 
   gIndenter--;

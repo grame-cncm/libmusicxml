@@ -98,19 +98,19 @@ void lpsrElement::browseData (basevisitor* v)
 {}
 
 //______________________________________________________________________________
-S_lpsrParallelMusic lpsrParallelMusic::create (
+S_lpsrParallelMusicBLock lpsrParallelMusicBLock::create (
   int                       inputLineNumber,
   lpsrElementsSeparatorKind elementsSeparatorKind)
 {
-  lpsrParallelMusic* o =
-    new lpsrParallelMusic (
+  lpsrParallelMusicBLock* o =
+    new lpsrParallelMusicBLock (
       inputLineNumber,
       elementsSeparatorKind);
   assert(o!=0);
   return o;
 }
 
-lpsrParallelMusic::lpsrParallelMusic (
+lpsrParallelMusicBLock::lpsrParallelMusicBLock (
   int                       inputLineNumber,
   lpsrElementsSeparatorKind elementsSeparatorKind)
     : lpsrElement (inputLineNumber)
@@ -118,64 +118,65 @@ lpsrParallelMusic::lpsrParallelMusic (
   fElementsSeparatorKind = elementsSeparatorKind;
 }
 
-lpsrParallelMusic::~lpsrParallelMusic()
+lpsrParallelMusicBLock::~lpsrParallelMusicBLock ()
 {}
 
-void lpsrParallelMusic::acceptIn (basevisitor* v)
+void lpsrParallelMusicBLock::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
-      "% ==> lpsrParallelMusic::acceptIn()" <<
+      "% ==> lpsrParallelMusicBLock::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_lpsrParallelMusic>*
+  if (visitor<S_lpsrParallelMusicBLock>*
     p =
-      dynamic_cast<visitor<S_lpsrParallelMusic>*> (v)) {
-        S_lpsrParallelMusic elem = this;
+      dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
+        S_lpsrParallelMusicBLock elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching lpsrParallelMusic::visitStart()" <<
+            "% ==> Launching lpsrParallelMusicBLock::visitStart()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void lpsrParallelMusic::acceptOut (basevisitor* v)
+void lpsrParallelMusicBLock::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
-      "% ==> lpsrParallelMusic::acceptOut()" <<
+      "% ==> lpsrParallelMusicBLock::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_lpsrParallelMusic>*
+  if (visitor<S_lpsrParallelMusicBLock>*
     p =
-      dynamic_cast<visitor<S_lpsrParallelMusic>*> (v)) {
-        S_lpsrParallelMusic elem = this;
+      dynamic_cast<visitor<S_lpsrParallelMusicBLock>*> (v)) {
+        S_lpsrParallelMusicBLock elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching lpsrParallelMusic::visitEnd()" <<
+            "% ==> Launching lpsrParallelMusicBLock::visitEnd()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void lpsrParallelMusic::browseData (basevisitor* v)
+void lpsrParallelMusicBLock::browseData (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
-      "% ==> lpsrParallelMusic::browseData()" <<
+      "% ==> lpsrParallelMusicBLock::browseData()" <<
       endl;
   }
   
   for (
-    vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin ();
-    i != fParallelMusicElements.end ();
+    list<S_lpsrPartGroupBlock>::const_iterator i =
+      fParallelMusicBLockPartGroupBlocks.begin ();
+    i != fParallelMusicBLockPartGroupBlocks.end ();
     i++) {
     // browse the element browser
     msrBrowser<msrElement> browser (v);
@@ -184,41 +185,36 @@ void lpsrParallelMusic::browseData (basevisitor* v)
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
-      "% <== lpsrParallelMusic::browseData()" <<
+      "% <== lpsrParallelMusicBLock::browseData()" <<
       endl;
   }
 }
 
-ostream& operator<< (ostream& os, const S_lpsrParallelMusic& elt)
+ostream& operator<< (ostream& os, const S_lpsrParallelMusicBLock& elt)
 {
   elt->print (os);
   return os;
 }
 
-void lpsrParallelMusic::print (ostream& os)
+void lpsrParallelMusicBLock::print (ostream& os)
 {
   os <<
-    "ParallelMusic" <<
+    "ParallelMusicBLock" <<
     ", " <<
     singularOrPlural (
-      fParallelMusicElements.size (), "element", "elements") <<
+      fParallelMusicBLockPartGroupBlocks.size (), "part group", "part groups") <<
     endl;
   
   gIndenter++;
   
   for (
-    vector<S_msrElement>::const_iterator i = fParallelMusicElements.begin ();
-    i != fParallelMusicElements.end ();
+    list<S_lpsrPartGroupBlock>::const_iterator i =
+      fParallelMusicBLockPartGroupBlocks.begin ();
+    i != fParallelMusicBLockPartGroupBlocks.end ();
     i++) {
     os << (*i);
   } // for
-/* JMI
-  int size = fParallelMusicElements.size ();
-  
-  for (int i = 0; i < size; i++ ) {
-    os << fParallelMusicElements [i];
-  } // for
-*/ 
+
   gIndenter--;
 }
 
@@ -3143,10 +3139,10 @@ lpsrScoreBlock::lpsrScoreBlock (
     : lpsrElement (inputLineNumber)
 {
   // create the score command parallel music
-  fScoreBlockParallelMusic =
-    lpsrParallelMusic::create (
+  fScoreBlockParallelMusicBLock =
+    lpsrParallelMusicBLock::create (
       inputLineNumber,
-      lpsrParallelMusic::kEndOfLine);
+      lpsrParallelMusicBLock::kEndOfLine);
   
   // create the score command layout
   fScoreBlockLayout =
@@ -3167,7 +3163,7 @@ lpsrScoreBlock::lpsrScoreBlock (
 lpsrScoreBlock::~lpsrScoreBlock()
 {}
 
-void lpsrScoreBlock::appendPartGroupBlockToParallelMusic (
+void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
   if (gGeneralOptions->fTracePartGroups) {
@@ -3178,13 +3174,15 @@ void lpsrScoreBlock::appendPartGroupBlockToParallelMusic (
        endl;
   }
 
-  fScoreBlockParallelMusic->
-    addElementToParallelMusic (partGroupBlock);
+  fScoreBlockParallelMusicBLock->
+    appendPartGroupBlockToParallelMusicBLock (
+      partGroupBlock);
     
 //               fScoreBlockElements.push_back(partGroupBlock);
 }
 
-void lpsrScoreBlock::appendVoiceUseToParallelMusic (
+/* JMI
+void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
   if (gGeneralOptions->fTraceVoices) {
@@ -3195,13 +3193,13 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusic (
        endl;
   }
 
-  fScoreBlockParallelMusic->
-    addElementToParallelMusic (voiceUse);
+  fScoreBlockParallelMusicBLock->
+    addElementToParallelMusicBLock (voiceUse);
     
 //     JMI             fScoreBlockElements.push_back(voiceUse);
 }
                   
-void lpsrScoreBlock::appendLyricsUseToParallelMusic (
+void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
   if (gGeneralOptions->fTraceLyrics) {
@@ -3212,9 +3210,10 @@ void lpsrScoreBlock::appendLyricsUseToParallelMusic (
        endl;
   }
 
-  fScoreBlockParallelMusic->
-    addElementToParallelMusic (lyricsUse);
+  fScoreBlockParallelMusicBLock->
+    addElementToParallelMusicBLock (lyricsUse);
 }
+*/
 
 void lpsrScoreBlock::acceptIn (basevisitor* v)
 {
@@ -3270,8 +3269,8 @@ void lpsrScoreBlock::browseData (basevisitor* v)
 
   {
     // browse the score command parallel music
-    msrBrowser<lpsrParallelMusic> browser (v);    
-    browser.browse (*fScoreBlockParallelMusic);
+    msrBrowser<lpsrParallelMusicBLock> browser (v);    
+    browser.browse (*fScoreBlockParallelMusicBLock);
   }
 
 /* JMI
@@ -3316,7 +3315,7 @@ void lpsrScoreBlock::print (ostream& os)
   gIndenter++;
 
   os <<
-    fScoreBlockParallelMusic <<
+    fScoreBlockParallelMusicBLock <<
     endl;
     
   os <<
@@ -4062,6 +4061,7 @@ tupletsCurvedBrackets = {
     dynamicsSchemeFunction;
 }
 
+/* JMI
 void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
 {
   S_lpsrUseVoiceCommand
@@ -4071,7 +4071,7 @@ void lpsrScore::appendVoiceUseToStoreCommand (S_msrVoice voice)
         voice);
   
   fScoreBlock->
-    appendVoiceUseToParallelMusic (useVoiceCommand);
+    appendVoiceUseToParallelMusicBLock (useVoiceCommand);
 }
 
 void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
@@ -4084,8 +4084,9 @@ void lpsrScore::appendLyricsUseToStoreCommand (S_msrStanza stanza)
         stanza->getStanzaVoiceUplink ());
   
   fScoreBlock->
-    appendLyricsUseToParallelMusic (newLyricsCommand);
+    appendLyricsUseToParallelMusicBLock (newLyricsCommand);
 }
+*/
 
 void lpsrScore::acceptIn (basevisitor* v)
 {
@@ -4277,7 +4278,8 @@ void lpsrScore::print (ostream& os)
   // print the MSR structure (without the voices)
   fMsrScore->
     printSummary (os);
-  os << endl;
+  os <<
+    endl;
 
   // are some Scheme functions needed?
   const int fieldWidth = 42;
@@ -4325,6 +4327,9 @@ void lpsrScore::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
+
+    os <<
+      endl;
   }
 
   // print the score block

@@ -1835,7 +1835,7 @@ S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
 {
   if (gGeneralOptions->fTraceNotes) {
     gLogIOstream <<
-      "-=> Creating a deep copy of single tremolo " <<
+      "Creating a deep copy of single tremolo " <<
       singleTremoloAsString () <<
       " in note '" <<
       noteUplink->
@@ -2064,7 +2064,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
 {
   if (gGeneralOptions->fTraceTremolos) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a double tremolo" <<
+      "Creating a newborn clone of a double tremolo" <<
       endl;
   }
   
@@ -3479,7 +3479,7 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of grace notes" <<
+      "Creating a newborn clone of grace notes" <<
       graceNotesAsShortString () <<
       endl;
   }
@@ -3514,7 +3514,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "-=> Creating a skip clone of grace notes" <<
+      "Creating a skip clone of grace notes" <<
       graceNotesAsShortString () <<
       endl;
   }
@@ -3715,7 +3715,7 @@ S_msrAfterGraceNotesContents msrAfterGraceNotesContents::createAfterGraceNotesCo
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of after grace notes" <<
+      "Creating a newborn clone of after grace notes" <<
       endl;
   }
 
@@ -3918,7 +3918,7 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
 {
   if (gGeneralOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of after grace notes" <<
+      "Creating a newborn clone of after grace notes" <<
       endl;
   }
 
@@ -4225,14 +4225,11 @@ void msrNote::initializeNote ()
 
   // note lyrics
   // ------------------------------------------------------
-
-  fNoteSyllableExtendKind =
-    msrSyllable::k_NoSyllableExtend;
   
   if (gGeneralOptions->fTraceNotesDetails) {
     gLogIOstream <<
       endl <<
-      "-=> Initializing a note" <<
+      "Initializing a note" <<
       ", kind: ";
     if (fNoteKind == k_NoNoteKind)
       gLogIOstream <<
@@ -4386,13 +4383,6 @@ void msrNote::initializeNote ()
         "fNoteBelongsToATuplet" << " = " <<
          booleanAsString (fNoteBelongsToATuplet) <<
         endl <<
-          
-      left <<
-        setw (fieldWidth) <<
-        "fNoteSyllableExtendKind" << " = " <<
-        msrSyllable::syllableExtendKindAsString (
-          fNoteSyllableExtendKind) <<
-        endl <<
       endl;
           
     gIndenter--;
@@ -4434,7 +4424,7 @@ S_msrNote msrNote::createNoteNewbornClone (
 {
   if (gGeneralOptions->fTraceNotes) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of note " <<
+      "Creating a newborn clone of note " <<
       noteAsString () <<
       " in part " <<
       containingPart->
@@ -4551,10 +4541,6 @@ S_msrNote msrNote::createNoteNewbornClone (
   // note lyrics
   // ------------------------------------------------------
 
-  newbornClone->
-    fNoteSyllableExtendKind =
-      fNoteSyllableExtendKind;
-
   // stem
   // ------------------------------------------------------
 
@@ -4657,7 +4643,7 @@ S_msrNote msrNote::createNoteDeepCopy (
 {
   if (gGeneralOptions->fTraceNotes) {
     gLogIOstream <<
-      "-=> Creating a deep copy of note " <<
+      "Creating a deep copy of note " <<
       noteAsString () <<
       /* JMI
       " in part " <<
@@ -4778,6 +4764,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   // note lyrics
   // ------------------------------------------------------
 
+/* JMI
   {
     list<S_msrSyllable>::const_iterator i;
     for (i=fNoteSyllables.begin (); i!=fNoteSyllables.end (); i++) {
@@ -4786,10 +4773,7 @@ S_msrNote msrNote::createNoteDeepCopy (
         fNoteSyllables.push_back ((*i));
     } // for
   }
-  
-  noteDeepCopy->
-    fNoteSyllableExtendKind =
-      fNoteSyllableExtendKind;
+*/
 
   // stem
   // ------------------------------------------------------
@@ -6524,11 +6508,11 @@ string msrNote::noteAsString ()
       if (! fNoteIsARest)
         s <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
-
-      s <<
-        ", line " << fInputLineNumber;
       break;
   } // switch
+
+  s <<
+    ", line " << fInputLineNumber;
 
   if (fNoteOccupiesAFullMeasure)
     s <<
@@ -6914,6 +6898,8 @@ void msrNote::print (ostream& os)
         
       os <<
         syllable->syllableKindAsString () <<
+        ", " <<
+        syllable->syllableExtendKindAsString () <<
         ": ";
 
       msrSyllable::writeTextsList (
@@ -6930,19 +6916,22 @@ void msrNote::print (ostream& os)
         syllable->
           getSyllableNoteUplink ()->
             noteAsShortString ();
+            
       if (++i == iEnd) break;
-      os << endl;
+      
+      os <<
+        endl;
     } // for
 
-    gIndenter--;
-    
     os <<
       endl;
+
+    gIndenter--;    
 
     gIndenter--;
   }
 
-/*
+/* JMI
   // print the note's voice uplink JMI
   gIndenter++;
   os <<
@@ -6951,26 +6940,6 @@ void msrNote::print (ostream& os)
     endl;
   gIndenter--;
 */
-
-  // print the extend kind if relevant
-  switch (fNoteSyllableExtendKind) {
-    
-    case msrSyllable::kStandaloneSyllableExtend:
-    case msrSyllable::kStartSyllableExtend:
-    case msrSyllable::kContinueSyllableExtend:
-    case msrSyllable::kStopSyllableExtend:
-      gIndenter++;
-      os <<
-        "NoteSyllableExtendKind" " = " <<
-        msrSyllable::syllableExtendKindAsString (
-          fNoteSyllableExtendKind) <<
-        endl;
-      gIndenter--;
-      break;
-      
-    case msrSyllable::k_NoSyllableExtend:
-      break;
-  } // switch
 
   // print the octave shift if any
   if (fNoteOctaveShift) {
@@ -7241,7 +7210,7 @@ S_msrChord msrChord::create (
 {
   if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
-      "-=> Creating a chord" <<
+      "Creating a chord" <<
       ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
       ", chordDisplayWholeNotes = " << chordDisplayWholeNotes <<
       ", chordGraphicDuration = " <<
@@ -7283,7 +7252,7 @@ S_msrChord msrChord::createChordNewbornClone (
 {
   if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of chord '" <<
+      "Creating a newborn clone of chord '" <<
       chordAsString () <<
       "'" <<
       endl;
@@ -8063,7 +8032,7 @@ S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
  if (gGeneralOptions->fTraceDivisions) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of divisions '" <<
+      "Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
       "'" <<
       endl;
@@ -8094,7 +8063,7 @@ void msrDivisions::initializeDivisions ()
 {
   if (gGeneralOptions->fTraceDivisions) {
   gLogIOstream <<
-    "-=> Initializing divisions" <<
+    "Initializing divisions" <<
     ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
     ", line " << fInputLineNumber <<
     endl;
@@ -8838,7 +8807,7 @@ msrBarCheck::msrBarCheck (
 {
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "-=> Creating a bar check without next bar number" <<
+      "Creating a bar check without next bar number" <<
       endl;
   }
 }
@@ -8852,7 +8821,7 @@ msrBarCheck::msrBarCheck (
 
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "-=> Creating a bar check with next bar number '" <<
+      "Creating a bar check with next bar number '" <<
       fNextBarNumber <<
       "'" <<
       endl;
@@ -9061,7 +9030,7 @@ msrLineBreak::msrLineBreak (
 
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "-=> Creating a break before measure " << fNextBarNumber <<
+      "Creating a break before measure " << fNextBarNumber <<
       endl;
   }
 }
@@ -9157,7 +9126,7 @@ msrPageBreak::msrPageBreak (
 {
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "-=> Creating a page break" <<
+      "Creating a page break" <<
       endl;
   }
 }
@@ -9314,7 +9283,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
 {
   if (gGeneralOptions->fTraceTuplets) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of tuplet '" <<
+      "Creating a newborn clone of tuplet '" <<
       tupletAsShortString () <<
       "'" <<
       endl;
@@ -11136,7 +11105,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
 {
   if (gGeneralOptions->fTraceKeys) {
     gLogIOstream <<
-      "-=> Creating Humdrum/Scot key item" <<
+      "Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
       endl;
   }
@@ -11642,7 +11611,7 @@ msrTimeItem::msrTimeItem (
   
   if (gGeneralOptions->fTraceTimes) {
     gLogIOstream <<
-      "-=> Creating time item" <<
+      "Creating time item" <<
       ", line = " << inputLineNumber <<
       endl;
   }
@@ -12278,7 +12247,7 @@ msrTranspose::msrTranspose (
 
   if (gGeneralOptions->fTraceTranspositions) {
     gLogIOstream <<
-      "-=> Creating transpose '" <<
+      "Creating transpose '" <<
       transposeAsString () <<
       "'" <<
       endl;
@@ -12755,7 +12724,8 @@ S_msrSyllable msrSyllable::create (
   msrSyllable* o =
     new msrSyllable (
       inputLineNumber,
-      syllableKind, syllableExtendKind,
+      syllableKind,
+      syllableExtendKind,
       syllableWholeNotes,
       syllableStanzaUplink);
   assert(o!=0);
@@ -12787,10 +12757,22 @@ msrSyllable::msrSyllable (
   fSyllableExtendKind = syllableExtendKind;
   
   // fSyllableNoteUplink will be set
-  // by setSyllableNoteUplink() later
+  // by appendSyllableToNoteAndSetItsUplink() later
+
+  if (gGeneralOptions->fTraceLyrics) {
+    gLogIOstream <<
+      "Creating a syllable containing:" <<
+      endl;
+
+    gIndenter++;
+
+    print (gLogIOstream);
+
+    gIndenter--;
+  }
 }
 
-msrSyllable::~msrSyllable()
+msrSyllable::~msrSyllable ()
 {}
 
 S_msrSyllable msrSyllable::createSyllableNewbornClone (
@@ -12798,7 +12780,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 {
   if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of syllable '" <<
+      "Creating a newborn clone of syllable '" <<
       syllableAsString () <<
       "'" <<
       endl;
@@ -12842,7 +12824,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
 {
   if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of syllable '" <<
+      "Creating a newborn clone of syllable '" <<
       syllableAsString () <<
       "'" <<
       endl;
@@ -12919,15 +12901,21 @@ void msrSyllable::appendLyricTextToSyllable (string text)
     text);
 }
 
-void msrSyllable::setSyllableNoteUplink (S_msrNote note)
+void msrSyllable::appendSyllableToNoteAndSetItsUplink (
+  S_msrNote note)
 {
   fSyllableNoteUplink = note;
 
-  // register syllable in note if its text list is not empty
-  if (fSyllableTextsList.size ())
-     note->
-      appendSyllableToNote (this); // JMI
-  
+  // sanity check
+  msrAssert (
+    fSyllableTextsList.size () != 0,
+    "fSyllableTextsList is empty");
+    
+  // append syllable to note
+  note->
+    appendSyllableToNote (this);
+
+  // set it uplink to note
   if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
       "Setting syllable note uplink for:" <<
@@ -13027,34 +13015,35 @@ string msrSyllable::syllableKindAsString (
     
   switch (syllableKind) {
     case msrSyllable::kSingleSyllable:
-      result = "single";
+      result = "kSingleSyllable";
       break;
     case msrSyllable::kBeginSyllable:
-      result = "begin";
+      result = "kBeginSyllable";
       break;
     case msrSyllable::kMiddleSyllable:
-      result = "middle";
+      result = "kMiddleSyllable";
       break;
     case msrSyllable::kEndSyllable:
-      result = "end";
+      result = "kEndSyllable";
       break;
       
     case msrSyllable::kRestSyllable:
-      result = "rest";
+      result = "kRestSyllable";
       break;
       
     case msrSyllable::kSkipSyllable:
-      result = "skip";
+      result = "kSkipSyllable";
       break;
       
     case msrSyllable::kMelismaFirstSyllable:
-      result = "melisma first";
+      result = "kMelismaFirstSyllable";
       break;
       
     case msrSyllable::kMelismaOtherSyllable:
-      result = "melisma";
+      result = "kMelismaOtherSyllable";
       break;
-      
+
+      /* JMI
     case msrSyllable::kSlurSyllable:
       result = "slur";
       break;
@@ -13080,13 +13069,14 @@ string msrSyllable::syllableKindAsString (
     case msrSyllable::kBarNumberCheckSyllable:
       result = "barnumber check";
       break;
+      */
       
     case msrSyllable::kLineBreakSyllable:
-      result = "line break";
+      result = "kLineBreakSyllable";
       break;
       
     case msrSyllable::kPageBreakSyllable:
-      result = "page break";
+      result = "kPageBreakSyllable";
       break;
       
     case msrSyllable::k_NoSyllable:
@@ -13109,23 +13099,28 @@ string msrSyllable::syllableExtendKindAsString (
   
   switch (syllableExtendKind) {
     case msrSyllable::kStandaloneSyllableExtend:
-      result = "standalone";
+      result = "standaloneSyllableExtend";
       break;
     case msrSyllable::kStartSyllableExtend:
-      result = "start";
+      result = "startSyllableExtend";
       break;
     case msrSyllable::kContinueSyllableExtend:
-      result = "continue";
+      result = "sontinueSyllableExtend";
       break;
     case msrSyllable::kStopSyllableExtend:
-      result = "stop";
+      result = "stopSyllableExtend";
       break;
     case msrSyllable::k_NoSyllableExtend:
-      result = "none";
+      result = "noSyllableExtend";
       break;
   } // switch
 
   return result;
+}
+
+string msrSyllable::syllableExtendKindAsString () const
+{
+  return syllableExtendKindAsString (fSyllableExtendKind);
 }
 
 string msrSyllable::syllableNoteUplinkAsString () const
@@ -13133,13 +13128,9 @@ string msrSyllable::syllableNoteUplinkAsString () const
   string result;
 
   if (fSyllableNoteUplink)
-    result =
-      "% ==> "
-        +
-      fSyllableNoteUplink->noteAsString ();
+    result = fSyllableNoteUplink->noteAsString ();
   else
-    result =
-      "no syllable note uplink";
+    result = "none";
 
   return result;
 }
@@ -13147,108 +13138,43 @@ string msrSyllable::syllableNoteUplinkAsString () const
 string msrSyllable::syllableAsString ()
 {
   stringstream s;
-  
+
+  s <<
+    "Syllable '" <<
+    syllableKindAsString () <<
+    "', syllableExtendKind: " <<
+      syllableExtendKindAsString (fSyllableExtendKind) <<
+    ", whole notes:" <<
+    syllableWholeNotesAsMsrString () <<
+    " (" << fSyllableWholeNotes << ")" <<
+    ", line " << fInputLineNumber <<
+    ", texts list: ";
+    
+  writeTextsList (
+    fSyllableTextsList,
+    s);
+
+  s <<
+    ", " <<
+    syllableNoteUplinkAsString ();
+
   switch (fSyllableKind) {
     case kSingleSyllable:
-      s <<
-        "single" <<
-        ", texts list: ";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-
-      s <<
-        ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString () <<
-        ", NoteSyllableExtendKind: " <<
-        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kBeginSyllable:
-      s << 
-        "begin" <<
-        ", texts list: ";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-
-      s <<
-         ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString () <<
-        ", NoteSyllableExtendKind: " <<
-        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kMiddleSyllable:
-      s << 
-        "middle" <<
-        ", texts list: ";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-
-      s <<
-        ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString () <<
-        ", NoteSyllableExtendKind: " <<
-        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kEndSyllable:
-      s << 
-        "end" <<
-        ", texts list: ";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-
-      s <<
-        ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString () <<
-        ", NoteSyllableExtendKind: " <<
-        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kRestSyllable:
-      s <<
-        "rest" <<
-        ", texts list: ";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-
-      s <<
-        ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString () <<
-        ", NoteSyllableExtendKind: " <<
-        syllableExtendKindAsString (fSyllableExtendKind);
       break;
       
     case kSkipSyllable:
-      s << 
-        "skip" << ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber;
       break;
       
     case kMelismaFirstSyllable:
@@ -13264,7 +13190,8 @@ string msrSyllable::syllableAsString ()
         " (" << fSyllableWholeNotes << ")" <<
         ", line " << fInputLineNumber;
       break;
-      
+
+      /*
     case kSlurSyllable:
       s << 
         "slur" << ":" << syllableWholeNotesAsMsrString () <<
@@ -13333,6 +13260,7 @@ string msrSyllable::syllableAsString ()
         "bar number check" <<
         " measure " << "fSyllableText ???";
       break;
+      */
       
     case kLineBreakSyllable:
       // fSyllableText contains the measure number
@@ -13367,23 +13295,120 @@ string msrSyllable::syllableAsString ()
 void msrSyllable::print (ostream& os)
 {  
   os <<
-    "Syllable" " " <<
-    syllableAsString () <<
+    "Syllable '" <<
+    syllableKindAsString () <<
+    ", whole notes:" <<
+    syllableWholeNotesAsMsrString () <<
+    " (" << fSyllableWholeNotes << ")" <<
+    ", line " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 19;
+  os << left <<
+    setw (fieldWidth) <<
+    "SyllableExtendKind" << " : " <<
+    syllableExtendKindAsString (
+      fSyllableExtendKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "Texts list" << " : ";
+    
+    writeTextsList (
+      fSyllableTextsList,
+      os);
+
+  os << left <<
+    endl <<
+    setw (fieldWidth) <<
+    "Note uplink" << " : " <<
+    syllableNoteUplinkAsString () <<      
+    endl;
+
+  switch (fSyllableKind) { // JMI
+    case kSingleSyllable:
+    case kBeginSyllable:
+    case kMiddleSyllable:
+    case kEndSyllable:
+    case kRestSyllable:
+    case kSkipSyllable:
+    case kMelismaFirstSyllable:
+    case kMelismaOtherSyllable:
+      break;
+
+      /* JMI
+    case kSlurSyllable:
+      break;
+      
+    case kSlurBeyondEndSyllable:
+      break;
+      
+    case kLigatureSyllable:
+      break;
+      
+    case kLigatureBeyondEndSyllable:
+      break;
+      
+    case kTiedSyllable:
+      break;
+      
+    case kBarcheckSyllable:
+      // fSyllableText contains the measure number JMI ???
+      os << 
+        "bar check" <<
+        " measure " << "fSyllableText ???";
+      break;
+      
+    case kBarNumberCheckSyllable:
+      // fSyllableText contains the measure number
+      os << 
+        "bar number check" <<
+        " measure " << "fSyllableText ???";
+      break;
+      */
+      
+    case kLineBreakSyllable:
+      // fSyllableText contains the measure number
+      os << 
+        "line break" <<
+        " measure " << "fSyllableText ???";
+      break;
+      
+    case kPageBreakSyllable:
+      os << 
+        "page break" <<
+        " measure " << "fSyllableText ???";
+      break;
+      
+    case k_NoSyllable:
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "syllable type has not been set");
+      break;
+  } // switch
+
+  os << left <<
+    setw (fieldWidth) <<
+    "Stanza" << " : " <<
+    fSyllableStanzaUplink->getStanzaName () <<
+    endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
 S_msrStanza msrStanza::create (
   int           inputLineNumber,
   string        stanzaNumber,
-  msrStanzaKind stanzaKind,
   S_msrVoice    stanzaVoiceUplink)
 {
   msrStanza* o =
     new msrStanza (
       inputLineNumber,
       stanzaNumber,
-      stanzaKind,
       stanzaVoiceUplink);
   assert(o!=0);
 
@@ -13393,13 +13418,11 @@ S_msrStanza msrStanza::create (
 msrStanza::msrStanza (
   int           inputLineNumber,
   string        stanzaNumber,
-  msrStanzaKind stanzaKind,
   S_msrVoice    stanzaVoiceUplink)
     : msrElement (inputLineNumber)
 {
   // set stanza number and kind
   fStanzaNumber = stanzaNumber;
-  fStanzaKind   = stanzaKind;
 
   // sanity check
   msrAssert(
@@ -13416,26 +13439,16 @@ msrStanza::msrStanza (
 
 void msrStanza::initializeStanza ()
 {
-  switch (fStanzaKind) {
-    case kRegularStanza:
-      fStanzaName =
-        fStanzaVoiceUplink->getVoiceName() +
-        "_Stanza_" + 
-          stringNumbersToEnglishWords (
-            makeSingleWordFromString (
-              fStanzaNumber));
-      break;
-      
-    case kMuteStanza:
-      fStanzaName =
-        fStanzaVoiceUplink->getVoiceName() +
-        "_MUTE_Stanza";
-      break;
-  } // switch
+  fStanzaName =
+    fStanzaVoiceUplink->getVoiceName() +
+    "_Stanza_" + 
+      stringNumbersToEnglishWords (
+        makeSingleWordFromString (
+          fStanzaNumber));
  
   if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
-      "-=> Initializing stanza " << getStanzaName () <<
+      "Initializing stanza " << getStanzaName () <<
       endl;
   }
 
@@ -13455,7 +13468,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
 {
   if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of stanza \"" <<
+      "Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
       containingVoice->getVoiceName () <<
@@ -13473,7 +13486,6 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
       msrStanza::create (
         fInputLineNumber,
         fStanzaNumber,
-        fStanzaKind,
         containingVoice);
 
   // number
@@ -13500,7 +13512,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 {
   if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
-      "-=> Creating a deep copy of stanza \"" <<
+      "Creating a deep copy of stanza \"" <<
       getStanzaName () <<
       "\" in voice \"" <<
       containingVoice->getVoiceName () <<
@@ -13518,7 +13530,6 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
       msrStanza::create (
         fInputLineNumber,
         fStanzaNumber,
-        fStanzaKind,
         containingVoice);
 
   // number
@@ -13578,6 +13589,7 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kSkipSyllable:
     case msrSyllable::kMelismaFirstSyllable:
     case msrSyllable::kMelismaOtherSyllable:
+    /* JMI
     case msrSyllable::kSlurSyllable:
     case msrSyllable::kSlurBeyondEndSyllable:
     case msrSyllable::kLigatureSyllable:
@@ -13585,6 +13597,7 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kTiedSyllable:
     case msrSyllable::kBarcheckSyllable:
     case msrSyllable::kBarNumberCheckSyllable:
+    */
     case msrSyllable::kLineBreakSyllable:
     case msrSyllable::kPageBreakSyllable:
       break;
@@ -13693,6 +13706,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   return syllable;
 }
 
+/* JMI
 S_msrSyllable msrStanza::appendTiedSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
@@ -13902,14 +13916,15 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
   // and return it
   return syllable;
 }
+*/
 
-S_msrSyllable msrStanza::appendLineLineBreakSyllableToStanza (
+S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
   if (gGeneralOptions->fTraceLyrics) {
     gLogIOstream <<
-      "Appending a 'Break' syllable" <<
+      "Appending a 'LineBreak' syllable" <<
       " to stanza " << getStanzaName () <<
       ", line " << inputLineNumber <<
       endl;
@@ -13921,6 +13936,36 @@ S_msrSyllable msrStanza::appendLineLineBreakSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kLineBreakSyllable,
+ // JMI  nextMeasureNumber,
+        msrSyllable::k_NoSyllableExtend,
+        0,  // wholeNotes
+        this);
+        
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
+
+  // and return it
+  return syllable;
+}
+
+S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
+  int    inputLineNumber,
+  string nextMeasureNumber)
+{
+  if (gGeneralOptions->fTraceLyrics) {
+    gLogIOstream <<
+      "Appending a 'PageBreak' syllable" <<
+      " to stanza " << getStanzaName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+  
+  // create stanza break syllable
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        msrSyllable::kPageBreakSyllable,
  // JMI  nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
@@ -14012,35 +14057,14 @@ ostream& operator<< (ostream& os, const S_msrStanza& elt)
   return os;
 }
 
-string msrStanza::stanzaKindAsString (
-  msrStanzaKind stanzaKind)
-{
- string result;
-  
-  switch (stanzaKind) {
-    case msrStanza::kRegularStanza:
-      result = "regular";
-      break;
-      
-    case msrStanza::kMuteStanza:
-      result = "mute";
-      break;
-  } // switch
-
-  return result;
-}
-
 void msrStanza::print (ostream& os)
 {
-  // getch stanza kind with an initial uppper case letter
-  string stanzaKind =
-    stanzaKindAsString (fStanzaKind);
-
-  stanzaKind [0] = toupper (stanzaKind [0]);
-  
   os <<
-    stanzaKind << " " "stanza" " " << getStanzaName () <<
-    " (" << fSyllables.size () << " syllables)" <<
+    "Stanza " << getStanzaName () <<
+    " (number \"" <<
+    fStanzaNumber <<
+    "\", " <<
+    fSyllables.size () << " syllables)" <<
     endl;
     
   gIndenter++;
@@ -14052,12 +14076,16 @@ void msrStanza::print (ostream& os)
   }
 
   else {
-    int n = fSyllables.size ();
-    
-    for (int i = 0; i < n; i++) {
-      os << fSyllables [i];
+    vector<S_msrSyllable>::const_iterator
+      iBegin = fSyllables.begin (),
+      iEnd   = fSyllables.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
     } // for
-    os << endl;
   }
 
   gIndenter--;
@@ -14094,7 +14122,7 @@ msrHarmonyDegree::msrHarmonyDegree (
 
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "-=> Creating harmony degree '" <<
+      "Creating harmony degree '" <<
       harmonyDegreeAsString () <<
       "'" <<
       endl;
@@ -14122,7 +14150,7 @@ S_msrHarmonyDegree msrHarmonyDegree::createHarmonyNewbornClone (
 {
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of harmony degree '" <<
+      "Creating a newborn clone of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
       endl;
@@ -14149,7 +14177,7 @@ S_msrHarmonyDegree msrHarmonyDegree::createHarmonyDeepCopy (
 {
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "-=> Creating a deep copy of harmony degree '" <<
+      "Creating a deep copy of harmony degree '" <<
       harmonyKindAsShortString () <<
       "'" <<
       endl;
@@ -14474,7 +14502,7 @@ msrHarmony::msrHarmony (
 
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "-=> Creating harmony '" <<
+      "Creating harmony '" <<
       harmonyAsString () <<
       "'" <<
       endl;
@@ -14489,7 +14517,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 {
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of harmony '" <<
+      "Creating a newborn clone of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
       "'" <<
       endl;
@@ -14519,7 +14547,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 {
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "-=> Creating a deep copy of harmony '" <<
+      "Creating a deep copy of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
       "'" <<
       endl;
@@ -14775,7 +14803,7 @@ msrFigure::msrFigure (
  
   if (gGeneralOptions->fTraceFiguredBass) {
     gLogIOstream <<
-      "-=> Creating figure '" <<
+      "Creating figure '" <<
       figureAsString () <<
       "'" <<
       endl;
@@ -14790,7 +14818,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
 {
   if (gGeneralOptions->fTraceFiguredBass) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of figure '" <<
+      "Creating a newborn clone of figure '" <<
       figureAsString () <<
       "'" <<
       endl;
@@ -14818,7 +14846,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
 {
   if (gGeneralOptions->fTraceFiguredBass) {
     gLogIOstream <<
-      "-=> Creating a deep copy of figure '" <<
+      "Creating a deep copy of figure '" <<
       figureAsString () <<
       "'" <<
       endl;
@@ -15067,7 +15095,7 @@ msrFiguredBass::msrFiguredBass (
     
   if (gGeneralOptions->fTraceFiguredBass) {
     gLogIOstream <<
-      "-=> Creating figuredBass '" <<
+      "Creating figuredBass '" <<
       figuredBassAsString () <<
       "'" <<
       endl;
@@ -15082,7 +15110,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 {
   if (gGeneralOptions->fTraceFiguredBass) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of figuredBass '" <<
+      "Creating a newborn clone of figuredBass '" <<
       figuredBassAsString () <<
       "'" <<
       endl;
@@ -15109,7 +15137,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
 {
   if (gGeneralOptions->fTraceFiguredBass) {
     gLogIOstream <<
-      "-=> Creating a deep copy of figuredBass '" <<
+      "Creating a deep copy of figuredBass '" <<
       figuredBassAsString () <<
       "'" <<
       endl;
@@ -16168,7 +16196,7 @@ void msrMeasure::initializeMeasure ()
 {
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "-=> Initializing measure " << fMeasureNumber <<
+      "Initializing measure " << fMeasureNumber <<
       " in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () <<
       " in voice \"" <<
@@ -16220,7 +16248,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 {
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of measure '" <<
+      "Creating a newborn clone of measure '" <<
       fMeasureNumber <<
       "'" <<
       " in segment " <<
@@ -16280,7 +16308,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
 {
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "-=> Creating a deep copy of measure '" <<
+      "Creating a deep copy of measure '" <<
       fMeasureNumber <<
       "'" <<
       " in segment " <<
@@ -18654,7 +18682,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
 {
   if (gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of segment " <<
+      "Creating a newborn clone of segment " <<
       segmentAsString () <<
       endl;
   }
@@ -18692,7 +18720,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
 {
   if (gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
-      "-=> Creating a deep copy of segment " <<
+      "Creating a deep copy of segment " <<
       segmentAsString () <<
       endl;
   }
@@ -18768,7 +18796,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
-      "-=> Creating and appending a measure '" << measureNumber <<
+      "Creating and appending a measure '" << measureNumber <<
       "', to segment '" << segmentAsString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -18797,7 +18825,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   // create a measure
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
-      "-=> Creating measure '" << measureNumber <<
+      "Creating measure '" << measureNumber <<
       "' in segment " << segmentAsString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -19811,7 +19839,7 @@ void msrSegment::appendVoiceStaffChangeToSegment (
     gGeneralOptions->fTraceSegments) {
     gLogIOstream <<
       "Append voice staff change " <<
-      voiceStaffChange->getNewStaff () <<
+      voiceStaffChange->voiceStaffChangeAsString () <<
       " to segment " <<
       " \"" << segmentAsString () << "\"" <<
       endl;
@@ -21600,7 +21628,7 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNew
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a multiple rest contents" <<
+      "Creating a newborn clone of a multiple rest contents" <<
       endl;
   }
   
@@ -21805,7 +21833,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of multiple rest " <<
+      "Creating a newborn clone of multiple rest " <<
       multipleRestAsString () <<
       endl;
   }
@@ -22040,7 +22068,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
+      "Creating a newborn clone of a " <<
       repeatCodaAsString () <<
       endl;
   }
@@ -22073,7 +22101,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
+      "Creating a newborn clone of a " <<
       repeatCodaAsString () <<
       endl;
   }
@@ -22225,7 +22253,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
+      "Creating a newborn clone of a " <<
       harpPedalsTuningAsString () <<
       endl;
   }
@@ -22240,7 +22268,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
+      "Creating a newborn clone of a " <<
       harpPedalsTuningAsString () <<
       endl;
   }
@@ -22576,7 +22604,7 @@ void msrVoice::initializeVoice (
   
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Initializing voice \"" << fVoiceName <<
+      "Initializing voice \"" << fVoiceName <<
       "\" in staff \"" <<
       fVoiceStaffUplink->getStaffName () <<
       "\"" <<
@@ -22656,7 +22684,7 @@ void msrVoice::initializeVoice (
     case msrVoice::kCreateInitialLastSegmentYes:
       if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
         gLogIOstream <<
-          "-=> Creating an initial voice last segment for voice \"" <<
+          "Creating an initial voice last segment for voice \"" <<
           fVoiceName <<
           "\" in staff \"" <<
           fVoiceStaffUplink->getStaffName () <<
@@ -22671,7 +22699,7 @@ void msrVoice::initializeVoice (
     case msrVoice::kCreateInitialLastSegmentNo:
       if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
         gLogIOstream <<
-          "-=> NO initial voice last segment is created for voice \"" <<
+          "NO initial voice last segment is created for voice \"" <<
           fVoiceName <<
           "\" in staff \"" <<
           fVoiceStaffUplink->getStaffName () <<
@@ -22739,7 +22767,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 {
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of voice \"" <<
+      "Creating a newborn clone of voice \"" <<
       getVoiceName () <<
       "\"" <<
       endl;
@@ -22817,7 +22845,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 {
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Creating a deep copy of voice \"" <<
+      "Creating a deep copy of voice \"" <<
       getVoiceName () <<
       "\"" <<
       ", to be placed in containing staff \"" <<
@@ -23061,7 +23089,7 @@ void msrVoice::createNewLastSegmentForVoice (
   // create the segment
   if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Creating a new segment for voice \"" <<
+      "Creating a new segment for voice \"" <<
       getVoiceName () << "\"" <<
       ", line " << inputLineNumber <<
       endl;
@@ -23118,7 +23146,7 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
   // create the segment
   if (gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Creating a new segment containing a new measure '" <<
+      "Creating a new segment containing a new measure '" <<
       fVoiceCurrentMeasureNumber <<
       "'for voice \"" <<
       getVoiceName () << "\"" <<
@@ -23181,7 +23209,6 @@ S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
       msrStanza::create (
         inputLineNumber,
         stanzaNumber,
-        msrStanza::kRegularStanza,
         this);
 
   // add the stanza to this voice
@@ -23229,57 +23256,10 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
   fVoiceStanzasMap [stanzaNumber] = stanza;
 }
 
-void msrVoice::catchUpWithVoiceMuteStanza (S_msrStanza stanza)
-{
-  vector<S_msrSyllable>
-    muteSyllables =
-      fVoiceMuteStanza->
-        getSyllables ();
-
-  if (muteSyllables.size ()) {
-    if (gGeneralOptions->fTraceLyrics) {
-      gLogIOstream <<
-        "Copying current contents of voice mute stanza to " <<
-        stanza->getStanzaName () <<
-        endl;
-    }
-        
-    for (
-      vector<S_msrSyllable>::const_iterator i =
-        muteSyllables.begin ();
-      i != muteSyllables.end ();
-      i++) {
-      // add syllable to stanza
-      stanza->appendSyllableToStanza ((*i));
-    } // for
-  }
-}
-
-void msrVoice::addStanzaToVoiceWithCatchUp (S_msrStanza stanza)
-{
-  // get stanza number
-  string stanzaNumber =
-    stanza->getStanzaNumber ();
-    
-  // register stanza in this voice
-  if (gGeneralOptions->fTraceLyrics) {
-    gLogIOstream <<
-      "Adding stanza " << stanza->getStanzaName () <<
-      " (" << stanzaNumber <<
-      ") to voice \"" << getVoiceName () << "\"" <<
-      endl;
-  }
-
-  fVoiceStanzasMap [stanzaNumber] = stanza;
-
-  // catch up with fVoiceMuteStanza
-  // in case the stanza does not start upon the first voice note
-  catchUpWithVoiceMuteStanza (stanza);
-}
-
 S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
   int    inputLineNumber,
-  string stanzaNumber)
+  string stanzaNumber,
+  string stanzaName) // JMI
 {
   S_msrStanza stanza;
 
@@ -23294,7 +23274,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
     // no, create it and add it to the voice
     if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics) {
       gLogIOstream <<
-        "-=> Creating stanza " << stanzaNumber <<
+        "Creating stanza " << stanzaNumber <<
         " in voice \"" << getVoiceName () << "\"" <<
         ", line " << inputLineNumber <<
         ", fVoiceStanzasMap.size () = " << fVoiceStanzasMap.size () <<
@@ -23846,25 +23826,6 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegment (note);
-
-  /* JMI
-  // add a skip syllable of the same duration to the mute stanza
-  rational
-    noteSoundingWholeNotes =
-      note->
-        getNoteSoundingWholeNotes ();
-
-  if (note->getNoteIsARest ())
-    fVoiceMuteStanza->
-      appendRestSyllableToStanza (
-        note->getInputLineNumber (),
-        noteSoundingWholeNotes);
-  else
-    fVoiceMuteStanza->
-      appendSkipSyllableToStanza (
-        note->getInputLineNumber (),
-        noteSoundingWholeNotes);
-        */
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
@@ -23934,25 +23895,6 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegmentClone (note);
-
-  /* JMI
-  // add a skip syllable of the same duration to the mute stanza
-  rational
-    noteSoundingWholeNotes =
-      note->
-        getNoteSoundingWholeNotes ();
-
-  if (note->getNoteIsARest ())
-    fVoiceMuteStanza->
-      appendRestSyllableToStanza (
-        note->getInputLineNumber (),
-        noteSoundingWholeNotes);
-  else
-    fVoiceMuteStanza->
-      appendSkipSyllableToStanza (
-        note->getInputLineNumber (),
-        noteSoundingWholeNotes);
-        */
 }
 
 void msrVoice::appendDoubleTremoloToVoice (
@@ -24096,6 +24038,7 @@ void msrVoice::prependAfterGraceNotesToVoice (
 void msrVoice::appendSyllableToVoice (
   int           inputLineNumber,
   string        stanzaNumber,
+  string        stanzaName,
   S_msrSyllable syllable)
 {
   // append syllable to this voice
@@ -24111,7 +24054,9 @@ void msrVoice::appendSyllableToVoice (
   S_msrStanza
     stanza =
       createStanzaInVoiceIfNotYetDone (
-        inputLineNumber, stanzaNumber);
+        inputLineNumber,
+        stanzaNumber,
+        stanzaName);
 
   // add the syllable to the stanza
   stanza->
@@ -24134,14 +24079,6 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 
   fVoiceLastSegment->
     appendBarCheckToSegment (barCheck);
-
-/* JMI
-  // add bar check syllable to the voice mute stanza
-  fVoiceMuteStanza->
-    appendBarcheckSyllableToStanza (
-      barCheck->getInputLineNumber (),  // [passer barCheck directement? JMI
-      barCheck->getNextBarNumber ());
-      */
 }
 
 void msrVoice::appendBarNumberCheckToVoice (
@@ -24161,14 +24098,6 @@ void msrVoice::appendBarNumberCheckToVoice (
 
   fVoiceLastSegment->
     appendBarNumberCheckToSegment (barNumberCheck);
-
-/* JMI
-  // add barnumber check syllable to the voice mute stanza
-  fVoiceMuteStanza->
-    appendBarNumberCheckSyllableToStanza (
-      barNumberCheck->getInputLineNumber (),  // [passer barNumberCheck directement? JMI
-      barNumberCheck->getNextBarNumber ());
-      */
 }
 
 void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
@@ -24186,14 +24115,6 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 
   fVoiceLastSegment->
     appendLineBreakToSegment (lineBreak);
-
-/* JMI
-  // add break syllable to the voice mute stanza
-  fVoiceMuteStanza->
-    appendLineLineBreakSyllableToStanza (
-      lineBreak->getInputLineNumber (),
-      lineBreak->getNextBarNumber ());
-      */
 }
 
 void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
@@ -24551,7 +24472,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a new last segment containing a new measure for voice \"" <<
+            "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             ", line " << inputLineNumber <<
             endl;
@@ -24919,7 +24840,7 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
           gGeneralOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "-=> Creating a new last segment with the first replica measure for voice \"" <<
+            "Creating a new last segment with the first replica measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -25018,7 +24939,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           gGeneralOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "-=> Creating a measure repeat replicas FEE contents for voice \"" <<
+            "Creating a measure repeat replicas FEE contents for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
         }
@@ -25208,7 +25129,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a new last segment containing a new measure for voice \"" <<
+            "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -25241,7 +25162,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
           gGeneralOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "-=> Creating a new last segment for voice \"" <<
+            "Creating a new last segment for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -25297,7 +25218,7 @@ void msrVoice::createMultipleRestInVoice (
         // create a multiple rest
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "-=> Creating a multiple rest in voice \"" <<
+            "Creating a multiple rest in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -25349,7 +25270,7 @@ void msrVoice::createMultipleRestInVoice (
         // containing the first, rest measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a new last segment containing the first rest measure in voice \"" <<
+            "Creating a new last segment containing the first rest measure in voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -25478,7 +25399,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // create the multiple rest contents
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a measure pattern for voice \"" <<
+            "Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
         }
@@ -25537,7 +25458,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // containing the next, yet incomplete, measure
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a new last segment with the measure after the multiple rests for voice \"" <<
+            "Creating a new last segment with the measure after the multiple rests for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -25652,7 +25573,7 @@ void msrVoice::appendRepeatCloneToVoice (
         // create a repeat common part from current last segment
         if (gGeneralOptions->fTraceRepeats) {
           gLogIOstream <<
-            "-=> Creating a repeat clone common part from current last segment in voice \"" <<
+            "Creating a repeat clone common part from current last segment in voice \"" <<
             getVoiceName () <<
             "\"" <<
             ", line " << inputLineNumber <<
@@ -25724,7 +25645,7 @@ void msrVoice::appendRepeatCloneToVoice (
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a new last segment for voice BOF JMI \"" <<
+            "Creating a new last segment for voice BOF JMI \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -25877,7 +25798,7 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
         // create a new last segment containing a new measure for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a new last segment containing a new measure for voice \"" <<
+            "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
             endl;
         }
@@ -25919,7 +25840,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
         // create a new segment for the voice
         if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
           gLogIOstream <<
-            "-=> Creating a new last segment for voice \"" <<
+            "Creating a new last segment for voice \"" <<
             fVoiceName <<
             "\"" <<
             endl;
@@ -26431,35 +26352,26 @@ void msrVoice::print (ostream& os)
       endl;
   }
   
-  if (gGeneralOptions->fTraceLyrics) {
-    /* JMI
-    // print the mute stanza
+  // print the stanzas if any
+  if (fVoiceStanzasMap.size ()) {
     os <<
-      fVoiceMuteStanza <<
+      "Stanzas:" <<
       endl;
-      */
-  }
-  
-  if (gMsrOptions->fShowMsrStanzas) {
-    /* JMI
-    // print the voice mute stanza
-    os <<
-      fVoiceMuteStanza;
-      */
+      
+    gIndenter++;
     
-    // print the stanzas
-    if (fVoiceStanzasMap.size ()) {
-      map<string, S_msrStanza>::const_iterator
-        iBegin = fVoiceStanzasMap.begin (),
-        iEnd   = fVoiceStanzasMap.end (),
-        i      = iBegin;
-        
-      for ( ; ; ) {
-        os << (*i).second;
-        if (++i == iEnd) break;
-        os << endl;
-      } // for
-    }
+    map<string, S_msrStanza>::const_iterator
+      iBegin = fVoiceStanzasMap.begin (),
+      iEnd   = fVoiceStanzasMap.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
   }
   
   gIndenter--;
@@ -26492,7 +26404,7 @@ S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberNewbornClone ()
 {
  if (gGeneralOptions->fTraceStaffTuning) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of staff lines number '" <<
+      "Creating a newborn clone of staff lines number '" <<
       staffLinesNumberAsString () <<
       "'" <<
       endl;
@@ -26616,7 +26528,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
   if (gGeneralOptions->fTraceStaffTuning) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of staff tuning '" <<
+      "Creating a newborn clone of staff tuning '" <<
       staffTuningAsString () <<
       "'" <<
       endl;
@@ -26783,7 +26695,7 @@ S_msrStaffDetails msrStaffDetails::createStaffDetailsNewbornClone (
 {
   if (gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of staff details \"" <<
+      "Creating a newborn clone of staff details \"" <<
       staffDetailsAsShortString () <<
       "\"" <<
       endl;
@@ -27132,7 +27044,7 @@ void msrStaff::initializeStaff ()
 
   if (gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
-      "-=> Initializing staff \"" << fStaffName <<
+      "Initializing staff \"" << fStaffName <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
       endl;
@@ -27385,7 +27297,7 @@ S_msrStaff msrStaff::createStaffNewbornClone (
 {
   if (gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of staff \"" <<
+      "Creating a newborn clone of staff \"" <<
       fStaffName <<
       "\"" <<
       endl;
@@ -27495,7 +27407,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
 {
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
     gLogIOstream <<
-      "-=> Creating and appending measure '" <<
+      "Creating and appending measure '" <<
       measureNumber <<
       "', line " << inputLineNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
@@ -27516,7 +27428,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
     
     if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
       gLogIOstream <<
-        "-=> Propagating the creation and appending of measure '" <<
+        "Propagating the creation and appending of measure '" <<
         measureNumber <<
         "', line " << inputLineNumber <<
         ", to voice \"" << voice->getVoiceName () << "\"" <<
@@ -27544,7 +27456,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
 
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Creating voice with part-relative ID '" <<
+      "Creating voice with part-relative ID '" <<
       voicePartRelativeID <<
       "' as relative voice '" <<
       fStaffRegisteredVoicesCounter <<
@@ -27666,7 +27578,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
       (*i).second->getVoicePartRelativeID ()
         ==
       voicePartRelativeID) {
-      if (gGeneralOptions->fTraceVoices) {
+      if (gGeneralOptions->fTraceVoicesDetails) {
         gLogIOstream <<
           "Voice " << voicePartRelativeID <<
           " in staff \"" << getStaffName () << "\"" <<
@@ -28055,7 +27967,7 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a measure repeat from it's first measure in staff \"" <<
+      "Creating a measure repeat from it's first measure in staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
@@ -28102,7 +28014,7 @@ void msrStaff::createMultipleRestInStaff (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a multiple rest in staff \"" <<
+      "Creating a multiple rest in staff \"" <<
       getStaffName () <<
       "\" in part " <<
       fStaffPartUplink->getPartCombinedName () <<
@@ -28574,7 +28486,9 @@ void msrStaff::print (ostream& os)
   os <<
     "Staff" " " << getStaffName () <<
     ", " << staffKindAsString () <<
-    ", (" <<
+    ", (number " <<
+    fStaffNumber <<
+    ", " <<
     singularOrPlural (
       fStaffVoiceRelativeNumberToVoiceMap.size (), "voice", "voices") <<
     ")" <<
@@ -28588,10 +28502,6 @@ void msrStaff::print (ostream& os)
     setw (fieldwidth) <<
     "Part uplink" << " : " <<
     fStaffPartUplink->getPartCombinedName () <<
-    endl <<
-    setw (fieldwidth) <<
-    "StaffNumber" << " : " <<
-    staffNumberAsString () <<
     endl <<
     setw (fieldwidth) <<
     "StaffInstrumentName" << " : \"" <<
@@ -28701,9 +28611,8 @@ os <<
 
       if (++i == iEnd) break;
 
- //  JMI    os <<
- //       endl;
-        
+      os <<
+        endl;
     } // for
   }
 
@@ -28823,7 +28732,7 @@ S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
  if (gGeneralOptions->fTraceStaffTuning) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of staff change '" <<
+      "Creating a newborn clone of staff change '" <<
       voiceStaffChangeAsString () <<
       "'" <<
       endl;
@@ -29003,7 +28912,7 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 {
   if (gGeneralOptions->fTraceParts) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of part " <<
+      "Creating a newborn clone of part " <<
       getPartCombinedName () <<
       endl;
   }
@@ -29067,7 +28976,7 @@ void msrPart::createPartMasterStaffAndVoice (
       ||
     gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Creating the master staff" <<
+      "Creating the master staff" <<
       " with number " << K_PART_MASTER_STAFF_NUMBER <<
       " for part " <<
       getPartCombinedName () <<
@@ -29089,7 +28998,7 @@ void msrPart::createPartMasterStaffAndVoice (
       ||
     gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
-      "-=> Creating the master voice " <<
+      "Creating the master voice " <<
       " with number " << K_PART_MASTER_VOICE_NUMBER <<
       " for part " <<
       getPartCombinedName () <<
@@ -29182,7 +29091,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         ||
       gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
-        "-=> Creating the harmony staff" <<
+        "Creating the harmony staff" <<
         " with number " << K_PART_HARMONY_STAFF_NUMBER <<
         " for part " <<
         getPartCombinedName () <<
@@ -29199,7 +29108,7 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
     // create the part harmony voice  
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
-        "-=> Creating the harmony voice " <<
+        "Creating the harmony voice " <<
         " with number " << K_PART_HARMONY_VOICE_NUMBER <<
         " for part " <<
         getPartCombinedName () <<
@@ -29269,7 +29178,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
         ||
       gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
-        "-=> Creating the figured bass staff" <<
+        "Creating the figured bass staff" <<
         " with number " << K_PART_FIGURED_BASS_STAFF_NUMBER <<
         " for part " <<
         getPartCombinedName () <<
@@ -29286,7 +29195,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
     // create the part figured bass voice  
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
-        "-=> Creating the figured bass voice " <<
+        "Creating the figured bass voice " <<
         " with number " << K_PART_FIGURED_BASS_VOICE_NUMBER <<
         " for part " <<
         getPartCombinedName () <<
@@ -29473,7 +29382,7 @@ void msrPart::createMeasureAndAppendItToPart (
 {
   if (gGeneralOptions->fTraceMeasures) {
     gLogIOstream <<
-      "-=> Creating and appending measure '" <<
+      "Creating and appending measure '" <<
       measureNumber <<
       "'to part " <<
       getPartCombinedName () <<
@@ -29915,7 +29824,7 @@ void msrPart::createMultipleRestInPart (
 {
   if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
     gLogIOstream <<
-      "-=> Creating a multiple rest in part " <<
+      "Creating a multiple rest in part " <<
       getPartCombinedName () <<
       ", " <<
       singularOrPlural (
@@ -30866,10 +30775,12 @@ void msrPart::print (ostream& os)
   if (fPartStavesMap.size ()) {
     gIndenter++;
     
-    for (
-      map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
-      i != fPartStavesMap.end ();
-      i++) {
+    map<int, S_msrStaff>::const_iterator
+      iBegin = fPartStavesMap.begin (),
+      iEnd   = fPartStavesMap.end (),
+      i      = iBegin;
+          
+    for ( ; ; ) {
       S_msrStaff
         staff =
           (*i).second;
@@ -30911,6 +30822,11 @@ void msrPart::print (ostream& os)
             staff;
           break;
       } // switch
+      
+      if (++i == iEnd) break;
+      
+      os <<
+        endl;
     } // for
 
     gIndenter--;
@@ -31170,7 +31086,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
-      "-=> Creating a newborn clone part group " <<
+      "Creating a newborn clone part group " <<
       getPartGroupCombinedName () <<
       endl;
   }
@@ -31277,7 +31193,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
   if (gGeneralOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
       endl <<
-      "-=> After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
+      "After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
       endl;
         
     gIndenter++;
@@ -31296,7 +31212,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
     gIndenter--;
     
     gLogIOstream <<
-      "-=> After appendPartToPartGroupByItsID, fPartGroupElements contains:" <<
+      "After appendPartToPartGroupByItsID, fPartGroupElements contains:" <<
       endl;
       
     gIndenter++;
@@ -31495,7 +31411,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
   
   if (gGeneralOptions->fTracePartGroupsDetails) {    
     gLogIOstream <<
-      "-=> fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
+      "fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
       endl;
 
     gIndenter++;
@@ -32426,7 +32342,7 @@ S_msrScore msrScore::createScoreNewbornClone ()
 {
   if (gGeneralOptions->fTraceScore) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a score" <<
+      "Creating a newborn clone of a score" <<
       endl;
   }
 
@@ -32497,7 +32413,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   
   if (gGeneralOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
-      "-=> fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
+      "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
       
     gIndenter++;
@@ -32913,7 +32829,7 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a measure repeat" <<
+      "Creating a newborn clone of a measure repeat" <<
       endl;
   }
   
@@ -32946,7 +32862,7 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatDeepCopy (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a deep copy of a measure repeat" <<
+      "Creating a deep copy of a measure repeat" <<
       endl;
   }
   
@@ -32991,7 +32907,7 @@ S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatRepli
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a measure repeat replicas" <<
+      "Creating a newborn clone of a measure repeat replicas" <<
       endl;
   }
   
@@ -33020,7 +32936,7 @@ S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatRepli
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a deep copy of a measure repeat replicas" <<
+      "Creating a deep copy of a measure repeat replicas" <<
       endl;
   }
   
@@ -33054,7 +32970,7 @@ S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPattern
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a measure repeat pattern" <<
+      "Creating a newborn clone of a measure repeat pattern" <<
       endl;
   }
   
@@ -33083,7 +32999,7 @@ S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPattern
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a measure repeat pattern" <<
+      "Creating a newborn clone of a measure repeat pattern" <<
       endl;
   }
   
@@ -33114,7 +33030,7 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a repeat" <<
+      "Creating a newborn clone of a repeat" <<
       endl;
   }
   
@@ -33146,7 +33062,7 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a deep copy of a repeat" <<
+      "Creating a deep copy of a repeat" <<
       endl;
   }
   
@@ -33198,7 +33114,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
+      "Creating a newborn clone of a " <<
       repeatEndingAsString () <<
       endl;
   }
@@ -33242,7 +33158,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
+      "Creating a newborn clone of a " <<
       repeatEndingAsString () <<
       endl;
   }
@@ -33290,7 +33206,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
+      "Creating a newborn clone of a " <<
       repeatCommonPartAsString () <<
       endl;
   }
@@ -33321,7 +33237,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
 {
   if (gGeneralOptions->fTraceRepeats) {
     gLogIOstream <<
-      "-=> Creating a newborn clone of a " <<
+      "Creating a newborn clone of a " <<
       repeatCommonPartAsString () <<
       endl;
   }

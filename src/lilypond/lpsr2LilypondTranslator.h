@@ -47,7 +47,7 @@ class lpsr2LilypondTranslator :
   
   // score blocks
 
-  public visitor<S_lpsrParallelMusic>,
+  public visitor<S_lpsrParallelMusicBLock>,
 
   public visitor<S_lpsrScoreBlock>,
   public visitor<S_lpsrPartGroupBlock>,
@@ -283,8 +283,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrScoreBlock& elt);
     virtual void visitEnd   (S_lpsrScoreBlock& elt);
 
-    virtual void visitStart (S_lpsrParallelMusic& elt);
-    virtual void visitEnd   (S_lpsrParallelMusic& elt);
+    virtual void visitStart (S_lpsrParallelMusicBLock& elt);
+    virtual void visitEnd   (S_lpsrParallelMusicBLock& elt);
 
     virtual void visitStart (S_lpsrPartGroupBlock& elt);
     virtual void visitEnd   (S_lpsrPartGroupBlock& elt);
@@ -711,7 +711,7 @@ class lpsr2LilypondTranslator :
     // stanzas
     // ------------------------------------------------------
     S_msrStanza           fCurrentStanzaClone;
-    bool                  fOngoingNonEmptyStanza;
+    bool                  fGenerateCodeForOngoingNonEmptyStanza;
     
     // syllables
     // ------------------------------------------------------
@@ -720,6 +720,27 @@ class lpsr2LilypondTranslator :
     // score blocks
     // ------------------------------------------------------
     bool                  fOnGoingScoreBlock; // JMI
+
+    // parallel music
+    // ------------------------------------------------------
+    S_lpsrParallelMusicBLock
+                          fCurrentParallelMusicBLock;
+    int                   fNumberOfParallelMusicBLockPartGroupBlocks;
+    
+    // part group blocks
+    // ------------------------------------------------------
+    int                   fNumberOfPartGroupBlocks;
+    int                   fPartGroupBlocksCounter;
+
+    // part blocks
+    // ------------------------------------------------------
+    int                   fNumberOfPartBlocks;
+    int                   fPartBlocksCounter;
+
+    // staff blocks
+    // ------------------------------------------------------
+    int                   fNumberOfStaffBlocks;
+    int                   fStaffBlocksCounter;
 };
 
 
