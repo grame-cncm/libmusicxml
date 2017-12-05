@@ -4028,11 +4028,8 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
   }
 
   else if (variableName == "rights") {
-    fLpsrScoreHeader->setRights (
-        inputLineNumber, variableValue);
-
-    fLpsrScoreHeader->
-      changeRightsTitleVariableName ("copyright");
+    fLpsrScoreHeader->addRights (
+      inputLineNumber, variableValue);
   }
   
   else if (variableName == "software") {

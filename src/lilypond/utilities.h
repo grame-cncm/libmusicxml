@@ -358,7 +358,7 @@ inline std::string &trim (std::string &s) {
 
 //______________________________________________________________________________
 std::pair<std::string, std::string> extractNamesPairFromString (
-  std::string theString, // can contain "P1 = Bassoon"
+  std::string theString, // may contain "P1 = Bassoon"
   char   separator,
   bool   debugMode = false);
 
@@ -381,6 +381,9 @@ std::string singularOrPluralWithoutNumber (
 
 //______________________________________________________________________________
 void optionError (std::string errorMessage);
+
+//______________________________________________________________________________
+std::string escapeQuotes (std::string s);
 
 //______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (std::string& s);

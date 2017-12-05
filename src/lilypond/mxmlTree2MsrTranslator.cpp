@@ -55,7 +55,11 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // geometry handling
   fCurrentMillimeters = -1;
   fCurrentTenths      = -1;
+
+  // divisions
+  fCurrentDivisionsPerQuarterNote = 1;
   
+  // geometry handling
   fOnGoingPageLayout = false;
 
   // part group handling
@@ -300,33 +304,48 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   fCurrentDisplayDiatonicPitchKind = k_NoDiatonicPitch;  
   fCurrentDisplayOctave = K_NO_OCTAVE;
 
+  // rests
+  
   fCurrentNoteIsARest = false;
   fCurrentRestMeasure = false;
+
+  // unpitched notes
   
   fCurrentNoteIsUnpitched = false;
+
+  // grace notes
   
   fCurrentNoteIsAGraceNote = false;
 
   // accidentals
+  
   fCurrentNoteAccidentalKind =
     msrNote::k_NoNoteAccidental; // default value
+    
   fCurrentNoteEditorialAccidentalKind =
     msrNote::kNoteEditorialAccidentalNo; // default value
+    
   fCurrentNoteCautionaryAccidentalKind =
     msrNote::kNoteCautionaryAccidentalNo; // default value
         
-  // note context
+  // staff and voice
   
   fCurrentNoteStaffNumber = 1; // may be absent
   fCurrentNoteVoiceNumber = 1; // may be absent
 
   fCurrentNoteHasATimeModification = false;
+
+  // tuplets
+  
+  fCurrentNoteBelongsToATuplet = false;
+
   fCurrentActualNotes = -1;
   fCurrentNormalNotes = -1;
+
+  // chords
   
   fCurrentNoteBelongsToAChord = false;
 
-  fCurrentNoteBelongsToATuplet = false;
 
   // note lyrics
 
@@ -620,7 +639,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rights& elt )
   }
 
   fMsrScore->getIdentification () ->
-    setRights (
+    addRights (
       elt->getInputLineNumber (),
       elt->getValue ());
 }
@@ -1210,13 +1229,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_divisions& elt )
     
   fCurrentDivisionsPerQuarterNote = (int)(*elt);
   
-  if (fCurrentDivisionsPerQuarterNote <= 0) {
-    gXml2lyOptions->fInputSourceName,
+  if (
+    fCurrentDivisionsPerQuarterNote <= 0
+      ||
+    fCurrentDivisionsPerQuarterNote >> 16383) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
-      "divisions per quarter note should be positive");
+      "divisions per quarter note should be between 1 and 16383");
   }
 
   // set current part's divisions per quarter note
@@ -4771,21 +4792,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_syllabic& elt )
   fCurrentSyllabic = elt->getValue();
   
   if      (fCurrentSyllabic == "single") {
-    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
+    fCurrentSyllableKind = msrSyllable::kSyllableSingle;
   }
   else if (fCurrentSyllabic == "begin") {
-    fCurrentSyllableKind = msrSyllable::kBeginSyllable;
+    fCurrentSyllableKind = msrSyllable::kSyllableBegin;
 
     fOnGoingMelisma = true;
   }
   else if (fCurrentSyllabic == "middle") {
-    fCurrentSyllableKind = msrSyllable::kMiddleSyllable;
-
+    fCurrentSyllableKind = msrSyllable::kSyllableMiddle;
     // keep fOnGoingMelisma true
   }
   else if (fCurrentSyllabic == "end") {
-    fCurrentSyllableKind = msrSyllable::kEndSyllable;
-
+    fCurrentSyllableKind = msrSyllable::kSyllableEnd;
     fOnGoingMelisma = false;
   }
   else {
@@ -4884,19 +4903,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
 
   if (fOnGoingLyric) {
     fCurrentSyllableExtendKind =
-      msrSyllable::kStandaloneSyllableExtend; // default value
+      msrSyllable::kSyllableExtendStandalone; // default value
 
     if      (extendType == "start") {
       fCurrentSyllableExtendKind =
-        msrSyllable::kStartSyllableExtend;
+        msrSyllable::kSyllableExtendStart;
     }
     else if (extendType == "continue") {
       fCurrentSyllableExtendKind =
-        msrSyllable::kContinueSyllableExtend;
+        msrSyllable::kSyllableExtendContinue;
     }
     else if (extendType == "stop") {
       fCurrentSyllableExtendKind =
-        msrSyllable::kStopSyllableExtend;
+        msrSyllable::kSyllableExtendStop;
     }
     else if (extendType.size ()) {
         stringstream s;
@@ -4934,14 +4953,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     stringstream s;
 
     s <<
-      "<lyric /> has no <syllabic /> component, using 'single' by defualt";
+      "<lyric /> has no <syllabic /> component, using a 'skip' by defualt";
 
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       s.str ());
     
-    fCurrentSyllableKind = msrSyllable::kSingleSyllable;
+    fCurrentSyllableKind = msrSyllable::kSyllableSkip;
   }
 
   if (fCurrentNoteIsARest) {
@@ -4963,12 +4982,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       s.str ());
       
     fCurrentSyllableKind =
-      msrSyllable::kRestSyllable;
+      msrSyllable::kSyllableSkip; // kSyllableRest ??? JMI
   }
 
-  // get staff number
-  int staffNumber = 0; // JMI ???
-    
   if (gGeneralOptions->fTraceLyrics) {
     fLogOutputStream <<
       endl <<
@@ -6656,9 +6672,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentNoteDisplayWholeNotesFromType = rational (0, 1);
   
   // note print kind
+  
   fCurrentNotePrintKind = msrNote::kNotePrintYes;
 
   // note head
+  
   fCurrentNoteHeadKind = msrNote::kNoteHeadNormal;
   fCurrentNoteHeadFilledKind = msrNote::kNoteHeadFilledYes;
   fCurrentNoteHeadParenthesesKind = msrNote::kNoteHeadParenthesesNo;
@@ -6669,9 +6687,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   // assuming voice number 1, unless S_voice states otherwise afterwards
   fCurrentVoiceNumber = 1;
 
+  // tuplets
+  
   fCurrentActualNotes = -1;
   fCurrentNormalNotes = -1;
 
+  // lyrics
+  
   fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
   
   fCurrentSyllabic = "";
@@ -6684,26 +6706,40 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentNoteHasStanza = false;
   fCurrentNoteHasLyrics = false;
 
+  // stems
+  
   fCurrentStem = nullptr;
 
+  // tremolos
+  
   fCurrentMusicXMLTremoloTypeKind = k_NoTremolo;
 
+  // ties
+  
   fCurrentTie = nullptr;
   fCurrentTiedOrientation = "";
+
+  // slurs
   
   fCurrentSlurNumber = -1;
   fCurrentSlurType = "";
   fCurrentSlurPlacement = "";
   fCurrentSlurKind = msrSlur::k_NoSlur;
 
+  // ligatures
+  
   fCurrentLigatureNumber = -1;
   fCurrentLigatureType = "";
   fCurrentLigaturePlacement = "";
   fCurrentLigatureKind = msrLigature::k_NoLigature;
 
+  // staff and voice
+  
   fCurrentNoteStaffNumber = 1; // it may be absent
   fCurrentNoteVoiceNumber = 1; // it may be absent
 
+  // print-object
+  
   string notePrintObject = elt->getAttributeValue ("print-object");
   
   fCurrentNotePrintKind = msrNote::kNotePrintYes; // default value
@@ -12193,11 +12229,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
 /* JMI pour positionnement:
         <grace steal-time-previous="20"/>
         <grace steal-time-following="20"/>
-
  */
+ 
   fCurrentNoteIsAGraceNote = true;
 
+  // slash
+  
   string slash = elt->getAttributeValue ("slash");
+
+  fCurrentGraceIsSlashed = false; // default value
 
   // check part group barline
   if      (slash == "yes")
@@ -15143,10 +15183,19 @@ void mxmlTree2MsrTranslator::handleLyrics (
   }
 
   else {
-    // newNote has no lyrics attached to it
+    // newNote has no lyrics attached to it:
+    // don't create a skip for chord note members except the first
+    // nor for grace notes
 
-    if (! fCurrentNoteBelongsToAChord) { // JMI
-      // the current voice's stanzas map
+    if (
+      !
+        (
+          fCurrentNoteBelongsToAChord
+            ||
+          fCurrentNoteIsAGraceNote
+        )
+      ) {
+      // get the current voice's stanzas map
       const map<string, S_msrStanza>&
         voiceStanzasMap =
           currentVoice->
@@ -15171,7 +15220,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
           skipSyllable =
             msrSyllable::create (
               inputLineNumber,
-              msrSyllable::kSkipSyllable,
+              msrSyllable::kSyllableSkip,
               msrSyllable::k_NoSyllableExtend,
               fCurrentNoteSoundingWholeNotes,
               stanza);
@@ -16062,8 +16111,10 @@ void mxmlTree2MsrTranslator::displayLastHandledNoteInVoiceMap (
       S_msrNote  note  = (*i).second;
 
       fLogOutputStream <<
-        "\"" << voice->getVoiceName () <<
-        "\": " <<
+        "\"" << voice->getVoiceName () << "\"" <<
+        ", voiceAbsoluteNumber: " <<
+        voice->getVoiceAbsoluteNumber () <<
+        ": " <<
         endl;
 
       // sanity check

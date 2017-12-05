@@ -3121,7 +3121,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           getPartName ();
     }
 
-    /* JMI ???
+    // JMI ???
     if (partName.size ()) {
       fLilypondCodeIOstream <<
         "\\set Staff.instrumentName = ";
@@ -3131,10 +3131,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
         partName.find ("&#xd");
   
       if (found == string::npos) {
-        // no, merely generate the name
+        // no, escape quotes if any and generate the result
         fLilypondCodeIOstream <<
           "\"" <<
-          partName <<
+          escapeQuotes (partName) <<
           "\"" <<
           endl;
       }
@@ -3149,7 +3149,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           endl;
       }    
     }
-  */
   
     // get the part uplink abbreviation display text to be used
     string partAbbreviation =
@@ -4703,7 +4702,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
   if (! gLilypondOptions->fNoLilypondLyrics) {
     if (fGenerateCodeForOngoingNonEmptyStanza) {
       switch (elt->getSyllableKind ()) {
-        case msrSyllable::kSingleSyllable:
+        case msrSyllable::kSyllableSingle:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
@@ -4713,7 +4712,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " ";
           break;
           
-        case msrSyllable::kBeginSyllable:
+        case msrSyllable::kSyllableBegin:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
@@ -4723,7 +4722,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " -- ";
           break;
           
-        case msrSyllable::kMiddleSyllable:
+        case msrSyllable::kSyllableMiddle:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
@@ -4733,7 +4732,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " -- ";
           break;
           
-        case msrSyllable::kEndSyllable:
+        case msrSyllable::kSyllableEnd:
           writeTextsListAsLilypondString (
             elt->getSyllableTextsList (),
             fLilypondCodeIOstream);
@@ -4742,27 +4741,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
-          
-        case msrSyllable::kRestSyllable:
-          writeTextsListAsLilypondString (
-            elt->getSyllableTextsList (),
-            fLilypondCodeIOstream);
-            
-          fLilypondCodeIOstream <<
-            elt->syllableWholeNotesAsMsrString () <<
-            " ";
-/* JMI
-          // LilyPond ignores the skip duration
-          // when \lyricsto is used
-          fLilypondCodeIOstream <<
- //           "%{rest" << elt->syllableWholeNotesAsMsrString () << "%} ";
-            "\\skip" <<
-            elt->syllableWholeNotesAsMsrString () <<
-            " %{rest%} ";
-          */ 
-          break;
-          
-        case msrSyllable::kSkipSyllable:
+                  
+        case msrSyllable::kSyllableSkip:
           // LilyPond ignores the skip duration
           // when \lyricsto is used
           fLilypondCodeIOstream <<
@@ -4770,97 +4750,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             elt->syllableWholeNotesAsMsrString () <<
             " ";
           break;
-          
-        case msrSyllable::kMelismaFirstSyllable:
-          /*
-            A melisma can be defined entirely in the lyrics by entering
-            a single underscore character, _, for every extra note
-            that has to be added to the melisma.
-          */
-          fLilypondCodeIOstream <<
-            "__ _ " << // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
-            elt->syllableWholeNotesAsMsrString () << " ";
-           break;
-          
-        case msrSyllable::kMelismaOtherSyllable:
-          /*
-            A melisma can be defined entirely in the lyrics by entering
-            a single underscore character, _, for every extra note
-            that has to be added to the melisma.
-          */
-          fLilypondCodeIOstream <<
-            "_ kMelismaOtherSyllable " << // JMI "%{" << elt->syllableWholeNotesAsMsrString () << "%} ";
-            elt->syllableWholeNotesAsMsrString () << " ";
-          break;
-
-          /* JMI
-        case msrSyllable::kTiedSyllable:
-          fLilypondCodeIOstream <<
-            "%{ ~ " << "\"";
-          writeTextsListAsLilypondString (
-            elt->getSyllableTextsList (),
-            fLilypondCodeIOstream);
-          fLilypondCodeIOstream <<
-            "\"" << " %}" <<
-            endl;
-          break;
-          
-        case msrSyllable::kSlurSyllable:
-          fLilypondCodeIOstream <<
-            "%{ slur " << "\"";
-          writeTextsListAsLilypondString (
-            elt->getSyllableTextsList (),
-            fLilypondCodeIOstream);
-          fLilypondCodeIOstream <<
-            "\"" << " %}" <<
-            endl;
-          break;
-  
-        case msrSyllable::kSlurBeyondEndSyllable:
-  // JMI       fLilypondCodeIOstream <<
-   //         "__ " << " ";
-          break;
-  
-        case msrSyllable::kLigatureSyllable:
-          fLilypondCodeIOstream <<
-            "%{ ligature " << "\"";
-          writeTextsListAsLilypondString (
-            elt->getSyllableTextsList (),
-            fLilypondCodeIOstream);
-          fLilypondCodeIOstream <<
-            "\"" << " %}" <<
-            endl;
-          break;
-  
-        case msrSyllable::kLigatureBeyondEndSyllable:
-  // JMI       fLilypondCodeIOstream <<
-   //         "__ " << " ";
-          break;
-  
-        case msrSyllable::kBarcheckSyllable:
-          fLilypondCodeIOstream <<
-            "| %{ ";
-          writeTextsListAsLilypondString (
-            elt->getSyllableTextsList (),
-            fLilypondCodeIOstream);
-          fLilypondCodeIOstream <<
-            " %}" <<
-            endl;
-          break;
-    
-        case msrSyllable::kBarNumberCheckSyllable:
-          fLilypondCodeIOstream <<
-            "%{ | ";
-          writeTextsListAsLilypondString (
-            elt->getSyllableTextsList (),
-            fLilypondCodeIOstream);
-          fLilypondCodeIOstream <<
-            " %}" <<
-            endl;
-          break;
-    */
-    
-        case msrSyllable::kLineBreakSyllable:
+           
+        case msrSyllable::kSyllableLineBreak:
           fLilypondCodeIOstream <<
             "%{ break " << "\"";
             
@@ -4873,7 +4764,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             endl;
           break;
     
-        case msrSyllable::kPageBreakSyllable:
+        case msrSyllable::kSyllablePageBreak:
           fLilypondCodeIOstream <<
             "%{ pageBreak " << "\"";
             
@@ -4891,16 +4782,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       } // switch
 
       switch (elt->getSyllableExtendKind ()) {
-        case msrSyllable::kStandaloneSyllableExtend:
+        case msrSyllable::kSyllableExtendStandalone:
           // generate a lyric extender after this syllable
           fLilypondCodeIOstream <<
             "__ ";
           break;
-        case msrSyllable::kStartSyllableExtend:
+        case msrSyllable::kSyllableExtendStart:
           break;
-        case msrSyllable::kContinueSyllableExtend:
+        case msrSyllable::kSyllableExtendContinue:
           break;
-        case msrSyllable::kStopSyllableExtend:
+        case msrSyllable::kSyllableExtendStop:
           break;
         case msrSyllable::k_NoSyllableExtend:
           break;
@@ -6301,10 +6192,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrGraceNotes& elt)
 
   if (elt->getGraceNotesIsSlashed ())
     fLilypondCodeIOstream <<
-      "\\slashedGrace"; // JMI "\\grace";
+      "\\slashedGrace";
   else
     fLilypondCodeIOstream <<
-      "\\grace"; // JMI "\\acciaccatura" \\appoggiatura
+      "\\grace";
   fLilypondCodeIOstream << " { ";
 
   // force durations to be displayed explicitly

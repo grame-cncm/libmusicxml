@@ -3194,7 +3194,8 @@ void msrTie::print (ostream& os)
 {
   os <<
     "Tie" << " " << tieKindAsString () <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -3320,7 +3321,7 @@ void msrSlur::print (ostream& os)
 {
   os <<
     slurAsString () <<
-     endl;
+    endl;
 }
 
 //______________________________________________________________________________
@@ -3495,9 +3496,6 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
         fInputLineNumber,
         fGraceNotesIsSlashed,
         containingVoice);
-
-  newbornClone->fGraceNotesIsSlashed =
-    fGraceNotesIsSlashed;
     
   return newbornClone;
 }
@@ -3525,9 +3523,6 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
         fInputLineNumber,
         fGraceNotesIsSlashed,
         containingVoice);
-
-  clone->fGraceNotesIsSlashed =
-    fGraceNotesIsSlashed;
 
   // populating the clone with skips
   for (
@@ -6723,41 +6718,34 @@ void msrNote::print (ostream& os)
     gIndenter++;
 
     if (fNoteIsStemless)
-      s <<
+      os <<
         "stemless" <<
         endl;
   
     if (fNoteIsFirstNoteInADoubleTremolo)
-      s <<
+      os <<
         "first note in a double tremolo" <<
         endl;
     if (fNoteIsSecondNoteInADoubleTremolo)
-      s <<
+      os <<
         "second note in a double tremolo" <<
         endl;
   
     if (fNoteHasATrill)
-      s <<
+      os <<
         "has a trill" <<
         endl;
     if (fNoteIsFollowedByGraceNotes)
-      s <<
+      os <<
         "is followed by graceNotes" <<
         endl;
   
     if (fNoteHasADelayedOrnament)
-      s <<
+      os <<
         "has a delayed ornament" <<
         endl;
 
-    string result = s.str ();
-
-    if (result.size ()) {
-      os <<
-        result;
-    }
-        
-    gIndenter--;
+     gIndenter--;
   }
   
   {
@@ -13014,73 +13002,33 @@ string msrSyllable::syllableKindAsString (
   string result;
     
   switch (syllableKind) {
-    case msrSyllable::kSingleSyllable:
-      result = "kSingleSyllable";
-      break;
-    case msrSyllable::kBeginSyllable:
-      result = "kBeginSyllable";
-      break;
-    case msrSyllable::kMiddleSyllable:
-      result = "kMiddleSyllable";
-      break;
-    case msrSyllable::kEndSyllable:
-      result = "kEndSyllable";
+    case msrSyllable::kSyllableSingle:
+      result = "syllableSingle";
       break;
       
-    case msrSyllable::kRestSyllable:
-      result = "kRestSyllable";
+    case msrSyllable::kSyllableBegin:
+      result = "syllableBegin";
+      break;
+    case msrSyllable::kSyllableMiddle:
+      result = "syllableMiddle";
+      break;
+    case msrSyllable::kSyllableEnd:
+      result = "syllableEnd";
       break;
       
-    case msrSyllable::kSkipSyllable:
-      result = "kSkipSyllable";
+    case msrSyllable::kSyllableSkip:
+      result = "syllableSkip";
       break;
       
-    case msrSyllable::kMelismaFirstSyllable:
-      result = "kMelismaFirstSyllable";
+    case msrSyllable::kSyllableLineBreak:
+      result = "syllableLineBreak";
       break;
-      
-    case msrSyllable::kMelismaOtherSyllable:
-      result = "kMelismaOtherSyllable";
-      break;
-
-      /* JMI
-    case msrSyllable::kSlurSyllable:
-      result = "slur";
-      break;
-    case msrSyllable::kSlurBeyondEndSyllable:
-      result = "slur beyond end";
-      break;
-      
-    case msrSyllable::kLigatureSyllable:
-      result = "ligature";
-      break;
-    case msrSyllable::kLigatureBeyondEndSyllable:
-      result = "ligature beyond end";
-      break;
-      
-    case msrSyllable::kTiedSyllable:
-      result = "tied";
-      break;
-      
-    case msrSyllable::kBarcheckSyllable:
-      result = "bar check";
-      break;
-      
-    case msrSyllable::kBarNumberCheckSyllable:
-      result = "barnumber check";
-      break;
-      */
-      
-    case msrSyllable::kLineBreakSyllable:
-      result = "kLineBreakSyllable";
-      break;
-      
-    case msrSyllable::kPageBreakSyllable:
-      result = "kPageBreakSyllable";
+    case msrSyllable::kSyllablePageBreak:
+      result = "syllablePageBreak";
       break;
       
     case msrSyllable::k_NoSyllable:
-      result = "k_NoSyllable ???";
+      result = "noSyllable ???";
       break;
   } // switch
 
@@ -13098,17 +13046,17 @@ string msrSyllable::syllableExtendKindAsString (
   string result;
   
   switch (syllableExtendKind) {
-    case msrSyllable::kStandaloneSyllableExtend:
-      result = "standaloneSyllableExtend";
+    case msrSyllable::kSyllableExtendStandalone:
+      result = "syllableExtendStandalone";
       break;
-    case msrSyllable::kStartSyllableExtend:
-      result = "startSyllableExtend";
+    case msrSyllable::kSyllableExtendStart:
+      result = "syllableExtendStart";
       break;
-    case msrSyllable::kContinueSyllableExtend:
-      result = "sontinueSyllableExtend";
+    case msrSyllable::kSyllableExtendContinue:
+      result = "syllableExtendContinue";
       break;
-    case msrSyllable::kStopSyllableExtend:
-      result = "stopSyllableExtend";
+    case msrSyllable::kSyllableExtendStop:
+      result = "syllableExtendStop";
       break;
     case msrSyllable::k_NoSyllableExtend:
       result = "noSyllableExtend";
@@ -13159,123 +13107,27 @@ string msrSyllable::syllableAsString ()
     syllableNoteUplinkAsString ();
 
   switch (fSyllableKind) {
-    case kSingleSyllable:
+    case msrSyllable::kSyllableSingle:
+    case msrSyllable::kSyllableBegin:
+    case msrSyllable::kSyllableMiddle:
+    case msrSyllable::kSyllableEnd:
+    case msrSyllable::kSyllableSkip:
       break;
-      
-    case kBeginSyllable:
-      break;
-      
-    case kMiddleSyllable:
-      break;
-      
-    case kEndSyllable:
-      break;
-      
-    case kRestSyllable:
-      break;
-      
-    case kSkipSyllable:
-      break;
-      
-    case kMelismaFirstSyllable:
-      s << 
-        "melisma first" << ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber;
-      break;
-      
-    case kMelismaOtherSyllable:
-      s << 
-        "melisma other" << ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber;
-      break;
-
-      /*
-    case kSlurSyllable:
-      s << 
-        "slur" << ":" << syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString ();
-      break;
-      
-    case kSlurBeyondEndSyllable:
-      s << 
-        "slur beyond end" << ":" <<
-        syllableWholeNotesAsMsrString () <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString ();
-      break;
-      
-    case kLigatureSyllable:
-      s << 
-        "ligature" << ":" <<
-        syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString ();
-      break;
-      
-    case kLigatureBeyondEndSyllable:
-      s << 
-        "ligature beyond end" << ":" <<
-        syllableWholeNotesAsMsrString () <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString ();
-      break;
-      
-    case kTiedSyllable:
-      s << 
-        "tied" << ":" <<
-        syllableWholeNotesAsMsrString () <<
-        " (" << fSyllableWholeNotes << ")" <<
-        ", line " << fInputLineNumber <<
-        ", " <<
-        syllableNoteUplinkAsString () <<
-        ", " << "\"";
-
-      writeTextsList (
-        fSyllableTextsList,
-        s);
-
-      s <<
-        "\"";
-      break;
-      
-    case kBarcheckSyllable:
-      // fSyllableText contains the measure number JMI ???
-      s << 
-        "bar check" <<
-        " measure " << "fSyllableText ???";
-      break;
-      
-    case kBarNumberCheckSyllable:
-      // fSyllableText contains the measure number
-      s << 
-        "bar number check" <<
-        " measure " << "fSyllableText ???";
-      break;
-      */
-      
-    case kLineBreakSyllable:
+ 
+    case msrSyllable::kSyllableLineBreak:
       // fSyllableText contains the measure number
       s << 
         "line break" <<
         " measure " << "fSyllableText ???";
       break;
       
-    case kPageBreakSyllable:
+    case msrSyllable::kSyllablePageBreak:
       s << 
         "page break" <<
         " measure " << "fSyllableText ???";
       break;
       
-    case k_NoSyllable:
+    case msrSyllable::k_NoSyllable:
       msrInternalError (
         gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
@@ -13327,55 +13179,21 @@ void msrSyllable::print (ostream& os)
     endl;
 
   switch (fSyllableKind) { // JMI
-    case kSingleSyllable:
-    case kBeginSyllable:
-    case kMiddleSyllable:
-    case kEndSyllable:
-    case kRestSyllable:
-    case kSkipSyllable:
-    case kMelismaFirstSyllable:
-    case kMelismaOtherSyllable:
-      break;
-
-      /* JMI
-    case kSlurSyllable:
+    case msrSyllable::kSyllableSingle:
+    case msrSyllable::kSyllableBegin:
+    case msrSyllable::kSyllableMiddle:
+    case msrSyllable::kSyllableEnd:
+    case msrSyllable::kSyllableSkip:
       break;
       
-    case kSlurBeyondEndSyllable:
-      break;
-      
-    case kLigatureSyllable:
-      break;
-      
-    case kLigatureBeyondEndSyllable:
-      break;
-      
-    case kTiedSyllable:
-      break;
-      
-    case kBarcheckSyllable:
-      // fSyllableText contains the measure number JMI ???
-      os << 
-        "bar check" <<
-        " measure " << "fSyllableText ???";
-      break;
-      
-    case kBarNumberCheckSyllable:
-      // fSyllableText contains the measure number
-      os << 
-        "bar number check" <<
-        " measure " << "fSyllableText ???";
-      break;
-      */
-      
-    case kLineBreakSyllable:
+    case kSyllableLineBreak:
       // fSyllableText contains the measure number
       os << 
         "line break" <<
         " measure " << "fSyllableText ???";
       break;
       
-    case kPageBreakSyllable:
+    case kSyllablePageBreak:
       os << 
         "page break" <<
         " measure " << "fSyllableText ???";
@@ -13576,30 +13394,18 @@ void msrStanza::appendSyllableToStanza (
   // does this stanza contain text?
   switch (syllable->getSyllableKind ()) {
     
-    case msrSyllable::kSingleSyllable:
-    case msrSyllable::kBeginSyllable:
-    case msrSyllable::kMiddleSyllable:
-    case msrSyllable::kEndSyllable:
-    case msrSyllable::kRestSyllable:
+    case msrSyllable::kSyllableSingle:
+    case msrSyllable::kSyllableBegin:
+    case msrSyllable::kSyllableMiddle:
+    case msrSyllable::kSyllableEnd:
       // only now, in case addSyllableToStanza() is called
       // from LPSR for example
       fStanzaTextPresent = true;
       break;
       
-    case msrSyllable::kSkipSyllable:
-    case msrSyllable::kMelismaFirstSyllable:
-    case msrSyllable::kMelismaOtherSyllable:
-    /* JMI
-    case msrSyllable::kSlurSyllable:
-    case msrSyllable::kSlurBeyondEndSyllable:
-    case msrSyllable::kLigatureSyllable:
-    case msrSyllable::kLigatureBeyondEndSyllable:
-    case msrSyllable::kTiedSyllable:
-    case msrSyllable::kBarcheckSyllable:
-    case msrSyllable::kBarNumberCheckSyllable:
-    */
-    case msrSyllable::kLineBreakSyllable:
-    case msrSyllable::kPageBreakSyllable:
+    case msrSyllable::kSyllableSkip:
+    case msrSyllable::kSyllableLineBreak:
+    case msrSyllable::kSyllablePageBreak:
       break;
       
     case msrSyllable::k_NoSyllable:
@@ -13630,7 +13436,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kRestSyllable,
+        msrSyllable::kSyllableSkip, // JMI ??? kSyllableRest,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -13660,7 +13466,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kSkipSyllable,
+        msrSyllable::kSyllableSkip,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
         this);
@@ -13935,7 +13741,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kLineBreakSyllable,
+        msrSyllable::kSyllableLineBreak,
  // JMI  nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
@@ -13965,7 +13771,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
     syllable =
       msrSyllable::create (
         inputLineNumber,
-        msrSyllable::kPageBreakSyllable,
+        msrSyllable::kSyllablePageBreak,
  // JMI  nextMeasureNumber,
         msrSyllable::k_NoSyllableExtend,
         0,  // wholeNotes
@@ -22789,10 +22595,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
         staffClone);
 
   // voice numbers
-  newbornClone->fVoiceAbsoluteNumber =
-    ++gVoicesCounter;
-
-  newbornClone->fVoiceStaffRelativeNumber =
+  newbornClone->fVoiceStaffRelativeNumber = // JMI ???
     fVoiceStaffRelativeNumber;
 
   // voice name
@@ -22885,8 +22688,8 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         containingStaff);
 
   // voice numbers
-  voiceDeepCopy->fVoiceAbsoluteNumber =
-    ++gVoicesCounter;;
+  voiceDeepCopy->fVoiceStaffRelativeNumber = // JMI ???
+    fVoiceStaffRelativeNumber;
 
   // voice name
   if (false) // JMI
@@ -26244,6 +26047,7 @@ void msrVoice::print (ostream& os)
   os <<
     "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
+    ", voiceAbsoluteNumber: " << fVoiceAbsoluteNumber <<
     endl;
 
   gIndenter++;
@@ -31993,14 +31797,15 @@ void msrIdentification::addLyricist (
   );
 }
 
-void msrIdentification::setRights (
+void msrIdentification::addRights (
   int    inputLineNumber,
   string val)
   {
-  fRights =
+  fRights.push_back (
     msrVarValAssoc::create (
       inputLineNumber,
-      "rights", val);
+      "rights", val)
+    );
   }
 
 void msrIdentification::addSoftware (
@@ -32150,10 +31955,13 @@ void msrIdentification::browseData (basevisitor* v)
     } // for
   }
     
-  if (fRights) {
-    // browse rights
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fRights);
+  if (fRights.size ()) {
+    vector<S_msrVarValAssoc>::const_iterator i;
+    for (i=fRights.begin (); i!=fRights.end (); i++) {
+      // browse rights
+      msrBrowser<msrVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
   }
 
   if (fSoftwares.size ()) {
@@ -32270,8 +32078,17 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
-  if (fRights) {
-    os << fRights;
+  if (fRights.size ()) {
+    vector<S_msrVarValAssoc>::const_iterator
+      iBegin = fRights.begin (),
+      iEnd   = fRights.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
     emptyIdentification = false;
   }
     

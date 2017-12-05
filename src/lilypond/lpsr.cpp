@@ -1898,11 +1898,11 @@ S_lpsrLilypondVarValAssoc lpsrHeader::addLyricist (
   return result;
 }
 
-void lpsrHeader::setRights (
+void lpsrHeader::addRights (
   int    inputLineNumber,
   string val)
   {
-  fRights =
+  fRights.push_back (
     lpsrLilypondVarValAssoc::create (
       inputLineNumber,
       lpsrLilypondVarValAssoc::kUncommented,
@@ -1913,7 +1913,8 @@ void lpsrHeader::setRights (
       val,
       lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
       lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
+      lpsrLilypondVarValAssoc::kWithoutEndl)
+    );
   }
 
 void lpsrHeader::addSoftware (
@@ -2009,11 +2010,6 @@ void lpsrHeader::changeMovementNumberVariableName (string name)
   fMovementNumber->changeAssocVariableName (name);
 }
 
-void lpsrHeader::changeRightsTitleVariableName (string name)
-{
-  fRights->changeAssocVariableName (name);
-}
-
 /* JMI
 void lpsrHeader::changeCreatorVariableName (
   string variableName, string newName)
@@ -2074,9 +2070,12 @@ int lpsrHeader::maxLilypondVariablesNamesLength ()
     } // for
   }
     
-  if (fRights) {
-    int length = fRights->getVariableName ().size ();
-    if (length > result) result = length;
+  if (fRights.size ()) {
+     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+    for (i=fRights.begin (); i!=fRights.end (); i++) {
+      int length = (*i)->getVariableName ().size ();
+      if (length > result) result = length;
+    } // for
   }
     
   if (fSoftwares.size ()) {
@@ -2192,10 +2191,13 @@ void lpsrHeader::browseData (basevisitor* v)
     } // for
   }
     
-  if (fRights) {
-    // browse fRights
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-    browser.browse (*fRights);
+  if (fRights.size ()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
+    for (i=fRights.begin (); i!=fRights.end (); i++) {
+      // browse rights
+      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+      browser.browse (*(*i));
+    } // for
   }
 
   if (fSoftwares.size ()) {
@@ -2298,8 +2300,18 @@ void lpsrHeader::print (ostream& os)
     emptyHeader = false;
   }
     
-  if (fRights) {
-    os << fRights;
+  if (fRights.size ()) {
+    vector<S_lpsrLilypondVarValAssoc>::const_iterator
+      iBegin = fRights.begin (),
+      iEnd   = fRights.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    os << endl;
+    
     emptyHeader = false;
   }
     

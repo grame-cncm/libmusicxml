@@ -4011,24 +4011,18 @@ class msrSyllable : public msrElement
     // we want to end the line in the LilyPond code at a break
     enum msrSyllableKind {
       k_NoSyllable,
-      kSingleSyllable, kBeginSyllable, kMiddleSyllable, kEndSyllable,
-      kRestSyllable, kSkipSyllable,
-      kMelismaFirstSyllable, kMelismaOtherSyllable,
-/*
-      kTiedSyllable,
-      kSlurSyllable, kSlurBeyondEndSyllable,
-      kLigatureSyllable, kLigatureBeyondEndSyllable,
-      kBarcheckSyllable, kBarNumberCheckSyllable,
-*/
-      kLineBreakSyllable, kPageBreakSyllable};
+      kSyllableSingle,
+      kSyllableBegin, kSyllableMiddle, kSyllableEnd,
+      kSyllableSkip,
+      kSyllableLineBreak, kSyllablePageBreak};
 
     static string syllableKindAsString (
       msrSyllableKind syllableKind);
       
     enum msrSyllableExtendKind {
       k_NoSyllableExtend,
-      kStandaloneSyllableExtend,
-      kStartSyllableExtend, kContinueSyllableExtend, kStopSyllableExtend};
+      kSyllableExtendStandalone,
+      kSyllableExtendStart, kSyllableExtendContinue, kSyllableExtendStop };
 
     static string syllableExtendKindAsString (
       msrSyllableExtendKind syllableExtendKind);
@@ -5931,34 +5925,6 @@ class msrIdentification : public msrElement
                             int    inputLineNumber,
                             string val);
           
-    void                  addComposer (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    void                  addArranger (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    void                  addPoet (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    void                  addLyricist (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    void                  setRights (
-                            int    inputLineNumber,
-                            string val);
-
-    void                  addSoftware (
-                            int    inputLineNumber,
-                            string val);
-
     void                  setEncodingDate (
                             int    inputLineNumber,
                             string val);
@@ -5999,7 +5965,8 @@ class msrIdentification : public msrElement
                           getLyricists () const
                               { return fLyricists; };
     
-    S_msrVarValAssoc      getRights () const
+    const vector<S_msrVarValAssoc>&
+                          getRights () const
                               { return fRights; }
     
     const vector<S_msrVarValAssoc>&
@@ -6014,6 +5981,34 @@ class msrIdentification : public msrElement
 
     // services
     // ------------------------------------------------------
+
+    void                  addComposer (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
+
+    void                  addArranger (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
+
+    void                  addPoet (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
+
+    void                  addLyricist (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
+
+    void                  addRights (
+                            int    inputLineNumber,
+                            string val);
+
+    void                  addSoftware (
+                            int    inputLineNumber,
+                            string val);
 
     // visitors
     // ------------------------------------------------------
@@ -6041,7 +6036,7 @@ class msrIdentification : public msrElement
     vector<S_msrVarValAssoc> fArrangers;
     vector<S_msrVarValAssoc> fPoets;
     vector<S_msrVarValAssoc> fLyricists;
-    S_msrVarValAssoc         fRights;
+    vector<S_msrVarValAssoc> fRights;
     vector<S_msrVarValAssoc> fSoftwares;
     S_msrVarValAssoc         fEncodingDate;
     

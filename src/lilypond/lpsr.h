@@ -1221,32 +1221,6 @@ class lpsrHeader : public lpsrElement
                             int    inputLineNumber,
                             string val);
 
-    S_lpsrLilypondVarValAssoc
-                          addComposer (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    S_lpsrLilypondVarValAssoc
-                          addArranger (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    S_lpsrLilypondVarValAssoc
-                          addLyricist (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    void                  setRights (
-                            int    inputLineNumber,
-                            string val);
-
-    void                  addSoftware (
-                            int    inputLineNumber,
-                            string val);
-
     void                  setEncodingDate (
                             int    inputLineNumber,
                             string val);
@@ -1287,7 +1261,7 @@ class lpsrHeader : public lpsrElement
                           getLyricists () const
                               { return fLyricists; };
     
-    S_lpsrLilypondVarValAssoc
+    const vector<S_lpsrLilypondVarValAssoc>&
                           getRights () const
                               { return fRights; }
     
@@ -1403,14 +1377,38 @@ class lpsrHeader : public lpsrElement
     // services
     // ------------------------------------------------------
 
+    S_lpsrLilypondVarValAssoc
+                          addComposer (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
+
+    S_lpsrLilypondVarValAssoc
+                          addArranger (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
+
+    S_lpsrLilypondVarValAssoc
+                          addLyricist (
+                            int    inputLineNumber,
+                            string type,
+                            string val);
+
+    void                  addRights (
+                            int    inputLineNumber,
+                            string val);
+
+    void                  addSoftware (
+                            int    inputLineNumber,
+                            string val);
+
     void                  changeWorkTitleVariableName (string name);
     void                  changeMovementTitleVariableName (string name);
     
     void                  changeWorkNumberVariableName (string name);
     void                  changeMovementNumberVariableName (string name);
-    
-    void                  changeRightsTitleVariableName (string name);
-    
+        
 //    void                  changeCreatorVariableName ( // JMI
  //                           string typeName, string newName);
 
@@ -1451,7 +1449,7 @@ class lpsrHeader : public lpsrElement
                           fArrangers;
     vector<S_lpsrLilypondVarValAssoc>
                           fLyricists;
-    S_lpsrLilypondVarValAssoc
+    vector<S_lpsrLilypondVarValAssoc>
                           fRights;
     
     vector<S_lpsrLilypondVarValAssoc>
