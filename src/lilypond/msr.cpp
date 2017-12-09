@@ -10254,6 +10254,7 @@ void msrPageGeometry::print (ostream& os) {
       "PaperWidth" << " = " <<
       setprecision(4) << fPaperWidth << " cm" <<
       endl;
+
     emptyGeometry = false;
   }
   
@@ -10263,6 +10264,7 @@ void msrPageGeometry::print (ostream& os) {
       "PaperHeight" << " = " <<
       setprecision(4) << fPaperHeight << " cm" <<
       endl;
+
     emptyGeometry = false;
   }
   
@@ -10272,6 +10274,7 @@ void msrPageGeometry::print (ostream& os) {
       "TopMargin" << " = " <<
       setprecision(4) << fTopMargin << " cm" <<
       endl;
+
     emptyGeometry = false;
   }
   
@@ -10281,6 +10284,7 @@ void msrPageGeometry::print (ostream& os) {
       "BottomMargin" << " = " <<
       setprecision(4) << fBottomMargin << " cm" <<
       endl;
+
     emptyGeometry = false;
   }
   
@@ -10290,6 +10294,7 @@ void msrPageGeometry::print (ostream& os) {
       "LeftMargin" << " = " <<
       setprecision(4) << fLeftMargin << " cm" <<
       endl;
+
     emptyGeometry = false;
   }
   
@@ -10299,6 +10304,7 @@ void msrPageGeometry::print (ostream& os) {
       "RightMargin" << " = " <<
       setprecision(4) << fRightMargin << " cm" <<
       endl;
+
     emptyGeometry = false;
   }
 
@@ -10309,6 +10315,7 @@ void msrPageGeometry::print (ostream& os) {
       "Millimeters" << " = " <<
       setprecision(4) << fMillimeters <<
       endl;
+
     emptyGeometry = false;
   }
 
@@ -10318,17 +10325,21 @@ void msrPageGeometry::print (ostream& os) {
       "Tenths" << " = " <<
       setprecision(4) << fTenths <<
       endl;
+
     emptyGeometry = false;
   }
 
-  if (emptyGeometry)
+  if (emptyGeometry) {
     os <<
       " " << "nothing specified" <<
+      endl <<
       endl;
+  }
+  else {
+    os <<
+      endl;
+  }
   
-  os <<
-    endl;
-
   gIndenter--;
 }
 
@@ -10614,9 +10625,9 @@ string msrCredit::creditAsString () const
       i      = iBegin;
   
     for ( ; ; ) {
-      s << (*i)->getCreditWordsContents ();
+      s << "\"" << (*i)->getCreditWordsContents () << "\"";
       if (++i == iEnd) break;
-      s << " ";
+      s << ", ";
     } // for
 
     s << "]";
@@ -10656,32 +10667,63 @@ void msrCredit::print (ostream& os)
 }
 
 //______________________________________________________________________________
-
 S_msrVarValAssoc msrVarValAssoc::create (
-  int           inputLineNumber,
-  string        variableName,
-  string        value)
+  int                inputLineNumber,
+  msrVarValAssocKind varValAssocKind,
+  string             value)
 {
   msrVarValAssoc* o =
     new msrVarValAssoc(
       inputLineNumber,
-      variableName, value);
+      varValAssocKind, value);
   assert(o!=0);
   return o;
 }
 
 msrVarValAssoc::msrVarValAssoc (
-  int           inputLineNumber,
-  string        variableName,
-  string        value)
+  int                inputLineNumber,
+  msrVarValAssocKind varValAssocKind,
+  string             value)
     : msrElement (inputLineNumber)
 {
-  fVariableName    = variableName;
+  fVarValAssocKind = varValAssocKind;
   fVariableValue   = value;
 }
 
 msrVarValAssoc::~msrVarValAssoc()
 {}
+
+string msrVarValAssoc::varValAssocKindAsString (
+  msrVarValAssocKind varValAssocKind)
+{
+  string result;
+
+  switch (varValAssocKind) {
+    case msrVarValAssoc::kWorkNumber:
+      result = "workNumber";
+      break;
+    case msrVarValAssoc::kWorkTitle:
+      result = "workTitle";
+      break;
+    case msrVarValAssoc::kMovementNumber:
+      result = "movementNumber";
+      break;
+    case msrVarValAssoc::kMovementTitle:
+      result = "movementTitle";
+      break;
+    case msrVarValAssoc::kEncodingDate:
+      result = "encodingDate";
+      break;
+    case msrVarValAssoc::kScoreInstrument:
+      result = "scoreInstrument";
+      break;
+    case msrVarValAssoc::kMiscellaneousField:
+      result = "miscellaneousField";
+      break;
+  } // switch
+  
+  return result;
+}
 
 void msrVarValAssoc::acceptIn (basevisitor* v)
 {
@@ -10727,7 +10769,6 @@ void msrVarValAssoc::acceptOut (basevisitor* v)
   }
 }
 
-
 void msrVarValAssoc::browseData (basevisitor* v)
 {}
 
@@ -10744,14 +10785,6 @@ void msrVarValAssoc::print (ostream& os)
   
   gIndenter++;
 
-  // escape quotes if any
-  string variableName;
-
-  for_each (
-    fVariableName.begin (),
-    fVariableName.end (),
-    stringQuoteEscaper (variableName));
-    
   string variableValue;
 
   for_each (
@@ -10760,15 +10793,184 @@ void msrVarValAssoc::print (ostream& os)
     stringQuoteEscaper (variableValue));
 
   // print resulting strings
-  os <<
-    "variable name : " <<
-    "\"" << variableName << "\"" <<
+  const int fieldWidth = 16;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "variable kind" << " : " <<
+    varValAssocKindAsString () <<
     endl <<
-    "variable value: " <<
+    setw (fieldWidth) <<
+    "variable value" << " : " <<
     "\"" << variableValue << "\"" <<
-    endl <<
     endl;
   
+  gIndenter--;
+}
+
+//______________________________________________________________________________
+S_msrVarValsListAssoc msrVarValsListAssoc::create (
+  int                inputLineNumber,
+  msrVarValsListAssocKind varValsListAssocKind)
+{
+  msrVarValsListAssoc* o =
+    new msrVarValsListAssoc(
+      inputLineNumber,
+      varValsListAssocKind);
+  assert(o!=0);
+  return o;
+}
+
+msrVarValsListAssoc::msrVarValsListAssoc (
+  int                inputLineNumber,
+  msrVarValsListAssocKind varValsListAssocKind)
+    : msrElement (inputLineNumber)
+{
+  fVarValsListAssocKind = varValsListAssocKind;
+}
+
+msrVarValsListAssoc::~msrVarValsListAssoc()
+{}
+
+string msrVarValsListAssoc::varValsListAssocKindAsString (
+  msrVarValsListAssocKind varValsListAssocKind)
+{
+  string result;
+
+  switch (varValsListAssocKind) {
+    case msrVarValsListAssoc::kRights:
+      result = "rights";
+      break;
+    case msrVarValsListAssoc::kComposer:
+      result = "kcomposer";
+      break;
+    case msrVarValsListAssoc::kArranger:
+      result = "arranger";
+      break;
+    case msrVarValsListAssoc::kPoet:
+      result = "poet";
+      break;
+    case msrVarValsListAssoc::kLyricist:
+      result = "lyricist";
+      break;
+    case msrVarValsListAssoc::kSoftware:
+      result = "software";
+      break;
+  } // switch
+  
+  return result;
+}
+
+string msrVarValsListAssoc::varValsListAssocValuesAsString () const
+{
+  stringstream s;
+  
+  list<string>::const_iterator
+    iBegin = fVariableValuesList.begin (),
+    iEnd   = fVariableValuesList.end (),
+    i      = iBegin;
+
+  s << "[";
+  for ( ; ; ) {
+    s << "\"" << (*i) << "\""; 
+    if (++i == iEnd) break;
+    s << ", ";
+  } // for
+  s << "]";
+  
+  return s.str ();
+}
+
+void msrVarValsListAssoc::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrVarValsListAssoc::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrVarValsListAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
+        S_msrVarValsListAssoc elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrVarValsListAssoc::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrVarValsListAssoc::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrVarValsListAssoc::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrVarValsListAssoc>*
+    p =
+      dynamic_cast<visitor<S_msrVarValsListAssoc>*> (v)) {
+        S_msrVarValsListAssoc elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrVarValsListAssoc::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrVarValsListAssoc::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrVarValsListAssoc& elt) {
+  elt->print (os);
+  return os;
+}
+
+void msrVarValsListAssoc::print (ostream& os)
+{
+  os <<
+    "MSR VarValsListAssoc" <<
+    endl;
+  
+  gIndenter++;
+
+  const int fieldWidth = 16;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "assoc kind" << " : " <<
+    varValsListAssocKindAsString () <<
+    endl <<
+    setw (fieldWidth) <<
+    
+    "variable values" << " : " <<
+    endl;
+    
+  gIndenter++;
+
+  list<string>::const_iterator
+    iBegin = fVariableValuesList.begin (),
+    iEnd   = fVariableValuesList.end (),
+    i      = iBegin;
+
+  for ( ; ; ) {
+    os << "\"" << (*i) << "\""; 
+    if (++i == iEnd) break;
+    os << endl;
+  } // for
+
+  os <<
+    endl;
+  
+  gIndenter--;
+
   gIndenter--;
 }
 
@@ -12864,7 +13066,7 @@ void msrSyllable::writeTextsList (
       i      = iBegin;
       
     for ( ; ; ) {
-      os << quoteStringIfNonAlpha (*i);
+      os << "\"" << quoteStringIfNonAlpha (*i) << "\"";
       if (++i == iEnd) break;
       os << ", ";
     } // for
@@ -31716,7 +31918,7 @@ void msrIdentification::setWorkNumber (
   fWorkNumber =
     msrVarValAssoc::create (
       inputLineNumber,
-      "work-number", val);
+      msrVarValAssoc::kWorkNumber, val);
   }
 
 void msrIdentification::setWorkTitle (
@@ -31726,7 +31928,7 @@ void msrIdentification::setWorkTitle (
   fWorkTitle =
     msrVarValAssoc::create (
       inputLineNumber,
-      "work-title", val);
+      msrVarValAssoc::kWorkTitle, val);
   }
 
 void msrIdentification::setMovementNumber (
@@ -31736,7 +31938,7 @@ void msrIdentification::setMovementNumber (
   fMovementNumber =
     msrVarValAssoc::create (
       inputLineNumber,
-      "movement-number", val);
+      msrVarValAssoc::kMovementNumber, val);
   }
 
 void msrIdentification::setMovementTitle (
@@ -31746,77 +31948,7 @@ void msrIdentification::setMovementTitle (
   fMovementTitle =
     msrVarValAssoc::create (
       inputLineNumber,
-      "movement-title", val);
-}
-
-void msrIdentification::addComposer (
-  int    inputLineNumber,
-  string type,
-  string val)
-{
-  fComposers.push_back(
-    msrVarValAssoc::create (
-      inputLineNumber,
-      type, val)
-  );
-}
-
-void msrIdentification::addArranger (
-  int    inputLineNumber,
-  string type,
-  string val)
-{
-  fArrangers.push_back(
-    msrVarValAssoc::create (
-      inputLineNumber,
-      type, val)
-  );
-}
-
-void msrIdentification::addPoet (
-  int    inputLineNumber,
-  string type,
-  string val)
-{
-  fPoets.push_back(
-    msrVarValAssoc::create (
-      inputLineNumber,
-      type, val)
-  );
-}
-
-void msrIdentification::addLyricist (
-  int    inputLineNumber,
-  string type,
-  string val)
-{
-  fLyricists.push_back(
-    msrVarValAssoc::create (
-      inputLineNumber,
-      type, val)
-  );
-}
-
-void msrIdentification::addRights (
-  int    inputLineNumber,
-  string val)
-  {
-  fRights.push_back (
-    msrVarValAssoc::create (
-      inputLineNumber,
-      "rights", val)
-    );
-  }
-
-void msrIdentification::addSoftware (
-  int    inputLineNumber,
-  string val)
-{
-  fSoftwares.push_back(
-    msrVarValAssoc::create (
-      inputLineNumber,
-      "software", val)
-  );
+      msrVarValAssoc::kMovementTitle, val);
 }
 
 void msrIdentification::setEncodingDate (
@@ -31826,7 +31958,17 @@ void msrIdentification::setEncodingDate (
   fEncodingDate =
     msrVarValAssoc::create (
       inputLineNumber,
-      "encoding-date", val);
+      msrVarValAssoc::kEncodingDate, val);
+}
+
+void msrIdentification::setScoreInstrument (
+  int    inputLineNumber,
+  string val)
+{
+  fScoreInstrumentAssoc =
+    msrVarValAssoc::create (
+      inputLineNumber,
+      msrVarValAssoc::kScoreInstrument, val);
 }
 
 void msrIdentification::setMiscellaneousField (
@@ -31836,17 +31978,97 @@ void msrIdentification::setMiscellaneousField (
   fEncodingDate =
     msrVarValAssoc::create (
       inputLineNumber,
-      "miscellaneous-field", val);
+      msrVarValAssoc::kMiscellaneousField, val);
 }
 
-void msrIdentification::setScoreInstrumentAssoc (
+void msrIdentification::addRights (
   int    inputLineNumber,
-  string val)
+  string value)
 {
-  fScoreInstrumentAssoc =
-    msrVarValAssoc::create (
-      inputLineNumber,
-      "score-instrument", val);
+  if (! fRights) {
+    fRights =
+      msrVarValsListAssoc::create (
+        inputLineNumber,
+        msrVarValsListAssoc::kRights);
+  }
+  
+  fRights->
+    addAssocVariableValue (value);
+}
+
+void msrIdentification::addComposer (
+  int    inputLineNumber,
+  string value)
+{
+  if (! fComposers) {
+    fComposers =
+      msrVarValsListAssoc::create (
+        inputLineNumber,
+        msrVarValsListAssoc::kComposer);
+  }
+  
+  fComposers->
+    addAssocVariableValue (value);
+}
+
+void msrIdentification::addArranger (
+  int    inputLineNumber,
+  string value)
+{
+  if (! fArrangers) {
+    fArrangers =
+      msrVarValsListAssoc::create (
+        inputLineNumber,
+        msrVarValsListAssoc::kArranger);
+  }
+  
+  fArrangers->
+    addAssocVariableValue (value);
+}
+
+void msrIdentification::addLyricist (
+  int    inputLineNumber,
+  string value)
+{
+  if (! fLyricists) {
+    fLyricists =
+      msrVarValsListAssoc::create (
+        inputLineNumber,
+        msrVarValsListAssoc::kLyricist);
+  }
+  
+  fLyricists->
+    addAssocVariableValue (value);
+}
+
+void msrIdentification::addPoet (
+  int    inputLineNumber,
+  string value)
+{
+  if (! fPoets) {
+    fPoets =
+      msrVarValsListAssoc::create (
+        inputLineNumber,
+        msrVarValsListAssoc::kPoet);
+  }
+  
+  fPoets->
+    addAssocVariableValue (value);
+}
+
+void msrIdentification::addSoftware (
+  int    inputLineNumber,
+  string value)
+{
+  if (! fSoftwares) {
+    fSoftwares =
+      msrVarValsListAssoc::create (
+        inputLineNumber,
+        msrVarValsListAssoc::kSoftware);
+  }
+  
+  fSoftwares->
+    addAssocVariableValue (value);
 }
 
 void msrIdentification::acceptIn (basevisitor* v)
@@ -31914,63 +32136,45 @@ void msrIdentification::browseData (basevisitor* v)
   }
 
   if (fMovementTitle) {
-    // fMovementTitle fMovementTitle
+    // browse fMovementTitle
     msrBrowser<msrVarValAssoc> browser (v);
     browser.browse (*fMovementTitle);
   }
 
-  if (fComposers.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fComposers.begin (); i!=fComposers.end (); i++) {
-      // browse creator
-      msrBrowser<msrVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
+  if (fComposers) {
+    // browse fMovementTitle
+    msrBrowser<msrVarValAssoc> browser (v);
+    browser.browse (*fMovementTitle);
   }
     
-  if (fArrangers.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
-      // browse creator
-      msrBrowser<msrVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
+  if (fArrangers) {
+    // browse fArrangers
+    msrBrowser<msrVarValsListAssoc> browser (v);
+    browser.browse (*fArrangers);
   }
     
-  if (fPoets.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fPoets.begin (); i!=fPoets.end (); i++) {
-      // browse creator
-      msrBrowser<msrVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
+  if (fPoets) {
+    // browse fPoets
+    msrBrowser<msrVarValsListAssoc> browser (v);
+    browser.browse (*fPoets);
   }
     
-  if (fLyricists.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
-      // browse creator
-      msrBrowser<msrVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
+  if (fLyricists) {
+    // browse fLyricists
+    msrBrowser<msrVarValsListAssoc> browser (v);
+    browser.browse (*fLyricists);
   }
     
-  if (fRights.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fRights.begin (); i!=fRights.end (); i++) {
-      // browse rights
-      msrBrowser<msrVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
+  if (fRights) {
+    // browse fRights
+    msrBrowser<msrVarValsListAssoc> browser (v);
+    browser.browse (*fRights);
   }
 
-  if (fSoftwares.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator i;
-    for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
-      // browse software
-      msrBrowser<msrVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
+  if (fSoftwares) {
+    // browse fSoftwares
+    msrBrowser<msrVarValsListAssoc> browser (v);
+    browser.browse (*fSoftwares);
   }
 
   if (fEncodingDate) {
@@ -32003,119 +32207,96 @@ void msrIdentification::print (ostream& os)
   gIndenter++;
   
   if (fWorkNumber) {
-    os << fWorkNumber;
+    os <<
+      fWorkNumber <<
+      endl;
+
     emptyIdentification = false;
   }
   
   if (fWorkTitle) {
-    os << fWorkTitle;
+    os <<
+      fWorkTitle <<
+      endl;
+
     emptyIdentification = false;
   }
     
   if (fMovementNumber) {
-    os << fMovementNumber;
+    os <<
+      fMovementNumber <<
+      endl;
+
     emptyIdentification = false;
   }
     
   if (fMovementTitle) {
-    os << fMovementTitle;
+    os <<
+      fMovementTitle <<
+      endl;
+
     emptyIdentification = false;
   }
 
-  if (fComposers.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fComposers.begin (),
-      iEnd   = fComposers.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-
+  if (fRights) {
+    os <<
+      fRights <<
+      endl;
+      
     emptyIdentification = false;
   }
     
-  if (fArrangers.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fArrangers.begin (),
-      iEnd   = fArrangers.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-
+  if (fComposers) {
+    os <<
+      fComposers <<
+      endl;
+      
     emptyIdentification = false;
   }
     
-  if (fPoets.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fPoets.begin (),
-      iEnd   = fPoets.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-
+  if (fArrangers) {
+    os <<
+      fArrangers <<
+      endl;
+      
     emptyIdentification = false;
   }
     
-  if (fLyricists.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fLyricists.begin (),
-      iEnd   = fLyricists.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-
+  if (fPoets) {
+    os <<
+      fPoets <<
+      endl;
+      
     emptyIdentification = false;
   }
     
-  if (fRights.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fRights.begin (),
-      iEnd   = fRights.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-
+  if (fLyricists) {
+    os <<
+      fLyricists <<
+      endl;
+      
     emptyIdentification = false;
   }
     
-  if (fSoftwares.size ()) {
-    vector<S_msrVarValAssoc>::const_iterator
-      iBegin = fSoftwares.begin (),
-      iEnd   = fSoftwares.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-
+  if (fSoftwares) {
+    os <<
+      fSoftwares <<
+      endl;
     emptyIdentification = false;
   }
     
   if (fEncodingDate) {
-    os << fEncodingDate;
+    os <<
+      fEncodingDate <<
+      endl;
+      
     emptyIdentification = false;
   }
 
   if (emptyIdentification)
     os <<
-      " " << "nothing specified" << endl;
-
-// JMI  os << endl;
+      " " << "nothing specified" <<
+      endl;
   
   gIndenter--;
 }
@@ -32483,16 +32664,19 @@ void msrScore::printSummary (ostream& os)
       "measures") <<
     ")" <<
     ", parts and staves not shown" <<
-    endl << endl;
+    endl <<
+    endl;
 
   gIndenter++;
   
   if (fIdentification) {
-    os << fIdentification;
+    os <<
+      fIdentification;
   }
   
   if (fPageGeometry) {
-    os << fPageGeometry;
+    os <<
+      fPageGeometry;
   }
   
   // print the credits if any
@@ -32508,12 +32692,15 @@ void msrScore::printSummary (ostream& os)
     } // for
   }
   
-  for (
-    list<S_msrPartGroup>::const_iterator i = fPartGroupsList.begin ();
-    i != fPartGroupsList.end ();
-    i++) {
+  list<S_msrPartGroup>::const_iterator
+    iBegin = fPartGroupsList.begin (),
+    iEnd   = fPartGroupsList.end (),
+    i      = iBegin;
+  for ( ; ; ) {
     (*i)->
       printSummary (os);
+    if (++i == iEnd) break;
+    os << endl;
   } // for
   
   gIndenter--;

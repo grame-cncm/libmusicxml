@@ -1388,7 +1388,7 @@ string lpsr2LilypondTranslator::technicalWithIntegerAsLilypondString (
       // LilyPond will take care of that JMI
       break;
     case msrTechnicalWithInteger::kString:
-      s << // no space is allowed between the backslash and the number
+      s << // no space is allowed between the backSlash and the number
         "\\" <<
        technicalWithInteger->
           getTechnicalWithIntegerValue ();
@@ -2013,8 +2013,6 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 //________________________________________________________________________
 string lpsr2LilypondTranslator::generateMultilineName (string theString)
 {
-  string result;
-
   stringstream s;
 
   s <<
@@ -2082,12 +2080,151 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrScore& elt)
     endl;
 }
 
+string lpsr2LilypondTranslator::lpsrVarValAssocKindAsLilypondString (
+  lpsrVarValAssoc::lpsrVarValAssocKind
+    lilyPondVarValAssocKind)
+{
+  string result;
+  
+  switch (lilyPondVarValAssocKind) {
+    case lpsrVarValAssoc::kVersion:
+      fLilypondCodeIOstream << "version";
+      break;
+    case lpsrVarValAssoc::kWorkNumber:
+      fLilypondCodeIOstream << "workNumber";
+      break;
+    case lpsrVarValAssoc::kWorkTitle:
+      fLilypondCodeIOstream << "title";
+      break;
+    case lpsrVarValAssoc::kMovementNumber:
+      fLilypondCodeIOstream << "movementNumber";
+      break;
+    case lpsrVarValAssoc::kMovementTitle:
+      fLilypondCodeIOstream << "subtitle";
+      break;
+    case lpsrVarValAssoc::kEncodingDate:
+      fLilypondCodeIOstream << "encodingDate";
+      break;
+    case lpsrVarValAssoc::kScoreInstrument:
+      fLilypondCodeIOstream << "scoreInstrument";
+      break;
+    case lpsrVarValAssoc::kMiscellaneousField:
+      fLilypondCodeIOstream << "miscellaneousField";
+      break;
+    case lpsrVarValAssoc::kMyBreak:
+      fLilypondCodeIOstream << "myBreak";
+      break;
+    case lpsrVarValAssoc::kMyPageBreak:
+      fLilypondCodeIOstream << "myPageBreak";
+      break;
+    case lpsrVarValAssoc::kGlobal:
+      fLilypondCodeIOstream << "global";
+      break;
+  } // switch
+
+  return result;
+}
+
+string lpsr2LilypondTranslator::lpsrVarValsListAssocKindAsLilypondString (
+  lpsrVarValsListAssoc::lpsrVarValsListAssocKind
+    lilyPondVarValsListAssocKind)
+{
+  string result;
+  
+  switch (lilyPondVarValsListAssocKind) {
+    case lpsrVarValsListAssoc::kRights:
+      result = "copyright";
+      break;
+    case lpsrVarValsListAssoc::kComposer:
+      result = "composer";
+      break;
+    case lpsrVarValsListAssoc::kArranger:
+      result = "arranger";
+      break;
+    case lpsrVarValsListAssoc::kPoet:
+      result = "poet";
+      break;
+    case lpsrVarValsListAssoc::kLyricist:
+      result = "lyricist";
+      break;
+    case lpsrVarValsListAssoc::kSoftware:
+      result = "software";
+      break;
+  } // switch
+
+  return result;
+}
+
+void lpsr2LilypondTranslator::writeLpsrVarValsListAssocValuesAsLilyPondString (
+  S_lpsrVarValsListAssoc varValsListAssoc,
+  ostream&               os)
+{
+  const list<string>&
+    variableValuesList =
+      varValsListAssoc->
+        getVariableValuesList ();
+
+  switch (variableValuesList.size ()) {
+    case 0:
+      break;
+
+    case 1:
+      // generate a single string
+      os <<
+        "\"" << variableValuesList.front () << "\"";
+      break;
+
+    default:
+      // generate a markup containing the chunks
+      os <<
+        endl <<
+        "\\markup {" <<
+        endl;
+
+      gIndenter++;
+      
+      os <<
+        "\\column {" <<
+        endl;
+       
+      gIndenter++;
+
+      list<string>::const_iterator
+        iBegin = variableValuesList.begin (),
+        iEnd   = variableValuesList.end (),
+        i      = iBegin;
+      
+      for ( ; ; ) {
+        os <<
+          "\"" << (*i) << "\"";
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+  
+      os <<
+        endl;
+        
+      gIndenter--;
+
+      os <<
+        "}" <<
+        endl <<
+
+      gIndenter--;
+
+      os <<
+        "}" <<
+        endl;
+  } // switch
+}
+
+
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
+void lpsr2LilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting lpsrLilypondVarValAssoc" <<
+      "% --> Start visiting lpsrVarValAssoc" <<
       endl;
   }
 
@@ -2096,37 +2233,48 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
       "% " << elt->getComment () <<
       endl;
 
-  if (elt->getCommentedKind () == lpsrLilypondVarValAssoc::kCommented)
+  if (elt->getCommentedKind () == lpsrVarValAssoc::kCommented)
     fLilypondCodeIOstream << "\%";
   
-  switch (elt->getBackslashKind ()) {
-    case lpsrLilypondVarValAssoc::kWithBackslash:
+  switch (elt->getBackSlashKind ()) {
+    case lpsrVarValAssoc::kWithBackSlash:
       fLilypondCodeIOstream << "\\";
       break;
-    case lpsrLilypondVarValAssoc::kWithoutBackslash:
+    case lpsrVarValAssoc::kWithoutBackSlash:
       break;
   } // switch
 
-  // the largest variable name length in a header is 18
+  lpsrVarValAssoc::lpsrVarValAssocKind
+    varValAssocKind =
+      elt->getLilyPondVarValAssocKind ();
+      
+  string
+    lilyPondVarValAssocKindAsLilypondString =
+      lpsrVarValAssocKindAsLilypondString (
+        varValAssocKind);
+      
+  // the largest variable name length in a header is 18 JMI
   int fieldWidth;
-  
+
   if (fOnGoingHeader)
     fieldWidth = 18;
   else
-    fieldWidth = elt->getVariableName ().size ();
-    
+    fieldWidth = lilyPondVarValAssocKindAsLilypondString.size ();
+
+  // generate the field name
   fLilypondCodeIOstream << left<<
     setw (fieldWidth) <<
-    elt->getVariableName ();
-  
-  if (elt->getVarValSeparator () == lpsrLilypondVarValAssoc::kEqualSign)
+    lilyPondVarValAssocKindAsLilypondString;
+
+  if (elt->getVarValSeparator () == lpsrVarValAssoc::kEqualSign)
     fLilypondCodeIOstream << " = ";
   else
     fLilypondCodeIOstream << " ";
   
-  if (elt->getQuotesKind () == lpsrLilypondVarValAssoc::kQuotesAroundValue)
+  if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
     fLilypondCodeIOstream << "\"";
-    
+
+  // generate the value
   fLilypondCodeIOstream <<
     elt->getVariableValue ();
 
@@ -2135,40 +2283,85 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLilypondVarValAssoc& elt)
       "\\" <<
       elt->getUnit ();
   
-  if (elt->getQuotesKind () == lpsrLilypondVarValAssoc::kQuotesAroundValue)
+  if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
     fLilypondCodeIOstream << "\"";
   
   fLilypondCodeIOstream << endl;
 
   switch (elt->getEndlKind ()) {
-    case lpsrLilypondVarValAssoc::kWithEndl:
-      fLilypondCodeIOstream << endl;
+    case lpsrVarValAssoc::kWithEndl:
+      fLilypondCodeIOstream <<
+        endl;
       break;
       
-    case lpsrLilypondVarValAssoc::kWithEndlTwice:
-      fLilypondCodeIOstream << endl << endl;
+    case lpsrVarValAssoc::kWithEndlTwice:
+      fLilypondCodeIOstream <<
+        endl <<
+        endl;
       break;
       
-    case lpsrLilypondVarValAssoc::kWithoutEndl:
+    case lpsrVarValAssoc::kWithoutEndl:
       break;
   } // switch
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_lpsrLilypondVarValAssoc& elt)
+void lpsr2LilypondTranslator::visitEnd (S_lpsrVarValAssoc& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> End visiting lpsrLilypondVarValAssoc" <<
+      "% --> End visiting lpsrVarValAssoc" <<
       endl;
   }
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVarValAssoc& elt)
+void lpsr2LilypondTranslator::visitStart (S_lpsrVarValsListAssoc& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting lpsrSchemeVarValAssoc" <<
+      "% --> Start visiting lpsrVarValsListAssoc" <<
+      endl;
+  }
+
+  // the largest variable name length in a header is 18 JMI
+  int fieldWidth;
+
+  string
+    lilyPondVarValsListAssocKindAsString =
+      elt->lilyPondVarValsListAssocKindAsString ();
+      
+  if (fOnGoingHeader)
+    fieldWidth = 18;
+  else
+    fieldWidth = lilyPondVarValsListAssocKindAsString.size ();
+    
+  fLilypondCodeIOstream << left<<
+    setw (fieldWidth) <<
+    lpsrVarValsListAssocKindAsLilypondString (
+      elt->getVarValsListAssocKind ());
+  
+  fLilypondCodeIOstream << " = ";
+      
+  writeLpsrVarValsListAssocValuesAsLilyPondString (
+    elt,
+    fLilypondCodeIOstream);
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_lpsrVarValsListAssoc& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting lpsrVarValsListAssoc" <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVariable& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting lpsrSchemeVariable" <<
       endl;
   }
 
@@ -2177,7 +2370,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVarValAssoc& elt)
       "% " << elt->getComment () <<
       endl;
 
-  if (elt->getCommentedKind () == lpsrSchemeVarValAssoc::kCommented)
+  if (elt->getCommentedKind () == lpsrSchemeVariable::kCommented)
     fLilypondCodeIOstream << "\% ";
   
   fLilypondCodeIOstream <<
@@ -2188,22 +2381,22 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrSchemeVarValAssoc& elt)
     ")";
     
   switch (elt->getEndlKind ()) {
-    case lpsrSchemeVarValAssoc::kWithEndl:
+    case lpsrSchemeVariable::kWithEndl:
       fLilypondCodeIOstream << endl;
       break;
-    case lpsrSchemeVarValAssoc::kWithEndlTwice:
+    case lpsrSchemeVariable::kWithEndlTwice:
       fLilypondCodeIOstream << endl << endl;
       break;
-    case lpsrSchemeVarValAssoc::kWithoutEndl:
+    case lpsrSchemeVariable::kWithoutEndl:
       break;
   } // switch
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeVarValAssoc& elt)
+void lpsr2LilypondTranslator::visitEnd (S_lpsrSchemeVariable& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> End visiting lpsrSchemeVarValAssoc" <<
+      "% --> End visiting lpsrSchemeVariable" <<
       endl;
   }
 }

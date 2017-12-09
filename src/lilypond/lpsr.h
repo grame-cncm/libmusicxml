@@ -106,12 +106,28 @@ template <typename T> class lpsrBrowser : public browser<T>
 };
 
 //______________________________________________________________________________
-class lpsrLilypondVarValAssoc : public lpsrElement
+class lpsrVarValAssoc : public lpsrElement
 {
   public:
 
     // data types
     // ------------------------------------------------------
+
+    // data types
+    // ------------------------------------------------------
+
+    enum lpsrVarValAssocKind {
+      kVersion,
+      kWorkNumber, kWorkTitle,
+      kMovementNumber, kMovementTitle,
+      kEncodingDate,
+      kScoreInstrument,
+      kMiscellaneousField,
+      kMyBreak, kMyPageBreak,
+      kGlobal };
+
+    static string lilyPondVarValAssocKindAsString (
+      lpsrVarValAssocKind lilyPondVarValAssocKind);
 
     enum lpsrCommentedKind {
       kCommented, kUncommented};
@@ -119,11 +135,11 @@ class lpsrLilypondVarValAssoc : public lpsrElement
     static string commentedKindAsString (
       lpsrCommentedKind commentedKind);
       
-    enum lpsrBackslashKind {
-      kWithBackslash, kWithoutBackslash};
+    enum lpsrBackSlashKind {
+      kWithBackSlash, kWithoutBackSlash};
 
-    static string backslashKindAsString (
-      lpsrBackslashKind backslashKind);
+    static string backSlashKindAsString (
+      lpsrBackSlashKind backSlashKind);
       
     enum lpsrVarValSeparatorKind {
       kSpace, kEqualSign};
@@ -143,17 +159,18 @@ class lpsrLilypondVarValAssoc : public lpsrElement
     static string endlKindAsString (
       lpsrEndlKind endlKind);
       
-    static string const g_VarValAssocNoUnit;
-    static string const g_VarValAssocNoComment;
+    static string const g_LilyPondVarValAssocNoUnit;
+    static string const g_LilyPondVarValAssocNoComment;
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrLilypondVarValAssoc> create (
+    static SMARTP<lpsrVarValAssoc> create (
       int                     inputLineNumber,
       lpsrCommentedKind       commentedKind,
-      lpsrBackslashKind       backslashKind,
-      string                  variableName,
+      lpsrBackSlashKind       backSlashKind,
+      lpsrVarValAssocKind
+                              lilyPondVarValAssocKind,
       lpsrVarValSeparatorKind varValSeparatorKind,
       lpsrQuotesKind          quotesKind,
       string                  value, 
@@ -166,11 +183,12 @@ class lpsrLilypondVarValAssoc : public lpsrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrLilypondVarValAssoc (
+    lpsrVarValAssoc (
       int                     inputLineNumber,
       lpsrCommentedKind       commentedKind,
-      lpsrBackslashKind       backslashKind,
-      string                  variableName,
+      lpsrBackSlashKind       backSlashKind,
+      lpsrVarValAssocKind
+                              lilyPondVarValAssocKind,
       lpsrVarValSeparatorKind varValSeparatorKind,
       lpsrQuotesKind          quotesKind,
       string                  value, 
@@ -178,7 +196,7 @@ class lpsrLilypondVarValAssoc : public lpsrElement
       string                  comment,
       lpsrEndlKind            endlKind);
       
-    virtual ~lpsrLilypondVarValAssoc();
+    virtual ~lpsrVarValAssoc ();
   
   public:
 
@@ -186,42 +204,46 @@ class lpsrLilypondVarValAssoc : public lpsrElement
     // ------------------------------------------------------
 
     lpsrCommentedKind     getCommentedKind () const
-                              { return fCommentedKind; };
+                              { return fCommentedKind; }
 
-    lpsrBackslashKind     getBackslashKind () const
-                              { return fBackslashKind; }
+    lpsrBackSlashKind     getBackSlashKind () const
+                              { return fBackSlashKind; }
                   
-    string                getVariableName () const
-                              { return fVariableName; };
+    lpsrVarValAssocKind
+                          getLilyPondVarValAssocKind () const
+                              { return fLilyPondVarValAssocKind; }
                   
     lpsrVarValSeparatorKind
                           getVarValSeparator () const
-                              { return fVarValSeparatorKind; };
+                              { return fVarValSeparatorKind; }
     
     lpsrQuotesKind        getQuotesKind () const
-                              { return fQuotesKind; };
+                              { return fQuotesKind; }
                   
+    void                  setVariableValue (string value)
+                              { fVariableValue = value; }
+
     string                getVariableValue () const
-                              { return fVariableValue; };
+                              { return fVariableValue; }
     
     string                getUnit () const
-                              { return fUnit; };
+                              { return fUnit; }
 
     string                getComment  () const
                               { return fComment; }
 
     lpsrEndlKind          getEndlKind () const
-                              { return fEndlKind; };
+                              { return fEndlKind; }
 
     // services
     // ------------------------------------------------------
 
-    void                  changeAssocVariableName (string name)
-                              { fVariableName = name; }
-
-    void                  changeAssocVariableValue (string value)
-                              { fVariableValue = value; }
-
+    string                lilyPondVarValAssocKindAsString ()
+                              {
+                                return
+                                  lilyPondVarValAssocKindAsString (
+                                    fLilyPondVarValAssocKind);
+                              }
 
     // visitors
     // ------------------------------------------------------
@@ -241,22 +263,110 @@ class lpsrLilypondVarValAssoc : public lpsrElement
     // fields
     // ------------------------------------------------------
 
-    lpsrCommentedKind   fCommentedKind;
-    lpsrBackslashKind   fBackslashKind;
-    string              fVariableName;
+    lpsrCommentedKind     fCommentedKind;
+    lpsrBackSlashKind     fBackSlashKind;
+    lpsrVarValAssocKind
+                          fLilyPondVarValAssocKind;
     lpsrVarValSeparatorKind
-                        fVarValSeparatorKind;
-    lpsrQuotesKind      fQuotesKind;
-    string              fVariableValue;
-    string              fUnit;
-    string              fComment;
-    lpsrEndlKind        fEndlKind;
+                          fVarValSeparatorKind;
+    lpsrQuotesKind        fQuotesKind;
+    string                fVariableValue;
+    string                fUnit;
+    string                fComment;
+    lpsrEndlKind          fEndlKind;
 };
-typedef SMARTP<lpsrLilypondVarValAssoc> S_lpsrLilypondVarValAssoc;
-EXP ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& elt);
+typedef SMARTP<lpsrVarValAssoc> S_lpsrVarValAssoc;
+EXP ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& elt);
 
 //______________________________________________________________________________
-class lpsrSchemeVarValAssoc : public lpsrElement
+class lpsrVarValsListAssoc : public lpsrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum lpsrVarValsListAssocKind {
+      kRights,
+      kComposer, kArranger, kPoet, kLyricist,
+      kSoftware };
+
+    static string lilyPondVarValsListAssocValuesAsString (
+      lpsrVarValsListAssocKind varValsListAssocKind);
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrVarValsListAssoc> create (
+      int                      inputLineNumber,
+      lpsrVarValsListAssocKind varValsListAssocKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrVarValsListAssoc (
+      int                      inputLineNumber,
+      lpsrVarValsListAssocKind varValsListAssocKind);
+      
+    virtual ~lpsrVarValsListAssoc ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    lpsrVarValsListAssocKind
+                          getVarValsListAssocKind () const
+                              { return fVarValsListAssocKind; }
+                  
+    const list<string>&   getVariableValuesList ()
+                              { return fVariableValuesList; }
+    
+    // services
+    // ------------------------------------------------------
+
+    void                  addAssocVariableValue (string value)
+                              { fVariableValuesList.push_back (value); }
+
+    string                lilyPondVarValsListAssocKindAsString ()
+                              {
+                                return
+                                  lilyPondVarValsListAssocValuesAsString (
+                                    fVarValsListAssocKind);
+                              }
+                                  
+    string                lilyPondVarValsListAssocValuesAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    lpsrVarValsListAssocKind
+                          fVarValsListAssocKind;
+
+    list<string>          fVariableValuesList;
+};
+typedef SMARTP<lpsrVarValsListAssoc> S_lpsrVarValsListAssoc;
+EXP ostream& operator<< (ostream& os, const S_lpsrVarValsListAssoc& elt);
+
+//______________________________________________________________________________
+class lpsrSchemeVariable : public lpsrElement
 {
   public:
 
@@ -275,13 +385,13 @@ class lpsrSchemeVarValAssoc : public lpsrElement
     static string endlKindAsString (
       lpsrEndlKind endlKind);
       
-    static string const g_SchemeVarValAssocNoUnit;
-    static string const g_SchemeVarValAssocNoComment;
+    static string const g_SchemeVariableNoUnit;
+    static string const g_SchemeVariableNoComment;
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<lpsrSchemeVarValAssoc> create (
+    static SMARTP<lpsrSchemeVariable> create (
       int               inputLineNumber,
       lpsrCommentedKind commentedKind,
       string            variableName,
@@ -294,7 +404,7 @@ class lpsrSchemeVarValAssoc : public lpsrElement
     // constructors/destructor
     // ------------------------------------------------------
 
-    lpsrSchemeVarValAssoc (
+    lpsrSchemeVariable (
       int               inputLineNumber,
       lpsrCommentedKind commentedKind,
       string            variableName,
@@ -302,26 +412,27 @@ class lpsrSchemeVarValAssoc : public lpsrElement
       string            comment,
       lpsrEndlKind      endlKind);
       
-    virtual ~lpsrSchemeVarValAssoc();
+    virtual ~lpsrSchemeVariable();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    void                  changeAssocValue (string value)
+    string                getVariableName  () const { return fVariableName; }
+
+    void                  setVariableValue (string value)
                               { fVariableValue = value; }
 
-    lpsrCommentedKind     getCommentedKind () const { return fCommentedKind; };
+    string                getVariableValue () const { return fVariableValue; }
 
-    string                getVariableName  () const { return fVariableName; };
-    string                getVariableValue () const { return fVariableValue; };
+    lpsrCommentedKind     getCommentedKind () const { return fCommentedKind; }
 
     string                getComment  () const
                               { return fComment; }
 
     lpsrEndlKind          getEndlKind () const
-                              { return fEndlKind; };
+                              { return fEndlKind; }
 
     // services
     // ------------------------------------------------------
@@ -354,8 +465,8 @@ class lpsrSchemeVarValAssoc : public lpsrElement
     lpsrEndlKind      fEndlKind;
     
 };
-typedef SMARTP<lpsrSchemeVarValAssoc> S_lpsrSchemeVarValAssoc;
-EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& elt);
+typedef SMARTP<lpsrSchemeVariable> S_lpsrSchemeVariable;
+EXP ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& elt);
 
 //______________________________________________________________________________
 class lpsrSchemeFunction : public lpsrElement
@@ -1233,49 +1344,57 @@ class lpsrHeader : public lpsrElement
                             int    inputLineNumber,
                             string val);
 
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           getWorkNumber () const
                               { return fWorkNumber; }
     
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           getWorkTitle () const
                               { return fWorkTitle; }
     
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           getMovementNumber () const
                               { return fMovementNumber; }
     
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           getMovementTitle () const
                               { return fMovementTitle; }
     
-    const vector<S_lpsrLilypondVarValAssoc>&
+    S_lpsrVarValsListAssoc
                           getComposers () const
                               { return fComposers; };
     
-    const vector<S_lpsrLilypondVarValAssoc>&
+    S_lpsrVarValsListAssoc
                           getArrangers () const
                               { return fArrangers; };
     
-    const vector<S_lpsrLilypondVarValAssoc>&
+    S_lpsrVarValsListAssoc
                           getLyricists () const
                               { return fLyricists; };
     
-    const vector<S_lpsrLilypondVarValAssoc>&
+    S_lpsrVarValsListAssoc
+                          getPoets () const
+                              { return fPoets; };
+    
+    S_lpsrVarValsListAssoc
                           getRights () const
                               { return fRights; }
     
-    const vector<S_lpsrLilypondVarValAssoc>&
+    S_lpsrVarValsListAssoc
                           getSoftwares () const
                               { return fSoftwares; };
     
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           getEncodingDate () const
                               { return fEncodingDate; }
-    
-    S_lpsrLilypondVarValAssoc
+
+    S_lpsrVarValAssoc
                           getScoreInstrument () const
                               { return fScoreInstrument; }
+
+    S_lpsrVarValAssoc
+                          getMiscellaneousField () const
+                              { return fMiscellaneousField; }
 
     // LilyPond informations
 
@@ -1377,40 +1496,29 @@ class lpsrHeader : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    S_lpsrLilypondVarValAssoc
-                          addComposer (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    S_lpsrLilypondVarValAssoc
-                          addArranger (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
-    S_lpsrLilypondVarValAssoc
-                          addLyricist (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
-
     void                  addRights (
                             int    inputLineNumber,
-                            string val);
+                            string value);
+
+    void                  addComposer (
+                            int    inputLineNumber,
+                            string value);
+
+    void                  addArranger (
+                            int    inputLineNumber,
+                            string value);
+
+    void                  addLyricist (
+                            int    inputLineNumber,
+                            string value);
+
+    void                  addPoet (
+                            int    inputLineNumber,
+                            string value);
 
     void                  addSoftware (
                             int    inputLineNumber,
-                            string val);
-
-    void                  changeWorkTitleVariableName (string name);
-    void                  changeMovementTitleVariableName (string name);
-    
-    void                  changeWorkNumberVariableName (string name);
-    void                  changeMovementNumberVariableName (string name);
-        
-//    void                  changeCreatorVariableName ( // JMI
- //                           string typeName, string newName);
+                            string value);
 
     int                   maxLilypondVariablesNamesLength ();
 
@@ -1434,32 +1542,38 @@ class lpsrHeader : public lpsrElement
 
     // MusicXML informations
     
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fWorkNumber;
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fWorkTitle;
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fMovementNumber;
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fMovementTitle;
     
-    vector<S_lpsrLilypondVarValAssoc>
-                          fComposers;
-    vector<S_lpsrLilypondVarValAssoc>
-                          fArrangers;
-    vector<S_lpsrLilypondVarValAssoc>
-                          fLyricists;
-    vector<S_lpsrLilypondVarValAssoc>
+    S_lpsrVarValsListAssoc
                           fRights;
+                          
+    S_lpsrVarValsListAssoc
+                          fComposers;
+    S_lpsrVarValsListAssoc
+                          fArrangers;
+    S_lpsrVarValsListAssoc
+                          fLyricists;
+    S_lpsrVarValsListAssoc
+                          fPoets;
     
-    vector<S_lpsrLilypondVarValAssoc>
+    S_lpsrVarValsListAssoc
                           fSoftwares;
     
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fEncodingDate;
     
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fScoreInstrument;
+
+    S_lpsrVarValAssoc
+                          fMiscellaneousField;
 
     // Lilypond informations
 
@@ -1483,29 +1597,7 @@ class lpsrHeader : public lpsrElement
     string                fLilypondCopyright;
     
     // centered at the bottom of the last page
-    string                fLilypondTagline;
-    
-    /*
-\header {
-      % The following fields are centered
-    dedication = "Dedication"
-    title = "Title"
-    subtitle = "Subtitle"
-    subsubtitle = "Subsubtitle"
-      % The following fields are evenly spread on one line
-      % the field "instrument" also appears on following pages
-    instrument = \markup \with-color #green "Instrument"
-    poet = "Poet"
-    composer = "Composer"
-      % The following fields are placed at opposite ends of the same line
-    meter = "Meter"
-    arranger = "Arranger"
-      % The following fields are centered at the bottom
-    tagline = "The tagline goes at the bottom of the last page"
-    copyright = "The copyright goes at the bottom of the first page"
-}
-    */
-
+    string                fLilypondTagline;    
 };
 typedef SMARTP<lpsrHeader> S_lpsrHeader;
 EXP ostream& operator<< (ostream& os, const S_lpsrHeader& elt);
@@ -1655,15 +1747,15 @@ class lpsrLayout : public lpsrElement
     // ------------------------------------------------------
 
     void                  addLilypondVarValAssoc (
-                            S_lpsrLilypondVarValAssoc assoc)
+                            S_lpsrVarValAssoc assoc)
                               {
-                                flpsrLilypondVarValAssocs.push_back (assoc);
+                                flpsrVarValAssocs.push_back (assoc);
                               }
       
-    void                  addSchemeVarValAssoc (
-                            S_lpsrSchemeVarValAssoc assoc)
+    void                  addSchemeVariable (
+                            S_lpsrSchemeVariable assoc)
                               {
-                                fLpsrSchemeVarValAssocs.push_back (assoc);
+                                fLpsrSchemeVariables.push_back (assoc);
                               }
 
     // visitors
@@ -1687,10 +1779,10 @@ class lpsrLayout : public lpsrElement
     float
                           fStaffSize;
     
-    vector<S_lpsrLilypondVarValAssoc>
-                          flpsrLilypondVarValAssocs;
-    vector<S_lpsrSchemeVarValAssoc>
-                          fLpsrSchemeVarValAssocs;
+    vector<S_lpsrVarValAssoc>
+                          flpsrVarValAssocs;
+    vector<S_lpsrSchemeVariable>
+                          fLpsrSchemeVariables;
 };
 typedef SMARTP<lpsrLayout> S_lpsrLayout;
 EXP ostream& operator<< (ostream& os, const S_lpsrLayout& elt);
@@ -2149,11 +2241,11 @@ class lpsrScore : public lpsrElement
     S_msrScore            getMsrScore () const
                               { return fMsrScore; }
 
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           getLilypondVersion () const
                               { return fLilypondVersion; }
 
-    S_lpsrSchemeVarValAssoc
+    S_lpsrSchemeVariable
                           getGlobalStaffSizeAssoc () const
                               { return fGlobalStaffSizeAssoc; }
 
@@ -2178,7 +2270,7 @@ class lpsrScore : public lpsrElement
                                 stringstream s;
                                 s << size;
                                 fGlobalStaffSizeAssoc->
-                                  changeAssocValue (s.str());
+                                  setVariableValue (s.str());
                               }
 
     // files includes
@@ -2230,12 +2322,12 @@ class lpsrScore : public lpsrElement
                             S_lpsrComment comment)
                               { fScoreElements.push_back (comment); }
                   
-    void                  appendSchemeVarValAssocToScore (
-                            S_lpsrSchemeVarValAssoc assoc)
+    void                  appendSchemeVariableToScore (
+                            S_lpsrSchemeVariable assoc)
                               { fScoreElements.push_back (assoc); }
                   
-    void                  prependSchemeVarValAssocToScore (
-                            S_lpsrSchemeVarValAssoc assoc)
+    void                  prependSchemeVariableToScore (
+                            S_lpsrSchemeVariable assoc)
                               { fScoreElements.push_front (assoc); }
                   
     void                  appendVoiceToScoreElements (
@@ -2294,7 +2386,7 @@ class lpsrScore : public lpsrElement
     S_msrScore            fMsrScore;
 
     // general information
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fLilypondVersion;
     
     S_lpsrComment         fInputSourceNameComment;
@@ -2302,7 +2394,7 @@ class lpsrScore : public lpsrElement
     S_lpsrComment         fCommandLineLongOptionsComment;
     S_lpsrComment         fCommandLineShortOptionsComment;
     
-    S_lpsrSchemeVarValAssoc
+    S_lpsrSchemeVariable
                           fGlobalStaffSizeAssoc;
     
     S_lpsrHeader          fHeader;
@@ -2310,19 +2402,19 @@ class lpsrScore : public lpsrElement
     S_lpsrLayout          fScoreLayout;
 
     // to keep the original line breaks
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fMyBreakIsBreakAssoc;
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fMyBreakIsEmptyAssoc;
 
     // to keep the original page breaks
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fMyPageBreakIsPageBreakAssoc;
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fMyPageBreakIsEmptyAssoc;
 
     // to generate 'global' variable
-    S_lpsrLilypondVarValAssoc
+    S_lpsrVarValAssoc
                           fGlobalAssoc;
 
     // variables, voices and stanzas

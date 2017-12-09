@@ -582,28 +582,26 @@ void mxmlTree2MsrTranslator::visitStart ( S_creator& elt )
     elt->getInputLineNumber ();
     
   string creatorType = elt->getAttributeValue ("type");
+  string creatorValue = elt->getValue ();
 
   if      (creatorType == "composer") {
     fMsrScore->getIdentification () ->
       addComposer (
         inputLineNumber,
-        creatorType,
-        elt->getValue ());
+        creatorValue);
   }
   
   else if (creatorType == "arranger") {
     fMsrScore->getIdentification () ->
       addArranger (
         inputLineNumber,
-        creatorType,
-        elt->getValue ());
+        creatorValue);
   }
   
   else if (creatorType == "poet") {
     fMsrScore->getIdentification () ->
       addPoet (
         inputLineNumber,
-        creatorType,
         elt->getValue ());
   }
   
@@ -611,8 +609,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_creator& elt )
     fMsrScore->getIdentification () ->
       addLyricist (
         inputLineNumber,
-        creatorType,
-        elt->getValue ());
+        creatorValue);
   }
   
   else {
@@ -679,25 +676,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_miscellaneous_field& elt )
       "--> Start visiting S_miscellaneous_field" <<
       endl;
   }
-
-/*
-<!--
-  If a program has other metadata not yet supported in the
-  MusicXML format, it can go in the miscellaneous area.
--->
-<!ELEMENT miscellaneous (miscellaneous-field*)>
-<!ELEMENT miscellaneous-field (#PCDATA)>
-<!ATTLIST miscellaneous-field
-    name CDATA #REQUIRED
->
-
-    <miscellaneous>
-      <miscellaneous-field name="description">A part with no id attribute.
-            Since this piece has only one part, it is clear which part 
-            is described by the one part element.</miscellaneous-field>
-    </miscellaneous>
-
-*/
 
   string miscellaneousFielValue = elt->getValue ();
   

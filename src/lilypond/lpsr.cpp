@@ -577,11 +577,15 @@ void lpsrNewLyricsBlock::print (ostream& os)
 }
 
 //______________________________________________________________________________
-S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create (
+string const lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit    = "";
+string const lpsrVarValAssoc::g_LilyPondVarValAssocNoComment = "";
+
+S_lpsrVarValAssoc lpsrVarValAssoc::create (
   int                     inputLineNumber,
   lpsrCommentedKind       commentedKind,
-  lpsrBackslashKind       backslashKind,
-  string                  variableName,
+  lpsrBackSlashKind       backSlashKind,
+  lpsrVarValAssocKind
+                          lilyPondVarValAssocKind,
   lpsrVarValSeparatorKind varValSeparatorKind,
   lpsrQuotesKind          quotesKind,
   string                  value, 
@@ -589,12 +593,12 @@ S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create (
   string                  comment,
   lpsrEndlKind            endlKind)
 {
-  lpsrLilypondVarValAssoc* o =
-    new lpsrLilypondVarValAssoc(
+  lpsrVarValAssoc* o =
+    new lpsrVarValAssoc(
       inputLineNumber,
       commentedKind,
-      backslashKind,
-      variableName,
+      backSlashKind,
+      lilyPondVarValAssocKind,
       varValSeparatorKind, 
       quotesKind,
       value,
@@ -605,11 +609,12 @@ S_lpsrLilypondVarValAssoc lpsrLilypondVarValAssoc::create (
   return o;
 }
 
-lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc (
+lpsrVarValAssoc::lpsrVarValAssoc (
   int                     inputLineNumber,
   lpsrCommentedKind       commentedKind,
-  lpsrBackslashKind       backslashKind,
-  string                  variableName,
+  lpsrBackSlashKind       backSlashKind,
+  lpsrVarValAssocKind
+                          lilyPondVarValAssocKind,
   lpsrVarValSeparatorKind varValSeparatorKind,
   lpsrQuotesKind          quotesKind,
   string                  value, 
@@ -618,8 +623,8 @@ lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc (
   lpsrEndlKind            endlKind)
     : lpsrElement (inputLineNumber)
 {
-  fBackslashKind       = backslashKind;
-  fVariableName        = variableName;
+  fBackSlashKind       = backSlashKind;
+  fLilyPondVarValAssocKind = lilyPondVarValAssocKind;
   fVarValSeparatorKind = varValSeparatorKind;
   fQuotesKind          = quotesKind;
   fVariableValue       = value;
@@ -629,173 +634,448 @@ lpsrLilypondVarValAssoc::lpsrLilypondVarValAssoc (
   fEndlKind            = endlKind;
 }
 
-lpsrLilypondVarValAssoc::~lpsrLilypondVarValAssoc()
+lpsrVarValAssoc::~lpsrVarValAssoc()
 {}
 
-string const lpsrLilypondVarValAssoc::g_VarValAssocNoUnit    = "";
-string const lpsrLilypondVarValAssoc::g_VarValAssocNoComment = "";
+string lpsrVarValAssoc::lilyPondVarValAssocKindAsString (
+  lpsrVarValAssocKind lilyPondVarValAssocKind)
+{
+  string result;
 
-void lpsrLilypondVarValAssoc::acceptIn (basevisitor* v)
+  switch (lilyPondVarValAssocKind) {
+    case lpsrVarValAssoc::kVersion:
+      result = "version";
+      break;
+    case lpsrVarValAssoc::kWorkNumber:
+      result = "workNumber";
+      break;
+    case lpsrVarValAssoc::kWorkTitle:
+      result = "workTitle";
+      break;
+    case lpsrVarValAssoc::kMovementNumber:
+      result = "movementNumber";
+      break;
+    case lpsrVarValAssoc::kMovementTitle:
+      result = "movementTitle";
+      break;
+    case lpsrVarValAssoc::kEncodingDate:
+      result = "encodingDate";
+      break;
+    case lpsrVarValAssoc::kScoreInstrument:
+      result = "scoreInstrument";
+      break;
+    case lpsrVarValAssoc::kMiscellaneousField:
+      result = "miscellaneousField";
+      break;
+    case lpsrVarValAssoc::kMyBreak:
+      result = "myBreak";
+      break;
+    case lpsrVarValAssoc::kMyPageBreak:
+      result = "myPageBreak";
+      break;
+    case lpsrVarValAssoc::kGlobal:
+      result = "global";
+      break;
+  } // switch
+  
+  return result;
+}
+
+string lpsrVarValAssoc::commentedKindAsString (
+  lpsrCommentedKind commentedKind)
+{
+  string result;
+
+  switch (commentedKind) {
+    case lpsrVarValAssoc::kCommented:
+      result = "commented";
+      break;
+    case lpsrVarValAssoc::kUncommented:
+      result = "uncommented";
+      break;
+  } // switch
+
+  return result;
+}
+
+string lpsrVarValAssoc::backSlashKindAsString (
+  lpsrBackSlashKind backSlashKind)
+{
+  string result;
+
+  switch (backSlashKind) {
+    case lpsrVarValAssoc::kWithBackSlash:
+      result = "with backSlash";
+      break;
+    case lpsrVarValAssoc::kWithoutBackSlash:
+      result = "without backSlash";
+      break;
+  } // switch
+
+  return result;
+}
+
+string lpsrVarValAssoc::varValSeparatorKindAsString (
+  lpsrVarValSeparatorKind varValSeparatorKind)
+{
+  string result;
+
+  switch (varValSeparatorKind) {
+    case lpsrVarValAssoc::kSpace:
+      result = "space";
+      break;
+    case lpsrVarValAssoc::kEqualSign:
+      result = "equal";
+      break;
+  } // switch
+
+  return result;
+}
+
+string lpsrVarValAssoc::quotesKindAsString (
+  lpsrQuotesKind quotesKind)
+{
+  string result;
+
+  switch (quotesKind) {
+    case lpsrVarValAssoc::kQuotesAroundValue:
+      result = "quotes";
+      break;
+    case lpsrVarValAssoc::kNoQuotesAroundValue:
+      result = "noQuotes";
+      break;
+  } // switch
+
+  return result;
+}
+
+string lpsrVarValAssoc::endlKindAsString (
+  lpsrEndlKind endlKind)
+{
+  string result;
+
+  switch (endlKind) {
+    case lpsrVarValAssoc::kWithEndl:
+      result = "with end line";
+      break;
+    case lpsrVarValAssoc::kWithEndlTwice:
+      result = "with end line twice";
+      break;
+    case lpsrVarValAssoc::kWithoutEndl:
+      result = "without end line";
+      break;
+  } // switch
+
+  return result;
+}
+
+void lpsrVarValAssoc::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
-      "% ==> lpsrLilypondVarValAssoc::acceptIn()" <<
+      "% ==> lpsrVarValAssoc::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_lpsrLilypondVarValAssoc>*
+  if (visitor<S_lpsrVarValAssoc>*
     p =
-      dynamic_cast<visitor<S_lpsrLilypondVarValAssoc>*> (v)) {
-        S_lpsrLilypondVarValAssoc elem = this;
+      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
+        S_lpsrVarValAssoc elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching lpsrLilypondVarValAssoc::visitStart()" <<
+            "% ==> Launching lpsrVarValAssoc::visitStart()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void lpsrLilypondVarValAssoc::acceptOut (basevisitor* v)
+void lpsrVarValAssoc::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
-      "% ==> lpsrLilypondVarValAssoc::acceptOut()" <<
+      "% ==> lpsrVarValAssoc::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_lpsrLilypondVarValAssoc>*
+  if (visitor<S_lpsrVarValAssoc>*
     p =
-      dynamic_cast<visitor<S_lpsrLilypondVarValAssoc>*> (v)) {
-        S_lpsrLilypondVarValAssoc elem = this;
+      dynamic_cast<visitor<S_lpsrVarValAssoc>*> (v)) {
+        S_lpsrVarValAssoc elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching lpsrLilypondVarValAssoc::visitEnd()" <<
+            "% ==> Launching lpsrVarValAssoc::visitEnd()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void lpsrLilypondVarValAssoc::browseData (basevisitor* v)
+void lpsrVarValAssoc::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrLilypondVarValAssoc& assoc) {
+ostream& operator<< (ostream& os, const S_lpsrVarValAssoc& assoc) {
   assoc->print (os);
   return os;
 }
 
-void lpsrLilypondVarValAssoc::print (ostream& os)
+void lpsrVarValAssoc::print (ostream& os)
 {
   os <<
-    "LilypondVarValAssoc" <<
+    "LPSR VarValAssoc" <<
     endl;
   
   gIndenter++;
 
   // escape quotes if any
-  string variableName;
   string variableValue;
 
-  for_each (
-    fVariableName.begin (),
-    fVariableName.end (),
-    stringQuoteEscaper (variableName));
   for_each (
     fVariableValue.begin (),
     fVariableValue.end (),
     stringQuoteEscaper (variableValue));
 
-  switch (fCommentedKind) {
-    case kCommented:
-      os << "commented";
-      break;
-    case kUncommented:
-      os << "uncommented";
-      break;
-  } // switch
-  os << endl;
+  const int fieldWidth = 16;
 
-  switch (fBackslashKind) {
-    case kWithBackslash:
-      os << "with backslash";
-      break;
-    case kWithoutBackslash:
-      os << "without backslash";
-      break;
-  } // switch
-  os << " before variable name";
-  os << endl;
+  os << left <<
+    setw (fieldWidth) <<
+    "assoc kind" << " : " <<
+    lilyPondVarValAssocKindAsString () <<
+    endl <<
   
-  os <<
-    "variable name: \"" << variableName << "\"" <<
-    endl;
+    setw (fieldWidth) <<
+    "assoc value" << " : \"" <<
+    variableValue <<
+    "\"" <<
+    endl <<
   
-  switch (fVarValSeparatorKind) {
-    case kSpace:
-      os << "space";
-      break;
-    case kEqualSign:
-      os << "equal";
-      break;
-  } // switch
-  os << " separator";
-  os << endl;
+    setw (fieldWidth) <<
+   "commented kind" << " : " <<
+    commentedKindAsString (
+      fCommentedKind) <<
+    endl <<
 
-  switch (fQuotesKind) {
-    case kQuotesAroundValue:
-      os << "quotes";
-      break;
-    case kNoQuotesAroundValue:
-      os << "noQuotes";
-      break;
-  } // switch
-  os << " around value";
-  os << endl;
+    setw (fieldWidth) <<
+   "back slash kind" << " : " <<
+    backSlashKindAsString (
+      fBackSlashKind) <<
+    endl <<
 
-  os <<
-    "variable value: \"" << variableValue << "\"" <<
-    endl;
+    setw (fieldWidth) <<
+   "separator kind" << " : " <<
+    varValSeparatorKindAsString (
+      fVarValSeparatorKind) <<
+    endl <<
 
-  os <<
-    "unit: ";
+    setw (fieldWidth) <<
+   "quotes kind" << " : " <<
+    quotesKindAsString (
+      fQuotesKind) <<
+    endl <<
+
+    setw (fieldWidth) <<
+   "unit" << " : ";
+    
   if (fUnit.size ())
     os << "\"" << fUnit << "\"";
   else
     os << "none";
-  os << endl;
+  os <<
+    endl;
   
   os <<
-    "comment: ";
+    setw (fieldWidth) <<
+   "comment" << " : ";
+
   if (fComment.size ())
     os << "\"" << fComment << "\"";
   else
     os << "none";
-  os << endl;
+  os <<
+    endl;
 
-  switch (fEndlKind) {
-    case kWithEndl:
-      os << "with end line";
-      break;
-    case kWithEndlTwice:
-      os << "with end line twice";
-      break;
-    case kWithoutEndl:
-      os << "without end line";
-      break;
-  } // switch
-  os << " afterwards";
-  os << endl;
+  os <<
+    setw (fieldWidth) <<
+   "endl kind" << " : " <<
+    endlKindAsString (
+      fEndlKind) <<
+    endl;
   
-// JMI  os << endl;
-
   gIndenter--;
 }
 
 //______________________________________________________________________________
-S_lpsrSchemeVarValAssoc lpsrSchemeVarValAssoc::create (
+S_lpsrVarValsListAssoc lpsrVarValsListAssoc::create (
+  int                      inputLineNumber,
+  lpsrVarValsListAssocKind varValsListAssocKind)
+{
+  lpsrVarValsListAssoc* o =
+    new lpsrVarValsListAssoc (
+      inputLineNumber,
+      varValsListAssocKind);
+  assert(o!=0);
+  return o;
+}
+
+lpsrVarValsListAssoc::lpsrVarValsListAssoc (
+  int                      inputLineNumber,
+  lpsrVarValsListAssocKind varValsListAssocKind)
+    : lpsrElement (inputLineNumber)
+{
+  fVarValsListAssocKind = varValsListAssocKind;
+}
+
+lpsrVarValsListAssoc::~lpsrVarValsListAssoc ()
+{}
+
+string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString (
+  lpsrVarValsListAssocKind varValsListAssocKind)
+{
+  string result;
+
+  switch (varValsListAssocKind) {
+    case lpsrVarValsListAssoc::kRights:
+      result = "rights";
+      break;
+    case lpsrVarValsListAssoc::kComposer:
+      result = "composer";
+      break;
+    case lpsrVarValsListAssoc::kArranger:
+      result = "arranger";
+      break;
+    case lpsrVarValsListAssoc::kPoet:
+      result = "poet";
+      break;
+    case lpsrVarValsListAssoc::kLyricist:
+      result = "lyricist";
+      break;
+    case lpsrVarValsListAssoc::kSoftware:
+      result = "software";
+      break;
+  } // switch
+  
+  return result;
+}
+
+string lpsrVarValsListAssoc::lilyPondVarValsListAssocValuesAsString () const
+{
+  stringstream s;
+  
+  list<string>::const_iterator
+    iBegin = fVariableValuesList.begin (),
+    iEnd   = fVariableValuesList.end (),
+    i      = iBegin;
+
+  s << "[";
+  for ( ; ; ) {
+    s << "\"" << (*i) << "\"";
+    if (++i == iEnd) break;
+    s << ", ";
+  } // for
+  s << "]";
+  
+  return s.str ();
+}
+
+void lpsrVarValsListAssoc::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrVarValsListAssoc::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_lpsrVarValsListAssoc>*
+    p =
+      dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
+        S_lpsrVarValsListAssoc elem = this;
+        
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrVarValsListAssoc::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void lpsrVarValsListAssoc::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrVarValsListAssoc::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_lpsrVarValsListAssoc>*
+    p =
+      dynamic_cast<visitor<S_lpsrVarValsListAssoc>*> (v)) {
+        S_lpsrVarValsListAssoc elem = this;
+      
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrVarValsListAssoc::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrVarValsListAssoc::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_lpsrVarValsListAssoc& assoc) {
+  assoc->print (os);
+  return os;
+}
+
+void lpsrVarValsListAssoc::print (ostream& os)
+{
+  os <<
+    "LPSR VarValsListAssoc" <<
+    endl;
+  
+  gIndenter++;
+
+  const int fieldWidth = 16;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "assoc kind" << " : " <<
+    lilyPondVarValsListAssocKindAsString () <<
+    endl <<
+        
+    "variable values" << " : " <<
+    endl;
+
+  gIndenter++;
+  
+  list<string>::const_iterator
+    iBegin = fVariableValuesList.begin (),
+    iEnd   = fVariableValuesList.end (),
+    i      = iBegin;
+    
+  for ( ; ; ) {
+    os << "\"" << (*i) << "\"";
+    if (++i == iEnd) break;
+    os << endl;
+  } // for
+  
+  os <<
+    endl;
+
+  gIndenter--;
+  
+  gIndenter--;
+}
+
+//______________________________________________________________________________
+string const lpsrSchemeVariable::g_SchemeVariableNoUnit    = "";
+string const lpsrSchemeVariable::g_SchemeVariableNoComment = "";
+
+S_lpsrSchemeVariable lpsrSchemeVariable::create (
   int               inputLineNumber,
   lpsrCommentedKind commentedKind,
   string            variableName,
@@ -803,15 +1083,15 @@ S_lpsrSchemeVarValAssoc lpsrSchemeVarValAssoc::create (
   string            comment,
   lpsrEndlKind      endlKind)
 {
-  lpsrSchemeVarValAssoc* o =
-    new lpsrSchemeVarValAssoc (
+  lpsrSchemeVariable* o =
+    new lpsrSchemeVariable (
       inputLineNumber,
       commentedKind, variableName, value, comment, endlKind);
   assert(o!=0);
   return o;
 }
 
-lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc (
+lpsrSchemeVariable::lpsrSchemeVariable (
   int               inputLineNumber,
   lpsrCommentedKind commentedKind,
   string            variableName,
@@ -830,69 +1110,103 @@ lpsrSchemeVarValAssoc::lpsrSchemeVarValAssoc (
   fEndlKind      = endlKind;
 }
 
-lpsrSchemeVarValAssoc::~lpsrSchemeVarValAssoc()
+lpsrSchemeVariable::~lpsrSchemeVariable()
 {}
 
-string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoUnit    = "";
-string const lpsrSchemeVarValAssoc::g_SchemeVarValAssocNoComment = "";
+string lpsrSchemeVariable::commentedKindAsString (
+  lpsrCommentedKind commentedKind)
+{
+  string result;
 
-void lpsrSchemeVarValAssoc::acceptIn (basevisitor* v)
+  switch (commentedKind) {
+    case lpsrVarValAssoc::kCommented:
+      result = "commented";
+      break;
+    case lpsrVarValAssoc::kUncommented:
+      result = "uncommented";
+      break;
+  } // switch
+
+  return result;
+}
+
+string lpsrSchemeVariable::endlKindAsString (
+  lpsrEndlKind endlKind)
+{
+  string result;
+
+  switch (endlKind) {
+    case lpsrVarValAssoc::kWithEndl:
+      result = "with end line";
+      break;
+    case lpsrVarValAssoc::kWithEndlTwice:
+      result = "with end line twice";
+      break;
+    case lpsrVarValAssoc::kWithoutEndl:
+      result = "without end line";
+      break;
+  } // switch
+
+  return result;
+}
+
+void lpsrSchemeVariable::acceptIn (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
-      "% ==> lpsrSchemeVarValAssoc::acceptIn()" <<
+      "% ==> lpsrSchemeVariable::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_lpsrSchemeVarValAssoc>*
+  if (visitor<S_lpsrSchemeVariable>*
     p =
-      dynamic_cast<visitor<S_lpsrSchemeVarValAssoc>*> (v)) {
-        S_lpsrSchemeVarValAssoc elem = this;
+      dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
+        S_lpsrSchemeVariable elem = this;
         
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching lpsrSchemeVarValAssoc::visitStart()" <<
+            "% ==> Launching lpsrSchemeVariable::visitStart()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void lpsrSchemeVarValAssoc::acceptOut (basevisitor* v)
+void lpsrSchemeVariable::acceptOut (basevisitor* v)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     gLogIOstream <<
-      "% ==> lpsrSchemeVarValAssoc::acceptOut()" <<
+      "% ==> lpsrSchemeVariable::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_lpsrSchemeVarValAssoc>*
+  if (visitor<S_lpsrSchemeVariable>*
     p =
-      dynamic_cast<visitor<S_lpsrSchemeVarValAssoc>*> (v)) {
-        S_lpsrSchemeVarValAssoc elem = this;
+      dynamic_cast<visitor<S_lpsrSchemeVariable>*> (v)) {
+        S_lpsrSchemeVariable elem = this;
       
         if (gLpsrOptions->fTraceLpsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching lpsrSchemeVarValAssoc::visitEnd()" <<
+            "% ==> Launching lpsrSchemeVariable::visitEnd()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void lpsrSchemeVarValAssoc::browseData (basevisitor* v)
+void lpsrSchemeVariable::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_lpsrSchemeVarValAssoc& assoc)
+ostream& operator<< (ostream& os, const S_lpsrSchemeVariable& assoc)
 {
   assoc->print (os);
   return os;
 }
 
-void lpsrSchemeVarValAssoc::print (ostream& os)
+void lpsrSchemeVariable::print (ostream& os)
 {
   os <<
-    "SchemeVarValAssoc" <<
+    "SchemeVariable" <<
     endl;
 
   gIndenter++;
@@ -910,47 +1224,33 @@ void lpsrSchemeVarValAssoc::print (ostream& os)
     fVariableValue.end (),
     stringQuoteEscaper (variableValue));
 
-  switch (fCommentedKind) {
-    case kCommented:
-      os << "commented";
-      break;
-    case kUncommented:
-      os << "uncommented";
-      break;
-  } // switch
-  os << endl;
-
   // print resulting strings
-  os <<
-    "variable name : \"" << variableName << "\"" <<
+  const int fieldWidth = 15;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "variable name" <<
+    " : \"" << variableName << "\"" <<
     endl <<
-    "variable value: \"" << variableValue << "\"" <<
-    endl;
+    setw (fieldWidth) <<
+    "variable value" <<
+    " : \"" << variableValue << "\"" <<
+    endl <<
 
-  os <<
-    "comment: ";
-  if (fComment.size ())
-    os << "\"" << fComment << "\"";
-  else
-    os << "none";
-  os << endl;
+    setw (fieldWidth) <<
+    "commented kind" << " : " <<
+    commentedKindAsString (fCommentedKind) <<
+    endl <<
 
-  switch (fEndlKind) {
-    case kWithEndl:
-      os << "with end line";
-      break;
-    case kWithEndlTwice:
-      os << "with end line twice";
-      break;
-    case kWithoutEndl:
-      os << "without end line";
-      break;
-  } // switch
-  os << " afterwards";
-  os << endl;
+  // backSlashKindAsString ??? JMI
+  // varValSeparatorKindAsString ??? JMI
+  // quotesKindAsString ??? JMI
   
- // JMI os << endl;
-
+    setw (fieldWidth) <<
+    "endl kind" << " : " <<
+    endlKindAsString (fEndlKind) <<
+    endl;
+  
   gIndenter--;
 }
 
@@ -1759,17 +2059,17 @@ void lpsrHeader::setWorkNumber (
   string val)
 {
  fWorkNumber =
-    lpsrLilypondVarValAssoc::create (
+    lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "work-number",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kWorkNumber,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::setWorkTitle (
@@ -1777,17 +2077,17 @@ void lpsrHeader::setWorkTitle (
   string val)
   {
   fWorkTitle =
-    lpsrLilypondVarValAssoc::create (
+    lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "work-title",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kWorkTitle,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::setMovementNumber (
@@ -1795,17 +2095,17 @@ void lpsrHeader::setMovementNumber (
   string val)
   {
   fMovementNumber =
-    lpsrLilypondVarValAssoc::create (
+    lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "movement-number",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kMovementNumber,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
   }
 
 void lpsrHeader::setMovementTitle (
@@ -1813,127 +2113,17 @@ void lpsrHeader::setMovementTitle (
   string val)
 {
   fMovementTitle =
-    lpsrLilypondVarValAssoc::create (
+    lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "movement-title",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kMovementTitle,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
-}
-
-S_lpsrLilypondVarValAssoc lpsrHeader::addComposer (
-  int    inputLineNumber,
-  string type,
-  string val)
-{
-  S_lpsrLilypondVarValAssoc
-    result =
-      lpsrLilypondVarValAssoc::create (
-        inputLineNumber,
-        lpsrLilypondVarValAssoc::kUncommented,
-        lpsrLilypondVarValAssoc::kWithoutBackslash,
-        type,
-        lpsrLilypondVarValAssoc::kEqualSign,
-        lpsrLilypondVarValAssoc::kQuotesAroundValue,
-        val,
-        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
-
-  fComposers.push_back (result);
-
-  return result;
-}
-
-S_lpsrLilypondVarValAssoc lpsrHeader::addArranger (
-  int    inputLineNumber,
-  string type,
-  string val)
-{
-  S_lpsrLilypondVarValAssoc
-    result =
-      lpsrLilypondVarValAssoc::create (
-        inputLineNumber,
-        lpsrLilypondVarValAssoc::kUncommented,
-        lpsrLilypondVarValAssoc::kWithoutBackslash,
-        type,
-        lpsrLilypondVarValAssoc::kEqualSign,
-        lpsrLilypondVarValAssoc::kQuotesAroundValue,
-        val,
-        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
-
-  fArrangers.push_back (result);
-
-  return result;
-}
-
-S_lpsrLilypondVarValAssoc lpsrHeader::addLyricist (
-  int    inputLineNumber,
-  string type,
-  string val)
-{
-  S_lpsrLilypondVarValAssoc
-    result =
-      lpsrLilypondVarValAssoc::create (
-        inputLineNumber,
-        lpsrLilypondVarValAssoc::kUncommented,
-        lpsrLilypondVarValAssoc::kWithoutBackslash,
-        type,
-        lpsrLilypondVarValAssoc::kEqualSign,
-        lpsrLilypondVarValAssoc::kQuotesAroundValue,
-        val,
-        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
-
-  fLyricists.push_back (result);
-
-  return result;
-}
-
-void lpsrHeader::addRights (
-  int    inputLineNumber,
-  string val)
-  {
-  fRights.push_back (
-    lpsrLilypondVarValAssoc::create (
-      inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "rights",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
-      val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl)
-    );
-  }
-
-void lpsrHeader::addSoftware (
-  int    inputLineNumber,
-  string val)
-{
-  fSoftwares.push_back(
-    lpsrLilypondVarValAssoc::create (
-      inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "software",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
-      val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl)
-  );
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::setEncodingDate (
@@ -1941,35 +2131,17 @@ void lpsrHeader::setEncodingDate (
   string val)
 {
   fEncodingDate =
-    lpsrLilypondVarValAssoc::create (
+    lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "encoding-date",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kEncodingDate,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
-}
-
-void lpsrHeader::setMiscellaneousField (
-  int    inputLineNumber,
-  string val)
-{
-  fEncodingDate =
-    lpsrLilypondVarValAssoc::create (
-      inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "miscellaneous-field",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
-      val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
 }
 
 void lpsrHeader::setScoreInstrument (
@@ -1977,117 +2149,235 @@ void lpsrHeader::setScoreInstrument (
   string val)
 {
   fScoreInstrument =
-    lpsrLilypondVarValAssoc::create (
+    lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithoutBackslash,
-      "score-instrument",
-      lpsrLilypondVarValAssoc::kEqualSign,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kScoreInstrument,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
       val,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithoutEndl);
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
 }
 
-void lpsrHeader::changeWorkTitleVariableName (string name)
+void lpsrHeader::setMiscellaneousField (
+  int    inputLineNumber,
+  string val)
 {
-  fWorkTitle->changeAssocVariableName (name);
+  fMiscellaneousField =
+    lpsrVarValAssoc::create (
+      inputLineNumber,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithoutBackSlash,
+      lpsrVarValAssoc::kMiscellaneousField,
+      lpsrVarValAssoc::kEqualSign,
+      lpsrVarValAssoc::kQuotesAroundValue,
+      val,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithoutEndl);
 }
 
-void lpsrHeader::changeMovementTitleVariableName (string name)
+void lpsrHeader::addRights (
+  int    inputLineNumber,
+  string value)
 {
-  fMovementTitle->changeAssocVariableName (name);
+  if (! fRights) {
+    fRights =
+      lpsrVarValsListAssoc::create (
+        inputLineNumber,
+        lpsrVarValsListAssoc::kRights);
+  }
+  
+  fRights->
+    addAssocVariableValue (value);
 }
 
-void lpsrHeader::changeWorkNumberVariableName (string name)
+void lpsrHeader::addComposer (
+  int    inputLineNumber,
+  string value)
 {
-  fWorkNumber->changeAssocVariableName (name);
+  if (! fComposers) {
+    fComposers =
+      lpsrVarValsListAssoc::create (
+        inputLineNumber,
+        lpsrVarValsListAssoc::kComposer);
+  }
+  
+  fComposers->
+    addAssocVariableValue (value);
 }
 
-void lpsrHeader::changeMovementNumberVariableName (string name)
+void lpsrHeader::addArranger (
+  int    inputLineNumber,
+  string value)
 {
-  fMovementNumber->changeAssocVariableName (name);
+  if (! fArrangers) {
+    fArrangers =
+      lpsrVarValsListAssoc::create (
+        inputLineNumber,
+        lpsrVarValsListAssoc::kArranger);
+  }
+  
+  fArrangers->
+    addAssocVariableValue (value);
 }
 
-/* JMI
-void lpsrHeader::changeCreatorVariableName (
-  string variableName, string newName)
+void lpsrHeader::addLyricist (
+  int    inputLineNumber,
+  string value)
 {
-  vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-  for (i=fCreators.begin (); i!=fCreators.end (); i++) {
-    if ((*i)->getVariableName () == variableName)
-      (*i)->changeAssocVariableName (newName);
-  } // for
+  if (! fLyricists) {
+    fLyricists =
+      lpsrVarValsListAssoc::create (
+        inputLineNumber,
+        lpsrVarValsListAssoc::kLyricist);
+  }
+  
+  fLyricists->
+    addAssocVariableValue (value);
 }
-*/
+
+void lpsrHeader::addPoet (
+  int    inputLineNumber,
+  string value)
+{
+  if (! fPoets) {
+    fPoets =
+      lpsrVarValsListAssoc::create (
+        inputLineNumber,
+        lpsrVarValsListAssoc::kPoet);
+  }
+  
+  fPoets->
+    addAssocVariableValue (value);
+}
+
+void lpsrHeader::addSoftware (
+  int    inputLineNumber,
+  string value)
+{
+  if (! fSoftwares) {
+    fSoftwares =
+      lpsrVarValsListAssoc::create (
+        inputLineNumber,
+        lpsrVarValsListAssoc::kSoftware);
+  }
+  
+  fSoftwares->
+    addAssocVariableValue (value);
+}
 
 int lpsrHeader::maxLilypondVariablesNamesLength ()
 {
   int result = 0;
 
   if (fWorkNumber) {
-    int length = fWorkNumber->getVariableName ().size ();
+    int length = fWorkNumber->lilyPondVarValAssocKindAsString ().size ();
     if (length > result) result = length;
   }
   
   if (fWorkTitle) {
-    int length = fWorkTitle->getVariableName ().size ();
+    int length = fWorkTitle->lilyPondVarValAssocKindAsString ().size ();
     if (length > result) result = length;
   }
     
   if (fMovementNumber) {
-    int length = fMovementNumber->getVariableName ().size ();
+    int length = fMovementNumber->lilyPondVarValAssocKindAsString ().size ();
     if (length > result) result = length;
   }
     
   if (fMovementTitle) {
-    int length = fMovementTitle->getVariableName ().size ();
+    int length = fMovementTitle->lilyPondVarValAssocKindAsString ().size ();
     if (length > result) result = length;
   }
     
-  if (fComposers.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fComposers.begin (); i!=fComposers.end (); i++) {
-      int length = (*i)->getVariableName ().size ();
+  if (fRights) {
+    const list<string>&
+      variableValuesList =
+        fRights->getVariableValuesList ();
+        
+    list<string>::const_iterator i;
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      int length = (*i).size ();
       if (length > result) result = length;
     } // for
   }
     
-  if (fArrangers.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
-      int length = (*i)->getVariableName ().size ();
+  if (fComposers) {
+    const list<string>&
+      variableValuesList =
+        fComposers->getVariableValuesList ();
+        
+    list<string>::const_iterator i;
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      int length = (*i).size ();
       if (length > result) result = length;
     } // for
   }
     
-  if (fLyricists.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
-      int length = (*i)->getVariableName ().size ();
+  if (fArrangers) {
+    const list<string>&
+      variableValuesList =
+        fArrangers->getVariableValuesList ();
+        
+    list<string>::const_iterator i;
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      int length = (*i).size ();
       if (length > result) result = length;
     } // for
   }
     
-  if (fRights.size ()) {
-     vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fRights.begin (); i!=fRights.end (); i++) {
-      int length = (*i)->getVariableName ().size ();
+  if (fLyricists) {
+    const list<string>&
+      variableValuesList =
+        fLyricists->getVariableValuesList ();
+        
+    list<string>::const_iterator i;
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      int length = (*i).size ();
       if (length > result) result = length;
     } // for
   }
     
-  if (fSoftwares.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
-      int length = (*i)->getVariableName ().size ();
+  if (fPoets) {
+    const list<string>&
+      variableValuesList =
+        fPoets->getVariableValuesList ();
+        
+    list<string>::const_iterator i;
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      int length = (*i).size ();
       if (length > result) result = length;
     } // for
   }
     
+  if (fSoftwares) {
+    const list<string>&
+      variableValuesList =
+        fSoftwares->getVariableValuesList ();
+        
+    list<string>::const_iterator i;
+    for (i=variableValuesList.begin (); i!=variableValuesList.end (); i++) {
+      int length = (*i).size ();
+      if (length > result) result = length;
+    } // for
+  }
+    
+  if (fScoreInstrument) {
+    int length = fScoreInstrument->lilyPondVarValAssocKindAsString ().size ();
+    if (length > result) result = length;
+  }
+  
   if (fEncodingDate) {
-    int length = fEncodingDate->getVariableName ().size ();
+    int length = fEncodingDate->lilyPondVarValAssocKindAsString ().size ();
+    if (length > result) result = length;
+  }
+  
+  if (fMiscellaneousField) {
+    int length = fMiscellaneousField->lilyPondVarValAssocKindAsString ().size ();
     if (length > result) result = length;
   }
   
@@ -2142,83 +2432,80 @@ void lpsrHeader::browseData (basevisitor* v)
 {
   if (fWorkNumber) {
     // browse fWorkNumber
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fWorkNumber);
   }
 
   if (fWorkTitle) {
     // browse fWorkTitle
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fWorkTitle);
   }
 
   if (fMovementNumber) {
     // browse fMovementNumber
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fMovementNumber);
   }
 
   if (fMovementTitle) {
     // browse fMovementTitle
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fMovementTitle);
   }
 
-  if (fComposers.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fComposers.begin (); i!=fComposers.end (); i++) {
-      // browse creator
-      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
-  }
-    
-  if (fArrangers.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fArrangers.begin (); i!=fArrangers.end (); i++) {
-      // browse creator
-      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
-  }
-    
-  if (fLyricists.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fLyricists.begin (); i!=fLyricists.end (); i++) {
-      // browse creator
-      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
-  }
-    
-  if (fRights.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fRights.begin (); i!=fRights.end (); i++) {
-      // browse rights
-      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
+  if (fRights) {
+    // browse fRights
+    msrBrowser<lpsrVarValsListAssoc> browser (v);
+    browser.browse (*fRights);
   }
 
-  if (fSoftwares.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator i;
-    for (i=fSoftwares.begin (); i!=fSoftwares.end (); i++) {
-      // browse software
-      msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-      browser.browse (*(*i));
-    } // for
+  if (fComposers) {
+    // browse fComposers
+    msrBrowser<lpsrVarValsListAssoc> browser (v);
+    browser.browse (*fComposers);
   }
-
-  if (fEncodingDate) {
-    // browse fEncodingDate
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-    browser.browse (*fEncodingDate);
+    
+  if (fArrangers) {
+    // browse fArrangers
+    msrBrowser<lpsrVarValsListAssoc> browser (v);
+    browser.browse (*fArrangers);
+  }
+    
+  if (fLyricists) {
+    // browse fLyricists
+    msrBrowser<lpsrVarValsListAssoc> browser (v);
+    browser.browse (*fLyricists);
+  }
+    
+  if (fPoets) {
+    // browse fPoets
+    msrBrowser<lpsrVarValsListAssoc> browser (v);
+    browser.browse (*fPoets);
+  }
+    
+  if (fSoftwares) {
+    // browse fSoftwares
+    msrBrowser<lpsrVarValsListAssoc> browser (v);
+    browser.browse (*fSoftwares);
   }
 
   if (fScoreInstrument) {
     // browse fScoreInstrument
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fScoreInstrument);
+  }
+
+  if (fEncodingDate) {
+    // browse fEncodingDate
+    msrBrowser<lpsrVarValAssoc> browser (v);
+    browser.browse (*fEncodingDate);
+  }
+
+  if (fMiscellaneousField) {
+    // browse fMiscellaneousField
+    msrBrowser<lpsrVarValAssoc> browser (v);
+    browser.browse (*fMiscellaneousField);
   }
 }
 
@@ -2237,107 +2524,235 @@ void lpsrHeader::print (ostream& os)
   bool emptyHeader = true;
   
   gIndenter++;
+
+  const int fieldWidth = 16;
   
   if (fWorkNumber) {
-    os << fWorkNumber;
+    os << left <<
+      setw (fieldWidth) <<
+      fWorkNumber->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fWorkNumber <<
+      endl;
+      
+    gIndenter--;
+
     emptyHeader = false;
   }
   
   if (fWorkTitle) {
-    os << fWorkTitle;
+    os << left <<
+      setw (fieldWidth) <<
+      fWorkTitle->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fWorkTitle <<
+      endl;
+      
+    gIndenter--;
+
     emptyHeader = false;
   }
     
   if (fMovementNumber) {
-    os << fMovementNumber;
+    os << left <<
+      setw (fieldWidth) <<
+      fMovementNumber->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fMovementNumber <<
+      endl;
+      
+    gIndenter--;
+
     emptyHeader = false;
   }
     
   if (fMovementTitle) {
-    os << fMovementTitle;
-    emptyHeader = false;
-  }
+    os << left <<
+      setw (fieldWidth) <<
+      fMovementTitle->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
     
-  if (fComposers.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator
-      iBegin = fComposers.begin (),
-      iEnd   = fComposers.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
+    os <<
+      fMovementTitle <<
+      endl;
+      
+    gIndenter--;
 
     emptyHeader = false;
   }
     
-  if (fArrangers.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator
-      iBegin = fArrangers.begin (),
-      iEnd   = fArrangers.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
+  if (fRights) {
+    os << left <<
+      setw (fieldWidth) <<
+      fRights->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fRights <<
+      endl;
+      
+    gIndenter--;
+        
+    emptyHeader = false;
+  }
+    
+  if (fComposers) {
+    os << left <<
+      setw (fieldWidth) <<
+      fComposers->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fComposers <<
+      endl;
+      
+    gIndenter--;
+        
+    emptyHeader = false;
+  }
+    
+  if (fArrangers) {
+    os << left <<
+      setw (fieldWidth) <<
+      fArrangers->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fArrangers <<
+      endl;
+      
+    gIndenter--;
+        
+    emptyHeader = false;
+  }
+    
+  if (fLyricists) {
+    os << left <<
+      setw (fieldWidth) <<
+      fLyricists->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fLyricists <<
+      endl;
+      
+    gIndenter--;
+        
+    emptyHeader = false;
+  }
+    
+  if (fPoets) {
+    os << left <<
+      setw (fieldWidth) <<
+      fPoets->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fPoets <<
+      endl;
+      
+    gIndenter--;
+        
+    emptyHeader = false;
+  }
+    
+  if (fSoftwares) {
+    os << left <<
+      setw (fieldWidth) <<
+      fSoftwares->lilyPondVarValsListAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fSoftwares <<
+      endl;
+      
+    gIndenter--;
+        
+    emptyHeader = false;
+  }
+    
+  if (fScoreInstrument) {
+    os << left <<
+      setw (fieldWidth) <<
+      fScoreInstrument->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fScoreInstrument <<
+      endl;
+      
+    gIndenter--;
 
     emptyHeader = false;
   }
-    
-  if (fLyricists.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator
-      iBegin = fLyricists.begin (),
-      iEnd   = fLyricists.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
 
-    emptyHeader = false;
-  }
-    
-  if (fRights.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator
-      iBegin = fRights.begin (),
-      iEnd   = fRights.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-    os << endl;
-    
-    emptyHeader = false;
-  }
-    
-  if (fSoftwares.size ()) {
-    vector<S_lpsrLilypondVarValAssoc>::const_iterator
-      iBegin = fSoftwares.begin (),
-      iEnd   = fSoftwares.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      os << (*i);
-      if (++i == iEnd) break;
-      os << endl;
-    } // for
-    os << endl;
-    
-    emptyHeader = false;
-  }
-    
   if (fEncodingDate) {
-    os << fEncodingDate;
+    os << left <<
+      setw (fieldWidth) <<
+      fEncodingDate->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fEncodingDate <<
+      endl;
+      
+    gIndenter--;
+
+    emptyHeader = false;
+  }
+
+  if (fMiscellaneousField) {
+    os << left <<
+      setw (fieldWidth) <<
+      fMiscellaneousField->lilyPondVarValAssocKindAsString () << " : " <<
+      endl;
+      
+    gIndenter++;
+    
+    os <<
+      fMiscellaneousField <<
+      endl;
+      
+    gIndenter--;
+
     emptyHeader = false;
   }
   
-  if (emptyHeader)
+  if (emptyHeader) {
     os <<
-      " " << "nothing specified" << endl; // JMI
+      " " << "nothing specified" <<
+      endl; // JMI
+  }
   
   gIndenter--;
 }
@@ -2638,20 +3053,20 @@ void lpsrLayout::acceptOut (basevisitor* v)
 void lpsrLayout::browseData (basevisitor* v)
 {
 
-  int lilypondAssocs = flpsrLilypondVarValAssocs.size ();
+  int lilypondAssocs = flpsrVarValAssocs.size ();
 
   for (int i = 0; i < lilypondAssocs; i++ ) {
     // browse the variable/value association
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
-    browser.browse (*flpsrLilypondVarValAssocs [i]);
+    msrBrowser<lpsrVarValAssoc> browser (v);
+    browser.browse (*flpsrVarValAssocs [i]);
   } // for
   
-  int schemeAssocs = fLpsrSchemeVarValAssocs.size ();
+  int schemeAssocs = fLpsrSchemeVariables.size ();
   
   for (int i = 0; i < schemeAssocs; i++ ) {
     // browse the Scheme variable/value association
-    msrBrowser<lpsrSchemeVarValAssoc> browser (v);
-    browser.browse (*fLpsrSchemeVarValAssocs [i]);
+    msrBrowser<lpsrSchemeVariable> browser (v);
+    browser.browse (*fLpsrSchemeVariables [i]);
   } // for
 }
 
@@ -2671,16 +3086,16 @@ void lpsrLayout::print (ostream& os)
     "StaffSize: " << fStaffSize <<
     endl;
     
-  int lilypondAssocs = flpsrLilypondVarValAssocs.size ();
+  int lilypondAssocs = flpsrVarValAssocs.size ();
   
   for (int i = 0; i < lilypondAssocs; i++ ) {
-    os << flpsrLilypondVarValAssocs [i];
+    os << flpsrVarValAssocs [i];
   } // for
 
-  int schemeAssocs = fLpsrSchemeVarValAssocs.size ();
+  int schemeAssocs = fLpsrSchemeVariables.size ();
   
   for (int i = 0; i < schemeAssocs; i++ ) {
-    os << fLpsrSchemeVarValAssocs[i];
+    os << fLpsrSchemeVariables[i];
   } // for
   
   gIndenter--;
@@ -3361,17 +3776,17 @@ lpsrScore::lpsrScore (
 
   // create the LilyPond version assoc
   fLilypondVersion =
-    lpsrLilypondVarValAssoc::create (
+    lpsrVarValAssoc::create (
       inputLineNumber,
-      lpsrLilypondVarValAssoc::kUncommented,
-      lpsrLilypondVarValAssoc::kWithBackslash,
-      "version",
-      lpsrLilypondVarValAssoc::kSpace,
-      lpsrLilypondVarValAssoc::kQuotesAroundValue,
+      lpsrVarValAssoc::kUncommented,
+      lpsrVarValAssoc::kWithBackSlash,
+      lpsrVarValAssoc::kVersion,
+      lpsrVarValAssoc::kSpace,
+      lpsrVarValAssoc::kQuotesAroundValue,
       "2.19",
-      lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-      lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-      lpsrLilypondVarValAssoc::kWithEndl);
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+      lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+      lpsrVarValAssoc::kWithEndl);
 
   // create the input source name comment
   {
@@ -3461,13 +3876,13 @@ lpsrScore::lpsrScore (
 
   // create the global staff size assoc
   fGlobalStaffSizeAssoc =
-    lpsrSchemeVarValAssoc::create (
+    lpsrSchemeVariable::create (
       inputLineNumber,
-      lpsrSchemeVarValAssoc::kCommented,
+      lpsrSchemeVariable::kCommented,
       "set-global-staff-size",
       "20", // the LilyPond default
       "Uncomment and adapt next line as needed (default is 20)",
-      lpsrSchemeVarValAssoc::kWithEndlTwice);
+      lpsrSchemeVariable::kWithEndlTwice);
 
   // initialize Scheme functions informations
   fTongueSchemeFunctionIsNeeded              = false;
@@ -3563,106 +3978,106 @@ R"(
 
   // create the 'myBreakIsBreak' assoc
   {
-    lpsrLilypondVarValAssoc::lpsrCommentedKind
+    lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
         gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrLilypondVarValAssoc::kCommented
-          : lpsrLilypondVarValAssoc::kUncommented;
+          ? lpsrVarValAssoc::kCommented
+          : lpsrVarValAssoc::kUncommented;
   
     fMyBreakIsBreakAssoc =
-      lpsrLilypondVarValAssoc::create (
+      lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrLilypondVarValAssoc::kWithoutBackslash,
-        "myBreak",
-        lpsrLilypondVarValAssoc::kEqualSign,
-        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kMyBreak,
+        lpsrVarValAssoc::kEqualSign,
+        lpsrVarValAssoc::kNoQuotesAroundValue,
         "{ \\break }",
-        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
         "Pick your choice from the next two lines as needed",
-        lpsrLilypondVarValAssoc::kWithoutEndl);
+        lpsrVarValAssoc::kWithoutEndl);
   }
   
   // create the 'myBreakIsEmpty' assoc
   {
-    lpsrLilypondVarValAssoc::lpsrCommentedKind
+    lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
         gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrLilypondVarValAssoc::kUncommented
-          : lpsrLilypondVarValAssoc::kCommented;
+          ? lpsrVarValAssoc::kUncommented
+          : lpsrVarValAssoc::kCommented;
   
     fMyBreakIsEmptyAssoc =
-      lpsrLilypondVarValAssoc::create (
+      lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrLilypondVarValAssoc::kWithoutBackslash,
-        "myBreak",
-        lpsrLilypondVarValAssoc::kEqualSign,
-        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kMyBreak,
+        lpsrVarValAssoc::kEqualSign,
+        lpsrVarValAssoc::kNoQuotesAroundValue,
         "{ }",
-        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-        lpsrLilypondVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+        lpsrVarValAssoc::kWithEndl);
   }
 
   // create the 'myPageBreakIsPageBreak' assoc
   {
-    lpsrLilypondVarValAssoc::lpsrCommentedKind
+    lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
         gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrLilypondVarValAssoc::kCommented
-          : lpsrLilypondVarValAssoc::kUncommented;
+          ? lpsrVarValAssoc::kCommented
+          : lpsrVarValAssoc::kUncommented;
   
     fMyPageBreakIsPageBreakAssoc =
-      lpsrLilypondVarValAssoc::create (
+      lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrLilypondVarValAssoc::kWithoutBackslash,
-        "myPageBreak",
-        lpsrLilypondVarValAssoc::kEqualSign,
-        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kMyPageBreak,
+        lpsrVarValAssoc::kEqualSign,
+        lpsrVarValAssoc::kNoQuotesAroundValue,
         "{ \\pageBreak }",
-        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
         "Pick your choice from the next two lines as needed",
-        lpsrLilypondVarValAssoc::kWithoutEndl);
+        lpsrVarValAssoc::kWithoutEndl);
   }
   
   // create the 'myPageBreakIsEmpty' assoc
   {
-    lpsrLilypondVarValAssoc::lpsrCommentedKind
+    lpsrVarValAssoc::lpsrCommentedKind
       commentedKind =
         gLilypondOptions->fIgnoreLineBreaks
-          ? lpsrLilypondVarValAssoc::kUncommented
-          : lpsrLilypondVarValAssoc::kCommented;
+          ? lpsrVarValAssoc::kUncommented
+          : lpsrVarValAssoc::kCommented;
   
     fMyPageBreakIsEmptyAssoc =
-      lpsrLilypondVarValAssoc::create (
+      lpsrVarValAssoc::create (
         inputLineNumber,
         commentedKind,
-        lpsrLilypondVarValAssoc::kWithoutBackslash,
-        "myPageBreak",
-        lpsrLilypondVarValAssoc::kEqualSign,
-        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kMyPageBreak,
+        lpsrVarValAssoc::kEqualSign,
+        lpsrVarValAssoc::kNoQuotesAroundValue,
         "{ }",
-        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
-        lpsrLilypondVarValAssoc::g_VarValAssocNoComment,
-        lpsrLilypondVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
+        lpsrVarValAssoc::g_LilyPondVarValAssocNoComment,
+        lpsrVarValAssoc::kWithEndl);
   }
 
   if (gLilypondOptions->fGlobal) {
     // create the 'global' assoc
     fGlobalAssoc =
-      lpsrLilypondVarValAssoc::create (
+      lpsrVarValAssoc::create (
         inputLineNumber,
-        lpsrLilypondVarValAssoc::kUncommented,
-        lpsrLilypondVarValAssoc::kWithoutBackslash,
-        "global",
-        lpsrLilypondVarValAssoc::kEqualSign,
-        lpsrLilypondVarValAssoc::kNoQuotesAroundValue,
+        lpsrVarValAssoc::kUncommented,
+        lpsrVarValAssoc::kWithoutBackSlash,
+        lpsrVarValAssoc::kGlobal,
+        lpsrVarValAssoc::kEqualSign,
+        lpsrVarValAssoc::kNoQuotesAroundValue,
         "{ }",
-        lpsrLilypondVarValAssoc::g_VarValAssocNoUnit,
+        lpsrVarValAssoc::g_LilyPondVarValAssocNoUnit,
         "Place whatever you need in the 'global' variable",
-        lpsrLilypondVarValAssoc::kWithEndl);
+        lpsrVarValAssoc::kWithEndl);
   }
   
   // create the score command
@@ -4154,7 +4569,7 @@ void lpsrScore::browseData (basevisitor* v)
 
   {
     // browse the score LilyPond version
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fLilypondVersion);
   }
 
@@ -4184,7 +4599,7 @@ void lpsrScore::browseData (basevisitor* v)
 
   {
     // browse the score global size
-    msrBrowser<lpsrSchemeVarValAssoc> browser (v);
+    msrBrowser<lpsrSchemeVariable> browser (v);
     browser.browse (*fGlobalStaffSizeAssoc);
   }
 
@@ -4221,29 +4636,29 @@ void lpsrScore::browseData (basevisitor* v)
 
   {
     // browse the myBreakIsBreak assoc
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fMyBreakIsBreakAssoc);
   }
   {
     // browse the myBreakIsEmpty assoc
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fMyBreakIsEmptyAssoc);
   }
 
   {
     // browse the myPageBreakIsPageBreak assoc
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fMyPageBreakIsPageBreakAssoc);
   }
   {
     // browse the myPageBreakIsEmpty assoc
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fMyPageBreakIsEmptyAssoc);
   }
 
   if (fGlobalAssoc) {
     // browse the 'global' assoc
-    msrBrowser<lpsrLilypondVarValAssoc> browser (v);
+    msrBrowser<lpsrVarValAssoc> browser (v);
     browser.browse (*fGlobalAssoc);
   }
 
@@ -4281,7 +4696,7 @@ ostream& operator<< (ostream& os, const S_lpsrScore& scr)
 void lpsrScore::print (ostream& os)
 {
   os <<
-    "LPSR Structure" <<
+    "LPSR Score" <<
     endl <<
     endl;
 
@@ -4312,17 +4727,17 @@ void lpsrScore::print (ostream& os)
   // print LPSR basic information
   os <<
     fLilypondVersion <<
-    endl;
-  os <<
+    endl <<
+    
     fGlobalStaffSizeAssoc <<
-    endl;
-  os <<
+    endl <<
+
     fHeader <<
-    endl;
-  os <<
+    // no endl here
+
     fPaper <<
-    endl;
-  os <<
+    endl <<
+
     fScoreLayout <<
     endl;
 

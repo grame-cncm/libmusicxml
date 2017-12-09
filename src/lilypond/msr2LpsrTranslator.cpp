@@ -143,37 +143,45 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
       endl;
   }
 
-  // try to set header title and subtitle
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   if (fWorkTitleKnown && fMovementTitleKnown) {
-    // we have both the work and movement titles available
-    fLpsrScoreHeader->
-      changeWorkTitleVariableName ("title");
-    fLpsrScoreHeader->
-      changeMovementTitleVariableName ("subtitle");
-  }
-  else if (fWorkTitleKnown) {
-    // we only have the work title available
-    fLpsrScoreHeader->
-      changeWorkTitleVariableName ("title");
-  }
-  else if (fMovementTitleKnown) {
-    // we only have the movement title available
-    fLpsrScoreHeader->
-      changeMovementTitleVariableName ("title");
+    string
+      workTitle =
+        fCurrentIdentification->
+          getWorkTitle ()->
+            getVariableValue (),
+      movementTitle =
+        fCurrentIdentification->
+          getMovementTitle ()->
+            getVariableValue ();
+    
+    if (
+      workTitle.size () == 0
+        &&
+      movementTitle.size () > 0) {
+      // use the movement title as the work title
+      fCurrentIdentification->
+        setWorkTitle (
+          inputLineNumber, movementTitle);
+
+      fLpsrScoreHeader->
+        setWorkTitle (
+          inputLineNumber, movementTitle);
+
+      // forget the movement title
+      fCurrentIdentification->
+        setMovementTitle (
+          inputLineNumber, "");
+
+      fLpsrScoreHeader->
+        setMovementTitle (
+          inputLineNumber, "");
+
+    }
   }
 
-  // try to set header subsubtitle
-  if (fMovementNumberKnown) {
-    fLpsrScoreHeader->
-      changeMovementNumberVariableName ("subsubtitle");
-  }
-  
-  // try to set header opus
-  if (fWorkNumberKnown) {
-    fLpsrScoreHeader->
-      changeWorkNumberVariableName ("opus");
-  }
-  
 /* JMI
   // get top level partgroup block from the stack
   S_lpsrPartGroupBlock
@@ -203,6 +211,11 @@ void msr2LpsrTranslator::visitStart (S_msrIdentification& elt)
 
   gIndenter++;
 
+  fCurrentIdentification =
+    fLpsrScore->
+      getMsrScore ()->
+        getIdentification ();
+    
   fOnGoingIdentification = true;
 }
 
@@ -281,19 +294,19 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   // create the score block layout staff-size Scheme assoc
   stringstream s;
   s << globalStaffSize;
-  S_lpsrSchemeVarValAssoc
+  S_lpsrSchemeVariable
     assoc =
-      lpsrSchemeVarValAssoc::create (
+      lpsrSchemeVariable::create (
         0, // JMI
-        lpsrSchemeVarValAssoc::kCommented,
+        lpsrSchemeVariable::kCommented,
         "layout-set-staff-size",
         s.str (),
         "Uncomment and adapt next line as needed (default is 20)",
-        lpsrSchemeVarValAssoc::kWithEndl);
+        lpsrSchemeVariable::kWithEndl);
 
   // populate score block layout
   scoreBlockLayout->
-    addSchemeVarValAssoc (assoc);
+    addSchemeVariable (assoc);
 
 /* JMI
     void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
@@ -3952,9 +3965,13 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
       endl;
   }
 
-  string variableName     = elt->getVariableName ();
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  msrVarValAssoc::msrVarValAssocKind
+    varValAssocKind =
+      elt->getVarValAssocKind ();
   string variableValueAux = elt->getVariableValue ();
-  int    inputLineNumber  = elt->getInputLineNumber ();
   string variableValue;
 
   // escape quotes if any
@@ -3963,102 +3980,101 @@ void msr2LpsrTranslator::visitStart (S_msrVarValAssoc& elt)
     variableValueAux.end (),
     stringQuoteEscaper (variableValue));
 
-  if      (variableName == "work-number") {
-    fLpsrScoreHeader->
-      setWorkNumber (
-        inputLineNumber, variableValue);
-
-    fWorkNumberKnown = true;
-  }
+  switch (varValAssocKind) {
+    case msrVarValAssoc::kWorkNumber:
+      fCurrentIdentification->
+        setWorkNumber (
+          inputLineNumber, variableValue);
+      
+      fLpsrScoreHeader->
+        setWorkNumber (
+          inputLineNumber, variableValue);
   
-  else if (variableName == "work-title") {
-    fLpsrScoreHeader->
-      setWorkTitle (
-        inputLineNumber, variableValue);
-        
-    fWorkTitleKnown = true;
-  }
+      fWorkNumberKnown = true;
+      break;
   
-  else if (variableName == "movement-number") {
-    fLpsrScoreHeader->
-      setMovementNumber (
-        inputLineNumber, variableValue);
-
-    fMovementNumberKnown = true;
-  }
+    case msrVarValAssoc::kWorkTitle:
+      fCurrentIdentification->
+        setWorkTitle (
+          inputLineNumber, variableValue);
+      
+      fLpsrScoreHeader->
+        setWorkTitle (
+          inputLineNumber, variableValue);
+          
+      fWorkTitleKnown = true;
+      break;
   
-  else if (variableName == "movement-title") {
-    fLpsrScoreHeader->
-      setMovementTitle (
-        inputLineNumber, variableValue);
-        
-    fMovementTitleKnown = true;
-  }
+    case msrVarValAssoc::kMovementNumber:
+      fCurrentIdentification->
+        setMovementNumber (
+          inputLineNumber, variableValue);
+      
+      fLpsrScoreHeader->
+        setMovementNumber (
+          inputLineNumber, variableValue);
   
-  else if (variableName == "composer") {
-    S_lpsrLilypondVarValAssoc
-      assoc =
-        fLpsrScoreHeader->
-          addComposer (
-            inputLineNumber, variableName, variableValue);
-  }
+      fMovementNumberKnown = true;
+      break;
   
-  else if (variableName == "arranger") {
-    S_lpsrLilypondVarValAssoc
-      assoc =
-        fLpsrScoreHeader->
-          addArranger (
-            inputLineNumber, variableName, variableValue);
-  }
+    case msrVarValAssoc::kMovementTitle:
+      fCurrentIdentification->
+        setMovementTitle (
+          inputLineNumber, variableValue);
+      
+      fLpsrScoreHeader->
+        setMovementTitle (
+          inputLineNumber, variableValue);
+          
+      fMovementTitleKnown = true;
+      break;
   
-  else if (variableName == "poet") {
-    S_lpsrLilypondVarValAssoc
-      assoc =
-        fLpsrScoreHeader->
-          addLyricist ( // JMI
-            inputLineNumber, "poet", variableValue);
-  }
+    case msrVarValAssoc::kEncodingDate:
+      fCurrentIdentification->
+        setEncodingDate (
+          inputLineNumber, variableValue);
+      
+      fLpsrScoreHeader->
+        setEncodingDate (
+          inputLineNumber, variableValue);
+      break;
 
-  else if (variableName == "lyricist") {
-    S_lpsrLilypondVarValAssoc
-      assoc =
-        fLpsrScoreHeader->
-          addLyricist (
-            inputLineNumber, "lyricist", variableValue); // JMI ???
-  }
+    case msrVarValAssoc::kScoreInstrument:
+      fCurrentIdentification->
+        setScoreInstrument (
+          inputLineNumber, variableValue);
+      
+      fLpsrScoreHeader->
+        setScoreInstrument (
+          inputLineNumber, variableValue);
+      break;
 
-  else if (variableName == "rights") {
-    fLpsrScoreHeader->addRights (
-      inputLineNumber, variableValue);
-  }
-  
-  else if (variableName == "software") {
-    fLpsrScoreHeader->addSoftware (
-      inputLineNumber, variableValue);
-  }
-  
-  else if (variableName == "encoding-date") {
-    fLpsrScoreHeader->setEncodingDate (
-      inputLineNumber, variableValue);
-  }
+    case msrVarValAssoc::kMiscellaneousField:
+      fCurrentIdentification->
+        setMiscellaneousField (
+          inputLineNumber, variableValue);
+      
+      fLpsrScoreHeader->
+        setMiscellaneousField (
+          inputLineNumber, variableValue);
+      break;
 
-  else if (variableName == "miscellaneous-field") {
-    fLpsrScoreHeader->setMiscellaneousField (
-      inputLineNumber, variableValue);
-  }
-
-  else {
-    stringstream s;
-
-    s <<
-      "### msrVarValAssoc name '" << variableName << "'" <<
-      " is not handled";
-
-    msrMusicXMLWarning (
-      gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      s.str ());
-  }
+    default:
+      {
+      stringstream s;
+    
+      s <<
+        "### msrVarValAssoc kind '" <<
+        msrVarValAssoc::varValAssocKindAsString (
+          varValAssocKind) <<
+        "' is not handled";
+    
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        s.str ());
+      }
+  } // switch
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
@@ -4066,6 +4082,116 @@ void msr2LpsrTranslator::visitEnd (S_msrVarValAssoc& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrVarValAssoc" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrVarValsListAssoc& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrVarValsListAssoc" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  msrVarValsListAssoc::msrVarValsListAssocKind
+    varValsListAssocKind =
+      elt->getVarValsListAssocKind ();
+
+  const list<string>&
+    variableValuesList =
+      elt->getVariableValuesList ();
+
+  switch (varValsListAssocKind) {
+    case msrVarValsListAssoc::kRights:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++) {
+        fLpsrScoreHeader->
+          addRights (
+            inputLineNumber, (*i));
+      } // for
+      break;
+  
+    case msrVarValsListAssoc::kComposer:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++) {
+        fLpsrScoreHeader->
+          addComposer (
+            inputLineNumber, (*i));
+      } // for
+      break;
+  
+    case msrVarValsListAssoc::kArranger:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++) {
+        fLpsrScoreHeader->
+          addArranger (
+            inputLineNumber, (*i));
+      } // for
+      break;
+  
+    case msrVarValsListAssoc::kPoet:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++) {
+        fLpsrScoreHeader->
+          addLyricist ( // JMI
+            inputLineNumber, (*i));
+      } // for
+      break;
+  
+    case msrVarValsListAssoc::kLyricist:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++) {
+        fLpsrScoreHeader->
+          addLyricist (
+            inputLineNumber, (*i));
+      } // for
+      break;
+
+    case msrVarValsListAssoc::kSoftware:
+      for (list<string>::const_iterator i = variableValuesList.begin ();
+        i != variableValuesList.end ();
+        i++) {
+        fLpsrScoreHeader->
+          addSoftware (
+            inputLineNumber, (*i));
+      } // for
+      break;
+
+    default:
+      {
+      stringstream s;
+    
+      s <<
+        "### msrVarValsListAssoc kind '" <<
+        msrVarValsListAssoc::varValsListAssocKindAsString (
+          varValsListAssocKind) <<
+        "' is not handled";
+   
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        s.str ());
+      }
+  } // switch
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrVarValsListAssoc& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrVarValsListAssoc" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

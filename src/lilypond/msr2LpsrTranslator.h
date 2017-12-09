@@ -36,6 +36,7 @@ class msr2LpsrTranslator :
   // variable-value associations
   
   public visitor<S_msrVarValAssoc>,
+  public visitor<S_msrVarValsListAssoc>,
   
   // geometry
 
@@ -408,6 +409,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);
+    virtual void visitStart (S_msrVarValsListAssoc& elt);
+    virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
     virtual void visitStart (S_msrPageGeometry& elt);
     virtual void visitEnd   (S_msrPageGeometry& elt);
@@ -444,6 +447,7 @@ class msr2LpsrTranslator :
     // identification
     // ------------------------------------------------------
     bool                      fOnGoingIdentification;
+    S_msrIdentification       fCurrentIdentification;
 
     // header
     // ------------------------------------------------------

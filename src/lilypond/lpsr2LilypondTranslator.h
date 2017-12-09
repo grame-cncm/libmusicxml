@@ -30,8 +30,9 @@ class lpsr2LilypondTranslator :
   
   // variable-value associations
 
-  public visitor<S_lpsrLilypondVarValAssoc>,
-  public visitor<S_lpsrSchemeVarValAssoc>,
+  public visitor<S_lpsrVarValAssoc>,
+  public visitor<S_lpsrVarValsListAssoc>,
+  public visitor<S_lpsrSchemeVariable>,
 
   // header
 
@@ -53,8 +54,7 @@ class lpsr2LilypondTranslator :
   public visitor<S_lpsrPartGroupBlock>,
   public visitor<S_lpsrPartBlock>,
   public visitor<S_lpsrStaffBlock>,
-//  public visitor<S_lpsrNewStaffBlock>, JMI
-//  public visitor<S_lpsrNewStaffgroupBlock>,
+
   public visitor<S_lpsrUseVoiceCommand>,
   public visitor<S_lpsrNewLyricsBlock>,
   public visitor<S_lpsrVariableUseCommand>,
@@ -265,11 +265,14 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrScore& elt);
     virtual void visitEnd   (S_lpsrScore& elt);
 
-    virtual void visitStart (S_lpsrLilypondVarValAssoc& elt);
-    virtual void visitEnd   (S_lpsrLilypondVarValAssoc& elt);
+    virtual void visitStart (S_lpsrVarValAssoc& elt);
+    virtual void visitEnd   (S_lpsrVarValAssoc& elt);
 
-    virtual void visitStart (S_lpsrSchemeVarValAssoc& elt);
-    virtual void visitEnd   (S_lpsrSchemeVarValAssoc& elt);
+    virtual void visitStart (S_lpsrVarValsListAssoc& elt);
+    virtual void visitEnd   (S_lpsrVarValsListAssoc& elt);
+
+    virtual void visitStart (S_lpsrSchemeVariable& elt);
+    virtual void visitEnd   (S_lpsrSchemeVariable& elt);
 
     virtual void visitStart (S_lpsrHeader& elt);
     virtual void visitEnd   (S_lpsrHeader& elt);
@@ -295,12 +298,6 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrStaffBlock& elt);
     virtual void visitEnd   (S_lpsrStaffBlock& elt);
 
-//    virtual void visitStart (S_lpsrNewStaffgroupBlock& elt); JMI
-//    virtual void visitEnd   (S_lpsrNewStaffgroupBlock& elt);
-    
-//    virtual void visitStart (S_lpsrNewStaffBlock& elt);
-//    virtual void visitEnd   (S_lpsrNewStaffBlock& elt);
-    
     virtual void visitStart (S_lpsrUseVoiceCommand& elt);
     virtual void visitEnd   (S_lpsrUseVoiceCommand& elt);
   
@@ -511,6 +508,20 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
+
+    // variable-value associations
+
+    string                lpsrVarValAssocKindAsLilypondString (
+                            lpsrVarValAssoc::lpsrVarValAssocKind
+                              lilyPondVarValAssocKind);
+
+    string                lpsrVarValsListAssocKindAsLilypondString (
+                            lpsrVarValsListAssoc::lpsrVarValsListAssocKind
+                              lilyPondVarValsListAssocKind);
+
+    void                  writeLpsrVarValsListAssocValuesAsLilyPondString (
+                            S_lpsrVarValsListAssoc varValsListAssoc,
+                            ostream&               os);
 
     // whole notes
     // JMI

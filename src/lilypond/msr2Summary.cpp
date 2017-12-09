@@ -968,8 +968,10 @@ void msr2SummaryVisitor::visitStart (S_msrVarValAssoc& elt)
   gIndenter++;
   
   fMsrSummaryOutputStream <<
-    "variable name : " <<
-    "\"" << elt->getVariableName () << "\"" <<
+    "variable kind : " <<
+    "\"" <<
+    elt->varValAssocKindAsString () <<
+    "\"" <<
     endl <<
     "variable value: " <<
     "\"" << elt->getVariableValue () << "\"" <<
@@ -984,6 +986,48 @@ void msr2SummaryVisitor::visitEnd (S_msrVarValAssoc& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fMsrSummaryOutputStream <<
       "--> End visiting msrVarValAssoc" <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2SummaryVisitor::visitStart (S_msrVarValsListAssoc& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fMsrSummaryOutputStream <<
+      "--> Start visiting msrVarValsListAssoc" <<
+      endl;
+  }
+
+  fMsrSummaryOutputStream <<
+    "VarValsListAssoc" <<
+    endl;
+  
+  gIndenter++;
+
+  const int fieldWidth = 16;
+  
+  fMsrSummaryOutputStream << left <<
+    setw (fieldWidth) <<
+    "variable kind" << " : " <<
+    "\"" <<
+    elt->varValsListAssocKindAsString () <<
+    "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "variable values" << " : " <<
+    "'" << elt->varValsListAssocValuesAsString () << "'" <<
+    endl <<
+    endl;
+  
+  gIndenter--;
+}
+
+void msr2SummaryVisitor::visitEnd (S_msrVarValsListAssoc& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fMsrSummaryOutputStream <<
+      "--> End visiting msrVarValsListAssoc" <<
       endl;
   }
 }

@@ -5823,13 +5823,26 @@ class msrVarValAssoc : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
+    enum msrVarValAssocKind {
+      kWorkNumber, kWorkTitle,
+      kMovementNumber, kMovementTitle,
+      kEncodingDate,
+      kScoreInstrument,
+      kMiscellaneousField };
+
+    static string varValAssocKindAsString (
+      msrVarValAssocKind varValAssocKind);
+
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrVarValAssoc> create (
-      int           inputLineNumber,
-      string        variableName,
-      string        value);
+      int                inputLineNumber,
+      msrVarValAssocKind varValAssocKind,
+      string             value);
     
   protected:
 
@@ -5837,9 +5850,9 @@ class msrVarValAssoc : public msrElement
     // ------------------------------------------------------
 
     msrVarValAssoc (
-      int           inputLineNumber,
-      string        variableName,
-      string        value);
+      int                inputLineNumber,
+      msrVarValAssocKind varValAssocKind,
+      string             value);
       
     virtual ~msrVarValAssoc();
   
@@ -5848,17 +5861,25 @@ class msrVarValAssoc : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void          changeAssocValue (string value)
-                      { fVariableValue = value; }
+    msrVarValAssocKind    getVarValAssocKind () const
+                              { return fVarValAssocKind; }
+                              
+    void                  setVariableValue (string value)
+                              { fVariableValue = value; }
 
-    string        getVariableName  () const
-                      { return fVariableName; };
-    string        getVariableValue () const
-                      { return fVariableValue; };
+    string                getVariableValue () const
+                              { return fVariableValue; }
 
     // services
     // ------------------------------------------------------
 
+    string                varValAssocKindAsString () const
+                              {
+                                return
+                                  varValAssocKindAsString (
+                                    fVarValAssocKind);
+                              }
+                              
     // visitors
     // ------------------------------------------------------
 
@@ -5877,11 +5898,101 @@ class msrVarValAssoc : public msrElement
     // fields
     // ------------------------------------------------------
 
-    string             fVariableName;
-    string             fVariableValue;
+    msrVarValAssocKind    fVarValAssocKind;
+    
+    string                fVariableValue;
 };
 typedef SMARTP<msrVarValAssoc> S_msrVarValAssoc;
 EXP ostream& operator<< (ostream& os, const S_msrVarValAssoc& elt);
+
+//______________________________________________________________________________
+class msrVarValsListAssoc : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrVarValsListAssocKind {
+      kRights,
+      kComposer, kArranger, kPoet, kLyricist,
+      kSoftware };
+
+    static string varValsListAssocKindAsString (
+      msrVarValsListAssocKind varValsListAssocKind);
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrVarValsListAssoc> create (
+      int                     inputLineNumber,
+      msrVarValsListAssocKind varValsListAssocKind);
+    
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrVarValsListAssoc (
+      int                     inputLineNumber,
+      msrVarValsListAssocKind varValsListAssocKind);
+      
+    virtual ~msrVarValsListAssoc ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrVarValsListAssocKind
+                          getVarValsListAssocKind () const
+                              { return fVarValsListAssocKind; }
+                              
+    const list<string>&   getVariableValuesList ()
+                              { return fVariableValuesList; }
+    
+    // services
+    // ------------------------------------------------------
+
+    void                  addAssocVariableValue (string value)
+                              {
+                                fVariableValuesList.push_back (value);
+                              }
+
+    string                varValsListAssocKindAsString () const
+                              {
+                                return
+                                  varValsListAssocKindAsString (
+                                    fVarValsListAssocKind);
+                              }
+                              
+    string                varValsListAssocValuesAsString () const;
+    
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrVarValsListAssocKind
+                          fVarValsListAssocKind;
+                          
+    list<string>          fVariableValuesList;
+};
+typedef SMARTP<msrVarValsListAssoc> S_msrVarValsListAssoc;
+EXP ostream& operator<< (ostream& os, const S_msrVarValsListAssoc& elt);
 
 //______________________________________________________________________________
 class msrIdentification : public msrElement
@@ -5933,10 +6044,13 @@ class msrIdentification : public msrElement
                             int    inputLineNumber,
                             string val);
 
-    void                  setScoreInstrumentAssoc (
+    void                  setScoreInstrument (
                             int    inputLineNumber,
                             string val);
 
+    S_msrVarValsListAssoc getRights () const
+                              { return fRights; }
+    
     S_msrVarValAssoc      getWorkNumber () const
                               { return fWorkNumber; }
     
@@ -5949,28 +6063,19 @@ class msrIdentification : public msrElement
     S_msrVarValAssoc      getMovementTitle () const
                               { return fMovementTitle; }
     
-    const vector<S_msrVarValAssoc>&
-                          getComposers () const
+    S_msrVarValsListAssoc getComposers () const
                               { return fComposers; };
                     
-    const vector<S_msrVarValAssoc>&
-                          getArrangers () const
+    S_msrVarValsListAssoc getArrangers () const
                               { return fArrangers; };
                     
-    const vector<S_msrVarValAssoc>&
-                          getPoets () const
+    S_msrVarValsListAssoc getPoets () const
                               { return fPoets; };
     
-    const vector<S_msrVarValAssoc>&
-                          getLyricists () const
+    S_msrVarValsListAssoc getLyricists () const
                               { return fLyricists; };
     
-    const vector<S_msrVarValAssoc>&
-                          getRights () const
-                              { return fRights; }
-    
-    const vector<S_msrVarValAssoc>&
-                          getSoftwares () const
+    S_msrVarValsListAssoc getSoftwares () const
                               { return fSoftwares; };
     
     S_msrVarValAssoc      getEncodingDate () const
@@ -5982,33 +6087,29 @@ class msrIdentification : public msrElement
     // services
     // ------------------------------------------------------
 
+    void                  addRights (
+                            int    inputLineNumber,
+                            string value);
+
     void                  addComposer (
                             int    inputLineNumber,
-                            string type,
-                            string val);
+                            string value);
 
     void                  addArranger (
                             int    inputLineNumber,
-                            string type,
-                            string val);
-
-    void                  addPoet (
-                            int    inputLineNumber,
-                            string type,
-                            string val);
+                            string value);
 
     void                  addLyricist (
                             int    inputLineNumber,
-                            string type,
-                            string val);
+                            string value);
 
-    void                  addRights (
+    void                  addPoet (
                             int    inputLineNumber,
-                            string val);
+                            string value);
 
     void                  addSoftware (
                             int    inputLineNumber,
-                            string val);
+                            string value);
 
     // visitors
     // ------------------------------------------------------
@@ -6028,16 +6129,21 @@ class msrIdentification : public msrElement
     // fields
     // ------------------------------------------------------
 
+    S_msrVarValsListAssoc    fRights;
+
     S_msrVarValAssoc         fWorkNumber;
     S_msrVarValAssoc         fWorkTitle;
+    
     S_msrVarValAssoc         fMovementNumber;
     S_msrVarValAssoc         fMovementTitle;
-    vector<S_msrVarValAssoc> fComposers;
-    vector<S_msrVarValAssoc> fArrangers;
-    vector<S_msrVarValAssoc> fPoets;
-    vector<S_msrVarValAssoc> fLyricists;
-    vector<S_msrVarValAssoc> fRights;
-    vector<S_msrVarValAssoc> fSoftwares;
+    
+    S_msrVarValsListAssoc    fComposers;
+    S_msrVarValsListAssoc    fArrangers;
+    S_msrVarValsListAssoc    fPoets;
+    S_msrVarValsListAssoc    fLyricists;
+    
+    S_msrVarValsListAssoc    fSoftwares;
+    
     S_msrVarValAssoc         fEncodingDate;
     
     S_msrVarValAssoc         fScoreInstrumentAssoc;
