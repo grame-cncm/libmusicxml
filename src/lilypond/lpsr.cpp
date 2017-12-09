@@ -2854,7 +2854,7 @@ void lpsrPaper::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "paper-width" << " = " <<
-      setprecision(4) << fPaperWidth << "\\cm" <<
+      setprecision (2) << fPaperWidth << "\\cm" <<
       endl;
       
     emptyPaper = false;
@@ -2864,7 +2864,7 @@ void lpsrPaper::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "paper-height" << " = " <<
-      setprecision(4) << fPaperHeight << "\\cm" <<
+      setprecision (2) << fPaperHeight << "\\cm" <<
       endl;
       
     emptyPaper = false;
@@ -2874,7 +2874,7 @@ void lpsrPaper::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "top-margin" << " = " <<
-      setprecision(4) << fTopMargin << "\\cm" <<
+      setprecision (2) << fTopMargin << "\\cm" <<
       endl;
       
     emptyPaper = false;
@@ -2884,7 +2884,7 @@ void lpsrPaper::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "bottom-margin" << " = " <<
-      setprecision(4) << fBottomMargin << "\\cm" <<
+      setprecision (2) << fBottomMargin << "\\cm" <<
       endl;
       
     emptyPaper = false;
@@ -2894,7 +2894,7 @@ void lpsrPaper::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "left-margin" << " = " <<
-      setprecision(4) << fLeftMargin << "\\cm" <<
+      setprecision (2) << fLeftMargin << "\\cm" <<
       endl;
       
     emptyPaper = false;
@@ -2904,7 +2904,7 @@ void lpsrPaper::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "right-margin" << " = " <<
-      setprecision(4) << fRightMargin << "\\cm" <<
+      setprecision (2) << fRightMargin << "\\cm" <<
       endl;
       
     emptyPaper = false;
@@ -2916,7 +2916,7 @@ void lpsrPaper::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "between-system-space" << " = " <<
-      setprecision(4) << fBetweenSystemSpace << "\\cm" <<
+      setprecision (2) << fBetweenSystemSpace << "\\cm" <<
       endl;
       
     emptyPaper = false;
@@ -2926,7 +2926,7 @@ void lpsrPaper::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "page-top-space" << " = " <<
-      setprecision(4) << fPageTopSpace << "\\cm" <<
+      setprecision (2) << fPageTopSpace << "\\cm" <<
       endl;
       
     emptyPaper = false;
@@ -3878,10 +3878,10 @@ lpsrScore::lpsrScore (
   fGlobalStaffSizeAssoc =
     lpsrSchemeVariable::create (
       inputLineNumber,
-      lpsrSchemeVariable::kCommented,
+      lpsrSchemeVariable::kUncommented,
       "set-global-staff-size",
       "20", // the LilyPond default
-      "Uncomment and adapt next line as needed (default is 20)",
+      "Comment or adapt next line as needed (default is 20)",
       lpsrSchemeVariable::kWithEndlTwice);
 
   // initialize Scheme functions informations

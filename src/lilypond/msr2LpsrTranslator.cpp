@@ -178,9 +178,43 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
       fLpsrScoreHeader->
         setMovementTitle (
           inputLineNumber, "");
-
     }
   }
+
+  else if (! fWorkTitleKnown && fMovementTitleKnown) {
+    string
+      movementTitle =
+        fCurrentIdentification->
+          getMovementTitle ()->
+            getVariableValue ();
+            
+    // use the movement title as the work title
+    fCurrentIdentification->
+      setWorkTitle (
+        inputLineNumber, movementTitle);
+
+    fLpsrScoreHeader->
+      setWorkTitle (
+        inputLineNumber, movementTitle);
+
+    // forget the movement title
+    fCurrentIdentification->
+      setMovementTitle (
+        inputLineNumber, "");
+
+    fLpsrScoreHeader->
+      setMovementTitle (
+        inputLineNumber, "");
+  }
+
+/* JMI
+        # TODO: font width ?
+        char_per_cm = (len(self.get_longest_instrument_name()) * 13) / self.page_width
+        if (self.indent != 0):
+            self.print_length_field (printer, "indent", self.indent/char_per_cm)
+        if (self.short_indent != 0):
+            self.print_length_field (printer, "short-indent", self.short_indent/char_per_cm)
+*/
 
 /* JMI
   // get top level partgroup block from the stack

@@ -2274,14 +2274,20 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVarValAssoc& elt)
   if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
     fLilypondCodeIOstream << "\"";
 
-  // generate the value
-  fLilypondCodeIOstream <<
-    elt->getVariableValue ();
+  // generate the value and unit if any
+  if (elt->getUnit ().size ()) {
+    fLilypondCodeIOstream <<
+      setprecision (2) <<
+      elt->getVariableValue ();
 
-  if (elt->getUnit ().size ())
     fLilypondCodeIOstream <<
       "\\" <<
       elt->getUnit ();
+  }
+  else {
+  fLilypondCodeIOstream <<
+    elt->getVariableValue ();
+  }
   
   if (elt->getQuotesKind () == lpsrVarValAssoc::kQuotesAroundValue)
     fLilypondCodeIOstream << "\"";
@@ -2463,7 +2469,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "paper-width" << " = " <<
-        setprecision(4) << paperWidth << "\\cm" <<
+        setprecision (2) << paperWidth << "\\cm" <<
         endl;
     }
   }
@@ -2476,7 +2482,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "paper-height" << " = " <<
-        setprecision(4) << paperHeight << "\\cm" <<
+        setprecision (2) << paperHeight << "\\cm" <<
         endl;
     }
   }
@@ -2489,7 +2495,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "top-margin" << " = " <<
-        setprecision(4) << topMargin << "\\cm" <<
+        setprecision (2) << topMargin << "\\cm" <<
         endl;
     }
   }
@@ -2502,7 +2508,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "bottom-margin" << " = " <<
-        setprecision(4) << bottomMargin << "\\cm" <<
+        setprecision (2) << bottomMargin << "\\cm" <<
         endl;
     }
   }
@@ -2515,7 +2521,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "left-margin" << " = " <<
-        setprecision(4) << leftMargin << "\\cm" <<
+        setprecision (2) << leftMargin << "\\cm" <<
         endl;
     }
   }
@@ -2528,7 +2534,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "right-margin" << " = " <<
-      setprecision(4) << rightMargin << "\\cm" <<
+      setprecision (2) << rightMargin << "\\cm" <<
       endl;
     }
   }
@@ -2543,7 +2549,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "between-system-space" << " = " <<
-        setprecision(4) << betweenSystemSpace << "\\cm" <<
+        setprecision (2) << betweenSystemSpace << "\\cm" <<
         endl;
     }
   }
@@ -2556,7 +2562,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "page-top-space" << " = " <<
-        setprecision(4) << pageTopSpace << "\\cm" <<
+        setprecision (2) << pageTopSpace << "\\cm" <<
         endl;
     }
   }
@@ -2619,14 +2625,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   fLilypondCodeIOstream << left <<
     setw (fieldWidth) <<
     "% indent" << " = " <<
-    setprecision(4) << 2.5 << "\\cm" << // JMI
+    setprecision (2) << 2.5 << "\\cm" << // JMI
     endl;
 
   // generate the default 'short-indent' setting ready for the user
   fLilypondCodeIOstream << left <<
     setw (fieldWidth) <<
     "% short-indent" << " = " <<
-    setprecision(4) << 1.5 << "\\cm" << // JMI
+    setprecision (2) << 1.5 << "\\cm" << // JMI
     endl;
 
   fLilypondCodeIOstream << endl;
@@ -2635,14 +2641,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   fLilypondCodeIOstream << left <<
     setw (fieldWidth) <<
     "%" "page-count" << " = " <<
-    setprecision(4) << 1 <<
+    setprecision (2) << 1 <<
     endl;
 
   // generate a 'system-count' comment ready for the user
   fLilypondCodeIOstream << left <<
     setw (fieldWidth) <<
     "%" "system-count" << " = " <<
-    setprecision(4) << 1 <<
+    setprecision (2) << 1 <<
     endl;
 
   // fonts

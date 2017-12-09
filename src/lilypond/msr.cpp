@@ -10252,7 +10252,7 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "PaperWidth" << " = " <<
-      setprecision(4) << fPaperWidth << " cm" <<
+      setprecision (2) << fPaperWidth << " cm" <<
       endl;
 
     emptyGeometry = false;
@@ -10262,7 +10262,7 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "PaperHeight" << " = " <<
-      setprecision(4) << fPaperHeight << " cm" <<
+      setprecision (2) << fPaperHeight << " cm" <<
       endl;
 
     emptyGeometry = false;
@@ -10272,7 +10272,7 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "TopMargin" << " = " <<
-      setprecision(4) << fTopMargin << " cm" <<
+      setprecision (2) << fTopMargin << " cm" <<
       endl;
 
     emptyGeometry = false;
@@ -10282,7 +10282,7 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "BottomMargin" << " = " <<
-      setprecision(4) << fBottomMargin << " cm" <<
+      setprecision (2) << fBottomMargin << " cm" <<
       endl;
 
     emptyGeometry = false;
@@ -10292,7 +10292,7 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "LeftMargin" << " = " <<
-      setprecision(4) << fLeftMargin << " cm" <<
+      setprecision (2) << fLeftMargin << " cm" <<
       endl;
 
     emptyGeometry = false;
@@ -10302,7 +10302,7 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "RightMargin" << " = " <<
-      setprecision(4) << fRightMargin << " cm" <<
+      setprecision (2) << fRightMargin << " cm" <<
       endl;
 
     emptyGeometry = false;
@@ -10313,7 +10313,7 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "Millimeters" << " = " <<
-      setprecision(4) << fMillimeters <<
+      setprecision (2) << fMillimeters <<
       endl;
 
     emptyGeometry = false;
@@ -10323,7 +10323,7 @@ void msrPageGeometry::print (ostream& os) {
     os << left <<
       setw (fieldWidth) <<
       "Tenths" << " = " <<
-      setprecision(4) << fTenths <<
+      setprecision (2) << fTenths <<
       endl;
 
     emptyGeometry = false;
@@ -10347,13 +10347,13 @@ void msrPageGeometry::print (ostream& os) {
   if (fBetweenSystemSpace > 0) {
     os <<
       "between-system-space = " <<
-      setprecision(4) << fBetweenSystemSpace << "\\cm" << endl;
+      setprecision (2) << fBetweenSystemSpace << "\\cm" << endl;
   }
 
   if (fPageTopSpace > 0) {
     os <<
       "page-top-space = " <<
-      setprecision(4) << fPageTopSpace << "\\cm" << endl;
+      setprecision (2) << fPageTopSpace << "\\cm" << endl;
   }
 */
 
@@ -26249,7 +26249,7 @@ void msrVoice::print (ostream& os)
   os <<
     "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
-    ", voiceAbsoluteNumber: " << fVoiceAbsoluteNumber <<
+    ", this: " << this <<
     endl;
 
   gIndenter++;
