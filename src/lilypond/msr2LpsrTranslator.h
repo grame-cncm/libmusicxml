@@ -219,7 +219,7 @@ class msr2LpsrTranslator :
   
     msr2LpsrTranslator (
       indentedOstream& ios,
-      S_msrScore            mScore);
+      S_msrScore       mScore);
         
     virtual ~msr2LpsrTranslator ();
 
@@ -457,8 +457,10 @@ class msr2LpsrTranslator :
     bool                      fMovementTitleKnown;
     
 
-    // page geometry
+    // paper
     // ------------------------------------------------------
+    void                      setPaperIndentsIfNeeded (
+                                S_msrPageGeometry pageGeometry);
 
     // credits
     // ------------------------------------------------------

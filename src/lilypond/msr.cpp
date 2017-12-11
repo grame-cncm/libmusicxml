@@ -10109,7 +10109,7 @@ void msrTuplet::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrPageGeometry msrPageGeometry::create (
-  int           inputLineNumber)
+  int inputLineNumber)
 {
   msrPageGeometry* o =
     new msrPageGeometry (
@@ -10119,11 +10119,12 @@ S_msrPageGeometry msrPageGeometry::create (
 }
 
 msrPageGeometry::msrPageGeometry (
-  int           inputLineNumber)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
 {
   fPaperWidth   = -1.0;
   fPaperHeight  = -1.0;
+  
   fTopMargin    = -1.0;
   fBottomMargin = -1.0;
   fLeftMargin   = -1.0;
@@ -10138,6 +10139,40 @@ msrPageGeometry::msrPageGeometry (
 
 msrPageGeometry::~msrPageGeometry()
 {}
+
+S_msrPageGeometry msrPageGeometry::createGeometryNewbornClone ()
+{
+  S_msrPageGeometry
+    newbornClone =
+      msrPageGeometry::create (
+        fInputLineNumber);
+    
+  newbornClone->fPaperWidth =
+    fPaperWidth;
+  newbornClone->fPaperHeight =
+    fPaperHeight;
+  
+  newbornClone->fTopMargin =
+    fTopMargin;
+  newbornClone->fBottomMargin =
+    fBottomMargin;
+  newbornClone->fLeftMargin =
+    fLeftMargin;
+  newbornClone->fRightMargin =
+    fRightMargin;
+
+  newbornClone->fBetweenSystemSpace =
+    fBetweenSystemSpace;
+  newbornClone->fPageTopSpace =
+    fPageTopSpace;
+
+  newbornClone->fMillimeters =
+    fMillimeters;
+  newbornClone->fTenths =
+    fTenths;
+
+  return newbornClone;
+}
 
 float msrPageGeometry::globalStaffSize () const
 {
@@ -29048,33 +29083,7 @@ void msrPart::createPartMasterStaffAndVoice (
   */
 }
 
-void msrPart::setPartName (string partName)
-{
-  fPartName = partName;
-
-  // set part instrument name value by default it not yet set
-  if (fPartInstrumentName.size () == 0)
-    fPartInstrumentName = fPartName;
-}
-
 /* JMI
-void msrPart::setPartAbbreviation (
-  string partAbbreviation)
-{
-  fPartAbbreviation = partAbbreviation;
-
-  // set part instrument abbreviation value by default it not yet set JMI ???
-  if (fPartInstrumentAbbreviation.size () == 0)
-    fPartInstrumentAbbreviation = fPartName;
-}
-*/
-
-/* JMI
-void msrPart::setPartInstrumentName (
-  string partInstrumentName)
-{
-  fPartInstrumentName = partInstrumentName; }
-
 void msrPart::setPartInstrumentAbbreviation (
   string partInstrumentAbbreviation)
     {
@@ -30549,6 +30558,38 @@ void msrPart::finalizeCurrentMeasureInPart (
     rational (0, 1));
 }
 
+void msrPart::setPartInstrumentNamesMaxLengthes ()
+{
+  S_msrScore
+    score =
+      fPartPartGroupUplink->
+        getPartGroupScoreUplink ();
+        
+  int partInstrumentNameLength =
+    fPartInstrumentName.size ();
+  
+  if (
+    partInstrumentNameLength
+      >
+    score->getInstrumentNamesMaxLength ()) {
+    score->
+      setInstrumentNamesMaxLength (
+        partInstrumentNameLength);
+  }
+      
+  int partInstrumentAbbreviationLength =
+    fPartInstrumentAbbreviation.size ();
+  
+  if (
+    partInstrumentAbbreviationLength
+      >
+    score->getInstrumentAbbreviationsMaxLength ()) {
+    score->
+      setInstrumentAbbreviationsMaxLength (
+        partInstrumentAbbreviationLength);
+  }
+}
+
 void msrPart::finalizePart (
   int inputLineNumber)
 {
@@ -30592,6 +30633,31 @@ void msrPart::finalizePart (
           inputLineNumber);
     } // for
   }
+
+  // set score instrument names max lengthes if relevant
+  setPartInstrumentNamesMaxLengthes ();
+}
+
+void msrPart::finalizePartClone (
+  int inputLineNumber)
+{
+  if (gGeneralOptions->fTraceParts) {
+    gLogIOstream <<
+      "Finalizing part clone " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+/* JMI
+  // finalize master staff specifically
+  fPartMasterStaff->
+    finalizeStaff (
+      inputLineNumber);
+*/
+
+  // set score instrument names max lengthes if relevant
+  setPartInstrumentNamesMaxLengthes ();
 }
 
 void msrPart::acceptIn (basevisitor* v)
@@ -30864,28 +30930,36 @@ void msrPart::printSummary (ostream& os)
     "PartMsrName" << " : \"" <<
     fPartMsrName << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
     "PartName" << " : \"" <<
     fPartName << "\"" <<
     endl <<
     setw (fieldWidth) <<
+    "PartNameDisplayText" << " : \"" <<
+    fPartNameDisplayText << "\"" <<
+    endl <<
+    
+    setw (fieldWidth) <<
     "PartAbbrevation" << " : \"" <<
     fPartAbbreviation << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartInstrumentName" << " : \"" <<
-    fPartInstrumentName << "\"" <<
+    "PartAbbreviationDisplayText" << " : \"" <<
+    fPartAbbreviationDisplayText << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-    "PartInstrumentAbbreviation" << " : \"" <<
-    fPartInstrumentAbbreviation << "\"" <<
-    endl <<
+     "PartInstrumentName" << " : \"" <<
+    fPartInstrumentName << "\"" <<
+    endl <<    
     setw (fieldWidth) <<
      "PartInstrumentAbbreviation" << " : \"" <<
     fPartInstrumentAbbreviation << "\"" <<
     endl <<
+    
     setw (fieldWidth) <<
-     "PartNumberOfMeasures" << " : " <<
+    "PartNumberOfMeasures" << " : " <<
     fPartNumberOfMeasures <<
     endl <<
     endl;
@@ -31146,6 +31220,22 @@ string msrPartGroup::getPartGroupCombinedName () const
     "', partGroupName \"" << fPartGroupName << "\")";
 
   return s.str ();
+}
+
+void msrPartGroup::setPartGroupInstrumentName (
+  string partGroupInstrumentName)
+{
+  fPartGroupInstrumentName = partGroupInstrumentName;
+
+  S_msrScore
+    score =
+      fPartGroupScoreUplink;
+        
+  int partGroupInstrumentNameLength = fPartGroupInstrumentName.size ();
+  
+  if (partGroupInstrumentNameLength > score->getInstrumentNamesMaxLength ())
+    score->
+      setInstrumentNamesMaxLength (partGroupInstrumentNameLength);
 }
 
 S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
@@ -32142,9 +32232,9 @@ void msrIdentification::browseData (basevisitor* v)
   }
 
   if (fComposers) {
-    // browse fMovementTitle
-    msrBrowser<msrVarValAssoc> browser (v);
-    browser.browse (*fMovementTitle);
+    // browse fComposers
+    msrBrowser<msrVarValsListAssoc> browser (v);
+    browser.browse (*fComposers);
   }
     
   if (fArrangers) {
@@ -32326,6 +32416,13 @@ msrScore::msrScore (
     msrPageGeometry::create (
       inputLineNumber);
 
+  // number of measures
+  fScoreNumberOfMeasures = -1;
+  
+  // set instrument names max lengthes
+  fInstrumentNamesMaxLength      = -1;
+  fInstrumentAbbreviationsMaxLength = -1;
+  
   // measure repeats replicas should be browsed by default
   fInhibitMeasuresRepeatReplicasBrowsing = false;
 
@@ -32358,6 +32455,20 @@ S_msrScore msrScore::createScoreNewbornClone ()
     appendCreditToScore (*i);
   } // for
 */
+
+  // number of measures
+  newbornClone->fScoreNumberOfMeasures =
+    fScoreNumberOfMeasures;
+
+  // instrument names max lengthes
+  
+  newbornClone->fInstrumentNamesMaxLength =
+    fInstrumentNamesMaxLength;
+    
+  newbornClone->fInstrumentAbbreviationsMaxLength =
+    fInstrumentAbbreviationsMaxLength;
+    
+  // inhibiting browsing
 
   newbornClone->fInhibitMeasuresRepeatReplicasBrowsing =
     fInhibitMeasuresRepeatReplicasBrowsing;
@@ -32589,26 +32700,50 @@ void msrScore::print (ostream& os)
 {
   os <<
     "MSR Score" <<
-    " (" <<
-    singularOrPlural (
-      fPartGroupsList.size (),
-      "part group", "part groups") <<
-    ", " <<
-    singularOrPlural (
-      fScoreNumberOfMeasures,
-      "measure", "measures") <<
-    ")" <<
-    endl << endl;
+    endl;
 
   gIndenter++;
-  
+
+  const int fieldWidth = 33;
+
+  int partGroupsListSize =
+    fPartGroupsList.size ();
+    
+  os << left <<
+    setw (fieldWidth) <<
+    singularOrPluralWithoutNumber (
+      partGroupsListSize,
+      "part group", "part groups") <<
+    " : " <<
+    partGroupsListSize <<
+    endl <<
+
+    setw (fieldWidth) <<
+    singularOrPluralWithoutNumber (
+      fScoreNumberOfMeasures,
+      "measure", "measures") <<
+    " : " <<
+    fScoreNumberOfMeasures <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "instrumentNamesMaxLength" <<  " : " <<
+    fInstrumentNamesMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "instrumentAbbreviationsMaxLength" <<  " : " <<
+    fInstrumentAbbreviationsMaxLength <<
+    endl<<
+    endl;
+
   // print the identification if any
   if (fIdentification) {
     os <<
       fIdentification;
   }
   
-  // print the geometry if any
+  // print the page geometry if any
   if (fPageGeometry) {
     os <<
       fPageGeometry;
@@ -32652,28 +32787,50 @@ void msrScore::printSummary (ostream& os)
 {
   os <<
     "MSR component" <<
-    " (" <<
-    singularOrPlural (
-      fPartGroupsList.size (),
-      "part group",
-      "part groups") <<
-    ", " <<
-    singularOrPlural (
-      fScoreNumberOfMeasures,
-      "measure",
-      "measures") <<
-    ")" <<
-    ", parts and staves not shown" <<
-    endl <<
     endl;
 
   gIndenter++;
-  
+
+  const int fieldWidth = 33;
+
+  int partGroupsListSize =
+    fPartGroupsList.size ();
+    
+  os << left <<
+    setw (fieldWidth) <<
+    singularOrPluralWithoutNumber (
+      partGroupsListSize,
+      "part group", "part groups") <<
+    " : " <<
+    partGroupsListSize <<
+    endl <<
+
+    setw (fieldWidth) <<
+    singularOrPluralWithoutNumber (
+      fScoreNumberOfMeasures,
+      "measure", "measures") <<
+    " : " <<
+    fScoreNumberOfMeasures <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "instrumentNamesMaxLength" <<  " : " <<
+    fInstrumentNamesMaxLength <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "instrumentAbbreviationsMaxLength" <<  " : " <<
+    fInstrumentAbbreviationsMaxLength <<
+    endl<<
+    endl;
+
+  // print the identification if any
   if (fIdentification) {
     os <<
       fIdentification;
   }
   
+  // print the page geometry if any
   if (fPageGeometry) {
     os <<
       fPageGeometry;

@@ -2066,11 +2066,11 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_display_text& elt)
 */
 
   if (fOnGoingPartGroupNameDisplay)
-    fCurrentPartGroupNameDisplayText = elt->getValue();
+    fCurrentPartGroupNameDisplayText = elt->getValue ();
   else if (fOnGoingPartNameDisplay)
-    fCurrentPartNameDisplayText = elt->getValue();
+    fCurrentPartNameDisplayText = elt->getValue ();
   else if (fOnGoingPartAbbreviationDisplay)
-    fCurrentPartAbbreviationDisplayText = elt->getValue();
+    fCurrentPartAbbreviationDisplayText = elt->getValue ();
   else {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,

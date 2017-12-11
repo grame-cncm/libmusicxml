@@ -375,6 +375,15 @@ R"(Part groups)",
       
     specificTraceSubGroup->
       appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tgeom", "traceGeometry",
+R"(Geometry)",
+          "traceGeometry",
+          fTraceGeometry,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
         optionsThreeBooleansItem::create (
           "tpgrpsd", "tracePartGroupsDetails",
 R"(Part groups with more details.

@@ -59,7 +59,7 @@ class mxmlTree2MsrTranslator :
     
   public visitor<S_part>,
   
-  // ?
+  // ???
   
   public visitor<S_attributes>,
   
@@ -83,7 +83,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_scordatura>,
   public visitor<S_accord>,
 
-  // ?
+  // ???
   
   public visitor<S_voice>,
 
@@ -119,7 +119,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_interchangeable>,
   public visitor<S_time_relation>,
   
-  // ?
+  // ???
   
   public visitor<S_instruments>,
 
@@ -131,7 +131,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_octave_change>,
   public visitor<S_double>,
 
-  // ?
+  // ???
   
   public visitor<S_direction>,
   public visitor<S_direction_type>,
@@ -476,7 +476,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_part& elt);
     virtual void visitEnd   ( S_part& elt);
     
-    // ?
+    // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_attributes& elt);
@@ -509,7 +509,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_scordatura& elt);
     virtual void visitStart ( S_accord& elt);
 
-    // ?
+    // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_voice& elt );
@@ -555,7 +555,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_interchangeable& elt );
     virtual void visitStart ( S_time_relation& elt );
 
-    // ?
+    // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_instruments& elt );
@@ -570,7 +570,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_octave_change& elt );
     virtual void visitStart ( S_double& elt );
 
-    // ?
+    // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_direction& elt );
@@ -617,7 +617,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_elision& elt );
     virtual void visitStart ( S_extend& elt);
 
-    // ?
+    // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_degree& elt);
@@ -655,7 +655,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_measure& elt);
     virtual void visitEnd   ( S_measure& elt);
     
-    // ?
+    // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_print& elt);
@@ -824,7 +824,7 @@ class mxmlTree2MsrTranslator :
     
 //    virtual void visitStart ( S_voice& elt);
 
-    // ?
+    // ???
     // ------------------------------------------------------
 
     virtual void visitStart ( S_type& elt);

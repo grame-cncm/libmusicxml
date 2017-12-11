@@ -14,7 +14,7 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 #include <cmath>
 
 #include "mxmlOptions.h"
@@ -2459,7 +2459,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
   
   const int fieldWidth = 20;
 
-  // page width, height and margins
+  // page width, height, margins and indents
 
   {
     float paperWidth =
@@ -2535,6 +2535,46 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         setw (fieldWidth) <<
         "right-margin" << " = " <<
       setprecision (2) << rightMargin << "\\cm" <<
+      endl;
+    }
+  }
+
+  {
+    float indent =
+      elt->getIndent ();
+      
+    if (indent > 0) {
+      fLilypondCodeIOstream << left <<
+        setw (fieldWidth) <<
+        "indent" << " = " <<
+      setprecision (2) << indent << "\\cm" <<
+      endl;
+    }
+    else {
+      fLilypondCodeIOstream << left <<
+        setw (fieldWidth) <<
+        "%indent" << " = " <<
+      setprecision (2) << 1.5 << "\\cm" <<
+      endl;
+    }
+  }
+
+  {
+    float shortIndent =
+      elt->getShortIndent ();
+      
+    if (shortIndent > 0) {
+      fLilypondCodeIOstream << left <<
+        setw (fieldWidth) <<
+        "short-indent" << " = " <<
+      setprecision (2) << shortIndent << "\\cm" <<
+      endl;
+    }
+    else {
+      fLilypondCodeIOstream << left <<
+        setw (fieldWidth) <<
+        "%short-indent" << " = " <<
+      setprecision (2) << 0.0 << "\\cm" <<
       endl;
     }
   }
@@ -2620,20 +2660,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
         endl;
     }
   }
-
-  // generate the default 'indent' setting ready for the user
-  fLilypondCodeIOstream << left <<
-    setw (fieldWidth) <<
-    "% indent" << " = " <<
-    setprecision (2) << 2.5 << "\\cm" << // JMI
-    endl;
-
-  // generate the default 'short-indent' setting ready for the user
-  fLilypondCodeIOstream << left <<
-    setw (fieldWidth) <<
-    "% short-indent" << " = " <<
-    setprecision (2) << 1.5 << "\\cm" << // JMI
-    endl;
 
   fLilypondCodeIOstream << endl;
 

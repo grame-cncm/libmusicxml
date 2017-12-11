@@ -6160,15 +6160,17 @@ class msrPageGeometry : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrPageGeometry> create (
-      int           inputLineNumber);
+      int inputLineNumber);
     
+    SMARTP<msrPageGeometry> createGeometryNewbornClone ();
+
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
     msrPageGeometry (
-      int           inputLineNumber);
+      int inputLineNumber);
       
     virtual ~msrPageGeometry();
   
@@ -6185,20 +6187,23 @@ class msrPageGeometry : public msrElement
 
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     void    setPaperHeight        (float val) { fPaperHeight = val; }
+    
     void    setTopMargin          (float val) { fTopMargin = val; }
     void    setBottomMargin       (float val) { fBottomMargin = val; }
     void    setLeftMargin         (float val) { fLeftMargin = val; }
     void    setRightMargin        (float val) { fRightMargin = val; }
+    
     void    setBetweenSystemSpace (float val) { fBetweenSystemSpace = val; }
     void    setPageTopSpace       (float val) { fPageTopSpace = val; }
     
-
     float   getPaperWidth         () const    { return fPaperWidth; }
     float   getPaperHeight        () const    { return fPaperHeight; }
+    
     float   getTopMargin          () const    { return fTopMargin; }
     float   getBottomMargin       () const    { return fBottomMargin; }
     float   getLeftMargin         () const    { return fLeftMargin; }
     float   getRightMargin        () const    { return fRightMargin; }
+    
     float   getBetweenSystemSpace () const    { return fBetweenSystemSpace; }
     float   getPageTopSpace       () const    { return fPageTopSpace; }
     
@@ -6232,6 +6237,7 @@ class msrPageGeometry : public msrElement
     // page height, margins and the like in centimeters are in centimeters
     float             fPaperWidth;
     float             fPaperHeight;
+    
     float             fTopMargin;
     float             fBottomMargin;
     float             fLeftMargin;
@@ -9830,7 +9836,6 @@ typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
 
 //______________________________________________________________________________
-
 class msrVoiceStaffChange : public msrElement
 {
   public:
@@ -9991,9 +9996,10 @@ class msrPart : public msrElement
     void                  setPartMsrName (string partMsrName);
     
     string                getPartMsrName () const
-                            { return fPartMsrName; }
+                              { return fPartMsrName; }
 
-    void                  setPartName (string partName);
+    void                  setPartName (string partName)
+                              { fPartName = partName; }
     
     string                getPartName () const
                               { return fPartName; }
@@ -10029,6 +10035,8 @@ class msrPart : public msrElement
                               { return fPartAbbreviationDisplayText; }
 
     string                getPartCombinedName () const;
+
+    void                  setPartInstrumentNamesMaxLengthes ();
 
     // measures
     
@@ -10069,14 +10077,15 @@ class msrPart : public msrElement
     // staff details
 
     S_msrStaffDetails     getCurrentPartStaffDetails () const
-                            { return fCurrentPartStaffDetails; }
+                              { return fCurrentPartStaffDetails; }
 
-    // instrument anme
+    // instrument name
 
     void                  setPartInstrumentName (
                             string partInstrumentName)
                               {
-                                fPartInstrumentName = partInstrumentName;
+                                fPartInstrumentName =
+                                  partInstrumentName;
                               }
                               
     string                getPartInstrumentName () const
@@ -10326,6 +10335,9 @@ class msrPart : public msrElement
     void                  finalizePart (
                             int inputLineNumber);
 
+    void                  finalizePartClone (
+                            int inputLineNumber);
+
     // visitors
     // ------------------------------------------------------
 
@@ -10370,6 +10382,11 @@ class msrPart : public msrElement
     string                fPartAbbreviation;
     string                fPartAbbreviationDisplayText;
 
+    // part instrument names
+    
+    string                fPartInstrumentName;
+    string                fPartInstrumentAbbreviation;
+
     // measures
 
     string                fPartCurrentMeasureNumber;
@@ -10377,11 +10394,6 @@ class msrPart : public msrElement
     int                   fPartNumberOfMeasures;
 
     rational              fPartMeasureLengthHighTide;
-
-    // part instrument name
-    
-    string                fPartInstrumentName;
-    string                fPartInstrumentAbbreviation;
 
     // clef, key, time
     
@@ -10550,6 +10562,7 @@ class msrPartGroup : public msrElement
     string                getPartGroupCombinedName () const;
 
     // miscellaneous
+
     string                getPartGroupNameDisplayText () const
                               { return fPartGroupNameDisplayText; }
 
@@ -10584,8 +10597,7 @@ class msrPartGroup : public msrElement
                           getPartGroupBarlineKind () const
                               { return fPartGroupBarlineKind; }
     
-    void                  setPartGroupInstrumentName (string name)
-                              { fPartGroupInstrumentName = name; }
+    void                  setPartGroupInstrumentName (string name);
                 
     string                getPartGroupInstrumentName () const
                               { return fPartGroupInstrumentName; }
@@ -10724,7 +10736,7 @@ class msrScore : public msrElement
     msrScore (
       int inputLineNumber);
       
-    virtual ~msrScore();
+    virtual ~msrScore ();
   
   public:
 
@@ -10733,6 +10745,10 @@ class msrScore : public msrElement
 
     S_msrIdentification   getIdentification () const
                               { return fIdentification; }
+
+    void                  setPageGeometry (
+                            S_msrPageGeometry pageGeometry)
+                              { fPageGeometry = pageGeometry; }
 
     S_msrPageGeometry     getPageGeometry () const
                               { return fPageGeometry; }
@@ -10755,6 +10771,22 @@ class msrScore : public msrElement
     int                   getScoreNumberOfMeasures () const
                               { return fScoreNumberOfMeasures; }
         
+    // instrument names max lengthes
+
+    int                   setInstrumentNamesMaxLength (int value)
+                              { fInstrumentNamesMaxLength = value; }
+
+    int                   getInstrumentNamesMaxLength () const
+                              { return fInstrumentNamesMaxLength; }
+
+    int                   setInstrumentAbbreviationsMaxLength (int value)
+                              { fInstrumentAbbreviationsMaxLength = value; }
+
+    int                   getInstrumentAbbreviationsMaxLength () const
+                              { return fInstrumentAbbreviationsMaxLength; }
+
+    // inhibiting browsing
+
     void                  setInhibitMeasuresRepeatReplicasBrowsing ()
                               {
                                 fInhibitMeasuresRepeatReplicasBrowsing =
@@ -10828,7 +10860,16 @@ class msrScore : public msrElement
     
     list<S_msrPartGroup>  fPartGroupsList;
 
+    // number of measures
+    
     int                   fScoreNumberOfMeasures;
+
+    // instrument names max lengthes
+    
+    int                   fInstrumentNamesMaxLength;
+    int                   fInstrumentAbbreviationsMaxLength;
+
+    // inhibiting browsing
     
     // in <measure-repeat/>, the measure replicas are explicit,
     // whereas LilyPond only needs the repeated measure

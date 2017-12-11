@@ -1628,15 +1628,18 @@ class lpsrPaper : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    // page width, height and margins
+    // page width, height, margins and indents
 
     void    setPaperWidth         (float val) { fPaperWidth = val; }
     void    setPaperHeight        (float val) { fPaperHeight = val; }
+    
     void    setTopMargin          (float val) { fTopMargin = val; }
     void    setBottomMargin       (float val) { fBottomMargin = val; }
     void    setLeftMargin         (float val) { fLeftMargin = val; }
     void    setRightMargin        (float val) { fRightMargin = val; }
-
+    
+    void    setIndent             (float val);
+    void    setShortIndent        (float val);
 
     float   getPaperWidth         () const    { return fPaperWidth; }
     float   getPaperHeight        () const    { return fPaperHeight; }
@@ -1644,6 +1647,9 @@ class lpsrPaper : public msrElement
     float   getBottomMargin       () const    { return fBottomMargin; }
     float   getLeftMargin         () const    { return fLeftMargin; }
     float   getRightMargin        () const    { return fRightMargin; }
+    
+    float   getIndent             () const    { return fIndent; }
+    float   getShortIndent        () const    { return fShortIndent; }
 
     // spaces
 
@@ -1687,14 +1693,18 @@ class lpsrPaper : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // page width, height and margins (centimeters)
+    // page width, height, margins and indents (centimeters)
     
     float             fPaperWidth;
     float             fPaperHeight;
+    
     float             fTopMargin;
     float             fBottomMargin;
     float             fLeftMargin;
     float             fRightMargin;
+    
+    float             fIndent;
+    float             fShortIndent;
 
     // spaces (centimeters)
     

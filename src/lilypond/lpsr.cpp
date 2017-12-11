@@ -2774,18 +2774,44 @@ lpsrPaper::lpsrPaper (
 {
   fPaperWidth   = -1.0;
   fPaperWidth   = -1.0;
+  
   fPaperHeight  = -1.0;
   fTopMargin    = -1.0;
   fBottomMargin = -1.0;
   fLeftMargin   = -1.0;
   fRightMargin  = -1.0;
     
+  fIndent       = -1.0;
+  fShortIndent  = -1.0;
+
   fBetweenSystemSpace = -1.0;
   fPageTopSpace = -1.0;
 }
 
-lpsrPaper::~lpsrPaper()
+lpsrPaper::~lpsrPaper ()
 {}
+
+void lpsrPaper::setIndent (float val)
+{
+  if (gGeneralOptions->fTraceGeometry) {
+    gLogIOstream <<
+      "Setting paper indent to " << val <<
+      endl;
+  }
+
+  fIndent = val;
+}
+
+void lpsrPaper::setShortIndent (float val)
+{
+  if (gGeneralOptions->fTraceGeometry) {
+    gLogIOstream <<
+      "Setting paper short indent to " << val <<
+      endl;
+  }
+
+  fShortIndent = val;
+}
 
 void lpsrPaper::acceptIn (basevisitor* v)
 {
@@ -2905,6 +2931,26 @@ void lpsrPaper::print (ostream& os) {
       setw (fieldWidth) <<
       "right-margin" << " = " <<
       setprecision (2) << fRightMargin << "\\cm" <<
+      endl;
+      
+    emptyPaper = false;
+  }
+
+  if (fIndent > 0) {
+    os << left <<
+      setw (fieldWidth) <<
+      "indent" << " = " <<
+      setprecision (2) << fIndent << "\\cm" <<
+      endl;
+      
+    emptyPaper = false;
+  }
+
+  if (fShortIndent > 0) {
+    os << left <<
+      setw (fieldWidth) <<
+      "short-indent" << " = " <<
+      setprecision (2) << fShortIndent << "\\cm" <<
       endl;
       
     emptyPaper = false;

@@ -36,7 +36,7 @@ namespace MusicXML2
 //________________________________________________________________________
 msr2LpsrTranslator::msr2LpsrTranslator (
   indentedOstream& ios,
-  S_msrScore            mScore)
+  S_msrScore       mScore)
     : fLogOutputStream (ios)
 {
   // the MSR score we're visiting
@@ -52,29 +52,29 @@ msr2LpsrTranslator::msr2LpsrTranslator (
   fMovementTitleKnown    = false;
    
   // staves
-  fOnGoingStaff          = false;
+  fOnGoingStaff = false;
 
   // voices
   fOnGoingHarmonyVoice     = false;
   fOnGoingFiguredBassVoice = false;
 
   // repeats
-  fOnGoingRepeat         = false;
+  fOnGoingRepeat = false;
 
   // measures
   fMeasuresCounter = 0;
     
   // notes
-  fOnGoingNote           = false;
+  fOnGoingNote = false;
 
   // double tremolos
-  fOnGoingDoubleTremolo  = false;
+  fOnGoingDoubleTremolo = false;
 
   // chords
-  fOnGoingChord          = false;
+  fOnGoingChord = false;
   
   // stanzas
-  fOnGoingStanza         = false;
+  fOnGoingStanza = false;
 
   // syllables
   fOnGoingSyllableExtend = false;
@@ -92,6 +92,69 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 
     // browse the score with the browser
     browser.browse (*fVisitedMsrScore);
+  }
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::setPaperIndentsIfNeeded (
+  S_msrPageGeometry pageGeometry)
+{
+  // heuristics taken from musicxml2ly, gives an acceptable value
+  S_lpsrPaper
+    paper =
+      fLpsrScore->getPaper ();
+
+  int
+    instrumentNamesMaxLength =
+      fCurrentMsrScoreClone->
+        getInstrumentNamesMaxLength ();
+
+  int
+    instrumentAbbreviationsMaxLength =
+      fCurrentMsrScoreClone->
+        getInstrumentAbbreviationsMaxLength ();
+
+  float charactersPerCemtimeter =
+    instrumentNamesMaxLength * 13
+      /
+    pageGeometry->getPaperWidth ();
+
+  if (gGeneralOptions->fTraceGeometry) {
+    fLogOutputStream <<
+      "setPaperIndentsIfNeeded():" <<
+      endl;
+
+    gIndenter++;
+
+    const int fieldWidth = 26;
+    
+    fLogOutputStream << left <<
+      setw (fieldWidth) <<
+      "instrumentNamesMaxLength" << " : " <<
+      instrumentNamesMaxLength <<
+      endl <<
+      setw (fieldWidth) <<
+      "instrumentAbbreviationsMaxLength" << " : " <<
+      instrumentAbbreviationsMaxLength <<
+      endl <<
+      setw (fieldWidth) <<
+      "charactersPerCemtimeter" << " : " <<
+      charactersPerCemtimeter <<
+      endl;
+
+    gIndenter--;
+  }
+  
+  if (instrumentNamesMaxLength > 0) {
+    paper->
+      setIndent (
+        instrumentNamesMaxLength / charactersPerCemtimeter);
+  }
+  
+  if (instrumentAbbreviationsMaxLength > 0) {
+    paper->
+      setShortIndent (
+        instrumentAbbreviationsMaxLength / charactersPerCemtimeter);
   }
 }
 
@@ -207,15 +270,10 @@ void msr2LpsrTranslator::visitEnd (S_msrScore& elt)
         inputLineNumber, "");
   }
 
-/* JMI
-        # TODO: font width ?
-        char_per_cm = (len(self.get_longest_instrument_name()) * 13) / self.page_width
-        if (self.indent != 0):
-            self.print_length_field (printer, "indent", self.indent/char_per_cm)
-        if (self.short_indent != 0):
-            self.print_length_field (printer, "short-indent", self.short_indent/char_per_cm)
-*/
-
+  // set ident and short indent if needed
+  setPaperIndentsIfNeeded (
+    elt->getPageGeometry ());
+  
 /* JMI
   // get top level partgroup block from the stack
   S_lpsrPartGroupBlock
@@ -277,6 +335,16 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   }
 
   gIndenter++;
+
+  // create a page geometry clone
+  S_msrPageGeometry
+    pageGeometryClone =
+      elt->createGeometryNewbornClone ();
+
+  // register it in current MSR score clone
+  fCurrentMsrScoreClone->
+    setPageGeometry (
+      pageGeometryClone);
 
   // get LPSR score paper
   S_lpsrPaper
@@ -643,7 +711,8 @@ void msr2LpsrTranslator::visitStart (S_msrPart& elt)
   }
 
   fPartGroupBlocksStack.top ()->
-    appendElementToPartGroupBlock (fCurrentPartBlock);
+    appendElementToPartGroupBlock (
+      fCurrentPartBlock);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
@@ -655,6 +724,29 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
       "--> End visiting msrPart " <<
       elt->getPartCombinedName () <<
       endl;
+  }
+
+  string partInstrumentAbbreviation =
+    fCurrentPartClone->
+      getPartInstrumentAbbreviation ();
+    
+  // populate part instrument short name if empty and possible
+  if (partInstrumentAbbreviation.size () == 0) {
+    string
+      partAbbreviation =
+        elt->getPartAbbreviation ();
+        
+    fCurrentPartClone->
+      setPartInstrumentAbbreviation (
+        partAbbreviation);
+
+    fCurrentPartClone->
+      finalizePartClone (
+        elt->getInputLineNumber ());
+      
+    setPaperIndentsIfNeeded (
+      fVisitedMsrScore->
+        getPageGeometry ());
   }
 }
 
