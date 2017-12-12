@@ -27637,7 +27637,8 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
         voicePartRelativeID,
         msrVoice::kCreateInitialLastSegmentYes,
         this);
-        
+
+        /* JMI
   // get the part current time JMI???
   S_msrTime
     time =
@@ -27657,6 +27658,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       
   // append the time to this staff
   appendTimeToStaff (time);
+  */
 
   // set fFullMeasureLength accordingly JMI
  // setFullMeasureLengthFromTime (
