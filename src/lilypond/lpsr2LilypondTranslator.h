@@ -570,10 +570,10 @@ class lpsr2LilypondTranslator :
 
     msrDirectionKind      fCurrentArpeggioDirectionKind;
     
-    string                noteArticulationAsLilyponString (
+    void                  writeNoteArticulationAsLilyponString (
                             S_msrArticulation articulation);
 
-    string                chordArticulationAsLilyponString (
+    void                  writeChordArticulationAsLilyponString (
                             S_msrArticulation articulation);
 
     // technicals

@@ -932,6 +932,7 @@ class mxmlTree2MsrTranslator :
     
     // we need to count the measures for option fSeparatorLineEveryNMeasures,
     // since measure numbers are actually strings
+
     string                    fCurrentMeasureNumber;
     int                       fCurrentMeasureOrdinalNumber;
     

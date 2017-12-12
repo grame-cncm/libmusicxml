@@ -14,7 +14,7 @@
 # pragma warning (disable : 4786)
 #endif
 
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include "msrOptions.h"
 

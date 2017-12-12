@@ -16,7 +16,7 @@
 
 #include <sstream>
 #include <climits>      /* INT_MIN */
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 #include <algorithm>    /* for_each */
 
 #include "xml_tree_browser.h"
@@ -1118,7 +1118,9 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   */
 
   // miscellaneous
+  fCurrentMeasureNumber = "???";
   fCurrentMeasureOrdinalNumber = 0;
+  
   fCurrentStaffNumber = K_NO_STAFF_NUMBER; // default if there are no <staff> element
   fCurrentVoiceNumber = K_NO_VOICE_NUMBER; // default if there are no <voice> element
 
@@ -2887,7 +2889,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   string type = elt->getAttributeValue ("type");
 
   msrOctaveShift::msrOctaveShiftKind
-    octaveShiftKind = msrOctaveShift::k_NoOctaveShift;;
+    octaveShiftKind = msrOctaveShift::k_NoOctaveShift;
   
   if      (type == "up")
     octaveShiftKind = msrOctaveShift::kOctaveShiftUp;
@@ -5249,14 +5251,27 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   measures are grouped via the number).
 */
 
-  fCurrentMeasureOrdinalNumber++;
-  
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  fCurrentMeasureOrdinalNumber++;
+  
+  if (gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "==> visitStart (S_measure" <<
+      ", fCurrentMeasureOrdinalNumber = '" <<
+        fCurrentMeasureOrdinalNumber <<
+      "', fCurrentMeasureNumber = '" <<
+        fCurrentMeasureNumber <<
+      "', line " << inputLineNumber <<
+      ", in part \"" <<
+      fCurrentPart->getPartCombinedName () << "\"" <<
+      endl;
+  }
+
   // number
 
-  fCurrentMeasureNumber = // JMI local variable???
+  fCurrentMeasureNumber =
     elt->getAttributeValue ("number");
 
   if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
@@ -5303,6 +5318,15 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
     }
   }
   
+  // set next measure number in current part
+  // if this measure is not the first one
+  if (fCurrentMeasureOrdinalNumber > 1) {
+    fCurrentPart->
+      setNextMeasureNumberInPart (
+        inputLineNumber,
+        fCurrentMeasureNumber);
+  }
+    
   // append a new measure to the current part
   fCurrentPart->
     createMeasureAndAppendItToPart (
@@ -5310,8 +5334,6 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       fCurrentMeasureNumber,
       fCurrentMeasureOrdinalNumber,
       measureImplicitKind);
-
-  // JMI fCurrentMeasureOrdinalNumber
 
 /* JMI
   // is this measure number in the debug set?

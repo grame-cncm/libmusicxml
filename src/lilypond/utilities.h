@@ -162,6 +162,7 @@ Usage:
       indenter&     fIndenter;
 
     public:
+    
       // constructor
       indentedStreamBuf (
         std::ostream& str,
@@ -171,7 +172,10 @@ Usage:
         {}
 
       // flush
-      void flush ()   { fOutput.flush (); }
+      void flush ()
+      {
+        fOutput.flush ();
+      }
     
       // When we sync the stream with fOutput:
       // 1) uutput the indentation then the buffer
@@ -191,6 +195,7 @@ Usage:
     indentedStreamBuf     fIndentedStreamBuf;
   
   public:
+  
     // constructor
     indentedOstream (
       std::ostream&  str,
@@ -201,10 +206,14 @@ Usage:
       {}
 
     // destructor
-    virtual ~indentedOstream () {};
+    virtual ~indentedOstream ()
+    {};
 
     // flush
-    void flush ()       { fIndentedStreamBuf.flush (); }
+    void flush ()
+    {
+      fIndentedStreamBuf.flush ();
+    }
     
     // global variables for general use
     static indentedOstream

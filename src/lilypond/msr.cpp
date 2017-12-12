@@ -12,7 +12,7 @@
 
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <sstream>
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include "version.h"
 
@@ -11607,7 +11607,7 @@ void msrKey::appendHumdrumScotKeyItem (
 
   // have key items octaves been specified?
   if (item->getKeyItemOctave () >= 0)
-    fKeyItemsOctavesAreSpecified = true;;
+    fKeyItemsOctavesAreSpecified = true;
 
   // append the item to the vector
   fHumdrumScotKeyItemsVector.insert (
@@ -16329,6 +16329,10 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   newbornClone->fMeasureKind =
     fMeasureKind;
 
+  // next measure number
+  newbornClone->fNextMeasureNumber =
+    fNextMeasureNumber;
+
   // measure 'first in segment' kind
   newbornClone->fMeasureFirstInSegmentKind =
     fMeasureFirstInSegmentKind;
@@ -16387,6 +16391,10 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   // measure kind
   measureDeepCopy->fMeasureKind =
     fMeasureKind;
+
+  // next measure number
+  measureDeepCopy->fNextMeasureNumber =
+    fNextMeasureNumber;
 
   // measure 'first in segment' kind
   measureDeepCopy->fMeasureFirstInSegmentKind =
@@ -18913,6 +18921,39 @@ void msrSegment::createMeasureAndAppendItToSegment (
     newMeasure);
   
   fMeasureNumberHasBeenSetInSegment = true;
+}
+
+void msrSegment::setNextMeasureNumberInSegment (
+  int    inputLineNumber,
+  string nextMeasureNumber)
+{
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Setting next measure number to FYY '" << nextMeasureNumber <<
+      "' in segment '" << segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+
+  if (fSegmentMeasuresList.size ()) { // JMI ???
+    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+      gLogIOstream <<
+        "Setting next measure number to FEE '" << nextMeasureNumber <<
+        "' in segment '" << segmentAsString () <<
+        "' in voice \"" <<
+        fSegmentVoiceUplink->getVoiceName () <<
+        "\"" <<
+        "', line " << inputLineNumber <<
+        endl;
+    }
+    
+    fSegmentMeasuresList.back ()->
+      setNextMeasureNumber (
+        nextMeasureNumber);
+  }
 }
 
 void msrSegment::finalizeCurrentMeasureInSegment (
@@ -23123,6 +23164,16 @@ void msrVoice::createMeasureAndAppendItToVoice (
       measureImplicitKind);
 }
 
+void msrVoice::setNextMeasureNumberInVoice (
+  int    inputLineNumber,
+  string nextMeasureNumber)
+{
+  fVoiceLastSegment->
+    setNextMeasureNumberInSegment (
+      inputLineNumber,
+      nextMeasureNumber);
+}
+
 void msrVoice::createNewLastSegmentForVoice (
   int inputLineNumber)
 {
@@ -24979,7 +25030,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           gGeneralOptions->fTraceVoices
           ) {
           gLogIOstream <<
-            "Creating a measure repeat replicas FEE contents for voice \"" <<
+            "Creating a measure repeat replicas FAA contents for voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
         }
@@ -27485,6 +27536,47 @@ void msrStaff::createMeasureAndAppendItToStaff (
   } // for
 }
 
+void msrStaff::setNextMeasureNumberInStaff (
+  int    inputLineNumber,
+  string nextMeasureNumber)
+{
+  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Setting next measure number to '" <<
+      nextMeasureNumber <<
+      "', line " << inputLineNumber <<
+      ", in staff \"" << getStaffName () << "\"" <<
+      endl;
+  }
+
+  // propagate it to all staves
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++) {
+    S_msrVoice voice = (*i).second;
+
+    // sanity check
+    msrAssert (
+      voice != nullptr,
+      "voice is null");
+    
+    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+      gLogIOstream <<
+        "Propagating the setting of next measure number '" <<
+        nextMeasureNumber <<
+        "', line " << inputLineNumber <<
+        ", in voice \"" << voice->getVoiceName () << "\"" <<
+        endl;
+    }
+
+    voice->
+      setNextMeasureNumberInVoice (
+        inputLineNumber,
+        nextMeasureNumber);
+  } // for
+}
+
 S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
   int          inputLineNumber,
   msrVoice::msrVoiceKind
@@ -27728,7 +27820,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
   // append clef to the staff,
   // unless we should ignore redundant clefs
   // and a clef equal to the current clef is met
-  bool doAppendClefToStaff = true;;
+  bool doAppendClefToStaff = true;
     
   if (fStaffCurrentClef) {
     if (
@@ -29399,7 +29491,7 @@ void msrPart::createMeasureAndAppendItToPart (
     gLogIOstream <<
       "Creating and appending measure '" <<
       measureNumber <<
-      "'to part " <<
+      "' to part " <<
       getPartCombinedName () <<
       "', line " << inputLineNumber <<
       endl;
@@ -29432,6 +29524,43 @@ void msrPart::createMeasureAndAppendItToPart (
         measureNumber,
         measureOrdinalNumber,
         measureImplicitKind);
+  } // for
+}
+
+void msrPart::setNextMeasureNumberInPart (
+  int    inputLineNumber,
+  string nextMeasureNumber)
+{
+  if (gGeneralOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Setting next measure number to '" <<
+      nextMeasureNumber <<
+      "' in part " <<
+      getPartCombinedName () <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+
+/* JMI
+  // create and append measure to the master staff
+  fPartMasterStaff->
+    setNextMeasureNumberInStaff (
+      inputLineNumber,
+      measureNumber);
+*/
+
+  // set next measure number in registered staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    S_msrStaff
+      staff = (*i).second;
+      
+    staff->
+      setNextMeasureNumberInStaff (
+        inputLineNumber,
+        nextMeasureNumber);
   } // for
 }
 

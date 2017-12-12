@@ -11,7 +11,7 @@
 */
 
 #include <climits>      /* INT_MIN, INT_MAX */
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include "utilities.h"
 

@@ -3362,13 +3362,6 @@ class msrSegment : public msrElement
     list<S_msrMeasure>&   getSegmentMeasuresListToModify ()
                               { return fSegmentMeasuresList; }
                                             
-    void                  createMeasureAndAppendItToSegment (
-                            int    inputLineNumber,
-                            string measureNumber,
-                            int    measureOrdinalNumber,
-                            msrMeasure::msrMeasureImplicitKind
-                                   measureImplicitKind);
-                      
     const string          getSegmentMeasureNumber () const
                               { return fSegmentMeasureNumber; }
 
@@ -3384,7 +3377,7 @@ class msrSegment : public msrElement
     string                segmentAsString ();
     string                segmentAsShortString ();
 
-    // divisions
+    // divisions ??? JMI
     
     void                  bringSegmentToMeasureLength (
                             int      inputLineNumber,
@@ -3394,6 +3387,17 @@ class msrSegment : public msrElement
 
     string                segmentMeasureNumbersAsString () const;
     
+    void                  createMeasureAndAppendItToSegment (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    measureOrdinalNumber,
+                            msrMeasure::msrMeasureImplicitKind
+                                   measureImplicitKind);
+                      
+    void                  setNextMeasureNumberInSegment (
+                            int    inputLineNumber,
+                            string nextMeasureNumber);
+
     void                  appendMeasureToSegment (
                             S_msrMeasure measure);
 
@@ -8803,16 +8807,6 @@ class msrVoice : public msrElement
 
      // measures
      
-    void                  createMeasureAndAppendItToVoice (
-                            int    inputLineNumber,
-                            string measureNumber,
-                            int    measureOrdinalNumber,
-                            msrMeasure::msrMeasureImplicitKind
-                                   measureImplicitKind);
-
-    void                  appendAFirstMeasureToVoiceIfNotYetDone (
-                             int inputLineNumber);
-                        
     const string          getVoiceCurrentMeasureNumber () const
                               { return fVoiceCurrentMeasureNumber; }
 
@@ -8860,7 +8854,21 @@ class msrVoice : public msrElement
     string                voiceStaffRelativeNumberAsString () const;
 
     // measures
+     
+    void                  createMeasureAndAppendItToVoice (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    measureOrdinalNumber,
+                            msrMeasure::msrMeasureImplicitKind
+                                   measureImplicitKind);
 
+    void                  setNextMeasureNumberInVoice (
+                            int    inputLineNumber,
+                            string nextMeasureNumber);
+
+    void                  appendAFirstMeasureToVoiceIfNotYetDone (
+                             int inputLineNumber);
+                        
     void                  fillVoiceWithSkipsUpToMeasure (
                             int    inputLineNumber,
                             string measureNumber);
@@ -9615,15 +9623,6 @@ class msrStaff : public msrElement
                           getStaffAllVoicesMap () const
                               { return fStaffAllVoicesMap; }
 
-    // measures
-    
-    void                  createMeasureAndAppendItToStaff (
-                            int    inputLineNumber,
-                            string measureNumber,
-                            int    measureOrdinalNumber,
-                            msrMeasure::msrMeasureImplicitKind
-                                   measureImplicitKind);
-
     // services
     // ------------------------------------------------------
 
@@ -9681,6 +9680,19 @@ class msrStaff : public msrElement
                             int voicePartRelativeID);
 
     const int             getStaffNumberOfMusicVoices () const;
+
+    // measures
+    
+    void                  createMeasureAndAppendItToStaff (
+                            int    inputLineNumber,
+                            string measureNumber,
+                            int    measureOrdinalNumber,
+                            msrMeasure::msrMeasureImplicitKind
+                                   measureImplicitKind);
+
+    void                  setNextMeasureNumberInStaff (
+                            int    inputLineNumber,
+                            string nextMeasureNumber);
 
     // repeats
     
@@ -10197,6 +10209,10 @@ class msrPart : public msrElement
                             int    measureOrdinalNumber,
                             msrMeasure::msrMeasureImplicitKind
                                    measureImplicitKind);
+
+    void                  setNextMeasureNumberInPart (
+                            int    inputLineNumber,
+                            string nextMeasureNumber);
 
     // staff details
 
@@ -10773,13 +10789,13 @@ class msrScore : public msrElement
         
     // instrument names max lengthes
 
-    int                   setInstrumentNamesMaxLength (int value)
+    void                  setInstrumentNamesMaxLength (int value)
                               { fInstrumentNamesMaxLength = value; }
 
     int                   getInstrumentNamesMaxLength () const
                               { return fInstrumentNamesMaxLength; }
 
-    int                   setInstrumentAbbreviationsMaxLength (int value)
+    void                  setInstrumentAbbreviationsMaxLength (int value)
                               { fInstrumentAbbreviationsMaxLength = value; }
 
     int                   getInstrumentAbbreviationsMaxLength () const

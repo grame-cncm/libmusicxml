@@ -117,15 +117,15 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // part group blocks
   fNumberOfPartGroupBlocks = -1;
-  fPartGroupBlocksCounter  = 0;;
+  fPartGroupBlocksCounter  = 0;
 
   // part blocks
   fNumberOfPartBlocks = -1;
-  fPartBlocksCounter  = 0;;
+  fPartBlocksCounter  = 0;
 
   // staff blocks
   fNumberOfStaffBlocks = -1;
-  fStaffBlocksCounter  = 0;;
+  fStaffBlocksCounter  = 0;
 };
   
 lpsr2LilypondTranslator::~lpsr2LilypondTranslator ()
@@ -1050,11 +1050,9 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
+void lpsr2LilypondTranslator::writeNoteArticulationAsLilyponString (
   S_msrArticulation articulation)
 {
-  stringstream s;
-
   // should the placement be generated?
   bool doGeneratePlacement = true;
 
@@ -1066,16 +1064,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       doGeneratePlacement = false;
       break;
     case msrArticulation::kCaesura:
-      doGeneratePlacement = true;
-      s <<
-        endl <<
-        "\\override BreathingSign.text = \\markup {"
-        "\\musicglyph #\"scripts.caesura.curved\"}" <<
-        endl;
       doGeneratePlacement = false;
       break;
     case msrArticulation::kSpiccato:
-      doGeneratePlacement = false;;
+      doGeneratePlacement = false;
       break;
     case msrArticulation::kStaccato:
       doGeneratePlacement = true;
@@ -1084,10 +1076,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       doGeneratePlacement = true;
       break;
     case msrArticulation::kStress:
-      doGeneratePlacement = false;;
+      doGeneratePlacement = false;
       break;
     case msrArticulation::kUnstress:
-      doGeneratePlacement = false;;
+      doGeneratePlacement = false;
       break;
     case msrArticulation::kDetachedLegato:
       doGeneratePlacement = true;
@@ -1101,16 +1093,16 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       
     case msrArticulation::kFermata:
       // this is handled in visitStart (S_msrFermata&)
-      doGeneratePlacement = false;;
+      doGeneratePlacement = false;
       break;
       
     case msrArticulation::kArpeggiato:
       // this is handled in chordArticulationAsLilyponString ()
-      doGeneratePlacement = false;;
+      doGeneratePlacement = false;
       break;
     case msrArticulation::kNonArpeggiato:
       // this is handled in chordArticulationAsLilyponString ()
-      doGeneratePlacement = false;;
+      doGeneratePlacement = false;
       break;
 
     case msrArticulation::kDoit:
@@ -1120,10 +1112,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       doGeneratePlacement = true;
       break;
     case msrArticulation::kPlop:
-      doGeneratePlacement = false;;
+      doGeneratePlacement = false;
       break;
     case msrArticulation::kScoop:
-      doGeneratePlacement = false;;
+      doGeneratePlacement = false;
       break;
   } // switch
 
@@ -1144,10 +1136,10 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
   // generate note articulation itself
   switch (articulation->getArticulationKind ()) {
     case msrArticulation::kAccent:
-      s << ">";
+      fLilypondCodeIOstream << ">";
       break;
     case msrArticulation::kBreathMark:
-      s << "\\breathe";
+      fLilypondCodeIOstream << "\\breathe";
       break;
     case msrArticulation::kCaesura:
     /* JMI
@@ -1156,7 +1148,7 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
             R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
             endl;
      */
-      s <<
+      fLilypondCodeIOstream <<
         endl <<
         "\\override BreathingSign.text = \\markup {"
         "\\musicglyph #\"scripts.caesura.curved\"}" <<
@@ -1165,28 +1157,36 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
         endl;
       break;
     case msrArticulation::kSpiccato:
-      s << "%{spiccato???%}";
+      fLilypondCodeIOstream <<
+        "%{spiccato???%}";
       break;
     case msrArticulation::kStaccato:
-      s << ".";
+      fLilypondCodeIOstream <<
+        ".";
       break;
     case msrArticulation::kStaccatissimo:
-      s << "!";
+      fLilypondCodeIOstream <<
+        "!";
       break;
     case msrArticulation::kStress:
-      s << "%{stress???%}";
+      fLilypondCodeIOstream <<
+        "%{stress???%}";
       break;
     case msrArticulation::kUnstress:
-      s << "%{unstress???%}";
+      fLilypondCodeIOstream <<
+        "%{unstress???%}";
       break;
     case msrArticulation::kDetachedLegato:
-      s << "_"; // portato
+      fLilypondCodeIOstream <<
+        "_"; // portato
       break;
     case msrArticulation::kStrongAccent:
-      s << "^"; // marcato
+      fLilypondCodeIOstream <<
+        "^"; // marcato
       break;
     case msrArticulation::kTenuto:
-      s << "-";
+      fLilypondCodeIOstream <<
+        "-";
       break;
       
     case msrArticulation::kFermata:
@@ -1200,28 +1200,28 @@ string lpsr2LilypondTranslator::noteArticulationAsLilyponString (
       // this is handled in chordArticulationAsLilyponString ()
       break;
     case msrArticulation::kDoit:
-      s << "\\bendAfter #+4";
+      fLilypondCodeIOstream <<
+        "\\bendAfter #+4";
       break;
     case msrArticulation::kFalloff:
-      s << "\\bendAfter #-4";
+      fLilypondCodeIOstream <<
+        "\\bendAfter #-4";
       break;
     case msrArticulation::kPlop:
-      s << "%{plop???%}";
+      fLilypondCodeIOstream <<
+        "%{plop???%}";
       break;
     case msrArticulation::kScoop:
-      s << "%{scoop???%}";
+      fLilypondCodeIOstream <<
+        "%{scoop???%}";
       break;
   } // switch
-  
-  return s.str ();
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
+void lpsr2LilypondTranslator::writeChordArticulationAsLilyponString (
   S_msrArticulation articulation)
-{
-  stringstream s;
-  
+{  
   switch (articulation->getArticulationPlacementKind ()) {
     case k_NoPlacement:
       fLilypondCodeIOstream << "-";
@@ -1236,10 +1236,10 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
 
   switch (articulation->getArticulationKind ()) {
     case msrArticulation::kAccent:
-      s << ">";
+      fLilypondCodeIOstream << ">";
       break;
     case msrArticulation::kBreathMark:
-      s << "\\breathe";
+      fLilypondCodeIOstream << "\\breathe";
       break;
     case msrArticulation::kCaesura:
     /* JMI
@@ -1248,7 +1248,7 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
             R"(\once\override BreathingSign.text = \markup {\musicglyph #"scripts.caesura.straight"} \breathe)" <<
             endl;
      */
-      s <<
+      fLilypondCodeIOstream <<
         endl <<
         "\\override BreathingSign.text = \\markup {"
         "\\musicglyph #\"scripts.caesura.curved\"}" <<
@@ -1257,28 +1257,28 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
         endl;
       break;
     case msrArticulation::kSpiccato:
-      s << "%{spiccato???%}";
+      fLilypondCodeIOstream << "%{spiccato???%}";
       break;
     case msrArticulation::kStaccato:
-      s << "\\staccato"; // JMI "-.";
+      fLilypondCodeIOstream << "\\staccato"; // JMI "-.";
       break;
     case msrArticulation::kStaccatissimo:
-      s << "!";
+      fLilypondCodeIOstream << "!";
       break;
     case msrArticulation::kStress:
-      s << "%{stress???%}";
+      fLilypondCodeIOstream << "%{stress???%}";
       break;
     case msrArticulation::kUnstress:
-      s << "%{unstress%}";
+      fLilypondCodeIOstream << "%{unstress%}";
       break;
     case msrArticulation::kDetachedLegato:
-      s << "_"; // portato
+      fLilypondCodeIOstream << "_"; // portato
       break;
     case msrArticulation::kStrongAccent:
-      s << "^"; // marcato
+      fLilypondCodeIOstream << "^"; // marcato
       break;
     case msrArticulation::kTenuto:
-      s << "-";
+      fLilypondCodeIOstream << "-";
       break;
       
     case msrArticulation::kFermata:
@@ -1286,26 +1286,24 @@ string lpsr2LilypondTranslator::chordArticulationAsLilyponString (
       break;
       
     case msrArticulation::kArpeggiato:
-      s << "\\arpeggio";
+      fLilypondCodeIOstream << "\\arpeggio";
       break;
     case msrArticulation::kNonArpeggiato:
-      s << "\\arpeggio";
+      fLilypondCodeIOstream << "\\arpeggio";
       break;
     case msrArticulation::kDoit:
-      s << "\\bendAfter #+4";
+      fLilypondCodeIOstream << "\\bendAfter #+4";
       break;
     case msrArticulation::kFalloff:
-      s << "\\bendAfter #-4";
+      fLilypondCodeIOstream << "\\bendAfter #-4";
       break;
     case msrArticulation::kPlop:
-      s << "%{plop%}";
+      fLilypondCodeIOstream << "%{plop%}";
       break;
     case msrArticulation::kScoop:
-      s << "%{scoop%}";
+      fLilypondCodeIOstream << "%{scoop%}";
       break;
   } // switch
-  
-  return s.str ();
 }
 
 //________________________________________________________________________
@@ -2351,6 +2349,9 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrVarValsListAssoc& elt)
   writeLpsrVarValsListAssocValuesAsLilyPondString (
     elt,
     fLilypondCodeIOstream);
+
+  fLilypondCodeIOstream <<
+    endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrVarValsListAssoc& elt)
@@ -4760,6 +4761,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
   string
     measureNumber =
       elt->getMeasureNumber ();
+  string
+    nextMeasureNumber =
+      elt->getNextMeasureNumber ();
     
   // get measure kind
   msrMeasure::msrMeasureKind
@@ -4772,7 +4776,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       measureNumber <<
       ", measureKind:" <<
       msrMeasure::measureKindAsString (measureKind) <<
-      ", line " << elt->getInputLineNumber () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -4783,7 +4787,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       
     case msrMeasure::kFullMeasureKind:
       fLilypondCodeIOstream <<
-        "| % " << measureNumber << // WRONG JMI
+        "|";
+
+      if (nextMeasureNumber.size ()) {
+        fLilypondCodeIOstream <<
+          " % " <<
+          nextMeasureNumber;
+      }
+      
+      fLilypondCodeIOstream <<
         endl;
       break;
       
@@ -6047,10 +6059,10 @@ Articulations can be attached to rests as well as notes but they cannot be attac
       
   switch (elt->getFermataTypeKind ()) {
     case msrFermata::k_NoFermataType:
-      // no markup needed
+      // no placement needed
       break;
     case msrFermata::kUprightFermataType:
-      // no markup needed
+      // no placement needed
       break;
     case msrFermata::kInvertedFermataType:
       fLilypondCodeIOstream << "_";
@@ -6709,8 +6721,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           break;
           
         default:
+          writeNoteArticulationAsLilyponString ((*i));
           fLilypondCodeIOstream <<
-            noteArticulationAsLilyponString ((*i)) <<    
             " ";
       } // switch
     } // for
@@ -7474,8 +7486,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i=chordArticulations.begin ();
       i!=chordArticulations.end ();
       i++) {
+      writeChordArticulationAsLilyponString ((*i));
+             
       fLilypondCodeIOstream <<
-        chordArticulationAsLilyponString ((*i)) <<          
         " ";
     } // for
   }
@@ -8562,8 +8575,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
 
   fLilypondCodeIOstream <<
     endl <<
-    endl <<
-    "\\mark" "\\markup " "{" "\\box {"  "\""<<
+    "\\mark\\markup " "{" "\\box {"  "\""<<
     elt->getRehearsalText () <<
     "\"" "}}" <<
     endl;

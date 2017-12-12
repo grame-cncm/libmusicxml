@@ -10,7 +10,7 @@
   research@grame.fr
 */
 
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include "version.h"
 #include "utilities.h"
