@@ -852,106 +852,9 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
   switch (elt->getStaffKind ()) {
     case msrStaff::kMasterStaff:
     case msrStaff::kRegularStaff:
-      {
-        // create a staff clone
-        fCurrentStaffClone =
-          elt->createStaffNewbornClone (
-            fCurrentPartClone);
-          
-        // add it to the part clone
-        fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (
-            fCurrentStaffClone);
-      
-        // create a staff block
-        fCurrentStaffBlock =
-          lpsrStaffBlock::create (
-            fCurrentStaffClone);
-      
-        string
-          partName =
-            fCurrentPartClone->getPartName (),
-          partAbbreviation =
-            fCurrentPartClone->getPartAbbreviation ();
-      
-        string staffBlockInstrumentName;
-        string staffBlockShortInstrumentName;
-      
-        // don't set instrument name nor short instrument name // JMI
-        // if the staff belongs to a piano part where they're already set
-        if (! partName.size ())
-          staffBlockInstrumentName = partName;
-        if (! partAbbreviation.size ())
-          staffBlockShortInstrumentName = partAbbreviation;
-      
-        if (staffBlockInstrumentName.size ())
-          fCurrentStaffBlock->
-            setStaffBlockInstrumentName (staffBlockInstrumentName);
-            
-        if (staffBlockShortInstrumentName.size ())
-          fCurrentStaffBlock->
-            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
-              
-        // append the staff block to the current part block
-        fCurrentPartBlock->
-          appendElementToPartBlock (fCurrentStaffBlock);
-      
-        fOnGoingStaff = true;
-      }
-      break;
-      
     case msrStaff::kTablatureStaff:
-      // JMI
-      {
-        // create a staff clone
-        fCurrentStaffClone =
-          elt->createStaffNewbornClone (
-            fCurrentPartClone);
-          
-        // add it to the part clone
-        fCurrentPartClone->
-          addStaffToPartCloneByItsNumber (
-            fCurrentStaffClone);
-      
-        // create a staff block
-        fCurrentStaffBlock =
-          lpsrStaffBlock::create (
-            fCurrentStaffClone);
-      
-        string
-          partName =
-            fCurrentPartClone->getPartName (),
-          partAbbreviation =
-            fCurrentPartClone->getPartAbbreviation ();
-      
-        string staffBlockInstrumentName;
-        string staffBlockShortInstrumentName;
-      
-        // don't set instrument name nor short instrument name // JMI
-        // if the staff belongs to a piano part where they're already set
-        if (! partName.size ())
-          staffBlockInstrumentName = partName;
-        if (! partAbbreviation.size ())
-          staffBlockShortInstrumentName = partAbbreviation;
-      
-        if (staffBlockInstrumentName.size ())
-          fCurrentStaffBlock->
-            setStaffBlockInstrumentName (staffBlockInstrumentName);
-            
-        if (staffBlockShortInstrumentName.size ())
-          fCurrentStaffBlock->
-            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
-              
-        // append the staff block to the current part block
-        fCurrentPartBlock->
-          appendElementToPartBlock (fCurrentStaffBlock);
-      
-        fOnGoingStaff = true;
-      }
-      break;
-      
-    case msrStaff::kPercussionStaff:
-      // JMI
+    case msrStaff::kDrumStaff:
+    case msrStaff::kRythmicStaff:
       {
         // create a staff clone
         fCurrentStaffClone =
@@ -1015,41 +918,6 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         // register it as the part harmony staff
         fCurrentPartClone->
           setPartHarmonyStaff (fCurrentStaffClone);
-
-      /* JMI
-        // create a staff block
-        fCurrentStaffBlock =
-          lpsrStaffBlock::create (
-            fCurrentStaffClone);
-      
-        string
-          partName =
-            fCurrentPartClone->getPartName (),
-          partAbbreviation =
-            fCurrentPartClone->getPartAbbreviation ();
-      
-        string staffBlockInstrumentName;
-        string staffBlockShortInstrumentName;
-      
-        // don't set instrument name nor short instrument name
-        // if the staff belongs to a piano part where they're already set
-        if (! partName.size ())
-          staffBlockInstrumentName = partName;
-        if (! partAbbreviation.size ())
-          staffBlockShortInstrumentName = partAbbreviation;
-      
-        if (staffBlockInstrumentName.size ())
-          fCurrentStaffBlock->
-            setStaffBlockInstrumentName (staffBlockInstrumentName);
-            
-        if (staffBlockShortInstrumentName.size ())
-          fCurrentStaffBlock->
-            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
-              
-        // append the staff block to the current part block
-        fCurrentPartBlock->
-          appendElementToPartBlock (fCurrentStaffBlock);
-      */
       
         fOnGoingStaff = true;
       }
@@ -1071,41 +939,6 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         fCurrentPartClone->
           setPartFiguredBassStaff (fCurrentStaffClone);
 
-      /* JMI
-        // create a staff block
-        fCurrentStaffBlock =
-          lpsrStaffBlock::create (
-            fCurrentStaffClone);
-      
-        string
-          partName =
-            fCurrentPartClone->getPartName (),
-          partAbbreviation =
-            fCurrentPartClone->getPartAbbreviation ();
-      
-        string staffBlockInstrumentName;
-        string staffBlockShortInstrumentName;
-      
-        // don't set instrument name nor short instrument name
-        // if the staff belongs to a piano part where they're already set
-        if (! partName.size ())
-          staffBlockInstrumentName = partName;
-        if (! partAbbreviation.size ())
-          staffBlockShortInstrumentName = partAbbreviation;
-      
-        if (staffBlockInstrumentName.size ())
-          fCurrentStaffBlock->
-            setStaffBlockInstrumentName (staffBlockInstrumentName);
-            
-        if (staffBlockShortInstrumentName.size ())
-          fCurrentStaffBlock->
-            setStaffBlockShortInstrumentName (staffBlockShortInstrumentName);
-              
-        // append the staff block to the current part block
-        fCurrentPartBlock->
-          appendElementToPartBlock (fCurrentStaffBlock);
-      */
-      
         fOnGoingStaff = true;
       }
       break;
@@ -1126,16 +959,14 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
   switch (elt->getStaffKind ()) {
     case msrStaff::kMasterStaff:
     case msrStaff::kRegularStaff:
+    case msrStaff::kDrumStaff:
+    case msrStaff::kRythmicStaff:
       {
         fOnGoingStaff = false;
       }
       break;
       
     case msrStaff::kTablatureStaff:
-      // JMI
-      break;
-      
-    case msrStaff::kPercussionStaff:
       // JMI
       break;
       

@@ -9517,9 +9517,10 @@ class msrStaff : public msrElement
       kMasterStaff,
       kRegularStaff,
       kTablatureStaff,
-      kPercussionStaff,
       kHarmonyStaff,
-      kFiguredBassStaff};
+      kFiguredBassStaff,
+      kDrumStaff,
+      kRythmicStaff};
 
     static string staffKindAsString (
       msrStaffKind staffKind);

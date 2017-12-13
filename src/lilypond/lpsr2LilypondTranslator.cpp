@@ -185,12 +185,14 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
       break;
     default:
       {
+        /* JMI
         stringstream s;
 
         s <<
-          "%{" << absoluteOctave << "???%}";
+          "%{absolute octave " << absoluteOctave << "???%}";
 
         result = s.str ();
+        */
       }
   } // switch
 
@@ -790,9 +792,10 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   stringstream s;
 
   // is the note unpitched?
-  if (note->getNoteIsUnpitched ())
+  if (note->getNoteIsUnpitched ()) {
     s <<
       "\\once \\override NoteHead #'style = #'cross ";
+  }
 
   // should an editorial accidental be generated?
   switch (note->getNoteEditorialAccidentalKind ()) {
@@ -3284,10 +3287,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       staffContextCommand = "\\new TabStaff";
       break;
       
-    case msrStaff::kPercussionStaff:
-      staffContextCommand = "\\new DrumStaff";
-      break;
-      
     case msrStaff::kHarmonyStaff:
       staffContextCommand = "\\new kHarmonyStaff???";
       break;
@@ -3295,7 +3294,15 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     case msrStaff::kFiguredBassStaff:
       staffContextCommand = "\\new FiguredBassStaff???";
       break;
-  } // switch
+
+    case msrStaff::kDrumStaff:
+      staffContextCommand = "\\new DrumStaff";
+      break;
+      
+    case msrStaff::kRythmicStaff:
+      staffContextCommand = "\\new RhythmicStaff";
+      break;
+    } // switch
 
   stringstream s;
 
@@ -3540,11 +3547,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       voiceContextName = "TabVoice";
       break;
       
-    case msrStaff::kPercussionStaff:
-      staffContextName = "\\context DrumStaff";
-      voiceContextName = "DrumVoice";
-      break;
-      
     case msrStaff::kHarmonyStaff:
       staffContextName = "\\context ChordNames2";
       voiceContextName = "???"; // JMI
@@ -3554,6 +3556,19 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       staffContextName = "\\context FiguredBass";
       voiceContextName = "???"; // JMI
       break;
+
+    case msrStaff::kDrumStaff:
+      staffContextName = "\\context DrumStaff";
+      voiceContextName = "DrumVoiceVoice";
+        // the "DrumVoice" alias exists, use it
+      break;
+      
+    case msrStaff::kRythmicStaff:
+      staffContextName = "\\context RhythmicStaff";
+      voiceContextName = "Voice";
+        // no "RhythmicVoice" alias exists
+      break;
+      
   } // switch
 
  // if (voice->getStaffRelativeVoiceNumber () > 0) { JMI    
@@ -3569,33 +3584,38 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
         "\\set " << staffContextName << ".autoBeaming = ##f" <<
         endl;
   
-    if (staffKind == msrStaff::kRegularStaff) {
-      if (staff->getStaffNumberOfMusicVoices () > 1) {
-        switch (voice->getVoiceStaffRelativeNumber ()) {
-          case 1:
-            fLilypondCodeIOstream << "\\voiceOne ";
-            break;
-          case 2:
-            fLilypondCodeIOstream << "\\voiceTwo ";
-            break;
-          case 3:
-            fLilypondCodeIOstream << "\\voiceThree ";
-            break;
-          case 4:
-            fLilypondCodeIOstream << "\\voiceFour ";
-            break;
-          default:
-            {}
-        } // switch
+    switch (staffKind) {
+      case msrStaff::kRegularStaff:
+        if (staff->getStaffNumberOfMusicVoices () > 1) {
+          switch (voice->getVoiceStaffRelativeNumber ()) {
+            case 1:
+              fLilypondCodeIOstream << "\\voiceOne ";
+              break;
+            case 2:
+              fLilypondCodeIOstream << "\\voiceTwo ";
+              break;
+            case 3:
+              fLilypondCodeIOstream << "\\voiceThree ";
+              break;
+            case 4:
+              fLilypondCodeIOstream << "\\voiceFour ";
+              break;
+            default:
+              {}
+          } // switch
+  
+          fLilypondCodeIOstream <<
+            "% " <<
+            staff->getStaffNumberOfMusicVoices () <<
+            " music voices" <<
+            endl <<
+            endl;
+        }
+      break;
 
-        fLilypondCodeIOstream <<
-          "% " <<
-          staff->getStaffNumberOfMusicVoices () <<
-          " music voices" <<
-          endl <<
-          endl;
-      }
-    }
+      default:
+        ;
+    } // switch
   
     fLilypondCodeIOstream <<
       "\\" << voice->getVoiceName () << endl;
