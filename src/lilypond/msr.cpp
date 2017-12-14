@@ -17098,10 +17098,10 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           fetchMeasureVoiceUplink ()
             ==
           partHarmoniesSupplierVoice) {
-          // yes, create a rest note of the same duration as the note
+          // yes, create a skip note of the same duration as the note
           S_msrNote
-            restNote =
-              msrNote::createRestNote (
+            skipNote =
+              msrNote::createSkipNote (
                 inputLineNumber,
                 noteSoundingWholeNotes,
                 noteSoundingWholeNotes,
@@ -17112,10 +17112,10 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
                 partHarmonyVoice->
                   getVoicePartRelativeID ());
     
-          // append the rest to the part harmony voice
+          // append the skip to the part harmony voice
           if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
             gLogIOstream <<
-              "Appending rest '" << restNote->noteAsShortString () <<
+              "Appending skip '" << skipNote->noteAsShortString () <<
               "' to measure '" << fMeasureNumber <<
               "' in harmony voice \"" <<
               partHarmonyVoice->getVoiceName () <<
@@ -17129,7 +17129,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
             "fMeasureElementsList is empty"); // JMI
             
           partHarmonyVoice->
-            appendNoteToVoice (restNote);
+            appendNoteToVoice (skipNote);
         }
       }
     }

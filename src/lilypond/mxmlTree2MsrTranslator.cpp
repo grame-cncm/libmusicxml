@@ -16649,6 +16649,47 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmony& elt )
   fCurrentHarmonyBassAlterationKind    = kNatural;
   fCurrentHarmonyDegreeValue           = -1;
   fCurrentHarmonyDegreeAlterationKind  = kNatural;
+
+  /* JMI
+<!--
+  The harmony elements are based on Humdrum's **harm
+  encoding, extended to support chord symbols in popular
+  music as well as functional harmony analysis in classical
+  music.
+  
+  If there are alternate harmonies possible, this can be
+  specified using multiple harmony elements differentiated
+  by type. Explicit harmonies have all note present in the
+  music; implied have some notes missing but implied;
+  alternate represents alternate analyses. 
+  
+  The harmony object may be used for analysis or for
+  chord symbols. The print-object attribute controls
+  whether or not anything is printed due to the harmony
+  element. The print-frame attribute controls printing
+  of a frame or fretboard diagram. The print-style entity
+  sets the default for the harmony, but individual elements
+  can override this with their own print-style values.
+  
+  A harmony element can contain many stacked chords (e.g.
+  V of II). A sequence of harmony-chord entities is used
+  for this type of secondary function, where V of II would
+  be represented by a harmony-chord with a V function
+  followed by a harmony-chord with a II function.
+-->
+<!ENTITY % harmony-chord "((root | function), kind,
+  inversion?, bass?, degree*)">
+
+<!ELEMENT harmony ((%harmony-chord;)+, frame?, 
+  offset?, %editorial;, staff?)>
+<!ATTLIST harmony
+    type (explicit | implied | alternate) #IMPLIED
+    %print-object;
+    print-frame  %yes-no; #IMPLIED
+    %print-style;
+    %placement;
+>
+   */
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_root_step& elt )
