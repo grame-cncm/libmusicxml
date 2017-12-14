@@ -2275,13 +2275,7 @@ class lpsrScore : public lpsrElement
     S_lpsrScoreBlock      getScoreBlock () const
                               { return fScoreBlock; }
 
-    void                  setGlobalStaffSize (float size)
-                              {
-                                stringstream s;
-                                s << size;
-                                fGlobalStaffSizeAssoc->
-                                  setVariableValue (s.str());
-                              }
+    void                  setGlobalStaffSize (float size);
 
     // files includes
     void                  setJianpuFileIncludeIsNeeded ();

@@ -3590,7 +3590,7 @@ void lpsrPartGroupBlock::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      os << endl;
+      // no endl here ??? JMI
     } // for
   }
 
@@ -4134,6 +4134,16 @@ R"(
 
 lpsrScore::~lpsrScore()
 {}
+
+void lpsrScore::setGlobalStaffSize (float size)
+{
+  stringstream s;
+  
+  s << size;
+  
+  fGlobalStaffSizeAssoc->
+    setVariableValue (s.str());
+}
 
 void lpsrScore::setJianpuFileIncludeIsNeeded ()
 {

@@ -745,8 +745,8 @@ class lpsr2LilypondTranslator :
 
     // part blocks
     // ------------------------------------------------------
-    int                   fNumberOfPartBlocks;
-    int                   fPartBlocksCounter;
+    int                   fNumberOfPartGroupBlockElements;
+    int                   fPartGroupBlockElementsCounter;
 
     // staff blocks
     // ------------------------------------------------------

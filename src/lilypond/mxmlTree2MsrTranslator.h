@@ -1078,6 +1078,12 @@ class mxmlTree2MsrTranslator :
     bool                      fCurrentMetronomeParentheses;
     S_msrWords                fCurrentMetronomeWords;
     S_msrTempo                fCurrentMetronomeTempo;
+    // tempos remain pending until the next note
+    // (they precede the note in MusicXML and
+    // may occur when no current voice exists)
+    list<S_msrTempo>          fPendingTempos;
+    void                      attachPendingTemposToTheVoiceOfNote (
+                                S_msrNote note);
 
     // time handling
     // ------------------------------------------------------

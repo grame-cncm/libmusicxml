@@ -3412,21 +3412,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
   }
   r.rationalise ();
 
-  fCurrentMetronomeTempo =
-    msrTempo::create (
-      inputLineNumber,
-      r.getDenominator(), fCurrentMetrenomePerMinute);
-
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
+  S_msrTempo
+    tempo =
+      msrTempo::create (
         inputLineNumber,
-        fCurrentDirectionStaffNumber,
-        fCurrentVoiceNumber);
+        r.getDenominator(),
+        fCurrentMetrenomePerMinute);
 
-  currentVoice->
-    appendTempoToVoice (fCurrentMetronomeTempo);
+  fPendingTempos.push_back (tempo);
   
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
 }
@@ -4648,10 +4641,13 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
       elt->getAttributeValue ("name");
 
     if (stanzaName.size () == 0) {
-      msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        "lyric name is empty");
+      if (gGeneralOptions->fTraceLyrics) {
+        // lyrics names are not so frequent after all...
+        msrMusicXMLWarning (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          "lyric name is empty");
+      }
     }
     
     if (gGeneralOptions->fTraceLyrics) {
@@ -4850,15 +4846,18 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     elt->getInputLineNumber ();
 
   if (fCurrentSyllableKind == msrSyllable::k_NoSyllable) {
-    stringstream s;
-
-    s <<
-      "<lyric /> has no <syllabic /> component, using a 'skip' by defualt";
-
-    msrMusicXMLWarning (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      s.str ());
+    if (gGeneralOptions->fTraceLyrics) {
+      // syllabic is not mandatory...
+      stringstream s;
+  
+      s <<
+        "<lyric /> has no <syllabic/> component, using a 'skip' by default";
+  
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        s.str ());
+    }
     
     fCurrentSyllableKind = msrSyllable::kSyllableSkip;
   }
@@ -13719,13 +13718,46 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
 */
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
+  S_msrNote note)
+{
+ // attach the pending dynamics if any to the note
+  if (fPendingTempos.size ()) {
+    if (gGeneralOptions->fTraceGeneral) { // tempos ??? JMI
+      fLogOutputStream <<
+        "--> attaching pending tempos to note " <<
+        note->noteAsString () <<
+        endl;
+    }
+
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fetchVoiceFromCurrentPart (
+          note->getInputLineNumber (),
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber);
+
+    while (fPendingTempos.size ()) {
+      S_msrTempo
+        tempo =
+          fPendingTempos.front ();
+          
+      voice->
+        appendTempoToVoice (tempo);
+        
+      fPendingTempos.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
   S_msrNote note)
 {
  // attach the pending dynamics if any to the note
   if (fPendingDynamics.size ()) {
     bool delayAttachment = false;
-    
     
     if (gGeneralOptions->fTraceDynamics) {
       fLogOutputStream <<
@@ -14071,6 +14103,9 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
 void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   S_msrNote note)
 {
+  // attach the pending tempos, if any, to the note's voice
+  attachPendingTemposToTheVoiceOfNote (note);
+
   // attach the pending dynamics, if any, to the note
   attachPendingDynamicsToNote (note);
 

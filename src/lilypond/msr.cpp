@@ -10175,11 +10175,87 @@ S_msrPageGeometry msrPageGeometry::createGeometryNewbornClone ()
 }
 
 float msrPageGeometry::globalStaffSize () const
-{
+{  
+  const float lilyPondDefaultStaffSize = 20.0;
+  const float defaultTenthsToMillimetersRatio = 0.175;
+
+  /*
+        mm = scaling.get_named_child('millimeters')
+        mm = float(mm.get_text())
+        tn = scaling.get_maybe_exist_named_child('tenths')
+        tn = float(tn.get_text())
+        # The variable 'tenths' is actually a ratio, NOT the value of <tenths>.
+        # TODO: rename and replace.
+        tenths = mm / tn
+        ratio = tenths / default_tenths_to_millimeters_ratio
+        staff_size = default_staff_size * ratio
+
+        if 1 < staff_size < 100:
+            paper.global_staff_size = staff_size
+        else:
+            msg = "paper.global_staff_size {} is too large, using defaults=20".format(
+                staff_size)
+            warnings.warn(msg)
+            paper.global_staff_size = 20
+   */
+
+  float millimetersOverTenths = fMillimeters / fTenths;
+  float ratio = millimetersOverTenths / defaultTenthsToMillimetersRatio;
+  float staffSize = lilyPondDefaultStaffSize * ratio;
+
+  if (gGeneralOptions->fTraceGeometry) {
+    gLogIOstream <<
+      "globalStaffSize():" <<
+      endl;
+
+    gIndenter++;
+
+    gLogIOstream <<
+      "lilyPondDefaultStaffSize" << " : " <<
+      lilyPondDefaultStaffSize <<
+      endl <<
+      "defaultTenthsToMillimetersRatio" << " : " <<
+      defaultTenthsToMillimetersRatio <<
+      endl <<
+      "millimetersOverTenths" << " : " <<
+      millimetersOverTenths <<
+      endl <<
+      "ratio" << " : " <<
+      ratio <<
+      endl <<
+      "staffSize" << " : " <<
+      staffSize <<
+      endl;
+    
+    gIndenter--;
+  }
+  
+  if (staffSize < 1.0 || staffSize > 100.0) {
+    if (gGeneralOptions->fTraceGeometry) {
+      stringstream s;
+
+      s <<
+        "staffSize " << staffSize <<
+        " is not between 1.0 and 100.0, replaced by 20.0:" <<
+        endl;
+
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        s.str ());
+    }
+
+    staffSize = lilyPondDefaultStaffSize;
+  }
+    
+  return staffSize;
+  
+  /* JMI ???
   if (fMillimeters > 0)
     return fMillimeters * 72.27 / 25.4;
   else
     return 20.0; // LilyPond default
+    */
 }
 
 void msrPageGeometry::acceptIn (basevisitor* v)

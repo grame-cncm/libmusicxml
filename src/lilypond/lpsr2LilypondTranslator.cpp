@@ -120,8 +120,8 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fPartGroupBlocksCounter  = 0;
 
   // part blocks
-  fNumberOfPartBlocks = -1;
-  fPartBlocksCounter  = 0;
+  fNumberOfPartGroupBlockElements = -1;
+  fPartGroupBlockElementsCounter  = 0;
 
   // staff blocks
   fNumberOfStaffBlocks = -1;
@@ -2928,7 +2928,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
   fPartGroupBlocksCounter++;
 
-  fNumberOfPartBlocks =
+  fNumberOfPartGroupBlockElements =
     elt -> getPartGroupBlockElements ().size ();
     
   // fetch part group
@@ -3146,7 +3146,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
       endl;
   }
 
-  fPartBlocksCounter++;
+  fPartGroupBlockElementsCounter++;
 
   fNumberOfStaffBlocks =
     elt->getPartBlockElements ().size ();
@@ -3247,7 +3247,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
     fLilypondCodeIOstream <<
       endl;
 
-    if (fPartBlocksCounter != fNumberOfPartBlocks) {
+    if (fPartGroupBlockElementsCounter != fNumberOfPartGroupBlockElements) {
       fLilypondCodeIOstream <<
         endl;
     }
@@ -4628,11 +4628,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
           "measure '" << measureNumber <<
           "' is of unknown kind";
 
+if (false) // JMI
         msrInternalError (
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
+else
+     msrInternalWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        s.str ());
       }
       break;
       

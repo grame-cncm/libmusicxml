@@ -99,7 +99,6 @@ void msr2LpsrTranslator::buildLpsrScoreFromMsrScore ()
 void msr2LpsrTranslator::setPaperIndentsIfNeeded (
   S_msrPageGeometry pageGeometry)
 {
-  // heuristics taken from musicxml2ly, gives an acceptable value
   S_lpsrPaper
     paper =
       fLpsrScore->getPaper ();
@@ -114,6 +113,7 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       fCurrentMsrScoreClone->
         getInstrumentAbbreviationsMaxLength ();
 
+  // heuristics taken from musicxml2ly, gives an acceptable value
   float charactersPerCemtimeter =
     instrumentNamesMaxLength * 13
       /
@@ -376,7 +376,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
     globalStaffSize =
       elt->globalStaffSize ();
 
-  // populate layout
+  // populate layout JMI ???
   /*
   scoreLayout->
     setMillimeters (elt->getMillimeters ());
@@ -384,7 +384,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
     setTenths (elt->getTenths ());
     */
 
-  // populate score global staff size
+  // populate LPSR score global staff size
   fLpsrScore->
     setGlobalStaffSize (globalStaffSize);
 
