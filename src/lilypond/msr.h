@@ -7686,10 +7686,10 @@ class msrBarline : public msrElement
                               { return fBarlineHasCodaKind; }
 
     msrBarlineLocationKind
-                          getLocation () const
+                          getLocation () const // JMI
                               { return fLocationKind; }
                     
-    msrBarlineStyleKind   getStyle () const
+    msrBarlineStyleKind   getBarlineStyleKind () const
                               { return fStyleKind; }
                     
     msrBarlineEndingTypeKind

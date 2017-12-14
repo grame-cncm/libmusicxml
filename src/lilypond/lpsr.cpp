@@ -3932,6 +3932,7 @@ lpsrScore::lpsrScore (
 
   // initialize Scheme functions informations
   fTongueSchemeFunctionIsNeeded              = false;
+  fCustomShortBarLineSchemeFunctionIsNeeded  = false;
   fEditorialAccidentalSchemeFunctionIsNeeded = false;
 
   if (gLilypondOptions->fLilypondCompileDate) {
@@ -4163,6 +4164,15 @@ void lpsrScore::setScmAndAccregSchemeModulesAreNeeded ()
   }
 }
 
+void lpsrScore::setCustomShortBarLineSchemeFunctionIsNeeded ()
+{
+  if (! fCustomShortBarLineSchemeFunctionIsNeeded) {
+    addCustomShortBarLineSchemeFunctionToScore ();
+    
+    fCustomShortBarLineSchemeFunctionIsNeeded = true;    
+  }
+}
+
 void lpsrScore::setTongueSchemeFunctionIsNeeded ()
 {
   if (! fTongueSchemeFunctionIsNeeded) {
@@ -4242,6 +4252,57 @@ R"(
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
     dateAndTimeSchemeFunctions;
+}
+
+void lpsrScore::addCustomShortBarLineSchemeFunctionToScore ()
+{
+  string
+    schemeModulesName =
+      "curstom short barline Scheme function",
+      
+    schemeModulesDescription =
+R"(
+% The function needed to produce curstom short barlines.
+)",
+
+    schemeModulesCode =
+R"(
+#(define ((make-custom-short-bar-line x y) grob extent)
+   "Draw a short bar line."
+   (let* ((short-staff (* 1/2 (ly:staff-symbol-staff-space grob)))
+          (staff-line-thickness (ly:staff-symbol-line-thickness grob))
+          (height (interval-end extent)))
+     (bar-line::draw-filled-box
+      (cons 0 (+ x staff-line-thickness))
+      (cons (- height (* 7 short-staff) x) (- height short-staff x))
+      staff-line-thickness
+      extent
+      grob)))
+
+#(add-bar-glyph-print-procedure "/" (make-custom-short-bar-line 0.1 0.1))
+
+#(define-bar-line "/" "/" #f #f)
+)";
+
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    gLogIOstream <<
+      "Including Jianpu definition file '" << schemeModulesName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    scmAndAccregSchemeModules =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeModulesName,
+        schemeModulesDescription,
+        schemeModulesCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeModulesName] =
+    scmAndAccregSchemeModules;
 }
 
 void lpsrScore::addJianpuFileIncludeToScore ()

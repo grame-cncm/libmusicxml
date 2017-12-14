@@ -2290,6 +2290,11 @@ class lpsrScore : public lpsrElement
                               { return fScmAndAccregSchemeModulesAreNeeded; }
 
     // Scheme functions
+    void                  setCustomShortBarLineSchemeFunctionIsNeeded ();
+                        
+    bool                  getCustomShortBarLineSchemeFunctionIsNeeded () const
+                              { return fCustomShortBarLineSchemeFunctionIsNeeded; }
+    
     void                  setTongueSchemeFunctionIsNeeded ();
                         
     bool                  getTongueSchemeFunctionIsNeeded () const
@@ -2359,6 +2364,8 @@ class lpsrScore : public lpsrElement
     // Scheme functions
     
     void                  addDateAndTimeSchemeFunctionsToScore ();
+    
+    void                  addCustomShortBarLineSchemeFunctionToScore ();
 
     void                  addTongueSchemeFunctionToScore ();
     
@@ -2435,6 +2442,7 @@ class lpsrScore : public lpsrElement
 
     // Scheme functions
     bool                  fTongueSchemeFunctionIsNeeded;
+    bool                  fCustomShortBarLineSchemeFunctionIsNeeded;
     bool                  fEditorialAccidentalSchemeFunctionIsNeeded;
     bool                  fDynamicsSchemeFunctionIsNeeded;
     bool                  fTupletsCurvedBracketsSchemeFunctionIsNeeded;

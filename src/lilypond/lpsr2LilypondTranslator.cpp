@@ -8092,7 +8092,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         endl;
         */
       
-      switch (elt->getStyle ()) {
+      switch (elt->getBarlineStyleKind ()) {
         case msrBarline::k_NoBarlineStyle:
           break;
         case msrBarline::kBarlineStyleRegular:
@@ -8123,14 +8123,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           fLilypondCodeIOstream << "\\bar \"'\" ";
           break;
         case msrBarline::kBarlineStyleShort:
-          fLilypondCodeIOstream << "\\bar \"'\" "; // JMI
-          /* JMI ??? from gregorian.ly
-          divisioMaior = {
-            \once \override BreathingSign.stencil = #ly:breathing-sign::divisio-maior
-            \once \override BreathingSign.Y-offset = #0
-            \breathe
-          }
-          */
+          // \bar "/" is the custom short barline
+          fLilypondCodeIOstream << "\\bar \"/\" ";
           break;
         case msrBarline::kBarlineStyleNone:
           fLilypondCodeIOstream << "\\bar \"\" ";

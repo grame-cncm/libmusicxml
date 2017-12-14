@@ -3897,6 +3897,35 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       endl;
   }
 
+  switch (elt->getBarlineStyleKind ()) {
+    case msrBarline::k_NoBarlineStyle:
+      break;
+    case msrBarline::kBarlineStyleRegular:
+      break;
+    case msrBarline::kBarlineStyleDotted:
+      break;
+    case msrBarline::kBarlineStyleDashed:
+      break;
+    case msrBarline::kBarlineStyleHeavy:
+      break;
+    case msrBarline::kBarlineStyleLightLight:
+      break;
+    case msrBarline::kBarlineStyleLightHeavy:
+      break;
+    case msrBarline::kBarlineStyleHeavyLight:
+      break;
+    case msrBarline::kBarlineStyleHeavyHeavy:
+      break;
+    case msrBarline::kBarlineStyleTick:
+      break;
+    case msrBarline::kBarlineStyleShort:
+      fLpsrScore->
+        setCustomShortBarLineSchemeFunctionIsNeeded ();
+      break;
+    case msrBarline::kBarlineStyleNone:
+      break;
+  } // switch
+
   // append the barline to the current voice clone
   fCurrentVoiceClone->
     appendBarlineToVoice (elt);

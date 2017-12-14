@@ -16049,40 +16049,40 @@ string msrBarline::barlineStyleKindAsString (
   string result;
   
   switch (barlineStyleKind) {
-    case k_NoBarlineStyle:
+    case msrBarline::k_NoBarlineStyle:
       result = "noBarlineStyle";
       break;
-    case kBarlineStyleRegular:
+    case msrBarline::kBarlineStyleRegular:
       result = "regular";
       break;
-    case kBarlineStyleDotted:
+    case msrBarline::kBarlineStyleDotted:
       result = "dotted";
       break;
-    case kBarlineStyleDashed:
+    case msrBarline::kBarlineStyleDashed:
       result = "dashed";
       break;
-    case kBarlineStyleHeavy:
+    case msrBarline::kBarlineStyleHeavy:
       result = "heavy";
       break;
-    case kBarlineStyleLightLight:
+    case msrBarline::kBarlineStyleLightLight:
       result = "lightLight";
       break;
-    case kBarlineStyleLightHeavy:
+    case msrBarline::kBarlineStyleLightHeavy:
       result = "lightHeavy";
       break;
-    case kBarlineStyleHeavyLight:
+    case msrBarline::kBarlineStyleHeavyLight:
       result = "heavyLight";
       break;
-    case kBarlineStyleHeavyHeavy:
+    case msrBarline::kBarlineStyleHeavyHeavy:
       result = "heavyHeavy";
       break;
-    case kBarlineStyleTick:
+    case msrBarline::kBarlineStyleTick:
       result = "tick";
       break;
-    case kBarlineStyleShort:
+    case msrBarline::kBarlineStyleShort:
       result = "short";
       break;
-    case kBarlineStyleNone:
+    case msrBarline::kBarlineStyleNone:
       result = "none";
       break;
   } // switch
@@ -16096,16 +16096,16 @@ string msrBarline::barlineEndingTypeKindAsString (
   string result;
   
   switch (barlineEndingTypeKind) {
-    case k_NoBarlineEnding:
+    case msrBarline::k_NoBarlineEnding:
       result = "noBarlineEnding";
       break;
-    case kBarlineEndingTypeStart:
+    case msrBarline::kBarlineEndingTypeStart:
       result = "start";
       break;
-    case kBarlineEndingTypeStop:
+    case msrBarline::kBarlineEndingTypeStop:
       result = "stop";
       break;
-    case kBarlineEndingTypeDiscontinue:
+    case msrBarline::kBarlineEndingTypeDiscontinue:
       result = "discontinue";
       break;
   } // switch
@@ -16119,13 +16119,13 @@ string msrBarline::barlineRepeatDirectionKindAsString (
   string result;
   
   switch (barlineRepeatDirectionKind) {
-    case k_NoBarlineRepeatDirection:
+    case msrBarline::k_NoBarlineRepeatDirection:
       result ="noBarlineRepeatDirection";
       break;
-    case kBarlineRepeatDirectionForward:
+    case msrBarline::kBarlineRepeatDirectionForward:
       result ="forward";
       break;
-    case kBarlineRepeatDirectionBackward:
+    case msrBarline::kBarlineRepeatDirectionBackward:
       result ="backward";
       break;
   } // switch
@@ -16139,22 +16139,22 @@ string msrBarline::barlineRepeatWingedKindAsString (
   string result;
   
   switch (barlineRepeatWingedKind) {
-    case k_NoBarlineRepeatWinged:
+    case msrBarline::k_NoBarlineRepeatWinged:
       result = "noBarlineRepeatWinged";
       break;
-    case kBarlineRepeatWingedNone:
+    case msrBarline::kBarlineRepeatWingedNone:
       result = "none";
       break;
-    case kBarlineRepeatWingedStraight:
+    case msrBarline::kBarlineRepeatWingedStraight:
       result = "straight";
       break;
-    case kBarlineRepeatWingedCurved:
+    case msrBarline::kBarlineRepeatWingedCurved:
       result = "curved";
       break;
-    case kBarlineRepeatWingedDoubleStraight:
+    case msrBarline::kBarlineRepeatWingedDoubleStraight:
       result = "doubleStraight";
       break;
-    case kBarlineRepeatWingedDoubleCurved:
+    case msrBarline::kBarlineRepeatWingedDoubleCurved:
       result = "doubleCurved";
       break;
   } // switch
