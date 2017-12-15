@@ -7550,6 +7550,92 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       endl;
   }
 
+  // print the chors glissandos styles if any
+  const list<S_msrGlissando>&
+    chordGlissandos =
+      elt->getChordGlissandos ();
+      
+  if (chordGlissandos.size ()) {
+    list<S_msrGlissando>::const_iterator i;
+    for (
+      i=chordGlissandos.begin ();
+      i!=chordGlissandos.end ();
+      i++) {
+      S_msrGlissando glissando = (*i);
+        
+      switch (glissando->getGlissandoTypeKind ()) {
+        case msrGlissando::k_NoGlissandoType:
+          break;
+          
+        case msrGlissando::kGlissandoTypeStart:
+          // generate the glissando style
+          switch (glissando->getGlissandoLineTypeKind ()) {
+            case msrGlissando::kGlissandoLineTypeSolid:
+              break;
+            case msrGlissando::kGlissandoLineTypeDashed:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'dashed-line ";
+              break;
+            case msrGlissando::kGlissandoLineTypeDotted:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'dotted-line ";
+              break;
+            case msrGlissando::kGlissandoLineTypeWavy:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'zigzag ";
+              break;
+          } // switch
+          break;
+          
+        case msrGlissando::kGlissandoTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+
+  // print the chord slides styles if any, implemented as glissandos
+  const list<S_msrSlide>&
+    chordSlides =
+      elt->getChordSlides ();
+      
+  if (chordSlides.size ()) {
+    list<S_msrSlide>::const_iterator i;
+    for (
+      i=chordSlides.begin ();
+      i!=chordSlides.end ();
+      i++) {        
+      S_msrSlide slide = (*i);
+        
+      switch (slide->getSlideTypeKind ()) {
+        case msrSlide::k_NoSlideType:
+          break;
+          
+        case msrSlide::kSlideTypeStart:
+          // generate the glissando style
+          switch (slide->getSlideLineTypeKind ()) {
+            case msrSlide::kSlideLineTypeSolid:
+              break;
+            case msrSlide::kSlideLineTypeDashed:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'dashed-line ";
+              break;
+            case msrSlide::kSlideLineTypeDotted:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'dotted-line ";
+              break;
+            case msrSlide::kSlideLineTypeWavy:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'zigzag ";
+              break;
+          } // switch
+          break;
+          
+        case msrSlide::kSlideTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+
   // print the chord ligatures if any
   list<S_msrLigature>
     chordLigatures =
@@ -7970,6 +8056,63 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     } // for
   }
 
+  // print the chord glissandos if any
+  const list<S_msrGlissando>&
+    chordGlissandos =
+      elt->getChordGlissandos ();
+      
+  if (chordGlissandos.size ()) {
+    list<S_msrGlissando>::const_iterator i;
+    for (
+      i=chordGlissandos.begin ();
+      i!=chordGlissandos.end ();
+      i++) {
+      S_msrGlissando glissando = (*i);
+        
+      switch (glissando->getGlissandoTypeKind ()) {
+        case msrGlissando::k_NoGlissandoType:
+          break;
+          
+        case msrGlissando::kGlissandoTypeStart:
+          // generate the glissando itself
+          fLilypondCodeIOstream <<
+            "\\glissando ";
+          break;
+          
+        case msrGlissando::kGlissandoTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+
+  // print the chord slides if any, implemented as glissandos
+  const list<S_msrSlide>&
+    chordSlides =
+      elt->getChordSlides ();
+      
+  if (chordSlides.size ()) {
+    list<S_msrSlide>::const_iterator i;
+    for (
+      i=chordSlides.begin ();
+      i!=chordSlides.end ();
+      i++) {        
+      S_msrSlide slide = (*i);
+        
+      switch (slide->getSlideTypeKind ()) {
+        case msrSlide::k_NoSlideType:
+          break;
+          
+        case msrSlide::kSlideTypeStart:
+          // generate the glissando itself
+          fLilypondCodeIOstream <<
+            "\\glissando ";
+          break;
+          
+        case msrSlide::kSlideTypeStop:
+          break;
+      } // switch
+    } // for
+  }
 
 /*
   // print the tie if any
