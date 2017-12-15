@@ -7070,13 +7070,19 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       switch ((*i)->getSlurKind ()) {
         case msrSlur::k_NoSlur:
           break;
-        case msrSlur::kStartSlur:
+        case msrSlur::kRegularSlurStart:
           fLilypondCodeIOstream << "( ";
           break;
-        case msrSlur::kContinueSlur:
+        case msrSlur::kPhrasingSlurStart:
+          fLilypondCodeIOstream << "\\( ";
           break;
-        case msrSlur::kStopSlur:
+        case msrSlur::kSlurContinue:
+          break;
+        case msrSlur::kRegularSlurStop:
           fLilypondCodeIOstream << ") ";
+          break;
+        case msrSlur::kPhrasingSlurStop:
+          fLilypondCodeIOstream << "\\) ";
           break;
       } // switch
     } // for
@@ -7703,13 +7709,19 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       switch ((*i)->getSlurKind ()) {
         case msrSlur::k_NoSlur:
           break;
-        case msrSlur::kStartSlur:
+        case msrSlur::kRegularSlurStart:
           fLilypondCodeIOstream << "( ";
           break;
-        case msrSlur::kContinueSlur:
+        case msrSlur::kPhrasingSlurStart:
+          fLilypondCodeIOstream << "\\( ";
           break;
-        case msrSlur::kStopSlur:
+        case msrSlur::kSlurContinue:
+          break;
+        case msrSlur::kRegularSlurStop:
           fLilypondCodeIOstream << ") ";
+          break;
+        case msrSlur::kPhrasingSlurStop:
+          fLilypondCodeIOstream << "\\) ";
           break;
       } // switch
    } // for

@@ -1906,7 +1906,9 @@ class msrSlur : public msrElement
 
     enum msrSlurKind {
       k_NoSlur,
-      kStartSlur, kContinueSlur, kStopSlur};
+      kRegularSlurStart, kPhrasingSlurStart,
+      kSlurContinue,
+      kRegularSlurStop, kPhrasingSlurStop};
     
     static string slurKindAsString (
       msrSlurKind slurKind);
@@ -1938,6 +1940,9 @@ class msrSlur : public msrElement
 
     int                   getSlurNumber () const { return fSlurNumber; }
     
+    void                  setSlurKind (msrSlurKind slurKind)
+                              { fSlurKind = slurKind; }
+
     msrSlurKind           getSlurKind () const { return fSlurKind; }
 
     // services
@@ -1965,9 +1970,9 @@ class msrSlur : public msrElement
     // fields
     // ------------------------------------------------------
 
-    int         fSlurNumber;
+    int                   fSlurNumber;
 
-    msrSlurKind fSlurKind;
+    msrSlurKind           fSlurKind;
 };
 typedef SMARTP<msrSlur> S_msrSlur;
 EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
@@ -2041,9 +2046,9 @@ class msrLigature : public msrElement
     // fields
     // ------------------------------------------------------
 
-    int               fLigatureNumber;
+    int                   fLigatureNumber;
 
-    msrLigatureKind   fLigatureKind;
+    msrLigatureKind       fLigatureKind;
 };
 typedef SMARTP<msrLigature> S_msrLigature;
 EXP ostream& operator<< (ostream& os, const S_msrLigature& elt);

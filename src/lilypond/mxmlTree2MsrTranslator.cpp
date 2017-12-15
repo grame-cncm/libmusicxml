@@ -4309,17 +4309,90 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
   fCurrentSlurPlacement =
     elt->getAttributeValue ("placement");
 
+  // a phrasing slur is recognized as such
+  // when the nested regular slur start is met
+
+  int slurStartsStackSize = fSlurStartsStack.size ();
+
   if      (fCurrentSlurType == "start") {
-    fCurrentSlurKind = msrSlur::kStartSlur;
+    switch (slurStartsStackSize) {
+      case 0:
+        fCurrentSlurKind = msrSlur::kRegularSlurStart;
+        break;
+        
+      case 1:
+        fCurrentSlurKind = msrSlur::kRegularSlurStart;
+
+        // the stack top is in fact a phrasing slur start
+        fSlurStartsStack.top ()->setSlurKind (
+          msrSlur::kPhrasingSlurStart);
+        break;
+        
+      default:
+        {
+          stringstream s;
+          
+          s <<
+            "only one slur nesting level is meaningfull";
+          
+          msrMusicXMLError (
+            gXml2lyOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+    } // switch
+      
     fOnGoingSlur = true;    
   }
+  
   else if (fCurrentSlurType == "continue") {
-    fCurrentSlurKind = msrSlur::kContinueSlur;
+    fCurrentSlurKind = msrSlur::kSlurContinue;
   }
+  
   else if (fCurrentSlurType == "stop") {
-    fCurrentSlurKind = msrSlur::kStopSlur;
+    fCurrentSlurKind = msrSlur::kRegularSlurStop;
+    switch (slurStartsStackSize) {
+      case 0:
+        {
+          stringstream s;
+          
+          s <<
+            "a standalong slur 'stop' is meaningless";
+          
+          msrMusicXMLError (
+            gXml2lyOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
+        }
+        break;
+        
+      case 1:
+      case 2:
+        // the current slur kind depends on that of the stack's top
+        switch (fSlurStartsStack.top ()->getSlurKind ()) {
+          case msrSlur::kRegularSlurStart:
+            fCurrentSlurKind = msrSlur::kRegularSlurStop;
+            break;
+          case msrSlur::kPhrasingSlurStart:
+            fCurrentSlurKind = msrSlur::kPhrasingSlurStop;
+            break;
+          default:
+            ; // should not occur
+        } // switch
+
+        // pop the top element off the stack
+        fSlurStartsStack.pop ();
+        break;
+        
+      default:
+        ; // should not occur
+    } // switch
+
     fOnGoingSlur = false;
   }
+  
   else {
     // inner slur notes may miss the "continue" type:
     // let' complain on slur notes outside of slurs 
@@ -4347,6 +4420,16 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
         fCurrentSlurKind);
         
   fPendingSlurs.push_back (slur);
+
+  // push slurs starts onto the stack
+  switch (fCurrentSlurKind) {
+    case msrSlur::kRegularSlurStart:
+    case msrSlur::kPhrasingSlurStart:
+      fSlurStartsStack.push (slur);
+      break;
+    default:
+      ;
+  } // switch
 }
 
 //________________________________________________________________________
@@ -15048,18 +15131,34 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   // take care of slurs JMI ???
-  if (fCurrentSlurKind == msrSlur::kStartSlur)
-    fFirstSyllableInSlurKind = fCurrentSyllableKind;
-    
-  if (fCurrentSlurKind == msrSlur::kStopSlur)
-    fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
+  switch (fCurrentSlurKind) {
+    case msrSlur::kRegularSlurStart:
+    case msrSlur::kPhrasingSlurStart:
+      fFirstSyllableInSlurKind = fCurrentSyllableKind;
+      break;
+    case msrSlur::kSlurContinue:
+      break;
+    case msrSlur::kRegularSlurStop:
+    case msrSlur::kPhrasingSlurStop:
+      fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
+      break;
+    case msrSlur::k_NoSlur:
+      ;
+  } // switch
 
   // take care of ligatures JMI ???
-  if (fCurrentLigatureKind == msrLigature::kStartLigature)
-    fFirstSyllableInLigatureKind = fCurrentSyllableKind;
-    
-  if (fCurrentLigatureKind == msrLigature::kStopLigature)
-    fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
+  switch (fCurrentLigatureKind) {
+    case msrLigature::kStartLigature:
+      fFirstSyllableInLigatureKind = fCurrentSyllableKind;
+      break;
+    case msrLigature::kContinueLigature:
+      break;
+    case msrLigature::kStopLigature:
+      fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
+      break;
+    default:
+      ;
+  } // switch
 
   // account for chord not being built
   fOnGoingChord = false;

@@ -3278,21 +3278,26 @@ string msrSlur::slurKindAsString (
   stringstream s;
   
   switch (slurKind) {
-    case msrSlur::kStartSlur:
-      s << "start";
+    case msrSlur::kRegularSlurStart:
+      s << "regularSlurStart";
       break;
-    case msrSlur::kContinueSlur:
-      s << "continue";
+    case msrSlur::kPhrasingSlurStart:
+      s << "phrasingSlurStart";
       break;
-    case msrSlur::kStopSlur:
-      s << "stop";
+    case msrSlur::kSlurContinue:
+      s << "slurContinue";
       break;
-    default:
+    case msrSlur::kRegularSlurStop:
+      s << "regularSlurStop";
+      break;
+    case msrSlur::kPhrasingSlurStop:
+      s << "phrasingSlurStop";
+      break;
+    case msrSlur::k_NoSlur:
       s << "Slur" << slurKind << "???";
   } // switch
     
   return s.str ();
-  
 }
       
 string msrSlur::slurKindAsString ()
@@ -3305,7 +3310,8 @@ string msrSlur::slurAsString ()
   stringstream s;
 
   s <<
-   "Slur" " " << slurKindAsString () <<
+    "Slur" " " << slurKindAsString () <<
+    ", slurNumber = " << fSlurNumber <<
     ", line " << fInputLineNumber;
   
   return s.str ();
@@ -5719,9 +5725,9 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 
   if (fNoteSlurs.size ()) {
     if (
-      fNoteSlurs.back ()->getSlurKind () == msrSlur::kStartSlur
+      fNoteSlurs.back ()->getSlurKind () == msrSlur::kRegularSlurStart // JMI
         &&
-      slur->getSlurKind () == msrSlur::kStopSlur
+      slur->getSlurKind () == msrSlur::kRegularSlurStop
         &&
       fNoteSlurs.back ()->getSlurNumber () == slur->getSlurNumber ()
       ) {

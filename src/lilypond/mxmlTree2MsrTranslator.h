@@ -1366,6 +1366,8 @@ class mxmlTree2MsrTranslator :
                                 
     // dynamics, words and wedges remain pending until the next note
     // (they precede the note in MusicXML but follow it in LilyPond)
+    // ------------------------------------------------------
+
     list<S_msrDynamics>       fPendingDynamics;
     list<S_msrOtherDynamics>  fPendingOtherDynamics;
     list<S_msrWords>          fPendingWords;
@@ -1569,6 +1571,8 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingSlur;
     bool                      fOnGoingSlurHasStanza;
 
+    stack<S_msrSlur>          fSlurStartsStack;
+    
     // ligatures handling
     // ------------------------------------------------------
 
