@@ -359,6 +359,14 @@ class mxmlTree2MsrTranslator :
   public visitor<S_tuplet_number>,
   public visitor<S_tuplet_type>,
   
+  // glissandos
+
+  public visitor<S_glissando>,
+
+  // slides
+
+  public visitor<S_slide>,
+
   // rehearsal
   
   public visitor<S_rehearsal>,
@@ -870,6 +878,16 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_tuplet_number& elt);
     virtual void visitStart ( S_tuplet_type& elt);
 
+    // glissandos
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_glissando& elt);
+
+    // slides
+    // ------------------------------------------------------
+
+    virtual void visitStart ( S_slide& elt);
+
     // rehearsals
     // ------------------------------------------------------
 
@@ -1299,6 +1317,12 @@ class mxmlTree2MsrTranslator :
     void                      handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
                                 S_msrNote newNote);
 
+    // glissandos
+    void                      handleTremolos (S_msrNote newNote);
+    
+    // slides
+    void                      handleSlides (S_msrNote newNote);
+    
     // note sound
     msrQuarterTonesPitchKind  fCurrentNoteQuarterTonesPitchKind;
     rational                  fCurrentNoteSoundingWholeNotesFromDuration;
@@ -1391,6 +1415,11 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingWedgesToNote (
                                 S_msrNote note);
 
+    void                      attachPendingGlissandosToNote (
+                                S_msrNote note);
+    void                      attachPendingSlidesToNote (
+                                S_msrNote note);
+
     void                      copyNoteElementsToChord (
                                 S_msrNote note, S_msrChord chord);
                                 
@@ -1463,7 +1492,17 @@ class mxmlTree2MsrTranslator :
 
     void                      copyNoteBeamsToChord (
                                 S_msrNote note, S_msrChord chord);
+
+    // glissandos handling
+    // ------------------------------------------------------
+
+    list<S_msrGlissando>      fPendingGlissandos;
     
+    // slides handling
+    // ------------------------------------------------------
+
+    list<S_msrSlide>          fPendingSlides;
+
     // tremolos handling
     // ------------------------------------------------------
     

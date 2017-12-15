@@ -167,6 +167,12 @@ class generalOptions : public optionsGroup
     // tuplets
     bool                  fTraceTuplets;
 
+    // glissandos
+    bool                  fTraceGlissandos;
+
+    // slides
+    bool                  fTraceSlides;
+
     // grace notes
     bool                  fTraceGraceNotes;
 

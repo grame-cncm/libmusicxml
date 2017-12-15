@@ -156,6 +156,14 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrOrnament>,
   
+  // glissandos
+
+  public visitor<S_msrGlissando>,
+  
+  // slides
+
+  public visitor<S_msrSlide>,
+  
   // tremolos
 
   public visitor<S_msrSingleTremolo>,
@@ -408,6 +416,12 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
+
+    virtual void visitStart (S_msrGlissando& elt);
+    virtual void visitEnd   (S_msrGlissando& elt);
+
+    virtual void visitStart (S_msrSlide& elt);
+    virtual void visitEnd   (S_msrSlide& elt);
 
     virtual void visitStart (S_msrSingleTremolo& elt);
     virtual void visitEnd   (S_msrSingleTremolo& elt);

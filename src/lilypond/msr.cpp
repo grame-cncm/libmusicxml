@@ -580,9 +580,9 @@ string msrBeam::beamAsString () const
 
   s <<
     "Beam" <<
-    " number " << fBeamNumber <<
-    ", line " << fInputLineNumber <<
-    ", " << beamKindAsString (fBeamKind);
+    " " << beamKindAsString (fBeamKind) <<
+    ", number " << fBeamNumber <<
+    ", line " << fInputLineNumber;
 
   return s.str ();
 }
@@ -4859,6 +4859,30 @@ S_msrNote msrNote::createNoteDeepCopy (
     } // for
   }
   
+  // glissandos
+  // ------------------------------------------------------
+
+  {
+    list<S_msrGlissando>::const_iterator i;
+    for (i=fNoteGlissandos.begin (); i!=fNoteGlissandos.end (); i++) {
+      // share this data
+      noteDeepCopy->
+        fNoteGlissandos.push_back ((*i));
+    } // for
+  }
+  
+  // slides
+  // ------------------------------------------------------
+
+  {
+    list<S_msrSlide>::const_iterator i;
+    for (i=fNoteSlides.begin (); i!=fNoteSlides.end (); i++) {
+      // share this data
+      noteDeepCopy->
+        fNoteSlides.push_back ((*i));
+    } // for
+  }
+  
   // single tremolo
   // ------------------------------------------------------
 
@@ -5683,6 +5707,20 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
     setOrnamentNoteUplink (this);
 }
 
+void msrNote::addGlissandoToNote (S_msrGlissando glissando)
+
+{
+  // append the glissando to the note glissandos list
+  fNoteGlissandos.push_back (glissando);
+}
+
+void msrNote::addSlideToNote (S_msrSlide slide)
+
+{
+  // append the slide to the note glissandos list
+  fNoteSlides.push_back (slide);
+}
+
 void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
 {
   if (gGeneralOptions->fTraceTremolos) {
@@ -6007,6 +6045,30 @@ void msrNote::browseData (basevisitor* v)
     for (i=fNoteOrnaments.begin (); i!=fNoteOrnaments.end (); i++) {
       // browse the ornament
       msrBrowser<msrOrnament> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+  
+  // browse the glissandos if any
+  if (fNoteGlissandos.size ()) {
+    gIndenter++;
+    list<S_msrGlissando>::const_iterator i;
+    for (i=fNoteGlissandos.begin (); i!=fNoteGlissandos.end (); i++) {
+      // browse the glissando
+      msrBrowser<msrGlissando> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+  
+  // browse the slides if any
+  if (fNoteSlides.size ()) {
+    gIndenter++;
+    list<S_msrSlide>::const_iterator i;
+    for (i=fNoteSlides.begin (); i!=fNoteSlides.end (); i++) {
+      // browse the glissando
+      msrBrowser<msrSlide> browser (v);
       browser.browse (*(*i));
     } // for
     gIndenter--;
@@ -6962,7 +7024,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      os << endl;
+      // no endl here;
     } // for
         
     gIndenter--;
@@ -6979,7 +7041,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-// JMI      os << endl;
+      // no endl here;
     } // for
         
     gIndenter--;
@@ -6996,7 +7058,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- // JMI     os << endl;
+      // no endl here;
     } // for
         
     gIndenter--;
@@ -7013,7 +7075,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- // JMI     os << endl;
+      // no endl here;
     } // for
         
     gIndenter--;
@@ -7030,7 +7092,7 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-// JMI      os << endl;
+      // no endl here;
     } // for
         
     gIndenter--;
@@ -7047,7 +7109,41 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- // JMI     os << endl;
+      // no endl here;
+    } // for
+        
+    gIndenter--;
+  }
+  
+  // print the glissandos if any
+  if (fNoteGlissandos.size ()) {
+    gIndenter++;
+
+    list<S_msrGlissando>::const_iterator
+      iBegin = fNoteGlissandos.begin (),
+      iEnd   = fNoteGlissandos.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+        
+    gIndenter--;
+  }
+  
+  // print the slides if any
+  if (fNoteSlides.size ()) {
+    gIndenter++;
+
+    list<S_msrSlide>::const_iterator
+      iBegin = fNoteSlides.begin (),
+      iEnd   = fNoteSlides.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
     } // for
         
     gIndenter--;
@@ -7079,9 +7175,8 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- // JMI     os << endl;
+      // no endl here;
     } // for
-// JMI    os << endl;
 
     gIndenter--;
   }
@@ -7097,9 +7192,8 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-// JMI      os << endl;
+      // no endl here;
     } // for
-// JMI    os << endl;
 
     gIndenter--;
   }
@@ -7115,9 +7209,8 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-// JMI      os << endl;
+      // no endl here;
     } // for
-// JMI    os << endl;
 
     gIndenter--;
   }
@@ -7133,9 +7226,8 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- // JMI     os << endl;
+      // no endl here;
     } // for
-// JMI    os << endl;
     
     gIndenter--;
   }
@@ -7151,9 +7243,8 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- // JMI     os << endl;
+      // no endl here;
     } // for
-// JMI    os << endl;
     
     gIndenter--;
   }
@@ -7169,9 +7260,8 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
- // JMI     os << endl;
+      // no endl here;
     } // for
-// JMI    os << endl;
     
     gIndenter--;
   }
@@ -7573,6 +7663,60 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
   fChordOrnaments.push_back (orn);
 }
 
+void msrChord::addGlissandoToChord (S_msrGlissando gliss)
+{
+  msrGlissando::msrGlissandoTypeKind
+    glissandoTypeKind =
+      gliss->
+        getGlissandoTypeKind ();
+
+  // don't add the same slissando several times
+  for (
+    list<S_msrGlissando>::const_iterator i = fChordGlissandos.begin ();
+    i!=fChordGlissandos.end ();
+    i++) {
+      if ((*i)->getGlissandoTypeKind () == glissandoTypeKind)
+        return;
+  } // for
+
+  if (gGeneralOptions->fTraceChords) {
+    gLogIOstream <<
+      "Adding glissando '" <<
+      gliss->glissandoAsString () <<
+      "' to chord" <<
+      endl;
+  }
+
+  fChordGlissandos.push_back (gliss);
+}
+
+void msrChord::addSlideToChord (S_msrSlide slide)
+{
+  msrSlide::msrSlideTypeKind
+    slideTypeKind =
+      slide->
+        getSlideTypeKind ();
+
+  // don't add the same slide several times
+  for (
+    list<S_msrSlide>::const_iterator i = fChordSlides.begin ();
+    i!=fChordSlides.end ();
+    i++) {
+      if ((*i)->getSlideTypeKind () == slideTypeKind)
+        return;
+  } // for
+
+  if (gGeneralOptions->fTraceChords) {
+    gLogIOstream <<
+      "Adding slide '" <<
+      slide->slideAsString () <<
+      "' to chord" <<
+      endl;
+  }
+
+  fChordSlides.push_back (slide);
+}
+
 void msrChord::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -7652,6 +7796,24 @@ void msrChord::browseData (basevisitor* v)
     i++ ) {
     // browse the ornament
     msrBrowser<msrOrnament> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrGlissando>::const_iterator i = fChordGlissandos.begin ();
+    i != fChordGlissandos.end ();
+    i++ ) {
+    // browse the glissando
+    msrBrowser<msrGlissando> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrSlide>::const_iterator i = fChordSlides.begin ();
+    i != fChordSlides.end ();
+    i++ ) {
+    // browse the slide
+    msrBrowser<msrSlide> browser (v);
     browser.browse (*(*i));
   } // for
 
@@ -7917,6 +8079,22 @@ void msrChord::print (ostream& os)
   if (fChordOrnaments.size ()) {
     list<S_msrOrnament>::const_iterator i;
     for (i=fChordOrnaments.begin (); i!=fChordOrnaments.end (); i++) {
+      os << (*i);
+    } // for
+  }
+
+  // print the glissandos if any
+  if (fChordGlissandos.size ()) {
+    list<S_msrGlissando>::const_iterator i;
+    for (i=fChordGlissandos.begin (); i!=fChordGlissandos.end (); i++) {
+      os << (*i);
+    } // for
+  }
+
+  // print the slidess if any
+  if (fChordSlides.size ()) {
+    list<S_msrSlide>::const_iterator i;
+    for (i=fChordSlides.begin (); i!=fChordSlides.end (); i++) {
       os << (*i);
     } // for
   }
@@ -9200,21 +9378,17 @@ void msrPageBreak::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTuplet msrTuplet::create (
-  int       inputLineNumber,
-  int       tupletNumber,
-  msrTupletBracketKind
-            tupletBracketKind,
-  msrTupletLineShapeKind
-            tupletLineShapeKind,
-  msrTupletShowNumberKind
-            tupletShowNumberKind,
-  msrTupletShowTypeKind
-            tupletShowTypeKind,
-  int       tupletActualNotes,
-  int       tupletNormalNotes,
-  rational  memberNotesSoundingWholeNotes,
-  rational  memberNotesDisplayWholeNotes,
-  rational  notePositionInMeasure)
+  int                     inputLineNumber,
+  int                     tupletNumber,
+  msrTupletBracketKind    tupletBracketKind,
+  msrTupletLineShapeKind  tupletLineShapeKind,
+  msrTupletShowNumberKind tupletShowNumberKind,
+  msrTupletShowTypeKind   tupletShowTypeKind,
+  int                     tupletActualNotes,
+  int                     tupletNormalNotes,
+  rational                memberNotesSoundingWholeNotes,
+  rational                memberNotesDisplayWholeNotes,
+  rational                notePositionInMeasure)
 {
   msrTuplet* o =
     new msrTuplet (
@@ -9234,21 +9408,17 @@ S_msrTuplet msrTuplet::create (
 }
 
 msrTuplet::msrTuplet (
-  int       inputLineNumber,
-  int       tupletNumber,
-  msrTupletBracketKind
-            tupletBracketKind,
-  msrTupletLineShapeKind
-            tupletLineShapeKind,
-  msrTupletShowNumberKind
-            tupletShowNumberKind,
-  msrTupletShowTypeKind
-            tupletShowTypeKind,
-  int       tupletActualNotes,
-  int       tupletNormalNotes,
-  rational  memberNotesSoundingWholeNotes,
-  rational  memberNotesDisplayWholeNotes,
-  rational  notePositionInMeasure)
+  int                     inputLineNumber,
+  int                     tupletNumber,
+  msrTupletBracketKind    tupletBracketKind,
+  msrTupletLineShapeKind  tupletLineShapeKind,
+  msrTupletShowNumberKind tupletShowNumberKind,
+  msrTupletShowTypeKind   tupletShowTypeKind,
+  int                     tupletActualNotes,
+  int                     tupletNormalNotes,
+  rational                memberNotesSoundingWholeNotes,
+  rational                memberNotesDisplayWholeNotes,
+  rational                notePositionInMeasure)
     : msrElement (inputLineNumber)
 {  
   fTupletNumber = tupletNumber;
@@ -10111,6 +10281,348 @@ void msrTuplet::print (ostream& os)
     
   // JMI  os << endl;
   }
+}
+
+//______________________________________________________________________________
+S_msrGlissando msrGlissando::create (
+  int                      inputLineNumber,
+  int                      glissandoNumber,
+  msrGlissandoTypeKind     glissandoTypeKind,
+  msrGlissandoLineTypeKind glissandoLineTypeKind)
+{
+  msrGlissando* o =
+    new msrGlissando (
+      inputLineNumber,
+      glissandoNumber,
+      glissandoTypeKind,
+      glissandoLineTypeKind);
+  assert(o!=0);
+  return o;
+}
+
+msrGlissando::msrGlissando (
+  int                      inputLineNumber,
+  int                      glissandoNumber,
+  msrGlissandoTypeKind     glissandoTypeKind,
+  msrGlissandoLineTypeKind glissandoLineTypeKind)
+    : msrElement (inputLineNumber)
+{  
+  fGlissandoNumber = glissandoNumber;
+  
+  fGlissandoTypeKind     = glissandoTypeKind;
+  fGlissandoLineTypeKind = glissandoLineTypeKind;
+}
+
+msrGlissando::~msrGlissando ()
+{}
+
+S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
+{
+  if (gGeneralOptions->fTraceGlissandos) {
+    gLogIOstream <<
+      "Creating a newborn clone of glissando '" <<
+      glissandoAsString () <<
+      "'" <<
+      endl;
+  }
+
+  S_msrGlissando
+    newbornClone =
+      msrGlissando::create (
+        fInputLineNumber,
+        fGlissandoNumber,
+        fGlissandoTypeKind,
+        fGlissandoLineTypeKind);
+
+  return newbornClone;
+}
+
+string msrGlissando::glissandoTypeKindAsString (
+  msrGlissandoTypeKind glissandoTypeKind)
+{
+  string result;
+
+  switch (glissandoTypeKind) {
+    case msrGlissando::k_NoGlissandoType:
+      result = "none";
+      break;
+    case msrGlissando::kGlissandoTypeStart:
+      result = "glissandoTypeStart";
+      break;
+    case msrGlissando::kGlissandoTypeStop:
+      result = "glissandoTypeStop";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrGlissando::glissandoLineTypeKindAsString (
+  msrGlissandoLineTypeKind glissandoLineTypeKind)
+{
+  string result;
+  
+  switch (glissandoLineTypeKind) {
+    case msrGlissando::kGlissandoLineTypeSolid:
+      result = "glissandoLineTypeSolid";
+      break;
+    case msrGlissando::kGlissandoLineTypeDashed:
+      result = "glissandoLineTypeDashed";
+      break;
+    case msrGlissando::kGlissandoLineTypeDotted:
+      result = "glissandoLineTypeDotted";
+      break;
+    case msrGlissando::kGlissandoLineTypeWavy:
+      result = "glissandoLineTypeWavy";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrGlissando::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrGlissando::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrGlissando>*
+    p =
+      dynamic_cast<visitor<S_msrGlissando>*> (v)) {
+        S_msrGlissando elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrGlissando::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrGlissando::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrGlissando::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrGlissando>*
+    p =
+      dynamic_cast<visitor<S_msrGlissando>*> (v)) {
+        S_msrGlissando elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrGlissando::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrGlissando::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrGlissando& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrGlissando::glissandoAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Glissando" <<
+    ", number " << fGlissandoNumber <<
+    ", " << glissandoTypeKindAsString (
+      fGlissandoTypeKind) <<
+    ", " << glissandoLineTypeKindAsString (
+      fGlissandoLineTypeKind) <<
+    ", line " << fInputLineNumber;
+        
+  return s.str ();
+}
+
+void msrGlissando::print (ostream& os)
+{
+  os << glissandoAsString () << endl;
+}
+
+//______________________________________________________________________________
+S_msrSlide msrSlide::create (
+  int                  inputLineNumber,
+  int                  slideNumber,
+  msrSlideTypeKind     slideTypeKind,
+  msrSlideLineTypeKind slideLineTypeKind)
+{
+  msrSlide* o =
+    new msrSlide (
+      inputLineNumber,
+      slideNumber,
+      slideTypeKind,
+      slideLineTypeKind);
+  assert(o!=0);
+  return o;
+}
+
+msrSlide::msrSlide (
+  int                  inputLineNumber,
+  int                  slideNumber,
+  msrSlideTypeKind     slideTypeKind,
+  msrSlideLineTypeKind slideLineTypeKind)
+    : msrElement (inputLineNumber)
+{  
+  fSlideNumber = slideNumber;
+  
+  fSlideTypeKind     = slideTypeKind;
+  fSlideLineTypeKind = slideLineTypeKind;
+}
+
+msrSlide::~msrSlide ()
+{}
+
+S_msrSlide msrSlide::createSlideNewbornClone ()
+{
+  if (gGeneralOptions->fTraceSlides) {
+    gLogIOstream <<
+      "Creating a newborn clone of slide '" <<
+      slideAsString () <<
+      "'" <<
+      endl;
+  }
+
+  S_msrSlide
+    newbornClone =
+      msrSlide::create (
+        fInputLineNumber,
+        fSlideNumber,
+        fSlideTypeKind,
+        fSlideLineTypeKind);
+
+  return newbornClone;
+}
+
+string msrSlide::slideTypeKindAsString (
+  msrSlideTypeKind slideTypeKind)
+{
+  string result;
+
+  switch (slideTypeKind) {
+    case msrSlide::k_NoSlideType:
+      result = "none";
+      break;
+    case msrSlide::kSlideTypeStart:
+      result = "slideTypeStart";
+      break;
+    case msrSlide::kSlideTypeStop:
+      result = "slideTypeStop";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrSlide::slideLineTypeKindAsString (
+  msrSlideLineTypeKind slideLineTypeKind)
+{
+  string result;
+  
+  switch (slideLineTypeKind) {
+    case msrSlide::kSlideLineTypeSolid:
+      result = "slideLineTypeSolid";
+      break;
+    case msrSlide::kSlideLineTypeDashed:
+      result = "slideLineTypeDashed";
+      break;
+    case msrSlide::kSlideLineTypeDotted:
+      result = "slideLineTypeDotted";
+      break;
+    case msrSlide::kSlideLineTypeWavy:
+      result = "slideLineTypeWavy";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrSlide::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrSlide::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrSlide>*
+    p =
+      dynamic_cast<visitor<S_msrSlide>*> (v)) {
+        S_msrSlide elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrSlide::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrSlide::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrSlide::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrSlide>*
+    p =
+      dynamic_cast<visitor<S_msrSlide>*> (v)) {
+        S_msrSlide elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrSlide::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrSlide::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrSlide& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrSlide::slideAsString () const
+{
+  stringstream s;
+
+  s <<
+    "Slide" <<
+    ", number " << fSlideNumber <<
+    ", " << slideTypeKindAsString (
+      fSlideTypeKind) <<
+    ", " << slideLineTypeKindAsString (
+      fSlideLineTypeKind) <<
+    ", line " << fInputLineNumber;
+        
+  return s.str ();
+}
+
+void msrSlide::print (ostream& os)
+{
+  os << slideAsString () << endl;
 }
 
 //______________________________________________________________________________
@@ -23447,8 +23959,10 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
     // no, create it and add it to the voice
     if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics) {
       gLogIOstream <<
-        "Creating stanza " << stanzaNumber <<
-        " in voice \"" << getVoiceName () << "\"" <<
+        "Creating stanza" <<
+        " number " << stanzaNumber <<
+        ", name \"" << stanzaName << "\"" <<
+        ", in voice \"" << getVoiceName () << "\"" <<
         ", line " << inputLineNumber <<
         ", fVoiceStanzasMap.size () = " << fVoiceStanzasMap.size () <<
         endl;
@@ -23457,6 +23971,42 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
     stanza =
       addStanzaToVoiceByItsNumber (
         inputLineNumber, stanzaNumber);
+  }
+
+  return stanza;
+}
+
+S_msrStanza msrVoice::fetchStanzaInVoice (
+  int    inputLineNumber,
+  string stanzaNumber,
+  string stanzaName) // JMI
+{
+  S_msrStanza stanza;
+
+  // is stanzaNumber known in voice?
+  if (fVoiceStanzasMap.count (stanzaNumber)) {
+    // yes, use it
+    stanza =
+      fVoiceStanzasMap [stanzaNumber];
+  }
+  
+  else {
+    stringstream s;
+    
+    s <<
+      "Stanza" <<
+      " number " << stanzaNumber <<
+      ", name \"" << stanzaName << "\"" <<
+      ", not found in voice \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      ", fVoiceStanzasMap.size () = " << fVoiceStanzasMap.size () <<
+      endl;
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
   }
 
   return stanza;
@@ -27323,27 +27873,8 @@ void msrStaff::initializeStaff ()
           endl;
       }
 
-      appendClefToStaff (clef);
+      appendClefToStaff (clef); // JMI
     }
-    /* JMI
-    else {
-      if (gGeneralOptions->fTraceStaves) {
-        gLogIOstream <<
-          "Appending default treble clef " <<
-          " to staff \"" <<
-          getStaffName () <<
-          "\" in part " <<
-          fStaffPartUplink->getPartCombinedName () <<
-          endl;
-      }
-
-      // create the implicit initial G line 2 clef
-      appendClefToStaff (
-        msrClef::create (
-          fInputLineNumber,
-          msrClef::kTrebleClef));
-    }
-    * */
   }
     
   // get the initial key from the part if any
@@ -27413,28 +27944,6 @@ void msrStaff::initializeStaff ()
       }
 
       appendTimeToStaff (time);
-    }
-    */
-    
-    /* JMI
-    else {
-      // time is crucially needed for measures management,
-      // we cannot stay without any
-
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes) {
-        gLogIOstream <<
-          "Appending default 4/4 time " <<
-          " to staff \"" <<
-          getStaffName () <<
-          "\" in part " <<
-          fStaffPartUplink->getPartCombinedName () <<
-          endl;
-      }
-          
-      // append the implicit initial 4/4 time signature
-      appendTimeToStaff (
-        msrTime::createFourQuartersTime (
-          fInputLineNumber));
     }
     */
   }
@@ -27730,32 +28239,6 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
         voicePartRelativeID,
         msrVoice::kCreateInitialLastSegmentYes,
         this);
-
-        /* JMI
-  // get the part current time JMI???
-  S_msrTime
-    time =
-      fStaffPartUplink->
-        getPartCurrentTime ();
-
-  if (! time) {
-    // create default 4/4 time
-    time =
-      msrTime::createFourQuartersTime (
-        inputLineNumber);
-
-    // register it in the part for future use
-    fStaffPartUplink->
-      setPartCurrentTime (time);
-  }
-      
-  // append the time to this staff
-  appendTimeToStaff (time);
-  */
-
-  // set fFullMeasureLength accordingly JMI
- // setFullMeasureLengthFromTime (
- //   partCurrentTime);
           
   // register the voice by its relative number
   if (gGeneralOptions->fTraceVoices) {
@@ -29156,13 +29639,6 @@ void msrPart::initializePart ()
   // create the part master staff and voice
   createPartMasterStaffAndVoice (0); // input line number // JMI
     */
-    
-/* JMI
-  // set part current time to the default 4/4 time signature
-  fPartCurrenltTime =
-    msrTime::createFourQuartersTime (
-      fInputLineNumber);
-*/
 }
 
 msrPart::~msrPart()

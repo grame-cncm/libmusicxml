@@ -90,6 +90,12 @@ typedef SMARTP<msrChord> S_msrChord;
 class msrTuplet;
 typedef SMARTP<msrTuplet> S_msrTuplet;
 
+class msrGlissando;
+typedef SMARTP<msrGlissando> S_msrGlissando;
+
+class msrSlide;
+typedef SMARTP<msrSlide> S_msrSlide;
+
 class msrStanza;
 typedef SMARTP<msrStanza> S_msrStanza;
 
@@ -4674,7 +4680,7 @@ class msrNote : public msrElement
       
       kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentaldoubleSharp, kNoteAccidentalSharpSharp,
       kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
-      kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat, kNoteAccidentalQuarterSharp, kNoteAccidentalThreeQuartersFlat, kNoteAccidentalThreeQuartersSharp,
+      kNoteAccidentalNaturalFlat, kNoteAccidentalQuarterFlat, kNoteAccidentalQuarterSharp,kNoteAccidentalThreeQuartersFlat, kNoteAccidentalThreeQuartersSharp,
       
       kNoteAccidentalSharpDown, kNoteAccidentalSharpUp,
       kNoteAccidentalNaturalDown, kNoteAccidentalNaturalUp,
@@ -5065,6 +5071,16 @@ class msrNote : public msrElement
                           getNoteOrnaments () const
                               { return fNoteOrnaments; }
         
+    // glissandos
+    const list<S_msrGlissando>&
+                          getNoteGlissandos () const
+                              { return fNoteGlissandos; }
+        
+    // slides
+    const list<S_msrSlide>&
+                          getNoteSlides () const
+                              { return fNoteSlides; }
+        
     // singleTremolo
     S_msrSingleTremolo    getNoteSingleTremolo () const
                               { return fNoteSingleTremolo; }
@@ -5252,6 +5268,12 @@ class msrNote : public msrElement
     // ornaments
     void                  addOrnamentToNote (S_msrOrnament orn);
     
+    // glissandos
+    void                  addGlissandoToNote (S_msrGlissando glissando);
+    
+    // slides
+    void                  addSlideToNote (S_msrSlide slide);
+    
     // singleTremolo
     void                  addSingleTremoloToNote (S_msrSingleTremolo trem);
     
@@ -5410,6 +5432,16 @@ class msrNote : public msrElement
     // ------------------------------------------------------
 
     list<S_msrOrnament>   fNoteOrnaments;
+    
+    // glissandos
+    // ------------------------------------------------------
+
+    list<S_msrGlissando>  fNoteGlissandos;
+    
+    // slides
+    // ------------------------------------------------------
+
+    list<S_msrSlide>      fNoteSlides;
     
     // single tremolo
     // ------------------------------------------------------
@@ -5571,6 +5603,16 @@ class msrChord : public msrElement
                           getChordOrnaments () const
                               { return fChordOrnaments; }
     
+    // glissandos
+    const list<S_msrGlissando>&
+                          getChordGlissandos () const
+                              { return fChordGlissandos; }
+    
+    // slides
+    const list<S_msrSlide>&
+                          getChordSlides () const
+                              { return fChordSlides; }
+    
     // singleTremolo
     S_msrSingleTremolo    getChordSingleTremolo () const
                               { return fChordSingleTremolo; }
@@ -5690,6 +5732,12 @@ class msrChord : public msrElement
     // ornaments
     void                  addOrnamentToChord (S_msrOrnament orn);
      
+    // glissandos
+    void                  addGlissandoToChord (S_msrGlissando gliss);
+     
+    // slides
+    void                  addSlideToChord (S_msrSlide slide);
+     
     // singleTremolo
     void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
     
@@ -5795,6 +5843,12 @@ class msrChord : public msrElement
     
     // ornaments
     list<S_msrOrnament>   fChordOrnaments;
+
+    // glissandos
+    list<S_msrGlissando>  fChordGlissandos;
+
+    // slides
+    list<S_msrSlide>      fChordSlides;
 
     // single tremolo
     S_msrSingleTremolo    fNoteSingleTremolo;
@@ -6871,21 +6925,17 @@ class msrTuplet : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTuplet> create (
-      int       inputLineNumber,
-      int       tupletNumber,
-      msrTupletBracketKind
-                tupletBracketKind,
-      msrTupletLineShapeKind
-                tupletLineShapeKind,
-      msrTupletShowNumberKind
-                tupletShowNumberKind,
-      msrTupletShowTypeKind
-                tupletShowTypeKind,
-      int       tupletActualNotes,
-      int       tupletNormalNotes,
-      rational  memberNotesSoundingWholeNotes,
-      rational  memberNotesDisplayWholeNotes,
-      rational  notePositionInMeasure); // JMI
+      int                     inputLineNumber,
+      int                     tupletNumber,
+      msrTupletBracketKind    tupletBracketKind,
+      msrTupletLineShapeKind  tupletLineShapeKind,
+      msrTupletShowNumberKind tupletShowNumberKind,
+      msrTupletShowTypeKind   tupletShowTypeKind,
+      int                     tupletActualNotes,
+      int                     tupletNormalNotes,
+      rational                memberNotesSoundingWholeNotes,
+      rational                memberNotesDisplayWholeNotes,
+      rational                notePositionInMeasure); // JMI
 
     SMARTP<msrTuplet> createTupletNewbornClone ();
 
@@ -6897,23 +6947,19 @@ class msrTuplet : public msrElement
     // ------------------------------------------------------
 
     msrTuplet (
-      int       inputLineNumber,
-      int       tupletNumber,
-      msrTupletBracketKind
-                tupletBracketKind,
-      msrTupletLineShapeKind
-                tupletLineShapeKind,
-      msrTupletShowNumberKind
-                tupletShowNumberKind,
-      msrTupletShowTypeKind
-                tupletShowTypeKind,
-      int       tupletActualNotes,
-      int       tupletNormalNotes,
-      rational  memberNotesSoundingWholeNotes,
-      rational  memberNotesDisplayWholeNotes,
-      rational  notePositionInMeasure);
+      int                     inputLineNumber,
+      int                     tupletNumber,
+      msrTupletBracketKind    tupletBracketKind,
+      msrTupletLineShapeKind  tupletLineShapeKind,
+      msrTupletShowNumberKind tupletShowNumberKind,
+      msrTupletShowTypeKind   tupletShowTypeKind,
+      int                     tupletActualNotes,
+      int                     tupletNormalNotes,
+      rational                memberNotesSoundingWholeNotes,
+      rational                memberNotesDisplayWholeNotes,
+      rational                notePositionInMeasure);
       
-    virtual ~msrTuplet();
+    virtual ~msrTuplet ();
   
   public:
 
@@ -6999,6 +7045,7 @@ class msrTuplet : public msrElement
                             int containingTupletNormalNotes);
 
     string                tupletAsShortString () const;
+    
     string                tupletAsString () const;
 
     // visitors
@@ -7050,6 +7097,220 @@ class msrTuplet : public msrElement
 };
 typedef SMARTP<msrTuplet> S_msrTuplet;
 EXP ostream& operator<< (ostream& os, const S_msrTuplet& elt);
+
+//______________________________________________________________________________
+class msrGlissando : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrGlissandoTypeKind {
+      k_NoGlissandoType,
+      kGlissandoTypeStart, kGlissandoTypeStop };
+
+    static string glissandoTypeKindAsString (
+      msrGlissandoTypeKind glissandoTypeKind);
+      
+    enum msrGlissandoLineTypeKind {
+      kGlissandoLineTypeSolid, kGlissandoLineTypeDashed,
+      kGlissandoLineTypeDotted, kGlissandoLineTypeWavy };
+      
+    static string glissandoLineTypeKindAsString (
+      msrGlissandoLineTypeKind glissandoLineTypeKind);
+            
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrGlissando> create (
+      int                      inputLineNumber,
+      int                      glissandoNumber,
+      msrGlissandoTypeKind     glissandoTypeKind,
+      msrGlissandoLineTypeKind glissandoLineTypeKind);
+
+    SMARTP<msrGlissando> createGlissandoNewbornClone ();
+
+    SMARTP<msrGlissando> createGlissandoDeepCopy ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrGlissando (
+      int                      inputLineNumber,
+      int                      glissandoNumber,
+      msrGlissandoTypeKind     glissandoTypeKind,
+      msrGlissandoLineTypeKind glissandoLineTypeKind);
+      
+    virtual ~msrGlissando ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    int                   getGlissandoNumber () const
+                              { return fGlissandoNumber; }
+
+    msrGlissandoTypeKind  getGlissandoTypeKind () const
+                              { return fGlissandoTypeKind; }
+            
+    msrGlissandoLineTypeKind
+                          getGlissandoLineTypeKind () const
+                              { return fGlissandoLineTypeKind; }
+            
+    // measure uplink
+    void                  setGlissandoMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fGlissandoMeasureUplink = measure; }
+                      
+    S_msrMeasure          getGlissandoMeasureUplink () const
+                              { return fGlissandoMeasureUplink; }
+                      
+    // services
+    // ------------------------------------------------------
+
+    string                glissandoAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // uplink
+    S_msrMeasure          fGlissandoMeasureUplink;
+    
+    int                   fGlissandoNumber;
+                  
+    msrGlissandoTypeKind  fGlissandoTypeKind;
+                          
+    msrGlissandoLineTypeKind
+                          fGlissandoLineTypeKind;
+};
+typedef SMARTP<msrGlissando> S_msrGlissando;
+EXP ostream& operator<< (ostream& os, const S_msrGlissando& elt);
+
+//______________________________________________________________________________
+class msrSlide : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrSlideTypeKind {
+      k_NoSlideType,
+      kSlideTypeStart, kSlideTypeStop };
+
+    static string slideTypeKindAsString (
+      msrSlideTypeKind slideTypeKind);
+      
+    enum msrSlideLineTypeKind {
+      kSlideLineTypeSolid, kSlideLineTypeDashed,
+      kSlideLineTypeDotted, kSlideLineTypeWavy };
+      
+    static string slideLineTypeKindAsString (
+      msrSlideLineTypeKind slideLineTypeKind);
+            
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSlide> create (
+      int                  inputLineNumber,
+      int                  slideNumber,
+      msrSlideTypeKind     slideTypeKind,
+      msrSlideLineTypeKind slideLineTypeKind);
+
+    SMARTP<msrSlide> createSlideNewbornClone ();
+
+    SMARTP<msrSlide> createSlideDeepCopy ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSlide (
+      int                  inputLineNumber,
+      int                  slideNumber,
+      msrSlideTypeKind     slideTypeKind,
+      msrSlideLineTypeKind slideLineTypeKind);
+      
+    virtual ~msrSlide ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    int                   getSlideNumber () const
+                              { return fSlideNumber; }
+
+    msrSlideTypeKind  getSlideTypeKind () const
+                              { return fSlideTypeKind; }
+            
+    msrSlideLineTypeKind
+                          getSlideLineTypeKind () const
+                              { return fSlideLineTypeKind; }
+            
+    // measure uplink
+    void                  setSlideMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fSlideMeasureUplink = measure; }
+                      
+    S_msrMeasure          getSlideMeasureUplink () const
+                              { return fSlideMeasureUplink; }
+                      
+    // services
+    // ------------------------------------------------------
+
+    string                slideAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // uplink
+    S_msrMeasure          fSlideMeasureUplink;
+    
+    int                   fSlideNumber;
+                  
+    msrSlideTypeKind  fSlideTypeKind;
+                          
+    msrSlideLineTypeKind
+                          fSlideLineTypeKind;
+};
+typedef SMARTP<msrSlide> S_msrSlide;
+EXP ostream& operator<< (ostream& os, const S_msrSlide& elt);
 
 //______________________________________________________________________________
 class msrTempo : public msrElement
@@ -9127,6 +9388,11 @@ class msrVoice : public msrElement
                             S_msrStanza stanza);
 
     S_msrStanza           createStanzaInVoiceIfNotYetDone (
+                            int    inputLineNumber,
+                            string stanzaNumber,
+                            string stanzaName);
+    
+    S_msrStanza           fetchStanzaInVoice (
                             int    inputLineNumber,
                             string stanzaNumber,
                             string stanzaName);

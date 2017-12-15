@@ -2206,6 +2206,70 @@ void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrGlissando" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingNote) {
+    // don't add glissandos to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addGlissandoToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addGlissandoToChord (elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrGlissando& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrGlissando" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrSlide& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrSlide" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingNote) {
+    // don't add slides to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addSlideToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addSlideToChord (elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrSlide& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrSlide" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {

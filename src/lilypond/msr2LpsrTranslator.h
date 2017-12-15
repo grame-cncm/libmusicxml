@@ -126,6 +126,14 @@ class msr2LpsrTranslator :
   // ornaments
 
   public visitor<S_msrOrnament>,
+
+  // glissandos
+  
+  public visitor<S_msrGlissando>,
+
+  // slides
+
+  public visitor<S_msrSlide>,
   
   // tremolos
 
@@ -318,6 +326,12 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
+
+    virtual void visitStart (S_msrGlissando& elt);
+    virtual void visitEnd   (S_msrGlissando& elt);
+
+    virtual void visitStart (S_msrSlide& elt);
+    virtual void visitEnd   (S_msrSlide& elt);
 
     virtual void visitStart (S_msrSingleTremolo& elt);
     virtual void visitEnd   (S_msrSingleTremolo& elt);
@@ -556,6 +570,14 @@ class msr2LpsrTranslator :
                                 // to help workaround LilyPond issue 34
     S_msrNote                 fCurrentAfterGraceNotesNote;
                                 // to help optimise after grace notes
+
+    // glissandos
+    // ------------------------------------------------------
+
+
+    // slides
+    // ------------------------------------------------------
+
 
     // double tremolos
     // ------------------------------------------------------

@@ -1179,7 +1179,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
       endl;
   }
 
-/* JMI
+  // JMI and if there's no <attributes/> ???
   // time is crucially needed for measures management,
   // we cannot stay without any
   if (! fCurrentTime) {
@@ -1192,7 +1192,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
     fCurrentPart->
       appendTimeToPart (fCurrentTime);
   }
-  */
 }
 
 //______________________________________________________________________________
@@ -5102,7 +5101,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   S_msrStanza
     stanza =
       currentVoice->
-        createStanzaInVoiceIfNotYetDone (
+        fetchStanzaInVoice (
           inputLineNumber,
           fCurrentStanzaNumber,
           fCurrentStanzaName);
@@ -7460,22 +7459,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
       endl;
   }
 
-/*
-  Each beam in a note is represented with a separate beam element,
-  starting with the eighth note beam using a number attribute of 1.
-  Note that the beam number does not distinguish sets of beams
-  that overlap, as it does for slur and other elements.
-*/
-  //        <beam number="1">begin</beam>
-
-  fCurrentBeamValue = elt->getValue();
-
-  fCurrentBeamNumber = 
-    elt->getAttributeIntValue ("number", 0);
-
   int inputLineNumber =
     elt->getInputLineNumber ();
+
+  // value
   
+  fCurrentBeamValue = elt->getValue();
+
   msrBeam::msrBeamKind beamKind = msrBeam::k_NoBeam;
 
   if      (fCurrentBeamValue == "begin") {
@@ -7507,6 +7497,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_beam& elt )
       s.str ());
   }
     
+  // number
+  
+  fCurrentBeamNumber = 
+    elt->getAttributeIntValue ("number", 0);
+
   S_msrBeam
     beam =
       msrBeam::create (
@@ -12363,58 +12358,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
   }
 }
 
-/*
-   A tuplet element is present when a tuplet is to be displayed graphically, in addition to the sound data provided by the time-modification elements. The number attribute is used to distinguish nested tuplets. The bracket attribute is used to indicate the presence of a bracket. If unspecified, the results are implementation-dependent. The line-shape attribute is used to specify whether the bracket is straight or in the older curved or slurred style. It is straight by default.
-Whereas a time-modification element shows how the cumulative, sounding effect of tuplets and double-note tremolos compare to the written note type, the tuplet element describes how this is displayed. The tuplet element also provides more detailed representation information than the time-modification element, and is needed to represent nested tuplets and other complex tuplets accurately. 
-The show-number attribute is used to display either the number of actual notes, the number of both actual and normal notes, or neither. It is actual by default. The show-type attribute is used to display either the actual type, both the actual and normal types, or neither. It is none by default.
-
-tuplet-actual  
-
-The tuplet-actual element provides optional full control over how the actual part of the tuplet is displayed, including number and note type (with dots). If any of these elements are absent, their values are based on the time-modification element.
-
-tuplet-dot  
-
-The tuplet-dot type is used to specify dotted normal tuplet types.
-
-tuplet-normal   The tuplet-normal element provides optional full control over how the normal part of the tuplet is displayed, including number and note type (with dots). If any of these elements are absent, their values are based on the time-modification element.
-tuplet-number  
-
-The tuplet-number type indicates the number of notes for this portion of the tuplet.
-
-tuplet-type  
-
-The tuplet-type type indicates the graphical note type of the notes for this portion of the tuplet.
-
-From NestedTuplets.xml:
-
-          <tuplet bracket="no" number="2" placement="below" type="start">
-            <tuplet-actual>
-              <tuplet-number>3</tuplet-number>
-              <tuplet-type>16th</tuplet-type>
-              <tuplet-dot/>
-            </tuplet-actual>
-            <tuplet-normal>
-              <tuplet-number>2</tuplet-number>
-              <tuplet-type>16th</tuplet-type>
-              <tuplet-dot/>
-            </tuplet-normal>
-          </tuplet>
-
-        <notations>
-          <tuplet number="2" type="start">
-            <tuplet-actual>
-              <tuplet-number>3</tuplet-number>
-              <tuplet-type>eighth</tuplet-type>
-            </tuplet-actual>
-            <tuplet-normal>
-              <tuplet-number>2</tuplet-number>
-              <tuplet-type>eighth</tuplet-type>
-            </tuplet-normal>
-          </tuplet>
-        </notations>
-
-*/
-
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -12422,72 +12366,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
       "--> Start visiting S_tuplet" <<
       endl;
   }
-
-// JMI           <tuplet bracket="yes" number="1" show-number="both" show-type="both" type="start"/>
-
-/*
-<!--
-  A tuplet element is present when a tuplet is to be displayed
-  graphically, in addition to the sound data provided by the
-  time-modification elements. The number attribute is used to
-  distinguish nested tuplets. The bracket attribute is used
-  to indicate the presence of a bracket. If unspecified, the
-  results are implementation-dependent. The line-shape
-  attribute is used to specify whether the bracket is straight
-  or in the older curved or slurred style. It is straight by
-  default.
-  
-  Whereas a time-modification element shows how the cumulative,
-  sounding effect of tuplets and double-note tremolos compare to
-  the written note type, the tuplet element describes how this
-  is displayed. The tuplet element also provides more detailed
-  representation information than the time-modification element,
-  and is needed to represent nested tuplets and other complex
-  tuplets accurately. The tuplet-actual and tuplet-normal
-  elements provide optional full control over tuplet
-  specifications. Each allows the number and note type
-  (including dots) describing a single tuplet. If any of
-  these elements are absent, their values are based on the
-  time-modification element.
-  
-  The show-number attribute is used to display either the
-  number of actual notes, the number of both actual and
-  normal notes, or neither. It is actual by default. The
-  show-type attribute is used to display either the actual
-  type, both the actual and normal types, or neither. It is
-  none by default.
--->
-<!ELEMENT tuplet (tuplet-actual?, tuplet-normal?)>
-<!ATTLIST tuplet
-    type %start-stop; #REQUIRED
-    number %number-level; #IMPLIED
-    bracket %yes-no; #IMPLIED
-    show-number (actual | both | none) #IMPLIED
-    show-type (actual | both | none) #IMPLIED
-    %line-shape;
-    %position;
-    %placement;
->
-<!ELEMENT tuplet-actual (tuplet-number?,
-  tuplet-type?, tuplet-dot*)>
-<!ELEMENT tuplet-normal (tuplet-number?,
-  tuplet-type?, tuplet-dot*)>
-<!ELEMENT tuplet-number (#PCDATA)>
-<!ATTLIST tuplet-number
-    %font;
-    %color;
->
-<!ELEMENT tuplet-type (#PCDATA)>
-<!ATTLIST tuplet-type
-    %font;
-    %color;
->
-<!ELEMENT tuplet-dot EMPTY>
-<!ATTLIST tuplet-dot
-    %font;
-    %color;
->
-*/
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -12719,6 +12597,222 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
       fCurrentTupletDisplayType <<
       endl;
   }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_glissando" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // number
+
+  int glissandoNumber = elt->getAttributeIntValue ("number", 0);
+
+  // type
+
+  string glissandoType = elt->getAttributeValue ("type");
+    
+  msrGlissando::msrGlissandoTypeKind
+    glissandoTypeKind = msrGlissando::k_NoGlissandoType;
+  
+  if      (glissandoType == "start")
+    glissandoTypeKind = msrGlissando::kGlissandoTypeStart;
+  else if (glissandoType == "stop")
+    glissandoTypeKind = msrGlissando::kGlissandoTypeStop;
+  else {
+    stringstream s;
+    
+    s <<
+      "glissando type \"" << glissandoType <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // line-type
+
+  string glissandoLineType = elt->getAttributeValue ("line-type");
+
+  msrGlissando::msrGlissandoLineTypeKind
+    glissandoLineTypeKind =
+      msrGlissando::kGlissandoLineTypeSolid; // default value
+  
+  if      (glissandoLineType == "solid") {
+    glissandoLineTypeKind = msrGlissando::kGlissandoLineTypeSolid;
+  }
+  else if (glissandoLineType == "dashed") {
+    glissandoLineTypeKind = msrGlissando::kGlissandoLineTypeDashed;
+  }
+  else if (glissandoLineType == "dotted") {
+    glissandoLineTypeKind = msrGlissando::kGlissandoLineTypeDotted;
+  }
+  else if (glissandoLineType == "wavy") {
+    glissandoLineTypeKind = msrGlissando::kGlissandoLineTypeWavy;
+  }
+  else {
+    if (glissandoLineType.size ()) {
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        "glissando show-type \"" + glissandoLineType + "\" is unknown");
+    }
+  }
+
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceGlissandos) {
+    fLogOutputStream <<
+      "glissandoNumber: " <<
+      glissandoNumber <<
+      "glissandoType: " <<
+      msrGlissando::glissandoTypeKindAsString (
+        glissandoTypeKind) <<
+      "glissandoLineType: " <<
+      msrGlissando::glissandoLineTypeKindAsString (
+        glissandoLineTypeKind) <<
+      endl;
+  }
+
+  // create glissando
+  S_msrGlissando
+    glissando =
+      msrGlissando::create (
+        inputLineNumber,
+        glissandoNumber,
+        glissandoTypeKind,
+        glissandoLineTypeKind);
+
+  // register glissando in this visitor
+  if (gGeneralOptions->fTraceGlissandos || gGeneralOptions->fTraceNotes) {
+    fLogOutputStream <<
+      "Appending glissando '" <<
+      glissando->glissandoAsString () <<
+      "' to the glissandos pending list" <<
+      endl;
+  }
+      
+  fPendingGlissandos.push_back (glissando);    
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_slide" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // number
+
+  int slideNumber = elt->getAttributeIntValue ("number", 0);
+
+  // type
+
+  string slideType = elt->getAttributeValue ("type");
+    
+  msrSlide::msrSlideTypeKind
+    slideTypeKind = msrSlide::k_NoSlideType;
+  
+  if      (slideType == "start")
+    slideTypeKind = msrSlide::kSlideTypeStart;
+  else if (slideType == "stop")
+    slideTypeKind = msrSlide::kSlideTypeStop;
+  else {
+    stringstream s;
+    
+    s <<
+      "slide type \"" << slideType <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // line-type
+
+  string slideLineType = elt->getAttributeValue ("line-type");
+
+  msrSlide::msrSlideLineTypeKind
+    slideLineTypeKind =
+      msrSlide::kSlideLineTypeSolid; // default value
+  
+  if      (slideLineType == "solid") {
+    slideLineTypeKind = msrSlide::kSlideLineTypeSolid;
+  }
+  else if (slideLineType == "dashed") {
+    slideLineTypeKind = msrSlide::kSlideLineTypeDashed;
+  }
+  else if (slideLineType == "dotted") {
+    slideLineTypeKind = msrSlide::kSlideLineTypeDotted;
+  }
+  else if (slideLineType == "wavy") {
+    slideLineTypeKind = msrSlide::kSlideLineTypeWavy;
+  }
+  else {
+    if (slideLineType.size ()) {
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        "slide show-type \"" + slideLineType + "\" is unknown");
+    }
+  }
+
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceSlides) {
+    fLogOutputStream <<
+      "slideNumber: " <<
+      slideNumber <<
+      "slideType: " <<
+      msrSlide::slideTypeKindAsString (
+        slideTypeKind) <<
+      "slideLineType: " <<
+      msrSlide::slideLineTypeKindAsString (
+        slideLineTypeKind) <<
+      endl;
+  }
+
+  // create slide
+  S_msrSlide
+    slide =
+      msrSlide::create (
+        inputLineNumber,
+        slideNumber,
+        slideTypeKind,
+        slideLineTypeKind);
+    
+  // register glissando in this visitor
+  if (gGeneralOptions->fTraceSlides || gGeneralOptions->fTraceNotes) {
+    fLogOutputStream <<
+      "Appending slide '" <<
+      slide->slideAsString () <<
+      "' to the slides pending list" <<
+      endl;
+  }
+      
+  fPendingSlides.push_back (slide);    
 }
 
 //______________________________________________________________________________
@@ -14183,6 +14277,58 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
   }
 }
 
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
+  S_msrNote note)
+{
+ // attach the pending dynamics if any to the note
+  if (fPendingGlissandos.size ()) {
+    if (gGeneralOptions->fTraceGeneral) { // glissandos ??? JMI
+      fLogOutputStream <<
+        "--> attaching pending glissandos to note " <<
+        note->noteAsString () <<
+        endl;
+    }
+
+    while (fPendingGlissandos.size ()) {
+      S_msrGlissando
+        glissando =
+          fPendingGlissandos.front ();
+          
+      note->
+        addGlissandoToNote (glissando);
+        
+      fPendingGlissandos.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
+  S_msrNote note)
+{
+ // attach the pending dynamics if any to the note
+  if (fPendingSlides.size ()) {
+    if (gGeneralOptions->fTraceGeneral) { // slides ??? JMI
+      fLogOutputStream <<
+        "--> attaching pending slides to note " <<
+        note->noteAsString () <<
+        endl;
+    }
+
+    while (fPendingSlides.size ()) {
+      S_msrSlide
+        slide =
+          fPendingSlides.front ();
+          
+      note->
+        addSlideToNote (slide);
+        
+      fPendingSlides.pop_front ();
+    } // while
+  }
+}
+
 void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   S_msrNote note)
 {
@@ -14206,6 +14352,12 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
 
   // attach the pending wedges, if any, to the note
   attachPendingWedgesToNote (note);
+
+  // attach the pending glissandos, if any, to the note
+  attachPendingGlissandosToNote (note);
+
+  // attach the pending slides, if any, to the note
+  attachPendingSlidesToNote (note);
 }
 
 //______________________________________________________________________________

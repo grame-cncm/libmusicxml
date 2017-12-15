@@ -2932,10 +2932,13 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
       elt->getAttributeValue ("name");
     
     if (stanzaName.size () == 0) {
-      msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        "lyric name is empty");
+      if (gGeneralOptions->fTraceLyrics) {
+        // lyrics names are not so frequent after all...
+        msrMusicXMLWarning (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          "lyric name is empty");
+      }
     }
     
     else {

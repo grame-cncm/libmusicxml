@@ -6250,6 +6250,50 @@ void lpsr2LilypondTranslator::visitEnd (S_msrOrnament& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrGlissando& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrGlissando" <<
+      endl;
+  }
+
+  // don't generate the glissando here,
+  // the note or chord will do it in its visitEnd() method
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrGlissando& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting msrGlissando" <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrSlide& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrSlide" <<
+      endl;
+  }
+
+  // don't generate the slide here,
+  // the note or chord will do it in its visitEnd() method
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrSlide& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting msrSlide" <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrSingleTremolo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -6575,6 +6619,92 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 
+  // print the note glissandos styles if any
+  const list<S_msrGlissando>&
+    noteGlissandos =
+      elt->getNoteGlissandos ();
+      
+  if (noteGlissandos.size ()) {
+    list<S_msrGlissando>::const_iterator i;
+    for (
+      i=noteGlissandos.begin ();
+      i!=noteGlissandos.end ();
+      i++) {
+      S_msrGlissando glissando = (*i);
+        
+      switch (glissando->getGlissandoTypeKind ()) {
+        case msrGlissando::k_NoGlissandoType:
+          break;
+          
+        case msrGlissando::kGlissandoTypeStart:
+          // generate the glissando style
+          switch (glissando->getGlissandoLineTypeKind ()) {
+            case msrGlissando::kGlissandoLineTypeSolid:
+              break;
+            case msrGlissando::kGlissandoLineTypeDashed:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'dashed-line ";
+              break;
+            case msrGlissando::kGlissandoLineTypeDotted:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'dotted-line ";
+              break;
+            case msrGlissando::kGlissandoLineTypeWavy:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'zigzag ";
+              break;
+          } // switch
+          break;
+          
+        case msrGlissando::kGlissandoTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+
+  // print the note slides styles if any, implemented as glissandos
+  const list<S_msrSlide>&
+    noteSlides =
+      elt->getNoteSlides ();
+      
+  if (noteSlides.size ()) {
+    list<S_msrSlide>::const_iterator i;
+    for (
+      i=noteSlides.begin ();
+      i!=noteSlides.end ();
+      i++) {        
+      S_msrSlide slide = (*i);
+        
+      switch (slide->getSlideTypeKind ()) {
+        case msrSlide::k_NoSlideType:
+          break;
+          
+        case msrSlide::kSlideTypeStart:
+          // generate the glissando style
+          switch (slide->getSlideLineTypeKind ()) {
+            case msrSlide::kSlideLineTypeSolid:
+              break;
+            case msrSlide::kSlideLineTypeDashed:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'dashed-line ";
+              break;
+            case msrSlide::kSlideLineTypeDotted:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'dotted-line ";
+              break;
+            case msrSlide::kSlideLineTypeWavy:
+              fLilypondCodeIOstream <<
+                "\\once\\override Glissando.style = #'zigzag ";
+              break;
+          } // switch
+          break;
+          
+        case msrSlide::kSlideTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+
   // should the note be parenthesized?
   msrNote::msrNoteHeadParenthesesKind
     noteHeadParenthesesKind =
@@ -6730,7 +6860,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   */
   
   // print the note articulations if any
-  list<S_msrArticulation>
+  const list<S_msrArticulation>&
     noteArticulations =
       elt->getNoteArticulations ();
       
@@ -6755,7 +6885,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note technicals if any
-  list<S_msrTechnical>
+  const list<S_msrTechnical>&
     noteTechnicals =
       elt->getNoteTechnicals ();
       
@@ -6785,7 +6915,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note technicals if any
-  list<S_msrTechnicalWithInteger>
+  const list<S_msrTechnicalWithInteger>&
     noteTechnicalWithIntegers =
       elt->getNoteTechnicalWithIntegers ();
       
@@ -6815,7 +6945,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note technicals if any
-  list<S_msrTechnicalWithString>
+  const list<S_msrTechnicalWithString>&
     noteTechnicalWithStrings =
       elt->getNoteTechnicalWithStrings ();
       
@@ -6845,7 +6975,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note ornaments if any
-  list<S_msrOrnament>
+  const list<S_msrOrnament>&
     noteOrnaments =
       elt->getNoteOrnaments ();
       
@@ -6879,7 +7009,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note dynamics if any
-  list<S_msrDynamics>
+  const list<S_msrDynamics>&
     noteDynamics =
       elt->getNoteDynamics ();
       
@@ -6910,7 +7040,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
   
   // print the note other dynamics if any
-  list<S_msrOtherDynamics>
+  const list<S_msrOtherDynamics>&
     noteOtherDynamics =
       elt->getNoteOtherDynamics ();
       
@@ -6927,7 +7057,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note words if any
-  list<S_msrWords>
+  const list<S_msrWords>&
     noteWords =
       elt->getNoteWords ();
       
@@ -7056,7 +7186,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note slurs if any
-  list<S_msrSlur>
+  const list<S_msrSlur>&
     noteSlurs =
       elt->getNoteSlurs ();
       
@@ -7089,7 +7219,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note ligatures if any
-  list<S_msrLigature>
+  const list<S_msrLigature>&
     noteLigatures =
       elt->getNoteLigatures ();
       
@@ -7116,7 +7246,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note wedges if any
-  list<S_msrWedge>
+  const list<S_msrWedge>&
     noteWedges =
       elt->getNoteWedges ();
       
@@ -7138,6 +7268,64 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           break;
         case msrWedge::kStopWedge:
           fLilypondCodeIOstream << "\\! ";
+          break;
+      } // switch
+    } // for
+  }
+
+  // print the note glissandos if any
+  const list<S_msrGlissando>&
+    noteGlissandos =
+      elt->getNoteGlissandos ();
+      
+  if (noteGlissandos.size ()) {
+    list<S_msrGlissando>::const_iterator i;
+    for (
+      i=noteGlissandos.begin ();
+      i!=noteGlissandos.end ();
+      i++) {
+      S_msrGlissando glissando = (*i);
+        
+      switch (glissando->getGlissandoTypeKind ()) {
+        case msrGlissando::k_NoGlissandoType:
+          break;
+          
+        case msrGlissando::kGlissandoTypeStart:
+          // generate the glissando itself
+          fLilypondCodeIOstream <<
+            "\\glissando ";
+          break;
+          
+        case msrGlissando::kGlissandoTypeStop:
+          break;
+      } // switch
+    } // for
+  }
+
+  // print the note slides if any, implemented as glissandos
+  const list<S_msrSlide>&
+    noteSlides =
+      elt->getNoteSlides ();
+      
+  if (noteSlides.size ()) {
+    list<S_msrSlide>::const_iterator i;
+    for (
+      i=noteSlides.begin ();
+      i!=noteSlides.end ();
+      i++) {        
+      S_msrSlide slide = (*i);
+        
+      switch (slide->getSlideTypeKind ()) {
+        case msrSlide::k_NoSlideType:
+          break;
+          
+        case msrSlide::kSlideTypeStart:
+          // generate the glissando itself
+          fLilypondCodeIOstream <<
+            "\\glissando ";
+          break;
+          
+        case msrSlide::kSlideTypeStop:
           break;
       } // switch
     } // for

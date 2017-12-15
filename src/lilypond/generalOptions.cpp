@@ -304,6 +304,12 @@ R"(Write a trace of the general activity to standard error.)",
     // tuplets
     fTraceTuplets = boolOptionsInitialValue;
     
+    // glissandos
+    fTraceGlissandos = boolOptionsInitialValue;
+    
+    // slides
+    fTraceSlides = boolOptionsInitialValue;
+    
     // grace notes
     fTraceGraceNotes = boolOptionsInitialValue;
   
@@ -575,6 +581,24 @@ R"(Chords)",
 R"(Tuplets)",
           "traceTuplets",
           fTraceTuplets,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tgliss", "traceGlissandos",
+R"(Glissandos)",
+          "traceGlissandos",
+          fTraceGlissandos,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tslides", "traceSlides",
+R"(Slides)",
+          "traceSlides",
+          fTraceSlides,
           fTraceGeneral));
       
     specificTraceSubGroup->
