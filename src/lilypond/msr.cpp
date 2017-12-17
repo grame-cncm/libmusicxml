@@ -24549,6 +24549,9 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegment (note);
+
+  // register note as the last appended one into this voice
+  fVoiceLastAppendedNote = note;
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {

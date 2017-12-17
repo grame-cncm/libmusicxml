@@ -9054,6 +9054,11 @@ class msrVoice : public msrElement
     S_msrSegment          getVoiceLastSegment () const
                               { return fVoiceLastSegment; }
 
+    // voice last appended note
+
+    S_msrNote             getVoiceLastAppendedNote () const
+                              { return fVoiceLastAppendedNote; }
+
     // counters
     
     int                   getVoiceActualNotesCounter () const
@@ -9473,6 +9478,9 @@ class msrVoice : public msrElement
     list<S_msrElement>    fVoiceInitialElementsList;
     S_msrSegment          fVoiceLastSegment;
 
+    // fVoiceLastAppendedNote is used to build chords upon their second note
+    S_msrNote             fVoiceLastAppendedNote;
+    
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment          fVoiceFirstSegment;
 

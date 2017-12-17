@@ -4933,7 +4933,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       stringstream s;
   
       s <<
-        "<lyric /> has no <syllabic/> component, using a 'skip' by default";
+        "<lyric /> has no <syllabic/> component, using a 'single' by default";
   
       msrMusicXMLWarning (
         gXml2lyOptions->fInputSourceName,
@@ -4941,7 +4941,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
         s.str ());
     }
     
-    fCurrentSyllableKind = msrSyllable::kSyllableSkip;
+    fCurrentSyllableKind = msrSyllable::kSyllableSingle;
   }
 
   if (fCurrentNoteIsARest) {
@@ -5108,61 +5108,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
 
   S_msrSyllable
     syllable;
-
-  /* JMI
-  if (fOnGoingSlur)
-    fOnGoingSlurHasStanza = true;
-    
-  if (fOnGoingLigature)
-    fOnGoingLigatureHasStanza = true;
-    */
-    
-/* JMI
-    if (
-      fCurrentSlurKind == msrSlur::kStartSlur
-        &&
-      fCurrentNoteHasStanza) { // JMI
-    }
-    
-    if (
-      fCurrentLigatureKind == msrLigature::kStartLigature
-        &&
-      fCurrentNoteHasStanza) { // JMI
-    }
-*/
-
-    /* JMI
-    if (fCurrentTieKind != msrTie::k_NoTie) {
-      fCurrentSyllableKind = msrSyllable::kTiedSyllable;
-    }
-    else
-  */
-  
-  /* JMI
-    else if (
-      fOnGoingSlurHasStanza // JMI Ligature ???
-        &&
-      ! fCurrentLyricTextsList.size ()) {
-      if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
-        fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
-      }
-      else {
-        fCurrentSyllableKind = msrSyllable::kSlurSyllable;
-      }
-    }
-    
-    else if (fOnGoingSlur) {
-      if (fFirstSyllableInSlurKind == msrSyllable::kEndSyllable) {
-        fCurrentSyllableKind = msrSyllable::kSlurBeyondEndSyllable;
-      }
-      else {
-        fCurrentSyllableKind = msrSyllable::kSlurSyllable;
-      }
-    }
-    
-    else { // JMI
-    }
-    */
 
   if (gGeneralOptions->fTraceLyrics) {   
     fLogOutputStream <<
@@ -15011,26 +14956,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     }
   }
 
-  // keep track of current note in the current voice,
-  // in case we learn later by <chord/> in the next note
-  // that it is actually the first note of a chord
-
-  if (gGeneralOptions->fTraceChords) {
-    displayLastHandledNoteInVoiceMap (
-      "############## Before handleLyrics()");
-  }
-
   // lyrics if any have to be handled in all cases
   handleLyrics (
     voice,
     newNote);
-
-  fLastHandledNoteInVoiceMap [voice] = newNote;
-
-  if (gGeneralOptions->fTraceChords) {
-    displayLastHandledNoteInVoiceMap (
-      "############## After handleLyrics()");
-  }
   
   fOnGoingNote = false;
 }
@@ -15139,8 +15068,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       // register that last handled note if any is followed by grace notes
       S_msrNote
         lastHandledNoteInVoice =
-          fetchLastHandledNoteInVoiceFromMap (
-            currentVoice);
+          currentVoice->
+            getVoiceLastAppendedNote ();
           
       if (lastHandledNoteInVoice)
         lastHandledNoteInVoice->
@@ -15371,21 +15300,6 @@ void mxmlTree2MsrTranslator::handleLyrics (
 
     // forget all of newNote's syllables
     fCurrentNoteSyllables.clear ();
-
-/* JMI
-    // this is the end of any melisma that may precede newNote
-    if (fOnGoingMelisma) {
-      if (gGeneralOptions->fTraceLyrics) {
-        fLogOutputStream <<
-          "End of a melisma" <<
-          " on note '" << newNote->noteAsShortString () << "'" <<
-          ", line " << inputLineNumber  <<
-          endl;
-      }
-          
-      fOnGoingMelisma = false;
-    }
-    */
   }
 
   else {
@@ -15438,88 +15352,10 @@ void mxmlTree2MsrTranslator::handleLyrics (
       } // for
     }
   }
-      
-   // JMI   if (fLastHandledNoteInVoiceHasLyrics || fOnGoingMelisma) {
-   //   if (fOnGoingSyllableExtend || fOnGoingMelisma) {
-
-        /* JMI
-        // newNote has no lyrics, and inside a melisma
-        
-        // determine the kind of melisma syllable to be created
-        msrSyllable::msrSyllableKind syllableKind;
-        
-        if (fLastHandledNoteInVoiceHasLyrics) {
-          syllableKind =
-            msrSyllable::kMelismaFirstSyllable;
-  
-          // this is the beginning of a melisma
-          if (gGeneralOptions->fTraceLyrics) {
-            fLogOutputStream <<
-              "Start of a melisma" <<
-              " on note '" << newNote->noteAsShortString () << "'" <<
-              ", line " << inputLineNumber  <<
-              endl;
-          }
-              
-          fOnGoingMelisma = true;
-        }
-        else {
-          syllableKind =
-            msrSyllable::kMelismaOtherSyllable;
-  
-          // leave fOnGoingMelisma true
-        }
-  
-        // create a melisma syllable
-        S_msrSyllable
-          melismaSyllable =
-            msrSyllable::create (
-              inputLineNumber,
-              syllableKind,
-              msrSyllable::k_NoSyllableExtend,
-              fCurrentNoteSoundingWholeNotes,
-              stanza);
-            
-        // append syllable to current voice
-        currentVoice->
-          appendSyllableToVoice (
-            inputLineNumber,
-            fCurrentStanzaNumber,
-            melismaSyllable);
-      }
-  
-      else {
-      
-        // newNote has no lyrics, and outside of a melisma
-      */
-  
-        // a chord member note is heard on the same syllable
-        // as the previous note
-  
 
   // register whether the new last handled note has lyrics
   fLastHandledNoteInVoiceHasLyrics =
     fCurrentNoteHasLyrics;
-
-/* JMI
-  // is '<extend />' active for newNote?
-  switch (fCurrentSyllableExtendKind) { // JMI
-    case msrSyllable::kStandaloneSyllableExtend:
-      fOnGoingSyllableExtend = true;
-      break;
-    case msrSyllable::kStartSyllableExtend:
-      fOnGoingSyllableExtend = true;
-      break;
-    case msrSyllable::kContinueSyllableExtend:
-      // keep fOnGoingSyllableExtend unchanged
-      break;
-    case msrSyllable::kStopSyllableExtend:
-      fOnGoingSyllableExtend = false;
-      break;
-    case msrSyllable::k_NoSyllableExtend:
-      break;
-  } // switch
-  */
 }
 
 //______________________________________________________________________________
@@ -15589,29 +15425,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     // i.e the last handled note for this voice
     S_msrNote
       chordFirstNote =
-        fetchLastHandledNoteInVoiceFromMap (
-          currentVoice);
+        currentVoice->
+          getVoiceLastAppendedNote ();
     
     if (! chordFirstNote) {
-      fLogOutputStream << left <<
-        "handleNoteBelongingToAChord():" <<
-        endl <<
-        "chordFirstNote is null on " <<
-        newChordNote->noteAsString () <<
-        endl <<
-        "fCurrentNoteStaffNumber = " << fCurrentNoteStaffNumber <<
-        endl <<
-        "fCurrentNoteVoiceNumber = " << fCurrentNoteVoiceNumber <<
-        endl <<
-        endl <<
-        "current voice:" <<
-        endl <<
-        currentVoice <<
-        endl;
-
-      displayLastHandledNoteInVoiceMap (
-        "############## BEFORE EXIT");
-
       stringstream s;
 
       s <<
@@ -16067,8 +15884,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     // fetch last handled note for this voice
     S_msrNote
       lastHandledNoteInVoice =
-        fetchLastHandledNoteInVoiceFromMap (
-          currentVoice);
+        currentVoice->
+          getVoiceLastAppendedNote ();
 
     if (! lastHandledNoteInVoice) {
       stringstream s;
@@ -16271,83 +16088,6 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
     }  
     */
   } // while
-}
-
-S_msrNote mxmlTree2MsrTranslator::fetchLastHandledNoteInVoiceFromMap (
-  S_msrVoice voice)
-{
-  S_msrNote result;
-
-  map<S_msrVoice, S_msrNote>::const_iterator
-    it =
-      fLastHandledNoteInVoiceMap.find (voice);
-
-  if (it != fLastHandledNoteInVoiceMap.end ())
-    result = (*it).second;
-
-  return result;
-}
-
-void mxmlTree2MsrTranslator::displayLastHandledNoteInVoiceMap (
-  string header)
-{
-  fLogOutputStream <<
-    endl <<
-    header <<
-    ", fLastHandledNoteInVoiceMap contains:";
-
-  if (! fLastHandledNoteInVoiceMap.size ()) {
-    fLogOutputStream <<
-      " none" <<
-      endl;
-  }
-  
-  else {
-    map<S_msrVoice, S_msrNote>::const_iterator
-      iBegin = fLastHandledNoteInVoiceMap.begin (),
-      iEnd   = fLastHandledNoteInVoiceMap.end (),
-      i      = iBegin;
-      
-    fLogOutputStream <<
-      endl;
-    
-    gIndenter++;
-    for ( ; ; ) {
-      S_msrVoice voice = (*i).first;
-      S_msrNote  note  = (*i).second;
-
-      fLogOutputStream <<
-        "\"" << voice->getVoiceName () << "\"" <<
-        ", voiceAbsoluteNumber: " <<
-        voice->getVoiceAbsoluteNumber () <<
-        ": " <<
-        endl;
-
-      // sanity check
-      msrAssert (
-        note != nullptr,
-        "note is null");
-      
-      gIndenter++;
-
-      fLogOutputStream <<
-        note;
-
-      gIndenter--;
-    
-      if (++i == iEnd) break;
-      
-      fLogOutputStream <<
-        endl;
-    } // for
-    
-    gIndenter--;
-  }
-
-  fLogOutputStream <<
-    "-------------------------------------" <<
-    endl <<
-    endl;
 }
 
 void mxmlTree2MsrTranslator::displayLastHandledTupletInVoice (string header)

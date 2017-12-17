@@ -1534,17 +1534,6 @@ class mxmlTree2MsrTranslator :
     void                      handleNoteBelongingToAChord (
                                 S_msrNote newChordNote);
     
-    map<S_msrVoice, S_msrNote>
-                              fLastHandledNoteInVoiceMap;
-                                // may be the first note of a chord
-                                // or subject to aftergrace optimisation
-
-    S_msrNote                 fetchLastHandledNoteInVoiceFromMap (
-                                S_msrVoice voice);
-                                
-    void                      displayLastHandledNoteInVoiceMap (
-                                string header);
-
     // tuplets handling
     // ------------------------------------------------------
     
