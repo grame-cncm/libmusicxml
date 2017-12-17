@@ -1103,6 +1103,16 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingTemposToTheVoiceOfNote (
                                 S_msrNote note);
 
+    // octave shift handling
+    // ------------------------------------------------------
+    
+    // octave shifts remain pending until the next note
+    // (they precede the note in MusicXML and
+    // may occur when no current voice exists)
+    list<S_msrOctaveShift>    fPendingOctaveShifts;
+    void                      attachPendingOctaveShiftsToTheVoiceOfNote (
+                                S_msrNote note);
+
     // time handling
     // ------------------------------------------------------
 

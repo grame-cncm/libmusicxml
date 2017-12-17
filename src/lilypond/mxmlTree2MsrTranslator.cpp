@@ -2850,6 +2850,8 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // size
+  
   string octaveShiftSizeString = elt->getAttributeValue ("size");
   int    octaveShiftSize = 0;
 
@@ -2884,6 +2886,8 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
         s.str ());
     }
   }
+
+  // type
   
   string type = elt->getAttributeValue ("type");
 
@@ -2921,17 +2925,8 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
         octaveShiftKind,
         octaveShiftSize);
 
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentDirectionStaffNumber,
-        fCurrentVoiceNumber);
-
-  // append octave shift to the current voice
-  currentVoice->
-    appendOctaveShiftToVoice (octaveShift);
+  // append the octave shift to the pending octave shifts list
+  fPendingOctaveShifts.push_back (octaveShift);
 }
 
 void mxmlTree2MsrTranslator::visitStart (S_words& elt)
@@ -3418,6 +3413,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
         r.getDenominator(),
         fCurrentMetrenomePerMinute);
 
+  // append the tempo to the pending tempos list
   fPendingTempos.push_back (tempo);
   
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
@@ -13874,6 +13870,40 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
+  S_msrNote note)
+{
+ // attach the pending dynamics if any to the note
+  if (fPendingOctaveShifts.size ()) {
+    if (gGeneralOptions->fTraceGeneral) { // OctaveShifts ??? JMI
+      fLogOutputStream <<
+        "--> attaching pending octave shifts to note " <<
+        note->noteAsString () <<
+        endl;
+    }
+
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fetchVoiceFromCurrentPart (
+          note->getInputLineNumber (),
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber);
+
+    while (fPendingOctaveShifts.size ()) {
+      S_msrOctaveShift
+        octaveShift =
+          fPendingOctaveShifts.front ();
+          
+      voice->
+        appendOctaveShiftToVoice (octaveShift);
+        
+      fPendingOctaveShifts.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
   S_msrNote note)
 {
@@ -14279,6 +14309,9 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
 {
   // attach the pending tempos, if any, to the note's voice
   attachPendingTemposToTheVoiceOfNote (note);
+
+  // attach the pending octave shifts, if any, to the note's voice
+  attachPendingOctaveShiftsToTheVoiceOfNote (note);
 
   // attach the pending dynamics, if any, to the note
   attachPendingDynamicsToNote (note);

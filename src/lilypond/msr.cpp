@@ -5761,6 +5761,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
        endl;
   }
 
+/* JMI ???
   if (fNoteSlurs.size ()) {
     if (
       fNoteSlurs.back ()->getSlurKind () == msrSlur::kRegularSlurStart // JMI
@@ -5797,6 +5798,9 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 
   else
     fNoteSlurs.push_back (slur);
+    */
+    
+  fNoteSlurs.push_back (slur);
 }
 
 void msrNote::addLigatureToNote (S_msrLigature ligature)
@@ -33544,7 +33548,8 @@ void msrScore::printSummary (ostream& os)
 
   int partGroupsListSize =
     fPartGroupsList.size ();
-    
+
+  // print global information
   os << left <<
     setw (fieldWidth) <<
     singularOrPluralWithoutNumber (
@@ -33572,6 +33577,24 @@ void msrScore::printSummary (ostream& os)
     fInstrumentAbbreviationsMaxLength <<
     endl<<
     endl;
+
+  // print the implicit part group contents
+  // it is the only element in fPartGroupsList JMI single variable
+  if (fPartGroupsList.size ()) {
+    os <<
+      endl <<
+      "Parts and part groups structure:" <<
+      endl;
+  
+    gIndenter++;
+    
+    fPartGroupsList.front () ->
+      printPartGroupParts (
+        fInputLineNumber,
+        os);
+  
+    gIndenter--;
+  }
 
   // print the identification if any
   if (fIdentification) {
