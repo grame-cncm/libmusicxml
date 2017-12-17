@@ -4260,6 +4260,39 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
 }
 
 //________________________________________________________________________
+void mxmlTree2MsrTranslator::displaySlurStartsStack (
+  string context)
+{
+  fLogOutputStream <<
+    endl <<
+    ">>++++++++++++++++ " <<
+    "The slurs starts stack contains:" <<
+    endl;
+
+  if (fSlurStartsStack.size ()) {  
+    list<S_msrSlur>::const_iterator
+      iBegin = fSlurStartsStack.begin (),
+      iEnd   = fSlurStartsStack.end (),
+      i      = iBegin;
+        
+    gIndenter++;
+  
+    for ( ; ; ) {
+      fLogOutputStream << "v " << (*i);
+      if (++i == iEnd) break;
+      // no endl here
+    } // for
+  
+    gIndenter--;
+  }
+  
+  fLogOutputStream <<
+    "<<++++++++++++++++ " <<
+    endl <<
+    endl;
+}
+
+//________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -4268,92 +4301,172 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
       endl;
   }
 
-/*
-Slur types are empty. Most slurs are represented with two elements: one with a start type, and one with a stop type. Slurs can add more elements using a continue type. This is typically used to specify the formatting of cross-system slurs, or to specify the shape of very complex slurs.
-
-      <note default-x="80">
-        <pitch>
-          <step>F</step>
-          <octave>4</octave>
-        </pitch>
-        <duration>2</duration>
-        <voice>1</voice>
-        <type>eighth</type>
-        <stem default-y="5">up</stem>
-        <beam number="1">begin</beam>
-        <notations>
-          <slur number="1" placement="below" type="start"/>
-        </notations>
-      </note>
-
-http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
-
-*/
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  // number
+  if (gGeneralOptions->fTraceSlurs) {
+    displaySlurStartsStack ("BEFORE handling slur");
+  }
   
-  fCurrentSlurNumber = elt->getAttributeIntValue ("number", 0);
-
-  // type
-  
-  fCurrentSlurType = elt->getAttributeValue ("type");
-
-  fCurrentSlurPlacement =
-    elt->getAttributeValue ("placement");
-
-  // a phrasing slur is recognized as such
-  // when the nested regular slur start is met
-
-  int slurStartsStackSize = fSlurStartsStack.size ();
-
-  if      (fCurrentSlurType == "start") {
-    switch (slurStartsStackSize) {
-      case 0:
-        fCurrentSlurKind = msrSlur::kRegularSlurStart;
-        break;
-        
-      case 1:
-        fCurrentSlurKind = msrSlur::kRegularSlurStart;
-
-        // the stack top is in fact a phrasing slur start
-        fSlurStartsStack.top ()->setSlurKind (
-          msrSlur::kPhrasingSlurStart);
-        break;
-        
-      default:
-        {
-          stringstream s;
-          
-          s <<
-            "only one slur nesting level is meaningfull";
-          
-          msrMusicXMLError (
-            gXml2lyOptions->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
-    } // switch
+  /*
+    Only the  first note of the chord should get the slur notation.
+    Some applications print out the slur for all notes,
+    i.e. a stop and a start in sequqnce:
+    these should be ignored
+  */
+  if (fCurrentNoteBelongsToAChord) {
+    stringstream s;
+    
+    s <<
+      "ignoring a slur in a chord member note other than the first one";
       
-    fOnGoingSlur = true;    
+    msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      s.str ());
   }
+
+  else {
+
+    // number
+    
+    fCurrentSlurNumber = elt->getAttributeIntValue ("number", 0);
   
-  else if (fCurrentSlurType == "continue") {
-    fCurrentSlurKind = msrSlur::kSlurContinue;
-  }
+    // type
+    
+    fCurrentSlurType = elt->getAttributeValue ("type");
   
-  else if (fCurrentSlurType == "stop") {
-    fCurrentSlurKind = msrSlur::kRegularSlurStop;
-    switch (slurStartsStackSize) {
-      case 0:
-        {
+    fCurrentSlurPlacement =
+      elt->getAttributeValue ("placement");
+  
+    // a phrasing slur is recognized as such
+    // when the nested regular slur start is met
+  
+    int slurStartsStackSize = fSlurStartsStack.size ();
+  
+    if      (fCurrentSlurType == "start") {
+      switch (slurStartsStackSize) {
+        case 0:
+          fCurrentSlurKind = msrSlur::kRegularSlurStart;
+          break;
+          
+        case 1:
+          {
+            S_msrSlur
+              containingSlur =
+                fSlurStartsStack.front ();
+            
+            fCurrentSlurKind = msrSlur::kRegularSlurStart;
+    
+            // the stack top is in fact a phrasing slur start
+            if (gGeneralOptions->fTraceSlurs) {
+              fLogOutputStream <<
+                "The slur start '" <<
+                containingSlur->slurAsString () <<
+                "' contains a nested slur, it is thus a phrasing slur start" <<
+                ", line " << inputLineNumber <<
+                endl;
+            }
+            
+            containingSlur->
+              setSlurKind (
+                msrSlur::kPhrasingSlurStart);
+          }
+          break;
+          
+        default:
+          {
+            stringstream s;
+            
+            s <<
+              "only one slur nesting level is meaningfull";
+            
+            msrMusicXMLError (
+              gXml2lyOptions->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+      } // switch
+        
+      fOnGoingSlur = true;    
+    }
+    
+    else if (fCurrentSlurType == "continue") {
+      fCurrentSlurKind = msrSlur::kSlurContinue;
+    }
+    
+    else if (fCurrentSlurType == "stop") {
+      fCurrentSlurKind = msrSlur::kRegularSlurStop;
+      switch (slurStartsStackSize) {
+        case 0:
+          {
+            stringstream s;
+            
+            s <<
+              "a standalong slur 'stop' is meaningless";
+            
+            msrMusicXMLError (
+              gXml2lyOptions->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;
+          
+        case 1:
+        /* JMI
+          // the current slur stop is regular
+          fCurrentSlurKind = msrSlur::kRegularSlurStop;
+  
+          // pop the top element off the stack
+          fSlurStartsStack.pop_front ();
+          break;
+  */
+        case 2:
+          // the current slur stop kind depends on that of the stack's top
+          switch (fSlurStartsStack.front ()->getSlurKind ()) {
+            case msrSlur::kRegularSlurStart:
+              fCurrentSlurKind = msrSlur::kRegularSlurStop;
+              break;
+  
+            case msrSlur::kPhrasingSlurStart:
+              // the stack top is in fact a phrasing slur start
+              if (gGeneralOptions->fTraceSlurs) {
+                fLogOutputStream <<
+                  "A slur stop matches a phrasing slur start, it is thus a phrasing slur stop" <<
+                  ", line " << inputLineNumber <<
+                  endl;
+              }
+              
+              fCurrentSlurKind = msrSlur::kPhrasingSlurStop;
+              break;
+  
+            default:
+              ; // should not occur
+          } // switch
+  
+          // pop the top element off the stack
+          fSlurStartsStack.pop_front ();
+          break;
+          
+        default:
+          ; // should not occur
+      } // switch
+  
+      fOnGoingSlur = false;
+    }
+    
+    else {
+      // inner slur notes may miss the "continue" type:
+      // let' complain only on slur notes outside of slurs 
+      if (! fOnGoingSlur)
+        if (fCurrentSlurType.size ()) {
           stringstream s;
           
           s <<
-            "a standalong slur 'stop' is meaningless";
+            "slur type \"" << fCurrentSlurType <<
+            "\" is unknown";
           
           msrMusicXMLError (
             gXml2lyOptions->fInputSourceName,
@@ -4361,70 +4474,31 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-notations.htm
             __FILE__, __LINE__,
             s.str ());
         }
-        break;
-        
-      case 1:
-      case 2:
-        // the current slur kind depends on that of the stack's top
-        switch (fSlurStartsStack.top ()->getSlurKind ()) {
-          case msrSlur::kRegularSlurStart:
-            fCurrentSlurKind = msrSlur::kRegularSlurStop;
-            break;
-          case msrSlur::kPhrasingSlurStart:
-            fCurrentSlurKind = msrSlur::kPhrasingSlurStop;
-            break;
-          default:
-            ; // should not occur
-        } // switch
+    }
 
-        // pop the top element off the stack
-        fSlurStartsStack.pop ();
-        break;
-        
-      default:
-        ; // should not occur
-    } // switch
-
-    fOnGoingSlur = false;
-  }
-  
-  else {
-    // inner slur notes may miss the "continue" type:
-    // let' complain on slur notes outside of slurs 
-    if (! fOnGoingSlur)
-      if (fCurrentSlurType.size ()) {
-        stringstream s;
-        
-        s <<
-          "slur type \"" << fCurrentSlurType <<
-          "\" is unknown";
-        
-        msrMusicXMLError (
-          gXml2lyOptions->fInputSourceName,
+    S_msrSlur
+      slur =
+        msrSlur::create (
           inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
+          fCurrentSlurNumber,
+          fCurrentSlurKind);
+          
+    fPendingSlurs.push_back (slur);
+  
+    // push slurs starts onto the stack
+    switch (fCurrentSlurKind) {
+      case msrSlur::kRegularSlurStart:
+      case msrSlur::kPhrasingSlurStart:
+        fSlurStartsStack.push_front (slur);
+        break;
+      default:
+        ;
+    } // switch
   }
 
-  S_msrSlur
-    slur =
-      msrSlur::create (
-        inputLineNumber,
-        fCurrentSlurNumber,
-        fCurrentSlurKind);
-        
-  fPendingSlurs.push_back (slur);
-
-  // push slurs starts onto the stack
-  switch (fCurrentSlurKind) {
-    case msrSlur::kRegularSlurStart:
-    case msrSlur::kPhrasingSlurStart:
-      fSlurStartsStack.push (slur);
-      break;
-    default:
-      ;
-  } // switch
+  if (gGeneralOptions->fTraceSlurs) {
+    displaySlurStartsStack ("AFTER handling slur");
+  }
 }
 
 //________________________________________________________________________
@@ -12897,7 +12971,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   // register note as first member of chord
   if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes) {
     fLogOutputStream <<
-      "--> adding first note " <<
+      "Adding first note " <<
       chordFirstNote->
         noteAsShortStringWithRawWholeNotes() <<
       ", line " << inputLineNumber <<
@@ -12934,7 +13008,7 @@ void mxmlTree2MsrTranslator::copyNoteArticulationsToChord (
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes) {
       fLogOutputStream <<
-        "--> copying articulation '" <<
+        "Copying articulation '" <<
         (*i)->articulationKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -12964,7 +13038,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
 
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
-        "--> copying technical '" <<
+        "Copying technical '" <<
         (*i)->technicalKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -12994,7 +13068,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
 
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
-        "--> copying technical '" <<
+        "Copying technical '" <<
         (*i)->technicalWithIntegerKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13024,7 +13098,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
 
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
-        "--> copying technical '" <<
+        "Copying technical '" <<
         (*i)->technicalWithStringKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13054,7 +13128,7 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
 
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) { //JMI
       fLogOutputStream <<
-        "--> copying ornament '" <<
+        "Copying ornament '" <<
         (*i)->ornamentKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13080,7 +13154,7 @@ void mxmlTree2MsrTranslator::copyNoteSingleTremoloToChord (
   if (noteSingleTremolo) {
     if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
-        "--> copying singleTremolo '" <<
+        "Copying singleTremolo '" <<
         noteSingleTremolo->singleTremoloAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13111,7 +13185,7 @@ void mxmlTree2MsrTranslator::copyNoteDynamicsToChord (
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics) {
       fLogOutputStream <<
-        "--> copying dynamics '" <<
+        "Copying dynamics '" <<
         (*i)->dynamicsKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13142,7 +13216,7 @@ void mxmlTree2MsrTranslator::copyNoteOtherDynamicsToChord (
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics) {
       fLogOutputStream <<
-        "--> copying other dynamics '" <<
+        "Copying other dynamics '" <<
         (*i)->otherDynamicsAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13173,7 +13247,7 @@ void mxmlTree2MsrTranslator::copyNoteWordsToChord (
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceWords) {
       fLogOutputStream <<
-        "--> copying words '" <<
+        "Copying words '" <<
         (*i)->wordsAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13204,7 +13278,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
 
     if (gGeneralOptions->fTraceBeams || gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
-        "--> copying beam '" <<
+        "Copying beam '" <<
         (*i)->beamAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13235,7 +13309,7 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceSlurs) {
       fLogOutputStream <<
-        "--> copying slur '" <<
+        "Copying slur '" <<
         (*i)->slurAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13266,7 +13340,7 @@ void mxmlTree2MsrTranslator::copyNoteLigaturesToChord (
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceLigatures) {
       fLogOutputStream <<
-        "--> copying ligature '" <<
+        "Copying ligature '" <<
         (*i)->ligatureKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13297,7 +13371,7 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
 
     if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceWedges) {
       fLogOutputStream <<
-        "--> copying wedges '" <<
+        "Copying wedges '" <<
         (*i)->wedgeKindAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord" <<
@@ -13323,7 +13397,7 @@ void mxmlTree2MsrTranslator::copyNoteHarmonyToChord (
   if (harmony) {
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
-        "--> copying harmony '" <<
+        "Copying harmony '" <<
         harmony->harmonyAsString () <<
         "' from note " << note->noteAsString () <<
         " to chord '" << chord->chordAsString () <<
@@ -13526,7 +13600,7 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
   // pop from the tuplets stack
   if (gGeneralOptions->fTraceTuplets) {
     fLogOutputStream <<
-      "--> popping tuplet 2 '" <<
+      "Popping tuplet 2 '" <<
       tuplet->tupletAsShortString () <<
       "' from tuplets stack" <<
       endl;
@@ -13579,7 +13653,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
 
     if (gGeneralOptions->fTraceNotes) {
       fLogOutputStream <<
-        "--> attaching current articulations to note " <<
+        "Attaching current articulations to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13591,7 +13665,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
           
       if (gGeneralOptions->fTraceNotes) {
         fLogOutputStream <<
-          "--> attaching articulation '" <<
+          "Attaching articulation '" <<
           art->articulationKindAsString () <<
           "' to note " << note->noteAsString () <<
           endl;
@@ -13615,7 +13689,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
-        "--> attaching current technicals to note " <<
+        "Attaching current technicals to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13627,7 +13701,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
           
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
         fLogOutputStream <<
-          "--> attaching technical '" <<
+          "Attaching technical '" <<
           tech->technicalAsString () <<
           "' to note " << note->noteAsString () <<
           endl;
@@ -13651,7 +13725,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
-        "--> attaching current technical with integers to note " <<
+        "Attaching current technical with integers to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13663,7 +13737,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
           
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
         fLogOutputStream <<
-          "--> attaching technical with integer '" <<
+          "Attaching technical with integer '" <<
           tech->technicalWithIntegerAsString () <<
           "' to note " << note->noteAsString () <<
           endl;
@@ -13687,7 +13761,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
     
     if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
-        "--> attaching current technical with strings to note " <<
+        "Attaching current technical with strings to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13699,7 +13773,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
           
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
         fLogOutputStream <<
-          "--> attaching technical with string '" <<
+          "Attaching technical with string '" <<
           tech->technicalWithStringAsString () <<
           "' to note " << note->noteAsString () <<
           endl;
@@ -13723,7 +13797,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
     
     if (gGeneralOptions->fTraceNotes) {
       fLogOutputStream <<
-        "--> attaching current ornaments to note " <<
+        "Attaching current ornaments to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13735,7 +13809,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
           
       if (gGeneralOptions->fTraceNotes) {
         fLogOutputStream <<
-          "--> attaching ornament '" <<
+          "Attaching ornament '" <<
           orn->ornamentKindAsString () <<
           "' to note " << note->noteAsString () <<
           endl;
@@ -13759,7 +13833,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
     
     if (gGeneralOptions->fTraceNotes) {
       fLogOutputStream <<
-        "--> attaching current singleTremolo to note " <<
+        "Attaching current singleTremolo to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13779,7 +13853,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
 
     if (gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
-        "--> attaching current articulations to chord " <<
+        "Attaching current articulations to chord " <<
         chord->chordAsString () <<
         endl;
     }
@@ -13791,7 +13865,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
       i++) {
       if (gGeneralOptions->fTraceChords) {
         fLogOutputStream <<
-          "--> attaching articulation " <<  (*i) <<
+          "Attaching articulation " <<  (*i) <<
           " to chord " << chord <<
           endl;
       }
@@ -13811,7 +13885,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
 
     if (gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
-        "--> attaching current ornaments to chord " <<
+        "Attaching current ornaments to chord " <<
         chord->chordAsString () <<
         endl;
     }
@@ -13823,7 +13897,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
       i++) {
       if (gGeneralOptions->fTraceChords) {
         fLogOutputStream <<
-          "--> attaching ornament " <<  (*i) << " to chord " <<
+          "Attaching ornament " <<  (*i) << " to chord " <<
           chord <<
           endl;
       }
@@ -13843,7 +13917,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
   if (fPendingTempos.size ()) {
     if (gGeneralOptions->fTraceGeneral) { // tempos ??? JMI
       fLogOutputStream <<
-        "--> attaching pending tempos to note " <<
+        "Attaching pending tempos to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13877,7 +13951,7 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
   if (fPendingOctaveShifts.size ()) {
     if (gGeneralOptions->fTraceGeneral) { // OctaveShifts ??? JMI
       fLogOutputStream <<
-        "--> attaching pending octave shifts to note " <<
+        "Attaching pending octave shifts to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13913,7 +13987,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
     
     if (gGeneralOptions->fTraceDynamics) {
       fLogOutputStream <<
-        "--> attaching pending dynamics to note " <<
+        "Attaching pending dynamics to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13921,7 +13995,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
     if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         fLogOutputStream <<
-          "--> Delaying dynamics attached to a rest until next note" <<
+          "Delaying dynamics attached to a rest until next note" <<
           endl;
 
         delayAttachment = true;
@@ -13972,7 +14046,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
     
     if (gGeneralOptions->fTraceDynamics) {
       fLogOutputStream <<
-        "--> attaching pending dynamics to note " <<
+        "Attaching pending dynamics to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -13980,7 +14054,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
     if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsDynamics) {
         fLogOutputStream <<
-          "--> Delaying dynamics attached to a rest until next note" <<
+          "Delaying dynamics attached to a rest until next note" <<
           endl;
 
         delayAttachment = true;
@@ -14030,7 +14104,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
     
     if (gGeneralOptions->fTraceWords) {
       fLogOutputStream <<
-        "--> attaching pending words to note " <<
+        "Attaching pending words to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -14038,7 +14112,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
     if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsWords) {
         fLogOutputStream <<
-          "--> Delaying word(s) attached to a rest until next note" <<
+          "Delaying word(s) attached to a rest until next note" <<
           endl;
 
         delayAttachment = true;
@@ -14088,7 +14162,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
         
     if (gGeneralOptions->fTraceSlurs) {
       fLogOutputStream <<
-        "--> attaching pending slurs to note " <<
+        "Attaching pending slurs to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -14096,7 +14170,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
     if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsSlurs) {
         fLogOutputStream <<
-          "--> Delaying slur attached to a rest until next note" <<
+          "Delaying slur attached to a rest until next note" <<
           endl;
 
         delayAttachment = true;
@@ -14146,7 +14220,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
         
     if (gGeneralOptions->fTraceLigatures) {
       fLogOutputStream <<
-        "--> attaching pending ligatures to note " <<
+        "Attaching pending ligatures to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -14154,7 +14228,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
     if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsLigatures) {
         fLogOutputStream <<
-          "--> Delaying ligature attached to a rest until next note" <<
+          "Delaying ligature attached to a rest until next note" <<
           endl;
 
         delayAttachment = true;
@@ -14204,7 +14278,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
         
     if (gGeneralOptions->fTraceWedges) {
       fLogOutputStream <<
-        "--> attaching pending wedges to note " <<
+        "Attaching pending wedges to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -14212,7 +14286,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
     if (fCurrentNoteIsARest) {
       if (gMsrOptions->fDelayRestsWedges) {
         fLogOutputStream <<
-          "--> Delaying wedge attached to a rest until next note" <<
+          "Delaying wedge attached to a rest until next note" <<
       endl;
 
         delayAttachment = true;
@@ -14260,7 +14334,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
   if (fPendingGlissandos.size ()) {
     if (gGeneralOptions->fTraceGeneral) { // glissandos ??? JMI
       fLogOutputStream <<
-        "--> attaching pending glissandos to note " <<
+        "Attaching pending glissandos to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -14286,7 +14360,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
   if (fPendingSlides.size ()) {
     if (gGeneralOptions->fTraceGeneral) { // slides ??? JMI
       fLogOutputStream <<
-        "--> attaching pending slides to note " <<
+        "Attaching pending slides to note " <<
         note->noteAsString () <<
         endl;
     }
@@ -15233,7 +15307,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     currentVoice->
       appendNoteToVoice (newNote);
 
-    if (false) // XXL, syllable sans fSyllableNote assigne
+    if (false) // XXL, syllable sans fSyllableNote assigne JMI
       fLogOutputStream <<
         endl << endl <<
         "&&&&&&&&&&&&&&&&&& currentVoice (" <<

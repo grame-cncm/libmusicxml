@@ -7185,37 +7185,40 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-  // print the note slurs if any
-  const list<S_msrSlur>&
-    noteSlurs =
-      elt->getNoteSlurs ();
-      
-  if (noteSlurs.size ()) {
-    list<S_msrSlur>::const_iterator i;
-    for (
-      i=noteSlurs.begin ();
-      i!=noteSlurs.end ();
-      i++) {
+  // print the note slurs if any,
+  // unless the note is chord member
+  if (! elt->getNoteBelongsToAChord ()) {
+    const list<S_msrSlur>&
+      noteSlurs =
+        elt->getNoteSlurs ();
         
-      switch ((*i)->getSlurKind ()) {
-        case msrSlur::k_NoSlur:
-          break;
-        case msrSlur::kRegularSlurStart:
-          fLilypondCodeIOstream << "( ";
-          break;
-        case msrSlur::kPhrasingSlurStart:
-          fLilypondCodeIOstream << "\\( ";
-          break;
-        case msrSlur::kSlurContinue:
-          break;
-        case msrSlur::kRegularSlurStop:
-          fLilypondCodeIOstream << ") ";
-          break;
-        case msrSlur::kPhrasingSlurStop:
-          fLilypondCodeIOstream << "\\) ";
-          break;
-      } // switch
-    } // for
+    if (noteSlurs.size ()) {
+      list<S_msrSlur>::const_iterator i;
+      for (
+        i=noteSlurs.begin ();
+        i!=noteSlurs.end ();
+        i++) {
+          
+        switch ((*i)->getSlurKind ()) {
+          case msrSlur::k_NoSlur:
+            break;
+          case msrSlur::kRegularSlurStart:
+            fLilypondCodeIOstream << "( ";
+            break;
+          case msrSlur::kPhrasingSlurStart:
+            fLilypondCodeIOstream << "\\( ";
+            break;
+          case msrSlur::kSlurContinue:
+            break;
+          case msrSlur::kRegularSlurStop:
+            fLilypondCodeIOstream << ") ";
+            break;
+          case msrSlur::kPhrasingSlurStop:
+            fLilypondCodeIOstream << "\\) ";
+            break;
+        } // switch
+      } // for
+    }
   }
 
   // print the note ligatures if any

@@ -5158,6 +5158,14 @@ class msrNote : public msrElement
     bool                  getNoteIsStemless () const
                               { return fNoteIsStemless; }
 
+    void                  setNoteIsAChordsFirstMemberNote ()
+                              {
+                                fNoteIsAChordsFirstMemberNote = true;
+                              }
+
+    bool                  getNoteIsAChordsFirstMemberNote () const
+                              { return fNoteIsAChordsFirstMemberNote; }
+
     void                  setNoteIsFirstNoteInADoubleTremolo ()
                               { fNoteIsFirstNoteInADoubleTremolo = true; }
 
@@ -5500,6 +5508,10 @@ class msrNote : public msrElement
     // this is needed to handle stemless notes,
     // because the <stem> is visited after 'visitorStart ( S_msrNote )' 
     bool                  fNoteIsStemless;
+
+    // this is to distinguish the first chord member note
+    // from the other ones, since only it should get the slur if any
+    bool                  fNoteIsAChordsFirstMemberNote;
 
     // this is needed to handle double tremolos
     bool                  fNoteIsFirstNoteInADoubleTremolo;

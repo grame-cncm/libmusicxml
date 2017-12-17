@@ -2479,12 +2479,29 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
       endl;
   }
 
+  /*
+    Only the  first note of the chord should get the slur notation.
+    Some applications print out the slur for all notes,
+    i.e. a stop and a start in sequqnce:
+    these should be ignored
+  */
+
   if (fOnGoingNote) {
-    // don't add slurs to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addSlurToNote (elt);
+    // don't add slurs to chord member notes except the first one
+    switch (fCurrentNoteClone->getNoteKind ()) {
+      case msrNote::kChordMemberNote:
+        if (fCurrentNoteClone->getNoteIsAChordsFirstMemberNote ()) {
+          fCurrentNoteClone->
+            addSlurToNote (elt);
+        }
+        break;
+        
+      default:
+        fCurrentNoteClone->
+          addSlurToNote (elt);
+    } // switch
   }
+  
   else if (fOnGoingChord) {
     fCurrentChordClone->
       addSlurToChord (elt);

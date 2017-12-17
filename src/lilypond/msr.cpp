@@ -4407,6 +4407,10 @@ void msrNote::initializeNote ()
   // ------------------------------------------------------
 
   fNoteIsStemless = false;
+  
+  fNoteIsAChordsFirstMemberNote = false;
+  
+  fNoteIsAChordsFirstMemberNote = false;
 
   fNoteIsFirstNoteInADoubleTremolo  = false;
   fNoteIsSecondNoteInADoubleTremolo = false;
@@ -4613,6 +4617,9 @@ S_msrNote msrNote::createNoteNewbornClone (
 
   newbornClone->fNoteIsStemless =
     fNoteIsStemless;
+
+  newbornClone->fNoteIsAChordsFirstMemberNote =
+    fNoteIsAChordsFirstMemberNote;
 
   newbornClone->fNoteIsFirstNoteInADoubleTremolo =
     fNoteIsFirstNoteInADoubleTremolo;
@@ -5005,6 +5012,9 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   noteDeepCopy->fNoteIsStemless =
     fNoteIsStemless;
+
+  noteDeepCopy->fNoteIsAChordsFirstMemberNote =
+    fNoteIsAChordsFirstMemberNote;
 
   noteDeepCopy->fNoteIsFirstNoteInADoubleTremolo =
     fNoteIsFirstNoteInADoubleTremolo;
@@ -5757,49 +5767,11 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 {
   if (gGeneralOptions->fTraceSlurs) {
     gLogIOstream <<
-      "Adding slur " << slur << " to note " << noteAsString () <<
-       endl;
+      "Adding slur '" << slur <<
+      "' to note '" << noteAsString () << "'" <<
+      endl;
   }
 
-/* JMI ???
-  if (fNoteSlurs.size ()) {
-    if (
-      fNoteSlurs.back ()->getSlurKind () == msrSlur::kRegularSlurStart // JMI
-        &&
-      slur->getSlurKind () == msrSlur::kRegularSlurStop
-        &&
-      fNoteSlurs.back ()->getSlurNumber () == slur->getSlurNumber ()
-      ) {
-      // it may happen that a given note has a 'slur start'
-      // and a 'slur stop' in sequence, ignore both
-
-      stringstream s;
-      
-      s <<
-        "a 'slur start' is immediately followed by a 'slur stop'" <<
-        endl <<
-        "with the same number, ignoring both of them at line " <<
-        slur->getInputLineNumber ();
-        
-      msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
-        slur->getInputLineNumber (),
-        s.str ());
-        
-      // rmeove 'slur start'
-      fNoteSlurs.pop_back ();
-
-      // don't register 'slur stop'
-    }
-
-    else
-      fNoteSlurs.push_back (slur);
-  }
-
-  else
-    fNoteSlurs.push_back (slur);
-    */
-    
   fNoteSlurs.push_back (slur);
 }
 
@@ -7450,8 +7422,13 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
       endl;
   }
 
+  // append note to chord notes
   fChordNotes.push_back (note);
+
+  // mark note as belonging to a chord
+  note->setNoteIsAChordsFirstMemberNote ();
   
+  // mark note as being the first one in the chord
   note->setNoteBelongsToAChord ();
   
   // populate note's measure number
@@ -18172,7 +18149,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     */
 
   // determine if the tuplet occupies a full measure
-// XXL    if (tupletSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
+// JMI    if (tupletSoundingWholeNotes == fMeasureDivisionsPerWholeMeasure)
     // tuplet->setTupletOccupiesAFullMeasure ();
 
   // append the tuplet to the measure elements list
@@ -20558,7 +20535,7 @@ void msrSegment::appendNoteToSegmentClone (S_msrNote note)
     appendNoteToMeasureClone (note);
 }
 
-void msrSegment::appendDoubleTremoloToSegment ( // XXL
+void msrSegment::appendDoubleTremoloToSegment ( // JMI
   S_msrDoubleTremolo doubleTremolo)
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceSegments) {
@@ -20627,7 +20604,7 @@ void msrSegment::appendMultipleRestToSegment (
     appendMultipleRestToMeasure (multipleRest);
 }
 
-void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
+void msrSegment::appendChordToSegment (S_msrChord chord) // JMI
 {
   // sanity check
   msrAssert (
@@ -20638,7 +20615,7 @@ void msrSegment::appendChordToSegment (S_msrChord chord) // XXL
     appendChordToMeasure (chord);
 }
 
-void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // XXL
+void msrSegment::appendTupletToSegment (S_msrTuplet tuplet) // JMI
 {
   // sanity check
   msrAssert (
@@ -33582,7 +33559,6 @@ void msrScore::printSummary (ostream& os)
   // it is the only element in fPartGroupsList JMI single variable
   if (fPartGroupsList.size ()) {
     os <<
-      endl <<
       "Parts and part groups structure:" <<
       endl;
   
@@ -33594,6 +33570,9 @@ void msrScore::printSummary (ostream& os)
         os);
   
     gIndenter--;
+
+    os <<
+      endl;
   }
 
   // print the identification if any
@@ -34208,5 +34187,67 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
 */
 
 /* JMI
-*/
+  bool doAddSlurToNote = true;
+  
+  if (fNoteSlurs.size ()) {
+    // this notes has several slurs attached to it
+    S_msrSlur previousSlur = fNoteSlurs.back ();
+
+    switch (previousSlur->getSlurKind ()) {
+      case msrSlur::kRegularSlurStart:
+      case msrSlur::kPhrasingSlurStart:
+        break;
+      case msrSlur::kSlurContinue:
+        break;
+      case msrSlur::kRegularSlurStop:
+      case msrSlur::kPhrasingSlurStop:
+        switch (previousSlur->getSlurKind ()) {
+          case msrSlur::kRegularSlurStart:
+          case msrSlur::kPhrasingSlurStart:
+            {
+            / *
+              Only the  first note of the chord should get the slur notation.
+              Some applications print out the slur for all notes,
+              i.e. a stop and a start in sequqnce:
+              these should be ignored
+              * /
+              stringstream s;
+              
+              s <<
+                "a 'slur start' is immediately followed by a 'slur stop'," <<
+                endl <<
+                "ignoring both of them at line " <<
+                slur->getInputLineNumber ();
+                
+              msrMusicXMLWarning (
+                gXml2lyOptions->fInputSourceName,
+                slur->getInputLineNumber (),
+                s.str ());
+                
+              // rmeove the 'slur start'
+              fNoteSlurs.pop_back ();
+        
+              // don't register 'slur stop'
+              doAddSlurToNote = false;
+            }
+            break;
+          case msrSlur::kSlurContinue:
+            break;
+          case msrSlur::kRegularSlurStop:
+            break;
+          case msrSlur::kPhrasingSlurStop:
+            break;
+          case msrSlur::k_NoSlur:
+            break;
+        } // switch
+        break;
+      case msrSlur::k_NoSlur:
+        break;
+    } // switch
+  }
+
+  if (doAddSlurToNote) {
+    fNoteSlurs.push_back (slur);
+  }
+  */
 

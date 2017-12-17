@@ -1609,7 +1609,9 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingSlur;
     bool                      fOnGoingSlurHasStanza;
 
-    stack<S_msrSlur>          fSlurStartsStack;
+    list<S_msrSlur>           fSlurStartsStack;
+    void                      displaySlurStartsStack (
+                                  string context);
     
     // ligatures handling
     // ------------------------------------------------------
