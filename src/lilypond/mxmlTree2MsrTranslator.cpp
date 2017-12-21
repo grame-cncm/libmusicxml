@@ -234,7 +234,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   // grace notes handling
 
   // tremolos handling
-  fCurrentMusicXMLTremoloTypeKind = k_NoTremolo;
+  fCurrentNoteBelongsToADoubleTremolo = false;
+  fCurrentMusicXMLTremoloTypeKind     = k_NoTremolo;
 
   // chords handling
   fOnGoingChord = false;
@@ -2666,62 +2667,22 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
       endl;
   }
 
-/*
-  A direction is a musical indication that is not attached to a specific note.
-  Two or more may be combined to indicate starts and stops of wedges, dashes, etc.
-   
-  By default, a series of direction-type elements and a series
-  of child elements of a direction-type within a single direction element
-  follow one another in sequence visually.
+  // placement
   
-  For a series of direction-type children, non-positional formatting attributes
-  are carried over from the previous element by default.
-
-  <direction placement="above">
-    <direction-type>
-      <words default-y="48" font-size="10.5" font-weight="bold" relative-x="-40" xml:lang="de">Sehr langsam</words>
-    </direction-type>
-    <staff>1</staff>
-    <sound tempo="26"/>
-  </direction>
-
-  <direction placement="above" directive="yes">
-    <direction-type>
-      <words default-y="40" font-size="6.6" font-weight="bold">Moderato</words>
-    </direction-type>
-    <direction-type>
-      <words font-size="6.6" font-weight="normal"> </words>
-    </direction-type>
-    <direction-type>
-      <metronome font-family="EngraverTextT" font-size="5.7" parentheses="yes">
-        <beat-unit>quarter</beat-unit>
-        <per-minute>85</per-minute>
-      </metronome>
-    </direction-type>
-    <sound tempo="85"/>
-  </direction>
-  
-  <direction placement="above">
-    <direction-type>
-      <bracket default-y="20" line-end="down" line-type="solid" number="1" type="start"/>
-    </direction-type>
-    <offset>1</offset>
-  </direction>
-
-*/
-
-  fCurrentDirectionPlacement =
+  string directionPlacementString =
     elt->getAttributeValue ("placement");
 
-  if (fCurrentDirectionPlacement == "above")
-    fCurrentWordsPlacementKind = kAbovePlacement;
-  else if (fCurrentDirectionPlacement == "below")
-    fCurrentWordsPlacementKind = kBelowPlacement;
-  else if (fCurrentDirectionPlacement.size ()) {
+  fCurrentDirectionPlacementKind = k_NoPlacement;
+  
+  if      (directionPlacementString == "above")
+    fCurrentDirectionPlacementKind = kAbovePlacement;
+  else if (directionPlacementString == "below")
+    fCurrentDirectionPlacementKind = kBelowPlacement;
+  else if (directionPlacementString.size ()) {
     stringstream s;
     
     s <<
-      "direction placement \"" << fCurrentDirectionPlacement <<
+      "direction placement \"" << directionPlacementString <<
       "\" is unknown";
     
     msrMusicXMLError (
@@ -3152,7 +3113,9 @@ The
     if (gGeneralOptions->fTraceWords) {
       fLogOutputStream <<
         "Creating words \"" << fCurrentWordsContents << "\"" <<
-        ", placement = \"" << fCurrentDirectionPlacement << "\"" <<
+        ", placement = \"" <<
+        msrPlacementKindAsString (
+          fCurrentDirectionPlacementKind) << "\"" <<
         endl;
     }
 
@@ -3160,7 +3123,7 @@ The
       words =
         msrWords::create (
           elt->getInputLineNumber (),
-          fCurrentWordsPlacementKind,
+          fCurrentDirectionPlacementKind,
           fCurrentWordsContents,
           justifyKind,
           verticalAlignmentKind,
@@ -4330,7 +4293,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
 
     // number
     
-    fCurrentSlurNumber = elt->getAttributeIntValue ("number", 0);
+    int slurNumber = elt->getAttributeIntValue ("number", 0);
   
     // type
     
@@ -4347,7 +4310,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     if      (fCurrentSlurType == "start") {
       switch (slurStartsStackSize) {
         case 0:
-          fCurrentSlurKind = msrSlur::kRegularSlurStart;
+          fCurrentSlurTypeKind = msrSlur::kRegularSlurStart;
           break;
           
         case 1:
@@ -4356,7 +4319,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
               containingSlur =
                 fSlurStartsStack.front ();
             
-            fCurrentSlurKind = msrSlur::kRegularSlurStart;
+            fCurrentSlurTypeKind = msrSlur::kRegularSlurStart;
     
             // the stack top is in fact a phrasing slur start
             if (gGeneralOptions->fTraceSlurs) {
@@ -4369,7 +4332,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             }
             
             containingSlur->
-              setSlurKind (
+              setSlurTypeKind (
                 msrSlur::kPhrasingSlurStart);
           }
           break;
@@ -4393,11 +4356,11 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     }
     
     else if (fCurrentSlurType == "continue") {
-      fCurrentSlurKind = msrSlur::kSlurContinue;
+      fCurrentSlurTypeKind = msrSlur::kSlurContinue;
     }
     
     else if (fCurrentSlurType == "stop") {
-      fCurrentSlurKind = msrSlur::kRegularSlurStop;
+      fCurrentSlurTypeKind = msrSlur::kRegularSlurStop;
       switch (slurStartsStackSize) {
         case 0:
           {
@@ -4417,7 +4380,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
         case 1:
         /* JMI
           // the current slur stop is regular
-          fCurrentSlurKind = msrSlur::kRegularSlurStop;
+          fCurrentSlurTypeKind = msrSlur::kRegularSlurStop;
   
           // pop the top element off the stack
           fSlurStartsStack.pop_front ();
@@ -4425,9 +4388,9 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
   */
         case 2:
           // the current slur stop kind depends on that of the stack's top
-          switch (fSlurStartsStack.front ()->getSlurKind ()) {
+          switch (fSlurStartsStack.front ()->getSlurTypeKind ()) {
             case msrSlur::kRegularSlurStart:
-              fCurrentSlurKind = msrSlur::kRegularSlurStop;
+              fCurrentSlurTypeKind = msrSlur::kRegularSlurStop;
               break;
   
             case msrSlur::kPhrasingSlurStart:
@@ -4439,7 +4402,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
                   endl;
               }
               
-              fCurrentSlurKind = msrSlur::kPhrasingSlurStop;
+              fCurrentSlurTypeKind = msrSlur::kPhrasingSlurStop;
               break;
   
             default:
@@ -4476,17 +4439,64 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
         }
     }
 
+    // line-type
+  
+    string slurLineType = elt->getAttributeValue ("line-type");
+  
+    msrLineTypeKind
+      slurLineTypeKind =
+        kLineTypeSolid; // default value
+    
+    if      (slurLineType == "solid") {
+      slurLineTypeKind = kLineTypeSolid;
+    }
+    else if (slurLineType == "dashed") {
+      slurLineTypeKind = kLineTypeDashed;
+    }
+    else if (slurLineType == "dotted") {
+      slurLineTypeKind = kLineTypeDotted;
+    }
+    else if (slurLineType == "wavy") {
+      slurLineTypeKind = kLineTypeWavy;
+    }
+    else {
+      if (slurLineType.size ()) {
+        msrMusicXMLError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          "slur line-type \"" + slurLineType + "\" is unknown");
+      }
+    }
+  
+    if (
+      gGeneralOptions->fTraceNotesDetails
+        ||
+      gGeneralOptions->fTraceSlurs) {
+      fLogOutputStream <<
+        "slurNumber: " <<
+        slurNumber <<
+        "slurTypeKind: " <<
+        msrSlur::slurTypeKindAsString (
+          fCurrentSlurTypeKind) <<
+        "slurLineType: " <<
+        msrLineTypeKindAsString (
+          slurLineTypeKind) <<
+        endl;
+    }
+
     S_msrSlur
       slur =
         msrSlur::create (
           inputLineNumber,
-          fCurrentSlurNumber,
-          fCurrentSlurKind);
+          slurNumber,
+          fCurrentSlurTypeKind,
+          slurLineTypeKind);
           
     fPendingSlurs.push_back (slur);
   
     // push slurs starts onto the stack
-    switch (fCurrentSlurKind) {
+    switch (fCurrentSlurTypeKind) {
       case msrSlur::kRegularSlurStart:
       case msrSlur::kPhrasingSlurStart:
         fSlurStartsStack.push_front (slur);
@@ -4510,43 +4520,30 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
       endl;
   }
 
-/* binchois:
-      <direction placement="below">
-        <direction-type>
-          <bracket default-y="-26" line-end="up" line-type="solid" number="1" relative-x="-7" type="start"/>
-        </direction-type>
-      </direction>
-*/
-
-// line-end="up" line-type="solid" JMI
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
   // number
   
-  fCurrentLigatureNumber = // JMI ligature ???
+  int ligatureNumber =
     elt->getAttributeIntValue ("number", 0);
 
-  //type
-  
-  fCurrentLigatureType =
+  // type
+
+  string ligatureType =
     elt->getAttributeValue ("type");
 
-  // placement
-  
-  fCurrentLigaturePlacement =
-    elt->getAttributeValue ("placement");
+  fCurrentLigatureKind = msrLigature::k_NoLigature;
 
-  if      (fCurrentLigatureType == "start") {
-    fCurrentLigatureKind = msrLigature::kStartLigature;
+  if      (ligatureType == "start") {
+    fCurrentLigatureKind = msrLigature::kLigatureStart;
     fOnGoingLigature = true;
   }
-  else if (fCurrentLigatureType == "continue") { // JMI ???
-    fCurrentLigatureKind = msrLigature::kContinueLigature;
+  else if (ligatureType == "continue") {
+    fCurrentLigatureKind = msrLigature::kLigatureContinue;
   }
-  else if (fCurrentLigatureType == "stop") {
-    fCurrentLigatureKind = msrLigature::kStopLigature;
+  else if (ligatureType == "stop") {
+    fCurrentLigatureKind = msrLigature::kLigatureStop;
     fOnGoingLigature = false;
   }
   else {
@@ -4554,11 +4551,11 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
     // inner ligature notes may miss the "continue" type:
     // let' complain on ligature notes outside of ligatures 
     if (! fOnGoingLigature)
-      if (fCurrentLigatureType.size ()) {
+      if (ligatureType.size ()) {
         stringstream s;
         
         s <<
-          "ligature type \"" << fCurrentLigatureType <<
+          "ligature type \"" << ligatureType <<
           "\" is unknown";
         
         msrMusicXMLError (
@@ -4568,13 +4565,84 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
           s.str ());
       }
   }
+  
+  // line-end
+
+  string ligatureLineEnd = elt->getAttributeValue ("line-end");
+
+  msrLigature::msrLigatureLineEndKind
+    ligatureLineEndKind = msrLigature::k_NoLigatureLineEnd;
+    
+  if      (ligatureLineEnd == "up") {
+    ligatureLineEndKind = msrLigature::kLigatureLineEndUp;
+  }
+  else if (ligatureLineEnd == "down") {
+    ligatureLineEndKind = msrLigature::kLigatureLineEndDown;
+  }
+  else if (ligatureLineEnd == "both") {
+    ligatureLineEndKind = msrLigature::kLigatureLineEndBoth;
+  }
+  else if (ligatureLineEnd == "arrow") {
+    ligatureLineEndKind = msrLigature::kLigatureLineEndArrow;
+  }
+  else if (ligatureLineEnd == "none") {
+    ligatureLineEndKind = msrLigature::kLigatureLineEndNone;
+  }
+  else {
+    if (ligatureLineEnd.size ()) {
+      stringstream s;
+      
+      s <<
+        "ligature line-end \"" << ligatureLineEnd <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  // line-type
+
+  string ligatureLineType = elt->getAttributeValue ("line-type");
+
+  msrLineTypeKind
+    ligatureLineTypeKind =
+      kLineTypeSolid; // default value
+  
+  if      (ligatureLineType == "solid") {
+    ligatureLineTypeKind = kLineTypeSolid;
+  }
+  else if (ligatureLineType == "dashed") {
+    ligatureLineTypeKind = kLineTypeDashed;
+  }
+  else if (ligatureLineType == "dotted") {
+    ligatureLineTypeKind = kLineTypeDotted;
+  }
+  else if (ligatureLineType == "wavy") {
+    ligatureLineTypeKind = kLineTypeWavy;
+  }
+  else {
+    if (ligatureLineType.size ()) {
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        "ligature line-type \"" + ligatureLineType + "\" is unknown");
+    }
+  }
 
   S_msrLigature
     ligature =
       msrLigature::create (
         inputLineNumber,
-        fCurrentLigatureNumber,
-        fCurrentLigatureKind);
+        ligatureNumber,
+        fCurrentLigatureKind,
+        ligatureLineEndKind,
+        ligatureLineTypeKind,
+        fCurrentDirectionPlacementKind);
         
   fPendingLigatures.push_back (ligature);
 }
@@ -4591,6 +4659,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // type
+  
   string type = elt->getAttributeValue("type");
   
   msrWedge::msrWedgeKind wedgeKind = msrWedge::k_NoWedgeKind;
@@ -4620,12 +4690,74 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
         s.str ());
     }
   }
+
+  // niente
   
+  string nienteString = elt->getAttributeValue ("niente");
+    
+  msrWedge::msrWedgeNienteKind
+    wedgeNienteKind = msrWedge::kWedgeNienteNo;
+
+  if       (nienteString == "yes") {
+    wedgeNienteKind = msrWedge::kWedgeNienteYes;
+  }
+  else  if (nienteString == "no") {
+    wedgeNienteKind = msrWedge::kWedgeNienteNo;
+  }
+  else {
+    if (nienteString.size ()) {
+      stringstream s;
+      
+      s <<
+        "wedge niente \"" << nienteString <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+    
+  // line-type
+
+  string wedgeLineType = elt->getAttributeValue ("line-type");
+
+  msrLineTypeKind
+    wedgeLineTypeKind =
+      kLineTypeSolid; // default value
+  
+  if      (wedgeLineType == "solid") {
+    wedgeLineTypeKind = kLineTypeSolid;
+  }
+  else if (wedgeLineType == "dashed") {
+    wedgeLineTypeKind = kLineTypeDashed;
+  }
+  else if (wedgeLineType == "dotted") {
+    wedgeLineTypeKind = kLineTypeDotted;
+  }
+  else if (wedgeLineType == "wavy") {
+    wedgeLineTypeKind = kLineTypeWavy;
+  }
+  else {
+    if (wedgeLineType.size ()) {
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        "wedge line-type \"" + wedgeLineType + "\" is unknown");
+    }
+  }
+
   S_msrWedge
     wedge =
       msrWedge::create (
         inputLineNumber,
-        wedgeKind);
+        wedgeKind,
+        wedgeNienteKind,
+        wedgeLineTypeKind,
+        fCurrentDirectionPlacementKind);
         
   fPendingWedges.push_back (wedge);
 }
@@ -4639,122 +4771,6 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
       endl;
   }
 
-  /*
-    Text underlays for lyrics, based on Humdrum with support
-    for other formats. The lyric number indicates multiple
-    lines, though a name can be used as well (as in Finale's
-    verse/chorus/section specification). Word extensions are
-    represented using the extend element. Hyphenation is 
-    indicated by the syllabic element, which can be single, 
-    begin, end, or middle. These represent single-syllable
-    words, word-beginning syllables, word-ending syllables,
-    and mid-word syllables. Multiple syllables on a single
-    note are separated by elision elements. A hyphen in the
-    text element should only be used for an actual hyphenated
-    word. Two text elements that are not separated by an
-    elision element are part of the same syllable, but may have
-    different text formatting.
-  
-    Humming and laughing representations are taken from
-    Humdrum. The end-line and end-paragraph elements come
-    from RP-017 for Standard MIDI File Lyric meta-events;
-    they help facilitate lyric display for Karaoke and
-    similar applications. Language names for text elements
-    come from ISO 639, with optional country subcodes from
-    ISO 3166. Justification is center by default; placement is
-    below by default. The print-object attribute can override
-    a note's print-lyric attribute in cases where only some
-    lyrics on a note are printed, as when lyrics for later verses
-    are printed in a block of text rather than with each note.
-
-    Single and begin can occur on one and the same note...:
-
-      <note default-x="143">
-        <pitch>
-          <step>E</step>
-          <alter>-1</alter>
-          <octave>4</octave>
-        </pitch>
-        <duration>6</duration>
-        <voice>1</voice>
-        <type>eighth</type>
-        <stem default-y="-5">up</stem>
-        <beam number="1">begin</beam>
-        
-        <lyric default-y="-80" justify="left" number="1">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">1.</text>
-          <elision> </elision>
-          <syllabic>begin</syllabic>
-          <text font-family="FreeSerif" font-size="11">A</text>
-        </lyric>
-        
-        <lyric default-y="-97" justify="left" number="2">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">2.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">'T</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">was</text>
-        </lyric>
-        
-        <lyric default-y="-113" justify="left" number="3">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">3.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">Throug</text>
-          <extend type="start"/>
-        </lyric>
-        
-        <lyric default-y="-130" justify="left" number="4">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">4.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">The</text>
-          <extend type="start"/>
-        </lyric>
-        
-        <lyric default-y="-147" justify="left" number="5">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">5.</text>
-          <elision> </elision>
-          <syllabic>begin</syllabic>
-          <text font-family="FreeSerif" font-size="11">A</text>
-        </lyric>
-        
-        <lyric default-y="-163" justify="left" number="6">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">6.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">Yes,</text>
-          <extend type="start"/>
-        </lyric>
-        
-        <lyric default-y="-180" justify="left" number="7">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">7.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">The</text>
-          <extend type="start"/>
-        </lyric>
-        
-        <lyric default-y="-197" justify="left" number="8">
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">8.</text>
-          <elision> </elision>
-          <syllabic>single</syllabic>
-          <text font-family="FreeSerif" font-size="11">When</text>
-          <extend type="start"/>
-        </lyric>
-      </note>
-  */
-  
   int inputLineNumber =
     elt->getInputLineNumber ();
 
@@ -5096,8 +5112,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
           
       fLogOutputStream << left <<
         setw (fieldwidth) <<
-        "fCurrentSlurKind" << " = \"" <<
-        msrSlur::slurKindAsString (fCurrentSlurKind) <<
+        "fCurrentSlurTypeKind" << " = \"" <<
+        msrSlur::slurTypeKindAsString (fCurrentSlurTypeKind) <<
         "\"" <<
         endl;
   
@@ -6727,8 +6743,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentStem = nullptr;
 
   // tremolos
-  
-  fCurrentMusicXMLTremoloTypeKind = k_NoTremolo;
+
+  fCurrentNoteBelongsToADoubleTremolo = false;
+  fCurrentMusicXMLTremoloTypeKind     = k_NoTremolo;
 
   // ties
   
@@ -6737,16 +6754,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 
   // slurs
   
-  fCurrentSlurNumber = -1;
   fCurrentSlurType = "";
   fCurrentSlurPlacement = "";
-  fCurrentSlurKind = msrSlur::k_NoSlur;
+  fCurrentSlurTypeKind = msrSlur::k_NoSlur;
 
   // ligatures
   
-  fCurrentLigatureNumber = -1;
-  fCurrentLigatureType = "";
-  fCurrentLigaturePlacement = "";
   fCurrentLigatureKind = msrLigature::k_NoLigature;
 
   // staff and voice
@@ -12322,8 +12335,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
 
   // notes inside a tuplet have no <tuplet/> markup
   // and 2 actual notes indicate a double tremolo
-  if (fCurrentActualNotes != 2)
-    fCurrentNoteBelongsToATuplet = true;
+  switch (fCurrentActualNotes) {
+    case 2:
+      fCurrentNoteBelongsToADoubleTremolo = true;
+      break;
+    default:
+      fCurrentNoteBelongsToATuplet = true;
+  } // switch
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
@@ -12348,8 +12366,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
 
   // notes inside a tuplet have no <tuplet/> markup
   // and 1 actual note indicates a double tremolo
-  if (fCurrentNormalNotes != 1)
-    fCurrentNoteBelongsToATuplet = true;
+  switch (fCurrentNormalNotes) {
+    case 1:
+      fCurrentNoteBelongsToADoubleTremolo = true;
+      break;
+    default:
+      fCurrentNoteBelongsToATuplet = true;
+  } // switch
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
@@ -12659,21 +12682,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
 
   string glissandoLineType = elt->getAttributeValue ("line-type");
 
-  msrGlissando::msrGlissandoLineTypeKind
+  msrLineTypeKind
     glissandoLineTypeKind =
-      msrGlissando::kGlissandoLineTypeSolid; // default value
+      kLineTypeSolid; // default value
   
   if      (glissandoLineType == "solid") {
-    glissandoLineTypeKind = msrGlissando::kGlissandoLineTypeSolid;
+    glissandoLineTypeKind = kLineTypeSolid;
   }
   else if (glissandoLineType == "dashed") {
-    glissandoLineTypeKind = msrGlissando::kGlissandoLineTypeDashed;
+    glissandoLineTypeKind = kLineTypeDashed;
   }
   else if (glissandoLineType == "dotted") {
-    glissandoLineTypeKind = msrGlissando::kGlissandoLineTypeDotted;
+    glissandoLineTypeKind = kLineTypeDotted;
   }
   else if (glissandoLineType == "wavy") {
-    glissandoLineTypeKind = msrGlissando::kGlissandoLineTypeWavy;
+    glissandoLineTypeKind = kLineTypeWavy;
   }
   else {
     if (glissandoLineType.size ()) {
@@ -12681,7 +12704,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
-        "glissando show-type \"" + glissandoLineType + "\" is unknown");
+        "glissando line-type \"" + glissandoLineType + "\" is unknown");
     }
   }
 
@@ -12696,7 +12719,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
       msrGlissando::glissandoTypeKindAsString (
         glissandoTypeKind) <<
       "glissandoLineType: " <<
-      msrGlissando::glissandoLineTypeKindAsString (
+      msrLineTypeKindAsString (
         glissandoLineTypeKind) <<
       endl;
   }
@@ -12767,21 +12790,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
 
   string slideLineType = elt->getAttributeValue ("line-type");
 
-  msrSlide::msrSlideLineTypeKind
+  msrLineTypeKind
     slideLineTypeKind =
-      msrSlide::kSlideLineTypeSolid; // default value
+      kLineTypeSolid; // default value
   
   if      (slideLineType == "solid") {
-    slideLineTypeKind = msrSlide::kSlideLineTypeSolid;
+    slideLineTypeKind = kLineTypeSolid;
   }
   else if (slideLineType == "dashed") {
-    slideLineTypeKind = msrSlide::kSlideLineTypeDashed;
+    slideLineTypeKind = kLineTypeDashed;
   }
   else if (slideLineType == "dotted") {
-    slideLineTypeKind = msrSlide::kSlideLineTypeDotted;
+    slideLineTypeKind = kLineTypeDotted;
   }
   else if (slideLineType == "wavy") {
-    slideLineTypeKind = msrSlide::kSlideLineTypeWavy;
+    slideLineTypeKind = kLineTypeWavy;
   }
   else {
     if (slideLineType.size ()) {
@@ -12789,7 +12812,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
-        "slide show-type \"" + slideLineType + "\" is unknown");
+        "slide line-type \"" + slideLineType + "\" is unknown");
     }
   }
 
@@ -12804,7 +12827,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
       msrSlide::slideTypeKindAsString (
         slideTypeKind) <<
       "slideLineType: " <<
-      msrSlide::slideLineTypeKindAsString (
+      msrLineTypeKindAsString (
         slideLineTypeKind) <<
       endl;
   }
@@ -15082,7 +15105,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   if (fCurrentNoteIsAGraceNote) {
     // gracenote
     newNote->
-      setNoteKind (msrNote::kGraceNote);
+      setNoteKind (
+        msrNote::kGraceNote);
   }
   
   else if (
@@ -15091,7 +15115,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     fCurrentMusicXMLTremoloTypeKind == kStopTremolo) {
     // double tremolo note
     newNote->
-      setNoteKind (msrNote::kDoubleTremoloMemberNote);
+      setNoteKind (
+        msrNote::kDoubleTremoloMemberNote);
   }
 
   else {
@@ -15101,7 +15126,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         setNoteKind (msrNote::kRestNote);
     else
       newNote->
-        setNoteKind (msrNote::kStandaloneNote);
+        setNoteKind (
+          msrNote::kStandaloneNote);
   }
 
   // fetch current voice
@@ -15319,7 +15345,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
 
   // take care of slurs JMI ???
-  switch (fCurrentSlurKind) {
+  switch (fCurrentSlurTypeKind) {
     case msrSlur::kRegularSlurStart:
     case msrSlur::kPhrasingSlurStart:
       fFirstSyllableInSlurKind = fCurrentSyllableKind;
@@ -15336,12 +15362,12 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
   // take care of ligatures JMI ???
   switch (fCurrentLigatureKind) {
-    case msrLigature::kStartLigature:
+    case msrLigature::kLigatureStart:
       fFirstSyllableInLigatureKind = fCurrentSyllableKind;
       break;
-    case msrLigature::kContinueLigature:
+    case msrLigature::kLigatureContinue:
       break;
-    case msrLigature::kStopLigature:
+    case msrLigature::kLigatureStop:
       fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
       break;
     default:
@@ -16747,47 +16773,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmony& elt )
   fCurrentHarmonyBassAlterationKind    = kNatural;
   fCurrentHarmonyDegreeValue           = -1;
   fCurrentHarmonyDegreeAlterationKind  = kNatural;
-
-  /* JMI
-<!--
-  The harmony elements are based on Humdrum's **harm
-  encoding, extended to support chord symbols in popular
-  music as well as functional harmony analysis in classical
-  music.
-  
-  If there are alternate harmonies possible, this can be
-  specified using multiple harmony elements differentiated
-  by type. Explicit harmonies have all note present in the
-  music; implied have some notes missing but implied;
-  alternate represents alternate analyses. 
-  
-  The harmony object may be used for analysis or for
-  chord symbols. The print-object attribute controls
-  whether or not anything is printed due to the harmony
-  element. The print-frame attribute controls printing
-  of a frame or fretboard diagram. The print-style entity
-  sets the default for the harmony, but individual elements
-  can override this with their own print-style values.
-  
-  A harmony element can contain many stacked chords (e.g.
-  V of II). A sequence of harmony-chord entities is used
-  for this type of secondary function, where V of II would
-  be represented by a harmony-chord with a V function
-  followed by a harmony-chord with a II function.
--->
-<!ENTITY % harmony-chord "((root | function), kind,
-  inversion?, bass?, degree*)">
-
-<!ELEMENT harmony ((%harmony-chord;)+, frame?, 
-  offset?, %editorial;, staff?)>
-<!ATTLIST harmony
-    type (explicit | implied | alternate) #IMPLIED
-    %print-object;
-    print-frame  %yes-no; #IMPLIED
-    %print-style;
-    %placement;
->
-   */
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_root_step& elt )

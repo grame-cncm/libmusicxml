@@ -528,31 +528,6 @@ enum msrPlacementKind {
 string msrPlacementKindAsString (
   msrPlacementKind placementKind);
 
-// global variables
-//______________________________________________________________________________
-
-extern map<string, msrQuarterTonesPitchesLanguageKind>
-  gQuarterTonesPitchesLanguageKindsMap;
-
-extern map<msrQuarterTonesPitchKind, string> gNederlandsPitchName;
-extern map<msrQuarterTonesPitchKind, string> gCatalanPitchName;
-extern map<msrQuarterTonesPitchKind, string> gDeutschPitchName;
-extern map<msrQuarterTonesPitchKind, string> gEnglishPitchName;
-extern map<msrQuarterTonesPitchKind, string> gEspanolPitchName;
-extern map<msrQuarterTonesPitchKind, string> gFrancaisPitchName;
-extern map<msrQuarterTonesPitchKind, string> gItalianoPitchName;
-extern map<msrQuarterTonesPitchKind, string> gNorskPitchName;
-extern map<msrQuarterTonesPitchKind, string> gPortuguesPitchName;
-extern map<msrQuarterTonesPitchKind, string> gSuomiPitchName;
-extern map<msrQuarterTonesPitchKind, string> gSvenskaPitchName;
-extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchName;
-
-string existingQuarterTonesPitchesLanguageKinds ();
-
-// initialization
-//______________________________________________________________________________
-void initializeQuarterTonesPitchesLanguageKinds ();
-
 // durations
 //______________________________________________________________________________
 enum msrDurationKind {
@@ -598,6 +573,14 @@ enum msrSlashUseStemsKind {
 string msrSlashUseStemsKindAsString (
   msrSlashUseStemsKind slashUseStemsKind);
 
+//______________________________________________________________________________
+enum msrLineTypeKind {
+  kLineTypeSolid, kLineTypeDashed,
+  kLineTypeDotted, kLineTypeWavy };
+
+string msrLineTypeKindAsString (
+  msrLineTypeKind LineTypeKind);
+            
 //______________________________________________________________________________
 class msrChordItem : public smartable
 {
@@ -768,14 +751,41 @@ class msrChordIntervals : public smartable
 typedef SMARTP<msrChordIntervals> S_msrChordIntervals;
 EXP ostream& operator<< (ostream& os, const S_msrChordIntervals& elt);
 
+//______________________________________________________________________________
 // global variable 
 extern map<msrHarmonyKind, S_msrChordIntervals>
   gChordIntervalsMap;
 
+// global variables
+//______________________________________________________________________________
+
+extern map<string, msrQuarterTonesPitchesLanguageKind>
+  gQuarterTonesPitchesLanguageKindsMap;
+
+extern map<msrQuarterTonesPitchKind, string> gNederlandsPitchName;
+extern map<msrQuarterTonesPitchKind, string> gCatalanPitchName;
+extern map<msrQuarterTonesPitchKind, string> gDeutschPitchName;
+extern map<msrQuarterTonesPitchKind, string> gEnglishPitchName;
+extern map<msrQuarterTonesPitchKind, string> gEspanolPitchName;
+extern map<msrQuarterTonesPitchKind, string> gFrancaisPitchName;
+extern map<msrQuarterTonesPitchKind, string> gItalianoPitchName;
+extern map<msrQuarterTonesPitchKind, string> gNorskPitchName;
+extern map<msrQuarterTonesPitchKind, string> gPortuguesPitchName;
+extern map<msrQuarterTonesPitchKind, string> gSuomiPitchName;
+extern map<msrQuarterTonesPitchKind, string> gSvenskaPitchName;
+extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchName;
+
+string existingQuarterTonesPitchesLanguageKinds ();
+
+//______________________________________________________________________________
 // tools
 extern void initializeChordIntervalsMap ();
 
 extern void printChordIntervalsMap ();
+
+// initialization
+//______________________________________________________________________________
+void initializeQuarterTonesPitchesLanguageKinds ();
 
 
 } // namespace MusicXML2

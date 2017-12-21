@@ -1542,7 +1542,7 @@ class msrDoubleTremolo : public msrElement
       msrPlacementKind     doubleTremoloPlacementKind,
       S_msrVoice           voiceUplink);
       
-    virtual ~msrDoubleTremolo();
+    virtual ~msrDoubleTremolo ();
   
   public:
 
@@ -1910,22 +1910,23 @@ class msrSlur : public msrElement
     // data types
     // ------------------------------------------------------
 
-    enum msrSlurKind {
+    enum msrSlurTypeKind {
       k_NoSlur,
       kRegularSlurStart, kPhrasingSlurStart,
       kSlurContinue,
       kRegularSlurStop, kPhrasingSlurStop};
     
-    static string slurKindAsString (
-      msrSlurKind slurKind);
+    static string slurTypeKindAsString (
+      msrSlurTypeKind slurKindKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrSlur> create (
-      int         inputLineNumber,
-      int         slurNumber,
-      msrSlurKind slurKind);
+      int             inputLineNumber,
+      int             slurNumber,
+      msrSlurTypeKind slurKind,
+      msrLineTypeKind slurLineTypeKind);
 
   protected:
 
@@ -1933,9 +1934,10 @@ class msrSlur : public msrElement
     // ------------------------------------------------------
 
     msrSlur (
-      int         inputLineNumber,
-      int         slurNumber,
-      msrSlurKind slurKind);
+      int             inputLineNumber,
+      int             slurNumber,
+      msrSlurTypeKind slurKind,
+      msrLineTypeKind slurLineTypeKind);
       
     virtual ~msrSlur();
   
@@ -1944,17 +1946,22 @@ class msrSlur : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getSlurNumber () const { return fSlurNumber; }
+    int                   getSlurNumber () const
+                              { return fSlurNumber; }
     
-    void                  setSlurKind (msrSlurKind slurKind)
-                              { fSlurKind = slurKind; }
+    void                  setSlurTypeKind (msrSlurTypeKind slurTypeKind)
+                              { fSlurTypeKind = slurTypeKind; }
 
-    msrSlurKind           getSlurKind () const { return fSlurKind; }
+    msrSlurTypeKind       getSlurTypeKind () const
+                              { return fSlurTypeKind; }
+
+    msrLineTypeKind       getSlurLineTypeKind () const
+                              { return fSlurLineTypeKind; }
 
     // services
     // ------------------------------------------------------
 
-    string                slurKindAsString ();
+    string                slurTypeKindAsString ();
 
     string                slurAsString ();
 
@@ -1978,7 +1985,9 @@ class msrSlur : public msrElement
 
     int                   fSlurNumber;
 
-    msrSlurKind           fSlurKind;
+    msrSlurTypeKind       fSlurTypeKind;
+
+    msrLineTypeKind       fSlurLineTypeKind;
 };
 typedef SMARTP<msrSlur> S_msrSlur;
 EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
@@ -1993,18 +2002,30 @@ class msrLigature : public msrElement
 
     enum msrLigatureKind {
       k_NoLigature,
-      kStartLigature, kContinueLigature, kStopLigature};
+      kLigatureStart, kLigatureContinue, kLigatureStop};
     
     static string ligatureKindAsString (
       msrLigatureKind ligatureKind);
+      
+    enum msrLigatureLineEndKind {
+      k_NoLigatureLineEnd,
+      kLigatureLineEndUp, kLigatureLineEndDown,
+      kLigatureLineEndBoth, kLigatureLineEndArrow,
+      kLigatureLineEndNone };
+    
+    static string ligatureLineEndKindAsString (
+      msrLigatureLineEndKind ligatureLineEndKind);
       
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrLigature> create (
-      int             inputLineNumber,
-      int             ligatureNumber,
-      msrLigatureKind ligatureKind);
+      int                    inputLineNumber,
+      int                    ligatureNumber,
+      msrLigatureKind        ligatureKind,
+      msrLigatureLineEndKind ligatureLineEndKind,
+      msrLineTypeKind        ligatureLineTypeKind,
+      msrPlacementKind       ligaturePlacementKind);
       
   protected:
 
@@ -2012,9 +2033,12 @@ class msrLigature : public msrElement
     // ------------------------------------------------------
 
     msrLigature (
-      int             inputLineNumber,
-      int             ligatureNumber,
-      msrLigatureKind ligatureKind);
+      int                    inputLineNumber,
+      int                    ligatureNumber,
+      msrLigatureKind        ligatureKind,
+      msrLigatureLineEndKind ligatureLineEndKind,
+      msrLineTypeKind        ligatureLineTypeKind,
+      msrPlacementKind       ligaturePlacementKind);
       
     virtual ~msrLigature();
   
@@ -2028,6 +2052,16 @@ class msrLigature : public msrElement
     
     msrLigatureKind       getLigatureKind () const
                               { return fLigatureKind; }
+
+    msrLigatureLineEndKind
+                          getLigatureLineEndKind () const
+                              { return fLigatureLineEndKind; }
+
+    msrLineTypeKind       getLigatureLineTypeKind () const
+                              { return fLigatureLineTypeKind; }
+
+    msrPlacementKind      getLigaturePlacementKind () const
+                              { return fLigaturePlacementKind; }
 
     // services
     // ------------------------------------------------------
@@ -2055,6 +2089,13 @@ class msrLigature : public msrElement
     int                   fLigatureNumber;
 
     msrLigatureKind       fLigatureKind;
+
+    msrLigatureLineEndKind
+                          fLigatureLineEndKind;
+                          
+    msrLineTypeKind       fLigatureLineTypeKind;
+    
+    msrPlacementKind      fLigaturePlacementKind;
 };
 typedef SMARTP<msrLigature> S_msrLigature;
 EXP ostream& operator<< (ostream& os, const S_msrLigature& elt);
@@ -2213,12 +2254,21 @@ class msrWedge : public msrElement
     static string wedgeKindAsString (
       msrWedgeKind wedgeKind);
       
+    enum msrWedgeNienteKind {
+      kWedgeNienteYes, kWedgeNienteNo };
+    
+    static string wedgeNienteKindAsString (
+      msrWedgeNienteKind wedgeNienteKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrWedge> create (
-      int           inputLineNumber,
-      msrWedgeKind  wedgeKind);
+      int                inputLineNumber,
+      msrWedgeKind       wedgeKind,
+      msrWedgeNienteKind wedgeNienteKind,
+      msrLineTypeKind    wedgeLineTypeKind,
+      msrPlacementKind   wedgePlacementKind);
 
   protected:
 
@@ -2226,8 +2276,11 @@ class msrWedge : public msrElement
     // ------------------------------------------------------
 
     msrWedge (
-      int           inputLineNumber,
-      msrWedgeKind  wedgeKind);
+      int                inputLineNumber,
+      msrWedgeKind       wedgeKind,
+      msrWedgeNienteKind wedgeNienteKind,
+      msrLineTypeKind    wedgeLineTypeKind,
+      msrPlacementKind   wedgePlacementKind);
       
     virtual ~msrWedge();
   
@@ -2236,12 +2289,22 @@ class msrWedge : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrWedgeKind          getWedgeKind () const { return fWedgeKind; }
+    msrWedgeKind          getWedgeKind () const
+                              { return fWedgeKind; }
+    
+    msrWedgeNienteKind    getWedgeNienteKind () const
+                              { return fWedgeNienteKind; }
+    
+    msrLineTypeKind       getWedgeLineTypeKind () const
+                              { return fWedgeLineTypeKind; }
 
-    string                wedgeKindAsString ();
+    msrPlacementKind      getWedgePlacementKind () const
+                              { return fWedgePlacementKind; }
 
     // services
     // ------------------------------------------------------
+
+    string                wedgeKindAsString ();
 
     // visitors
     // ------------------------------------------------------
@@ -2261,7 +2324,13 @@ class msrWedge : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrWedgeKind fWedgeKind;
+    msrWedgeKind          fWedgeKind;
+
+    msrWedgeNienteKind    fWedgeNienteKind;
+    
+    msrLineTypeKind       fWedgeLineTypeKind;
+
+    msrPlacementKind      fWedgePlacementKind;
 };
 typedef SMARTP<msrWedge> S_msrWedge;
 EXP ostream& operator<< (ostream& os, const S_msrWedge& elt);
@@ -7124,22 +7193,15 @@ class msrGlissando : public msrElement
 
     static string glissandoTypeKindAsString (
       msrGlissandoTypeKind glissandoTypeKind);
-      
-    enum msrGlissandoLineTypeKind {
-      kGlissandoLineTypeSolid, kGlissandoLineTypeDashed,
-      kGlissandoLineTypeDotted, kGlissandoLineTypeWavy };
-      
-    static string glissandoLineTypeKindAsString (
-      msrGlissandoLineTypeKind glissandoLineTypeKind);
-            
+                  
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrGlissando> create (
-      int                      inputLineNumber,
-      int                      glissandoNumber,
-      msrGlissandoTypeKind     glissandoTypeKind,
-      msrGlissandoLineTypeKind glissandoLineTypeKind);
+      int                  inputLineNumber,
+      int                  glissandoNumber,
+      msrGlissandoTypeKind glissandoTypeKind,
+      msrLineTypeKind      glissandoLineTypeKind);
 
     SMARTP<msrGlissando> createGlissandoNewbornClone ();
 
@@ -7151,10 +7213,10 @@ class msrGlissando : public msrElement
     // ------------------------------------------------------
 
     msrGlissando (
-      int                      inputLineNumber,
-      int                      glissandoNumber,
-      msrGlissandoTypeKind     glissandoTypeKind,
-      msrGlissandoLineTypeKind glissandoLineTypeKind);
+      int                  inputLineNumber,
+      int                  glissandoNumber,
+      msrGlissandoTypeKind glissandoTypeKind,
+      msrLineTypeKind      glissandoLineTypeKind);
       
     virtual ~msrGlissando ();
   
@@ -7169,8 +7231,7 @@ class msrGlissando : public msrElement
     msrGlissandoTypeKind  getGlissandoTypeKind () const
                               { return fGlissandoTypeKind; }
             
-    msrGlissandoLineTypeKind
-                          getGlissandoLineTypeKind () const
+    msrLineTypeKind       getGlissandoLineTypeKind () const
                               { return fGlissandoLineTypeKind; }
             
     // measure uplink
@@ -7211,8 +7272,7 @@ class msrGlissando : public msrElement
                   
     msrGlissandoTypeKind  fGlissandoTypeKind;
                           
-    msrGlissandoLineTypeKind
-                          fGlissandoLineTypeKind;
+    msrLineTypeKind       fGlissandoLineTypeKind;
 };
 typedef SMARTP<msrGlissando> S_msrGlissando;
 EXP ostream& operator<< (ostream& os, const S_msrGlissando& elt);
@@ -7231,22 +7291,15 @@ class msrSlide : public msrElement
 
     static string slideTypeKindAsString (
       msrSlideTypeKind slideTypeKind);
-      
-    enum msrSlideLineTypeKind {
-      kSlideLineTypeSolid, kSlideLineTypeDashed,
-      kSlideLineTypeDotted, kSlideLineTypeWavy };
-      
-    static string slideLineTypeKindAsString (
-      msrSlideLineTypeKind slideLineTypeKind);
-            
+                  
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrSlide> create (
-      int                  inputLineNumber,
-      int                  slideNumber,
-      msrSlideTypeKind     slideTypeKind,
-      msrSlideLineTypeKind slideLineTypeKind);
+      int              inputLineNumber,
+      int              slideNumber,
+      msrSlideTypeKind slideTypeKind,
+      msrLineTypeKind  slideLineTypeKind);
 
     SMARTP<msrSlide> createSlideNewbornClone ();
 
@@ -7258,10 +7311,10 @@ class msrSlide : public msrElement
     // ------------------------------------------------------
 
     msrSlide (
-      int                  inputLineNumber,
-      int                  slideNumber,
-      msrSlideTypeKind     slideTypeKind,
-      msrSlideLineTypeKind slideLineTypeKind);
+      int              inputLineNumber,
+      int              slideNumber,
+      msrSlideTypeKind slideTypeKind,
+      msrLineTypeKind  slideLineTypeKind);
       
     virtual ~msrSlide ();
   
@@ -7273,11 +7326,10 @@ class msrSlide : public msrElement
     int                   getSlideNumber () const
                               { return fSlideNumber; }
 
-    msrSlideTypeKind  getSlideTypeKind () const
+    msrSlideTypeKind      getSlideTypeKind () const
                               { return fSlideTypeKind; }
             
-    msrSlideLineTypeKind
-                          getSlideLineTypeKind () const
+    msrLineTypeKind       getSlideLineTypeKind () const
                               { return fSlideLineTypeKind; }
             
     // measure uplink
@@ -7316,10 +7368,9 @@ class msrSlide : public msrElement
     
     int                   fSlideNumber;
                   
-    msrSlideTypeKind  fSlideTypeKind;
+    msrSlideTypeKind      fSlideTypeKind;
                           
-    msrSlideLineTypeKind
-                          fSlideLineTypeKind;
+    msrLineTypeKind       fSlideLineTypeKind;
 };
 typedef SMARTP<msrSlide> S_msrSlide;
 EXP ostream& operator<< (ostream& os, const S_msrSlide& elt);

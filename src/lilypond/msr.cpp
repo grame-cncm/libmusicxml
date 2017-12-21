@@ -1645,7 +1645,7 @@ msrOrnament::msrOrnament (
 
   fOrnamentPlacementKind = ornamentPlacementKind;
 
-  fOrnamentAccidentalMark = kNatural;
+  fOrnamentAccidentalMark = k_NoAlteration;
 }
 
 msrOrnament::~msrOrnament()
@@ -1737,7 +1737,7 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
       result = "doubleSharp";
       break;
     case k_NoAlteration:
-      result = "k_NoAlteration???";
+      result = "none";
       break;
   } // switch
 
@@ -1806,11 +1806,21 @@ void msrOrnament::print (ostream& os)
     endl;
 
   gIndenter++;
+
+  const int fieldWidth = 16;
   
   os <<
-    ", placement" << " = " << ornamentPlacementKindAsString () <<
-    ", accidental mark" << " = " << ornamentAccidentalMarkAsString () <<
-    ", note uplink" << " = " << fOrnamentNoteUplink->noteAsShortString () <<
+    setw (fieldWidth) <<
+    "placement" << " : " <<
+    ornamentPlacementKindAsString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "accidental mark" << " : " <<
+    ornamentAccidentalMarkAsString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "note uplink" << " : " <<
+    fOrnamentNoteUplink->noteAsShortString () <<
     endl;
 
   gIndenter--;
@@ -2115,7 +2125,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
         getNoteDisplayWholeNotes ();
 
   // set double tremolo displayed whole notes to the note's displayed whole notes
-  if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
+  if (fDoubleTremoloSoundingWholeNotes.getNumerator () > 0) {
     if (noteDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
       stringstream s;
 
@@ -2125,6 +2135,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
         " and " <<
         noteDisplayWholeNotes <<
         " on note first element:" << " (note)" <<
+        ", line " << note->getInputLineNumber () <<
         endl;
 
       gIndenter++;
@@ -2146,6 +2157,33 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   else {
     fDoubleTremoloSoundingWholeNotes =
       noteDisplayWholeNotes;
+  }
+
+  // fetch note sounding whole notes
+  rational
+    noteSoundingWholeNotes =
+      note->
+        getNoteSoundingWholeNotes ();
+
+  // setting number of repeats
+  rational
+    ratio =
+      fDoubleTremoloSoundingWholeNotes
+        /
+      noteSoundingWholeNotes;
+  ratio.rationalise ();
+      
+  fDoubleTremoloNumberOfRepeats = 4; // JMI
+  
+  if (gGeneralOptions->fTraceTremolos) {
+    gLogIOstream <<
+      "Setting double tremolo number of repeats to '" <<
+      fDoubleTremoloNumberOfRepeats <<
+      ", fDoubleTremoloSoundingWholeNotes = '" << fDoubleTremoloSoundingWholeNotes << "'" <<
+      ", noteSoundingWholeNotes = '" << noteSoundingWholeNotes << "'" <<
+      "', ratio = '" << ratio <<
+      "', line " << note->getInputLineNumber () <<
+      endl;
   }
 }
 
@@ -2538,6 +2576,7 @@ void msrDoubleTremolo::print (ostream& os)
       fDoubleTremoloMarksNumber, "mark", "marks") <<
     ", placement: " << doubleTremoloPlacementKindAsString () <<
     ", " << fDoubleTremoloSoundingWholeNotes << " sound whole notes" <<
+    ", numberOfRepeats: " << fDoubleTremoloNumberOfRepeats <<
     endl;
 
   gIndenter++;
@@ -2989,22 +3028,35 @@ void msrOtherDynamics::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrWedge msrWedge::create (
-  int           inputLineNumber,
-  msrWedgeKind  wedgeKind)
+  int                inputLineNumber,
+  msrWedgeKind       wedgeKind,
+  msrWedgeNienteKind wedgeNienteKind,
+  msrLineTypeKind    wedgeLineTypeKind,
+  msrPlacementKind   wedgePlacementKind)
 {
   msrWedge* o =
     new msrWedge (
-      inputLineNumber, wedgeKind);
+      inputLineNumber,
+      wedgeKind,
+      wedgeNienteKind,
+      wedgeLineTypeKind,
+      wedgePlacementKind);
   assert(o!=0);
   return o;
 }
 
 msrWedge::msrWedge (
-  int           inputLineNumber,
-  msrWedgeKind  wedgeKind)
+  int                inputLineNumber,
+  msrWedgeKind       wedgeKind,
+  msrWedgeNienteKind wedgeNienteKind,
+  msrLineTypeKind    wedgeLineTypeKind,
+  msrPlacementKind   wedgePlacementKind)
     : msrElement (inputLineNumber)
 {
-  fWedgeKind = wedgeKind; 
+  fWedgeKind          = wedgeKind; 
+  fWedgeNienteKind    = wedgeNienteKind; 
+  fWedgeLineTypeKind  = wedgeLineTypeKind; 
+  fWedgePlacementKind = wedgePlacementKind; 
 }
 
 msrWedge::~msrWedge()
@@ -3012,24 +3064,41 @@ msrWedge::~msrWedge()
 
 string msrWedge::wedgeKindAsString ()
 {
-  stringstream s;
+  string result;
   
   switch (fWedgeKind) {
     case msrWedge::k_NoWedgeKind:
-      s << "none";
+      result = "none";
       break;
     case msrWedge::kCrescendoWedge:
-      s << "crescendo";
+      result = "crescendo";
       break;
     case msrWedge::kDecrescendoWedge:
-      s << "decrescendo";
+      result = "decrescendo";
       break;
     case msrWedge::kStopWedge:
-      s << "stop";
+      result = "stop";
       break;
   } // switch
     
-  return s.str ();
+  return result;
+}
+    
+string msrWedge::wedgeNienteKindAsString (
+  msrWedgeNienteKind wedgeNienteKind)
+{
+  string result;
+  
+  switch (wedgeNienteKind) {
+    case msrWedge::kWedgeNienteYes:
+      result = "kWedgeNienteYes";
+      break;
+    case msrWedge::kWedgeNienteNo:
+      result = "kWedgeNienteNo";
+      break;
+  } // switch
+    
+  return result;
 }
 
 void msrWedge::acceptIn (basevisitor* v)
@@ -3088,9 +3157,32 @@ ostream& operator<< (ostream& os, const S_msrWedge& elt)
 void msrWedge::print (ostream& os)
 {
   os <<
-    "Wedge" << " " << wedgeKindAsString () <<
+    "Wedge" " " << wedgeKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 19;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "wedgeNienteKind" << " : " <<
+    wedgeNienteKindAsString (
+      fWedgeNienteKind) << 
+    endl <<
+    setw (fieldWidth) <<
+    "wedgeLineTypeKind" << " : " <<
+    msrLineTypeKindAsString (
+      fWedgeLineTypeKind) << 
+    endl <<
+    setw (fieldWidth) <<
+    "wedgePlacementKind" << " : " <<
+    msrPlacementKindAsString (
+      fWedgePlacementKind) << 
+    endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -3200,25 +3292,28 @@ void msrTie::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrSlur msrSlur::create (
-  int           inputLineNumber,
-  int           slurNumber,
-  msrSlurKind   slurKind)
+  int             inputLineNumber,
+  int             slurNumber,
+  msrSlurTypeKind slurTypeKind,
+  msrLineTypeKind slurLineTypeKind)
 {
   msrSlur* o =
     new msrSlur (
-      inputLineNumber, slurNumber, slurKind);
+      inputLineNumber, slurNumber, slurTypeKind, slurLineTypeKind);
   assert(o!=0);
   return o;
 }
 
 msrSlur::msrSlur (
-  int           inputLineNumber,
-  int           slurNumber,
-  msrSlurKind   slurKind)
+  int             inputLineNumber,
+  int             slurNumber,
+  msrSlurTypeKind slurTypeKind,
+  msrLineTypeKind slurLineTypeKind)
     : msrElement (inputLineNumber)
 {
-  fSlurNumber = slurNumber;
-  fSlurKind   = slurKind; 
+  fSlurNumber       = slurNumber;
+  fSlurTypeKind     = slurTypeKind;
+  fSlurLineTypeKind = slurLineTypeKind;
 }
 
 msrSlur::~msrSlur()
@@ -3272,12 +3367,12 @@ void msrSlur::acceptOut (basevisitor* v)
 void msrSlur::browseData (basevisitor* v)
 {}
 
-string msrSlur::slurKindAsString (
-  msrSlurKind slurKind)
+string msrSlur::slurTypeKindAsString (
+  msrSlurTypeKind slurTypeKind)
 {
   stringstream s;
   
-  switch (slurKind) {
+  switch (slurTypeKind) {
     case msrSlur::kRegularSlurStart:
       s << "regularSlurStart";
       break;
@@ -3294,15 +3389,15 @@ string msrSlur::slurKindAsString (
       s << "phrasingSlurStop";
       break;
     case msrSlur::k_NoSlur:
-      s << "Slur" << slurKind << "???";
+      s << "Slur" << slurTypeKind << "???";
   } // switch
     
   return s.str ();
 }
       
-string msrSlur::slurKindAsString ()
+string msrSlur::slurTypeKindAsString ()
 {
-  return slurKindAsString (fSlurKind);
+  return slurTypeKindAsString (fSlurTypeKind);
 }
 
 string msrSlur::slurAsString ()
@@ -3310,7 +3405,10 @@ string msrSlur::slurAsString ()
   stringstream s;
 
   s <<
-    "Slur" " " << slurKindAsString () <<
+    "Slur" " " << slurTypeKindAsString () <<
+    ", slurLineTypeKind = " <<
+    msrLineTypeKindAsString (
+      fSlurLineTypeKind) <<
     ", slurNumber = " << fSlurNumber <<
     ", line " << fInputLineNumber;
   
@@ -3332,25 +3430,39 @@ void msrSlur::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrLigature msrLigature::create (
-  int             inputLineNumber,
-  int             ligatureNumber,
-  msrLigatureKind ligatureKind)
+  int                    inputLineNumber,
+  int                    ligatureNumber,
+  msrLigatureKind        ligatureKind,
+  msrLigatureLineEndKind ligatureLineEndKind,
+  msrLineTypeKind        ligatureLineTypeKind,
+  msrPlacementKind       ligaturePlacementKind)
 {
   msrLigature* o =
     new msrLigature (
-      inputLineNumber, ligatureNumber, ligatureKind);
+      inputLineNumber,
+      ligatureNumber,
+      ligatureKind,
+      ligatureLineEndKind,
+      ligatureLineTypeKind,
+      ligaturePlacementKind);
   assert(o!=0);
   return o;
 }
 
 msrLigature::msrLigature (
-  int             inputLineNumber,
-  int             ligatureNumber,
-  msrLigatureKind ligatureKind)
+  int                    inputLineNumber,
+  int                    ligatureNumber,
+  msrLigatureKind        ligatureKind,
+  msrLigatureLineEndKind ligatureLineEndKind,
+  msrLineTypeKind        ligatureLineTypeKind,
+  msrPlacementKind       ligaturePlacementKind)
     : msrElement (inputLineNumber)
 {
-  fLigatureNumber = ligatureNumber;
-  fLigatureKind   = ligatureKind; 
+  fLigatureNumber        = ligatureNumber;
+  fLigatureKind          = ligatureKind; 
+  fLigatureLineEndKind   = ligatureLineEndKind; 
+  fLigatureLineTypeKind  = ligatureLineTypeKind; 
+  fLigaturePlacementKind = ligaturePlacementKind; 
 }
 
 msrLigature::~msrLigature()
@@ -3362,17 +3474,47 @@ string msrLigature::ligatureKindAsString (
   stringstream s;
   
   switch (ligatureKind) {
-    case msrLigature::kStartLigature:
-      s << "start";
+    case msrLigature::kLigatureStart:
+      s << "ligatureStart";
       break;
-    case msrLigature::kContinueLigature:
-      s << "continue";
+    case msrLigature::kLigatureContinue:
+      s << "ligatureContinue";
       break;
-    case msrLigature::kStopLigature:
-      s << "stop";
+    case msrLigature::kLigatureStop:
+      s << "ligatureStop";
       break;
-    default:
-      s << "Ligature" << ligatureKind << "???";
+    case k_NoLigature:
+      s << "none";
+  } // switch
+    
+  return s.str ();
+  
+}
+     
+string msrLigature::ligatureLineEndKindAsString (
+  msrLigatureLineEndKind ligatureLineEndKind)
+{
+  stringstream s;
+  
+  switch (ligatureLineEndKind) {
+    case msrLigature::kLigatureLineEndUp:
+      s << "ligatureLineEndUp";
+      break;
+    case msrLigature::kLigatureLineEndDown:
+      s << "ligatureLineEndDown";
+      break;
+    case msrLigature::kLigatureLineEndBoth:
+      s << "ligatureLineEndBoth";
+      break;
+    case msrLigature::kLigatureLineEndArrow:
+      s << "ligatureLineEndArrow";
+      break;
+    case msrLigature::kLigatureLineEndNone:
+      s << "ligatureLineEndNone";
+      break;
+    case msrLigature::k_NoLigatureLineEnd:
+      s << "k_NoLigatureLineEnd ???";
+      break;
   } // switch
     
   return s.str ();
@@ -3442,7 +3584,31 @@ void msrLigature::print (ostream& os)
 {
   os <<
     "Ligature" " " << ligatureKindAsString () <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "ligatureLineEndKind" << " : " <<
+    ligatureLineEndKindAsString (
+      fLigatureLineEndKind) << 
+    endl <<
+    setw (fieldWidth) <<
+    "ligatureLineTypeKind" << " : " <<
+    msrLineTypeKindAsString (
+      fLigatureLineTypeKind) << 
+    endl <<
+    setw (fieldWidth) <<
+    "ligaturePlacementKind" << " : " <<
+    msrPlacementKindAsString (
+      fLigaturePlacementKind) << 
+    endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -5133,7 +5299,7 @@ string msrNote::noteSoundingWholeNotesAsMsrString ()
   string result;
 
   if (fNoteSoundingWholeNotes.getNumerator () == 0)
-    result = "(no sounding whole notes)";
+    result = " (no sounding whole notes)";
   else
     result =
       wholeNotesAsMsrString (
@@ -5785,9 +5951,9 @@ void msrNote::addLigatureToNote (S_msrLigature ligature)
 
   if (fNoteLigatures.size ()) {
     if (
-      fNoteLigatures.back ()->getLigatureKind () == msrLigature::kStartLigature
+      fNoteLigatures.back ()->getLigatureKind () == msrLigature::kLigatureStart
         &&
-      ligature->getLigatureKind () == msrLigature::kStopLigature
+      ligature->getLigatureKind () == msrLigature::kLigatureStop
         &&
       fNoteLigatures.back ()->getLigatureNumber () == ligature->getLigatureNumber ()
       ) {
@@ -6269,7 +6435,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
     case msrNote::kRestNote:
       s <<
         "R" <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -6292,7 +6458,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
     case msrNote::kStandaloneNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -6304,7 +6470,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ":" <<
         " whole notes: " <<
         fNoteSoundingWholeNotes <<
@@ -6317,7 +6483,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -6327,7 +6493,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
     case msrNote::kChordMemberNote:
       s <<
         notePitchAsString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]" <<
         ", whole notes: " <<
         fNoteSoundingWholeNotes <<
         " sound, " <<
@@ -6342,7 +6508,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
 
       if (! fNoteIsARest)
         s <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
 
       s <<
         ", whole notes: " <<
@@ -6386,21 +6552,21 @@ string msrNote::noteAsShortString ()
       s <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kGraceNote:
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -6412,7 +6578,7 @@ string msrNote::noteAsShortString ()
         notePitchAsString () <<
         ", " <<
         noteSoundingWholeNotesAsMsrString () <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kTupletMemberNote:
@@ -6434,7 +6600,7 @@ string msrNote::noteAsShortString ()
 
       if (! fNoteIsARest)
         s <<
-        "[" << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
 
       s <<
         ", line " << fInputLineNumber;
@@ -6499,7 +6665,7 @@ string msrNote::noteAsString ()
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
-        "Double tremolo note" " "<<
+        "Double tremolo note "<<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
         " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
@@ -10266,10 +10432,10 @@ void msrTuplet::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrGlissando msrGlissando::create (
-  int                      inputLineNumber,
-  int                      glissandoNumber,
-  msrGlissandoTypeKind     glissandoTypeKind,
-  msrGlissandoLineTypeKind glissandoLineTypeKind)
+  int                  inputLineNumber,
+  int                  glissandoNumber,
+  msrGlissandoTypeKind glissandoTypeKind,
+  msrLineTypeKind      glissandoLineTypeKind)
 {
   msrGlissando* o =
     new msrGlissando (
@@ -10282,10 +10448,10 @@ S_msrGlissando msrGlissando::create (
 }
 
 msrGlissando::msrGlissando (
-  int                      inputLineNumber,
-  int                      glissandoNumber,
-  msrGlissandoTypeKind     glissandoTypeKind,
-  msrGlissandoLineTypeKind glissandoLineTypeKind)
+  int                  inputLineNumber,
+  int                  glissandoNumber,
+  msrGlissandoTypeKind glissandoTypeKind,
+  msrLineTypeKind      glissandoLineTypeKind)
     : msrElement (inputLineNumber)
 {  
   fGlissandoNumber = glissandoNumber;
@@ -10332,29 +10498,6 @@ string msrGlissando::glissandoTypeKindAsString (
       break;
     case msrGlissando::kGlissandoTypeStop:
       result = "glissandoTypeStop";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrGlissando::glissandoLineTypeKindAsString (
-  msrGlissandoLineTypeKind glissandoLineTypeKind)
-{
-  string result;
-  
-  switch (glissandoLineTypeKind) {
-    case msrGlissando::kGlissandoLineTypeSolid:
-      result = "glissandoLineTypeSolid";
-      break;
-    case msrGlissando::kGlissandoLineTypeDashed:
-      result = "glissandoLineTypeDashed";
-      break;
-    case msrGlissando::kGlissandoLineTypeDotted:
-      result = "glissandoLineTypeDotted";
-      break;
-    case msrGlissando::kGlissandoLineTypeWavy:
-      result = "glissandoLineTypeWavy";
       break;
   } // switch
 
@@ -10423,7 +10566,7 @@ string msrGlissando::glissandoAsString () const
     ", number " << fGlissandoNumber <<
     ", " << glissandoTypeKindAsString (
       fGlissandoTypeKind) <<
-    ", " << glissandoLineTypeKindAsString (
+    ", " << msrLineTypeKindAsString (
       fGlissandoLineTypeKind) <<
     ", line " << fInputLineNumber;
         
@@ -10437,10 +10580,10 @@ void msrGlissando::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrSlide msrSlide::create (
-  int                  inputLineNumber,
-  int                  slideNumber,
-  msrSlideTypeKind     slideTypeKind,
-  msrSlideLineTypeKind slideLineTypeKind)
+  int              inputLineNumber,
+  int              slideNumber,
+  msrSlideTypeKind slideTypeKind,
+  msrLineTypeKind  slideLineTypeKind)
 {
   msrSlide* o =
     new msrSlide (
@@ -10453,10 +10596,10 @@ S_msrSlide msrSlide::create (
 }
 
 msrSlide::msrSlide (
-  int                  inputLineNumber,
-  int                  slideNumber,
-  msrSlideTypeKind     slideTypeKind,
-  msrSlideLineTypeKind slideLineTypeKind)
+  int              inputLineNumber,
+  int              slideNumber,
+  msrSlideTypeKind slideTypeKind,
+  msrLineTypeKind  slideLineTypeKind)
     : msrElement (inputLineNumber)
 {  
   fSlideNumber = slideNumber;
@@ -10503,29 +10646,6 @@ string msrSlide::slideTypeKindAsString (
       break;
     case msrSlide::kSlideTypeStop:
       result = "slideTypeStop";
-      break;
-  } // switch
-
-  return result;
-}
-
-string msrSlide::slideLineTypeKindAsString (
-  msrSlideLineTypeKind slideLineTypeKind)
-{
-  string result;
-  
-  switch (slideLineTypeKind) {
-    case msrSlide::kSlideLineTypeSolid:
-      result = "slideLineTypeSolid";
-      break;
-    case msrSlide::kSlideLineTypeDashed:
-      result = "slideLineTypeDashed";
-      break;
-    case msrSlide::kSlideLineTypeDotted:
-      result = "slideLineTypeDotted";
-      break;
-    case msrSlide::kSlideLineTypeWavy:
-      result = "slideLineTypeWavy";
       break;
   } // switch
 
@@ -10594,7 +10714,7 @@ string msrSlide::slideAsString () const
     ", number " << fSlideNumber <<
     ", " << slideTypeKindAsString (
       fSlideTypeKind) <<
-    ", " << slideLineTypeKindAsString (
+    ", " << msrLineTypeKindAsString (
       fSlideLineTypeKind) <<
     ", line " << fInputLineNumber;
         

@@ -276,7 +276,6 @@ string lpsr2LilypondTranslator::alterationKindAsLilypondAccidentalMark (
       result = " \\markup { \\doublesharp } ";
       break;
     case k_NoAlteration:
-      result = " \\markup {%{k_NoAlteration???%} } ";
       break;
   } // switch
 
@@ -414,12 +413,12 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       switch ((*i)->getLigatureKind ()) {
         case msrLigature::k_NoLigature:
           break;
-        case msrLigature::kStartLigature:
+        case msrLigature::kLigatureStart:
           fLilypondCodeIOstream << "\\[ ";
           break;
-        case msrLigature::kContinueLigature:
+        case msrLigature::kLigatureContinue:
           break;
-        case msrLigature::kStopLigature:
+        case msrLigature::kLigatureStop:
    // JMI       fLilypondCodeIOstream << "\\] ";
           break;
       } // switch
@@ -6324,9 +6323,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   // get double tremolo number of repeats
-  int numberOfRepeats =
-    elt->getDoubleTremoloNumberOfRepeats ();
+  int doubleTremoloMarksNumber =
+    elt->getDoubleTremoloMarksNumber ();
+  int doubleTremoloSoundingWholeNotes =
+    elt->getDoubleTremoloSoundingWholeNotes ();
     
   // the marks number determines the duration of the two elements:
   // '8' for 1, '16' for 2, etc
@@ -6334,26 +6338,44 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     int (
       pow (
         2,
-        elt->getDoubleTremoloMarksNumber () + 2));
+        doubleTremoloMarksNumber + 2));
+
+  rational
+    ratio (
+      fCurrentDoubleTremoloElementsLpsrDuration,
+      2 * doubleTremoloSoundingWholeNotes);
+  ratio.rationalise ();
+
+  int numberOfRepeats =
+    elt->getDoubleTremoloNumberOfRepeats (); // JMI
+
+  msrAssert ( // JMI
+    ratio.getDenominator () == 1,
+    "ratio.getDenominator () != 1");
+    
+  numberOfRepeats = ratio.getNumerator (); // JMI
 
   if (gGeneralOptions->fTraceTremolos) {
     fLilypondCodeIOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl <<
       gTab << "% doubleTremoloSoundingWholeNotes = " <<
-        elt->getDoubleTremoloNumberOfRepeats () <<
+        doubleTremoloSoundingWholeNotes <<
         endl <<
       gTab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
         fCurrentDoubleTremoloElementsLpsrDuration <<
+        endl <<
+      gTab << "% doubleTremoloMarksNumber = " <<
+        doubleTremoloMarksNumber <<
+        endl <<
+      gTab << "% ratio = " << ratio <<
         endl <<
       gTab << "% numberOfRepeats = " << numberOfRepeats <<
       endl;
   }
   
   fLilypondCodeIOstream <<
-    "\\repeat tremolo " << numberOfRepeats <<
-    " {" <<
-    endl;
+    "\\repeat tremolo " << numberOfRepeats << " {";
 
   gIndenter++;
 }
@@ -6369,7 +6391,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrDoubleTremolo& elt)
   gIndenter--;
   
   fLilypondCodeIOstream <<
-    endl <<
     "}" <<
     endl;
 }
@@ -6619,6 +6640,108 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 
+  // print the note wedges circled tips if any
+  const list<S_msrWedge>&
+    noteWedges =
+      elt->getNoteWedges ();
+      
+  if (noteWedges.size ()) {
+    list<S_msrWedge>::const_iterator i;
+    for (
+      i=noteWedges.begin ();
+      i!=noteWedges.end ();
+      i++) {
+      S_msrWedge wedge = (*i);
+      
+      switch (wedge->getWedgeKind ()) {
+        case msrWedge::k_NoWedgeKind:
+          break;
+          
+        case msrWedge::kCrescendoWedge:
+          switch (wedge->getWedgeNienteKind ()) {
+            case msrWedge::kWedgeNienteYes:
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\once\\override Hairpin.circled-tip = ##t " <<
+                endl;
+              break;
+            case msrWedge::kWedgeNienteNo:
+              break;
+            } // switch
+          break;
+
+        case msrWedge::kDecrescendoWedge:
+          switch (wedge->getWedgeNienteKind ()) {
+            case msrWedge::kWedgeNienteYes:
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\once\\override Hairpin.circled-tip = ##t " <<
+                endl;
+              break;
+            case msrWedge::kWedgeNienteNo:
+              break;
+            } // switch
+          break;
+          
+        case msrWedge::kStopWedge:
+          fLilypondCodeIOstream <<
+            "\\! ";
+          break;
+      } // switch
+    } // for
+  }
+
+  // print the note slurs line types if any,
+  // unless the note is chord member
+  if (! elt->getNoteBelongsToAChord ()) {
+    const list<S_msrSlur>&
+      noteSlurs =
+        elt->getNoteSlurs ();
+        
+    if (noteSlurs.size ()) {
+      list<S_msrSlur>::const_iterator i;
+      for (
+        i=noteSlurs.begin ();
+        i!=noteSlurs.end ();
+        i++) {
+        S_msrSlur slur = (*i);
+
+        /*
+        \slurDashed, \slurDotted, \slurHalfDashed,
+        \slurHalfSolid, \slurDashPattern, \slurSolid
+        */
+        
+        switch (slur->getSlurTypeKind ()) {
+          case msrSlur::kRegularSlurStart:
+          case msrSlur::kPhrasingSlurStart:
+            switch (slur->getSlurLineTypeKind ()) {
+              case kLineTypeSolid:
+                /* JMI ???
+                fLilypondCodeIOstream <<
+                  "\\once\\slurSolid ";
+                */
+                break;
+              case kLineTypeDashed:
+                fLilypondCodeIOstream <<
+                  "\\once\\slurDashed ";
+                break;
+              case kLineTypeDotted:
+                fLilypondCodeIOstream <<
+                  "\\once\\slurDotted ";
+                break;
+              case kLineTypeWavy:
+                fLilypondCodeIOstream <<
+                  "\\once\\slurWavy "; // JMI
+                break;
+            } // switch
+            break;
+          default:
+            ;
+        } // switch
+      } // for
+    }
+  }
+
   // print the note glissandos styles if any
   const list<S_msrGlissando>&
     noteGlissandos =
@@ -6639,17 +6762,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         case msrGlissando::kGlissandoTypeStart:
           // generate the glissando style
           switch (glissando->getGlissandoLineTypeKind ()) {
-            case msrGlissando::kGlissandoLineTypeSolid:
+            case kLineTypeSolid:
               break;
-            case msrGlissando::kGlissandoLineTypeDashed:
+            case kLineTypeDashed:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'dashed-line ";
               break;
-            case msrGlissando::kGlissandoLineTypeDotted:
+            case kLineTypeDotted:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'dotted-line ";
               break;
-            case msrGlissando::kGlissandoLineTypeWavy:
+            case kLineTypeWavy:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'zigzag ";
               break;
@@ -6682,17 +6805,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         case msrSlide::kSlideTypeStart:
           // generate the glissando style
           switch (slide->getSlideLineTypeKind ()) {
-            case msrSlide::kSlideLineTypeSolid:
+            case kLineTypeSolid:
               break;
-            case msrSlide::kSlideLineTypeDashed:
+            case kLineTypeDashed:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'dashed-line ";
               break;
-            case msrSlide::kSlideLineTypeDotted:
+            case kLineTypeDotted:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'dotted-line ";
               break;
-            case msrSlide::kSlideLineTypeWavy:
+            case kLineTypeWavy:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'zigzag ";
               break;
@@ -7198,8 +7321,14 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         i=noteSlurs.begin ();
         i!=noteSlurs.end ();
         i++) {
-          
-        switch ((*i)->getSlurKind ()) {
+        S_msrSlur slur = (*i);
+
+        /*
+        \slurDashed, \slurDotted, \slurHalfDashed,
+        \slurHalfSolid, \slurDashPattern, \slurSolid
+        */
+        
+        switch (slur->getSlurTypeKind ()) {
           case msrSlur::k_NoSlur:
             break;
           case msrSlur::kRegularSlurStart:
@@ -7236,12 +7365,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       switch ((*i)->getLigatureKind ()) {
         case msrLigature::k_NoLigature:
           break;
-        case msrLigature::kStartLigature:
+        case msrLigature::kLigatureStart:
    // JMI       fLilypondCodeIOstream << "\\[ ";
           break;
-        case msrLigature::kContinueLigature:
+        case msrLigature::kLigatureContinue:
           break;
-        case msrLigature::kStopLigature:
+        case msrLigature::kLigatureStop:
           fLilypondCodeIOstream << "\\] ";
           break;
       } // switch
@@ -7259,18 +7388,49 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i=noteWedges.begin ();
       i!=noteWedges.end ();
       i++) {
-        
-      switch ((*i)->getWedgeKind ()) {
+      S_msrWedge wedge = (*i);
+      
+      switch (wedge->getWedgeKind ()) {
         case msrWedge::k_NoWedgeKind:
           break;
+          
         case msrWedge::kCrescendoWedge:
-          fLilypondCodeIOstream << "\\< ";
+          switch (wedge->getWedgePlacementKind ()) {
+            case k_NoPlacement:
+              break;
+            case kAbovePlacement:
+              fLilypondCodeIOstream <<
+                "^";
+              break;
+            case kBelowPlacement:
+              fLilypondCodeIOstream <<
+                "_";
+              break;
+            } // switch
+          fLilypondCodeIOstream <<
+            "\\< ";
           break;
+
         case msrWedge::kDecrescendoWedge:
-          fLilypondCodeIOstream << "\\> ";
+          switch (wedge->getWedgePlacementKind ()) {
+            case k_NoPlacement:
+              break;
+            case kAbovePlacement:
+              fLilypondCodeIOstream <<
+                "^";
+              break;
+            case kBelowPlacement:
+              fLilypondCodeIOstream <<
+                "_";
+              break;
+            } // switch
+          fLilypondCodeIOstream <<
+            "\\> ";
           break;
+          
         case msrWedge::kStopWedge:
-          fLilypondCodeIOstream << "\\! ";
+          fLilypondCodeIOstream <<
+            "\\! ";
           break;
       } // switch
     } // for
@@ -7573,17 +7733,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         case msrGlissando::kGlissandoTypeStart:
           // generate the glissando style
           switch (glissando->getGlissandoLineTypeKind ()) {
-            case msrGlissando::kGlissandoLineTypeSolid:
+            case kLineTypeSolid:
               break;
-            case msrGlissando::kGlissandoLineTypeDashed:
+            case kLineTypeDashed:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'dashed-line ";
               break;
-            case msrGlissando::kGlissandoLineTypeDotted:
+            case kLineTypeDotted:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'dotted-line ";
               break;
-            case msrGlissando::kGlissandoLineTypeWavy:
+            case kLineTypeWavy:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'zigzag ";
               break;
@@ -7616,17 +7776,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         case msrSlide::kSlideTypeStart:
           // generate the glissando style
           switch (slide->getSlideLineTypeKind ()) {
-            case msrSlide::kSlideLineTypeSolid:
+            case kLineTypeSolid:
               break;
-            case msrSlide::kSlideLineTypeDashed:
+            case kLineTypeDashed:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'dashed-line ";
               break;
-            case msrSlide::kSlideLineTypeDotted:
+            case kLineTypeDotted:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'dotted-line ";
               break;
-            case msrSlide::kSlideLineTypeWavy:
+            case kLineTypeWavy:
               fLilypondCodeIOstream <<
                 "\\once\\override Glissando.style = #'zigzag ";
               break;
@@ -7654,12 +7814,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       switch ((*i)->getLigatureKind ()) {
         case msrLigature::k_NoLigature:
           break;
-        case msrLigature::kStartLigature:
+        case msrLigature::kLigatureStart:
           fLilypondCodeIOstream << "\\[ ";
           break;
-        case msrLigature::kContinueLigature:
+        case msrLigature::kLigatureContinue:
           break;
-        case msrLigature::kStopLigature:
+        case msrLigature::kLigatureStop:
   // JMI        fLilypondCodeIOstream << "\\] ";
           break;
       } // switch
@@ -7693,8 +7853,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         
         switch (directionKind) {
           case k_NoDirection:
-            if (fCurrentArpeggioDirectionKind != k_NoDirection)
-              fLilypondCodeIOstream << "\\arpeggioNormal";
+            fLilypondCodeIOstream << "\\arpeggioNormal";
             break;
           case kUpDirection:
             fLilypondCodeIOstream << "\\arpeggioArrowUp";
@@ -7983,7 +8142,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i!=chordSlurs.end ();
       i++) {
         
-      switch ((*i)->getSlurKind ()) {
+      switch ((*i)->getSlurTypeKind ()) {
         case msrSlur::k_NoSlur:
           break;
         case msrSlur::kRegularSlurStart:
@@ -8019,12 +8178,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       switch ((*i)->getLigatureKind ()) {
         case msrLigature::k_NoLigature:
           break;
-        case msrLigature::kStartLigature:
+        case msrLigature::kLigatureStart:
   // JMI        fLilypondCodeIOstream << "\\[ ";
           break;
-        case msrLigature::kContinueLigature:
+        case msrLigature::kLigatureContinue:
           break;
-        case msrLigature::kStopLigature:
+        case msrLigature::kLigatureStop:
           fLilypondCodeIOstream << "\\] ";
           break;
       } // switch

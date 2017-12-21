@@ -3858,6 +3858,30 @@ string msrSlashUseStemsKindAsString (
 }
 
 //______________________________________________________________________________
+string msrLineTypeKindAsString (
+  msrLineTypeKind lineTypeKind)
+{
+  string result;
+  
+  switch (lineTypeKind) {
+    case kLineTypeSolid:
+      result = "lineTypeSolid";
+      break;
+    case kLineTypeDashed:
+      result = "lineTypeDashed";
+      break;
+    case kLineTypeDotted:
+      result = "lineTypeDotted";
+      break;
+    case kLineTypeWavy:
+      result = "lineTypeWavy";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
 S_msrChordItem msrChordItem::create (
   int             inputLineNumber,
   int             chordItemNumber,

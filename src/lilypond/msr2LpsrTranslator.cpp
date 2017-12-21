@@ -2566,6 +2566,7 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
       fCurrentNoteClone->
         addWedgeToNote (elt);
   }
+  
   else if (fOnGoingChord) {
     fCurrentChordClone->
       addWedgeToChord (elt);

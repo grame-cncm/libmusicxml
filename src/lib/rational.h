@@ -115,7 +115,7 @@ class EXP rational {
     float                 toFloat ()  const;
     int                   toInt ()    const;
 
-    // rationalize
+    // rationalise
     // ------------------------------------------------------
 
     void                  rationalise ();

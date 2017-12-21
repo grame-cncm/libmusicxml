@@ -1068,10 +1068,10 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     int                       fCurrentDirectionStaffNumber;
-    string                    fCurrentDirectionPlacement;
+    msrPlacementKind          fCurrentDirectionPlacementKind;
+    
     string                    fCurrentWordsContents;
-
-    msrPlacementKind          fCurrentWordsPlacementKind; // JMI
+    
     bool                      fOnGoingDirection;
 
     // direction-type handling
@@ -1519,6 +1519,8 @@ class mxmlTree2MsrTranslator :
     enum MusicXMLTremoloTypeKind {
         k_NoTremolo, kSingleTremolo, kStartTremolo, kStopTremolo };
 
+    bool                      fCurrentNoteBelongsToADoubleTremolo;
+
     MusicXMLTremoloTypeKind   fCurrentMusicXMLTremoloTypeKind;
 
     S_msrSingleTremolo        fCurrentSingleTremolo;
@@ -1602,10 +1604,9 @@ class mxmlTree2MsrTranslator :
     // slurs handling
     // ------------------------------------------------------
     
-    int                       fCurrentSlurNumber;
     string                    fCurrentSlurType;
     string                    fCurrentSlurPlacement;
-    msrSlur::msrSlurKind      fCurrentSlurKind;
+    msrSlur::msrSlurTypeKind  fCurrentSlurTypeKind;
     bool                      fOnGoingSlur;
     bool                      fOnGoingSlurHasStanza;
 
@@ -1616,8 +1617,6 @@ class mxmlTree2MsrTranslator :
     // ligatures handling
     // ------------------------------------------------------
 
-    int                       fCurrentLigatureNumber;
-    string                    fCurrentLigatureType;
     string                    fCurrentLigaturePlacement;
     msrLigature::msrLigatureKind
                               fCurrentLigatureKind;
