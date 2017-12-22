@@ -1310,9 +1310,9 @@ string msrTechnicalWithInteger::technicalWithIntegerAsString () const
 
   s <<
     technicalWithIntegerKindAsString () <<
-    " " <<
+    ", value '" <<
     fTechnicalWithIntegerValue <<
-    ", placement " <<
+    "', placement " <<
     technicalWithIntegerPlacementKindAsString ();
 
   return s.str ();
@@ -1321,12 +1321,32 @@ string msrTechnicalWithInteger::technicalWithIntegerAsString () const
 void msrTechnicalWithInteger::print (ostream& os)
 {
   os <<
-    "TechnicalWithInteger" " " <<
-    technicalWithIntegerAsString () <<
+    "TechnicalWithInteger" <<
+    ", " << technicalWithIntegerKindAsString () <<
     ", line " << fInputLineNumber <<
-    ", note uplink" << " = " <<
+    endl;
+
+  gIndenter++;
+  
+  const int fieldWidth = 14;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "value" << " : " <<
+    fTechnicalWithIntegerValue <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "placement" << " : " <<
+    technicalWithIntegerPlacementKindAsString () <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "note uplink" << " = " <<
     fTechnicalWithIntegerNoteUplink->noteAsShortString () <<
     endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -1386,7 +1406,7 @@ string msrTechnicalWithString::technicalWithStringKindAsString () const
   } // switch
 
   result +=
-    " " + fTechnicalWithStringValue;
+    " \"" + fTechnicalWithStringValue + "\"";
 
   return result;
 }
@@ -1457,9 +1477,9 @@ string msrTechnicalWithString::technicalWithStringAsString () const
 
   s <<
     technicalWithStringKindAsString () <<
-    " " <<
+    ", value \"" <<
     fTechnicalWithStringValue <<
-    ", placement " <<
+    "\", placement " <<
     technicalWithStringPlacementKindAsString ();
 
   return s.str ();
@@ -1468,12 +1488,33 @@ string msrTechnicalWithString::technicalWithStringAsString () const
 void msrTechnicalWithString::print (ostream& os)
 {
   os <<
-    "TechnicalWithString" " " <<
-    technicalWithStringAsString () <<
+    "TechnicalWithString" <<
+    ", " << technicalWithStringKindAsString () <<
     ", line " << fInputLineNumber <<
-    ", note uplink" << " = " <<
+    endl;
+
+  gIndenter++;
+  
+  const int fieldWidth = 14;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "value" << " : \"" <<
+    fTechnicalWithStringValue <<
+    "\"" <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "placement" << " : " <<
+    technicalWithStringPlacementKindAsString () <<
+    endl <<
+
+    setw (fieldWidth) <<
+    "note uplink" << " = " <<
     fTechnicalWithStringNoteUplink->noteAsShortString () <<
     endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -2016,59 +2057,6 @@ msrDoubleTremolo::msrDoubleTremolo (
   fDoubleTremoloNumberOfRepeats = -1; // will be set later
 }
 
-/* JMI
-int msrDoubleTremolo::getDoubleTremoloNumberOfRepeats () const
-{
-  // fDoubleTremoloNumberOfRepeats ??? JMI
-  
-  // fetch the current part's number of divisions per quarter element
-  int partDivisionsPerQuarterNote =
-    fDoubleTremoloVoiceUplink->
-      fetchVoicePartUplink ()->
-        getPartDivisionsPerQuarterNote ();
-
-  // fetch the number of divisions per double tremolo element
-  rational
-    divisionsPerDoubleTremoloElement =
-      partDivisionsPerQuarterNote
-        *
-      4 // quarter note
-        /
-      fCurrentDoubleTremoloElementsLpsrDuration;
-
-  if (divisionsPerDoubleTremoloElement <= 0) {
-    stringstream s;
-
-    s <<
-      "divisionsPerDoubleTremoloElement = " <<
-      divisionsPerDoubleTremoloElement <<
-      " while it should be positive" <<
-      endl <<
-      gTab << "partDivisionsPerQuarterNote = " << 
-      partDivisionsPerQuarterNote <<
-      endl <<
-      gTab << "doubleTremoloSoundingWholeNotes = " <<
-      fDoubleTremoloSoundingWholeNotes <<
-      endl <<
-      gTab << "fCurrentDoubleTremoloElementsLpsrDuration = " <<
-      fCurrentDoubleTremoloElementsLpsrDuration;
-    
-    msrInternalError (
-      elt->getInputLineNumber (),
-      s.str ());
-  }
-    
-  // the number of repeats is the quotient of the number of sounding divisions
-  // by the duration of the elements
-  int numberOfRepeats =
-    fDoubleTremoloSoundingWholeNotes
-      /
-    (2 * divisionsPerDoubleTremoloElement); // to account for both elements
-
-  return numberOfRepeats;
-}
-* */
-
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   S_msrVoice containingVoice)
 {
@@ -2095,6 +2083,15 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   newbornClone->fDoubleTremoloSoundingWholeNotes =
     fDoubleTremoloSoundingWholeNotes;
         
+  newbornClone->fDoubleTremoloElementsDuration =
+    fDoubleTremoloElementsDuration;
+        
+  newbornClone->fDoubleTremoloNumberOfRepeats =
+    fDoubleTremoloNumberOfRepeats;
+        
+  newbornClone->fDoubleTremoloPlacementKind =
+    fDoubleTremoloPlacementKind;
+        
   return newbornClone;
 }
 
@@ -2111,6 +2108,9 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
       endl;
   }
 
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
   // register note as first element of this double tremolo
   fDoubleTremoloFirstElement = note;
 
@@ -2118,73 +2118,166 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   note->
     setNoteIsFirstNoteInADoubleTremolo ();
 
-  // fetch note displayed whole notes
+  // fetch note display whole notes
+  rational
+    noteDisplayWholeNotes =
+      note->
+        getNoteDisplayWholeNotes ();
+  
+  // set double tremolo sounding whole notes
+  // to the note's display whole notes,
+   // i.e. the duration of each of the two notes
+  fDoubleTremoloSoundingWholeNotes =
+    noteDisplayWholeNotes;
+  fDoubleTremoloSoundingWholeNotes.rationalise ();
+
+  // compute double tremolo elements duration
+  // the marks number determines the duration of the two elements:
+  // '8' for 1, '16' for 2, etc
+  fDoubleTremoloElementsDuration =
+    rational (
+      1,
+      int (
+        pow (
+          2,
+          fDoubleTremoloMarksNumber + 2)));
+
+  // set note's sounding whole notes
+  note->
+    setNoteSoundingWholeNotes (
+      fDoubleTremoloElementsDuration);
+
+  // setting number of repeats
+  rational
+    numberOfRepeatsAsRational =
+      fDoubleTremoloSoundingWholeNotes
+        /
+      fDoubleTremoloElementsDuration
+        /
+      2; // there are two repeated notes
+  numberOfRepeatsAsRational.rationalise ();
+      
+  if (numberOfRepeatsAsRational.getDenominator () != 1) {
+    stringstream s;
+
+    s <<
+      "cannot handle numberOfRepeatsAsRational.getDenominator () != 1" <<
+      endl <<
+      "numberOfRepeatsAsRational = " <<
+      numberOfRepeatsAsRational <<
+      endl <<
+      "fDoubleTremoloSoundingWholeNotes = '" <<
+      fDoubleTremoloSoundingWholeNotes << "'" <<
+      endl <<
+      "fDoubleTremoloElementsDuration = '" <<
+      fDoubleTremoloElementsDuration << "'" <<
+      endl <<
+      "line " << inputLineNumber;
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+    
+  fDoubleTremoloNumberOfRepeats =
+    numberOfRepeatsAsRational.getNumerator ();
+  
+  if (gGeneralOptions->fTraceTremolos) {
+    gLogIOstream <<
+      "Setting notes double tremolo number of repeats to '" <<
+      fDoubleTremoloNumberOfRepeats <<
+      "', fDoubleTremoloSoundingWholeNotes = '" <<
+      fDoubleTremoloSoundingWholeNotes << "'" <<
+      ", fDoubleTremoloElementsDuration = '" <<
+      fDoubleTremoloElementsDuration << "'" <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+}
+
+void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
+  S_msrNote note)
+{
+  if (gGeneralOptions->fTraceTremolos) {
+    gLogIOstream <<
+      "Setting note " << note->noteAsShortString () <<
+      " as second element of double tremolo " <<
+      doubleTremoloAsShortString () <<
+      endl;
+  }
+
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
+  // register note as second element of this double tremolo
+  fDoubleTremoloSecondElement = note;
+
+  // mark it as being a double tremolo second element
+  note->
+    setNoteIsSecondNoteInADoubleTremolo ();
+
+  // fetch note display whole notes
   rational
     noteDisplayWholeNotes =
       note->
         getNoteDisplayWholeNotes ();
 
-  // set double tremolo displayed whole notes to the note's displayed whole notes
-  if (fDoubleTremoloSoundingWholeNotes.getNumerator () > 0) {
-    if (noteDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
-      stringstream s;
-
-      s <<
-        "attempt to set double tremolo sounding whole notes both to " <<
-        fDoubleTremoloSoundingWholeNotes << " (existing)" <<
-        " and " <<
-        noteDisplayWholeNotes <<
-        " on note first element:" << " (note)" <<
-        ", line " << note->getInputLineNumber () <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        note <<
-        endl;
-      
-      gIndenter--;
-        
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        note->getInputLineNumber (),
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
-  
-  else {
-    fDoubleTremoloSoundingWholeNotes =
+  // compute expected double tremolo sounding whole notes
+  rational
+    expectedDoubleTremoloSoundingWholeNotes =
       noteDisplayWholeNotes;
-  }
-
-  // fetch note sounding whole notes
-  rational
-    noteSoundingWholeNotes =
-      note->
-        getNoteSoundingWholeNotes ();
-
-  // setting number of repeats
-  rational
-    ratio =
-      fDoubleTremoloSoundingWholeNotes
-        /
-      noteSoundingWholeNotes;
-  ratio.rationalise ();
-      
-  fDoubleTremoloNumberOfRepeats = 4; // JMI
-  
+  expectedDoubleTremoloSoundingWholeNotes.rationalise ();
+        
+  // check that expected double tremolo sounding whole notes
+  // match the known double tremolo sounding whole notes
   if (gGeneralOptions->fTraceTremolos) {
     gLogIOstream <<
-      "Setting double tremolo number of repeats to '" <<
+      "Checking notes double tremolo second note duration"<<
+      ", doubleTremoloNumberOfRepeats = '" <<
       fDoubleTremoloNumberOfRepeats <<
-      ", fDoubleTremoloSoundingWholeNotes = '" << fDoubleTremoloSoundingWholeNotes << "'" <<
-      ", noteSoundingWholeNotes = '" << noteSoundingWholeNotes << "'" <<
-      "', ratio = '" << ratio <<
-      "', line " << note->getInputLineNumber () <<
+      "', doubleTremoloSoundingWholeNotes = '" <<
+      fDoubleTremoloSoundingWholeNotes <<
+      "', doubleTremoloElementsDuration = '" <<
+      fDoubleTremoloElementsDuration << "'" <<
+      "', line " << inputLineNumber <<
       endl;
   }
+
+  if (
+    expectedDoubleTremoloSoundingWholeNotes
+      !=
+    fDoubleTremoloSoundingWholeNotes) {
+    stringstream s;
+
+    s <<
+      "attempt to set notes double tremolo whole notes both to " <<
+      fDoubleTremoloSoundingWholeNotes << " (existing)" <<
+      " and " <<
+      expectedDoubleTremoloSoundingWholeNotes <<
+      " on note second element:" <<
+      endl;
+
+    gIndenter++;
+
+    s <<
+      note <<
+      endl;
+    
+    gIndenter--;
+      
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+  
+  // set note's sounding whole notes
+  note->
+    setNoteSoundingWholeNotes (
+      fDoubleTremoloElementsDuration);
 }
 
 void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
@@ -2210,17 +2303,26 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
     chordDisplayWholeNotes =
       chord->
         getChordDisplayWholeNotes ();
+
+  // compute expected double tremolo sounding whole notes
+  rational
+    expectedDoubleTremoloSoundingWholeNotes =
+      chordDisplayWholeNotes * 2;
+  expectedDoubleTremoloSoundingWholeNotes.rationalise ();
     
   // set double tremolo whole notes to the chords's displayed whole notes
   if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
-    if (chordDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
+    if (
+      expectedDoubleTremoloSoundingWholeNotes
+        !=
+      fDoubleTremoloSoundingWholeNotes) {
       stringstream s;
 
       s <<
-        "attempt to set double tremolo sounding whole notes both to " <<
+        "attempt to set chord double tremolo sounding whole notes both to " <<
         fDoubleTremoloSoundingWholeNotes << " (existing)" <<
         " and " <<
-        chordDisplayWholeNotes << " (chord)" <<
+        expectedDoubleTremoloSoundingWholeNotes <<
         " on chord first element:" <<
         endl;
 
@@ -2239,70 +2341,10 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
         s.str ());
     }
   }
-  
-  else {
-    fDoubleTremoloSoundingWholeNotes =
-      chordDisplayWholeNotes;
-  }
-}
 
-void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
-  S_msrNote note)
-{
-  if (gGeneralOptions->fTraceTremolos) {
-    gLogIOstream <<
-      "Setting note " << note->noteAsShortString () <<
-      " as second element of double tremolo " <<
-      doubleTremoloAsShortString () <<
-      endl;
-  }
-
-  // register note as second element of this double tremolo
-  fDoubleTremoloSecondElement = note;
-
-  // mark it as being a double tremolo second element
-  note->
-    setNoteIsSecondNoteInADoubleTremolo ();
-
-  // fetch note displayed whole notes
-  rational
-    noteDisplayWholeNotes =
-      note->
-        getNoteDisplayWholeNotes ();
-
-  // set double tremolo whole notes to the note's displayed whole notes
-  if (fDoubleTremoloSoundingWholeNotes.getNumerator () != 0) {
-    if (noteDisplayWholeNotes != fDoubleTremoloSoundingWholeNotes) { // JMI
-      stringstream s;
-
-      s <<
-        "attempt to set double tremolo whole notes both to " <<
-        fDoubleTremoloSoundingWholeNotes << " (existing)" <<
-        " and " <<
-        noteDisplayWholeNotes <<
-        " on note second element:" << " (note)" <<
-        endl;
-
-      gIndenter++;
-
-      s <<
-        note <<
-        endl;
-      
-      gIndenter--;
-        
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        note->getInputLineNumber (),
-        __FILE__, __LINE__,
-        s.str ());
-    }
-  }
-  
-  else {
-    fDoubleTremoloSoundingWholeNotes =
-      noteDisplayWholeNotes;
-  }
+  fDoubleTremoloSoundingWholeNotes =
+    chordDisplayWholeNotes * 2; // taking the second note into account
+  fDoubleTremoloSoundingWholeNotes.rationalise ();
 }
 
 void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
@@ -2569,18 +2611,40 @@ void msrDoubleTremolo::print (ostream& os)
 {
   os <<
     "DoubleTremolo" <<
-    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
+    ", on " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
     ", line " << fInputLineNumber <<
-    ", " <<
-    singularOrPlural (
-      fDoubleTremoloMarksNumber, "mark", "marks") <<
-    ", placement: " << doubleTremoloPlacementKindAsString () <<
-    ", " << fDoubleTremoloSoundingWholeNotes << " sound whole notes" <<
-    ", numberOfRepeats: " << fDoubleTremoloNumberOfRepeats <<
     endl;
+
+  const int fieldWidth = 32;
 
   gIndenter++;
   
+  os << left <<
+    setw (fieldWidth) <<
+    "doubleTremoloSoundingWholeNotes" << " : " <<
+    fDoubleTremoloSoundingWholeNotes <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "doubleTremoloMarksNumber" << " : " <<
+    fDoubleTremoloMarksNumber <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "doubleTremoloElementsDuration" << " : " <<
+    fDoubleTremoloElementsDuration <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "numberOfRepeats" << " : " <<
+    fDoubleTremoloNumberOfRepeats <<
+    endl <<
+    
+    setw (fieldWidth) <<
+    "placement" << " : " <<
+    doubleTremoloPlacementKindAsString () <<
+    endl;
+
   os <<
     "First element:";
   if (fDoubleTremoloFirstElement) { // it may not yet be set
@@ -7774,7 +7838,7 @@ void msrChord::addTechnicalWithStringToChord (
 
   if (gGeneralOptions->fTraceChords) {
     gLogIOstream <<
-      "Adding technical with integer '" <<
+      "Adding technical with string '" <<
       tech->technicalWithStringAsString () <<
       "' to chord" <<
       endl;

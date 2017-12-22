@@ -270,6 +270,9 @@ R"(Write a trace of the general activity to standard error.)",
     // transpositions
     fTraceTranspositions = boolOptionsInitialValue;
   
+    // octave shifts
+    fTraceOctaveShifts = boolOptionsInitialValue;
+
     // segments
     fTraceSegments = boolOptionsInitialValue;
     
@@ -468,9 +471,18 @@ R"(Times)",
       appendOptionsItem (
         optionsTwoBooleansItem::create (
           "ttransps", "traceTranspositions",
-R"(Transpositions (<transpose> in MusicXML,  ransposition in LilyPond))",
+R"(Transpositions (<transpose/> in MusicXML, \transposition in LilyPond))",
           "traceTranspositions",
           fTraceTranspositions,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "toctshifts", "traceOctaveShifts",
+R"(Octave shifts (<octave-shift/> in MusicXML, \ottava in LilyPond))",
+          "traceOctaveShifts",
+          fTraceOctaveShifts,
           fTraceGeneral));
       
     specificTraceSubGroup->
@@ -851,6 +863,9 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
   // transpositions
   clone->fTraceTranspositions = true;
 
+  // octave shifts
+  clone->fTraceOctaveShifts = true;
+
   // segments
   clone->fTraceSegments = true;
     
@@ -1094,6 +1109,11 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     // transpositions
     setw (fieldWidth) << "traceTranspositions" << " : " <<
     booleanAsString (fTraceTranspositions) <<
+    endl <<
+    
+    // octave shifts
+    setw (fieldWidth) << "traceOctaveShifts" << " : " <<
+    booleanAsString (fTraceOctaveShifts) <<
     endl <<
     
     // segments

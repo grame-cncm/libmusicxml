@@ -130,8 +130,11 @@ class generalOptions : public optionsGroup
     // times
     bool                  fTraceTimes;
 
-    //transpositions
+    // transpositions
     bool                  fTraceTranspositions;
+
+    // octave shifts
+    bool                  fTraceOctaveShifts;
 
     // segments
     bool                  fTraceSegments;

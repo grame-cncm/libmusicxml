@@ -722,7 +722,6 @@ class lpsr2LilypondTranslator :
 
     // double tremolos
     // ------------------------------------------------------
-    int                   fCurrentDoubleTremoloElementsLpsrDuration;
     
     // chords
     // ------------------------------------------------------

@@ -1599,6 +1599,11 @@ class msrDoubleTremolo : public msrElement
     int                   getDoubleTremoloMarksNumber () const
                               { return fDoubleTremoloMarksNumber; }
                 
+    // double tremolo elements duration
+
+    rational              getDoubleTremoloElementsDuration () const
+                              { return fDoubleTremoloElementsDuration; }
+                
     // double tremolo number of repeats
 
     void                  setDoubleTremoloNumberOfRepeats (
@@ -1736,9 +1741,11 @@ class msrDoubleTremolo : public msrElement
     // the same as the displayed divisions of both members
     rational              fDoubleTremoloSoundingWholeNotes;
 
-    msrDoubleTremoloKind  fDoubleTremoloKind; // JMI ???
+    msrDoubleTremoloKind  fDoubleTremoloKind;
     
     int                   fDoubleTremoloMarksNumber;
+
+    rational              fDoubleTremoloElementsDuration;
     
     int                   fDoubleTremoloNumberOfRepeats;
 
@@ -5018,6 +5025,12 @@ class msrNote : public msrElement
 
     // note whole notes
     
+    void                  setNoteSoundingWholeNotes (
+                            rational wholeNotes)
+                              {
+                                fNoteSoundingWholeNotes = wholeNotes;
+                              }
+
     rational              getNoteSoundingWholeNotes ()
                               {
                                 return

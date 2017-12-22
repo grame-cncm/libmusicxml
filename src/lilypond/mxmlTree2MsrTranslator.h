@@ -1323,15 +1323,9 @@ class mxmlTree2MsrTranslator :
     // ongoing note
     bool                      fOnGoingNote;
 
-    // tremolos
-    void                      handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
-                                S_msrNote newNote);
-
     // glissandos
-    void                      handleTremolos (S_msrNote newNote);
     
     // slides
-    void                      handleSlides (S_msrNote newNote);
     
     // note sound
     msrQuarterTonesPitchKind  fCurrentNoteQuarterTonesPitchKind;
@@ -1377,6 +1371,19 @@ class mxmlTree2MsrTranslator :
 
     // initialization
     void                      initializeNoteData ();
+
+    // detailed notes handling
+    void                      handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (
+                                S_msrNote newNote);
+
+    void                      handleNoteBelongingToAChord (
+                                S_msrNote newChordNote);
+    
+    void                      handleNoteBelongingToATuplet (
+                                S_msrNote newNote);
+
+    void                      handleNoteBelongingToAChordInATuplet (
+                                S_msrNote newChordNote);
 
     // grace notes handling
     // ------------------------------------------------------
@@ -1543,9 +1550,6 @@ class mxmlTree2MsrTranslator :
                                 S_msrVoice voice,
                                 S_msrNote  chordFirstNote);
                                 
-    void                      handleNoteBelongingToAChord (
-                                S_msrNote newChordNote);
-    
     // tuplets handling
     // ------------------------------------------------------
     
@@ -1579,13 +1583,8 @@ class mxmlTree2MsrTranslator :
     void                      finalizeTuplet (
                                 int inputLineNumber);
                                 
-    void                      handleNoteBelongingToATuplet (
-                                S_msrNote newNote);
     void                      handleTupletsPendingOnTupletsStack (
                                 int inputLineNumber);
-
-    void                      handleNoteBelongingToAChordInATuplet (
-                                S_msrNote newChordNote);
 
      map<S_msrVoice, S_msrTuplet>
                               fLastHandledTupletInVoice;

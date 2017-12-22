@@ -104,7 +104,6 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 //  fOnGoingStemNone = false; JMI
 
   // double tremolos
-  fCurrentDoubleTremoloElementsLpsrDuration = -39;
 
   // chords
   fOnGoingChord = false; // JMI
@@ -409,11 +408,36 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       i=noteLigatures.begin ();
       i!=noteLigatures.end ();
       i++) {
-        
-      switch ((*i)->getLigatureKind ()) {
+      S_msrLigature ligature = (*i);
+      
+      switch (ligature->getLigatureKind ()) {
         case msrLigature::k_NoLigature:
           break;
         case msrLigature::kLigatureStart:
+          // generate ligature line type if any
+          switch (ligature->getLigatureLineTypeKind ()) {
+            case kLineTypeSolid:
+              break;
+            case kLineTypeDashed:
+              fLilypondCodeIOstream <<
+                endl <<
+                "%\\once\\override Ligature.style = #'dashed-line" <<
+                endl;
+              break;
+            case kLineTypeDotted:
+              fLilypondCodeIOstream <<
+                endl <<
+                "%\\once\\override Ligature.style = #'dotted-line" <<
+                endl;
+              break;
+            case kLineTypeWavy:
+              fLilypondCodeIOstream <<
+                endl <<
+                "%\\once\\override Ligature.style = #'zigzag" <<
+                endl;
+              break;
+          } // switch
+          
           fLilypondCodeIOstream << "\\[ ";
           break;
         case msrLigature::kLigatureContinue:
@@ -653,9 +677,11 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       fLilypondCodeIOstream <<
         notePitchAsLilypondString (note);
       
-      // print the note duration, i.e. the double tremolo elements duration
+      // print the note duration
       fLilypondCodeIOstream <<
-        fCurrentDoubleTremoloElementsLpsrDuration; // JMI
+        wholeNotesAsLilypondString (
+          inputLineNumber,
+          note->getNoteSoundingWholeNotes ());
 
       // handle delayed ornaments if any
       if (note->getNoteHasADelayedOrnament ())
@@ -1422,11 +1448,15 @@ string lpsr2LilypondTranslator::technicalWithStringAsLilypondString (
       break;
   } // switch
 
-  result +=
-    string (" ") +
-    "-\\markup {\"" + technicalWithString->
-      getTechnicalWithStringValue () +
-      "\"}";
+  string stringValue =
+    technicalWithString->
+      getTechnicalWithStringValue ();
+
+  if (stringValue.size ()) {
+    result +=
+      string (" ") +
+      "-\\markup {\"" + stringValue + "\"}";
+  }
     
   return result;
 }
@@ -4829,6 +4859,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       
     case msrMeasure::kUnderfullMeasureKind:
       fLilypondCodeIOstream <<
+        endl <<
         "\\unset Score.measureLength" <<
         endl;
       break;
@@ -6327,51 +6358,34 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
     elt->getInputLineNumber ();
     
   // get double tremolo number of repeats
-  int doubleTremoloMarksNumber =
-    elt->getDoubleTremoloMarksNumber ();
-  int doubleTremoloSoundingWholeNotes =
-    elt->getDoubleTremoloSoundingWholeNotes ();
-    
-  // the marks number determines the duration of the two elements:
-  // '8' for 1, '16' for 2, etc
-  fCurrentDoubleTremoloElementsLpsrDuration =
-    int (
-      pow (
-        2,
-        doubleTremoloMarksNumber + 2));
-
-  rational
-    ratio (
-      fCurrentDoubleTremoloElementsLpsrDuration,
-      2 * doubleTremoloSoundingWholeNotes);
-  ratio.rationalise ();
-
   int numberOfRepeats =
-    elt->getDoubleTremoloNumberOfRepeats (); // JMI
-
-  msrAssert ( // JMI
-    ratio.getDenominator () == 1,
-    "ratio.getDenominator () != 1");
-    
-  numberOfRepeats = ratio.getNumerator (); // JMI
+    elt->getDoubleTremoloNumberOfRepeats ();
 
   if (gGeneralOptions->fTraceTremolos) {
     fLilypondCodeIOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
-      endl <<
-      gTab << "% doubleTremoloSoundingWholeNotes = " <<
-        doubleTremoloSoundingWholeNotes <<
-        endl <<
-      gTab << "% fCurrentDoubleTremoloElementsLpsrDuration = " <<
-        fCurrentDoubleTremoloElementsLpsrDuration <<
-        endl <<
-      gTab << "% doubleTremoloMarksNumber = " <<
-        doubleTremoloMarksNumber <<
-        endl <<
-      gTab << "% ratio = " << ratio <<
-        endl <<
-      gTab << "% numberOfRepeats = " << numberOfRepeats <<
       endl;
+
+    gIndenter++;
+    
+    fLilypondCodeIOstream <<
+      "% doubleTremoloSoundingWholeNotes = " <<
+      elt->getDoubleTremoloSoundingWholeNotes () <<
+      endl <<
+      
+      "% gdoubleTremoloElementsDuration = " <<
+      elt->getDoubleTremoloElementsDuration () <<
+      endl <<
+      
+      "% doubleTremoloMarksNumber = " <<
+      elt->getDoubleTremoloMarksNumber () <<
+      endl <<
+      
+      "% numberOfRepeats = " <<
+      numberOfRepeats <<
+      endl;
+
+    gIndenter++;
   }
   
   fLilypondCodeIOstream <<
@@ -6766,15 +6780,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
               break;
             case kLineTypeDashed:
               fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'dashed-line ";
+                endl <<
+                "\\once\\override Glissando.style = #'dashed-line" <<
+                endl;
               break;
             case kLineTypeDotted:
               fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'dotted-line ";
+                endl <<
+                "\\once\\override Glissando.style = #'dotted-line" <<
+                endl;
               break;
             case kLineTypeWavy:
               fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'zigzag ";
+                endl <<
+                "\\once\\override Glissando.style = #'zigzag" <<
+                endl;
               break;
           } // switch
           break;
@@ -6809,15 +6829,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
               break;
             case kLineTypeDashed:
               fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'dashed-line ";
+                endl <<
+                "\\once\\override Glissando.style = #'dashed-line" <<
+                endl;
               break;
             case kLineTypeDotted:
               fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'dotted-line ";
+                endl <<
+                "\\once\\override Glissando.style = #'dotted-line" <<
+                endl;
               break;
             case kLineTypeWavy:
               fLilypondCodeIOstream <<
-                "\\once\\override Glissando.style = #'zigzag ";
+                endl <<
+                "\\once\\override Glissando.style = #'zigzag" <<
+                endl;
               break;
           } // switch
           break;
@@ -7713,7 +7739,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       endl;
   }
 
-  // print the chors glissandos styles if any
+  // print the chord glissandos styles if any
   const list<S_msrGlissando>&
     chordGlissandos =
       elt->getChordGlissandos ();
@@ -7914,9 +7940,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     elt->getChordIsFirstChordInADoubleTremolo ()
       ||
     elt->getChordIsSecondChordInADoubleTremolo ()) {
-      // print the note duration, i.e. the double tremolo elements duration
+      // print chord note duration
       fLilypondCodeIOstream <<
-        fCurrentDoubleTremoloElementsLpsrDuration; // JMI
+        elt->getChordSoundingWholeNotes ();
   }
   
   else {
