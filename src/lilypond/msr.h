@@ -1808,7 +1808,8 @@ class msrSpanner : public msrElement
       int                inputLineNumber,
       msrSpannerKind     spannerKind,
       msrSpannerTypeKind spannerTypeKind,
-      msrPlacementKind   spannerPlacementKind);
+      msrPlacementKind   spannerPlacementKind,
+      S_msrNote          spannerNoteUplink);
 
   protected:
 
@@ -1819,7 +1820,8 @@ class msrSpanner : public msrElement
       int                inputLineNumber,
       msrSpannerKind     spannerKind,
       msrSpannerTypeKind spannerTypeKind,
-      msrPlacementKind   spannerPlacementKind);
+      msrPlacementKind   spannerPlacementKind,
+      S_msrNote          spannerNoteUplink);
       
     virtual ~msrSpanner ();
   
@@ -1827,6 +1829,14 @@ class msrSpanner : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // uplinks
+    void                  setSpannerNoteUplink (
+                            S_msrNote spannerNoteUplink)
+                              { fSpannerNoteUplink = spannerNoteUplink; }
+
+    S_msrNote             getSpannerNoteUplink () const
+                              { return fSpannerNoteUplink; }
 
     msrSpannerKind        getSpannerKind () const
                               { return fSpannerKind; }
@@ -1860,6 +1870,10 @@ class msrSpanner : public msrElement
     virtual void          print (ostream& os);
 
   protected:
+
+    // uplinks
+    // ------------------------------------------------------
+    S_msrNote             fSpannerNoteUplink;
 
     // fields
     // ------------------------------------------------------
@@ -5448,6 +5462,9 @@ class msrNote : public msrElement
     bool                  getNoteHasATrill () const
                               { return fNoteHasATrill; }
                   
+    bool                  getNoteHasAWavyLineStart () const
+                              { return fNoteHasAWavyLineStart; }
+                  
     void                  setNoteIsFollowedByGraceNotes ()
                               { fNoteIsFollowedByGraceNotes = true; }
 
@@ -5795,6 +5812,9 @@ class msrNote : public msrElement
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                  fNoteHasATrill;
     bool                  fNoteIsFollowedByGraceNotes;
+
+    // this is useful to handle trill spans properly in LilyPond
+    bool                  fNoteHasAWavyLineStart;
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
     bool                  fNoteHasADelayedOrnament;

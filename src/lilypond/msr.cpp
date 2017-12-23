@@ -2704,14 +2704,16 @@ S_msrSpanner msrSpanner::create (
   int                inputLineNumber,
   msrSpannerKind     spannerKind,
   msrSpannerTypeKind spannerTypeKind,
-  msrPlacementKind   spannerPlacementKind)
+  msrPlacementKind   spannerPlacementKind,
+  S_msrNote          spannerNoteUplink)
 {
   msrSpanner* o =
     new msrSpanner (
       inputLineNumber,
       spannerKind,
       spannerTypeKind,
-      spannerPlacementKind);
+      spannerPlacementKind,
+      spannerNoteUplink);
   assert (o!=0);
   return o;
 }
@@ -2720,9 +2722,12 @@ msrSpanner::msrSpanner (
   int                inputLineNumber,
   msrSpannerKind     spannerKind,
   msrSpannerTypeKind spannerTypeKind,
-  msrPlacementKind   spannerPlacementKind)
+  msrPlacementKind   spannerPlacementKind,
+  S_msrNote          spannerNoteUplink)
     : msrElement (inputLineNumber)
 {
+  fSpannerNoteUplink = spannerNoteUplink;
+  
   fSpannerKind = spannerKind;
   
   fSpannerTypeKind = spannerTypeKind;
@@ -4800,6 +4805,8 @@ void msrNote::initializeNote ()
   
   fNoteHasATrill = false;
   fNoteIsFollowedByGraceNotes = false;
+
+  fNoteHasAWavyLineStart = false;
   
   fNoteHasADelayedOrnament = false;
 }
@@ -5013,6 +5020,9 @@ S_msrNote msrNote::createNoteNewbornClone (
     fNoteHasATrill;
   newbornClone->fNoteIsFollowedByGraceNotes =
     fNoteIsFollowedByGraceNotes;
+
+  newbornClone->fNoteHasAWavyLineStart =
+    fNoteHasAWavyLineStart;
 
   newbornClone->fNoteHasADelayedOrnament =
     fNoteHasADelayedOrnament;
@@ -5421,6 +5431,9 @@ S_msrNote msrNote::createNoteDeepCopy (
     fNoteHasATrill;
   noteDeepCopy->fNoteIsFollowedByGraceNotes =
     fNoteIsFollowedByGraceNotes;
+
+  noteDeepCopy->fNoteHasAWavyLineStart =
+    fNoteHasAWavyLineStart;
 
   noteDeepCopy->fNoteHasADelayedOrnament =
     fNoteHasADelayedOrnament;
@@ -6041,7 +6054,29 @@ void msrNote::addSpannerToNote (S_msrSpanner span)
       "'" <<
       endl;
   }
-  
+
+  // register note has having a wavy line start
+  switch (span->getSpannerKind ()) {
+    case msrSpanner::kSpannerTrill:
+      break;
+      
+    case msrSpanner::kSpannerWavyLine:
+      switch (span->getSpannerTypeKind ()) {
+        case kSpannerTypeStart:
+          fNoteHasAWavyLineStart = true;
+          break;
+        case kSpannerTypeStop:
+          break;
+        case kSpannerTypeContinue:
+          break;
+        case k_NoSpannerType:
+          // JMI ???
+          break;
+      } // switch
+      break;
+  } // switch
+
+  // append spanner to note spanners
   fNoteSpanners.push_back (span);
 }
 
@@ -6984,6 +7019,10 @@ string msrNote::noteAsString ()
     s <<
       ", has a trill";
   
+  if (fNoteHasAWavyLineStart)
+    s <<
+      ", has a wavy line start";
+  
   if (fNoteIsFollowedByGraceNotes)
     s <<
       ", followed by grace notes";
@@ -7202,6 +7241,12 @@ void msrNote::print (ostream& os)
       os <<
         "has a trill" <<
         endl;
+        
+    if (fNoteHasAWavyLineStart)
+      os <<
+        "has a wavy line start" <<
+        endl;
+        
     if (fNoteIsFollowedByGraceNotes)
       os <<
         "is followed by graceNotes" <<

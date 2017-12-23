@@ -108,6 +108,9 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // chords
   fOnGoingChord = false; // JMI
 
+  // trills
+  fOnGoingTrillSpanner = false;
+
   // stanzas
   fGenerateCodeForOngoingNonEmptyStanza = false;
 
@@ -1464,16 +1467,22 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
   S_msrOrnament ornament)
 {
   string result;
-  
+
+  S_msrNote
+    ornamentNoteUplink =
+      ornament->
+        getOrnamentNoteUplink ();
+    
   string
     noteUplinkDuration =
-      ornament->
-        getOrnamentNoteUplink ()->
-          noteSoundingWholeNotesAsMsrString ();
+      ornamentNoteUplink->
+        noteSoundingWholeNotesAsMsrString ();
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrillMark:
-      result = "\\trill ";
+      if (! ornamentNoteUplink->getNoteHasAWavyLineStart ()) {      
+        result = "\\trill ";
+      }
       break;
       
     case msrOrnament::kTurn:
@@ -1597,9 +1606,11 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
           result = "\\startTrillSpan ";
+          fOnGoingTrillSpanner = true;
           break;
         case kSpannerTypeStop:
           result = "\\stopTrillSpan ";
+          fOnGoingTrillSpanner = false;
           break;
         case kSpannerTypeContinue:
           break;
@@ -1611,10 +1622,22 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
     case msrSpanner::kSpannerWavyLine:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
-          result = "-\\tweak style #'trill \\startTextSpan";
+          if (spanner->getSpannerNoteUplink ()->getNoteHasATrill ()) {
+            result = "\\startTrillSpan";
+            fOnGoingTrillSpanner = true;
+          }
+          else {
+            result = "-\\tweak style #'trill \\startTextSpan";
+          }
           break;
         case kSpannerTypeStop:
-          result = "\\stopTextSpan ";
+          if (fOnGoingTrillSpanner) {
+            result = "\\stopTrillSpan";
+            fOnGoingTrillSpanner = false;
+          }
+          else {
+            result = "\\stopTextSpan";
+          }
           break;
         case kSpannerTypeContinue:
           break;

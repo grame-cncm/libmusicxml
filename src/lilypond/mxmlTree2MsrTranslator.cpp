@@ -10456,7 +10456,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
         inputLineNumber,
         msrSpanner::kSpannerWavyLine,
         fWavyLineSpannerTypeKind,
-        ornamentPlacementKind);
+        ornamentPlacementKind,
+        nullptr); // will be set later REMOVE??? JMI
       
   fCurrentSpannersList.push_back (spanner);
 }
@@ -13937,6 +13938,10 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
     
         note->
           addSpannerToNote (spanner);
+
+        // set spanner note uplink
+        spanner->
+          setSpannerNoteUplink (note);
   
         // forget about this spanner
         fCurrentSpannersList.pop_front ();

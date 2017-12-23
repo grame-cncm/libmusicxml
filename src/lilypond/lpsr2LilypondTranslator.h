@@ -606,6 +606,10 @@ class lpsr2LilypondTranslator :
     string                ornamentAsLilypondString (
                             S_msrOrnament ornament);
 
+    // trills
+
+    bool                  fOnGoingTrillSpanner;
+    
     // spanners
     
     string                spannerAsLilypondString (
