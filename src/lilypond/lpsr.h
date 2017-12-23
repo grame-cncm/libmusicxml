@@ -2324,6 +2324,14 @@ class lpsrScore : public lpsrElement
                                   fTupletsCurvedBracketsSchemeFunctionIsNeeded;
                               }
     
+    void                  setAfterSchemeFunctionIsNeeded ();
+
+    bool                  getAfterSchemeFunctionIsNeeded () const
+                              {
+                                return
+                                  fAfterSchemeFunctionIsNeeded;
+                              }
+    
     // services
     // ------------------------------------------------------
 
@@ -2373,7 +2381,9 @@ class lpsrScore : public lpsrElement
 
     void                  addDynamicsSchemeFunctionToScore ();
     
-    void                  addTupletsCurvedBracketsSchemeFunctionToScore();
+    void                  addTupletsCurvedBracketsSchemeFunctionToScore ();
+    
+    void                  addAfterSchemeFunctionToScore ();
 
     // visitors
     // ------------------------------------------------------
@@ -2446,6 +2456,7 @@ class lpsrScore : public lpsrElement
     bool                  fEditorialAccidentalSchemeFunctionIsNeeded;
     bool                  fDynamicsSchemeFunctionIsNeeded;
     bool                  fTupletsCurvedBracketsSchemeFunctionIsNeeded;
+    bool                  fAfterSchemeFunctionIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
                           fScoreSchemeFunctionsMap;

@@ -4209,6 +4209,15 @@ void lpsrScore::setTupletsCurvedBracketsSchemeFunctionIsNeeded ()
   }
 }
 
+void lpsrScore::setAfterSchemeFunctionIsNeeded ()
+{
+  if (! fAfterSchemeFunctionIsNeeded) {
+    addAfterSchemeFunctionToScore ();
+    
+    fAfterSchemeFunctionIsNeeded = true;    
+  }
+}
+
 void lpsrScore::addDateAndTimeSchemeFunctionsToScore ()
 {
   string
@@ -4242,7 +4251,7 @@ R"(
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    dateAndTimeSchemeFunctions =
+    schemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeFunctionName,
@@ -4251,7 +4260,7 @@ R"(
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
-    dateAndTimeSchemeFunctions;
+    schemeFunction;
 }
 
 void lpsrScore::addCustomShortBarLineSchemeFunctionToScore ()
@@ -4293,7 +4302,7 @@ R"(
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    scmAndAccregSchemeModules =
+    schemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeModulesName,
@@ -4302,7 +4311,7 @@ R"(
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeModulesName] =
-    scmAndAccregSchemeModules;
+    schemeFunction;
 }
 
 void lpsrScore::addJianpuFileIncludeToScore ()
@@ -4329,7 +4338,7 @@ R"(
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    scmAndAccregSchemeModules =
+    schemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeModulesName,
@@ -4338,7 +4347,7 @@ R"(
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeModulesName] =
-    scmAndAccregSchemeModules;
+    schemeFunction;
 }
 
 void lpsrScore::addAccordionRegistrationSchemeModulesToScore ()
@@ -4365,7 +4374,7 @@ R"(
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    scmAndAccregSchemeModules =
+    schemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeModulesName,
@@ -4374,7 +4383,7 @@ R"(
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeModulesName] =
-    scmAndAccregSchemeModules;
+    schemeFunction;
 }
 
 void lpsrScore::addTongueSchemeFunctionToScore ()
@@ -4416,7 +4425,7 @@ tongue =
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    tongueSchemeFunction =
+    schemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeFunctionName,
@@ -4425,7 +4434,7 @@ tongue =
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
-    tongueSchemeFunction;
+    schemeFunction;
 }
 
 void lpsrScore::addEditorialAccidentalSchemeFunctionToScore ()
@@ -4461,7 +4470,7 @@ editorialAccidental =
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    editorialAccidentalSchemeFunction =
+    schemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeFunctionName,
@@ -4470,7 +4479,7 @@ editorialAccidental =
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
-    editorialAccidentalSchemeFunction;
+    schemeFunction;
 }
 
 void lpsrScore::addDynamicsSchemeFunctionToScore ()
@@ -4503,7 +4512,7 @@ ffffff = #(make-dynamic-script "ffffff")
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    dynamicsSchemeFunction =
+    schemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeFunctionName,
@@ -4512,7 +4521,7 @@ ffffff = #(make-dynamic-script "ffffff")
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
-    dynamicsSchemeFunction;
+    schemeFunction;
 }
 
 void lpsrScore::addTupletsCurvedBracketsSchemeFunctionToScore ()
@@ -4593,7 +4602,7 @@ tupletsCurvedBrackets = {
 
   // create the Scheme function
   S_lpsrSchemeFunction
-    dynamicsSchemeFunction =
+    schemeFunction =
       lpsrSchemeFunction::create (
         1, // inputLineNumber, JMI ???
         schemeFunctionName,
@@ -4602,7 +4611,51 @@ tupletsCurvedBrackets = {
 
   // register it in the Scheme functions map
   fScoreSchemeFunctionsMap [schemeFunctionName] =
-    dynamicsSchemeFunction;
+    schemeFunction;
+}
+
+void lpsrScore::addAfterSchemeFunctionToScore ()
+{
+  string
+    schemeFunctionName =
+      "after",
+      
+    schemeFunctionDescription =
+R"(
+% A function to create events after given music.
+% Thanks to David Kastrup for the inspiration!
+)",
+
+    schemeFunctionCode =
+R"(
+after =
+#(define-music-function (t e m) (ly:duration? ly:music? ly:music?)
+   #{
+     \context Bottom <<
+       #m
+       { \skip $t <> -\tweak extra-spacing-width #empty-interval $e }
+     >>
+   #})
+)";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    gLogIOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
 }
 
 /* JMI

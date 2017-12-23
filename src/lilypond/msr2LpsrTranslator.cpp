@@ -188,6 +188,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // is Jianpu notation to be generated?
   if (gLilypondOptions->fJianpu)
     fLpsrScore->
+      // this score need the 'jianpu file include' Scheme function
       setJianpuFileIncludeIsNeeded ();
 
 /* JMI
@@ -2066,6 +2067,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
       break;
     case msrTechnical::kDoubleTongue:
       fLpsrScore->
+        // this score need the 'tongue' Scheme function
         setTongueSchemeFunctionIsNeeded ();
       break;
     case msrTechnical::kDownBow:
@@ -2092,6 +2094,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
       break;
     case msrTechnical::kTripleTongue:
       fLpsrScore->
+        // this score need the 'tongue' Scheme function
         setTongueSchemeFunctionIsNeeded ();
       break;
     case msrTechnical::kUpBow:
@@ -2161,6 +2164,17 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
     fCurrentChordClone->
       addTechnicalWithStringToChord (elt);
   }
+  
+  switch (elt->getTechnicalWithStringKind ()) {
+    case msrTechnicalWithString::kHammerOn:
+    case msrTechnicalWithString::kPullOff:
+      // this score need the 'after' Scheme function
+      fLpsrScore->
+        setAfterSchemeFunctionIsNeeded ();     
+      break;
+    default:
+      ;
+  } // switch
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTechnicalWithString& elt)
@@ -2384,6 +2398,7 @@ ffffff = #(make-dynamic-script "ffffff")
     } // switch
   
     if (! knownToLilyPondNatively) {
+      // this score need the 'dynamics' Scheme function
       fLpsrScore->
         setDynamicsSchemeFunctionIsNeeded ();   
     }
@@ -3020,6 +3035,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   switch (fCurrentNoteClone->getNoteEditorialAccidentalKind ()) {
     case msrNote::kNoteEditorialAccidentalYes:
       fLpsrScore->
+        // this score need the 'editorial accidental' Scheme function
         setEditorialAccidentalSchemeFunctionIsNeeded ();
       break;
     case msrNote::kNoteEditorialAccidentalNo:
@@ -3302,6 +3318,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
     case msrTuplet::kTupletLineShapeStraight:
     case msrTuplet::kTupletLineShapeCurved:
       fLpsrScore->
+        // this score need the 'tuplets curved brackets' Scheme function
         setTupletsCurvedBracketsSchemeFunctionIsNeeded ();   
       break;
   } // switch
@@ -4002,6 +4019,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
       break;
     case msrBarline::kBarlineStyleShort:
       fLpsrScore->
+        // this score need the 'custom short barline' Scheme function
         setCustomShortBarLineSchemeFunctionIsNeeded ();
       break;
     case msrBarline::kBarlineStyleNone:

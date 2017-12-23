@@ -579,7 +579,23 @@ enum msrLineTypeKind {
   kLineTypeDotted, kLineTypeWavy };
 
 string msrLineTypeKindAsString (
-  msrLineTypeKind LineTypeKind);
+  msrLineTypeKind lineTypeKind);
+            
+//______________________________________________________________________________
+enum msrTremoloTypeKind {
+  k_NoTremoloType,
+  kTremoloTypeSingle, kTremoloTypeStart, kTremoloTypeStop };
+
+string msrTremoloTypeKindAsString (
+  msrTremoloTypeKind tremoloTypeKind);
+            
+//______________________________________________________________________________
+enum msrTechnicalTypeKind {
+  k_NoTechnicalType,
+  kTechnicalTypeStart, kTechnicalTypeStop };
+
+string msrTechnicalTypeKindAsString (
+  msrTechnicalTypeKind technicalTypeKind);
             
 //______________________________________________________________________________
 class msrChordItem : public smartable

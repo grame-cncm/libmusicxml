@@ -3882,6 +3882,51 @@ string msrLineTypeKindAsString (
 }
 
 //______________________________________________________________________________
+string msrTremoloTypeKindAsString (
+  msrTremoloTypeKind tremoloTypeKind)
+{
+  string result;
+  
+  switch (tremoloTypeKind) {
+    case kTremoloTypeSingle:
+      result = "tremoloTypeSingle";
+      break;
+    case kTremoloTypeStart:
+      result = "tremoloTypeStart";
+      break;
+    case kTremoloTypeStop:
+      result = "tremoloTypeStop";
+      break;
+    case k_NoTremoloType:
+      result = "k_NoTremoloType???";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+string msrTechnicalTypeKindAsString (
+  msrTechnicalTypeKind technicalTypeKind)
+{
+  string result;
+  
+  switch (technicalTypeKind) {
+    case kTechnicalTypeStart:
+      result = "technicalTypeStart";
+      break;
+    case kTechnicalTypeStop:
+      result = "technicalTypeStop";
+      break;
+    case k_NoTechnicalType:
+      result = "k_NoTechnicalType???";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
 S_msrChordItem msrChordItem::create (
   int             inputLineNumber,
   int             chordItemNumber,

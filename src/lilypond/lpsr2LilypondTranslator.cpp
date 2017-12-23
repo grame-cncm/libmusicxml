@@ -1432,7 +1432,6 @@ string lpsr2LilypondTranslator::technicalWithStringAsLilypondString (
   
   switch (technicalWithString->getTechnicalWithStringKind ()) {
     case msrTechnicalWithString::kHammerOn:
-      result = "%{\\HammerOn???%}";
       break;
     case msrTechnicalWithString::kHandbell:
       result = "%{\\Handbell???%}";
@@ -1444,7 +1443,6 @@ string lpsr2LilypondTranslator::technicalWithStringAsLilypondString (
       result = "%{Pluck???%}";
       break;
     case msrTechnicalWithString::kPullOff:
-      result = "%{\\PullOff???%}";
       break;
   } // switch
 
@@ -6953,6 +6951,82 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       break;
   } // switch
 
+  // print the note technicals with string if any
+  const list<S_msrTechnicalWithString>&
+    noteTechnicalWithStrings =
+      elt->getNoteTechnicalWithStrings ();
+      
+  if (noteTechnicalWithStrings.size ()) {
+    list<S_msrTechnicalWithString>::const_iterator i;
+    for (
+      i=noteTechnicalWithStrings.begin ();
+      i!=noteTechnicalWithStrings.end ();
+      i++) {
+      S_msrTechnicalWithString technicalWithString = (*i);
+      
+      switch (technicalWithString->getTechnicalWithStringKind ()) {
+        case msrTechnicalWithString::kHammerOn:
+          switch (technicalWithString->getTechnicalWithStringTypeKind ()) {
+            case kTechnicalTypeStart:
+              {
+                rational
+                  noteSoundingWholeNotes =
+                    elt->getNoteSoundingWholeNotes ();
+
+                rational
+                  halfWholeNotes =
+                    noteSoundingWholeNotes /2;
+                  
+                fLilypondCodeIOstream <<
+                  "\\after " <<
+                  wholeNotesAsLilypondString (
+                    elt->getInputLineNumber (),
+                    halfWholeNotes) <<
+                  " ^\"H\" ";
+              }
+              break;
+            case kTechnicalTypeStop:
+              break;
+            case k_NoTechnicalType:
+              break;
+          } // switch
+          break;
+        case msrTechnicalWithString::kHandbell: // JMI
+          break;
+        case msrTechnicalWithString::kOtherTechnical: // JMI
+          break;
+        case msrTechnicalWithString::kPluck: // JMI
+          break;
+        case msrTechnicalWithString::kPullOff:
+          switch (technicalWithString->getTechnicalWithStringTypeKind ()) {
+            case kTechnicalTypeStart:
+              {
+                rational
+                  noteSoundingWholeNotes =
+                    elt->getNoteSoundingWholeNotes ();
+
+                rational
+                  halfWholeNotes =
+                    noteSoundingWholeNotes /2;
+                  
+                fLilypondCodeIOstream <<
+                  "\\after " <<
+                  wholeNotesAsLilypondString (
+                    elt->getInputLineNumber (),
+                    halfWholeNotes) <<
+                  " ^\"P\" ";
+              }
+              break;
+            case kTechnicalTypeStop:
+              break;
+            case k_NoTechnicalType:
+              break;
+          } // switch
+          break;
+      } // switch
+    } // for
+  }
+
   // print the note as a LilyPond string
   printNoteAsLilypondString (elt);
 
@@ -7063,7 +7137,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-  // print the note technicals if any
+  // print the note technicals with integer if any
   const list<S_msrTechnicalWithInteger>&
     noteTechnicalWithIntegers =
       elt->getNoteTechnicalWithIntegers ();
@@ -7093,7 +7167,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-  // print the note technicals if any
+  // print the note technicals with string if any
   const list<S_msrTechnicalWithString>&
     noteTechnicalWithStrings =
       elt->getNoteTechnicalWithStrings ();
@@ -7544,6 +7618,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
     elt->getOctaveShiftSize (); // 8 or 15
     
   fLilypondCodeIOstream <<
+    endl <<
     "\\ottava #";
     
   switch (elt->getOctaveShiftKind ()) {
@@ -7563,7 +7638,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
       break;
   } // switch
   
-  fLilypondCodeIOstream << " ";
+  fLilypondCodeIOstream <<
+    endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrOctaveShift& elt)
@@ -8588,20 +8664,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
       endl;
   }
       
+  fLilypondCodeIOstream <<
+    endl;
+    
   switch (elt->getPedalTypeKind ()) {
     case msrPedal::kPedalStart:
-      fLilypondCodeIOstream << "<> \\sustainOn ";
+      fLilypondCodeIOstream <<
+        "<>\\sustainOn";
       break;
     case msrPedal::kPedalContinue:
-      fLilypondCodeIOstream << "%{\\continue pedal???%} "; // JMI
+      fLilypondCodeIOstream <<
+        "%{\\continue pedal???%}"; // JMI
       break;
     case msrPedal::kPedalChange:
-      fLilypondCodeIOstream << "%{\\change pedal???%} "; // JMI
+      fLilypondCodeIOstream <<
+        "%{\\change pedal???%}"; // JMI
       break;
     case msrPedal::kPedalStop:
-      fLilypondCodeIOstream << "<> \\sustainOff ";
+      fLilypondCodeIOstream <<
+        "<>\\sustainOff";
       break;
   } // switch
+
+  fLilypondCodeIOstream <<
+    endl;
 }
 
 //________________________________________________________________________

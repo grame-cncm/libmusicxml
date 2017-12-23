@@ -875,21 +875,21 @@ class msrTechnical : public msrElement
     // ------------------------------------------------------
 
     enum msrTechnicalKind {
-        kArrow, // rich JMI
-        kDoubleTongue,
-        kDownBow,
-        kFingernails,
-        kHarmonic,
-        kHeel,
-        kHole, // rich JMI
-        kOpenString,
-        kSnapPizzicato,
-        kStopped,
-        kTap,
-        kThumbPosition,
-        kToe,
-        kTripleTongue,
-        kUpBow};
+      kArrow, // rich JMI
+      kDoubleTongue,
+      kDownBow,
+      kFingernails,
+      kHarmonic,
+      kHeel,
+      kHole, // rich JMI
+      kOpenString,
+      kSnapPizzicato,
+      kStopped,
+      kTap,
+      kThumbPosition,
+      kToe,
+      kTripleTongue,
+      kUpBow};
 
     static string technicalKindAsString (
       msrTechnicalKind technicalKind);
@@ -1009,10 +1009,10 @@ class msrTechnicalWithInteger : public msrElement
     // ------------------------------------------------------
 
     enum msrTechnicalWithIntegerKind {
-        kBend,
-        kFingering,
-        kFret,
-        kString};
+      kBend,
+      kFingering,
+      kFret,
+      kString};
 
     static string technicalWithIntegerKindAsString (
       msrTechnicalWithIntegerKind technicalWithIntegerKind);
@@ -1117,11 +1117,11 @@ class msrTechnicalWithString : public msrElement
     // ------------------------------------------------------
 
     enum msrTechnicalWithStringKind {
-        kHammerOn,
-        kHandbell,
-        kOtherTechnical,
-        kPluck,
-        kPullOff};
+      kHammerOn,
+      kHandbell,
+      kOtherTechnical,
+      kPluck,
+      kPullOff};
 
     static string technicalWithStringKindAsString (
       msrTechnicalWithStringKind technicalWithStringKind);
@@ -1130,10 +1130,11 @@ class msrTechnicalWithString : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTechnicalWithString> create (
-      int                         inputLineNumber,
+      int                        inputLineNumber,
       msrTechnicalWithStringKind technicalWithStringKind,
-      string                      technicalWithStringValue,
-      msrPlacementKind            technicalWithStringPlacementKind);
+      msrTechnicalTypeKind       technicalWithStringTypeKind,
+      string                     technicalWithStringValue,
+      msrPlacementKind           technicalWithStringPlacementKind);
 
   protected:
 
@@ -1141,10 +1142,11 @@ class msrTechnicalWithString : public msrElement
     // ------------------------------------------------------
 
     msrTechnicalWithString (
-      int                         inputLineNumber,
+      int                        inputLineNumber,
       msrTechnicalWithStringKind technicalWithStringKind,
-      string                      technicalWithStringValue,
-      msrPlacementKind            technicalWithStringPlacementKind);
+      msrTechnicalTypeKind       technicalWithStringTypeKind,
+      string                     technicalWithStringValue,
+      msrPlacementKind           technicalWithStringPlacementKind);
       
     virtual ~msrTechnicalWithString();
   
@@ -1156,6 +1158,9 @@ class msrTechnicalWithString : public msrElement
     msrTechnicalWithStringKind
                           getTechnicalWithStringKind () const
                               { return fTechnicalWithStringKind; }
+
+    msrTechnicalTypeKind  getTechnicalWithStringTypeKind () const
+                              { return fTechnicalWithStringTypeKind; }
 
     string                getTechnicalWithStringValue () const
                               { return fTechnicalWithStringValue; }
@@ -1181,6 +1186,8 @@ class msrTechnicalWithString : public msrElement
     // ------------------------------------------------------
 
     string                technicalWithStringKindAsString () const;
+    
+    string                technicalWithStringTypeKindAsString () const;
 
     string                technicalWithStringPlacementKindAsString () const;
 
@@ -1206,13 +1213,16 @@ class msrTechnicalWithString : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrTechnicalWithStringKind      fTechnicalWithStringKind;
+    msrTechnicalWithStringKind
+                          fTechnicalWithStringKind;
 
-    string                          fTechnicalWithStringValue;
+    msrTechnicalTypeKind  fTechnicalWithStringTypeKind;
 
-    msrPlacementKind                fTechnicalWithStringPlacementKind;
+    string                fTechnicalWithStringValue;
+
+    msrPlacementKind      fTechnicalWithStringPlacementKind;
     
-    S_msrNote                       fTechnicalWithStringNoteUplink;
+    S_msrNote             fTechnicalWithStringNoteUplink;
 };
 typedef SMARTP<msrTechnicalWithString> S_msrTechnicalWithString;
 EXP ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt);
@@ -1519,6 +1529,7 @@ class msrDoubleTremolo : public msrElement
     static SMARTP<msrDoubleTremolo> create (
       int                  inputLineNumber,
       msrDoubleTremoloKind doubleTremoloKind,
+      msrTremoloTypeKind   doubleTremoloTypeKind,
       int                  doubleTremoloMarksNumber,
       msrPlacementKind     doubleTremoloPlacementKind,
       S_msrVoice           voiceUplink);
@@ -1538,6 +1549,7 @@ class msrDoubleTremolo : public msrElement
     msrDoubleTremolo (
       int                  inputLineNumber,
       msrDoubleTremoloKind doubleTremoloKind,
+      msrTremoloTypeKind   doubleTremoloTypeKind,
       int                  doubleTremoloMarksNumber,
       msrPlacementKind     doubleTremoloPlacementKind,
       S_msrVoice           voiceUplink);
@@ -1580,6 +1592,15 @@ class msrDoubleTremolo : public msrElement
 
     msrDoubleTremoloKind  getDoubleTremoloKind () const
                               { return fDoubleTremoloKind; }
+
+    // double tremolo type kind
+    
+    void                  setDoubleTremoloTypeKind (
+                            msrTremoloTypeKind doubleTremoloTypeKind)
+                              { fDoubleTremoloTypeKind = doubleTremoloTypeKind; }
+
+    msrTremoloTypeKind    getDoubleTremoloTypeKind () const
+                              { return fDoubleTremoloTypeKind; }
 
     // double tremolo placement
     
@@ -1743,6 +1764,8 @@ class msrDoubleTremolo : public msrElement
 
     msrDoubleTremoloKind  fDoubleTremoloKind;
     
+    msrTremoloTypeKind    fDoubleTremoloTypeKind;
+
     int                   fDoubleTremoloMarksNumber;
 
     rational              fDoubleTremoloElementsDuration;

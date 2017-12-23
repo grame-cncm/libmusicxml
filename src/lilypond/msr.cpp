@@ -1351,15 +1351,17 @@ void msrTechnicalWithInteger::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTechnicalWithString msrTechnicalWithString::create (
-  int                         inputLineNumber,
+  int                        inputLineNumber,
   msrTechnicalWithStringKind technicalWithStringKind,
-  string                      technicalWithStringValue,
-  msrPlacementKind            technicalWithStringPlacementKind)
+  msrTechnicalTypeKind       technicalWithStringTypeKind,
+  string                     technicalWithStringValue,
+  msrPlacementKind           technicalWithStringPlacementKind)
 {
   msrTechnicalWithString* o =
     new msrTechnicalWithString (
       inputLineNumber,
       technicalWithStringKind,
+      technicalWithStringTypeKind,
       technicalWithStringValue,
       technicalWithStringPlacementKind);
   assert (o!=0);
@@ -1367,13 +1369,16 @@ S_msrTechnicalWithString msrTechnicalWithString::create (
 }
 
 msrTechnicalWithString::msrTechnicalWithString (
-  int                         inputLineNumber,
+  int                        inputLineNumber,
   msrTechnicalWithStringKind technicalWithStringKind,
-  string                      technicalWithStringValue,
-  msrPlacementKind            technicalWithStringPlacementKind)
+  msrTechnicalTypeKind       technicalWithStringTypeKind,
+  string                     technicalWithStringValue,
+  msrPlacementKind           technicalWithStringPlacementKind)
     : msrElement (inputLineNumber)
 {
   fTechnicalWithStringKind = technicalWithStringKind;
+  
+  fTechnicalWithStringTypeKind = technicalWithStringTypeKind;
 
   fTechnicalWithStringValue = technicalWithStringValue;
 
@@ -1409,6 +1414,13 @@ string msrTechnicalWithString::technicalWithStringKindAsString () const
     " \"" + fTechnicalWithStringValue + "\"";
 
   return result;
+}
+
+string msrTechnicalWithString::technicalWithStringTypeKindAsString () const
+{
+  return
+    msrTechnicalTypeKindAsString (
+      fTechnicalWithStringTypeKind);
 }
 
 string msrTechnicalWithString::technicalWithStringPlacementKindAsString () const
@@ -1477,6 +1489,7 @@ string msrTechnicalWithString::technicalWithStringAsString () const
 
   s <<
     technicalWithStringKindAsString () <<
+    ', ' << technicalWithStringTypeKindAsString () <<
     ", value \"" <<
     fTechnicalWithStringValue <<
     "\", placement " <<
@@ -1490,6 +1503,7 @@ void msrTechnicalWithString::print (ostream& os)
   os <<
     "TechnicalWithString" <<
     ", " << technicalWithStringKindAsString () <<
+    ', ' << technicalWithStringTypeKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -2016,6 +2030,7 @@ void msrSingleTremolo::print (ostream& os)
 S_msrDoubleTremolo msrDoubleTremolo::create (
   int                  inputLineNumber,
   msrDoubleTremoloKind doubleTremoloKind,
+  msrTremoloTypeKind   doubleTremoloTypeKind,
   int                  doubleTremoloMarksNumber,
   msrPlacementKind     doubleTremoloPlacementKind,
   S_msrVoice           voiceUplink)
@@ -2024,6 +2039,7 @@ S_msrDoubleTremolo msrDoubleTremolo::create (
     new msrDoubleTremolo (
       inputLineNumber,
       doubleTremoloKind,
+      doubleTremoloTypeKind,
       doubleTremoloMarksNumber,
       doubleTremoloPlacementKind,
       voiceUplink);
@@ -2034,6 +2050,7 @@ S_msrDoubleTremolo msrDoubleTremolo::create (
 msrDoubleTremolo::msrDoubleTremolo (
   int                  inputLineNumber,
   msrDoubleTremoloKind doubleTremoloKind,
+  msrTremoloTypeKind   doubleTremoloTypeKind,
   int                  doubleTremoloMarksNumber,
   msrPlacementKind     doubleTremoloPlacementKind,
   S_msrVoice           voiceUplink)
@@ -2048,6 +2065,7 @@ msrDoubleTremolo::msrDoubleTremolo (
   fDoubleTremoloVoiceUplink = voiceUplink;
   
   fDoubleTremoloKind          = doubleTremoloKind;
+  fDoubleTremoloTypeKind      = doubleTremoloTypeKind;
   fDoubleTremoloMarksNumber   = doubleTremoloMarksNumber;
   fDoubleTremoloPlacementKind = doubleTremoloPlacementKind;
   
@@ -2076,6 +2094,7 @@ S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
       msrDoubleTremolo::create (
         fInputLineNumber,
         fDoubleTremoloKind,
+        fDoubleTremoloTypeKind,
         fDoubleTremoloMarksNumber,
         fDoubleTremoloPlacementKind,
         containingVoice);
@@ -2500,7 +2519,7 @@ string msrDoubleTremolo::doubleTremoloAsShortString () const
   
   s <<
     "DoubleTremolo"<<
- //   ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
+    ", " << msrTremoloTypeKindAsString (fDoubleTremoloTypeKind) <<
     ", line " << fInputLineNumber <<
     ", " <<
     singularOrPlural (
@@ -2516,7 +2535,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
   
   s <<
     "DoubleTremolo" " " <<
-//    ", " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
+    ", " << msrTremoloTypeKindAsString (fDoubleTremoloTypeKind) <<
     ", line " << fInputLineNumber <<
     fDoubleTremoloMarksNumber << " marks" <<
     ", placement" << " = " << doubleTremoloPlacementKindAsString () <<
@@ -2611,6 +2630,7 @@ void msrDoubleTremolo::print (ostream& os)
 {
   os <<
     "DoubleTremolo" <<
+    ", " << msrTremoloTypeKindAsString (fDoubleTremoloTypeKind) <<
     ", on " << msrDoubleTremoloKindAsString (fDoubleTremoloKind) <<
     ", line " << fInputLineNumber <<
     endl;

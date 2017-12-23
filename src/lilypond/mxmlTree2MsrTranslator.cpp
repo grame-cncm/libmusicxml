@@ -235,7 +235,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // tremolos handling
   fCurrentNoteBelongsToADoubleTremolo = false;
-  fCurrentMusicXMLTremoloTypeKind     = k_NoTremolo;
+  fCurrentTremoloTypeKind             = k_NoTremoloType;
 
   // chords handling
   fOnGoingChord = false;
@@ -6745,7 +6745,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   // tremolos
 
   fCurrentNoteBelongsToADoubleTremolo = false;
-  fCurrentMusicXMLTremoloTypeKind     = k_NoTremolo;
+  fCurrentTremoloTypeKind             = k_NoTremoloType;
 
   // ties
   
@@ -9094,6 +9094,34 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // type
+  
+  string hammerOnType = elt->getAttributeValue ("type");
+  
+  msrTechnicalTypeKind hammerOnTechnicalTypeKind = k_NoTechnicalType;
+
+  if      (hammerOnType == "start")
+    hammerOnTechnicalTypeKind = kTechnicalTypeStart;
+  else if (hammerOnType == "stop")
+    hammerOnTechnicalTypeKind = kTechnicalTypeStop;
+  else {
+    if (hammerOnType.size ()) {
+      stringstream s;
+      
+      s <<
+        "hammer-on type \"" << hammerOnType <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }   
+  }
+
+  // placement
+  
   string hammerOnValue = elt->getValue ();
     
   string placement = elt->getAttributeValue ("placement");
@@ -9124,6 +9152,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
       msrTechnicalWithString::create (
         inputLineNumber,
         msrTechnicalWithString::kHammerOn,
+        hammerOnTechnicalTypeKind,
         hammerOnValue,
         hammerOnPlacementKind);
       
@@ -9142,7 +9171,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
     elt->getInputLineNumber ();
     
   string handBellValue = elt->getValue ();
-    
+
+  // placement
+  
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -9173,6 +9204,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
       msrTechnicalWithString::create (
         inputLineNumber,
         msrTechnicalWithString::kHandbell,
+        k_NoTechnicalType,
         handBellValue,
         handbellPlacementKind);
       
@@ -9406,6 +9438,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_technical& elt )
       msrTechnicalWithString::create (
         inputLineNumber,
         msrTechnicalWithString::kOtherTechnical,
+        k_NoTechnicalType,
         otherTechnicalValue,
         otherTechnicalWithStringPlacementKind);
       
@@ -9455,6 +9488,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pluck& elt )
       msrTechnicalWithString::create (
         inputLineNumber,
         msrTechnicalWithString::kPluck,
+        k_NoTechnicalType,
         pluckValue,
         pluckPlacementKind);
       
@@ -9474,6 +9508,34 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
     
   string pullOffValue = elt->getValue ();
     
+  // type
+  
+  string pullOffType = elt->getAttributeValue ("type");
+  
+  msrTechnicalTypeKind pullOffTechnicalTypeKind = k_NoTechnicalType;
+
+  if      (pullOffType == "start")
+    pullOffTechnicalTypeKind = kTechnicalTypeStart;
+  else if (pullOffType == "stop")
+    pullOffTechnicalTypeKind = kTechnicalTypeStop;
+  else {
+    if (pullOffType.size ()) {
+      stringstream s;
+      
+      s <<
+        "pull-off type \"" << pullOffType <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }   
+  }
+
+  // placement
+  
   string
     placement =
       elt->getAttributeValue ("placement");
@@ -9504,6 +9566,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
       msrTechnicalWithString::create (
         inputLineNumber,
         msrTechnicalWithString::kPullOff,
+        pullOffTechnicalTypeKind,
         pullOffValue,
         pullOffPlacementKind);
       
@@ -10072,16 +10135,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
   
   string tremoloType = elt->getAttributeValue ("type");
 
-  fCurrentMusicXMLTremoloTypeKind = kSingleTremolo; // default value
+  fCurrentTremoloTypeKind = kTremoloTypeSingle; // default value
     
   if      (tremoloType == "single")
-    fCurrentMusicXMLTremoloTypeKind = kSingleTremolo;
+    fCurrentTremoloTypeKind = kTremoloTypeSingle;
     
   else if (tremoloType == "start")
-    fCurrentMusicXMLTremoloTypeKind = kStartTremolo;
+    fCurrentTremoloTypeKind = kTremoloTypeStart;
     
   else if (tremoloType == "stop")
-    fCurrentMusicXMLTremoloTypeKind = kStopTremolo;
+    fCurrentTremoloTypeKind = kTremoloTypeStop;
     
   else if (tremoloType.size ()) {
     stringstream s;
@@ -10110,34 +10173,34 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
     doubleTremoloPlacementKind = k_NoPlacement;
 
   if      (tremoloPlacement == "above") {
-    switch (fCurrentMusicXMLTremoloTypeKind) {
-      case k_NoTremolo:
+    switch (fCurrentTremoloTypeKind) {
+      case k_NoTremoloType:
         // just to avoid a compiler message
         break;
         
-      case kSingleTremolo:
+      case kTremoloTypeSingle:
         singleTremoloPlacementKind = kAbovePlacement;
         break;
         
-      case kStartTremolo:
-      case kStopTremolo:
+      case kTremoloTypeStart:
+      case kTremoloTypeStop:
         doubleTremoloPlacementKind = kAbovePlacement;
         break;
     } // switch
   }
   
   else if (tremoloPlacement == "below") {
-    switch (fCurrentMusicXMLTremoloTypeKind) {
-      case k_NoTremolo:
+    switch (fCurrentTremoloTypeKind) {
+      case k_NoTremoloType:
         // just to avoid a compiler message
         break;
         
-      case kSingleTremolo:
+      case kTremoloTypeSingle:
         singleTremoloPlacementKind = kBelowPlacement;
         break;
         
-      case kStartTremolo:
-      case kStopTremolo:
+      case kTremoloTypeStart:
+      case kTremoloTypeStop:
         doubleTremoloPlacementKind = kBelowPlacement;
         break;
     } // switch
@@ -10158,12 +10221,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       s.str ());    
   }
 
-  switch (fCurrentMusicXMLTremoloTypeKind) {
-    case k_NoTremolo:
+  // handle double tremolos
+  switch (fCurrentTremoloTypeKind) {
+    case k_NoTremoloType:
       // just to avoid a compiler message
       break;
         
-    case kSingleTremolo:
+    case kTremoloTypeSingle:
       if (gGeneralOptions->fTraceTremolos) {
         fLogOutputStream <<
           "Creating a single tremolo" <<
@@ -10192,7 +10256,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
           singleTremoloPlacementKind);
       break;
       
-    case kStartTremolo:
+    case kTremoloTypeStart:
   //    if (! fCurrentDoubleTremolo) { JMI
       {
         // fetch current voice
@@ -10203,7 +10267,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
               fCurrentNoteStaffNumber,
               fCurrentNoteVoiceNumber);
 
-        // create a double tremolo
+        // create a double tremolo start
         if (gGeneralOptions->fTraceTremolos) {
           fLogOutputStream <<
             "Creating a double tremolo" <<
@@ -10221,6 +10285,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
           msrDoubleTremolo::create (
             inputLineNumber,
             msrDoubleTremolo::kNotesDoubleTremolo,
+            kTremoloTypeStart,
             tremoloMarksNumber,
             doubleTremoloPlacementKind,
             currentVoice);
@@ -10242,7 +10307,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
 */
       break;
 
-    case kStopTremolo:
+    case kTremoloTypeStop:
       if (fCurrentDoubleTremolo) {
         if (gGeneralOptions->fTraceTremolos) {
           fLogOutputStream <<
@@ -14608,9 +14673,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
   
   else if (
-    fCurrentMusicXMLTremoloTypeKind == kStartTremolo
+    fCurrentTremoloTypeKind == kTremoloTypeStart
      ||
-     fCurrentMusicXMLTremoloTypeKind == kStopTremolo) {
+     fCurrentTremoloTypeKind == kTremoloTypeStop) {
     // double tremolo note
     if (fCurrentNoteGraphicDurationKind == k_NoDuration) {
       stringstream s;
@@ -15097,9 +15162,9 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
   }
   
   else if (
-    fCurrentMusicXMLTremoloTypeKind == kStartTremolo
+    fCurrentTremoloTypeKind == kTremoloTypeStart
       ||
-    fCurrentMusicXMLTremoloTypeKind == kStopTremolo) {
+    fCurrentTremoloTypeKind == kTremoloTypeStop) {
     // double tremolo note
     newNote->
       setNoteKind (
@@ -15218,15 +15283,15 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       appendNoteToGraceNotes (newNote);
   }
 
-  else if (fCurrentMusicXMLTremoloTypeKind != k_NoTremolo) {
+  else if (fCurrentTremoloTypeKind != k_NoTremoloType) {
     // newNote belongs to a tremolo
 
-    switch (fCurrentMusicXMLTremoloTypeKind) {
-      case k_NoTremolo:
+    switch (fCurrentTremoloTypeKind) {
+      case k_NoTremoloType:
         // just to avoid a compiler message
         break;
         
-      case kSingleTremolo:
+      case kTremoloTypeSingle:
         // append newNote to the current voice
         if (gGeneralOptions->fTraceNotes) {
           fLogOutputStream <<
@@ -15245,7 +15310,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         // fCurrentSingleTremolo is handled in attachCurrentSingleTremoloToNote()
         break;
         
-      case kStartTremolo:
+      case kTremoloTypeStart:
         // register newNote as first element of the current double tremolo
         if (gGeneralOptions->fTraceNotes) {
           fLogOutputStream <<
@@ -15264,7 +15329,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
             newNote);
         break;
 
-      case kStopTremolo:
+      case kTremoloTypeStop:
         // register newNote as second element of the current double tremolo
         if (gGeneralOptions->fTraceNotes) {
           fLogOutputStream <<

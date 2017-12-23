@@ -1523,12 +1523,9 @@ class mxmlTree2MsrTranslator :
     // tremolos handling
     // ------------------------------------------------------
     
-    enum MusicXMLTremoloTypeKind {
-        k_NoTremolo, kSingleTremolo, kStartTremolo, kStopTremolo };
+    bool                      fCurrentNoteBelongsToADoubleTremolo; // JMI ???
 
-    bool                      fCurrentNoteBelongsToADoubleTremolo;
-
-    MusicXMLTremoloTypeKind   fCurrentMusicXMLTremoloTypeKind;
+    msrTremoloTypeKind        fCurrentTremoloTypeKind;
 
     S_msrSingleTremolo        fCurrentSingleTremolo;
 
