@@ -590,12 +590,20 @@ string msrTremoloTypeKindAsString (
   msrTremoloTypeKind tremoloTypeKind);
             
 //______________________________________________________________________________
-enum msrTechnicalTypeKind {
+enum msrTechnicalTypeKind { // JMI ???
   k_NoTechnicalType,
   kTechnicalTypeStart, kTechnicalTypeStop };
 
 string msrTechnicalTypeKindAsString (
   msrTechnicalTypeKind technicalTypeKind);
+            
+//______________________________________________________________________________
+enum msrSpannerTypeKind {
+  k_NoSpannerType,
+  kSpannerTypeStart, kSpannerTypeContinue, kSpannerTypeStop };
+
+string msrSpannerTypeKindAsString (
+  msrSpannerTypeKind spannerTypeKind);
             
 //______________________________________________________________________________
 class msrChordItem : public smartable

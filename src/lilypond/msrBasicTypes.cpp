@@ -3927,6 +3927,30 @@ string msrTechnicalTypeKindAsString (
 }
 
 //______________________________________________________________________________
+string msrSpannerTypeKindAsString (
+  msrSpannerTypeKind spannerTypeKind)
+{
+  string result;
+  
+  switch (spannerTypeKind) {
+    case kSpannerTypeStart:
+      result = "spannerTypeStart";
+      break;
+    case kSpannerTypeStop:
+      result = "spannerTypeStop";
+      break;
+    case kSpannerTypeContinue:
+      result = "spannerTypeContinue";
+      break;
+    case k_NoSpannerType:
+      result = "k_NoSpannerType???";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
 S_msrChordItem msrChordItem::create (
   int             inputLineNumber,
   int             chordItemNumber,

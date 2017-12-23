@@ -9984,23 +9984,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
     
-/*
-  Fermata and wavy-line elements can be applied both to
-  notes and to measures, so they are defined here. Wavy
-  lines are one way to indicate trills; when used with a
-  measure element, they should always have type="continue"
-  set. The fermata text content represents the shape of the
-  fermata sign and may be normal, angled, or square.
-  An empty fermata element represents a normal fermata.
-  The fermata type is upright if not specified.
--->
-<!ELEMENT fermata  (#PCDATA)>
-<!ATTLIST fermata
-    type (upright | inverted) #IMPLIED
-    %print-style;
->
- */
-
   string fermataTextValue = elt->getValue ();
 
   // kind
@@ -10376,13 +10359,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kTrillMark,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kTrillMark,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
@@ -10408,18 +10392,22 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // number
+
+  fWavyLineNumber = elt->getAttributeIntValue ("number", 0); // JMI
+
   // type
   
   string wavyLineType = elt->getAttributeValue ("type");
   
-  fWavyLinePlacementKind = k_NoPlacement;
+  msrSpannerTypeKind fWavyLineSpannerTypeKind = k_NoSpannerType;
 
   if      (wavyLineType == "start")
-    fWavyLinePlacementKind = kAbovePlacement;
-  else if (wavyLineType == "stop")
-    fWavyLinePlacementKind = kBelowPlacement;
+    fWavyLineSpannerTypeKind = kSpannerTypeStart;
   else if (wavyLineType == "continue")
-    fWavyLinePlacementKind = kBelowPlacement;
+    fWavyLineSpannerTypeKind = kSpannerTypeContinue;
+  else if (wavyLineType == "stop")
+    fWavyLineSpannerTypeKind = kSpannerTypeStop;
   else {
     if (wavyLineType.size ()) {
       stringstream s;
@@ -10435,10 +10423,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
         s.str ());
     }   
   }
-
-  // number
-
-  fWavyLineNumber = elt->getAttributeIntValue ("number", 0); // JMI
 
   // placement
 
@@ -10466,13 +10450,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
       s.str ());    
   }
   
-  fCurrentOrnament =
-    msrOrnament::create (
-      inputLineNumber,
-      msrOrnament::kWavyLine,
-      ornamentPlacementKind);
+  S_msrSpanner
+    spanner =
+      msrSpanner::create (
+        inputLineNumber,
+        msrSpanner::kSpannerWavyLine,
+        fWavyLineSpannerTypeKind,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentSpannersList.push_back (spanner);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
@@ -10513,13 +10499,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kTurn,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kTurn,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
@@ -10560,13 +10547,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kInvertedTurn,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kInvertedTurn,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
@@ -10607,13 +10595,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kDelayedTurn,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kDelayedTurn,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
@@ -10654,13 +10643,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kDelayedInvertedTurn,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kDelayedInvertedTurn,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
@@ -10701,13 +10691,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kVerticalTurn,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kVerticalTurn,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
@@ -10748,13 +10739,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kMordent,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kMordent,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
@@ -10795,13 +10787,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kInvertedMordent,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kInvertedMordent,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
@@ -10842,13 +10835,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kSchleifer,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kSchleifer,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
@@ -10889,13 +10883,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kShake,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kShake,
+        ornamentPlacementKind);
       
-  fCurrentOrnamentsList.push_back (fCurrentOrnament);
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
@@ -10981,15 +10976,18 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
       s.str ());    
   }
 
-  fCurrentOrnament =
-    msrOrnament::create (
-      elt->getInputLineNumber (),
-      msrOrnament::kAccidentalMark,
-      ornamentPlacementKind);
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kAccidentalMark,
+        ornamentPlacementKind);
       
-  fCurrentOrnament->
+  ornament->
     setOrnamentAccidentalMarkKind (
       currentOrnamentAccidentalMark);
+
+  fCurrentOrnamentsList.push_back (ornament);
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_ornaments& elt )
@@ -10999,90 +10997,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_ornaments& elt )
       "--> End visiting S_ornaments" <<
       endl;
   }
-
-  // JMI
-
-  
 }
-
-
-/*
-
-
-<!--
-  Ornaments can be any of several types, followed optionally
-  by accidentals. The accidental-mark element's content is
-  represented the same as an accidental element, but with a
-  different name to reflect the different musical meaning.
--->
-<!ELEMENT ornaments
-  (((trill-mark | turn | delayed-turn | inverted-turn |
-     delayed-inverted-turn | vertical-turn | shake |
-     wavy-line | mordent | inverted-mordent | schleifer |
-     tremolo | other-ornament), accidental-mark*)*)>
-<!ELEMENT trill-mark EMPTY>
-<!ATTLIST trill-mark
-    %print-style; 
-    %placement; 
-    %trill-sound; 
->
-
-
-          <ornaments>
-            <turn placement="above"/>
-            <accidental-mark placement="below">natural</accidental-mark>
-          </ornaments>
-*/
-
-  /*
-
-Component   Type  Occurs  Default   Description 
-    0..*    
-accent  empty-placement   1..1    
-
-The accent element indicates a regular horizontal accent mark.
-breath-mark   breath-mark   1..1    
-
-The breath-mark element indicates a place to take a breath.
-caesura   empty-placement   1..1    
-
-The caesura element indicates a slight pause. It is notated using a "railroad tracks" symbol.
-detached-legato   empty-placement   1..1    
-
-The detached-legato element indicates the combination of a tenuto line and staccato dot symbol.
-doit  empty-line  1..1    
-
-The doit element is an indeterminate slide attached to a single note. The doit element appears after the main note and goes above the main pitch.
-falloff   empty-line  1..1    
-
-The falloff element is an indeterminate slide attached to a single note. The falloff element appears before the main note and goes below the main pitch.
-other-articulation  placement-text  1..1    The other-articulation element is used to define any articulations not yet in the MusicXML format. This allows extended representation, though without application interoperability.
-plop  empty-line  1..1    
-
-The plop element is an indeterminate slide attached to a single note. The plop element appears before the main note and comes from above the main pitch.
-scoop   empty-line  1..1    
-
-The scoop element is an indeterminate slide attached to a single note. The scoop element appears before the main note and comes from below the main pitch.
-spiccato  empty-placement   1..1    
-
-The spiccato element is used for a stroke articulation, as opposed to a dot or a wedge.
-staccatissimo   empty-placement   1..1    
-
-The staccatissimo element is used for a wedge articulation, as opposed to a dot or a stroke.
-staccato  empty-placement   1..1    
-
-The staccato element is used for a dot articulation, as opposed to a stroke or a wedge.
-stress  empty-placement   1..1    
-
-The stress element indicates a stressed note.
-strong-accent   strong-accent   1..1    
-
-The strong-accent element indicates a vertical accent mark.
-tenuto  empty-placement   1..1    
-
-The tenuto element indicates a tenuto line symbol.
-unstress
-  */
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart( S_f& elt)
@@ -12783,7 +12698,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
         glissandoLineTypeKind);
 
   // register glissando in this visitor
-  if (gGeneralOptions->fTraceGlissandos || gGeneralOptions->fTraceNotes) {
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceGlissandos) {
     fLogOutputStream <<
       "Appending glissando '" <<
       glissando->glissandoAsString () <<
@@ -12891,7 +12809,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
         slideLineTypeKind);
     
   // register glissando in this visitor
-  if (gGeneralOptions->fTraceSlides || gGeneralOptions->fTraceNotes) {
+  if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceSlides) {
     fLogOutputStream <<
       "Appending slide '" <<
       slide->slideAsString () <<
@@ -13108,7 +13029,10 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
     i!=noteTechnicals.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+    if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalKindAsString () <<
@@ -13138,7 +13062,10 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
     i!=noteTechnicalWithIntegers.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+    if (
+    gGeneralOptions->fTraceNotesDetails
+      ||
+    gGeneralOptions->fTraceTechnicals) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithIntegerKindAsString () <<
@@ -13168,7 +13095,10 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
     i!=noteTechnicalWithStrings.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+    if (
+    gGeneralOptions->fTraceTechnicals
+      ||
+    gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithStringKindAsString () <<
@@ -13198,7 +13128,10 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
     i!=noteOrnaments.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) { //JMI
+    if (
+      gGeneralOptions->fTraceOrnaments
+        ||
+      gGeneralOptions->fTraceChords) {
       fLogOutputStream <<
         "Copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -13209,6 +13142,40 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
 
     chord->
       addOrnamentToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's spanners if any from the first note to chord
+  
+  list<S_msrSpanner>
+    noteSpanners =
+      note->
+        getNoteSpanners ();
+                          
+  list<S_msrSpanner>::const_iterator i;
+  for (
+    i=noteSpanners.begin ();
+    i!=noteSpanners.end ();
+    i++) {
+
+    if (
+      gGeneralOptions->fTraceSpanners
+        ||
+      gGeneralOptions->fTraceChords) {
+      fLogOutputStream <<
+        "Copying spanner '" <<
+        (*i)->spannerKindAsString () <<
+        "' from note " << note->noteAsString () <<
+        " to chord" <<
+        endl;
+    }
+
+    chord->
+      addSpannerToChord ((*i));
   } // for      
 }
 
@@ -13496,6 +13463,9 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's ornaments if any to the chord
   copyNoteOrnamentsToChord (note, chord);
+
+  // copy note's spanners if any to the chord
+  copyNoteSpannersToChord (note, chord);
 
   // copy note's single tremolo if any to the chord
   copyNoteSingleTremoloToChord (note, chord);
@@ -13843,7 +13813,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
         tech =
           fCurrentTechnicalWithStringsList.front();
           
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+      if (gGeneralOptions->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with string '" <<
           tech->technicalWithStringAsString () <<
@@ -13867,7 +13837,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
   // attach the current ornaments if any to the note
   if (fCurrentOrnamentsList.size ()) {
     
-    if (gGeneralOptions->fTraceNotes) {
+    if (gGeneralOptions->fTraceOrnaments) {
       fLogOutputStream <<
         "Attaching current ornaments to note " <<
         note->noteAsString () <<
@@ -13893,6 +13863,107 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
       // forget about this ornament
       fCurrentOrnamentsList.pop_front();
     } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
+  S_msrNote note)
+{
+  // attach the current spanners if any to the note
+  if (fCurrentSpannersList.size ()) {
+    
+    if (gGeneralOptions->fTraceSpanners) {
+      fLogOutputStream <<
+        "Attaching current spanners to note " <<
+        note->noteAsString () <<
+        endl;
+    }
+
+    bool doHandleSpanner = true;
+    bool spannerStopMetForThisNote = false;
+
+    S_msrSpanner delayedStopSpanner;
+    
+    while (fCurrentSpannersList.size ()) {
+      S_msrSpanner
+        spanner =
+          fCurrentSpannersList.front();
+          
+      switch (spanner->getSpannerKind ()) {     
+        case msrSpanner::kSpannerTrill: // JMI
+          switch (spanner->getSpannerTypeKind ()) {
+            case kSpannerTypeStart:
+              spannerStopMetForThisNote = true;
+              break;
+            case kSpannerTypeStop:
+              doHandleSpanner =
+                ! spannerStopMetForThisNote;
+              break;
+            case kSpannerTypeContinue:
+              break;
+            case k_NoSpannerType:
+              // JMI ???
+              break;
+          } // switch
+          break;
+               
+        case msrSpanner::kSpannerWavyLine:
+          switch (spanner->getSpannerTypeKind ()) {
+            case kSpannerTypeStart:
+              spannerStopMetForThisNote = true;
+              break;
+            case kSpannerTypeStop:
+              doHandleSpanner =
+                ! spannerStopMetForThisNote;
+              break;
+            case kSpannerTypeContinue:
+              break;
+            case k_NoSpannerType:
+              // JMI ???
+              break;
+          } // switch
+          break;      
+      } // switch
+
+      if (doHandleSpanner) {
+        if (gGeneralOptions->fTraceSpanners) {
+          fLogOutputStream <<
+            "Attaching spanner '" <<
+            spanner->spannerKindAsString () <<
+            "' to note " << note->noteAsString () <<
+            endl;
+        }
+    
+        note->
+          addSpannerToNote (spanner);
+  
+        // forget about this spanner
+        fCurrentSpannersList.pop_front ();
+      }
+
+      else { // check it is the same spanner kind JMI
+        if (gGeneralOptions->fTraceSpanners) {
+          fLogOutputStream <<
+            "Spanner start amd stop on one and the same note' to note " <<
+            note->noteAsString () <<
+            ", delaying 'stop' until next note" <<
+            endl;
+        }
+
+        // keep track of this stop spanner
+        delayedStopSpanner = spanner;
+        
+        // forget about this spanner to avoid infinite loop
+        fCurrentSpannersList.pop_front ();
+      }
+    } // while
+
+    // append delayed stop spanner if any again to the list
+    if (delayedStopSpanner) {
+      fCurrentSpannersList.push_back (
+        delayedStopSpanner);
+    }
   }
 }
 
@@ -14019,7 +14090,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
 void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
   S_msrNote note)
 {
- // attach the pending dynamics if any to the note
+ // attach the pending octave shifts if any to the note
   if (fPendingOctaveShifts.size ()) {
     if (gGeneralOptions->fTraceOctaveShifts) {
       fLogOutputStream <<
@@ -15077,6 +15148,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
   // attach the ornaments if any to the note
   attachCurrentOrnamentsToNote (newNote);
+
+  // attach the spanners if any to the note
+  attachCurrentSpannersToNote (newNote);
 
   // attach the singleTremolo if any to the note
   attachCurrentSingleTremoloToNote (newNote);

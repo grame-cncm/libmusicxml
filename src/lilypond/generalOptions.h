@@ -158,6 +158,12 @@ class generalOptions : public optionsGroup
     // technicals
     bool                  fTraceTechnicals;
 
+    // ornaments
+    bool                  fTraceOrnaments;
+
+    // spanners
+    bool                  fTraceSpanners;
+
     // words
     bool                  fTraceWords;
 

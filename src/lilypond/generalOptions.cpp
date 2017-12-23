@@ -295,6 +295,12 @@ R"(Write a trace of the general activity to standard error.)",
     // technicals
     fTraceTechnicals = boolOptionsInitialValue;
     
+    // ornaments
+    fTraceOrnaments = boolOptionsInitialValue;
+
+    // spanners
+    fTraceSpanners = boolOptionsInitialValue;
+
     // words
     fTraceWords = boolOptionsInitialValue;
     
@@ -557,6 +563,24 @@ R"(Beams)",
 R"(Technicals)",
           "traceTechnicals",
           fTraceTechnicals,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "torns", "traceOrnaments",
+R"(Ornaments)",
+          "traceOrnaments",
+          fTraceOrnaments,
+          fTraceGeneral));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tspans", "traceSpanners",
+R"(Spanners)",
+          "traceSpanners",
+          fTraceSpanners,
           fTraceGeneral));
       
     specificTraceSubGroup->
@@ -888,6 +912,12 @@ S_generalOptions generalOptions::createCloneWithDetailedTrace ()
   // technicals
   clone->fTraceTechnicals = true;
   
+  // ornaments
+  clone->fTraceOrnaments = true;
+  
+  // spanners
+  clone->fTraceSpanners = true;
+  
   // words
   clone->fTraceWords = true;
   
@@ -1152,6 +1182,16 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
     // technicals
     setw (fieldWidth) << "traceTechnicals" << " : " <<
     booleanAsString (fTraceTechnicals) <<
+    endl <<
+    
+    // ornaments
+    setw (fieldWidth) << "traceOrnaments" << " : " <<
+    booleanAsString (fTraceOrnaments) <<
+    endl <<
+    
+    // spanners
+    setw (fieldWidth) << "traceSpanners" << " : " <<
+    booleanAsString (fTraceSpanners) <<
     endl <<
     
     // words

@@ -1489,7 +1489,7 @@ string msrTechnicalWithString::technicalWithStringAsString () const
 
   s <<
     technicalWithStringKindAsString () <<
-    ', ' << technicalWithStringTypeKindAsString () <<
+    ", " << technicalWithStringTypeKindAsString () <<
     ", value \"" <<
     fTechnicalWithStringValue <<
     "\", placement " <<
@@ -1503,7 +1503,7 @@ void msrTechnicalWithString::print (ostream& os)
   os <<
     "TechnicalWithString" <<
     ", " << technicalWithStringKindAsString () <<
-    ', ' << technicalWithStringTypeKindAsString () <<
+    ", " << technicalWithStringTypeKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -1714,9 +1714,6 @@ string msrOrnament::ornamentKindAsString () const
     case msrOrnament::kTrillMark:
       result = "trill";
       break;
-    case msrOrnament::kWavyLine:
-      result = "wayvyLine";
-      break;
     case msrOrnament::kTurn:
       result = "turn";
       break;
@@ -1855,8 +1852,8 @@ ostream& operator<< (ostream& os, const S_msrOrnament& elt)
 void msrOrnament::print (ostream& os)
 {
   os <<
-    "Ornament" " " <<
-    ornamentKindAsString () <<
+    "Ornament" <<
+    ", " << ornamentKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
 
@@ -2700,6 +2697,142 @@ void msrDoubleTremolo::print (ostream& os)
   }
 
   gIndenter--;
+}
+
+//______________________________________________________________________________
+S_msrSpanner msrSpanner::create (
+  int                inputLineNumber,
+  msrSpannerKind     spannerKind,
+  msrSpannerTypeKind spannerTypeKind,
+  msrPlacementKind   spannerPlacementKind)
+{
+  msrSpanner* o =
+    new msrSpanner (
+      inputLineNumber,
+      spannerKind,
+      spannerTypeKind,
+      spannerPlacementKind);
+  assert (o!=0);
+  return o;
+}
+
+msrSpanner::msrSpanner (
+  int                inputLineNumber,
+  msrSpannerKind     spannerKind,
+  msrSpannerTypeKind spannerTypeKind,
+  msrPlacementKind   spannerPlacementKind)
+    : msrElement (inputLineNumber)
+{
+  fSpannerKind = spannerKind;
+  
+  fSpannerTypeKind = spannerTypeKind;
+
+  fSpannerPlacementKind = spannerPlacementKind;
+}
+
+msrSpanner::~msrSpanner ()
+{}
+
+string msrSpanner::spannerKindAsString (
+  msrSpannerKind spannerKind)
+{
+  string result;
+  
+  switch (spannerKind) {
+    case msrSpanner::kSpannerTrill:
+      result = "spannerTrill";
+      break;
+    case msrSpanner::kSpannerWavyLine:
+      result = "spannerWavyLine";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrSpanner::spannerTypeKindAsString () const
+{
+  return
+    msrSpannerTypeKindAsString (
+      fSpannerTypeKind);
+}
+
+string msrSpanner::spannerKindAsString () const
+{
+  return
+    spannerKindAsString (
+      fSpannerKind);
+}
+
+string msrSpanner::spannerPlacementKindAsString () const
+{
+  return
+    msrPlacementKindAsString (
+      fSpannerPlacementKind);
+}
+
+void msrSpanner::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrSpanner::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrSpanner>*
+    p =
+      dynamic_cast<visitor<S_msrSpanner>*> (v)) {
+        S_msrSpanner elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrSpanner::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrSpanner::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrSpanner::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrSpanner>*
+    p =
+      dynamic_cast<visitor<S_msrSpanner>*> (v)) {
+        S_msrSpanner elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrSpanner::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrSpanner::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrSpanner& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrSpanner::print (ostream& os)
+{
+  os <<
+    "Spanner" <<
+    ", " << spannerKindAsString () <<
+    ", " << spannerTypeKindAsString () <<
+    ", " << spannerPlacementKindAsString () <<
+    ", line " << fInputLineNumber <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -5065,6 +5198,19 @@ S_msrNote msrNote::createNoteDeepCopy (
       fNoteArticulations.push_back ((*i));
   } // for
 
+  // spanners
+  // ------------------------------------------------------
+
+  for (
+    list<S_msrSpanner>::const_iterator i=
+      fNoteSpanners.begin ();
+      i!=fNoteSpanners.end ();
+      i++) {
+    // share this data
+    noteDeepCopy->
+      fNoteSpanners.push_back ((*i));
+  } // for
+
   // technicals
   // ------------------------------------------------------
 
@@ -5884,6 +6030,21 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
   fNoteArticulations.push_back (art);
 }
 
+void msrNote::addSpannerToNote (S_msrSpanner span)
+{
+  if (gGeneralOptions->fTraceSpanners || gGeneralOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Adding spanner '" <<
+      span->spannerKindAsString () <<
+      "' to note '" <<
+      noteAsShortString () <<
+      "'" <<
+      endl;
+  }
+  
+  fNoteSpanners.push_back (span);
+}
+
 void msrNote::addTechnicalToNote (S_msrTechnical technical)
 {
   if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
@@ -6214,6 +6375,18 @@ void msrNote::browseData (basevisitor* v)
     for (i=fNoteArticulations.begin (); i!=fNoteArticulations.end (); i++) {
       // browse the articulation
       msrBrowser<msrArticulation> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+  
+  // browse the spanners if any
+  if (fNoteSpanners.size ()) {
+    gIndenter++;
+    list<S_msrSpanner>::const_iterator i;
+    for (i=fNoteSpanners.begin (); i!=fNoteSpanners.end (); i++) {
+      // browse the spanner
+      msrBrowser<msrSpanner> browser (v);
       browser.browse (*(*i));
     } // for
     gIndenter--;
@@ -7273,6 +7446,23 @@ void msrNote::print (ostream& os)
     gIndenter--;
   }
   
+  // print the spanners if any
+  if (fNoteSpanners.size ()) {
+    gIndenter++;
+
+    list<S_msrSpanner>::const_iterator
+      iBegin = fNoteSpanners.begin (),
+      iEnd   = fNoteSpanners.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+        
+    gIndenter--;
+  }
+  
   // print the technicals if any
   if (fNoteTechnicals.size ()) {
     gIndenter++;
@@ -7768,6 +7958,35 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
   fChordArticulations.push_back (art);
 }
 
+void msrChord::addSpannerToChord (S_msrSpanner span)
+{
+  msrSpanner::msrSpannerKind
+    spannerKind =
+      span->
+        getSpannerKind ();
+
+  // don't add the same spanner several times
+  for (
+    list<S_msrSpanner>::const_iterator i = fChordSpanners.begin ();
+    i!=fChordSpanners.end ();
+    i++) {
+      if ((*i)->getSpannerKind () == spannerKind)
+        return;
+  } // for
+
+  if (gGeneralOptions->fTraceSpanners || gGeneralOptions->fTraceChords) {
+    gLogIOstream <<
+      "Adding spanner '" <<
+      span->spannerKindAsString () <<
+      "' to chord '" <<
+      chordAsString () <<
+      "'" <<
+      endl;
+  }
+
+  fChordSpanners.push_back (span);
+}
+
 void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
 {
   if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
@@ -8008,6 +8227,15 @@ void msrChord::browseData (basevisitor* v)
     i != fChordArticulations.end ();
     i++ ) {
     // browse the articulation
+    msrBrowser<msrArticulation> browser (v);
+    browser.browse (*(*i));
+  } // for
+
+  for (
+    list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
+    i != fChordArticulations.end ();
+    i++ ) {
+    // browse the spanner
     msrBrowser<msrArticulation> browser (v);
     browser.browse (*(*i));
   } // for
@@ -8294,6 +8522,14 @@ void msrChord::print (ostream& os)
   if (fChordArticulations.size ()) {
     list<S_msrArticulation>::const_iterator i;
     for (i=fChordArticulations.begin (); i!=fChordArticulations.end (); i++) {
+      os << (*i);
+    } // for
+  }
+
+  // print the spanners if any
+  if (fChordSpanners.size ()) {
+    list<S_msrSpanner>::const_iterator i;
+    for (i=fChordSpanners.begin (); i!=fChordSpanners.end (); i++) {
       os << (*i);
     } // for
   }

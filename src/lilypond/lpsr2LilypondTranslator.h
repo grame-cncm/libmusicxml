@@ -606,6 +606,11 @@ class lpsr2LilypondTranslator :
     string                ornamentAsLilypondString (
                             S_msrOrnament ornament);
 
+    // spanners
+    
+    string                spannerAsLilypondString (
+                            S_msrSpanner spanner);
+
     // tremolos
     
     string                singleTremoloDurationAsLilypondString (

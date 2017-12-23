@@ -127,6 +127,10 @@ class msr2LpsrTranslator :
 
   public visitor<S_msrOrnament>,
 
+  // spanners
+
+  public visitor<S_msrSpanner>,
+
   // glissandos
   
   public visitor<S_msrGlissando>,
@@ -326,6 +330,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
+
+    virtual void visitStart (S_msrSpanner& elt);
+    virtual void visitEnd   (S_msrSpanner& elt);
 
     virtual void visitStart (S_msrGlissando& elt);
     virtual void visitEnd   (S_msrGlissando& elt);

@@ -1476,10 +1476,6 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
       result = "\\trill ";
       break;
       
-    case msrOrnament::kWavyLine:
-      result = "%{\\wavy line???%} ";
-      break;
-      
     case msrOrnament::kTurn:
       result = "\\turn ";
       break;
@@ -1585,6 +1581,47 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
           ornament->
             getOrnamentAccidentalMark ());
       break;
+  } // switch
+
+  return result;
+}
+
+//________________________________________________________________________
+string lpsr2LilypondTranslator::spannerAsLilypondString (
+  S_msrSpanner spanner)
+{
+  string result;
+  
+  switch (spanner->getSpannerKind ()) {     
+    case msrSpanner::kSpannerTrill:
+      switch (spanner->getSpannerTypeKind ()) {
+        case kSpannerTypeStart:
+          result = "\\startTrillSpan ";
+          break;
+        case kSpannerTypeStop:
+          result = "\\stopTrillSpan ";
+          break;
+        case kSpannerTypeContinue:
+          break;
+        case k_NoSpannerType:
+          break;
+      } // switch
+      break;
+         
+    case msrSpanner::kSpannerWavyLine:
+      switch (spanner->getSpannerTypeKind ()) {
+        case kSpannerTypeStart:
+          result = "-\\tweak style #'trill \\startTextSpan";
+          break;
+        case kSpannerTypeStop:
+          result = "\\stopTextSpan ";
+          break;
+        case kSpannerTypeContinue:
+          break;
+        case k_NoSpannerType:
+          break;
+      } // switch
+      break;      
   } // switch
 
   return result;
@@ -4344,7 +4381,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
     if (gLilypondOptions->fNoteInputLineNumbers) {
       // print the harmony line number as a comment
       fLilypondCodeIOstream <<
-        " %{ " << elt->getInputLineNumber () << " %} ";
+        "%{ " << elt->getInputLineNumber () << " %} ";
     }
   }
 
@@ -5091,7 +5128,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       if (gLilypondOptions->fNoteInputLineNumbers) {
         // print the note line number as a comment
         fLilypondCodeIOstream <<
-          " %{ " << elt->getInputLineNumber () << " %} ";
+          "%{ " << elt->getInputLineNumber () << " %} ";
       } 
     }
   }
@@ -7033,7 +7070,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the note line number as a comment
     fLilypondCodeIOstream <<
-      " %{ " << elt->getInputLineNumber () << " %} ";
+      "%{ " << elt->getInputLineNumber () << " %} ";
   }
   
   fOnGoingNote = true;
@@ -7198,7 +7235,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
 
   // print the note ornaments if any
-  const list<S_msrOrnament>&
+  list<S_msrOrnament>
     noteOrnaments =
       elt->getNoteOrnaments ();
       
@@ -7207,26 +7244,9 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     for (
       i=noteOrnaments.begin ();
       i!=noteOrnaments.end ();
-      i++) {        
+      i++) {
       fLilypondCodeIOstream <<
-        ornamentAsLilypondString ((*i)); // some ornaments are not yet supported
-          // <<
-        // JMI " ";
-
-      switch ((*i)->getOrnamentPlacementKind ()) {
-        case k_NoPlacement:
-          break;
-        case kAbovePlacement:
-          fLilypondCodeIOstream << "^";
-          break;
-        case kBelowPlacement:
-          fLilypondCodeIOstream << "_";
-          break;
-      } // switch
-
-      fLilypondCodeIOstream <<
-        alterationKindAsLilypondAccidentalMark (
-          (*i)->getOrnamentAccidentalMark ()) <<
+        ornamentAsLilypondString ((*i)) << // some ornaments are not yet supported
         " ";
     } // for
   }
@@ -7594,6 +7614,37 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
+  // print the note spanners if any
+  const list<S_msrSpanner>&
+    noteSpanners =
+      elt->getNoteSpanners ();
+      
+  if (noteSpanners.size ()) {
+    list<S_msrSpanner>::const_iterator i;
+    for (
+      i=noteSpanners.begin ();
+      i!=noteSpanners.end ();
+      i++) {
+      S_msrSpanner
+        spanner = (*i);
+        
+      switch (spanner->getSpannerPlacementKind ()) {
+        case k_NoPlacement:
+   // JMI       fLilypondCodeIOstream << "-3";
+          break;
+        case kAbovePlacement:
+          fLilypondCodeIOstream << "^";
+          break;
+        case kBelowPlacement:
+          // this is done by LilyPond by default
+          break;
+      } // switch
+
+      fLilypondCodeIOstream <<
+        spannerAsLilypondString (spanner) << " ";
+    } // for
+  }
+  
   if (false && elt->getNoteIsFollowedByGraceNotes ()) { // JMI
     if (! elt->getNoteIsARest ()) {
       fLilypondCodeIOstream <<
@@ -8751,7 +8802,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
       if (gLilypondOptions->fNoteInputLineNumbers) {
         // print the barline line number as a comment
         fLilypondCodeIOstream <<
-          " %{ " << elt->getInputLineNumber () << " %} ";
+          "%{ " << elt->getInputLineNumber () << " %} ";
       }
 
 /* JMI
@@ -9430,7 +9481,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the multiple rest line number as a comment
     fLilypondCodeIOstream <<
-      " %{ " << inputLineNumber << " %} ";
+      "%{ " << inputLineNumber << " %} ";
   }
 
   fLilypondCodeIOstream <<    
@@ -9552,8 +9603,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
 } // namespace
 
 
-
-
 /* JMI
   // is there an unmetered (stemless) section?
   if (stemKind != fCurrentStemKind) {
@@ -9595,35 +9644,3 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
     } // switch
   }
 */
-
-
-  /*
-    <notations>
-      <ornaments>
-        <tremolo type="single">3</tremolo>
-      </ornaments>
-    </notations>
-
-The tremolo ornament can be used to indicate either single-note or double-note tremolos. Single-note tremolos use the single type, while double-note tremolos use the start and stop types. The default is "single" for compatibility with Version 1.1.
-
-The text of the element indicates the number of tremolo marks and is an integer from 0 to 8.
-Note that the number of attached beams is not included in this value, but is represented separately using the beam element.
-
-When using double-note tremolos, the duration of each note in the tremolo should correspond to half of the notated type value.
-A time-modification element should also be added with an actual-notes value of 2 and a normal-notes value of 1.
-If used within a tuplet, this 2/1 ratio should be multiplied by the existing tuplet ratio.
-
-Using repeater beams for indicating tremolos is deprecated as of MusicXML 3.0.
-
-  */
-
-
-  /*
-   * \layout {
- \context {
-   \Score
-   proportionalNotationDuration = #(ly:make-moment 1/16)
- }
-}
-*/
-

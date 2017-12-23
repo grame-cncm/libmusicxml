@@ -1487,12 +1487,8 @@ class mxmlTree2MsrTranslator :
     // ornaments handling
     // ------------------------------------------------------
     
-    S_msrOrnament             fCurrentOrnament;
     list<S_msrOrnament>       fCurrentOrnamentsList;
 
-    msrPlacementKind          fWavyLinePlacementKind;
-    int                       fWavyLineNumber;
-    
     void                      attachCurrentOrnamentsToNote (
                                 S_msrNote note);
 
@@ -1500,6 +1496,20 @@ class mxmlTree2MsrTranslator :
  //                               S_msrChord chord);
 
     void                      copyNoteOrnamentsToChord (
+                                S_msrNote note, S_msrChord chord);
+
+    // spanners handling
+    // ------------------------------------------------------
+    
+    msrPlacementKind          fWavyLinePlacementKind;
+    int                       fWavyLineNumber;
+    
+    list<S_msrSpanner>        fCurrentSpannersList;
+
+    void                      attachCurrentSpannersToNote (
+                                S_msrNote note);
+
+    void                      copyNoteSpannersToChord (
                                 S_msrNote note, S_msrChord chord);
 
     // beams handling

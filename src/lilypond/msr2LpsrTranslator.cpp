@@ -2220,6 +2220,38 @@ void msr2LpsrTranslator::visitEnd (S_msrOrnament& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrSpanner" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  if (fOnGoingNote) {
+    // don't add spanners to chord member notes
+    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+      fCurrentNoteClone->
+        addSpannerToNote (elt);
+  }
+  else if (fOnGoingChord) {
+    fCurrentChordClone->
+      addSpannerToChord (elt);
+  }
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrSpanner& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrSpanner" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {

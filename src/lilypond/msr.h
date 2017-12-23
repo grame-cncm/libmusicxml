@@ -1236,7 +1236,7 @@ class msrOrnament : public msrElement
     // ------------------------------------------------------
 
     enum msrOrnamentKind {
-        kTrillMark, kWavyLine,
+        kTrillMark,
         kTurn, kInvertedTurn, kDelayedTurn,
         kDelayedInvertedTurn, kVerticalTurn,
         kMordent, kInvertedMordent,
@@ -1786,6 +1786,159 @@ class msrDoubleTremolo : public msrElement
 };
 typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
+
+//______________________________________________________________________________
+class msrSpanner : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrSpannerKind {
+        kSpannerTrill, kSpannerWavyLine };
+
+    static string spannerKindAsString (
+      msrSpannerKind spannerKind);
+            
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrSpanner> create (
+      int                inputLineNumber,
+      msrSpannerKind     spannerKind,
+      msrSpannerTypeKind spannerTypeKind,
+      msrPlacementKind   spannerPlacementKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrSpanner (
+      int                inputLineNumber,
+      msrSpannerKind     spannerKind,
+      msrSpannerTypeKind spannerTypeKind,
+      msrPlacementKind   spannerPlacementKind);
+      
+    virtual ~msrSpanner ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrSpannerKind        getSpannerKind () const
+                              { return fSpannerKind; }
+        
+    msrSpannerTypeKind    getSpannerTypeKind () const
+                              { return fSpannerTypeKind; }
+        
+    msrPlacementKind      getSpannerPlacementKind () const
+                              { return fSpannerPlacementKind; }
+                        
+    // services
+    // ------------------------------------------------------
+
+    string                spannerKindAsString () const;
+    
+    string                spannerTypeKindAsString () const;
+
+    string                spannerPlacementKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  protected:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrSpannerKind        fSpannerKind;
+
+    msrSpannerTypeKind    fSpannerTypeKind;
+
+    msrPlacementKind      fSpannerPlacementKind;
+};
+typedef SMARTP<msrSpanner> S_msrSpanner;
+EXP ostream& operator<< (ostream& os, const S_msrSpanner& elt);
+
+/* JMI ???
+//______________________________________________________________________________
+class msrWavyLine : public msrSpanner
+{
+  public:
+          
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrWavyLine> create (
+      int                inputLineNumber,
+      msrSpannerTypeKind spannerTypeKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrWavyLine (
+      int                inputLineNumber,
+      msrWavyLineKind     fermataKind,
+      msrFermataTypeKind fermataTypeKind);
+      
+    virtual ~msrWavyLine ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrFermataKind        getFermataKind () const
+                              { return fFermataKind; }
+        
+    msrFermataTypeKind    getFermataTypeKind () const
+                              { return fFermataTypeKind; }
+        
+    // services
+    // ------------------------------------------------------
+
+    string                fermataAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrFermataKind        fFermataKind;
+    
+    msrFermataTypeKind    fFermataTypeKind;
+};
+typedef SMARTP<msrFermata> S_msrFermata;
+EXP ostream& operator<< (ostream& os, const S_msrFermata& elt);
+*/
 
 //______________________________________________________________________________
 class msrRehearsal : public msrElement
@@ -5158,6 +5311,15 @@ class msrNote : public msrElement
                           getNoteArticulationsToModify ()
                               { return fNoteArticulations; }
 
+    // spanners
+    const list<S_msrSpanner>&
+                          getNoteSpanners () const
+                              { return fNoteSpanners; }
+                      
+    list<S_msrSpanner>&
+                          getNoteSpannersToModify ()
+                              { return fNoteSpanners; }
+
     // technicals
     const list<S_msrTechnical>&
                           getNoteTechnicals () const
@@ -5369,6 +5531,9 @@ class msrNote : public msrElement
     // articulations
     void                  addArticulationToNote (S_msrArticulation art);
     
+    // spanners
+    void                  addSpannerToNote (S_msrSpanner span);
+    
     // technicals
     void                  addTechnicalToNote (S_msrTechnical tech);
     
@@ -5531,6 +5696,11 @@ class msrNote : public msrElement
 
     list<S_msrArticulation>
                           fNoteArticulations;
+
+    // spanners
+    // ------------------------------------------------------
+
+    list<S_msrSpanner>    fNoteSpanners;
 
     // technicals
     // ------------------------------------------------------
@@ -5702,6 +5872,11 @@ class msrChord : public msrElement
                           getChordArticulations () const
                               { return fChordArticulations; }
 
+    // spanners
+    const list<S_msrSpanner>&
+                          getChordSpanners () const
+                              { return fChordSpanners; }
+
     // technicals
     const list<S_msrTechnical>&
                           getChordTechnicals () const
@@ -5837,6 +6012,9 @@ class msrChord : public msrElement
     // articulations
     void                  addArticulationToChord (S_msrArticulation art);
      
+    // spanners
+    void                  addSpannerToChord (S_msrSpanner span);
+     
     // technicals
     void                  addTechnicalToChord (S_msrTechnical tech);
     
@@ -5941,6 +6119,9 @@ class msrChord : public msrElement
     // articulations
     list<S_msrArticulation>
                           fChordArticulations;
+
+    // spanners
+    list<S_msrSpanner>    fChordSpanners;
 
     // single tremolo
     S_msrSingleTremolo    fChordSingleTremolo;
