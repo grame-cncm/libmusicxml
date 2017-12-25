@@ -2560,7 +2560,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "paper-width" << " = " <<
-        setprecision (2) << paperWidth << "\\cm" <<
+        setprecision (3) << paperWidth << "\\cm" <<
         endl;
     }
   }
@@ -2573,7 +2573,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "paper-height" << " = " <<
-        setprecision (2) << paperHeight << "\\cm" <<
+        setprecision (3) << paperHeight << "\\cm" <<
         endl;
     }
   }
@@ -2586,7 +2586,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "top-margin" << " = " <<
-        setprecision (2) << topMargin << "\\cm" <<
+        setprecision (3) << topMargin << "\\cm" <<
         endl;
     }
   }
@@ -2599,7 +2599,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "bottom-margin" << " = " <<
-        setprecision (2) << bottomMargin << "\\cm" <<
+        setprecision (3) << bottomMargin << "\\cm" <<
         endl;
     }
   }
@@ -2612,7 +2612,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "left-margin" << " = " <<
-        setprecision (2) << leftMargin << "\\cm" <<
+        setprecision (3) << leftMargin << "\\cm" <<
         endl;
     }
   }
@@ -2625,7 +2625,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "right-margin" << " = " <<
-      setprecision (2) << rightMargin << "\\cm" <<
+      setprecision (3) << rightMargin << "\\cm" <<
       endl;
     }
   }
@@ -2638,14 +2638,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "indent" << " = " <<
-      setprecision (2) << indent << "\\cm" <<
+      setprecision (3) << indent << "\\cm" <<
       endl;
     }
     else {
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "%indent" << " = " <<
-      setprecision (2) << 1.5 << "\\cm" <<
+      setprecision (3) << 1.5 << "\\cm" <<
       endl;
     }
   }
@@ -2658,14 +2658,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "short-indent" << " = " <<
-      setprecision (2) << shortIndent << "\\cm" <<
+      setprecision (3) << shortIndent << "\\cm" <<
       endl;
     }
     else {
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "%short-indent" << " = " <<
-      setprecision (2) << 0.0 << "\\cm" <<
+      setprecision (3) << 0.0 << "\\cm" <<
       endl;
     }
   }
@@ -2680,7 +2680,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "between-system-space" << " = " <<
-        setprecision (2) << betweenSystemSpace << "\\cm" <<
+        setprecision (3) << betweenSystemSpace << "\\cm" <<
         endl;
     }
   }
@@ -2693,7 +2693,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
       fLilypondCodeIOstream << left <<
         setw (fieldWidth) <<
         "page-top-space" << " = " <<
-        setprecision (2) << pageTopSpace << "\\cm" <<
+        setprecision (3) << pageTopSpace << "\\cm" <<
         endl;
     }
   }
@@ -3064,36 +3064,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           setw (commentFieldWidth);
       }
       
-      if (partGroupName.size ()) {
-        fLilypondCodeIOstream <<
-          "\\set StaffGroup.instrumentName = \"" <<
-          partGroupName <<
-          "\"" <<
-          endl;
-      }
-      if (partGroupAbbreviation.size ()) {
-        fLilypondCodeIOstream <<
-          "\\set StaffGroup.shortInstrumentName = \"" <<
-          partGroupAbbreviation <<
-          "\"" <<
-          endl;
-      }
-            
       switch (partGroupSymbolKind) {
         case msrPartGroup::k_NoPartGroupSymbol:
           break;
           
         case msrPartGroup::kBracePartGroupSymbol: // JMI
-        /*
-         *
-         * check whether individual part have instrument names JMI
-         * 
-          if (partGroupInstrumentName.size ())
-            fLilypondCodeIOstream << = "\\new PianoStaff";
-          else
-            fLilypondCodeIOstream << = "\\new GrandStaff";
-            */
-            
           switch (partGroupBarlineKind) {
             case msrPartGroup::kPartGroupBarlineYes:
               fLilypondCodeIOstream <<
@@ -3121,31 +3096,92 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           
         case msrPartGroup::kLinePartGroupSymbol:
           fLilypondCodeIOstream <<
-            "\\new StaffGroup \\with { %kLinePartGroupSymbol" <<
-            endl <<
-            gTab << "systemStartDelimiter = #'SystemStartSquare" <<
-            // how do we get a SystemStartLine ??? JMI
-            endl <<
-            "}";
+            "\\new StaffGroup";
           break;
         
         case msrPartGroup::kSquarePartGroupSymbol:
           fLilypondCodeIOstream <<
-            "\\new StaffGroup \\with { %kSquarePartGroupSymbol" <<
-            endl <<
-            gTab << "systemStartDelimiter = #'SystemStartSquare" <<
-            endl <<
-            "}";
+            "\\new StaffGroup";
           break;
       } // switch
-  
+
+      // generate the '\with' block beginning
       fLilypondCodeIOstream <<
-        " <<";
-        
-      if (gLilypondOptions->fComments) {
+        endl <<
+        "\\with {" <<
+        endl;
+
+      gIndenter++;
+
+      if (partGroupName.size ()) {
         fLilypondCodeIOstream <<
-          "% part group " <<
+          "instrumentName = \"" <<
+          partGroupName <<
+          "\"" <<
+          endl;
+      }
+      if (partGroupAbbreviation.size ()) {
+        fLilypondCodeIOstream <<
+          "shortInstrumentName = \"" <<
+          partGroupAbbreviation <<
+          "\"" <<
+          endl;
+      }
+            
+      switch (partGroupSymbolKind) {
+        case msrPartGroup::k_NoPartGroupSymbol:
+          break;
+          
+        case msrPartGroup::kBracePartGroupSymbol: // JMI
+          /*
+           *
+           * check whether individual part have instrument names JMI
+           * 
+            if (partGroupInstrumentName.size ())
+              fLilypondCodeIOstream << = "\\new PianoStaff";
+            else
+              fLilypondCodeIOstream << = "\\new GrandStaff";
+              */
+          break;
+          
+        case msrPartGroup::kBracketPartGroupSymbol:
+          break;
+          
+        case msrPartGroup::kLinePartGroupSymbol:
+          fLilypondCodeIOstream <<
+            "%kLinePartGroupSymbol" <<
+            endl <<
+            "systemStartDelimiter = #'SystemStartSquare" <<
+            // how do we get a SystemStartLine ??? JMI
+            endl;
+          break;
+        
+        case msrPartGroup::kSquarePartGroupSymbol:
+          fLilypondCodeIOstream <<
+            "%kSquarePartGroupSymbol" <<
+            endl <<
+            "systemStartDelimiter = #'SystemStartSquare" <<
+            endl;
+          break;
+      } // switch
+
+      gIndenter--;
+
+      // generate the '\with' block ending      
+      fLilypondCodeIOstream <<
+        endl <<
+        "}" <<
+        endl;
+
+      if (gLilypondOptions->fComments) {
+        fLilypondCodeIOstream << left <<
+          setw (commentFieldWidth) <<
+          "<<" << "% part group " <<
           partGroup->getPartGroupCombinedName ();
+      }
+      else {
+        fLilypondCodeIOstream <<
+          "<<";
       }
           
       fLilypondCodeIOstream <<
@@ -3155,7 +3191,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
   if (partGroupInstrumentName.size ()) { // JMI
     fLilypondCodeIOstream <<
-      "\\set PianoStaff.instrumentName = \"" <<
+      "instrumentName = \"" <<
       partGroupInstrumentName <<
       "\"" <<
       endl;
@@ -3171,7 +3207,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   if (partGroupSymbolKind == msrPartGroup::kSquarePartGroupSymbol) { // JMI
     gIndenter++;
     fLilypondCodeIOstream <<
-      "\\set StaffGroup.systemStartDelimiter = #'SystemStartSquare" <<
+      "systemStartDelimiter = #'SystemStartSquare" <<
       endl;
     gIndenter--;
   }
@@ -3205,13 +3241,16 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
       break;
       
     case msrPartGroup::kPartGroupImplicitNo:
-      fLilypondCodeIOstream << left <<
-        setw (commentFieldWidth) << ">>";
-        
-      if (gLilypondOptions->fComments)
-        fLilypondCodeIOstream <<
+      if (gLilypondOptions->fComments) {
+        fLilypondCodeIOstream << left <<
+          setw (commentFieldWidth) << ">>" <<      
           "% part group " <<
           partGroup->getPartGroupCombinedName ();
+      }
+      else {
+        fLilypondCodeIOstream <<
+          ">>";        
+      }
           
       fLilypondCodeIOstream <<
         endl;
@@ -3261,21 +3300,26 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     if (gLilypondOptions->fComments) {
       fLilypondCodeIOstream << left <<
         setw (commentFieldWidth) <<
-        "\\new PianoStaff <<" <<
+        "\\new PianoStaff" <<
         "% part " << part->getPartCombinedName ();
     }
     else {
       fLilypondCodeIOstream <<
-        "\\new PianoStaff <<";      
+        "\\new PianoStaff";      
     }
     fLilypondCodeIOstream <<
       endl;
     
+    // generate the 'with' block beginning
+    fLilypondCodeIOstream <<
+      "\\with {" <<  
+      endl;
+
     gIndenter++;
 
     if (partName.size ()) {
       fLilypondCodeIOstream <<
-        "\\set PianoStaff.instrumentName = \"" <<
+        "instrumentName = \"" <<
         partName <<
         "\"" <<
         endl;
@@ -3283,7 +3327,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     
     if (partAbbreviation.size ()) {
       fLilypondCodeIOstream <<
-        "\\set PianoStaff.shortInstrumentName = \"" <<
+        "shortInstrumentName = \"" <<
         partAbbreviation <<
         "\"" <<
         endl;
@@ -3293,11 +3337,19 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
     
     if (doConnectArpeggios) {
       fLilypondCodeIOstream <<
-        "\\set PianoStaff.connectArpeggios = ##t" <<
+        "connectArpeggios = ##t" <<
         endl;
     }
        
+    gIndenter--;
+  
+    // generate the 'with' block ending
     fLilypondCodeIOstream <<
+      "}" <<  
+      endl;
+
+    fLilypondCodeIOstream <<
+      "<<" <<
       endl;
   }
 }
@@ -3356,72 +3408,61 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     staff =
       elt->getStaff ();
 
-  string staffContextCommand;
-  
+  // generate the staff context command
   switch (staff->getStaffKind ()) {
     case msrStaff::kMasterStaff:
-      staffContextCommand = "\\new Staff";
+      fLilypondCodeIOstream << "\\new Staff";
       break;
       
     case msrStaff::kRegularStaff:
       if (gLilypondOptions->fJianpu)
-        staffContextCommand = "\\new JianpuStaff";
+        fLilypondCodeIOstream << "\\new JianpuStaff";
       else
-        staffContextCommand = "\\new Staff";
+        fLilypondCodeIOstream << "\\new Staff";
       break;
       
     case msrStaff::kTablatureStaff:
-      staffContextCommand = "\\new TabStaff";
+      fLilypondCodeIOstream << "\\new TabStaff";
       break;
       
     case msrStaff::kHarmonyStaff:
-      staffContextCommand = "\\new kHarmonyStaff???";
+      fLilypondCodeIOstream << "\\new kHarmonyStaff???";
       break;
       
     case msrStaff::kFiguredBassStaff:
-      staffContextCommand = "\\new FiguredBassStaff???";
+      fLilypondCodeIOstream << "\\new FiguredBassStaff???";
       break;
 
     case msrStaff::kDrumStaff:
-      staffContextCommand = "\\new DrumStaff";
+      fLilypondCodeIOstream << "\\new DrumStaff";
       break;
       
     case msrStaff::kRythmicStaff:
-      staffContextCommand = "\\new RhythmicStaff";
+      fLilypondCodeIOstream << "\\new RhythmicStaff";
       break;
     } // switch
 
-  stringstream s;
-
-  s <<
-    staffContextCommand <<
+  
+  fLilypondCodeIOstream <<
     " = \"" <<
     staff->getStaffName () <<
     "\"";
 
   if (gLilypondOptions->fJianpu) {
-    s <<
-      " \\jianpuMusic";
-  }
-
-  string newContext = s.str ();
-      
-  if (gLilypondOptions->fComments) {
-    fLilypondCodeIOstream << left <<
-        setw (commentFieldWidth) <<
-        newContext + " <<" <<
-        " % staff \"" << staff->getStaffName () << "\"";
-  }
-  else {
     fLilypondCodeIOstream <<
-      newContext << " <<";    
+      " \\jianpuMusic";
   }
 
   fLilypondCodeIOstream <<
     endl;
- 
-  gIndenter++;
+    
+  // generate the 'with' block beginning
+  fLilypondCodeIOstream <<
+    "\\with {" <<  
+    endl;
 
+  gIndenter++;
+  
   // fetch part uplink
   S_msrPart
     staffPartUplink =
@@ -3441,10 +3482,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           getPartName ();
     }
 
-    // JMI ???
+    // generate the instrument name
     if (partName.size ()) {
       fLilypondCodeIOstream <<
-        "\\set Staff.instrumentName = ";
+        "instrumentName = ";
   
       // does the name contain hexadecimal end of lines?
       std::size_t found =
@@ -3483,7 +3524,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   
     if (partAbbreviation.size ()) {
       fLilypondCodeIOstream <<
-        "\\set Staff.shortInstrumentName = ";
+        "shortInstrumentName = ";
         
       // does the name contain hexadecimal end of lines?
       std::size_t found =
@@ -3509,6 +3550,30 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       }    
     }
   }
+
+  gIndenter--;
+
+  // generate the 'with' block ending
+  fLilypondCodeIOstream <<
+    "}" <<  
+    endl;
+
+  // generate the comment if relevant
+  if (gLilypondOptions->fComments) {
+    fLilypondCodeIOstream << left <<
+        setw (commentFieldWidth) <<
+        "<<" <<
+        " % staff \"" << staff->getStaffName () << "\"";
+  }
+  else {
+    fLilypondCodeIOstream <<
+      "<<";    
+  }
+
+  fLilypondCodeIOstream <<
+    endl;
+ 
+  gIndenter++;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)

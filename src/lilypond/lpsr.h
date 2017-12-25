@@ -1611,7 +1611,7 @@ class lpsrPaper : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrPaper> create (
-      int           inputLineNumber);
+      int inputLineNumber);
     
   protected:
 
@@ -1619,7 +1619,7 @@ class lpsrPaper : public msrElement
     // ------------------------------------------------------
 
     lpsrPaper (
-      int           inputLineNumber);
+      int inputLineNumber);
       
     virtual ~lpsrPaper();
   

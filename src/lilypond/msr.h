@@ -11367,19 +11367,35 @@ class msrScore : public msrElement
     int                   getScoreNumberOfMeasures () const
                               { return fScoreNumberOfMeasures; }
         
+    // part group names max length
+
+    void                  setScorePartGroupNamesMaxLength (int value)
+                              { fScorePartGroupNamesMaxLength = value; }
+
+    int                   getScorePartGroupNamesMaxLength () const
+                              { return fScorePartGroupNamesMaxLength; }
+
+    // part names max length
+    
+    void                  setScorePartNamesMaxLength (int value)
+                              { fScorePartNamesMaxLength = value; }
+
+    int                   getScorePartNamesMaxLength () const
+                              { return fScorePartNamesMaxLength; }
+
     // instrument names max lengthes
 
-    void                  setInstrumentNamesMaxLength (int value)
-                              { fInstrumentNamesMaxLength = value; }
+    void                  setScoreInstrumentNamesMaxLength (int value)
+                              { fScoreInstrumentNamesMaxLength = value; }
 
-    int                   getInstrumentNamesMaxLength () const
-                              { return fInstrumentNamesMaxLength; }
+    int                   getScoreInstrumentNamesMaxLength () const
+                              { return fScoreInstrumentNamesMaxLength; }
 
-    void                  setInstrumentAbbreviationsMaxLength (int value)
-                              { fInstrumentAbbreviationsMaxLength = value; }
+    void                  setScoreInstrumentAbbreviationsMaxLength (int value)
+                              { fScoreInstrumentAbbreviationsMaxLength = value; }
 
-    int                   getInstrumentAbbreviationsMaxLength () const
-                              { return fInstrumentAbbreviationsMaxLength; }
+    int                   getScoreInstrumentAbbreviationsMaxLength () const
+                              { return fScoreInstrumentAbbreviationsMaxLength; }
 
     // inhibiting browsing
 
@@ -11460,10 +11476,18 @@ class msrScore : public msrElement
     
     int                   fScoreNumberOfMeasures;
 
+    // part group names max length
+
+    int                   fScorePartGroupNamesMaxLength;
+
+    // part names max length
+    
+    int                   fScorePartNamesMaxLength;
+
     // instrument names max lengthes
     
-    int                   fInstrumentNamesMaxLength;
-    int                   fInstrumentAbbreviationsMaxLength;
+    int                   fScoreInstrumentNamesMaxLength;
+    int                   fScoreInstrumentAbbreviationsMaxLength;
 
     // inhibiting browsing
     

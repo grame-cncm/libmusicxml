@@ -488,7 +488,9 @@ R"()",
         optionsBooleanItem::create (
           "jazz", "jazzFonts",
 R"(Use the LilyJazz font for notes, braces, text and chords.
-This font should be installed so that LilyPond can use it.)",
+It can be downloaded from https://github.com/OpenLilyPondFonts/lilyjazz.
+This font should be installed so that LilyPond can use it, see:
+https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Installation-And-Usage.txt.)",
           "jazzFonts",
           fJazzFonts));
   }

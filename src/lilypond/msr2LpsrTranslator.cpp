@@ -104,20 +104,48 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
       fLpsrScore->getPaper ();
 
   int
-    instrumentNamesMaxLength =
+    scorePartGroupNamesMaxLength =
       fCurrentMsrScoreClone->
-        getInstrumentNamesMaxLength ();
+        getScorePartGroupNamesMaxLength ();
 
   int
-    instrumentAbbreviationsMaxLength =
+    scorePartNamesMaxLength =
       fCurrentMsrScoreClone->
-        getInstrumentAbbreviationsMaxLength ();
+        getScorePartNamesMaxLength ();
 
-  // heuristics taken from musicxml2ly, gives an acceptable value
-  float charactersPerCemtimeter =
-    instrumentNamesMaxLength * 13
-      /
-    pageGeometry->getPaperWidth ();
+  int
+    scoreInstrumentNamesMaxLength =
+      fCurrentMsrScoreClone->
+        getScoreInstrumentNamesMaxLength ();
+
+  int
+    scoreInstrumentAbbreviationsMaxLength =
+      fCurrentMsrScoreClone->
+        getScoreInstrumentAbbreviationsMaxLength ();
+
+  // compute the maximum value
+  int maxValue = -1;
+  
+  if (scorePartGroupNamesMaxLength > maxValue)
+    maxValue = scorePartGroupNamesMaxLength;
+  
+  if (scorePartNamesMaxLength > maxValue)
+    maxValue = scorePartNamesMaxLength;
+  
+  if (scoreInstrumentNamesMaxLength > maxValue)
+    maxValue = scoreInstrumentNamesMaxLength;
+  
+  // compute the maximum short value
+  int maxShortValue = -1;
+  
+  if (scoreInstrumentAbbreviationsMaxLength > maxShortValue)
+    maxShortValue = scoreInstrumentAbbreviationsMaxLength;
+
+  // get the paper width
+  float paperWidth = pageGeometry->getPaperWidth ();
+  
+  // heuristics to determine the number of characters per centimeter
+  float charactersPerCemtimeter = 4.0;
 
   if (gGeneralOptions->fTraceGeometry) {
     fLogOutputStream <<
@@ -126,16 +154,36 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
 
     gIndenter++;
 
-    const int fieldWidth = 26;
+    const int fieldWidth = 40;
     
     fLogOutputStream << left <<
       setw (fieldWidth) <<
-      "instrumentNamesMaxLength" << " : " <<
-      instrumentNamesMaxLength <<
+      "scorePartGroupNamesMaxLength" << " : " <<
+      scorePartGroupNamesMaxLength <<
       endl <<
       setw (fieldWidth) <<
-      "instrumentAbbreviationsMaxLength" << " : " <<
-      instrumentAbbreviationsMaxLength <<
+      "scorePartNamesMaxLength" << " : " <<
+      scorePartNamesMaxLength <<
+      endl <<
+      setw (fieldWidth) <<
+      "scoreInstrumentNamesMaxLength" << " : " <<
+      scoreInstrumentNamesMaxLength <<
+      endl <<
+      setw (fieldWidth) <<
+      "scoreInstrumentAbbreviationsMaxLength" << " : " <<
+      scoreInstrumentAbbreviationsMaxLength <<
+      endl <<
+      setw (fieldWidth) <<
+      "maxValue" << " : " <<
+      maxValue <<
+      endl <<
+      setw (fieldWidth) <<
+      "maxShortValue" << " : " <<
+      maxShortValue <<
+      endl <<
+      setw (fieldWidth) <<
+      "paperWidth" << " : " <<
+      paperWidth <<
       endl <<
       setw (fieldWidth) <<
       "charactersPerCemtimeter" << " : " <<
@@ -144,17 +192,19 @@ void msr2LpsrTranslator::setPaperIndentsIfNeeded (
 
     gIndenter--;
   }
-  
-  if (instrumentNamesMaxLength > 0) {
+
+  // set indent if relevant
+  if (maxValue > 0) {
     paper->
       setIndent (
-        instrumentNamesMaxLength / charactersPerCemtimeter);
+        maxValue / charactersPerCemtimeter);
   }
   
-  if (instrumentAbbreviationsMaxLength > 0) {
+  // set short indent if relevant
+  if (maxShortValue > 0) {
     paper->
       setShortIndent (
-        instrumentAbbreviationsMaxLength / charactersPerCemtimeter);
+        maxShortValue / charactersPerCemtimeter);
   }
 }
 
@@ -744,10 +794,6 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
     fCurrentPartClone->
       finalizePartClone (
         elt->getInputLineNumber ());
-      
-    setPaperIndentsIfNeeded (
-      fVisitedMsrScore->
-        getPageGeometry ());
   }
 }
 

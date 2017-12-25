@@ -2759,7 +2759,7 @@ void lpsrHeader::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrPaper lpsrPaper::create (
-  int           inputLineNumber)
+  int inputLineNumber)
 {
   lpsrPaper* o =
     new lpsrPaper (
@@ -2769,13 +2769,12 @@ S_lpsrPaper lpsrPaper::create (
 }
 
 lpsrPaper::lpsrPaper (
-  int           inputLineNumber)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
 {
   fPaperWidth   = -1.0;
-  fPaperWidth   = -1.0;
-  
   fPaperHeight  = -1.0;
+  
   fTopMargin    = -1.0;
   fBottomMargin = -1.0;
   fLeftMargin   = -1.0;

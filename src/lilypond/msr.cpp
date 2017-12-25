@@ -11106,16 +11106,16 @@ msrPageGeometry::msrPageGeometry (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  fPaperWidth   = -1.0;
-  fPaperHeight  = -1.0;
+  fPaperWidth   = 21.0; // cm
+  fPaperHeight  = 29.7; // cm
   
-  fTopMargin    = -1.0;
-  fBottomMargin = -1.0;
-  fLeftMargin   = -1.0;
-  fRightMargin  = -1.0;
+  fTopMargin    = -1.0; // cm
+  fBottomMargin = -1.0; // cm
+  fLeftMargin   = -1.0; // cm
+  fRightMargin  = -1.0; // cm
     
-  fBetweenSystemSpace = -1.0;
-  fPageTopSpace       = -1.0;
+  fBetweenSystemSpace = -1.0; // cm
+  fPageTopSpace       = -1.0; // cm
 
   fMillimeters = -1;
   fTenths      = -1;
@@ -31781,9 +31781,9 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
   if (
     partInstrumentNameLength
       >
-    score->getInstrumentNamesMaxLength ()) {
+    score->getScoreInstrumentNamesMaxLength ()) {
     score->
-      setInstrumentNamesMaxLength (
+      setScoreInstrumentNamesMaxLength (
         partInstrumentNameLength);
   }
       
@@ -31793,9 +31793,9 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
   if (
     partInstrumentAbbreviationLength
       >
-    score->getInstrumentAbbreviationsMaxLength ()) {
+    score->getScoreInstrumentAbbreviationsMaxLength ()) {
     score->
-      setInstrumentAbbreviationsMaxLength (
+      setScoreInstrumentAbbreviationsMaxLength (
         partInstrumentAbbreviationLength);
   }
 }
@@ -32346,6 +32346,19 @@ msrPartGroup::msrPartGroup (
   fPartGroupAbsoluteNumber  = partGroupAbsoluteNumber;
           
   fPartGroupName            = partGroupName;
+
+  int partGroupNameLength =
+    fPartGroupName.size ();
+  
+  if (
+    partGroupNameLength
+      >
+    fPartGroupScoreUplink->getScorePartGroupNamesMaxLength ()) {  // JMI sanity check ???
+    fPartGroupScoreUplink->
+      setScorePartGroupNamesMaxLength (
+        partGroupNameLength);
+  }
+          
   fPartGroupNameDisplayText = partGroupNameDisplayText;
   
   fPartGroupAccidentalText  = partGroupAccidentalText;
@@ -32448,9 +32461,13 @@ void msrPartGroup::setPartGroupInstrumentName (
         
   int partGroupInstrumentNameLength = fPartGroupInstrumentName.size ();
   
-  if (partGroupInstrumentNameLength > score->getInstrumentNamesMaxLength ())
+  if (
+    partGroupInstrumentNameLength
+      >
+    score->getScoreInstrumentNamesMaxLength ())
     score->
-      setInstrumentNamesMaxLength (partGroupInstrumentNameLength);
+      setScoreInstrumentNamesMaxLength (
+        partGroupInstrumentNameLength);
 }
 
 S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
@@ -33633,10 +33650,16 @@ msrScore::msrScore (
 
   // number of measures
   fScoreNumberOfMeasures = -1;
+
+  // part group names max length
+  fScorePartGroupNamesMaxLength = -1;
+
+  // part names max length
+  fScorePartNamesMaxLength = -1;
   
   // set instrument names max lengthes
-  fInstrumentNamesMaxLength      = -1;
-  fInstrumentAbbreviationsMaxLength = -1;
+  fScoreInstrumentNamesMaxLength      = -1;
+  fScoreInstrumentAbbreviationsMaxLength = -1;
   
   // measure repeats replicas should be browsed by default
   fInhibitMeasuresRepeatReplicasBrowsing = false;
@@ -33675,13 +33698,23 @@ S_msrScore msrScore::createScoreNewbornClone ()
   newbornClone->fScoreNumberOfMeasures =
     fScoreNumberOfMeasures;
 
+  // part group names max length
+
+  newbornClone->fScorePartGroupNamesMaxLength =
+    fScorePartGroupNamesMaxLength;
+
+  // part names max length
+
+  newbornClone->fScorePartNamesMaxLength =
+    fScorePartNamesMaxLength;
+
   // instrument names max lengthes
   
-  newbornClone->fInstrumentNamesMaxLength =
-    fInstrumentNamesMaxLength;
+  newbornClone->fScoreInstrumentNamesMaxLength =
+    fScoreInstrumentNamesMaxLength;
     
-  newbornClone->fInstrumentAbbreviationsMaxLength =
-    fInstrumentAbbreviationsMaxLength;
+  newbornClone->fScoreInstrumentAbbreviationsMaxLength =
+    fScoreInstrumentAbbreviationsMaxLength;
     
   // inhibiting browsing
 
@@ -33919,7 +33952,7 @@ void msrScore::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 33;
+  const int fieldWidth = 38;
 
   int partGroupsListSize =
     fPartGroupsList.size ();
@@ -33942,13 +33975,23 @@ void msrScore::print (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "instrumentNamesMaxLength" <<  " : " <<
-    fInstrumentNamesMaxLength <<
+    "scorePartGroupNamesMaxLength" <<  " : " <<
+    fScorePartGroupNamesMaxLength <<
     endl<<
 
     setw (fieldWidth) <<
-    "instrumentAbbreviationsMaxLength" <<  " : " <<
-    fInstrumentAbbreviationsMaxLength <<
+    "scorePartNamesMaxLength" <<  " : " <<
+    fScorePartNamesMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "scoreInstrumentNamesMaxLength" <<  " : " <<
+    fScoreInstrumentNamesMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
+    fScoreInstrumentAbbreviationsMaxLength <<
     endl<<
     endl;
 
@@ -34006,7 +34049,7 @@ void msrScore::printSummary (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 33;
+  const int fieldWidth = 38;
 
   int partGroupsListSize =
     fPartGroupsList.size ();
@@ -34030,13 +34073,13 @@ void msrScore::printSummary (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "instrumentNamesMaxLength" <<  " : " <<
-    fInstrumentNamesMaxLength <<
+    "scoreInstrumentNamesMaxLength" <<  " : " <<
+    fScoreInstrumentNamesMaxLength <<
     endl <<
 
     setw (fieldWidth) <<
-    "instrumentAbbreviationsMaxLength" <<  " : " <<
-    fInstrumentAbbreviationsMaxLength <<
+    "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
+    fScoreInstrumentAbbreviationsMaxLength <<
     endl<<
     endl;
 
