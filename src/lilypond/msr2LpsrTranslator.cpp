@@ -1097,9 +1097,9 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             inputLineNumber,
             fCurrentVoiceClone);
     
-        // register it as the part harmony voice
+        // append it to the part clone if not yet done
         fCurrentPartClone->
-          appendHarmonyVoiceToPart (
+          appendHarmonyVoiceCloneToPartCloneIfNotYetDone (
             inputLineNumber,
             fCurrentVoiceClone);
 

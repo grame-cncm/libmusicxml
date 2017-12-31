@@ -30547,13 +30547,34 @@ void msrPart::updatePartMeasureLengthHighTide (
   }
 }
 
-void msrPart::appendHarmonyVoiceToPart (
+void msrPart::appendHarmonyVoiceCloneToPartCloneIfNotYetDone (
   int        inputLineNumber,
-  S_msrVoice harmonyVoice)
+  S_msrVoice harmonyVoiceClone)
 {
-  fPartHarmonyStaff->registerVoiceInStaff (
-    inputLineNumber,
-    harmonyVoice);
+  // is the harmony voice clone already present in the staff voices map?
+  bool foundVoice = false;
+  
+  const map<int, S_msrVoice>& staffAllVoicesMap =
+     fPartHarmonyStaff->getStaffAllVoicesMap ();
+                          
+  for (
+    map<int, S_msrVoice>::const_iterator i = staffAllVoicesMap.begin ();
+    i != staffAllVoicesMap.end ();
+    i++) {
+    S_msrVoice voice = (*i).second;
+
+    if (voice == harmonyVoiceClone) {
+      // yes
+      foundVoice = true;
+      break;
+    }
+  } // for
+
+  if (! foundVoice) {
+    fPartHarmonyStaff->registerVoiceInStaff (
+      inputLineNumber,
+      harmonyVoiceClone);
+  }
 }
 
 void msrPart::bringPartToMeasureLength (

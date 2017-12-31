@@ -10698,9 +10698,9 @@ class msrPart : public msrElement
     S_msrStaff            getPartHarmonyStaff () const
                               { return fPartHarmonyStaff; }
                  
-    void                  appendHarmonyVoiceToPart (
+    void                  appendHarmonyVoiceCloneToPartCloneIfNotYetDone (
                             int        inputLineNumber,
-                            S_msrVoice harmonyVoice);
+                            S_msrVoice harmonyVoiceClone);
 
     void                  setPartHarmoniesSupplierVoice (
                             int        inputLineNumber,
