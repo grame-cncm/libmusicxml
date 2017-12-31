@@ -4560,28 +4560,22 @@ class msrHarmony : public msrElement
 
     // creation from MusicXML
     // ------------------------------------------------------
-
-    static SMARTP<msrHarmony> create (
-      int                  inputLineNumber,
-      S_msrPart            harmonyPartUplink); // set by part??? JMI
       
-    static SMARTP<msrHarmony> create ( // JMI
-      int                  inputLineNumber,
-      S_msrPart            harmonyPartUplink,
-      msrQuarterTonesPitchKind
-                           harmonyRootQuarterTonesPitchKind,
-      msrHarmonyKind       harmonyKind,
-      string               harmonyKindText,
-      int                  harmonyInversion,
-      msrQuarterTonesPitchKind
-                           harmonyBassQuarterTonesPitchKind,
-      rational             harmonySoundingWholeNotes);
+    static SMARTP<msrHarmony> create (
+      int                      inputLineNumber,
+      S_msrVoice               harmonyVoiceUplink,
+      msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+      msrHarmonyKind           harmonyKind,
+      string                   harmonyKindText,
+      int                      harmonyInversion,
+      msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+      rational                 harmonySoundingWholeNotes);
     
     SMARTP<msrHarmony> createHarmonyNewbornClone (
-      S_msrPart containingPart);
+      S_msrVoice containingVoice);
 
     SMARTP<msrHarmony> createHarmonyDeepCopy ( // JMI ???
-      S_msrPart containingPart);
+      S_msrVoice containingVoice);
 
   protected:
 
@@ -4589,16 +4583,14 @@ class msrHarmony : public msrElement
     // ------------------------------------------------------
 
     msrHarmony (
-      int                  inputLineNumber,
-      S_msrPart            harmonyPartUplink,
-      msrQuarterTonesPitchKind
-                           harmonyRootQuarterTonesPitchKind,
-      msrHarmonyKind       harmonyKind,
-      string               harmonyKindText,
-      int                  harmonyInversion,
-      msrQuarterTonesPitchKind
-                           harmonyBassQuarterTonesPitcKindh,
-      rational             harmonySoundingWholeNotes);
+      int                      inputLineNumber,
+      S_msrVoice               harmonyVoiceUplink,
+      msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+      msrHarmonyKind           harmonyKind,
+      string                   harmonyKindText,
+      int                      harmonyInversion,
+      msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+      rational                 harmonySoundingWholeNotes);
 
     virtual ~msrHarmony();
   
@@ -4607,11 +4599,15 @@ class msrHarmony : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    S_msrPart             getHarmonyPartUplink () const
-                             { return fHarmonyPartUplink; }
+    S_msrVoice            getHarmonyVoiceUplink () const
+                             { return fHarmonyVoiceUplink; }
 
     rational              getHarmonySoundingWholeNotes () const
                               { return fHarmonySoundingWholeNotes; }
+
+    void                  setHarmonySoundingWholeNotes (
+                            rational wholeNotes)
+                              { fHarmonySoundingWholeNotes = wholeNotes; }
 
     msrQuarterTonesPitchKind
                           getHarmonyRootQuarterTonesPitchKind () const
@@ -4630,7 +4626,8 @@ class msrHarmony : public msrElement
     int                   getHarmonyInversion () const
                               { return fHarmonyInversion; }
                 
-    msrQuarterTonesPitchKind  getHarmonyBassQuarterTonesPitchKind () const
+    msrQuarterTonesPitchKind
+                          getHarmonyBassQuarterTonesPitchKind () const
                               { return fHarmonyBassQuarterTonesPitchKind; }
                               
     // services
@@ -4664,7 +4661,7 @@ class msrHarmony : public msrElement
     // ------------------------------------------------------
 
     // uplinks
-    S_msrPart             fHarmonyPartUplink;
+    S_msrVoice            fHarmonyVoiceUplink;
 
     rational              fHarmonySoundingWholeNotes;
     
@@ -5042,7 +5039,7 @@ class msrNote : public msrElement
       S_msrPart containingPart);
     
     SMARTP<msrNote> createNoteDeepCopy (
-      S_msrPart containingPart);
+      S_msrVoice containingVoice);
 
     // creation from xml2Msr
     // ------------------------------------------------------
@@ -9308,6 +9305,11 @@ class msrVoice : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // uplinks
+    
+    S_msrStaff            getVoiceStaffUplink () const
+                              { return fVoiceStaffUplink; }
+
     // voice kind
 
     void                  setVoiceKind (msrVoiceKind voiceKind)
@@ -9396,11 +9398,6 @@ class msrVoice : public msrElement
 
     bool                  getVoiceContainsMultipleRests () const
                               { return fVoiceContainsMultipleRests; }
-
-    // uplinks
-    
-    S_msrStaff            getVoiceStaffUplink () const
-                              { return fVoiceStaffUplink; }
 
     // services
     // ------------------------------------------------------
@@ -10245,14 +10242,13 @@ class msrStaff : public msrElement
     string                staffKindAsString () const;
     
     S_msrVoice            createVoiceInStaffByItsPartRelativeID (
-                            int          inputLineNumber,
-                            msrVoice::msrVoiceKind
-                                         voiceKind,
-                            int          voicePartRelativeID,
-                            string       currentMeasureNumber);
+                            int                    inputLineNumber,
+                            msrVoice::msrVoiceKind voiceKind,
+                            int                    voicePartRelativeID,
+                            string                 currentMeasureNumber);
 
     void                  registerVoiceInStaff (
-                            int inputLineNumber,
+                            int        inputLineNumber,
                             S_msrVoice voice);
 
     S_msrVoice            fetchVoiceFromStaffByItsPartRelativeID (
@@ -10500,7 +10496,7 @@ class msrPart : public msrElement
     #define K_PART_MASTER_VOICE_NUMBER -27
     
     #define K_PART_HARMONY_STAFF_NUMBER -119  
-    #define K_PART_HARMONY_VOICE_NUMBER -127
+    #define K_PART_HARMONY_VOICE_NUMBER -100
     
     #define K_PART_FIGURED_BASS_STAFF_NUMBER -219  
     #define K_PART_FIGURED_BASS_VOICE_NUMBER -227
@@ -10693,7 +10689,7 @@ class msrPart : public msrElement
     string                getPartInstrumentAbbreviation() const
                               { return fPartInstrumentAbbreviation; }
 
-    // harmony staff and voice
+    // harmony staff and voices
     
     void                  setPartHarmonyStaff (
                             S_msrStaff harmonyStaff)
@@ -10702,13 +10698,10 @@ class msrPart : public msrElement
     S_msrStaff            getPartHarmonyStaff () const
                               { return fPartHarmonyStaff; }
                  
-    void                  setPartHarmonyVoice (
-                            S_msrVoice harmonyVoice)
-                              { fPartHarmonyVoice = harmonyVoice; }
+    void                  appendHarmonyVoiceToPart (
+                            int        inputLineNumber,
+                            S_msrVoice harmonyVoice);
 
-    S_msrVoice            getPartHarmonyVoice () const
-                              { return fPartHarmonyVoice; }
-                  
     void                  setPartHarmoniesSupplierVoice (
                             int        inputLineNumber,
                             S_msrVoice partHarmoniesSupplierVoice);
@@ -10771,10 +10764,14 @@ class msrPart : public msrElement
     void                  createPartMasterStaffAndVoice ( // JMI ???
                             int inputLineNumber);
         
-    // harmony staff and voice
+    // harmony staff and voices
     
-    void                  createPartHarmonyStaffAndVoiceIfNotYetDone ( // JMI ???
+    void                  createPartHarmonyStaffIfNotYetDone (
                             int inputLineNumber);
+                            
+    void                  addHarmonyVoiceToPartIfNotYetDone (
+                            int inputLineNumber,
+                            int harmonyVoiceNumber);
         
     // figured bass staff and voice
     
@@ -10877,8 +10874,12 @@ class msrPart : public msrElement
                             S_msrHarmony harmony);
 
     void                  appendHarmonyToPartClone (
-                            S_msrVoice   harmoniesSupplierVoice,
-                            S_msrHarmony harmony);
+                            S_msrVoice   harmoniesSupplierVoiceClone,
+                            S_msrHarmony harmonyClone);
+
+    S_msrVoice            fetchHarmonyVoiceFromPart (
+                            int inputLineNumber,
+                            int harmonyVoiceNumber);
 
     // figured bass
 
@@ -11010,7 +11011,6 @@ class msrPart : public msrElement
     // harmonies
 
     S_msrStaff            fPartHarmonyStaff;
-    S_msrVoice            fPartHarmonyVoice;
     S_msrVoice            fPartHarmoniesSupplierVoice;
 
     // figured bass

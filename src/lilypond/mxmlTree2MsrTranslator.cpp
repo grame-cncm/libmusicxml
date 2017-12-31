@@ -181,7 +181,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingMelisma = false;
 
   // harmonies handling
-  fPendingHarmony                      = false;
+  fHarmonyVoicesCounter = 0;
+    
   fCurrentHarmonyRootDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlterationKind    = k_NoAlteration;
   fCurrentHarmonyKind                  = k_NoHarmony;
@@ -4809,13 +4810,11 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
       elt->getAttributeValue ("name");
 
     if (stanzaName.size () == 0) {
-      if (gGeneralOptions->fTraceLyrics) {
-        // lyrics names are not so frequent after all...
-        msrMusicXMLWarning (
-          gXml2lyOptions->fInputSourceName,
-          inputLineNumber,
-          "lyric name is empty");
-      }
+      // lyrics names are not so frequent after all...
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        "lyric name is empty");
     }
     
     if (gGeneralOptions->fTraceLyrics) {
@@ -5014,18 +5013,16 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     elt->getInputLineNumber ();
 
   if (fCurrentSyllableKind == msrSyllable::k_NoSyllable) {
-    if (gGeneralOptions->fTraceLyrics) {
-      // syllabic is not mandatory...
-      stringstream s;
-  
-      s <<
-        "<lyric /> has no <syllabic/> component, using a 'single' by default";
-  
-      msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        s.str ());
-    }
+    // syllabic is not mandatory...
+    stringstream s;
+
+    s <<
+      "<lyric /> has no <syllabic/> component, using a 'single' by default";
+
+    msrMusicXMLWarning (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      s.str ());
     
     fCurrentSyllableKind = msrSyllable::kSyllableSingle;
   }
@@ -14884,100 +14881,36 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     setNotePrintKind (
       fCurrentNotePrintKind);
 
-  // handling the current pending harmony if any,
-  // so that it gets attached to the note right now
-  if (fPendingHarmony) {
-    if (gGeneralOptions->fTraceHarmonies) {
-      fLogOutputStream <<
-        "--> harmony" <<
-        ", line " << inputLineNumber << ":" <<
-        endl;
+  // handling the current pending harmonies if any,
+  // so that they get attached to the note right now
+  if (fPendingHarmoniesList.size ()) {
+    int harmoniesCounter = 0;
+    
+    while (fPendingHarmoniesList.size ()) {
+      S_msrHarmony
+        harmony =
+          fPendingHarmoniesList.front ();
   
-      gIndenter++;
-
-      const int fieldWidth = 31;
+      // set the harmony's whole notes JMI to be better done in setNoteHarmony???
+      harmony->setHarmonySoundingWholeNotes (
+        fCurrentNoteSoundingWholeNotes);
       
-      fLogOutputStream << left <<
-        setw (fieldWidth) << "fCurrentPart" << " = " <<
-        fCurrentPart->getPartCombinedName () <<
-        endl <<
-        setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
-        msrDiatonicPitchKindAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-          fCurrentHarmonyRootDiatonicPitchKind) <<
-        endl <<
-        setw (fieldWidth) << "fCurrentHarmonyRootAlteration" << " = " <<
-        msrAlterationKindAsString(
-          fCurrentHarmonyRootAlterationKind) <<
-        endl <<
-        setw (fieldWidth) << "fCurrentHarmonyKind" << " = " <<
-        msrHarmonyKindAsString (
-          fCurrentHarmonyKind) <<
-        endl <<
-        setw (fieldWidth) << "fCurrentHarmonyKindText" << " = " <<
-        fCurrentHarmonyKindText <<
-        endl <<
-        setw (fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
-        msrDiatonicPitchKindAsString (
-          gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-          fCurrentHarmonyBassDiatonicPitchKind) <<
-        endl <<
-        setw (fieldWidth) << "fCurrentHarmonyBassAlteration" << " = " <<
-        msrAlterationKindAsString(
-          fCurrentHarmonyBassAlterationKind) <<
-        endl;
-          
-      gIndenter--;
-    }
+      // attach the harmony to the note
+      newNote->
+        setNoteHarmony (harmony);
   
-    S_msrHarmony
-      harmony =
-        msrHarmony::create (
-          fCurrentHarmonyInputLineNumber,
-          fCurrentPart,
-          
-          fCurrentHarmonyRootQuarterTonesPitchKind,
-          
-          fCurrentHarmonyKind,
-          fCurrentHarmonyKindText,
-
-          fCurrentHarmonyInversion,
-          
-          fCurrentHarmonyBassQuarterTonesPitchKind,
-          
-          fCurrentNoteSoundingWholeNotes);
-
-    // append pending harmony degrees if any to harmony
-    while (fCurrentHarmonyDegreesList.size ()) {
-      S_msrHarmonyDegree
-        harmonyDegree =
-          fCurrentHarmonyDegreesList.front ();
-
-      // set harmony degree harmony uplink
-      harmonyDegree->
-        setHarmonyDegreeHarmonyUplink (
+      // append the harmony to the current part
+      fCurrentPart->
+        appendHarmonyToPart (
+          voice,
           harmony);
-
-      // append it to harmony's degrees list
-      harmony->
-        appendHarmonyDegreeToHarmony (
-          harmonyDegree);
-
+  
       // remove it from list
-      fCurrentHarmonyDegreesList.pop_front ();
+      fPendingHarmoniesList.pop_front ();
     } // while
   
-    // attach the current harmony to the note
-    newNote->
-      setNoteHarmony (harmony);
-
-    // append the current harmony to the current part
-    fCurrentPart->
-      appendHarmonyToPart (
-        voice,
-        harmony);
-
-    fPendingHarmony = false;
+    // reset harmony counter
+    fHarmonyVoicesCounter = 0;
   }
 
   // handling the current pending figured bass if any,
@@ -16893,7 +16826,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmony& elt )
       endl;
   }
 
-  fPendingHarmony                      = true;
+  fHarmonyVoicesCounter++;
+  
   fCurrentHarmonyInputLineNumber       = elt->getInputLineNumber ();
   fCurrentHarmonyRootDiatonicPitchKind = k_NoDiatonicPitch;
   fCurrentHarmonyRootAlterationKind    = kNatural;
@@ -17242,42 +17176,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_bass_alter& elt )
   }
 }
 
-/*
-  The degree element is used to add, alter, or subtract
-  individual notes in the chord. The degree-value element
-  is a number indicating the degree of the chord (1 for
-  the root, 3 for third, etc). The degree-alter element
-  is like the alter element in notes: 1 for sharp, -1 for
-  flat, etc. The degree-type element can be add, alter, or
-  subtract. If the degree-type is alter or subtract, the
-  degree-alter is relative to the degree already in the
-  chord based on its kind element. If the degree-type is
-  add, the degree-alter is relative to a dominant chord
-  (major and perfect intervals except for a minor 
-  seventh). The print-object attribute can be used to
-  keep the degree from printing separately when it has
-  already taken into account in the text attribute of
-  the kind element. The plus-minus attribute is used to
-  indicate if plus and minus symbols should be used
-  instead of sharp and flat symbols to display the degree
-  alteration; it is no by default. 
-
-  The degree-value and degree-type text attributes specify
-  how the value and type of the degree should be displayed
-  in a score. The degree-value symbol attribute indicates
-  that a symbol should be used in specifying the degree.
-  If the symbol attribute is present, the value of the text
-  attribute follows the symbol. 
-  
-  A harmony of kind "other" can be spelled explicitly by
-  using a series of degree elements together with a root.
-
-  The "other" kind is used when the harmony is entirely
-  composed of add elements. The "none" kind is used to
-  explicitly encode absence of chords or functional
-  harmony.
-*/
-
 void mxmlTree2MsrTranslator::visitStart ( S_degree& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -17437,6 +17335,130 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
     fCurrentHarmonyBassQuarterTonesPitchKind =
       k_NoQuarterTonesPitch;
   }
+
+  // fetch harmony voice
+  S_msrVoice
+    harmonyVoice =
+      fCurrentPart->
+        fetchHarmonyVoiceFromPart (
+          inputLineNumber,
+          fHarmonyVoicesCounter);
+
+  if (! harmonyVoice) {
+    stringstream s;
+    
+    s <<
+      "harmony voice '" <<
+      fHarmonyVoicesCounter <<
+      "' not found in part " <<
+      fCurrentPart->getPartCombinedName () <<
+      ", line " << inputLineNumber;
+    
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+          
+  // create the harmony
+  if (gGeneralOptions->fTraceHarmonies) {
+    fLogOutputStream <<
+      "Creating a harmony" <<
+      ", line " << inputLineNumber << ":" <<
+      endl;
+
+    gIndenter++;
+
+    const int fieldWidth = 32;
+    
+    fLogOutputStream << left <<
+      setw (fieldWidth) << "fCurrentPart" << " = " <<
+      fCurrentPart->getPartCombinedName () <<
+      endl <<
+      setw (fieldWidth) << "harmonyVoice" << " = " <<
+      harmonyVoice->getVoiceName () <<
+      endl <<
+      
+      setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
+      msrDiatonicPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        fCurrentHarmonyRootDiatonicPitchKind) <<
+      endl <<
+      setw (fieldWidth) << "fCurrentHarmonyRootAlteration" << " = " <<
+      msrAlterationKindAsString(
+        fCurrentHarmonyRootAlterationKind) <<
+      endl <<
+      
+      setw (fieldWidth) << "fCurrentHarmonyKind" << " = " <<
+      msrHarmonyKindAsString (
+        fCurrentHarmonyKind) <<
+      endl <<
+      setw (fieldWidth) << "fCurrentHarmonyKindText" << " = " <<
+      fCurrentHarmonyKindText <<
+      endl <<
+      
+      setw (fieldWidth) << "fCurrentHarmonyInversion" << " = " <<
+      fCurrentHarmonyInversion <<
+      endl <<
+      
+      setw (fieldWidth) << "fCurrentHarmonyBassDiatonicPitch" << " = " <<
+      msrDiatonicPitchKindAsString (
+        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        fCurrentHarmonyBassDiatonicPitchKind) <<
+      endl <<
+      
+      setw (fieldWidth) << "fCurrentHarmonyBassAlteration" << " = " <<
+      msrAlterationKindAsString(
+        fCurrentHarmonyBassAlterationKind) <<
+      endl <<
+      
+      setw (fieldWidth) << "fCurrentNoteSoundingWholeNotes" << " = " <<
+      fCurrentNoteSoundingWholeNotes <<
+      endl;
+        
+    gIndenter--;
+  }
+
+  S_msrHarmony
+    harmony =
+      msrHarmony::create (
+        fCurrentHarmonyInputLineNumber,
+        harmonyVoice,
+        
+        fCurrentHarmonyRootQuarterTonesPitchKind,
+        
+        fCurrentHarmonyKind,
+        fCurrentHarmonyKindText,
+
+        fCurrentHarmonyInversion,
+        
+        fCurrentHarmonyBassQuarterTonesPitchKind,
+        
+        rational (1, 1)); // will be set upon next note handling
+
+  // append pending harmony degrees if any to harmony
+  while (fCurrentHarmonyDegreesList.size ()) {
+    S_msrHarmonyDegree
+      harmonyDegree =
+        fCurrentHarmonyDegreesList.front ();
+
+    // set harmony degree harmony uplink
+    harmonyDegree->
+      setHarmonyDegreeHarmonyUplink (
+        harmony);
+
+    // append it to harmony's degrees list
+    harmony->
+      appendHarmonyDegreeToHarmony (
+        harmonyDegree);
+
+    // remove it from list
+    fCurrentHarmonyDegreesList.pop_front ();
+  } // while
+
+  // append the harmony to the pending harmonies list
+  fPendingHarmoniesList.push_back (harmony);
 }
 
 //______________________________________________________________________________

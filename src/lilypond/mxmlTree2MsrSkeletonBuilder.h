@@ -357,26 +357,6 @@ class mxmlTree2MsrSkeletonBuilder :
 
     S_mxmlPartGroupDescr      fetchStartedPartGroupDescr (
                                 int partGroupNumber);
-
-    // part groups start positions (fPartsCounter) are used
-    // to determine which is nested in which
-
-    // MusicXML allows part groups to overlap,
-    // we use a list in which part groups are orderd by
-    // increasing part group <default-x>
-    // (all of them are negative)    
-    // the current part group is either null or the front of the list
-    
-    // handling 'start' and 'stop'
-    // a stack cannot be iterated, and we need access to any element:
-    // implementing a stack in a list
-
-    // all the part groups starting at the same position
-    // are at the beginning of the stack,
-    // but not necessarily in the right order though:
-    // the 'current' part group descr,
-    // i.e. the one with the most recently met 'start',
-    // may thus not be at the top
     
     list<S_mxmlPartGroupDescr>
                               fPartGroupsDescrStack;
@@ -529,7 +509,8 @@ class mxmlTree2MsrSkeletonBuilder :
 
     // harmonies handling
     // ------------------------------------------------------
-        
+
+    int                       fHarmonyVoicesCounter;
 
     // figured bass handling
     // ------------------------------------------------------

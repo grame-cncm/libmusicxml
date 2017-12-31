@@ -1176,7 +1176,8 @@ class mxmlTree2MsrTranslator :
     // harmonies handling
     // ------------------------------------------------------
     
-    bool                      fPendingHarmony; // JMI
+    int                       fHarmonyVoicesCounter;
+    list<S_msrHarmony>        fPendingHarmoniesList;
     
     int                       fCurrentHarmonyInputLineNumber;
     

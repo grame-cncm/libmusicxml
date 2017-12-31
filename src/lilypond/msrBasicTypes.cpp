@@ -3745,15 +3745,18 @@ string wholeNotesAsMsrString (
             numberOfDots += 2;
             break;
           default:
+          /* JMI
             s <<
               numerator << "/" << denominator <<
               " whole notes cannot be represented as an MSR string";
   
-            msrInternalError (
+            msrInternalWarning (
               gXml2lyOptions->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
               s.str ());
+              */
+            s <<
+              numerator << "/" << denominator << "???";
         } // switch
         break;
       }
@@ -3987,61 +3990,6 @@ msrChordItem::msrChordItem (
 msrChordItem::~msrChordItem()
 {}
 
-/* JMI
-S_msrChordItem msrChordItem::createHarmonyNewbornClone (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "==> Creating a newborn clone of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  basicMsrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
-    
-  S_msrChordItem
-    newbornClone =
-      msrChordItem::create (
-        fInputLineNumber,
-        fChordItemValue,
-        fChordItemAlteration,
-        fChordItemTypeKind);
-        
-  return newbornClone;
-}
-
-S_msrChordItem msrChordItem::createHarmonyDeepCopy (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "==> Creating a deep copy of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  basicMsrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
-    
-  S_msrChordItem
-    harmonyDeepCopy =
-      msrChordItem::create (
-        fInputLineNumber,
-        fChordItemValue,
-        fChordItemAlteration,
-        fChordItemTypeKind);
-        
-  return harmonyDeepCopy;
-}
-*/
 
 string msrChordItem::chordItemAsString () const
 {
@@ -4099,6 +4047,7 @@ void msrChordItem::acceptOut (basevisitor* v) {
 void msrChordItem::browseData (basevisitor* v)
 {}
 */
+
 ostream& operator<< (ostream& os, const S_msrChordItem& elt)
 {
   elt->print (os);
@@ -5122,62 +5071,6 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
 msrChordIntervals::~msrChordIntervals()
 {}
-
-/* JMI
-S_msrChordIntervals msrChordIntervals::createHarmonyNewbornClone (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "==> Creating a newborn clone of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  basicMsrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
-    
-  S_msrChordIntervals
-    newbornClone =
-      msrChordIntervals::create (
-        fInputLineNumber,
-        fChordIntervalsValue,
-        fChordIntervalsAlteration,
-        fChordIntervalsTypeKind);
-        
-  return newbornClone;
-}
-
-S_msrChordIntervals msrChordIntervals::createHarmonyDeepCopy (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "==> Creating a deep copy of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  basicMsrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
-    
-  S_msrChordIntervals
-    harmonyDeepCopy =
-      msrChordIntervals::create (
-        fInputLineNumber,
-        fChordIntervalsValue,
-        fChordIntervalsAlteration,
-        fChordIntervalsTypeKind);
-        
-  return harmonyDeepCopy;
-}
-*/
 
 void msrChordIntervals::appendChordItemToChordIntervals (
   S_msrChordItem chordItem)

@@ -519,6 +519,9 @@ class msr2LpsrTranslator :
     // harmonies
     // ------------------------------------------------------    
     bool                      fOnGoingHarmonyVoice;
+    
+    int                       fHarmonyVoicesCounter;
+    list<S_msrHarmony>        fPendingHarmoniesList;
 
     // figured bass
     // ------------------------------------------------------    

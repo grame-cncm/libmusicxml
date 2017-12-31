@@ -163,7 +163,8 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fCurrentStanzaName = "";
 
   // harmonies handling
- 
+  fHarmonyVoicesCounter = 0;
+  
   // figured bass handling
     
   // ongoing note
@@ -2857,6 +2858,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
       endl;
   }
 
+  // reset harmony counter
+  fHarmonyVoicesCounter = 0;
+  
   fOnGoingNote = false;
 }
 
@@ -3024,16 +3028,34 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_harmony" <<
+      ", fHarmonyVoicesCounter = " << fHarmonyVoicesCounter <<
       endl;
   }
 
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  // append a harmony staff and voice to the current part
+  /*
+    several harmonies can be attached to a given note,
+    leading to as many harmony voices in the current part
+  */
+  
+  // take harmony voice into account
+  fHarmonyVoicesCounter++;
+
+  // is is the first one?
+  if (fHarmonyVoicesCounter == 1) {
+    // yes, add a harmony staff to the current part
+    fCurrentPart->
+      createPartHarmonyStaffIfNotYetDone (
+        inputLineNumber);
+  }
+
+  // append a harmony voice to the current part harmony staff
   fCurrentPart->
-    createPartHarmonyStaffAndVoiceIfNotYetDone (
-      inputLineNumber);
+    addHarmonyVoiceToPartIfNotYetDone (
+      inputLineNumber,
+      fHarmonyVoicesCounter);    
 }
 
 //______________________________________________________________________________

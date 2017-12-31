@@ -5040,7 +5040,7 @@ S_msrNote msrNote::createNoteNewbornClone (
 }
 
 S_msrNote msrNote::createNoteDeepCopy (
-  S_msrPart containingPart)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceNotes) {
     gLogIOstream <<
@@ -5057,8 +5057,8 @@ S_msrNote msrNote::createNoteDeepCopy (
 /* JMI
   // sanity check
   msrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
+    containingVoice != nullptr,
+    "containingVoice is null");
     */
     
   S_msrNote
@@ -5386,7 +5386,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     noteDeepCopy->fNoteHarmony =
       fNoteHarmony->
         createHarmonyDeepCopy (
-          containingPart);
+          containingVoice);
   }
 
   // figured bass
@@ -5396,7 +5396,7 @@ S_msrNote msrNote::createNoteDeepCopy (
     noteDeepCopy->fNoteFiguredBass =
       fNoteFiguredBass->
         createFiguredBassDeepCopy (
-          containingPart);
+          containingVoice->fetchVoicePartUplink ()); // JMI
   }
 
   // note measure information
@@ -15247,62 +15247,6 @@ void msrHarmonyDegree::setHarmonyDegreeHarmonyUplink (
     harmonyUplink;
 }
 
-/* JMI
-S_msrHarmonyDegree msrHarmonyDegree::createHarmonyNewbornClone (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "Creating a newborn clone of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  msrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
-    
-  S_msrHarmonyDegree
-    newbornClone =
-      msrHarmonyDegree::create (
-        fInputLineNumber,
-        fHarmonyDegreeValue,
-        fHarmonyDegreeAlteration,
-        fHarmonyDegreeTypeKind);
-        
-  return newbornClone;
-}
-
-S_msrHarmonyDegree msrHarmonyDegree::createHarmonyDeepCopy (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "Creating a deep copy of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  msrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
-    
-  S_msrHarmonyDegree
-    harmonyDeepCopy =
-      msrHarmonyDegree::create (
-        fInputLineNumber,
-        fHarmonyDegreeValue,
-        fHarmonyDegreeAlteration,
-        fHarmonyDegreeTypeKind);
-        
-  return harmonyDeepCopy;
-}
-*/
-
 int msrHarmonyDegree::harmonyDegreeAsSemitones () const
 {
 /*
@@ -15526,27 +15470,8 @@ void msrHarmonyDegree::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
-  int       inputLineNumber,
-  S_msrPart harmonyPart)
-{
-  msrHarmony* o =
-    new msrHarmony (
-      inputLineNumber,
-      harmonyPart,
-      k_NoQuarterTonesPitch, // harmonyRootQuarterTonesPitch
-      k_NoHarmony,
-      "",                    // harmonyKindText
-      0,                     // harmonyInversion
-      k_NoQuarterTonesPitch, // harmonyBassQuarterTonesPitch
-      rational (0, 1));      // harmonySoundingWholeNotes
-  assert(o!=0);
-
-  return o;
-}
-
-S_msrHarmony msrHarmony::create (
   int                      inputLineNumber,
-  S_msrPart                harmonyPart,
+  S_msrVoice               harmonyVoiceUplink,
   msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
   msrHarmonyKind           harmonyKind,
   string                   harmonyKindText,
@@ -15557,7 +15482,7 @@ S_msrHarmony msrHarmony::create (
   msrHarmony* o =
     new msrHarmony (
       inputLineNumber,
-      harmonyPart,
+      harmonyVoiceUplink,
       harmonyRootQuarterTonesPitchKind,
       harmonyKind,
       harmonyKindText,
@@ -15571,7 +15496,7 @@ S_msrHarmony msrHarmony::create (
 
 msrHarmony::msrHarmony (
   int                      inputLineNumber,
-  S_msrPart                harmonyPartUplink,
+  S_msrVoice               harmonyVoiceUplink,
   msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
   msrHarmonyKind           harmonyKind,
   string                   harmonyKindText,
@@ -15582,12 +15507,12 @@ msrHarmony::msrHarmony (
 {
   // sanity check
   msrAssert(
-    harmonyPartUplink != nullptr,
-     "harmonyPartUplink is null");
+    harmonyVoiceUplink != nullptr,
+     "harmonyVoiceUplink is null");
      
-  // set harmony's part
-  fHarmonyPartUplink =
-    harmonyPartUplink;
+  // set harmony's voice uplink
+  fHarmonyVoiceUplink =
+    harmonyVoiceUplink;
     
   fHarmonyRootQuarterTonesPitchKind =
     harmonyRootQuarterTonesPitchKind;
@@ -15616,7 +15541,7 @@ msrHarmony::~msrHarmony()
 {}
 
 S_msrHarmony msrHarmony::createHarmonyNewbornClone (
-  S_msrPart containingPart)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
@@ -15628,16 +15553,17 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 
   // sanity check
   msrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
+    containingVoice != nullptr,
+    "containingVoice is null");
     
   S_msrHarmony
     newbornClone =
       msrHarmony::create (
         fInputLineNumber,
-        containingPart,
+        containingVoice,
         fHarmonyRootQuarterTonesPitchKind,
-        fHarmonyKind, fHarmonyKindText,
+        fHarmonyKind,
+        fHarmonyKindText,
         fHarmonyInversion,
         fHarmonyBassQuarterTonesPitchKind,
         fHarmonySoundingWholeNotes);
@@ -15646,7 +15572,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 }
 
 S_msrHarmony msrHarmony::createHarmonyDeepCopy (
-  S_msrPart containingPart)
+  S_msrVoice containingVoice)
 {
   if (gGeneralOptions->fTraceHarmonies) {
     gLogIOstream <<
@@ -15658,14 +15584,14 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
 
   // sanity check
   msrAssert(
-    containingPart != nullptr,
-    "containingPart is null");
+    containingVoice != nullptr,
+    "containingVoice is null");
     
   S_msrHarmony
     harmonyDeepCopy =
       msrHarmony::create (
         fInputLineNumber,
-        containingPart,
+        containingVoice,
         fHarmonyRootQuarterTonesPitchKind,
         fHarmonyKind, fHarmonyKindText,
         fHarmonyInversion,
@@ -15687,16 +15613,16 @@ string msrHarmony::harmonyAsString () const
         fMsrQuarterTonesPitchesLanguageKind,
           fHarmonyRootQuarterTonesPitchKind) <<          
     msrHarmonyKindAsShortString (fHarmonyKind) <<
-    " | " <<
+    ", duration: " <<
     wholeNotesAsMsrString (
       fInputLineNumber,
       fHarmonySoundingWholeNotes);
 
   if (fHarmonyKindText.size ())
     s <<
-      " (" <<fHarmonyKindText << ") ";
+      " (" <<fHarmonyKindText << ")";
 
-  s << "inversion: ";
+  s << ", inversion: ";
   if (fHarmonyInversion == K_HARMONY_NO_INVERSION)
     s << "none";
   else
@@ -17506,7 +17432,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         // create the note deep copy
         elementDeepCopy =
           note->createNoteDeepCopy (
-            fetchMeasurePartUplink ()); // JMI
+            fetchMeasureVoiceUplink ());
 
 /* JMI
         // append the element deep copy to the measure deep copy
@@ -18041,11 +17967,12 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // if it happens to be the first note of a chord
   fMeasureElementsList.push_back (note);
 
-  // fetch part harmony voice
-  S_msrVoice
-    partHarmonyVoice =
+  // fetch part harmony voices map
+  const map<int, S_msrVoice>&
+    partHarmonyVoicesMap =
       fetchMeasurePartUplink ()->
-        getPartHarmonyVoice ();
+        getPartHarmonyStaff ()->
+          getStaffAllVoicesMap ();
 
   // fetch part harmonies supplier voice
   S_msrVoice
@@ -18062,8 +17989,8 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // this has been done after harmony::create ()
 
   if (! noteHarmony) {
-    // should a rest be appended to the harmony voice?
-    if (partHarmonyVoice) {
+    // should a rest be appended to the harmony voices?
+    if (partHarmonyVoicesMap.size ()) {
       if (partHarmoniesSupplierVoice) {
         if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
           gLogIOstream <<
@@ -18082,38 +18009,47 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
           fetchMeasureVoiceUplink ()
             ==
           partHarmoniesSupplierVoice) {
-          // yes, create a skip note of the same duration as the note
-          S_msrNote
-            skipNote =
-              msrNote::createSkipNote (
-                inputLineNumber,
-                noteSoundingWholeNotes,
-                noteSoundingWholeNotes,
-                note->getNoteDotsNumber (),
-                partHarmonyVoice->
-                  getVoiceStaffUplink ()->
-                    getStaffNumber (),
-                partHarmonyVoice->
-                  getVoicePartRelativeID ());
-    
-          // append the skip to the part harmony voice
-          if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
-            gLogIOstream <<
-              "Appending skip '" << skipNote->noteAsShortString () <<
-              "' to measure '" << fMeasureNumber <<
-              "' in harmony voice \"" <<
-              partHarmonyVoice->getVoiceName () <<
-              "\"" <<
-              endl;
-          }
-  
-          // sanity check
-          msrAssert (
-            fMeasureElementsList.size () > 0,
-            "fMeasureElementsList is empty"); // JMI
+          // yes, for each harmony voice,
+          // create a skip note of the same duration as the note
+          // and append it
+          for (
+            map<int, S_msrVoice>::const_iterator i = partHarmonyVoicesMap.begin ();
+            i != partHarmonyVoicesMap.end ();
+            i++) {
+            S_msrVoice harmonyVoice = (*i).second;
             
-          partHarmonyVoice->
-            appendNoteToVoice (skipNote);
+            S_msrNote
+              skipNote =
+                msrNote::createSkipNote (
+                  inputLineNumber,
+                  noteSoundingWholeNotes,
+                  noteSoundingWholeNotes,
+                  note->getNoteDotsNumber (),
+                  harmonyVoice->
+                    getVoiceStaffUplink ()->
+                      getStaffNumber (),
+                  harmonyVoice->
+                    getVoicePartRelativeID ());
+      
+            // append the skip to the part harmony voice
+            if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
+              gLogIOstream <<
+                "Appending skip '" << skipNote->noteAsShortString () <<
+                "' to measure '" << fMeasureNumber <<
+                "' in harmony voice \"" <<
+                harmonyVoice->getVoiceName () <<
+                "\"" <<
+                endl;
+            }
+   
+            // sanity check
+            msrAssert (
+              fMeasureElementsList.size () > 0,
+              "fMeasureElementsList is empty"); // JMI
+              
+            harmonyVoice->
+              appendNoteToVoice (skipNote);
+          } // for
         }
       }
     }
@@ -18198,11 +18134,12 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // if it happens to be the first note of a chord
     fMeasureElementsList.push_back (note);
 
-    // fetch part harmony voice
-    S_msrVoice
-      partHarmonyVoice =
-        fetchMeasurePartUplink ()->
-          getPartHarmonyVoice ();
+  // fetch part harmony voices map
+  const map<int, S_msrVoice>&
+    partHarmonyVoicesMap =
+      fetchMeasurePartUplink ()->
+        getPartHarmonyStaff ()->
+          getStaffAllVoicesMap ();
 
     // fetch note harmony
     S_msrHarmony
@@ -18210,7 +18147,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
         note->getNoteHarmony ();
 
 
-   /*     
+   /*  JMI ???   
     if (noteHarmony) {
       // append the harmony to the harmony voice
       if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
@@ -23675,8 +23612,14 @@ void msrVoice::setVoiceNameFromNumber (
         int2EnglishWord (voiceNumber);
       break;
       
-    case msrVoice::kMasterVoice:
     case msrVoice::kHarmonyVoice:
+      fVoiceName =
+        fVoiceStaffUplink->getStaffName() +
+        "_HARMONY_Voice_" +
+        int2EnglishWord (voiceNumber);
+      break;
+      
+    case msrVoice::kMasterVoice:
     case msrVoice::kFiguredBassVoice:
       {
         stringstream s;
@@ -23734,9 +23677,9 @@ void msrVoice::initializeVoice (
       break;
       
     case msrVoice::kHarmonyVoice:
-      fVoiceName =
-        fVoiceStaffUplink->getStaffName() +
-        "_HARMONY_Voice";
+      setVoiceNameFromNumber (
+        fInputLineNumber,
+        voiceNumber - K_PART_HARMONY_VOICE_NUMBER);
       break;
       
     case msrVoice::kFiguredBassVoice:
@@ -23791,6 +23734,7 @@ void msrVoice::initializeVoice (
       break;
       
     case msrVoice::kHarmonyVoice:
+    /* JMI
       if (fVoicePartRelativeID != K_PART_HARMONY_VOICE_NUMBER) {
         stringstream s;
     
@@ -23804,6 +23748,7 @@ void msrVoice::initializeVoice (
           __FILE__, __LINE__,
           s.str ());
       }
+      */
       break;
       
     case msrVoice::kFiguredBassVoice:
@@ -27436,7 +27381,7 @@ void msrVoice::print (ostream& os)
   os <<
     "Voice \"" << getVoiceName () << "\", " <<
     voiceKindAsString (fVoiceKind) <<
-    ", this: " << this <<
+ // JMI   ", this: " << this <<
     endl;
 
   gIndenter++;
@@ -28441,7 +28386,6 @@ void msrStaff::initializeStaff ()
     }
   }
 
-
   // set staff instrument names default values // JMI
   fStaffInstrumentName =
     fStaffPartUplink->
@@ -28449,7 +28393,6 @@ void msrStaff::initializeStaff ()
   fStaffInstrumentAbbreviation =
     fStaffPartUplink->
       getPartInstrumentAbbreviation ();
-      
 }
 
 msrStaff::~msrStaff()
@@ -28649,19 +28592,34 @@ void msrStaff::setNextMeasureNumberInStaff (
 }
 
 S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
-  int          inputLineNumber,
-  msrVoice::msrVoiceKind
-               voiceKind,
-  int          voicePartRelativeID,
-  string       currentMeasureNumber)
+  int                    inputLineNumber,
+  msrVoice::msrVoiceKind voiceKind,
+  int                    voicePartRelativeID,
+  string                 currentMeasureNumber)
 {
-  // take this new voice into account
-  fStaffRegisteredVoicesCounter++;
+  // take this new voice into account if relevant
+  switch (voiceKind) {
+    case msrVoice::kMasterVoice:
+      break;
+      
+    case msrVoice::kRegularVoice:
+      fStaffRegisteredVoicesCounter++;
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      fStaffRegisteredVoicesCounter++;
+      break;
+      
+    case msrVoice::kFiguredBassVoice:
+      break;
+  } // switch
 
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating voice with part-relative ID '" <<
       voicePartRelativeID <<
+      "', voiceKind '" <<
+      msrVoice::voiceKindAsString (voiceKind) <<
       "' as relative voice '" <<
       fStaffRegisteredVoicesCounter <<
       "' of staff \"" << getStaffName () <<
@@ -28709,25 +28667,36 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
         msrVoice::kCreateInitialLastSegmentYes,
         this);
           
-  // register the voice by its relative number
-  if (gGeneralOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Voice " << voicePartRelativeID <<
-      " in staff " << getStaffName () <<
-      " gets staff relative number " <<
-      fStaffRegisteredVoicesCounter <<
-      endl;
-  }
-    
-  fStaffVoiceRelativeNumberToVoiceMap [fStaffRegisteredVoicesCounter] =
-    voice;
+  // take this new voice into account if relevant
+  switch (voiceKind) {
+    case msrVoice::kMasterVoice:
+      break;
+      
+    case msrVoice::kRegularVoice:
+      // register the voice by its relative number
+      if (gGeneralOptions->fTraceVoices) {
+        gLogIOstream <<
+          "Voice " << voicePartRelativeID <<
+          " in staff " << getStaffName () <<
+          " gets staff relative number " <<
+          fStaffRegisteredVoicesCounter <<
+          endl;
+      }
+        
+      fStaffVoiceRelativeNumberToVoiceMap [fStaffRegisteredVoicesCounter] =
+        voice;
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kFiguredBassVoice:
+      break;
+  } // switch
 
   // register is by its part-relative ID
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
     voice;
-
-  // add initial measures with skip notes up to currentMeasureNumber
-  // in case this voice does not start at the beginning of the part
   
   return voice;
 }
@@ -28775,44 +28744,63 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
 }
 
 void msrStaff::registerVoiceInStaff (
-  int inputLineNumber, S_msrVoice voice)
+  int        inputLineNumber,
+  S_msrVoice voice)
 {
   // sanity check
   msrAssert (
     voice != nullptr,
     "voice is null");
-    
-  // take this new voice into account
-  fStaffRegisteredVoicesCounter++;
 
-  // are there too many voices in this staff? 
-  if (fStaffRegisteredVoicesCounter > msrStaff::gMaxStaffVoices) {
-    stringstream s;
+  // get voice kind
+  msrVoice::msrVoiceKind voiceKind =
+    voice->getVoiceKind ();
     
-    s <<
-      "staff \"" << getStaffName () <<
-      "\" is already filled up with " <<
-      msrStaff::gMaxStaffVoices << " voices," <<
-      endl <<
-      "the voice named \"" << voice->getVoiceName () << "\" overflows it" <<
-      endl <<
-      ", fStaffRegisteredVoicesCounter = " << fStaffRegisteredVoicesCounter <<
-      ", msrStaff::gMaxStaffVoices = " << msrStaff::gMaxStaffVoices <<
-      endl;
+  // take this new voice into account if relevant
+  switch (voiceKind) {
+    case msrVoice::kMasterVoice:
+      break;
       
-    msrMusicXMLError (
-// JMI    msrMusicXMLWarning ( JMI
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+      // take that regular voice into account
+      fStaffRegisteredVoicesCounter++;
+
+      // are there too many voices in this staff? 
+      if (fStaffRegisteredVoicesCounter > msrStaff::gMaxStaffVoices) {
+        stringstream s;
+        
+        s <<
+          "staff \"" << getStaffName () <<
+          "\" is already filled up with " <<
+          msrStaff::gMaxStaffVoices << " voices," <<
+          endl <<
+          "the voice named \"" << voice->getVoiceName () << "\" overflows it" <<
+          endl <<
+          ", fStaffRegisteredVoicesCounter = " <<
+          fStaffRegisteredVoicesCounter <<
+          ", msrStaff::gMaxStaffVoices = " << msrStaff::gMaxStaffVoices <<
+          endl;
+          
+        msrMusicXMLError (
+    // JMI    msrMusicXMLWarning ( JMI
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      break;
+            
+    case msrVoice::kFiguredBassVoice:
+      break;
+  } // switch
 
   // register voice in this staff
   if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
     gLogIOstream <<
       "Registering voice \"" << voice->getVoiceName () <<
-      "\" as relative voice " << fStaffRegisteredVoicesCounter <<
+      "\" as relative voice " <<
+      fStaffRegisteredVoicesCounter <<
       " of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
 // JMI       " in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -28823,9 +28811,41 @@ void msrStaff::registerVoiceInStaff (
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
     voice;
 
-  // register it by its part-relative ID
-  fStaffVoiceRelativeNumberToVoiceMap [voice->getVoicePartRelativeID ()] =
-    voice;
+/* JMI
+  // take this new voice into account if relevant
+  switch (voiceKind) {
+    case msrVoice::kMasterVoice:
+      break;
+      
+    case msrVoice::kRegularVoice:
+      {
+      */
+        int voicePartRelativeID = voice->getVoicePartRelativeID ();
+        
+        // register the voice by its part-relative ID
+        if (gGeneralOptions->fTraceVoices) {
+          gLogIOstream <<
+            "Voice '" << voicePartRelativeID <<
+            "' " << voice->getVoiceName () <<
+            " in staff " << getStaffName () <<
+            " gets staff relative number " <<
+            fStaffRegisteredVoicesCounter <<
+            endl;
+        }
+          
+        fStaffVoiceRelativeNumberToVoiceMap [voicePartRelativeID] =
+          voice;
+          /* JMI
+      }
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kFiguredBassVoice:
+      break;
+  } // switch
+  */
 }
 
 void msrStaff::bringStaffToMeasureLength (
@@ -29703,6 +29723,9 @@ void msrStaff::print (ostream& os)
     ", " <<
     singularOrPlural (
       fStaffVoiceRelativeNumberToVoiceMap.size (), "voice", "voices") <<
+    ", " <<
+    singularOrPlural (
+      fStaffRegisteredVoicesCounter, "registered voice", "registered voices") << // JMI
     ")" <<
     endl;
 
@@ -30256,7 +30279,7 @@ void msrPart::setPartInstrumentAbbreviation (
     }
 */
 
-void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
+void msrPart::createPartHarmonyStaffIfNotYetDone (
   int inputLineNumber)
 {
   if (! fPartHarmonyStaff) {    
@@ -30283,64 +30306,124 @@ void msrPart::createPartHarmonyStaffAndVoiceIfNotYetDone (
         inputLineNumber,
         msrStaff::kHarmonyStaff,
         K_PART_HARMONY_STAFF_NUMBER);
-      
-    // create the part harmony voice  
+  }
+}
+
+void msrPart::addHarmonyVoiceToPartIfNotYetDone (
+  int inputLineNumber,
+  int harmonyVoiceNumber)
+{
+  int actualVoiceNumber =
+    K_PART_HARMONY_VOICE_NUMBER + harmonyVoiceNumber;
+
+  // fetch part harmony voices map
+  const map<int, S_msrVoice>&
+    partHarmonyVoicesMap =
+      fPartHarmonyStaff->
+        getStaffAllVoicesMap ();
+
+  S_msrVoice harmonyVoice;
+
+  // is this harmony voice present in the part harmony voices list?
+  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+    gLogIOstream <<
+      endl; // JMI
+  }
+  
+  for (
+    map<int, S_msrVoice>::const_iterator i = partHarmonyVoicesMap.begin ();
+    i != partHarmonyVoicesMap.end ();
+    i++) {
+    S_msrVoice voice = (*i).second;
+
+    int voicePartRelativeID = voice->getVoicePartRelativeID ();
+    
     if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
       gLogIOstream <<
-        "Creating the harmony voice " <<
-        " with number " << K_PART_HARMONY_VOICE_NUMBER <<
-        " for part " <<
+        "--> Finding harmony voice" <<
+        " with part relative ID ' " << voicePartRelativeID <<
+        "' (" << voicePartRelativeID - K_PART_HARMONY_VOICE_NUMBER << ")" <<
+        " int part " <<
         getPartCombinedName () <<
         ", line " << inputLineNumber <<
         endl;
     }
 
-/* JMI
-    // create a deep copy of the part master voice
-    fPartHarmonyVoice =
-      fPartMasterVoice->
-        createVoiceDeepCopy (
-          inputLineNumber,
-          msrVoice::kHarmonyVoice,
-          K_PART_HARMONY_VOICE_NUMBER,
-          fPartHarmonyStaff);
-  */
+    if (voice->getVoicePartRelativeID () == actualVoiceNumber) {
+      // yes, remember it
+      harmonyVoice = voice;
+      break;
+    }
+  } // for
+      
+  if (! harmonyVoice) {
+    // this harmony voice doesn't exist yet, create it    
+    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+      gLogIOstream <<
+        "Adding a harmony voice with number '" <<
+        harmonyVoiceNumber <<
+        "' (" << actualVoiceNumber << ")" <<
+        " to part " <<
+        getPartCombinedName () <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
   
     // create the harmony voice
-    fPartHarmonyVoice =
-      msrVoice::create (
-        inputLineNumber,
-        msrVoice::kHarmonyVoice,
-        K_PART_HARMONY_VOICE_NUMBER,
-        msrVoice::kCreateInitialLastSegmentYes,
-        fPartHarmonyStaff);
-
+    S_msrVoice
+      harmonyVoice =
+        msrVoice::create (
+          inputLineNumber,
+          msrVoice::kHarmonyVoice,
+          actualVoiceNumber,
+          msrVoice::kCreateInitialLastSegmentYes,
+          fPartHarmonyStaff);
+  
     // register it in harmony staff
     fPartHarmonyStaff->
       registerVoiceInStaff (
         inputLineNumber,
-        fPartHarmonyVoice );
-
+        harmonyVoice );
+  
     if (fPartCurrentTime) {
       // append part current time to harmony voice
-      fPartHarmonyVoice->
+      harmonyVoice->
         appendTimeToVoice (
           fPartCurrentTime);
     }
   }
+}
 
-/* JMI
-  gLogIOstream <<
-    endl <<
-    "***********" <<
-    endl <<
-    endl;
-  print (gLogIOstream);
-  gLogIOstream <<
-    "***********" <<
-    endl <<
-    endl;
-  */  
+S_msrVoice msrPart::fetchHarmonyVoiceFromPart (
+  int inputLineNumber,
+  int harmonyVoiceNumber)
+{
+  int actualVoiceNumber =
+    K_PART_HARMONY_VOICE_NUMBER + harmonyVoiceNumber;
+
+  S_msrVoice result;
+  
+  if (
+    gGeneralOptions->fTraceParts
+      ||
+    gGeneralOptions->fTraceHarmonies
+      ||
+    gGeneralOptions->fTraceVoices) { // JMI
+    gLogIOstream <<
+      "Fetching harmony voice '" << harmonyVoiceNumber <<
+      "' (" << actualVoiceNumber << ")" <<
+      " in part " <<
+      getPartCombinedName () <<
+      ", line " << inputLineNumber <<
+ // JMI     ", fPartHarmonyVoicesList size: " << fPartHarmonyVoicesList.size () <<
+      endl;
+  }
+
+  return
+    fPartHarmonyStaff->
+      fetchVoiceFromStaffByItsPartRelativeID (
+        inputLineNumber,
+        actualVoiceNumber);
 }
 
 void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
@@ -30462,6 +30545,15 @@ void msrPart::updatePartMeasureLengthHighTide (
 
     fPartMeasureLengthHighTide = measureLength;
   }
+}
+
+void msrPart::appendHarmonyVoiceToPart (
+  int        inputLineNumber,
+  S_msrVoice harmonyVoice)
+{
+  fPartHarmonyStaff->registerVoiceInStaff (
+    inputLineNumber,
+    harmonyVoice);
 }
 
 void msrPart::bringPartToMeasureLength (
@@ -31329,28 +31421,29 @@ void msrPart::appendHarmonyToPart (
 
   switch (harmoniesSupplierVoice->getVoiceKind ()) {
     case msrVoice::kRegularVoice:
-      // create the harmony staff and voice if not yet done
-      createPartHarmonyStaffAndVoiceIfNotYetDone (
-        inputLineNumber);
+      {
+        // register this voice as the part harmonies supplier voice
+        setPartHarmoniesSupplierVoice (
+          inputLineNumber,
+          harmoniesSupplierVoice);
       
-      // register this voice as the part harmonies supplier voice
-      setPartHarmoniesSupplierVoice (
-        inputLineNumber,
-        harmoniesSupplierVoice);
-    
-      // append the harmony to the part harmony voice
-      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
-        gLogIOstream <<
-          "Appending harmony '" <<
-          harmony->harmonyAsString () <<
-          "' to part " <<
-          getPartCombinedName () <<
-          ", line " << inputLineNumber <<
-          endl;
+        // append the harmony to the part harmony voice
+        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
+          gLogIOstream <<
+            "Appending harmony '" <<
+            harmony->harmonyAsString () <<
+            "' to part " <<
+            getPartCombinedName () <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+  
+        S_msrVoice harmonyVoice =
+          harmony->getHarmonyVoiceUplink ();
+        
+        harmonyVoice->
+          appendHarmonyToVoice (harmony);
       }
-    
-      fPartHarmonyVoice->
-        appendHarmonyToVoice (harmony);
       break;
       
     case msrVoice::kMasterVoice:
@@ -31378,38 +31471,43 @@ void msrPart::appendHarmonyToPart (
 }
 
 void msrPart::appendHarmonyToPartClone (
-  S_msrVoice   harmoniesSupplierVoice,
-  S_msrHarmony harmony)
+  S_msrVoice   harmoniesSupplierVoiceClone,
+  S_msrHarmony harmonyClone)
 {
   int inputLineNumber =
-    harmony->getInputLineNumber ();
+    harmonyClone->getInputLineNumber ();
 
-  switch (harmoniesSupplierVoice->getVoiceKind ()) {
+  switch (harmoniesSupplierVoiceClone->getVoiceKind ()) {
     case msrVoice::kHarmonyVoice:
-      // create the harmony staff and voice if not yet done
-      createPartHarmonyStaffAndVoiceIfNotYetDone (
-        inputLineNumber);
-
-      /* JMI NON
-      // register this voice as the part harmonies supplier voice
-      setPartHarmoniesSupplierVoice (
-        inputLineNumber,
-        harmoniesSupplierVoice);
-        */
-    
-      // append the harmony to the part harmony voice
-      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
-        gLogIOstream <<
-          "Appending harmony '" <<
-          harmony->harmonyAsString () <<
-          "' to part clone " <<
-          getPartCombinedName () <<
-          ", line " << inputLineNumber <<
-          endl;
+      {
+        // create the harmony staff and voice if not yet done
+        createPartHarmonyStaffIfNotYetDone ( // JMI ???
+          inputLineNumber);
+  
+        /* JMI NON
+        // register this voice as the part harmonies supplier voice
+        setPartharmoniesSupplierVoiceClone (
+          inputLineNumber,
+          harmoniesSupplierVoiceClone);
+          */
+      
+        // append the harmony to the part harmony voice
+        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
+          gLogIOstream <<
+            "Appending harmony '" <<
+            harmonyClone->harmonyAsString () <<
+            "' to part clone " <<
+            getPartCombinedName () <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+      
+        S_msrVoice harmonyVoice =
+          harmonyClone->getHarmonyVoiceUplink ();
+        
+        harmonyVoice->
+          appendHarmonyToVoiceClone (harmonyClone);
       }
-    
-      fPartHarmonyVoice->
-        appendHarmonyToVoiceClone (harmony);
       break;
       
     case msrVoice::kMasterVoice:
@@ -31421,9 +31519,9 @@ void msrPart::appendHarmonyToPartClone (
         s <<
           "harmonies cannot by supplied to part clone by " <<
           msrVoice::voiceKindAsString (
-            harmoniesSupplierVoice->getVoiceKind ()) <<
+            harmoniesSupplierVoiceClone->getVoiceKind ()) <<
           " voice \" " <<
-          harmoniesSupplierVoice->getVoiceName () <<
+          harmoniesSupplierVoiceClone->getVoiceName () <<
           "\"";
     
         msrInternalError (

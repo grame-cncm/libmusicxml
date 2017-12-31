@@ -1094,11 +1094,14 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         // add it to the staff clone
         fCurrentStaffClone->
           registerVoiceInStaff (
-            inputLineNumber, fCurrentVoiceClone);
+            inputLineNumber,
+            fCurrentVoiceClone);
     
         // register it as the part harmony voice
         fCurrentPartClone->
-          setPartHarmonyVoice (fCurrentVoiceClone);
+          appendHarmonyVoiceToPart (
+            inputLineNumber,
+            fCurrentVoiceClone);
 
         if (
           elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
@@ -1345,10 +1348,16 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
       endl;
   }
 
+  // create a harmony new born clone
+  S_msrHarmony
+    harmonyNewBornClone =
+      elt->createHarmonyNewbornClone (
+        fCurrentVoiceClone);
+      
   if (fOnGoingNote) {
     // register the harmony in the current note clone
     fCurrentNoteClone->
-      setNoteHarmony (elt);
+      setNoteHarmony (harmonyNewBornClone);
 
   // don't append the harmony to the part harmony,
   // this will be done below
@@ -1357,7 +1366,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   else if (fOnGoingChord) {
     // register the harmony in the current chord clone
     fCurrentChordClone->
-      setChordHarmony (elt); // JMI
+      setChordHarmony (harmonyNewBornClone); // JMI
   }
   
   else if (fOnGoingHarmonyVoice) { // JMI
@@ -1365,7 +1374,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     fCurrentPartClone->
       appendHarmonyToPartClone (
         fCurrentVoiceClone,
-        elt);
+        harmonyNewBornClone);
   }
 }
 

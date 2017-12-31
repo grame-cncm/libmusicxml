@@ -416,7 +416,42 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       switch (ligature->getLigatureKind ()) {
         case msrLigature::k_NoLigature:
           break;
+          
         case msrLigature::kLigatureStart:
+          // generate ligature line end type if any
+          switch (ligature->getLigatureLineEndKind ()) {
+            case msrLigature::kLigatureLineEndUp:
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\once \\override Staff.LigatureBracket.edge-height = #'(.7 . .7)" <<
+                endl;
+              break;
+            case msrLigature::kLigatureLineEndDown:
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\once \\override Staff.LigatureBracket.edge-height = #'(-.7 . .7)" <<
+                endl;
+              break;
+            case msrLigature::kLigatureLineEndBoth:
+              fLilypondCodeIOstream <<
+                "%{ligatureLineEndBoth???%} ";
+              break;
+            case msrLigature::kLigatureLineEndArrow:
+              fLilypondCodeIOstream <<
+                "%{ligatureLineEndArrow???%} ";
+              break;
+            case msrLigature::kLigatureLineEndNone:
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\once \\override Staff.LigatureBracket.edge-height = #'(0 . 0)" <<
+                endl;
+              break;
+            case msrLigature::k_NoLigatureLineEnd:
+              fLilypondCodeIOstream <<
+                "%{k_NoLigatureLineEnd???%} ";
+              break;
+          } // switch
+          
           // generate ligature line type if any
           switch (ligature->getLigatureLineTypeKind ()) {
             case kLineTypeSolid:
@@ -424,27 +459,29 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             case kLineTypeDashed:
               fLilypondCodeIOstream <<
                 endl <<
-                "%\\once\\override Ligature.style = #'dashed-line" <<
+               // JMI "%\\once\\override Ligature.style = #'dashed-line" <<
                 endl;
               break;
             case kLineTypeDotted:
               fLilypondCodeIOstream <<
                 endl <<
-                "%\\once\\override Ligature.style = #'dotted-line" <<
+               // JMI "%\\once\\override Ligature.style = #'dotted-line" <<
                 endl;
               break;
             case kLineTypeWavy:
               fLilypondCodeIOstream <<
                 endl <<
-                "%\\once\\override Ligature.style = #'zigzag" <<
+               // JMI "%\\once\\override Ligature.style = #'zigzag" <<
                 endl;
               break;
           } // switch
           
           fLilypondCodeIOstream << "\\[ ";
           break;
+          
         case msrLigature::kLigatureContinue:
           break;
+          
         case msrLigature::kLigatureStop:
    // JMI       fLilypondCodeIOstream << "\\] ";
           break;
