@@ -27,6 +27,7 @@
 
 #include "msr.h"
 
+#include "traceOptions.h"
 #include "mxmlOptions.h"
 #include "msrOptions.h"
 
@@ -480,7 +481,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
     // from staff 'voiceDisplayingStaffNumber'
     // to staff 'staffNumber'
 
-    if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
       fLogOutputStream <<
         "Voice \"" <<  voice->getVoiceName () << "\"" <<
         " changes from staff " << voiceDisplayingStaffNumber <<
@@ -727,7 +728,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_scaling& elt)
       endl;
   }
 
-  if (gGeneralOptions->fTraceGeometry) {
+  if (gTraceOptions->fTraceGeometry) {
     fLogOutputStream <<
       "There are " << fCurrentTenths <<
       " tenths for " <<  fCurrentMillimeters <<
@@ -1020,7 +1021,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceBasic) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partID << "\"" <<
@@ -1083,7 +1084,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
     }
   }
     
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       "--------------------------------------------" <<
       endl <<
@@ -1143,7 +1144,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
 
   gIndenter--;
 
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       "Analyzing part " <<
       fCurrentPart->
@@ -1222,7 +1223,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_divisions& elt )
   }
 
   // set current part's divisions per quarter note
-  if (gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceDivisions) {
     if (fCurrentDivisionsPerQuarterNote == 1)
       fLogOutputStream <<
         "There is 1 division";
@@ -3111,7 +3112,7 @@ The
 
   // create the words
   if (fCurrentWordsContents.size ()) {
-    if (gGeneralOptions->fTraceWords) {
+    if (gTraceOptions->fTraceWords) {
       fLogOutputStream <<
         "Creating words \"" << fCurrentWordsContents << "\"" <<
         ", placement = \"" <<
@@ -3496,7 +3497,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff& elt)
       fetchStaffFromCurrentPart (
         inputLineNumber, fCurrentStaffNumber);
 
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     fLogOutputStream <<
       "--> S_staff, fCurrentStaffNumber = " <<
       fCurrentStaffNumber << endl <<
@@ -3653,7 +3654,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
   }
 
 
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     fLogOutputStream <<
       "Handling staff details:" <<
       endl <<
@@ -3849,7 +3850,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
         fCurrentStaffTuningAlterationKind);
 
   // create the staff tuning
-  if (gGeneralOptions->fTraceStaffTuning) {
+  if (gTraceOptions->fTraceStaffTuning) {
     fLogOutputStream <<
       "Creating staff tuning:" <<
       endl;
@@ -3947,7 +3948,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
           inputLineNumber,
           fCurrentForwardVoiceNumber);
   
-    if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceNotes && gTraceOptions->fTraceVoices) {
       fLogOutputStream <<
         "--> S_voice, fCurrentForwardVoiceNumber = " <<
         fCurrentForwardVoiceNumber << endl <<
@@ -4011,9 +4012,9 @@ void mxmlTree2MsrTranslator::visitEnd (S_backup& elt )
     elt->getInputLineNumber ();
 
   if (
-    gGeneralOptions->fTraceMeasures
+    gTraceOptions->fTraceMeasures
       ||
-    gGeneralOptions->fTraceLyrics) {
+    gTraceOptions->fTraceLyrics) {
     fLogOutputStream <<
       "Handling 'backup <<< " << fCurrentBackupDurationDivisions <<
       " divisions >>>" <<
@@ -4119,7 +4120,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_forward& elt )
         fCurrentStaffNumber,
         fCurrentVoiceNumber);
 
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       "Handling 'forward >>> " <<
       fCurrentForwardDurationDivisions <<
@@ -4268,7 +4269,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceSlurs) {
+  if (gTraceOptions->fTraceSlurs) {
     displaySlurStartsStack ("BEFORE handling slur");
   }
   
@@ -4323,7 +4324,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
             fCurrentSlurTypeKind = msrSlur::kRegularSlurStart;
     
             // the stack top is in fact a phrasing slur start
-            if (gGeneralOptions->fTraceSlurs) {
+            if (gTraceOptions->fTraceSlurs) {
               fLogOutputStream <<
                 "The slur start '" <<
                 containingSlur->slurAsString () <<
@@ -4396,7 +4397,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
   
             case msrSlur::kPhrasingSlurStart:
               // the stack top is in fact a phrasing slur start
-              if (gGeneralOptions->fTraceSlurs) {
+              if (gTraceOptions->fTraceSlurs) {
                 fLogOutputStream <<
                   "A slur stop matches a phrasing slur start, it is thus a phrasing slur stop" <<
                   ", line " << inputLineNumber <<
@@ -4471,9 +4472,9 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     }
   
     if (
-      gGeneralOptions->fTraceNotesDetails
+      gTraceOptions->fTraceNotesDetails
         ||
-      gGeneralOptions->fTraceSlurs) {
+      gTraceOptions->fTraceSlurs) {
       fLogOutputStream <<
         "slurNumber: " <<
         slurNumber <<
@@ -4507,7 +4508,7 @@ void mxmlTree2MsrTranslator::visitStart (S_slur& elt )
     } // switch
   }
 
-  if (gGeneralOptions->fTraceSlurs) {
+  if (gTraceOptions->fTraceSlurs) {
     displaySlurStartsStack ("AFTER handling slur");
   }
 }
@@ -4788,7 +4789,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
         "lyric number is empty");
     }
     
-    if (gGeneralOptions->fTraceLyrics) {
+    if (gTraceOptions->fTraceLyrics) {
       fLogOutputStream <<
         "--> setting fCurrentStanzaNumber to " <<
         stanzaNumber <<
@@ -4817,7 +4818,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
         "lyric name is empty");
     }
     
-    if (gGeneralOptions->fTraceLyrics) {
+    if (gTraceOptions->fTraceLyrics) {
       fLogOutputStream <<
         "--> setting fCurrentStanzaName to " <<
         stanzaName <<
@@ -4900,7 +4901,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   
   fCurrentStanzaHasText = true;
 
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gIndenter++;
     
     const int fieldWidth = 20;
@@ -5049,7 +5050,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       msrSyllable::kSyllableSkip; // kSyllableRest ??? JMI
   }
 
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     fLogOutputStream <<
       endl <<
       "visitEnd ( S_lyric& )" <<
@@ -5192,14 +5193,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   S_msrSyllable
     syllable;
 
-  if (gGeneralOptions->fTraceLyrics) {   
+  if (gTraceOptions->fTraceLyrics) {   
     fLogOutputStream <<
       "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
       msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
       endl;
   }
 
-  if (gGeneralOptions->fTraceLyrics) {      
+  if (gTraceOptions->fTraceLyrics) {      
     fLogOutputStream <<
       "Creating a \"" <<
       msrSyllable::syllableKindAsString (
@@ -5285,7 +5286,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
   fCurrentMeasureOrdinalNumber++;
   
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "==> visitStart (S_measure" <<
       ", fCurrentMeasureOrdinalNumber = '" <<
@@ -5303,7 +5304,7 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
   fCurrentMeasureNumber =
     elt->getAttributeValue ("number");
 
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceBasic) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure " << fCurrentMeasureNumber <<
@@ -5366,13 +5367,13 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
 
 /* JMI
   // is this measure number in the debug set?
-  if (gGeneralOptions->fTraceDetailed) {
+  if (gTraceOptions->fTraceDetailed) {
     set<int>::const_iterator
       it =
         gGeneralOptions->
           fTraceDetailedMeasureNumbersSet.find (fMeasuresCounter);
           
-    if (it != gGeneralOptions->fTraceDetailedMeasureNumbersSet.end ()) {
+    if (it != gTraceOptions->fTraceDetailedMeasureNumbersSet.end ()) {
       // yes, activate detailed trace for it
       gMusicXMLOptions = gMusicXMLOptionsWithDetailedTrace;
       gGeneralOptions  = gGeneralOptionsWithDetailedTrace;
@@ -5495,7 +5496,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
     if (newSystem == "yes") {
       
       // create a barNumberCheck
-      if (gGeneralOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceMeasures) {
         fLogOutputStream << 
           "Creating a barnumber check, " <<
           "line = " << inputLineNumber <<
@@ -5523,7 +5524,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
         appendBarNumberCheckToVoice (barNumberCheck_);
   
       // create a line break
-      if (gGeneralOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceMeasures) {
         fLogOutputStream << 
           "Creating a line break, " <<
           "line = " << inputLineNumber << endl;
@@ -5576,7 +5577,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
             fCurrentVoiceNumber);
   
       // create a page break
-      if (gGeneralOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceMeasures) {
         fLogOutputStream << 
           "Creating a page break, " <<
           "line = " << inputLineNumber << endl;
@@ -6408,7 +6409,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         fCurrentBarlineRepeatWingedKind,
         fCurrentBarlineTimes);
 
-  if (gGeneralOptions->fTraceBarlines) {
+  if (gTraceOptions->fTraceBarlines) {
     fLogOutputStream <<
       "Creating a barline in voice " <<
       currentVoice->getVoiceName () << ":" <<
@@ -6576,7 +6577,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
           setBarlineCategory (msrBarline::kBarlineCategoryStandalone);
               
         // append the bar line to the current part
-        if (gGeneralOptions->fTraceBarlines) {
+        if (gTraceOptions->fTraceBarlines) {
           fLogOutputStream <<
             "Appending a barline to voice " <<
             currentVoice->getVoiceName () << ":" <<
@@ -6862,7 +6863,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 
   int duration = (int)(*elt); // divisions
 
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     fLogOutputStream <<
       "Note duration: " << duration <<
       endl;
@@ -6882,7 +6883,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
   
   else if (fOnGoingNote) {
   
-    if (gGeneralOptions->fTraceNotesDetails) {
+    if (gTraceOptions->fTraceNotesDetails) {
       fLogOutputStream <<
         "fCurrentDivisionsPerQuarterNote: " <<
         fCurrentDivisionsPerQuarterNote <<
@@ -6897,7 +6898,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 
     fCurrentNoteSoundingWholeNotesFromDuration.rationalise ();
 
-    if (gGeneralOptions->fTraceNotesDetails) {
+    if (gTraceOptions->fTraceNotesDetails) {
       fLogOutputStream <<
         "fCurrentNoteSoundingWholeNotesFromDuration: " <<
         fCurrentNoteSoundingWholeNotesFromDuration <<
@@ -6914,7 +6915,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 
   else if (fOnGoingFiguredBass) {
 
-    if (gGeneralOptions->fTraceFiguredBass) {
+    if (gTraceOptions->fTraceFiguredBass) {
       fLogOutputStream <<
         "fCurrentDivisionsPerQuarterNote: " <<
         fCurrentDivisionsPerQuarterNote <<
@@ -6929,7 +6930,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_duration& elt )
 
     fCurrentFiguredBassSoundingWholeNotes.rationalise ();
 
-    if (gGeneralOptions->fTraceFiguredBass) {
+    if (gTraceOptions->fTraceFiguredBass) {
       fLogOutputStream <<
         "fCurrentFiguredBassSoundingWholeNotes: " <<
         fCurrentFiguredBassSoundingWholeNotes <<
@@ -7058,7 +7059,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_type& elt )
     }
   }
   
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     /* JMI
     fLogOutputStream <<
       "noteType: \"" <<
@@ -10208,7 +10209,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       break;
         
     case kTremoloTypeSingle:
-      if (gGeneralOptions->fTraceTremolos) {
+      if (gTraceOptions->fTraceTremolos) {
         fLogOutputStream <<
           "Creating a single tremolo" <<
           ", line " << inputLineNumber <<
@@ -10217,7 +10218,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       
       // create a single tremolo, it will be attached to current note
       // in attachCurrentSingleTremoloToNote()
-      if (gGeneralOptions->fTraceTremolos) {
+      if (gTraceOptions->fTraceTremolos) {
         fLogOutputStream <<
           "Creating a single tremolo" <<
           ", line " << inputLineNumber <<
@@ -10248,7 +10249,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
               fCurrentNoteVoiceNumber);
 
         // create a double tremolo start
-        if (gGeneralOptions->fTraceTremolos) {
+        if (gTraceOptions->fTraceTremolos) {
           fLogOutputStream <<
             "Creating a double tremolo" <<
             ", line " << inputLineNumber <<
@@ -10289,7 +10290,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
 
     case kTremoloTypeStop:
       if (fCurrentDoubleTremolo) {
-        if (gGeneralOptions->fTraceTremolos) {
+        if (gTraceOptions->fTraceTremolos) {
           fLogOutputStream <<
             "Meeting a double tremolo stop" <<
             ", line " << inputLineNumber <<
@@ -12284,9 +12285,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
   fCurrentActualNotes = (int)(*elt);
 
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceTuplets) {
+    gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentActualNotes: " <<
       fCurrentActualNotes <<
@@ -12315,9 +12316,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
   fCurrentNormalNotes = (int)(*elt);
 
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceTuplets) {
+    gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentNormalNotes: " <<
       fCurrentNormalNotes <<
@@ -12346,9 +12347,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
   fCurrentNormalNoteType = elt->getValue();
 
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceTuplets) {
+    gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentNormalNoteType: " <<
       fCurrentNormalNoteType <<
@@ -12398,7 +12399,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
           s.str ());
       }
       else {
-        if (gGeneralOptions->fTraceTuplets) {
+        if (gTraceOptions->fTraceTuplets) {
           stringstream s;
           
           s <<
@@ -12527,9 +12528,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   }  
 
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceTuplets) {
+    gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentTupletNumber: " <<
       fCurrentTupletNumber <<
@@ -12563,9 +12564,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   fCurrentTupletDisplayNumber = (int)(*elt);
 
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceTuplets) {
+    gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentTupletDisplayNumber (not handled): " <<
       fCurrentTupletDisplayNumber <<
@@ -12589,9 +12590,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
   fCurrentTupletDisplayType = elt->getValue();
 
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceTuplets) {
+    gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "fCurrentTupletDisplayType (not handled): " <<
       fCurrentTupletDisplayType <<
@@ -12671,9 +12672,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   }
 
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceGlissandos) {
+    gTraceOptions->fTraceGlissandos) {
     fLogOutputStream <<
       "glissandoNumber: " <<
       glissandoNumber <<
@@ -12697,9 +12698,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
 
   // register glissando in this visitor
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceGlissandos) {
+    gTraceOptions->fTraceGlissandos) {
     fLogOutputStream <<
       "Appending glissando '" <<
       glissando->glissandoAsString () <<
@@ -12782,9 +12783,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
   }
 
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceSlides) {
+    gTraceOptions->fTraceSlides) {
     fLogOutputStream <<
       "slideNumber: " <<
       slideNumber <<
@@ -12808,9 +12809,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
     
   // register glissando in this visitor
   if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceSlides) {
+    gTraceOptions->fTraceSlides) {
     fLogOutputStream <<
       "Appending slide '" <<
       slide->slideAsString () <<
@@ -12932,7 +12933,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
   int inputLineNumber =
     chordFirstNote->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes) {
     fLogOutputStream <<
       "--> creating a chord from its first note " <<
       chordFirstNote->noteAsShortString () <<
@@ -12960,7 +12961,7 @@ S_msrChord mxmlTree2MsrTranslator::createChordFromItsFirstNote (
         getNoteTie ());
   
   // register note as first member of chord
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes) {
     fLogOutputStream <<
       "Adding first note " <<
       chordFirstNote->
@@ -12997,7 +12998,7 @@ void mxmlTree2MsrTranslator::copyNoteArticulationsToChord (
     i!=noteArticulations.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceNotes) {
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceNotes) {
       fLogOutputStream <<
         "Copying articulation '" <<
         (*i)->articulationKindAsString () <<
@@ -13028,9 +13029,9 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
     i++) {
 
     if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceTechnicals) {
+    gTraceOptions->fTraceTechnicals) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalKindAsString () <<
@@ -13061,9 +13062,9 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
     i++) {
 
     if (
-    gGeneralOptions->fTraceNotesDetails
+    gTraceOptions->fTraceNotesDetails
       ||
-    gGeneralOptions->fTraceTechnicals) {
+    gTraceOptions->fTraceTechnicals) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithIntegerKindAsString () <<
@@ -13094,9 +13095,9 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
     i++) {
 
     if (
-    gGeneralOptions->fTraceTechnicals
+    gTraceOptions->fTraceTechnicals
       ||
-    gGeneralOptions->fTraceChords) {
+    gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Copying technical '" <<
         (*i)->technicalWithStringKindAsString () <<
@@ -13127,9 +13128,9 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
     i++) {
 
     if (
-      gGeneralOptions->fTraceOrnaments
+      gTraceOptions->fTraceOrnaments
         ||
-      gGeneralOptions->fTraceChords) {
+      gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Copying ornament '" <<
         (*i)->ornamentKindAsString () <<
@@ -13161,9 +13162,9 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
     i++) {
 
     if (
-      gGeneralOptions->fTraceSpanners
+      gTraceOptions->fTraceSpanners
         ||
-      gGeneralOptions->fTraceChords) {
+      gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Copying spanner '" <<
         (*i)->spannerKindAsString () <<
@@ -13189,7 +13190,7 @@ void mxmlTree2MsrTranslator::copyNoteSingleTremoloToChord (
         getNoteSingleTremolo ();
 
   if (noteSingleTremolo) {
-    if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
+    if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Copying singleTremolo '" <<
         noteSingleTremolo->singleTremoloAsString () <<
@@ -13220,7 +13221,7 @@ void mxmlTree2MsrTranslator::copyNoteDynamicsToChord (
     i!=noteDynamics.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics) {
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceDynamics) {
       fLogOutputStream <<
         "Copying dynamics '" <<
         (*i)->dynamicsKindAsString () <<
@@ -13251,7 +13252,7 @@ void mxmlTree2MsrTranslator::copyNoteOtherDynamicsToChord (
     i!=noteOtherDynamics.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceDynamics) {
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceDynamics) {
       fLogOutputStream <<
         "Copying other dynamics '" <<
         (*i)->otherDynamicsAsString () <<
@@ -13282,7 +13283,7 @@ void mxmlTree2MsrTranslator::copyNoteWordsToChord (
     i!=noteWords.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceWords) {
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceWords) {
       fLogOutputStream <<
         "Copying words '" <<
         (*i)->wordsAsString () <<
@@ -13313,7 +13314,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
     i!=noteBeams.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceBeams || gGeneralOptions->fTraceChords) {
+    if (gTraceOptions->fTraceBeams || gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Copying beam '" <<
         (*i)->beamAsString () <<
@@ -13344,7 +13345,7 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
     i!=noteSlurs.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceSlurs) {
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceSlurs) {
       fLogOutputStream <<
         "Copying slur '" <<
         (*i)->slurAsString () <<
@@ -13375,7 +13376,7 @@ void mxmlTree2MsrTranslator::copyNoteLigaturesToChord (
     i!=noteLigatures.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceLigatures) {
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceLigatures) {
       fLogOutputStream <<
         "Copying ligature '" <<
         (*i)->ligatureKindAsString () <<
@@ -13406,7 +13407,7 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
     i!=noteWedges.end ();
     i++) {
 
-    if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceWedges) {
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTraceWedges) {
       fLogOutputStream <<
         "Copying wedges '" <<
         (*i)->wedgeKindAsString () <<
@@ -13432,7 +13433,7 @@ void mxmlTree2MsrTranslator::copyNoteHarmonyToChord (
         getNoteHarmony ();
                           
   if (harmony) {
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceChords) {
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Copying harmony '" <<
         harmony->harmonyAsString () <<
@@ -13501,7 +13502,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   // and is currently at the end of the voice
 
   // create a tuplet
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Creating a '" <<
       fCurrentActualNotes <<
@@ -13542,7 +13543,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   // add note as first note of the stack top tuplet
   tuplet->addNoteToTuplet (firstNote);
 
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     // only after addNoteToTuplet() has set the note's tuplet uplink
     fLogOutputStream <<
       "Adding first note " <<
@@ -13555,7 +13556,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   }
       
   // register tuplet in this visitor
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
       tuplet->tupletAsShortString () <<
@@ -13579,14 +13580,14 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   // that it is actually the first note of a chord ?? JMI XXL
 
   /* JMI
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     displayLastHandledTupletInVoice (
       "############## Before fLastHandledTupletInVoice");
   }
   
 // JMI  fLastHandledTupletInVoice [currentVoice] = tuplet;
   
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     displayLastHandledTupletInVoice (
       "############## After  fLastHandledTupletInVoice");
   }
@@ -13597,7 +13598,7 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
 void mxmlTree2MsrTranslator::finalizeTuplet (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "mxmlTree2MsrTranslator::finalizeTuplet(), " <<
       "line " << inputLineNumber <<
@@ -13626,7 +13627,7 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
 
 /* JMI
   // add lastNote to the tuplet
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "==> adding last note " << lastNote->noteAsString () <<
       " to tuplets stack top " <<
@@ -13638,7 +13639,7 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
 */
 
   // pop from the tuplets stack
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet 2 '" <<
       tuplet->tupletAsShortString () <<
@@ -13650,7 +13651,7 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
 
   if (fTupletsStack.size ()) {
     // tuplet is a nested tuplet
-    if (gGeneralOptions->fTraceTuplets) {
+    if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
         "=== adding nested tuplet '" <<
       tuplet->tupletAsShortString () <<
@@ -13666,7 +13667,7 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
   
   else {
     // tuplet is a top level tuplet
-    if (gGeneralOptions->fTraceTuplets) {
+    if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
         "=== adding top level tuplet 2 '" <<
       tuplet->tupletAsString () <<
@@ -13691,7 +13692,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
   // attach the current articulations if any to the note
   if (fCurrentArticulations.size ()) {
 
-    if (gGeneralOptions->fTraceNotes) {
+    if (gTraceOptions->fTraceNotes) {
       fLogOutputStream <<
         "Attaching current articulations to note " <<
         note->noteAsString () <<
@@ -13703,7 +13704,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
         art =
           fCurrentArticulations.front();
           
-      if (gGeneralOptions->fTraceNotes) {
+      if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Attaching articulation '" <<
           art->articulationKindAsString () <<
@@ -13727,7 +13728,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
   // attach the current technicals if any to the note
   if (fCurrentTechnicalsList.size ()) {
     
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technicals to note " <<
         note->noteAsString () <<
@@ -13739,7 +13740,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
         tech =
           fCurrentTechnicalsList.front();
           
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+      if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical '" <<
           tech->technicalAsString () <<
@@ -13763,7 +13764,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
   // attach the current technicals if any to the note
   if (fCurrentTechnicalWithIntegersList.size ()) {
     
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with integers to note " <<
         note->noteAsString () <<
@@ -13775,7 +13776,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
         tech =
           fCurrentTechnicalWithIntegersList.front();
           
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+      if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with integer '" <<
           tech->technicalWithIntegerAsString () <<
@@ -13799,7 +13800,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
   // attach the current technicals if any to the note
   if (fCurrentTechnicalWithStringsList.size ()) {
     
-    if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
       fLogOutputStream <<
         "Attaching current technical with strings to note " <<
         note->noteAsString () <<
@@ -13811,7 +13812,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
         tech =
           fCurrentTechnicalWithStringsList.front();
           
-      if (gGeneralOptions->fTraceTechnicals) {
+      if (gTraceOptions->fTraceTechnicals) {
         fLogOutputStream <<
           "Attaching technical with string '" <<
           tech->technicalWithStringAsString () <<
@@ -13835,7 +13836,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
   // attach the current ornaments if any to the note
   if (fCurrentOrnamentsList.size ()) {
     
-    if (gGeneralOptions->fTraceOrnaments) {
+    if (gTraceOptions->fTraceOrnaments) {
       fLogOutputStream <<
         "Attaching current ornaments to note " <<
         note->noteAsString () <<
@@ -13847,7 +13848,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
         orn =
           fCurrentOrnamentsList.front();
           
-      if (gGeneralOptions->fTraceNotes) {
+      if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Attaching ornament '" <<
           orn->ornamentKindAsString () <<
@@ -13871,7 +13872,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
   // attach the current spanners if any to the note
   if (fCurrentSpannersList.size ()) {
     
-    if (gGeneralOptions->fTraceSpanners) {
+    if (gTraceOptions->fTraceSpanners) {
       fLogOutputStream <<
         "Attaching current spanners to note " <<
         note->noteAsString () <<
@@ -13925,7 +13926,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
       } // switch
 
       if (doHandleSpanner) {
-        if (gGeneralOptions->fTraceSpanners) {
+        if (gTraceOptions->fTraceSpanners) {
           fLogOutputStream <<
             "Attaching spanner '" <<
             spanner->spannerKindAsString () <<
@@ -13945,7 +13946,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
       }
 
       else { // check it is the same spanner kind JMI
-        if (gGeneralOptions->fTraceSpanners) {
+        if (gTraceOptions->fTraceSpanners) {
           fLogOutputStream <<
             "Spanner start amd stop on one and the same note' to note " <<
             note->noteAsString () <<
@@ -13976,7 +13977,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
   // attach the current singleTremolo if any to the note
   if (fCurrentSingleTremolo) {
     
-    if (gGeneralOptions->fTraceNotes) {
+    if (gTraceOptions->fTraceNotes) {
       fLogOutputStream <<
         "Attaching current singleTremolo to note " <<
         note->noteAsString () <<
@@ -13996,7 +13997,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
 {
   if (fCurrentArticulations.size ()) {
 
-    if (gGeneralOptions->fTraceChords) {
+    if (gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Attaching current articulations to chord " <<
         chord->chordAsString () <<
@@ -14008,7 +14009,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
       i=fCurrentArticulations.begin ();
       i!=fCurrentArticulations.end ();
       i++) {
-      if (gGeneralOptions->fTraceChords) {
+      if (gTraceOptions->fTraceChords) {
         fLogOutputStream <<
           "Attaching articulation " <<  (*i) <<
           " to chord " << chord <<
@@ -14028,7 +14029,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
 {
   if (fCurrentOrnamentsList.size ()) {
 
-    if (gGeneralOptions->fTraceChords) {
+    if (gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Attaching current ornaments to chord " <<
         chord->chordAsString () <<
@@ -14040,7 +14041,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
       i=fCurrentOrnamentsList.begin ();
       i!=fCurrentOrnamentsList.end ();
       i++) {
-      if (gGeneralOptions->fTraceChords) {
+      if (gTraceOptions->fTraceChords) {
         fLogOutputStream <<
           "Attaching ornament " <<  (*i) << " to chord " <<
           chord <<
@@ -14060,7 +14061,7 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
 {
  // attach the pending dynamics if any to the note
   if (fPendingTempos.size ()) {
-    if (gGeneralOptions->fTraceGeneral) { // tempos ??? JMI
+    if (gTraceOptions->fTraceBasic) { // tempos ??? JMI
       fLogOutputStream <<
         "Attaching pending tempos to note " <<
         note->noteAsString () <<
@@ -14094,7 +14095,7 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
 {
  // attach the pending octave shifts if any to the note
   if (fPendingOctaveShifts.size ()) {
-    if (gGeneralOptions->fTraceOctaveShifts) {
+    if (gTraceOptions->fTraceOctaveShifts) {
       fLogOutputStream <<
         "Attaching pending octave shifts to note " <<
         note->noteAsString () <<
@@ -14130,7 +14131,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
   if (fPendingDynamics.size ()) {
     bool delayAttachment = false;
     
-    if (gGeneralOptions->fTraceDynamics) {
+    if (gTraceOptions->fTraceDynamics) {
       fLogOutputStream <<
         "Attaching pending dynamics to note " <<
         note->noteAsString () <<
@@ -14189,7 +14190,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
     bool delayAttachment = false;
     
     
-    if (gGeneralOptions->fTraceDynamics) {
+    if (gTraceOptions->fTraceDynamics) {
       fLogOutputStream <<
         "Attaching pending dynamics to note " <<
         note->noteAsString () <<
@@ -14247,7 +14248,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
   if (fPendingWords.size ()) {
     bool delayAttachment = false;
     
-    if (gGeneralOptions->fTraceWords) {
+    if (gTraceOptions->fTraceWords) {
       fLogOutputStream <<
         "Attaching pending words to note " <<
         note->noteAsString () <<
@@ -14305,7 +14306,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
   if (fPendingSlurs.size ()) {
     bool delayAttachment = false;
         
-    if (gGeneralOptions->fTraceSlurs) {
+    if (gTraceOptions->fTraceSlurs) {
       fLogOutputStream <<
         "Attaching pending slurs to note " <<
         note->noteAsString () <<
@@ -14363,7 +14364,7 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
   if (fPendingLigatures.size ()) {
     bool delayAttachment = false;
         
-    if (gGeneralOptions->fTraceLigatures) {
+    if (gTraceOptions->fTraceLigatures) {
       fLogOutputStream <<
         "Attaching pending ligatures to note " <<
         note->noteAsString () <<
@@ -14421,7 +14422,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
   if (fPendingWedges.size ()) {
     bool delayAttachment = false;
         
-    if (gGeneralOptions->fTraceWedges) {
+    if (gTraceOptions->fTraceWedges) {
       fLogOutputStream <<
         "Attaching pending wedges to note " <<
         note->noteAsString () <<
@@ -14477,7 +14478,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
 {
  // attach the pending dynamics if any to the note
   if (fPendingGlissandos.size ()) {
-    if (gGeneralOptions->fTraceGlissandos) {
+    if (gTraceOptions->fTraceGlissandos) {
       fLogOutputStream <<
         "Attaching pending glissandos to note " <<
         note->noteAsString () <<
@@ -14503,7 +14504,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
 {
  // attach the pending dynamics if any to the note
   if (fPendingSlides.size ()) {
-    if (gGeneralOptions->fTraceGeneral) { // slides ??? JMI
+    if (gTraceOptions->fTraceBasic) { // slides ??? JMI
       fLogOutputStream <<
         "Attaching pending slides to note " <<
         note->noteAsString () <<
@@ -14640,7 +14641,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         inputLineNumber,
         fCurrentNoteStaffNumber);
 
-  if (gGeneralOptions->fTraceNotes && gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceNotes && gTraceOptions->fTraceVoices) {
     fLogOutputStream <<
       "--> fCurrentNoteVoiceNumber        = " <<
       fCurrentNoteVoiceNumber <<
@@ -14661,7 +14662,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
 
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     fLogOutputStream <<
       "--> Gathered note information:" <<
       endl;
@@ -14707,7 +14708,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
 /* JMI
-  if (gGeneralOptions->fTraceNotes) { // JMI
+  if (gTraceOptions->fTraceNotes) { // JMI
     fLogOutputStream <<
       endl <<
       "==> BEFORE visitEnd (S_note&)" <<
@@ -14916,7 +14917,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   // handling the current pending figured bass if any,
   // so that it gets attached to the note right now
   if (fPendingFiguredBass) {
-    if (gGeneralOptions->fTraceFiguredBass) {
+    if (gTraceOptions->fTraceFiguredBass) {
       fLogOutputStream <<
         "--> figured bass" <<
         ", line " << inputLineNumber << ":" <<
@@ -15094,7 +15095,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   attachCurrentSingleTremoloToNote (newNote);
 
 /* JMI
-  if (gGeneralOptions->fTraceNotes) { // JMI
+  if (gTraceOptions->fTraceNotes) { // JMI
      const int fieldWidth = 27;
 
     fLogOutputStream << left <<
@@ -15131,7 +15132,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         "fCurrentChord is null");
       
       // forget about this chord
-      if (gGeneralOptions->fTraceChords) {
+      if (gTraceOptions->fTraceChords) {
         fLogOutputStream <<
           "Forgetting about chord '" <<
           fCurrentChord->chordAsString () <<
@@ -15202,7 +15203,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
     
-  if (gGeneralOptions->fTraceNotes) {    
+  if (gTraceOptions->fTraceNotes) {    
     fLogOutputStream <<
       "Handling standalone, double tremolo or grace note or rest:" <<
       endl;
@@ -15246,7 +15247,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     if (! fCurrentGraceNotes) {
       // this is the first grace note in grace notes
 
-      if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGraceNotes) {
+      if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceGraceNotes) {
         fLogOutputStream <<
           "Creating grace notes for note " <<
           newNote->noteAsString () <<
@@ -15279,7 +15280,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     }
 
     // append newNote to the current grace notes
-    if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceGraceNotes) {
+    if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceGraceNotes) {
       fLogOutputStream <<
         "Appending note " <<
         newNote->noteAsString () <<
@@ -15305,7 +15306,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         
       case kTremoloTypeSingle:
         // append newNote to the current voice
-        if (gGeneralOptions->fTraceNotes) {
+        if (gTraceOptions->fTraceNotes) {
           fLogOutputStream <<
             "Appending standalone " <<
             newNote->noteAsString () <<
@@ -15324,7 +15325,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
         
       case kTremoloTypeStart:
         // register newNote as first element of the current double tremolo
-        if (gGeneralOptions->fTraceNotes) {
+        if (gTraceOptions->fTraceNotes) {
           fLogOutputStream <<
             "Setting standalone note '" <<
             newNote->noteAsString () <<
@@ -15343,7 +15344,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
       case kTremoloTypeStop:
         // register newNote as second element of the current double tremolo
-        if (gGeneralOptions->fTraceNotes) {
+        if (gTraceOptions->fTraceNotes) {
           fLogOutputStream <<
             "Setting standalone note '" <<
             newNote->noteAsString () <<
@@ -15383,7 +15384,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     attachPendingElementsToNote (newNote);
   
     // append newNote to the current voice
-    if (gGeneralOptions->fTraceNotes) {
+    if (gTraceOptions->fTraceNotes) {
       fLogOutputStream <<
         "Appending standalone " <<
         newNote->noteAsString () <<
@@ -15450,7 +15451,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
   int inputLineNumber =
     newNote->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     fLogOutputStream <<
       "Handling lyric" <<
       ", line " << inputLineNumber <<
@@ -15475,7 +15476,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
 
   if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
-    if (gGeneralOptions->fTraceNotesDetails) {
+    if (gTraceOptions->fTraceNotesDetails) {
       fLogOutputStream <<
         "*** " << "newNote has lyrics attached to it" << " ***" <<
         endl;
@@ -15525,7 +15526,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
         S_msrStanza stanza = (*i).second;
 
         // create a skip syllable
-        if (gGeneralOptions->fTraceLyrics) {
+        if (gTraceOptions->fTraceLyrics) {
           fLogOutputStream <<
             "Creating a skip syllable due to extend or begin" <<
             " on note '" << newNote->noteAsShortString () << "'" <<
@@ -15579,7 +15580,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
       "Handling a note belonging to a chord" <<
       ", newChordNote:" <<
@@ -15645,7 +15646,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         s.str ());
     }
         
-    if (gGeneralOptions->fTraceChords) {
+    if (gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "mxmlTree2MsrTranslator::handleNoteBelongingToAChord()" <<
         ", chordFirstNote:" <<
@@ -15666,7 +15667,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       savedChordFirstNoteKind =
         chordFirstNote->getNoteKind ();
         
-    if (gGeneralOptions->fTraceChords) {
+    if (gTraceOptions->fTraceChords) {
       fLogOutputStream <<
         "Handling a note belonging to a chord" <<
         ", savedChordFirstNoteKind = " <<
@@ -15698,7 +15699,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         
       case msrNote::kStandaloneNote:
         // remove last handled (previous current) note from the current voice
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
+        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceChords) {
           fLogOutputStream <<
             "Removing chord first note " <<
             chordFirstNote->noteAsShortString () <<
@@ -15724,7 +15725,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
             chordFirstNote);
     
         // add fCurrentChord to the voice instead
-        if (gGeneralOptions->fTraceChords) {
+        if (gTraceOptions->fTraceChords) {
           fLogOutputStream <<
             "Appending chord " << fCurrentChord->chordAsString () <<
             " to voice \"" <<
@@ -15748,7 +15749,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
 
           /* JMI
           // updating chord's divisions // JMI
-          if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
+          if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceChords) {
             fLogOutputStream <<
               "Updating sounding divisions for double tremolo chord '" <<
               "' " << fCurrentChord->chordAsString () <<
@@ -15814,7 +15815,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
   }
 
   // register newChordNote as another member of fCurrentChord
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->noteAsString() <<
@@ -15851,7 +15852,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
         fCurrentNormalNotes);
   }
 
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Handling a note belonging to a tuplet" <<
       ", note: " <<
@@ -15872,7 +15873,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
   switch (fCurrentTupletTypeKind) {
     case msrTuplet::kTupletTypeStart:
       {
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets) {
+        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeStart: note = '" <<
             note->
@@ -15906,7 +15907,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               fTupletsStack.top ();
               
         // populate the tuplet at the top of the stack
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets) {
+        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeContinue: adding tuplet member note '" <<
             note->
@@ -15956,7 +15957,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               fTupletsStack.top ();
               
         // populate the tuplet at the top of the stack
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTuplets) {
+        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
           fLogOutputStream <<
             "--> kTupletTypeStop: adding tuplet member note '" <<
             note->
@@ -16045,11 +16046,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   }
 
   if (
-    gGeneralOptions->fTraceNotes
+    gTraceOptions->fTraceNotes
       ||
-    gGeneralOptions->fTraceChords
+    gTraceOptions->fTraceChords
       ||
-      gGeneralOptions->fTraceTuplets) {
+      gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Handling a note belonging to a chord in a tuplet" <<
       ", newChordNote: " <<
@@ -16123,11 +16124,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
           
       // remove last handled (previous current) note from the current tuplet
       if (
-        gGeneralOptions->fTraceNotes
+        gTraceOptions->fTraceNotes
           ||
-        gGeneralOptions->fTraceChords
+        gTraceOptions->fTraceChords
           ||
-        gGeneralOptions->fTraceTuplets) {
+        gTraceOptions->fTraceTuplets) {
         fLogOutputStream <<
           "Removing last handled note " <<
           lastHandledNoteInVoice->
@@ -16147,11 +16148,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   
       // add fCurrentChord to the current tuplet instead
       if (
-        gGeneralOptions->fTraceNotes
+        gTraceOptions->fTraceNotes
           ||
-        gGeneralOptions->fTraceChords
+        gTraceOptions->fTraceChords
           ||
-        gGeneralOptions->fTraceTuplets) {
+        gTraceOptions->fTraceTuplets) {
         fLogOutputStream <<
           "Adding chord " << fCurrentChord->chordAsString () <<
           " to stack top tuplet '" <<
@@ -16194,7 +16195,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
   }
 
   // register note as another member of fCurrentChord
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceChords) {
     fLogOutputStream <<
       "Adding another note " <<
       newChordNote->
@@ -16216,7 +16217,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Handling tuplets pending on tuplet stack" <<
       ", line: " << inputLineNumber <<
@@ -16242,7 +16243,7 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
 
     /* JMI
     // pop it from the tuplets stack
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
         "--> popping tuplet 1 '" <<
         pendingTuplet->tupletAsShortString () <<
@@ -16329,7 +16330,7 @@ void mxmlTree2MsrTranslator::displayLastHandledTupletInVoice (string header)
 void mxmlTree2MsrTranslator::createAndPrependImplicitBarLine (
   int inputLineNumber)
 {     
-  if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Prepending an implicit repeat start barline at the beginning of part" <<
       fCurrentPart->getPartCombinedName () <<
@@ -16377,7 +16378,7 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat start" <<
     /* JMI
@@ -16395,7 +16396,7 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
     setBarlineCategory (
       msrBarline::kBarlineCategoryRepeatStart);
 
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Preparing for repeat in part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -16421,7 +16422,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat end" <<
     /* JMI
@@ -16449,7 +16450,7 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
       inputLineNumber);
    }
 
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a repeat to part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -16472,7 +16473,7 @@ void mxmlTree2MsrTranslator::handleEndingStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat ending start" <<
     /* JMI
@@ -16506,7 +16507,7 @@ void mxmlTree2MsrTranslator::handleEndingStart (
 
   if (! fOnGoingRepeat) {
     // append an implicit repeat to the current part
-    if (gGeneralOptions->fTraceRepeats) {
+    if (gTraceOptions->fTraceRepeats) {
       fLogOutputStream <<
         "Appending an implicit repeat to part " <<
         fCurrentPart->getPartCombinedName () <<
@@ -16523,7 +16524,7 @@ void mxmlTree2MsrTranslator::handleEndingStart (
 
 /* JMI
   // create a new last segment to collect the repeat ending contents
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
     fLogOutputStream <<
       "Creating a new last segment for a repeat ending contents for voice \"" <<
       currentVoice->getVoiceName () << "\"" <<
@@ -16555,7 +16556,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat hooked ending end" <<
     /* JMI
@@ -16601,7 +16602,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingEnd (
     appendBarlineToPart (barline);
 
   // create a hooked repeat ending from the current segment
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a new hooked repeat ending to part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -16632,7 +16633,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
   int inputLineNumber =
     elt->getInputLineNumber ();
   
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat hookless ending end" <<
     /* JMI
@@ -16678,7 +16679,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
     appendBarlineToPart (barline);
 
   // create a hookless repeat ending from the current segment
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Appending a new hookless repeat ending to part " <<
       fCurrentPart->getPartCombinedName () <<
@@ -16797,7 +16798,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
         fCurrentVoiceNumber);
     
   // create a rehearsal
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Creating rehearsal \"" << rehearsalValue << "\"" <<
       " in voice " <<
@@ -17362,7 +17363,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
   }
           
   // create the harmony
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     fLogOutputStream <<
       "Creating a harmony" <<
       ", line " << inputLineNumber << ":" <<
@@ -17763,7 +17764,7 @@ void mxmlTree2MsrTranslator::visitStart (S_harp_pedals& elt )
 */
 
   // create the harp pedals tuning
-  if (gGeneralOptions->fTraceHarpPedalsTuning) {
+  if (gTraceOptions->fTraceHarpPedalsTuning) {
     fLogOutputStream <<
       "Creating harp pedals tuning:" <<
       endl;
@@ -17849,7 +17850,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
     elt->getInputLineNumber ();
     
   // create a harp pedals tuning
-  if (gGeneralOptions->fTraceStaffTuning) {
+  if (gTraceOptions->fTraceStaffTuning) {
     fLogOutputStream <<
       "Creating harp pedal tuning:" <<
       endl;
@@ -17913,7 +17914,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
       endl;
   }
 
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     const int fieldWidth = 29;
 
     fLogOutputStream << left <<
@@ -18135,7 +18136,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat hooked ending start" <<
     / * JMI
@@ -18158,7 +18159,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
 
   if (! fOnGoingRepeat) {
     // append an implicit repeat to the current part
-    if (gGeneralOptions->fTraceRepeats) {
+    if (gTraceOptions->fTraceRepeats) {
       fLogOutputStream <<
         "Appending an implicit repeat to part " <<
         fCurrentPart->getPartCombinedName () <<
@@ -18174,7 +18175,7 @@ void mxmlTree2MsrTranslator::handleHookedEndingStart (
   }
 
   // create a new last segment to collect the repeat ending contents
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
     fLogOutputStream <<
       "Creating a new last segment for a repeat ending contents for voice \"" <<
       currentVoice->getVoiceName () << "\"" <<
@@ -18212,7 +18213,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingStart (
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Handling repeat hookless ending start" <<
   / * JMI

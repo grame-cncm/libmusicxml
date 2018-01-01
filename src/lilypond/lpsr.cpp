@@ -20,6 +20,7 @@
 
 #include "lpsr.h"
 
+#include "traceOptions.h"
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
 
@@ -1944,7 +1945,7 @@ lpsrMelismaCommand::lpsrMelismaCommand (
   lpsrMelismaKind melismaKind)
     : lpsrElement (inputLineNumber)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "--> creating lpsrMelismaCommand " <<
       melismaKindAsString (melismaKind) <<
@@ -2792,7 +2793,7 @@ lpsrPaper::~lpsrPaper ()
 
 void lpsrPaper::setIndent (float val)
 {
-  if (gGeneralOptions->fTraceGeometry) {
+  if (gTraceOptions->fTraceGeometry) {
     gLogIOstream <<
       "Setting paper indent to " << val <<
       endl;
@@ -2803,7 +2804,7 @@ void lpsrPaper::setIndent (float val)
 
 void lpsrPaper::setShortIndent (float val)
 {
-  if (gGeneralOptions->fTraceGeometry) {
+  if (gTraceOptions->fTraceGeometry) {
     gLogIOstream <<
       "Setting paper short indent to " << val <<
       endl;
@@ -3638,7 +3639,7 @@ lpsrScoreBlock::~lpsrScoreBlock()
 void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
   S_lpsrPartGroupBlock partGroupBlock)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "Appending part group block " <<
        partGroupBlock-> getPartGroup ()-> getPartGroupCombinedName() <<
@@ -3657,7 +3658,7 @@ void lpsrScoreBlock::appendPartGroupBlockToScoreBlock (
 void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
   S_lpsrUseVoiceCommand voiceUse)
 {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending the use of voice \"" <<
        voiceUse-> getVoice ()-> getVoiceName() <<
@@ -3674,7 +3675,7 @@ void lpsrScoreBlock::appendVoiceUseToParallelMusicBLock (
 void lpsrScoreBlock::appendLyricsUseToParallelMusicBLock (
   S_lpsrNewLyricsBlock lyricsUse)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending the use of stanza " <<
        lyricsUse-> getStanza ()-> getStanzaName() <<

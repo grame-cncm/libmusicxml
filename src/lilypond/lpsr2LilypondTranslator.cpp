@@ -17,6 +17,7 @@
 #include <iomanip>      // setw, setprecision, ...
 #include <cmath>
 
+#include "traceOptions.h"
 #include "mxmlOptions.h"
 #include "lilypondOptions.h"
 
@@ -149,7 +150,7 @@ string lpsr2LilypondTranslator::absoluteOctaveAsLilypondString (
 {
   string result;
 
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     fLilypondCodeIOstream <<
       endl <<
       "%{ absoluteOctave = " << absoluteOctave << " %} " <<
@@ -337,7 +338,7 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
         +
       referenceDiatonicPitchKind - kC;
 
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -915,7 +916,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       ||
     ! fRelativeOctaveReference;
 
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -1068,7 +1069,7 @@ string lpsr2LilypondTranslator::pitchedRestAsLilypondString (
       ||
     ! fRelativeOctaveReference;
 
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     const int fieldWidth = 28;
 
     fLilypondCodeIOstream << left <<
@@ -4103,7 +4104,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
       endl;
   }
 
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceBasic) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -4483,7 +4484,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   }
 
   if (fOnGoingNote) {
-    if (gGeneralOptions->fTraceHarmonies) {
+    if (gTraceOptions->fTraceHarmonies) {
       fLilypondCodeIOstream <<
         "%{ " << elt->harmonyAsString () << " %}" <<
         endl;
@@ -4748,7 +4749,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     measureNumber =
       elt->getMeasureNumber ();
 
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceBasic) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure " << measureNumber <<
@@ -4873,7 +4874,7 @@ else
             measureLength / fullMeasureLength;
         ratioToFullLength.rationalise ();
   
-        if (gGeneralOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceMeasures) {
           const int fieldWidth = 27;
           
           fLilypondCodeIOstream << left <<
@@ -6146,7 +6147,7 @@ If the double element is present, it indicates that the music is doubled one oct
         transpositionOctave);
 
 /* JMI
-  if (gGeneralOptions->fTraceTranspositions) {
+  if (gTraceOptions->fTraceTranspositions) {
     fLilypondCodeIOstream << // JMI
       "Handlling transpose '" <<
       elt->transposeAsString () <<
@@ -6521,7 +6522,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
   int numberOfRepeats =
     elt->getDoubleTremoloNumberOfRepeats ();
 
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     fLilypondCodeIOstream <<
       "% visitStart (S_msrDoubleTremolo&)" <<
       endl;
@@ -9421,7 +9422,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasuresRepeat& elt)
   int replicasNumber =
     elt->measuresRepeatReplicasNumber ();
 
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceRepeats) {
     fLilypondCodeIOstream <<
       "% measure repeat, line " << elt->getInputLineNumber () << ":" <<
       endl;
@@ -9571,7 +9572,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   int restSegmentMeasuresNumber =
     elt->multipleRestContentsMeasuresNumber ();
     
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceRepeats) {
     fLilypondCodeIOstream <<
       "% multiple rest, line " << inputLineNumber << ":" <<
       endl;

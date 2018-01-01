@@ -20,6 +20,7 @@
 
 #include "utilities.h"
 
+#include "traceOptions.h"
 #include "generalOptions.h"
 #include "mxmlOptions.h"
 #include "msrOptions.h"
@@ -182,7 +183,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     ofstream outFileStream;
         
     if (outputFileNameSize) {
-      if (gGeneralOptions->fTraceGeneral)
+      if (gTraceOptions->fTraceBasic)
         gLogIOstream <<
           endl <<
           "Opening file '" << outputFileName << "' for writing" <<
@@ -209,7 +210,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     }
     
     else {
-      if (gGeneralOptions->fTraceGeneral)
+      if (gTraceOptions->fTraceBasic)
         gLogIOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
@@ -232,7 +233,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     }
 
     if (outputFileNameSize) {
-      if (gGeneralOptions->fTraceGeneral)
+      if (gTraceOptions->fTraceBasic)
         gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -362,7 +363,7 @@ make[2]: *** [CMakeFiles/xml2ly.dir/home/user/libmusicxml-git/samples/xml2ly.o] 
   // welcome message
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     gLogIOstream <<
       "This is xml2ly " << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -429,7 +430,7 @@ make[2]: *** [CMakeFiles/xml2ly.dir/home/user/libmusicxml-git/samples/xml2ly.o] 
   // print the chosen LilyPond options if so chosen
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fDisplayOptionsValues) {
+  if (gTraceOptions->fDisplayOptionsValues) {
     optionsHandler->
       printAllOptionsValues (
         gLogIOstream);
@@ -441,7 +442,7 @@ make[2]: *** [CMakeFiles/xml2ly.dir/home/user/libmusicxml-git/samples/xml2ly.o] 
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     gLogIOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;

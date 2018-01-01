@@ -30,7 +30,7 @@ class generalOptions : public optionsGroup
     static SMARTP<generalOptions> create (
       S_optionsHandler optionsHandler);
         
-    SMARTP<generalOptions>        createCloneWithDetailedTrace ();
+    SMARTP<generalOptions>        createCloneWithTrueValues (); // JMI
 
   public:
 
@@ -72,17 +72,13 @@ class generalOptions : public optionsGroup
     string                fCommandLineWithShortOptions;
 
 
-    // trace and display
+    // display
     // --------------------------------------
   
-    bool                  fTraceGeneral;
-    
     bool                  fDisplayOptionsValues;
-    
-    set<int>              fTraceDetailedMeasureNumbersSet;
-
 
     // warning and error handling
+    // --------------------------------------
       
     bool                  fQuiet;
     bool                  fIgnoreErrors;
@@ -92,136 +88,12 @@ class generalOptions : public optionsGroup
   
     bool                  fDisplayCPUusage;
 
-
-    // specific trace
+    // exit after some passes
     // --------------------------------------
 
-    
-    // divisions
-    bool                  fTraceDivisions;
-
-
-    // geometry
-    bool                  fTraceGeometry;
-
-    // score
-    bool                  fTraceScore; // JMI ???
-
-    // part groups
-    bool                  fTracePartGroups;
-    bool                  fTracePartGroupsDetails;
-
-    // parts
-    bool                  fTraceParts;
-    
-    // staves
-    bool                  fTraceStaves;
-    
-    // voices
-    bool                  fTraceVoices;
-    bool                  fTraceVoicesDetails;
-
-    // clefs
-    bool                  fTraceClefs;
-
-    // keys
-    bool                  fTraceKeys;
-
-    // times
-    bool                  fTraceTimes;
-
-    // transpositions
-    bool                  fTraceTranspositions;
-
-    // octave shifts
-    bool                  fTraceOctaveShifts;
-
-    // segments
-    bool                  fTraceSegments;
-
-    // barlines
-    bool                  fTraceBarlines;
-
-    // repeats
-    bool                  fTraceRepeats;
-
-    // measures
-    bool                  fTraceMeasures;
-
-    // notes
-    bool                  fTraceNotes;
-    bool                  fTraceNotesDetails;
-
-    // beams
-    bool                  fTraceBeams;
-
-    // technicals
-    bool                  fTraceTechnicals;
-
-    // ornaments
-    bool                  fTraceOrnaments;
-
-    // spanners
-    bool                  fTraceSpanners;
-
-    // words
-    bool                  fTraceWords;
-
-    // tremolos
-    bool                  fTraceTremolos;
-
-    // chords
-    bool                  fTraceChords;
-
-    // tuplets
-    bool                  fTraceTuplets;
-
-    // glissandos
-    bool                  fTraceGlissandos;
-
-    // slides
-    bool                  fTraceSlides;
-
-    // grace notes
-    bool                  fTraceGraceNotes;
-
-    // lyrics
-    bool                  fTraceLyrics;
-
-    // harmonies
-    bool                  fTraceHarmonies;
-
-    // figured bass
-    bool                  fTraceFiguredBass;
-
-    // credits
-    bool                  fTraceCredits;
-
-    // dynamics
-    bool                  fTraceDynamics;
-
-    // slurs
-    bool                  fTraceSlurs;
-
-    // ligatures
-    bool                  fTraceLigatures;
-
-    // wedges
-    bool                  fTraceWedges;
-
-    // staff tuning
-    bool                  fTraceStaffTuning;
-    
-    // harp pedals tuning
-    bool                  fTraceHarpPedalsTuning;
-
-    // exit after some passes
     bool                  fExit2a;
     bool                  fExit2b;
     bool                  fExit3;
-    
-    /* STUFF not yet handled JMI */
-    bool                  fTraceMidi;
 };
 typedef SMARTP<generalOptions> S_generalOptions;
 EXP ostream& operator<< (ostream& os, const S_generalOptions& elt);

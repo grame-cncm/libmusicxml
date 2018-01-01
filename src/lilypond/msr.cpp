@@ -18,6 +18,7 @@
 
 #include "msr.h"
 
+#include "traceOptions.h"
 #include "mxmlOptions.h"
 #include "msrOptions.h"
 
@@ -1895,7 +1896,7 @@ S_msrSingleTremolo msrSingleTremolo::create (
 S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
   S_msrNote noteUplink)
 {
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Creating a deep copy of single tremolo " <<
       singleTremoloAsString () <<
@@ -2075,7 +2076,7 @@ msrDoubleTremolo::msrDoubleTremolo (
 S_msrDoubleTremolo msrDoubleTremolo::createDoubleTremoloNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
       "Creating a newborn clone of a double tremolo" <<
       endl;
@@ -2116,7 +2117,7 @@ msrDoubleTremolo::~msrDoubleTremolo()
 
 void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 {
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
       "Setting note " << note->noteAsShortString () <<
       " as first element of double tremolo " <<
@@ -2200,7 +2201,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
   fDoubleTremoloNumberOfRepeats =
     numberOfRepeatsAsRational.getNumerator ();
   
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
       "Setting notes double tremolo number of repeats to '" <<
       fDoubleTremoloNumberOfRepeats <<
@@ -2216,7 +2217,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
   S_msrNote note)
 {
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
       "Setting note " << note->noteAsShortString () <<
       " as second element of double tremolo " <<
@@ -2248,7 +2249,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
         
   // check that expected double tremolo sounding whole notes
   // match the known double tremolo sounding whole notes
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
       "Checking notes double tremolo second note duration"<<
       ", doubleTremoloNumberOfRepeats = '" <<
@@ -2299,7 +2300,7 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
 void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
   S_msrChord chord)
 {
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting chord " << chord->chordAsString () <<
       " as first element of double tremolo " <<
@@ -2365,7 +2366,7 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
 
 void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 {
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting chord " << chord->chordAsString () <<
       " as second element of double tremolo " <<
@@ -3872,7 +3873,7 @@ msrGraceNotes::~msrGraceNotes()
 S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of grace notes" <<
       graceNotesAsShortString () <<
@@ -3904,7 +3905,7 @@ S_msrPart msrGraceNotes::graceNotesPartUplink () const
 S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Creating a skip clone of grace notes" <<
       graceNotesAsShortString () <<
@@ -4102,7 +4103,7 @@ S_msrPart msrAfterGraceNotesContents::fetchAfterGraceNotesContentsPartUplink () 
 S_msrAfterGraceNotesContents msrAfterGraceNotesContents::createAfterGraceNotesContentsNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of after grace notes" <<
       endl;
@@ -4305,7 +4306,7 @@ S_msrAfterGraceNotes msrAfterGraceNotes::createAfterGraceNotesNewbornClone (
   S_msrNote  noteClone,
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of after grace notes" <<
       endl;
@@ -4615,7 +4616,7 @@ void msrNote::initializeNote ()
   // note lyrics
   // ------------------------------------------------------
   
-  if (gGeneralOptions->fTraceNotesDetails) {
+  if (gTraceOptions->fTraceNotesDetails) {
     gLogIOstream <<
       endl <<
       "Initializing a note" <<
@@ -4817,7 +4818,7 @@ msrNote::~msrNote()
 S_msrNote msrNote::createNoteNewbornClone (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of note " <<
       noteAsString () <<
@@ -5042,7 +5043,7 @@ S_msrNote msrNote::createNoteNewbornClone (
 S_msrNote msrNote::createNoteDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Creating a deep copy of note " <<
       noteAsString () <<
@@ -5966,7 +5967,7 @@ void msrNote::setNoteStem (S_msrStem stem)
 
 void msrNote::setNoteBelongsToAChord ()
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting note '" <<
       noteAsShortStringWithRawWholeNotes () <<
@@ -6004,7 +6005,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
       </note>
   */
 
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
@@ -6025,7 +6026,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
 
   fNoteSoundingWholeNotes.rationalise ();
 
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "The result is: '" <<
       noteAsShortString () <<
@@ -6045,7 +6046,7 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
 
 void msrNote::addSpannerToNote (S_msrSpanner span)
 {
-  if (gGeneralOptions->fTraceSpanners || gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceSpanners || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding spanner '" <<
       span->spannerKindAsString () <<
@@ -6082,7 +6083,7 @@ void msrNote::addSpannerToNote (S_msrSpanner span)
 
 void msrNote::addTechnicalToNote (S_msrTechnical technical)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical '" <<
       technical->technicalAsString () <<
@@ -6102,7 +6103,7 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
 void msrNote::addTechnicalWithIntegerToNote (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with integer '" <<
       technicalWithInteger->technicalWithIntegerAsString () <<
@@ -6122,7 +6123,7 @@ void msrNote::addTechnicalWithIntegerToNote (
 void msrNote::addTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceTechnicals) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with string'" <<
       technicalWithString->technicalWithStringAsString () <<
@@ -6179,7 +6180,7 @@ void msrNote::addSlideToNote (S_msrSlide slide)
 
 void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
 {
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
       "Adding singleTremolo " << trem->singleTremoloAsString () <<
       " to note " << noteAsShortString () <<
@@ -6211,7 +6212,7 @@ void msrNote::addWordsToNote (S_msrWords words)
 
 void msrNote::addSlurToNote (S_msrSlur slur)
 {
-  if (gGeneralOptions->fTraceSlurs) {
+  if (gTraceOptions->fTraceSlurs) {
     gLogIOstream <<
       "Adding slur '" << slur <<
       "' to note '" << noteAsString () << "'" <<
@@ -6223,7 +6224,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
 
 void msrNote::addLigatureToNote (S_msrLigature ligature)
 {
-  if (gGeneralOptions->fTraceLigatures) {
+  if (gTraceOptions->fTraceLigatures) {
     gLogIOstream <<
       "Adding ligature " << ligature << " to note " << noteAsString () <<
        endl;
@@ -6298,7 +6299,7 @@ S_msrWedge msrNote::removeFirstWedge () // JMI
 
 void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending syllable '" <<
       syllable->syllableAsString () <<
@@ -6311,7 +6312,7 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
 
 void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Setting note '" << noteAsShortString ()  << "'" <<
       " harmony to '" << harmony->harmonyAsString () << "'" <<
@@ -6323,7 +6324,7 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
 
 void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Setting note '" << noteAsShortString ()  << "'" <<
       " figured bass to '" << figuredBass->figuredBassAsString () << "'" <<
@@ -7753,7 +7754,7 @@ S_msrChord msrChord::create (
   rational        chordDisplayWholeNotes,
   msrDurationKind chordGraphicDurationKind)
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Creating a chord" <<
       ", chordSoundingWholeNotes = " << chordSoundingWholeNotes <<
@@ -7795,7 +7796,7 @@ msrChord::~msrChord()
 S_msrChord msrChord::createChordNewbornClone (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Creating a newborn clone of chord '" <<
       chordAsString () <<
@@ -7837,7 +7838,7 @@ S_msrChord msrChord::createChordNewbornClone (
 void msrChord::setChordSoundingWholeNotes (
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting chord sounding whole notes to '" <<
       wholeNotes <<
@@ -7853,7 +7854,7 @@ void msrChord::setChordSoundingWholeNotes (
 void msrChord::setChordDisplayWholeNotes (
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting chord displayed whole notes to '" <<
       wholeNotes <<
@@ -7897,7 +7898,7 @@ string msrChord::chordGraphicDurationAsMsrString () const
 
 void msrChord::addFirstNoteToChord (S_msrNote note)
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding first note '" <<
       note->noteAsString () <<
@@ -7929,7 +7930,7 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
 
 void msrChord::addAnotherNoteToChord (S_msrNote note)
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding another note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
@@ -7992,7 +7993,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) { // JMI
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) { // JMI
     gLogIOstream <<
       "Adding articulation '" <<
       art->articulationKindAsString () <<
@@ -8019,7 +8020,7 @@ void msrChord::addSpannerToChord (S_msrSpanner span)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceSpanners || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceSpanners || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding spanner '" <<
       span->spannerKindAsString () <<
@@ -8034,7 +8035,7 @@ void msrChord::addSpannerToChord (S_msrSpanner span)
 
 void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
 {
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding singleTremolo '" <<
       trem->singleTremoloAsString () <<
@@ -8062,7 +8063,7 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical '" <<
       tech->technicalAsString () <<
@@ -8091,7 +8092,7 @@ void msrChord::addTechnicalWithIntegerToChord (
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical with integer '" <<
       tech->technicalWithIntegerAsString () <<
@@ -8120,7 +8121,7 @@ void msrChord::addTechnicalWithStringToChord (
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical with string '" <<
       tech->technicalWithStringAsString () <<
@@ -8147,7 +8148,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding ornament '" <<
       orn->ornamentKindAsString () <<
@@ -8174,7 +8175,7 @@ void msrChord::addGlissandoToChord (S_msrGlissando gliss)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding glissando '" <<
       gliss->glissandoAsString () <<
@@ -8201,7 +8202,7 @@ void msrChord::addSlideToChord (S_msrSlide slide)
         return;
   } // for
 
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding slide '" <<
       slide->slideAsString () <<
@@ -8399,7 +8400,7 @@ ostream& operator<< (ostream& os, const S_msrChord& elt)
 void msrChord::applyTupletMemberDisplayFactorToChordMembers (
   int actualNotes, int normalNotes)
 {
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
@@ -8714,7 +8715,7 @@ S_msrDivisions msrDivisions::create (
 
 S_msrDivisions msrDivisions::createDivisionsNewbornClone ()
 {
- if (gGeneralOptions->fTraceDivisions) {
+ if (gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
       "Creating a newborn clone of divisions '" <<
       divisionsAsString () <<
@@ -8745,7 +8746,7 @@ msrDivisions::msrDivisions (
 
 void msrDivisions::initializeDivisions ()
 {
-  if (gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceDivisions) {
   gLogIOstream <<
     "Initializing divisions" <<
     ", divisionsPerQuarterNote = " << fDivisionsPerQuarterNote <<
@@ -8804,7 +8805,7 @@ void msrDivisions::initializeDivisions ()
   }
 
   // print the durations divisions if needed
-  if (gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceDivisions) {
     printDurationKindsDivisions (gLogIOstream);
   }
 }
@@ -8911,7 +8912,7 @@ string msrDivisions::divisionsAsMsrString (
 
   const int fieldWidth = 22;
   
-  if (gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
      "--> divisionsAsMsrString ():" <<
       endl <<
@@ -8959,7 +8960,7 @@ string msrDivisions::divisionsAsMsrString (
       result =
         msrDurationKindAsString (baseDurationKind);
       
-      if (gGeneralOptions->fTraceDivisions) {
+      if (gTraceOptions->fTraceDivisions) {
         gLogIOstream <<
             gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -8992,7 +8993,7 @@ string msrDivisions::divisionsAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-    if (gGeneralOptions->fTraceDivisions) {
+    if (gTraceOptions->fTraceDivisions) {
       gLogIOstream <<
         gTab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
@@ -9016,7 +9017,7 @@ string msrDivisions::divisionsAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-      if (gGeneralOptions->fTraceDivisions) { // JMI
+      if (gTraceOptions->fTraceDivisions) { // JMI
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -9042,7 +9043,7 @@ string msrDivisions::divisionsAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
-        if (gGeneralOptions->fTraceDivisions) {
+        if (gTraceOptions->fTraceDivisions) {
           gLogIOstream <<
             gTab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
@@ -9066,7 +9067,7 @@ string msrDivisions::divisionsAsMsrString (
           break; // JMI
       } // while
   
-      if (gGeneralOptions->fTraceDivisions) {
+      if (gTraceOptions->fTraceDivisions) {
         gLogIOstream <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -9096,7 +9097,7 @@ string msrDivisions::divisionsAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
-  if (gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
       "<-- divisionsAsMsrString (): returns " << result <<
       endl <<
@@ -9118,7 +9119,7 @@ string msrDivisions::wholeNotesAsMsrString (
 
   const int fieldWidth = 22;
   
-  if (gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceDivisions) {
     gLogIOstream << left <<
       endl <<
       "--> wholeNotesAsMsrString ():" <<
@@ -9144,7 +9145,7 @@ string msrDivisions::wholeNotesAsMsrString (
       /
     wholeNotes.getDenominator ();      
   
-  if (gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceDivisions) {
     gLogIOstream << left <<
       gTab << "divisions" << " = " << divisions <<
       endl;
@@ -9186,7 +9187,7 @@ string msrDivisions::wholeNotesAsMsrString (
       result =
         msrDurationKindAsString (baseDurationKind);
       
-      if (gGeneralOptions->fTraceDivisions) {
+      if (gTraceOptions->fTraceDivisions) {
         gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -9222,7 +9223,7 @@ string msrDivisions::wholeNotesAsMsrString (
     int nextDivisionsInList =
       baseDurationDivisions / 2;
 
-    if (gGeneralOptions->fTraceDivisions) {
+    if (gTraceOptions->fTraceDivisions) {
       gLogIOstream << left <<
         gTab << setw (fieldWidth) <<
         "divisions" << " = " << divisions <<
@@ -9246,7 +9247,7 @@ string msrDivisions::wholeNotesAsMsrString (
         baseDurationDivisions);
       r.rationalise ();
 
-      if (gGeneralOptions->fTraceDivisions) {
+      if (gTraceOptions->fTraceDivisions) {
         gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -9272,7 +9273,7 @@ string msrDivisions::wholeNotesAsMsrString (
         remainingDivisions -= nextDivisionsInList;
         nextDivisionsInList /= 2;
   
-        if (gGeneralOptions->fTraceDivisions) {
+        if (gTraceOptions->fTraceDivisions) {
           gLogIOstream << left <<
             gTab << setw (fieldWidth) <<
             "divisions" << " = " << divisions <<
@@ -9296,7 +9297,7 @@ string msrDivisions::wholeNotesAsMsrString (
           break; // JMI
       } // while
   
-      if (gGeneralOptions->fTraceDivisions) {
+      if (gTraceOptions->fTraceDivisions) {
         gLogIOstream << left <<
           gTab << setw (fieldWidth) <<
           "divisions" << " = " << divisions <<
@@ -9326,7 +9327,7 @@ string msrDivisions::wholeNotesAsMsrString (
 
   numberOfDotsNeeded = dotsNumber;
 
-  if (gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
       "<-- wholeNotesAsMsrString (): returns " << result <<
       endl <<
@@ -9489,7 +9490,7 @@ msrBarCheck::msrBarCheck (
   int    inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a bar check without next bar number" <<
       endl;
@@ -9503,7 +9504,7 @@ msrBarCheck::msrBarCheck (
 {
   fNextBarNumber = nextBarNumber; 
 
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a bar check with next bar number '" <<
       fNextBarNumber <<
@@ -9517,7 +9518,7 @@ msrBarCheck::~msrBarCheck()
 
 void msrBarCheck::setNextBarNumber (string number)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting bar check next bar number to '" <<
       number <<
@@ -9712,7 +9713,7 @@ msrLineBreak::msrLineBreak (
 {
   fNextBarNumber = nextBarNumber; 
 
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a break before measure " << fNextBarNumber <<
       endl;
@@ -9808,7 +9809,7 @@ msrPageBreak::msrPageBreak (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a page break" <<
       endl;
@@ -9957,7 +9958,7 @@ msrTuplet::~msrTuplet()
 
 S_msrTuplet msrTuplet::createTupletNewbornClone ()
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Creating a newborn clone of tuplet '" <<
       tupletAsShortString () <<
@@ -10091,7 +10092,7 @@ string msrTuplet::tupletShowTypeKindAsString (
       
 void msrTuplet::addNoteToTuplet (S_msrNote note)
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
@@ -10128,7 +10129,7 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
 
 void msrTuplet::addChordToTuplet (S_msrChord chord)
 {
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding chord '" <<
       chord->chordAsString () <<
@@ -10160,7 +10161,7 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
 
 void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->tupletAsString () <<
@@ -10210,7 +10211,7 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
 
 void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding tuplet '" <<
       tuplet->tupletAsString () <<
@@ -10240,7 +10241,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
   int       inputLineNumber,
   S_msrNote note)
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Removing first note '" <<
       note->noteAsShortStringWithRawWholeNotes () <<
@@ -10428,7 +10429,7 @@ rational msrTuplet::setTupletPositionInMeasure (
 /* JMI
 void msrTuplet::applyDisplayFactorToTupletMembers ()
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "% ==> applyDisplayFactorToTupletMembers()" <<
       endl;
@@ -10490,7 +10491,7 @@ void msrTuplet::unapplySoundingFactorToTupletMembers (
   int containingTupletActualNotes,
   int containingTupletNormalNotes)
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "unapplySoundingFactorToTupletMembers()" <<
       endl;
@@ -10830,7 +10831,7 @@ msrGlissando::~msrGlissando ()
 
 S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
 {
-  if (gGeneralOptions->fTraceGlissandos) {
+  if (gTraceOptions->fTraceGlissandos) {
     gLogIOstream <<
       "Creating a newborn clone of glissando '" <<
       glissandoAsString () <<
@@ -10978,7 +10979,7 @@ msrSlide::~msrSlide ()
 
 S_msrSlide msrSlide::createSlideNewbornClone ()
 {
-  if (gGeneralOptions->fTraceSlides) {
+  if (gTraceOptions->fTraceSlides) {
     gLogIOstream <<
       "Creating a newborn clone of slide '" <<
       slideAsString () <<
@@ -11187,7 +11188,7 @@ float msrPageGeometry::globalStaffSize () const
   float ratio = millimetersOverTenths / defaultTenthsToMillimetersRatio;
   float staffSize = lilyPondDefaultStaffSize * ratio;
 
-  if (gGeneralOptions->fTraceGeometry) {
+  if (gTraceOptions->fTraceGeometry) {
     gLogIOstream <<
       "globalStaffSize():" <<
       endl;
@@ -11215,7 +11216,7 @@ float msrPageGeometry::globalStaffSize () const
   }
   
   if (staffSize < 1.0 || staffSize > 100.0) {
-    if (gGeneralOptions->fTraceGeometry) {
+    if (gTraceOptions->fTraceGeometry) {
       stringstream s;
 
       s <<
@@ -12388,7 +12389,7 @@ msrHumdrumScotKeyItem::msrHumdrumScotKeyItem (
   int inputLineNumber)
     : msrElement (inputLineNumber)
 {
-  if (gGeneralOptions->fTraceKeys) {
+  if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Creating Humdrum/Scot key item" <<
       ", line = " << inputLineNumber <<
@@ -12421,7 +12422,7 @@ bool msrHumdrumScotKeyItem::isEqualTo (
 void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
   msrDiatonicPitchKind diatonicPitchKind)
 {
-  if (gGeneralOptions->fTraceKeys) {
+  if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item diatonic pitch to '" <<
       msrDiatonicPitchKindAsString (diatonicPitchKind) <<
@@ -12435,7 +12436,7 @@ void msrHumdrumScotKeyItem::setKeyItemDiatonicPitchKind (
 void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
   msrAlterationKind alterationKind)
 {
-  if (gGeneralOptions->fTraceKeys) {
+  if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item alteration to '" <<
       msrAlterationKindAsString (alterationKind) <<
@@ -12448,7 +12449,7 @@ void msrHumdrumScotKeyItem::setKeyItemAlterationKind (
 
 void msrHumdrumScotKeyItem::setKeyItemOctave (int keyOctave)
 {
-  if (gGeneralOptions->fTraceKeys) {
+  if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Setting Humdrum/Scot key item octave to '" <<
       keyOctave <<
@@ -12656,7 +12657,7 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
 void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
 {
-  if (gGeneralOptions->fTraceKeys) {
+  if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Append item '" <<
       item->humdrumScotKeyItemAsString () <<
@@ -12894,7 +12895,7 @@ msrTimeItem::msrTimeItem (
 {
   fTimeBeatValue = -1;
   
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Creating time item" <<
       ", line = " << inputLineNumber <<
@@ -12939,7 +12940,7 @@ bool msrTimeItem::isEqualTo (S_msrTimeItem otherTimeItem) const
 
 void msrTimeItem::appendBeatsNumber (int beatsNumber)
 {
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Append beat number '" <<
       beatsNumber <<
@@ -13150,7 +13151,7 @@ msrTime::~msrTime()
 void msrTime::appendTimeItem (
   S_msrTimeItem timeItem)
 {
-  if (gGeneralOptions->fTraceTimes) {
+  if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Append item '" <<
       timeItem->timeItemAsString () <<
@@ -13530,7 +13531,7 @@ msrTranspose::msrTranspose (
   fTransposeOctaveChange = transposeOctaveChange;
   fTransposeDouble       = transposeDouble;
 
-  if (gGeneralOptions->fTraceTranspositions) {
+  if (gTraceOptions->fTraceTranspositions) {
     gLogIOstream <<
       "Creating transpose '" <<
       transposeAsString () <<
@@ -14044,7 +14045,7 @@ msrSyllable::msrSyllable (
   // fSyllableNoteUplink will be set
   // by appendSyllableToNoteAndSetItsUplink() later
 
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a syllable containing:" <<
       endl;
@@ -14063,7 +14064,7 @@ msrSyllable::~msrSyllable ()
 S_msrSyllable msrSyllable::createSyllableNewbornClone (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a newborn clone of syllable '" <<
       syllableAsString () <<
@@ -14107,7 +14108,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
 S_msrSyllable msrSyllable::createSyllableDeepCopy (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a newborn clone of syllable '" <<
       syllableAsString () <<
@@ -14172,7 +14173,7 @@ void msrSyllable::writeTextsList (
 
 void msrSyllable::appendLyricTextToSyllable (string text)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending text '" <<
       text <<
@@ -14201,7 +14202,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsUplink (
     appendSyllableToNote (this);
 
   // set it uplink to note
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Setting syllable note uplink for:" <<
       endl;
@@ -14561,7 +14562,7 @@ void msrStanza::initializeStanza ()
         makeSingleWordFromString (
           fStanzaNumber));
  
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Initializing stanza " << getStanzaName () <<
       endl;
@@ -14581,7 +14582,7 @@ msrStanza::~msrStanza()
 S_msrStanza msrStanza::createStanzaNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a newborn clone of stanza \"" <<
       getStanzaName () <<
@@ -14625,7 +14626,7 @@ S_msrStanza msrStanza::createStanzaNewbornClone (
 S_msrStanza msrStanza::createStanzaDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a deep copy of stanza \"" <<
       getStanzaName () <<
@@ -14678,7 +14679,7 @@ S_msrStanza msrStanza::createStanzaDeepCopy (
 void msrStanza::appendSyllableToStanza (
   S_msrSyllable syllable)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending syllable '" << syllable->syllableAsString () <<
       "' to stanza " << getStanzaName () <<
@@ -14719,7 +14720,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'Rest' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -14749,7 +14750,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'Skip' syllable " <<
       " to stanza " << getStanzaName () <<
@@ -14781,7 +14782,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
                   syllableKind,
   rational        wholeNotes)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending '" <<
       msrSyllable::syllableKindAsString (syllableKind) <<
@@ -14814,7 +14815,7 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'Tied' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -14844,7 +14845,7 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'Slur' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -14874,7 +14875,7 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending a 'SlurBeyondEnd' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -14904,7 +14905,7 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending 'Ligature' syllable:" <<
       " to stanza " << getStanzaName () <<
@@ -14934,7 +14935,7 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
   int      inputLineNumber,
   rational wholeNotes)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending a 'LigatureBeyondEnd' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -14964,7 +14965,7 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending a 'barcheck' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -14994,7 +14995,7 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending a 'bar number check' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -15025,7 +15026,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending a 'LineBreak' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -15055,7 +15056,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending a 'PageBreak' syllable" <<
       " to stanza " << getStanzaName () <<
@@ -15223,7 +15224,7 @@ msrHarmonyDegree::msrHarmonyDegree (
   fHarmonyDegreeAlterationKind = harmonyDegreeAlterationKind;
   fHarmonyDegreeTypeKind       = harmonyDegreeTypeKind;
 
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating harmony degree '" <<
       harmonyDegreeAsString () <<
@@ -15528,7 +15529,7 @@ msrHarmony::msrHarmony (
   fHarmonySoundingWholeNotes =
     harmonySoundingWholeNotes;
 
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating harmony '" <<
       harmonyAsString () <<
@@ -15543,7 +15544,7 @@ msrHarmony::~msrHarmony()
 S_msrHarmony msrHarmony::createHarmonyNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating a newborn clone of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
@@ -15574,7 +15575,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
 S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceHarmonies) {
+  if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating a deep copy of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
@@ -15830,7 +15831,7 @@ msrFigure::msrFigure (
   fFigureNumber     = figureNumber;
   fFigureSuffixKind = figureSuffixKind;
  
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating figure '" <<
       figureAsString () <<
@@ -15845,7 +15846,7 @@ msrFigure::~msrFigure()
 S_msrFigure msrFigure::createFigureNewbornClone (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a newborn clone of figure '" <<
       figureAsString () <<
@@ -15873,7 +15874,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
 S_msrFigure msrFigure::createFigureDeepCopy (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a deep copy of figure '" <<
       figureAsString () <<
@@ -16122,7 +16123,7 @@ msrFiguredBass::msrFiguredBass (
   fFiguredBassParenthesesKind =
     figuredBassParenthesesKind;
     
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating figuredBass '" <<
       figuredBassAsString () <<
@@ -16137,7 +16138,7 @@ msrFiguredBass::~msrFiguredBass()
 S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a newborn clone of figuredBass '" <<
       figuredBassAsString () <<
@@ -16164,7 +16165,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
 S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a deep copy of figuredBass '" <<
       figuredBassAsString () <<
@@ -16191,7 +16192,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
 void msrFiguredBass::appendFiguredFigureToFiguredBass (
   S_msrFigure figure)
 {
-  if (gGeneralOptions->fTraceFiguredBass) {
+  if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Appending figure'" << figure->figureAsString () <<
       "' to figuredBass '" <<
@@ -17223,7 +17224,7 @@ msrMeasure::msrMeasure (
 
 void msrMeasure::initializeMeasure ()
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Initializing measure " << fMeasureNumber <<
       " in segment " <<
@@ -17275,7 +17276,7 @@ S_msrVoice msrMeasure::fetchMeasureVoiceUplink () const
 S_msrMeasure msrMeasure::createMeasureNewbornClone (
   S_msrSegment containingSegment)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a newborn clone of measure '" <<
       fMeasureNumber <<
@@ -17339,7 +17340,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
 S_msrMeasure msrMeasure::createMeasureDeepCopy (
   S_msrSegment containingSegment)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating a deep copy of measure '" <<
       fMeasureNumber <<
@@ -17396,7 +17397,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
     fMeasureElementsList.size ();
 
   if (numberOfMeasureElements) {
-     if (gGeneralOptions->fTraceMeasures) {
+     if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         singularOrPluralWithoutNumber (
           numberOfMeasureElements, "There is", "There are") <<
@@ -17445,7 +17446,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       else if (
         S_msrTime time = dynamic_cast<msrTime*>(&(*element))
         ) {
-        if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
             "Sharing time '" <<
             time->timeAsShortString () <<
@@ -17473,7 +17474,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   }
   
   else {
-    if (gGeneralOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "There are no elements in measure to be deep copied" <<
         " in segment " <<
@@ -17510,7 +17511,7 @@ void msrMeasure::setMeasureLength (
   rational rationalisedMeasureLength = measureLength;
   rationalisedMeasureLength.rationalise ();
   
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
       "Setting measure " << fMeasureNumber <<
       " measure length to '"  << rationalisedMeasureLength << "'";
@@ -17547,7 +17548,7 @@ string msrMeasure::measureLengthAsMSRString ()
 
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
-  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending clef '" << clef->clefAsString () <<
       "' to measure " << fMeasureNumber <<
@@ -17563,7 +17564,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
 
 void msrMeasure::appendKeyToMeasure (S_msrKey key)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending key '" << key->keyAsString () <<
       "' to measure " << fMeasureNumber <<
@@ -17584,7 +17585,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     time != nullptr,
     "time is null");
 
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending time:" <<
       endl;
@@ -17618,7 +17619,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
     
     // this measure is senza misura
     
-    if (gGeneralOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -17648,7 +17649,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
       wholeNotesPerMeasure =
         time->wholeNotesPerMeasure ();
         
-    if (gGeneralOptions->fTraceTimes) {
+    if (gTraceOptions->fTraceTimes) {
       gLogIOstream <<
         time;
   
@@ -17670,7 +17671,7 @@ void msrMeasure::appendTimeToMeasure (S_msrTime time)
       wholeNotesPerMeasure.getDenominator ();
     
   
-    if (gGeneralOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -17695,7 +17696,7 @@ void msrMeasure::appendTimeToMeasureClone (S_msrTime time)
     time != nullptr,
     "time is null");
 
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending time:" <<
       endl;
@@ -17730,11 +17731,11 @@ void msrMeasure::setFullMeasureLengthFromTime (
     "time is null");
 
   if (
-    gGeneralOptions->fTraceDivisions
+    gTraceOptions->fTraceDivisions
       ||
-    gGeneralOptions->fTraceTimes
+    gTraceOptions->fTraceTimes
       ||
-    gGeneralOptions->fTraceMeasures) {
+    gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting measure full measure length from time" <<
       ", line " << fInputLineNumber <<
@@ -17762,11 +17763,11 @@ void msrMeasure::setFullMeasureLengthFromTime (
     // this measure is senza misura
     
     if (
-      gGeneralOptions->fTraceDivisions
+      gTraceOptions->fTraceDivisions
         ||
-      gGeneralOptions->fTraceTimes
+      gTraceOptions->fTraceTimes
         ||
-      gGeneralOptions->fTraceMeasures) {
+      gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -17795,11 +17796,11 @@ void msrMeasure::setFullMeasureLengthFromTime (
           wholeNotesPerMeasure ();
         
     if (
-      gGeneralOptions->fTraceDivisions
+      gTraceOptions->fTraceDivisions
         ||
-      gGeneralOptions->fTraceTimes
+      gTraceOptions->fTraceTimes
         ||
-      gGeneralOptions->fTraceMeasures) {
+      gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "There are " <<
         wholeNotesPerMeasure <<
@@ -17829,11 +17830,11 @@ void msrMeasure::setFullMeasureLengthFromTime (
       wholeNotesPerMeasure;
 
     if (
-      gGeneralOptions->fTraceDivisions
+      gTraceOptions->fTraceDivisions
         ||
-      gGeneralOptions->fTraceTimes
+      gTraceOptions->fTraceTimes
         ||
-      gGeneralOptions->fTraceMeasures) {
+      gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "Measure '" << fMeasureNumber <<
         "' in voice \"" <<
@@ -17911,7 +17912,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" << note->noteAsShortString () <<
       "' to measure '" << fMeasureNumber <<
@@ -17992,7 +17993,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
     // should a rest be appended to the harmony voices?
     if (partHarmonyVoicesMap.size ()) {
       if (partHarmoniesSupplierVoice) {
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
             "measureVoiceUplink = \"" <<
             fetchMeasureVoiceUplink ()->getVoiceName () <<
@@ -18032,7 +18033,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
                     getVoicePartRelativeID ());
       
             // append the skip to the part harmony voice
-            if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
+            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
               gLogIOstream <<
                 "Appending skip '" << skipNote->noteAsShortString () <<
                 "' to measure '" << fMeasureNumber <<
@@ -18067,7 +18068,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
   int inputLineNumber =
     note->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending note '" << note->noteAsShortString () <<
       "' to measure clone '" << fMeasureNumber <<
@@ -18150,7 +18151,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
    /*  JMI ???   
     if (noteHarmony) {
       // append the harmony to the harmony voice
-      if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
         gLogIOstream <<
           "Appending harmony '" << noteHarmony->harmonyAsString () <<
           "' to measure '" << fMeasureNumber <<
@@ -18186,7 +18187,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
                 getVoicePartRelativeID ());
   
         // append the skip to the part harmony voice
-        if (gGeneralOptions->fTraceNotes || gGeneralOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
             "Appending skip '" << skipNote->noteAsShortString () <<
             "' to measure '" << fMeasureNumber <<
@@ -18219,7 +18220,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // populate measure uplink
   doubleTremolo->setDoubleTremoloMeasureUplink (this);
 
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending double tremolo '" <<
       doubleTremolo->doubleTremoloAsShortString () <<
@@ -18302,7 +18303,7 @@ void msrMeasure::appendMeasuresRepeatToMeasure (
   measuresRepeat->setMeasuresRepeatMeasureUplink (this);
 */
 
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       measuresRepeat->measuresRepeatAsString () <<
@@ -18376,7 +18377,7 @@ void msrMeasure::appendMultipleRestToMeasure (
     multipleRest->setMultipleRestMeasureUplink (this);
 */
 
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
@@ -18444,7 +18445,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
   // populate measure uplink
   chord->setChordMeasureUplink (this);
 
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending chord '" << chord->chordAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -18508,7 +18509,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   int inputLineNumber =
     tuplet->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceTuplets || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -18595,7 +18596,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
   int inputLineNumber =
     harmony->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -18639,7 +18640,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
     
   // regular insertion in current measure
   
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to measure clone '" << fMeasureNumber <<
@@ -18682,7 +18683,7 @@ void msrMeasure::appendFiguredBassToMeasure (
   int inputLineNumber =
     figuredBass->getInputLineNumber ();
     
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to measure '" << fMeasureNumber <<
@@ -18727,7 +18728,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
     
   // regular insertion in current measure
   
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to measure clone '" << fMeasureNumber <<
@@ -18768,7 +18769,7 @@ void msrMeasure::bringMeasureToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Bringing measure length for measure '" <<
       fMeasureNumber <<
@@ -18816,7 +18817,7 @@ void msrMeasure::bringMeasureToMeasureLength (
       setNotePositionInMeasure (
         fMeasureLength);
            
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceDivisions) {
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
       gLogIOstream <<
        "Appending " << skip->noteAsString () <<
        " (" << skipDuration <<
@@ -18988,7 +18989,7 @@ void msrMeasure::appendPageBreakToMeasure (S_msrPageBreak pageBreak)
 void msrMeasure::appendStaffDetailsToMeasure (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures) { 
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) { 
     gLogIOstream <<
       "Appending staff details '" << staffDetails->staffDetailsAsShortString () <<
       "' to measure '" << fMeasureNumber <<
@@ -19029,7 +19030,7 @@ void msrMeasure::removeNoteFromMeasure (
   int       inputLineNumber,
   S_msrNote note)
 {  
-  if (gGeneralOptions->fTraceChords || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Removing note:" <<
       endl;
@@ -19197,7 +19198,7 @@ void msrMeasure::determineMeasureKind (
   // determine the measure kind
   if (fMeasureLength == fFullMeasureLength) {
     // full measure
-    if (gGeneralOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
       "Measure '" << fMeasureNumber <<
       "' in voice \"" << voice->getVoiceName () <<
@@ -19212,7 +19213,7 @@ void msrMeasure::determineMeasureKind (
   
   else if (fMeasureLength.getNumerator () == 0) { // JMI
     // empty measure
-    if (gGeneralOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
       "Measure '" << fMeasureNumber <<
       "' in voice \"" << voice->getVoiceName () <<
@@ -19229,7 +19230,7 @@ void msrMeasure::determineMeasureKind (
     //  incomplete measure
     switch (fMeasureFirstInSegmentKind) {
       case msrMeasure::kMeasureFirstInSegmentYes:
-        if (gGeneralOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
           "Measure '" << fMeasureNumber <<
           "' in voice \"" << voice->getVoiceName () <<
@@ -19243,7 +19244,7 @@ void msrMeasure::determineMeasureKind (
         break;
         
       case msrMeasure::kMeasureFirstInSegmentNo:
-        if (gGeneralOptions->fTraceMeasures) {
+        if (gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
           "Measure '" << fMeasureNumber <<
           "' in voice \"" << voice->getVoiceName () <<
@@ -19260,7 +19261,7 @@ void msrMeasure::determineMeasureKind (
 
   else if (fMeasureLength > fFullMeasureLength) {
     // overfull measure
-    if (gGeneralOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
       "Measure '" << fMeasureNumber <<
       "' in voice \"" << voice->getVoiceName () <<
@@ -19322,7 +19323,7 @@ void msrMeasure::appendARestToFinalizeMeasure (
     rest->
       setNotePositionInMeasure (fMeasureLength);
            
-    if (gGeneralOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
        "Appending '" << rest->noteAsString () <<
        " (" << restDuration << " rest whole notes)'" <<
@@ -19359,7 +19360,7 @@ void msrMeasure::finalizeMeasure (
       fetchMeasurePartUplink ()->
         getPartMeasureLengthHighTide ();
     
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Finalizing measure '" << fMeasureNumber << "'" <<
       " in voice \"" << voice->getVoiceName () <<
@@ -19690,7 +19691,7 @@ void msrSegment::initializeSegment ()
 {
   fSegmentAbsoluteNumber = ++gSegmentsCounter;
   
-  if (gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "% ==> Initializing new segment, gets absolute number '" <<
       fSegmentAbsoluteNumber <<
@@ -19728,7 +19729,7 @@ S_msrPart msrSegment::fetchSegmentPartUplink () const
 S_msrSegment msrSegment::createSegmentNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Creating a newborn clone of segment " <<
       segmentAsString () <<
@@ -19766,7 +19767,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
 S_msrSegment msrSegment::createSegmentDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Creating a deep copy of segment " <<
       segmentAsString () <<
@@ -19799,7 +19800,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
    fSegmentMeasuresList.size () ;
 
   if (numberOfSegmentMeasures) {
-     if (gGeneralOptions->fTraceVoices) {
+     if (gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "There are " <<
         numberOfSegmentMeasures <<
@@ -19821,7 +19822,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   }
   
   else {
-    if (gGeneralOptions->fTraceSegments) {
+    if (gTraceOptions->fTraceSegments) {
       gLogIOstream <<
         "There are no measures in segment to be deep copied" <<
         endl;
@@ -19842,7 +19843,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Creating and appending a measure '" << measureNumber <<
       "', to segment '" << segmentAsString () <<
@@ -19871,7 +19872,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   }
       
   // create a measure
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Creating measure '" << measureNumber <<
       "' in segment " << segmentAsString () <<
@@ -19924,7 +19925,7 @@ void msrSegment::setNextMeasureNumberInSegment (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Setting next measure number to FYY '" << nextMeasureNumber <<
       "' in segment '" << segmentAsString () <<
@@ -19936,7 +19937,7 @@ void msrSegment::setNextMeasureNumberInSegment (
   }
 
   if (fSegmentMeasuresList.size ()) { // JMI ???
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
       gLogIOstream <<
         "Setting next measure number to FEE '" << nextMeasureNumber <<
         "' in segment '" << segmentAsString () <<
@@ -19961,7 +19962,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       fetchSegmentPartUplink ()->
         getPartCurrentMeasureNumber ();
       
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Finalizing current measure '" <<
       currentMeasureNumber <<
@@ -20012,7 +20013,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     }
     
     else {
-      if (gGeneralOptions->fTraceMeasures) {
+      if (gTraceOptions->fTraceMeasures) {
         stringstream s;
     
         gLogIOstream <<
@@ -20026,7 +20027,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       fSegmentMeasuresList.pop_back ();
     }
   
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
       gLogIOstream <<
         endl <<
         "*********>> Current voice \"" <<
@@ -20045,7 +20046,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
 {
-  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending clef '" << clef->clefAsString () <<
       "' to segment " << segmentAsString () <<
@@ -20099,7 +20100,7 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 
 void msrSegment::appendKeyToSegment (S_msrKey key)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending key '" << key->keyAsString () <<
       "' to segment " << segmentAsString () <<
@@ -20124,7 +20125,7 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
     
 void msrSegment::appendTimeToSegment (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending time:" <<
       endl;
@@ -20156,7 +20157,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
 
 void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending time:" <<
       endl;
@@ -20188,7 +20189,7 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
 
 void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending harmony " << harmony->harmonyAsString () <<
       " to segment " << segmentAsString () <<
@@ -20210,7 +20211,7 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 
 void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending harmony " << harmony->harmonyAsString () <<
       " to segment clone " << segmentAsString () <<
@@ -20233,7 +20234,7 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 void msrSegment::appendFiguredBassToSegment (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending figured bass " << figuredBass->figuredBassAsString () <<
       " to segment " << segmentAsString () <<
@@ -20256,7 +20257,7 @@ void msrSegment::appendFiguredBassToSegment (
 void msrSegment::appendFiguredBassToSegmentClone (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending figured bass " << figuredBass->figuredBassAsString () <<
       " to segment clone " << segmentAsString () <<
@@ -20278,7 +20279,7 @@ void msrSegment::appendFiguredBassToSegmentClone (
 
 void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending segno " <<
       " to segment " << segmentAsString () <<
@@ -20300,7 +20301,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
 
 void msrSegment::appendCodaToSegment (S_msrCoda coda)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending coda " <<
       " to segment " << segmentAsString () <<
@@ -20323,7 +20324,7 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
 void msrSegment::appendEyeGlassesToSegment (
   S_msrEyeGlasses eyeGlasses)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending eyeglasses " <<
       " to segment " << segmentAsString () <<
@@ -20345,7 +20346,7 @@ void msrSegment::appendEyeGlassesToSegment (
 
 void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending pedal " <<
       " to segment " << segmentAsString () <<
@@ -20368,7 +20369,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
 void msrSegment::appendTransposeToSegment (
   S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending transpose " <<
       " to segment " << segmentAsString () <<
@@ -20391,7 +20392,7 @@ void msrSegment::appendTransposeToSegment (
 void msrSegment::appendStaffDetailsToSegment (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending staff details " <<
       " to segment " << segmentAsString () <<
@@ -20430,7 +20431,7 @@ void msrSegment::appendStaffDetailsToSegment (
 
 void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending break " <<
       " to segment " << segmentAsString () <<
@@ -20452,7 +20453,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
 
 void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending break " <<
       " to segment " << segmentAsString () <<
@@ -20475,7 +20476,7 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
 void msrSegment::appendBarNumberCheckToSegment (
   S_msrBarNumberCheck barNumberCheck)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending bar number check " <<
       " to segment " << segmentAsString () <<
@@ -20498,7 +20499,7 @@ void msrSegment::appendBarNumberCheckToSegment (
 void msrSegment::appendTempoToSegment (
   S_msrTempo tempo)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending tempo " <<
       " to segment " << segmentAsString () <<
@@ -20521,7 +20522,7 @@ void msrSegment::appendTempoToSegment (
 void msrSegment::appendRehearsalToSegment (
   S_msrRehearsal rehearsal)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending rehearsal " <<
       " to segment " << segmentAsString () <<
@@ -20544,7 +20545,7 @@ void msrSegment::appendRehearsalToSegment (
 void msrSegment::appendOctaveShiftToSegment (
   S_msrOctaveShift octaveShift)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
@@ -20569,7 +20570,7 @@ void msrSegment::appendAccordionRegistrationToSegment (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
@@ -20595,7 +20596,7 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending staff pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
@@ -20621,7 +20622,7 @@ void msrSegment::bringSegmentToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Bringing measure length for segment '" <<
       fSegmentAbsoluteNumber <<
@@ -20697,7 +20698,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
       ? ""
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
     
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending measure " << measureNumber <<
       " to segment " << segmentAsString ();
@@ -20750,7 +20751,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
       ? ""
       : fSegmentMeasuresList.back ()->getMeasureNumber ();
     
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Prepending measure " << measureNumber <<
       " to segment " << segmentAsString ();
@@ -20801,7 +20802,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
   /* JMI BOF
   if (! fSegmentMeasuresList.size ()) {
     // create a new measure
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
       gLogIOstream <<
         "Appending a new measure '" << measureNumber <<
         "' to segment '" << segmentAsString () << "'" <<
@@ -20829,7 +20830,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
 
 void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Prepending barline '" << barline->barlineAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
@@ -20851,7 +20852,7 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 
 void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending barline '" << barline->barlineAsString () <<
       "' to segment '" << segmentAsString () << "'" <<
@@ -20862,7 +20863,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
   }
 
   if (! fSegmentMeasuresList.size ()) { // JMI
-    if (gGeneralOptions->fTraceBarlines || gGeneralOptions->fTraceSegments) { // JMI
+    if (gTraceOptions->fTraceBarlines || gTraceOptions->fTraceSegments) { // JMI
       gLogIOstream <<
         endl <<
         "*********>> Current voice \"" <<
@@ -20890,7 +20891,7 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 
 void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending bar check " << barCheck->barCheckAsString () <<
       " to segment '" << segmentAsString () << "'" <<
@@ -20913,11 +20914,11 @@ void msrSegment::appendVoiceStaffChangeToSegment (
   S_msrVoiceStaffChange voiceStaffChange)
 {
   if (
-    gGeneralOptions->fTraceVoices
+    gTraceOptions->fTraceVoices
       ||
-    gGeneralOptions->fTraceStaves
+    gTraceOptions->fTraceStaves
       ||
-    gGeneralOptions->fTraceSegments) {
+    gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Append voice staff change " <<
       voiceStaffChange->voiceStaffChangeAsString () <<
@@ -20960,7 +20961,7 @@ void msrSegment::appendNoteToSegmentClone (S_msrNote note)
 void msrSegment::appendDoubleTremoloToSegment ( // JMI
   S_msrDoubleTremolo doubleTremolo)
 {
-  if (gGeneralOptions->fTraceTremolos || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending double tremolo " <<
       doubleTremolo->doubleTremoloAsShortString () <<
@@ -20983,7 +20984,7 @@ void msrSegment::appendDoubleTremoloToSegment ( // JMI
 void msrSegment::appendMeasuresRepeatToSegment (
   S_msrMeasuresRepeat measuresRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending measure repeat '" <<
       measuresRepeat->measuresRepeatAsString () <<
@@ -21006,7 +21007,7 @@ void msrSegment::appendMeasuresRepeatToSegment (
 void msrSegment::appendMultipleRestToSegment (
   S_msrMultipleRest multipleRest)
 {
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
@@ -21201,7 +21202,7 @@ void msrSegment::removeNoteFromSegment (
 S_msrMeasure msrSegment::removeLastMeasureFromSegment (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Removing last measure from segment '" <<
       fSegmentAbsoluteNumber <<
@@ -21231,7 +21232,7 @@ S_msrMeasure msrSegment::removeLastMeasureFromSegment (
     result =
       fSegmentMeasuresList.back ();
 
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceSegments) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       endl <<
       "This measure contains:" <<
@@ -21522,7 +21523,7 @@ ostream& operator<< (ostream& os, const S_msrRepeatCommonPart& elt)
 void msrRepeatCommonPart::appendElementToRepeatCommonPart (
   S_msrElement elem)
 {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending element '" << elem <<
       "' to repeat common part '" << repeatCommonPartAsString () << "'" <<
@@ -21819,7 +21820,7 @@ void msrRepeat::setRepeatCommonPart (
     repeatCommonPart != nullptr,
     "repeatCommonPart is null");
     
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting repeat common part containing " <<
       singularOrPlural (
@@ -21836,7 +21837,7 @@ void msrRepeat::setRepeatCommonPart (
 void msrRepeat::setRepeatCommonSegment (
   S_msrSegment repeatCommonSegment)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting repeat common segment containing " <<
       singularOrPlural (
@@ -21864,7 +21865,7 @@ void msrRepeat::addRepeatEnding (
     repeatEnding != nullptr,
     "repeatEnding is null");
     
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Adding ending '" <<
       repeatEnding->repeatEndingAsString () <<
@@ -22076,7 +22077,7 @@ msrMeasuresRepeatPattern::~msrMeasuresRepeatPattern()
 void msrMeasuresRepeatPattern::setMeasuresRepeatPatternSegment (
     S_msrSegment measuresRepeatPatternSegment)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat pattern segment containing " <<
       singularOrPlural (
@@ -22258,7 +22259,7 @@ msrMeasuresRepeatReplicas::~msrMeasuresRepeatReplicas()
 void msrMeasuresRepeatReplicas::setMeasuresRepeatReplicasSegment (
     S_msrSegment measuresRepeatReplicasSegment)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat replicas segment containing " <<
       singularOrPlural (
@@ -22455,7 +22456,7 @@ msrMeasuresRepeat::~msrMeasuresRepeat()
 void msrMeasuresRepeat::setMeasuresRepeatPattern (
   S_msrMeasuresRepeatPattern measuresRepeatPattern)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat pattern containing " <<
       singularOrPlural (
@@ -22477,7 +22478,7 @@ void msrMeasuresRepeat::setMeasuresRepeatPattern (
 void msrMeasuresRepeat::setMeasuresRepeatReplicas (
   S_msrMeasuresRepeatReplicas measuresRepeatReplicas)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting measure repeat replicas containing " <<
       singularOrPlural (
@@ -22582,7 +22583,7 @@ void msrMeasuresRepeat::browseData (basevisitor* v)
     score->getInhibitMeasuresRepeatReplicasBrowsing ();
 
   if (inhibitMeasuresRepeatReplicasBrowsing) {
-    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats) {
+    if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
       gLogIOstream <<
         "% ==> visiting measure repeat replicas is inhibited" <<
         endl;
@@ -22707,7 +22708,7 @@ msrMultipleRestContents::~msrMultipleRestContents()
 S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a multiple rest contents" <<
       endl;
@@ -22730,7 +22731,7 @@ S_msrMultipleRestContents msrMultipleRestContents::createMultipleRestContentsNew
 void msrMultipleRestContents::setMultipleRestContentsSegment (
     S_msrSegment multipleRestContentsSegment)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting multiple rest contents segment containing " <<
       singularOrPlural (
@@ -22912,7 +22913,7 @@ msrMultipleRest::~msrMultipleRest()
 S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of multiple rest " <<
       multipleRestAsString () <<
@@ -22937,7 +22938,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
 void msrMultipleRest::setMultipleRestContents (
   S_msrMultipleRestContents multipleRestContents)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Setting multiple rest segment containing " <<
       singularOrPlural (
@@ -23031,7 +23032,7 @@ void msrMultipleRest::browseData (basevisitor* v)
       getInhibitMultipleRestMeasuresBrowsing ();
 
   if (inhibitMultipleRestMeasuresBrowsing) {
-    if (gMsrOptions->fTraceMsrVisitors || gGeneralOptions->fTraceRepeats) {
+    if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
       gLogIOstream <<
         "% ==> visiting multiple rest measures is inhibited" <<
         endl;
@@ -23147,7 +23148,7 @@ msrRepeatCoda::~msrRepeatCoda()
 S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       repeatCodaAsString () <<
@@ -23180,7 +23181,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
 S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       repeatCodaAsString () <<
@@ -23332,7 +23333,7 @@ msrHarpPedalsTuning::~msrHarpPedalsTuning()
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       harpPedalsTuningAsString () <<
@@ -23347,7 +23348,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
 
 S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       harpPedalsTuningAsString () <<
@@ -23594,7 +23595,7 @@ void msrVoice::setVoiceNameFromNumber (
   int inputLineNumber,
   int voiceNumber)
 {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Setting the name of '" <<
       voiceKindAsString () <<
@@ -23689,7 +23690,7 @@ void msrVoice::initializeVoice (
       break;
   } // switch
   
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Initializing voice \"" << fVoiceName <<
       "\" in staff \"" <<
@@ -23771,7 +23772,7 @@ void msrVoice::initializeVoice (
   // should the initial last segment be created?
   switch (voiceCreateInitialLastSegmentKind) {
     case msrVoice::kCreateInitialLastSegmentYes:
-      if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
+      if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceSegments) {
         gLogIOstream <<
           "Creating an initial voice last segment for voice \"" <<
           fVoiceName <<
@@ -23786,7 +23787,7 @@ void msrVoice::initializeVoice (
       break;
       
     case msrVoice::kCreateInitialLastSegmentNo:
-      if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceSegments) {
+      if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceSegments) {
         gLogIOstream <<
           "NO initial voice last segment is created for voice \"" <<
           fVoiceName <<
@@ -23828,7 +23829,7 @@ void msrVoice::initializeVoice (
 void msrVoice::changeVoiceIdentity ( // after a deep copy
   int voicePartRelativeID)
 {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Changing identity of voice \"" <<
       getVoiceName () <<
@@ -23854,7 +23855,7 @@ void msrVoice::changeVoiceIdentity ( // after a deep copy
 S_msrVoice msrVoice::createVoiceNewbornClone (
   S_msrStaff staffClone)
 {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating a newborn clone of voice \"" <<
       getVoiceName () <<
@@ -23929,7 +23930,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   int          voicePartRelativeID,
   S_msrStaff   containingStaff)
 {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating a deep copy of voice \"" <<
       getVoiceName () <<
@@ -23945,7 +23946,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     containingStaff != nullptr,
     "containingStaff is null");
     
-  if (gGeneralOptions->fTraceVoicesDetails) {
+  if (gTraceOptions->fTraceVoicesDetails) {
     gLogIOstream <<
       "****" <<
       " BEFORE voiceDeepCopy = " <<
@@ -24013,7 +24014,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     fVoiceInitialElementsList.size ();
     
   if (numberOfInitialElements) {
-    if (gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "There are " <<
         numberOfInitialElements <<
@@ -24078,7 +24079,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   }
 
   else {    
-    if (gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "There are no initial elements in voice \"" <<
         getVoiceName () <<
@@ -24095,7 +24096,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
           voiceDeepCopy);
   }
   else {    
-    if (gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "There is no last segment in voice \"" <<
         getVoiceName () <<
@@ -24126,7 +24127,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   voiceDeepCopy->fVoiceStaffUplink =
     containingStaff;
 
-  if (gGeneralOptions->fTraceVoicesDetails) {
+  if (gTraceOptions->fTraceVoicesDetails) {
     gLogIOstream <<
       "****" <<
       " AFTER voiceDeepCopy = " <<
@@ -24183,7 +24184,7 @@ void msrVoice::createNewLastSegmentForVoice (
   int inputLineNumber)
 {
   // create the segment
-  if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating a new segment for voice \"" <<
       getVoiceName () << "\"" <<
@@ -24202,7 +24203,7 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
   S_msrMeasure firstMeasure)
 {
   // create the segment
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating a new segment with first measure '" <<
       firstMeasure->getMeasureNumber () <<
@@ -24240,7 +24241,7 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
     inputLineNumber);
 
   // create the segment
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating a new segment containing a new measure '" <<
       fVoiceCurrentMeasureNumber <<
@@ -24321,7 +24322,7 @@ void msrVoice::addStanzaToVoice (S_msrStanza stanza)
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
@@ -24340,7 +24341,7 @@ void msrVoice::addStanzaToVoiceWithoutCatchUp (S_msrStanza stanza)
     stanza->getStanzaNumber ();
     
   // register stanza in this voice
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Adding stanza " << stanza->getStanzaName () <<
       " (" << stanzaNumber <<
@@ -24368,7 +24369,7 @@ S_msrStanza msrVoice::createStanzaInVoiceIfNotYetDone (
   
   else {
     // no, create it and add it to the voice
-    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceLyrics) {
+    if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceLyrics) {
       gLogIOstream <<
         "Creating stanza" <<
         " number " << stanzaNumber <<
@@ -24425,7 +24426,7 @@ S_msrStanza msrVoice::fetchStanzaInVoice (
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
 {
-  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending clef '" << clef->clefAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -24443,7 +24444,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 
 void msrVoice::appendKeyToVoice (S_msrKey key)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending key '" << key->keyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -24461,7 +24462,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 
 void msrVoice::appendTimeToVoice (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending time '" << time->timeAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -24479,7 +24480,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 
 void msrVoice::appendTimeToVoiceClone (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending time '" << time->timeAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
@@ -24497,7 +24498,7 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time)
 
 void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -24543,7 +24544,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 
 void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 {
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harmony '" << harmony->harmonyAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
@@ -24592,7 +24593,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 void msrVoice::appendFiguredBassToVoice (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -24639,7 +24640,7 @@ void msrVoice::appendFiguredBassToVoice (
 void msrVoice::appendFiguredBassToVoiceClone (
   S_msrFiguredBass figuredBass)
 {
-  if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending figured bass '" << figuredBass->figuredBassAsString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
@@ -24689,7 +24690,7 @@ void msrVoice::fillVoiceWithSkipsUpToMeasure ( // JMI
   int    inputLineNumber,
   string measureNumber)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceDivisions) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
       "Filling voice \"" <<
       getVoiceName () <<
@@ -24704,7 +24705,7 @@ void msrVoice::bringVoiceToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Bringing measure length for voice \"" <<
       getVoiceName () <<
@@ -24720,7 +24721,7 @@ void msrVoice::bringVoiceToMeasureLength (
 
 void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending transpose '" <<
       transpose->transposeAsString () <<
@@ -24739,7 +24740,7 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 void msrVoice::appendStaffDetailsToVoice (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending staff details '" <<
       staffDetails->staffDetailsAsShortString () <<
@@ -24762,7 +24763,7 @@ void msrVoice::appendStaffDetailsToVoice (
 /* JMI
 void msrVoice::appendWordsToVoice (S_msrWords words)
 {
-  if (gGeneralOptions->fTraceWords) {
+  if (gTraceOptions->fTraceWords) {
     gLogIOstream <<
       "Appending words '" << words->wordsAsString () <<
       "' to voice " << getVoiceName () << endl;
@@ -24814,7 +24815,7 @@ void msrVoice::appendAccordionRegistrationToVoice (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
@@ -24835,7 +24836,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
@@ -24854,7 +24855,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
 
 void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending rehearsal '" << rehearsal->getRehearsalText () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -24872,7 +24873,7 @@ void msrVoice::appendRehearsalToVoice (S_msrRehearsal rehearsal)
 void msrVoice::appendVoiceStaffChangeToVoice (
   S_msrVoiceStaffChange voiceStaffChange)
 {
-  if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Append voice staff change " <<
       voiceStaffChange->voiceStaffChangeAsString () <<
@@ -24890,7 +24891,7 @@ void msrVoice::appendVoiceStaffChangeToVoice (
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending note:" <<
       endl;
@@ -24966,7 +24967,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending note:" <<
       endl;
@@ -25038,7 +25039,7 @@ void msrVoice::appendDoubleTremoloToVoice (
   S_msrDoubleTremolo doubleTremolo)
 
 {
-  if (gGeneralOptions->fTraceTremolos) {
+  if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
       "Appending double tremolo '" <<
       doubleTremolo->doubleTremoloAsShortString () <<
@@ -25058,7 +25059,7 @@ void msrVoice::appendDoubleTremoloToVoice (
 
 void msrVoice::appendChordToVoice (S_msrChord chord)
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Appending chord '" << chord->chordAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -25077,7 +25078,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 
 void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
 {
-  if (gGeneralOptions->fTraceTuplets) {
+  if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Appending tuplet '" << tuplet->tupletAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -25096,7 +25097,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
 
 void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 {
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Appending grace notes " << // JMI graceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
@@ -25115,7 +25116,7 @@ void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 
 void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
 {
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Prepending grace notes " << // JMI graceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
@@ -25135,7 +25136,7 @@ void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
 void msrVoice::appendAfterGraceNotesToVoice (
   S_msrAfterGraceNotes afterGraceNotes)
 {
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Appending after grace notes " << // JMI AfterGraceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
@@ -25155,7 +25156,7 @@ void msrVoice::appendAfterGraceNotesToVoice (
 void msrVoice::prependAfterGraceNotesToVoice (
   S_msrAfterGraceNotes afterGraceNotes)
 {
-  if (gGeneralOptions->fTraceGraceNotes) {
+  if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Prepending after grace notes " << // JMI AfterGraceNotes <<
       " to voice \"" << getVoiceName () << "\"" <<
@@ -25179,7 +25180,7 @@ void msrVoice::appendSyllableToVoice (
   S_msrSyllable syllable)
 {
   // append syllable to this voice
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending syllable '" <<
       syllable->syllableAsString () <<
@@ -25203,7 +25204,7 @@ void msrVoice::appendSyllableToVoice (
 
 void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending bar check '" << barCheck->barCheckAsString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
@@ -25221,7 +25222,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 void msrVoice::appendBarNumberCheckToVoice (
   S_msrBarNumberCheck barNumberCheck)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barnumber check '" <<
       barNumberCheck->barNumberCheckAsString () <<
@@ -25239,7 +25240,7 @@ void msrVoice::appendBarNumberCheckToVoice (
 
 void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending line break '" << lineBreak->lineBreakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -25256,7 +25257,7 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 
 void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending page break '" << pageBreak->pageBreakAsString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -25272,7 +25273,7 @@ void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
 }
 
 void msrVoice::prependOtherElementToVoice (S_msrElement elem) {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Prepending other element '" << elem <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -25288,7 +25289,7 @@ void msrVoice::prependOtherElementToVoice (S_msrElement elem) {
 }
 
 void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending other element '" << elem <<
       "' to voice \"" << getVoiceName () << "\"" <<
@@ -25327,7 +25328,7 @@ void msrVoice::prepareForRepeatInVoice (
           finalizeCurrentMeasureInVoice (
             inputLineNumber);
   
-          if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
             gLogIOstream <<
               endl <<
               "*********>> Current voice ZZZ \"" <<
@@ -25346,7 +25347,7 @@ void msrVoice::prepareForRepeatInVoice (
           }
   
           // move current last segment to the list of initial elements
-          if (gGeneralOptions->fTraceRepeats) {
+          if (gTraceOptions->fTraceRepeats) {
             gLogIOstream <<
               "Appending voice last segment to the initial elements in voice \"" <<
               getVoiceName () <<
@@ -25359,7 +25360,7 @@ void msrVoice::prepareForRepeatInVoice (
             fVoiceLastSegment);
   
           // create a new last segment containing a new measure for the voice
-          if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+          if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
             gLogIOstream <<
               "Creating a new last segment containing a new measure for voice \"" <<
               fVoiceName << "\"" <<
@@ -25371,7 +25372,7 @@ void msrVoice::prepareForRepeatInVoice (
             inputLineNumber,
             fullMeasureLength);
   
-          if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
             gLogIOstream <<
               endl <<
               "*********>> Current voice QQQ \"" <<
@@ -25414,7 +25415,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         finalizeCurrentMeasureInVoice (
           inputLineNumber);
           
-        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             endl <<
             "*********>> Current voice DDD \"" <<
@@ -25433,7 +25434,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         }
 
         // create the repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Creating and appending a repeat in voice \"" <<
             getVoiceName () <<
@@ -25450,7 +25451,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
               this);
 
         // create a repeat common part from the new segment
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Creating a repeat common part in voice \"" <<
             getVoiceName () <<
@@ -25471,7 +25472,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
 
           /* JMI
           // creating a new segment for the implicit repeat
-          if (gGeneralOptions->fTraceRepeats) {
+          if (gTraceOptions->fTraceRepeats) {
             gLogIOstream <<
               "Creating a new segment for the repeat in voice \"" <<
               getVoiceName () <<
@@ -25486,7 +25487,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
               this);
               
           // move the initial elements in voice to the new segment
-          if (gGeneralOptions->fTraceRepeats) {
+          if (gTraceOptions->fTraceRepeats) {
             gLogIOstream <<
               "Moving the initial elements in voice \"" <<
               getVoiceName () <<
@@ -25515,7 +25516,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
               */
 
           // move the voice initial elements to the new repeat common part
-          if (gGeneralOptions->fTraceRepeats) {
+          if (gTraceOptions->fTraceRepeats) {
             gLogIOstream <<
               "Moving the initial elements in voice \"" <<
               getVoiceName () <<
@@ -25543,7 +25544,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           fVoiceInitialElementsList.clear ();
   
           // move voice last segment into the repeat common part
-          if (gGeneralOptions->fTraceRepeats) {
+          if (gTraceOptions->fTraceRepeats) {
             gLogIOstream <<
               "Append the voice last segment to the repeat common part in voice \"" <<
               getVoiceName () <<
@@ -25561,7 +25562,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           // no
 
           // append the voice last segment to the new repeat common part
-          if (gGeneralOptions->fTraceRepeats) {
+          if (gTraceOptions->fTraceRepeats) {
             gLogIOstream <<
               "Appending the voice last segment in voice \"" <<
               getVoiceName () <<
@@ -25576,7 +25577,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
         }
 
         // set newRepeat's common part
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting repeat common part in voice \"" <<
             getVoiceName () <<
@@ -25590,7 +25591,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
             repeatCommonPart);
 
         // append newRepeat to the list of initial elements
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending new repeat to the initial elements in voice \"" <<
             getVoiceName () <<
@@ -25607,7 +25608,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           newRepeat;
 
         // create a new last segment containing a new measure for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
@@ -25619,7 +25620,7 @@ void msrVoice::createRepeatUponItsEndAndAppendItToVoice (
           inputLineNumber,
           fullMeasureLength);
 
-        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             endl <<
             "*********>> Current voice EEE \"" <<
@@ -25678,7 +25679,7 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
           */
           
         // create the repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Creating and appending a repeat in voice \"" <<
             getVoiceName () <<
@@ -25694,7 +25695,7 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
             this);
 
         // create a repeat common part
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Creating a repeat common part from current last segment in voice \"" <<
             getVoiceName () <<
@@ -25710,7 +25711,7 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
               fVoiceCurrentRepeat);
 
         // move voice last segment into the repeat common part
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Append the voice last segment to the repeat common part in voice \"" <<
             getVoiceName () <<
@@ -25724,7 +25725,7 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
             fVoiceLastSegment);
 
         // set fVoiceCurrentRepeat's common part
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting repeat common part in voice \"" <<
             getVoiceName () <<
@@ -25738,7 +25739,7 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
             repeatCommonPart);
           
         // append it to the list of initial elements
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending repeat to the initial elements in voice \"" <<
             getVoiceName () <<
@@ -25751,7 +25752,7 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
           fVoiceCurrentRepeat);
       
         // create a new last segment containing a new measure for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment with the first ending measure for voice \"" <<
             fVoiceName << "\"" <<
@@ -25763,7 +25764,7 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
           inputLineNumber,
           firstEndingMeasure);
 
-        if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             endl <<
             "*********>> Current voice \"" <<
@@ -25798,11 +25799,11 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
       {
         // create a measure repeat
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Creating a " <<
@@ -25818,13 +25819,13 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
       
         // print current voice contents
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             endl <<
@@ -25885,13 +25886,13 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
         // remove the repeated measure(s) for the last segment
         // and prepend them to the repeated segment
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Removing the last " <<
@@ -25935,13 +25936,13 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
 
         // create the measures repeat pattern
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Creating a measure repeat pattern for voice \"" <<
@@ -25968,13 +25969,13 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
         // create a new last segment to collect the measure repeat replicas,
         // containing the first, yet incomplete, replica
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Creating a new last segment with the first replica measure for voice \"" <<
@@ -25988,13 +25989,13 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
 
         // print resulting voice contents
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
@@ -26067,13 +26068,13 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
 
         // create the measure repeat replicas contents
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Creating a measure repeat replicas FAA contents for voice \"" <<
@@ -26097,13 +26098,13 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
             measuresRepeatReplicas);
 
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Setting pending measure repeat replicas segment in voice \"" <<
@@ -26117,13 +26118,13 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
             measuresRepeatReplicas);
 
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Setting measures repeat segment to voice last segment CCC for voice \"" <<
@@ -26143,13 +26144,13 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
         // create a new last segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Creating a new last segment with the AAA measures repeat next measure for voice \"" <<
@@ -26162,7 +26163,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           nextMeasureAfterMeasuresRepeat);
 
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26212,7 +26213,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
         }
 
         // create the measures repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Creating and appending a measures repeat in voice \"" <<
             getVoiceName () <<
@@ -26229,7 +26230,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
             this);
 
         // create a measures repeat pattern from current last segment
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Creating a measures repeat pattern from current last segment in voice \"" <<
             getVoiceName () <<
@@ -26251,7 +26252,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
             
 
         // set the measures repeat pattern
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting repeat common part in voice \"" <<
             getVoiceName () <<
@@ -26264,7 +26265,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
             measuresRepeatPattern);
 
         // create a new last segment containing a new measure for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
@@ -26276,7 +26277,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
           fullMeasureLength);
 
         // append the measures repeat to the list of initial elements
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending measures repeat to the list of initial elements in voice \"" <<
             getVoiceName () <<
@@ -26290,13 +26291,13 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
         // create a new last segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
         if (
-          gGeneralOptions->fTraceMeasures
+          gTraceOptions->fTraceMeasures
             ||
-          gGeneralOptions->fTraceRepeats
+          gTraceOptions->fTraceRepeats
             ||
-          gGeneralOptions->fTraceSegments
+          gTraceOptions->fTraceSegments
             ||
-          gGeneralOptions->fTraceVoices
+          gTraceOptions->fTraceVoices
           ) {
           gLogIOstream <<
             "Creating a new last segment for voice \"" <<
@@ -26308,7 +26309,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
           inputLineNumber);
 
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26329,7 +26330,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
 void msrVoice::setVoiceContainsMultipleRests (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Voice \"" <<
       getVoiceName () <<
@@ -26353,7 +26354,7 @@ void msrVoice::createMultipleRestInVoice (
     case msrVoice::kFiguredBassVoice:
       {
         // create a multiple rest
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Creating a multiple rest in voice \"" <<
             getVoiceName () <<
@@ -26405,7 +26406,7 @@ void msrVoice::createMultipleRestInVoice (
 
         // create a new segment to collect the multiple rest measures,
         // containing the first, rest measure
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment containing the first rest measure in voice \"" <<
             fVoiceName << "\"" <<
@@ -26428,7 +26429,7 @@ void msrVoice::createMultipleRestInVoice (
           inputLineNumber);
             
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26454,7 +26455,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending the pending multiple rest to voice \"" <<
             getVoiceName () <<
@@ -26465,7 +26466,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
 /*
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26534,7 +26535,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         voiceLastSegmentMeasureList.pop_back ();
 
         // create the multiple rest contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a measure pattern for voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26548,7 +26549,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
               this);
 
         // set voice last segment as the multiple rest segment
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
@@ -26561,7 +26562,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             fVoiceLastSegment);
 
         // set multipleRestContents as the multiple rest contents
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting current last segment as multiple rest segment in voice \"" <<
             getVoiceName () <<
@@ -26579,7 +26580,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
 /* JMI
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26593,7 +26594,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
 
         // create a new segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment with the measure after the multiple rests for voice \"" <<
             fVoiceName << "\"" <<
@@ -26612,7 +26613,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             nextMeasureAfterMultipleRest);
 */
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26640,7 +26641,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending multiple rest '" <<
             multipleRest->multipleRestAsString () <<
@@ -26653,7 +26654,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
 
 /*
         // print current voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26670,7 +26671,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
           multipleRest);
 
         // print resulting voice contents
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26700,7 +26701,7 @@ void msrVoice::appendRepeatCloneToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending repeat clone to voice clone \"" <<
             getVoiceName () <<  "\"" <<
@@ -26708,7 +26709,7 @@ void msrVoice::appendRepeatCloneToVoice (
         }
       
         // create a repeat common part from current last segment
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Creating a repeat clone common part from current last segment in voice \"" <<
             getVoiceName () <<
@@ -26724,7 +26725,7 @@ void msrVoice::appendRepeatCloneToVoice (
               repeatCLone);
 
         // move voice last segment into the repeat common part
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Append the segment to use to the repeat common part in voice \"" <<
             getVoiceName () <<
@@ -26738,7 +26739,7 @@ void msrVoice::appendRepeatCloneToVoice (
             repeatCommonPart);
 
         // set repeatCLone's common part
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting repeat clone common part in voice \"" <<
             getVoiceName () <<
@@ -26752,7 +26753,7 @@ void msrVoice::appendRepeatCloneToVoice (
 
 /* JMI
         // set current last segment as the repeat common segment
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Segging current last segment as repeat common segment in voice \"" <<
             getVoiceName () <<
@@ -26764,7 +26765,7 @@ void msrVoice::appendRepeatCloneToVoice (
             fVoiceLastSegment);
  */         
         // register repeat clone as the (new) current repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Registering repeat clone as the new current repeat in voice \"" <<
             getVoiceName () <<
@@ -26780,7 +26781,7 @@ void msrVoice::appendRepeatCloneToVoice (
           repeatCLone);
       
         // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment for voice BOF JMI \"" <<
             fVoiceName << "\"" <<
@@ -26806,7 +26807,7 @@ void msrVoice::appendRepeatEndingToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending a repeat ending to voice \"" <<
             getVoiceName () <<  "\"" <<
@@ -26836,7 +26837,7 @@ void msrVoice::appendRepeatEndingToVoice (
               fVoiceCurrentRepeat);
       
         // add the repeat ending it to the voice current repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending a " <<
             msrRepeatEnding::repeatEndingKindAsString (
@@ -26851,7 +26852,7 @@ void msrVoice::appendRepeatEndingToVoice (
           addRepeatEnding (repeatEnding);
       
         // create a new last segment containing a new measure for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
@@ -26875,7 +26876,7 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
     case msrVoice::kHarmonyVoice:
     case msrVoice::kFiguredBassVoice:
       {
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending a measures repeat replica to voice \"" <<
             getVoiceName () <<  "\"" <<
@@ -26889,7 +26890,7 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
             getSegmentMeasuresList ().back ()->
               getFullMeasureLength ();
 
-        if (gGeneralOptions->fTraceRepeats) { // JMI
+        if (gTraceOptions->fTraceRepeats) { // JMI
           gLogIOstream <<
             endl <<
             "***********" <<
@@ -26920,7 +26921,7 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
             fVoiceLastSegment);
         
         // set the measures repeat replicas in the voice current measures repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Setting the measures repeat replica to current measures repeat BBB in voice \"" <<
             fVoiceName <<
@@ -26933,7 +26934,7 @@ void msrVoice::appendMeasuresRepeatReplicaToVoice (
             measuresRepeatReplicas);
 
         // create a new last segment containing a new measure for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
@@ -26958,7 +26959,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
     case msrVoice::kFiguredBassVoice:
       {
         // add the repeat ending it to the voice current repeat
-        if (gGeneralOptions->fTraceRepeats) {
+        if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending repeat ending clone to current repeat in voice \"" <<
             fVoiceName <<
@@ -26975,7 +26976,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
           addRepeatEnding (repeatEndingClone);
       
         // create a new segment for the voice
-        if (gGeneralOptions->fTraceSegments || gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Creating a new last segment for voice \"" <<
             fVoiceName <<
@@ -26992,7 +26993,7 @@ void msrVoice:: appendRepeatEndingCloneToVoice ( // JMI
 
 void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Prepending barline '" <<
       barline->barlineAsString () <<
@@ -27011,7 +27012,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
 
 void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending barline '" <<
       barline->barlineAsString () <<
@@ -27030,7 +27031,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
 
 void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending a segno to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -27046,7 +27047,7 @@ void msrVoice::appendSegnoToVoice (S_msrSegno segno)
 
 void msrVoice::appendCodaToVoice (S_msrCoda coda)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending a coda to voice \"" << getVoiceName () << "\"" <<
       ":" <<
@@ -27063,7 +27064,7 @@ void msrVoice::appendCodaToVoice (S_msrCoda coda)
 
 void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 {
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending a eyeGlasses to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -27079,7 +27080,7 @@ void msrVoice::appendEyeGlassesToVoice (S_msrEyeGlasses eyeGlasses)
 
 void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 {
-  if (gGeneralOptions->fTraceNotes) {
+  if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Appending a pedal to voice \"" << getVoiceName () << "\"" <<
       endl;
@@ -27097,7 +27098,7 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 S_msrElement msrVoice::removeLastElementFromVoice (  // JMI
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Removing last note" <<
       " from voice " << getVoiceName () <<
@@ -27114,7 +27115,7 @@ void msrVoice::removeNoteFromVoice (
   int       inputLineNumber,
   S_msrNote note)
 {
-  if (gGeneralOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Removing first chord note '" <<
       note->noteAsShortString () <<
@@ -27131,7 +27132,7 @@ void msrVoice::removeNoteFromVoice (
 S_msrMeasure msrVoice::removeLastMeasureFromVoice (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Removing last measure from voice \"" <<
       getVoiceName () <<
@@ -27149,7 +27150,7 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
 void msrVoice::finalizeCurrentMeasureInVoice (
   int    inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Finalizing current measure in voice \"" <<
       getVoiceName () <<
@@ -27183,7 +27184,7 @@ void msrVoice::finalizeCurrentMeasureInVoice (
 void msrVoice::finalizeVoice ( // JMI ???
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Finalizing voice \"" <<
       getVoiceName () <<
@@ -27540,7 +27541,7 @@ msrStaffLinesNumber::~msrStaffLinesNumber()
 
 S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberNewbornClone ()
 {
- if (gGeneralOptions->fTraceStaffTuning) {
+ if (gTraceOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff lines number '" <<
       staffLinesNumberAsString () <<
@@ -27664,7 +27665,7 @@ msrStaffTuning::~ msrStaffTuning ()
 
 S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
 {
-  if (gGeneralOptions->fTraceStaffTuning) {
+  if (gTraceOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff tuning '" <<
       staffTuningAsString () <<
@@ -27831,7 +27832,7 @@ S_msrStaffDetails msrStaffDetails::createStaffDetailsNewbornClone (
   S_msrStaffLinesNumber staffLinesNumberClone,
   S_msrStaffTuning      staffTuningClone)
 {
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Creating a newborn clone of staff details \"" <<
       staffDetailsAsShortString () <<
@@ -28188,7 +28189,7 @@ void msrStaff::initializeStaff ()
       break;
   } // switch
 
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Initializing staff \"" << fStaffName <<
       "\" in part " <<
@@ -28277,7 +28278,7 @@ void msrStaff::initializeStaff ()
           getPartCurrentClef ();
   
     if (clef) {
-      if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+      if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
         gLogIOstream <<
           "Appending part clef '" << clef->clefAsString () <<
           "' as initial clef to staff \"" <<
@@ -28300,7 +28301,7 @@ void msrStaff::initializeStaff ()
           getPartCurrentKey ();
   
     if (key) {
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceKeys) {
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceKeys) {
         gLogIOstream <<
           "Appending part key '" << key->keyAsString () <<
           "' as initial key to staff \"" <<
@@ -28314,7 +28315,7 @@ void msrStaff::initializeStaff ()
     }
       /* JMI
     else {
-      if (gGeneralOptions->fTraceStaves) {
+      if (gTraceOptions->fTraceStaves) {
         gLogIOstream <<
           "Appending default C major key " <<
           " to staff \"" <<
@@ -28347,7 +28348,7 @@ void msrStaff::initializeStaff ()
           getPartCurrentTime ();
 
     if (time) {
-      if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceTimes) {
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceTimes) {
         gLogIOstream <<
           "Appending part time '" << time->timeAsString () <<
           "' as initial time to staff \"" <<
@@ -28370,7 +28371,7 @@ void msrStaff::initializeStaff ()
           getPartCurrentTranspose ();
         
     if (transpose) {
-      if (gGeneralOptions->fTraceStaves /* JMI || gGeneralOptions->fTraceTransposes */) {
+      if (gTraceOptions->fTraceStaves /* JMI || gTraceOptions->fTraceTransposes */) {
         gLogIOstream <<
           "Appending part transpose '" << transpose->transposeAsString () <<
           "' as initial transpose to staff \"" <<
@@ -28401,7 +28402,7 @@ msrStaff::~msrStaff()
 S_msrStaff msrStaff::createStaffNewbornClone (
   S_msrPart containingPart)
 {
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Creating a newborn clone of staff \"" <<
       fStaffName <<
@@ -28511,7 +28512,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Creating and appending measure '" <<
       measureNumber <<
@@ -28532,7 +28533,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
       voice != nullptr,
       "voice is null");
     
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
       gLogIOstream <<
         "Propagating the creation and appending of measure '" <<
         measureNumber <<
@@ -28554,7 +28555,7 @@ void msrStaff::setNextMeasureNumberInStaff (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
@@ -28575,7 +28576,7 @@ void msrStaff::setNextMeasureNumberInStaff (
       voice != nullptr,
       "voice is null");
     
-    if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+    if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
       gLogIOstream <<
         "Propagating the setting of next measure number '" <<
         nextMeasureNumber <<
@@ -28614,7 +28615,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       break;
   } // switch
 
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating voice with part-relative ID '" <<
       voicePartRelativeID <<
@@ -28674,7 +28675,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       
     case msrVoice::kRegularVoice:
       // register the voice by its relative number
-      if (gGeneralOptions->fTraceVoices) {
+      if (gTraceOptions->fTraceVoices) {
         gLogIOstream <<
           "Voice " << voicePartRelativeID <<
           " in staff " << getStaffName () <<
@@ -28707,7 +28708,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
 {
   S_msrVoice result; // JMI avoid repetivite messages!
 
-  if (gGeneralOptions->fTraceVoices && gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceVoices && gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Fetching part-relative voice ID " <<
       voicePartRelativeID <<
@@ -28727,7 +28728,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
       (*i).second->getVoicePartRelativeID ()
         ==
       voicePartRelativeID) {
-      if (gGeneralOptions->fTraceVoicesDetails) {
+      if (gTraceOptions->fTraceVoicesDetails) {
         gLogIOstream <<
           "Voice " << voicePartRelativeID <<
           " in staff \"" << getStaffName () << "\"" <<
@@ -28796,7 +28797,7 @@ void msrStaff::registerVoiceInStaff (
   } // switch
 
   // register voice in this staff
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " <<
@@ -28823,7 +28824,7 @@ void msrStaff::registerVoiceInStaff (
         int voicePartRelativeID = voice->getVoicePartRelativeID ();
         
         // register the voice by its part-relative ID
-        if (gGeneralOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "Voice '" << voicePartRelativeID <<
             "' " << voice->getVoiceName () <<
@@ -28852,7 +28853,7 @@ void msrStaff::bringStaffToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Bringing measure length for staff \"" <<
       getStaffName () <<
@@ -28874,7 +28875,7 @@ void msrStaff::bringStaffToMeasureLength (
 
 void msrStaff::appendClefToStaff (S_msrClef clef)
 {
-  if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending clef '" << clef->clefAsString () <<
       "' to staff \"" <<
@@ -28922,7 +28923,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
   }
 
   else {
-    if (gGeneralOptions->fTraceClefs || gGeneralOptions->fTraceStaves) {
+    if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
       gLogIOstream <<
         "Clef '" <<
         clef->clefAsString () <<
@@ -28937,7 +28938,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 
 void msrStaff::appendKeyToStaff (S_msrKey  key)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending key '" << key->keyAsString () <<
       "' to staff \"" <<
@@ -28960,7 +28961,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
     
     else {
       if (key->isEqualTo (fStaffCurrentKey)) {
-        if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceStaves) {
+        if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceStaves) {
           gLogIOstream <<
             "Key '" <<
             key->keyAsString () <<
@@ -28993,7 +28994,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 
 void msrStaff::appendTimeToStaff (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending time '" << time->timeAsString () <<
       "' to staff \"" <<
@@ -29016,7 +29017,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
     
     else {
       if (time->isEqualTo (fStaffCurrentTime)) {
-        if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
+        if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
           gLogIOstream <<
             "Time '" <<
             time->timeAsString () <<
@@ -29049,7 +29050,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 
 void msrStaff::appendTimeToStaffClone (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending time '" << time->timeAsString () <<
       "' to staff clone \"" <<
@@ -29075,7 +29076,7 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
 void msrStaff::prepareForRepeatInStaff (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Preparing for repeat in staff \"" <<
       getStaffName () <<
@@ -29098,7 +29099,7 @@ void msrStaff::createRepeatUponItsEndAndAppendItToStaff (
   int inputLineNumber,
   int repeatTimes)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating and appending a repeat to staff \"" <<
       getStaffName () <<
@@ -29122,7 +29123,7 @@ void msrStaff::createRepeatUponItsFirstEndingAndAppendItToStaff (
   int inputLineNumber,
   int repeatTimes)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating and appending a repeat to staff \"" <<
       getStaffName () <<
@@ -29148,7 +29149,7 @@ void msrStaff::appendRepeatEndingToStaff (
   msrRepeatEnding::msrRepeatEndingKind
             repeatEndingKind)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat ending to staff \"" <<
       getStaffName () <<
@@ -29174,7 +29175,7 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
   int measuresRepeatMeasuresNumber,
   int measuresRepeatSlashes)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a measure repeat from it's first measure in staff \"" <<
       getStaffName () <<
@@ -29198,7 +29199,7 @@ void msrStaff::createMeasuresRepeatFromItsFirstMeasuresInStaff (
 void msrStaff::appendPendingMeasuresRepeatToStaff (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending the pending measure repeat to staff \"" <<
       getStaffName () <<
@@ -29221,7 +29222,7 @@ void msrStaff::createMultipleRestInStaff (
   int inputLineNumber,
   int multipleRestMeasuresNumber)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a multiple rest in staff \"" <<
       getStaffName () <<
@@ -29247,7 +29248,7 @@ void msrStaff::createMultipleRestInStaff (
 void msrStaff::appendPendingMultipleRestToStaff (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending the pending multiple rest to staff \"" <<
       getStaffName () <<
@@ -29270,7 +29271,7 @@ void msrStaff::appendMultipleRestCloneToStaff (
   int               inputLineNumber,
   S_msrMultipleRest multipleRest)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
@@ -29295,7 +29296,7 @@ void msrStaff::appendRepeatCloneToStaff (
   int         inputLineNumber,
   S_msrRepeat repeatCLone)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat clone to staff \"" <<
       getStaffName () <<
@@ -29317,7 +29318,7 @@ void msrStaff::appendRepeatCloneToStaff (
 void msrStaff::appendRepeatEndingCloneToStaff (
   S_msrRepeatEnding repeatEndingClone)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending repeat ending clone to staff \"" <<
       getStaffName () <<
@@ -29337,7 +29338,7 @@ void msrStaff::appendRepeatEndingCloneToStaff (
 
 void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barline '" << barline->barlineAsString () <<
       "' to staff " <<
@@ -29358,7 +29359,7 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 
 void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting transpose '" <<
       transpose->transposeAsString () <<
@@ -29378,7 +29379,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
   
   else {
     if (transpose->isEqualTo (fStaffCurrentTranspose)) {
-      if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceStaves) {
+      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
         gLogIOstream <<
           "Transpose '" <<
           transpose->transposeAsString () <<
@@ -29405,7 +29406,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
 void msrStaff::appendStaffDetailsToStaff (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending staff details '" <<
       staffDetails->staffDetailsAsShortString () <<
@@ -29428,7 +29429,7 @@ void msrStaff::appendStaffDetailsToStaff (
       ;
   } // switch
   
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting staff kind to '" <<
       staffKindAsString (fStaffKind) <<
@@ -29496,7 +29497,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
       fStaffPartUplink->
         getPartMeasureLengthHighTide ();
       
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Finalizing current measure in staff \"" <<
       getStaffName () <<
@@ -29530,7 +29531,7 @@ void msrStaff::finalizeCurrentMeasureInStaff (
 
 void msrStaff::finalizeStaff (int inputLineNumber)
 {  
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Finalizing staff \"" <<
       getStaffName () << "\"" <<
@@ -29549,7 +29550,7 @@ void msrStaff::finalizeStaff (int inputLineNumber)
       finalizeVoice (inputLineNumber);
 
 /* ??? JMI
-    if (gGeneralOptions->fTraceVoices || gGeneralOptions->fTraceStaves) {
+    if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
       gLogIOstream <<
         "Keeping voice \"" <<
         voice->getVoiceName () << "\"" <<
@@ -29965,7 +29966,7 @@ msrVoiceStaffChange::~msrVoiceStaffChange()
 
 S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
 {
- if (gGeneralOptions->fTraceStaffTuning) {
+ if (gTraceOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff change '" <<
       voiceStaffChangeAsString () <<
@@ -30098,7 +30099,7 @@ msrPart::msrPart (
 
 void msrPart::initializePart ()
 {
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Creating part \"" << getPartCombinedName () << "\"" <<
       endl;
@@ -30138,7 +30139,7 @@ msrPart::~msrPart()
 
 S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
 {
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Creating a newborn clone of part " <<
       getPartCombinedName () <<
@@ -30198,11 +30199,11 @@ void msrPart::createPartMasterStaffAndVoice (
     
   // create the part master staff
   if (
-    gGeneralOptions->fTraceParts
+    gTraceOptions->fTraceParts
       ||
-    gGeneralOptions->fTraceStaves
+    gTraceOptions->fTraceStaves
       ||
-    gGeneralOptions->fTraceVoices) {
+    gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating the master staff" <<
       " with number " << K_PART_MASTER_STAFF_NUMBER <<
@@ -30220,11 +30221,11 @@ void msrPart::createPartMasterStaffAndVoice (
     
   // create the part master voice  
   if (
-    gGeneralOptions->fTraceParts
+    gTraceOptions->fTraceParts
       ||
-    gGeneralOptions->fTraceStaves
+    gTraceOptions->fTraceStaves
       ||
-    gGeneralOptions->fTraceVoices) {
+    gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Creating the master voice " <<
       " with number " << K_PART_MASTER_VOICE_NUMBER <<
@@ -30255,7 +30256,7 @@ void msrPart::createPartMasterStaffAndVoice (
         fPartCurrentTime);
   }
 
-  if (false && gGeneralOptions->fTraceParts) { // JMI
+  if (false && gTraceOptions->fTraceParts) { // JMI
     gLogIOstream <<
       endl <<
       "***********" <<
@@ -30285,13 +30286,13 @@ void msrPart::createPartHarmonyStaffIfNotYetDone (
   if (! fPartHarmonyStaff) {    
     // create the part harmony staff
     if (
-      gGeneralOptions->fTraceParts
+      gTraceOptions->fTraceParts
         ||
-      gGeneralOptions->fTraceHarmonies
+      gTraceOptions->fTraceHarmonies
         ||
-      gGeneralOptions->fTraceStaves
+      gTraceOptions->fTraceStaves
         ||
-      gGeneralOptions->fTraceVoices) {
+      gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "Creating the harmony staff" <<
         " with number " << K_PART_HARMONY_STAFF_NUMBER <<
@@ -30325,7 +30326,7 @@ void msrPart::addHarmonyVoiceToPartIfNotYetDone (
   S_msrVoice harmonyVoice;
 
   // is this harmony voice present in the part harmony voices list?
-  if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       endl; // JMI
   }
@@ -30338,7 +30339,7 @@ void msrPart::addHarmonyVoiceToPartIfNotYetDone (
 
     int voicePartRelativeID = voice->getVoicePartRelativeID ();
     
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "--> Finding harmony voice" <<
         " with part relative ID ' " << voicePartRelativeID <<
@@ -30358,7 +30359,7 @@ void msrPart::addHarmonyVoiceToPartIfNotYetDone (
       
   if (! harmonyVoice) {
     // this harmony voice doesn't exist yet, create it    
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "Adding a harmony voice with number '" <<
         harmonyVoiceNumber <<
@@ -30404,11 +30405,11 @@ S_msrVoice msrPart::fetchHarmonyVoiceFromPart (
   S_msrVoice result;
   
   if (
-    gGeneralOptions->fTraceParts
+    gTraceOptions->fTraceParts
       ||
-    gGeneralOptions->fTraceHarmonies
+    gTraceOptions->fTraceHarmonies
       ||
-    gGeneralOptions->fTraceVoices) { // JMI
+    gTraceOptions->fTraceVoices) { // JMI
     gLogIOstream <<
       "Fetching harmony voice '" << harmonyVoiceNumber <<
       "' (" << actualVoiceNumber << ")" <<
@@ -30432,13 +30433,13 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
   if (! fPartFiguredBassStaff) {    
     // create the part figured bass staff
     if (
-      gGeneralOptions->fTraceParts
+      gTraceOptions->fTraceParts
         ||
-      gGeneralOptions->fTraceFiguredBass
+      gTraceOptions->fTraceFiguredBass
         ||
-      gGeneralOptions->fTraceStaves
+      gTraceOptions->fTraceStaves
         ||
-      gGeneralOptions->fTraceVoices) {
+      gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "Creating the figured bass staff" <<
         " with number " << K_PART_FIGURED_BASS_STAFF_NUMBER <<
@@ -30455,7 +30456,7 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
         K_PART_FIGURED_BASS_STAFF_NUMBER);
       
     // create the part figured bass voice  
-    if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "Creating the figured bass voice " <<
         " with number " << K_PART_FIGURED_BASS_VOICE_NUMBER <<
@@ -30517,7 +30518,7 @@ void msrPart::setPartMeasureLengthHighTide (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceDivisions || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting measure length high tide for part \"" <<
       getPartCombinedName () <<
@@ -30534,7 +30535,7 @@ void msrPart::updatePartMeasureLengthHighTide (
   rational measureLength)
 {
   if (measureLength > fPartMeasureLengthHighTide) {
-    if (gGeneralOptions->fTraceDivisions || gGeneralOptions->fTraceMeasures) {
+    if (gTraceOptions->fTraceDivisions || gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
         "Updating measure length high tide for part \"" <<
         getPartCombinedName () <<
@@ -30581,7 +30582,7 @@ void msrPart::bringPartToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Bringing measure length for part \"" <<
       getPartCombinedName () <<
@@ -30621,7 +30622,7 @@ void msrPart::setPartMsrName (string partMsrName)
     // yes, rename the part accordinglingly
     fPartMsrName = (*it).second;
 
-    if (gGeneralOptions->fTraceParts) {
+    if (gTraceOptions->fTraceParts) {
       gLogIOstream <<
         "Setting part name of " << getPartCombinedName () <<
         " to \"" << fPartMsrName << "\"" <<
@@ -30632,7 +30633,7 @@ void msrPart::setPartMsrName (string partMsrName)
     // use the argument
     fPartMsrName = partMsrName;
 
-    if (gGeneralOptions->fTraceParts) {
+    if (gTraceOptions->fTraceParts) {
       gLogIOstream <<
         "Keeping partID \"" << partMsrName <<
         "\" as part name  for " << getPartCombinedName () <<
@@ -30672,7 +30673,7 @@ void msrPart::createMeasureAndAppendItToPart (
   msrMeasure::msrMeasureImplicitKind
          measureImplicitKind)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Creating and appending measure '" <<
       measureNumber <<
@@ -30716,7 +30717,7 @@ void msrPart::setNextMeasureNumberInPart (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
@@ -30754,7 +30755,7 @@ void msrPart::complementPartVoicesUpToMeasure (
   int    inputLineNumber,
   string measureNumber)
 {
-  if (gGeneralOptions->fTraceMeasures) {
+  if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Complement part voices up to measure number " << measureNumber <<
       ", line " << inputLineNumber <<
@@ -30783,7 +30784,7 @@ void msrPart::complementPartVoicesUpToMeasure (
 void msrPart::appendStaffDetailsToPart (
   S_msrStaffDetails staffDetails)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending staff details\"" <<
       staffDetails->staffDetailsAsShortString () <<
@@ -30817,7 +30818,7 @@ void msrPart::appendStaffDetailsToPart (
 
 void msrPart::appendClefToPart (S_msrClef clef)
 {
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceClefs) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceClefs) {
     gLogIOstream <<
       "Appending clef '" <<
       clef->clefAsString () <<
@@ -30841,7 +30842,7 @@ void msrPart::appendClefToPart (S_msrClef clef)
 
 void msrPart::appendKeyToPart  (S_msrKey  key)
 {
-  if (gGeneralOptions->fTraceKeys || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending key '" <<
       key->keyAsString () <<
@@ -30868,7 +30869,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
 
 void msrPart::appendTimeToPart (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending time '" <<
       time->timeAsString () <<
@@ -30903,7 +30904,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
 
 void msrPart::appendTimeToPartClone (S_msrTime time)
 {
-  if (gGeneralOptions->fTraceTimes || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending time '" <<
       time->timeAsString () <<
@@ -30929,7 +30930,7 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
 
 void msrPart::appendTransposeToPart (S_msrTranspose transpose)
 {
-  if (gGeneralOptions->fTraceTranspositions || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending transpose \"" <<
       transpose->transposeAsString () <<
@@ -31158,7 +31159,7 @@ void msrPart::createMultipleRestInPart (
   int inputLineNumber,
   int multipleRestMeasuresNumber)
 {
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Creating a multiple rest in part " <<
       getPartCombinedName () <<
@@ -31191,7 +31192,7 @@ void msrPart::createMultipleRestInPart (
 void msrPart::appendPendingMultipleRestToPart (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceRepeats || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending the pending multiple rest to part " <<
       getPartCombinedName () <<
@@ -31220,7 +31221,7 @@ void msrPart::appendMultipleRestCloneToPart (
   int               inputLineNumber,
   S_msrMultipleRest multipleRest)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending multiple rest '" <<
       multipleRest->multipleRestAsString () <<
@@ -31279,7 +31280,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     return fPartStavesMap [staffNumber];
   }
 
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Adding " <<
       msrStaff::staffKindAsString (staffKind) <<
@@ -31337,7 +31338,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
 
 void msrPart::addStaffToPartCloneByItsNumber (S_msrStaff staff)
 {
-  if (gGeneralOptions->fTraceStaves || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Adding staff \"" << staff->getStaffName () <<
       "\" to part clone " << getPartCombinedName () <<
@@ -31369,7 +31370,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
       if (! fPartHarmoniesSupplierVoice) {
         // first harmonies supplier voice met in this part,
         // set part harmonies supplier voice accordingly
-        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
+        if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
           gLogIOstream <<
             "Setting voice \"" <<
             partHarmoniesSupplierVoice->
@@ -31449,7 +31450,7 @@ void msrPart::appendHarmonyToPart (
           harmoniesSupplierVoice);
       
         // append the harmony to the part harmony voice
-        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
+        if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
           gLogIOstream <<
             "Appending harmony '" <<
             harmony->harmonyAsString () <<
@@ -31513,7 +31514,7 @@ void msrPart::appendHarmonyToPartClone (
           */
       
         // append the harmony to the part harmony voice
-        if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
+        if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
           gLogIOstream <<
             "Appending harmony '" <<
             harmonyClone->harmonyAsString () <<
@@ -31574,7 +31575,7 @@ void msrPart::appendFiguredBassToPart (
         figuredBassSupplierVoice);
     
       // append the figured bass to the part figured bass voice
-      if (gGeneralOptions->fTraceHarmonies || gGeneralOptions->fTraceParts) {
+      if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->figuredBassAsString () <<
@@ -31633,7 +31634,7 @@ void msrPart::appendFiguredBassToPartClone (
         */
     
       // append the figured bass to the part figured bass voice
-      if (gGeneralOptions->fTraceFiguredBass || gGeneralOptions->fTraceParts) {
+      if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
           figuredBass->figuredBassAsString () <<
@@ -31675,7 +31676,7 @@ void msrPart::appendAccordionRegistrationToPart (
   S_msrAccordionRegistration
     accordionRegistration)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending accordion registration '" <<
       accordionRegistration->accordionRegistrationAsString () <<
@@ -31698,7 +31699,7 @@ void msrPart::appendHarpPedalsTuningToPart (
   S_msrHarpPedalsTuning
     harpPedalsTuning)
 {
-  if (gGeneralOptions->fTraceGeneral || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
       harpPedalsTuning->harpPedalsTuningAsString () <<
@@ -31723,11 +31724,11 @@ void msrPart:: handleBackup (
   int divisionsPerQuarterNote)
 {
   if (
-    gGeneralOptions->fTraceParts
+    gTraceOptions->fTraceParts
       ||
-    gGeneralOptions->fTraceDivisions
+    gTraceOptions->fTraceDivisions
       ||
-    gGeneralOptions->fTraceMeasures) {
+    gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Handling backup, divisions = '" <<
       divisions <<
@@ -31764,11 +31765,11 @@ void msrPart:: handleForward (
   S_msrVoice voice)
 {
   if (
-    gGeneralOptions->fTraceParts
+    gTraceOptions->fTraceParts
       ||
-    gGeneralOptions->fTraceDivisions
+    gTraceOptions->fTraceDivisions
       ||
-    gGeneralOptions->fTraceMeasures) {
+    gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Handling forward, divisions = '" <<
       divisions <<
@@ -31856,7 +31857,7 @@ void msrPart::appendSkipGraceNotesToVoicesClones (
 void msrPart::finalizeCurrentMeasureInPart (
   int    inputLineNumber)
 {
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Finalizing current measure in part " <<
       getPartCombinedName () <<
@@ -31922,7 +31923,7 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
 void msrPart::finalizePart (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Finalizing part " <<
       getPartCombinedName () <<
@@ -31970,7 +31971,7 @@ void msrPart::finalizePart (
 void msrPart::finalizePartClone (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Finalizing part clone " <<
       getPartCombinedName () <<
@@ -32491,7 +32492,7 @@ msrPartGroup::msrPartGroup (
     
   fPartGroupBarlineKind     = partGroupBarlineKind;
 
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -32509,7 +32510,7 @@ S_msrPartGroup msrPartGroup::createPartGroupNewbornClone (
   S_msrPartGroup partGroupClone,
   S_msrScore     scoreClone)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "--------------------------------------------" <<
       endl <<
@@ -32624,7 +32625,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
         this);
 
   // register it in this part group
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -32637,7 +32638,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
   fPartGroupPartsMap [partID] = part;
   fPartGroupElements.push_back (part);
 
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
       endl <<
       "After appendPartToPartGroupByItsID, fPartGroupPartsMap contains:" <<
@@ -32689,7 +32690,7 @@ S_msrPart msrPartGroup::appendPartToPartGroupByItsPartID (
 void msrPartGroup::appendPartToPartGroup (S_msrPart part)
 {
   // register part in this part group
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "Adding part " <<
       part->getPartCombinedName () <<
@@ -32710,7 +32711,7 @@ void msrPartGroup::removePartFromPartGroup (
   S_msrPart partToBeRemoved)
 {
   // register part in this part group
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "Removing part " <<
       partToBeRemoved->getPartCombinedName () <<
@@ -32765,7 +32766,7 @@ void msrPartGroup::removePartFromPartGroup (
 void msrPartGroup::prependSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "Prepending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
@@ -32778,7 +32779,7 @@ void msrPartGroup::prependSubPartGroupToPartGroup (
 void msrPartGroup::appendSubPartGroupToPartGroup (
   S_msrPartGroup partGroup)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     gLogIOstream <<
       "Appending (sub-)part group " << partGroup->getPartGroupNumber () <<
       " to part group " << getPartGroupNumber ()  << endl;
@@ -32856,7 +32857,7 @@ S_msrPart msrPartGroup::fetchPartFromPartGroupByItsPartID (
 {
   S_msrPart result;
   
-  if (gGeneralOptions->fTracePartGroupsDetails) {    
+  if (gTraceOptions->fTracePartGroupsDetails) {    
     gLogIOstream <<
       "fetchPartFromPartGroupByItsPartID(" << partID << "), fPartGroupElements contains:" <<
       endl;
@@ -33792,7 +33793,7 @@ msrScore::~msrScore()
 
 S_msrScore msrScore::createScoreNewbornClone ()
 {
-  if (gGeneralOptions->fTraceScore) {
+  if (gTraceOptions->fTraceScore) {
     gLogIOstream <<
       "Creating a newborn clone of a score" <<
       endl;
@@ -33870,7 +33871,7 @@ void msrScore::addPartGroupToScore (S_msrPartGroup partGroup)
 
 void msrScore::appendCreditToScore (S_msrCredit credit)
 {
-  if (gGeneralOptions->fTraceCredits) {
+  if (gTraceOptions->fTraceCredits) {
     gLogIOstream <<
       "Appending credit '" <<
       credit->creditAsString () <<
@@ -33887,7 +33888,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
 {
   S_msrPart result;
   
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     gLogIOstream <<
       "fetchPartFromScoreByItsPartID(" << partID << "), fPartGroupsList contains:" <<
       endl;
@@ -33907,7 +33908,7 @@ S_msrPart msrScore::fetchPartFromScoreByItsPartID (
   
     gIndenter--;
 
-    if (gGeneralOptions->fTracePartGroupsDetails) {
+    if (gTraceOptions->fTracePartGroupsDetails) {
       gLogIOstream <<
         "<=- fetchPartFromScoreByItsPartID(" << partID << ")" <<
         endl <<
@@ -34386,7 +34387,7 @@ void initializeMSR ()
 S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a measure repeat" <<
       endl;
@@ -34419,7 +34420,7 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatNewbornClone (
 S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a deep copy of a measure repeat" <<
       endl;
@@ -34464,7 +34465,7 @@ S_msrMeasuresRepeat msrMeasuresRepeat::createMeasuresRepeatDeepCopy (
 S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatReplicasNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a measure repeat replicas" <<
       endl;
@@ -34493,7 +34494,7 @@ S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatRepli
 S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatReplicasDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a deep copy of a measure repeat replicas" <<
       endl;
@@ -34527,7 +34528,7 @@ S_msrMeasuresRepeatReplicas msrMeasuresRepeatReplicas::createMeasuresRepeatRepli
 S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPatternNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a measure repeat pattern" <<
       endl;
@@ -34556,7 +34557,7 @@ S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPattern
 S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPatternDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a measure repeat pattern" <<
       endl;
@@ -34587,7 +34588,7 @@ S_msrMeasuresRepeatPattern msrMeasuresRepeatPattern::createMeasuresRepeatPattern
 S_msrRepeat msrRepeat::createRepeatNewbornClone (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a repeat" <<
       endl;
@@ -34619,7 +34620,7 @@ S_msrRepeat msrRepeat::createRepeatNewbornClone (
 S_msrRepeat msrRepeat::createRepeatDeepCopy (
   S_msrVoice containingVoice)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a deep copy of a repeat" <<
       endl;
@@ -34671,7 +34672,7 @@ S_msrRepeat msrRepeat::createRepeatDeepCopy (
 S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       repeatEndingAsString () <<
@@ -34715,7 +34716,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
 S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       repeatEndingAsString () <<
@@ -34763,7 +34764,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
 S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       repeatCommonPartAsString () <<
@@ -34794,7 +34795,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
 S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
   S_msrRepeat containingRepeat)
 {
-  if (gGeneralOptions->fTraceRepeats) {
+  if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
       repeatCommonPartAsString () <<

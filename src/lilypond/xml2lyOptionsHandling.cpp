@@ -20,6 +20,7 @@
 
 #include "xml2lyOptionsHandling.h"
 
+#include "traceOptions.h"
 #include "generalOptions.h"
 #include "mxmlOptions.h"
 #include "msrOptions.h"
@@ -94,6 +95,9 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
   // ------------------------------------------------------
 
   initializeXml2lyOptionsHandling (
+    this);
+    
+  initializeTraceOptionsHandling (
     this);
     
   initializeGeneralOptionsHandling (

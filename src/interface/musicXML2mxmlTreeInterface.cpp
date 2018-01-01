@@ -18,7 +18,7 @@
 #include "xmlfile.h"
 #include "xmlreader.h"
 
-#include "generalOptions.h"
+#include "traceOptions.h"
 #include "mxmlOptions.h"
 
 #include "musicXML2mxmlTreeInterface.h"
@@ -37,7 +37,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -81,7 +81,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 {
   clock_t startClock = clock();
   
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -124,7 +124,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
 {
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
     

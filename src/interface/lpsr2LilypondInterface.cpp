@@ -16,7 +16,7 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
+#include "traceOptions.h"
 
 #include "lpsr2LilypondTranslator.h"
 
@@ -46,7 +46,7 @@ void generateLilypondCodeFromLpsrScore (
   string separator =
     "%--------------------------------------------------------------";
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     logIOstream <<
       endl <<
       separator <<
@@ -70,7 +70,7 @@ void generateLilypondCodeFromLpsrScore (
   // build the LPSR score    
   translator.generateLilypondCodeFromLpsrScore ();
   
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     logIOstream <<
       separator <<
       endl;

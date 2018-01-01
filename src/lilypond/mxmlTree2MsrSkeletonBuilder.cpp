@@ -20,6 +20,7 @@
 
 #include "msr2Summary.h"
 
+#include "traceOptions.h"
 #include "mxmlOptions.h"
 #include "msrOptions.h"
 
@@ -79,7 +80,7 @@ string mxmlPartGroupDescr::partGroupDescrAsString () const
     "' -=> " <<
     fPartGroup->getPartGroupCombinedName ();
 
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     s <<
       ", positions " <<
       fStartPosition << ".." << fStopPosition;
@@ -655,7 +656,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStarted (
   int                  inputLineNumber,
   S_mxmlPartGroupDescr partGroupDescr)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Registering part group descr '" <<
       partGroupDescr->getPartGroupCombinedName () <<
@@ -664,7 +665,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStarted (
       endl;
   }
 
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "BEFORE registering part group " +
@@ -699,7 +700,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStarted (
     partGroupDescr);
 */
 
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER registering part group " +
@@ -742,7 +743,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStartingAtCurrentPosit
     while (true) {
       if (i == iEnd) {
         // append partGroupDescr to the list 
-        if (gGeneralOptions->fTracePartGroups) {
+        if (gTraceOptions->fTracePartGroups) {
           fLogOutputStream <<
             "Appending part group descr " <<
             partGroupDescr->
@@ -781,7 +782,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStartingAtCurrentPosit
         currentPartGroupDescr->getStopPosition ()) {
 
         // insert partGroupDescr before currentPartGroupDescr
-        if (gGeneralOptions->fTracePartGroups) {
+        if (gTraceOptions->fTracePartGroups) {
           fLogOutputStream <<
             "Inserting part group descr " <<
             currentPartGroupDescr->
@@ -821,7 +822,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStartingList (
   while (true) {
     if (i == iEnd) {
       // append partGroupDescr to the list 
-      if (gGeneralOptions->fTracePartGroups) {
+      if (gTraceOptions->fTracePartGroups) {
         fLogOutputStream <<
           "Appending part group descr " <<
           partGroupDescr->
@@ -859,7 +860,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStartingList (
         >
       currentPartGroupDescr->getStopPosition ()) {
       // insert partGroupDescr before currentPartGroupDescr
-      if (gGeneralOptions->fTracePartGroups) {
+      if (gTraceOptions->fTracePartGroups) {
         fLogOutputStream <<
           "Inserting part group descr " <<
           currentPartGroupDescr->
@@ -897,7 +898,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStoppingList (
   while (true) {
     if (i == iEnd) {
       // append partGroupDescr to the list 
-      if (gGeneralOptions->fTracePartGroups) {
+      if (gTraceOptions->fTracePartGroups) {
         fLogOutputStream <<
           "Appending part group descr " <<
           partGroupDescr->
@@ -935,7 +936,7 @@ void mxmlTree2MsrSkeletonBuilder::insertPartGroupDescInStoppingList (
         >
       currentPartGroupDescr->getStartPosition ()) {
       // insert partGroupDescr before currentPartGroupDescr
-      if (gGeneralOptions->fTracePartGroups) {
+      if (gTraceOptions->fTracePartGroups) {
         fLogOutputStream <<
           "Inserting part group descr " <<
           currentPartGroupDescr->
@@ -1010,7 +1011,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStopped (
   int                  inputLineNumber,
   S_mxmlPartGroupDescr partGroupDescr)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Registering part group descr '" <<
       partGroupDescr->getPartGroupCombinedName () <<
@@ -1031,7 +1032,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStopped (
       getPartGroup ()->
         getPartGroupNumber ());
     
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER forgetting part group descr " +
@@ -1045,7 +1046,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPartGroupDescrAsStopped (
 void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Creating part group with number '" <<
       fCurrentPartGroupNumber <<
@@ -1086,7 +1087,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
         fCurrentPartsPosition) ;
              
   // register it in the part groups data
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Adding part group descr for '" << fCurrentPartGroupNumber <<
       "' to visitor's part groups data" <<
@@ -1099,7 +1100,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStart (
     inputLineNumber,
     partGroupDescr);
 
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER handlePartGroupStart()");
@@ -1142,7 +1143,7 @@ void mxmlTree2MsrSkeletonBuilder::handlePartGroupStop (
     inputLineNumber,
     partGroupDescrToBeStopped);
 
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER handlePartGroupStop()");
@@ -1165,7 +1166,7 @@ void mxmlTree2MsrSkeletonBuilder::doNestPartGroupDescrInItsContainer (
         getPartGroup ();
         
   // set currentPartGroup's uplink to containingPartGroupDescr
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Setting the uplink of part group " <<
       partGroupToBeStopped->
@@ -1182,7 +1183,7 @@ void mxmlTree2MsrSkeletonBuilder::doNestPartGroupDescrInItsContainer (
       containingPartGroup);
 
   // appending currentPartGroup to containingPartGroupDescr
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Appending sub part group " <<
       partGroupToBeStopped->
@@ -1216,7 +1217,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
   // create an implicit part group
   fCurrentPartGroupNumber = 0;
   
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Creating an implicit part group with number '" <<
       fCurrentPartGroupNumber <<
@@ -1238,7 +1239,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
       fMsrScore);
 
   // append it to the MSR score
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Appending implicit part group '" <<
       fImplicitPartGroup->getPartGroupNumber () <<
@@ -1261,7 +1262,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
       fCurrentPartsPosition);
       
   // register it in the part groups data
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Adding implicit part group descr for '" <<
       fCurrentPartGroupNumber <<
@@ -1275,7 +1276,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
     inputLineNumber,
     fImplicitPartGroupDescr);
 
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER creating fImplicitPartGroup");
@@ -1286,7 +1287,7 @@ void mxmlTree2MsrSkeletonBuilder::createImplicitPartGroup ()
 void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
   int inputLineNumber)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "doPartGroupsNestingAndPartsAllocation:" <<
       endl;
@@ -1296,7 +1297,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
   // since we run through the contents of <part-list />,
   // stored in the data we've built, a second time
   
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "BEFORE doPartGroupsNestingAndPartsAllocation");
@@ -1397,7 +1398,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               partGroupsDescrStackTop =
                 fPartGroupsDescrStack.front ();
 
-            if (gGeneralOptions->fTracePartGroups) {
+            if (gTraceOptions->fTracePartGroups) {
               fLogOutputStream <<
                 "Popping part group " <<
                 partGroupDescr->
@@ -1481,7 +1482,7 @@ void mxmlTree2MsrSkeletonBuilder::doPartGroupsNestingAndPartsAllocation (
               "The parts they share are:" <<
               endl;
 
-            if (gGeneralOptions->fTracePartGroups) {
+            if (gTraceOptions->fTracePartGroups) {
               s <<
                 "(positions range is " <<
                 firstCommonPosision << ".." << lastCommonPosision <<
@@ -1546,7 +1547,7 @@ R"(Please contact the maintainers of xml2ly (see '-c, -contact'):
               partGroupDescr->getPartGroup ();
       
           // make it the new current part group
-          if (gGeneralOptions->fTracePartGroups) {
+          if (gTraceOptions->fTracePartGroups) {
             fLogOutputStream <<
               "Pushing part group descr '" <<
               partGroupDescr->partGroupDescrAsString () <<
@@ -1566,7 +1567,7 @@ R"(Please contact the maintainers of xml2ly (see '-c, -contact'):
       }
     }
         
-    if (gGeneralOptions->fTracePartGroupsDetails) {
+    if (gTraceOptions->fTracePartGroupsDetails) {
       showPartGroupsData (
         inputLineNumber,
         "AT position " + k);
@@ -1574,7 +1575,7 @@ R"(Please contact the maintainers of xml2ly (see '-c, -contact'):
   
   } // for
       
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER doPartGroupsNestingAndPartsAllocation");
@@ -1652,7 +1653,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_partwise& elt)
       endl;
   }
 
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       "Analysing the score partwise" <<
       endl;
@@ -1733,7 +1734,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_list& elt)
     <score-part id="P2">
 */
 
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       "Analysing part list" <<
       endl;
@@ -1770,7 +1771,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_list& elt)
   doPartGroupsNestingAndPartsAllocation (
     inputLineNumber);
 
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     showPartGroupsData (
       inputLineNumber,
       "Part groups data gathered for score skeleton");
@@ -2192,7 +2193,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Handling part group '" <<
       fCurrentPartGroupNumber <<
@@ -2243,7 +2244,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_score_part& elt)
 
   fCurrentPartID = elt->getAttributeValue ("id");
 
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       "Found part name \"" << fCurrentPartID << "\"" <<
       " in part list" <<
@@ -2401,7 +2402,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
    fLogOutputStream <<
     "--------------------------------------------" <<
     endl <<
@@ -2414,7 +2415,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
   gIndenter++;
 
   // create the part
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
    fLogOutputStream <<
     "--------------------------------------------" <<
     endl <<
@@ -2452,7 +2453,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
     fCurrentPartsPosition,
     part);
 
-  if (gGeneralOptions->fTracePartGroupsDetails) {
+  if (gTraceOptions->fTracePartGroupsDetails) {
     showPartGroupsData (
       inputLineNumber,
       "AFTER handling score part \"" + partID + "\"");
@@ -2467,7 +2468,7 @@ void mxmlTree2MsrSkeletonBuilder::registerPart (
   int       partPosition,
   S_msrPart part)
 {
-  if (gGeneralOptions->fTracePartGroups) {
+  if (gTraceOptions->fTracePartGroups) {
     fLogOutputStream <<
       "Resitering part " <<
       part->getPartCombinedName () <<
@@ -2507,7 +2508,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
   // fCurrentPartID is used throughout
   fCurrentPartID = elt->getAttributeValue ("id");
 
-  if (gGeneralOptions->fTraceParts || gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceBasic) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << fCurrentPartID << "\"" <<
@@ -2574,7 +2575,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part& elt)
       s.str ());
   }
 
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       endl <<
@@ -2604,7 +2605,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
 
   gIndenter--;
 
-  if (gGeneralOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       "Analyzing part \"" << fCurrentPartID << "\" -- end" <<
       endl <<
@@ -2656,7 +2657,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staves& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceStaves) {
     switch (stavesNumber) {
       case 0:
         fLogOutputStream <<
@@ -2765,7 +2766,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_measure& elt)
   fCurrentMeasureNumber = // JMI local variable???
     elt->getAttributeValue ("number");
 
-  if (gGeneralOptions->fTraceMeasures || gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceBasic) {
     fLogOutputStream <<
       endl <<
       "<!--=== measure " << fCurrentMeasureNumber <<
@@ -2838,11 +2839,11 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
         fCurrentNoteVoiceNumber);
   
   if (
-    gGeneralOptions->fTraceNotes
+    gTraceOptions->fTraceNotes
       ||
-    gGeneralOptions->fTraceStaves
+    gTraceOptions->fTraceStaves
       ||
-    gGeneralOptions->fTraceVoices) {
+    gTraceOptions->fTraceVoices) {
     fLogOutputStream <<
       "--> S_note, fCurrentNoteStaffNumber = " <<
       fCurrentNoteStaffNumber <<
@@ -2913,7 +2914,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
     }
     
     else {
-      if (gGeneralOptions->fTraceLyrics) {
+      if (gTraceOptions->fTraceLyrics) {
         fLogOutputStream <<
           "--> setting fCurrentStanzaNumber to " <<
           stanzaNumber <<
@@ -2936,7 +2937,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
       elt->getAttributeValue ("name");
     
     if (stanzaName.size () == 0) {
-      if (gGeneralOptions->fTraceLyrics) {
+      if (gTraceOptions->fTraceLyrics) {
         // lyrics names are not so frequent after all...
         msrMusicXMLWarning (
           gXml2lyOptions->fInputSourceName,
@@ -2946,7 +2947,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
     }
     
     else {
-      if (gGeneralOptions->fTraceLyrics) {
+      if (gTraceOptions->fTraceLyrics) {
         fLogOutputStream <<
           "--> setting fCurrentStanzaName to " <<
           stanzaName <<
@@ -2974,7 +2975,7 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (gGeneralOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyrics) {
     fLogOutputStream <<
       endl <<
       "visitEnd ( S_lyric& )" <<

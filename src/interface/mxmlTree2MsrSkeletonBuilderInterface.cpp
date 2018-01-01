@@ -24,7 +24,7 @@
 
 #include "messagesHandling.h"
 
-#include "generalOptions.h"
+#include "traceOptions.h"
 
 #include "mxmlTree2MsrSkeletonBuilderInterface.h"
 
@@ -50,7 +50,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     
   clock_t startClock = clock();
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
   
@@ -163,7 +163,7 @@ void displayMsrSkeletonSummary (
     
   clock_t startClock = clock();
   
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
     
