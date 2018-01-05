@@ -1095,6 +1095,9 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
       endl;
   }
 
+  // no time has been defined yet
+  fCurrentTime = nullptr;
+
   // ???
   fPartVoiceNumberToVoiceMap.clear (); // JMI
 
@@ -1170,8 +1173,6 @@ void mxmlTree2MsrTranslator::visitStart (S_attributes& elt)
       "--> Start visiting S_attributes" <<
       endl;
   }
-
-  fCurrentTime = nullptr;
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
@@ -1182,6 +1183,15 @@ void mxmlTree2MsrTranslator::visitEnd (S_attributes& elt)
       endl;
   }
 
+  // have the divisions been defined alright?
+  if (! fCurrentDivisions) {
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "no <divisions/> markup found in MusicXML data, exiting");
+  }
+  
   // JMI and if there's no <attributes/> ???
   // time is crucially needed for measures management,
   // we cannot stay without any
@@ -1224,14 +1234,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_divisions& elt )
 
   // set current part's divisions per quarter note
   if (gTraceOptions->fTraceDivisions) {
-    if (fCurrentDivisionsPerQuarterNote == 1)
+    if (fCurrentDivisionsPerQuarterNote == 1) {
       fLogOutputStream <<
         "There is 1 division";
-    else
+    }
+    else {
       fLogOutputStream <<
         "There are " <<
         fCurrentDivisionsPerQuarterNote <<
         " divisions";
+    }
+    
     fLogOutputStream <<
       " per quarter note in part " <<
       fCurrentPart->getPartCombinedName() <<
@@ -5416,7 +5429,20 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   // handle an on going multiple rest if any only now,
   // so that the necessary staves/voices have been created
   if (fOnGoingMultipleRest) {
-
+    if (gTraceOptions->fTraceRepeats) {
+      fLogOutputStream <<
+        "--> onGoingMultipleRest" <<
+        endl <<
+        gTab << "fCurrentMultipleRestHasBeenCreated:" <<
+        booleanAsString (
+          fCurrentMultipleRestHasBeenCreated) <<
+        endl <<
+        gTab << "fRemainingMultipleRestMeasuresNumber:" <<
+        fRemainingMultipleRestMeasuresNumber <<
+        endl <<
+        endl;
+    }
+    
     if (! fCurrentMultipleRestHasBeenCreated) {
       // create a pending multiple rest,
       // that will be handled when fRemainingMultipleRestMeasuresNumber
@@ -5429,21 +5455,45 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
       fCurrentMultipleRestHasBeenCreated = true;
     }
 
-    else {
-      if (fRemainingMultipleRestMeasuresNumber > 0) {
-        // account for one more rest measure in the multiple rest
-        fRemainingMultipleRestMeasuresNumber--;
+    if (fRemainingMultipleRestMeasuresNumber <= 0) {
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        "fRemainingMultipleRestMeasuresNumber problem");
+    }
     
-        if (fRemainingMultipleRestMeasuresNumber == 0) {
-          // all rest measures have been met,
-          // the current one is the first after  the multiple rest
-          fCurrentPart->
-            appendPendingMultipleRestToPart (
-              inputLineNumber);
+    // account for one more rest measure in the multiple rest
+    fRemainingMultipleRestMeasuresNumber--;
+    
+    if (fRemainingMultipleRestMeasuresNumber == 0) {
+      // all rest measures have been met,
+      // the current one is the first after the multiple rest
+      fCurrentPart->
+        appendPendingMultipleRestToPart (
+          inputLineNumber);
 
-        fOnGoingMultipleRest = false;
-        }
-      }
+      // forget about and multiple rest having been created
+      fCurrentMultipleRestHasBeenCreated = false;
+      
+      fOnGoingMultipleRest = false;
+    }
+
+    if (gTraceOptions->fTraceRepeats) {
+      fLogOutputStream <<
+        "<-- onGoingMultipleRest" <<
+        endl <<
+        gTab << "fCurrentMultipleRestHasBeenCreated:" <<
+        booleanAsString (
+          fCurrentMultipleRestHasBeenCreated) <<
+        endl <<
+        gTab << "fRemainingMultipleRestMeasuresNumber:" <<
+        fRemainingMultipleRestMeasuresNumber <<
+        endl <<
+        gTab << "fOnGoingMultipleRest:" <<
+        fOnGoingMultipleRest <<
+        endl <<
+        endl;
     }
   }
 
@@ -7661,10 +7711,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_multiple_rest& elt )
   string multipleRestUseSymbols = elt->getAttributeValue ("use-symbols");
 
   if      (multipleRestUseSymbols == "yes") {
-//    fCurrentTupletTypeKind = msrTuplet::kStartTuplet; // JMI
+    // JMI
   }
   else if (multipleRestUseSymbols == "no") {
- //   fCurrentTupletTypeKind = msrTuplet::kStopTuplet;
+    // JMI
   }
   else {
     if (multipleRestUseSymbols.size ()) {

@@ -9065,6 +9065,7 @@ class msrMultipleRest : public msrElement
 
     static SMARTP<msrMultipleRest> create (
       int        inputLineNumber,
+      rational   multipleRestMeasureSoundingNotes,
       int        multipleRestMeasuresNumber,
       S_msrVoice voiceUplink);
     
@@ -9081,6 +9082,7 @@ class msrMultipleRest : public msrElement
 
     msrMultipleRest (
       int        inputLineNumber,
+      rational   multipleRestMeasureSoundingNotes,
       int        multipleRestMeasuresNumber,
       S_msrVoice voiceUplink);
       
@@ -9090,6 +9092,9 @@ class msrMultipleRest : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    S_msrVoice            getMultipleRestVoiceUplink () const
+                            { return fMultipleRestVoiceUplink; }
 
     int                   getMultipleRestMeasuresNumber () const
                               { return fMultipleRestMeasuresNumber; }
@@ -9101,8 +9106,8 @@ class msrMultipleRest : public msrElement
                           getMultipleRestContents () const
                               { return fMultipleRestContents; }
 
-    S_msrVoice            getMultipleRestVoiceUplink () const
-                            { return fMultipleRestVoiceUplink; }
+    rational              getMultipleRestMeasureSoundingNotes () const
+                              { return fMultipleRestMeasureSoundingNotes; }
 
     // services
     // ------------------------------------------------------
@@ -9134,12 +9139,15 @@ class msrMultipleRest : public msrElement
     // fields
     // ------------------------------------------------------
 
+    S_msrVoice            fMultipleRestVoiceUplink;
+
     int                   fMultipleRestMeasuresNumber;
     
     S_msrMultipleRestContents
                           fMultipleRestContents;
 
-    S_msrVoice            fMultipleRestVoiceUplink;
+    // shortcut for efficiency
+    rational              fMultipleRestMeasureSoundingNotes;
 };
 typedef SMARTP<msrMultipleRest> S_msrMultipleRest;
 EXP ostream& operator<< (ostream& os, const S_msrMultipleRest& elt);
@@ -9645,6 +9653,9 @@ class msrVoice : public msrElement
     void                  appendMultipleRestCloneToVoice (
                             int               inputLineNumber,
                             S_msrMultipleRest multipleRest);
+  
+    void                  prepareForMultipleRestInVoiceClone (
+                            int inputLineNumber);
   
     // measures repeats
     

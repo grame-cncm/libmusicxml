@@ -5549,6 +5549,27 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
   
     if (timesItemsNumber) {
   
+      // should there be a single number?
+      switch (timeSymbolKind) {
+        case msrTime::kTimeSymbolCommon:
+          break;
+        case msrTime::kTimeSymbolCut:
+          break;
+        case msrTime::kTimeSymbolNote:
+          break;
+        case msrTime::kTimeSymbolDottedNote:
+          break;
+        case msrTime::kTimeSymbolSingleNumber:
+          fLilypondCodeIOstream <<
+            "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
+            endl;
+          break;
+        case msrTime::kTimeSymbolSenzaMisura:
+          break;
+        case msrTime::k_NoTimeSymbol:
+          break;
+      } // switch
+  
       if (! elt->getTimeIsCompound ()) {
   
         // simple time
@@ -5573,27 +5594,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
           fLilypondCodeIOstream <<
             "\\numericTimeSignature ";
         }
-  
-        // should there be a single number?
-        switch (timeSymbolKind) {
-          case msrTime::kTimeSymbolCommon:
-            break;
-          case msrTime::kTimeSymbolCut:
-            break;
-          case msrTime::kTimeSymbolNote:
-            break;
-          case msrTime::kTimeSymbolDottedNote:
-            break;
-          case msrTime::kTimeSymbolSingleNumber:
-            fLilypondCodeIOstream <<
-              "\\once\\override Staff.TimeSignature.style = #'single-digit" <<
-              endl;
-            break;
-          case msrTime::kTimeSymbolSenzaMisura:
-            break;
-          case msrTime::k_NoTimeSymbol:
-            break;
-        } // switch
   
         /* dotted-note: JMI
   \relative {
@@ -9602,7 +9602,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   }
 
   fLilypondCodeIOstream <<
-    "R1";
+    "R" <<
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      elt->getMultipleRestMeasureSoundingNotes ());
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the multiple rest line number as a comment

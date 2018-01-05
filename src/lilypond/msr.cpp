@@ -6919,13 +6919,19 @@ string msrNote::noteAsString ()
     case msrNote::kRestNote:
       s <<
         "Rest, ";
+      if (fNoteOccupiesAFullMeasure)
+        s << "R";
+      else
+        s << "r";
+      s <<
+        noteSoundingWholeNotesAsMsrString ();
 
       if (fNoteDisplayOctave < 0)
         s <<
-          "unpitched";
+          ", unpitched";
       else
         s <<
-          "(" <<
+          " (" <<
           noteDisplayPitchKindAsString () <<
           noteSoundingWholeNotesAsMsrString () <<
           ", octave" " "<< noteDisplayOctaveAsString () <<
@@ -13024,33 +13030,43 @@ string msrTimeItem::timeItemAsString () const
   stringstream s;
 
   s <<
-    "TimeItem" <<
-    " beats numbers: ";
+    "TimeItem ";
 
   int vectorSize =
     fTimeBeatsNumbersVector.size ();
 
-  if (vectorSize) {
-    for (int i = 0; i < vectorSize; i++) {
+  switch (vectorSize) {
+    case 0:
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "time item beats numbers vector is empty");
+      break;
+      
+    case 1:
       s <<
-        fTimeBeatsNumbersVector [i];
+        fTimeBeatsNumbersVector [0] << "/" << fTimeBeatValue;
+      break;
+      
+    default:
+      s <<
+        "beats numbers: ";
 
-      if (i != vectorSize - 1)
+      for (int i = 0; i < vectorSize; i++) {
         s <<
-          " ";
-      } // for
-  }
+          fTimeBeatsNumbersVector [i];
   
-  else {
-    msrInternalError (
-      gXml2lyOptions->fInputSourceName,
-      fInputLineNumber,
-      __FILE__, __LINE__,
-      "time item beats numbers vector is empty");
-  }
+        if (i != vectorSize - 1)
+          s <<
+            " ";
+        } // for
 
+      s <<
+        ", beat value: " << fTimeBeatValue;
+  } // switch
+  
   s <<
-    ", beat value: " << fTimeBeatValue <<
     ", line " << fInputLineNumber;
      
   return s.str ();
@@ -17968,19 +17984,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // if it happens to be the first note of a chord
   fMeasureElementsList.push_back (note);
 
-  // fetch part harmony voices map
-  const map<int, S_msrVoice>&
-    partHarmonyVoicesMap =
-      fetchMeasurePartUplink ()->
-        getPartHarmonyStaff ()->
-          getStaffAllVoicesMap ();
-
-  // fetch part harmonies supplier voice
-  S_msrVoice
-    partHarmoniesSupplierVoice =
-      fetchMeasurePartUplink ()->
-        getPartHarmoniesSupplierVoice ();
-
   // fetch note harmony
   S_msrHarmony
     noteHarmony =
@@ -17991,66 +17994,87 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 
   if (! noteHarmony) {
     // should a rest be appended to the harmony voices?
-    if (partHarmonyVoicesMap.size ()) {
-      if (partHarmoniesSupplierVoice) {
-        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
-          gLogIOstream <<
-            "measureVoiceUplink = \"" <<
-            fetchMeasureVoiceUplink ()->getVoiceName () <<
-            "\"" <<
-            endl <<
-            "partHarmoniesSupplierVoice = \"" <<
-            partHarmoniesSupplierVoice->getVoiceName () <<
-            "\"" <<
-            endl;
-        }
-  
-        // is measure voice uplink the part harmonies suppplier voice?
-        if (
-          fetchMeasureVoiceUplink ()
-            ==
-          partHarmoniesSupplierVoice) {
-          // yes, for each harmony voice,
-          // create a skip note of the same duration as the note
-          // and append it
-          for (
-            map<int, S_msrVoice>::const_iterator i = partHarmonyVoicesMap.begin ();
-            i != partHarmonyVoicesMap.end ();
-            i++) {
-            S_msrVoice harmonyVoice = (*i).second;
-            
-            S_msrNote
-              skipNote =
-                msrNote::createSkipNote (
-                  inputLineNumber,
-                  noteSoundingWholeNotes,
-                  noteSoundingWholeNotes,
-                  note->getNoteDotsNumber (),
-                  harmonyVoice->
-                    getVoiceStaffUplink ()->
-                      getStaffNumber (),
-                  harmonyVoice->
-                    getVoicePartRelativeID ());
-      
-            // append the skip to the part harmony voice
-            if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
-              gLogIOstream <<
-                "Appending skip '" << skipNote->noteAsShortString () <<
-                "' to measure '" << fMeasureNumber <<
-                "' in harmony voice \"" <<
-                harmonyVoice->getVoiceName () <<
-                "\"" <<
-                endl;
-            }
-   
-            // sanity check
-            msrAssert (
-              fMeasureElementsList.size () > 0,
-              "fMeasureElementsList is empty"); // JMI
+
+    // fetch part harmony staff
+    S_msrStaff
+      partHarmonyStaff =
+        fetchMeasurePartUplink ()->
+          getPartHarmonyStaff ();
+
+    if (partHarmonyStaff) {
+      // fetch part harmony voices map
+      const map<int, S_msrVoice>&
+        partHarmonyVoicesMap =
+          partHarmonyStaff->
+            getStaffAllVoicesMap ();
+    
+      if (partHarmonyVoicesMap.size ()) {
+        // fetch part harmonies supplier voice
+        S_msrVoice
+          partHarmoniesSupplierVoice =
+            fetchMeasurePartUplink ()->
+              getPartHarmoniesSupplierVoice ();
+    
+        if (partHarmoniesSupplierVoice) {
+          if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
+            gLogIOstream <<
+              "measureVoiceUplink = \"" <<
+              fetchMeasureVoiceUplink ()->getVoiceName () <<
+              "\"" <<
+              endl <<
+              "partHarmoniesSupplierVoice = \"" <<
+              partHarmoniesSupplierVoice->getVoiceName () <<
+              "\"" <<
+              endl;
+          }
+    
+          // is measure voice uplink the part harmonies suppplier voice?
+          if (
+            fetchMeasureVoiceUplink ()
+              ==
+            partHarmoniesSupplierVoice) {
+            // yes, for each harmony voice,
+            // create a skip note of the same duration as the note
+            // and append it
+            for (
+              map<int, S_msrVoice>::const_iterator i = partHarmonyVoicesMap.begin ();
+              i != partHarmonyVoicesMap.end ();
+              i++) {
+              S_msrVoice harmonyVoice = (*i).second;
               
-            harmonyVoice->
-              appendNoteToVoice (skipNote);
-          } // for
+              S_msrNote
+                skipNote =
+                  msrNote::createSkipNote (
+                    inputLineNumber,
+                    noteSoundingWholeNotes,
+                    noteSoundingWholeNotes,
+                    note->getNoteDotsNumber (),
+                    harmonyVoice->
+                      getVoiceStaffUplink ()->
+                        getStaffNumber (),
+                    harmonyVoice->
+                      getVoicePartRelativeID ());
+        
+              // append the skip to the part harmony voice
+              if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
+                gLogIOstream <<
+                  "Appending skip '" << skipNote->noteAsShortString () <<
+                  "' to measure '" << fMeasureNumber <<
+                  "' in harmony voice \"" <<
+                  harmonyVoice->getVoiceName () <<
+                  "\"" <<
+                  endl;
+              }
+     
+              // sanity check
+              msrAssert (
+                fMeasureElementsList.size () > 0,
+                "fMeasureElementsList is empty"); // JMI
+                
+              harmonyVoice->
+                appendNoteToVoice (skipNote);
+            } // for
+          }
         }
       }
     }
@@ -18135,6 +18159,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
     // if it happens to be the first note of a chord
     fMeasureElementsList.push_back (note);
 
+   /*  JMI ???   
   // fetch part harmony voices map
   const map<int, S_msrVoice>&
     partHarmonyVoicesMap =
@@ -18148,7 +18173,6 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
         note->getNoteHarmony ();
 
 
-   /*  JMI ???   
     if (noteHarmony) {
       // append the harmony to the harmony voice
       if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
@@ -22884,12 +22908,14 @@ void msrMultipleRestContents::print (ostream& os)
 //______________________________________________________________________________
 S_msrMultipleRest msrMultipleRest::create (
   int        inputLineNumber,
+  rational   multipleRestMeasureSoundingNotes,
   int        multipleRestMeasuresNumber,
   S_msrVoice voiceUplink)
 {
   msrMultipleRest* o =
     new msrMultipleRest (
       inputLineNumber,
+      multipleRestMeasureSoundingNotes,
       multipleRestMeasuresNumber,
       voiceUplink);
   assert(o!=0);
@@ -22898,11 +22924,13 @@ S_msrMultipleRest msrMultipleRest::create (
 
 msrMultipleRest::msrMultipleRest (
   int        inputLineNumber,
+  rational   multipleRestMeasureSoundingNotes,
   int        multipleRestMeasuresNumber,
   S_msrVoice voiceUplink)
     : msrElement (inputLineNumber)
 {
-  fMultipleRestMeasuresNumber = multipleRestMeasuresNumber;
+  fMultipleRestMeasureSoundingNotes = multipleRestMeasureSoundingNotes;
+  fMultipleRestMeasuresNumber       = multipleRestMeasuresNumber;
 
   fMultipleRestVoiceUplink = voiceUplink;
 }
@@ -22929,6 +22957,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
     newbornClone =
       msrMultipleRest::create (
         fInputLineNumber,
+        fMultipleRestMeasureSoundingNotes,
         fMultipleRestMeasuresNumber,
         containingVoice);
 
@@ -23055,6 +23084,8 @@ string msrMultipleRest::multipleRestAsString () const
   s <<
     "Multiple rest" <<
     ", line " << fInputLineNumber <<
+    ", multipleRestMeasureSoundingNotes: " <<
+    fMultipleRestMeasureSoundingNotes <<
     ", " <<
     singularOrPlural (
       fMultipleRestMeasuresNumber,
@@ -26375,6 +26406,10 @@ void msrVoice::createMultipleRestInVoice (
             removeLastMeasureFromVoice (
               inputLineNumber);
 
+        // move the current voice last segment to the initial elements list
+        fVoiceInitialElementsList.push_back (
+          fVoiceLastSegment);
+          
 /* JMI
         // create the multiple rest rests segment
         S_msrSegment
@@ -26401,6 +26436,7 @@ void msrVoice::createMultipleRestInVoice (
         fVoicePendingMultipleRest =
           msrMultipleRest::create (
             inputLineNumber,
+            firstRestMeasure->getFullMeasureLength (),
             multipleRestMeasuresNumber,
             this);
 
@@ -26434,11 +26470,11 @@ void msrVoice::createMultipleRestInVoice (
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
+  
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
         }
-
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
 
         // keep the multiple rest pending
       }
@@ -26464,19 +26500,19 @@ void msrVoice::appendPendingMultipleRestToVoice (
             endl;
         }
 
-/*
+//*
         // print current voice contents
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (true || gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
-        }
 
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
-*/
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
+        }
+//*/
 
         // does the pending multiple rest exist?
         if (! fVoicePendingMultipleRest) {
@@ -26498,6 +26534,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             fVoiceLastSegment->
               getSegmentMeasuresListToModify ();
        
+        /* JMI
         // grab the just created last measure in the last segment's measure list,
         // which is the next measure after the multiple rest
         if (! voiceLastSegmentMeasureList.size ()) {
@@ -26517,22 +26554,23 @@ void msrVoice::appendPendingMultipleRestToVoice (
           nextMeasureAfterMultipleRest =
             voiceLastSegmentMeasureList.back ();
 
-        /* JMI
-        gLogIOstream <<
-          endl <<
-          "==========> nextMeasureAfterMultipleRest:" <<
-          endl;
-
-          
-        nextMeasureAfterMultipleRest->
-          print (gLogIOstream);
-          
-        gLogIOstream <<
-          endl;
-          */
+        if (true || gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+          gLogIOstream <<
+            endl <<
+            "==========> nextMeasureAfterMultipleRest:" <<
+            endl;
+  
+            
+          nextMeasureAfterMultipleRest->
+            print (gLogIOstream);
+            
+          gLogIOstream <<
+            endl;
+        }
+        */
           
         // remove the next measure from the last segment's measure list
-        voiceLastSegmentMeasureList.pop_back ();
+    // JMI    voiceLastSegmentMeasureList.pop_back ();
 
         // create the multiple rest contents
         if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
@@ -26578,19 +26616,23 @@ void msrVoice::appendPendingMultipleRestToVoice (
         fVoiceInitialElementsList.push_back (
           fVoicePendingMultipleRest);
 
-/* JMI
+//* JMI
         // print current voice contents
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (true || gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
-        }
+  
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
 
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
-*/
+          gLogIOstream <<
+            "<================= The current voice contents of voice \"" <<
+            endl;
+        }
+//*/
 
         // create a new segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure
@@ -26601,9 +26643,8 @@ void msrVoice::appendPendingMultipleRestToVoice (
             endl;
         }
             
-        createNewLastSegmentFromFirstMeasureForVoice (
-          inputLineNumber,
-          nextMeasureAfterMultipleRest);
+        createNewLastSegmentForVoice (
+          inputLineNumber);
 
 /* JMI
         // append the next measure after the multiple rest
@@ -26618,11 +26659,11 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "The resulting voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
             endl;
-        }
 
-        gIndenter++;
-        print (gLogIOstream);
-        gIndenter--;
+          gIndenter++;
+          print (gLogIOstream);
+          gIndenter--;
+        }
 
         // forget about this pending multiple rest
         fVoicePendingMultipleRest = nullptr;
@@ -26681,6 +26722,97 @@ void msrVoice::appendMultipleRestCloneToVoice (
         gIndenter++;
         print (gLogIOstream);
         gIndenter--;
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::prepareForMultipleRestInVoiceClone (
+  int inputLineNumber)
+{
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      // is there a voice last segment?
+      if (fVoiceLastSegment) {
+        
+        // are there measures in the voice last segment?
+        if (fVoiceLastSegment->getSegmentMeasuresList ().size ()) {
+          
+          // fetch last measure's full measure length
+          int fullMeasureLength =
+            fVoiceLastSegment->
+              getSegmentMeasuresList ().back ()->
+                  getFullMeasureLength ();
+                
+          // finalize current measure in voice
+          finalizeCurrentMeasureInVoice (
+            inputLineNumber);
+  
+          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+            gLogIOstream <<
+              endl <<
+              "*********>> Current voice ZZZ \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              " contains:" <<
+              endl;
+  
+            print (gLogIOstream);
+  
+            gLogIOstream <<
+              "<<*********" <<
+              endl <<
+              endl;
+          }
+  
+          // move current last segment to the list of initial elements
+          if (gTraceOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "Appending voice last segment to the initial elements in voice \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+                        
+          fVoiceInitialElementsList.push_back (
+            fVoiceLastSegment);
+  
+          // create a new last segment containing a new measure for the voice
+          if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+            gLogIOstream <<
+              "Creating a new last segment containing a new measure for voice \"" <<
+              fVoiceName << "\"" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+  
+          createNewLastSegmentAndANewMeasureAfterARepeat (
+            inputLineNumber,
+            fullMeasureLength);
+  
+          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+            gLogIOstream <<
+              endl <<
+              "*********>> Current voice QQQ \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              " contains:" <<
+              endl;
+  
+            print (gLogIOstream);
+  
+            gLogIOstream <<
+              "<<*********" <<
+              endl <<
+              endl;
+          }
+        }
       }
       break;
   } // switch

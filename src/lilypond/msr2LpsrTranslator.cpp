@@ -4018,6 +4018,19 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
 
   gIndenter++;
 
+  if (gTraceOptions->fTraceRepeats) {
+    fLogOutputStream <<
+      "Preparing for multiple rest in voice clone \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
+  fCurrentVoiceClone->
+    prepareForMultipleRestInVoiceClone (
+      elt->getInputLineNumber ());
+
+      /* JMI
   // create a new last segment to collect the multiple rest contents
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
     fLogOutputStream <<
@@ -4025,10 +4038,11 @@ void msr2LpsrTranslator::visitStart (S_msrMultipleRestContents& elt)
       fCurrentVoiceClone->getVoiceName () << "\"" <<
       endl;
   }
-      
+
   fCurrentVoiceClone->
     createNewLastSegmentForVoice (
       elt->getInputLineNumber ());
+      */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrMultipleRestContents& elt)
