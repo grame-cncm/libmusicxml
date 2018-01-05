@@ -552,6 +552,10 @@ string wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes);
 
+string multipleRestWholeNoteAsMsrString (
+  int      inputLineNumber, // JMI
+  rational wholeNotes);
+
 // measure style
 //______________________________________________________________________________
 

@@ -6907,7 +6907,7 @@ class msrDivisions : public msrElement
     string                divisionsAsMsrString (
                             int  inputLineNumber,
                             int  divisions);
-
+/* JMI
     string                wholeNotesAsMsrString (
                             int      inputLineNumber,
                             rational wholeNotes,
@@ -6916,7 +6916,7 @@ class msrDivisions : public msrElement
     string                wholeNotesAsMsrString (
                             int      inputLineNumber,
                             rational wholeNotes);
-
+*/
     string                tupletDivisionsAsMsrString (
                             int inputLineNumber,
                             int divisions,

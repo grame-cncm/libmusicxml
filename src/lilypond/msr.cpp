@@ -6919,12 +6919,18 @@ string msrNote::noteAsString ()
     case msrNote::kRestNote:
       s <<
         "Rest, ";
-      if (fNoteOccupiesAFullMeasure)
-        s << "R";
-      else
-        s << "r";
-      s <<
-        noteSoundingWholeNotesAsMsrString ();
+      if (fNoteOccupiesAFullMeasure) {
+        s <<
+          "R" <<
+          multipleRestWholeNoteAsMsrString (
+            fInputLineNumber,
+            fNoteSoundingWholeNotes);
+      }
+      else {
+        s <<
+          "r" <<
+          noteSoundingWholeNotesAsMsrString ();
+      }
 
       if (fNoteDisplayOctave < 0)
         s <<
@@ -9113,6 +9119,7 @@ string msrDivisions::divisionsAsMsrString (
   return result;
 }
 
+/* JMI
 string msrDivisions::wholeNotesAsMsrString (
   int      inputLineNumber,
   rational wholeNotes,
@@ -9355,6 +9362,7 @@ string msrDivisions::wholeNotesAsMsrString (
       wholeNotes,
       numberOfDots);
 }
+*/
 
 string msrDivisions::divisionsAsMsrString (
   int  inputLineNumber,
@@ -26193,6 +26201,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
           inputLineNumber,
           nextMeasureAfterMeasuresRepeat);
 
+/* JMI
         // print resulting voice contents
         if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
@@ -26207,6 +26216,7 @@ void msrVoice::appendPendingMeasuresRepeatToVoice (
         
         // forget about this pending measure repeat
  // JMI ???       fVoiceCurrentMeasuresRepeat = nullptr;
+ */
       }
       break;
   } // switch
@@ -26339,6 +26349,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
         createNewLastSegmentForVoice (
           inputLineNumber);
 
+/* JMI
         // print resulting voice contents
         if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
@@ -26353,6 +26364,7 @@ void msrVoice::createMeasuresRepeatAndAppendItToVoiceClone (
         
         // forget about this pending measure repeat
     // JMI ???    fVoiceCurrentMeasuresRepeat = nullptr;
+    */
       }
       break;
   } // switch
@@ -26500,9 +26512,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
             endl;
         }
 
-//*
+/* JMI
         // print current voice contents
-        if (true || gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26512,7 +26524,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
           print (gLogIOstream);
           gIndenter--;
         }
-//*/
+*/
 
         // does the pending multiple rest exist?
         if (! fVoicePendingMultipleRest) {
@@ -26616,9 +26628,9 @@ void msrVoice::appendPendingMultipleRestToVoice (
         fVoiceInitialElementsList.push_back (
           fVoicePendingMultipleRest);
 
-//* JMI
+/* JMI
         // print current voice contents
-        if (true || gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
           gLogIOstream <<
             "==================> The current voice contents of voice \"" <<
             fVoiceName << "\" is:" <<
@@ -26632,7 +26644,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
             "<================= The current voice contents of voice \"" <<
             endl;
         }
-//*/
+*/
 
         // create a new segment to collect the remainder of the voice,
         // containing the next, yet incomplete, measure

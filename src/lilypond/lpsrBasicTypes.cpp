@@ -185,6 +185,28 @@ string wholeNotesAsLilypondString (
       dotsNumber);
 }
 
+string multipleRestWholeNoteAsLilypondString (
+  int      inputLineNumber, // JMI
+  rational wholeNotes)
+{
+  stringstream s;
+  
+  rational
+    denominatorAsFraction =
+      rational (
+        1,
+        wholeNotes.getDenominator ());
+      
+  s <<
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      denominatorAsFraction) <<
+    "*" <<
+    wholeNotes.getNumerator ();
+
+  return s.str ();
+}
+
 //_______________________________________________________________________________
   /* JMI
 void writeNoteAsLilypondString (

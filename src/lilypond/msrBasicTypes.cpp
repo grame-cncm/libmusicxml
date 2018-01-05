@@ -3656,14 +3656,6 @@ string wholeNotesAsMsrString (
     numerator != 0,
     "numerator is 0");
 
-    /* JMI ???
-       if (numerator == 0) {
-    return "0";
-  }
-    
-  else if (numerator == 1) {
-*/
-
   if (numerator == 1) {
     // a number of ??? JMI notes
     return to_string (denominator);
@@ -3805,6 +3797,28 @@ string wholeNotesAsMsrString (
       inputLineNumber,
       wholeNotes,
       dotsNumber);
+}
+
+string multipleRestWholeNoteAsMsrString (
+  int      inputLineNumber, // JMI
+  rational wholeNotes)
+{
+  stringstream s;
+  
+  rational
+    denominatorAsFraction =
+      rational (
+        1,
+        wholeNotes.getDenominator ());
+      
+  s <<
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      denominatorAsFraction) <<
+    "*" <<
+    wholeNotes.getNumerator ();
+
+  return s.str ();
 }
 
 // measure style

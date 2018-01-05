@@ -618,25 +618,32 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         }
   
         else {
-          // print the rest name
-          fLilypondCodeIOstream <<
-            string (
-              note->getNoteOccupiesAFullMeasure ()
-                ? "R"
-                : "r");
+          // get the note sounding whole notes
+          rational
+            noteSoundingWholeNotes =
+              note->getNoteSoundingWholeNotes ();
+              
+          // print the rest name and duration
+          if (note->getNoteOccupiesAFullMeasure ()) {
+            fLilypondCodeIOstream <<
+              "R" <<
+              multipleRestWholeNoteAsLilypondString (
+                inputLineNumber,
+                noteSoundingWholeNotes);
+          }
+          else {
+            fLilypondCodeIOstream <<
+              "r" <<
+              durationAsLilypondString (
+                inputLineNumber,
+                noteSoundingWholeNotes);
+          }
         }
-          
-        // print the rest duration
-        fLilypondCodeIOstream <<
-          durationAsLilypondString (
-            inputLineNumber,
-            note->
-              getNoteSoundingWholeNotes ());
-  
+            
         // is the rest pitched?
         if (noteIsAPitchedRest) {
           fLilypondCodeIOstream <<
-            " \\rest";
+            "\\rest ";
 
           // this note is the new relative octave reference
           // (the display quarter tone pitch and octave
@@ -9601,11 +9608,24 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       endl;
   }
 
+  // get multiple rest measure sounding notes
+  rational
+    multipleRestMeasureSoundingNotes =
+      elt->getMultipleRestMeasureSoundingNotes ();
+
+  rational
+    denominatorAsFraction =
+      rational (
+        1,
+        multipleRestMeasureSoundingNotes.getDenominator ());
+
+  // generate multiple measure rest
   fLilypondCodeIOstream <<
     "R" <<
-    wholeNotesAsLilypondString (
+    multipleRestWholeNoteAsLilypondString (
       inputLineNumber,
-      elt->getMultipleRestMeasureSoundingNotes ());
+      multipleRestMeasureSoundingNotes) <<
+    " ";
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the multiple rest line number as a comment

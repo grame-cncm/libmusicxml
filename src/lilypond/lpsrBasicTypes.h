@@ -79,6 +79,10 @@ string wholeNotesAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes);
 
+string multipleRestWholeNoteAsLilypondString (
+  int      inputLineNumber, // JMI
+  rational wholeNotes);
+
 // notes
 //______________________________________________________________________________
   /* JMI
