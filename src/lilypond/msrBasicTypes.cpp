@@ -3559,6 +3559,69 @@ rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
   return result;
 }
 
+msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
+{
+  msrDurationKind result = k_NoDuration;
+  
+  if (wholeNotes.getNumerator () == 1) {
+    switch (wholeNotes.getDenominator ()) {
+      case 1:
+        result = kWhole;
+        break;
+      case 2:
+        result = kHalf;
+        break;
+      case 4:
+        result = kQuarter;
+        break;
+      case 8:
+        result = kEighth;
+        break;
+      case 16:
+        result = k16th;
+        break;
+      case 32:
+        result = k32nd;
+        break;
+      case 64:
+        result = k64th;
+        break;
+      case 128:
+        result = k128th;
+        break;
+      case 256:
+        result = k256th;
+        break;
+      case 512:
+        result = k512th;
+        break;
+      case 1024:
+        result = k1024th;
+        break;
+      default:
+        ;
+    } // switch
+  }
+
+  else if (wholeNotes.getDenominator () == 1) {
+    switch (wholeNotes.getNumerator ()) {
+      case 2:
+        result = kBreve;
+        break;
+      case 4:
+        result = kLong;
+        break;
+      case 8:
+        result = kMaxima;
+        break;
+      default:
+        ;
+    } // switch
+  }
+
+  return result;
+}
+
 string msrDurationKindAsString (msrDurationKind durationKind)
 {
   string result;

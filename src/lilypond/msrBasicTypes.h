@@ -24,34 +24,6 @@
 namespace MusicXML2 
 {
 
-// notes names and chords languages
-// ------------------------------------------------------
-
-/*
-  The alter element represents chromatic alteration
-  in number of semitones (e.g., -1 for flat, 1 for sharp).
-  Decimal values like 0.5 (quarter tone sharp) are used for microtones.
-
-  The following table lists note names for quarter-tone accidentals
-  in various languages; here the pre- fixes semi- and sesqui-
-  respectively mean ‘half’ and ‘one and a half’.
-  
-  Languages that do not appear in this table do not provide special note names yet.
-  
-  Language    semi-sharp semi-flat sesqui-sharp sesqui-flat
-  --------    ---------- --------- ------------ -----------
-                 +0.5      -0.5        +1.5       -1.5
-  nederlands     -ih       -eh        -isih       -eseh
-
-  We use dutch pitches names for the enumeration below.
-  The following is a series of Cs with increasing pitches:
-    \relative c'' { ceseh ces ceh c cih cis cisih }
-
-  Given the duration of a note and the divisions attribute, a program can usually infer the symbolic note type (e.g. quarter note, dotted-eighth note). However, it is much easier for notation programs if this is represented explicitly, rather than making the program infer the correct symbolic value. In some cases, the intended note duration does not match what is written, be it some of Bach’s dotted notations, notes inégales, or jazz swing rhythms.
-  
-  The type element is used to indicate the symbolic note type, such as quarter, eighth, or 16th. MusicXML symbolic note types range from 256th notes to long notes: 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, and long. The type element may be followed by one or more empty dot elements to indicate dotted notes.
-*/
-
 // diatonic pitches
 //______________________________________________________________________________
 enum msrDiatonicPitchKind {
@@ -126,139 +98,6 @@ msrIntervalKind invertIntervalKind (
 
 // harmonies
 //______________________________________________________________________________
-/*
- kind-value indicates the type of chord. Degree elements can then add, subtract, or alter from these starting points. Values include:
-  
-Triads:
-  major (major third, perfect fifth)
-  minor (minor third, perfect fifth)
-  augmented (major third, augmented fifth)
-  diminished (minor third, diminished fifth)
-Sevenths:
-  dominant (major triad, minor seventh)
-  major-seventh (major triad, major seventh)
-  minor-seventh (minor triad, minor seventh)
-  diminished-seventh (diminished triad, diminished seventh)
-  augmented-seventh (augmented triad, minor seventh)
-  half-diminished (diminished triad, minor seventh)
-  major-minor (minor triad, major seventh)
-Sixths:
-  major-sixth (major triad, added sixth)
-  minor-sixth (minor triad, added sixth)
-Ninths:
-  dominant-ninth (dominant-seventh, major ninth)
-  major-ninth (major-seventh, major ninth)
-  minor-ninth (minor-seventh, major ninth)
-11ths (usually as the basis for alteration):
-  dominant-11th (dominant-ninth, perfect 11th)
-  major-11th (major-ninth, perfect 11th)
-  minor-11th (minor-ninth, perfect 11th)
-13ths (usually as the basis for alteration):
-  dominant-13th (dominant-11th, major 13th)
-  major-13th (major-11th, major 13th)
-  minor-13th (minor-11th, major 13th)
-Suspended:
-  suspended-second (major second, perfect fifth)
-  suspended-fourth (perfect fourth, perfect fifth)
-Functional sixths:
-  Neapolitan
-  Italian
-  French
-  German
-Other:
-  pedal (pedal-point bass)
-  power (perfect fifth)
-  Tristan
-  
-The "other" kind is used when the harmony is entirely composed of add elements. The "none" kind is used to explicitly encode absence of chords or functional harmony.
-*
-*
-*
-*   Kind indicates the type of chord. Values include:
-  
-  Triads:
-      major (major third, perfect fifth)
-      minor (minor third, perfect fifth)
-      augmented (major third, augmented fifth)
-      diminished (minor third, diminished fifth)
-  Sevenths:
-      dominant (major triad, minor seventh)
-      major-seventh (major triad, major seventh)
-      minor-seventh (minor triad, minor seventh)
-      diminished-seventh
-          (diminished triad, diminished seventh)
-      augmented-seventh
-          (augmented triad, minor seventh)
-      half-diminished
-          (diminished triad, minor seventh)
-      major-minor
-          (minor triad, major seventh)
-  Sixths:
-      major-sixth (major triad, added sixth)
-      minor-sixth (minor triad, added sixth)
-  Ninths:
-      dominant-ninth (dominant-seventh, major ninth)
-      major-ninth (major-seventh, major ninth)
-      minor-ninth (minor-seventh, major ninth)
-  11ths (usually as the basis for alteration):
-      dominant-11th (dominant-ninth, perfect 11th)
-      major-11th (major-ninth, perfect 11th)
-      minor-11th (minor-ninth, perfect 11th)
-  13ths (usually as the basis for alteration):
-      dominant-13th (dominant-11th, major 13th)
-      major-13th (major-11th, major 13th)
-      minor-13th (minor-11th, major 13th)
-  Suspended:
-      suspended-second (major second, perfect fifth)
-      suspended-fourth (perfect fourth, perfect fifth)
-  Functional sixths:
-      Neapolitan
-      Italian
-      French
-      German
-  Other:
-      pedal (pedal-point bass)
-      power (perfect fifth)
-      Tristan
-  
-  The "other" kind is used when the harmony is entirely
-  composed of add elements. The "none" kind is used to
-  explicitly encode absence of chords or functional
-  harmony.
-
-  For the major-minor kind, only the minor symbol is used when
-  use-symbols is yes. The major symbol is set using the symbol
-  attribute in the degree-value element. The corresponding
-  degree-alter value will usually be 0 in this case.
-
-  The text attribute describes how the kind should be spelled
-  in a score. If use-symbols is yes, the value of the text
-  attribute follows the symbol. The stack-degrees attribute
-  is yes if the degree elements should be stacked above each
-  other. The parentheses-degrees attribute is yes if all the
-  degrees should be in parentheses. The bracket-degrees 
-  attribute is yes if all the degrees should be in a bracket.
-  If not specified, these values are implementation-specific.
-  The alignment attributes are for the entire harmony-chord
-  entity of which this kind element is a part.
-
-
-<!ELEMENT kind (#PCDATA)>
-<!ATTLIST kind
-    use-symbols          %yes-no;   #IMPLIED
-    text                 CDATA      #IMPLIED
-    stack-degrees        %yes-no;   #IMPLIED
-    parentheses-degrees  %yes-no;   #IMPLIED
-    bracket-degrees      %yes-no;   #IMPLIED
-    %print-style;
-    %halign;
-    %valign;
->
-
-  Inversion is a number indicating which inversion is used:
-  0 for root position, 1 for first inversion, etc.
-*/
-
 enum msrHarmonyKind {
   k_NoHarmony,
   
@@ -538,6 +377,8 @@ enum msrDurationKind {
   k_NoDuration };
 
 rational msrDurationKindAsWholeNotes (msrDurationKind durationKind);
+
+msrDurationKind wholeNotesAsDurationKind (rational wholeNotes);
 
 string msrDurationKindAsString (msrDurationKind durationKind);
 

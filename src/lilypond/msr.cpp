@@ -19422,11 +19422,13 @@ void msrMeasure::finalizeMeasure (
     case msrMeasure::kSenzaMisuraMeasureKind:
       break;
 
-    case msrMeasure::kUnknownMeasureKind:
-    case msrMeasure::kFullMeasureKind:
-    case msrMeasure::kUpbeatMeasureKind:
-    case msrMeasure::kUnderfullMeasureKind:
     case msrMeasure::kOverfullMeasureKind:
+    case msrMeasure::kUpbeatMeasureKind:
+    case msrMeasure::kFullMeasureKind:
+    case msrMeasure::kUnderfullMeasureKind: // JMI
+      break;
+
+    case msrMeasure::kUnknownMeasureKind:
     case msrMeasure::kEmptyMeasureKind:
       switch (fMeasureCreatedAfterARepeatKind) {
         case msrMeasure::kMeasureCreatedAfterARepeatYes:
@@ -19637,26 +19639,32 @@ void msrMeasure::print (ostream& os)
     "Segment uplink" << " : " <<
     fMeasureSegmentUplink->segmentAsShortString () <<
     endl <<
+    
     setw (fieldWidth) <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
     endl <<
+    
     setw (fieldWidth) <<
     "measureContainsMusic" << " : " <<
     booleanAsString (
       fMeasureContainsMusic) << 
     endl <<
+    
     setw (fieldWidth) <<
     msrMeasure::measureCreatedAfterARepeatKindAsString (
       fMeasureCreatedAfterARepeatKind) << 
     endl <<
+    
     setw (fieldWidth) <<
     "length" << " : " << fMeasureLength << " whole notes" <<
     endl <<
+    
     setw (fieldWidth) <<
     "full measure length" << " : " <<
     fFullMeasureLength << " whole notes" <<
     endl <<
+    
     setw (fieldWidth) <<
     "next measure number" << " : '" <<
     fNextMeasureNumber << "'" <<

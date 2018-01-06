@@ -2863,9 +2863,18 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrLayout& elt)
     "\\context {" <<
     endl <<
     gTab << "\\Score" <<
-    endl <<
+    endl;
+
+  if (gLilypondOptions->fCompressMultiMeasureRests) { // JMI
+    fLilypondCodeIOstream <<
+      gTab << "skipBars = ##t % to compress multiple measure rests" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
     gTab << "autoBeaming = ##f % to display tuplets brackets" <<
     endl <<
+
     "}" <<
     endl;
 }
@@ -4338,19 +4347,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   if (
     fCurrentVoice->getVoiceContainsMultipleRests ()
       ||
-    gLilypondOptions->fCompressMultiMeasureRests)
+    gLilypondOptions->fCompressMultiMeasureRests) {
     fLilypondCodeIOstream <<
-      "\\compressMMRests" <<
-      endl <<
+      "\\compressMMRests {" <<
       endl;
 
-  if (gLilypondOptions->fAccidentalStyleKind != kDefaultStyle)
+    gIndenter++;
+  }
+
+  if (gLilypondOptions->fAccidentalStyleKind != kDefaultStyle) {
     fLilypondCodeIOstream <<
       "\\accidentalStyle Score." <<
       lpsrAccidentalStyleKindAsString (
         gLilypondOptions->fAccidentalStyleKind) <<
       endl <<
       endl;
+  }
 
   fRelativeOctaveReference = nullptr;
 
@@ -4396,6 +4408,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
       endl;
   }
   
+  if (
+    fCurrentVoice->getVoiceContainsMultipleRests ()
+      ||
+    gLilypondOptions->fCompressMultiMeasureRests) {
+    fLilypondCodeIOstream <<
+      "}" <<
+      endl;
+
+    gIndenter--;
+  }
+
   if (gLilypondOptions->fDisplayMusic) {
     fLilypondCodeIOstream <<
       "}" <<

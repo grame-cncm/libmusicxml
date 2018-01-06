@@ -9815,7 +9815,6 @@ class msrVoice : public msrElement
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
 //______________________________________________________________________________
-
 class msrStaffLinesNumber : public msrElement
 {
   public:
