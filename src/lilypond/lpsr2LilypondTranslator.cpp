@@ -5560,7 +5560,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
 
   // handle the time
   if (timeSymbolKind == msrTime::kTimeSymbolSenzaMisura) {
-
     // senza misura time
     
     fLilypondCodeIOstream <<
@@ -5571,14 +5570,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
   }
 
   else {
-
     // con misura time
     
     int timesItemsNumber =
       timeItemsVector.size ();
   
     if (timesItemsNumber) {
-  
       // should there be a single number?
       switch (timeSymbolKind) {
         case msrTime::kTimeSymbolCommon:
@@ -5601,7 +5598,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       } // switch
   
       if (! elt->getTimeIsCompound ()) {
-  
         // simple time
         // \time "3/4" for 3/4
         // or senza misura
@@ -5625,32 +5621,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
             "\\numericTimeSignature ";
         }
   
-        /* dotted-note: JMI
-  \relative {
-  \override Staff.TimeSignature.stencil = #(lambda (grob)
-                                             (grob-interpret-markup grob #{
-                                               \markup\override #'(baseline-skip . 0.5) {
-                                                 \column { \number 2 \tiny\note #"4." #-1 }
-                                                 \vcenter "="
-                                                 \column { \number 6 \tiny\note #"8" #-1 }
-                                                 \vcenter "="
-                                                 \column\number { 6 8 }
-                                               }
-                                               #}))
-                                               *
-     * ou plus simle
-     * #(define-public (format-time-sig-note grob)
-  (let* ((frac (ly:grob-property grob 'fraction))
-  (num (if (pair? frac) (car frac) 4))
-  (den (if (pair? frac) (cdr frac) 4))
-  (m (markup #:override '(baseline-skip . 0.5)
-  #:center-column (#:number (number->string num)
-  #'" "
-  #:override '(style . default)
-  #:note (number->string den) DOWN))))
-  (grob-interpret-markup grob m)))
-  
-         */
         fLilypondCodeIOstream <<
           "\\time " <<
           beatsNumbersVector [0] << // the only element
@@ -5660,7 +5630,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
       }
         
       else {
-  
         // compound time
         // \compoundMeter #'(3 2 8) for 3+2/8
         // \compoundMeter #'((3 8) (2 8) (3 4)) for 3/8+2/8+3/4  
@@ -5715,6 +5684,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     }
     
     else {
+      // there are no time items
       if (timeSymbolKind != msrTime::kTimeSymbolSenzaMisura) {
         msrInternalError (
           gXml2lyOptions->fInputSourceName,
@@ -9816,3 +9786,30 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
     } // switch
   }
 */
+
+        /* dotted-note: JMI
+  \relative {
+  \override Staff.TimeSignature.stencil = #(lambda (grob)
+                                             (grob-interpret-markup grob #{
+                                               \markup\override #'(baseline-skip . 0.5) {
+                                                 \column { \number 2 \tiny\note #"4." #-1 }
+                                                 \vcenter "="
+                                                 \column { \number 6 \tiny\note #"8" #-1 }
+                                                 \vcenter "="
+                                                 \column\number { 6 8 }
+                                               }
+                                               #}))
+                                               *
+     * ou plus simle
+     * #(define-public (format-time-sig-note grob)
+  (let* ((frac (ly:grob-property grob 'fraction))
+  (num (if (pair? frac) (car frac) 4))
+  (den (if (pair? frac) (cdr frac) 4))
+  (m (markup #:override '(baseline-skip . 0.5)
+  #:center-column (#:number (number->string num)
+  #'" "
+  #:override '(style . default)
+  #:note (number->string den) DOWN))))
+  (grob-interpret-markup grob m)))
+  
+         */

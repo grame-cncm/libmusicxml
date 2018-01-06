@@ -22857,7 +22857,7 @@ void msrMultipleRestContents::browseData (basevisitor* v)
   }
 
   if (fMultipleRestContentsSegment) {
-  // browse the pattern segment
+    // browse the pattern segment
     msrBrowser<msrSegment> browser (v);
     browser.browse (*fMultipleRestContentsSegment);
   }
