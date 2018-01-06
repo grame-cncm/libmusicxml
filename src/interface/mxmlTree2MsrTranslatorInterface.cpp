@@ -52,7 +52,7 @@ void populateMsrSkeletonFromMxmlTree (
     scoreSkeleton != 0,
     "scoreSkeleton is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
   if (gTraceOptions->fTraceBasic) {
     string separator =
@@ -81,7 +81,7 @@ void populateMsrSkeletonFromMxmlTree (
   translator.browseMxmlTree (
     mxmlTree);
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -119,7 +119,7 @@ void displayMSRPopulatedScore (
     mScore != 0,
     "mScore is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
   
   string separator =
     "%--------------------------------------------------------------";
@@ -136,7 +136,7 @@ void displayMSRPopulatedScore (
     endl <<
     mScore;
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -158,7 +158,7 @@ void displayMSRPopulatedScoreSummary (
     mScore != 0,
     "mScore is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
   
   if (gTraceOptions->fTraceBasic) {
     string separator =
@@ -185,7 +185,7 @@ void displayMSRPopulatedScoreSummary (
   summaryVisitor.printSummaryFromMsrScore (
     mScore);
   
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (

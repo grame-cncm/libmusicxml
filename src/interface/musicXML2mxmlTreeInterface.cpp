@@ -35,7 +35,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   S_musicXMLOptions mxmlOpts,
   indentedOstream&  logIOstream) 
 {
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
   if (gTraceOptions->fTraceBasic) {
     string separator =
@@ -55,9 +55,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   xmlreader r;
   
   SXMLFile xmlFile = r.read (fileName);
-  if (!xmlFile) return Sxmlelement(0);
+  if (!xmlFile)
+    return Sxmlelement (0);
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -68,18 +69,18 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     endClock);
   
   // fetch mxmlTree
-  Sxmlelement mxmlTree = xmlFile->elements();
+  Sxmlelement mxmlTree = xmlFile->elements ();
 
   return mxmlTree;
 }
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFd2mxmlTree (
-  FILE*            fd,
+  FILE*             fd,
   S_musicXMLOptions mxmlOpts,
   indentedOstream&  logIOstream) 
 {
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
   
   if (gTraceOptions->fTraceBasic) {
     string separator =
@@ -100,7 +101,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   
   SXMLFile xmlFile = r.read (fd);
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -111,7 +112,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     endClock);
 
   // fetch mxmlTree
-  Sxmlelement mxmlTree = xmlFile->elements();
+  Sxmlelement mxmlTree = xmlFile->elements ();
 
   return mxmlTree;
 }
@@ -122,7 +123,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   S_musicXMLOptions mxmlOpts,
   indentedOstream&  logIOstream) 
 {
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
   if (gTraceOptions->fTraceBasic) {
     string separator =
@@ -143,7 +144,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   
   SXMLFile xmlFile = r.readbuff (buffer);
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (

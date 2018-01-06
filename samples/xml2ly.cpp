@@ -97,6 +97,28 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
   
   else {
     // input comes from a file
+
+    // has the input file name a ".mxl" suffix?    
+    size_t
+      posInString =
+        inputSourceName.rfind (".mxl");
+      
+    if (posInString == inputSourceName.size () - 4) {
+      stringstream s;
+
+      s <<
+        "compressed MusicXML files are not handled by xml2ly currently, exiting";
+
+      msrMusicXMLError (
+        inputSourceName,
+        0,
+        __FILE__, __LINE__,
+        s.str ());
+
+      exit (1);
+    }
+
+    // OK, let's go ahead
     mxmlTree =
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),

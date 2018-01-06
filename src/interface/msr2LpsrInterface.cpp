@@ -45,7 +45,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
     mScore != 0,
     "mScore is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
       
   if (gTraceOptions->fTraceBasic) {
     string separator =
@@ -71,7 +71,7 @@ S_lpsrScore buildLpsrScoreFromMsrScore (
   // build the LPSR score
   translator.buildLpsrScoreFromMsrScore ();
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -110,7 +110,7 @@ void displayLpsrScore (
     lpScore != 0,
     "lpScore is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
   string separator =
     "%--------------------------------------------------------------";
@@ -132,7 +132,7 @@ void displayLpsrScore (
     separator <<
     endl;
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (

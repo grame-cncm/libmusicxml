@@ -48,7 +48,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     mxmlTree != 0,
     "mxmlTree is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
   if (gTraceOptions->fTraceBasic) {
     string separator =
@@ -67,7 +67,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
       endl;
   }
   
-  // create an mxmlTree2MsrSkeleton
+  // create an mxmlTree2MsrSkeletonBuilder
   mxmlTree2MsrSkeletonBuilder
     skeletonBuilder (
       logIOstream);
@@ -81,7 +81,7 @@ S_msrScore buildMsrSkeletonFromElementsTree (
     scoreSkeleton =
       skeletonBuilder.getMsrScore ();
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -122,7 +122,7 @@ void displayMsrSkeleton (
     mScore != 0,
     "mScore is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
   
   string separator =
     "%--------------------------------------------------------------";
@@ -139,7 +139,7 @@ void displayMsrSkeleton (
     endl <<
     mScore;
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -161,7 +161,7 @@ void displayMsrSkeletonSummary (
     mScore != 0,
     "mScore is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
   
   if (gTraceOptions->fTraceBasic) {
     string separator =
@@ -187,7 +187,7 @@ void displayMsrSkeletonSummary (
   summaryVisitor.printSummaryFromMsrScore (
     mScore);
   
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (

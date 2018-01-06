@@ -41,7 +41,7 @@ void generateLilypondCodeFromLpsrScore (
     lpScore != 0,
     "lpScore is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
   string separator =
     "%--------------------------------------------------------------";
@@ -76,7 +76,7 @@ void generateLilypondCodeFromLpsrScore (
       endl;
   }
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
