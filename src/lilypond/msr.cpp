@@ -23054,6 +23054,7 @@ void msrMultipleRest::browseData (basevisitor* v)
       endl;
   }
 
+/* JMI
   // get the part uplink
   S_msrPart
     partUplink =
@@ -23083,13 +23084,14 @@ void msrMultipleRest::browseData (basevisitor* v)
         endl;
     }
   }
+*/
 
   if (fMultipleRestContents) {
-    if (! inhibitMultipleRestMeasuresBrowsing) {
+ // JMI   if (! inhibitMultipleRestMeasuresBrowsing) {
       // browse the multiple rest contents
       msrBrowser<msrMultipleRestContents> browser (v);
       browser.browse (*fMultipleRestContents);
-    }
+//    }
   }
 }
 

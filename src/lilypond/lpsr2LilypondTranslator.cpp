@@ -6815,6 +6815,29 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       endl;
   }
 
+  // is this a multiple rest to be ignored?
+  switch (elt->getNoteKind ()) {
+    case msrNote::kRestNote:
+      if (elt->getNoteOccupiesAFullMeasure ()) {
+        bool inhibitMultipleRestMeasuresBrowsing =
+          fVisitedLpsrScore->getMsrScore ()->
+            getInhibitMultipleRestMeasuresBrowsing ();
+      
+        if (inhibitMultipleRestMeasuresBrowsing) {
+          if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "% ==> visiting multiple rest measure is ignored" <<
+              endl;
+          }
+
+        return;
+        }
+      }
+      break;
+    default:
+      ;
+  } // switch
+    
   // print the note wedges circled tips if any
   const list<S_msrWedge>&
     noteWedges =
@@ -7212,6 +7235,29 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       endl;
   }
 
+  // is this a multiple rest to be ignored?
+  switch (elt->getNoteKind ()) {
+    case msrNote::kRestNote:
+      if (elt->getNoteOccupiesAFullMeasure ()) {
+        bool inhibitMultipleRestMeasuresBrowsing =
+          fVisitedLpsrScore->getMsrScore ()->
+            getInhibitMultipleRestMeasuresBrowsing ();
+      
+        if (inhibitMultipleRestMeasuresBrowsing) {
+          if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "% ==> visiting multiple rest measure is ignored" <<
+              endl;
+          }
+
+        return;
+        }
+      }
+      break;
+    default:
+      ;
+  } // switch
+    
   // fetch the note single tremolo
   S_msrSingleTremolo
     noteSingleTremolo =
@@ -9563,6 +9609,45 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       endl;
   }
 
+  if (gLilypondOptions->fComments) {
+    gIndenter++;
+
+    fLilypondCodeIOstream << left <<
+      setw (commentFieldWidth) <<
+      "% start of multiple rest" <<
+      singularOrPlural (
+        elt->getMultipleRestMeasuresNumber (),
+        "measure",
+        "measures") <<
+      ", line " << elt->getInputLineNumber () <<
+      endl <<
+      endl;      
+  }
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting msrMultipleRest" <<
+      endl;
+  }
+    
+  if (gLilypondOptions->fComments) {
+    gIndenter--;
+
+    fLilypondCodeIOstream << left <<
+      setw (commentFieldWidth) <<
+      "% end of multiple rest" <<
+      singularOrPlural (
+        elt->getMultipleRestMeasuresNumber (),
+        "measure",
+        "measures") <<
+      ", line " << elt->getInputLineNumber () <<
+      endl <<
+      endl;      
+  }
+
   int inputLineNumber =
     elt->getInputLineNumber ();
     
@@ -9618,43 +9703,20 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
     multipleRestWholeNoteAsLilypondString (
       inputLineNumber,
       multipleRestMeasureSoundingNotes) <<
-    " ";
+    "*" <<
+    restMeasuresNumber;
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the multiple rest line number as a comment
     fLilypondCodeIOstream <<
-      "%{ " << inputLineNumber << " %} ";
+      " %{ " << inputLineNumber << " %} ";
   }
 
+/* JMI
   fLilypondCodeIOstream <<    
-    "*" <<
-    restMeasuresNumber <<
-    " | " <<
+    "| " <<
     endl;
-}
-
-void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
-{
-  if (gLpsrOptions->fTraceLpsrVisitors) {
-    fLilypondCodeIOstream <<
-      "% --> End visiting msrMultipleRest" <<
-      endl;
-  }
-    
-  if (gLilypondOptions->fComments) {
-    gIndenter--;
-
-    fLilypondCodeIOstream << left <<
-      setw (commentFieldWidth) <<
-      "% end of multiple rest" <<
-      singularOrPlural (
-        elt->getMultipleRestMeasuresNumber (),
-        "measure",
-        "measures") <<
-      ", line " << elt->getInputLineNumber () <<
-      endl <<
-      endl;      
-  }
+    */
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
