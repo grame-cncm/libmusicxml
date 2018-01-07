@@ -9610,8 +9610,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   }
 
   if (gLilypondOptions->fComments) {
-    gIndenter++;
-
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
       "% start of multiple rest" <<
@@ -9622,6 +9620,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
       ", line " << elt->getInputLineNumber () <<
       endl <<
       endl;      
+
+    gIndenter++;
   }
 }
 
@@ -9702,14 +9702,21 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
     "R" <<
     multipleRestWholeNoteAsLilypondString (
       inputLineNumber,
-      multipleRestMeasureSoundingNotes) <<
-    "*" <<
-    restMeasuresNumber;
+      multipleRestMeasureSoundingNotes);
+
+  if (restMeasuresNumber > 1) {
+    fLilypondCodeIOstream <<
+      "*" <<
+      restMeasuresNumber;
+  }
+
+  fLilypondCodeIOstream <<
+    " ";
 
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the multiple rest line number as a comment
     fLilypondCodeIOstream <<
-      " %{ " << inputLineNumber << " %} ";
+      "%{ " << inputLineNumber << " %} ";
   }
 
 /* JMI
