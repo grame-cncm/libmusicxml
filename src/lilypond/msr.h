@@ -3213,8 +3213,7 @@ class msrMeasure : public msrElement
                               { return fMeasureOrdinalNumber; }
 
 
-    void                  setNextMeasureNumber (string nextMeasureNumber)
-                              { fNextMeasureNumber = nextMeasureNumber; }
+    void                  setNextMeasureNumber (string nextMeasureNumber);
 
     string                getNextMeasureNumber () const
                               { return fNextMeasureNumber; }
@@ -3574,6 +3573,7 @@ class msrMeasure : public msrElement
     // elements
 
     list<S_msrElement>    fMeasureElementsList;
+    
     bool                  fMeasureContainsMusic;
 };
 typedef SMARTP<msrMeasure> S_msrMeasure;
@@ -9106,6 +9106,12 @@ class msrMultipleRest : public msrElement
                           getMultipleRestContents () const
                               { return fMultipleRestContents; }
 
+    void                  setMultipleRestNextMeasureNumber (
+                            string measureNumber);
+
+    string                getMultipleRestNextMeasureNumber () const
+                              { return fMultipleRestNextMeasureNumber; }
+
     rational              getMultipleRestMeasureSoundingNotes () const
                               { return fMultipleRestMeasureSoundingNotes; }
 
@@ -9145,6 +9151,8 @@ class msrMultipleRest : public msrElement
     
     S_msrMultipleRestContents
                           fMultipleRestContents;
+
+    string                fMultipleRestNextMeasureNumber;
 
     // shortcut for efficiency
     rational              fMultipleRestMeasureSoundingNotes;
@@ -9801,12 +9809,18 @@ class msrVoice : public msrElement
     // but not yet appended to the voice
     S_msrMeasuresRepeat   fVoiceCurrentMeasuresRepeat;
 
-    // fVoiceCurrentMeasuresRepeat is null
-    // or the last msrMeasuresRepeat created with its repeated measure,
+    // fVoicePendingMultipleRest is null
+    // or the last msrMultipleRest created,
     // but not yet appended to the voice
     S_msrMultipleRest     fVoicePendingMultipleRest;
+    
+    // fVoicePendingMultipleRest is null
+    // or the last msrMultipleRest created and appended to the voice,
+    // but with its next measure number not yet set
+    S_msrMultipleRest     fVoiceMultipleRestWaitingForItsNextMeasureNumber;
+    
     bool                  fVoiceContainsMultipleRests;
-
+ 
     // stanzas
         
     map<string, S_msrStanza>

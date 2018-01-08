@@ -17519,6 +17519,27 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
   return measureDeepCopy;
 }
 
+void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
+{
+  if (gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Setting next measure number to '" << nextMeasureNumber <<
+      "' in measure '" <<
+      fMeasureNumber <<
+      "' in segment '" <<
+      fMeasureSegmentUplink-> segmentAsString () <<
+      /* JMI
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      */
+      "', line " << fInputLineNumber <<
+      endl;
+  }
+
+  fNextMeasureNumber = nextMeasureNumber;
+}
+
 string msrMeasure::fullMeasureLengthAsMSRString ()
 {
   return
@@ -17537,8 +17558,8 @@ void msrMeasure::setMeasureLength (
   
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
     gLogIOstream <<
-      "Setting measure " << fMeasureNumber <<
-      " measure length to '"  << rationalisedMeasureLength << "'";
+      "Setting measure '" << fMeasureNumber <<
+      "' measure length to '"  << rationalisedMeasureLength << "'";
 
     if (
       rationalisedMeasureLength.getDenominator ()
@@ -19967,7 +19988,7 @@ void msrSegment::setNextMeasureNumberInSegment (
 {
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Setting next measure number to FYY '" << nextMeasureNumber <<
+      "Setting next measure number to '" << nextMeasureNumber <<
       "' in segment '" << segmentAsString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -19979,8 +20000,9 @@ void msrSegment::setNextMeasureNumberInSegment (
   if (fSegmentMeasuresList.size ()) { // JMI ???
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
       gLogIOstream <<
-        "Setting next measure number to FEE '" << nextMeasureNumber <<
+        "Setting next measure number to '" << nextMeasureNumber <<
         "' in segment '" << segmentAsString () <<
+        "'s last measure " <<
         "' in voice \"" <<
         fSegmentVoiceUplink->getVoiceName () <<
         "\"" <<
@@ -19992,6 +20014,20 @@ void msrSegment::setNextMeasureNumberInSegment (
       setNextMeasureNumber (
         nextMeasureNumber);
   }
+
+/* JMI
+  else { // JMI
+    gLogIOstream <<
+      endl <<
+      endl <<
+      endl <<
+      fSegmentVoiceUplink <<
+      endl <<
+      endl;
+
+    exit (1);
+  }
+  */    
 }
 
 void msrSegment::finalizeCurrentMeasureInSegment (
@@ -22977,6 +23013,9 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
         fMultipleRestMeasuresNumber,
         containingVoice);
 
+  newbornClone->fMultipleRestNextMeasureNumber =
+    fMultipleRestNextMeasureNumber;
+    
   return newbornClone;
 }
 
@@ -23000,6 +23039,21 @@ void msrMultipleRest::setMultipleRestContents (
     "multipleRestContents is null");
 
   fMultipleRestContents = multipleRestContents;
+}
+
+void msrMultipleRest::setMultipleRestNextMeasureNumber (
+  string measureNumber)
+{
+  if (gTraceOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Setting multiple rest next measure number to'" <<
+      "' " <<
+      measureNumber <<
+      endl;
+  }
+
+  fMultipleRestNextMeasureNumber =
+    measureNumber;
 }
 
 void msrMultipleRest::acceptIn (basevisitor* v)
@@ -23108,7 +23162,10 @@ string msrMultipleRest::multipleRestAsString () const
     singularOrPlural (
       fMultipleRestMeasuresNumber,
         "rest measure",
-        "rest measures");
+        "rest measures") <<
+    ", next measure number: '" <<
+    fMultipleRestNextMeasureNumber <<
+    "'";
     
   return s.str ();
 }
@@ -24154,8 +24211,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     }
   }
   
-  // multple rests
-  // fVoicePendingMultipleRest ??? JMI
+  // multiple rests
   voiceDeepCopy->fVoiceContainsMultipleRests =
     fVoiceContainsMultipleRests;
 
@@ -24223,10 +24279,30 @@ void msrVoice::setNextMeasureNumberInVoice (
   int    inputLineNumber,
   string nextMeasureNumber)
 {
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Setting next measure number to '" <<
+      nextMeasureNumber <<
+      ", in voice \"" << getVoiceName () << "\"" <<
+      "', line " << inputLineNumber <<
+      endl;
+  }
+
   fVoiceLastSegment->
     setNextMeasureNumberInSegment (
       inputLineNumber,
       nextMeasureNumber);
+
+  // is there a pending multiple rest in this voice?
+  if (fVoiceMultipleRestWaitingForItsNextMeasureNumber) {      
+    // yes, set its next measure number
+    fVoiceMultipleRestWaitingForItsNextMeasureNumber->
+      setMultipleRestNextMeasureNumber (
+        nextMeasureNumber);
+
+    // forget about it
+    fVoiceMultipleRestWaitingForItsNextMeasureNumber = nullptr;
+  }
 }
 
 void msrVoice::createNewLastSegmentForVoice (
@@ -26462,6 +26538,10 @@ void msrVoice::createMultipleRestInVoice (
             multipleRestMeasuresNumber,
             this);
 
+         // remember fVoicePendingMultipleRest for later next measure number setting
+        fVoiceMultipleRestWaitingForItsNextMeasureNumber =
+          fVoicePendingMultipleRest;
+
         // create a new segment to collect the multiple rest measures,
         // containing the first, rest measure
         if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
@@ -26624,7 +26704,7 @@ void msrVoice::appendPendingMultipleRestToVoice (
         // set multipleRestContents as the multiple rest contents
         if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
-            "Setting current last segment as multiple rest segment in voice \"" <<
+            "Setting multiple rest contents in voice \"" <<
             getVoiceName () <<
             "\"" <<
             endl;
@@ -28713,8 +28793,8 @@ void msrStaff::setNextMeasureNumberInStaff (
     gLogIOstream <<
       "Setting next measure number to '" <<
       nextMeasureNumber <<
-      "', line " << inputLineNumber <<
       ", in staff \"" << getStaffName () << "\"" <<
+      "', line " << inputLineNumber <<
       endl;
   }
 

@@ -708,6 +708,10 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     int                   fCurrentRepeatEndingsNumber;
 
+    // multiple rest measures
+    // ------------------------------------------------------
+    int                   fRemainingMultipleRestMeasuresNumber;
+    
     // segments
     // ------------------------------------------------------
     // we need to handle nested msrSegment's to indent notes

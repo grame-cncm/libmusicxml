@@ -88,6 +88,9 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   // repeats
   fCurrentRepeatEndingsNumber = 0;
 
+  // multiple rest measures
+  fRemainingMultipleRestMeasuresNumber = 0;
+
   // measures
   fMeasuresCounter = 0;
   
@@ -4129,6 +4132,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
   }
 
   fCurrentPart = elt;
+
+  fRemainingMultipleRestMeasuresNumber = 0; // JMI
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrPart& elt)
@@ -5032,17 +5037,31 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kFullMeasureKind:
-      fLilypondCodeIOstream <<
-        "|";
+      {
+        bool doGenerateBarCheck = true;
+        
+        if (fRemainingMultipleRestMeasuresNumber > 0) {
+          // account for this measure
+          fRemainingMultipleRestMeasuresNumber--;
 
-      if (nextMeasureNumber.size ()) {
-        fLilypondCodeIOstream <<
-          " % " <<
-          nextMeasureNumber;
+          // the bar check will be generated upon visitEnd (S_msrMultipleRest&)
+          doGenerateBarCheck = false;
+        }
+
+        if (doGenerateBarCheck) {
+          fLilypondCodeIOstream <<
+            "|";
+    
+          if (nextMeasureNumber.size ()) {
+            fLilypondCodeIOstream <<
+              " % " <<
+              nextMeasureNumber;
+          }
+          
+          fLilypondCodeIOstream <<
+            endl;
+        }
       }
-      
-      fLilypondCodeIOstream <<
-        endl;
       break;
       
     case msrMeasure::kUpbeatMeasureKind:
@@ -9623,6 +9642,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
 
     gIndenter++;
   }
+
+  // start counting measures
+  fRemainingMultipleRestMeasuresNumber =
+    elt->getMultipleRestMeasuresNumber ();
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
@@ -9710,20 +9733,16 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
       restMeasuresNumber;
   }
 
-  fLilypondCodeIOstream <<
-    " ";
-
   if (gLilypondOptions->fNoteInputLineNumbers) {
     // print the multiple rest line number as a comment
     fLilypondCodeIOstream <<
-      "%{ " << inputLineNumber << " %} ";
+      " %{ " << inputLineNumber << " %} ";
   }
 
-/* JMI
   fLilypondCodeIOstream <<    
-    "| " <<
+    " | % " <<
+    elt->getMultipleRestNextMeasureNumber () <<
     endl;
-    */
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
@@ -9733,10 +9752,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)
       "%--> Start visiting msrMultipleRestContents" <<
       endl;
   }
-
-  gIndenter++;
-
-  // JMI
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestContents& elt)
@@ -9746,10 +9761,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRestContents& elt)
       "%--> End visiting msrMultipleRestContents" <<
       endl;
   }
-
-  gIndenter--;
-
-  // JMI
 }
 
 //________________________________________________________________________
