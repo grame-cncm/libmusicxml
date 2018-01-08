@@ -5065,6 +5065,17 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMeasure& elt)
       break;
       
     case msrMeasure::kUpbeatMeasureKind:
+      fLilypondCodeIOstream <<
+        "|";
+
+      if (nextMeasureNumber.size ()) {
+        fLilypondCodeIOstream <<
+          " % " <<
+          nextMeasureNumber;
+      }
+      
+      fLilypondCodeIOstream <<
+        endl;
       break;
       
     case msrMeasure::kUnderfullMeasureKind:

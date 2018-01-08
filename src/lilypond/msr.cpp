@@ -24266,7 +24266,13 @@ void msrVoice::createMeasureAndAppendItToVoice (
       inputLineNumber);
   }
   
-  // append new measure with given number
+  // is there a pending multiple rest in this voice?
+  if (fVoiceMultipleRestWaitingForItsNextMeasureNumber) {      
+    // forget about it
+  // JMI  fVoiceMultipleRestWaitingForItsNextMeasureNumber = nullptr; // JMI
+  }
+
+ // append new measure with given number
   fVoiceLastSegment->
     createMeasureAndAppendItToSegment (
       inputLineNumber,
@@ -24301,7 +24307,7 @@ void msrVoice::setNextMeasureNumberInVoice (
         nextMeasureNumber);
 
     // forget about it
-    fVoiceMultipleRestWaitingForItsNextMeasureNumber = nullptr;
+ // JMI   fVoiceMultipleRestWaitingForItsNextMeasureNumber = nullptr;
   }
 }
 

@@ -5289,14 +5289,10 @@ void mxmlTree2MsrTranslator::visitStart (S_measure& elt)
       endl;
   }
 
-/*
-  Measures have a required number attribute (going from partwise to timewise,
-  measures are grouped via the number).
-*/
-
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // take this measure into account
   fCurrentMeasureOrdinalNumber++;
   
   if (gTraceOptions->fTraceMeasures) {
@@ -5472,6 +5468,15 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
       fCurrentPart->
         appendPendingMultipleRestToPart (
           inputLineNumber);
+
+
+    if (fRemainingMultipleRestMeasuresNumber == 1) {
+      fCurrentPart-> // JMI ??? BOF
+        setNextMeasureNumberInPart (
+          inputLineNumber,
+          fCurrentMeasureNumber);
+    }
+
 
       // forget about and multiple rest having been created
       fCurrentMultipleRestHasBeenCreated = false;
