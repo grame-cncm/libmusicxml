@@ -6912,8 +6912,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           break;
           
         case msrWedge::kStopWedge:
+        /* JMI
           fLilypondCodeIOstream <<
             "\\! ";
+            */
           break;
       } // switch
     } // for
