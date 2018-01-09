@@ -23919,6 +23919,9 @@ void msrVoice::initializeVoice (
   fVoiceSkipsCounter           = 0;
   fVoiceActualHarmoniesCounter = 0;
 
+  // multiple rests
+  fVoiceRemainingRestMeasures = 0;
+
   // get the initial staff details from the staff if any
   S_msrStaffDetails
     staffStaffDetails =
@@ -24266,12 +24269,6 @@ void msrVoice::createMeasureAndAppendItToVoice (
       inputLineNumber);
   }
   
-  // is there a pending multiple rest in this voice?
-  if (fVoiceMultipleRestWaitingForItsNextMeasureNumber) {      
-    // forget about it
-  // JMI  fVoiceMultipleRestWaitingForItsNextMeasureNumber = nullptr; // JMI
-  }
-
  // append new measure with given number
   fVoiceLastSegment->
     createMeasureAndAppendItToSegment (
@@ -24301,13 +24298,38 @@ void msrVoice::setNextMeasureNumberInVoice (
 
   // is there a pending multiple rest in this voice?
   if (fVoiceMultipleRestWaitingForItsNextMeasureNumber) {      
-    // yes, set its next measure number
-    fVoiceMultipleRestWaitingForItsNextMeasureNumber->
-      setMultipleRestNextMeasureNumber (
-        nextMeasureNumber);
+    // yes
+    if (gTraceOptions->fTraceRepeats) {
+      gLogIOstream <<
+        "There is a multiple rest waiting for its next measure number" <<
+        ", fVoiceRemainingRestMeasures = " <<
+        fVoiceRemainingRestMeasures <<
+        "' in voice \"" <<
+        fVoiceName << "\"" <<
+        endl;
+    }
 
-    // forget about it
- // JMI   fVoiceMultipleRestWaitingForItsNextMeasureNumber = nullptr;
+    fVoiceRemainingRestMeasures--;
+
+    // is this the last measure in the row?
+    if (fVoiceRemainingRestMeasures == 0) {
+      // yes, set waiting multiple rest's next measure number
+      if (gTraceOptions->fTraceRepeats) {
+        gLogIOstream <<
+          "Setting multiple rest next measure number to '" <<
+          nextMeasureNumber <<
+          "' in voice \"" <<
+          fVoiceName << "\"" <<
+          endl;
+      }
+
+      fVoiceMultipleRestWaitingForItsNextMeasureNumber->
+        setMultipleRestNextMeasureNumber (
+          nextMeasureNumber);
+
+      // forget about this waiting multiple rest
+      fVoiceMultipleRestWaitingForItsNextMeasureNumber = nullptr;
+    }
   }
 }
 
@@ -26545,8 +26567,30 @@ void msrVoice::createMultipleRestInVoice (
             this);
 
          // remember fVoicePendingMultipleRest for later next measure number setting
+        if (gTraceOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Registering multiple rest as waiting for its next measure number" <<
+            ", multipleRestMeasuresNumber = " <<
+            multipleRestMeasuresNumber <<
+            " in voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+        }
+        
         fVoiceMultipleRestWaitingForItsNextMeasureNumber =
           fVoicePendingMultipleRest;
+
+        fVoiceRemainingRestMeasures =
+          multipleRestMeasuresNumber;
+
+        if (gTraceOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Setting fVoiceRemainingRestMeasures to '" <<
+            fVoiceRemainingRestMeasures <<
+            "' in voice \"" <<
+            fVoiceName << "\"" <<
+            endl;
+        }
 
         // create a new segment to collect the multiple rest measures,
         // containing the first, rest measure

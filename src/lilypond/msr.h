@@ -9818,6 +9818,7 @@ class msrVoice : public msrElement
     // or the last msrMultipleRest created and appended to the voice,
     // but with its next measure number not yet set
     S_msrMultipleRest     fVoiceMultipleRestWaitingForItsNextMeasureNumber;
+    int                   fVoiceRemainingRestMeasures;
     
     bool                  fVoiceContainsMultipleRests;
  
