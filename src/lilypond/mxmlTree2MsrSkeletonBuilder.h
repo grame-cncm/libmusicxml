@@ -117,6 +117,8 @@ EXP ostream& operator<< (ostream& os, const S_mxmlPartGroupDescr& elt);
 //________________________________________________________________________
 class mxmlTree2MsrSkeletonBuilder :
 
+  public visitor<S_encoding>,
+
   // score
 
   public visitor<S_score_partwise>,
@@ -211,6 +213,8 @@ class mxmlTree2MsrSkeletonBuilder :
         const Sxmlelement& xmlTree);
   
   protected:
+
+    virtual void visitStart ( S_encoding& elt);
 
     // score
   

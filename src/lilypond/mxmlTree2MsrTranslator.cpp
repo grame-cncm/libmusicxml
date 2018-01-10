@@ -345,6 +345,8 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   fCurrentActualNotes = -1;
   fCurrentNormalNotes = -1;
 
+  fCurrentTupletDotsNumber = 0;
+
   // chords
   
   fCurrentNoteBelongsToAChord = false;
@@ -638,10 +640,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_rights& elt )
       endl;
   }
 
+  string rightsValue = elt->getValue ();
+
+  convertHTMLEntitiesToPlainCharacters (rightsValue); // JMI &#x00a9;
+  
   fMsrScore->getIdentification () ->
     addRights (
       elt->getInputLineNumber (),
-      elt->getValue ());
+      rightsValue);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_software& elt )
@@ -12607,6 +12613,24 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   fCurrentNoteBelongsToATuplet = true;
 }
 
+void mxmlTree2MsrTranslator::visitStart ( S_tuplet_actual& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_tuplet_actual" <<
+      endl;
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_tuplet_normal& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_tuplet_normal" <<
+      endl;
+  }
+}
+
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -12653,6 +12677,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
       fCurrentTupletDisplayType <<
       endl;
   }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_tuplet_dot" <<
+      endl;
+  }
+
+  fCurrentNoteDotsNumber++;
 }
 
 //______________________________________________________________________________

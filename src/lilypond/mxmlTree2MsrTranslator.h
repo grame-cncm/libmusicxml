@@ -356,8 +356,11 @@ class mxmlTree2MsrTranslator :
   // tuplets
   
   public visitor<S_tuplet>,
+  public visitor<S_tuplet_actual>,
+  public visitor<S_tuplet_normal>,
   public visitor<S_tuplet_number>,
   public visitor<S_tuplet_type>,
+  public visitor<S_tuplet_dot>,
   
   // glissandos
 
@@ -875,8 +878,11 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     virtual void visitStart ( S_tuplet& elt);
+    virtual void visitStart ( S_tuplet_actual& elt);
+    virtual void visitStart ( S_tuplet_normal& elt);
     virtual void visitStart ( S_tuplet_number& elt);
     virtual void visitStart ( S_tuplet_type& elt);
+    virtual void visitStart ( S_tuplet_dot& elt);
 
     // glissandos
     // ------------------------------------------------------
@@ -1569,7 +1575,8 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentTupletNumber;
     int                       fCurrentTupletDisplayNumber;
     string                    fCurrentTupletDisplayType;
-    
+    int                       fCurrentTupletDotsNumber;
+
     msrTuplet::msrTupletTypeKind
                               fCurrentTupletTypeKind;
     msrTuplet::msrTupletBracketKind
