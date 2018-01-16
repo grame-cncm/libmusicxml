@@ -27136,7 +27136,12 @@ void msrVoice::appendRepeatEndingToVoice (
           addRepeatEnding (repeatEnding);
       
         // create a new last segment containing a new measure for the voice
-        if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+        if (
+          gTraceOptions->fTraceRepeats
+            ||
+          gTraceOptions->fTraceVoices
+            ||
+          gTraceOptions->fTraceSegments) {
           gLogIOstream <<
             "Creating a new last segment containing a new measure for voice \"" <<
             fVoiceName << "\"" <<
