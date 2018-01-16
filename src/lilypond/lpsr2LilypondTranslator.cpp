@@ -90,6 +90,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
 
   // multiple rest measures
   fRemainingMultipleRestMeasuresNumber = 0;
+  fOnGoingMultipleRestMeasures = false;
 
   // measures
   fMeasuresCounter = 0;
@@ -704,8 +705,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
               inputLineNumber,
               noteSoundingWholeNotes) <<
             "*" <<
-            gLilypondOptions->
-              fDelayedOrnamentsFraction;
+            gLilypondOptions->fDelayedOrnamentsFraction;
         
         // print the tie if any
         {
@@ -4134,6 +4134,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
   fCurrentPart = elt;
 
   fRemainingMultipleRestMeasuresNumber = 0; // JMI
+  fOnGoingMultipleRestMeasures = false; // JMI
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrPart& elt)
@@ -6848,19 +6849,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
   // is this a multiple rest to be ignored?
   switch (elt->getNoteKind ()) {
     case msrNote::kRestNote:
-      if (elt->getNoteOccupiesAFullMeasure ()) {
-        bool inhibitMultipleRestMeasuresBrowsing =
-          fVisitedLpsrScore->getMsrScore ()->
-            getInhibitMultipleRestMeasuresBrowsing ();
-      
-        if (inhibitMultipleRestMeasuresBrowsing) {
-          if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
-            gLogIOstream <<
-              "% ==> visiting multiple rest measure is ignored" <<
-              endl;
+      // don't handle multiple rests, that's done in visitEnd (S_msrMultipleRest&)
+      if (fOnGoingMultipleRestMeasures) {
+        if (elt->getNoteOccupiesAFullMeasure ()) {
+          bool inhibitMultipleRestMeasuresBrowsing =
+            fVisitedLpsrScore->getMsrScore ()->
+              getInhibitMultipleRestMeasuresBrowsing ();
+        
+          if (inhibitMultipleRestMeasuresBrowsing) {
+            if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
+              gLogIOstream <<
+                "% ==> visiting multiple rest measure is ignored" <<
+                endl;
+            }
+  
+          return;
           }
-
-        return;
         }
       }
       break;
@@ -9659,6 +9663,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrMultipleRest& elt)
   // start counting measures
   fRemainingMultipleRestMeasuresNumber =
     elt->getMultipleRestMeasuresNumber ();
+
+  fOnGoingMultipleRestMeasures = true;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
@@ -9756,6 +9762,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
     " | % " <<
     elt->getMultipleRestNextMeasureNumber () <<
     endl;
+
+  fOnGoingMultipleRestMeasures = false;
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrMultipleRestContents& elt)

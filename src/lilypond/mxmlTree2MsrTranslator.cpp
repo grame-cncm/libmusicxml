@@ -6447,14 +6447,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     finalizeTuplet (inputLineNumber);
   }
 
-  // there may be a barline in a part before any music
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-
   // create the barline
   S_msrBarline
     barline =
@@ -6472,8 +6464,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
 
   if (gTraceOptions->fTraceBarlines) {
     fLogOutputStream <<
-      "Creating a barline in voice " <<
-      currentVoice->getVoiceName () << ":" <<
+      "Creating a barline in part " <<
+      fCurrentPart->getPartCombinedName () << ":" <<
       endl;
       
     gIndenter++;
@@ -6640,8 +6632,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
         // append the bar line to the current part
         if (gTraceOptions->fTraceBarlines) {
           fLogOutputStream <<
-            "Appending a barline to voice " <<
-            currentVoice->getVoiceName () << ":" <<
+            "Appending a barline to part " <<
+            fCurrentPart->getPartCombinedName () << ":" <<
             endl;
             
           gIndenter++;

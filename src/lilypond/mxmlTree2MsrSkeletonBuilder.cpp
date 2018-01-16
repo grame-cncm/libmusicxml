@@ -1653,9 +1653,9 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_encoding& elt)
       endl;
   }
 
-  if (true || gTraceOptions->fTraceParts) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
-      "Analysing S_encoding" <<
+      "*** Analysing S_encoding ***" <<
       ", " << elt->getValue () <<
       endl;
   }

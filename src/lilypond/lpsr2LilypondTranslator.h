@@ -711,6 +711,7 @@ class lpsr2LilypondTranslator :
     // multiple rest measures
     // ------------------------------------------------------
     int                   fRemainingMultipleRestMeasuresNumber;
+    bool                  fOnGoingMultipleRestMeasures;
     
     // segments
     // ------------------------------------------------------
