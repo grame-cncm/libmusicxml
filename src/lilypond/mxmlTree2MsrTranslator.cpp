@@ -1165,6 +1165,17 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
       endl;
   }
 
+  if (fOnGoingRepeat) {
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "no repeat end barline found in MusicXML data, exiting");
+
+    // let's recover from this error
+    // JMI
+  }
+
   // finalize the current part
   fCurrentPart->
     finalizePart (
@@ -6556,8 +6567,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       &&
     fCurrentBarlineEndingTypeKind == msrBarline::kBarlineEndingTypeStop
       &&
-    fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward
-      &&
     fCurrentBarlineEndingNumber.size () != 0) {
     // hooked ending end
     // ------------------------------------------------------
@@ -6660,7 +6669,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     stringstream s;
     
     s << left <<
-      "cannot handle a barline containing:" <<
+      "cannot handle a barline containing: " <<
       barline->barlineAsString ();
       
     msrInternalWarning (
