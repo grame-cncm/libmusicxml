@@ -8409,11 +8409,10 @@ class msrRepeatCommonPart : public msrElement
     // services
     // ------------------------------------------------------
   
-    void                  appendElementToRepeatCommonPart (S_msrElement elem);
+    void                  appendElementToRepeatCommonPart (
+                            S_msrElement elem);
 
     string                repeatCommonPartAsString () const;
-
- //  JMI void                  appendElementToRepeatCommonPart (S_msrElement elem);
                     
     // visitors
     // ------------------------------------------------------
@@ -9625,6 +9624,9 @@ class msrVoice : public msrElement
     void                  prepareForRepeatInVoice (
                             int inputLineNumber);
   
+    void                  nestContentsIntoNewRepeatInVoice (
+                            int inputLineNumber);
+  
     void                  createRepeatUponItsEndAndAppendItToVoice (
                             int inputLineNumber,
                             int repeatTimes);
@@ -10300,6 +10302,9 @@ class msrStaff : public msrElement
     void                  prepareForRepeatInStaff (
                             int inputLineNumber);
     
+    void                  nestContentsIntoNewRepeatInStaff (
+                            int inputLineNumber);
+    
     void                  createRepeatUponItsEndAndAppendItToStaff (
                             int inputLineNumber,
                             int repeatTimes);
@@ -10830,6 +10835,9 @@ class msrPart : public msrElement
     // repeats
     
     void                  prepareForRepeatInPart (
+                            int inputLineNumber);
+    
+    void                  nestContentsIntoNewRepeatInPart (
                             int inputLineNumber);
     
     void                  createRepeatUponItsEndAndAppendItToPart (

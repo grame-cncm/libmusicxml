@@ -20,6 +20,7 @@
 namespace MusicXML2
 {
 
+//________________________________________________________________________
 class msr2SummaryVisitor :
 
   public visitor<S_msrScore>,

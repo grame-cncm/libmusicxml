@@ -25460,6 +25460,109 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
 void msrVoice::prepareForRepeatInVoice (
   int inputLineNumber)
 {
+  if (gTraceOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Preparing for repeat in voice \"" <<
+      getVoiceName () <<
+      "\" in staff \"" <<
+      fVoiceStaffUplink->getStaffName () <<
+      "\" in part " <<
+      fVoiceStaffUplink->
+        getStaffPartUplink ()->getPartCombinedName () <<
+      endl;
+  }
+
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+    case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      // is there a voice last segment?
+      if (fVoiceLastSegment) {
+        
+        // are there measures in the voice last segment?
+        if (fVoiceLastSegment->getSegmentMeasuresList ().size ()) {
+          
+          // fetch last measure's full measure length
+          int fullMeasureLength =
+            fVoiceLastSegment->
+              getSegmentMeasuresList ().back ()->
+                  getFullMeasureLength ();
+                
+          // finalize current measure in voice
+          finalizeCurrentMeasureInVoice (
+            inputLineNumber);
+  
+          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+            gLogIOstream <<
+              endl <<
+              "*********>> Current voice ZZZ \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              " contains:" <<
+              endl;
+  
+            print (gLogIOstream);
+  
+            gLogIOstream <<
+              "<<*********" <<
+              endl <<
+              endl;
+          }
+  
+          // move current last segment to the list of initial elements
+          if (gTraceOptions->fTraceRepeats) {
+            gLogIOstream <<
+              "Appending voice last segment to the initial elements in voice \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+                        
+          fVoiceInitialElementsList.push_back (
+            fVoiceLastSegment);
+  
+          // create a new last segment containing a new measure for the voice
+          if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceVoices) {
+            gLogIOstream <<
+              "Creating a new last segment containing a new measure for voice \"" <<
+              fVoiceName << "\"" <<
+              ", line " << inputLineNumber <<
+              endl;
+          }
+  
+          createNewLastSegmentAndANewMeasureAfterARepeat (
+            inputLineNumber,
+            fullMeasureLength);
+  
+          if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceVoices) {
+            gLogIOstream <<
+              endl <<
+              "*********>> Current voice QQQ \"" <<
+              getVoiceName () <<
+              "\"" <<
+              ", line " << inputLineNumber <<
+              " contains:" <<
+              endl;
+  
+            print (gLogIOstream);
+  
+            gLogIOstream <<
+              "<<*********" <<
+              endl <<
+              endl;
+          }
+        }
+      }
+      break;
+  } // switch
+}
+
+void msrVoice::nestContentsIntoNewRepeatInVoice (
+  int inputLineNumber)
+{
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
     case msrVoice::kRegularVoice:
@@ -25863,6 +25966,27 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
               inputLineNumber,
               fVoiceCurrentRepeat);
 
+        // move voice initial elements into the repeat common part
+        if (gTraceOptions->fTraceRepeats) {
+          gLogIOstream <<
+            "Move the voice initial elements to the repeat common part in voice \"" <<
+            getVoiceName () <<
+            "\"" <<
+            ", line " << inputLineNumber <<
+            endl;
+        }
+
+        for (
+          list<S_msrElement>::const_iterator i = fVoiceInitialElementsList.begin ();
+          i != fVoiceInitialElementsList.end ();
+          i++) {
+          repeatCommonPart->
+            appendElementToRepeatCommonPart ((*i));
+        } // for
+
+        // empty the initial elements list
+        fVoiceInitialElementsList.resize (0);
+        
         // move voice last segment into the repeat common part
         if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
@@ -25891,7 +26015,7 @@ void msrVoice::createRepeatUponItsFirstEndingAndAppendItToVoice (
           setRepeatCommonPart (
             repeatCommonPart);
           
-        // append it to the list of initial elements
+        // append the repeat to the list of initial elements
         if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending repeat to the initial elements in voice \"" <<
@@ -29384,6 +29508,28 @@ void msrStaff::prepareForRepeatInStaff (
   } // for
 }
 
+void msrStaff::nestContentsIntoNewRepeatInStaff (
+  int inputLineNumber)
+{
+  if (gTraceOptions->fTraceRepeats) {
+    gLogIOstream <<
+      "Nesting contents into new repeat in staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      endl;
+  }
+
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++) {
+    (*i).second->
+      nestContentsIntoNewRepeatInVoice (
+        inputLineNumber);
+  } // for
+}
+
 void msrStaff::createRepeatUponItsEndAndAppendItToStaff (
   int inputLineNumber,
   int repeatTimes)
@@ -31259,6 +31405,25 @@ void msrPart::prepareForRepeatInPart (
     i++) {
     (*i).second->
       prepareForRepeatInStaff (
+        inputLineNumber);
+  } // for
+}
+
+void msrPart::nestContentsIntoNewRepeatInPart (
+  int inputLineNumber)
+{
+  /* JMI
+  fPartMasterStaff->
+    nestContentsIntoNewRepeatInStaff (
+      inputLineNumber);  
+  */
+  
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    (*i).second->
+      nestContentsIntoNewRepeatInStaff (
         inputLineNumber);
   } // for
 }

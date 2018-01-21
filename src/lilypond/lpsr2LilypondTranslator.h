@@ -22,6 +22,75 @@
 namespace MusicXML2
 {
 
+//________________________________________________________________________
+struct msrRepeatDescr : public smartable
+{
+/*
+ * positions represent the order in which the parts appear in <part-list />
+*/
+ 
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatDescr> create (
+      int repeatEndingsNumber);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRepeatDescr (
+      int repeatEndingsNumber);
+
+    virtual ~msrRepeatDescr();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getRepeatEndingsNumber () const
+                              { return fRepeatEndingsNumber; }
+
+    void                  incrementRepeatEndingsCounter ()
+                              { fRepeatEndingsCounter ++; }
+
+    int                   getRepeatEndingsCounter () const
+                              { return fRepeatEndingsCounter; }
+
+    void                  setEndOfRepeatHasBeenGenerated ()
+                              { fEndOfRepeatHasBeenGenerated = true; }
+                              
+    bool                  getEndOfRepeatHasBeenGenerated () const
+                              { return fEndOfRepeatHasBeenGenerated; }
+    
+    // services
+    // ------------------------------------------------------
+
+    string                repeatDescrAsString () const;
+
+    // print
+    // ------------------------------------------------------
+    
+    virtual void          print (ostream& os) const;
+    
+  private:
+     
+    // fields
+    // ------------------------------------------------------
+
+    int                   fRepeatEndingsNumber;
+    int                   fRepeatEndingsCounter;
+    
+    bool                  fEndOfRepeatHasBeenGenerated;
+};
+typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt);
+
+//________________________________________________________________________
 class lpsr2LilypondTranslator :
 
   // LPSR
@@ -706,7 +775,8 @@ class lpsr2LilypondTranslator :
     
     // repeats
     // ------------------------------------------------------
-    int                   fCurrentRepeatEndingsNumber;
+    list<S_msrRepeatDescr>
+                          fRepeatsDescrStack;
 
     // multiple rest measures
     // ------------------------------------------------------

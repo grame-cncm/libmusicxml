@@ -240,7 +240,7 @@ R"()",
     barsSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "sabn", "showAllBarNumbers",
+          "abn", "allBarNumbers",
 R"(Generate LilyPond code to show all bar numbers.)",
           "showAllBarNumbers",
           fShowAllBarNumbers));

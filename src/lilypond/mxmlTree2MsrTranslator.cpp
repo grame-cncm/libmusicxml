@@ -1165,16 +1165,18 @@ void mxmlTree2MsrTranslator::visitEnd (S_part& elt)
       endl;
   }
 
+/* JMI ??? TRICKY
   if (fOnGoingRepeat) {
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
-      "no repeat end barline found in MusicXML data, exiting");
+      "unterminated repeat in MusicXML data, exiting");
 
     // let's recover from this error
     // JMI
   }
+*/
 
   // finalize the current part
   fCurrentPart->
@@ -6535,15 +6537,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     // repeat start
     // ------------------------------------------------------
     
-    /*
-    A forward repeat mark is represented by a left barline at the beginning of the measure (following the attributes element, if there is one):
-    
-      <barline location="left">
-        <bar-style>heavy-light</bar-style>
-        <repeat direction="forward"/>
-      </barline>
-    */
-
     handleRepeatStart (elt, barline);
 
     barlineIsAlright = true;
@@ -6571,16 +6564,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     // hooked ending end
     // ------------------------------------------------------
     
-    /*
-    The stop value is used when the end of the ending is marked with a downward hook, as is typical for a first ending. It is usually used together with a backward repeat at the end of a measure:
-    
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <ending type="stop" number="1"/>
-        <repeat direction="backward"/>
-      </barline>
-    */
-
     handleHookedEndingEnd (elt, barline);
     
     barlineIsAlright = true;
@@ -6592,16 +6575,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
     fCurrentBarlineRepeatDirectionKind == msrBarline::kBarlineRepeatDirectionBackward) {
     // repeat end
     // ------------------------------------------------------
-    
-    /*
-    Similarly, a backward repeat mark is represented by a right barline at the end of the measure:
-    
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <repeat direction="backward"/>
-      </barline>
-    */
-         
+             
     handleRepeatEnd (elt, barline);
 
     barlineIsAlright = true;
@@ -16573,6 +16547,8 @@ void mxmlTree2MsrTranslator::handleEndingStart (
       "', position " <<
       barline->getBarlinePositionInMeasure () <<
     */
+      ", fOnGoingRepeat = " <<
+      booleanAsString (fOnGoingRepeat) <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -16582,15 +16558,16 @@ void mxmlTree2MsrTranslator::handleEndingStart (
   
   // prepend an implicit bar line  to the part if needed
   if (! fOnGoingRepeat) {
-    createAndPrependImplicitBarLine (
-      inputLineNumber);
-
     // append an implicit repeat to the current part
     if (gTraceOptions->fTraceRepeats) {
       fLogOutputStream <<
         "Appending an implicit repeat to part " <<
         fCurrentPart->getPartCombinedName () <<
         endl;
+
+      // create the repeat and append it to the part
+      createAndPrependImplicitBarLine (
+        inputLineNumber);
      }
  
     fCurrentPart->

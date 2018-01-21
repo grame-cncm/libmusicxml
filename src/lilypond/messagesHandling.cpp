@@ -129,7 +129,8 @@ void msrMusicXMLError (
     message);
 
   if (! gGeneralOptions->fIgnoreErrors)
-    exit (15);
+ // JMI   exit (15);
+    abort ();
 }
 
 //______________________________________________________________________________

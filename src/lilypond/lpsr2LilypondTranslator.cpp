@@ -34,6 +34,70 @@ namespace MusicXML2
 // for comments highlighting in the generated Lilypond code
 const int commentFieldWidth = 30;
 
+//______________________________________________________________________________
+S_msrRepeatDescr msrRepeatDescr::create (
+      int repeatEndingsNumber)
+{
+  msrRepeatDescr* o = new
+    msrRepeatDescr (
+      repeatEndingsNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrRepeatDescr::msrRepeatDescr (
+      int repeatEndingsNumber)
+{
+  fRepeatEndingsNumber  = repeatEndingsNumber;
+  fRepeatEndingsCounter = 0;
+  
+  fEndOfRepeatHasBeenGenerated = false;
+}
+
+msrRepeatDescr::~msrRepeatDescr ()
+{}
+
+string msrRepeatDescr::repeatDescrAsString () const
+{
+  stringstream s;
+
+  s <<
+    "fRepeatEndingsNumber = " <<
+    fRepeatEndingsNumber <<
+    ", fRepeatEndingsCounter = " <<
+    fRepeatEndingsCounter <<
+    ", fEndOfRepeatHasBeenGenerated = " <<
+    booleanAsString (
+      fEndOfRepeatHasBeenGenerated);
+
+  return s.str ();
+}
+
+void msrRepeatDescr::print (ostream& os) const
+{
+  const int fieldWidth = 29;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "fRepeatEndingsNumber" << " : " <<
+    fRepeatEndingsNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "fRepeatEndingsCounter" << " : " <<
+    fRepeatEndingsCounter <<
+    endl <<
+    setw (fieldWidth) <<
+    "fEndOfRepeatHasBeenGenerated" << " : " <<
+    fEndOfRepeatHasBeenGenerated <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //________________________________________________________________________
 lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   S_msrOptions&    msrOpts,
@@ -86,7 +150,6 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fCurrentFiguredBassFiguresCounter = 0;
 
   // repeats
-  fCurrentRepeatEndingsNumber = 0;
 
   // multiple rest measures
   fRemainingMultipleRestMeasuresNumber = 0;
@@ -9167,16 +9230,23 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
       endl;
   }
 
-  fCurrentRepeatEndingsNumber =
+  int repeatEndingsNumber =
     elt->getRepeatEndings ().size ();
-  
-  if (fCurrentRepeatEndingsNumber == 0)
-    fCurrentRepeatEndingsNumber = 2; // implicitly
+    
+  if (repeatEndingsNumber == 0)
+    repeatEndingsNumber = 2; // implicitly JMI ???
 
+  fRepeatsDescrStack.push_back (
+    msrRepeatDescr::create (
+      repeatEndingsNumber));
+    
   stringstream s;
   
   s <<
-    "\\repeat volta " << elt->getRepeatTimes () << " {";
+ // JMI   "\\repeat volta " << elt->getRepeatTimes () << " {";
+    "\\repeat volta " <<
+    fRepeatsDescrStack.back ()->getRepeatEndingsNumber () <<
+    " {";
   
   fLilypondCodeIOstream <<
     endl;
@@ -9201,7 +9271,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeat& elt)
 
   if (repeatTimes > 2) {
     fLilypondCodeIOstream <<
-      "<>^\"" << repeatTimes << " times\"" <<
+      "<>^\"" << repeatTimes << " times\"" << // JMI
       endl;
   }
 }
@@ -9220,7 +9290,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
       before the endings are handled
   */
   
-  if (elt->getRepeatEndings ().size () == 0) {
+  if (! fRepeatsDescrStack.back ()->getEndOfRepeatHasBeenGenerated ()) {
     // the end of the repeat has not been generated yet
 
     gIndenter--;
@@ -9239,7 +9309,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeat& elt)
     }
   }
 
-  fCurrentRepeatEndingsNumber = 0;
+  fRepeatsDescrStack.pop_back ();
 }
 
 //________________________________________________________________________
@@ -9270,6 +9340,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
       endl;
   }
 
+  fRepeatsDescrStack.back ()->incrementRepeatEndingsCounter ();
+  
   if (elt->getRepeatEndingInternalNumber () == 1) {
     
     gIndenter--;
@@ -9287,6 +9359,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrRepeatEnding& elt)
         "}" <<
         endl;
     }
+    fRepeatsDescrStack.back ()->setEndOfRepeatHasBeenGenerated ();
 
     // first repeat ending is in charge of
     // outputting the start of the alternative
@@ -9381,10 +9454,18 @@ void lpsr2LilypondTranslator::visitEnd (S_msrRepeatEnding& elt)
       break;
   } // switch
 
+  if (gTraceOptions->fTraceRepeats) {
+    fLilypondCodeIOstream <<
+      "% ===**** fRepeatsDescrStack.back () = '" <<
+      fRepeatsDescrStack.back ()->repeatDescrAsString () <<
+      "'" <<
+      endl;
+  }
+  
   if (
-    elt->getRepeatEndingInternalNumber ()
+    fRepeatsDescrStack.back ()->getRepeatEndingsCounter ()
       ==
-    fCurrentRepeatEndingsNumber) {
+    fRepeatsDescrStack.back ()->getRepeatEndingsNumber ()) {
       
     gIndenter--;
     

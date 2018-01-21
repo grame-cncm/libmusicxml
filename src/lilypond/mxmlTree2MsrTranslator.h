@@ -19,6 +19,7 @@
 namespace MusicXML2
 {
 
+//________________________________________________________________________
 class mxmlTree2MsrTranslator : 
 
   // rights
@@ -1265,11 +1266,11 @@ class mxmlTree2MsrTranslator :
     void                      createAndPrependImplicitBarLine (
                                 int inputLineNumber);
 
-    void                      handleRepeatEnd (
+    void                      handleRepeatStart (
                                 S_barline     elt,
                                 S_msrBarline& barline);
 
-    void                      handleRepeatStart (
+    void                      handleRepeatEnd (
                                 S_barline     elt,
                                 S_msrBarline& barline);
 
