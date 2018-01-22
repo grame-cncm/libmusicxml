@@ -1035,6 +1035,16 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
       lilypondRelativeOctave (note);
   }
 
+  // should an accidental be generated? JMI this can be fine tuned with cautionary
+  switch (note->getNoteAccidentalKind ()) {
+    case msrNote::k_NoNoteAccidental:
+      break;
+    case msrNote::kNoteCautionaryAccidentalNo:
+      s <<
+        "!";
+      break;
+  } // switch
+
   // should a cautionary accidental be generated?
   switch (note->getNoteCautionaryAccidentalKind ()) {
     case msrNote::kNoteCautionaryAccidentalYes:

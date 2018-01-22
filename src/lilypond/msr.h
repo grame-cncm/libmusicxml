@@ -9631,7 +9631,11 @@ class msrVoice : public msrElement
                             int inputLineNumber,
                             int repeatTimes);
   
-    void                  createRepeatUponItsFirstEndingAndAppendItToVoice (
+    void                  createRegularRepeatUponItsFirstEndingInVoice (
+                            int inputLineNumber,
+                            int repeatTimes);
+  
+    void                  createEnclosingRepeatUponItsFirstEndingInVoice (
                             int inputLineNumber,
                             int repeatTimes);
   
@@ -10309,7 +10313,11 @@ class msrStaff : public msrElement
                             int inputLineNumber,
                             int repeatTimes);
     
-    void                  createRepeatUponItsFirstEndingAndAppendItToStaff (
+    void                  createRegularRepeatUponItsFirstEndingInStaff (
+                            int inputLineNumber,
+                            int repeatTimes);
+    
+    void                  createEnclosingRepeatUponItsFirstEndingInStaff (
                             int inputLineNumber,
                             int repeatTimes);
     
@@ -10844,7 +10852,11 @@ class msrPart : public msrElement
                             int inputLineNumber,
                             int repeatTimes);
     
-    void                  createRepeatUponItsFirstEndingAndAppendItToPart (
+    void                  createRegularRepeatUponItsFirstEndingInPart (
+                            int inputLineNumber,
+                            int repeatTimes);
+    
+    void                  createEnclosingRepeatUponItsFirstEndingInPart (
                             int inputLineNumber,
                             int repeatTimes);
     

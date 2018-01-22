@@ -208,6 +208,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   
   // repeats handling
   fOnGoingRepeat = false;
+  fOnGoingRepeatHasBeenCreated = false;
 
   // MusicXML notes handling
   fCurrentNoteDiatonicPitchKind = k_NoDiatonicPitch;
@@ -1139,6 +1140,7 @@ void mxmlTree2MsrTranslator::visitStart (S_part& elt)
   fCurrentEndingStartBarline = nullptr; // JMI
 
   fOnGoingRepeat = false;
+  fOnGoingRepeatHasBeenCreated = false;
 
   gIndenter++;
 }
@@ -5534,19 +5536,6 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_print& elt ) 
 {
-/*
-<!ELEMENT print (page-layout?, system-layout?, staff-layout*,
-    measure-layout?, measure-numbering?, part-name-display?, 
-    part-abbreviation-display?)>
-<!ATTLIST print
-    staff-spacing %tenths; #IMPLIED
-    new-system %yes-no; #IMPLIED
-    new-page %yes-no; #IMPLIED
-    blank-page NMTOKEN #IMPLIED
-    page-number CDATA #IMPLIED  
->
-*/
-
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_print" <<
@@ -5695,146 +5684,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   
 }
 
-/*
-  http://www.musicxml.com/for-developers/musicxml-dtd/barline-elements/
- 
-  <barline location="left">
-    <bar-style>heavy-light</bar-style>
-    <repeat direction="forward"/>
-  </barline>
-  
-  <barline location="right">
-    <bar-style>light-heavy</bar-style>
-    <repeat direction="backward"/>
-  </barline>
-
-http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-repeat.htm
-
-      <barline location="left">
-        <bar-style>heavy-light</bar-style>
-        <repeat direction="forward" winged="none"/>
-      </barline>
-      
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <ending number="1, 2" type="stop"/>
-        <repeat direction="backward" winged="none"/>
-      </barline>
-
-  Repeat start:
-      <barline location="left">
-        <bar-style>heavy-light</bar-style>
-        <repeat direction="forward"/>
-      </barline>
-
-  In the middle of a measure: (MozartTrio.xml)
-    <measure number="X1" implicit="yes">
-      <barline location="left">
-        <bar-style>heavy-light</bar-style>
-        <repeat direction="forward"/>
-      </barline>
-      <note>
-        <rest/>
-        <duration>6</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-      </note>
-    </measure>
-
-  Repeat end:
-    implicit at end or part if nothing specified
-
-  In the middle of a measure: (MozartTrio.xml)
-    <measure number="12">
-      <note>
-        <pitch>
-          <step>C</step>
-          <octave>5</octave>
-        </pitch>
-        <duration>6</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-        <stem>down</stem>
-      </note>
-      <note>
-        <rest/>
-        <duration>6</duration>
-        <voice>1</voice>
-        <type>quarter</type>
-      </note>
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <repeat direction="backward"/>
-      </barline>
-    </measure>
-  
-  Double bar:
-      <barline location="right">
-        <bar-style>light-light</bar-style>
-      </barline>
-
-  End of part:
-      <barline location="right">
-        <bar-style>light-light</bar-style>
-      </barline>
-
-(Saltarello.xml):
-      <barline location="left">
-        <ending type="start" number="1"/>
-      </barline>
-
-      <barline location="right">
-        <bar-style>light-heavy</bar-style>
-        <ending type="stop" number="1"/>
-        <repeat direction="backward"/>
-      </barline>
-
-    Endings refers to multiple (e.g. first and second) endings.
-    Typically, the start type is associated with the left
-    barline of the first measure in an ending. The stop and
-    discontinue types are associated with the right barline of
-    the last measure in an ending. Stop is used when the ending
-    mark concludes with a downward jog, as is typical for first
-    endings. Discontinue is used when there is no downward jog,
-    as is typical for second endings that do not conclude a
-    piece. The length of the jog can be specified using the
-    end-length attribute. The text-x and text-y attributes
-    are offsets that specify where the baseline of the start
-    of the ending text appears, relative to the start of the
-    ending line.
-
-    The number attribute reflects the numeric values of what
-    is under the ending line. Single endings such as "1" or
-    comma-separated multiple endings such as "1, 2" may be
-    used. The ending element text is used when the text
-    displayed in the ending is different than what appears in
-    the number attribute. The print-object element is used to
-    indicate when an ending is present but not printed, as is
-    often the case for many parts in a full score.
-    
-*/
-
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt ) 
 {
-/*
-<!--
-  The measure-numbering element describes how measure
-  numbers are displayed on this part. Values may be none,
-  measure, or system. The number attribute from the measure
-  element is used for printing. Measures with an implicit
-  attribute set to "yes" never display a measure number,
-  regardless of the measure-numbering setting.
--->
-<!ELEMENT measure-numbering (#PCDATA)>
-<!ATTLIST measure-numbering
-    %print-style-align;
->
-
-        <measure-numbering>none</measure-numbering>
-
-*/
-
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_print" <<
@@ -7296,16 +7148,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
       "--> Start visiting S_accidental" <<
       endl;
   }
-
-/*
-  Notated accidental.
-  
-  Values:
-  
-    sharp, natural, flat, double-sharp, sharp-sharp, flat-flat, natural-sharp, natural-flat, quarter-flat, quarter-sharp, three-quarters-flat, three-quarters-sharp;
-    
-    sharp-down, sharp-up, natural-down, natural-up, flat-down, flat-up, triple-sharp, triple-flat, slash-quarter-sharp, slash-sharp, slash-flat, double-slash-flat, sharp-1, sharp-2, sharp-3, sharp-5, flat-1, flat-2, flat-3, flat-4, sori, and koron added in 3.0
-*/
 
   int inputLineNumber =
     elt->getInputLineNumber ();
@@ -16461,13 +16303,7 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
     setBarlineCategory (
       msrBarline::kBarlineCategoryRepeatStart);
 
-  if (gTraceOptions->fTraceRepeats) {
-    fLogOutputStream <<
-      "Preparing for repeat in part " <<
-      fCurrentPart->getPartCombinedName () <<
-      endl;
-  }
-
+  // prepare for repeat in current part
   fCurrentPart->
     prepareForRepeatInPart (
       inputLineNumber);
@@ -16476,7 +16312,8 @@ void mxmlTree2MsrTranslator::handleRepeatStart (
   fCurrentPart->
     appendBarlineToPart (barline);
 
-  fOnGoingRepeat = true;  
+  fOnGoingRepeat = true;
+  fOnGoingRepeatHasBeenCreated = false; 
 }
 
 //______________________________________________________________________________
@@ -16527,7 +16364,8 @@ void mxmlTree2MsrTranslator::handleRepeatEnd (
       inputLineNumber,
       barline->getBarlineTimes ());
 
-  fOnGoingRepeat = false;  
+  fOnGoingRepeat = false;
+  fOnGoingRepeatHasBeenCreated = true; // JMI
 }
 
 //______________________________________________________________________________
@@ -16549,6 +16387,8 @@ void mxmlTree2MsrTranslator::handleEndingStart (
     */
       ", fOnGoingRepeat = " <<
       booleanAsString (fOnGoingRepeat) <<
+      ", fOnGoingRepeatHasBeenCreated = " <<
+      booleanAsString (fOnGoingRepeatHasBeenCreated) <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -16556,27 +16396,80 @@ void mxmlTree2MsrTranslator::handleEndingStart (
   // ending start, don't know yet whether it's hooked or hookless
   fCurrentEndingStartBarline = barline;
   
-  // prepend an implicit bar line  to the part if needed
-  if (! fOnGoingRepeat) {
+  // is there an ongoing repeat?
+  if (fOnGoingRepeat) {
+    // yes
+
+    fLogOutputStream <<
+      endl <<
+      endl <<
+      "****************** handleEndingStart" <<
+      endl <<
+      fCurrentPart <<
+      endl <<
+      endl <<
+      endl;
+
+    if (fOnGoingRepeatHasBeenCreated) {
+      fLogOutputStream <<
+        "!!!!! YESYESYES !!!!!" <<
+        endl;
+    }
+    
+    else {    
+      fLogOutputStream <<
+        "!!!!! NONONO !!!!!" <<
+        endl;
+
+      // create the enclosing repeat and append it to the part
+      if (gTraceOptions->fTraceRepeats) {
+        fLogOutputStream <<
+          "Creating a regular repeat in part " <<
+          fCurrentPart->getPartCombinedName () <<
+          endl;
+      }
+    
+      fCurrentPart->
+        createRegularRepeatUponItsFirstEndingInPart (
+          inputLineNumber,
+          barline->getBarlineTimes ());
+
+      fOnGoingRepeatHasBeenCreated = true;
+    }
+  }
+
+  else {
+    // no, there is an implicit repeat starting at the beginning of the part,
+    // that encloses everything from the beginning on
+
     // append an implicit repeat to the current part
     if (gTraceOptions->fTraceRepeats) {
       fLogOutputStream <<
-        "Appending an implicit repeat to part " <<
+        "Prepending an implicit barline ahead of part " <<
         fCurrentPart->getPartCombinedName () <<
         endl;
+    }
 
-      // create the repeat and append it to the part
-      createAndPrependImplicitBarLine (
-        inputLineNumber);
-     }
+    createAndPrependImplicitBarLine (
+      inputLineNumber);
  
+    // create the enclosing repeat and append it to the part
+    if (gTraceOptions->fTraceRepeats) {
+      fLogOutputStream <<
+        "Creating a repeat enclosing everything from the beginning of part " <<
+        fCurrentPart->getPartCombinedName () <<
+        endl;
+    }
+    
     fCurrentPart->
-      createRepeatUponItsFirstEndingAndAppendItToPart (
+      createEnclosingRepeatUponItsFirstEndingInPart (
         inputLineNumber,
         barline->getBarlineTimes ());
 
-    fOnGoingRepeat = true;  
+    fOnGoingRepeat = true;
+    fOnGoingRepeatHasBeenCreated = true;
   }
+
 
 /* JMI
   // create a new last segment to collect the repeat ending contents
@@ -16752,6 +16645,7 @@ void mxmlTree2MsrTranslator::handleHooklessEndingEnd (
   fCurrentEndingStartBarline = nullptr;
   
   fOnGoingRepeat = false;
+  fOnGoingRepeatHasBeenCreated = false; // JMI
 }
 
 //______________________________________________________________________________

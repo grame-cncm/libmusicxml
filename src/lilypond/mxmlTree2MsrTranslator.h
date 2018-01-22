@@ -1262,6 +1262,7 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     bool                      fOnGoingRepeat;
+    bool                      fOnGoingRepeatHasBeenCreated;
     
     void                      createAndPrependImplicitBarLine (
                                 int inputLineNumber);
