@@ -14,7 +14,7 @@
 
 #include "messagesHandling.h"
 
-#include "mxmlOptions.h"
+#include "musicXMLOptions.h"
 #include "generalOptions.h"
 
 
@@ -128,9 +128,14 @@ void msrMusicXMLError (
     sourceCodeLineNumber,
     message);
 
-  if (! gGeneralOptions->fIgnoreErrors)
- // JMI   exit (15);
-    abort ();
+  if (! gGeneralOptions->fIgnoreErrors) {
+    if (gGeneralOptions->fAbortOnErrors) {
+      abort ();
+    }
+    else {
+      exit (15);
+    }
+  }
 }
 
 //______________________________________________________________________________

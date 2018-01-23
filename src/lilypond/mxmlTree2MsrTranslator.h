@@ -22,6 +22,10 @@ namespace MusicXML2
 //________________________________________________________________________
 class mxmlTree2MsrTranslator : 
 
+  // score partwise
+
+  public visitor<S_score_partwise>,
+
   // rights
   
   public visitor<S_work_number>,
@@ -440,6 +444,11 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_processing_instruction& elt);
     */
     
+    // score partwise
+    // ------------------------------------------------------
+  
+    virtual void visitEnd   ( S_score_partwise& elt);
+
     // rights
     // ------------------------------------------------------
 

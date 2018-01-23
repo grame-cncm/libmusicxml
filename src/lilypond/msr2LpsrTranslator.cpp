@@ -21,6 +21,7 @@
 #include "conversions.h"
 
 #include "traceOptions.h"
+#include "musicXMLOptions.h"
 #include "msrOptions.h"
 #include "lilypondOptions.h"
 

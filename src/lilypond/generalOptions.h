@@ -82,6 +82,7 @@ class generalOptions : public optionsGroup
       
     bool                  fQuiet;
     bool                  fIgnoreErrors;
+    bool                  fAbortOnErrors;
     
     // CPU usage
     // --------------------------------------

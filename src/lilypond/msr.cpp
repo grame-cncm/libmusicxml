@@ -19,7 +19,7 @@
 #include "msr.h"
 
 #include "traceOptions.h"
-#include "mxmlOptions.h"
+#include "musicXMLOptions.h"
 #include "msrOptions.h"
 
 #include "xml2lyOptionsHandling.h"

@@ -18,7 +18,7 @@
 #include <cmath>
 
 #include "traceOptions.h"
-#include "mxmlOptions.h"
+#include "musicXMLOptions.h"
 #include "lilypondOptions.h"
 
 #include "xml2lyOptionsHandling.h"
@@ -1039,7 +1039,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
   switch (note->getNoteAccidentalKind ()) {
     case msrNote::k_NoNoteAccidental:
       break;
-    case msrNote::kNoteCautionaryAccidentalNo:
+    default:
       s <<
         "!";
       break;

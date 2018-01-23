@@ -22,7 +22,7 @@
 
 #include "traceOptions.h"
 #include "generalOptions.h"
-#include "mxmlOptions.h"
+#include "musicXMLOptions.h"
 #include "msrOptions.h"
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"

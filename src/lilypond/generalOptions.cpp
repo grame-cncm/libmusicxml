@@ -216,8 +216,9 @@ R"(Print help about 'itemName'.)",
   {
     // variables
     
-    fQuiet        = boolOptionsInitialValue;
-    fIgnoreErrors = boolOptionsInitialValue;
+    fQuiet         = false;
+    fIgnoreErrors  = false;
+    fAbortOnErrors = false;
   
     // options
   
@@ -243,10 +244,19 @@ R"(Don't issue any warning or error messages.)",
     warningAndErrorHandlingSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "i", "ignore-errors",
+          "i", "ignoreErrors",
 R"(Ignore errors and proceed.)",
           "ignoreErrors",
           fIgnoreErrors));
+  
+    warningAndErrorHandlingSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "aoe", "abortOnErrors",
+R"(Abort execution on errors instead of gracefully exiting.
+This is useful when debugging xml2ly.)",
+          "abortOnErrors",
+          fAbortOnErrors));
   }
 
 

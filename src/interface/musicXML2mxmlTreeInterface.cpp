@@ -19,7 +19,7 @@
 #include "xmlreader.h"
 
 #include "traceOptions.h"
-#include "mxmlOptions.h"
+#include "musicXMLOptions.h"
 
 #include "musicXML2mxmlTreeInterface.h"
 

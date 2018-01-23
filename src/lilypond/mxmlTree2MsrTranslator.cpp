@@ -28,7 +28,7 @@
 #include "msr.h"
 
 #include "traceOptions.h"
-#include "mxmlOptions.h"
+#include "musicXMLOptions.h"
 #include "msrOptions.h"
 
 #include "xml2lyOptionsHandling.h"
@@ -514,6 +514,38 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitEnd ( S_score_partwise& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_score_partwise" <<
+      endl;
+  }
+
+  S_msrIdentification
+    identification =
+      fMsrScore->getIdentification ();
+
+  string inputSourceName;
+  
+  if (
+    ! identification->getWorkTitle ()
+      &&
+    gMusicXMLOptions->fUseFilenameAsWorkTitle) {
+    inputSourceName = gXml2lyOptions->fInputSourceName;
+
+    if (inputSourceName == "-") {
+      inputSourceName = "Standard input";
+    }
+  }
+  
+  fMsrScore->getIdentification () ->
+    setWorkTitle (
+      elt->getInputLineNumber (),
+      inputSourceName);
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_work_number& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -536,10 +568,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_work_title& elt )
       endl;
   }
 
+  string workTitle = elt->getValue ();
+
   fMsrScore->getIdentification () ->
     setWorkTitle (
       elt->getInputLineNumber (),
-      elt->getValue ());
+      workTitle);
 }
   
 void mxmlTree2MsrTranslator::visitStart ( S_movement_number& elt )
@@ -6969,51 +7003,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_notehead& elt )
       "--> Start visiting S_notehead" <<
       endl;
   }
-
-/*
-<!--
-  The notehead element indicates shapes other than the open
-  and closed ovals associated with note durations. The element
-  value can be slash, triangle, diamond, square, cross, x,
-  circle-x, inverted triangle, arrow down, arrow up, slashed,
-  back slashed, normal, cluster, circle dot, left triangle,
-  rectangle, or none. For shape note music, the element values
-  do, re, mi, fa, fa up, so, la, and ti are also used,
-  corresponding to Aikin's 7-shape system. The fa up shape is
-  typically used with upstems; the fa shape is typically used
-  with downstems or no stems.
-
-  The arrow shapes differ from triangle and inverted triangle
-  by being centered on the stem. Slashed and back slashed 
-  notes include both the normal notehead and a slash. The 
-  triangle shape has the tip of the triangle pointing up;
-  the inverted triangle shape has the tip of the triangle 
-  pointing down. The left triangle shape is a right triangle
-  with the hypotenuse facing up and to the left.
-  
-  For the enclosed shapes, the default is to be hollow for
-  half notes and longer, and filled otherwise. The filled
-  attribute can be set to change this if needed.
-  
-  If the parentheses attribute is set to yes, the notehead
-  is parenthesized. It is no by default.
-
-  The notehead-text element indicates text that is displayed
-  inside a notehead, as is done in some educational music. 
-  It is not needed for the numbers used in tablature or jianpu 
-  notation. The presence of a TAB or jianpu clefs is sufficient
-  to indicate that numbers are used. The display-text and
-  accidental-text elements allow display of fully formatted
-  text and accidentals.
--->
-<!ELEMENT notehead (#PCDATA)>
-<!ATTLIST notehead
-    filled %yes-no; #IMPLIED
-    parentheses %yes-no; #IMPLIED
-    %font;
-    %color;
->
-*/
 
   int inputLineNumber =
     elt->getInputLineNumber ();
