@@ -210,7 +210,8 @@ By default, this command is commented.)",
         optionsBooleanItem::create (
           "niln", "noteInputLineNumbers",
 R"(Generate after each note and barline a comment containing
-its MusicXML input line number.)",
+its MusicXML input line number.
+This is useful when debugging xml2ly.)",
           "noteInputLineNumbers",
           fNoteInputLineNumbers));
   }

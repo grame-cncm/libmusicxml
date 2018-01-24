@@ -5443,6 +5443,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  if (fCurrentGraceNotes) {
+    fLogOutputStream <<
+      "fCurrentGraceNotes IS NOT NULL at the end of measure '" <<
+      elt->getAttributeValue ("number") <<
+      "'" <<
+      endl;
+  }
+  
   if (fCurrentATupletStopIsPending) {
 
     if (fTupletsStack.size ()) { // JMI
@@ -14900,7 +14908,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       case msrNote::kRestNote:
       case msrNote::kSkipNote:
       case msrNote::kStandaloneNote:
-      case msrNote::kGraceNote:
       case msrNote::kChordMemberNote:
         {
           stringstream s;
@@ -14919,8 +14926,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         }
         break;
 
+      case msrNote::kGraceNote:
       case msrNote::kDoubleTremoloMemberNote:
-        // JMI ???
         break;
     } // switch
   }  
@@ -15104,7 +15111,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     if (fCurrentGraceNotes)
       fLogOutputStream << fCurrentGraceNotes;
     else
-      fLogOutputStream << "NULL"; // JMI
+      fLogOutputStream << "fCurrentGraceNotes is NULL"; // JMI
 
     fLogOutputStream <<
       endl;
