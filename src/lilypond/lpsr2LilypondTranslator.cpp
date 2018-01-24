@@ -775,7 +775,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           S_msrTie noteTie = note->getNoteTie ();
         
           if (noteTie) {
-            if (noteTie->getTieKind () == msrTie::kStartTie) {
+            if (noteTie->getTieKind () == msrTie::kTieStart) {
               fLilypondCodeIOstream << " ~";
             }
           }
@@ -809,7 +809,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         S_msrTie noteTie = note->getNoteTie ();
       
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kStartTie) {
+          if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeIOstream << " ~";
           }
         }
@@ -835,16 +835,18 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         fLilypondCodeIOstream << ".";
       } // for
       
-      // print the tie if any
+      // don't print the tie if any, 'acciacattura takes care of it
+      /*
       {
         S_msrTie noteTie = note->getNoteTie ();
       
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kStartTie) {
+          if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeIOstream << "~ ";
           }
         }
       }
+      */
 
       // this note is the new relative octave reference
       fRelativeOctaveReference = note;
@@ -893,7 +895,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         S_msrTie noteTie = note->getNoteTie ();
       
         if (noteTie) {
-          if (noteTie->getTieKind () == msrTie::kStartTie) {
+          if (noteTie->getTieKind () == msrTie::kTieStart) {
             fLilypondCodeIOstream << "~ ";
           }
         }
@@ -3890,7 +3892,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
             "% " <<
             staff->getStaffNumberOfMusicVoices () <<
             " music voices" <<
-            endl <<
             endl;
         }
       break;
@@ -6797,12 +6798,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrGraceNotes& elt)
       endl;
   }
 
-  if (elt->getGraceNotesIsSlashed ())
+  if (elt->getGraceNotesIsSlashed ()) {
     fLilypondCodeIOstream <<
       "\\slashedGrace";
-  else
+  }
+  else if (elt->getGraceNotesIsTied ()) {
+      fLilypondCodeIOstream <<
+        "\\acciaccatura";
+  }
+  else {
     fLilypondCodeIOstream <<
       "\\grace";
+  }
   fLilypondCodeIOstream << " { ";
 
   // force durations to be displayed explicitly
@@ -8716,7 +8723,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
     S_msrTie chordTie = elt->getChordTie ();
   
     if (chordTie) {
-      if (chordTie->getTieKind () == msrTie::kStartTie) {
+      if (chordTie->getTieKind () == msrTie::kTieStart) {
         fLilypondCodeIOstream << "~ ";
       }
     }
@@ -8929,12 +8936,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
   switch (elt->getTieKind ()) {
     case msrTie::k_NoTie:
       break;
-    case msrTie::kStartTie:
- // JMI     fLilypondCodeIOstream << "~ ";
+    case msrTie::kTieStart:
+ // JMI     fLilypondCodeIOstream << "~ "; // JMI
       break;
-    case msrTie::kContinueTie:
+    case msrTie::kTieContinue:
       break;
-    case msrTie::kStopTie:
+    case msrTie::kTieStop:
       break;
    } // switch
 }

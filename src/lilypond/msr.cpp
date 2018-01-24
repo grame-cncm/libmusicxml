@@ -3410,8 +3410,8 @@ void msrWedge::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTie msrTie::create (
-  int           inputLineNumber,
-  msrTieKind    tieKind)
+  int        inputLineNumber,
+  msrTieKind tieKind)
 {
   msrTie* o =
     new msrTie (
@@ -3421,8 +3421,8 @@ S_msrTie msrTie::create (
 }
 
 msrTie::msrTie (
-  int           inputLineNumber,
-  msrTieKind    tieKind)
+  int        inputLineNumber,
+  msrTieKind tieKind)
     : msrElement (inputLineNumber)
 {
   fTieKind = tieKind; 
@@ -3436,17 +3436,17 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
   stringstream s;
   
   switch (tieKind) {
-    case kStartTie:
-      s << "start";
+    case kTieStart:
+      s << "tieStart";
       break;
-    case kContinueTie:
-      s << "continue";
+    case kTieContinue:
+      s << "tieContinue";
       break;
-    case kStopTie:
-      s << "stop";
+    case kTieStop:
+      s << "tieStop";
       break;
-    default:
-      s << "Tie" << tieKind << "???";
+    case k_NoTie:
+      s << "k_NoTie???";
   } // switch
     
   return s.str ();
@@ -3865,6 +3865,8 @@ msrGraceNotes::msrGraceNotes (
     graceNotesVoiceUplink;    
     
   fGraceNotesIsSlashed = gracenoteIsSlashed;
+
+  fGraceNotesIsTied = false;
 }
 
 msrGraceNotes::~msrGraceNotes()
@@ -3891,6 +3893,9 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
         fInputLineNumber,
         fGraceNotesIsSlashed,
         containingVoice);
+
+  newbornClone->fGraceNotesIsTied =
+    fGraceNotesIsTied;
     
   return newbornClone;
 }
@@ -3919,6 +3924,9 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
         fGraceNotesIsSlashed,
         containingVoice);
 
+  clone->fGraceNotesIsTied =
+    fGraceNotesIsTied;
+    
   // populating the clone with skips
   for (
     list<S_msrNote>::const_iterator i=fGraceNotesNotesList.begin ();
@@ -3947,6 +3955,11 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
 void msrGraceNotes::appendNoteToGraceNotes (S_msrNote note)
 {
   fGraceNotesNotesList.push_back (note);
+
+  // is this grace note tied?
+  if (note->getNoteTie ()) {
+    fGraceNotesIsTied = true;
+  }
 }
 
 void msrGraceNotes::acceptIn (basevisitor* v)
@@ -4043,6 +4056,8 @@ void msrGraceNotes::print (ostream& os)
       fGraceNotesNotesList.size (), "note", "notes") <<
     ", slashed: " <<
     booleanAsString (fGraceNotesIsSlashed) <<
+    ", tied: " <<
+    booleanAsString (fGraceNotesIsTied) <<
     endl;
   
   gIndenter++;
@@ -7040,14 +7055,10 @@ string msrNote::noteAsString ()
     s <<
       ", followed by grace notes";
   
-/* JMI
   if (fNoteTie) {
-    if (fNoteTie->getTieKind () != msrTie::k_NoTie ) {
-      s <<
-        ", " << fNoteTie->tieKindAsString ();
-    }
+    s <<
+      ", " << fNoteTie->tieKindAsString ();
   }
-*/
 
   s <<
     " ===]";
@@ -20051,29 +20062,6 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       endl;
   }
 
-/* JMI
-  // should a measure be appended to the segment
-  // to match measureNumber?
-  bool doCreateAndAppendAMeasure = false;
-  
-  if (! fSegmentMeasuresList.size ()) {
-    doCreateAndAppendAMeasure = true;
-  }
-  else if (
-    fSegmentMeasuresList.back ()->getMeasureNumber ()
-        !=
-     currentMeasureNumber) {
-    doCreateAndAppendAMeasure = true;
-  }
-  
-  if (doCreateAndAppendAMeasure)
-    createMeasureAndAppendItToSegment (
-      inputLineNumber,
-      currentMeasureNumber,
-      measureOrdinalNumber,
-      measureImplicitKind);
-  */
-
   // don't finalize it it ain't been created
   if (fSegmentMeasuresList.size ()) {
     // finalize or remove segment's last measure
@@ -20081,12 +20069,11 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       lastMeasure =
         fSegmentMeasuresList.back ();
   
-  // NO JMI  if (lastMeasure->getMeasureElementsList ().size ()) {
-    if (lastMeasure->getMeasureContainsMusic ()) {
+ // JMI   if (lastMeasure->getMeasureContainsMusic ()) {
       lastMeasure->
         finalizeMeasure (
           inputLineNumber);
-    }
+ /*   }
     
     else {
       if (gTraceOptions->fTraceMeasures) {
@@ -20102,6 +20089,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
     
       fSegmentMeasuresList.pop_back ();
     }
+  */
   
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
       gLogIOstream <<

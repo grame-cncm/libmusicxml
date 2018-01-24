@@ -2039,7 +2039,7 @@ class msrTie : public msrElement
 
     enum msrTieKind {
       k_NoTie,
-      kStartTie, kContinueTie, kStopTie};        
+      kTieStart, kTieContinue, kTieStop};        
     
     static string tieKindAsString (
       msrTieKind tieKind);
@@ -2048,8 +2048,8 @@ class msrTie : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTie> create (
-      int           inputLineNumber,
-      msrTieKind    tieKind);
+      int        inputLineNumber,
+      msrTieKind tieKind);
 
   protected:
 
@@ -2057,8 +2057,8 @@ class msrTie : public msrElement
     // ------------------------------------------------------
 
     msrTie (
-      int           inputLineNumber,
-      msrTieKind    tieKind);
+      int        inputLineNumber,
+      msrTieKind tieKind);
       
     virtual ~msrTie();
   
@@ -2073,7 +2073,7 @@ class msrTie : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                tieKindAsString () const // JMI
+    string                tieKindAsString () const
                               { return tieKindAsString (fTieKind); }
 
     // visitors
@@ -2094,7 +2094,7 @@ class msrTie : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrTieKind fTieKind;
+    msrTieKind            fTieKind;
 };
 typedef SMARTP<msrTie> S_msrTie;
 EXP ostream& operator<< (ostream& os, const S_msrTie& elt);
@@ -3932,6 +3932,9 @@ class msrGraceNotes : public msrElement
     bool                  getGraceNotesIsSlashed () const
                               { return fGraceNotesIsSlashed; }
 
+    bool                  getGraceNotesIsTied () const
+                              { return fGraceNotesIsTied; }
+
     // services
     // ------------------------------------------------------
 
@@ -3965,6 +3968,7 @@ class msrGraceNotes : public msrElement
     list<S_msrNote>       fGraceNotesNotesList;
 
     bool                  fGraceNotesIsSlashed;
+    bool                  fGraceNotesIsTied;
 };
 typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);

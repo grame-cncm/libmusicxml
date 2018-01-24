@@ -3475,11 +3475,8 @@ void msr2LpsrTranslator::visitStart (S_msrTie& elt)
       endl;
   }
 
-  // we don't need the kTieStop or kContinue for LilyPond
-  if (elt->getTieKind () == msrTie::kStartTie) {
-    fCurrentNoteClone->
-      setNoteTie (elt);
-  }
+  fCurrentNoteClone->
+    setNoteTie (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrTie& elt)

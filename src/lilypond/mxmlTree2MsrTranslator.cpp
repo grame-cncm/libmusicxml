@@ -4232,22 +4232,13 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
   fCurrentTieKind = msrTie::k_NoTie;
   
   if      (tiedType == "start") {
-    
-    fCurrentTieKind =
-      msrTie::kStartTie;
-    
+    fCurrentTieKind = msrTie::kTieStart;
   }
   else if (tiedType == "continue") {
-    
-    fCurrentTieKind =
-      msrTie::kContinueTie;
-    
+    fCurrentTieKind = msrTie::kTieContinue;
   }
   else if (tiedType == "stop") {
-    
-    fCurrentTieKind =
-      msrTie::kStopTie;
-    
+    fCurrentTieKind = msrTie::kTieStop;
   }
   else {
 
@@ -5524,15 +5515,13 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
         appendPendingMultipleRestToPart (
           inputLineNumber);
 
-
-    if (fRemainingMultipleRestMeasuresNumber == 1) {
-      fCurrentPart-> // JMI ??? BOF
-        setNextMeasureNumberInPart (
-          inputLineNumber,
-          fCurrentMeasureNumber);
-    }
-
-
+      if (fRemainingMultipleRestMeasuresNumber == 1) {
+        fCurrentPart-> // JMI ??? BOF
+          setNextMeasureNumberInPart (
+            inputLineNumber,
+            fCurrentMeasureNumber);
+      }
+  
       // forget about and multiple rest having been created
       fCurrentMultipleRestHasBeenCreated = false;
       
@@ -12078,11 +12067,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
       "--> Start visiting S_grace" <<
       endl;
   }
-
-/* JMI pour positionnement:
-        <grace steal-time-previous="20"/>
-        <grace steal-time-following="20"/>
- */
  
   fCurrentNoteIsAGraceNote = true;
 
@@ -14644,8 +14628,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   
   else if (
     fCurrentTremoloTypeKind == kTremoloTypeStart
-     ||
-     fCurrentTremoloTypeKind == kTremoloTypeStop) {
+      ||
+    fCurrentTremoloTypeKind == kTremoloTypeStop) {
     // double tremolo note
     if (fCurrentNoteGraphicDurationKind == k_NoDuration) {
       stringstream s;
@@ -15084,7 +15068,8 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     // standalone note or rest
     if (fCurrentNoteIsARest)
       newNote->
-        setNoteKind (msrNote::kRestNote);
+        setNoteKind (
+          msrNote::kRestNote);
     else
       newNote->
         setNoteKind (
