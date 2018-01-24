@@ -18846,9 +18846,9 @@ void msrMeasure::bringMeasureToMeasureLength (
   }
 
   if (fMeasureLength < measureLength) {
-    // appending a skip to this measure to reach measureLength
+    // appending a rest to this measure to reach measureLength
     rational
-      skipDuration =
+      restDuration =
         measureLength - fMeasureLength;
     
     // fetch the voice
@@ -18857,54 +18857,54 @@ void msrMeasure::bringMeasureToMeasureLength (
         fMeasureSegmentUplink->
           getSegmentVoiceUplink ();
       
-    // create the skip
+    // create the rest JMI rest or skip depending on an option???
     S_msrNote
-      skip =
-        msrNote::createSkipNote (
+      rest =
+        msrNote::createRestNote (
           inputLineNumber,
    // JMI       37, // JMI
-          skipDuration,
-          skipDuration,
+          restDuration,
+          restDuration,
           0, // dots number JMI ???
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
           voice->
             getVoicePartRelativeID ());
 
-    // does the skip occupy a full measure?
-    if (skipDuration == fFullMeasureLength)
-      skip->
+    // does the rest occupy a full measure?
+    if (restDuration == fFullMeasureLength)
+      rest->
         setNoteOccupiesAFullMeasure ();
   
-    // register skip's measure length
-    skip->
+    // register rest's measure length
+    rest->
       setNotePositionInMeasure (
         fMeasureLength);
            
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
       gLogIOstream <<
-       "Appending " << skip->noteAsString () <<
-       " (" << skipDuration <<
+       "Appending " << rest->noteAsString () <<
+       " (" << restDuration <<
        " whole notes) to bring voice \"" << voice->getVoiceName () <<
        "\" measure '" << fMeasureNumber << "'" <<
        " from length " << fMeasureLength <<
        " to length '" << measureLength << "'" <<
-        ", skipDuration = " << skipDuration <<
+        ", restDuration = " << restDuration <<
        endl;
     }
 
-    // append the skip to the measure elements list
+    // append the rest to the measure elements list
     // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
-    appendNoteToMeasure (skip);
+    appendNoteToMeasure (rest);
 
     // this measure contains music
     fMeasureContainsMusic = true;
 
 /*
-    // account for skip duration in measure length
+    // account for rest duration in measure length
     setMeasureLength (
-      inputLineNumber, fMeasureLength + skipDuration);
+      inputLineNumber, fMeasureLength + restDuration);
 */
   }
 }
