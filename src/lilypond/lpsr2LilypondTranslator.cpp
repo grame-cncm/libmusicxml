@@ -6798,18 +6798,35 @@ void lpsr2LilypondTranslator::visitStart (S_msrGraceNotes& elt)
       endl;
   }
 
+  /*
+    1. no slash, no slur: \grace
+    2. slash and slur: \acciaccatura
+    3. slash but no slur: \slashedGrace
+    4. no slash but slur: \appoggiatura
+  */
+  
   if (elt->getGraceNotesIsSlashed ()) {
-    fLilypondCodeIOstream <<
-      "\\slashedGrace";
-  }
-  else if (elt->getGraceNotesIsTied ()) {
+    if (elt->getGraceNotesIsTied ()) {
       fLilypondCodeIOstream <<
         "\\acciaccatura";
+    }
+    else {
+      fLilypondCodeIOstream <<
+        "\\slashedGrace";
+    }
   }
+  
   else {
-    fLilypondCodeIOstream <<
-      "\\grace";
+    if (elt->getGraceNotesIsTied ()) {
+      fLilypondCodeIOstream <<
+        "\\appoggiatura";
+    }
+    else {
+      fLilypondCodeIOstream <<
+        "\\grace";
+    }
   }
+
   fLilypondCodeIOstream << " { ";
 
   // force durations to be displayed explicitly
