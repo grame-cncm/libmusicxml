@@ -5443,16 +5443,39 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
+  // is there a current grace notes?
   if (fCurrentGraceNotes) {
-    fLogOutputStream <<
-      "fCurrentGraceNotes IS NOT NULL at the end of measure '" <<
-      elt->getAttributeValue ("number") <<
-      "'" <<
-      endl;
+    if (gTraceOptions->fTraceNotes) {
+      fLogOutputStream <<
+        endl <<
+        endl <<
+        "fCurrentGraceNotes IS NOT NULL at the end of measure '" << // JMI
+        elt->getAttributeValue ("number") <<
+        "'" <<
+        endl <<
+        endl;
+  
+      fLogOutputStream <<
+        endl <<
+        endl <<
+        endl <<
+        "+++++++++++++++++" <<
+        fCurrentPart <<
+        endl <<
+        endl <<
+        endl;
+    }
+
+    // set current grace notes as not followed by notes
+    fCurrentGraceNotes->
+      setGraceNotesIsFollowedByNotes (false);
+      
+    // forget about these grace notes,
+    // thus forcing grace notes at the end of this measure to remain it it
+    fCurrentGraceNotes = nullptr;
   }
   
   if (fCurrentATupletStopIsPending) {
-
     if (fTupletsStack.size ()) { // JMI
       // finalize the tuplet, only now in case the last element
       // is actually a chord
@@ -15143,6 +15166,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
           fCurrentGraceIsSlashed,
           currentVoice);
 
+/* JMI
       // register that last handled note if any is followed by grace notes
       S_msrNote
         lastHandledNoteInVoice =
@@ -15152,12 +15176,23 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       if (lastHandledNoteInVoice)
         lastHandledNoteInVoice->
           setNoteIsFollowedByGraceNotes ();
+*/
       
       // append the grace notes to the current voice
       currentVoice->
         appendGraceNotesToVoice (
           fCurrentGraceNotes);
     }
+
+    // register that last handled note if any is followed by grace notes JMI ???
+    S_msrNote
+      lastHandledNoteInVoice =
+        currentVoice->
+          getVoiceLastAppendedNote ();
+          
+    if (lastHandledNoteInVoice)
+      lastHandledNoteInVoice->
+        setNoteIsFollowedByGraceNotes ();
 
     // append newNote to the current grace notes
     if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceGraceNotes) {

@@ -3499,7 +3499,9 @@ class msrMeasure : public msrElement
                             int       inputLineNumber,
                             S_msrNote note);
 
-    void                  removeElementFromMeasure (S_msrElement elem); // JMI
+    void                  removeElementFromMeasure (
+                            int          inputLineNumber,
+                            S_msrElement elem);
 
     // finalization
 
@@ -3842,6 +3844,10 @@ class msrSegment : public msrElement
                             int       inputLineNumber,
                             S_msrNote note);
 
+    void                  removeElementFromSegment (
+                            int          inputLineNumber,
+                            S_msrElement element);
+
     S_msrMeasure          removeLastMeasureFromSegment (
                             int inputLineNumber);
 
@@ -3935,6 +3941,12 @@ class msrGraceNotes : public msrElement
     bool                  getGraceNotesIsTied () const
                               { return fGraceNotesIsTied; }
 
+    void                  setGraceNotesIsFollowedByNotes (bool value)
+                              { fGraceNotesIsFollowedByNotes = value; }
+
+    bool                  getGraceNotesIsFollowedByNotes () const
+                              { return fGraceNotesIsFollowedByNotes; }
+
     // services
     // ------------------------------------------------------
 
@@ -3969,6 +3981,8 @@ class msrGraceNotes : public msrElement
 
     bool                  fGraceNotesIsSlashed;
     bool                  fGraceNotesIsTied;
+
+    bool                  fGraceNotesIsFollowedByNotes;
 };
 typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
@@ -4063,10 +4077,10 @@ class msrAfterGraceNotes : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrAfterGraceNotes> create (
-      int        inputLineNumber,
-      S_msrNote  afterGraceNotesNote,
-      bool       aftergracenoteIsSlashed,
-      S_msrVoice afterGraceNotesVoiceUplink);
+      int          inputLineNumber,
+      S_msrElement afterGraceNotesElement,
+      bool         aftergracenoteIsSlashed,
+      S_msrVoice   afterGraceNotesVoiceUplink);
     
     SMARTP<msrAfterGraceNotes> createAfterGraceNotesNewbornClone (
       S_msrNote  noteClone,
@@ -4082,10 +4096,10 @@ class msrAfterGraceNotes : public msrElement
     // ------------------------------------------------------
 
     msrAfterGraceNotes (
-      int        inputLineNumber,
-      S_msrNote  afterGraceNotesNote,
-      bool       aftergracenoteIsSlashed,
-      S_msrVoice afterGraceNotesVoiceUplink);
+      int          inputLineNumber,
+      S_msrElement afterGraceNotesElement,
+      bool         aftergracenoteIsSlashed,
+      S_msrVoice   afterGraceNotesVoiceUplink);
       
     virtual ~msrAfterGraceNotes();
   
@@ -4094,11 +4108,11 @@ class msrAfterGraceNotes : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    S_msrNote             getAfterGraceNotesNote () const
-                              { return fAfterGraceNotesNote; }
+    S_msrElement          getAfterGraceNotesElement () const
+                              { return fAfterGraceNotesElement; }
 
     S_msrAfterGraceNotesContents
-                          getfAfterGraceNotesContents () const
+                          getAfterGraceNotesContents () const
                               { return fAfterGraceNotesContents; }
 
     // services
@@ -4135,7 +4149,7 @@ class msrAfterGraceNotes : public msrElement
     // uplinks
     S_msrVoice            fAfterGraceNotesVoiceUplink;
 
-    S_msrNote             fAfterGraceNotesNote;
+    S_msrElement          fAfterGraceNotesElement;
 
     bool                  fAfterGraceNotesIsSlashed;
 
@@ -9455,11 +9469,7 @@ class msrVoice : public msrElement
 
     void                  appendAFirstMeasureToVoiceIfNotYetDone (
                              int inputLineNumber);
-                        
-    void                  fillVoiceWithSkipsUpToMeasure (
-                            int    inputLineNumber,
-                            string measureNumber);
-                            
+                                                    
     void                  bringVoiceToMeasureLength (
                             int      inputLineNumber,
                             rational measureLength);
@@ -9614,11 +9624,25 @@ class msrVoice : public msrElement
                             // for other types of elements not known
                             // in this header file, such as LPSR elements
 
+    // last measure in voice
+    
+    S_msrMeasure          fetchVoiceLastMeasure (
+                            int inputLineNumber) const;
+    
+    // last element in voice
+
+    S_msrElement          fetchVoiceLastElement (
+                            int inputLineNumber) const;
+    
     // removing elements from voice
     
     void                  removeNoteFromVoice (
                             int       inputLineNumber,
                             S_msrNote note);
+
+    void                  removeElementFromVoice (
+                            int          inputLineNumber,
+                            S_msrElement element);
 
     S_msrMeasure          removeLastMeasureFromVoice (
                             int inputLineNumber);
@@ -9824,7 +9848,7 @@ class msrVoice : public msrElement
     // but not yet appended to the voice
     S_msrMultipleRest     fVoicePendingMultipleRest;
     
-    // fVoicePendingMultipleRest is null
+    // fVoiceMultipleRestWaitingForItsNextMeasureNumber is null
     // or the last msrMultipleRest created and appended to the voice,
     // but with its next measure number not yet set
     S_msrMultipleRest     fVoiceMultipleRestWaitingForItsNextMeasureNumber;

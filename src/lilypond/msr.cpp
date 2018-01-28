@@ -3867,6 +3867,10 @@ msrGraceNotes::msrGraceNotes (
   fGraceNotesIsSlashed = gracenoteIsSlashed;
 
   fGraceNotesIsTied = false;
+
+  // grace notes are followed by notes
+  // unless they are last in a measure
+  fGraceNotesIsFollowedByNotes = true;
 }
 
 msrGraceNotes::~msrGraceNotes()
@@ -3897,6 +3901,9 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
   newbornClone->fGraceNotesIsTied =
     fGraceNotesIsTied;
     
+  newbornClone->fGraceNotesIsFollowedByNotes =
+    fGraceNotesIsFollowedByNotes;
+    
   return newbornClone;
 }
 
@@ -3926,6 +3933,9 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
 
   clone->fGraceNotesIsTied =
     fGraceNotesIsTied;
+    
+  clone->fGraceNotesIsFollowedByNotes =
+    fGraceNotesIsFollowedByNotes;
     
   // populating the clone with skips
   for (
@@ -4058,6 +4068,8 @@ void msrGraceNotes::print (ostream& os)
     booleanAsString (fGraceNotesIsSlashed) <<
     ", tied: " <<
     booleanAsString (fGraceNotesIsTied) <<
+    ", followedByNotes: " <<
+    booleanAsString (fGraceNotesIsFollowedByNotes) <<
     endl;
   
   gIndenter++;
@@ -4261,15 +4273,15 @@ void msrAfterGraceNotesContents::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrAfterGraceNotes msrAfterGraceNotes::create (
-  int        inputLineNumber,
-  S_msrNote  afterGraceNotesNote,
-  bool       aftergracenoteIsSlashed,
-  S_msrVoice afterGraceNotesVoiceUplink)
+  int          inputLineNumber,
+  S_msrElement afterGraceNotesElement,
+  bool         aftergracenoteIsSlashed,
+  S_msrVoice   afterGraceNotesVoiceUplink)
 {
   msrAfterGraceNotes* o =
     new msrAfterGraceNotes (
       inputLineNumber,
-      afterGraceNotesNote,
+      afterGraceNotesElement,
       aftergracenoteIsSlashed,
       afterGraceNotesVoiceUplink);
   assert(o!=0);
@@ -4278,10 +4290,10 @@ S_msrAfterGraceNotes msrAfterGraceNotes::create (
 }
 
 msrAfterGraceNotes::msrAfterGraceNotes (
-  int        inputLineNumber,
-  S_msrNote  afterGraceNotesNote,
-  bool       aftergracenoteIsSlashed,
-  S_msrVoice afterGraceNotesVoiceUplink)
+  int          inputLineNumber,
+  S_msrElement afterGraceNotesElement,
+  bool         aftergracenoteIsSlashed,
+  S_msrVoice   afterGraceNotesVoiceUplink)
     : msrElement (inputLineNumber)
 {
   // sanity check
@@ -4294,8 +4306,8 @@ msrAfterGraceNotes::msrAfterGraceNotes (
     afterGraceNotesVoiceUplink;
 
   // pupulate this after grace notes
-  fAfterGraceNotesNote =
-    afterGraceNotesNote;
+  fAfterGraceNotesElement =
+    afterGraceNotesElement;
     
   fAfterGraceNotesIsSlashed =
     aftergracenoteIsSlashed;
@@ -4406,8 +4418,8 @@ void msrAfterGraceNotes::browseData (basevisitor* v)
 
   {
     // browse the afterGraceNotes note
-    msrBrowser<msrNote> browser (v);
-    browser.browse (*fAfterGraceNotesNote);
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*fAfterGraceNotesElement);
   }
 
   {
@@ -4429,8 +4441,8 @@ string msrAfterGraceNotes::afterGraceNotesAsShortString () const
 
   s <<
     "AfterGraceNotes " <<
-    ", AfterGraceNotesNote: " <<
-    fAfterGraceNotesNote->noteAsShortString () <<
+    ", AfterGraceNotesElement: " <<
+    "JMI ???fAfterGraceNotesElement->noteAsShortString ()" <<
     ", fAfterGraceNotesContents: " <<
     fAfterGraceNotesContents->afterGraceNotesContentsAsShortString ();
 
@@ -4448,13 +4460,13 @@ void msrAfterGraceNotes::print (ostream& os)
   
   gIndenter++;
 
-  // print the afterGraceNotes note
+  // print the afterGraceNotes element
   os <<
-    "Note:" <<
+    "Element:" <<
     endl;
   gIndenter++;
   os <<
-    fAfterGraceNotesNote;
+    fAfterGraceNotesElement;
   gIndenter--;
 
   // print the afterGraceNotes contents
@@ -19163,6 +19175,79 @@ void msrMeasure::removeNoteFromMeasure (
     s.str ());
 }
 
+void msrMeasure::removeElementFromMeasure (
+  int          inputLineNumber,
+  S_msrElement element)
+{  
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Removing element:" <<
+      endl;
+
+    gIndenter++;
+    gLogIOstream <<
+      " JMI ??? element->elementAsString ()" << endl;
+    gIndenter--;
+    
+    gLogIOstream <<
+      endl <<
+      " from measure '" << fMeasureNumber <<
+      "' in voice \"" <<
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ()->
+          getVoiceName () <<
+      "\"," <<
+      endl;
+
+    gIndenter++;
+    gLogIOstream <<
+      "fMeasureLastHandledNote:" <<
+      endl <<
+      fMeasureLastHandledNote <<
+      endl;
+    gIndenter--;
+  }
+
+  for (
+    list<S_msrElement>::iterator i=fMeasureElementsList.begin ();
+    i!=fMeasureElementsList.end ();
+    ++i) {
+    if ((*i) == element) {
+      // found element, erase it
+      fMeasureElementsList.erase (i);
+      
+      // update measure length
+      setMeasureLength (
+        inputLineNumber,
+        fMeasureLength
+          -
+        fMeasureLastHandledNote->getNoteSoundingWholeNotes ());
+
+      // return from function
+      return;
+    }
+  } // for
+  
+  stringstream s;
+
+  s <<
+    "cannot remove element " <<
+    element <<
+    " from measure " << fMeasureNumber <<
+    "' in voice \"" <<
+    fMeasureSegmentUplink->
+      getSegmentVoiceUplink ()->
+        getVoiceName () <<
+    "\"," <<
+    " since it has not been found";
+
+  msrInternalError (
+    gXml2lyOptions->fInputSourceName,
+    inputLineNumber,
+    __FILE__, __LINE__,
+    s.str ());
+}
+
 /* JMI
 S_msrElement msrMeasure::removeLastElementFromMeasure (
   int inputLineNumber)
@@ -21193,22 +21278,6 @@ void msrSegment::appendOtherElementToSegment (S_msrElement elem)
     appendOtherElementToMeasure (elem);
 }
 
-/* JMI
-void msrSegment::removeElementFromSegment (
-  S_msrElement elem)
-{
-  for (
-    list<S_msrElement>::iterator i = fSegmentMeasuresList.begin ();
-    i != fSegmentMeasuresList.end ();
-    i++) {
-    if ((*i) == elem) {
-      fSegmentMeasuresList.erase (i);
-      break;
-    }
-  } // for
-}
-*/
-
 /*
 S_msrElement msrSegment::removeLastElementFromSegment (
   int inputLineNumber)
@@ -21242,6 +21311,36 @@ void msrSegment::removeNoteFromSegment (
       removeNoteFromMeasure (
         inputLineNumber,
         note);
+  }
+  
+  else {
+    stringstream s;
+
+    s <<
+      "cannot remove note from segment " <<
+      segmentAsString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"," <<
+      " since it is empty";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void msrSegment::removeElementFromSegment (
+  int          inputLineNumber,
+  S_msrElement element)
+{  
+  if (fSegmentMeasuresList.size ()) {
+    fSegmentMeasuresList.back ()->
+      removeElementFromMeasure (
+        inputLineNumber,
+        element);
   }
   
   else {
@@ -24827,21 +24926,6 @@ void msrVoice::appendFiguredBassToVoiceClone (
   } // switch
 }
 
-void msrVoice::fillVoiceWithSkipsUpToMeasure ( // JMI
-  int    inputLineNumber,
-  string measureNumber)
-{
-  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceDivisions) {
-    gLogIOstream <<
-      "Filling voice \"" <<
-      getVoiceName () <<
-      "\" with skips up to measure '" <<
-      measureNumber <<
-      "', line " << inputLineNumber <<
-      endl;
-  }
-}
-
 void msrVoice::bringVoiceToMeasureLength (
   int      inputLineNumber,
   rational measureLength)
@@ -25443,6 +25527,62 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
 
   fVoiceLastSegment->
     appendOtherElementToSegment (elem);
+}
+
+S_msrMeasure msrVoice::fetchVoiceLastMeasure (
+  int inputLineNumber) const
+{
+  msrAssert (
+    fVoiceLastSegment != 0,
+    "fVoiceLastSegment is null");
+
+  const list<S_msrMeasure>&
+    lastSegmentMeasuresList =
+      fVoiceLastSegment->getSegmentMeasuresList ();
+      
+  if (lastSegmentMeasuresList.size ()) {
+    return lastSegmentMeasuresList.back ();
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "attempting to fetch voice last measure in an empty measures list";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+S_msrElement msrVoice::fetchVoiceLastElement (
+  int inputLineNumber) const
+{
+  S_msrMeasure
+    lastMeasure =
+      fetchVoiceLastMeasure (inputLineNumber);
+
+  const list<S_msrElement>&
+    lastMeasureElementsList =
+      lastMeasure->getMeasureElementsList ();
+      
+  if (lastMeasureElementsList.size ()) {
+    return lastMeasureElementsList.back ();
+  }
+  else {
+    stringstream s;
+
+    s <<
+      "attempting to fetch voice last element in an empty elements list";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void msrVoice::prepareForRepeatInVoice (
@@ -27630,6 +27770,24 @@ void msrVoice::removeNoteFromVoice (
     removeNoteFromSegment (
       inputLineNumber,
       note);
+}
+
+void msrVoice::removeElementFromVoice (
+  int          inputLineNumber,
+  S_msrElement element)
+{
+  if (gTraceOptions->fTraceChords) {
+    gLogIOstream <<
+      "Removing element '" <<
+      "JMI ??? element->noteAsShortString ()" <<
+      "' from voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  fVoiceLastSegment->
+    removeElementFromSegment (
+      inputLineNumber,
+      element);
 }
 
 S_msrMeasure msrVoice::removeLastMeasureFromVoice (

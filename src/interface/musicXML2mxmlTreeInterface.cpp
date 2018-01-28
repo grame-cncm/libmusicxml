@@ -14,6 +14,8 @@
 # pragma warning (disable : 4786)
 #endif
 
+#include <iomanip> // for setw()
+
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
@@ -49,15 +51,102 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "Pass 1: building the xmlelement tree from \"" << fileName << "\"" <<
       endl <<
       separator <<
+      endl <<
       endl;
   }
 
   xmlreader r;
   
   SXMLFile xmlFile = r.read (fileName);
-  if (!xmlFile)
+  if (! xmlFile)
     return Sxmlelement (0);
 
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      endl;
+      
+    xmlFile->print (gLogIOstream);
+
+    gLogIOstream <<
+      endl;
+  }
+  
+  // get the xmlDecl
+  TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
+  
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      "getXMLDecl =" <<
+      endl;
+    xmlDecl->print (gLogIOstream);
+  }
+  
+  string fXMLVersion = xmlDecl->getVersion ();
+  string fXMLEncoding = xmlDecl->getEncoding ();
+  int     fXMLStandalone = xmlDecl->getStandalone ();
+
+  const int fieldWidth = 17;
+  
+  gLogIOstream <<
+    "XML Declaration:" <<
+    endl;
+
+  gIndenter++;
+  
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "fXMLVersion" << " = \"" << fXMLVersion << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "fXMLEncoding" << " = \"" << fXMLEncoding << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLStandalone" << " = \"" << fXMLStandalone << "\"" <<
+    endl <<
+    endl;
+
+  gIndenter--;
+
+  // get the docType
+  TDocType * docType = xmlFile->getDocType ();
+  
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      "getDocType =" <<
+      endl;
+    docType->print (gLogIOstream);
+  }
+
+  gLogIOstream <<
+    "Document Type:" <<
+    endl;
+
+  gIndenter++;
+  
+  std::string fXMLStartElement = docType->getStartElement ();
+  bool    fXMLPublic = docType->getPublic ();
+  std::string fXMLPubLitteral = docType->getPubLitteral ();
+  std::string fXMLSysLitteral = docType->getSysLitteral ();
+
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "fXMLStartElement" << " = \"" << fXMLStartElement << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "fXMLPublic" << " = \"" << fXMLPublic << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLPubLitteral" << " = \"" << fXMLPubLitteral << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLSysLitteral" << " = \"" << fXMLSysLitteral << "\"" <<
+    endl;
+    
+  gIndenter--;
+    
   clock_t endClock = clock ();
 
   // register time spent
