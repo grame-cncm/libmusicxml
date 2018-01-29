@@ -143,9 +143,23 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     endl  <<
     setw (fieldWidth) <<
     "fXMLSysLitteral" << " = \"" << fXMLSysLitteral << "\"" <<
+    endl <<
     endl;
     
   gIndenter--;
+    
+  // should the encoding be converted to UTF-8?
+  string desiredEncoding = "UTF-8";
+  
+  if (fXMLEncoding != desiredEncoding) {
+    gLogIOstream <<
+      "Converting MusicXML data from \"" <<
+      fXMLEncoding <<
+      "\" to " <<
+      desiredEncoding <<
+      "\"" <<
+      endl;
+  }
     
   clock_t endClock = clock ();
 
@@ -189,7 +203,109 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   xmlreader r;
   
   SXMLFile xmlFile = r.read (fd);
+  if (! xmlFile)
+    return Sxmlelement (0);
 
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      endl;
+      
+    xmlFile->print (gLogIOstream);
+
+    gLogIOstream <<
+      endl;
+  }
+  
+  // get the xmlDecl
+  TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
+  
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      "getXMLDecl =" <<
+      endl;
+    xmlDecl->print (gLogIOstream);
+  }
+  
+  string fXMLVersion = xmlDecl->getVersion ();
+  string fXMLEncoding = xmlDecl->getEncoding ();
+  int     fXMLStandalone = xmlDecl->getStandalone ();
+
+  const int fieldWidth = 17;
+  
+  gLogIOstream <<
+    "XML Declaration:" <<
+    endl;
+
+  gIndenter++;
+  
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "fXMLVersion" << " = \"" << fXMLVersion << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "fXMLEncoding" << " = \"" << fXMLEncoding << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLStandalone" << " = \"" << fXMLStandalone << "\"" <<
+    endl <<
+    endl;
+
+  gIndenter--;
+
+  // get the docType
+  TDocType * docType = xmlFile->getDocType ();
+  
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      "getDocType =" <<
+      endl;
+    docType->print (gLogIOstream);
+  }
+
+  gLogIOstream <<
+    "Document Type:" <<
+    endl;
+
+  gIndenter++;
+  
+  std::string fXMLStartElement = docType->getStartElement ();
+  bool    fXMLPublic = docType->getPublic ();
+  std::string fXMLPubLitteral = docType->getPubLitteral ();
+  std::string fXMLSysLitteral = docType->getSysLitteral ();
+
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "fXMLStartElement" << " = \"" << fXMLStartElement << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "fXMLPublic" << " = \"" << fXMLPublic << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLPubLitteral" << " = \"" << fXMLPubLitteral << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLSysLitteral" << " = \"" << fXMLSysLitteral << "\"" <<
+    endl <<
+    endl;
+    
+  gIndenter--;
+
+  // should the encoding be converted to UTF-8?
+  string desiredEncoding = "UTF-8";
+  
+  if (fXMLEncoding != desiredEncoding) {
+    gLogIOstream <<
+      "Converting MusicXML data from \"" <<
+      fXMLEncoding <<
+      "\" to \"" <<
+      desiredEncoding <<
+      "\"" <<
+      endl;
+  }
+    
   clock_t endClock = clock ();
 
   // register time spent
