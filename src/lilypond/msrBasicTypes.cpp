@@ -43,6 +43,22 @@ namespace MusicXML2 {
 
 #define TRACE_MSR_BASIC_TYPES 0
 
+
+// beat data
+//______________________________________________________________________________
+void msrBeatData::print (ostream& os)
+{
+  const int fieldWidth = 9;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fBeatUnit" << " = " << fBeatUnit <<
+    endl <<
+    setw (fieldWidth) <<
+    "fDots" << " = " << fDots <<
+    endl;
+};
+
 // intervals
 //______________________________________________________________________________
 int msrIntervalKindAsSemiTones (

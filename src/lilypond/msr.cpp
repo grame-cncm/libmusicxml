@@ -97,34 +97,101 @@ void msrElement::print (ostream& os)
 }
 
 //______________________________________________________________________________
-void msrPolyphony::print (ostream& os)
+S_msrComment msrComment::create (
+  int    inputLineNumber,
+  string commentText)
 {
-/* JMI
-  const int fieldWidth = 9;
+  msrComment* o =
+    new msrComment (
+      inputLineNumber, commentText);
+  assert(o!=0);
+  return o;
+}
 
-  os << left <<
-    setw (fieldWidth) <<
-    "fBeatUnit" << " = " << fBeatUnit <<
-    endl <<
-    setw (fieldWidth) <<
-    "fDots" << " = " << fDots <<
-    endl;
-      */
-};
-
-//______________________________________________________________________________
-void msrBeatData::print (ostream& os)
+msrComment::msrComment (
+  int    inputLineNumber,
+  string commentText)
+    : msrElement (inputLineNumber)
 {
-  const int fieldWidth = 9;
+  fCommentText = commentText;
+}
 
-  os << left <<
-    setw (fieldWidth) <<
-    "fBeatUnit" << " = " << fBeatUnit <<
-    endl <<
-    setw (fieldWidth) <<
-    "fDots" << " = " << fDots <<
+msrComment::~msrComment ()
+{}
+
+void msrComment::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrComment::acceptIn()" <<
+      endl;
+  }
+  
+  if (visitor<S_msrComment>*
+    p =
+      dynamic_cast<visitor<S_msrComment>*> (v)) {
+        S_msrComment elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrComment::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrComment::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrComment::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrComment>*
+    p =
+      dynamic_cast<visitor<S_msrComment>*> (v)) {
+        S_msrComment elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrComment::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrComment::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrComment& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrComment::commentAsString () const
+{
+  return
+    "Comment '" + fCommentText + "'";
+}
+
+void msrComment::print (ostream& os)
+{
+  os <<
+    "Comment" <<
     endl;
-};
+    
+  gIndenter++;
+  
+  os <<
+    fCommentText <<
+    endl;
+
+  gIndenter--;
+}
 
 //______________________________________________________________________________
 S_msrOctaveShift msrOctaveShift::create (
@@ -150,7 +217,7 @@ msrOctaveShift::msrOctaveShift (
   fOctaveShiftSize = octaveShiftSize;
 }
 
-msrOctaveShift::~msrOctaveShift()
+msrOctaveShift::~msrOctaveShift ()
 {}
 
 void msrOctaveShift::acceptIn (basevisitor* v)
@@ -243,6 +310,22 @@ void msrOctaveShift::print (ostream& os)
 
   gIndenter--;
 }
+
+//______________________________________________________________________________
+void msrPolyphony::print (ostream& os)
+{
+/* JMI
+  const int fieldWidth = 9;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fBeatUnit" << " = " << fBeatUnit <<
+    endl <<
+    setw (fieldWidth) <<
+    "fDots" << " = " << fDots <<
+    endl;
+      */
+};
 
 //______________________________________________________________________________
 S_msrAccordionRegistration msrAccordionRegistration::create (
@@ -17614,6 +17697,22 @@ string msrMeasure::measureLengthAsMSRString ()
       fMeasureLength);
 }
 
+void msrMeasure::appendCommentToMeasure (S_msrComment comment)
+{
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
+    gLogIOstream <<
+      "Appending comment '" << comment->commentAsString () <<
+      "' to measure " << fMeasureNumber <<
+      ", in voice \"" <<
+      fetchMeasureVoiceUplink ()->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+          
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (comment);
+}
+
 void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
@@ -20191,6 +20290,55 @@ void msrSegment::finalizeCurrentMeasureInSegment (
         endl;
     }
   }
+}
+
+void msrSegment::appendCommentToSegment (S_msrComment comment)
+{
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Appending comment '" << comment->commentAsString () <<
+      "' to segment " << segmentAsString () <<
+      ", in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+
+  if (fSegmentMeasuresList.size () == 0) {
+    stringstream s;
+
+    s <<
+      "SegmentMeasuresList is empty"  <<
+      " in segment '" <<
+      fSegmentAbsoluteNumber <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"";
+
+    gLogIOstream <<
+      "SegmentVoiceUplink:" <<
+      endl;
+    gIndenter++;
+    gLogIOstream <<
+      fSegmentVoiceUplink <<
+      endl;
+    gIndenter--;
+    
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      comment->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+    
+  // sanity check
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
+  // register comment in segments's current measure
+  fSegmentMeasuresList.back ()->
+    appendCommentToMeasure (comment);
 }
 
 void msrSegment::appendClefToSegment (S_msrClef clef)
@@ -24662,6 +24810,24 @@ S_msrStanza msrVoice::fetchStanzaInVoice (
   }
 
   return stanza;
+}
+
+void msrVoice::appendCommentToVoice (S_msrComment comment)
+{
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending comment '" << comment->commentAsString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    comment->getInputLineNumber ());
+
+  // append clef to last segment
+  fVoiceLastSegment->
+    appendCommentToSegment (comment);
 }
 
 void msrVoice::appendClefToVoice (S_msrClef clef)
@@ -29534,6 +29700,28 @@ void msrStaff::bringStaffToMeasureLength (
   } // for
 }
 
+void msrStaff::appendCommentToStaff (S_msrComment comment)
+{
+  if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Appending comment '" << comment->commentAsString () <<
+      "' to staff \"" <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      endl;
+  }
+  
+  // propagate clef to all voices
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++) {
+    (*i).second-> // JMI msrAssert???
+      appendCommentToVoice (comment);
+  } // for
+}
+
 void msrStaff::appendClefToStaff (S_msrClef clef)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
@@ -31524,6 +31712,27 @@ void msrPart::appendStaffDetailsToPart (
   } // for
 }
 
+void msrPart::appendCommentToPart (S_msrComment comment)
+{
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceClefs) {
+    gLogIOstream <<
+      "Appending comment '" <<
+      comment->commentAsString () <<
+      "' to part " << getPartCombinedName () <<
+    endl;
+  }
+
+  // append comment to registered staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    (*i).second->
+      appendCommentToStaff (
+        comment);
+  } // for
+}
+
 void msrPart::appendClefToPart (S_msrClef clef)
 {
   if (gTraceOptions->fTraceParts || gTraceOptions->fTraceClefs) {
@@ -31534,9 +31743,6 @@ void msrPart::appendClefToPart (S_msrClef clef)
     endl;
   }
 
-  // set part clef
-  fPartCurrentClef = clef;
-  
   // append clef to registered staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();

@@ -243,6 +243,8 @@ class msr2LpsrTranslator :
     
   protected:
       
+    virtual void visitStart (S_msrComment& elt);
+    
     virtual void visitStart (S_msrScore& elt);
     virtual void visitEnd   (S_msrScore& elt);
 
