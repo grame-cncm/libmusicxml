@@ -48,21 +48,21 @@ help:
 
 #########################################################################
 read: 
-	@which $(XMLREAD) || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
+	@which $(XMLREAD) > /dev/null || (echo "### xmlread (part of samples) must be available from your PATH."; false;)
 	make doread
 
 doread: $(readout)
 
 #########################################################################
 guido: 
-	@which $(XML2GUIDO) || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
+	@which $(XML2GUIDO) > /dev/null || (echo "### xml2guido (part of samples) must be available from your PATH."; false;)
 	make doguido
 
 doguido: $(gmnout)
 
 #########################################################################
 lily: 
-	@which $(XML2LY) || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
+	@which $(XML2LY) > /dev/null || (echo "### xml2ly (part of samples) must be available from your PATH."; false;)
 	make dolily
 
 dolily: $(lilyout)
@@ -124,7 +124,7 @@ $(version)/lilypond/%.ly: ../%.xml
 # rules for lilypond with svg backend
 $(version)/lilysvg/%.svg: $(version)/gmn/%.gmn
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-lilypond -dbackend=svg $<  > $@ || rm $@
+	lilypond -dbackend=svg $<  > $@ || (rm $@; false)
 
 #########################################################################
 # rules for xml output validation
