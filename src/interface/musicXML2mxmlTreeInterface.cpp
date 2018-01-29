@@ -14,12 +14,14 @@
 # pragma warning (disable : 4786)
 #endif
 
+#include <iomanip> // for setw()
+
 #include "xml.h"
 #include "xmlfile.h"
 #include "xmlreader.h"
 
-#include "generalOptions.h"
-#include "mxmlOptions.h"
+#include "traceOptions.h"
+#include "musicXMLOptions.h"
 
 #include "musicXML2mxmlTreeInterface.h"
 
@@ -35,9 +37,9 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   S_musicXMLOptions mxmlOpts,
   indentedOstream&  logIOstream) 
 {
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -49,15 +51,103 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "Pass 1: building the xmlelement tree from \"" << fileName << "\"" <<
       endl <<
       separator <<
+      endl <<
       endl;
   }
 
   xmlreader r;
   
   SXMLFile xmlFile = r.read (fileName);
-  if (!xmlFile) return Sxmlelement(0);
+  if (! xmlFile)
+    return Sxmlelement (0);
 
-  clock_t endClock = clock();
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      endl;
+      
+    xmlFile->print (gLogIOstream);
+
+    gLogIOstream <<
+      endl;
+  }
+  
+  // get the xmlDecl
+  TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
+  
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      "getXMLDecl =" <<
+      endl;
+    xmlDecl->print (gLogIOstream);
+  }
+  
+  string fXMLVersion = xmlDecl->getVersion ();
+  string fXMLEncoding = xmlDecl->getEncoding ();
+  int     fXMLStandalone = xmlDecl->getStandalone ();
+
+  const int fieldWidth = 17;
+  
+  gLogIOstream <<
+    "XML Declaration:" <<
+    endl;
+
+  gIndenter++;
+  
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "fXMLVersion" << " = \"" << fXMLVersion << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "fXMLEncoding" << " = \"" << fXMLEncoding << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLStandalone" << " = \"" << fXMLStandalone << "\"" <<
+    endl <<
+    endl;
+
+  gIndenter--;
+
+  // get the docType
+  TDocType * docType = xmlFile->getDocType ();
+  
+  if (false) { // JMI
+    gLogIOstream <<
+      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      "getDocType =" <<
+      endl;
+    docType->print (gLogIOstream);
+  }
+
+  gLogIOstream <<
+    "Document Type:" <<
+    endl;
+
+  gIndenter++;
+  
+  std::string fXMLStartElement = docType->getStartElement ();
+  bool    fXMLPublic = docType->getPublic ();
+  std::string fXMLPubLitteral = docType->getPubLitteral ();
+  std::string fXMLSysLitteral = docType->getSysLitteral ();
+
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "fXMLStartElement" << " = \"" << fXMLStartElement << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "fXMLPublic" << " = \"" << fXMLPublic << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLPubLitteral" << " = \"" << fXMLPubLitteral << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "fXMLSysLitteral" << " = \"" << fXMLSysLitteral << "\"" <<
+    endl;
+    
+  gIndenter--;
+    
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -68,20 +158,20 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     endClock);
   
   // fetch mxmlTree
-  Sxmlelement mxmlTree = xmlFile->elements();
+  Sxmlelement mxmlTree = xmlFile->elements ();
 
   return mxmlTree;
 }
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFd2mxmlTree (
-  FILE*            fd,
+  FILE*             fd,
   S_musicXMLOptions mxmlOpts,
   indentedOstream&  logIOstream) 
 {
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
   
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -100,7 +190,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   
   SXMLFile xmlFile = r.read (fd);
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
@@ -111,7 +201,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     endClock);
 
   // fetch mxmlTree
-  Sxmlelement mxmlTree = xmlFile->elements();
+  Sxmlelement mxmlTree = xmlFile->elements ();
 
   return mxmlTree;
 }
@@ -122,9 +212,9 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   S_musicXMLOptions mxmlOpts,
   indentedOstream&  logIOstream) 
 {
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
     
@@ -143,7 +233,7 @@ EXP Sxmlelement musicXMLString2mxmlTree (
   
   SXMLFile xmlFile = r.readbuff (buffer);
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (

@@ -11,7 +11,7 @@
 */
 
 #include <climits>      /* INT_MIN, INT_MAX */
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 #include <sstream>
 
 #include "utilities.h"
@@ -110,7 +110,7 @@ R"(Write a trace of the MSR graphs visiting activity to standard error.)",
     traceAndDisplaySubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "pg", "displayPartGroups",
+          "dpg", "displayPartGroups",
 R"(Write the structure of the part groups to standard error.)",
           "displayPartGroups",
           fDisplayPartGroups));
@@ -333,7 +333,7 @@ R"('<wedge/>' in MusicXML, '<!' in LilyPond)",
   {
     // variables
     
-    fShowMsrStanzas  = boolOptionsInitialValue;
+    fAddStanzasNumbers  = false;
   
     // options
   
@@ -350,12 +350,11 @@ R"()",
     lyricsSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "sms", "showMsrStanzas",
-R"(Show MSR stanzas even when they're empty.)",
-          "showMsrStanzas",
-          fShowMsrStanzas));
+          "asn", "addStanzasNumbers",
+R"(Add stanzas numbers to lyrics.)",
+          "addStanzasNumbers",
+          fAddStanzasNumbers));
   }     
-
 
   // harmonies
   // --------------------------------------
@@ -489,10 +488,9 @@ S_msrOptions msrOptions::createCloneWithDetailedTrace ()
 
   // lyrics
   // --------------------------------------
-    
-  clone->fShowMsrStanzas =
-    fShowMsrStanzas;
 
+  clone->fAddStanzasNumbers =
+    fAddStanzasNumbers;
 
   // harmonies
   // --------------------------------------
@@ -597,7 +595,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gLogIOstream << left <<
     setw (fieldWidth) << "parts renaming" << " : ";
 
-  if (fPartsRenamingMap.empty ()) {
+  if (! fPartsRenamingMap.size ()) {
     gLogIOstream <<
       "none";
   }
@@ -669,7 +667,7 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
    
   // lyrics
   // --------------------------------------
-  
+
   gLogIOstream <<
     "Lyrics:" <<
     endl;
@@ -677,8 +675,8 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream <<
-    setw (fieldWidth) << "showMsrStanzas" << " : " <<
-    booleanAsString (fShowMsrStanzas) <<
+    setw (fieldWidth) << "addStanzasNumbers" << " : " <<
+    booleanAsString (fAddStanzasNumbers) <<
     endl;
 
   gIndenter--;

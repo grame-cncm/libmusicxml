@@ -13,11 +13,11 @@
 #include <sstream>
 
 #include <climits>      /* INT_MIN, INT_MAX */
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include <regex>
 
-#include "version.h"
+//#include "version.h"
 #include "utilities.h"
 
 #include "messagesHandling.h"
@@ -279,7 +279,7 @@ void optionsItem::setOptionsSubGroupUplink (
 {
   // sanity check
   msrAssert (
-    optionsSubGroup != 0,
+    optionsSubGroup != nullptr,
     "optionsSubGroup is null");
 
   // set the uplink
@@ -378,13 +378,9 @@ void optionsVersionItem::printVersion (ostream& os) const
 {  
   os <<
     endl <<
-    "This is xml2ly" <<
-    " version " << currentVersionNumber () <<
+    "optionsVersionItem???" <<
     endl <<
     endl;
-
-  // print versions history
-  printVersionsHistory (os);
 }
 
 void optionsVersionItem::printOptionsValues (
@@ -782,7 +778,7 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
 {
   // sanity check
   msrAssert (
-    optionsItem != 0,
+    optionsItem != nullptr,
     "optionsItem is null");
     
   fOptionsCombinedItemsList.push_back (
@@ -801,7 +797,7 @@ void optionsCombinedItemsItem::appendOptionsItemToCombinedItemsList (
 
   // sanity check
   msrAssert (
-    optionsHandler != 0,
+    optionsHandler != nullptr,
     "optionsHandler is null");
     
   // is optionsItemName known in options elements map?
@@ -2593,7 +2589,7 @@ void optionsSubGroup::appendOptionsItem (
 {
   // sanity check
   msrAssert (
-    optionsItem != 0,
+    optionsItem != nullptr,
     "optionsItem is null");
 
   // append options item
@@ -3012,7 +3008,7 @@ void optionsGroup::setOptionsHandlerUplink (
 {
   // sanity check
   msrAssert (
-    optionsHandler != 0,
+    optionsHandler != nullptr,
     "optionsHandler is null");
 
   // set the uplink
@@ -3034,7 +3030,7 @@ void optionsGroup::registerOptionsGroupInHandler (
 {
   // sanity check
   msrAssert (
-    optionsHandler != 0,
+    optionsHandler != nullptr,
     "optionsHandler is null");
 
   // set options handler uplink
@@ -3061,7 +3057,7 @@ void  optionsGroup::appendOptionsSubGroup (
 {
   // sanity check
   msrAssert (
-    optionsSubGroup != 0,
+    optionsSubGroup != nullptr,
     "optionsSubGroup is null");
 
   // append options subgroup
@@ -4128,7 +4124,7 @@ void optionsHandler::appendOptionsGroup (
 {
   // sanity check
   msrAssert (
-    optionsGroup != 0,
+    optionsGroup != nullptr,
     "optionsGroup is null");
 
   // append the options group

@@ -33,6 +33,8 @@
 
 #include "generalOptions.h"
 
+#include "xml2lyOptionsHandling.h"
+
 
 using namespace std;
 
@@ -2513,7 +2515,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2560,7 +2562,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2609,7 +2611,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2656,7 +2658,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2703,7 +2705,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2750,7 +2752,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2797,7 +2799,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
               ", line = " << inputLineNumber;
 
             msrInternalError (
-              gGeneralOptions->fInputSourceName,
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
               __FILE__, __LINE__,
               s.str ());
@@ -2817,7 +2819,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2929,7 +2931,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -2947,7 +2949,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           ", line = " << inputLineNumber;
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
@@ -3319,7 +3321,7 @@ float msrFontSize::getFontNumericSize ()
           fontSizeKindAsString (fFontSizeKind);
 
         msrInternalError (
-          gGeneralOptions->fInputSourceName,
+          gXml2lyOptions->fInputSourceName,
           0, // JMI
           __FILE__, __LINE__,
           s.str ());
@@ -3557,6 +3559,69 @@ rational msrDurationKindAsWholeNotes (msrDurationKind durationKind)
   return result;
 }
 
+msrDurationKind wholeNotesAsDurationKind (rational wholeNotes)
+{
+  msrDurationKind result = k_NoDuration;
+  
+  if (wholeNotes.getNumerator () == 1) {
+    switch (wholeNotes.getDenominator ()) {
+      case 1:
+        result = kWhole;
+        break;
+      case 2:
+        result = kHalf;
+        break;
+      case 4:
+        result = kQuarter;
+        break;
+      case 8:
+        result = kEighth;
+        break;
+      case 16:
+        result = k16th;
+        break;
+      case 32:
+        result = k32nd;
+        break;
+      case 64:
+        result = k64th;
+        break;
+      case 128:
+        result = k128th;
+        break;
+      case 256:
+        result = k256th;
+        break;
+      case 512:
+        result = k512th;
+        break;
+      case 1024:
+        result = k1024th;
+        break;
+      default:
+        ;
+    } // switch
+  }
+
+  else if (wholeNotes.getDenominator () == 1) {
+    switch (wholeNotes.getNumerator ()) {
+      case 2:
+        result = kBreve;
+        break;
+      case 4:
+        result = kLong;
+        break;
+      case 8:
+        result = kMaxima;
+        break;
+      default:
+        ;
+    } // switch
+  }
+
+  return result;
+}
+
 string msrDurationKindAsString (msrDurationKind durationKind)
 {
   string result;
@@ -3654,14 +3719,6 @@ string wholeNotesAsMsrString (
     numerator != 0,
     "numerator is 0");
 
-    /* JMI ???
-       if (numerator == 0) {
-    return "0";
-  }
-    
-  else if (numerator == 1) {
-*/
-
   if (numerator == 1) {
     // a number of ??? JMI notes
     return to_string (denominator);
@@ -3743,15 +3800,18 @@ string wholeNotesAsMsrString (
             numberOfDots += 2;
             break;
           default:
+          /* JMI
             s <<
               numerator << "/" << denominator <<
               " whole notes cannot be represented as an MSR string";
   
-            msrInternalError (
-              gGeneralOptions->fInputSourceName,
+            msrInternalWarning (
+              gXml2lyOptions->fInputSourceName,
               inputLineNumber,
-              __FILE__, __LINE__,
               s.str ());
+              */
+            s <<
+              numerator << "/" << denominator << "???";
         } // switch
         break;
       }
@@ -3800,6 +3860,28 @@ string wholeNotesAsMsrString (
       inputLineNumber,
       wholeNotes,
       dotsNumber);
+}
+
+string multipleRestWholeNoteAsMsrString (
+  int      inputLineNumber, // JMI
+  rational wholeNotes)
+{
+  stringstream s;
+  
+  rational
+    denominatorAsFraction =
+      rational (
+        1,
+        wholeNotes.getDenominator ());
+      
+  s <<
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      denominatorAsFraction) <<
+    "*" <<
+    wholeNotes.getNumerator ();
+
+  return s.str ();
 }
 
 // measure style
@@ -3856,6 +3938,99 @@ string msrSlashUseStemsKindAsString (
 }
 
 //______________________________________________________________________________
+string msrLineTypeKindAsString (
+  msrLineTypeKind lineTypeKind)
+{
+  string result;
+  
+  switch (lineTypeKind) {
+    case kLineTypeSolid:
+      result = "lineTypeSolid";
+      break;
+    case kLineTypeDashed:
+      result = "lineTypeDashed";
+      break;
+    case kLineTypeDotted:
+      result = "lineTypeDotted";
+      break;
+    case kLineTypeWavy:
+      result = "lineTypeWavy";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+string msrTremoloTypeKindAsString (
+  msrTremoloTypeKind tremoloTypeKind)
+{
+  string result;
+  
+  switch (tremoloTypeKind) {
+    case kTremoloTypeSingle:
+      result = "tremoloTypeSingle";
+      break;
+    case kTremoloTypeStart:
+      result = "tremoloTypeStart";
+      break;
+    case kTremoloTypeStop:
+      result = "tremoloTypeStop";
+      break;
+    case k_NoTremoloType:
+      result = "k_NoTremoloType???";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+string msrTechnicalTypeKindAsString (
+  msrTechnicalTypeKind technicalTypeKind)
+{
+  string result;
+  
+  switch (technicalTypeKind) {
+    case kTechnicalTypeStart:
+      result = "technicalTypeStart";
+      break;
+    case kTechnicalTypeStop:
+      result = "technicalTypeStop";
+      break;
+    case k_NoTechnicalType:
+      result = "k_NoTechnicalType???";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
+string msrSpannerTypeKindAsString (
+  msrSpannerTypeKind spannerTypeKind)
+{
+  string result;
+  
+  switch (spannerTypeKind) {
+    case kSpannerTypeStart:
+      result = "spannerTypeStart";
+      break;
+    case kSpannerTypeStop:
+      result = "spannerTypeStop";
+      break;
+    case kSpannerTypeContinue:
+      result = "spannerTypeContinue";
+      break;
+    case k_NoSpannerType:
+      result = "k_NoSpannerType???";
+      break;
+  } // switch
+
+  return result;
+}
+
+//______________________________________________________________________________
 S_msrChordItem msrChordItem::create (
   int             inputLineNumber,
   int             chordItemNumber,
@@ -3892,61 +4067,6 @@ msrChordItem::msrChordItem (
 msrChordItem::~msrChordItem()
 {}
 
-/* JMI
-S_msrChordItem msrChordItem::createHarmonyNewbornClone (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "==> Creating a newborn clone of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  basicMsrAssert(
-    containingPart != 0,
-    "containingPart is null");
-    
-  S_msrChordItem
-    newbornClone =
-      msrChordItem::create (
-        fInputLineNumber,
-        fChordItemValue,
-        fChordItemAlteration,
-        fChordItemTypeKind);
-        
-  return newbornClone;
-}
-
-S_msrChordItem msrChordItem::createHarmonyDeepCopy (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "==> Creating a deep copy of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  basicMsrAssert(
-    containingPart != 0,
-    "containingPart is null");
-    
-  S_msrChordItem
-    harmonyDeepCopy =
-      msrChordItem::create (
-        fInputLineNumber,
-        fChordItemValue,
-        fChordItemAlteration,
-        fChordItemTypeKind);
-        
-  return harmonyDeepCopy;
-}
-*/
 
 string msrChordItem::chordItemAsString () const
 {
@@ -4004,6 +4124,7 @@ void msrChordItem::acceptOut (basevisitor* v) {
 void msrChordItem::browseData (basevisitor* v)
 {}
 */
+
 ostream& operator<< (ostream& os, const S_msrChordItem& elt)
 {
   elt->print (os);
@@ -5027,62 +5148,6 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
 msrChordIntervals::~msrChordIntervals()
 {}
-
-/* JMI
-S_msrChordIntervals msrChordIntervals::createHarmonyNewbornClone (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "==> Creating a newborn clone of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  basicMsrAssert(
-    containingPart != 0,
-    "containingPart is null");
-    
-  S_msrChordIntervals
-    newbornClone =
-      msrChordIntervals::create (
-        fInputLineNumber,
-        fChordIntervalsValue,
-        fChordIntervalsAlteration,
-        fChordIntervalsTypeKind);
-        
-  return newbornClone;
-}
-
-S_msrChordIntervals msrChordIntervals::createHarmonyDeepCopy (
-  S_msrPart containingPart)
-{
-  if (gGeneralOptions->fTraceHarmonies) {
-    gLogIOstream <<
-      "==> Creating a deep copy of harmony degree '" <<
-      harmonyKindAsShortString () <<
-      "'" <<
-      endl;
-  }
-
-  // sanity check
-  basicMsrAssert(
-    containingPart != 0,
-    "containingPart is null");
-    
-  S_msrChordIntervals
-    harmonyDeepCopy =
-      msrChordIntervals::create (
-        fInputLineNumber,
-        fChordIntervalsValue,
-        fChordIntervalsAlteration,
-        fChordIntervalsTypeKind);
-        
-  return harmonyDeepCopy;
-}
-*/
 
 void msrChordIntervals::appendChordItemToChordIntervals (
   S_msrChordItem chordItem)

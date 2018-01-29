@@ -162,6 +162,7 @@ Usage:
       indenter&     fIndenter;
 
     public:
+    
       // constructor
       indentedStreamBuf (
         std::ostream& str,
@@ -171,7 +172,10 @@ Usage:
         {}
 
       // flush
-      void flush ()   { fOutput.flush (); }
+      void flush ()
+      {
+        fOutput.flush ();
+      }
     
       // When we sync the stream with fOutput:
       // 1) uutput the indentation then the buffer
@@ -191,6 +195,7 @@ Usage:
     indentedStreamBuf     fIndentedStreamBuf;
   
   public:
+  
     // constructor
     indentedOstream (
       std::ostream&  str,
@@ -201,10 +206,14 @@ Usage:
       {}
 
     // destructor
-    virtual ~indentedOstream () {};
+    virtual ~indentedOstream ()
+    {};
 
     // flush
-    void flush ()       { fIndentedStreamBuf.flush (); }
+    void flush ()
+    {
+      fIndentedStreamBuf.flush ();
+    }
     
     // global variables for general use
     static indentedOstream
@@ -358,7 +367,7 @@ inline std::string &trim (std::string &s) {
 
 //______________________________________________________________________________
 std::pair<std::string, std::string> extractNamesPairFromString (
-  std::string theString, // can contain "P1 = Bassoon"
+  std::string theString, // may contain "P1 = Bassoon"
   char   separator,
   bool   debugMode = false);
 
@@ -381,6 +390,9 @@ std::string singularOrPluralWithoutNumber (
 
 //______________________________________________________________________________
 void optionError (std::string errorMessage);
+
+//______________________________________________________________________________
+std::string escapeQuotes (std::string s);
 
 //______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (std::string& s);

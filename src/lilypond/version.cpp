@@ -11,7 +11,7 @@
 */
 
 #include <iostream>
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include "version.h"
 

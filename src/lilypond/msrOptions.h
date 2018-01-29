@@ -116,7 +116,7 @@ class msrOptions : public optionsGroup
     // lyrics
     // --------------------------------------
     
-    bool                  fShowMsrStanzas;
+    bool                  fAddStanzasNumbers;
 
     
     // harmonies

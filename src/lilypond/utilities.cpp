@@ -945,7 +945,19 @@ void optionError (string errorMessage)
 }
 
 //______________________________________________________________________________
+string escapeQuotes (string s)
+{
+  string result;
 
+  for_each (
+    s.begin (),
+    s.end (),
+    stringQuoteEscaper (result));
+
+  return result;
+}
+
+//______________________________________________________________________________
 void convertHTMLEntitiesToPlainCharacters (string& s)
 {
   map<string, string> conversionMap;
@@ -977,7 +989,6 @@ void convertHTMLEntitiesToPlainCharacters (string& s)
 }
 
 //______________________________________________________________________________
-
 void splitStringContainingEndOfLines (
   string        theString,
   list<string>& chunksList)
@@ -1108,7 +1119,7 @@ void splitStringContainingEndOfLines (
 //______________________________________________________________________________
 string baseName (const string &filename)
 {
-  if (filename.empty ()) {
+  if (! filename.size ()) {
       return {};
   }
 

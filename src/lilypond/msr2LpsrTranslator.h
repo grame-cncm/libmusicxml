@@ -22,6 +22,7 @@
 namespace MusicXML2
 {
 
+//________________________________________________________________________
 class msr2LpsrTranslator :
 
   public visitor<S_msrScore>,
@@ -36,6 +37,7 @@ class msr2LpsrTranslator :
   // variable-value associations
   
   public visitor<S_msrVarValAssoc>,
+  public visitor<S_msrVarValsListAssoc>,
   
   // geometry
 
@@ -125,6 +127,18 @@ class msr2LpsrTranslator :
   // ornaments
 
   public visitor<S_msrOrnament>,
+
+  // spanners
+
+  public visitor<S_msrSpanner>,
+
+  // glissandos
+  
+  public visitor<S_msrGlissando>,
+
+  // slides
+
+  public visitor<S_msrSlide>,
   
   // tremolos
 
@@ -198,9 +212,9 @@ class msr2LpsrTranslator :
   public visitor<S_msrRepeatCommonPart>,
   public visitor<S_msrRepeatEnding>,
   
-  public visitor<S_msrMeasureRepeat>,
-  public visitor<S_msrMeasureRepeatPattern>,
-  public visitor<S_msrMeasureRepeatReplicas>,
+  public visitor<S_msrMeasuresRepeat>,
+  public visitor<S_msrMeasuresRepeatPattern>,
+  public visitor<S_msrMeasuresRepeatReplicas>,
   
   public visitor<S_msrMultipleRest>,
   public visitor<S_msrMultipleRestContents>,
@@ -218,7 +232,7 @@ class msr2LpsrTranslator :
   
     msr2LpsrTranslator (
       indentedOstream& ios,
-      S_msrScore            mScore);
+      S_msrScore       mScore);
         
     virtual ~msr2LpsrTranslator ();
 
@@ -318,6 +332,15 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
 
+    virtual void visitStart (S_msrSpanner& elt);
+    virtual void visitEnd   (S_msrSpanner& elt);
+
+    virtual void visitStart (S_msrGlissando& elt);
+    virtual void visitEnd   (S_msrGlissando& elt);
+
+    virtual void visitStart (S_msrSlide& elt);
+    virtual void visitEnd   (S_msrSlide& elt);
+
     virtual void visitStart (S_msrSingleTremolo& elt);
     virtual void visitEnd   (S_msrSingleTremolo& elt);
 
@@ -394,12 +417,12 @@ class msr2LpsrTranslator :
     virtual void visitStart (S_msrRepeatEnding& elt);
     virtual void visitEnd   (S_msrRepeatEnding& elt);
 
-    virtual void visitStart (S_msrMeasureRepeat& elt);
-    virtual void visitEnd   (S_msrMeasureRepeat& elt);
-    virtual void visitStart (S_msrMeasureRepeatPattern& elt);
-    virtual void visitEnd   (S_msrMeasureRepeatPattern& elt);
-    virtual void visitStart (S_msrMeasureRepeatReplicas& elt);
-    virtual void visitEnd   (S_msrMeasureRepeatReplicas& elt);
+    virtual void visitStart (S_msrMeasuresRepeat& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeat& elt);
+    virtual void visitStart (S_msrMeasuresRepeatPattern& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeatPattern& elt);
+    virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
 
     virtual void visitStart (S_msrMultipleRest& elt);
     virtual void visitEnd   (S_msrMultipleRest& elt);
@@ -408,6 +431,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrVarValAssoc& elt);
     virtual void visitEnd   (S_msrVarValAssoc& elt);
+    virtual void visitStart (S_msrVarValsListAssoc& elt);
+    virtual void visitEnd   (S_msrVarValsListAssoc& elt);
 
     virtual void visitStart (S_msrPageGeometry& elt);
     virtual void visitEnd   (S_msrPageGeometry& elt);
@@ -444,6 +469,7 @@ class msr2LpsrTranslator :
     // identification
     // ------------------------------------------------------
     bool                      fOnGoingIdentification;
+    S_msrIdentification       fCurrentIdentification;
 
     // header
     // ------------------------------------------------------
@@ -453,8 +479,10 @@ class msr2LpsrTranslator :
     bool                      fMovementTitleKnown;
     
 
-    // page geometry
+    // paper
     // ------------------------------------------------------
+    void                      setPaperIndentsIfNeeded (
+                                S_msrPageGeometry pageGeometry);
 
     // credits
     // ------------------------------------------------------
@@ -492,6 +520,9 @@ class msr2LpsrTranslator :
     // harmonies
     // ------------------------------------------------------    
     bool                      fOnGoingHarmonyVoice;
+    
+    int                       fHarmonyVoicesCounter;
+    list<S_msrHarmony>        fPendingHarmoniesList;
 
     // figured bass
     // ------------------------------------------------------    
@@ -501,7 +532,6 @@ class msr2LpsrTranslator :
     // repeats
     // ------------------------------------------------------
 // JMI    S_msrRepeat               fCurrentRepeatClone;
-// JMI    bool                      fRepeatHasBeenCreatedForCurrentPartClone;
     bool                      fOnGoingRepeat;
     S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
     S_msrRepeatEnding         fCurrentRepeatEndingClone;
@@ -511,13 +541,15 @@ class msr2LpsrTranslator :
     // measure repeats
     // ------------------------------------------------------
 
-    S_msrMeasureRepeatPattern   fCurrentMeasureRepeatPatternClone;
-    S_msrMeasureRepeatReplicas  fCurrentMeasureRepeatReplicasClone;
+    S_msrMeasuresRepeatPattern
+                              fCurrentMeasuresRepeatPatternClone;
+    S_msrMeasuresRepeatReplicas
+                              fCurrentMeasuresRepeatReplicasClone;
 
     // multiple rests
     // ------------------------------------------------------
 
-    S_msrMultipleRestContents   fCurrentMultipleRestContentsClone;
+    S_msrMultipleRestContents fCurrentMultipleRestContentsClone;
 
     // segments
     // ------------------------------------------------------
@@ -549,6 +581,14 @@ class msr2LpsrTranslator :
                                 // to help workaround LilyPond issue 34
     S_msrNote                 fCurrentAfterGraceNotesNote;
                                 // to help optimise after grace notes
+
+    // glissandos
+    // ------------------------------------------------------
+
+
+    // slides
+    // ------------------------------------------------------
+
 
     // double tremolos
     // ------------------------------------------------------

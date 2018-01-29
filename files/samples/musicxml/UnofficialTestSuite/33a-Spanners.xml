@@ -773,7 +773,11 @@
         </pitch>
         <duration>3</duration>
         <voice>1</voice>
-        <type>quarter</type>
+        <type>half</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+          </time-modification>
         <notations>
           <ornaments><tremolo type="start">2</tremolo></ornaments>
         </notations>
@@ -785,7 +789,11 @@
         </pitch>
         <duration>3</duration>
         <voice>1</voice>
-        <type>quarter</type>
+        <type>half</type>
+        <time-modification>
+          <actual-notes>2</actual-notes>
+          <normal-notes>1</normal-notes>
+          </time-modification>
         <notations>
           <ornaments><tremolo type="stop">2</tremolo></ornaments>
         </notations>

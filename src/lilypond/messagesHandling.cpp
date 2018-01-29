@@ -14,7 +14,7 @@
 
 #include "messagesHandling.h"
 
-#include "mxmlOptions.h"
+#include "musicXMLOptions.h"
 #include "generalOptions.h"
 
 
@@ -31,10 +31,10 @@ void msrAssert (
   if (! condition) {
     gLogIOstream <<
       "#### msrAssert failure: " << messageIfFalse <<
-      ", exiting." <<
+      ", aborting." <<
       endl;
      
-    exit (33);
+    abort ();
   }
 }
 
@@ -46,63 +46,47 @@ void msrWarning (
   string message)
 {
   if (! gGeneralOptions->fQuiet) {
-    const int fieldWidth = 18;
-  
     gLogIOstream <<
-      endl <<
-      "!!! " << context << " WARNING !!!" <<
-      endl;  
-  
-    gLogIOstream << left <<
-      gTab << gTab <<
-      setw (fieldWidth) <<
-      "input source name" << " : " <<
-      inputSourceName <<
-      endl <<
-      gTab << gTab <<
-      setw (fieldWidth) <<
-      "input line" << " : " << inputLineNumber <<
-      endl;
-  
-    gLogIOstream <<
-      message <<
-      endl <<
+      inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl;
   }
 }
 
 //______________________________________________________________________________
 void lpsrMusicXMLWarning (
+  string inputSourceName,
   int    inputLineNumber,
   string message)
 {
   msrWarning (
     "LPSR",
-    gGeneralOptions->fInputSourceName,
+    inputSourceName,
     inputLineNumber,
     message);
 }
 
 //______________________________________________________________________________
 void msrMusicXMLWarning (
+  string inputSourceName,
   int    inputLineNumber,
   string message)
 {
   msrWarning (
     "MusicXML",
-    gGeneralOptions->fInputSourceName,
+    inputSourceName,
     inputLineNumber,
     message);
 }
 
 //______________________________________________________________________________
 void msrInternalWarning (
+  string inputSourceName,
   int    inputLineNumber,
   string message)
 {
   msrWarning (
     "INTERNAL",
-    gGeneralOptions->fInputSourceName,
+    inputSourceName,
     inputLineNumber,
     message);
 }
@@ -116,45 +100,16 @@ void msrError (
   int    sourceCodeLineNumber,
   string message)
 {
-  if (! gGeneralOptions->fQuiet) {
-    const int fieldWidth = 22;
-  
+  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
     gLogIOstream <<
       endl <<
       "### " << context << " ERROR ###" <<
-      endl;
-    
-    gLogIOstream << left <<
-      gTab << gTab <<
-      setw (fieldWidth) <<
-      "input source name" << " : " <<
-      inputSourceName <<
       endl <<
-      gTab << gTab <<
-      setw (fieldWidth) <<
-      "input line" << " : " <<
-      inputLineNumber <<
+      inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl <<
-      gTab << gTab <<
-      setw (fieldWidth) <<
-      "source code file name" << " : " <<
-      baseName (sourceCodeFileName) <<
-      endl <<
-      gTab << gTab <<
-      setw (fieldWidth) <<
-      "source code input line" << " : " <<
-      sourceCodeLineNumber <<
-      endl;
-  
-    gLogIOstream <<
-      gIndenter.indentMultiLineString (
-        message)  <<
-      endl <<
+      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
       endl;
   }
-
-  if (! gGeneralOptions->fIgnoreErrors)
-    exit (17);
 }
 
 //______________________________________________________________________________
@@ -172,6 +127,15 @@ void msrMusicXMLError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+  if (! gGeneralOptions->fIgnoreErrors) {
+    if (gGeneralOptions->fAbortOnErrors) {
+      abort ();
+    }
+    else {
+      exit (15);
+    }
+  }
 }
 
 //______________________________________________________________________________
@@ -189,6 +153,9 @@ void lpsrMusicXMLError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+  if (! gGeneralOptions->fIgnoreErrors)
+    exit (16);
 }
 
 //______________________________________________________________________________
@@ -206,6 +173,8 @@ void msrInternalError (
     sourceCodeFileName,
     sourceCodeLineNumber,
     message);
+
+  abort ();
 }
 
 

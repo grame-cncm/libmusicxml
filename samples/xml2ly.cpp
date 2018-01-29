@@ -20,8 +20,9 @@
 
 #include "utilities.h"
 
+#include "traceOptions.h"
 #include "generalOptions.h"
-#include "mxmlOptions.h"
+#include "musicXMLOptions.h"
 #include "msrOptions.h"
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
@@ -96,6 +97,28 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
   
   else {
     // input comes from a file
+
+    // has the input file name a ".mxl" suffix?    
+    size_t
+      posInString =
+        inputSourceName.rfind (".mxl");
+      
+    if (posInString == inputSourceName.size () - 4) {
+      stringstream s;
+
+      s <<
+        "compressed MusicXML files are not handled by xml2ly currently, exiting";
+
+      msrMusicXMLError (
+        inputSourceName,
+        0,
+        __FILE__, __LINE__,
+        s.str ());
+
+      exit (1);
+    }
+
+    // OK, let's go ahead
     mxmlTree =
       musicXMLFile2mxmlTree (
         inputSourceName.c_str(),
@@ -182,7 +205,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     ofstream outFileStream;
         
     if (outputFileNameSize) {
-      if (gGeneralOptions->fTraceGeneral)
+      if (gTraceOptions->fTraceBasic)
         gLogIOstream <<
           endl <<
           "Opening file '" << outputFileName << "' for writing" <<
@@ -209,7 +232,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     }
     
     else {
-      if (gGeneralOptions->fTraceGeneral)
+      if (gTraceOptions->fTraceBasic)
         gLogIOstream <<
           endl <<
           "LilyPond code will be written to standard output" <<
@@ -232,7 +255,7 @@ void convertLpsrScoreToLilypondCode_Pass4 (
     }
 
     if (outputFileNameSize) {
-      if (gGeneralOptions->fTraceGeneral)
+      if (gTraceOptions->fTraceBasic)
         gLogIOstream <<
           endl <<
           "Closing file '" << outputFileName << "'" <<
@@ -306,6 +329,15 @@ int main (int argc, char *argv[])
   }
   */
 
+/* JMI
+  S_barline    one;
+  S_msrBarline two;
+  one = two;
+
+ /home/user/libmusicxml-git/cmake/../src/lib/smartpointer.h:123:16: error: invalid cast from type 'MusicXML2::SMARTP<MusicXML2::msrBarline>' to type 'MusicXML2::musicxml<24>*'
+make[2]: *** [CMakeFiles/xml2ly.dir/home/user/libmusicxml-git/samples/xml2ly.o] Error 1
+*/
+  
   // initialize the components of MSR that we'll be using
   // ------------------------------------------------------
 
@@ -340,11 +372,11 @@ int main (int argc, char *argv[])
 
   string
     inputSourceName =
-      gGeneralOptions->fInputSourceName;
+      gXml2lyOptions->fInputSourceName;
       
   string
     outputFileName =
-      gGeneralOptions->fOutputFileName;
+      gXml2lyOptions->fOutputFileName;
 
   int
     outputFileNameSize =
@@ -353,7 +385,7 @@ int main (int argc, char *argv[])
   // welcome message
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     gLogIOstream <<
       "This is xml2ly " << currentVersionNumber () << 
       " from libmusicxml2 v" << musicxmllibVersionStr () <<
@@ -374,7 +406,7 @@ int main (int argc, char *argv[])
       endl;
 
     gLogIOstream <<
-      "Time is " << gGeneralOptions->fTranslationDate <<
+      "Time is " << gXml2lyOptions->fTranslationDate <<
       endl;      
 
     gLogIOstream <<
@@ -420,7 +452,7 @@ int main (int argc, char *argv[])
   // print the chosen LilyPond options if so chosen
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fDisplayOptionsValues) {
+  if (gTraceOptions->fDisplayOptionsValues) {
     optionsHandler->
       printAllOptionsValues (
         gLogIOstream);
@@ -432,7 +464,7 @@ int main (int argc, char *argv[])
   // acknoledge end of command line analysis
   // ------------------------------------------------------
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     gLogIOstream <<
       "The command line options and arguments have been analyzed" <<
       endl;

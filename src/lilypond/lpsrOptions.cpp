@@ -11,7 +11,7 @@
 */
 
 #include <sstream>
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include "utilities.h"
 

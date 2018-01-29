@@ -14,7 +14,9 @@
 # pragma warning (disable : 4786)
 #endif
 
-//#include "generalOptions.h"
+#include "messagesHandling.h"
+
+#include "traceOptions.h"
 
 #include "lpsr2LilypondTranslator.h"
 
@@ -39,12 +41,12 @@ void generateLilypondCodeFromLpsrScore (
     lpScore != 0,
     "lpScore is null");
     
-  clock_t startClock = clock();
+  clock_t startClock = clock ();
 
   string separator =
     "%--------------------------------------------------------------";
 
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     logIOstream <<
       endl <<
       separator <<
@@ -68,13 +70,13 @@ void generateLilypondCodeFromLpsrScore (
   // build the LPSR score    
   translator.generateLilypondCodeFromLpsrScore ();
   
-  if (gGeneralOptions->fTraceGeneral) {
+  if (gTraceOptions->fTraceBasic) {
     logIOstream <<
       separator <<
       endl;
   }
 
-  clock_t endClock = clock();
+  clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (

@@ -11,7 +11,7 @@
 */
 
 #include <climits>      /* INT_MIN, INT_MAX */
-#include <iomanip>      // setw, set::precision, ...
+#include <iomanip>      // setw, setprecision, ...
 
 #include "utilities.h"
 
@@ -194,6 +194,7 @@ The default is... 'default'.)",
           "accidentalStyle",
           fAccidentalStyleKind));
 
+/* JMI
     notesSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
@@ -202,13 +203,15 @@ R"(Generate '\compressMMRests' at the beginning of voices.
 By default, this command is commented.)",
           "compressMultiMeasureRests",
           fCompressMultiMeasureRests));
+*/
 
     notesSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
           "niln", "noteInputLineNumbers",
 R"(Generate after each note and barline a comment containing
-its MusicXML input line number.)",
+its MusicXML input line number.
+This is useful when debugging xml2ly.)",
           "noteInputLineNumbers",
           fNoteInputLineNumbers));
   }
@@ -238,7 +241,7 @@ R"()",
     barsSubGroup->
       appendOptionsItem (
         optionsBooleanItem::create (
-          "sabn", "showAllBarNumbers",
+          "abn", "allBarNumbers",
 R"(Generate LilyPond code to show all bar numbers.)",
           "showAllBarNumbers",
           fShowAllBarNumbers));
@@ -486,7 +489,9 @@ R"()",
         optionsBooleanItem::create (
           "jazz", "jazzFonts",
 R"(Use the LilyJazz font for notes, braces, text and chords.
-This font should be installed so that LilyPond can use it.)",
+It can be downloaded from https://github.com/OpenLilyPondFonts/lilyjazz.
+This font should be installed so that LilyPond can use it, see:
+https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Installation-And-Usage.txt.)",
           "jazzFonts",
           fJazzFonts));
   }

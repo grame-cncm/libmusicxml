@@ -22,6 +22,75 @@
 namespace MusicXML2
 {
 
+//________________________________________________________________________
+struct msrRepeatDescr : public smartable
+{
+/*
+ * positions represent the order in which the parts appear in <part-list />
+*/
+ 
+  public:
+
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<msrRepeatDescr> create (
+      int repeatEndingsNumber);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrRepeatDescr (
+      int repeatEndingsNumber);
+
+    virtual ~msrRepeatDescr();
+
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getRepeatEndingsNumber () const
+                              { return fRepeatEndingsNumber; }
+
+    void                  incrementRepeatEndingsCounter ()
+                              { fRepeatEndingsCounter ++; }
+
+    int                   getRepeatEndingsCounter () const
+                              { return fRepeatEndingsCounter; }
+
+    void                  setEndOfRepeatHasBeenGenerated ()
+                              { fEndOfRepeatHasBeenGenerated = true; }
+                              
+    bool                  getEndOfRepeatHasBeenGenerated () const
+                              { return fEndOfRepeatHasBeenGenerated; }
+    
+    // services
+    // ------------------------------------------------------
+
+    string                repeatDescrAsString () const;
+
+    // print
+    // ------------------------------------------------------
+    
+    virtual void          print (ostream& os) const;
+    
+  private:
+     
+    // fields
+    // ------------------------------------------------------
+
+    int                   fRepeatEndingsNumber;
+    int                   fRepeatEndingsCounter;
+    
+    bool                  fEndOfRepeatHasBeenGenerated;
+};
+typedef SMARTP<msrRepeatDescr> S_msrRepeatDescr;
+EXP ostream& operator<< (ostream& os, const S_msrRepeatDescr& elt);
+
+//________________________________________________________________________
 class lpsr2LilypondTranslator :
 
   // LPSR
@@ -30,8 +99,9 @@ class lpsr2LilypondTranslator :
   
   // variable-value associations
 
-  public visitor<S_lpsrLilypondVarValAssoc>,
-  public visitor<S_lpsrSchemeVarValAssoc>,
+  public visitor<S_lpsrVarValAssoc>,
+  public visitor<S_lpsrVarValsListAssoc>,
+  public visitor<S_lpsrSchemeVariable>,
 
   // header
 
@@ -47,14 +117,13 @@ class lpsr2LilypondTranslator :
   
   // score blocks
 
-  public visitor<S_lpsrParallelMusic>,
+  public visitor<S_lpsrParallelMusicBLock>,
 
   public visitor<S_lpsrScoreBlock>,
   public visitor<S_lpsrPartGroupBlock>,
   public visitor<S_lpsrPartBlock>,
   public visitor<S_lpsrStaffBlock>,
-//  public visitor<S_lpsrNewStaffBlock>, JMI
-//  public visitor<S_lpsrNewStaffgroupBlock>,
+
   public visitor<S_lpsrUseVoiceCommand>,
   public visitor<S_lpsrNewLyricsBlock>,
   public visitor<S_lpsrVariableUseCommand>,
@@ -156,6 +225,14 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrOrnament>,
   
+  // glissandos
+
+  public visitor<S_msrGlissando>,
+  
+  // slides
+
+  public visitor<S_msrSlide>,
+  
   // tremolos
 
   public visitor<S_msrSingleTremolo>,
@@ -229,9 +306,9 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrRepeatCommonPart>,
   public visitor<S_msrRepeatEnding>,
   
-  public visitor<S_msrMeasureRepeat>,
-  public visitor<S_msrMeasureRepeatPattern>,
-  public visitor<S_msrMeasureRepeatReplicas>,
+  public visitor<S_msrMeasuresRepeat>,
+  public visitor<S_msrMeasuresRepeatPattern>,
+  public visitor<S_msrMeasuresRepeatReplicas>,
   
   public visitor<S_msrMultipleRest>,
   public visitor<S_msrMultipleRestContents>,
@@ -265,11 +342,14 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrScore& elt);
     virtual void visitEnd   (S_lpsrScore& elt);
 
-    virtual void visitStart (S_lpsrLilypondVarValAssoc& elt);
-    virtual void visitEnd   (S_lpsrLilypondVarValAssoc& elt);
+    virtual void visitStart (S_lpsrVarValAssoc& elt);
+    virtual void visitEnd   (S_lpsrVarValAssoc& elt);
 
-    virtual void visitStart (S_lpsrSchemeVarValAssoc& elt);
-    virtual void visitEnd   (S_lpsrSchemeVarValAssoc& elt);
+    virtual void visitStart (S_lpsrVarValsListAssoc& elt);
+    virtual void visitEnd   (S_lpsrVarValsListAssoc& elt);
+
+    virtual void visitStart (S_lpsrSchemeVariable& elt);
+    virtual void visitEnd   (S_lpsrSchemeVariable& elt);
 
     virtual void visitStart (S_lpsrHeader& elt);
     virtual void visitEnd   (S_lpsrHeader& elt);
@@ -283,8 +363,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrScoreBlock& elt);
     virtual void visitEnd   (S_lpsrScoreBlock& elt);
 
-    virtual void visitStart (S_lpsrParallelMusic& elt);
-    virtual void visitEnd   (S_lpsrParallelMusic& elt);
+    virtual void visitStart (S_lpsrParallelMusicBLock& elt);
+    virtual void visitEnd   (S_lpsrParallelMusicBLock& elt);
 
     virtual void visitStart (S_lpsrPartGroupBlock& elt);
     virtual void visitEnd   (S_lpsrPartGroupBlock& elt);
@@ -295,12 +375,6 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrStaffBlock& elt);
     virtual void visitEnd   (S_lpsrStaffBlock& elt);
 
-//    virtual void visitStart (S_lpsrNewStaffgroupBlock& elt); JMI
-//    virtual void visitEnd   (S_lpsrNewStaffgroupBlock& elt);
-    
-//    virtual void visitStart (S_lpsrNewStaffBlock& elt);
-//    virtual void visitEnd   (S_lpsrNewStaffBlock& elt);
-    
     virtual void visitStart (S_lpsrUseVoiceCommand& elt);
     virtual void visitEnd   (S_lpsrUseVoiceCommand& elt);
   
@@ -412,6 +486,12 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrOrnament& elt);
     virtual void visitEnd   (S_msrOrnament& elt);
 
+    virtual void visitStart (S_msrGlissando& elt);
+    virtual void visitEnd   (S_msrGlissando& elt);
+
+    virtual void visitStart (S_msrSlide& elt);
+    virtual void visitEnd   (S_msrSlide& elt);
+
     virtual void visitStart (S_msrSingleTremolo& elt);
     virtual void visitEnd   (S_msrSingleTremolo& elt);
 
@@ -494,12 +574,12 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrRepeatEnding& elt);
     virtual void visitEnd   (S_msrRepeatEnding& elt);
 
-    virtual void visitStart (S_msrMeasureRepeat& elt);
-    virtual void visitEnd   (S_msrMeasureRepeat& elt);
-    virtual void visitStart (S_msrMeasureRepeatPattern& elt);
-    virtual void visitEnd   (S_msrMeasureRepeatPattern& elt);
-    virtual void visitStart (S_msrMeasureRepeatReplicas& elt);
-    virtual void visitEnd   (S_msrMeasureRepeatReplicas& elt);
+    virtual void visitStart (S_msrMeasuresRepeat& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeat& elt);
+    virtual void visitStart (S_msrMeasuresRepeatPattern& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeatPattern& elt);
+    virtual void visitStart (S_msrMeasuresRepeatReplicas& elt);
+    virtual void visitEnd   (S_msrMeasuresRepeatReplicas& elt);
     
     virtual void visitStart (S_msrMultipleRest& elt);
     virtual void visitEnd   (S_msrMultipleRest& elt);
@@ -511,6 +591,20 @@ class lpsr2LilypondTranslator :
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);
+
+    // variable-value associations
+
+    string                lpsrVarValAssocKindAsLilypondString (
+                            lpsrVarValAssoc::lpsrVarValAssocKind
+                              lilyPondVarValAssocKind);
+
+    string                lpsrVarValsListAssocKindAsLilypondString (
+                            lpsrVarValsListAssoc::lpsrVarValsListAssocKind
+                              lilyPondVarValsListAssocKind);
+
+    void                  writeLpsrVarValsListAssocValuesAsLilyPondString (
+                            S_lpsrVarValsListAssoc varValsListAssoc,
+                            ostream&               os);
 
     // whole notes
     // JMI
@@ -559,10 +653,10 @@ class lpsr2LilypondTranslator :
 
     msrDirectionKind      fCurrentArpeggioDirectionKind;
     
-    string                noteArticulationAsLilyponString (
+    void                  writeNoteArticulationAsLilyponString (
                             S_msrArticulation articulation);
 
-    string                chordArticulationAsLilyponString (
+    void                  writeChordArticulationAsLilyponString (
                             S_msrArticulation articulation);
 
     // technicals
@@ -580,6 +674,15 @@ class lpsr2LilypondTranslator :
     
     string                ornamentAsLilypondString (
                             S_msrOrnament ornament);
+
+    // trills
+
+    bool                  fOnGoingTrillSpanner;
+    
+    // spanners
+    
+    string                spannerAsLilypondString (
+                            S_msrSpanner spanner);
 
     // tremolos
     
@@ -672,8 +775,14 @@ class lpsr2LilypondTranslator :
     
     // repeats
     // ------------------------------------------------------
-    int                   fCurrentRepeatEndingsNumber;
+    list<S_msrRepeatDescr>
+                          fRepeatsDescrStack;
 
+    // multiple rest measures
+    // ------------------------------------------------------
+    int                   fRemainingMultipleRestMeasuresNumber;
+    bool                  fOnGoingMultipleRestMeasures;
+    
     // segments
     // ------------------------------------------------------
     // we need to handle nested msrSegment's to indent notes
@@ -697,7 +806,6 @@ class lpsr2LilypondTranslator :
 
     // double tremolos
     // ------------------------------------------------------
-    int                   fCurrentDoubleTremoloElementsLpsrDuration;
     
     // chords
     // ------------------------------------------------------
@@ -711,7 +819,7 @@ class lpsr2LilypondTranslator :
     // stanzas
     // ------------------------------------------------------
     S_msrStanza           fCurrentStanzaClone;
-    bool                  fOngoingNonEmptyStanza;
+    bool                  fGenerateCodeForOngoingNonEmptyStanza;
     
     // syllables
     // ------------------------------------------------------
@@ -720,6 +828,27 @@ class lpsr2LilypondTranslator :
     // score blocks
     // ------------------------------------------------------
     bool                  fOnGoingScoreBlock; // JMI
+
+    // parallel music
+    // ------------------------------------------------------
+    S_lpsrParallelMusicBLock
+                          fCurrentParallelMusicBLock;
+    int                   fNumberOfParallelMusicBLockPartGroupBlocks;
+    
+    // part group blocks
+    // ------------------------------------------------------
+    int                   fNumberOfPartGroupBlocks;
+    int                   fPartGroupBlocksCounter;
+
+    // part blocks
+    // ------------------------------------------------------
+    int                   fNumberOfPartGroupBlockElements;
+    int                   fPartGroupBlockElementsCounter;
+
+    // staff blocks
+    // ------------------------------------------------------
+    int                   fNumberOfStaffBlocks;
+    int                   fStaffBlocksCounter;
 };
 
 

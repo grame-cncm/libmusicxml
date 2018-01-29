@@ -19,32 +19,20 @@
 #endif
 
 #include <iostream>
-#include <map>
 
-#include "smartpointer.h"
-#include "rational.h"
+#include "exports.h"
+
+#include "utilities.h"
+
+#include "messagesHandling.h"
 
 #include "msrOptions.h"
 
 #include "msr.h"
-#include "exports.h"
 
 
 namespace MusicXML2 
 {
-
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
-
-/*!
-\addtogroup Converting MusicXML to MSR format
-
-The library includes a high level API to convert
-  from the MusicXML format to the MSR
-  (Music Score Representation) format.
-@{
-*/
 
 //______________________________________________________________________________
 EXP void populateMsrSkeletonFromMxmlTree (
@@ -64,9 +52,6 @@ EXP void displayMSRPopulatedScoreSummary (
   S_msrOptions&    msrOpts,
   S_msrScore       mScore,
   indentedOstream& logIOstream);
-
-
-/*! @} */
 
 
 } // namespace MusicXML2
