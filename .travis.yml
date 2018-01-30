@@ -40,7 +40,6 @@ branches:
   - master
 
 script: 
-    - cd cmake 
-    - cmake .
-    - make -j 2
+    - cd cmake && cmake .
+    - make -C cmake -j 2
 
