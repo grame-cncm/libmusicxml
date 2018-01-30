@@ -7,9 +7,9 @@ system	 := $(shell uname -s)
 version	 ?= $(shell cat libmusicxmlversion.txt)
 xmlfiles  = $(shell find ../files -name "*.xml")
 
-readout	:= $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
-gmnout	:= $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
-lilyout	:= $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
+readout	 := $(patsubst ../%.xml, $(version)/read/%.xml, $(xmlfiles))
+gmnout	 := $(patsubst ../%.xml, $(version)/gmn/%.gmn, $(xmlfiles))
+lilyout	 := $(patsubst ../%.xml, $(version)/lilypond/%.ly, $(xmlfiles))
 guidosvg := $(patsubst ../%.xml, $(version)/guidosvg/%.svg, $(xmlfiles))
 lilysvg  := $(patsubst ../%.xml, $(version)/lilysvg/%.svg, $(xmlfiles))
 
@@ -24,6 +24,7 @@ XML2LY    ?= xml2ly
 XMLREAD   ?= xmlread
 
 .PHONY: read guido
+.DELETE_ON_ERROR:
 
 all:
 	make read
@@ -100,31 +101,31 @@ validlily: $(validlily)
 # rules for xmlread
 $(version)/read/%.xml: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-$(XMLREAD) $<  > $@ || rm $@
+	$(XMLREAD) $<  > $@
 
 #########################################################################
 # rules for xml2guido
 $(version)/gmn/%.gmn: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-$(XML2GUIDO) $<  > $@ || rm $@
+	$(XML2GUIDO) $<  > $@
 
 #########################################################################
 # rules for guido2svg
 $(version)/guidosvg/%.svg: $(version)/gmn/%.gmn
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-guido2svg $<  > $@ || rm $@
+	guido2svg $<  > $@
 
 #########################################################################
 # rules for xml2ly
 $(version)/lilypond/%.ly: ../%.xml
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	-$(XML2LY) -q $< | grep -v "^% on ..* CET" > $@ || rm $@
+	$(XML2LY) -q $< | grep -v "^% on ..* CET" > $@
 
 #########################################################################
 # rules for lilypond with svg backend
 $(version)/lilysvg/%.svg: $(version)/gmn/%.gmn
 	@[ -d $(@D) ] || mkdir -p $(@D)
-	lilypond -dbackend=svg $<  > $@ || (rm $@; false)
+	lilypond -dbackend=svg $<  > $@
 
 #########################################################################
 # rules for xml output validation
