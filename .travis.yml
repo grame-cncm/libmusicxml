@@ -1,12 +1,29 @@
 os: linux
+sudo: required
 dist: Trusty
 language: cpp
 compiler: gcc
-    
+
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
 before_install:
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get -qq update
-  - sudo apt-get install -qq g++-5
+    - eval "${MATRIX_EVAL}"
+    
+#before_install:
+#  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+#  - sudo apt-get -qq update
+#  - sudo apt-get install -qq g++-5
 
 #addons:
 #  apt:
