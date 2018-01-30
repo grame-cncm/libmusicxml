@@ -4,15 +4,17 @@ language: cpp
 compiler: gcc
     
 before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get -qq update
+  - sudo apt-get install -qq g++-5
 
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-5
-    - g++-5
+#addons:
+#  apt:
+#    sources:
+#    - ubuntu-toolchain-r-test
+#    packages:
+#    - gcc-5
+#    - g++-5
 
 branches:
   only:
