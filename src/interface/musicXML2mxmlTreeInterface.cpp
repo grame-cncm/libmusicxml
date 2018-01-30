@@ -209,7 +209,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     }
 
     FILE    *flotDeLecture;
-    char    tampon [1024];
+ // JMI   char    tampon [1024];
 
     // create a stream to receive the result of shellCommand
     if ((flotDeLecture = popen (shellCommand.c_str (), "r")) < 0) {

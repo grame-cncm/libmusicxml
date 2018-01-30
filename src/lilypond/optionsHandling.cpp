@@ -4766,7 +4766,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         setIntegerItemVariableValue (
           integerValue);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
       }
     
     else if (
