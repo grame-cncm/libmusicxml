@@ -1,6 +1,5 @@
-os: linux
+dist: trusty
 sudo: required
-dist: Trusty
 language: cpp
 compiler: gcc
 
@@ -15,8 +14,7 @@ matrix:
           packages:
             - g++-4.9
       env:
-         - export CC=gcc-4.9
-         - export CXX=g++-4.9
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
 before_install:
     - eval "${MATRIX_EVAL}"
@@ -41,6 +39,8 @@ branches:
   - master
 
 script: 
+    - gcc-5 --version
+    - g++-5 --version
     - cd cmake 
     - cmake . 
     - make -j 2
