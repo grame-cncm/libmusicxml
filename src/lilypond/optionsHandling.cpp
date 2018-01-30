@@ -4787,7 +4787,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         setFloatItemVariableValue (
           floatValue);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
     
     else if (
@@ -4801,7 +4801,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         setStringItemVariableValue (
           theString);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
     
     else if (
@@ -4889,7 +4889,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         setRationalItemVariableValue (
           rationalValue);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
 
     else if (
@@ -4906,7 +4906,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
             theString, false) // 'true' to debug it
           );
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
     
     else if (
@@ -4954,7 +4954,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         setPitchesLanguageKindItemVariableValue (
           (*it).second);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
     
     else if (
@@ -5002,7 +5002,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         setAccidentalStyleKindItemVariableValue (
           (*it).second);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
     
     else if (
@@ -5049,7 +5049,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         setChordsLanguageKindItemVariableValue (
           (*it).second);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
     
     else if (
@@ -5144,7 +5144,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
             oldPartName, newPartName);
       }
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
 
     else if (
@@ -5224,7 +5224,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
             midiTempoDuration, midiTempoPerSecond));
       }
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
     }
   }
 
