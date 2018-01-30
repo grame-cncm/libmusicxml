@@ -13,6 +13,7 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <sstream>
 #include <iomanip>      // setw, setprecision, ...
+#include <math.h>
 
 #include "version.h"
 
