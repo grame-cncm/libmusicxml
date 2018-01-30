@@ -15,7 +15,8 @@ matrix:
           packages:
             - g++-4.9
       env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - export CC=gcc-4.9
+         - export CXX=g++-4.9
 
 before_install:
     - eval "${MATRIX_EVAL}"
@@ -40,6 +41,7 @@ branches:
   - master
 
 script: 
-    - cd cmake && cmake .
-    - make -C cmake -j 2
+    - cd cmake 
+    - cmake . 
+    - make -j 2
 
