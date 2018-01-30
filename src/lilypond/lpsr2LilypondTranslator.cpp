@@ -6646,9 +6646,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrDoubleTremolo& elt)
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-    
   // get double tremolo number of repeats
   int numberOfRepeats =
     elt->getDoubleTremoloNumberOfRepeats ();
@@ -9873,12 +9870,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMultipleRest& elt)
   rational
     multipleRestMeasureSoundingNotes =
       elt->getMultipleRestMeasureSoundingNotes ();
-
-  rational
-    denominatorAsFraction =
-      rational (
-        1,
-        multipleRestMeasureSoundingNotes.getDenominator ());
 
   // generate multiple measure rest
   fLilypondCodeIOstream <<

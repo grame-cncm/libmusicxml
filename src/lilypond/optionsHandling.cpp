@@ -4744,7 +4744,7 @@ void optionsHandler::handleOptionsItemValueOrArgument (
         fOptionsHandlerLogIOstream,
         theString);
 
-      fPendingOptionsItem = 0;
+      fPendingOptionsItem = nullptr;
       }
     
     else if (

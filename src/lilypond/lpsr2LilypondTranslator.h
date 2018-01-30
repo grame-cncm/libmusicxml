@@ -839,7 +839,6 @@ class lpsr2LilypondTranslator :
     // ------------------------------------------------------
     S_lpsrParallelMusicBLock
                           fCurrentParallelMusicBLock;
-    int                   fNumberOfParallelMusicBLockPartGroupBlocks;
     
     // part group blocks
     // ------------------------------------------------------

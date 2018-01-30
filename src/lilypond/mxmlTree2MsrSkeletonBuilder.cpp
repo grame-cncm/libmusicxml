@@ -1568,9 +1568,14 @@ R"(Please contact the maintainers of xml2ly (see '-c, -contact'):
     }
         
     if (gTraceOptions->fTracePartGroupsDetails) {
+      stringstream s;
+
+      s <<
+        "AT position " << k;
+        
       showPartGroupsData (
         inputLineNumber,
-        "AT position " + k);
+        s.str ());
     }
   
   } // for
@@ -2708,7 +2713,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staff& elt)
 
     s <<
       "staff number " << fCurrentStaffNumber <<
-      " is not positive";
+      " is not positive" <<
+      ", line " << inputLineNumber;
       
     msrAssert (false, s.str ());
   }

@@ -523,7 +523,6 @@ class msr2LpsrTranslator :
     // ------------------------------------------------------    
     bool                      fOnGoingHarmonyVoice;
     
-    int                       fHarmonyVoicesCounter;
     list<S_msrHarmony>        fPendingHarmoniesList;
 
     // figured bass
@@ -533,12 +532,10 @@ class msr2LpsrTranslator :
     
     // repeats
     // ------------------------------------------------------
-// JMI    S_msrRepeat               fCurrentRepeatClone;
+
     bool                      fOnGoingRepeat;
     S_msrRepeatCommonPart     fCurrentRepeatCommonPartClone;
     S_msrRepeatEnding         fCurrentRepeatEndingClone;
-    int                       fCurrentRepeatEndingsNumber;
- //   S_lpsrRepeatalternative fCurrentLpsrRepeatalternative; // JMI
 
     // measure repeats
     // ------------------------------------------------------

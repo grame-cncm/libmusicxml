@@ -529,15 +529,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_comment& elt )
         elt->getInputLineNumber (),
         elt->getValue ());
 
-  fLogOutputStream <<
-    "S_comment -------------->" <<
-    endl;
-//  elt->print (fLogOutputStream);
-  fLogOutputStream <<
-    endl <<
-    comment <<
-    endl;
-
   // append it to the current part it it already exists
   if (fCurrentPart) {
     fCurrentPart->
@@ -2023,7 +2014,9 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
   int inputLineNumber)
 {
   // key fifths number
-  msrQuarterTonesPitchKind keyTonicPitchKind;
+  msrQuarterTonesPitchKind
+    keyTonicPitchKind =
+      k_NoQuarterTonesPitch;
   
   switch (fCurrentKeyFifths) {
     case 0:
@@ -2099,7 +2092,7 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
       keyTonicPitchKind = k_aDoubleFlat;
       break;
       
-    default: // unknown key sign !!
+    default: // unknown key sign!!
       {
       stringstream s;
       
@@ -10834,7 +10827,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
   string accidentalMark = elt->getValue ();
 
   msrAlterationKind
-    currentOrnamentAccidentalMark;
+    currentOrnamentAccidentalMark =
+      k_NoAlteration;
     
   if      (accidentalMark == "double-flat")
     currentOrnamentAccidentalMark = kDoubleFlat;
@@ -14836,9 +14830,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
 
   // handling the current pending harmonies if any,
   // so that they get attached to the note right now
-  if (fPendingHarmoniesList.size ()) {
-    int harmoniesCounter = 0;
-    
+  if (fPendingHarmoniesList.size ()) {    
     while (fPendingHarmoniesList.size ()) {
       S_msrHarmony
         harmony =

@@ -2490,7 +2490,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
   msrDiatonicPitchKind diatonicPitchKind,
   msrAlterationKind    alterationKind)
 {
-  msrQuarterTonesPitchKind result;
+  msrQuarterTonesPitchKind
+    result =
+      k_NoQuarterTonesPitch;
   
   switch (diatonicPitchKind) {
     case kA:
@@ -3318,7 +3320,7 @@ string msrFontSize::fontSizeAsString () const
 
 float msrFontSize::getFontNumericSize ()
 {
-  float result;
+  float result = 12; // JMI
   
   switch (fFontSizeKind) {
     case msrFontSize::k_NoFontSize:

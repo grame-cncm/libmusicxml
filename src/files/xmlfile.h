@@ -34,6 +34,8 @@ class EXP TXMLDecl {
             : fVersion(version), fEncoding(encoding), fStandalone(stdalone) {}
     virtual ~TXMLDecl() {}
 
+    void setEncoding (std::string encoding) { fEncoding = encoding; }
+    
     std::string getVersion () { return fVersion; }
     std::string getEncoding () { return fEncoding; }
     int     getStandalone () { return fStandalone; }

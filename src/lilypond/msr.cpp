@@ -25698,6 +25698,8 @@ void msrVoice::appendOtherElementToVoice (S_msrElement elem) {
 S_msrMeasure msrVoice::fetchVoiceLastMeasure (
   int inputLineNumber) const
 {
+  S_msrMeasure result;
+  
   msrAssert (
     fVoiceLastSegment != 0,
     "fVoiceLastSegment is null");
@@ -25707,7 +25709,7 @@ S_msrMeasure msrVoice::fetchVoiceLastMeasure (
       fVoiceLastSegment->getSegmentMeasuresList ();
       
   if (lastSegmentMeasuresList.size ()) {
-    return lastSegmentMeasuresList.back ();
+    result = lastSegmentMeasuresList.back ();
   }
   else {
     stringstream s;
@@ -25721,11 +25723,15 @@ S_msrMeasure msrVoice::fetchVoiceLastMeasure (
       __FILE__, __LINE__,
       s.str ());
   }
+
+  return result;
 }
 
 S_msrElement msrVoice::fetchVoiceLastElement (
   int inputLineNumber) const
 {
+  S_msrElement result;
+  
   S_msrMeasure
     lastMeasure =
       fetchVoiceLastMeasure (inputLineNumber);
@@ -25735,8 +25741,9 @@ S_msrElement msrVoice::fetchVoiceLastElement (
       lastMeasure->getMeasureElementsList ();
       
   if (lastMeasureElementsList.size ()) {
-    return lastMeasureElementsList.back ();
+    result = lastMeasureElementsList.back ();
   }
+  
   else {
     stringstream s;
 
@@ -25749,6 +25756,8 @@ S_msrElement msrVoice::fetchVoiceLastElement (
       __FILE__, __LINE__,
       s.str ());
   }
+
+  return result;
 }
 
 void msrVoice::prepareForRepeatInVoice (
@@ -27200,13 +27209,13 @@ void msrVoice::appendPendingMultipleRestToVoice (
             s.str ());
         }
 
+        /* JMI
         // fetch the last segment's measure list
         list<S_msrMeasure>&
           voiceLastSegmentMeasureList =
             fVoiceLastSegment->
               getSegmentMeasuresListToModify ();
        
-        /* JMI
         // grab the just created last measure in the last segment's measure list,
         // which is the next measure after the multiple rest
         if (! voiceLastSegmentMeasureList.size ()) {
@@ -30267,7 +30276,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
   }
 
   // set staff transpose
-  bool doAppendTransposeToStaff; // JMI
+  bool doAppendTransposeToStaff = true;
   
   if (! fStaffCurrentTranspose) {
     doAppendTransposeToStaff = true;
