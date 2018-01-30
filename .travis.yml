@@ -6,6 +6,14 @@ compiler: gcc
 before_install:
   - sudo apt-get -qq update
 
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-5
+    - g++-5
+
 branches:
   only:
   - dev
@@ -13,9 +21,7 @@ branches:
   - master
 
 script: 
-    - g++ --version
-    - gcc --version
     - cd cmake 
     - cmake .
-    - make
+    - make -j 2
 
