@@ -4126,6 +4126,32 @@ void lpsr2LilypondTranslator::visitEnd (S_msrScore& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrComment& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrComment" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
+    "%{" <<
+    endl;
+
+  gIndenter++;
+  
+  fLilypondCodeIOstream <<
+    elt->getCommentText () <<
+    endl;
+    
+  gIndenter--;
+
+  fLilypondCodeIOstream <<
+    "%}" <<
+    endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrCredit& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {

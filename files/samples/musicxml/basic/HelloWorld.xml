@@ -3,6 +3,7 @@
     "-//Recordare//DTD MusicXML 3.0 Partwise//EN"
     "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.0">
+  <!-- A very minimal MusicXML example -->
   <part-list>
     <score-part id="P1">
       <part-name>Music</part-name>
@@ -10,6 +11,7 @@
   </part-list>
   <part id="P1">
     <measure number="1">
+  <!-- A very minimal MusicXML example, part P1, measure 1 -->
       <attributes>
         <divisions>1</divisions>
         <key>
@@ -24,6 +26,7 @@
           <line>2</line>
         </clef>
       </attributes>
+  <!-- A very minimal MusicXML example, part P1, measure 1, before first note -->
       <note>
         <pitch>
           <step>C</step>

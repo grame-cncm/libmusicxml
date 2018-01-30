@@ -24,6 +24,26 @@
 namespace MusicXML2 
 {
 
+// beat data
+//______________________________________________________________________________
+class msrBeatData
+{
+  public:
+  
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+ 
+  public:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fBeatUnit;
+    int                   fDots;
+};
+
 // diatonic pitches
 //______________________________________________________________________________
 enum msrDiatonicPitchKind {

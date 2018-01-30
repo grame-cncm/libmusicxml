@@ -232,6 +232,65 @@ template <typename T> class msrBrowser : public browser<T>
 };
 
 //______________________________________________________________________________
+class msrComment : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrComment> create (
+      int    inputLineNumber,
+      string commentText);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrComment (
+      int    inputLineNumber,
+      string commentText);
+      
+    virtual ~msrComment ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getCommentText () const
+                              { return fCommentText; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                commentAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fCommentText;
+};
+typedef SMARTP<msrComment> S_msrComment;
+EXP ostream& operator<< (ostream& os, const S_msrComment& elt);
+
+//______________________________________________________________________________
 class msrPolyphony : public smartable
 {
   public:
@@ -251,25 +310,6 @@ class msrPolyphony : public smartable
 
     // what happens to the voices
     list<S_msrVoice>      fPolyphonyVoiceActivities;
-};
-
-//______________________________________________________________________________
-class msrBeatData // JMI ???
-{
-  public:
-  
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
- 
-  public:
-  
-    // fields
-    // ------------------------------------------------------
-
-    string fBeatUnit;
-    int    fDots;
 };
 
 //______________________________________________________________________________
@@ -306,7 +346,7 @@ class msrOctaveShift : public msrElement
       msrOctaveShiftKind octaveShiftKind,
       int                octaveShiftSize);
       
-    virtual ~msrOctaveShift();
+    virtual ~msrOctaveShift ();
   
   public:
 
@@ -3322,6 +3362,10 @@ class msrMeasure : public msrElement
                             int      inputLineNumber,
                             rational measureLength);
 
+    // comments
+
+    void                  appendCommentToMeasure (S_msrComment comment);
+    
     // measure kind
     
     string                measureKindAsString () const;
@@ -3687,6 +3731,10 @@ class msrSegment : public msrElement
                             int    inputLineNumber,
                             string measureNumber);
 
+    // comments
+
+    void                  appendCommentToSegment (S_msrComment comment);
+    
     // clef, key, time
     
     void                  appendClefToSegment (S_msrClef clef);
@@ -9474,6 +9522,10 @@ class msrVoice : public msrElement
                             int      inputLineNumber,
                             rational measureLength);
   
+    // comments
+
+    void                  appendCommentToVoice (S_msrComment comment);
+    
     // clef, key, time
     
     void                  appendClefToVoice (S_msrClef clef);
@@ -10277,6 +10329,10 @@ class msrStaff : public msrElement
                             int      inputLineNumber,
                             rational measureLength);
   
+    // comments
+
+    void                  appendCommentToStaff (S_msrComment comment);
+    
     // clef, key, time
 
     void                  appendClefToStaff (S_msrClef clef);
@@ -10764,10 +10820,6 @@ class msrPart : public msrElement
     S_msrStaff            getPartHarmonyStaff () const
                               { return fPartHarmonyStaff; }
                  
-    void                  appendHarmonyVoiceCloneToPartCloneIfNotYetDone (
-                            int        inputLineNumber,
-                            S_msrVoice harmonyVoiceClone);
-
     void                  setPartHarmoniesSupplierVoice (
                             int        inputLineNumber,
                             S_msrVoice partHarmoniesSupplierVoice);
@@ -10805,6 +10857,10 @@ class msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
+    // comments
+
+    void                  appendCommentToPart (S_msrComment comment);
+    
     // measures
 
     void                  bringPartToMeasureLength (
@@ -10839,6 +10895,10 @@ class msrPart : public msrElement
                             int inputLineNumber,
                             int harmonyVoiceNumber);
         
+    void                  appendHarmonyVoiceCloneToPartCloneIfNotYetDone (
+                            int        inputLineNumber,
+                            S_msrVoice harmonyVoiceClone);
+
     // figured bass staff and voice
     
     void                  createPartFiguredStaffAndVoiceIfNotYetDone ( // JMI ???

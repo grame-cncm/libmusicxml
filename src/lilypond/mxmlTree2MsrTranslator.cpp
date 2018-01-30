@@ -514,6 +514,55 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_comment& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_comment" <<
+      endl;
+  }
+
+  // create the comment
+  S_msrComment
+    comment =
+      msrComment::create (
+        elt->getInputLineNumber (),
+        elt->getValue ());
+
+  fLogOutputStream <<
+    "S_comment -------------->" <<
+    endl;
+//  elt->print (fLogOutputStream);
+  fLogOutputStream <<
+    endl <<
+    comment <<
+    endl;
+
+  // append it to the current part it it already exists
+  if (fCurrentPart) {
+    fCurrentPart->
+      appendCommentToPart (comment);
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_processing_instruction& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_processing_instruction" <<
+      endl;
+  }
+
+  fLogOutputStream <<
+    "S_processing_instruction -------------->" <<
+    endl;
+//  elt->print (fLogOutputStream);
+  fLogOutputStream <<
+    endl;
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitEnd ( S_score_partwise& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
