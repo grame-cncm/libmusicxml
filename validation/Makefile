@@ -43,8 +43,8 @@ help:
 	@echo " 'lily'     : converts the set of xml files to lilypond"
 	@echo " 'guidosvg' : converts the output of guido target to svg"
 	@echo " 'lilysvg'  : converts the output of lily target to svg"
-	@echo "Output files are written to a VERSION folder, "
-	@echo "where VERSION is taken from the libmusicxmlversion.txt file"
+	@echo "Output files are written to the $(VERSION) folder, "
+	@echo "where $(VERSION) is taken from the libmusicxmlversion.txt file"
 	@echo " 'validate VERSION=another_version': compares the current version output (xml and gmn files) with the one in VERSION folder (on Windows, Firefox has to be installed (and opened) in C:/Program Files (x86)/Mozilla Firefox/firefox, otherwise please change Makefile)"
 
 #########################################################################
