@@ -121,10 +121,10 @@ pwd
 ls -sal $PWD/libmusicxml2*
 echo
 
-echo '--> xml2lilypond'
+echo '--> xml2ly'
 echo
 pwd
-ls -sal $PWD/xml2lilypond
+ls -sal $PWD/xml2ly
 echo
 
 #if [ 1 -eq 1 ]; then
