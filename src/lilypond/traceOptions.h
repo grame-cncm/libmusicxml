@@ -71,9 +71,11 @@ class traceOptions : public optionsGroup
     set<int>              fTraceDetailedMeasureNumbersSet;
 
 
+    // encoding
+    bool                  fTraceEncoding;
+
     // divisions
     bool                  fTraceDivisions;
-
 
     // geometry
     bool                  fTraceGeometry;

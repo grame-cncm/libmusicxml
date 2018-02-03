@@ -127,6 +127,9 @@ debugging information to standard error for the specified measures.)",
   {
     // variables  
   
+    // encoding
+    fTraceEncoding = boolOptionsInitialValue;
+
     // divisions
     fTraceDivisions = boolOptionsInitialValue;
   
@@ -254,6 +257,15 @@ R"(Note: the options in this group imply '-t, -traceTrace'.)",
   
     appendOptionsSubGroup (specificTraceSubGroup);
 
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tenc", "traceEncoding",
+R"(Encoding)",
+          "traceEncoding",
+          fTraceEncoding,
+          fTraceBasic));
+      
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
@@ -663,6 +675,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   // specific trace
   // --------------------------------------
 
+    // encoding
+  clone->fTraceEncoding = true;
+
   // divisions
   clone->fTraceDivisions = true;
 
@@ -876,6 +891,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter++;
 
   gLogIOstream << left <<
+    // fTraceEncoding
+    setw (fieldWidth) << "traceEncoding" << " : " <<
+    booleanAsString (fTraceEncoding) <<
+    endl <<
+      
     // divisions
     setw (fieldWidth) << "traceDivisions" << " : " <<
     booleanAsString (fTraceDivisions) <<

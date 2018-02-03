@@ -141,40 +141,51 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     return Sxmlelement (0);
   }
 
-  if (false) { // JMI
+  if (gTraceOptions->fTraceEncoding) {
     gLogIOstream <<
-      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      endl <<
+      "!!!!! xmlFile contents from file:" <<
+      endl <<
       endl;
       
     xmlFile->print (gLogIOstream);
 
     gLogIOstream <<
+      endl <<
       endl;
   }
   
   // get the xmlDecl
   TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
   
-  if (false) { // JMI
+  if (gTraceOptions->fTraceEncoding) {
     gLogIOstream <<
-      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
-      "getXMLDecl =" <<
+      endl <<
+      "!!!!! xmlDecl contents from file:" <<
+      endl <<
       endl;
     xmlDecl->print (gLogIOstream);
   }
-  displayXMLDeclaration (xmlDecl);
+
+  if (gTraceOptions->fTraceEncoding) {
+    displayXMLDeclaration (xmlDecl);
+  }
   
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
-  if (false) { // JMI
+  if (gTraceOptions->fTraceEncoding) {
     gLogIOstream <<
-      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
-      "getDocType =" <<
+      endl <<
+      "!!!!! docType from file:" <<
+      endl <<
       endl;
     docType->print (gLogIOstream);
   }
-  displayDocumentType (docType);
+
+  if (gTraceOptions->fTraceEncoding) {
+    displayDocumentType (docType);
+  }
 
   // get the encoding type
   string encoding = xmlDecl->getEncoding ();
@@ -197,7 +208,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
   else {
     gLogIOstream <<
-      "Converting MusicXML data from \"" <<
+      "Converting file MusicXML data from \"" <<
       encoding <<
       "\" to " <<
       desiredEncoding <<
@@ -208,6 +219,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     stringstream s;
 
     s <<
+/* JMI
       "sed 's/" <<
       encoding <<
       "/" <<
@@ -215,10 +227,11 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "/' " <<
       fileName <<
       " | " <<
+*/
       "iconv" <<
       " -f " << encoding <<
       " -t " << desiredEncoding <<
-      " -";
+      " " << fileName ;
 
     string shellCommand = s.str ();
               
@@ -299,15 +312,19 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       endl;
   }
 
+  // read the input MusicXML data
   xmlreader r;
   
   SXMLFile xmlFile = r.read (fd);
-  if (! xmlFile)
-    return Sxmlelement (0);
 
-  if (false) { // JMI
+  // has there been a problem?
+  if (! xmlFile) {
+    return Sxmlelement (0);
+  }
+
+  if (gTraceOptions->fTraceEncoding) {
     gLogIOstream <<
-      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+      "!!!!! xmlFile contents from stream:" <<
       endl;
     xmlFile->print (gLogIOstream);
     gLogIOstream <<
@@ -317,26 +334,34 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   // get the xmlDecl
   TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
   
-  if (false) { // JMI
+  if (gTraceOptions->fTraceEncoding) {
     gLogIOstream <<
-      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
-      "getXMLDecl =" <<
+      endl <<
+      "xmlDecl contents:" <<
+      endl <<
       endl;
     xmlDecl->print (gLogIOstream);
   }
-  displayXMLDeclaration (xmlDecl);
+
+  if (gTraceOptions->fTraceEncoding) {
+    displayXMLDeclaration (xmlDecl);
+  }
 
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
-  if (false) { // JMI
+  if (gTraceOptions->fTraceEncoding) {
     gLogIOstream <<
-      "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
-      "getDocType =" <<
+      endl <<
+      "!!!!! docType from stream:" <<
+      endl <<
       endl;
     docType->print (gLogIOstream);
   }
-  displayDocumentType (docType);
+
+  if (gTraceOptions->fTraceEncoding) {
+    displayDocumentType (docType);
+  }
   
   // get the encoding type
   string encoding = xmlDecl->getEncoding ();
@@ -354,7 +379,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
   else {
     gLogIOstream <<
-      "Converting MusicXML data from \"" <<
+      "Converting stream MusicXML data from \"" <<
       encoding <<
       "\" to \"" <<
       desiredEncoding <<
