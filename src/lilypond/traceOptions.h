@@ -63,9 +63,7 @@ class traceOptions : public optionsGroup
 
   public:
 
-    // trace and display
-    // --------------------------------------
-  
+    // trace and display  
     bool                  fTraceBasic;
     
     bool                  fDisplayOptionsValues;

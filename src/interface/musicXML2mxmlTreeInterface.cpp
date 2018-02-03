@@ -25,6 +25,7 @@
 #include "xmlfile.h"
 #include "xmlreader.h"
 
+#include "generalOptions.h"
 #include "traceOptions.h"
 #include "musicXMLOptions.h"
 
@@ -39,6 +40,72 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+//_______________________________________________________________________________
+void displayXMLDeclaration (
+  TXMLDecl *xmlDeclaration)
+{
+  string xmlVersion    = xmlDeclaration->getVersion ();
+  string xmlEncoding   = xmlDeclaration->getEncoding ();
+  int    xmlStandalone = xmlDeclaration->getStandalone ();
+
+  const int fieldWidth = 14;
+  
+  gLogIOstream <<
+    "XML Declaration:" <<
+    endl;
+
+  gIndenter++;
+  
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "xmlVersion" << " = \"" << xmlVersion << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "xmlEncoding" << " = \"" << xmlEncoding << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "xmlStandalone" << " = \"" << xmlStandalone << "\"" <<
+    endl <<
+    endl;
+
+  gIndenter--;
+}
+
+//_______________________________________________________________________________
+void displayDocumentType (
+  TDocType *documentType)
+{
+  const int fieldWidth = 16;
+
+  gLogIOstream <<
+    "Document Type:" <<
+    endl;
+
+  gIndenter++;
+
+  std::string xmlStartElement = documentType->getStartElement ();
+  bool        xmlPublic       = documentType->getPublic ();
+  std::string xmlPubLitteral  = documentType->getPubLitteral ();
+  std::string xmlSysLitteral  = documentType->getSysLitteral ();
+
+  gLogIOstream << left <<
+    setw (fieldWidth) <<
+    "xmlStartElement" << " = \"" << xmlStartElement << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "xmlPublic" << " = \"" << xmlPublic << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "xmlPubLitteral" << " = \"" << xmlPubLitteral << "\"" <<
+    endl  <<
+    setw (fieldWidth) <<
+    "xmlSysLitteral" << " = \"" << xmlSysLitteral << "\"" <<
+    endl <<
+    endl;
+    
+  gIndenter--;
+}
 
 //_______________________________________________________________________________
 EXP Sxmlelement musicXMLFile2mxmlTree (
@@ -64,11 +131,15 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl;
   }
 
+  // read the input MusicXML data
   xmlreader r;
   
   SXMLFile xmlFile = r.read (fileName);
-  if (! xmlFile)
+
+  // has there been a problem?
+  if (! xmlFile) {
     return Sxmlelement (0);
+  }
 
   if (false) { // JMI
     gLogIOstream <<
@@ -91,33 +162,8 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl;
     xmlDecl->print (gLogIOstream);
   }
+  displayXMLDeclaration (xmlDecl);
   
-  string fXMLVersion = xmlDecl->getVersion ();
-  string fXMLEncoding = xmlDecl->getEncoding ();
-  int     fXMLStandalone = xmlDecl->getStandalone ();
-
-  const int fieldWidth = 17;
-  
-  gLogIOstream <<
-    "XML Declaration:" <<
-    endl;
-
-  gIndenter++;
-  
-  gLogIOstream << left <<
-    setw (fieldWidth) <<
-    "fXMLVersion" << " = \"" << fXMLVersion << "\"" <<
-    endl <<
-    setw (fieldWidth) <<
-    "fXMLEncoding" << " = \"" << fXMLEncoding << "\"" <<
-    endl  <<
-    setw (fieldWidth) <<
-    "fXMLStandalone" << " = \"" << fXMLStandalone << "\"" <<
-    endl <<
-    endl;
-
-  gIndenter--;
-
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
@@ -128,44 +174,31 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl;
     docType->print (gLogIOstream);
   }
+  displayDocumentType (docType);
 
-  gLogIOstream <<
-    "Document Type:" <<
-    endl;
+  // get the encoding type
+  string encoding = xmlDecl->getEncoding ();
 
-  gIndenter++;
-  
-  std::string fXMLStartElement = docType->getStartElement ();
-  bool    fXMLPublic = docType->getPublic ();
-  std::string fXMLPubLitteral = docType->getPubLitteral ();
-  std::string fXMLSysLitteral = docType->getSysLitteral ();
-
-  gLogIOstream << left <<
-    setw (fieldWidth) <<
-    "fXMLStartElement" << " = \"" << fXMLStartElement << "\"" <<
-    endl <<
-    setw (fieldWidth) <<
-    "fXMLPublic" << " = \"" << fXMLPublic << "\"" <<
-    endl  <<
-    setw (fieldWidth) <<
-    "fXMLPubLitteral" << " = \"" << fXMLPubLitteral << "\"" <<
-    endl  <<
-    setw (fieldWidth) <<
-    "fXMLSysLitteral" << " = \"" << fXMLSysLitteral << "\"" <<
-    endl <<
-    endl;
-    
-  gIndenter--;
-
+  // build the xmlelement tree
   Sxmlelement mxmlTree;
     
   // should the encoding be converted to UTF-8?
   string desiredEncoding = "UTF-8";
   
-  if (fXMLEncoding != desiredEncoding) {
+  if (encoding == desiredEncoding) {
+    gLogIOstream <<
+      "MusicXML data uses \"" <<
+      desiredEncoding <<
+      "\" encoding" <<
+      endl;
+
+    mxmlTree = xmlFile->elements ();
+  }
+
+  else {
     gLogIOstream <<
       "Converting MusicXML data from \"" <<
-      fXMLEncoding <<
+      encoding <<
       "\" to " <<
       desiredEncoding <<
       "\"" <<
@@ -176,14 +209,14 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
     s <<
       "sed 's/" <<
-      fXMLEncoding <<
+      encoding <<
       "/" <<
       desiredEncoding <<
       "/' " <<
       fileName <<
       " | " <<
       "iconv" <<
-      " -f " << fXMLEncoding <<
+      " -f " << encoding <<
       " -t " << desiredEncoding <<
       " -";
 
@@ -208,11 +241,11 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
         endl;
     }
 
-    FILE    *flotDeLecture;
- // JMI   char    tampon [1024];
+    FILE *inputStream =
+      popen (shellCommand.c_str (), "r");
 
     // create a stream to receive the result of shellCommand
-    if ((flotDeLecture = popen (shellCommand.c_str (), "r")) < 0) {
+    if (inputStream == nullptr) {
       msrInternalError (
         gXml2lyOptions->fInputSourceName,
         0, // inputLineNumber
@@ -222,38 +255,12 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
     mxmlTree =
       musicXMLFd2mxmlTree (
-        flotDeLecture,
+        inputStream,
         mxmlOpts,
         logIOstream);
 
-      /*
-    // read from the stream
-    int numeroDeLigne = 0;
-    while (
-      ! feof (flotDeLecture)
-        &&
-      ! ferror (flotDeLecture)
-        &&
-      fgets (tampon, sizeof (tampon), flotDeLecture) != NULL
-      ) {
-      fputs (tampon, stdout);
-    } // while
-    tampon [strlen (tampon) -1] = '\0'; // removing trailing end of line
-  
-    // close the stream
-    if (pclose (flotDeLecture) < 0) {
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        0, // inputLineNumber
-        __FILE__, __LINE__,
-        "Cannot close the input stream after 'popen ()'");
-    }
-*/
-
-  }
-
-  else {
-    mxmlTree = xmlFile->elements ();
+    // register encoding as the desired one after re-reading the file
+    xmlDecl->setEncoding (desiredEncoding);
   }
     
   clock_t endClock = clock ();
@@ -302,15 +309,13 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     gLogIOstream <<
       "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<
       endl;
-      
     xmlFile->print (gLogIOstream);
-
     gLogIOstream <<
       endl;
   }
   
   // get the xmlDecl
-  TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
+  TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
   
   if (false) { // JMI
     gLogIOstream <<
@@ -319,32 +324,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       endl;
     xmlDecl->print (gLogIOstream);
   }
-  
-  string fXMLVersion = xmlDecl->getVersion ();
-  string fXMLEncoding = xmlDecl->getEncoding ();
-  int     fXMLStandalone = xmlDecl->getStandalone ();
-
-  const int fieldWidth = 17;
-  
-  gLogIOstream <<
-    "XML Declaration:" <<
-    endl;
-
-  gIndenter++;
-  
-  gLogIOstream << left <<
-    setw (fieldWidth) <<
-    "fXMLVersion" << " = \"" << fXMLVersion << "\"" <<
-    endl <<
-    setw (fieldWidth) <<
-    "fXMLEncoding" << " = \"" << fXMLEncoding << "\"" <<
-    endl  <<
-    setw (fieldWidth) <<
-    "fXMLStandalone" << " = \"" << fXMLStandalone << "\"" <<
-    endl <<
-    endl;
-
-  gIndenter--;
+  displayXMLDeclaration (xmlDecl);
 
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
@@ -356,42 +336,26 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       endl;
     docType->print (gLogIOstream);
   }
-
-  gLogIOstream <<
-    "Document Type:" <<
-    endl;
-
-  gIndenter++;
+  displayDocumentType (docType);
   
-  std::string fXMLStartElement = docType->getStartElement ();
-  bool    fXMLPublic = docType->getPublic ();
-  std::string fXMLPubLitteral = docType->getPubLitteral ();
-  std::string fXMLSysLitteral = docType->getSysLitteral ();
-
-  gLogIOstream << left <<
-    setw (fieldWidth) <<
-    "fXMLStartElement" << " = \"" << fXMLStartElement << "\"" <<
-    endl <<
-    setw (fieldWidth) <<
-    "fXMLPublic" << " = \"" << fXMLPublic << "\"" <<
-    endl  <<
-    setw (fieldWidth) <<
-    "fXMLPubLitteral" << " = \"" << fXMLPubLitteral << "\"" <<
-    endl  <<
-    setw (fieldWidth) <<
-    "fXMLSysLitteral" << " = \"" << fXMLSysLitteral << "\"" <<
-    endl <<
-    endl;
-    
-  gIndenter--;
+  // get the encoding type
+  string encoding = xmlDecl->getEncoding ();
 
   // should the encoding be converted to UTF-8?
   string desiredEncoding = "UTF-8";
   
-  if (fXMLEncoding != desiredEncoding) {
+  if (encoding == desiredEncoding) {
+    gLogIOstream <<
+      "MusicXML data uses \"" <<
+      desiredEncoding <<
+      "\" encoding" <<
+      endl;
+  }
+
+  else {
     gLogIOstream <<
       "Converting MusicXML data from \"" <<
-      fXMLEncoding <<
+      encoding <<
       "\" to \"" <<
       desiredEncoding <<
       "\"" <<
@@ -401,7 +365,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     https://jineshkj.wordpress.com/2006/12/22/how-to-capture-stdin-stdout-and-stderr-of-child-program/
     */
     
-    // set the desired encoding
+    // register encoding as the desired one prior to printing
     xmlDecl->setEncoding (desiredEncoding);
 
     // build shell command
@@ -409,7 +373,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
     s <<
       "iconv" <<
-      " -f " << fXMLEncoding <<
+      " -f " << encoding <<
       " -t " << desiredEncoding <<
       " -";
 
@@ -437,39 +401,94 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     int outfd [2];
     int infd  [2];
     
-    pipe (outfd); // Where the parent is going to write to
-    pipe (infd); // From where parent is going to read
+    pipe (outfd); // where the parent is going to write to
+    pipe (infd);  // from where parent is going to read
     
-    if (! fork ()) {
-      close(STDOUT_FILENO);
-      close(STDIN_FILENO);
-      
-      dup2 (outfd [0], STDIN_FILENO);
-      dup2 (infd  [1], STDOUT_FILENO);
-      
-      close (outfd [0]); // Not required for the child
-      close (outfd [1]);
-      close (infd  [0]);
-      close (infd  [1]);
-      
-      system ("iconv -f ISO-8859-1 -t UTF-8 -");
-    }
+    pid_t   idProcess;
     
-    else {
-      char input [100];
-      
-      close (outfd [0]); // These are being used by the child
-      close (infd  [1]);
-      
-      write (outfd [1], "2^32\n", 5); // Write to child’s stdin
-      
-      input [read (infd [0], input, 100)] = 0; // Read from child’s stdout
-      
-      printf ("%s", input);
-      
-      close (outfd [1]);
-      close (infd  [0]);
+    switch (idProcess = fork ())
+      {
+      case -1:
+        if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+          gLogIOstream <<
+            endl <<
+            "'fork ()' failed" <<
+            endl <<
+            /* JMI
+            inputSourceName << ":" << inputLineNumber << ": " <<message <<
+            endl <<
+            baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+            */
+            endl;
+        }
+        
+        abort ();
+        break;
+  
+      case 0:
+        {
+          // child process only
+          close(STDOUT_FILENO);
+          close(STDIN_FILENO);
+          
+          dup2 (outfd [0], STDIN_FILENO);
+          dup2 (infd  [1], STDOUT_FILENO);
+          
+          close (outfd [0]); // not required for the child
+          close (outfd [1]);
+          close (infd  [0]);
+          close (infd  [1]);
+          
+          system ("iconv -f ISO-8859-1 -t UTF-8 -");
+        }
+        break;
+  
+      default:
+        {
+          // parent process only
+          char input [100];
+          
+          close (outfd [0]); // these are being used by the child
+          close (infd  [1]);
+          
+          write (outfd [1], "2^32\n", 5); // write to child’s stdin
+          
+          input [read (infd [0], input, 100)] = 0; // read from child’s stdout
+          
+          printf ("%s", input);
+          
+          close (outfd [1]);
+          close (infd  [0]);
+        }
+        break;
+      } // switch
+  
+  
+    // both parent and child processses
+
+      /*
+    // read from the stream
+    int numeroDeLigne = 0;
+    while (
+      ! feof (inputStream)
+        &&
+      ! ferror (inputStream)
+        &&
+      fgets (tampon, sizeof (tampon), inputStream) != NULL
+      ) {
+      fputs (tampon, stdout);
+    } // while
+    tampon [strlen (tampon) -1] = '\0'; // removing trailing end of line
+  
+    // close the stream
+    if (pclose (inputStream) < 0) {
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        0, // inputLineNumber
+        __FILE__, __LINE__,
+        "Cannot close the input stream after 'popen ()'");
     }
+*/
   }
 
 
