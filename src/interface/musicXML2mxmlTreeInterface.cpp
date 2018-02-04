@@ -408,18 +408,19 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     https://jineshkj.wordpress.com/2006/12/22/how-to-capture-stdin-stdout-and-stderr-of-child-program/
     */
     
-    int outfd [2];
-    pipe (outfd); // where the parent is going to write to
-
-    int infd  [2];
-    pipe (infd);  // where the child is going to read from
-    
-    pid_t   idProcess;
-    
     // in a pipe, pipe[0] is for read and  pipe[1] is for write
     #define READ_FD  0
     #define WRITE_FD 1
 
+    // create the 2 pipes
+    int parentToChildFds [2];
+    pipe (parentToChildFds); // where the parent is going to write to
+
+    int childFromParentFds [2];
+    pipe (childFromParentFds);  // where the child is going to read from
+    
+    pid_t   idProcess;
+    
     switch (idProcess = fork ())
       {
       case -1:
@@ -442,40 +443,46 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       case 0:
         {
           // child process only
+          // ------------------
 
           // these descriptors are not used by the child
-          close(STDOUT_FILENO);
-          close(STDIN_FILENO);
+          close (STDOUT_FILENO);
+          close (STDIN_FILENO);
           
-          dup2 (outfd [READ_FD], STDIN_FILENO);
-          dup2 (infd  [WRITE_FD], STDOUT_FILENO);
+          dup2 (parentToChildFds [READ_FD], STDIN_FILENO);
+          dup2 (childFromParentFds  [WRITE_FD], STDOUT_FILENO);
 
           // descriptors not required for the child
-          close (outfd [READ_FD]); 
-          close (outfd [WRITE_FD]);
-          close (infd  [READ_FD]);
-          close (infd  [WRITE_FD]);
+          close (parentToChildFds [READ_FD]); 
+          close (parentToChildFds [WRITE_FD]);
+          close (childFromParentFds  [READ_FD]);
+          close (childFromParentFds  [WRITE_FD]);
 
           // write to stdout
-          system ("iconv -f ISO-8859-1 -t UTF-8 -");
+ //         system ("iconv -f ISO-8859-1 -t UTF-8 -");
+          FILE *outputStream =
+            fdopen (
+              childFromParentFds [READ_FD],
+              "r");
         }
         break;
   
       default:
         {
           // parent process only
+          // -------------------
 
           // these descriptors are not used by the parent
-          close (outfd [READ_FD]); 
-          close (infd  [WRITE_FD]);
+          close (parentToChildFds [READ_FD]); 
+          close (childFromParentFds [WRITE_FD]);
 
           // write to child’s stdin
-          write (outfd [WRITE_FD], "2^32\n", 5);
+          write (parentToChildFds [WRITE_FD], "2^32\n", 5);
           
           // read from child’s stdout
           FILE *inputStream =
             fdopen (
-              infd [READ_FD],
+              childFromParentFds [READ_FD],
               "r");
 
           char tampon [1024];
@@ -501,8 +508,8 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
           }
 
           // close the descriptors after use
-          close (outfd [WRITE_FD]);
-          close (infd  [READ_FD]);
+          close (parentToChildFds [WRITE_FD]);
+          close (childFromParentFds  [READ_FD]);
         }
         break;
       } // switch

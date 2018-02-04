@@ -25,7 +25,10 @@
 #include <list>
 
 #include <functional> 
-#include <algorithm> 
+#include <algorithm>
+
+#include <string.h> 
+#include <iconv.h> 
 
 #include "smartpointer.h"
 #include "basevisitor.h"
@@ -409,6 +412,56 @@ std::string baseName (const std::string &filename);
 //______________________________________________________________________________
 std::string makeSingleWordFromString (const std::string& theString);
 
+//______________________________________________________________________________
+class IConv {
+  // see https://stackoverflow.com/questions/8104154/iconv-only-works-once
+
+  private:
+  
+    iconv_t ic_;
+    
+  public:
+  
+    IConv (const char* to, const char* from) 
+      : ic_ (iconv_open (to, from))
+      {}
+        
+    ~IConv ()
+      {
+        iconv_close(ic_);
+      }
+
+    bool convert (char* input, char* output, size_t& outputSize)
+      {
+        // s-jis string should be null terminated, 
+        // if s-jis is not null terminated or it has
+        // multiple byte chars with null in them this
+        // will not work, or to provide in other way
+        // input buffer length....
+    
+        size_t inputSize = strlen (input) + 1;
+                                             
+        return iconv (ic_, &input, &inputSize, &output, &outputSize);
+      }
+
+      /*
+        int main(void)
+        {
+            char hello[BUF_SIZE] = "hello";
+            char bye[BUF_SIZE] = "bye";
+            char tmp[BUF_SIZE] = "something else";
+            IConv ic("UTF8","SJIS");
+        
+            size_t outsize = BUF_SIZE;//you will need it
+            ic.convert(hello, tmp, outsize);
+            cout << tmp << endl;
+        
+            outsize = BUF_SIZE;
+            ic.convert(bye, tmp, outsize);
+            cout << tmp << endl;
+        }
+      */
+};
 
 } // namespace MusicXML2
 
