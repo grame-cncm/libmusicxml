@@ -207,19 +207,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 
   else {
-    gLogIOstream <<
-      "Converting file MusicXML data from \"" <<
-      encoding <<
-      "\" to " <<
-      desiredEncoding <<
-      "\"" <<
-      endl;
-
     // build shell command
     stringstream s;
 
     s <<
-/* JMI
       "sed 's/" <<
       encoding <<
       "/" <<
@@ -227,17 +218,20 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       "/' " <<
       fileName <<
       " | " <<
-*/
       "iconv" <<
       " -f " << encoding <<
       " -t " << desiredEncoding <<
-      " " << fileName ;
+      " -" ;
 
     string shellCommand = s.str ();
               
     if (true) {
       gLogIOstream <<
-        "Executing command:" <<
+        "Converting file MusicXML data from \"" <<
+        encoding <<
+        "\" to " <<
+        desiredEncoding <<
+        "\" with command:" <<
         endl;
 
       gIndenter++;
@@ -247,17 +241,14 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
         endl;
       
       gIndenter--;
-
-      gLogIOstream <<
-        "with 'popen ()" <<
-        endl <<
-        endl;
     }
 
-    FILE *inputStream =
-      popen (shellCommand.c_str (), "r");
-
     // create a stream to receive the result of shellCommand
+    FILE *inputStream =
+      popen (
+        shellCommand.c_str (),
+        "r");
+
     if (inputStream == nullptr) {
       msrInternalError (
         gXml2lyOptions->fInputSourceName,
@@ -266,6 +257,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
         "Cannot read the input stream with 'popen ()'");
     }
 
+    // build xmlement tree from inputStream
     mxmlTree =
       musicXMLFd2mxmlTree (
         inputStream,
@@ -378,18 +370,6 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   }
 
   else {
-    gLogIOstream <<
-      "Converting stream MusicXML data from \"" <<
-      encoding <<
-      "\" to \"" <<
-      desiredEncoding <<
-      "\"" <<
-      endl;    
-
-    /* see
-    https://jineshkj.wordpress.com/2006/12/22/how-to-capture-stdin-stdout-and-stderr-of-child-program/
-    */
-    
     // register encoding as the desired one prior to printing
     xmlDecl->setEncoding (desiredEncoding);
 
@@ -406,7 +386,11 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
               
     if (true) {
       gLogIOstream <<
-        "Executing command:" <<
+        "Converting stream MusicXML data from \"" <<
+        encoding <<
+        "\" to \"" <<
+        desiredEncoding <<
+        "\" with command:" <<
         endl;
 
       gIndenter++;
@@ -416,21 +400,26 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
         endl;
       
       gIndenter--;
-
-      gLogIOstream <<
-        "with 'popen ()" <<
-        endl <<
-        endl;
     }
 
-    int outfd [2];
-    int infd  [2];
+    /*
+    setup 2 pipes for the communication between parent and child,
+    see
+    https://jineshkj.wordpress.com/2006/12/22/how-to-capture-stdin-stdout-and-stderr-of-child-program/
+    */
     
+    int outfd [2];
     pipe (outfd); // where the parent is going to write to
-    pipe (infd);  // from where parent is going to read
+
+    int infd  [2];
+    pipe (infd);  // where the child is going to read from
     
     pid_t   idProcess;
     
+    // in a pipe, pipe[0] is for read and  pipe[1] is for write
+    #define READ_FD  0
+    #define WRITE_FD 1
+
     switch (idProcess = fork ())
       {
       case -1:
@@ -453,17 +442,21 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       case 0:
         {
           // child process only
+
+          // these descriptors are not used by the child
           close(STDOUT_FILENO);
           close(STDIN_FILENO);
           
-          dup2 (outfd [0], STDIN_FILENO);
-          dup2 (infd  [1], STDOUT_FILENO);
-          
-          close (outfd [0]); // not required for the child
-          close (outfd [1]);
-          close (infd  [0]);
-          close (infd  [1]);
-          
+          dup2 (outfd [READ_FD], STDIN_FILENO);
+          dup2 (infd  [WRITE_FD], STDOUT_FILENO);
+
+          // descriptors not required for the child
+          close (outfd [READ_FD]); 
+          close (outfd [WRITE_FD]);
+          close (infd  [READ_FD]);
+          close (infd  [WRITE_FD]);
+
+          // write to stdout
           system ("iconv -f ISO-8859-1 -t UTF-8 -");
         }
         break;
@@ -471,58 +464,58 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       default:
         {
           // parent process only
-          char input [100];
+
+          // these descriptors are not used by the parent
+          close (outfd [READ_FD]); 
+          close (infd  [WRITE_FD]);
+
+          // write to child’s stdin
+          write (outfd [WRITE_FD], "2^32\n", 5);
           
-          close (outfd [0]); // these are being used by the child
-          close (infd  [1]);
+          // read from child’s stdout
+          FILE *inputStream =
+            fdopen (
+              infd [READ_FD],
+              "r");
+
+          char tampon [1024];
           
-          write (outfd [1], "2^32\n", 5); // write to child’s stdin
-          
-          input [read (infd [0], input, 100)] = 0; // read from child’s stdout
-          
-          printf ("%s", input);
-          
-          close (outfd [1]);
-          close (infd  [0]);
+          while (
+            ! feof (inputStream)
+              &&
+            ! ferror (inputStream)
+              &&
+            fgets (tampon, sizeof (tampon), inputStream) != NULL
+            ) {
+            fputs (tampon, stdout);
+          } // while
+          tampon [strlen (tampon) -1] = '\0'; // removing trailing end of line
+        
+          // close the stream
+          if (pclose (inputStream) < 0) {
+            msrInternalError (
+              gXml2lyOptions->fInputSourceName,
+              0, // inputLineNumber
+              __FILE__, __LINE__,
+              "Cannot close the input stream after 'popen ()'");
+          }
+
+          // close the descriptors after use
+          close (outfd [WRITE_FD]);
+          close (infd  [READ_FD]);
         }
         break;
       } // switch
   
-  
     // both parent and child processses
-
-      /*
-    // read from the stream
-    int numeroDeLigne = 0;
-    while (
-      ! feof (inputStream)
-        &&
-      ! ferror (inputStream)
-        &&
-      fgets (tampon, sizeof (tampon), inputStream) != NULL
-      ) {
-      fputs (tampon, stdout);
-    } // while
-    tampon [strlen (tampon) -1] = '\0'; // removing trailing end of line
-  
-    // close the stream
-    if (pclose (inputStream) < 0) {
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        0, // inputLineNumber
-        __FILE__, __LINE__,
-        "Cannot close the input stream after 'popen ()'");
-    }
-*/
   }
-
 
   clock_t endClock = clock ();
 
   // register time spent
   timing::gTiming.appendTimingItem (
     "Pass 1",
-    "build xmlelement tree from stdin",
+    "build xmlelement tree from standard input",
     timingItem::kMandatory,
     startClock,
     endClock);

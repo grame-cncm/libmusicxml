@@ -531,8 +531,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_comment& elt )
 
   // append it to the current part it it already exists
   if (fCurrentPart) {
-    fCurrentPart->
-      appendCommentToPart (comment);
+ // JMI check empty segment measures list   fCurrentPart->
+ //     appendCommentToPart (comment);
   }
 }
 
