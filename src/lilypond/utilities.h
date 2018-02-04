@@ -430,8 +430,11 @@ class IConv {
   
     iconv_t               fIconvDescriptor;
 
-    size_t                fResultBufferSize;
-    char*                 fResultBuffer;
+    size_t                fInputBufferSize;
+    char*                 fInputBuffer;
+
+    size_t                fOutputBufferSize;
+    char*                 fOutputBuffer;
 };
 
 } // namespace MusicXML2

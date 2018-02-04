@@ -131,22 +131,19 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl;
   }
 
-  if (false) {
-    const size_t BUF_SIZE=1024;
+  if (true) {
+    const size_t BUF_SIZE = 1024;
   
-    char flute [BUF_SIZE] = "Flöte buffer";
+    char flute  [BUF_SIZE] = "Flöte buffer";
     char result [BUF_SIZE] = "something else";
     
     IConv iConverter ("ISO-8859-1", "UTF8");
   
     size_t outsize = BUF_SIZE; // you will need it
-    
-    gLogIOstream <<
-      "Buffer iconv result = ";
-      
+          
     if (iConverter.convert (flute, result, outsize)) {
       gLogIOstream <<
-        "|" << result << "|";
+        "Buffer iconv result = |" << result << "|";
     }
     else {
       gLogIOstream <<
@@ -163,13 +160,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     string result;
 
     IConv iConverter ("ISO-8859-1", "UTF8");
-
-    gLogIOstream <<
-      "String iconv result = ";
       
     if (iConverter.convert (flute, result)) {
       gLogIOstream <<
-        "|" << result << "|";
+        "String iconv result = |" << result << "|";
     }
     else {
       gLogIOstream <<
@@ -187,16 +181,20 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 
     IConv iConverter ("ISO-8859-1", "UTF8");
 
-    gLogIOstream <<
-      "String iconv result = ";
-      
     if (iConverter.convert (flute, result)) {
       gLogIOstream <<
-        "|" << result << "|";
+        "String iconv result = |" << result << "|";
     }
     else {
       gLogIOstream <<
         "ERROR in icon()";
+/* JMI
+      if (errno == EINVAL)
+        error (0, 0, "conversion from '%s' to wchar_t not available",
+               charset);
+      else
+        perror ("iconv_open");
+*/
     }
     
     gLogIOstream <<

@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <container>
-  <rootfiles>
-    <rootfile full-path="MozartTrio.xml" media-type="application/vnd.recordare.musicxml+xml"/>
-  </rootfiles>
+    <rootfiles>
+        <rootfile full-path="20a-Compressed-MusicXML.xml"/>
+        <rootfile full-path="20a-Compressed-MusicXML.pdf" media-type="application/pdf"/>
+    </rootfiles>
 </container>

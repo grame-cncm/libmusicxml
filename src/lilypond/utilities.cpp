@@ -1173,10 +1173,13 @@ string makeSingleWordFromString (const string& theString)
 IConv::IConv (const char* to, const char* from) 
   : fIconvDescriptor (iconv_open (to, from))
 {
-  fResultBufferSize = 1024;
-  fResultBuffer = new char [fResultBufferSize];
-  for (int i = 0; i < fResultBufferSize; i++) {
-    fResultBuffer [i] = '\0';
+  fInputBufferSize = 1024;
+  fInputBuffer = new char [fInputBufferSize];
+  
+  fOutputBufferSize = 1024;
+  fOutputBuffer = new char [fOutputBufferSize];
+  for (int i = 0; i < fOutputBufferSize; i++) {
+    fOutputBuffer [i] = '\0';
   } // for
 }
     
@@ -1187,80 +1190,230 @@ IConv::~IConv ()
 
 bool IConv::convert (char* input, char* output, size_t& outputSize)
 {
-  size_t inputSize = strlen (input);
+  size_t saveInputSize = strlen (input);
 
-  size_t
-    iconvResult =
-      iconv (
-        fIconvDescriptor,
-        &input, &inputSize,
-        &output, &outputSize);
+  bool doTrace = false;
 
-  return iconvResult != (size_t)(-1);
-}
+  size_t inBytesLeft  = saveInputSize;
+  size_t outBytesLeft = fOutputBufferSize;
 
-bool IConv::convert (std::string& input, std::string& output)
-{
-  char*  inputContents = (char *) input.c_str ();
-  size_t inputSize     = strlen (inputContents);
-  size_t twiceAsMuch   = 2 * inputSize;
-                                       
-  bool doTrace = true;
+  if (doTrace) {
+    gLogIOstream <<
+      "saveInputSize = " << saveInputSize <<
+      endl <<
+      "fInputBufferSize = " << fInputBufferSize <<
+      endl <<
+      "input = *" << input << "*" <<
+      endl <<
+      "inBytesLeft = " << inBytesLeft <<
+      endl <<
+      "outBytesLeft = " << outBytesLeft <<
+      endl <<
+      endl;
+  }
 
-  // heuristic to have enough room in fResultBuffer
-  if (fResultBufferSize < twiceAsMuch) {
+  // is there room enough in fInputBufferSize?
+  if (saveInputSize >= fInputBufferSize) {
+    const size_t newSize = saveInputSize + 1;
+    
     if (doTrace) {
       gLogIOstream <<
-        "Bringing fResultBuffer from " <<
-        fResultBufferSize <<
+        "Bringing fInputBuffer from " <<
+        fInputBufferSize <<
+        " to " <<
+        newSize <<
+        " characters" <<
+        endl;
+    }
+
+    delete [] fInputBuffer;
+
+    fInputBufferSize = newSize;
+    fInputBuffer = new char [fInputBufferSize];
+  }
+
+  // copy input to fInputBufferSize
+  strcpy (fInputBuffer, input);
+                                       
+  // heuristic to have enough room in fOutputBuffer
+  size_t twiceAsMuch = saveInputSize * 2;
+  
+  if (fOutputBufferSize < twiceAsMuch) {
+    if (doTrace) {
+      gLogIOstream <<
+        "Bringing fOutputBuffer from " <<
+        fOutputBufferSize <<
         " to " <<
         twiceAsMuch <<
         " characters" <<
         endl;
     }
     
-    delete [] fResultBuffer;
+    delete [] fOutputBuffer;
 
-    fResultBufferSize = twiceAsMuch;
-    fResultBuffer = new char [fResultBufferSize];
-    for (int i = 0; i < fResultBufferSize; i++) {
-      fResultBuffer [i] = '\0';
+    fOutputBufferSize = twiceAsMuch;
+    fOutputBuffer = new char [fOutputBufferSize];
+    for (int i = 0; i < fOutputBufferSize; i++) {
+      fOutputBuffer [i] = '\0';
     } // for
   }
 
-//  fResultBuffer [0] = '\0';
-
   if (doTrace) {
     gLogIOstream <<
-      "input = " << input <<
+      "saveInputSize = " << saveInputSize <<
       endl <<
-      "inputContents = " << inputContents <<
+      "fInputBufferSize = " << fInputBufferSize <<
       endl <<
-      "output = " << output <<
+      "input = *" << input << "*" <<
       endl <<
-      "fResultBufferSize = *" << fResultBufferSize << "*" <<
+      "inBytesLeft = " << inBytesLeft <<
       endl <<
-      "fResultBuffer = *" << fResultBuffer << "*" <<
+      "outBytesLeft = " << outBytesLeft <<
+      endl <<
       endl;
   }
-  
-  size_t outputSize = fResultBufferSize;
+
+  // do the conversion
+  if (doTrace) {
+    gLogIOstream <<
+      "Doing the encoding conversion" <<
+      endl <<
+      endl;
+  }
+
+  char* inputBufferPointer  = fInputBuffer;
+  char* outputBufferPointer = fOutputBuffer;
   
   size_t
     iconvResult =
       iconv (
         fIconvDescriptor,
-        &inputContents, &inputSize,
-        &fResultBuffer, &outputSize);
+        &inputBufferPointer, &inBytesLeft,
+        &outputBufferPointer, &outBytesLeft);
 
-  if (true || doTrace) {
+  if (doTrace) {
     gLogIOstream <<
-      "fResultBuffer = *" << fResultBuffer << "*" <<
+      "saveInputSize = " << saveInputSize <<
+      endl <<
+      "fInputBuffer = *" << fInputBuffer << "*" <<
+      endl <<
+      "inputBufferPointer = *" << inputBufferPointer << "*" <<
+      endl <<
+      "inBytesLeft = " << inBytesLeft <<
+      endl <<
+      "fOutputBuffer = *" << fOutputBuffer << "*" <<
+      endl <<
+       "outputBufferPointer = *" << outputBufferPointer << "*" <<
+      endl <<
+     "outBytesLeft = " << outBytesLeft <<
+      endl <<
       endl;
   }
 
-  output = std::string (fResultBuffer);
+  // terminate the resulting string  
+  fOutputBuffer [fOutputBufferSize - outBytesLeft + 1] = '\0';
+
+  // copy the result to output
+  strcpy (output, fOutputBuffer);
   
+  // return boolean result
+  return iconvResult != (size_t)(-1);
+}
+
+bool IConv::convert (std::string& input, std::string& output)
+{
+  size_t saveInputSize     = input.size ();
+
+  bool doTrace = false;
+
+  // is there room enough in fInputBufferSize?
+  if (saveInputSize >= fInputBufferSize) {
+    delete [] fInputBuffer;
+
+    fInputBufferSize = saveInputSize + 1;
+    fInputBuffer = new char [fInputBufferSize];
+  }
+
+  // copy input to fInputBufferSize
+  strcpy (fInputBuffer, (char *) input.c_str ());
+                                       
+  // heuristic to have enough room in fOutputBuffer
+  size_t twiceAsMuch = saveInputSize * 2;
+  
+  if (fOutputBufferSize < twiceAsMuch) {
+    if (doTrace) {
+      gLogIOstream <<
+        "Bringing fOutputBuffer from " <<
+        fOutputBufferSize <<
+        " to " <<
+        twiceAsMuch <<
+        " characters" <<
+        endl;
+    }
+    
+    delete [] fOutputBuffer;
+
+    fOutputBufferSize = twiceAsMuch;
+    fOutputBuffer = new char [fOutputBufferSize];
+    for (int i = 0; i < fOutputBufferSize; i++) {
+      fOutputBuffer [i] = '\0';
+    } // for
+  }
+
+  if (doTrace) {
+    gLogIOstream <<
+      "input = *" << input << "*" <<
+      endl <<
+      "saveInputSize = " << saveInputSize <<
+      endl <<
+      "fInputBuffer = *" << fInputBuffer << "*" <<
+      endl <<
+      "fOutputBufferSize = *" << fOutputBufferSize << "*" <<
+      endl <<
+      "fOutputBuffer = *" << fOutputBuffer << "*" <<
+      endl <<
+      endl;
+  }
+  
+  size_t inBytesLeft  = saveInputSize;
+  size_t outBytesLeft = fOutputBufferSize;
+
+  // do the conversion
+  char* inputBufferPointer  = fInputBuffer;
+  char* outputBufferPointer = fOutputBuffer;
+  
+  size_t
+    iconvResult =
+      iconv (
+        fIconvDescriptor,
+        &inputBufferPointer, &inBytesLeft,
+        &outputBufferPointer, &outBytesLeft);
+
+  
+  if (doTrace) {
+    gLogIOstream <<
+      "fInputBuffer = *" << fInputBuffer << "*" <<
+      endl <<
+      "inputBufferPointer = *" << inputBufferPointer << "*" <<
+      endl <<
+      "inBytesLeft = " << inBytesLeft <<
+      endl <<
+      "fOutputBuffer = *" << fOutputBuffer << "*" <<
+      endl <<
+      "outputBufferPointer = *" << outputBufferPointer << "*" <<
+      endl <<
+      "outBytesLeft = " << outBytesLeft <<
+      endl <<
+      endl;
+  }
+
+  // terminate the resulting string  
+  fOutputBuffer [fOutputBufferSize - outBytesLeft + 1] = '\0';
+  
+  // copy the result to output
+  output = std::string (fOutputBuffer);
+  
+  // return boolean result
   return iconvResult != (size_t)(-1);
 }
 
