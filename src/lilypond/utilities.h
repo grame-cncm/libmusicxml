@@ -416,51 +416,22 @@ std::string makeSingleWordFromString (const std::string& theString);
 class IConv {
   // see https://stackoverflow.com/questions/8104154/iconv-only-works-once
 
-  private:
-  
-    iconv_t ic_;
-    
   public:
   
-    IConv (const char* to, const char* from) 
-      : ic_ (iconv_open (to, from))
-      {}
+    IConv (const char* to, const char* from);
         
-    ~IConv ()
-      {
-        iconv_close(ic_);
-      }
+    ~IConv ();
 
-    bool convert (char* input, char* output, size_t& outputSize)
-      {
-        // s-jis string should be null terminated, 
-        // if s-jis is not null terminated or it has
-        // multiple byte chars with null in them this
-        // will not work, or to provide in other way
-        // input buffer length....
-    
-        size_t inputSize = strlen (input) + 1;
-                                             
-        return iconv (ic_, &input, &inputSize, &output, &outputSize);
-      }
+    bool                  convert (char* input, char* output, size_t& outputSize);
 
-      /*
-        int main(void)
-        {
-            char hello[BUF_SIZE] = "hello";
-            char bye[BUF_SIZE] = "bye";
-            char tmp[BUF_SIZE] = "something else";
-            IConv ic("UTF8","SJIS");
-        
-            size_t outsize = BUF_SIZE;//you will need it
-            ic.convert(hello, tmp, outsize);
-            cout << tmp << endl;
-        
-            outsize = BUF_SIZE;
-            ic.convert(bye, tmp, outsize);
-            cout << tmp << endl;
-        }
-      */
+    bool                  convert (std::string& input, std::string& output);
+
+  private:
+  
+    iconv_t               fIconvDescriptor;
+
+    size_t                fResultBufferSize;
+    char*                 fResultBuffer;
 };
 
 } // namespace MusicXML2

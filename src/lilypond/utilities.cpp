@@ -1169,4 +1169,99 @@ string makeSingleWordFromString (const string& theString)
   return result;
 }
 
+//______________________________________________________________________________
+IConv::IConv (const char* to, const char* from) 
+  : fIconvDescriptor (iconv_open (to, from))
+{
+  fResultBufferSize = 1024;
+  fResultBuffer = new char [fResultBufferSize];
+  for (int i = 0; i < fResultBufferSize; i++) {
+    fResultBuffer [i] = '\0';
+  } // for
+}
+    
+IConv::~IConv ()
+{
+  iconv_close (fIconvDescriptor);
+}
+
+bool IConv::convert (char* input, char* output, size_t& outputSize)
+{
+  size_t inputSize = strlen (input);
+
+  size_t
+    iconvResult =
+      iconv (
+        fIconvDescriptor,
+        &input, &inputSize,
+        &output, &outputSize);
+
+  return iconvResult != (size_t)(-1);
+}
+
+bool IConv::convert (std::string& input, std::string& output)
+{
+  char*  inputContents = (char *) input.c_str ();
+  size_t inputSize     = strlen (inputContents);
+  size_t twiceAsMuch   = 2 * inputSize;
+                                       
+  bool doTrace = true;
+
+  // heuristic to have enough room in fResultBuffer
+  if (fResultBufferSize < twiceAsMuch) {
+    if (doTrace) {
+      gLogIOstream <<
+        "Bringing fResultBuffer from " <<
+        fResultBufferSize <<
+        " to " <<
+        twiceAsMuch <<
+        " characters" <<
+        endl;
+    }
+    
+    delete [] fResultBuffer;
+
+    fResultBufferSize = twiceAsMuch;
+    fResultBuffer = new char [fResultBufferSize];
+    for (int i = 0; i < fResultBufferSize; i++) {
+      fResultBuffer [i] = '\0';
+    } // for
+  }
+
+//  fResultBuffer [0] = '\0';
+
+  if (doTrace) {
+    gLogIOstream <<
+      "input = " << input <<
+      endl <<
+      "inputContents = " << inputContents <<
+      endl <<
+      "output = " << output <<
+      endl <<
+      "fResultBufferSize = *" << fResultBufferSize << "*" <<
+      endl <<
+      "fResultBuffer = *" << fResultBuffer << "*" <<
+      endl;
+  }
+  
+  size_t outputSize = fResultBufferSize;
+  
+  size_t
+    iconvResult =
+      iconv (
+        fIconvDescriptor,
+        &inputContents, &inputSize,
+        &fResultBuffer, &outputSize);
+
+  if (true || doTrace) {
+    gLogIOstream <<
+      "fResultBuffer = *" << fResultBuffer << "*" <<
+      endl;
+  }
+
+  output = std::string (fResultBuffer);
+  
+  return iconvResult != (size_t)(-1);
+}
+
 }

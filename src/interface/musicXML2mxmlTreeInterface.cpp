@@ -131,6 +131,79 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl;
   }
 
+  if (false) {
+    const size_t BUF_SIZE=1024;
+  
+    char flute [BUF_SIZE] = "Flöte buffer";
+    char result [BUF_SIZE] = "something else";
+    
+    IConv iConverter ("ISO-8859-1", "UTF8");
+  
+    size_t outsize = BUF_SIZE; // you will need it
+    
+    gLogIOstream <<
+      "Buffer iconv result = ";
+      
+    if (iConverter.convert (flute, result, outsize)) {
+      gLogIOstream <<
+        "|" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+
+  if (true) {
+    string flute = "Flöte string eins";
+    string result;
+
+    IConv iConverter ("ISO-8859-1", "UTF8");
+
+    gLogIOstream <<
+      "String iconv result = ";
+      
+    if (iConverter.convert (flute, result)) {
+      gLogIOstream <<
+        "|" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+
+  if (true) {
+    string flute = "Flöte string zwei";
+    string result;
+
+    IConv iConverter ("ISO-8859-1", "UTF8");
+
+    gLogIOstream <<
+      "String iconv result = ";
+      
+    if (iConverter.convert (flute, result)) {
+      gLogIOstream <<
+        "|" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+
   // read the input MusicXML data
   xmlreader r;
   
