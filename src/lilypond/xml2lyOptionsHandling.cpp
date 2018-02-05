@@ -228,11 +228,12 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
       posInString =
         potentialOutputFileName.rfind ('.');
       
-    if (posInString != string::npos)
+    if (posInString != string::npos) {
       potentialOutputFileName.replace (
         posInString,
         potentialOutputFileName.size () - posInString,
         ".ly");
+    }
   }
 
   // check auto output file option usage

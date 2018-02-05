@@ -98,6 +98,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
   else {
     // input comes from a file
 
+/* JMI
     // has the input file name a ".mxl" suffix?    
     size_t
       posInString =
@@ -117,6 +118,7 @@ Sxmlelement convertMusicXMLToMxmlTree_Pass1 (
 
       exit (1);
     }
+*/
 
     // OK, let's go ahead
     mxmlTree =

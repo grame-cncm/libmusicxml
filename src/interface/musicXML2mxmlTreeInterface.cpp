@@ -115,6 +115,8 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
 {
   clock_t startClock = clock ();
 
+  string fileNameAsString = fileName;
+  
   if (gTraceOptions->fTraceBasic) {
     string separator =
       "%--------------------------------------------------------------";
@@ -124,13 +126,14 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       separator <<
       endl <<
       gTab <<
-      "Pass 1: building the xmlelement tree from \"" << fileName << "\"" <<
+      "Pass 1: building the xmlelement tree from \"" << fileNameAsString << "\"" <<
       endl <<
       separator <<
       endl <<
       endl;
   }
 
+/* JMI
   if (true) {
     const size_t BUF_SIZE = 1024;
   
@@ -188,21 +191,116 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     else {
       gLogIOstream <<
         "ERROR in icon()";
-/* JMI
+/ * JMI
       if (errno == EINVAL)
         error (0, 0, "conversion from '%s' to wchar_t not available",
                charset);
       else
         perror ("iconv_open");
-*/
+* /
     }
     
     gLogIOstream <<
       endl <<
       endl;
   }
+*/
 
-  // read the input MusicXML data
+  // is the file compressed?
+  string fileBaseName = baseName (fileNameAsString);
+  string potentialUncompressedFileName = fileNameAsString;
+
+  // has the input file name a ".mxl" suffix?    
+  size_t
+    posInString =
+      fileNameAsString.rfind ('.mxl');
+        
+ // JMI if (posInString == potentialUncompressedFileName.size () - 4) {
+  if (posInString != potentialUncompressedFileName.npos) {
+    // yes, this is a compressed file
+
+/*
+    // replace suffix in file name
+    potentialUncompressedFileName.replace (
+      posInString,
+      potentialUncompressedFileName.size () - posInString,
+      ".xml");
+*/
+    potentialUncompressedFileName =
+      "/tmp/" + fileBaseName + ".xml";
+      
+    gLogIOstream <<
+      "potentialUncompressedFileName = '" <<
+      potentialUncompressedFileName <<
+      "'" <<
+      endl;
+
+    // build shell command
+    stringstream s;
+
+    s <<
+      "unzip -u -d /tmp " <<
+      fileNameAsString;
+
+    string shellCommand = s.str ();
+              
+    if (true) {
+      gLogIOstream <<
+        "Uncompressing '" <<
+        fileNameAsString <<
+        "' into '/tmp/" <<
+        potentialUncompressedFileName <<
+        "' with command:" <<
+        endl;
+
+      gIndenter++;
+      
+      gLogIOstream <<
+        shellCommand <<
+        endl;
+      
+      gIndenter--;
+    }
+
+    // create a stream to receive the result of shellCommand
+    FILE *inputStream =
+      popen (
+        shellCommand.c_str (),
+        "r");
+
+    if (inputStream == nullptr) {
+      stringstream s;
+
+      s <<
+        "Cannot uncompress the file '" <<
+        fileNameAsString <<
+        "' with 'popen ()'";
+              
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        0, // inputLineNumber
+        __FILE__, __LINE__,
+        s.str ());
+    }
+
+    else {
+      // build uncompressed file name
+      string uncompressedFileName =
+        "/tmp/" + fileBaseName + ".xml";
+        
+      gLogIOstream <<
+        "The uncompressed file name is '" <<
+        uncompressedFileName <<
+        "'" <<
+        endl;
+
+      // the incompressed file in /tmp will be handled
+      // instead of the compressed one 
+      fileName = uncompressedFileName.c_str ();
+    }
+  }
+
+  // read the input MusicXML data from the file
   xmlreader r;
   
   SXMLFile xmlFile = r.read (fileName);
