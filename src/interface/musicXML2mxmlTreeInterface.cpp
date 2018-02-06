@@ -401,8 +401,8 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     posInString =
       fileNameAsString.rfind ('.mxl');
         
-  if (posInString == fileNameAsString.size () - 4) {
- // JMI   if (posInString != uncompressedFileName.npos) {
+  // JMI if (posInString == fileNameAsString.size () - 4) {
+   if (posInString != fileNameAsString.npos) {
     // yes, this is a compressed file
 
     string uncompressedFileName =
