@@ -17,7 +17,7 @@
 #include <stdio.h> // for popen()
 #include <string.h> // for strlen()
 #include <unistd.h> // for pipe(), fork(), ...
-
+#include <regex>
 
 #include <iomanip> // for setw()
 
@@ -40,6 +40,8 @@ using namespace std;
 
 namespace MusicXML2
 {
+
+#define TRACE_OPTIONS 1
 
 //_______________________________________________________________________________
 void displayXMLDeclaration (
@@ -108,6 +110,267 @@ void displayDocumentType (
 }
 
 //_______________________________________________________________________________
+string uncompressMXLFile (string mxlFileName)
+{
+  string fileBaseName = baseName (mxlFileName);
+
+  // build uncompressed file name
+  string uncompressedFileName =
+    "/tmp/" + mxlFileName + ".xml";
+    
+  gLogIOstream <<
+    "The uncompressed file name is '" <<
+    uncompressedFileName <<
+    "'" <<
+    endl;
+    
+  gLogIOstream <<
+    "uncompressedFileName = '" <<
+    uncompressedFileName <<
+    "'" <<
+    endl;
+
+  {
+    // build shell command to list the contents of the uncompress file
+    stringstream s1;
+  
+    s1 <<
+      "unzip -l " <<
+      mxlFileName;
+  
+    string listContentsShellCommand = s1.str ();
+              
+    if (true) {
+      gLogIOstream <<
+        "Listing the contents of the compressed file '" <<
+        mxlFileName <<
+        "' with command:" <<
+        endl;
+  
+      gIndenter++;
+      
+      gLogIOstream <<
+        listContentsShellCommand <<
+        endl;
+      
+      gIndenter--;
+    }
+  
+    // create a stream to receive the result of listContentsShellCommand
+    FILE *inputStream =
+      popen (
+        listContentsShellCommand.c_str (),
+        "r");
+  
+    if (inputStream == nullptr) {
+      stringstream s;
+  
+      s <<
+        "Cannot list the contents of compressed file '" <<
+        mxlFileName <<
+        "' with 'popen ()'";
+              
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        0, // inputLineNumber
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  
+    else {
+      string contentsList;
+      
+      // read the list from inputStream 
+      char tampon [1024];
+      
+      while (
+        ! feof (inputStream)
+          &&
+        ! ferror (inputStream)
+          &&
+        fgets (tampon, sizeof (tampon), inputStream) != NULL
+        ) {
+        // terminate the string in tampon
+        tampon [strlen (tampon) -1] = '\0';
+
+        // append the contents of tampon to contentsList
+        contentsList += tampon;
+      } // while
+    
+      // close the stream
+      if (pclose (inputStream) < 0) {
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          0, // inputLineNumber
+          __FILE__, __LINE__,
+          "Cannot close the input stream after 'popen ()'");
+      }
+
+      gLogIOstream <<
+        "The contents of the compressed file '" <<
+        mxlFileName <<
+        "' is:" <<
+        endl;
+  
+      gIndenter++;
+      
+      gLogIOstream <<
+        contentsList <<
+        endl;
+      
+      gIndenter--;
+
+      // analyze the contents list      
+      /*
+      user@lilydev: ~/libmusicxml-git/files/samples/musicxml > unzip -l UnofficialTestSuite/90a-Compressed-MusicXML.mxlArchive:  UnofficialTestSuite/90a-Compressed-MusicXML.mxl
+        Length      Date    Time    Name
+      ---------  ---------- -----   ----
+              0  2007-11-14 16:04   META-INF/
+            246  2007-11-14 16:02   META-INF/container.xml
+           2494  2008-11-14 23:03   20a-Compressed-MusicXML.xml
+          30903  2007-11-14 15:51   20a-Compressed-MusicXML.pdf
+      ---------                     -------
+          33643                     4 files
+      
+      
+          // replace suffix in file name
+          uncompressedFileName.replace (
+            posInString,
+            uncompressedFileName.size () - posInString,
+            ".xml");
+      */
+
+      string regularExpression (
+        "[[:space:]]*"
+        "[[:digit:]]+"     // length
+        "[[:space:]]+"
+        "[[:digit:]-]+"    // date
+        "[[:space:]]+"
+        "[[:digit:]:]+"    // time
+        "[[:space:]]+"
+        "([[:graph:]]+)"); // name
+        
+      regex  e (regularExpression);
+      smatch sm;
+
+      regex_match (contentsList, sm, e);
+
+      if (TRACE_OPTIONS) {
+        gLogIOstream <<
+          "There are " << sm.size () << " matches" <<
+          " for string '" << contentsList <<
+          "' with regex '" << regularExpression <<
+          "'" <<
+          endl;
+     
+        for (unsigned i = 0; i < sm.size (); ++i) {
+          gLogIOstream <<
+            "[" << sm [i] << "] ";
+        } // for
+        
+        gLogIOstream <<
+          endl;
+      }
+
+      switch (sm.size ()) {
+        case 0:
+          {
+            stringstream s;
+    
+            s <<
+              "Compressed file '" << mxlFileName <<
+              "' is ill-formed";
+              
+            msrInternalError (
+              gXml2lyOptions->fInputSourceName,
+              0, // inputLineNumber
+              __FILE__, __LINE__,
+              s.str ());
+          }
+          break;
+
+        case 1:
+          uncompressedFileName = sm [0];
+          
+          gLogIOstream <<
+            "The uncompressed file name is '" <<
+            uncompressedFileName <<
+            "'" <<
+            endl;
+          break;
+          
+        default:
+          {
+            stringstream s;
+    
+            s <<
+              "Compressed file '" << mxlFileName <<
+              "' contains multiple MusicMXL files";
+              
+            msrInternalError (
+              gXml2lyOptions->fInputSourceName,
+              0, // inputLineNumber
+              __FILE__, __LINE__,
+              s.str ());
+          }        
+      } // switch
+    }
+  }
+
+  {
+    // build shell command to uncompress the file
+    stringstream s2;
+  
+    s2 <<
+      "unzip -u -d /tmp " <<
+      mxlFileName;
+  
+    string uncompressShellCommand = s2.str ();
+              
+    if (true) {
+      gLogIOstream <<
+        "Uncompressing '" <<
+        mxlFileName <<
+        "' into '/tmp/" <<
+        uncompressedFileName <<
+        "' with command:" <<
+        endl;
+  
+      gIndenter++;
+      
+      gLogIOstream <<
+        uncompressShellCommand <<
+        endl;
+      
+      gIndenter--;
+    }
+  
+    // create a stream to receive the result of uncompressShellCommand
+    FILE *inputStream =
+      popen (
+        uncompressShellCommand.c_str (),
+        "r");
+  
+    if (inputStream == nullptr) {
+      stringstream s;
+  
+      s <<
+        "Cannot uncompress the file '" <<
+        mxlFileName <<
+        "' with 'popen ()'";
+              
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        0, // inputLineNumber
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  return uncompressedFileName;
+}
+
+//_______________________________________________________________________________
 EXP Sxmlelement musicXMLFile2mxmlTree (
   const char*       fileName,
   S_musicXMLOptions mxmlOpts,
@@ -133,171 +396,21 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       endl;
   }
 
-/* JMI
-  if (true) {
-    const size_t BUF_SIZE = 1024;
-  
-    char flute  [BUF_SIZE] = "Flöte buffer";
-    char result [BUF_SIZE] = "something else";
-    
-    IConv iConverter ("ISO-8859-1", "UTF8");
-  
-    size_t outsize = BUF_SIZE; // you will need it
-          
-    if (iConverter.convert (flute, result, outsize)) {
-      gLogIOstream <<
-        "Buffer iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-
-  if (true) {
-    string flute = "Flöte string eins";
-    string result;
-
-    IConv iConverter ("ISO-8859-1", "UTF8");
-      
-    if (iConverter.convert (flute, result)) {
-      gLogIOstream <<
-        "String iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-
-  if (true) {
-    string flute = "Flöte string zwei";
-    string result;
-
-    IConv iConverter ("ISO-8859-1", "UTF8");
-
-    if (iConverter.convert (flute, result)) {
-      gLogIOstream <<
-        "String iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-/ * JMI
-      if (errno == EINVAL)
-        error (0, 0, "conversion from '%s' to wchar_t not available",
-               charset);
-      else
-        perror ("iconv_open");
-* /
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-*/
-
-  // is the file compressed?
-  string fileBaseName = baseName (fileNameAsString);
-  string potentialUncompressedFileName = fileNameAsString;
-
   // has the input file name a ".mxl" suffix?    
   size_t
     posInString =
       fileNameAsString.rfind ('.mxl');
         
- // JMI if (posInString == potentialUncompressedFileName.size () - 4) {
-  if (posInString != potentialUncompressedFileName.npos) {
+  if (posInString == fileNameAsString.size () - 4) {
+ // JMI   if (posInString != uncompressedFileName.npos) {
     // yes, this is a compressed file
 
-/*
-    // replace suffix in file name
-    potentialUncompressedFileName.replace (
-      posInString,
-      potentialUncompressedFileName.size () - posInString,
-      ".xml");
-*/
-    potentialUncompressedFileName =
-      "/tmp/" + fileBaseName + ".xml";
-      
-    gLogIOstream <<
-      "potentialUncompressedFileName = '" <<
-      potentialUncompressedFileName <<
-      "'" <<
-      endl;
+    string uncompressedFileName =
+      uncompressMXLFile (fileNameAsString);
 
-    // build shell command
-    stringstream s;
-
-    s <<
-      "unzip -u -d /tmp " <<
-      fileNameAsString;
-
-    string shellCommand = s.str ();
-              
-    if (true) {
-      gLogIOstream <<
-        "Uncompressing '" <<
-        fileNameAsString <<
-        "' into '/tmp/" <<
-        potentialUncompressedFileName <<
-        "' with command:" <<
-        endl;
-
-      gIndenter++;
-      
-      gLogIOstream <<
-        shellCommand <<
-        endl;
-      
-      gIndenter--;
-    }
-
-    // create a stream to receive the result of shellCommand
-    FILE *inputStream =
-      popen (
-        shellCommand.c_str (),
-        "r");
-
-    if (inputStream == nullptr) {
-      stringstream s;
-
-      s <<
-        "Cannot uncompress the file '" <<
-        fileNameAsString <<
-        "' with 'popen ()'";
-              
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        0, // inputLineNumber
-        __FILE__, __LINE__,
-        s.str ());
-    }
-
-    else {
-      // build uncompressed file name
-      string uncompressedFileName =
-        "/tmp/" + fileBaseName + ".xml";
-        
-      gLogIOstream <<
-        "The uncompressed file name is '" <<
-        uncompressedFileName <<
-        "'" <<
-        endl;
-
-      // the incompressed file in /tmp will be handled
-      // instead of the compressed one 
-      fileName = uncompressedFileName.c_str ();
-    }
+    // the incompressed file in /tmp will be handled
+    // instead of the compressed one 
+    fileName = uncompressedFileName.c_str ();
   }
 
   // read the input MusicXML data from the file
@@ -747,3 +860,79 @@ EXP Sxmlelement musicXMLString2mxmlTree (
 
 
 } // namespace
+
+
+
+/* JMI
+  if (true) {
+    const size_t BUF_SIZE = 1024;
+  
+    char flute  [BUF_SIZE] = "Flöte buffer";
+    char result [BUF_SIZE] = "something else";
+    
+    IConv iConverter ("ISO-8859-1", "UTF8");
+  
+    size_t outsize = BUF_SIZE; // you will need it
+          
+    if (iConverter.convert (flute, result, outsize)) {
+      gLogIOstream <<
+        "Buffer iconv result = |" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+
+  if (true) {
+    string flute = "Flöte string eins";
+    string result;
+
+    IConv iConverter ("ISO-8859-1", "UTF8");
+      
+    if (iConverter.convert (flute, result)) {
+      gLogIOstream <<
+        "String iconv result = |" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+
+  if (true) {
+    string flute = "Flöte string zwei";
+    string result;
+
+    IConv iConverter ("ISO-8859-1", "UTF8");
+
+    if (iConverter.convert (flute, result)) {
+      gLogIOstream <<
+        "String iconv result = |" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+/ * JMI
+      if (errno == EINVAL)
+        error (0, 0, "conversion from '%s' to wchar_t not available",
+               charset);
+      else
+        perror ("iconv_open");
+* /
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+*/
+
