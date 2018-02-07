@@ -402,7 +402,7 @@ void convertHTMLEntitiesToPlainCharacters (std::string& s);
 
 //______________________________________________________________________________
 void splitStringContainingEndOfLines (
-  std::string        theString,
+  std::string             theString,
   std::list<std::string>& chunksList);
 
 //______________________________________________________________________________

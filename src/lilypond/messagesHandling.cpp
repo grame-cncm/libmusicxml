@@ -102,12 +102,10 @@ void msrError (
 {
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
     gLogIOstream <<
-      endl <<
-      "### " << context << " ERROR ###" <<
-      endl <<
+      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+      " ### " << context << " ERROR ###" <<
       inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl <<
-      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
       endl;
   }
 }

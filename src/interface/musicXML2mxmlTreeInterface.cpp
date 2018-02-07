@@ -41,7 +41,7 @@ using namespace std;
 namespace MusicXML2
 {
 
-#define TRACE_OPTIONS 1
+#define TRACE_OPTIONS 0
 
 //_______________________________________________________________________________
 void displayXMLDeclaration (
@@ -114,21 +114,13 @@ string uncompressMXLFile (string mxlFileName)
 {
   string fileBaseName = baseName (mxlFileName);
 
-  // build uncompressed file name
-  string uncompressedFileName =
-    "/tmp/" + mxlFileName + ".xml";
-    
   gLogIOstream <<
-    "The uncompressed file name is '" <<
-    uncompressedFileName <<
+    "The compressed file name is '" <<
+    mxlFileName <<
     "'" <<
     endl;
     
-  gLogIOstream <<
-    "uncompressedFileName = '" <<
-    uncompressedFileName <<
-    "'" <<
-    endl;
+  string uncompressedFileName;
 
   {
     // build shell command to list the contents of the uncompress file
@@ -190,12 +182,11 @@ string uncompressMXLFile (string mxlFileName)
           &&
         fgets (tampon, sizeof (tampon), inputStream) != NULL
         ) {
-        // terminate the string in tampon
-        tampon [strlen (tampon) -1] = '\0';
-
         // append the contents of tampon to contentsList
         contentsList += tampon;
       } // while
+      // terminate the string in tampon
+      tampon [strlen (tampon) -1] = '\0';
     
       // close the stream
       if (pclose (inputStream) < 0) {
@@ -221,99 +212,127 @@ string uncompressMXLFile (string mxlFileName)
       gIndenter--;
 
       // analyze the contents list      
-      /*
-      user@lilydev: ~/libmusicxml-git/files/samples/musicxml > unzip -l UnofficialTestSuite/90a-Compressed-MusicXML.mxlArchive:  UnofficialTestSuite/90a-Compressed-MusicXML.mxl
-        Length      Date    Time    Name
-      ---------  ---------- -----   ----
-              0  2007-11-14 16:04   META-INF/
-            246  2007-11-14 16:02   META-INF/container.xml
-           2494  2008-11-14 23:03   20a-Compressed-MusicXML.xml
-          30903  2007-11-14 15:51   20a-Compressed-MusicXML.pdf
-      ---------                     -------
-          33643                     4 files
-      
-      
-          // replace suffix in file name
-          uncompressedFileName.replace (
-            posInString,
-            uncompressedFileName.size () - posInString,
-            ".xml");
-      */
-
-      string regularExpression (
-        "[[:space:]]*"
-        "[[:digit:]]+"     // length
-        "[[:space:]]+"
-        "[[:digit:]-]+"    // date
-        "[[:space:]]+"
-        "[[:digit:]:]+"    // time
-        "[[:space:]]+"
-        "([[:graph:]]+)"); // name
-        
-      regex  e (regularExpression);
-      smatch sm;
-
-      regex_match (contentsList, sm, e);
-
-      if (TRACE_OPTIONS) {
-        gLogIOstream <<
-          "There are " << sm.size () << " matches" <<
-          " for string '" << contentsList <<
-          "' with regex '" << regularExpression <<
-          "'" <<
-          endl;
-     
-        for (unsigned i = 0; i < sm.size (); ++i) {
-          gLogIOstream <<
-            "[" << sm [i] << "] ";
-        } // for
-        
-        gLogIOstream <<
-          endl;
-      }
-
-      switch (sm.size ()) {
-        case 0:
-          {
-            stringstream s;
+      list<string> linesList;
     
-            s <<
-              "Compressed file '" << mxlFileName <<
-              "' is ill-formed";
-              
-            msrInternalError (
-              gXml2lyOptions->fInputSourceName,
-              0, // inputLineNumber
-              __FILE__, __LINE__,
-              s.str ());
-          }
-          break;
+      istringstream inputStream (contentsList);
+      string        currentLine;
+      
+      while (getline (inputStream, currentLine)) {
 
-        case 1:
-          uncompressedFileName = sm [0];
-          
+        if (inputStream.eof()) break;
+              
+        if (TRACE_OPTIONS) {
           gLogIOstream <<
-            "The uncompressed file name is '" <<
-            uncompressedFileName <<
-            "'" <<
+            "currentLine:" <<
             endl;
-          break;
+
+          gIndenter++;
           
-        default:
-          {
-            stringstream s;
-    
-            s <<
-              "Compressed file '" << mxlFileName <<
-              "' contains multiple MusicMXL files";
+          gLogIOstream <<
+            currentLine <<
+            endl;
+            
+          gIndenter--;
+        }
+
+        /*
+        user@lilydev: ~/libmusicxml-git/files/samples/musicxml > unzip -l UnofficialTestSuite/90a-Compressed-MusicXML.mxl
+        Archive:  UnofficialTestSuite/90a-Compressed-MusicXML.mxl
+          Length      Date    Time    Name
+        ---------  ---------- -----   ----
+                0  2007-11-14 16:04   META-INF/
+              246  2007-11-14 16:02   META-INF/container.xml
+             2494  2008-11-14 23:03   20a-Compressed-MusicXML.xml
+            30903  2007-11-14 15:51   20a-Compressed-MusicXML.pdf
+        ---------                     -------
+            33643                     4 files
+        */
+
+        string regularExpression (
+          "[[:space:]]*"
+          ".*"   // length
+          "[[:space:]]+"
+          ".*"   // date
+          "[[:space:]]+"
+          ".*"   // time
+          "[[:space:]]+"
+          "(.*)" // name
+          );
+        
+        regex  e (regularExpression);
+        smatch sm;
+  
+        regex_match (currentLine, sm, e);
+  
+        if (sm.size ()) {
+          if (TRACE_OPTIONS) {
+            gLogIOstream <<
+              "There are " << sm.size () - 1 << " match(es) " <<
+              "with regex '" << regularExpression <<
+              "':" <<
+              endl;
+  
+            for (unsigned i = 1; i < sm.size (); ++i) {
+              gLogIOstream <<
+                "[" << sm [i] << "] " <<
+                endl;
+            } // for
+          
+            gLogIOstream <<
+              endl <<
+              endl;
+          }
+  
+          string stringFromLine = sm [1];
               
-            msrInternalError (
-              gXml2lyOptions->fInputSourceName,
-              0, // inputLineNumber
-              __FILE__, __LINE__,
-              s.str ());
-          }        
-      } // switch
+          // has stringFromLine a ".xml" suffix?    
+          size_t
+            posInString =
+              stringFromLine.rfind ('.xml');
+                
+          // JMI if (posInString == stringFromLine.size () - 4) {
+          if (posInString != stringFromLine.npos && stringFromLine != "files") {  // JMI STRANGISSIMO!!!
+            // yes, this is a MusicXML file
+
+            // is this file part of META-INF?
+            size_t
+              posInString =
+                stringFromLine.find ('META-INF');
+                  
+            if (posInString == stringFromLine.npos) {
+              // no, this is an actual MusicXML file
+
+              if (uncompressedFileName.size ()) {
+                stringstream s;
+        
+                s <<
+                  "Compressed file '" << mxlFileName <<
+                  "' contains multiple MusicMXL files" <<
+                  ", found '" << uncompressedFileName <<
+                  "' and then '" << stringFromLine << "'";
+                  
+                msrInternalError (
+                  gXml2lyOptions->fInputSourceName,
+                  0, // inputLineNumber
+                  __FILE__, __LINE__,
+                  s.str ());
+              }
+              
+              else {
+                // we've got the uncompressed file name
+                uncompressedFileName = stringFromLine;
+          
+                gLogIOstream <<
+                  "The uncompressed file name is '" <<
+                  uncompressedFileName <<
+                  "'" <<
+                  endl <<
+                  endl;
+              }
+            }
+          }
+        }
+      } // while
     }
   }
 
