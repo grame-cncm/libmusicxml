@@ -1178,7 +1178,7 @@ IConv::IConv (const char* to, const char* from)
   
   fOutputBufferSize = 1024;
   fOutputBuffer = new char [fOutputBufferSize];
-  for (int i = 0; i < fOutputBufferSize; i++) {
+  for (unsigned int i = 0; i < fOutputBufferSize; i++) {
     fOutputBuffer [i] = '\0';
   } // for
 }
@@ -1253,7 +1253,7 @@ bool IConv::convert (char* input, char* output, size_t& outputSize)
 
     fOutputBufferSize = twiceAsMuch;
     fOutputBuffer = new char [fOutputBufferSize];
-    for (int i = 0; i < fOutputBufferSize; i++) {
+    for (unsigned int i = 0; i < fOutputBufferSize; i++) {
       fOutputBuffer [i] = '\0';
     } // for
   }
@@ -1281,15 +1281,17 @@ bool IConv::convert (char* input, char* output, size_t& outputSize)
       endl;
   }
 
-  char* inputBufferPointer  = fInputBuffer;
-  char* outputBufferPointer = fOutputBuffer;
+  // we can't pass fInputBuffer and fOutputBuffer to iconv(),
+  // since that would modify them, hence:
+  char* inputBufferAux  = fInputBuffer;
+  char* outputBufferAux = fOutputBuffer;
   
   size_t
     iconvResult =
       iconv (
         fIconvDescriptor,
-        &inputBufferPointer, &inBytesLeft,
-        &outputBufferPointer, &outBytesLeft);
+        &inputBufferAux, &inBytesLeft,
+        &outputBufferAux, &outBytesLeft);
 
   if (doTrace) {
     gLogIOstream <<
@@ -1297,13 +1299,13 @@ bool IConv::convert (char* input, char* output, size_t& outputSize)
       endl <<
       "fInputBuffer = *" << fInputBuffer << "*" <<
       endl <<
-      "inputBufferPointer = *" << inputBufferPointer << "*" <<
+      "inputBufferAux = *" << inputBufferAux << "*" <<
       endl <<
       "inBytesLeft = " << inBytesLeft <<
       endl <<
       "fOutputBuffer = *" << fOutputBuffer << "*" <<
       endl <<
-       "outputBufferPointer = *" << outputBufferPointer << "*" <<
+       "outputBufferAux = *" << outputBufferAux << "*" <<
       endl <<
      "outBytesLeft = " << outBytesLeft <<
       endl <<
@@ -1355,7 +1357,7 @@ bool IConv::convert (std::string& input, std::string& output)
 
     fOutputBufferSize = twiceAsMuch;
     fOutputBuffer = new char [fOutputBufferSize];
-    for (int i = 0; i < fOutputBufferSize; i++) {
+    for (unsigned int i = 0; i < fOutputBufferSize; i++) {
       fOutputBuffer [i] = '\0';
     } // for
   }
@@ -1379,28 +1381,31 @@ bool IConv::convert (std::string& input, std::string& output)
   size_t outBytesLeft = fOutputBufferSize;
 
   // do the conversion
-  char* inputBufferPointer  = fInputBuffer;
-  char* outputBufferPointer = fOutputBuffer;
+
+  // we can't pass fInputBuffer and fOutputBuffer to iconv(),
+  // since that would modify them, hence:
+  char* inputBufferAux  = fInputBuffer;
+  char* outputBufferAux = fOutputBuffer;
   
   size_t
     iconvResult =
       iconv (
         fIconvDescriptor,
-        &inputBufferPointer, &inBytesLeft,
-        &outputBufferPointer, &outBytesLeft);
+        &inputBufferAux, &inBytesLeft,
+        &outputBufferAux, &outBytesLeft);
 
   
   if (doTrace) {
     gLogIOstream <<
       "fInputBuffer = *" << fInputBuffer << "*" <<
       endl <<
-      "inputBufferPointer = *" << inputBufferPointer << "*" <<
+      "inputBufferAux = *" << inputBufferAux << "*" <<
       endl <<
       "inBytesLeft = " << inBytesLeft <<
       endl <<
       "fOutputBuffer = *" << fOutputBuffer << "*" <<
       endl <<
-      "outputBufferPointer = *" << outputBufferPointer << "*" <<
+      "outputBufferAux = *" << outputBufferAux << "*" <<
       endl <<
       "outBytesLeft = " << outBytesLeft <<
       endl <<

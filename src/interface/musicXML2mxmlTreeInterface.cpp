@@ -543,6 +543,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
       
       gLogIOstream <<
         shellCommand <<
+        endl <<
         endl;
       
       gIndenter--;
@@ -702,6 +703,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
       
       gLogIOstream <<
         shellCommand <<
+        endl <<
         endl;
       
       gIndenter--;
