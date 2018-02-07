@@ -118,6 +118,7 @@ string uncompressMXLFile (string mxlFileName)
     "The compressed file name is '" <<
     mxlFileName <<
     "'" <<
+    endl <<
     endl;
     
   string uncompressedFileName;
@@ -143,6 +144,7 @@ string uncompressMXLFile (string mxlFileName)
       
       gLogIOstream <<
         listContentsShellCommand <<
+        endl <<
         endl;
       
       gIndenter--;
@@ -288,16 +290,17 @@ string uncompressMXLFile (string mxlFileName)
           // has stringFromLine a ".xml" suffix?    
           size_t
             posInString =
-              stringFromLine.rfind ('.xml');
+              stringFromLine.rfind (".xml");
                 
           // JMI if (posInString == stringFromLine.size () - 4) {
-          if (posInString != stringFromLine.npos && stringFromLine != "files") {  // JMI STRANGISSIMO!!!
+          if (posInString != stringFromLine.npos) {  // JMI STRANGISSIMO!!!
+    //      if (posInString != stringFromLine.npos && stringFromLine != "files") {  // JMI STRANGISSIMO!!!
             // yes, this is a MusicXML file
 
             // is this file part of META-INF?
             size_t
               posInString =
-                stringFromLine.find ('META-INF');
+                stringFromLine.find ("META-INF");
                   
             if (posInString == stringFromLine.npos) {
               // no, this is an actual MusicXML file
@@ -359,6 +362,7 @@ string uncompressMXLFile (string mxlFileName)
       
       gLogIOstream <<
         uncompressShellCommand <<
+        endl <<
         endl;
       
       gIndenter--;
@@ -418,10 +422,10 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   // has the input file name a ".mxl" suffix?    
   size_t
     posInString =
-      fileNameAsString.rfind ('.mxl');
+      fileNameAsString.rfind (".mxl");
         
-  // JMI if (posInString == fileNameAsString.size () - 4) {
-   if (posInString != fileNameAsString.npos) {
+  if (posInString == fileNameAsString.size () - 4) {
+ // JMI  if (posInString != fileNameAsString.npos) {
     // yes, this is a compressed file
 
     string uncompressedFileName =
@@ -761,10 +765,12 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
 
           // write to stdout
  //         system ("iconv -f ISO-8859-1 -t UTF-8 -");
+ /* JMI
           FILE *outputStream =
             fdopen (
               childFromParentFds [READ_FD],
               "r");
+              */
         }
         break;
   
