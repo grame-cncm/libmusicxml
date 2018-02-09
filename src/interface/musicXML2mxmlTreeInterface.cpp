@@ -45,7 +45,8 @@ namespace MusicXML2
 
 //_______________________________________________________________________________
 void displayXMLDeclaration (
-  TXMLDecl *xmlDeclaration)
+  TXMLDecl*        xmlDeclaration,
+  indentedOstream& logIOstream)
 {
   string xmlVersion    = xmlDeclaration->getVersion ();
   string xmlEncoding   = xmlDeclaration->getEncoding ();
@@ -53,13 +54,13 @@ void displayXMLDeclaration (
 
   const int fieldWidth = 14;
   
-  gLogIOstream <<
+  logIOstream <<
     "XML Declaration:" <<
     endl;
 
   gIndenter++;
   
-  gLogIOstream << left <<
+  logIOstream << left <<
     setw (fieldWidth) <<
     "xmlVersion" << " = \"" << xmlVersion << "\"" <<
     endl <<
@@ -76,11 +77,12 @@ void displayXMLDeclaration (
 
 //_______________________________________________________________________________
 void displayDocumentType (
-  TDocType *documentType)
+  TDocType*        documentType,
+  indentedOstream& logIOstream)
 {
   const int fieldWidth = 16;
 
-  gLogIOstream <<
+  logIOstream <<
     "Document Type:" <<
     endl;
 
@@ -91,7 +93,7 @@ void displayDocumentType (
   std::string xmlPubLitteral  = documentType->getPubLitteral ();
   std::string xmlSysLitteral  = documentType->getSysLitteral ();
 
-  gLogIOstream << left <<
+  logIOstream << left <<
     setw (fieldWidth) <<
     "xmlStartElement" << " = \"" << xmlStartElement << "\"" <<
     endl <<
@@ -110,11 +112,13 @@ void displayDocumentType (
 }
 
 //_______________________________________________________________________________
-string uncompressMXLFile (string mxlFileName)
+string uncompressMXLFile (
+  string           mxlFileName,
+  indentedOstream& logIOstream)
 {
   string fileBaseName = baseName (mxlFileName);
 
-  gLogIOstream <<
+  logIOstream <<
     "The compressed file name is '" <<
     mxlFileName <<
     "'" <<
@@ -134,7 +138,7 @@ string uncompressMXLFile (string mxlFileName)
     string listContentsShellCommand = s1.str ();
               
     if (true) {
-      gLogIOstream <<
+      logIOstream <<
         "Listing the contents of the compressed file '" <<
         mxlFileName <<
         "' with command:" <<
@@ -142,7 +146,7 @@ string uncompressMXLFile (string mxlFileName)
   
       gIndenter++;
       
-      gLogIOstream <<
+      logIOstream <<
         listContentsShellCommand <<
         endl <<
         endl;
@@ -151,7 +155,7 @@ string uncompressMXLFile (string mxlFileName)
     }
   
     // create a stream to receive the result of listContentsShellCommand
-    FILE *inputStream =
+    FILE* inputStream =
       popen (
         listContentsShellCommand.c_str (),
         "r");
@@ -199,7 +203,7 @@ string uncompressMXLFile (string mxlFileName)
           "Cannot close the input stream after 'popen ()'");
       }
 
-      gLogIOstream <<
+      logIOstream <<
         "The contents of the compressed file '" <<
         mxlFileName <<
         "' is:" <<
@@ -207,7 +211,7 @@ string uncompressMXLFile (string mxlFileName)
   
       gIndenter++;
       
-      gLogIOstream <<
+      logIOstream <<
         contentsList <<
         endl;
       
@@ -221,16 +225,16 @@ string uncompressMXLFile (string mxlFileName)
       
       while (getline (inputStream, currentLine)) {
 
-        if (inputStream.eof()) break;
+        if (inputStream.eof ()) break;
               
         if (TRACE_OPTIONS) {
-          gLogIOstream <<
+          logIOstream <<
             "currentLine:" <<
             endl;
 
           gIndenter++;
           
-          gLogIOstream <<
+          logIOstream <<
             currentLine <<
             endl;
             
@@ -268,19 +272,19 @@ string uncompressMXLFile (string mxlFileName)
   
         if (sm.size ()) {
           if (TRACE_OPTIONS) {
-            gLogIOstream <<
+            logIOstream <<
               "There are " << sm.size () - 1 << " match(es) " <<
               "with regex '" << regularExpression <<
               "':" <<
               endl;
   
             for (unsigned i = 1; i < sm.size (); ++i) {
-              gLogIOstream <<
+              logIOstream <<
                 "[" << sm [i] << "] " <<
                 endl;
             } // for
           
-            gLogIOstream <<
+            logIOstream <<
               endl <<
               endl;
           }
@@ -325,7 +329,7 @@ string uncompressMXLFile (string mxlFileName)
                 // we've got the uncompressed file name
                 uncompressedFileName = stringFromLine;
           
-                gLogIOstream <<
+                logIOstream <<
                   "The uncompressed file name is '" <<
                   uncompressedFileName <<
                   "'" <<
@@ -350,7 +354,7 @@ string uncompressMXLFile (string mxlFileName)
     string uncompressShellCommand = s2.str ();
               
     if (true) {
-      gLogIOstream <<
+      logIOstream <<
         "Uncompressing '" <<
         mxlFileName <<
         "' into '/tmp/" <<
@@ -360,7 +364,7 @@ string uncompressMXLFile (string mxlFileName)
   
       gIndenter++;
       
-      gLogIOstream <<
+      logIOstream <<
         uncompressShellCommand <<
         endl <<
         endl;
@@ -369,7 +373,7 @@ string uncompressMXLFile (string mxlFileName)
     }
   
     // create a stream to receive the result of uncompressShellCommand
-    FILE *inputStream =
+    FILE* inputStream =
       popen (
         uncompressShellCommand.c_str (),
         "r");
@@ -394,6 +398,306 @@ string uncompressMXLFile (string mxlFileName)
 }
 
 //_______________________________________________________________________________
+FILE* convertFileDataEncoding (
+  string           fileName,
+  string           currentEncoding,
+  string           desiredEncoding,
+  indentedOstream& logIOstream)
+{
+  // build shell command
+  stringstream s;
+
+  s <<
+    "sed 's/" <<
+    currentEncoding <<
+    "/" <<
+    desiredEncoding <<
+    "/' " <<
+    fileName <<
+    " | " <<
+    "iconv" <<
+    " -f " << currentEncoding <<
+    " -t " << desiredEncoding <<
+    " -" ;
+
+  string shellCommand = s.str ();
+            
+  if (true) {
+    logIOstream <<
+      "Converting file MusicXML data from \"" <<
+      currentEncoding <<
+      "\" to " <<
+      desiredEncoding <<
+      "\" with command:" <<
+      endl;
+
+    gIndenter++;
+    
+    logIOstream <<
+      shellCommand <<
+      endl <<
+      endl;
+    
+    gIndenter--;
+  }
+
+  // create a stream to receive the result of shellCommand
+  FILE* inputStream =
+    popen (
+      shellCommand.c_str (),
+      "r");
+
+  if (inputStream == nullptr) {
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      0, // inputLineNumber
+      __FILE__, __LINE__,
+      "Cannot read the input stream with 'popen ()'");
+  }
+
+  return inputStream;
+}
+
+//_______________________________________________________________________________
+FILE* convertStreamDataEncoding (
+  string           currentEncoding,
+  string           desiredEncoding,
+  indentedOstream& logIOstream)
+{
+  FILE* result = nullptr;
+  
+  // build shell command
+  stringstream s;
+
+  s <<
+    "iconv" <<
+    " -f " << currentEncoding <<
+    " -t " << desiredEncoding <<
+    " -" <<
+    " | tee " << desiredEncoding << "_data.xml";
+
+  string shellCommand = s.str ();
+            
+  if (true) {
+    logIOstream <<
+      "Converting stream MusicXML data from \"" <<
+      currentEncoding <<
+      "\" to \"" <<
+      desiredEncoding <<
+      "\" with command:" <<
+      endl;
+
+    gIndenter++;
+    
+    logIOstream <<
+      shellCommand <<
+      endl <<
+      endl;
+    
+    gIndenter--;
+  }
+
+  /*
+  setup 2 pipes for the communication between parent and child,
+  see
+  https://jineshkj.wordpress.com/2006/12/22/how-to-capture-stdin-stdout-and-stderr-of-child-program/
+  */
+  
+  // in a pipe, pipe[0] is for read and  pipe[1] is for write
+  #define READ_FD  0
+  #define WRITE_FD 1
+
+  // create the 2 pipes
+  int parentToChildFds [2];
+  int childFromParentFds [2];
+
+  pipe (parentToChildFds); // where the parent is going to write to
+  if (true) {
+    logIOstream <<
+      "pipe parentToChildFds contains:" <<
+      ", " << parentToChildFds [READ_FD] <<
+      ", " << parentToChildFds [WRITE_FD] <<
+      endl;
+  }
+
+  pipe (childFromParentFds);  // where the child is going to read from
+  if (true) {
+    logIOstream <<
+      "pipe childFromParentFds contains:" <<
+      ", " << childFromParentFds [READ_FD] <<
+      ", " << childFromParentFds [WRITE_FD] <<
+      endl;
+  }
+  
+  pid_t   idProcess;
+  
+  switch (idProcess = fork ())
+    {
+    case -1:
+      if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+        logIOstream <<
+          endl <<
+          "'fork ()' failed" <<
+          endl <<
+          /* JMI
+          inputSourceName << ":" << inputLineNumber << ": " <<message <<
+          endl <<
+          baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+          */
+          endl;
+      }
+      
+      abort ();
+      break;
+
+    case 0:
+      {
+        // child process only
+        // ------------------
+
+        // these descriptors are not used by the child
+        close (STDOUT_FILENO);
+        close (STDIN_FILENO);
+
+        // setting child input descriptor
+        if (true) {
+          logIOstream <<
+            "child input descriptor becomes " << parentToChildFds [READ_FD] <<
+            endl;
+        }
+        dup2 (parentToChildFds [READ_FD], STDIN_FILENO);
+        
+        // setting child output descriptor
+        if (true) {
+          logIOstream <<
+            "child output descriptor becomes " << parentToChildFds [READ_FD] <<
+            endl;
+        }
+        dup2 (childFromParentFds  [WRITE_FD], STDOUT_FILENO);
+
+        // descriptors not required for the child
+        close (parentToChildFds [READ_FD]); 
+        close (parentToChildFds [WRITE_FD]);
+        
+        close (childFromParentFds  [READ_FD]);
+        close (childFromParentFds  [WRITE_FD]);
+
+        // write to stdout
+        system ("iconv -f ISO-8859-1 -t UTF-8 -");
+
+/* JMI
+        FILE* outputStream =
+          fdopen (
+            childFromParentFds [READ_FD],
+            "r");
+            */
+      }
+      break;
+
+    default:
+      {
+        // parent process only
+        // -------------------
+
+        // these descriptors are not used by the parent
+        close (parentToChildFds [READ_FD]); 
+        close (childFromParentFds [WRITE_FD]);
+
+        // create a stream buffer to receive output
+        OFdnStreambuf outputStreamBuffer (
+          parentToChildFds [WRITE_FD], 1024);
+
+        // create the output stream to write to
+        ostream outputStream (& outputStreamBuffer);
+
+        outputStream <<
+          "2^32" <<
+          endl;
+
+        // read from child’s stdout
+        FILE* inputStream =
+          fdopen (
+            childFromParentFds [READ_FD],
+            "r");
+
+        char tampon [1024];
+        
+        while (
+          ! feof (inputStream)
+            &&
+          ! ferror (inputStream)
+            &&
+          fgets (tampon, sizeof (tampon), inputStream) != NULL
+          ) {
+          fputs (tampon, stdout);
+        } // while
+        tampon [strlen (tampon) -1] = '\0'; // removing trailing end of line
+      
+        // close the stream
+        if (pclose (inputStream) < 0) {
+          msrInternalError (
+            gXml2lyOptions->fInputSourceName,
+            0, // inputLineNumber
+            __FILE__, __LINE__,
+            "Cannot close the input stream after 'popen ()'");
+        }
+
+        // close the descriptors after use
+        close (parentToChildFds [WRITE_FD]);
+        close (childFromParentFds  [READ_FD]);
+
+        // return the output stream
+        result = stdout;
+
+
+/* JMI ???
+        // create the stream buffer to receive input
+        IFdNStreambuf inputStreamBuffer (
+          childFromParentFds [READ_FD], 1024);
+        
+        // create the input stream to read from
+        istream inputStream (& inputStreamBuffer);
+
+        // read from child’s stdout
+        string currentLine;
+        
+        while (getline (inputStream, currentLine)) {
+  
+          if (inputStream.eof ()) break;
+                
+          if (TRACE_OPTIONS) {
+            logIOstream <<
+              "currentLine:" <<
+              endl;
+  
+            gIndenter++;
+            
+            logIOstream <<
+              currentLine <<
+              endl;
+              
+            gIndenter--;
+          }
+        } // while
+  
+        // close the descriptors after use
+        close (parentToChildFds [WRITE_FD]);
+        close (childFromParentFds  [READ_FD]);
+
+        // return
+        return outputStream;
+        */
+
+        
+      }
+      break;
+    } // switch
+
+  // both parent and child processses
+  return result;
+}
+
+//_______________________________________________________________________________
 EXP Sxmlelement musicXMLFile2mxmlTree (
   const char*       fileName,
   S_musicXMLOptions mxmlOpts,
@@ -407,7 +711,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     string separator =
       "%--------------------------------------------------------------";
     
-    gLogIOstream <<
+    logIOstream <<
       endl <<
       separator <<
       endl <<
@@ -429,7 +733,9 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
     // yes, this is a compressed file
 
     string uncompressedFileName =
-      uncompressMXLFile (fileNameAsString);
+      uncompressMXLFile (
+        fileNameAsString,
+        logIOstream);
 
     // the incompressed file in /tmp will be handled
     // instead of the compressed one 
@@ -447,15 +753,15 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 
   if (gTraceOptions->fTraceEncoding) {
-    gLogIOstream <<
+    logIOstream <<
       endl <<
       "!!!!! xmlFile contents from file:" <<
       endl <<
       endl;
       
-    xmlFile->print (gLogIOstream);
+    xmlFile->print (logIOstream);
 
-    gLogIOstream <<
+    logIOstream <<
       endl <<
       endl;
   }
@@ -464,32 +770,36 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   TXMLDecl * xmlDecl = xmlFile->getXMLDecl ();
   
   if (gTraceOptions->fTraceEncoding) {
-    gLogIOstream <<
+    logIOstream <<
       endl <<
       "!!!!! xmlDecl contents from file:" <<
       endl <<
       endl;
-    xmlDecl->print (gLogIOstream);
+    xmlDecl->print (logIOstream);
   }
 
   if (gTraceOptions->fTraceEncoding) {
-    displayXMLDeclaration (xmlDecl);
+    displayXMLDeclaration (
+      xmlDecl,
+      logIOstream);
   }
   
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
   if (gTraceOptions->fTraceEncoding) {
-    gLogIOstream <<
+    logIOstream <<
       endl <<
       "!!!!! docType from file:" <<
       endl <<
       endl;
-    docType->print (gLogIOstream);
+    docType->print (logIOstream);
   }
 
   if (gTraceOptions->fTraceEncoding) {
-    displayDocumentType (docType);
+    displayDocumentType (
+      docType,
+      logIOstream);
   }
 
   // get the encoding type
@@ -502,7 +812,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   string desiredEncoding = "UTF-8";
   
   if (encoding == desiredEncoding) {
-    gLogIOstream <<
+    logIOstream <<
       "MusicXML data uses \"" <<
       desiredEncoding <<
       "\" encoding" <<
@@ -512,56 +822,13 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   }
 
   else {
-    // build shell command
-    stringstream s;
-
-    s <<
-      "sed 's/" <<
-      encoding <<
-      "/" <<
-      desiredEncoding <<
-      "/' " <<
-      fileName <<
-      " | " <<
-      "iconv" <<
-      " -f " << encoding <<
-      " -t " << desiredEncoding <<
-      " -" ;
-
-    string shellCommand = s.str ();
-              
-    if (true) {
-      gLogIOstream <<
-        "Converting file MusicXML data from \"" <<
-        encoding <<
-        "\" to " <<
-        desiredEncoding <<
-        "\" with command:" <<
-        endl;
-
-      gIndenter++;
-      
-      gLogIOstream <<
-        shellCommand <<
-        endl <<
-        endl;
-      
-      gIndenter--;
-    }
-
-    // create a stream to receive the result of shellCommand
-    FILE *inputStream =
-      popen (
-        shellCommand.c_str (),
-        "r");
-
-    if (inputStream == nullptr) {
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        0, // inputLineNumber
-        __FILE__, __LINE__,
-        "Cannot read the input stream with 'popen ()'");
-    }
+    // convert file data
+    FILE* inputStream =
+      convertFileDataEncoding (
+        fileName,
+        encoding,
+        desiredEncoding,
+        logIOstream);
 
     // build xmlement tree from inputStream
     mxmlTree =
@@ -569,11 +836,11 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
         inputStream,
         mxmlOpts,
         logIOstream);
-
+  
     // register encoding as the desired one after re-reading the file
     xmlDecl->setEncoding (desiredEncoding);
   }
-    
+ 
   clock_t endClock = clock ();
 
   // register time spent
@@ -621,11 +888,11 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   }
 
   if (gTraceOptions->fTraceEncoding) {
-    gLogIOstream <<
+    logIOstream <<
       "!!!!! xmlFile contents from stream:" <<
       endl;
-    xmlFile->print (gLogIOstream);
-    gLogIOstream <<
+    xmlFile->print (logIOstream);
+    logIOstream <<
       endl;
   }
   
@@ -633,32 +900,36 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   TXMLDecl *xmlDecl = xmlFile->getXMLDecl ();
   
   if (gTraceOptions->fTraceEncoding) {
-    gLogIOstream <<
+    logIOstream <<
       endl <<
       "xmlDecl contents:" <<
       endl <<
       endl;
-    xmlDecl->print (gLogIOstream);
+    xmlDecl->print (logIOstream);
   }
 
   if (gTraceOptions->fTraceEncoding) {
-    displayXMLDeclaration (xmlDecl);
+    displayXMLDeclaration (
+      xmlDecl,
+      logIOstream);
   }
 
   // get the docType
   TDocType * docType = xmlFile->getDocType ();
   
   if (gTraceOptions->fTraceEncoding) {
-    gLogIOstream <<
+    logIOstream <<
       endl <<
       "!!!!! docType from stream:" <<
       endl <<
       endl;
-    docType->print (gLogIOstream);
+    docType->print (logIOstream);
   }
 
   if (gTraceOptions->fTraceEncoding) {
-    displayDocumentType (docType);
+    displayDocumentType (
+      docType,
+      logIOstream);
   }
   
   // get the encoding type
@@ -668,10 +939,11 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   string desiredEncoding = "UTF-8";
   
   if (encoding == desiredEncoding) {
-    gLogIOstream <<
+    logIOstream <<
       "MusicXML data uses \"" <<
       desiredEncoding <<
       "\" encoding" <<
+      ", desired encoding is \"" << desiredEncoding << "\"" <<
       endl;
   }
 
@@ -679,151 +951,15 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     // register encoding as the desired one prior to printing
     xmlDecl->setEncoding (desiredEncoding);
 
-    // build shell command
-    stringstream s;
+    // convert the stream data to desiredEncoding
+    FILE* inputStream =
+      convertStreamDataEncoding (
+        encoding,
+        desiredEncoding,
+        logIOstream);
 
-    s <<
-      "iconv" <<
-      " -f " << encoding <<
-      " -t " << desiredEncoding <<
-      " -";
-
-    string shellCommand = s.str ();
-              
-    if (true) {
-      gLogIOstream <<
-        "Converting stream MusicXML data from \"" <<
-        encoding <<
-        "\" to \"" <<
-        desiredEncoding <<
-        "\" with command:" <<
-        endl;
-
-      gIndenter++;
-      
-      gLogIOstream <<
-        shellCommand <<
-        endl <<
-        endl;
-      
-      gIndenter--;
-    }
-
-    /*
-    setup 2 pipes for the communication between parent and child,
-    see
-    https://jineshkj.wordpress.com/2006/12/22/how-to-capture-stdin-stdout-and-stderr-of-child-program/
-    */
-    
-    // in a pipe, pipe[0] is for read and  pipe[1] is for write
-    #define READ_FD  0
-    #define WRITE_FD 1
-
-    // create the 2 pipes
-    int parentToChildFds [2];
-    pipe (parentToChildFds); // where the parent is going to write to
-
-    int childFromParentFds [2];
-    pipe (childFromParentFds);  // where the child is going to read from
-    
-    pid_t   idProcess;
-    
-    switch (idProcess = fork ())
-      {
-      case -1:
-        if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
-          gLogIOstream <<
-            endl <<
-            "'fork ()' failed" <<
-            endl <<
-            /* JMI
-            inputSourceName << ":" << inputLineNumber << ": " <<message <<
-            endl <<
-            baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-            */
-            endl;
-        }
-        
-        abort ();
-        break;
-  
-      case 0:
-        {
-          // child process only
-          // ------------------
-
-          // these descriptors are not used by the child
-          close (STDOUT_FILENO);
-          close (STDIN_FILENO);
-          
-          dup2 (parentToChildFds [READ_FD], STDIN_FILENO);
-          dup2 (childFromParentFds  [WRITE_FD], STDOUT_FILENO);
-
-          // descriptors not required for the child
-          close (parentToChildFds [READ_FD]); 
-          close (parentToChildFds [WRITE_FD]);
-          close (childFromParentFds  [READ_FD]);
-          close (childFromParentFds  [WRITE_FD]);
-
-          // write to stdout
- //         system ("iconv -f ISO-8859-1 -t UTF-8 -");
- /* JMI
-          FILE *outputStream =
-            fdopen (
-              childFromParentFds [READ_FD],
-              "r");
-              */
-        }
-        break;
-  
-      default:
-        {
-          // parent process only
-          // -------------------
-
-          // these descriptors are not used by the parent
-          close (parentToChildFds [READ_FD]); 
-          close (childFromParentFds [WRITE_FD]);
-
-          // write to child’s stdin
-          write (parentToChildFds [WRITE_FD], "2^32\n", 5);
-          
-          // read from child’s stdout
-          FILE *inputStream =
-            fdopen (
-              childFromParentFds [READ_FD],
-              "r");
-
-          char tampon [1024];
-          
-          while (
-            ! feof (inputStream)
-              &&
-            ! ferror (inputStream)
-              &&
-            fgets (tampon, sizeof (tampon), inputStream) != NULL
-            ) {
-            fputs (tampon, stdout);
-          } // while
-          tampon [strlen (tampon) -1] = '\0'; // removing trailing end of line
-        
-          // close the stream
-          if (pclose (inputStream) < 0) {
-            msrInternalError (
-              gXml2lyOptions->fInputSourceName,
-              0, // inputLineNumber
-              __FILE__, __LINE__,
-              "Cannot close the input stream after 'popen ()'");
-          }
-
-          // close the descriptors after use
-          close (parentToChildFds [WRITE_FD]);
-          close (childFromParentFds  [READ_FD]);
-        }
-        break;
-      } // switch
-  
-    // both parent and child processses
+    // read the converted data
+    SXMLFile xmlFile = r.read (inputStream);
   }
 
   clock_t endClock = clock ();
@@ -887,79 +1023,3 @@ EXP Sxmlelement musicXMLString2mxmlTree (
 
 
 } // namespace
-
-
-
-/* JMI
-  if (true) {
-    const size_t BUF_SIZE = 1024;
-  
-    char flute  [BUF_SIZE] = "Flöte buffer";
-    char result [BUF_SIZE] = "something else";
-    
-    IConv iConverter ("ISO-8859-1", "UTF8");
-  
-    size_t outsize = BUF_SIZE; // you will need it
-          
-    if (iConverter.convert (flute, result, outsize)) {
-      gLogIOstream <<
-        "Buffer iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-
-  if (true) {
-    string flute = "Flöte string eins";
-    string result;
-
-    IConv iConverter ("ISO-8859-1", "UTF8");
-      
-    if (iConverter.convert (flute, result)) {
-      gLogIOstream <<
-        "String iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-
-  if (true) {
-    string flute = "Flöte string zwei";
-    string result;
-
-    IConv iConverter ("ISO-8859-1", "UTF8");
-
-    if (iConverter.convert (flute, result)) {
-      gLogIOstream <<
-        "String iconv result = |" << result << "|";
-    }
-    else {
-      gLogIOstream <<
-        "ERROR in icon()";
-/ * JMI
-      if (errno == EINVAL)
-        error (0, 0, "conversion from '%s' to wchar_t not available",
-               charset);
-      else
-        perror ("iconv_open");
-* /
-    }
-    
-    gLogIOstream <<
-      endl <<
-      endl;
-  }
-*/
-

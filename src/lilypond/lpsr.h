@@ -1730,7 +1730,7 @@ class lpsrLayout : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrLayout> create (
-      int            inputLineNumber);
+      int inputLineNumber);
 
   protected:
 
@@ -1738,9 +1738,9 @@ class lpsrLayout : public lpsrElement
     // ------------------------------------------------------
 
     lpsrLayout (
-      int            inputLineNumber);
+      int inputLineNumber);
       
-    virtual ~lpsrLayout();
+    virtual ~lpsrLayout ();
   
   public:
 

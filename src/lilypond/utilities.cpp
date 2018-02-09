@@ -14,6 +14,8 @@
 # pragma warning (disable : 4786)
 #endif
 
+#include "unistd.h"
+
 #include <iostream>
 #include <sstream>
 #include <cassert>
@@ -1422,4 +1424,289 @@ bool IConv::convert (std::string& input, std::string& output)
   return iconvResult != (size_t)(-1);
 }
 
+//______________________________________________________________________________
+inline IFdStreambuf::IFdStreambuf(int fd)
+:
+  d_fd (fd)
+{
+  setg (d_buffer, d_buffer + 1, d_buffer + 1);
 }
+
+inline int IFdStreambuf::underflow ()
+{
+  if (read (d_fd, d_buffer, 1) <= 0)
+    return EOF;
+
+  setg (d_buffer, d_buffer, d_buffer + 1);
+  
+  return static_cast<unsigned char> (*gptr ());
+}
+
+
+//______________________________________________________________________________
+S_IFdNStreambuf IFdNStreambuf::create ()
+{
+  IFdNStreambuf* o =
+    new IFdNStreambuf ();
+  assert(o!=0);
+  return o;
+}
+
+S_IFdNStreambuf IFdNStreambuf::create (int fd, size_t bufsize)
+{
+  IFdNStreambuf* o =
+    new IFdNStreambuf (
+      fd, bufsize);
+  assert(o!=0);
+  return o;
+}
+
+inline IFdNStreambuf::IFdNStreambuf ()
+  :
+    d_bufsize (0),
+    d_buffer (0)
+{}
+
+
+inline IFdNStreambuf::IFdNStreambuf (int fd, size_t bufsize)
+{
+  open (fd, bufsize);
+}
+
+IFdNStreambuf::~IFdNStreambuf ()
+{
+  if (d_bufsize) {
+    close (d_fd);
+    delete [] d_buffer;
+  }
+}
+
+void IFdNStreambuf::open(int fd, size_t bufsize)
+{
+  d_fd = fd;
+  d_bufsize = bufsize;
+  
+  d_buffer = new char [d_bufsize];
+  
+  setg (d_buffer, d_buffer + d_bufsize, d_buffer + d_bufsize);
+}
+
+int IFdNStreambuf::underflow()
+{
+  if (gptr() < egptr ())
+    return *gptr ();
+
+  int nread = read (d_fd, d_buffer, d_bufsize);
+
+  if (nread <= 0)
+    return EOF;
+
+  setg (d_buffer, d_buffer, d_buffer + nread);
+  
+  return static_cast<unsigned char> (*gptr ());
+}
+
+std::streamsize IFdNStreambuf::xsgetn (char *dest, std::streamsize n)
+{
+  int nread = 0;
+
+  while (n) {
+    if (!in_avail ()) {
+      if (underflow () == EOF)
+        break;
+    }
+
+    int avail = in_avail();
+
+    if (avail > n)
+      avail = n;
+
+    memcpy (dest + nread, gptr(), avail);
+    gbump (avail);
+
+    nread += avail;
+    n -= avail;
+  }
+
+  return nread;
+}
+
+//______________________________________________________________________________
+OFdnStreambuf::OFdnStreambuf ()
+  :
+    d_bufsize (0),
+    d_buffer (0)
+{}
+
+OFdnStreambuf::OFdnStreambuf (int fd, size_t bufsize)
+{
+  open(fd, bufsize);
+}
+
+
+OFdnStreambuf::~OFdnStreambuf ()
+{
+  if (d_buffer) {
+    sync ();
+    delete [] d_buffer;
+  }
+}
+
+void OFdnStreambuf::open (int fd, size_t bufsize)
+{
+  d_fd = fd;
+  d_bufsize = bufsize == 0 ? 1 : bufsize;
+
+  d_buffer = new char [d_bufsize];
+  
+  setp (d_buffer, d_buffer + d_bufsize);
+}
+
+int OFdnStreambuf::sync ()
+{
+  if (pptr () > pbase ()) {
+    write (d_fd, d_buffer, pptr () - pbase ());
+    setp (d_buffer, d_buffer + d_bufsize);
+  }
+  
+  return 0;
+}
+
+int OFdnStreambuf::overflow (int c)
+{
+  sync ();
+  
+  if (c != EOF) {
+    *pptr () = c;
+    pbump (1);
+  }
+  return c;
+}
+
+
+}
+
+/* JMI
+
+int main(int argc, char **argv)
+{
+  IFdStreambuf fds(STDIN_FILENO);
+  istream      is(&fds);
+
+  cout << is.rdbuf();
+}
+
+int main(int argc, char **argv)
+{
+                              // internally: 30 char buffer
+  IFdNStreambuf fds(STDIN_FILENO, 30);
+
+  char buf[80];               // main() reads blocks of 80
+                              // chars
+  while (true)
+  {
+    size_t n = fds.sgetn(buf, 80);
+    if (n == 0)
+        break;
+    cout.write(buf, n);
+  }
+}
+
+int main(int argc, char **argv)
+{
+  OFdnStreambuf   fds(STDOUT_FILENO, 500);
+  ostream         os(&fds);
+
+  switch (argc)
+  {
+    case 1:
+      for (string  s; getline(cin, s); )
+        os << s << '\n';
+      os << "COPIED cin LINE BY LINE\n";
+    break;
+
+    case 2:
+      cin >> os.rdbuf();      // Alternatively, use:  cin >> &fds;
+      os << "COPIED cin BY EXTRACTING TO os.rdbuf()\n";
+    break;
+
+    case 3:
+      os << cin.rdbuf();
+      os << "COPIED cin BY INSERTING cin.rdbuf() into os\n";
+    break;
+  }
+}
+
+
+
+  if (true) {
+    const size_t BUF_SIZE = 1024;
+  
+    char flute  [BUF_SIZE] = "Flöte buffer";
+    char result [BUF_SIZE] = "something else";
+    
+    IConv iConverter ("ISO-8859-1", "UTF8");
+  
+    size_t outsize = BUF_SIZE; // you will need it
+          
+    if (iConverter.convert (flute, result, outsize)) {
+      gLogIOstream <<
+        "Buffer iconv result = |" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+
+  if (true) {
+    string flute = "Flöte string eins";
+    string result;
+
+    IConv iConverter ("ISO-8859-1", "UTF8");
+      
+    if (iConverter.convert (flute, result)) {
+      gLogIOstream <<
+        "String iconv result = |" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+
+  if (true) {
+    string flute = "Flöte string zwei";
+    string result;
+
+    IConv iConverter ("ISO-8859-1", "UTF8");
+
+    if (iConverter.convert (flute, result)) {
+      gLogIOstream <<
+        "String iconv result = |" << result << "|";
+    }
+    else {
+      gLogIOstream <<
+        "ERROR in icon()";
+/ * JMI
+      if (errno == EINVAL)
+        error (0, 0, "conversion from '%s' to wchar_t not available",
+               charset);
+      else
+        perror ("iconv_open");
+* /
+    }
+    
+    gLogIOstream <<
+      endl <<
+      endl;
+  }
+*/

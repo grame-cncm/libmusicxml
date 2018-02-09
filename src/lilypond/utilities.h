@@ -181,7 +181,7 @@ Usage:
       }
     
       // When we sync the stream with fOutput:
-      // 1) uutput the indentation then the buffer
+      // 1) output the indentation then the buffer
       // 2) reset the buffer
       // 3) flush the actual output stream we are using.
       virtual int sync ()
@@ -436,6 +436,86 @@ class IConv {
     size_t                fOutputBufferSize;
     char*                 fOutputBuffer;
 };
+
+//______________________________________________________________________________
+// see: http://www.icce.rug.nl/documents/cplusplus/
+class IFdStreambuf: public std::streambuf, public smartable
+{
+  protected:
+  
+    int                   d_fd;
+    char                  d_buffer [1];
+      
+  public:
+  
+    IFdStreambuf (int fd);
+      
+  private:
+  
+    int                   underflow ();
+};
+typedef SMARTP<IFdStreambuf> S_IFdStreambuf;
+
+//______________________________________________________________________________
+// see: http://www.icce.rug.nl/documents/cplusplus/
+class IFdNStreambuf: public std::streambuf, public smartable
+{
+  protected:
+  
+    int                   d_fd;
+    size_t                d_bufsize;
+    char*                 d_buffer;
+      
+  public:
+  
+    static SMARTP<IFdNStreambuf> create ();
+
+    static SMARTP<IFdNStreambuf> create (
+      int fd, size_t bufsize = 1);
+
+    IFdNStreambuf ();
+    IFdNStreambuf (
+      int fd, size_t bufsize = 1);
+    
+    virtual ~IFdNStreambuf ();
+    
+    void                  open (int fd, size_t bufsize = 1);
+      
+  private:
+  
+    virtual int           underflow ();
+    
+    virtual std::streamsize
+                          xsgetn (char *dest, std::streamsize n);
+};
+typedef SMARTP<IFdNStreambuf> S_IFdNStreambuf;
+
+//______________________________________________________________________________
+// see: http://www.icce.rug.nl/documents/cplusplus/
+class OFdnStreambuf: public std::streambuf, public smartable
+{
+  private:
+  
+    size_t                d_bufsize;
+    int                   d_fd;
+    char*                 d_buffer;
+
+  public:
+  
+    OFdnStreambuf ();
+    OFdnStreambuf (int fd, size_t bufsize = 1);
+    
+    virtual ~OFdnStreambuf ();
+    
+    void                  open (int fd, size_t bufsize = 1);
+      
+  private:
+  
+    virtual int           sync ();
+    virtual int           overflow (int c);
+};
+typedef SMARTP<OFdnStreambuf> S_OFdnStreambuf;
+
 
 } // namespace MusicXML2
 

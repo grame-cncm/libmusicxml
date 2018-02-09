@@ -3033,7 +3033,7 @@ void lpsrPaper::print (ostream& os) {
 
 //______________________________________________________________________________
 S_lpsrLayout lpsrLayout::create (
-  int            inputLineNumber)
+  int inputLineNumber)
 {
   lpsrLayout* o =
     new lpsrLayout (
@@ -3043,7 +3043,7 @@ S_lpsrLayout lpsrLayout::create (
 }
 
 lpsrLayout::lpsrLayout (
-  int            inputLineNumber)
+  int inputLineNumber)
     : lpsrElement (inputLineNumber)
 {
   fStaffSize = 20; // LilyPond default // JMI
