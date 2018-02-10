@@ -459,12 +459,13 @@ FILE* convertFileDataEncoding (
 }
 
 //_______________________________________________________________________________
-FILE* convertStreamDataEncoding (
+SXMLFile convertStreamDataEncoding (
+  SXMLFile         xmlFile,
   string           currentEncoding,
   string           desiredEncoding,
   indentedOstream& logIOstream)
 {
-  FILE* result = nullptr;
+  SXMLFile result = nullptr;
   
   // build shell command
   stringstream s;
@@ -508,15 +509,17 @@ FILE* convertStreamDataEncoding (
   #define WRITE_FD 1
 
   // create the 2 pipes
-  int parentToChildFds [2];
+  int parentToChildFds   [2];
   int childFromParentFds [2];
 
   pipe (parentToChildFds); // where the parent is going to write to
   if (true) {
     logIOstream <<
       "pipe parentToChildFds contains:" <<
-      ", " << parentToChildFds [READ_FD] <<
-      ", " << parentToChildFds [WRITE_FD] <<
+      gTab <<
+      "read: " << parentToChildFds [READ_FD] <<
+      gTab <<
+      "write: " << parentToChildFds [WRITE_FD] <<
       endl;
   }
 
@@ -524,8 +527,10 @@ FILE* convertStreamDataEncoding (
   if (true) {
     logIOstream <<
       "pipe childFromParentFds contains:" <<
-      ", " << childFromParentFds [READ_FD] <<
-      ", " << childFromParentFds [WRITE_FD] <<
+      gTab <<
+      "read: " << childFromParentFds [READ_FD] <<
+      gTab <<
+      "write: " << childFromParentFds [WRITE_FD] <<
       endl;
   }
   
@@ -555,14 +560,18 @@ FILE* convertStreamDataEncoding (
         // child process only
         // ------------------
 
-        // these descriptors are not used by the child
-        close (STDOUT_FILENO);
+        // close the descriptors not used by the child
         close (STDIN_FILENO);
+        close (STDOUT_FILENO);
+
+        close (parentToChildFds   [WRITE_FD]);
+        close (childFromParentFds [READ_FD]);
 
         // setting child input descriptor
         if (true) {
           logIOstream <<
-            "child input descriptor becomes " << parentToChildFds [READ_FD] <<
+            "Child will read from parentToChildFds [READ_FD], i.e. " <<
+            parentToChildFds [READ_FD] <<
             endl;
         }
         dup2 (parentToChildFds [READ_FD], STDIN_FILENO);
@@ -570,27 +579,21 @@ FILE* convertStreamDataEncoding (
         // setting child output descriptor
         if (true) {
           logIOstream <<
-            "child output descriptor becomes " << parentToChildFds [READ_FD] <<
+            "Child will write to childFromParentFds [WRITE_FD]. i.e. " <<
+            childFromParentFds [WRITE_FD] <<
             endl;
         }
-        dup2 (childFromParentFds  [WRITE_FD], STDOUT_FILENO);
-
-        // descriptors not required for the child
-        close (parentToChildFds [READ_FD]); 
-        close (parentToChildFds [WRITE_FD]);
-        
-        close (childFromParentFds  [READ_FD]);
-        close (childFromParentFds  [WRITE_FD]);
+        dup2 (childFromParentFds [WRITE_FD], STDOUT_FILENO);
 
         // write to stdout
-        system ("iconv -f ISO-8859-1 -t UTF-8 -");
+        system ("iconv -f ISO-8859-1 -t UTF-8 - | tee ConvertedData.xml");
 
-/* JMI
-        FILE* outputStream =
-          fdopen (
-            childFromParentFds [READ_FD],
-            "r");
-            */
+        // close the descriptors after use by the child
+        close (parentToChildFds [READ_FD]); 
+        close (childFromParentFds [WRITE_FD]);
+
+        exit (0);      
+        
       }
       break;
 
@@ -599,8 +602,8 @@ FILE* convertStreamDataEncoding (
         // parent process only
         // -------------------
 
-        // these descriptors are not used by the parent
-        close (parentToChildFds [READ_FD]); 
+        // close the descriptors used by the child
+        close (parentToChildFds   [READ_FD]); 
         close (childFromParentFds [WRITE_FD]);
 
         // create a stream buffer to receive output
@@ -610,85 +613,50 @@ FILE* convertStreamDataEncoding (
         // create the output stream to write to
         ostream outputStream (& outputStreamBuffer);
 
-        outputStream <<
-          "2^32" <<
-          endl;
+        if (true) {
+          // write the xmlFile representation to log stream
+          logIOstream <<
+            endl <<
+            "<!-- ******************************* -->" <<
+            endl <<
+            "<!-- The xmlFile contains: -->" <<
+            endl;
 
-        // read from child’s stdout
-        FILE* inputStream =
-          fdopen (
-            childFromParentFds [READ_FD],
-            "r");
+          xmlFile->print (logIOstream);
 
-        char tampon [1024];
-        
-        while (
-          ! feof (inputStream)
-            &&
-          ! ferror (inputStream)
-            &&
-          fgets (tampon, sizeof (tampon), inputStream) != NULL
-          ) {
-          fputs (tampon, stdout);
-        } // while
-        tampon [strlen (tampon) -1] = '\0'; // removing trailing end of line
-      
-        // close the stream
-        if (pclose (inputStream) < 0) {
-          msrInternalError (
-            gXml2lyOptions->fInputSourceName,
-            0, // inputLineNumber
-            __FILE__, __LINE__,
-            "Cannot close the input stream after 'popen ()'");
+          logIOstream <<
+            endl <<
+            "<!-- ******************************* -->" <<
+            endl <<
+            endl;
         }
 
-        // close the descriptors after use
+        // write the xmlFile representation to output stream
+        xmlFile->print (outputStream);
+
+        // close the needed descriptor after use
         close (parentToChildFds [WRITE_FD]);
-        close (childFromParentFds  [READ_FD]);
 
-        // return the output stream
-        result = stdout;
-
-
-/* JMI ???
-        // create the stream buffer to receive input
-        IFdNStreambuf inputStreamBuffer (
-          childFromParentFds [READ_FD], 1024);
+        // open the input stream descriptor for reading
+        FILE* inputStream =
+          fdopen (
+            childFromParentFds [READ_FD], "r");
+    
+        // read the converted data
+        if (true) {
+          logIOstream <<
+            "Reading the converted data from descriptor " <<
+            "childFromParentFds [READ_FD], i.e. " <<
+            childFromParentFds [READ_FD] <<
+            endl;
+        }
         
-        // create the input stream to read from
-        istream inputStream (& inputStreamBuffer);
+        xmlreader r;
 
-        // read from child’s stdout
-        string currentLine;
-        
-        while (getline (inputStream, currentLine)) {
-  
-          if (inputStream.eof ()) break;
-                
-          if (TRACE_OPTIONS) {
-            logIOstream <<
-              "currentLine:" <<
-              endl;
-  
-            gIndenter++;
-            
-            logIOstream <<
-              currentLine <<
-              endl;
-              
-            gIndenter--;
-          }
-        } // while
-  
-        // close the descriptors after use
-        close (parentToChildFds [WRITE_FD]);
-        close (childFromParentFds  [READ_FD]);
+        SXMLFile result = r.read (inputStream);
 
-        // return
-        return outputStream;
-        */
-
-        
+        // close the needed descriptor after use
+        close (childFromParentFds [READ_FD]);
       }
       break;
     } // switch
@@ -952,14 +920,12 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
     xmlDecl->setEncoding (desiredEncoding);
 
     // convert the stream data to desiredEncoding
-    FILE* inputStream =
+    xmlFile =
       convertStreamDataEncoding (
+        xmlFile,
         encoding,
         desiredEncoding,
         logIOstream);
-
-    // read the converted data
-    SXMLFile xmlFile = r.read (inputStream);
   }
 
   clock_t endClock = clock ();
