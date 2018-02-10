@@ -7756,6 +7756,7 @@ class msrStanza : public msrElement
     // ------------------------------------------------------
     
     #define K_NO_STANZA_NUMBER "-1"
+    #define K_NO_STANZA_NAME   "Unknown stanza"
   
     // creation from MusicXML
     // ------------------------------------------------------

@@ -604,7 +604,7 @@ SXMLFile convertStreamDataEncoding (
         close (parentToChildFds [READ_FD]); 
         close (childFromParentFds [WRITE_FD]);
 
-        exit (0);      
+    //    exit (0);      
         
       }
       break;
@@ -625,7 +625,7 @@ SXMLFile convertStreamDataEncoding (
         // create the output stream to write to
         ostream outputStream (& outputStreamBuffer);
 
-        if (true) {
+        if (false) {
           // write the xmlFile representation to log stream
           logIOstream <<
             endl <<

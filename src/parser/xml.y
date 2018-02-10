@@ -67,6 +67,8 @@ static void init (reader * r) {
   doctypeStart[0] = 0;
   doctypePub[0] = 0;
   doctypeSys[0] = 0;
+
+  libmxmllineno = 1; // JMI
 }
 
 static char * unquote (char * text) {
@@ -98,103 +100,103 @@ int   libmxmlwrap()   { return(1); }
 %%              /* beginning of rules section */
 
 
-document: 	prolog element misc
+document:   prolog element misc
 
-prolog	:	xmldecl doctype
-		| 	xmldecl comments doctype
+prolog  : xmldecl doctype
+    |   xmldecl comments doctype
 
-element	:	eltstart data eltstop
-		| 	emptyelt 
-		| 	procinstr
-		| 	comment
+element : eltstart data eltstop
+    |   emptyelt 
+    |   procinstr
+    |   comment
 
-eltstart:	LT eltname GT
-		| 	LT eltname SPACE attributes GT
+eltstart: LT eltname GT
+    |   LT eltname SPACE attributes GT
 
-eltstop	:	ENDXMLS endname GT
+eltstop : ENDXMLS endname GT
 
-emptyelt:	LT eltname ENDXMLE	{
-        	if (!gReader->endElement (eltName))
-          		ERROR("end element error")
-      		}
-		| 	LT eltname SPACE attributes ENDXMLE {
-			if (!gReader->endElement (eltName))
-				ERROR("end element error")
-			}
+emptyelt: LT eltname ENDXMLE  {
+          if (!gReader->endElement (eltName))
+              ERROR("end element error")
+          }
+    |   LT eltname SPACE attributes ENDXMLE {
+      if (!gReader->endElement (eltName))
+        ERROR("end element error")
+      }
 
-eltname	:	NAME	{
-			  store(eltName, libmxmltext);
-			  if (!gReader->newElement (libmxmltext))
-				ERROR("element error")
-			}
+eltname : NAME  {
+        store(eltName, libmxmltext);
+        if (!gReader->newElement (libmxmltext))
+        ERROR("element error")
+      }
 
-endname:	NAME	{
-			  if (!gReader->endElement (libmxmltext))
-				ERROR("end element error")
-			}
+endname:  NAME  {
+        if (!gReader->endElement (libmxmltext))
+        ERROR("end element error")
+      }
 
-attribute:	attrname EQ value	{
-			  if (!gReader->newAttribute (attributeName, attributeVal))
-				ERROR("attribute error")
-			}
+attribute:  attrname EQ value {
+        if (!gReader->newAttribute (attributeName, attributeVal))
+        ERROR("attribute error")
+      }
 
-attrname:	NAME		{ store(attributeName, libmxmltext); }
+attrname: NAME    { store(attributeName, libmxmltext); }
 
-value 	:	QUOTEDSTR	{ store(attributeVal, unquote (libmxmltext)); }
+value   : QUOTEDSTR { store(attributeVal, unquote (libmxmltext)); }
 
-attributes  :	attribute 
-			| attributes SPACE attribute;
+attributes  : attribute 
+      | attributes SPACE attribute;
 
-data    :	/* empty */
-		| cdata
-		| elements ;
+data    : /* empty */
+    | cdata
+    | elements ;
 
-cdata   :	DATA	{ gReader->setValue (libmxmltext); }
+cdata   : DATA  { gReader->setValue (libmxmltext); }
 
-procinstr :	PI 		{ gReader->newProcessingInstruction (libmxmltext); }
+procinstr : PI    { gReader->newProcessingInstruction (libmxmltext); }
 
-comment  :	COMMENT	{ gReader->newComment (libmxmltext); }
+comment  :  COMMENT { gReader->newComment (libmxmltext); }
 
-comments :	comment
-		 | 	comments comment;
+comments :  comment
+     |  comments comment;
 
-elements :	element
- 		 |  elements element;
+elements :  element
+     |  elements element;
 
-xmldecl	:		/* empty */
-		| 	XMLDECL versiondec decl ENDXMLDECL  {
-      		if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone))
-        		ERROR("xmlDecl error")
-			}
+xmldecl :   /* empty */
+    |   XMLDECL versiondec decl ENDXMLDECL  {
+          if (!gReader->xmlDecl (xmlversion, xmlencoding, xmlStandalone))
+            ERROR("xmlDecl error")
+      }
 
-decl    :	/* empty */
-		| 	encodingdec 
-		|	stdalonedec
-		|	encodingdec stdalonedec ;
+decl    : /* empty */
+    |   encodingdec 
+    | stdalonedec
+    | encodingdec stdalonedec ;
 
-versiondec:	SPACE VERSION EQ QUOTEDSTR		{ store (xmlversion, unquote (libmxmltext)); }
+versiondec: SPACE VERSION EQ QUOTEDSTR    { store (xmlversion, unquote (libmxmltext)); }
 
-encodingdec: SPACE ENCODING EQ QUOTEDSTR	{ store (xmlencoding, unquote (libmxmltext)); }
+encodingdec: SPACE ENCODING EQ QUOTEDSTR  { store (xmlencoding, unquote (libmxmltext)); }
 
-stdalonedec: SPACE STANDALONE EQ bool		{ xmlStandalone = yylval; }
+stdalonedec: SPACE STANDALONE EQ bool   { xmlStandalone = yylval; }
 
 bool    : YES | NO ;
 
-doctype	:	DOCTYPE SPACE startname SPACE id GT
+doctype : DOCTYPE SPACE startname SPACE id GT
 
-startname: 	NAME							{ store(doctypeStart, libmxmltext); }
+startname:  NAME              { store(doctypeStart, libmxmltext); }
 
-id		:	PUBLIC SPACE publitteral SPACE syslitteral
-						    { gReader->docType (doctypeStart, true, doctypePub, doctypeSys); }
-		|	SYSTEM SPACE syslitteral
-							{ gReader->docType (doctypeStart, false, doctypePub, doctypeSys); }
+id    : PUBLIC SPACE publitteral SPACE syslitteral
+                { gReader->docType (doctypeStart, true, doctypePub, doctypeSys); }
+    | SYSTEM SPACE syslitteral
+              { gReader->docType (doctypeStart, false, doctypePub, doctypeSys); }
 
-publitteral:	QUOTEDSTR	{ store(doctypePub, unquote(libmxmltext)); }
+publitteral:  QUOTEDSTR { store(doctypePub, unquote(libmxmltext)); }
 
-syslitteral:	QUOTEDSTR	{ store(doctypeSys, unquote(libmxmltext)); }
+syslitteral:  QUOTEDSTR { store(doctypeSys, unquote(libmxmltext)); }
 
-misc    :	/* empty */
-		|	SPACE ;
+misc    : /* empty */
+    | SPACE ;
 
 
 %%

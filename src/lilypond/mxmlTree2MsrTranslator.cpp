@@ -166,8 +166,9 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // lyrics handling
   fOnGoingLyric = false;
+  
   fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
-  fCurrentStanzaName = "";
+  fCurrentStanzaName = K_NO_STANZA_NAME;
   
   fCurrentSyllabic = "";
 
@@ -4860,6 +4861,29 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
 //________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 {
+  /*
+      <note default-x="143">
+        <pitch>
+          <step>E</step>
+          <alter>-1</alter>
+          <octave>4</octave>
+        </pitch>
+        <duration>6</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="-5">up</stem>
+        <beam number="1">begin</beam>
+        
+        <lyric default-y="-80" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text font-family="FreeSerif" font-size="11">1.</text>
+          <elision> </elision>
+          <syllabic>begin</syllabic>
+          <text font-family="FreeSerif" font-size="11">A</text>
+        </lyric>
+      </note>
+  */
+  
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
       "--> Start visiting S_lyric" <<
@@ -4872,20 +4896,22 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
   // number
 
   {
-    string stanzaNumber =
+    fCurrentStanzaNumber =
       elt->getAttributeValue ("number");
     
-    if (stanzaNumber.size () == 0) {
+    if (fCurrentStanzaNumber.size () == 0) {
       msrMusicXMLWarning (
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
-        "lyric number is empty");
+        "lyric number is empty, using \"1\" by default");
+
+      fCurrentStanzaNumber = "1";
     }
     
     if (gTraceOptions->fTraceLyrics) {
       fLogOutputStream <<
         "--> setting fCurrentStanzaNumber to " <<
-        stanzaNumber <<
+        fCurrentStanzaNumber <<
         ", line " << inputLineNumber <<
         endl;
     }
@@ -4894,27 +4920,35 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     // that remains set another positive value is met,
     // thus allowing a skip syllable to be generated
     // for notes without lyrics
-    fCurrentStanzaNumber = stanzaNumber;
   }
   
   // name
 
   {
-    string stanzaName =
+    fCurrentStanzaName =
       elt->getAttributeValue ("name");
 
-    if (stanzaName.size () == 0) {
+    if (fCurrentStanzaName.size () == 0) {
       // lyrics names are not so frequent after all...
+      stringstream s;
+
+      s <<
+        "lyric name is empty, using \"" <<
+        K_NO_STANZA_NAME <<
+        "\" by default";
+
       msrMusicXMLWarning (
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
-        "lyric name is empty");
+        s.str ());
+
+      fCurrentStanzaName = K_NO_STANZA_NAME;
     }
     
     if (gTraceOptions->fTraceLyrics) {
       fLogOutputStream <<
         "--> setting fCurrentStanzaName to " <<
-        stanzaName <<
+        fCurrentStanzaName <<
         ", line " << inputLineNumber <<
         endl;
     }
@@ -4923,7 +4957,6 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     // that remains set another positive value is met,
     // thus allowing a skip syllable to be generated
     // for notes without lyrics
-    fCurrentStanzaName = stanzaName;
   }
 
   fCurrentStanzaHasText = false;
@@ -5111,7 +5144,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     stringstream s;
 
     s <<
-      "<lyric /> has no <syllabic/> component, using a 'single' by default";
+      "<lyric /> has no <syllabic/> component, using 'single' by default";
 
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
@@ -6701,7 +6734,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   // lyrics
   
   fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
-  
+  fCurrentStanzaName = K_NO_STANZA_NAME;
+
   fCurrentSyllabic = "";
   fCurrentLyricTextsList.clear ();
   fCurrentSyllableKind = msrSyllable::k_NoSyllable;

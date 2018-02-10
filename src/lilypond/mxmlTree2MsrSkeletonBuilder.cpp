@@ -160,8 +160,8 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fPartNumberOfMeasures = 0;
     
   // lyrics handling
-  fCurrentStanzaNumber = -1; // JMI
-  fCurrentStanzaName = "";
+  fCurrentStanzaNumber = K_NO_STANZA_NUMBER; // JMI
+  fCurrentStanzaName = K_NO_STANZA_NAME; // JMI
 
   // harmonies handling
   fHarmonyVoicesCounter = 0;
@@ -2805,6 +2805,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_note& elt )
   fCurrentNoteStaffNumber = 1; // it may be absent
   fCurrentNoteVoiceNumber = 1; // it may be absent
 
+  // lyrics
+  fCurrentStanzaNumber = K_NO_STANZA_NUMBER;
+  fCurrentStanzaName = K_NO_STANZA_NAME;
+
   fOnGoingNote = true;
 }
 
@@ -2903,46 +2907,56 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
   // number
 
   {
-    string stanzaNumber =
+    fCurrentStanzaNumber =
       elt->getAttributeValue ("number");
     
-    if (stanzaNumber.size () == 0) {
+    if (fCurrentStanzaNumber.size () == 0) {
       msrMusicXMLWarning (
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
-        "lyric number is empty");
+        "lyric number is empty, using \"1\" by default");
+
+      fCurrentStanzaNumber = "1";
     }
     
     else {
       if (gTraceOptions->fTraceLyrics) {
         fLogOutputStream <<
           "--> setting fCurrentStanzaNumber to " <<
-          stanzaNumber <<
+          fCurrentStanzaNumber <<
           ", line " << inputLineNumber <<
           endl;
       }
           
       // register it as current stanza number, JMI
-      // that remains set another positive value is met,
+      // that remains set until another positive value is met,
       // thus allowing a skip syllable to be generated
       // for notes without lyrics
-      fCurrentStanzaNumber = stanzaNumber;
     }
   }
 
   // name
 
   {
-    string stanzaName =
+    fCurrentStanzaName =
       elt->getAttributeValue ("name");
     
-    if (stanzaName.size () == 0) {
+    if (fCurrentStanzaName.size () == 0) {
       if (gTraceOptions->fTraceLyrics) {
         // lyrics names are not so frequent after all...
+        stringstream s;
+
+        s <<
+          "lyric name is empty, using \"" <<
+          K_NO_STANZA_NAME <<
+          "\" by default";
+
         msrMusicXMLWarning (
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
-          "lyric name is empty");
+          s.str ());
+
+        fCurrentStanzaName = K_NO_STANZA_NAME;
       }
     }
     
@@ -2950,7 +2964,7 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
       if (gTraceOptions->fTraceLyrics) {
         fLogOutputStream <<
           "--> setting fCurrentStanzaName to " <<
-          stanzaName <<
+          fCurrentStanzaName <<
           ", line " << inputLineNumber <<
           endl;
       }
@@ -2959,7 +2973,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_lyric& elt )
       // that remains set another positive value is met,
       // thus allowing a skip syllable to be generated
       // for notes without lyrics
-      fCurrentStanzaName = stanzaName;
     }
   }
 }

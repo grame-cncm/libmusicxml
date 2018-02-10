@@ -24794,6 +24794,19 @@ S_msrStanza msrVoice::fetchStanzaInVoice (
   else {
     stringstream s;
     
+    gLogIOstream <<
+      endl << endl << endl <<
+      "VOICEVOICEVOICEVOICEVOICEVOICEVOICEVOICE" <<
+      endl;
+
+    print (gLogIOstream);
+      
+    gLogIOstream <<
+      "VOICEVOICEVOICEVOICEVOICEVOICEVOICEVOICE" <<
+      endl << endl << endl <<
+      endl;
+
+
     s <<
       "Stanza" <<
       " number " << stanzaNumber <<
