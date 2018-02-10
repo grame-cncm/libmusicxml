@@ -418,7 +418,8 @@ FILE* convertFileDataEncoding (
     "iconv" <<
     " -f " << currentEncoding <<
     " -t " << desiredEncoding <<
-    " -" ;
+    " -" <<
+    " | tee ConvertedFileData.xml";
 
   string shellCommand = s.str ();
             
@@ -475,7 +476,7 @@ SXMLFile convertStreamDataEncoding (
     " -f " << currentEncoding <<
     " -t " << desiredEncoding <<
     " -" <<
-    " | tee " << desiredEncoding << "_data.xml";
+    " | tee " << desiredEncoding << "_StreamData.xml";
 
   string shellCommand = s.str ();
             

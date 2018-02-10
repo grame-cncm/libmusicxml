@@ -47,6 +47,7 @@ void msrWarning (
 {
   if (! gGeneralOptions->fQuiet) {
     gLogIOstream <<
+      " *** " << context << " warning *** " <<
       inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl;
   }
@@ -103,8 +104,8 @@ void msrError (
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
     gLogIOstream <<
       baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-      " ### " << context << " ERROR ###" <<
-      inputSourceName << ":" << inputLineNumber << ": " <<message <<
+      " ### " << context << " ERROR ### " <<
+      inputSourceName << ":" << inputLineNumber << ": " << message <<
       endl <<
       endl;
   }
