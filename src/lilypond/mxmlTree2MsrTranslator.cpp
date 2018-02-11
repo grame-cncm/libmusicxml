@@ -734,10 +734,56 @@ void mxmlTree2MsrTranslator::visitStart ( S_software& elt )
       endl;
   }
 
+  string softwareValue = elt->getValue ();
+
+  // convert clef to upper case for analysis
+  string softwareValueToLower = softwareValue;
+  
+  transform (
+    softwareValueToLower.begin (),
+    softwareValueToLower.end (),
+    softwareValueToLower.begin (),
+    ::tolower);
+
+  if (softwareValueToLower.find ("cubase") != string::npos) {
+    fLogOutputStream <<
+      "<software /> contains 'Cubase'" <<
+      endl;
+
+    // the '-cubase' option is set by default,
+    // unless '-noCubase' is explicitly set
+    
+    if (! gMusicXMLOptions->fNoCubase) {
+      // set the '-cubase' option
+      S_optionsElement
+        cubaseOptionsElement =
+          gXml2lyOptions->
+            getOptionsHandlerUplink ()->
+              fetchOptionsElementFromMap ("cubase");
+          
+      if (
+        // combined items item?
+        S_optionsCombinedItemsItem
+          combinedItemsItem =
+            dynamic_cast<optionsCombinedItemsItem*>(&(*cubaseOptionsElement))
+        ) {
+        // handle it at once
+        fLogOutputStream <<
+          "Setting '-cubase' option" <<
+          endl;
+          
+        combinedItemsItem->
+          setCombinedItemsVariablesValue (true);
+      }
+
+      gMusicXMLOptions->fCubase = true;
+    }
+  }
+
   fMsrScore->getIdentification () ->
     addSoftware (
       elt->getInputLineNumber (),
-      elt->getValue ());
+      softwareValue);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_encoding_date& elt )

@@ -213,7 +213,8 @@ The file name receives a '_loop' suffix. Currently under development.)",
   {
     // variables
     
-    fCubase = boolOptionsInitialValue;
+    fCubase = false;
+    fNoCubase = false;
   
     // options
   
@@ -229,19 +230,24 @@ R"()",
     appendOptionsSubGroup (combinedOptionsSubGroup);
 
 
-    // create a combined item
+    // create the 'cubase' combined item
     S_optionsCombinedItemsItem
       cubaseCombinedItemsItem =
         optionsCombinedItemsItem::create (
           "cubase", "",
-R"(Useful settings for MusicXML data exported from Cubase.)",
+R"(Useful settings for MusicXML data exported from Cubase.
+This option is set by default, and can be unset by 'noCubase'.)",
           "cubase",
           fCubase);
 
     combinedOptionsSubGroup->
       appendOptionsItem (
         cubaseCombinedItemsItem);
- 
+
+    // set the '-cubase' option by default
+    cubaseCombinedItemsItem->
+      setCombinedItemsVariablesValue (true);
+
     // populate the combined items
     cubaseCombinedItemsItem->
       appendOptionsItemToCombinedItemsList (
@@ -252,7 +258,20 @@ R"(Useful settings for MusicXML data exported from Cubase.)",
     cubaseCombinedItemsItem->
       appendOptionsItemToCombinedItemsList (
         ignoreRedundantTimesItem);
-  }
+
+    // create the '-noCubase' item
+    S_optionsBooleanItem
+      noCubaseBooleanItem =
+        optionsBooleanItem::create (
+          "noCubase", "",
+R"(Prevents the default 'cubase' option.)",
+          "noCubase",
+          fNoCubase);
+
+    combinedOptionsSubGroup->
+      appendOptionsItem (
+        noCubaseBooleanItem);
+   }
 }
 
 S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
