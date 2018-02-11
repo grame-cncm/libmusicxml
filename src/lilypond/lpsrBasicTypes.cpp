@@ -197,12 +197,17 @@ string multipleRestWholeNoteAsLilypondString (
         1,
         wholeNotes.getDenominator ());
       
+  int numberOfWholeNotes =
+    wholeNotes.getNumerator ();
+    
   s <<
     wholeNotesAsLilypondString (
       inputLineNumber,
-      denominatorAsFraction) <<
-    "*" <<
-    wholeNotes.getNumerator ();
+      denominatorAsFraction);
+
+  if (numberOfWholeNotes != 1)
+    s <<
+      "*" << numberOfWholeNotes;
 
   return s.str ();
 }
