@@ -3329,6 +3329,15 @@ class msrMeasure : public msrElement
                           getMeasureCreatedAfterARepeatKind () const
                               { return fMeasureCreatedAfterARepeatKind; }
 
+    // single-measure rest?
+
+
+    void                  setMeasureIsASingleMeasureRest ()
+                              { fMeasureIsASingleMeasureRest = true; }
+
+    bool                  getMeasureIsASingleMeasureRest ()
+                             { return fMeasureIsASingleMeasureRest; }
+
     // chords handling
     
     S_msrNote              getMeasureLastHandledNote () const
@@ -3611,7 +3620,11 @@ class msrMeasure : public msrElement
 
     msrMeasureCreatedAfterARepeatKind
                           fMeasureCreatedAfterARepeatKind;
-                        
+
+    // single-measure rest?
+
+    bool                  fMeasureIsASingleMeasureRest;
+    
     // chords handling
     
     S_msrNote             fMeasureLastHandledNote;
@@ -5492,8 +5505,7 @@ class msrNote : public msrElement
     rational              getNotePositionInMeasure () const
                               { return fNotePositionInMeasure; }
 
-    void                  setNoteOccupiesAFullMeasure ()
-                              { fNoteOccupiesAFullMeasure = true; }
+    void                  setNoteOccupiesAFullMeasure ();
                       
     bool                  getNoteOccupiesAFullMeasure () const
                               { return fNoteOccupiesAFullMeasure; }

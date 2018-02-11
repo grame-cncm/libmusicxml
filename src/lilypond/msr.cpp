@@ -5649,6 +5649,17 @@ S_msrNote msrNote::createSkipNote (
   return o;
 }    
 
+void msrNote::setNoteOccupiesAFullMeasure ()
+{
+  fNoteOccupiesAFullMeasure = true;
+
+  if (fNoteIsARest) {
+    // the measure it belongs to is a single-measure rest
+    fNoteMeasureUplink->
+      setMeasureIsASingleMeasureRest ();
+  }
+}
+
 string msrNote::noteSoundingWholeNotesAsMsrString ()
 {
   string result;
@@ -17378,6 +17389,9 @@ void msrMeasure::initializeMeasure ()
   // measure 'created after a repeat' kind
   fMeasureCreatedAfterARepeatKind = kMeasureCreatedAfterARepeatNo;
 
+  // single-measure rest?
+  fMeasureIsASingleMeasureRest = false;
+  
   // initialize measure position
   setMeasureLength (
     fInputLineNumber,
@@ -17459,6 +17473,10 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
   newbornClone->fMeasureCreatedAfterARepeatKind =
     fMeasureCreatedAfterARepeatKind;
 
+  // single-measure rest?
+  newbornClone->fMeasureIsASingleMeasureRest =
+    fMeasureIsASingleMeasureRest;
+  
   // chords handling
 
   // elements
@@ -19849,7 +19867,7 @@ void msrMeasure::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 27;
+  const int fieldWidth = 28;
   
   os << left <<
     setw (fieldWidth) <<
@@ -19858,6 +19876,7 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
+    "first in segment" << " : " <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
     endl <<
@@ -19869,8 +19888,14 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
+    "measureCreatedAfterARepeat:" << " : " <<
     msrMeasure::measureCreatedAfterARepeatKindAsString (
       fMeasureCreatedAfterARepeatKind) << 
+    endl <<
+    
+    setw (fieldWidth) <<
+    "measureIsASingleMeasureRest" << " : " <<
+    booleanAsString (fMeasureIsASingleMeasureRest) <<
     endl <<
     
     setw (fieldWidth) <<
