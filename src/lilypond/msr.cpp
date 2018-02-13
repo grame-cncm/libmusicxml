@@ -5733,6 +5733,10 @@ string msrNote::noteKindAsString (
       result = "grace note";
       break;
       
+    case msrNote::kGraceChordMemberNote:
+      result = "grace chord member";
+      break;
+      
     case msrNote::kChordMemberNote:
       result = "chord member";
       break;
@@ -6908,6 +6912,7 @@ string msrNote::asShortStringWithRawWholeNotes () const
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
@@ -6991,6 +6996,7 @@ string msrNote::asShortString () const
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
@@ -7112,6 +7118,7 @@ string msrNote::asString () const
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       s <<
         "Grace note" " "<<
         notePitchAsString () <<
@@ -7230,6 +7237,7 @@ void msrNote::print (ostream& os)
         break;
   
       case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
         os <<
           "Whole notes: " <<
           fNoteDisplayWholeNotes <<
@@ -7472,6 +7480,7 @@ void msrNote::print (ostream& os)
         break;
         
       case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
         {
           const int fieldWidth = 46;
 
@@ -25382,6 +25391,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       // register actual note
       fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
@@ -25458,6 +25468,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       // register actual note
       fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;

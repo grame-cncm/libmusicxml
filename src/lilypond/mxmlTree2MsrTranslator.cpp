@@ -15074,6 +15074,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         break;
 
       case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
       case msrNote::kDoubleTremoloMemberNote:
         break;
     } // switch
@@ -15181,6 +15182,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   handleLyrics (
     voice,
     newNote);
+
+  // register newNote as the last met note
+  fLastMetNote = newNote;
   
   fOnGoingNote = false;
 }
@@ -15661,9 +15665,11 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     // fetch this chord's first note,
     // i.e the last handled note for this voice
     S_msrNote
-      chordFirstNote =
+      chordFirstNote = fLastMetNote; // JMI ???
+      /*
         currentVoice->
           getVoiceLastAppendedNote ();
+          */
     
     if (! chordFirstNote) {
       stringstream s;
@@ -15836,6 +15842,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
         break;
         
       case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
         break;
         
       case msrNote::kChordMemberNote:

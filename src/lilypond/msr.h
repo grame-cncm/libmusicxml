@@ -5018,6 +5018,7 @@ class msrNote : public msrElement
       kDoubleTremoloMemberNote,
       kGraceNote,
       kChordMemberNote,
+      kGraceChordMemberNote,
       kTupletMemberNote };
       
     static string noteKindAsString (
