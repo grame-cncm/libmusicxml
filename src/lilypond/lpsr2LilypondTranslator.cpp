@@ -4596,7 +4596,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoiceStaffChange& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrVoiceStaffChange '" <<
-      elt->voiceStaffChangeAsString () << "'" <<
+      elt->asString () << "'" <<
       endl;
   }
 
@@ -4614,7 +4614,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrHarmony '" <<
-      elt->harmonyAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -4622,7 +4622,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
   if (fOnGoingNote) {
     if (gTraceOptions->fTraceHarmonies) {
       fLilypondCodeIOstream <<
-        "%{ " << elt->harmonyAsString () << " %}" <<
+        "%{ " << elt->asString () << " %}" <<
         endl;
     }
   }
@@ -4661,7 +4661,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrFiguredBass '" <<
-      elt->figuredBassAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -4670,7 +4670,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFiguredBass& elt)
   
   if (fOnGoingNote) {
     fLilypondCodeIOstream <<
-      "%{ " << fCurrentFiguredBass->figuredBassAsString () << " %}" <<
+      "%{ " << fCurrentFiguredBass->asString () << " %}" <<
       endl;
   }
   
@@ -4708,7 +4708,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFigure& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrFigure '" <<
-      elt->figureAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -4812,7 +4812,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrFiguredBass& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrFiguredBass '" <<
-      elt->figuredBassAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -5309,7 +5309,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrSyllable '" <<
-      elt->syllableAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -5426,7 +5426,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrSyllable& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrSyllable '" <<
-      elt->syllableAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -5438,7 +5438,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrClef '" <<
-      elt->clefAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -5545,7 +5545,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrClef& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrClef '" <<
-      elt->clefAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -5557,7 +5557,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrKey& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrKey '" <<
-      elt->keyAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -5653,7 +5653,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrKey& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrKey '" <<
-      elt->keyAsString () <<
+      elt->asString () <<
       "'"  <<
       endl;
   }
@@ -5665,7 +5665,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTime " <<
-      elt->timeAsString () <<
+      elt->asString () <<
       endl;
   }
 
@@ -5832,7 +5832,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTime& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> End visiting msrTime " <<
-      elt->timeAsString () <<
+      elt->asString () <<
       endl;
   }
 }
@@ -8553,7 +8553,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i!=chordOtherDynamics.end ();
       i++) {
       fLilypondCodeIOstream <<
-        "\\" << (*i)->otherDynamicsAsString () << " ";
+        "\\" << (*i)->asString () << " ";
     } // for
   }
 

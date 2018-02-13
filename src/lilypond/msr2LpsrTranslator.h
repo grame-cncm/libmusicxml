@@ -578,8 +578,6 @@ class msr2LpsrTranslator :
     S_msrNote                 fCurrentNoteClone;
     S_msrNote                 fFirstNoteCloneInVoice;
                                 // to help workaround LilyPond issue 34
-    S_msrNote                 fCurrentAfterGraceNotesNote;
-                                // to help optimise after grace notes
 
     // glissandos
     // ------------------------------------------------------
@@ -604,6 +602,7 @@ class msr2LpsrTranslator :
 
     // afterGraceNotes optimisation
     S_msrAfterGraceNotes      fPendingAfterGraceNotes;
+    S_msrElement              fCurrentAfterGraceNotesElement;
     
     void                      prependSkipGraceNotesToPartOtherVoices (
                                 S_msrPart       fCurrentPartClone,

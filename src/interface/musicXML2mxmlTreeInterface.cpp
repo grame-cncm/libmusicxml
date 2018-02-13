@@ -521,8 +521,8 @@ SXMLFile convertStreamDataEncoding (
   #define WRITE_FD 1
 
   // create the 2 pipes
-  int parentToChildFds   [2];
-  int childFromParentFds [2];
+  int parentToChildFds [2];
+  int childToParentFds [2];
 
   pipe (parentToChildFds); // where the parent is going to write to
   if (true) {
@@ -535,14 +535,14 @@ SXMLFile convertStreamDataEncoding (
       endl;
   }
 
-  pipe (childFromParentFds);  // where the child is going to read from
+  pipe (childToParentFds);  // where the child is going to read from
   if (true) {
     logIOstream <<
-      "pipe childFromParentFds contains:" <<
+      "pipe childToParentFds contains:" <<
       gTab <<
-      "read: " << childFromParentFds [READ_FD] <<
+      "read: " << childToParentFds [READ_FD] <<
       gTab <<
-      "write: " << childFromParentFds [WRITE_FD] <<
+      "write: " << childToParentFds [WRITE_FD] <<
       endl;
   }
   
@@ -576,33 +576,40 @@ SXMLFile convertStreamDataEncoding (
         close (STDIN_FILENO);
         close (STDOUT_FILENO);
 
-        close (parentToChildFds   [WRITE_FD]);
-        close (childFromParentFds [READ_FD]);
+        close (parentToChildFds [WRITE_FD]);
+        close (childToParentFds [READ_FD]);
 
         // setting child input descriptor
+        int parentToChildReadDescriptor =
+          parentToChildFds [READ_FD];
+          
         if (true) {
           logIOstream <<
             "Child will read from parentToChildFds [READ_FD], i.e. " <<
-            parentToChildFds [READ_FD] <<
+            parentToChildReadDescriptor <<
             endl;
         }
-        dup2 (parentToChildFds [READ_FD], STDIN_FILENO);
+        dup2 (parentToChildReadDescriptor, STDIN_FILENO);
         
         // setting child output descriptor
+        int childToParentWriteDescriptor =
+          parentToChildFds [WRITE_FD];
+          
         if (true) {
           logIOstream <<
-            "Child will write to childFromParentFds [WRITE_FD]. i.e. " <<
-            childFromParentFds [WRITE_FD] <<
+            "Child will write to childToParentWriteDescriptor. i.e. " <<
+            childToParentWriteDescriptor <<
             endl;
         }
-        dup2 (childFromParentFds [WRITE_FD], STDOUT_FILENO);
+        dup2 (childToParentWriteDescriptor, STDOUT_FILENO);
 
         // write to stdout
-        system ("iconv -f ISO-8859-1 -t UTF-8 - | tee ConvertedData.xml");
+ //       system ("iconv -f ISO-8859-1 -t UTF-8 - | tee ConvertedData.xml");
+        system ("iconv -f ISO-8859-1 -t UTF-8 -");
 
         // close the descriptors after use by the child
-        close (parentToChildFds [READ_FD]); 
-        close (childFromParentFds [WRITE_FD]);
+        close (parentToChildReadDescriptor); 
+        close (childToParentWriteDescriptor);
 
     //    exit (0);      
         
@@ -615,12 +622,22 @@ SXMLFile convertStreamDataEncoding (
         // -------------------
 
         // close the descriptors used by the child
-        close (parentToChildFds   [READ_FD]); 
-        close (childFromParentFds [WRITE_FD]);
+        close (parentToChildFds [READ_FD]); 
+        close (childToParentFds [WRITE_FD]);
 
         // create a stream buffer to receive output
+        int parentToChildWriteDescriptor =
+          parentToChildFds [WRITE_FD];
+          
+        if (true) {
+          logIOstream <<
+            "Parent will write to parentToChildWriteDescriptor, i.e. " <<
+            parentToChildWriteDescriptor <<
+            endl;
+        }
+
         OFdnStreambuf outputStreamBuffer (
-          parentToChildFds [WRITE_FD], 1024);
+          parentToChildWriteDescriptor, 1024);
 
         // create the output stream to write to
         ostream outputStream (& outputStreamBuffer);
@@ -644,22 +661,35 @@ SXMLFile convertStreamDataEncoding (
         }
 
         // write the xmlFile representation to output stream
-        xmlFile->print (outputStream);
+  // JMI      xmlFile->print (outputStream);
+        outputStream <<
+          "FOOFIIFAA" <<
+          endl;
 
         // close the needed descriptor after use
-        close (parentToChildFds [WRITE_FD]);
+        close (parentToChildWriteDescriptor);
 
         // open the input stream descriptor for reading
+        int childToParentReadDescriptor =
+          childToParentFds [READ_FD];
+          
+        if (true) {
+          logIOstream <<
+            "Parent will read from childToParentReadDescriptor, i.e. " <<
+            childToParentReadDescriptor <<
+            endl;
+        }
+
         FILE* inputStream =
           fdopen (
-            childFromParentFds [READ_FD], "r");
+            childToParentReadDescriptor, "r");
     
         // read the converted data
         if (true) {
           logIOstream <<
             "Reading the converted data from descriptor " <<
-            "childFromParentFds [READ_FD], i.e. " <<
-            childFromParentFds [READ_FD] <<
+            "childToParentReadDescriptor, i.e. " <<
+            childToParentReadDescriptor <<
             endl;
         }
         
@@ -668,7 +698,7 @@ SXMLFile convertStreamDataEncoding (
         SXMLFile result = r.read (inputStream);
 
         // close the needed descriptor after use
-        close (childFromParentFds [READ_FD]);
+        close (childToParentReadDescriptor);
       }
       break;
     } // switch
@@ -938,6 +968,11 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
         encoding,
         desiredEncoding,
         logIOstream);
+
+    // has there been a problem?
+    if (! xmlFile) {
+      return Sxmlelement (0);
+    }
   }
 
   clock_t endClock = clock ();
