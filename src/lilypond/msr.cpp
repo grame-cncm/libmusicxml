@@ -5879,7 +5879,7 @@ string msrNote::noteEditorialAccidentalKindAsString (
       result = "noteEditorialAccidentalYes";
       break;
     case msrNote::kNoteEditorialAccidentalNo:
-      result = "knteEditorialAccidentalNo";
+      result = "noteEditorialAccidentalNo";
       break;
   } // switch
 
