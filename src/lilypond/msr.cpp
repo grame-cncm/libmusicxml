@@ -4567,8 +4567,7 @@ void msrAfterGraceNotes::print (ostream& os)
 
   // print the afterGraceNotes contents
   os <<
-    fAfterGraceNotesContents <<
-    endl;
+    fAfterGraceNotesContents;
 
   gIndenter--;
 }
@@ -5873,10 +5872,10 @@ string msrNote::noteEditorialAccidentalKindAsString (
   
   switch (noteEditorialAccidentalKind) {
     case msrNote::kNoteEditorialAccidentalYes:
-      result = "editorial accidental: yes";
+      result = "noteEditorialAccidentalYes";
       break;
     case msrNote::kNoteEditorialAccidentalNo:
-      result = "editorial accidental: no";
+      result = "knteEditorialAccidentalNo";
       break;
   } // switch
 
@@ -5890,10 +5889,10 @@ string msrNote::noteCautionaryAccidentalKindAsString (
   
   switch (noteCautionaryAccidentalKind) {
     case msrNote::kNoteCautionaryAccidentalYes:
-      result = "cautionary accidental: yes";
+      result = "noteCautionaryAccidentalYes";
       break;
     case msrNote::kNoteCautionaryAccidentalNo:
-      result = "cautionary accidental: no";
+      result = "noteCautionaryAccidentalNo";
       break;
   } // switch
 
@@ -5907,10 +5906,10 @@ string msrNote::notePrintKindAsString (
   
   switch (notePrintKind) {
     case msrNote::kNotePrintYes:
-      result = "print: yes";
+      result = "notePrintYes";
       break;
     case msrNote::kNotePrintNo:
-      result = "print: no";
+      result = "notePrintNo";
       break;
   } // switch
 
@@ -6013,10 +6012,10 @@ string msrNote::noteHeadFilledKindAsString (
  
   switch (noteHeadFilledKind) {
     case msrNote::kNoteHeadFilledYes:
-      result = "headFilled: yes";
+      result = "noteHeadFilledYes";
       break;
     case msrNote::kNoteHeadFilledNo:
-      result = "headFilled: no";
+      result = "noteHeadFilledNo";
       break;
   } // switch
 
@@ -6030,10 +6029,10 @@ string msrNote::noteHeadParenthesesKindAsString (
  
   switch (noteHeadParenthesesKind) {
     case msrNote::kNoteHeadParenthesesYes:
-      result = "headParentheses: yes";
+      result = "noteHeadParenthesesYes";
       break;
     case msrNote::kNoteHeadParenthesesNo:
-      result = "headParentheses: no";
+      result = "noteHeadParenthesesNo";
       break;
   } // switch
 
@@ -16369,10 +16368,10 @@ string msrFiguredBass::figuredBassParenthesesKindAsString (
   
   switch (figuredBassParenthesesKind) {
     case msrFiguredBass::kFiguredBassParenthesesYes:
-      result = "parentheses: yes";
+      result = "figuredBassParenthesesYes";
       break;
     case msrFiguredBass::kFiguredBassParenthesesNo:
-      result = "parentheses: no";
+      result = "figuredBassParenthesesNo";
       break;
   } // switch
 
@@ -16815,10 +16814,10 @@ string msrPedal::pedalLineAsString ()
   
   switch (fPedalLineKind) {
     case msrPedal::kPedalLineYes:
-      result = "pedal line: yes";
+      result = "pedalLineYes";
       break;
     case msrPedal::kPedalLineNo:
-      result = "pedal line: no";
+      result = "pedalLineNo";
       break;
   } // switch
 
@@ -16831,10 +16830,10 @@ string msrPedal::pedalSignAsString ()
   
   switch (fPedalSignKind) {
     case msrPedal::kPedalSignYes:
-      result = "pedal sign: yes";
+      result = "pedalSignYes";
       break;
     case msrPedal::kPedalSignNo:
-      result = "pedal sign: no";
+      result = "pedalSignNo";
       break;
   } // switch
 
@@ -17085,10 +17084,10 @@ string msrBarline::barlineHasSegnoKindAsString (
 
   switch (barlineHasSegnoKind) {
     case msrBarline::kBarlineHasSegnoYes:
-      result = "segno: yes";
+      result = "barlineHasSegnoYes";
       break;
     case msrBarline::kBarlineHasSegnoNo:
-      result = "segno: no";
+      result = "barlineHasSegnoNo";
       break;
   } // switch
 
@@ -17102,10 +17101,10 @@ string msrBarline::barlineHasCodaKindAsString (
 
   switch (barlineHasCodaKind) {
     case msrBarline::kBarlineHasCodaYes:
-      result = "coda: yes";
+      result = "barlineHasCodaYes";
       break;
     case msrBarline::kBarlineHasCodaNo:
-      result = "coda: no";
+      result = "barlineHasCodaNo";
       break;
   } // switch
 
@@ -19829,10 +19828,10 @@ string msrMeasure::measureFirstInSegmentKindAsString (
 
   switch (measureFirstInSegmentKind) {
     case msrMeasure::kMeasureFirstInSegmentYes:
-      result = "first in segment: yes";
+      result = "measureFirstInSegmentYes";
       break;
     case msrMeasure::kMeasureFirstInSegmentNo:
-      result = "first in segment: no";
+      result = "measureFirstInSegmentNo";
       break;
   } // switch
 
@@ -19846,10 +19845,10 @@ string msrMeasure::measureCreatedAfterARepeatKindAsString (
 
   switch (measureCreatedAfterARepeatKind) {
     case msrMeasure::kMeasureCreatedAfterARepeatYes:
-      result = "measureCreatedAfterARepeat: yes";
+      result = "measureCreatedAfterARepeatYes";
       break;
     case msrMeasure::kMeasureCreatedAfterARepeatNo:
-      result = "measureCreatedAfterARepeat: no";
+      result = "measureCreatedAfterARepeatNo";
       break;
   } // switch
 
@@ -28010,7 +28009,7 @@ void msrVoice::removeElementFromVoice (
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Removing element '" <<
-      "JMI ??? element->asShortString ()" <<
+      element->asShortString () <<
       "' from voice \"" << getVoiceName () << "\"" <<
       endl;
   }

@@ -1811,11 +1811,10 @@ string lpsrContext::contextExistingKindAsString (
   
   switch (contextExistingKind) {
     case kExistingContextYes:
-      result = "existing: yes";
+      result = "existingContextYes";
       break;
-      
     case kExistingContextNo:
-      result = "existing: no";
+      result = "existingContextNo";
       break;
   } // switch
 

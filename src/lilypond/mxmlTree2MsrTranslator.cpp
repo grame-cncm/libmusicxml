@@ -15003,22 +15003,25 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   // handle note
-  if (fCurrentNoteBelongsToAChord && fCurrentNoteBelongsToATuplet) {
+  if (fCurrentNoteBelongsToAChord) {
     
-    // note is the second, third, ..., member of a chord
-    // that is a member of a tuplet
-    handleNoteBelongingToAChordInATuplet (
-      newNote);
+    if (fCurrentNoteBelongsToATuplet) {
     
-  }
-  
-  else if (fCurrentNoteBelongsToAChord) {
+      // note is the second, third, ..., member of a chord
+      // that is a member of a tuplet
+      handleNoteBelongingToAChordInATuplet (
+        newNote);
+      
+    }
     
-    // note is the second, third, ..., member of a chord
-    // whose first member is 'fLastHandledNoteInVoiceMap [currentVoice]'
-    handleNoteBelongingToAChord (
-      newNote);
-    
+    else {
+      
+      // note is the second, third, ..., member of a chord
+      // whose first member is 'fLastHandledNoteInVoiceMap [currentVoice]'
+      handleNoteBelongingToAChord (
+        newNote);
+      
+    }
   }
   
   else if (fCurrentNoteBelongsToATuplet) {

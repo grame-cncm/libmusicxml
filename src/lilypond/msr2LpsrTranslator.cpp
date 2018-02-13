@@ -2874,7 +2874,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
       fPendingAfterGraceNotes =
         msrAfterGraceNotes::create (
           inputLineNumber,
-            fCurrentVoiceClone,
+            fCurrentAfterGraceNotesElement,
             elt->getGraceNotesIsSlashed (),
             fCurrentVoiceClone);
 
