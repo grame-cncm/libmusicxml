@@ -219,7 +219,7 @@ void msr2LpsrTranslator::prependSkipGraceNotesToPartOtherVoices (
     if (gTraceOptions->fTraceGraceNotes) {
       fLogOutputStream <<
         "--> prepending a skip graceNotes clone " <<
-        skipGraceNotes->graceNotesAsShortString () <<
+        skipGraceNotes->asShortString () <<
         " to voices other than \"" <<
         voiceClone->getVoiceName () << "\"" <<
         " in part " <<
@@ -1339,7 +1339,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoiceStaffChange& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrVoiceStaffChange '" <<
-      elt->voiceStaffChangeAsString () << "'" <<
+      elt->asString () << "'" <<
       endl;
   }
 
@@ -1408,7 +1408,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrHarmony '" <<
-      elt->harmonyAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -1448,7 +1448,7 @@ void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrHarmony '" <<
-      elt->harmonyAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -1460,7 +1460,7 @@ void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFiguredBass '" <<
-      elt->figuredBassAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -1500,7 +1500,7 @@ void msr2LpsrTranslator::visitStart (S_msrFigure& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrFigure '" <<
-      elt->figureAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -1516,7 +1516,7 @@ void msr2LpsrTranslator::visitEnd (S_msrFiguredBass& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrFiguredBass '" <<
-      elt->figuredBassAsString () <<
+      elt->asString () <<
       "'" <<
       endl;
   }
@@ -1894,8 +1894,8 @@ void msr2LpsrTranslator::visitStart (S_msrSyllable& elt)
     if (gTraceOptions->fTraceLyrics) {
       fLogOutputStream <<
         "Setting syllable note uplink " <<
-        fCurrentSyllableClone->syllableAsString () <<
-        " to " << eltNoteUplink->noteAsShortString () <<
+        fCurrentSyllableClone->asString () <<
+        " to " << eltNoteUplink->asShortString () <<
         endl;
     }
 
@@ -2778,7 +2778,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
       if (gTraceOptions->fTraceGraceNotes) {
         fLogOutputStream <<
           "Optimising grace notes " << 
-          elt->graceNotesAsShortString () <<
+          elt->asShortString () <<
           "into after grace notes" <<
           endl;
       }
@@ -2820,7 +2820,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
       if (gTraceOptions->fTraceGraceNotes) {
         fLogOutputStream <<
           "Creating a skip clone of grace notes " <<
-          elt->graceNotesAsShortString () <<
+          elt->asShortString () <<
           " to work around LilyPond issue 34" <<
           endl;
       }
@@ -2851,21 +2851,40 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
       // and the last element in the current voice clone
 
       // fetch the voice last element
-      S_msrElement
-        voiceCloneLastElement =
-          fCurrentVoiceClone->
-            fetchVoiceLastElement (inputLineNumber);
+      fCurrentAfterGraceNotesElement =
+        fCurrentVoiceClone->
+          fetchVoiceLastElement (inputLineNumber);
 
       // create the after grace notes
-      S_msrAfterGraceNotes
-        fPendingAfterGraceNotes =
-          msrAfterGraceNotes::create (
-            inputLineNumber,
-              fCurrentVoiceClone,
-              elt->getGraceNotesIsSlashed (),
-              fCurrentVoiceClone);
+      if (gTraceOptions->fTraceGraceNotes) {
+        fLogOutputStream <<
+          "Converting grace notes '" <<
+          elt->asShortString () <<
+          "' into after grace notes attached to:"<<
+          endl;
+
+        gIndenter++;
+        
+        fCurrentAfterGraceNotesElement->
+          print (fLogOutputStream);
+
+        gIndenter--;
+      }
+
+      fPendingAfterGraceNotes =
+        msrAfterGraceNotes::create (
+          inputLineNumber,
+            fCurrentAfterGraceNotesElement,
+            elt->getGraceNotesIsSlashed (),
+            fCurrentVoiceClone);
 
       // append it to the current voice clone
+      if (gTraceOptions->fTraceGraceNotes) {
+        fLogOutputStream <<
+          "Appending the after grace notes to current voice clone" <<
+          endl;
+      }
+      
       fCurrentVoiceClone->
         appendOtherElementToVoice (
           fPendingAfterGraceNotes);
@@ -2888,14 +2907,21 @@ void msr2LpsrTranslator::visitEnd (S_msrGraceNotes& elt)
   if (fPendingAfterGraceNotes) {
     // remove the current afterGraceNotes note clone
     // from the current voice clone
+    if (gTraceOptions->fTraceGraceNotes) {
+      fLogOutputStream <<
+        "Removing the after grace notes element from the current voice clone" <<
+        endl;
+    }
+
     fCurrentVoiceClone->
-      removeNoteFromVoice (
+      removeElementFromVoice (
         elt->getInputLineNumber (),
-        fCurrentAfterGraceNotesNote);
-        
-    fCurrentAfterGraceNotesNote = nullptr;
+        fCurrentAfterGraceNotesElement);
+
+    // forget about the current after grace notes element
+    fCurrentAfterGraceNotesElement = nullptr;
   
-    // forget these after grace notes if any
+    // forget about these after the pending grace notes
     fPendingAfterGraceNotes = nullptr;
   }
 }
@@ -2906,7 +2932,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> Start visiting msrNote " <<
-      elt->noteAsString () <<
+      elt->asString () <<
       endl;
   }
 
@@ -2934,7 +2960,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
     if (gTraceOptions->fTraceNotes) {
       fLogOutputStream <<
         "Optimizing grace notes on trilled note '" <<
-        elt->noteAsShortString () <<
+        elt->asShortString () <<
         "' as after grace notes " <<
         ", line " << inputLineNumber <<
         endl;
@@ -2947,8 +2973,8 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
         false, // aftergracenoteIsSlashed, may be updated later
         fCurrentVoiceClone);
 
-    // register current afterGraceNotes note
-    fCurrentAfterGraceNotesNote =
+    // register current afterGraceNotes element
+    fCurrentAfterGraceNotesElement =
       fCurrentNoteClone;
   }
 
@@ -2960,7 +2986,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrNote " <<
-      elt->noteAsString () <<
+      elt->asString () <<
       endl;
   }
 
@@ -2976,7 +3002,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending " <<
-          fCurrentNoteClone->noteAsString () << " to voice clone " <<
+          fCurrentNoteClone->asString () << " to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -2990,7 +3016,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending " <<
-          fCurrentNoteClone->noteAsString () << " to voice clone " <<
+          fCurrentNoteClone->asString () << " to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -3004,7 +3030,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending " <<
-          fCurrentNoteClone->noteAsString () << " to voice clone " <<
+          fCurrentNoteClone->asString () << " to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -3021,7 +3047,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           if (gTraceOptions->fTraceNotes) {
             fLogOutputStream <<
               "Setting standalone note '" <<
-              fCurrentNoteClone->noteAsString () <<
+              fCurrentNoteClone->asString () <<
               "', line " << fCurrentNoteClone->getInputLineNumber () <<
               ", as double tremolo first element" <<
               " in voice \"" <<
@@ -3039,7 +3065,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           if (gTraceOptions->fTraceNotes) {
             fLogOutputStream <<
               "Setting standalone note '" <<
-              fCurrentNoteClone->noteAsString () <<
+              fCurrentNoteClone->asString () <<
               "', line " << fCurrentNoteClone->getInputLineNumber () <<
               ", as double tremolo second element" <<
               " in voice \"" <<
@@ -3057,7 +3083,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           stringstream s;
 
           s <<
-            "note '" << fCurrentNoteClone->noteAsShortString () <<
+            "note '" << fCurrentNoteClone->asShortString () <<
             "' belongs to a double tremolo, but is not marked as such";
 
           msrInternalError (
@@ -3072,7 +3098,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
 
         s <<
-          "double tremolo note '" << fCurrentNoteClone->noteAsShortString () <<
+          "double tremolo note '" << fCurrentNoteClone->asShortString () <<
           "' met outside of a double tremolo";
 
         msrInternalError (
@@ -3125,7 +3151,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           "both fCurrentGraceNotesClone and fPendingAfterGraceNotes are null," <<
           endl <<
           "cannot handle grace note'" <<
-          elt->noteAsString () <<
+          elt->asString () <<
           "'";
 
         msrInternalError (
@@ -3148,7 +3174,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
 
         s <<
           "msr2LpsrTranslator:::visitEnd (S_msrNote& elt): chord member note " <<
-          elt->noteAsString () <<
+          elt->asString () <<
           " appears outside of a chord";
 
         msrInternalError (
@@ -3163,7 +3189,7 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
       if (gTraceOptions->fTraceNotes) {
         fLogOutputStream <<
           "Appending " <<
-          fCurrentNoteClone->noteAsString () << " to voice clone " <<
+          fCurrentNoteClone->asString () << " to voice clone " <<
           fCurrentVoiceClone->getVoiceName () <<
           endl;
       }
@@ -3397,7 +3423,7 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
       stringstream s;
 
       s <<
-        "chord '" << elt->chordAsString () <<
+        "chord '" << elt->asString () <<
         "' belongs to a double tremolo, but is not marked as such";
 
       msrInternalError (
@@ -3449,7 +3475,7 @@ void msr2LpsrTranslator::visitStart (S_msrTuplet& elt)
   if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "++> pushing tuplet '" <<
-      tupletClone->tupletAsString () <<
+      tupletClone->asString () <<
       "' to tuplets stack" <<
       endl;
   }
@@ -3478,7 +3504,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
   if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Popping tuplet '" <<
-      elt->tupletAsString () <<
+      elt->asString () <<
       "' from tuplets stack" <<
       endl;
   }
@@ -3490,9 +3516,9 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
     if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
         "Adding nested tuplet '" <<
-      elt->tupletAsString () <<
+      elt->asString () <<
         "' to stack top tuplet '" <<
-      fTupletClonesStack.top ()->tupletAsString () <<
+      fTupletClonesStack.top ()->asString () <<
       "'" <<
       endl;
     }
@@ -3507,7 +3533,7 @@ void msr2LpsrTranslator::visitEnd (S_msrTuplet& elt)
     if (gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
         "Adding top level tuplet '" <<
-      elt->tupletAsString () <<
+      elt->asString () <<
       "' to voice" <<
       fCurrentVoiceClone->getVoiceName () <<
       endl;

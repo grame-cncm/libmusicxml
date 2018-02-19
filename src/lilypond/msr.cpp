@@ -86,6 +86,18 @@ void msrElement::acceptOut (basevisitor* v)
   }
 }
 
+string msrElement::asString () const
+{
+  // this is overriden all in actual elements
+  return "??? Element ???";
+}
+
+string msrElement::asShortString () const
+{
+  // this is overriden in actual elements only if needed
+  return asString ();
+}
+
 ostream& operator<< (ostream& os, const S_msrElement& elt)
 {
   elt->print (os);
@@ -94,7 +106,7 @@ ostream& operator<< (ostream& os, const S_msrElement& elt)
 
 void msrElement::print (ostream& os)
 {
-  os << "??? Element ???" << endl;
+  os << asString () << endl;
 }
 
 //______________________________________________________________________________
@@ -173,7 +185,7 @@ ostream& operator<< (ostream& os, const S_msrComment& elt)
   return os;
 }
 
-string msrComment::commentAsString () const
+string msrComment::asString () const
 {
   return
     "Comment '" + fCommentText + "'";
@@ -411,7 +423,7 @@ ostream& operator<< (ostream& os, const S_msrAccordionRegistration& elt)
   return os;
 }
 
-string msrAccordionRegistration::accordionRegistrationAsString () const
+string msrAccordionRegistration::asString () const
 {
   stringstream s;
 
@@ -430,7 +442,7 @@ void msrAccordionRegistration::print (ostream& os)
   gIndenter++;
   
   os <<
-    accordionRegistrationAsString () <<
+    asString () <<
     endl;
 
   gIndenter--;
@@ -659,7 +671,7 @@ string msrBeam::beamKindAsString (
   return result;
 }
 
-string msrBeam::beamAsString () const
+string msrBeam::asString () const
 {
   stringstream s;
 
@@ -675,7 +687,7 @@ string msrBeam::beamAsString () const
 void msrBeam::print (ostream& os)
 {  
   os <<
-    beamAsString () <<
+    asString () <<
     endl;
 }
 
@@ -1254,7 +1266,7 @@ ostream& operator<< (ostream& os, const S_msrTechnical& elt)
   return os;
 }
 
-string msrTechnical::technicalAsString () const
+string msrTechnical::asString () const
 {
   return
     msrPlacementKindAsString (
@@ -1265,11 +1277,11 @@ void msrTechnical::print (ostream& os)
 {
   os <<
     "Technical" " " <<
-    technicalAsString () <<
+    asString () <<
     ", line " << fInputLineNumber <<
 //    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
     ", note uplink" << " = " <<
-    fTechnicalNoteUplink->noteAsShortString () <<
+    fTechnicalNoteUplink->asShortString () <<
     endl;
 }
 
@@ -1389,7 +1401,7 @@ ostream& operator<< (ostream& os, const S_msrTechnicalWithInteger& elt)
   return os;
 }
 
-string msrTechnicalWithInteger::technicalWithIntegerAsString () const
+string msrTechnicalWithInteger::asString () const
 {
   stringstream s;
 
@@ -1428,7 +1440,7 @@ void msrTechnicalWithInteger::print (ostream& os)
 
     setw (fieldWidth) <<
     "note uplink" << " = " <<
-    fTechnicalWithIntegerNoteUplink->noteAsShortString () <<
+    fTechnicalWithIntegerNoteUplink->asShortString () <<
     endl;
 
   gIndenter--;
@@ -1568,7 +1580,7 @@ ostream& operator<< (ostream& os, const S_msrTechnicalWithString& elt)
   return os;
 }
 
-string msrTechnicalWithString::technicalWithStringAsString () const
+string msrTechnicalWithString::asString () const
 {
   stringstream s;
 
@@ -1610,7 +1622,7 @@ void msrTechnicalWithString::print (ostream& os)
 
     setw (fieldWidth) <<
     "note uplink" << " = " <<
-    fTechnicalWithStringNoteUplink->noteAsShortString () <<
+    fTechnicalWithStringNoteUplink->asShortString () <<
     endl;
 
   gIndenter--;
@@ -1740,7 +1752,7 @@ ostream& operator<< (ostream& os, const S_msrFermata& elt)
   return os;
 }
 
-string msrFermata::fermataAsString () const
+string msrFermata::asString () const
 {
   stringstream s;
 
@@ -1758,7 +1770,7 @@ string msrFermata::fermataAsString () const
 void msrFermata::print (ostream& os)
 {
   os <<
-    fermataAsString () <<
+    asString () <<
     endl;
 }
 
@@ -1957,7 +1969,7 @@ void msrOrnament::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "note uplink" << " : " <<
-    fOrnamentNoteUplink->noteAsShortString () <<
+    fOrnamentNoteUplink->asShortString () <<
     endl;
 
   gIndenter--;
@@ -1983,10 +1995,10 @@ S_msrSingleTremolo msrSingleTremolo::createSingleTremoloDeepCopy (
   if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Creating a deep copy of single tremolo " <<
-      singleTremoloAsString () <<
+      asString () <<
       " in note '" <<
       noteUplink->
-        noteAsShortString () <<
+        asShortString () <<
       "'" <<
       endl;
   }
@@ -2082,7 +2094,7 @@ ostream& operator<< (ostream& os, const S_msrSingleTremolo& elt)
   return os;
 }
 
-string msrSingleTremolo::singleTremoloAsString () const
+string msrSingleTremolo::asString () const
 {
   stringstream s;
   
@@ -2096,7 +2108,7 @@ string msrSingleTremolo::singleTremoloAsString () const
     s <<
       ", note uplink" << " = " <<
       fSingleTremoloNoteUplink->
-        noteAsShortStringWithRawWholeNotes ();
+        asShortStringWithRawWholeNotes ();
 
   return s.str ();
 }
@@ -2104,7 +2116,7 @@ string msrSingleTremolo::singleTremoloAsString () const
 void msrSingleTremolo::print (ostream& os)
 {
   os <<
-    singleTremoloAsString () <<
+    asString () <<
     endl;
 }
 
@@ -2203,9 +2215,9 @@ void msrDoubleTremolo::setDoubleTremoloNoteFirstElement (S_msrNote note)
 {
   if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
-      "Setting note " << note->noteAsShortString () <<
+      "Setting note " << note->asShortString () <<
       " as first element of double tremolo " <<
-      doubleTremoloAsShortString () <<
+      asShortString () <<
       endl;
   }
 
@@ -2303,9 +2315,9 @@ void msrDoubleTremolo::setDoubleTremoloNoteSecondElement (
 {
   if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
-      "Setting note " << note->noteAsShortString () <<
+      "Setting note " << note->asShortString () <<
       " as second element of double tremolo " <<
-      doubleTremoloAsShortString () <<
+      asShortString () <<
       endl;
   }
 
@@ -2386,9 +2398,9 @@ void msrDoubleTremolo::setDoubleTremoloChordFirstElement (
 {
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Setting chord " << chord->chordAsString () <<
+      "Setting chord " << chord->asString () <<
       " as first element of double tremolo " <<
-      doubleTremoloAsShortString () <<
+      asShortString () <<
       endl;
   }
 
@@ -2452,9 +2464,9 @@ void msrDoubleTremolo::setDoubleTremoloChordSecondElement (S_msrChord chord)
 {
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Setting chord " << chord->chordAsString () <<
+      "Setting chord " << chord->asString () <<
       " as second element of double tremolo " <<
-      doubleTremoloAsShortString () <<
+      asShortString () <<
       endl;
   }
 
@@ -2595,7 +2607,7 @@ ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt)
   return os;
 }
 
-string msrDoubleTremolo::doubleTremoloAsShortString () const
+string msrDoubleTremolo::asShortString () const
 {
   stringstream s;
   
@@ -2611,7 +2623,7 @@ string msrDoubleTremolo::doubleTremoloAsShortString () const
   return s.str ();
 }
 
-string msrDoubleTremolo::doubleTremoloAsString () const
+string msrDoubleTremolo::asString () const
 {
   stringstream s;
   
@@ -2634,7 +2646,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
             note =
               dynamic_cast<msrNote*>(&(*fDoubleTremoloFirstElement))
           ) {    
-          note->noteAsShortString ();
+          note->asShortString ();
         }
         else {
           msrInternalError (
@@ -2651,7 +2663,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
             chord =
               dynamic_cast<msrChord*>(&(*fDoubleTremoloFirstElement))
           ) {
-          chord->chordAsString ();
+          chord->asString ();
         }
         else {
           msrInternalError (
@@ -2675,7 +2687,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
             note =
               dynamic_cast<msrNote*>(&(*fDoubleTremoloSecondElement))
           ) {    
-          note->noteAsShortString ();
+          note->asShortString ();
         }
         else {
           msrInternalError (
@@ -2692,7 +2704,7 @@ string msrDoubleTremolo::doubleTremoloAsString () const
             chord =
               dynamic_cast<msrChord*>(&(*fDoubleTremoloSecondElement))
           ) {
-          chord->chordAsString ();
+          chord->asString ();
         }
         else {
           msrInternalError (
@@ -3315,7 +3327,7 @@ ostream& operator<< (ostream& os, const S_msrOtherDynamics& elt)
   return os;
 }
 
-string msrOtherDynamics::otherDynamicsAsString ()
+string msrOtherDynamics::asString () const
 {
   stringstream s;
   
@@ -3329,7 +3341,7 @@ string msrOtherDynamics::otherDynamicsAsString ()
 void msrOtherDynamics::print (ostream& os)
 {
   os <<
-    otherDynamicsAsString () <<
+    asString () <<
     endl;
 }
 
@@ -3702,12 +3714,12 @@ string msrSlur::slurTypeKindAsString (
   return s.str ();
 }
       
-string msrSlur::slurTypeKindAsString ()
+string msrSlur::slurTypeKindAsString () const
 {
   return slurTypeKindAsString (fSlurTypeKind);
 }
 
-string msrSlur::slurAsString ()
+string msrSlur::asString () const
 {
   stringstream s;
 
@@ -3731,7 +3743,7 @@ ostream& operator<< (ostream& os, const S_msrSlur& elt)
 void msrSlur::print (ostream& os)
 {
   os <<
-    slurAsString () <<
+    asString () <<
     endl;
 }
 
@@ -3966,7 +3978,7 @@ S_msrGraceNotes msrGraceNotes::createGraceNotesNewbornClone (
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of grace notes" <<
-      graceNotesAsShortString () <<
+      asShortString () <<
       endl;
   }
   
@@ -4004,7 +4016,7 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Creating a skip clone of grace notes" <<
-      graceNotesAsShortString () <<
+      asShortString () <<
       endl;
   }
   
@@ -4120,7 +4132,7 @@ ostream& operator<< (ostream& os, const S_msrGraceNotes& elt)
   return os;
 }
 
-string msrGraceNotes::graceNotesAsShortString () const
+string msrGraceNotes::asShortString () const
 {
   stringstream s;
 
@@ -4132,7 +4144,7 @@ string msrGraceNotes::graceNotesAsShortString () const
     iEnd   = fGraceNotesNotesList.end (),
     i      = iBegin;
   for ( ; ; ) {
-    s << (*i)->noteAsShortString ();
+    s << (*i)->asShortString ();
     if (++i == iEnd) break;
     s << " ";
   } // for
@@ -4304,7 +4316,7 @@ ostream& operator<< (ostream& os, const S_msrAfterGraceNotesContents& elt)
   return os;
 }
 
-string msrAfterGraceNotesContents::afterGraceNotesContentsAsShortString () const
+string msrAfterGraceNotesContents::asShortString () const
 {
   stringstream s;
 
@@ -4321,7 +4333,7 @@ string msrAfterGraceNotesContents::afterGraceNotesContentsAsShortString () const
     i      = iBegin;
     
   for ( ; ; ) {
-    s << (*i)->noteAsShortString ();
+    s << (*i)->asShortString ();
     if (++i == iEnd) break;
     s << " ";
   } // for
@@ -4519,16 +4531,16 @@ ostream& operator<< (ostream& os, const S_msrAfterGraceNotes& elt)
   return os;
 }
 
-string msrAfterGraceNotes::afterGraceNotesAsShortString () const
+string msrAfterGraceNotes::asShortString () const
 {
   stringstream s;
 
   s <<
     "AfterGraceNotes " <<
     ", AfterGraceNotesElement: " <<
-    "JMI ???fAfterGraceNotesElement->noteAsShortString ()" <<
+    "JMI ???fAfterGraceNotesElement->asShortString ()" <<
     ", fAfterGraceNotesContents: " <<
-    fAfterGraceNotesContents->afterGraceNotesContentsAsShortString ();
+    fAfterGraceNotesContents->asShortString ();
 
   return s.str ();
 }
@@ -4555,8 +4567,7 @@ void msrAfterGraceNotes::print (ostream& os)
 
   // print the afterGraceNotes contents
   os <<
-    fAfterGraceNotesContents <<
-    endl;
+    fAfterGraceNotesContents;
 
   gIndenter--;
 }
@@ -4932,7 +4943,7 @@ S_msrNote msrNote::createNoteNewbornClone (
   if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Creating a newborn clone of note " <<
-      noteAsString () <<
+      asString () <<
       " in part " <<
       containingPart->
         getPartCombinedName () << 
@@ -5157,7 +5168,7 @@ S_msrNote msrNote::createNoteDeepCopy (
   if (gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Creating a deep copy of note " <<
-      noteAsString () <<
+      asString () <<
       /* JMI
       " in part " <<
       containingPart->
@@ -5660,7 +5671,7 @@ void msrNote::setNoteOccupiesAFullMeasure ()
   }
 }
 
-string msrNote::noteSoundingWholeNotesAsMsrString ()
+string msrNote::noteSoundingWholeNotesAsMsrString () const
 {
   string result;
 
@@ -5675,17 +5686,19 @@ string msrNote::noteSoundingWholeNotesAsMsrString ()
   return result;
   }
 
-string msrNote::noteDisplayWholeNotesAsMsrString ()
+string msrNote::noteDisplayWholeNotesAsMsrString () const
 {
   string result;
 
-  if (fNoteDisplayWholeNotes.getNumerator () == 0)
+  if (fNoteDisplayWholeNotes.getNumerator () == 0) {
     result = "(no display whole notes)";
-  else
+  }
+  else {
     result =
       wholeNotesAsMsrString (
         fInputLineNumber,
         fNoteDisplayWholeNotes);
+  }
 
   return result;
 }
@@ -5718,6 +5731,10 @@ string msrNote::noteKindAsString (
       
     case msrNote::kGraceNote:
       result = "grace note";
+      break;
+      
+    case msrNote::kGraceChordMemberNote:
+      result = "grace chord member";
       break;
       
     case msrNote::kChordMemberNote:
@@ -5859,10 +5876,10 @@ string msrNote::noteEditorialAccidentalKindAsString (
   
   switch (noteEditorialAccidentalKind) {
     case msrNote::kNoteEditorialAccidentalYes:
-      result = "editorial accidental: yes";
+      result = "noteEditorialAccidentalYes";
       break;
     case msrNote::kNoteEditorialAccidentalNo:
-      result = "editorial accidental: no";
+      result = "noteEditorialAccidentalNo";
       break;
   } // switch
 
@@ -5876,10 +5893,10 @@ string msrNote::noteCautionaryAccidentalKindAsString (
   
   switch (noteCautionaryAccidentalKind) {
     case msrNote::kNoteCautionaryAccidentalYes:
-      result = "cautionary accidental: yes";
+      result = "noteCautionaryAccidentalYes";
       break;
     case msrNote::kNoteCautionaryAccidentalNo:
-      result = "cautionary accidental: no";
+      result = "noteCautionaryAccidentalNo";
       break;
   } // switch
 
@@ -5893,10 +5910,10 @@ string msrNote::notePrintKindAsString (
   
   switch (notePrintKind) {
     case msrNote::kNotePrintYes:
-      result = "print: yes";
+      result = "notePrintYes";
       break;
     case msrNote::kNotePrintNo:
-      result = "print: no";
+      result = "notePrintNo";
       break;
   } // switch
 
@@ -5999,10 +6016,10 @@ string msrNote::noteHeadFilledKindAsString (
  
   switch (noteHeadFilledKind) {
     case msrNote::kNoteHeadFilledYes:
-      result = "headFilled: yes";
+      result = "noteHeadFilledYes";
       break;
     case msrNote::kNoteHeadFilledNo:
-      result = "headFilled: no";
+      result = "noteHeadFilledNo";
       break;
   } // switch
 
@@ -6016,10 +6033,10 @@ string msrNote::noteHeadParenthesesKindAsString (
  
   switch (noteHeadParenthesesKind) {
     case msrNote::kNoteHeadParenthesesYes:
-      result = "headParentheses: yes";
+      result = "noteHeadParenthesesYes";
       break;
     case msrNote::kNoteHeadParenthesesNo:
-      result = "headParentheses: no";
+      result = "noteHeadParenthesesNo";
       break;
   } // switch
 
@@ -6092,7 +6109,7 @@ void msrNote::setNoteBelongsToAChord ()
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Setting note '" <<
-      noteAsShortStringWithRawWholeNotes () <<
+      asShortStringWithRawWholeNotes () <<
       "' to belong to a chord"
       ", line " << fInputLineNumber <<
       endl;
@@ -6131,7 +6148,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
     gLogIOstream <<
       "Determining tuplet sounding from display whole notes" <<
       " for note '" <<
-      noteAsShortString () <<
+      asShortString () <<
       ", factor is '" <<
       actualNotes << "/" << normalNotes <<
       "', line " << fInputLineNumber <<
@@ -6151,7 +6168,7 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
   if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "The result is: '" <<
-      noteAsShortString () <<
+      asShortString () <<
       endl;
   }
 }
@@ -6173,7 +6190,7 @@ void msrNote::addSpannerToNote (S_msrSpanner span)
       "Adding spanner '" <<
       span->spannerKindAsString () <<
       "' to note '" <<
-      noteAsShortString () <<
+      asShortString () <<
       "'" <<
       endl;
   }
@@ -6208,8 +6225,8 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical '" <<
-      technical->technicalAsString () <<
-      "' to note '" << noteAsShortString () <<
+      technical->asString () <<
+      "' to note '" << asShortString () <<
       "', line " << fInputLineNumber <<
       endl;
   }
@@ -6228,8 +6245,8 @@ void msrNote::addTechnicalWithIntegerToNote (
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with integer '" <<
-      technicalWithInteger->technicalWithIntegerAsString () <<
-      "' to note '" << noteAsShortString () <<
+      technicalWithInteger->asString () <<
+      "' to note '" << asShortString () <<
       "', line " << fInputLineNumber <<
       endl;
   }
@@ -6248,8 +6265,8 @@ void msrNote::addTechnicalWithStringToNote (
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
       "Adding technical with string'" <<
-      technicalWithString->technicalWithStringAsString () <<
-      "' to note '" << noteAsShortString () <<
+      technicalWithString->asString () <<
+      "' to note '" << asShortString () <<
       "', line " << fInputLineNumber <<
       endl;
   }
@@ -6304,8 +6321,8 @@ void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
 {
   if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
-      "Adding singleTremolo " << trem->singleTremoloAsString () <<
-      " to note " << noteAsShortString () <<
+      "Adding singleTremolo " << trem->asString () <<
+      " to note " << asShortString () <<
       ", line " << trem->getInputLineNumber () <<
       endl;
   }
@@ -6337,7 +6354,7 @@ void msrNote::addSlurToNote (S_msrSlur slur)
   if (gTraceOptions->fTraceSlurs) {
     gLogIOstream <<
       "Adding slur '" << slur <<
-      "' to note '" << noteAsString () << "'" <<
+      "' to note '" << asString () << "'" <<
       endl;
   }
 
@@ -6348,7 +6365,7 @@ void msrNote::addLigatureToNote (S_msrLigature ligature)
 {
   if (gTraceOptions->fTraceLigatures) {
     gLogIOstream <<
-      "Adding ligature " << ligature << " to note " << noteAsString () <<
+      "Adding ligature " << ligature << " to note " << asString () <<
        endl;
   }
 
@@ -6424,8 +6441,8 @@ void msrNote::appendSyllableToNote (S_msrSyllable syllable)
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending syllable '" <<
-      syllable->syllableAsString () <<
-      "' to note " << noteAsString () <<
+      syllable->asString () <<
+      "' to note " << asString () <<
       endl;
   }
   
@@ -6436,8 +6453,8 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
 {
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "Setting note '" << noteAsShortString ()  << "'" <<
-      " harmony to '" << harmony->harmonyAsString () << "'" <<
+      "Setting note '" << asShortString ()  << "'" <<
+      " harmony to '" << harmony->asString () << "'" <<
       endl;
   }
   
@@ -6448,8 +6465,8 @@ void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 {
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
-      "Setting note '" << noteAsShortString ()  << "'" <<
-      " figured bass to '" << figuredBass->figuredBassAsString () << "'" <<
+      "Setting note '" << asShortString ()  << "'" <<
+      " figured bass to '" << figuredBass->asString () << "'" <<
       endl;
   }
       
@@ -6837,7 +6854,7 @@ string msrNote::noteDiatonicPitchKindAsString (
         fInputLineNumber));
 }
 
-string msrNote::noteAsShortStringWithRawWholeNotes () const
+string msrNote::asShortStringWithRawWholeNotes () const
 {
   stringstream s;
 
@@ -6895,6 +6912,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
@@ -6937,7 +6955,7 @@ string msrNote::noteAsShortStringWithRawWholeNotes () const
   return s.str ();
 }
 
-string msrNote::noteAsShortString ()
+string msrNote::asShortString () const
 {
   stringstream s;
 
@@ -6978,6 +6996,7 @@ string msrNote::noteAsShortString ()
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
@@ -7025,7 +7044,7 @@ string msrNote::noteAsShortString ()
   return s.str ();
 }
 
-string msrNote::noteAsString ()
+string msrNote::asString () const
 {
   stringstream s;
 
@@ -7099,6 +7118,7 @@ string msrNote::noteAsString ()
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       s <<
         "Grace note" " "<<
         notePitchAsString () <<
@@ -7191,7 +7211,7 @@ void msrNote::print (ostream& os)
   
   // print the note itself and its positionInMeasure
   os <<
-    noteAsString () <<
+    asString () <<
     ", line " << fInputLineNumber;
 
   {
@@ -7217,6 +7237,7 @@ void msrNote::print (ostream& os)
         break;
   
       case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
         os <<
           "Whole notes: " <<
           fNoteDisplayWholeNotes <<
@@ -7459,6 +7480,7 @@ void msrNote::print (ostream& os)
         break;
         
       case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
         {
           const int fieldWidth = 46;
 
@@ -7546,7 +7568,7 @@ void msrNote::print (ostream& os)
         ", noteUpLink: " <<
         syllable->
           getSyllableNoteUplink ()->
-            noteAsShortString ();
+            asShortString ();
             
       if (++i == iEnd) break;
       
@@ -7929,7 +7951,7 @@ S_msrChord msrChord::createChordNewbornClone (
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Creating a newborn clone of chord '" <<
-      chordAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -7973,7 +7995,7 @@ void msrChord::setChordSoundingWholeNotes (
       "Setting chord sounding whole notes to '" <<
       wholeNotes <<
       "' for chord '" <<
-      chordAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -7989,7 +8011,7 @@ void msrChord::setChordDisplayWholeNotes (
       "Setting chord displayed whole notes to '" <<
       wholeNotes <<
       "' for chord '" <<
-      chordAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -8031,9 +8053,9 @@ void msrChord::addFirstNoteToChord (S_msrNote note)
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding first note '" <<
-      note->noteAsString () <<
+      note->asString () <<
       "' to chord '" <<
-      chordAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -8063,9 +8085,9 @@ void msrChord::addAnotherNoteToChord (S_msrNote note)
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding another note '" <<
-      note->noteAsShortStringWithRawWholeNotes () <<
+      note->asShortStringWithRawWholeNotes () <<
       "' to chord '" <<
-      chordAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -8155,7 +8177,7 @@ void msrChord::addSpannerToChord (S_msrSpanner span)
       "Adding spanner '" <<
       span->spannerKindAsString () <<
       "' to chord '" <<
-      chordAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -8168,7 +8190,7 @@ void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding singleTremolo '" <<
-      trem->singleTremoloAsString () <<
+      trem->asString () <<
       "' to chord" <<
       endl;
   }
@@ -8196,7 +8218,7 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical '" <<
-      tech->technicalAsString () <<
+      tech->asString () <<
       "' to chord" <<
       endl;
   }
@@ -8225,7 +8247,7 @@ void msrChord::addTechnicalWithIntegerToChord (
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical with integer '" <<
-      tech->technicalWithIntegerAsString () <<
+      tech->asString () <<
       "' to chord" <<
       endl;
   }
@@ -8254,7 +8276,7 @@ void msrChord::addTechnicalWithStringToChord (
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding technical with string '" <<
-      tech->technicalWithStringAsString () <<
+      tech->asString () <<
       "' to chord" <<
       endl;
   }
@@ -8308,7 +8330,7 @@ void msrChord::addGlissandoToChord (S_msrGlissando gliss)
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding glissando '" <<
-      gliss->glissandoAsString () <<
+      gliss->asString () <<
       "' to chord" <<
       endl;
   }
@@ -8335,7 +8357,7 @@ void msrChord::addSlideToChord (S_msrSlide slide)
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Adding slide '" <<
-      slide->slideAsString () <<
+      slide->asString () <<
       "' to chord" <<
       endl;
   }
@@ -8534,7 +8556,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
     gLogIOstream <<
       "Applying tuplet member sounding factor '" <<
       actualNotes << "/" << normalNotes <<
-      "' to the members of chord '" << chordAsStringwithRawDivisions () <<
+      "' to the members of chord '" << asStringwithRawDivisions () <<
       "', line " << fInputLineNumber <<
       endl;
 
@@ -8549,7 +8571,7 @@ void msrChord::applyTupletMemberDisplayFactorToChordMembers (
 }
 */
 
-string msrChord::chordAsStringwithRawDivisions () const
+string msrChord::asStringwithRawDivisions () const
 {
   stringstream s;
 
@@ -8571,7 +8593,7 @@ string msrChord::chordAsStringwithRawDivisions () const
         "[" << note->getNoteOctave () << "]"
         */
 
-        note->noteAsShortStringWithRawWholeNotes ();
+        note->asShortStringWithRawWholeNotes ();
         
       if (++i == iEnd) break;
       s << " ";
@@ -8583,7 +8605,7 @@ string msrChord::chordAsStringwithRawDivisions () const
   return s.str ();
 }
 
-string msrChord::chordAsString () const
+string msrChord::asString () const
 {
   stringstream s;
 
@@ -8807,7 +8829,7 @@ void msrChord::print (ostream& os)
     gIndenter++;
 
     os <<
-      fChordHarmony->harmonyAsString () <<
+      fChordHarmony->asString () <<
       endl;
       
     gIndenter--;
@@ -8822,7 +8844,7 @@ void msrChord::print (ostream& os)
     gIndenter++;
 
     os <<
-      fChordFiguredBass->figuredBassAsString () <<
+      fChordFiguredBass->asString () <<
       endl;
       
     gIndenter--;
@@ -9661,7 +9683,7 @@ void msrBarCheck::setNextBarNumber (string number)
   fNextBarNumber = number;
 }
 
-string msrBarCheck::barCheckAsString () const
+string msrBarCheck::asString () const
 {
   stringstream s;
 
@@ -9729,7 +9751,7 @@ ostream& operator<< (ostream& os, const S_msrBarCheck& elt)
 void msrBarCheck::print (ostream& os)
 {
   os <<
-    barCheckAsString () <<
+    asString () <<
     endl;
 }
 
@@ -9756,7 +9778,7 @@ msrBarNumberCheck::msrBarNumberCheck (
 msrBarNumberCheck::~msrBarNumberCheck()
 {}
 
-string msrBarNumberCheck::barNumberCheckAsString () const
+string msrBarNumberCheck::asString () const
 {
   stringstream s;
 
@@ -9823,7 +9845,7 @@ ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
 void msrBarNumberCheck::print (ostream& os)
 {
   os <<
-    barNumberCheckAsString ();
+    asString ();
 }
 
 //______________________________________________________________________________
@@ -9855,7 +9877,7 @@ msrLineBreak::msrLineBreak (
 msrLineBreak::~msrLineBreak()
 {}
 
-string msrLineBreak::lineBreakAsString () const
+string msrLineBreak::asString () const
 {
   stringstream s;
 
@@ -9922,7 +9944,7 @@ ostream& operator<< (ostream& os, const S_msrLineBreak& elt)
 void msrLineBreak::print (ostream& os)
 {
   os <<
-    lineBreakAsString () <<
+    asString () <<
     endl;
 }
 
@@ -9951,7 +9973,7 @@ msrPageBreak::msrPageBreak (
 msrPageBreak::~msrPageBreak()
 {}
 
-string msrPageBreak::pageBreakAsString () const
+string msrPageBreak::asString () const
 {
   stringstream s;
 
@@ -10017,7 +10039,7 @@ ostream& operator<< (ostream& os, const S_msrPageBreak& elt)
 void msrPageBreak::print (ostream& os)
 {
   os <<
-    pageBreakAsString () <<
+    asString () <<
     endl;
 }
 
@@ -10093,7 +10115,7 @@ S_msrTuplet msrTuplet::createTupletNewbornClone ()
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Creating a newborn clone of tuplet '" <<
-      tupletAsShortString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -10227,10 +10249,10 @@ void msrTuplet::addNoteToTuplet (S_msrNote note)
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding note '" <<
-      note->noteAsShortStringWithRawWholeNotes () <<
+      note->asShortStringWithRawWholeNotes () <<
       // the information is missing to display it the normal way
       "' to tuplet '" <<
-      tupletAsShortString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -10264,9 +10286,9 @@ void msrTuplet::addChordToTuplet (S_msrChord chord)
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding chord '" <<
-      chord->chordAsString () <<
+      chord->asString () <<
       "' to tuplet '" <<
-      tupletAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -10296,9 +10318,9 @@ void msrTuplet::addTupletToTuplet (S_msrTuplet tuplet)
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding tuplet '" <<
-      tuplet->tupletAsString () <<
+      tuplet->asString () <<
       "' to tuplet '" <<
-      tupletAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -10346,9 +10368,9 @@ void msrTuplet::addTupletToTupletClone (S_msrTuplet tuplet)
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Adding tuplet '" <<
-      tuplet->tupletAsString () <<
+      tuplet->asString () <<
       "' to tuplet '" <<
-      tupletAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -10376,9 +10398,9 @@ void msrTuplet::removeFirstNoteFromTuplet (
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
       "Removing first note '" <<
-      note->noteAsShortStringWithRawWholeNotes () <<
+      note->asShortStringWithRawWholeNotes () <<
       "' from tuplet '" <<
-      tupletAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -10418,7 +10440,7 @@ void msrTuplet::removeFirstNoteFromTuplet (
     s <<
       "cannot remove note " <<
       note <<
-      " from tuplet " << tupletAsString () <<
+      " from tuplet " << asString () <<
       "' in voice \"" <<
       fTupletMeasureUplink->
         getMeasureSegmentUplink ()->
@@ -10714,7 +10736,7 @@ ostream& operator<< (ostream& os, const S_msrTuplet& elt)
   return os;
 }
 
-string msrTuplet::tupletAsShortString () const
+string msrTuplet::asString () const
 {
   stringstream s;
 
@@ -10744,21 +10766,21 @@ string msrTuplet::tupletAsShortString () const
         S_msrNote note = dynamic_cast<msrNote*>(&(**i))
         ) {    
         s <<
-          note->noteAsShortStringWithRawWholeNotes ();
+          note->asShortStringWithRawWholeNotes ();
       }
     
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
         ) {
         s <<
-          chord->chordAsString ();
+          chord->asString ();
       }
       
       else if (
         S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
         ) {
         s <<
-          tuplet->tupletAsString ();
+          tuplet->asString ();
       }
       
       else {
@@ -10780,7 +10802,8 @@ string msrTuplet::tupletAsShortString () const
   return s.str ();
 }
 
-string msrTuplet::tupletAsString () const
+/* JMI
+string msrTuplet::asString () const
 {
   stringstream s;
 
@@ -10810,21 +10833,21 @@ string msrTuplet::tupletAsString () const
         S_msrNote note = dynamic_cast<msrNote*>(&(**i))
         ) {    
         s <<
-          note->noteAsShortStringWithRawWholeNotes ();
+          note->asShortStringWithRawWholeNotes ();
       }
     
       else if (
         S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
         ) {
         s <<
-          chord->chordAsString ();
+          chord->asString ();
       }
       
       else if (
         S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
         ) {
         s <<
-          tuplet->tupletAsString ();
+          tuplet->asString ();
       }
       
       else {
@@ -10844,6 +10867,7 @@ string msrTuplet::tupletAsString () const
   
   return s.str ();
 }
+*/
 
 void msrTuplet::print (ostream& os)
 {
@@ -10966,7 +10990,7 @@ S_msrGlissando msrGlissando::createGlissandoNewbornClone ()
   if (gTraceOptions->fTraceGlissandos) {
     gLogIOstream <<
       "Creating a newborn clone of glissando '" <<
-      glissandoAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -11055,7 +11079,7 @@ ostream& operator<< (ostream& os, const S_msrGlissando& elt)
   return os;
 }
 
-string msrGlissando::glissandoAsString () const
+string msrGlissando::asString () const
 {
   stringstream s;
 
@@ -11073,7 +11097,7 @@ string msrGlissando::glissandoAsString () const
 
 void msrGlissando::print (ostream& os)
 {
-  os << glissandoAsString () << endl;
+  os << asString () << endl;
 }
 
 //______________________________________________________________________________
@@ -11114,7 +11138,7 @@ S_msrSlide msrSlide::createSlideNewbornClone ()
   if (gTraceOptions->fTraceSlides) {
     gLogIOstream <<
       "Creating a newborn clone of slide '" <<
-      slideAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -11203,7 +11227,7 @@ ostream& operator<< (ostream& os, const S_msrSlide& elt)
   return os;
 }
 
-string msrSlide::slideAsString () const
+string msrSlide::asString () const
 {
   stringstream s;
 
@@ -11221,7 +11245,7 @@ string msrSlide::slideAsString () const
 
 void msrSlide::print (ostream& os)
 {
-  os << slideAsString () << endl;
+  os << asString () << endl;
 }
 
 //______________________________________________________________________________
@@ -11836,7 +11860,7 @@ ostream& operator<< (ostream& os, const S_msrCredit& elt)
   return os;
 }
 
-string msrCredit::creditAsString () const
+string msrCredit::asString () const
 {
   stringstream s;
 
@@ -12306,8 +12330,8 @@ void msrLayout::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrClef msrClef::create (
-  int          inputLineNumber,
-  msrClefKind  clefKind)
+  int         inputLineNumber,
+  msrClefKind clefKind)
 {
   msrClef* o =
     new msrClef (
@@ -12317,8 +12341,8 @@ S_msrClef msrClef::create (
 }
 
 msrClef::msrClef (
-  int          inputLineNumber,
-  msrClefKind  clefKind)
+  int         inputLineNumber,
+  msrClefKind clefKind)
     : msrElement (inputLineNumber)
 {
   fClefKind = clefKind;
@@ -12413,7 +12437,7 @@ ostream& operator<< (ostream& os, const S_msrClef& elt)
   return os;
 }
 
-string msrClef::clefAsString () const
+string msrClef::asString () const
 {
   stringstream s;
 
@@ -12501,7 +12525,7 @@ string msrClef::clefAsString () const
 void msrClef::print (ostream& os)
 {
   os <<
-    clefAsString () <<
+    asString () <<
     endl;
 }
 
@@ -12645,7 +12669,7 @@ ostream& operator<< (ostream& os, const S_msrHumdrumScotKeyItem& elt)
   return os;
 }
 
-string msrHumdrumScotKeyItem::humdrumScotKeyItemAsString () const
+string msrHumdrumScotKeyItem::asString () const
 {
   stringstream s;
 
@@ -12664,7 +12688,7 @@ string msrHumdrumScotKeyItem::humdrumScotKeyItemAsString () const
 void msrHumdrumScotKeyItem::print (ostream& os)
 {
   os <<
-    humdrumScotKeyItemAsString () <<
+    asString () <<
     endl;
 }
 
@@ -12792,7 +12816,7 @@ void msrKey::appendHumdrumScotKeyItem (
   if (gTraceOptions->fTraceKeys) {
     gLogIOstream <<
       "Append item '" <<
-      item->humdrumScotKeyItemAsString () <<
+      item->asString () <<
       "' to key '" <<
       "'" <<
       endl;
@@ -12915,7 +12939,7 @@ string msrKey::keyModeKindAsString (
   return result;
 }
 
-string msrKey::keyAsString () const
+string msrKey::asString () const
 {
   stringstream s;
 
@@ -13151,7 +13175,7 @@ ostream& operator<< (ostream& os, const S_msrTimeItem& elt)
   return os;
 }
 
-string msrTimeItem::timeItemAsString () const
+string msrTimeItem::asString () const
 {
   stringstream s;
 
@@ -13201,7 +13225,7 @@ string msrTimeItem::timeItemAsString () const
 void msrTimeItem::print (ostream& os)
 {
   os <<
-    timeItemAsString () <<
+    asString () <<
     endl;
 }
 
@@ -13296,7 +13320,7 @@ void msrTime::appendTimeItem (
   if (gTraceOptions->fTraceTimes) {
     gLogIOstream <<
       "Append item '" <<
-      timeItem->timeItemAsString () <<
+      timeItem->asString () <<
       "' to time '" <<
       "JMI" <<
       "'" <<
@@ -13526,7 +13550,7 @@ string msrTime::timeRelationKindAsString (
   return result;
 }
 
-string msrTime::timeAsShortString () const
+string msrTime::asShortString () const
 {
   /* JMI
   stringstream s;
@@ -13546,10 +13570,10 @@ string msrTime::timeAsShortString () const
   return s.str ();
   */
 
-  return timeAsString ();
+  return asString ();
 }
 
-string msrTime::timeAsString () const
+string msrTime::asString () const
 {
   stringstream s;
 
@@ -13676,7 +13700,7 @@ msrTranspose::msrTranspose (
   if (gTraceOptions->fTraceTranspositions) {
     gLogIOstream <<
       "Creating transpose '" <<
-      transposeAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -13757,7 +13781,7 @@ ostream& operator<< (ostream& os, const S_msrTranspose& elt)
   return os;
 }
 
-string msrTranspose::transposeAsString () const
+string msrTranspose::asString () const
 {
   stringstream s;
 
@@ -13972,7 +13996,7 @@ string msrWords::msrWordsXMLLangKindAsString (
   return result;
 }
 
-string msrWords::wordsAsString () const
+string msrWords::asString () const
 {
   stringstream s;
 
@@ -13986,7 +14010,7 @@ string msrWords::wordsAsString () const
 
 void msrWords::print (ostream& os)
 {
-// JMI  os << wordsAsString () << endl;
+// JMI  os << asString () << endl;
 
   os <<
     "Words" " \"" << fWordsContents << "\"" <<
@@ -14124,7 +14148,7 @@ ostream& operator<< (ostream& os, const S_msrTempo& elt)
   return os;
 }
 
-string msrTempo::tempoAsString () const
+string msrTempo::asString () const
 {
   stringstream s;
 
@@ -14138,7 +14162,7 @@ string msrTempo::tempoAsString () const
 
 void msrTempo::print (ostream& os)
 {
-  os << tempoAsString () << endl;
+  os << asString () << endl;
 }
 
 //______________________________________________________________________________
@@ -14209,7 +14233,7 @@ S_msrSyllable msrSyllable::createSyllableNewbornClone (
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a newborn clone of syllable '" <<
-      syllableAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -14253,7 +14277,7 @@ S_msrSyllable msrSyllable::createSyllableDeepCopy (
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Creating a newborn clone of syllable '" <<
-      syllableAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -14320,7 +14344,7 @@ void msrSyllable::appendLyricTextToSyllable (string text)
       "Appending text '" <<
       text <<
       "' to the texts list of syllable '" <<
-      syllableAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -14352,8 +14376,8 @@ void msrSyllable::appendSyllableToNoteAndSetItsUplink (
     gIndenter++;
     
     gLogIOstream <<
-      syllableAsString () <<
-    // JMI    "to '" << note->noteAsString () <<
+      asString () <<
+    // JMI    "to '" << note->asString () <<
       ", line " << note->getInputLineNumber () <<
       endl;
 
@@ -14362,7 +14386,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsUplink (
 /*
     if (note) { // JMI
       gLogIOstream <<
-        note->noteAsString () <<
+        note->asString () <<
         ", line " << note->getInputLineNumber ();
     }
     else {
@@ -14375,7 +14399,7 @@ void msrSyllable::appendSyllableToNoteAndSetItsUplink (
   }
 }
 
-string msrSyllable::syllableWholeNotesAsMsrString ()
+string msrSyllable::syllableWholeNotesAsMsrString () const
 {
   return
     wholeNotesAsMsrString (
@@ -14516,14 +14540,14 @@ string msrSyllable::syllableNoteUplinkAsString () const
   string result;
 
   if (fSyllableNoteUplink)
-    result = fSyllableNoteUplink->noteAsString ();
+    result = fSyllableNoteUplink->asString ();
   else
     result = "none";
 
   return result;
 }
 
-string msrSyllable::syllableAsString ()
+string msrSyllable::asString () const
 {
   stringstream s;
 
@@ -14823,7 +14847,7 @@ void msrStanza::appendSyllableToStanza (
 {
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
-      "Appending syllable '" << syllable->syllableAsString () <<
+      "Appending syllable '" << syllable->asString () <<
       "' to stanza " << getStanzaName () <<
       endl;
   }
@@ -15369,7 +15393,7 @@ msrHarmonyDegree::msrHarmonyDegree (
   if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating harmony degree '" <<
-      harmonyDegreeAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -15535,7 +15559,7 @@ string msrHarmonyDegree::harmonyDegreeKindAsShortString () const
   return result;
 }
 
-string msrHarmonyDegree::harmonyDegreeAsString () const
+string msrHarmonyDegree::asString () const
 {
   stringstream s;
 
@@ -15607,7 +15631,7 @@ ostream& operator<< (ostream& os, const S_msrHarmonyDegree& elt)
 void msrHarmonyDegree::print (ostream& os)
 {  
   os <<
-    harmonyDegreeAsString () <<
+    asString () <<
     endl;
 }
 
@@ -15674,7 +15698,7 @@ msrHarmony::msrHarmony (
   if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating harmony '" <<
-      harmonyAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -15744,7 +15768,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
   return harmonyDeepCopy;
 }
 
-string msrHarmony::harmonyAsString () const
+string msrHarmony::asString () const
 {
   stringstream s;
 
@@ -15920,7 +15944,7 @@ void msrHarmony::print (ostream& os)
       
     for ( ; ; ) {
       os <<
-        (*i)->harmonyDegreeAsString ();
+        (*i)->asString ();
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -15976,7 +16000,7 @@ msrFigure::msrFigure (
   if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating figure '" <<
-      figureAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -15991,7 +16015,7 @@ S_msrFigure msrFigure::createFigureNewbornClone (
   if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a newborn clone of figure '" <<
-      figureAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -16019,7 +16043,7 @@ S_msrFigure msrFigure::createFigureDeepCopy (
   if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a deep copy of figure '" <<
-      figureAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -16114,7 +16138,7 @@ string msrFigure::figureSuffixKindAsString (
   return result;
 }
 
-string msrFigure::figureAsString () const
+string msrFigure::asString () const
 {
   stringstream s;
 
@@ -16268,7 +16292,7 @@ msrFiguredBass::msrFiguredBass (
   if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating figuredBass '" <<
-      figuredBassAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -16283,7 +16307,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassNewbornClone (
   if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a newborn clone of figuredBass '" <<
-      figuredBassAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -16310,7 +16334,7 @@ S_msrFiguredBass msrFiguredBass::createFiguredBassDeepCopy (
   if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
       "Creating a deep copy of figuredBass '" <<
-      figuredBassAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -16336,9 +16360,9 @@ void msrFiguredBass::appendFiguredFigureToFiguredBass (
 {
   if (gTraceOptions->fTraceFiguredBass) {
     gLogIOstream <<
-      "Appending figure'" << figure->figureAsString () <<
+      "Appending figure'" << figure->asString () <<
       "' to figuredBass '" <<
-      figuredBassAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -16353,17 +16377,17 @@ string msrFiguredBass::figuredBassParenthesesKindAsString (
   
   switch (figuredBassParenthesesKind) {
     case msrFiguredBass::kFiguredBassParenthesesYes:
-      result = "parentheses: yes";
+      result = "figuredBassParenthesesYes";
       break;
     case msrFiguredBass::kFiguredBassParenthesesNo:
-      result = "parentheses: no";
+      result = "figuredBassParenthesesNo";
       break;
   } // switch
 
   return result;
 }
 
-string msrFiguredBass::figuredBassAsString () const
+string msrFiguredBass::asString () const
 {
   stringstream s;
 
@@ -16799,10 +16823,10 @@ string msrPedal::pedalLineAsString ()
   
   switch (fPedalLineKind) {
     case msrPedal::kPedalLineYes:
-      result = "pedal line: yes";
+      result = "pedalLineYes";
       break;
     case msrPedal::kPedalLineNo:
-      result = "pedal line: no";
+      result = "pedalLineNo";
       break;
   } // switch
 
@@ -16815,10 +16839,10 @@ string msrPedal::pedalSignAsString ()
   
   switch (fPedalSignKind) {
     case msrPedal::kPedalSignYes:
-      result = "pedal sign: yes";
+      result = "pedalSignYes";
       break;
     case msrPedal::kPedalSignNo:
-      result = "pedal sign: no";
+      result = "pedalSignNo";
       break;
   } // switch
 
@@ -17069,10 +17093,10 @@ string msrBarline::barlineHasSegnoKindAsString (
 
   switch (barlineHasSegnoKind) {
     case msrBarline::kBarlineHasSegnoYes:
-      result = "segno: yes";
+      result = "barlineHasSegnoYes";
       break;
     case msrBarline::kBarlineHasSegnoNo:
-      result = "segno: no";
+      result = "barlineHasSegnoNo";
       break;
   } // switch
 
@@ -17086,10 +17110,10 @@ string msrBarline::barlineHasCodaKindAsString (
 
   switch (barlineHasCodaKind) {
     case msrBarline::kBarlineHasCodaYes:
-      result = "coda: yes";
+      result = "barlineHasCodaYes";
       break;
     case msrBarline::kBarlineHasCodaNo:
-      result = "coda: no";
+      result = "barlineHasCodaNo";
       break;
   } // switch
 
@@ -17232,7 +17256,7 @@ string msrBarline::endingNumbersListAsString () const
   return s.str ();
 }
 
-string msrBarline::barlineAsString () const
+string msrBarline::asString () const
 {
   stringstream s;
 
@@ -17427,7 +17451,7 @@ S_msrMeasure msrMeasure::createMeasureNewbornClone (
       fMeasureNumber <<
       "'" <<
       " in segment " <<
-      containingSegment->segmentAsString () <<
+      containingSegment->asString () <<
       " in voice \"" <<
         containingSegment->
           getSegmentVoiceUplink ()->
@@ -17495,7 +17519,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       fMeasureNumber <<
       "'" <<
       " in segment " <<
-      containingSegment->segmentAsString () <<
+      containingSegment->asString () <<
       " in voice \"" <<
         containingSegment->
           getSegmentVoiceUplink ()->
@@ -17557,7 +17581,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         " in measure " <<
         fMeasureNumber <<
         " in segment " <<
-        containingSegment->segmentAsString () <<
+        containingSegment->asString () <<
         " in voice \"" <<
           containingSegment->
             getSegmentVoiceUplink ()->
@@ -17598,7 +17622,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
         if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
             "Sharing time '" <<
-            time->timeAsShortString () <<
+            time->asShortString () <<
             "' in measure '" <<
             fMeasureNumber <<
             "'deep copy" <<
@@ -17627,7 +17651,7 @@ S_msrMeasure msrMeasure::createMeasureDeepCopy (
       gLogIOstream <<
         "There are no elements in measure to be deep copied" <<
         " in segment " <<
-        containingSegment->segmentAsString () <<
+        containingSegment->asString () <<
         " in voice \"" <<
           containingSegment->
             getSegmentVoiceUplink ()->
@@ -17652,7 +17676,7 @@ void msrMeasure::setNextMeasureNumber (string nextMeasureNumber)
       "' in measure '" <<
       fMeasureNumber <<
       "' in segment '" <<
-      fMeasureSegmentUplink-> segmentAsString () <<
+      fMeasureSegmentUplink-> asString () <<
       /* JMI
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
@@ -17720,7 +17744,7 @@ void msrMeasure::appendCommentToMeasure (S_msrComment comment)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending comment '" << comment->commentAsString () <<
+      "Appending comment '" << comment->asString () <<
       "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
       fetchMeasureVoiceUplink ()->getVoiceName () <<
@@ -17736,7 +17760,7 @@ void msrMeasure::appendClefToMeasure (S_msrClef clef)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending clef '" << clef->clefAsString () <<
+      "Appending clef '" << clef->asString () <<
       "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
       fetchMeasureVoiceUplink ()->getVoiceName () <<
@@ -17752,7 +17776,7 @@ void msrMeasure::appendKeyToMeasure (S_msrKey key)
 {
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending key '" << key->keyAsString () <<
+      "Appending key '" << key->asString () <<
       "' to measure " << fMeasureNumber <<
       ", in voice \"" <<
       fetchMeasureVoiceUplink ()->getVoiceName () <<
@@ -18100,7 +18124,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending note '" << note->noteAsShortString () <<
+      "Appending note '" << note->asShortString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -18130,6 +18154,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // fetch note sounding whole notes
   rational noteSoundingWholeNotes =
     note->getNoteSoundingWholeNotes ();
+    
   string noteSoundingWholeNotesAsMsrString =
     note->noteSoundingWholeNotesAsMsrString ();
     
@@ -18228,7 +18253,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
               // append the skip to the part harmony voice
               if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
                 gLogIOstream <<
-                  "Appending skip '" << skipNote->noteAsShortString () <<
+                  "Appending skip '" << skipNote->asShortString () <<
                   "' to measure '" << fMeasureNumber <<
                   "' in harmony voice \"" <<
                   harmonyVoice->getVoiceName () <<
@@ -18264,7 +18289,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
 
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending note '" << note->noteAsShortString () <<
+      "Appending note '" << note->asShortString () <<
       "' to measure clone '" << fMeasureNumber <<
       "' in voice clone \"" <<
       fMeasureSegmentUplink->
@@ -18347,7 +18372,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       // append the harmony to the harmony voice
       if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
         gLogIOstream <<
-          "Appending harmony '" << noteHarmony->harmonyAsString () <<
+          "Appending harmony '" << noteHarmony->asString () <<
           "' to measure '" << fMeasureNumber <<
           "' in harmony voice \"" <<
           partHarmonyVoice->getVoiceName () <<
@@ -18383,7 +18408,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
         // append the skip to the part harmony voice
         if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
           gLogIOstream <<
-            "Appending skip '" << skipNote->noteAsShortString () <<
+            "Appending skip '" << skipNote->asShortString () <<
             "' to measure '" << fMeasureNumber <<
             "' in harmony voice \"" <<
             partHarmonyVoice->getVoiceName () <<
@@ -18417,7 +18442,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending double tremolo '" <<
-      doubleTremolo->doubleTremoloAsShortString () <<
+      doubleTremolo->asShortString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -18500,7 +18525,7 @@ void msrMeasure::appendMeasuresRepeatToMeasure (
   if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      measuresRepeat->measuresRepeatAsString () <<
+      measuresRepeat->asString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -18574,7 +18599,7 @@ void msrMeasure::appendMultipleRestToMeasure (
   if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      multipleRest->multipleRestAsString () <<
+      multipleRest->asString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -18641,7 +18666,7 @@ void msrMeasure::appendChordToMeasure (S_msrChord chord) // JMI XXL
 
   if (gTraceOptions->fTraceChords || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending chord '" << chord->chordAsString () <<
+      "Appending chord '" << chord->asString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -18705,7 +18730,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
     
   if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending tuplet '" << tuplet->tupletAsString () <<
+      "Appending tuplet '" << tuplet->asString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -18792,7 +18817,7 @@ void msrMeasure::appendHarmonyToMeasure (S_msrHarmony harmony)
     
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending harmony '" << harmony->harmonyAsString () <<
+      "Appending harmony '" << harmony->asString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -18836,7 +18861,7 @@ void msrMeasure::appendHarmonyToMeasureClone (S_msrHarmony harmony)
   
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending harmony '" << harmony->harmonyAsString () <<
+      "Appending harmony '" << harmony->asString () <<
       "' to measure clone '" << fMeasureNumber <<
       "' in voice clone \"" <<
       fMeasureSegmentUplink->
@@ -18879,7 +18904,7 @@ void msrMeasure::appendFiguredBassToMeasure (
     
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending figured bass '" << figuredBass->figuredBassAsString () <<
+      "Appending figured bass '" << figuredBass->asString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -18924,7 +18949,7 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending figured bass '" << figuredBass->figuredBassAsString () <<
+      "Appending figured bass '" << figuredBass->asString () <<
       "' to measure clone '" << fMeasureNumber <<
       "' in voice clone \"" <<
       fMeasureSegmentUplink->
@@ -19013,7 +19038,7 @@ void msrMeasure::bringMeasureToMeasureLength (
            
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
       gLogIOstream <<
-       "Appending " << rest->noteAsString () <<
+       "Appending " << rest->asString () <<
        " (" << restDuration <<
        " whole notes) to bring voice \"" << voice->getVoiceName () <<
        "\" measure '" << fMeasureNumber << "'" <<
@@ -19185,7 +19210,7 @@ void msrMeasure::appendStaffDetailsToMeasure (
 {
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) { 
     gLogIOstream <<
-      "Appending staff details '" << staffDetails->staffDetailsAsShortString () <<
+      "Appending staff details '" << staffDetails->asShortString () <<
       "' to measure '" << fMeasureNumber <<
       "' in voice \"" <<
       fMeasureSegmentUplink->
@@ -19231,7 +19256,7 @@ void msrMeasure::removeNoteFromMeasure (
 
     gIndenter++;
     gLogIOstream <<
-      note->noteAsShortString ();
+      note->asShortString ();
     gIndenter--;
     
     gLogIOstream <<
@@ -19592,7 +19617,7 @@ void msrMeasure::appendARestToFinalizeMeasure (
            
     if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
-       "Appending '" << rest->noteAsString () <<
+       "Appending '" << rest->asString () <<
        " (" << restDuration << " rest whole notes)'" <<
        " to finalize \"" << voice->getVoiceName () <<
        "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
@@ -19812,10 +19837,10 @@ string msrMeasure::measureFirstInSegmentKindAsString (
 
   switch (measureFirstInSegmentKind) {
     case msrMeasure::kMeasureFirstInSegmentYes:
-      result = "first in segment: yes";
+      result = "measureFirstInSegmentYes";
       break;
     case msrMeasure::kMeasureFirstInSegmentNo:
-      result = "first in segment: no";
+      result = "measureFirstInSegmentNo";
       break;
   } // switch
 
@@ -19829,10 +19854,10 @@ string msrMeasure::measureCreatedAfterARepeatKindAsString (
 
   switch (measureCreatedAfterARepeatKind) {
     case msrMeasure::kMeasureCreatedAfterARepeatYes:
-      result = "measureCreatedAfterARepeat: yes";
+      result = "measureCreatedAfterARepeatYes";
       break;
     case msrMeasure::kMeasureCreatedAfterARepeatNo:
-      result = "measureCreatedAfterARepeat: no";
+      result = "measureCreatedAfterARepeatNo";
       break;
   } // switch
 
@@ -19872,7 +19897,7 @@ void msrMeasure::print (ostream& os)
   os << left <<
     setw (fieldWidth) <<
     "Segment uplink" << " : " <<
-    fMeasureSegmentUplink->segmentAsShortString () <<
+    fMeasureSegmentUplink->asShortString () <<
     endl <<
     
     setw (fieldWidth) <<
@@ -20014,7 +20039,7 @@ S_msrSegment msrSegment::createSegmentNewbornClone (
   if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Creating a newborn clone of segment " <<
-      segmentAsString () <<
+      asString () <<
       endl;
   }
 
@@ -20052,7 +20077,7 @@ S_msrSegment msrSegment::createSegmentDeepCopy (
   if (gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Creating a deep copy of segment " <<
-      segmentAsString () <<
+      asString () <<
       endl;
   }
 
@@ -20128,7 +20153,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Creating and appending a measure '" << measureNumber <<
-      "', to segment '" << segmentAsString () <<
+      "', to segment '" << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20157,7 +20182,7 @@ void msrSegment::createMeasureAndAppendItToSegment (
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Creating measure '" << measureNumber <<
-      "' in segment " << segmentAsString () <<
+      "' in segment " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20210,7 +20235,7 @@ void msrSegment::setNextMeasureNumberInSegment (
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Setting next measure number to '" << nextMeasureNumber <<
-      "' in segment '" << segmentAsString () <<
+      "' in segment '" << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20222,7 +20247,7 @@ void msrSegment::setNextMeasureNumberInSegment (
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
       gLogIOstream <<
         "Setting next measure number to '" << nextMeasureNumber <<
-        "' in segment '" << segmentAsString () <<
+        "' in segment '" << asString () <<
         "'s last measure " <<
         "' in voice \"" <<
         fSegmentVoiceUplink->getVoiceName () <<
@@ -20264,7 +20289,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
       "Finalizing current measure '" <<
       currentMeasureNumber <<
       "' in segment " <<
-      segmentAsString () <<
+      asString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20293,7 +20318,7 @@ void msrSegment::finalizeCurrentMeasureInSegment (
           "Cannot finalize current measure '" <<
           lastMeasure->getMeasureNumber () <<
           "' in segment '" <<
-          segmentAsString () <<
+          asString () <<
           "' since it is empty, removing it";
       }
     
@@ -20322,8 +20347,8 @@ void msrSegment::appendCommentToSegment (S_msrComment comment)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending comment '" << comment->commentAsString () <<
-      "' to segment " << segmentAsString () <<
+      "Appending comment '" << comment->asString () <<
+      "' to segment " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20371,8 +20396,8 @@ void msrSegment::appendClefToSegment (S_msrClef clef)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending clef '" << clef->clefAsString () <<
-      "' to segment " << segmentAsString () <<
+      "Appending clef '" << clef->asString () <<
+      "' to segment " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20425,8 +20450,8 @@ void msrSegment::appendKeyToSegment (S_msrKey key)
 {
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending key '" << key->keyAsString () <<
-      "' to segment " << segmentAsString () <<
+      "Appending key '" << key->asString () <<
+      "' to segment " << asString () <<
     ", in voice \"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"" <<
@@ -20461,7 +20486,7 @@ void msrSegment::appendTimeToSegment (S_msrTime time)
     gIndenter--;
 
     gLogIOstream <<
-      "to segment " << segmentAsString () <<
+      "to segment " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20493,7 +20518,7 @@ void msrSegment::appendTimeToSegmentClone (S_msrTime time)
     gIndenter--;
 
     gLogIOstream <<
-      "to segment clone " << segmentAsString () <<
+      "to segment clone " << asString () <<
       ", in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20514,8 +20539,8 @@ void msrSegment::appendHarmonyToSegment (S_msrHarmony harmony)
 {
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending harmony " << harmony->harmonyAsString () <<
-      " to segment " << segmentAsString () <<
+      "Appending harmony " << harmony->asString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20536,8 +20561,8 @@ void msrSegment::appendHarmonyToSegmentClone (S_msrHarmony harmony)
 {
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending harmony " << harmony->harmonyAsString () <<
-      " to segment clone " << segmentAsString () <<
+      "Appending harmony " << harmony->asString () <<
+      " to segment clone " << asString () <<
       "' in voice clone \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20559,8 +20584,8 @@ void msrSegment::appendFiguredBassToSegment (
 {
   if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending figured bass " << figuredBass->figuredBassAsString () <<
-      " to segment " << segmentAsString () <<
+      "Appending figured bass " << figuredBass->asString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20582,8 +20607,8 @@ void msrSegment::appendFiguredBassToSegmentClone (
 {
   if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending figured bass " << figuredBass->figuredBassAsString () <<
-      " to segment clone " << segmentAsString () <<
+      "Appending figured bass " << figuredBass->asString () <<
+      " to segment clone " << asString () <<
       "' in voice clone \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20605,7 +20630,7 @@ void msrSegment::appendSegnoToSegment (S_msrSegno segno)
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending segno " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20627,7 +20652,7 @@ void msrSegment::appendCodaToSegment (S_msrCoda coda)
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending coda " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20650,7 +20675,7 @@ void msrSegment::appendEyeGlassesToSegment (
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending eyeglasses " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20672,7 +20697,7 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending pedal " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20695,7 +20720,7 @@ void msrSegment::appendTransposeToSegment (
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending transpose " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20718,7 +20743,7 @@ void msrSegment::appendStaffDetailsToSegment (
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending staff details " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20757,7 +20782,7 @@ void msrSegment::appendLineBreakToSegment (S_msrLineBreak lineBreak)
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending break " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20779,7 +20804,7 @@ void msrSegment::appendPageBreakToSegment (S_msrPageBreak pageBreak)
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending break " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20802,7 +20827,7 @@ void msrSegment::appendBarNumberCheckToSegment (
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending bar number check " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20825,7 +20850,7 @@ void msrSegment::appendTempoToSegment (
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending tempo " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20848,7 +20873,7 @@ void msrSegment::appendRehearsalToSegment (
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending rehearsal " <<
-      " to segment " << segmentAsString () <<
+      " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20872,7 +20897,7 @@ void msrSegment::appendOctaveShiftToSegment (
     gLogIOstream <<
       "Appending octave shift '" <<
       octaveShift->octaveShiftKindAsString () <<
-      "' to segment " << segmentAsString () <<
+      "' to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20896,8 +20921,8 @@ void msrSegment::appendAccordionRegistrationToSegment (
   if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending accordion registration '" <<
-      accordionRegistration->accordionRegistrationAsString () <<
-      "' to segment " << segmentAsString () <<
+      accordionRegistration->asString () <<
+      "' to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -20922,8 +20947,8 @@ void msrSegment::appendHarpPedalsTuningToSegment (
   if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending staff pedals tuning '" <<
-      harpPedalsTuning->harpPedalsTuningAsString () <<
-      "' to segment " << segmentAsString () <<
+      harpPedalsTuning->asString () <<
+      "' to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"" <<
@@ -21024,7 +21049,7 @@ void msrSegment::appendMeasureToSegment (S_msrMeasure measure)
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending measure " << measureNumber <<
-      " to segment " << segmentAsString ();
+      " to segment " << asString ();
 
     if (fSegmentMeasuresList.size () == 0)
       gLogIOstream <<
@@ -21077,7 +21102,7 @@ void msrSegment::prependMeasureToSegment (S_msrMeasure measure)
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Prepending measure " << measureNumber <<
-      " to segment " << segmentAsString ();
+      " to segment " << asString ();
 
     if (fSegmentMeasuresList.size () == 0) {
       gLogIOstream <<
@@ -21128,7 +21153,7 @@ void msrSegment::appendMeasureToSegmentIfNotYetDone ( // JMI
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
       gLogIOstream <<
         "Appending a new measure '" << measureNumber <<
-        "' to segment '" << segmentAsString () << "'" <<
+        "' to segment '" << asString () << "'" <<
         "' in voice \"" <<
         fSegmentVoiceUplink->getVoiceName () <<
         "\"," <<
@@ -21155,8 +21180,8 @@ void msrSegment::prependBarlineToSegment (S_msrBarline barline)
 {
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Prepending barline '" << barline->barlineAsString () <<
-      "' to segment '" << segmentAsString () << "'" <<
+      "Prepending barline '" << barline->asString () <<
+      "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -21177,8 +21202,8 @@ void msrSegment::appendBarlineToSegment (S_msrBarline barline)
 {
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending barline '" << barline->barlineAsString () <<
-      "' to segment '" << segmentAsString () << "'" <<
+      "Appending barline '" << barline->asString () <<
+      "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -21216,8 +21241,8 @@ void msrSegment::appendBarCheckToSegment (S_msrBarCheck barCheck)
 {
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending bar check " << barCheck->barCheckAsString () <<
-      " to segment '" << segmentAsString () << "'" <<
+      "Appending bar check " << barCheck->asString () <<
+      " to segment '" << asString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -21244,9 +21269,9 @@ void msrSegment::appendVoiceStaffChangeToSegment (
     gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Append voice staff change " <<
-      voiceStaffChange->voiceStaffChangeAsString () <<
+      voiceStaffChange->asString () <<
       " to segment " <<
-      " \"" << segmentAsString () << "\"" <<
+      " \"" << asString () << "\"" <<
       endl;
   }
   
@@ -21287,8 +21312,8 @@ void msrSegment::appendDoubleTremoloToSegment ( // JMI
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending double tremolo " <<
-      doubleTremolo->doubleTremoloAsShortString () <<
-      " to segment '" << segmentAsString () << "'" <<
+      doubleTremolo->asShortString () <<
+      " to segment '" << asString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -21310,8 +21335,8 @@ void msrSegment::appendMeasuresRepeatToSegment (
   if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending measure repeat '" <<
-      measuresRepeat->measuresRepeatAsString () <<
-      "' to segment '" << segmentAsString () << "'" <<
+      measuresRepeat->asString () <<
+      "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -21333,8 +21358,8 @@ void msrSegment::appendMultipleRestToSegment (
   if (gTraceOptions->fTraceRepeats || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      multipleRest->multipleRestAsString () <<
-      "' to segment '" << segmentAsString () << "'" <<
+      multipleRest->asString () <<
+      "' to segment '" << asString () << "'" <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -21470,7 +21495,7 @@ S_msrElement msrSegment::removeLastElementFromSegment (
     msrInternalError (
       inputLineNumber,
       "cannot removeLastElementFromSegment () " <<
-      segmentAsString () <<
+      asString () <<
       " since it is empty");
   }
 }
@@ -21492,7 +21517,7 @@ void msrSegment::removeNoteFromSegment (
 
     s <<
       "cannot remove note from segment " <<
-      segmentAsString () <<
+      asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -21522,7 +21547,7 @@ void msrSegment::removeElementFromSegment (
 
     s <<
       "cannot remove note from segment " <<
-      segmentAsString () <<
+      asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
       "\"," <<
@@ -21664,7 +21689,7 @@ void msrSegment::browseData (basevisitor* v)
   }
 }
 
-string msrSegment::segmentAsString ()
+string msrSegment::asString () const
 {
   stringstream s;
 
@@ -21690,7 +21715,7 @@ string msrSegment::segmentAsString ()
   return s.str ();
 }
 
-string msrSegment::segmentAsShortString ()
+string msrSegment::asShortString () const
 {
   stringstream s;
 
@@ -21863,7 +21888,7 @@ void msrRepeatCommonPart::appendElementToRepeatCommonPart (
   if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending element '" << elem <<
-      "' to repeat common part '" << repeatCommonPartAsString () << "'" <<
+      "' to repeat common part '" << asString () << "'" <<
       endl;
   }
 
@@ -21875,7 +21900,7 @@ void msrRepeatCommonPart::appendElementToRepeatCommonPart (
   fRepeatCommonPartElementsList.push_back (elem);
 }
 
-string msrRepeatCommonPart::repeatCommonPartAsString () const
+string msrRepeatCommonPart::asString () const
 {
   stringstream s;
 
@@ -21883,7 +21908,7 @@ string msrRepeatCommonPart::repeatCommonPartAsString () const
     "RepeatCommonPart" <<
     ", repeat uplink: '" <<
     fRepeatCommonPartRepeatUplink->
-      repeatAsString () <<
+      asString () <<
     "', line " << fInputLineNumber <<
     endl;
 
@@ -21903,7 +21928,7 @@ void msrRepeatCommonPart::print (ostream& os)
   os <<
     "Repeat uplink: '" <<
     fRepeatCommonPartRepeatUplink->
-      repeatAsString () <<
+      asString () <<
     endl <<
     endl;
 
@@ -22067,7 +22092,7 @@ string msrRepeatEnding::repeatEndingKindAsString (
   return result;
 }
 
-string msrRepeatEnding::repeatEndingAsString () const
+string msrRepeatEnding::asString () const
 {
   stringstream s;
 
@@ -22078,7 +22103,7 @@ string msrRepeatEnding::repeatEndingAsString () const
       fRepeatEndingKind) <<
     ", repeat uplink: '" <<
     fRepeatEndingRepeatUplink->
-      repeatAsString () <<
+      asString () <<
     "', line " << fInputLineNumber <<
     ", number " << fRepeatEndingNumber <<
     ", internal number " << fRepeatEndingInternalNumber <<
@@ -22105,7 +22130,7 @@ void msrRepeatEnding::print (ostream& os)
   os <<
     "Repeat uplink: '" <<
     fRepeatEndingRepeatUplink->
-      repeatAsString () <<
+      asString () <<
     endl <<
     endl <<
     fRepeatEndingSegment;
@@ -22205,7 +22230,7 @@ void msrRepeat::addRepeatEnding (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Adding ending '" <<
-      repeatEnding->repeatEndingAsString () <<
+      repeatEnding->asString () <<
       "' to repeat" <<
       endl;
   }
@@ -22287,7 +22312,7 @@ ostream& operator<< (ostream& os, const S_msrRepeat& elt)
   return os;
 }
 
-string msrRepeat::repeatAsString () const
+string msrRepeat::asString () const
 {
   stringstream s;
 
@@ -22512,7 +22537,7 @@ ostream& operator<< (ostream& os, const S_msrMeasuresRepeatPattern& elt)
   return os;
 }
 
-string msrMeasuresRepeatPattern::measuresRepeatPatternAsString () const
+string msrMeasuresRepeatPattern::asString () const
 {
   stringstream s;
 
@@ -22534,7 +22559,7 @@ void msrMeasuresRepeatPattern::print (ostream& os)
 {
   os <<
     endl <<
-    measuresRepeatPatternAsString () <<
+    asString () <<
     endl <<
     endl;
   
@@ -22694,7 +22719,7 @@ ostream& operator<< (ostream& os, const S_msrMeasuresRepeatReplicas& elt)
   return os;
 }
 
-string msrMeasuresRepeatReplicas::measuresRepeatReplicasAsString () const
+string msrMeasuresRepeatReplicas::asString () const
 {
   stringstream s;
 
@@ -22716,7 +22741,7 @@ void msrMeasuresRepeatReplicas::print (ostream& os)
 {
   os <<
     endl <<
-    measuresRepeatReplicasAsString () <<
+    asString () <<
     endl <<
     endl;
   
@@ -22942,7 +22967,7 @@ ostream& operator<< (ostream& os, const S_msrMeasuresRepeat& elt)
   return os;
 }
 
-string msrMeasuresRepeat::measuresRepeatAsString () const
+string msrMeasuresRepeat::asString () const
 {
   stringstream s;
 
@@ -23166,7 +23191,7 @@ ostream& operator<< (ostream& os, const S_msrMultipleRestContents& elt)
   return os;
 }
 
-string msrMultipleRestContents::multipleRestContentsAsString () const
+string msrMultipleRestContents::asString () const
 {
   stringstream s;
 
@@ -23188,7 +23213,7 @@ void msrMultipleRestContents::print (ostream& os)
 {
   os <<
     endl <<
-    multipleRestContentsAsString () <<
+    asString () <<
     endl <<
     endl;
   
@@ -23257,7 +23282,7 @@ S_msrMultipleRest msrMultipleRest::createMultipleRestNewbornClone (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of multiple rest " <<
-      multipleRestAsString () <<
+      asString () <<
       endl;
   }
   
@@ -23410,7 +23435,7 @@ void msrMultipleRest::browseData (basevisitor* v)
   }
 }
 
-string msrMultipleRest::multipleRestAsString () const
+string msrMultipleRest::asString () const
 {
   stringstream s;
 
@@ -23441,7 +23466,7 @@ void msrMultipleRest::print (ostream& os)
 {
   os <<
     endl <<
-    multipleRestAsString () <<
+    asString () <<
     endl;
   
   gIndenter++;
@@ -23518,7 +23543,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaNewbornClone (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
-      repeatCodaAsString () <<
+      asString () <<
       endl;
   }
   
@@ -23551,7 +23576,7 @@ S_msrRepeatCoda msrRepeatCoda::createRepeatCodaDeepCopy (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
-      repeatCodaAsString () <<
+      asString () <<
       endl;
   }
   
@@ -23651,7 +23676,7 @@ ostream& operator<< (ostream& os, const S_msrRepeatCoda& elt)
   return os;
 }
 
-string msrRepeatCoda::repeatCodaAsString () const
+string msrRepeatCoda::asString () const
 {
   stringstream s;
 
@@ -23667,7 +23692,7 @@ void msrRepeatCoda::print (ostream& os)
 {
   os <<
     endl <<
-    repeatCodaAsString () <<
+    asString () <<
     endl;
  
   gIndenter++;
@@ -23703,7 +23728,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningNewbornClone ()
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
-      harpPedalsTuningAsString () <<
+      asString () <<
       endl;
   }
   
@@ -23718,7 +23743,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
-      harpPedalsTuningAsString () <<
+      asString () <<
       endl;
   }
   
@@ -23812,7 +23837,7 @@ ostream& operator<< (ostream& os, const S_msrHarpPedalsTuning& elt)
   return os;
 }
 
-string msrHarpPedalsTuning::harpPedalsTuningAsString () const
+string msrHarpPedalsTuning::asString () const
 {
   stringstream s;
 
@@ -24855,7 +24880,7 @@ void msrVoice::appendCommentToVoice (S_msrComment comment)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending comment '" << comment->commentAsString () <<
+      "Appending comment '" << comment->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -24873,7 +24898,7 @@ void msrVoice::appendClefToVoice (S_msrClef clef)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending clef '" << clef->clefAsString () <<
+      "Appending clef '" << clef->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -24891,7 +24916,7 @@ void msrVoice::appendKeyToVoice (S_msrKey key)
 {
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending key '" << key->keyAsString () <<
+      "Appending key '" << key->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -24909,7 +24934,7 @@ void msrVoice::appendTimeToVoice (S_msrTime time)
 {
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending time '" << time->timeAsString () <<
+      "Appending time '" << time->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -24927,7 +24952,7 @@ void msrVoice::appendTimeToVoiceClone (S_msrTime time)
 {
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending time '" << time->timeAsString () <<
+      "Appending time '" << time->asString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -24945,7 +24970,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 {
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending harmony '" << harmony->harmonyAsString () <<
+      "Appending harmony '" << harmony->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -24991,7 +25016,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 {
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending harmony '" << harmony->harmonyAsString () <<
+      "Appending harmony '" << harmony->asString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25040,7 +25065,7 @@ void msrVoice::appendFiguredBassToVoice (
 {
   if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending figured bass '" << figuredBass->figuredBassAsString () <<
+      "Appending figured bass '" << figuredBass->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25087,7 +25112,7 @@ void msrVoice::appendFiguredBassToVoiceClone (
 {
   if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending figured bass '" << figuredBass->figuredBassAsString () <<
+      "Appending figured bass '" << figuredBass->asString () <<
       "' to voice clone \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25154,7 +25179,7 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending transpose '" <<
-      transpose->transposeAsString () <<
+      transpose->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25173,7 +25198,7 @@ void msrVoice::appendStaffDetailsToVoice (
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending staff details '" <<
-      staffDetails->staffDetailsAsShortString () <<
+      staffDetails->asShortString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25195,7 +25220,7 @@ void msrVoice::appendWordsToVoice (S_msrWords words)
 {
   if (gTraceOptions->fTraceWords) {
     gLogIOstream <<
-      "Appending words '" << words->wordsAsString () <<
+      "Appending words '" << words->asString () <<
       "' to voice " << getVoiceName () << endl;
   }
 
@@ -25209,7 +25234,7 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
 {
   if (gMsrOptions->fTraceMsr) {
     gLogIOstream <<
-      "Appending tempo '" << tempo->tempoAsString () <<
+      "Appending tempo '" << tempo->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25248,7 +25273,7 @@ void msrVoice::appendAccordionRegistrationToVoice (
   if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending accordion registration '" <<
-      accordionRegistration->accordionRegistrationAsString () <<
+      accordionRegistration->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25269,7 +25294,7 @@ void msrVoice::appendHarpPedalsTuningToVoice (
   if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
-      harpPedalsTuning->harpPedalsTuningAsString () <<
+      harpPedalsTuning->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25306,7 +25331,7 @@ void msrVoice::appendVoiceStaffChangeToVoice (
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Append voice staff change " <<
-      voiceStaffChange->voiceStaffChangeAsString () <<
+      voiceStaffChange->asString () <<
       " to voice " <<
       " \"" << getVoiceName () << "\"" <<
       endl;
@@ -25366,6 +25391,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       // register actual note
       fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
@@ -25442,6 +25468,7 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
       break;
       
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       // register actual note
       fVoiceActualNotesCounter++;
       fMusicHasBeenInsertedInVoice = true;
@@ -25472,7 +25499,7 @@ void msrVoice::appendDoubleTremoloToVoice (
   if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
       "Appending double tremolo '" <<
-      doubleTremolo->doubleTremoloAsShortString () <<
+      doubleTremolo->asShortString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25491,7 +25518,7 @@ void msrVoice::appendChordToVoice (S_msrChord chord)
 {
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Appending chord '" << chord->chordAsString () <<
+      "Appending chord '" << chord->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25510,7 +25537,7 @@ void msrVoice::appendTupletToVoice (S_msrTuplet tuplet)
 {
   if (gTraceOptions->fTraceTuplets) {
     gLogIOstream <<
-      "Appending tuplet '" << tuplet->tupletAsString () <<
+      "Appending tuplet '" << tuplet->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25613,7 +25640,7 @@ void msrVoice::appendSyllableToVoice (
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
       "Appending syllable '" <<
-      syllable->syllableAsString () <<
+      syllable->asString () <<
       "' to voice \"" << fVoiceName << "\"" <<
       endl;
   }
@@ -25636,7 +25663,7 @@ void msrVoice::appendBarCheckToVoice (S_msrBarCheck barCheck)
 {
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending bar check '" << barCheck->barCheckAsString () <<
+      "Appending bar check '" << barCheck->asString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
   }
@@ -25655,7 +25682,7 @@ void msrVoice::appendBarNumberCheckToVoice (
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
       "Appending barnumber check '" <<
-      barNumberCheck->barNumberCheckAsString () <<
+      barNumberCheck->asString () <<
       "' to voice \"" << getVoiceName () <<  "\"" <<
       endl;
   }
@@ -25672,7 +25699,7 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 {
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending line break '" << lineBreak->lineBreakAsString () <<
+      "Appending line break '" << lineBreak->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -25689,7 +25716,7 @@ void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)
 {
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending page break '" << pageBreak->pageBreakAsString () <<
+      "Appending page break '" << pageBreak->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -27405,7 +27432,7 @@ void msrVoice::appendMultipleRestCloneToVoice (
         if (gTraceOptions->fTraceRepeats) {
           gLogIOstream <<
             "Appending multiple rest '" <<
-            multipleRest->multipleRestAsString () <<
+            multipleRest->asString () <<
             " to voice clone \"" <<
             getVoiceName () <<
             "\"" <<
@@ -27853,7 +27880,7 @@ void msrVoice::prependBarlineToVoice (S_msrBarline barline)
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Prepending barline '" <<
-      barline->barlineAsString () <<
+      barline->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       ":" <<
       endl;
@@ -27872,7 +27899,7 @@ void msrVoice::appendBarlineToVoice (S_msrBarline barline)
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending barline '" <<
-      barline->barlineAsString () <<
+      barline->asString () <<
       "' to voice \"" << getVoiceName () << "\"" <<
       ":" <<
       endl;
@@ -27975,7 +28002,7 @@ void msrVoice::removeNoteFromVoice (
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
       "Removing first chord note '" <<
-      note->noteAsShortString () <<
+      note->asShortString () <<
       "' from voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -27990,10 +28017,10 @@ void msrVoice::removeElementFromVoice (
   int          inputLineNumber,
   S_msrElement element)
 {
-  if (gTraceOptions->fTraceChords) {
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
       "Removing element '" <<
-      "JMI ??? element->noteAsShortString ()" <<
+      element->asShortString () <<
       "' from voice \"" << getVoiceName () << "\"" <<
       endl;
   }
@@ -28419,7 +28446,7 @@ S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberNewbornClone ()
  if (gTraceOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff lines number '" <<
-      staffLinesNumberAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -28480,7 +28507,7 @@ void msrStaffLinesNumber::acceptOut (basevisitor* v)
 void msrStaffLinesNumber::browseData (basevisitor* v)
 {}
 
-string msrStaffLinesNumber::staffLinesNumberAsString () const
+string msrStaffLinesNumber::asString () const
 {
   stringstream s;
 
@@ -28502,7 +28529,7 @@ ostream& operator<< (ostream& os, const S_msrStaffLinesNumber& elt)
 void msrStaffLinesNumber::print (ostream& os)
 {
   os <<
-    staffLinesNumberAsString () <<
+    asString () <<
     endl;
 }
 
@@ -28543,7 +28570,7 @@ S_msrStaffTuning msrStaffTuning::createStaffTuningNewbornClone ()
   if (gTraceOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff tuning '" <<
-      staffTuningAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -28612,7 +28639,7 @@ ostream& operator<< (ostream& os, const S_msrStaffTuning& elt)
   return os;
 }
 
-string msrStaffTuning::staffTuningAsString () const
+string msrStaffTuning::asString () const
 {
   stringstream s;
 
@@ -28710,7 +28737,7 @@ S_msrStaffDetails msrStaffDetails::createStaffDetailsNewbornClone (
   if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Creating a newborn clone of staff details \"" <<
-      staffDetailsAsShortString () <<
+      asShortString () <<
       "\"" <<
       endl;
   }
@@ -28871,7 +28898,7 @@ ostream& operator<< (ostream& os, const S_msrStaffDetails& elt)
   return os;
 }
 
-string msrStaffDetails::staffDetailsAsShortString ()
+string msrStaffDetails::asShortString ()
 {
   stringstream s;
 
@@ -29155,7 +29182,7 @@ void msrStaff::initializeStaff ()
     if (clef) {
       if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
         gLogIOstream <<
-          "Appending part clef '" << clef->clefAsString () <<
+          "Appending part clef '" << clef->asString () <<
           "' as initial clef to staff \"" <<
           getStaffName () <<
           "\" in part " <<
@@ -29178,7 +29205,7 @@ void msrStaff::initializeStaff ()
     if (key) {
       if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceKeys) {
         gLogIOstream <<
-          "Appending part key '" << key->keyAsString () <<
+          "Appending part key '" << key->asString () <<
           "' as initial key to staff \"" <<
           getStaffName () <<
           "\" in part " <<
@@ -29225,7 +29252,7 @@ void msrStaff::initializeStaff ()
     if (time) {
       if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceTimes) {
         gLogIOstream <<
-          "Appending part time '" << time->timeAsString () <<
+          "Appending part time '" << time->asString () <<
           "' as initial time to staff \"" <<
           getStaffName () <<
           "\" in part " <<
@@ -29248,7 +29275,7 @@ void msrStaff::initializeStaff ()
     if (transpose) {
       if (gTraceOptions->fTraceStaves /* JMI || gTraceOptions->fTraceTransposes */) {
         gLogIOstream <<
-          "Appending part transpose '" << transpose->transposeAsString () <<
+          "Appending part transpose '" << transpose->asString () <<
           "' as initial transpose to staff \"" <<
           getStaffName () <<
           "\" in part " <<
@@ -29752,7 +29779,7 @@ void msrStaff::appendCommentToStaff (S_msrComment comment)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
-      "Appending comment '" << comment->commentAsString () <<
+      "Appending comment '" << comment->asString () <<
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -29774,7 +29801,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
 {
   if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
-      "Appending clef '" << clef->clefAsString () <<
+      "Appending clef '" << clef->asString () <<
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -29823,7 +29850,7 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
     if (gTraceOptions->fTraceClefs || gTraceOptions->fTraceStaves) {
       gLogIOstream <<
         "Clef '" <<
-        clef->clefAsString () <<
+        clef->asString () <<
         "' ignored because it is already present in staff " <<
         getStaffName () <<
         "\" in part " <<
@@ -29837,7 +29864,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
 {
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
-      "Appending key '" << key->keyAsString () <<
+      "Appending key '" << key->asString () <<
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -29861,7 +29888,7 @@ void msrStaff::appendKeyToStaff (S_msrKey  key)
         if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceStaves) {
           gLogIOstream <<
             "Key '" <<
-            key->keyAsString () <<
+            key->asString () <<
             "' ignored because it is already present in staff " <<
             getStaffName () <<
             "\" in part " <<
@@ -29893,7 +29920,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
 {
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
-      "Appending time '" << time->timeAsString () <<
+      "Appending time '" << time->asString () <<
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -29917,7 +29944,7 @@ void msrStaff::appendTimeToStaff (S_msrTime time)
         if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
           gLogIOstream <<
             "Time '" <<
-            time->timeAsString () <<
+            time->asString () <<
             "' ignored because it is already present in staff " <<
             getStaffName () <<
             "\" in part " <<
@@ -29949,7 +29976,7 @@ void msrStaff::appendTimeToStaffClone (S_msrTime time)
 {
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
-      "Appending time '" << time->timeAsString () <<
+      "Appending time '" << time->asString () <<
       "' to staff clone \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -30218,7 +30245,7 @@ void msrStaff::appendMultipleRestCloneToStaff (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      multipleRest->multipleRestAsString () <<
+      multipleRest->asString () <<
       "' to staff clone \"" <<
       getStaffName () <<
       "\"" <<
@@ -30284,7 +30311,7 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
 {
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Appending barline '" << barline->barlineAsString () <<
+      "Appending barline '" << barline->asString () <<
       "' to staff " <<
       getStaffName () <<
       "\" in part " <<
@@ -30306,7 +30333,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Setting transpose '" <<
-      transpose->transposeAsString () <<
+      transpose->asString () <<
       "' in staff " <<
       getStaffName () <<
       "\" in part " <<
@@ -30326,7 +30353,7 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
       if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
         gLogIOstream <<
           "Transpose '" <<
-          transpose->transposeAsString () <<
+          transpose->asString () <<
           "' ignored because it is already present in staff " <<
           getStaffName () <<
           "\" in part " <<
@@ -30353,7 +30380,7 @@ void msrStaff::appendStaffDetailsToStaff (
   if (gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Appending staff details '" <<
-      staffDetails->staffDetailsAsShortString () <<
+      staffDetails->asShortString () <<
       "' to staff \"" <<
       getStaffName () <<
       "\" in part " <<
@@ -30720,7 +30747,7 @@ void msrStaff::print (ostream& os)
     gIndenter++;
     for ( ; ; ) {
       os <<
-        (*i)->staffTuningAsString ();
+        (*i)->asString ();
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30831,7 +30858,7 @@ void msrStaff::printSummary (ostream& os)
       
     gIndenter++;
     for ( ; ; ) {
-      os << (*i)->staffTuningAsString ();
+      os << (*i)->asString ();
       if (++i == iEnd) break;
       os << endl;
     } // for
@@ -30913,7 +30940,7 @@ S_msrVoiceStaffChange msrVoiceStaffChange::createStaffChangeNewbornClone ()
  if (gTraceOptions->fTraceStaffTuning) {
     gLogIOstream <<
       "Creating a newborn clone of staff change '" <<
-      voiceStaffChangeAsString () <<
+      asString () <<
       "'" <<
       endl;
   }
@@ -30974,7 +31001,7 @@ void msrVoiceStaffChange::acceptOut (basevisitor* v)
 void msrVoiceStaffChange::browseData (basevisitor* v)
 {}
 
-string msrVoiceStaffChange::voiceStaffChangeAsString () const
+string msrVoiceStaffChange::asString () const
 {
   stringstream s;
 
@@ -30996,7 +31023,7 @@ ostream& operator<< (ostream& os, const S_msrVoiceStaffChange& elt)
 void msrVoiceStaffChange::print (ostream& os)
 {
   os <<
-    voiceStaffChangeAsString () <<
+    asString () <<
     endl;
 }
 
@@ -31731,7 +31758,7 @@ void msrPart::appendStaffDetailsToPart (
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending staff details\"" <<
-      staffDetails->staffDetailsAsShortString () <<
+      staffDetails->asShortString () <<
       "\" to part " << getPartCombinedName () <<
     endl;
   }
@@ -31765,7 +31792,7 @@ void msrPart::appendCommentToPart (S_msrComment comment)
   if (gTraceOptions->fTraceParts || gTraceOptions->fTraceClefs) {
     gLogIOstream <<
       "Appending comment '" <<
-      comment->commentAsString () <<
+      comment->asString () <<
       "' to part " << getPartCombinedName () <<
     endl;
   }
@@ -31786,7 +31813,7 @@ void msrPart::appendClefToPart (S_msrClef clef)
   if (gTraceOptions->fTraceParts || gTraceOptions->fTraceClefs) {
     gLogIOstream <<
       "Appending clef '" <<
-      clef->clefAsString () <<
+      clef->asString () <<
       "' to part " << getPartCombinedName () <<
     endl;
   }
@@ -31807,7 +31834,7 @@ void msrPart::appendKeyToPart  (S_msrKey  key)
   if (gTraceOptions->fTraceKeys || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending key '" <<
-      key->keyAsString () <<
+      key->asString () <<
       "' to part " << getPartCombinedName () <<
       endl;
   }
@@ -31834,7 +31861,7 @@ void msrPart::appendTimeToPart (S_msrTime time)
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending time '" <<
-      time->timeAsString () <<
+      time->asString () <<
       "' to part " << getPartCombinedName () <<
       endl;
   }
@@ -31869,7 +31896,7 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
   if (gTraceOptions->fTraceTimes || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending time '" <<
-      time->timeAsString () <<
+      time->asString () <<
       "' to part clone " << getPartCombinedName () <<
       endl;
   }
@@ -31895,7 +31922,7 @@ void msrPart::appendTransposeToPart (S_msrTranspose transpose)
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending transpose \"" <<
-      transpose->transposeAsString () <<
+      transpose->asString () <<
       "\" to part " << getPartCombinedName () <<
     endl;
   }
@@ -32237,7 +32264,7 @@ void msrPart::appendMultipleRestCloneToPart (
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending multiple rest '" <<
-      multipleRest->multipleRestAsString () <<
+      multipleRest->asString () <<
       "' to part clone " <<
       getPartCombinedName () <<
       endl;
@@ -32466,7 +32493,7 @@ void msrPart::appendHarmonyToPart (
         if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
           gLogIOstream <<
             "Appending harmony '" <<
-            harmony->harmonyAsString () <<
+            harmony->asString () <<
             "' to part " <<
             getPartCombinedName () <<
             ", line " << inputLineNumber <<
@@ -32530,7 +32557,7 @@ void msrPart::appendHarmonyToPartClone (
         if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
           gLogIOstream <<
             "Appending harmony '" <<
-            harmonyClone->harmonyAsString () <<
+            harmonyClone->asString () <<
             "' to part clone " <<
             getPartCombinedName () <<
             ", line " << inputLineNumber <<
@@ -32591,7 +32618,7 @@ void msrPart::appendFiguredBassToPart (
       if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
-          figuredBass->figuredBassAsString () <<
+          figuredBass->asString () <<
           "' to part " <<
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
@@ -32650,7 +32677,7 @@ void msrPart::appendFiguredBassToPartClone (
       if (gTraceOptions->fTraceFiguredBass || gTraceOptions->fTraceParts) {
         gLogIOstream <<
           "Appending figured bass '" <<
-          figuredBass->figuredBassAsString () <<
+          figuredBass->asString () <<
           "' to part clone " <<
           getPartCombinedName () <<
           ", line " << inputLineNumber <<
@@ -32692,7 +32719,7 @@ void msrPart::appendAccordionRegistrationToPart (
   if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending accordion registration '" <<
-      accordionRegistration->accordionRegistrationAsString () <<
+      accordionRegistration->asString () <<
       "' to part " <<
       getPartCombinedName () <<
       endl;
@@ -32715,7 +32742,7 @@ void msrPart::appendHarpPedalsTuningToPart (
   if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceParts) {
     gLogIOstream <<
       "Appending harp pedals tuning '" <<
-      harpPedalsTuning->harpPedalsTuningAsString () <<
+      harpPedalsTuning->asString () <<
       "' to part " <<
       getPartCombinedName () <<
       endl;
@@ -34887,7 +34914,7 @@ void msrScore::appendCreditToScore (S_msrCredit credit)
   if (gTraceOptions->fTraceCredits) {
     gLogIOstream <<
       "Appending credit '" <<
-      credit->creditAsString () <<
+      credit->asString () <<
       "' to score" <<
       endl;
   }
@@ -35688,7 +35715,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingNewbornClone (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
-      repeatEndingAsString () <<
+      asString () <<
       endl;
   }
   
@@ -35732,7 +35759,7 @@ S_msrRepeatEnding msrRepeatEnding::createRepeatEndingDeepCopy (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
-      repeatEndingAsString () <<
+      asString () <<
       endl;
   }
   
@@ -35780,7 +35807,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartNewbornClone (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
-      repeatCommonPartAsString () <<
+      asString () <<
       endl;
   }
   
@@ -35811,7 +35838,7 @@ S_msrRepeatCommonPart msrRepeatCommonPart::createRepeatCommonPartDeepCopy (
   if (gTraceOptions->fTraceRepeats) {
     gLogIOstream <<
       "Creating a newborn clone of a " <<
-      repeatCommonPartAsString () <<
+      asString () <<
       endl;
   }
   

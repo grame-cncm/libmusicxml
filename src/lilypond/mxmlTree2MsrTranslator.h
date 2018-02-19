@@ -1307,6 +1307,8 @@ class mxmlTree2MsrTranslator :
 
     // notes/rests handling
     // ------------------------------------------------------
+
+    S_msrNote                 fLastMetNote;
     
     void                      checkStep (
                                 int    inputLineNumber,

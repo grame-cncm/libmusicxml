@@ -93,6 +93,7 @@ class musicXMLOptions : public optionsGroup
     // cubase
 
     bool                  fCubase;
+    bool                  fNoCubase;
 
     // to do
     

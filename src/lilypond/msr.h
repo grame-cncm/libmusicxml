@@ -177,6 +177,10 @@ class msrElement : public smartable
     // services
     // ------------------------------------------------------
 
+    virtual string        asString () const;
+    
+    virtual string        asShortString () const;
+
     // visitors
     // ------------------------------------------------------
 
@@ -265,7 +269,7 @@ class msrComment : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                commentAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -433,7 +437,7 @@ class msrAccordionRegistration : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                accordionRegistrationAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -505,7 +509,7 @@ class msrHarpPedalsTuning : public msrElement
                             msrDiatonicPitchKind diatonicPitchKind,
                             msrAlterationKind    alterationKind);
                             
-    string                harpPedalsTuningAsString () const;
+    string                asString () const;
          
     // visitors
     // ------------------------------------------------------
@@ -647,7 +651,7 @@ class msrBeam : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                beamAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1009,7 +1013,7 @@ class msrTechnical : public msrElement
 
     string                technicalAccidentalMarkKindAsString () const;
     
-    string                technicalAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1117,7 +1121,7 @@ class msrTechnicalWithInteger : public msrElement
 
     string                technicalWithIntegerAccidentalMarkKindAsString () const;
     
-    string                technicalWithIntegerAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1233,7 +1237,7 @@ class msrTechnicalWithString : public msrElement
 
     string                technicalWithStringAccidentalMarkKindAsString () const;
     
-    string                technicalWithStringAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1435,7 +1439,7 @@ class msrFermata : public msrArticulation
     // services
     // ------------------------------------------------------
 
-    string                fermataAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1520,7 +1524,7 @@ class msrSingleTremolo : public msrElement
 
     string                singleTremoloPlacementKindAsString () const;
     
-    string                singleTremoloAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -1762,10 +1766,10 @@ class msrDoubleTremolo : public msrElement
     // strings
 
     string                doubleTremoloPlacementKindAsString () const;
-    
-    string                doubleTremoloAsShortString () const;
-    
-    string                doubleTremoloAsString () const;
+        
+    string                asString () const;
+
+    string                asShortString () const;
 
     // tremolo first note
     
@@ -2198,9 +2202,9 @@ class msrSlur : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                slurTypeKindAsString ();
+    string                slurTypeKindAsString () const;
 
-    string                slurAsString ();
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2451,7 +2455,7 @@ class msrOtherDynamics : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                otherDynamicsAsString ();
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2601,8 +2605,8 @@ class msrClef : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrClef> create (
-      int          inputLineNumber,
-      msrClefKind  clefKind);
+      int         inputLineNumber,
+      msrClefKind clefKind);
 
   protected:
 
@@ -2610,8 +2614,8 @@ class msrClef : public msrElement
     // ------------------------------------------------------
 
     msrClef (
-      int          inputLineNumber,
-      msrClefKind  clefKind);
+      int         inputLineNumber,
+      msrClefKind clefKind);
       
     virtual ~msrClef();
   
@@ -2628,11 +2632,12 @@ class msrClef : public msrElement
 
     bool                  isEqualTo (S_msrClef otherClef) const;
 
-    string                clefAsString () const;
-
     bool                  clefIsATablatureClef () const;
     
     bool                  clefIsAPercussionClef () const;
+
+    string                asString () const;
+
 
     // visitors
     // ------------------------------------------------------
@@ -2724,7 +2729,7 @@ class msrHumdrumScotKeyItem : public msrElement
                             S_msrHumdrumScotKeyItem
                               otherHumdrumScotKeyItem) const;
                             
-    string                humdrumScotKeyItemAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2842,7 +2847,7 @@ class msrKey : public msrElement
     void                  appendHumdrumScotKeyItem (
                             S_msrHumdrumScotKeyItem item);                                
 
-    string                keyAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -2923,7 +2928,7 @@ class msrTimeItem : public msrElement
 
     int                   getTimeBeatsNumber () const;
                               
-    string                timeItemAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -3037,9 +3042,9 @@ class msrTime : public msrElement
 
     rational              wholeNotesPerMeasure () const;
 
-    string                timeAsShortString () const;
-    
-    string                timeAsString () const;
+    string                asString () const;
+
+    string                asShortString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -3122,7 +3127,7 @@ class msrTranspose : public msrElement
 
     bool                  isEqualTo (S_msrTranspose otherTranspose) const;
                             
-    string                transposeAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -3710,8 +3715,9 @@ class msrSegment : public msrElement
 
     // strings
   
-    string                segmentAsString ();
-    string                segmentAsShortString ();
+    string                asString () const;
+
+    string                asShortString () const;
 
     // divisions ??? JMI
     
@@ -4015,7 +4021,7 @@ class msrGraceNotes : public msrElement
 
     void                  appendNoteToGraceNotes (S_msrNote note);
 
-    string                graceNotesAsShortString () const;
+    string                asShortString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -4100,7 +4106,7 @@ class msrAfterGraceNotesContents : public msrElement
                             S_msrNote note);
 
     // strings
-    string                afterGraceNotesContentsAsShortString () const;
+    string                asShortString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -4187,7 +4193,7 @@ class msrAfterGraceNotes : public msrElement
                             S_msrNote note);
 
     // strings
-    string                afterGraceNotesAsShortString () const;
+    string                asShortString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -4323,7 +4329,7 @@ class msrWords : public msrElement
     
     string                wordsFontWeightKindAsString () const;
 
-    string                wordsAsString () const;
+    string                asString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -4458,14 +4464,14 @@ class msrSyllable : public msrElement
     void                  appendLyricTextToSyllable (string text);
                                   
     // as MSR string
-    string                syllableWholeNotesAsMsrString ();
+    string                syllableWholeNotesAsMsrString () const;
     
     string                syllableKindAsString () const;
     
     string                syllableExtendKindAsString () const;
 
     // as string
-    string                syllableAsString ();
+    string                asString () const;
 
     string                syllableNoteUplinkAsString () const;
 
@@ -4601,7 +4607,7 @@ Degree elements
     string                harmonyDegreeKindAsString () const;
     string                harmonyDegreeKindAsShortString () const;
     
-    string                harmonyDegreeAsString () const;
+    string                asString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -4719,7 +4725,7 @@ class msrHarmony : public msrElement
                                   harmonyDegree);
                               }
     
-    string                harmonyAsString () const;
+    string                asString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -4843,7 +4849,7 @@ class msrFigure : public msrElement
     string                figurePrefixKindAsString () const;
     string                figureSuffixKindAsShortString () const;
     
-    string                figureAsString () const;
+    string                asString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -4955,7 +4961,7 @@ class msrFiguredBass : public msrElement
     void                  appendFiguredFigureToFiguredBass (
                             S_msrFigure figure);
 
-    string                figuredBassAsString () const;
+    string                asString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -5012,6 +5018,7 @@ class msrNote : public msrElement
       kDoubleTremoloMemberNote,
       kGraceNote,
       kChordMemberNote,
+      kGraceChordMemberNote,
       kTupletMemberNote };
       
     static string noteKindAsString (
@@ -5578,7 +5585,7 @@ class msrNote : public msrElement
     
     bool                  noteIsAPitchedRest () const;
     
-    string                noteAsShortStringWithRawWholeNotes () const;
+    string                asShortStringWithRawWholeNotes () const;
     
     // note print kind
     string                notePrintKindAsString () const;
@@ -5590,9 +5597,9 @@ class msrNote : public msrElement
     string                noteHeadParenthesesKindAsString () const;
 
     // note as string
-    string                noteAsShortString ();
-    
-    string                noteAsString ();
+    string                asString () const;
+
+    string                asShortString () const;
       
     // diatonic pitch
     msrDiatonicPitchKind  noteDiatonicPitchKind (
@@ -5602,8 +5609,8 @@ class msrNote : public msrElement
                             int inputLineNumber) const;
 
     // whole notes
-    string                noteSoundingWholeNotesAsMsrString ();
-    string                noteDisplayWholeNotesAsMsrString ();
+    string                noteSoundingWholeNotesAsMsrString () const;
+    string                noteDisplayWholeNotesAsMsrString () const;
     
     // graphic duration
     string                noteGraphicDurationAsMsrString () const;
@@ -5648,8 +5655,10 @@ class msrNote : public msrElement
     void                  addSingleTremoloToNote (S_msrSingleTremolo trem);
     
     // dynamics
-    void                  addDynamicsToNote (S_msrDynamics dynamics);
-    void                  addOtherDynamicsToNote (S_msrOtherDynamics otherDynamics);
+    void                  addDynamicsToNote (
+                            S_msrDynamics dynamics);
+    void                  addOtherDynamicsToNote (
+                            S_msrOtherDynamics otherDynamics);
 
     S_msrDynamics         removeFirstDynamics (); // ???
 
@@ -6169,8 +6178,9 @@ class msrChord : public msrElement
                             string measureNumber);
                     
     // as string
-    string                chordAsStringwithRawDivisions () const;
-    string                chordAsString () const;
+    string                asStringwithRawDivisions () const;
+
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -6834,7 +6844,7 @@ class msrCredit : public msrElement
     void                  appendCreditWordsToCredit (
                             S_msrCreditWords creditWords);
 
-    string                creditAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -7080,7 +7090,7 @@ class msrBarCheck : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                barCheckAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -7139,7 +7149,7 @@ class msrBarNumberCheck : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                barNumberCheckAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -7198,7 +7208,7 @@ class msrLineBreak : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                lineBreakAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -7252,7 +7262,7 @@ class msrPageBreak : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                pageBreakAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -7437,9 +7447,7 @@ class msrTuplet : public msrElement
                             int containingTupletActualNotes,
                             int containingTupletNormalNotes);
 
-    string                tupletAsShortString () const;
-    
-    string                tupletAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -7557,7 +7565,7 @@ class msrGlissando : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                glissandoAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -7655,7 +7663,7 @@ class msrSlide : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                slideAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -7731,7 +7739,7 @@ class msrTempo : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                tempoAsString () const;
+    string                asString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -8147,7 +8155,7 @@ class msrPedal : public msrElement
     string                pedalLineAsString ();
     
     string                pedalSignAsString ();
-    
+
     // visitors
     // ------------------------------------------------------
 
@@ -8390,7 +8398,7 @@ class msrBarline : public msrElement
 
     string                endingNumbersListAsString () const;
     
-    string                barlineAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -8491,7 +8499,7 @@ class msrRepeatCommonPart : public msrElement
     void                  appendElementToRepeatCommonPart (
                             S_msrElement elem);
 
-    string                repeatCommonPartAsString () const;
+    string                asString () const;
                     
     // visitors
     // ------------------------------------------------------
@@ -8604,7 +8612,7 @@ class msrRepeatEnding : public msrElement
     // services
     // ------------------------------------------------------
   
-    string                repeatEndingAsString () const;
+    string                asString () const;
 
  //  JMI void                  appendElementToRepeatEnding (S_msrElement elem);
                     
@@ -8714,6 +8722,8 @@ class msrRepeat : public msrElement
     void                  addRepeatEnding (
                             S_msrRepeatEnding repeatEnding);
 
+    string                asString () const;
+    
     // visitors
     // ------------------------------------------------------
 
@@ -8725,8 +8735,6 @@ class msrRepeat : public msrElement
     // print
     // ------------------------------------------------------
 
-    string                repeatAsString () const;
-    
     virtual void          print (ostream& os);
 
   private:
@@ -8801,7 +8809,7 @@ class msrMeasuresRepeatPattern : public msrElement
 
     int                   measuresRepeatPatternMeasuresNumber () const;
         
-    string                measuresRepeatPatternAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -8883,7 +8891,7 @@ class msrMeasuresRepeatReplicas : public msrElement
     
     int                   measuresRepeatReplicasNumber () const;
 
-    string                measuresRepeatReplicasAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -9008,7 +9016,7 @@ class msrMeasuresRepeat : public msrElement
     
     int                   measuresRepeatReplicasNumber () const;
 
-    string                measuresRepeatAsString () const;
+    string                asString () const;
 
     // visitors
     // ------------------------------------------------------
@@ -9095,7 +9103,7 @@ class msrMultipleRestContents : public msrElement
 
     int                   multipleRestContentsMeasuresNumber () const;
 
-    string                multipleRestContentsAsString () const;
+    string                asString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -9203,7 +9211,7 @@ class msrMultipleRest : public msrElement
                                   multipleRestContentsMeasuresNumber ();
                             }
 
-    string                multipleRestAsString () const;
+    string                asString () const;
     
     // visitors
     // ------------------------------------------------------
@@ -9285,7 +9293,7 @@ class msrRepeatCoda : public msrElement
     // services
     // ------------------------------------------------------
   
-    string                repeatCodaAsString () const;
+    string                asString () const;
 
  //  JMI void                  appendElementToRepeatCoda (S_msrElement elem);
                     
@@ -9816,6 +9824,8 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string stanzaNumber,
                             string stanzaName);
+
+    // strings
     
     // finalization
     
@@ -9966,7 +9976,7 @@ class msrStaffLinesNumber : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                staffLinesNumberAsString () const;
+    string                asString () const;
          
     // visitors
     // ------------------------------------------------------
@@ -10040,7 +10050,7 @@ class msrStaffTuning : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                staffTuningAsString () const;
+    string                asString () const;
          
     // visitors
     // ------------------------------------------------------
@@ -10167,7 +10177,7 @@ class msrStaffDetails : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                staffDetailsAsShortString ();
+    string                asShortString ();
     
     // visitors
     // ------------------------------------------------------
@@ -10485,6 +10495,8 @@ class msrStaff : public msrElement
     void                  finalizeStaff (
                             int inputLineNumber);
 
+    // strings
+    
     // visitors
     // ------------------------------------------------------
 
@@ -10594,7 +10606,7 @@ class msrVoiceStaffChange : public msrElement
     // services
     // ------------------------------------------------------
 
-    string                voiceStaffChangeAsString () const;
+    string                asString () const;
          
     // visitors
     // ------------------------------------------------------

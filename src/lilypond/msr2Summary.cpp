@@ -509,7 +509,7 @@ void msr2SummaryVisitor::visitStart (S_msrClef& elt)
 
   if (! fOnGoingStaff) {
     fMsrSummaryOutputStream <<
-      elt->clefAsString () <<
+      elt->asString () <<
       endl;
   }
 }
@@ -534,7 +534,7 @@ void msr2SummaryVisitor::visitStart (S_msrKey& elt)
 
   if (! fOnGoingStaff) {
     fMsrSummaryOutputStream <<
-      elt->keyAsString () <<
+      elt->asString () <<
       endl;
   }
 }
@@ -559,7 +559,7 @@ void msr2SummaryVisitor::visitStart (S_msrTime& elt)
 
   if (! fOnGoingStaff) {    
     fMsrSummaryOutputStream <<
-      elt->timeAsString () <<
+      elt->asString () <<
       endl;
   }
 }
