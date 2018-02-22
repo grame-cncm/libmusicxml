@@ -14056,43 +14056,57 @@ void msrWords::print (ostream& os)
 //______________________________________________________________________________
 S_msrTempo msrTempo::create (
   int           inputLineNumber,
-  int           tempoUnit,
-  int           perMinute)
+  string        tempoWords,
+  int           tempoBeatUnit,
+  string        tempoPerMinute,
+  msrTempoParenthesizedKind
+                tempoParenthesizedKind)
 {
   msrTempo* o =
     new msrTempo (
-      inputLineNumber, tempoUnit, perMinute);
+      inputLineNumber,
+      tempoWords,
+      tempoBeatUnit,
+      tempoPerMinute,
+      tempoParenthesizedKind);
   assert(o!=0);
   return o;
 }
 
 msrTempo::msrTempo (
   int           inputLineNumber,
-  int           tempoUnit,
-  int           perMinute)
+  string        tempoWords,
+  int           tempoBeatUnit,
+  string        tempoPerMinute,
+  msrTempoParenthesizedKind
+                tempoParenthesizedKind)
     : msrElement (inputLineNumber)
 {
-  fTempoIndication = "";
+  fTempoWords = tempoWords;
   
-  fTempoUnit = tempoUnit;
-  fPerMinute = perMinute;
+  fTempoUnit = tempoBeatUnit;
+  fTempoPerMinute = tempoPerMinute;
+
+  fTempoParenthesizedKind = tempoParenthesizedKind;
 }
 
-msrTempo::~msrTempo()
+msrTempo::~msrTempo ()
 {}
 
+/* JMI
 void msrTempo::setTempoIndication (string indication)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
       "Setting indication of tempo " <<
-      fTempoUnit << " = " << fPerMinute <<
+      fTempoUnit << " = " << fTempoPerMinute <<
       " to \"" << indication << "\"" <<
       endl;
   }
       
-  fTempoIndication = indication;
+  fTempoWords = indication;
 }
+*/
 
 void msrTempo::acceptIn (basevisitor* v)
 {
@@ -14142,10 +14156,21 @@ void msrTempo::acceptOut (basevisitor* v)
 void msrTempo::browseData (basevisitor* v)
 {}
 
-ostream& operator<< (ostream& os, const S_msrTempo& elt)
+string msrTempo::tempoParenthesizedAsString (
+  msrTempoParenthesizedKind tempoParenthesizedKind)
 {
-  elt->print (os);
-  return os;
+  string result;
+  
+  switch (tempoParenthesizedKind) {
+    case msrTempo::kTempoParenthesizedYes:
+      result = "tempoParenthesizedYes";
+      break;
+    case msrTempo::kTempoParenthesizedNo:
+      result = "tempoParenthesizedNo";
+      break;
+  } // switch
+
+  return result;
 }
 
 string msrTempo::asString () const
@@ -14153,11 +14178,19 @@ string msrTempo::asString () const
   stringstream s;
 
   s <<
-    "Tempo" << " " <<
-    ", indication = \"" << fTempoIndication << "\"" <<
-    ", " << fTempoUnit << " = " << fPerMinute;
+    "Tempo" <<
+    ", tempoWords = \"" << fTempoWords << "\"" <<
+    ", " << fTempoUnit << " = " << fTempoPerMinute <<
+    ", fTempoParenthesizedKind = "  <<
+    tempoParenthesizedAsString (fTempoParenthesizedKind);
 
   return s.str ();
+}
+
+ostream& operator<< (ostream& os, const S_msrTempo& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 void msrTempo::print (ostream& os)

@@ -584,7 +584,7 @@ void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
 
   fMsrSummaryOutputStream <<
     "Tempo" << " " <<
-    elt->getTempoUnit () << " " << elt->getPerMinute () <<
+    elt->getTempoUnit () << " " << elt->getTempoPerMinute () <<
     endl;
 }
 
@@ -716,6 +716,7 @@ void msr2SummaryVisitor::visitStart (S_msrNote& elt)
       fScoreStandaloneNotesCounter++;
       break;
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       fScoreGraceNotesCounter++;
       break;
     case msrNote::kChordMemberNote:
@@ -750,6 +751,7 @@ void msr2SummaryVisitor::visitEnd (S_msrNote& elt)
     case msrNote::kDoubleTremoloMemberNote:
       break;
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       break;
     case msrNote::kChordMemberNote:
       break;

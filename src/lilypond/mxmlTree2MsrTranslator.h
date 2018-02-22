@@ -1106,17 +1106,22 @@ class mxmlTree2MsrTranslator :
     
     // metronome handling
     // ------------------------------------------------------
+
+    msrDurationKind           fCurrentMetronomeBeatUnitDurationKind;
+    int                       fCurrentMetronomeBeatUnitDotsNumber;
     
-    vector<msrBeatData>       fCurrentMetronomeBeatsData; // JMI
-    int                       fCurrentMetrenomePerMinute;
-    msrBeatData               fCurrentMetronomeBeat;
-    bool                      fCurrentMetronomeParentheses;
+    list<msrDottedDuration>   fCurrentMetronomeBeatsDataList; // JMI
+    string                    fCurrentMetrenomePerMinute;
+    msrDottedDuration         fCurrentMetronomeBeat;
+    msrTempo::msrTempoParenthesizedKind
+                              fCurrentMetronomeParenthesedKind;
     S_msrWords                fCurrentMetronomeWords;
     S_msrTempo                fCurrentMetronomeTempo;
     // tempos remain pending until the next note
-    // (they precede the note in MusicXML and
-    // may occur when no current voice exists)
+    // in MusicXML, they precede the note and
+    // may occur when no current voice exists
     list<S_msrTempo>          fPendingTempos;
+    
     void                      attachPendingTemposToTheVoiceOfNote (
                                 S_msrNote note);
 

@@ -44,20 +44,34 @@ namespace MusicXML2 {
 #define TRACE_MSR_BASIC_TYPES 0
 
 
-// beat data
+// dotted durations
 //______________________________________________________________________________
-void msrBeatData::print (ostream& os)
+msrDottedDuration::msrDottedDuration (
+  msrDurationKind duration,
+  int             dotsNumber)
+{
+  fDuration   = duration;
+  fDotsNumber = dotsNumber;
+}
+
+void msrDottedDuration::print (ostream& os)
 {
   const int fieldWidth = 9;
 
   os << left <<
     setw (fieldWidth) <<
-    "fBeatUnit" << " = " << fBeatUnit <<
+    "fDuration" << " = " << fDuration <<
     endl <<
     setw (fieldWidth) <<
-    "fDots" << " = " << fDots <<
+    "fDotsNumber" << " = " << fDotsNumber <<
     endl;
 };
+
+ostream& operator<< (ostream& os, msrDottedDuration& elt)
+{
+  elt.print (os);
+  return os;
+}
 
 // intervals
 //______________________________________________________________________________

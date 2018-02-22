@@ -657,6 +657,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       break;
       
     case msrNote::kChordMemberNote:
@@ -820,6 +821,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       break;
 
     case msrNote::kGraceNote:
+    case msrNote::kGraceChordMemberNote:
       // print the note name
       fLilypondCodeIOstream <<
         notePitchAsLilypondString (note);
@@ -6327,21 +6329,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       endl;
   }
 
-  string tempoIndication = elt->getTempoIndication ();
+  string tempoWords = elt->getTempoWords ();
   
-  int tempoUnit = elt->getTempoUnit ();
-  int perMinute = elt->getPerMinute ();
+  int    tempoUnit = elt->getTempoUnit ();
+  string tempoPerMinute = elt->getTempoPerMinute ();
 
   fLilypondCodeIOstream <<
     "\\tempo";
 
-  if (tempoIndication.size ())
+  if (tempoWords.size ())
     fLilypondCodeIOstream <<
-      " \"" << tempoIndication << "\"";
+      " \"" << tempoWords << "\"";
 
   if (tempoUnit)
     fLilypondCodeIOstream <<
-      " " << tempoUnit << " = " << perMinute;
+      " " << tempoUnit << " = " << tempoPerMinute;
 
   fLilypondCodeIOstream <<
     endl;
@@ -6950,6 +6952,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         break;
         
       case msrNote::kGraceNote:
+      case msrNote::kGraceChordMemberNote:
         fLilypondCodeIOstream << "grace";
         break;
         

@@ -7700,13 +7700,25 @@ class msrTempo : public msrElement
 {
   public:
 
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTempoParenthesizedKind {
+      kTempoParenthesizedYes, kTempoParenthesizedNo };
+      
+    static string tempoParenthesizedAsString (
+      msrTempoParenthesizedKind tempoParenthesizedKind);
+      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrTempo> create (
       int           inputLineNumber,
-      int           tempoUnit,
-      int           perMinute);
+      string        tempoWords,
+      int           tempoBeatUnit,
+      string        tempoPerMinute,
+      msrTempoParenthesizedKind
+                    tempoParenthesizedKind);
 
   protected:
 
@@ -7715,8 +7727,11 @@ class msrTempo : public msrElement
 
     msrTempo (
       int           inputLineNumber,
-      int           tempoUnit,
-      int           perMinute);
+      string        tempoWords,
+      int           tempoBeatUnit,
+      string        tempoPerMinute,
+      msrTempoParenthesizedKind
+                    tempoParenthesizedKind);
       
     virtual ~msrTempo();
   
@@ -7725,16 +7740,21 @@ class msrTempo : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    string                getTempoIndication () const
-                              { return fTempoIndication; }
+    void                  setTempoWords (string tempoWords)
+                              { fTempoWords = tempoWords; }
 
-    void                  setTempoIndication (string indication);
+    string                getTempoWords () const
+                              { return fTempoWords; }
 
     int                   getTempoUnit () const
                               { return fTempoUnit; }
 
-    int                   getPerMinute () const
-                              { return fPerMinute; }
+    string                getTempoPerMinute () const
+                              { return fTempoPerMinute; }
+
+    msrTempoParenthesizedKind
+                          getTempoParenthesizedKind () const
+                              { return fTempoParenthesizedKind; }
 
     // services
     // ------------------------------------------------------
@@ -7759,10 +7779,13 @@ class msrTempo : public msrElement
     // fields
     // ------------------------------------------------------
 
-    string fTempoIndication;
+    string                fTempoWords;
     
-    int    fTempoUnit; // 0 to indicate there's only an indication
-    int    fPerMinute;
+    int                   fTempoUnit; // 0 to indicate there's only an indication
+    string                fTempoPerMinute; // '90' or '132-156' for example
+
+    msrTempoParenthesizedKind
+                          fTempoParenthesizedKind;
 };
 typedef SMARTP<msrTempo> S_msrTempo;
 EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);

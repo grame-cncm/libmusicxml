@@ -45,7 +45,8 @@ namespace MusicXML2
 mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   S_msrScore       scoreSkeleton,
   indentedOstream& ios)
-  : fLogOutputStream (ios)
+  : fLogOutputStream (ios),
+    fCurrentMetronomeBeat (k_NoDuration, -1)
 {
   // initialize note data to a neutral state
   initializeNoteData ();
@@ -157,8 +158,10 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentAccordionNumbersCounter = 0;
 
   // metronome handling
-  fCurrentMetrenomePerMinute = -1;
-  fCurrentMetronomeParentheses = false;
+  fCurrentMetronomeBeatUnitDurationKind = k_NoDuration;
+  fCurrentMetronomeBeatUnitDotsNumber = -1;
+  fCurrentMetrenomePerMinute = "";
+  fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
   // time handling
   fCurrentTimeStaffNumber = K_NO_STAFF_NUMBER;
@@ -3435,23 +3438,20 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
       endl;
   }
 
+  fCurrentMetronomeBeatsDataList.clear();
+  
+  fCurrentMetrenomePerMinute = "";
+  fCurrentMetronomeBeatUnitDurationKind = k_NoDuration;
+  fCurrentMetronomeBeatUnitDotsNumber = 0;
+  fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
+
   string parentheses = elt->getAttributeValue ("parentheses");
   
-  fCurrentMetronomeBeatsData.clear();
-  fCurrentMetrenomePerMinute = 0;
-  fCurrentMetronomeBeat.fBeatUnit = "";
-  fCurrentMetronomeBeat.fDots = 0;
-  fCurrentMetronomeParentheses = false;
-
-  if (parentheses.size ()) {
-    // fLogOutputStream << "--> S_metronome, parentheses = " << parentheses << endl;
-    
+  if (parentheses.size ()) {    
     if (parentheses == "yes")
-      fCurrentMetronomeParentheses = true;
-      
+      fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedYes;
     else if (parentheses == "no")
-      fCurrentMetronomeParentheses = false;
-      
+      fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
     else {
       stringstream s;
       
@@ -3468,6 +3468,111 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   }
 }
   
+void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
+{ 
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_beat_unit" <<
+      endl;
+  }
+
+  if (fCurrentMetronomeBeat.fDuration != k_NoDuration) {
+    fCurrentMetronomeBeatsDataList.push_back (
+      fCurrentMetronomeBeat);
+      
+    fCurrentMetronomeBeat.fDuration = k_NoDuration;
+    fCurrentMetronomeBeatUnitDotsNumber = 0;
+  }
+  
+  fCurrentMetronomeBeat.fDuration = k_NoDuration; // ???
+
+  string beatUnitString = elt->getValue();
+  
+  // the type contains a display duration
+  fCurrentMetronomeBeatUnitDurationKind = k_NoDuration;
+  
+  if      (beatUnitString == "maxima") {
+    fCurrentMetronomeBeatUnitDurationKind = kMaxima; }
+  else if (beatUnitString == "long") {
+    fCurrentMetronomeBeatUnitDurationKind = kLong; }
+  else if (beatUnitString == "breve") {
+      fCurrentMetronomeBeatUnitDurationKind = kBreve; } 
+  else if (beatUnitString == "whole") {
+      fCurrentMetronomeBeatUnitDurationKind = kWhole; } 
+  else if (beatUnitString == "half") {
+      fCurrentMetronomeBeatUnitDurationKind = kHalf; } 
+  else if (beatUnitString == "quarter") {
+      fCurrentMetronomeBeatUnitDurationKind = kQuarter; } 
+  else if (beatUnitString == "eighth") {
+      fCurrentMetronomeBeatUnitDurationKind = kEighth; } 
+  else if (beatUnitString == "16th") {
+      fCurrentMetronomeBeatUnitDurationKind = k16th; } 
+  else if (beatUnitString == "32nd") {
+      fCurrentMetronomeBeatUnitDurationKind = k32nd; } 
+  else if (beatUnitString == "64th") {
+      fCurrentMetronomeBeatUnitDurationKind = k64th; } 
+  else if (beatUnitString == "128th") {
+      fCurrentMetronomeBeatUnitDurationKind = k128th; } 
+  else if (beatUnitString == "256th") {
+      fCurrentMetronomeBeatUnitDurationKind = k256th; } 
+  else if (beatUnitString == "512th") {
+      fCurrentMetronomeBeatUnitDurationKind = k512th; } 
+  else if (beatUnitString == "1024th") {
+      fCurrentMetronomeBeatUnitDurationKind = k1024th; }
+  else {
+    stringstream s;
+    
+    s <<
+      "beat unit \"" << beatUnitString <<
+      "\" is unknown";
+
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_beat_unit_dot" <<
+      endl;
+  }
+
+  fCurrentMetronomeBeatUnitDotsNumber++;
+}
+  
+void mxmlTree2MsrTranslator::visitStart ( S_per_minute& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_per_minute" <<
+      endl;
+  }
+
+  fCurrentMetrenomePerMinute = elt->getValue ();
+}
+
+void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_direction" <<
+      endl;
+  }
+
+  if (fCurrentMetronomeTempo) {
+    if (fCurrentWordsContents.size ())
+      fCurrentMetronomeTempo->
+        setTempoWords (fCurrentWordsContents); // JMI
+  }
+
+  fOnGoingDirection = false;
+}
+
 void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -3487,21 +3592,32 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
         <sound tempo="69"/>
       </direction>
 
+      <direction>
+        <direction-type>
+          <words>Adagio</words>
+        </direction-type>
+        <direction-type>
+          <metronome>
+            <beat-unit>long</beat-unit>
+            <per-minute>100</per-minute>
+          </metronome>
+        </direction-type>
+      </direction>
 */
- // if (fSkipDirection) return;
 
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  // fCurrentMetronomeParentheses ??? JMI
-  if (fCurrentMetronomeBeat.fBeatUnit.size ()) { // JMI
-    fCurrentMetronomeBeatsData.push_back(
+  // fCurrentMetronomeParenthesedKind ??? JMI
+  if (fCurrentMetronomeBeatUnitDurationKind != k_NoDuration) {
+    fCurrentMetronomeBeatsDataList.push_back(
       fCurrentMetronomeBeat);
-    fCurrentMetronomeBeat.fBeatUnit = "";
-    fCurrentMetronomeBeat.fDots = 0;
+      
+    fCurrentMetronomeBeat.fDuration = k_NoDuration;
+    fCurrentMetronomeBeatUnitDotsNumber = 0;
   }
   
-  if (fCurrentMetronomeBeatsData.size () != 1) {
+  if (fCurrentMetronomeBeatsDataList.size () != 1) {
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
@@ -3509,7 +3625,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
     return;
   }
   
-  if (! fCurrentMetrenomePerMinute) {
+  if (! fCurrentMetrenomePerMinute.size ()) {
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
@@ -3517,14 +3633,22 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
     return;
   }
 
-  msrBeatData b = fCurrentMetronomeBeatsData [0];
+  msrDottedDuration
+    beatData (
+      fCurrentMetronomeBeatUnitDurationKind,
+      fCurrentMetronomeBeatUnitDotsNumber);
+
+  /* JMI = fCurrentMetronomeBeatsDataList [0]; */
   
-  rational r = 
+  rational r;
+/*
+   = 
     NoteType::type2rational(
-      NoteType::xml (b.fBeatUnit)), rdot(3,2);
+      NoteType::xml (beatData.fBeatUnit)), rdot (3,2);
+  */
   
-  while (b.fDots-- > 0) { // JMI
-    r *= rdot;
+  while (beatData.fDotsNumber-- > 0) { // JMI
+ // JMI   r *= rdot;
   }
   r.rationalise ();
 
@@ -3532,70 +3656,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
     tempo =
       msrTempo::create (
         inputLineNumber,
+        fCurrentWordsContents,
         r.getDenominator(),
-        fCurrentMetrenomePerMinute);
+        fCurrentMetrenomePerMinute,
+        fCurrentMetronomeParenthesedKind);
 
   // append the tempo to the pending tempos list
   fPendingTempos.push_back (tempo);
   
   // JMI if (fCurrentOffset) addDelayed(cmd, fCurrentOffset);
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
-{ 
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_beat_unit" <<
-      endl;
-  }
-
-  if (fCurrentMetronomeBeat.fBeatUnit.size ()) {
-    fCurrentMetronomeBeatsData.push_back (
-      fCurrentMetronomeBeat); 
-    fCurrentMetronomeBeat.fBeatUnit = "";
-    fCurrentMetronomeBeat.fDots = 0;
-  }
-  
-  fCurrentMetronomeBeat.fBeatUnit = elt->getValue();
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_beat_unit_dot" <<
-      endl;
-  }
-
-  fCurrentMetronomeBeat.fDots++;
-}
-  
-void mxmlTree2MsrTranslator::visitStart ( S_per_minute& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_per_minute" <<
-      endl;
-  }
-
-  fCurrentMetrenomePerMinute = (int)(*elt);
-}
-
-void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_direction" <<
-      endl;
-  }
-
-  if (fCurrentMetronomeTempo) {
-    if (fCurrentWordsContents.size ())
-      fCurrentMetronomeTempo->
-        setTempoIndication (fCurrentWordsContents);
-  }
-
-  fOnGoingDirection = false;
 }
 
 //________________________________________________________________________
@@ -14890,6 +14959,20 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         fCurrentNoteHeadFilledKind,
         fCurrentNoteHeadParenthesesKind);
 
+  if (gTraceOptions->fTraceNotesDetails) {
+    fLogOutputStream <<
+      "Creating note:" <<
+      endl;
+
+    gIndenter++;
+    
+    fLogOutputStream <<
+      newNote <<
+      endl;
+
+    gIndenter--;
+  }
+  
   // set note accidentals
   newNote->
     setNoteAccidentalKind (
@@ -15280,9 +15363,9 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 
       if (gTraceOptions->fTraceTuplets || gTraceOptions->fTraceGraceNotes) {
         fLogOutputStream <<
-          "Creating grace notes for note " <<
+          "Creating grace notes for note '" <<
           newNote->asString () <<
-          " in voice \"" <<
+          "' in voice \"" <<
           currentVoice->getVoiceName () << "\"" <<
           endl;
       }

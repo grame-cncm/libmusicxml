@@ -24,26 +24,6 @@
 namespace MusicXML2 
 {
 
-// beat data
-//______________________________________________________________________________
-class msrBeatData
-{
-  public:
-  
-    // print
-    // ------------------------------------------------------
-
-    virtual void          print (ostream& os);
- 
-  public:
-  
-    // fields
-    // ------------------------------------------------------
-
-    string                fBeatUnit;
-    int                   fDots;
-};
-
 // diatonic pitches
 //______________________________________________________________________________
 enum msrDiatonicPitchKind {
@@ -471,6 +451,61 @@ string msrSpannerTypeKindAsString (
   msrSpannerTypeKind spannerTypeKind);
             
 //______________________________________________________________________________
+class msrDottedDuration
+{
+// JMI  protected:
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrDottedDuration (
+      msrDurationKind duration,
+      int             dotsNumber);
+
+// JMI    virtual ~msrDottedDuration ();
+  
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+/* JMI
+    msrDurationKind       getDuration () const
+                              { return fDuration; }
+                              
+    int                   getDotsNumber () const
+                              { return fDotsNumber; }
+*/
+                              
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+/* JMI
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+*/
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+ 
+  public:
+  
+    // fields
+    // ------------------------------------------------------
+
+    msrDurationKind       fDuration;
+    int                   fDotsNumber;
+};
+EXP ostream& operator<< (ostream& os, msrDottedDuration& elt);
+
+//______________________________________________________________________________
 class msrChordItem : public smartable
 {
   public:
@@ -501,7 +536,7 @@ class msrChordItem : public smartable
       int             chordItemNumber,
       msrIntervalKind chordItemIntervalKind);
 
-    virtual ~msrChordItem();
+    virtual ~msrChordItem ();
   
   public:
 
