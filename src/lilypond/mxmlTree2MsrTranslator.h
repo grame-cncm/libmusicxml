@@ -153,6 +153,13 @@ class mxmlTree2MsrTranslator :
   public visitor<S_beat_unit>,
   public visitor<S_beat_unit_dot>,
   public visitor<S_per_minute>,
+  public visitor<S_metronome_note>,
+  public visitor<S_metronome_relation>,
+  public visitor<S_metronome_type>,
+  public visitor<S_metronome_beam>,
+  public visitor<S_metronome_dot>,
+  public visitor<S_metronome_tuplet>,
+  public visitor<S_normal_dot>,
 
   // ties, slurs, brackets & beams
   
@@ -620,6 +627,14 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_beat_unit& elt );
     virtual void visitStart ( S_beat_unit_dot& elt );
     virtual void visitStart ( S_per_minute& elt );
+    virtual void visitStart ( S_metronome_note& elt );
+    virtual void visitStart ( S_metronome_relation& elt );
+    virtual void visitStart ( S_metronome_type& elt );
+    virtual void visitStart ( S_metronome_beam& elt );
+    virtual void visitStart ( S_metronome_dot& elt );
+    virtual void visitStart ( S_metronome_tuplet& elt );
+    virtual void visitEnd   ( S_metronome_tuplet& elt );
+    virtual void visitStart ( S_normal_dot& elt );
 
     // ties, slurs, brackets & beams
     // ------------------------------------------------------
@@ -1116,6 +1131,16 @@ class mxmlTree2MsrTranslator :
     msrTempo::msrTempoParenthesizedKind
                               fCurrentMetronomeParenthesedKind;
     S_msrWords                fCurrentMetronomeWords;
+
+    int                       fCurrentMetrenomeDotsNumber;
+    string                    fCurrentMetrenomeRelation;
+    msrDurationKind           fCurrentMetronomeDurationKind;
+    string                    fCurrentMetronomeBeamValue;
+
+    bool                      fOnGoingMetronomeTuplet;
+    int                       fCurrentMetrenomeNormalDotsNumber;
+
+    
     S_msrTempo                fCurrentMetronomeTempo;
     // tempos remain pending until the next note
     // in MusicXML, they precede the note and

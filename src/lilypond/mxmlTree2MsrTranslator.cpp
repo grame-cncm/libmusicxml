@@ -163,6 +163,14 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentMetrenomePerMinute = "";
   fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
+  fCurrentMetrenomeDotsNumber = 0;
+  fCurrentMetrenomeRelation = "";
+  fCurrentMetronomeDurationKind = k_NoDuration;
+  fCurrentMetronomeBeamValue = "";
+
+  fOnGoingMetronomeTuplet = false;
+  fCurrentMetrenomeNormalDotsNumber = 0;
+
   // time handling
   fCurrentTimeStaffNumber = K_NO_STAFF_NUMBER;
   fCurrentTimeBeats = "";
@@ -2862,6 +2870,23 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
   fOnGoingDirection = true;
 }
 
+void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_direction" <<
+      endl;
+  }
+
+  if (fCurrentMetronomeTempo) {
+    if (fCurrentWordsContents.size ())
+      fCurrentMetronomeTempo->
+        setTempoWords (fCurrentWordsContents); // JMI
+  }
+
+  fOnGoingDirection = false;
+}
+
 void mxmlTree2MsrTranslator::visitStart (S_direction_type& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -2870,9 +2895,10 @@ void mxmlTree2MsrTranslator::visitStart (S_direction_type& elt)
       endl;
   }
 
-  fOnGoingDirectionType = true;
+  fOnGoingDirectionType = true; // JMI
 }
 
+//________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -2942,6 +2968,7 @@ void mxmlTree2MsrTranslator::visitStart (S_offset& elt)
   }
 }
 
+//________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -3052,6 +3079,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   fPendingOctaveShifts.push_back (octaveShift);
 }
 
+//________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -3445,6 +3473,14 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   fCurrentMetronomeBeatUnitDotsNumber = 0;
   fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
+  fCurrentMetrenomeDotsNumber = 0;
+  fCurrentMetrenomeRelation = "";
+  fCurrentMetronomeDurationKind = k_NoDuration;
+  fCurrentMetronomeBeamValue = "";
+
+  fOnGoingMetronomeTuplet = false;
+  fCurrentMetrenomeNormalDotsNumber = 0;
+
   string parentheses = elt->getAttributeValue ("parentheses");
   
   if (parentheses.size ()) {    
@@ -3556,21 +3592,190 @@ void mxmlTree2MsrTranslator::visitStart ( S_per_minute& elt )
   fCurrentMetrenomePerMinute = elt->getValue ();
 }
 
-void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
+void mxmlTree2MsrTranslator::visitStart ( S_metronome_note& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> End visiting S_direction" <<
+      "--> Start visiting S_metronome_note" <<
       endl;
   }
 
-  if (fCurrentMetronomeTempo) {
-    if (fCurrentWordsContents.size ())
-      fCurrentMetronomeTempo->
-        setTempoWords (fCurrentWordsContents); // JMI
+  // JMI fCurrentMetrenomePerMinute = elt->getValue ();
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_metronome_relation" <<
+      endl;
   }
 
-  fOnGoingDirection = false;
+  fCurrentMetrenomeRelation = elt->getValue ();
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_metronome_type& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_metronome_type" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  {
+    string noteType = elt->getValue();
+  
+    // the type contains a display duration,
+    if      (noteType == "maxima") {
+      fCurrentMetronomeDurationKind = kMaxima; }
+    else if (noteType == "long") {
+      fCurrentMetronomeDurationKind = kLong; }
+    else if (noteType == "breve") {
+        fCurrentMetronomeDurationKind = kBreve; } 
+    else if (noteType == "whole") {
+        fCurrentMetronomeDurationKind = kWhole; } 
+    else if (noteType == "half") {
+        fCurrentMetronomeDurationKind = kHalf; } 
+    else if (noteType == "quarter") {
+        fCurrentMetronomeDurationKind = kQuarter; } 
+    else if (noteType == "eighth") {
+        fCurrentMetronomeDurationKind = kEighth; } 
+    else if (noteType == "16th") {
+        fCurrentMetronomeDurationKind = k16th; } 
+    else if (noteType == "32nd") {
+        fCurrentMetronomeDurationKind = k32nd; } 
+    else if (noteType == "64th") {
+        fCurrentMetronomeDurationKind = k64th; } 
+    else if (noteType == "128th") {
+        fCurrentMetronomeDurationKind = k128th; } 
+    else if (noteType == "256th") {
+        fCurrentMetronomeDurationKind = k256th; } 
+    else if (noteType == "512th") {
+        fCurrentMetronomeDurationKind = k512th; } 
+    else if (noteType == "1024th") {
+        fCurrentMetronomeDurationKind = k1024th; }
+    else {
+      stringstream s;
+      
+      s <<
+        "note type \"" << noteType <<
+        "\" is unknown";
+  
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_metronome_beam" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // value
+  
+  fCurrentMetronomeBeamValue = elt->getValue();
+
+  msrBeam::msrBeamKind beamKind = msrBeam::k_NoBeam;
+
+  if      (fCurrentMetronomeBeamValue == "begin") {
+    beamKind = msrBeam::kBeginBeam;
+  }
+  else if (fCurrentMetronomeBeamValue == "continue") {
+    beamKind = msrBeam::kContinueBeam;
+  }
+  else if (fCurrentMetronomeBeamValue == "end") {
+    beamKind = msrBeam::kEndBeam;
+  }
+  else if (fCurrentMetronomeBeamValue == "forward hook") {
+    beamKind = msrBeam::kForwardHookBeam;
+  }
+  else if (fCurrentMetronomeBeamValue == "backward hook") {
+    beamKind = msrBeam::kBackwardHookBeam;
+  }
+  else {
+    stringstream s;
+    
+    s <<
+      "metronome beam \"" << fCurrentMetronomeBeamValue <<
+      "\"" << "is not known";
+      
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+    
+  // number
+  
+  fCurrentBeamNumber = 
+    elt->getAttributeIntValue ("number", 0);
+
+  S_msrBeam
+    beam =
+      msrBeam::create (
+        inputLineNumber,
+        fCurrentBeamNumber,
+        beamKind);
+
+// JMI  fPendingBeams.push_back (beam);
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_metronome_dot& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_metronome_dot" <<
+      endl;
+  }
+
+  fCurrentMetrenomeDotsNumber++;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_metronome_tuplet" <<
+      endl;
+  }
+
+  fOnGoingMetronomeTuplet = true;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_normal_dot& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_normal_dot" <<
+      endl;
+  }
+
+  fCurrentMetrenomeNormalDotsNumber++;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_metronome_tuplet" <<
+      endl;
+  }
+
+  fOnGoingMetronomeTuplet = false;
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
