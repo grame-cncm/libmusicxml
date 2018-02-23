@@ -14195,7 +14195,30 @@ ostream& operator<< (ostream& os, const S_msrTempo& elt)
 
 void msrTempo::print (ostream& os)
 {
-  os << asString () << endl;
+  os <<
+    "Tempo" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 23;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "tempoWords" << " = \"" << fTempoWords << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "tempoUnit" << " = " << fTempoUnit <<
+    endl <<
+    setw (fieldWidth) <<
+    "fTempoPerMinute" << " = " << fTempoPerMinute <<
+    endl <<
+    setw (fieldWidth) <<
+    "tempoParenthesizedKind"  << " = " <<
+    tempoParenthesizedAsString (fTempoParenthesizedKind) <<
+    endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________

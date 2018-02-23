@@ -45,8 +45,7 @@ namespace MusicXML2
 mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   S_msrScore       scoreSkeleton,
   indentedOstream& ios)
-  : fLogOutputStream (ios),
-    fCurrentMetronomeBeat (k_NoDuration, -1)
+  : fLogOutputStream (ios)
 {
   // initialize note data to a neutral state
   initializeNoteData ();
@@ -3466,7 +3465,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
       endl;
   }
 
-  fCurrentMetronomeBeatsDataList.clear();
+  fCurrentMetronomeDottedDurationsList.clear();
   
   fCurrentMetrenomePerMinute = "";
   fCurrentMetronomeBeatUnitDurationKind = k_NoDuration;
@@ -3511,16 +3510,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
       "--> Start visiting S_beat_unit" <<
       endl;
   }
-
-  if (fCurrentMetronomeBeat.fDuration != k_NoDuration) {
-    fCurrentMetronomeBeatsDataList.push_back (
-      fCurrentMetronomeBeat);
-      
-    fCurrentMetronomeBeat.fDuration = k_NoDuration;
-    fCurrentMetronomeBeatUnitDotsNumber = 0;
-  }
-  
-  fCurrentMetronomeBeat.fDuration = k_NoDuration; // ???
 
   string beatUnitString = elt->getValue();
   
@@ -3814,28 +3803,24 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
     elt->getInputLineNumber ();
 
   // fCurrentMetronomeParenthesedKind ??? JMI
-  if (fCurrentMetronomeBeatUnitDurationKind != k_NoDuration) {
-    fCurrentMetronomeBeatsDataList.push_back(
-      fCurrentMetronomeBeat);
-      
-    fCurrentMetronomeBeat.fDuration = k_NoDuration;
-    fCurrentMetronomeBeatUnitDotsNumber = 0;
-  }
-  
-  if (fCurrentMetronomeBeatsDataList.size () != 1) {
+
+  fCurrentMetronomeDottedDurationsList.push_back(
+    msrDottedDuration (
+      fCurrentMetronomeBeatUnitDurationKind,
+      fCurrentMetronomeBeatUnitDotsNumber));
+        
+  if (fCurrentMetronomeDottedDurationsList.size () != 1) {
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
-      "multiple beats found, but only per-minute tempo is supported");
-    return;
+      "multiple beats found JMI");
   }
   
   if (! fCurrentMetrenomePerMinute.size ()) {
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
-      "per-minute not found, only per-minute tempo is supported");
-    return;
+      "per-minute not found");
   }
 
   msrDottedDuration
@@ -3843,7 +3828,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
       fCurrentMetronomeBeatUnitDurationKind,
       fCurrentMetronomeBeatUnitDotsNumber);
 
-  /* JMI = fCurrentMetronomeBeatsDataList [0]; */
+  /* JMI = fCurrentMetronomeDottedDurationsList [0]; */
   
   rational r;
 /*
