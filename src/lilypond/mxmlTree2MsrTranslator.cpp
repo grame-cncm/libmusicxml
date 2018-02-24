@@ -142,7 +142,6 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentTransposeChromatic = - 215;
 
   // direction handling
-  fCurrentWordsContents = "";
   fCurrentDirectionStaffNumber = K_NO_STAFF_NUMBER; // it may be absent
   fOnGoingDirection     = true;
 
@@ -2861,8 +2860,6 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
       s.str ());    
   }
 
-  fCurrentWordsContents = ""; // there can be several such
-
   fCurrentMetronomeWords = nullptr;
   fCurrentMetronomeTempo = nullptr;
 
@@ -2877,11 +2874,38 @@ void mxmlTree2MsrTranslator::visitEnd (S_direction& elt)
       endl;
   }
 
+/* JMI
   if (fCurrentMetronomeTempo) {
-    if (fCurrentWordsContents.size ())
+    int pendingWordsSize = fPendingWords.size ();
+    
+    if (pendingWordsSize) {
+      if (pendingWordsSize > 1) {
+        stringstream s;
+    
+        s <<
+          "<direction/> contains " <<
+          pendingWordsSize <<
+          " <words/> markups";
+          
+        msrMusicXMLWarning (
+          gXml2lyOptions->fInputSourceName,
+          elt->getInputLineNumber (),
+          s.str ());
+      }
+
+      // handling only the first of the pending words
+      string words =
+        fPendingWords.front ();
+        
+      // register words in current metronome tempo
       fCurrentMetronomeTempo->
-        setTempoWords (fCurrentWordsContents); // JMI
+        setTempoWords (words);
+
+      // forget about this words
+      fPendingWords.pop_front ();
+    }
   }
+*/
 
   fOnGoingDirection = false;
 }
@@ -3094,7 +3118,7 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  fCurrentWordsContents = elt->getValue ();
+  string wordsValue = elt->getValue ();
 
   // justify
 
@@ -3298,10 +3322,10 @@ The
   }
 
   // create the words
-  if (fCurrentWordsContents.size ()) {
+  if (wordsValue.size ()) {
     if (gTraceOptions->fTraceWords) {
       fLogOutputStream <<
-        "Creating words \"" << fCurrentWordsContents << "\"" <<
+        "Creating words \"" << wordsValue << "\"" <<
         ", placement = \"" <<
         msrPlacementKindAsString (
           fCurrentDirectionPlacementKind) << "\"" <<
@@ -3313,7 +3337,7 @@ The
         msrWords::create (
           elt->getInputLineNumber (),
           fCurrentDirectionPlacementKind,
-          fCurrentWordsContents,
+          wordsValue,
           justifyKind,
           verticalAlignmentKind,
           fontStyleKind,
@@ -3797,6 +3821,40 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
           </metronome>
         </direction-type>
       </direction>
+
+http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
+
+     <direction placement="above">
+        <direction-type>
+          <metronome default-y="30" halign="left" relative-x="26">
+            <metronome-note>
+              <metronome-type>eighth</metronome-type>
+              <metronome-beam number="1">begin</metronome-beam>
+            </metronome-note>
+            <metronome-note>
+              <metronome-type>eighth</metronome-type>
+              <metronome-beam number="1">end</metronome-beam>
+            </metronome-note>
+            <metronome-relation>equals</metronome-relation>
+            <metronome-note>
+              <metronome-type>quarter</metronome-type>
+              <metronome-tuplet bracket="yes" show-number="actual" type="start">
+                <actual-notes>3</actual-notes>
+                <normal-notes>2</normal-notes>
+                <normal-type>eighth</normal-type>
+              </metronome-tuplet>
+            </metronome-note>
+            <metronome-note>
+              <metronome-type>eighth</metronome-type>
+              <metronome-tuplet type="stop">
+                <actual-notes>3</actual-notes>
+                <normal-notes>2</normal-notes>
+                <normal-type>eighth</normal-type>
+              </metronome-tuplet>
+            </metronome-note>
+          </metronome>
+        </direction-type>
+      </direction>
 */
 
   int inputLineNumber =
@@ -3842,11 +3900,44 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome& elt )
   }
   r.rationalise ();
 
+  S_msrWords tempoWords;
+
+  int pendingWordsSize = fPendingWords.size ();
+  
+  if (pendingWordsSize) {
+    if (pendingWordsSize > 1) {
+      stringstream s;
+  
+      s <<
+        "<direction/> contains " <<
+        pendingWordsSize <<
+        " <words/> markups";
+        
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        s.str ());
+    }
+
+    // handling only the first of the pending words
+    tempoWords =
+      fPendingWords.front ();
+
+      /* JMI
+    // register words in current metronome tempo
+    fCurrentMetronomeTempo->
+      setTempoWords (words);
+      */
+
+    // forget about this words
+    fPendingWords.pop_front ();
+  }
+  
   S_msrTempo
     tempo =
       msrTempo::create (
         inputLineNumber,
-        fCurrentWordsContents,
+        tempoWords,
         r.getDenominator(),
         fCurrentMetrenomePerMinute,
         fCurrentMetronomeParenthesedKind);
@@ -14577,6 +14668,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
             fPendingWords.front ();
             
         note->addWordsToNote (words);
+        
         fPendingWords.pop_front ();
       } // while
     }

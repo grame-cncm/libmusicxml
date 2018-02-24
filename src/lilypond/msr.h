@@ -7714,7 +7714,7 @@ class msrTempo : public msrElement
 
     static SMARTP<msrTempo> create (
       int           inputLineNumber,
-      string        tempoWords,
+      S_msrWords    tempoWords,
       int           tempoBeatUnit,
       string        tempoPerMinute,
       msrTempoParenthesizedKind
@@ -7727,7 +7727,7 @@ class msrTempo : public msrElement
 
     msrTempo (
       int           inputLineNumber,
-      string        tempoWords,
+      S_msrWords    tempoWords,
       int           tempoBeatUnit,
       string        tempoPerMinute,
       msrTempoParenthesizedKind
@@ -7740,10 +7740,10 @@ class msrTempo : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    void                  setTempoWords (string tempoWords)
+    void                  setTempoWords (S_msrWords tempoWords) // JMI
                               { fTempoWords = tempoWords; }
 
-    string                getTempoWords () const
+    S_msrWords            getTempoWords () const
                               { return fTempoWords; }
 
     int                   getTempoUnit () const
@@ -7779,7 +7779,7 @@ class msrTempo : public msrElement
     // fields
     // ------------------------------------------------------
 
-    string                fTempoWords;
+    S_msrWords            fTempoWords;
     
     int                   fTempoUnit; // 0 to indicate there's only an indication
     string                fTempoPerMinute; // '90' or '132-156' for example

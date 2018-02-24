@@ -11727,7 +11727,7 @@ void msrCreditWords::print (ostream& os)
   
   os <<
     setw (fieldWidth) <<
-    "fCreditWordsContents" << " = \"" <<
+    "creditWordsContents" << " = \"" <<
     fCreditWordsContents <<
     "\"" <<
     endl <<
@@ -14018,7 +14018,7 @@ void msrWords::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 16;
+  const int fieldWidth = 27;
 
   os << left <<
     setw (fieldWidth) <<
@@ -14026,27 +14026,27 @@ void msrWords::print (ostream& os)
     msrPlacementKindAsString (fWordsPlacementKind) <<
     endl <<
     setw (fieldWidth) <<
-    "WordsJustifyKind" << " = " <<
+    "wordsJustifyKind" << " = " <<
     msrJustifyKindAsString (fWordsJustifyKind) <<
     endl <<
     setw (fieldWidth) <<
-    "WordsVerticalAlignmentKind" << " = " <<
+    "wordsVerticalAlignmentKind" << " = " <<
     msrVerticalAlignmentKindAsString (fWordsVerticalAlignmentKind) <<
     endl <<
     setw (fieldWidth) <<
-    "WordsFontStyle" << " = " <<
+    "wordsFontStyle" << " = " <<
     msrFontStyleKindAsString (fWordsFontStyleKind) <<
     endl <<
     setw (fieldWidth) <<
-    "WordsFontSize" << " = " <<
+    "wordsFontSize" << " = " <<
     fWordsFontSize->fontSizeAsString () <<
     endl <<
     setw (fieldWidth) <<
-    "WordsFontWeight" << " = " <<
+    "wordsFontWeight" << " = " <<
     msrFontWeightKindAsString (fWordsFontWeightKind) <<
     endl <<
     setw (fieldWidth) <<
-    "WordsFontXMLLang" << " = " <<
+    "wordsFontXMLLang" << " = " <<
     msrWordsXMLLangKindAsString (fWordsXMLLangKind) <<
     endl;
   
@@ -14056,7 +14056,7 @@ void msrWords::print (ostream& os)
 //______________________________________________________________________________
 S_msrTempo msrTempo::create (
   int           inputLineNumber,
-  string        tempoWords,
+  S_msrWords    tempoWords,
   int           tempoBeatUnit,
   string        tempoPerMinute,
   msrTempoParenthesizedKind
@@ -14075,7 +14075,7 @@ S_msrTempo msrTempo::create (
 
 msrTempo::msrTempo (
   int           inputLineNumber,
-  string        tempoWords,
+  S_msrWords    tempoWords,
   int           tempoBeatUnit,
   string        tempoPerMinute,
   msrTempoParenthesizedKind
@@ -14092,21 +14092,6 @@ msrTempo::msrTempo (
 
 msrTempo::~msrTempo ()
 {}
-
-/* JMI
-void msrTempo::setTempoIndication (string indication)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    gLogIOstream <<
-      "Setting indication of tempo " <<
-      fTempoUnit << " = " << fTempoPerMinute <<
-      " to \"" << indication << "\"" <<
-      endl;
-  }
-      
-  fTempoWords = indication;
-}
-*/
 
 void msrTempo::acceptIn (basevisitor* v)
 {
@@ -14205,13 +14190,30 @@ void msrTempo::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "tempoWords" << " = \"" << fTempoWords << "\"" <<
-    endl <<
+    "tempoWords";
+    
+  if (fTempoWords) {
+    os <<
+      endl;
+      
+    gIndenter++;
+    
+    os << fTempoWords;
+      
+    gIndenter--;
+  }
+  else {
+    os <<
+      " = " << "none" <<
+      endl;;
+  }
+    
+  os << left <<
     setw (fieldWidth) <<
     "tempoUnit" << " = " << fTempoUnit <<
     endl <<
     setw (fieldWidth) <<
-    "fTempoPerMinute" << " = " << fTempoPerMinute <<
+    "tempoPerMinute" << " = " << fTempoPerMinute <<
     endl <<
     setw (fieldWidth) <<
     "tempoParenthesizedKind"  << " = " <<

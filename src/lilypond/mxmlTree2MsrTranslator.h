@@ -1101,9 +1101,7 @@ class mxmlTree2MsrTranslator :
     
     int                       fCurrentDirectionStaffNumber;
     msrPlacementKind          fCurrentDirectionPlacementKind;
-    
-    string                    fCurrentWordsContents;
-    
+        
     bool                      fOnGoingDirection;
 
     // direction-type handling
