@@ -3867,7 +3867,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
       fCurrentMetronomeBeatUnitDurationKind,
       fCurrentMetronomeBeatUnitDotsNumber));
         
-  if (fCurrentMetronomeDottedDurationsList.size () != 1) {
+  if (fCurrentMetronomeDottedDurationsList.size () > 1) {
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
@@ -3882,23 +3882,9 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
   }
 
   msrDottedDuration
-    beatData (
+    beatUnit (
       fCurrentMetronomeBeatUnitDurationKind,
       fCurrentMetronomeBeatUnitDotsNumber);
-
-  /* JMI = fCurrentMetronomeDottedDurationsList [0]; */
-  
-  rational r;
-/*
-   = 
-    NoteType::type2rational(
-      NoteType::xml (beatData.fBeatUnit)), rdot (3,2);
-  */
-  
-  while (beatData.fDotsNumber-- > 0) { // JMI
- // JMI   r *= rdot;
-  }
-  r.rationalise ();
 
   S_msrWords tempoWords;
 
@@ -3923,12 +3909,6 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
     tempoWords =
       fPendingWords.front ();
 
-      /* JMI
-    // register words in current metronome tempo
-    fCurrentMetronomeTempo->
-      setTempoWords (words);
-      */
-
     // forget about this words
     fPendingWords.pop_front ();
   }
@@ -3938,7 +3918,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
       msrTempo::create (
         inputLineNumber,
         tempoWords,
-        r.getDenominator(),
+        beatUnit,
         fCurrentMetrenomePerMinute,
         fCurrentMetronomeParenthesedKind);
 

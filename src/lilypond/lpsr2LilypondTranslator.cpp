@@ -6331,8 +6331,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 
   S_msrWords tempoWords = elt->getTempoWords ();
   
-  int    tempoUnit = elt->getTempoUnit ();
-  string tempoPerMinute = elt->getTempoPerMinute ();
+  msrDottedDuration tempoBeatUnit = elt->getTempoBeatUnit ();
+  string            tempoPerMinute = elt->getTempoPerMinute ();
 
   fLilypondCodeIOstream <<
     "\\tempo";
@@ -6341,9 +6341,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     fLilypondCodeIOstream <<
       " \"" << tempoWords->getWordsContents () << "\"";
 
-  if (tempoUnit)
+// JMI ???  if (tempoBeatUnit)
     fLilypondCodeIOstream <<
-      " " << tempoUnit << " = " << tempoPerMinute;
+      " " << tempoBeatUnit << " = " << tempoPerMinute;
 
   fLilypondCodeIOstream <<
     endl;

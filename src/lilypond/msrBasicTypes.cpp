@@ -56,18 +56,18 @@ msrDottedDuration::msrDottedDuration (
 
 void msrDottedDuration::print (ostream& os)
 {
-  const int fieldWidth = 9;
+  const int fieldWidth = 11;
 
   os << left <<
     setw (fieldWidth) <<
-    "fDuration" << " = " << fDuration <<
+    "duration" << " = " << fDuration <<
     endl <<
     setw (fieldWidth) <<
-    "fDotsNumber" << " = " << fDotsNumber <<
+    "dotsNumber" << " = " << fDotsNumber <<
     endl;
 };
 
-ostream& operator<< (ostream& os, msrDottedDuration& elt)
+ostream& operator<< (ostream& os, msrDottedDuration elt)
 {
   elt.print (os);
   return os;

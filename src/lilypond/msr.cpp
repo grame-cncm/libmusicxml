@@ -14013,7 +14013,7 @@ void msrWords::print (ostream& os)
 // JMI  os << asString () << endl;
 
   os <<
-    "Words" " \"" << fWordsContents << "\"" <<
+    "Words" <<
     endl;
 
   gIndenter++;
@@ -14022,7 +14022,10 @@ void msrWords::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "Placement" << " = " <<
+    "wordsContents" << " = \"" << fWordsContents << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "placement" << " = " <<
     msrPlacementKindAsString (fWordsPlacementKind) <<
     endl <<
     setw (fieldWidth) <<
@@ -14057,7 +14060,8 @@ void msrWords::print (ostream& os)
 S_msrTempo msrTempo::create (
   int           inputLineNumber,
   S_msrWords    tempoWords,
-  int           tempoBeatUnit,
+  msrDottedDuration
+                tempoBeatUnit,
   string        tempoPerMinute,
   msrTempoParenthesizedKind
                 tempoParenthesizedKind)
@@ -14076,15 +14080,16 @@ S_msrTempo msrTempo::create (
 msrTempo::msrTempo (
   int           inputLineNumber,
   S_msrWords    tempoWords,
-  int           tempoBeatUnit,
+  msrDottedDuration
+                tempoBeatUnit,
   string        tempoPerMinute,
   msrTempoParenthesizedKind
                 tempoParenthesizedKind)
-    : msrElement (inputLineNumber)
+    : msrElement (inputLineNumber),
+      fTempoBeatUnit (tempoBeatUnit)
 {
   fTempoWords = tempoWords;
   
-  fTempoUnit = tempoBeatUnit;
   fTempoPerMinute = tempoPerMinute;
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
@@ -14165,7 +14170,7 @@ string msrTempo::asString () const
   s <<
     "Tempo" <<
     ", tempoWords = \"" << fTempoWords << "\"" <<
-    ", " << fTempoUnit << " = " << fTempoPerMinute <<
+    ", " << fTempoBeatUnit << " = " << fTempoPerMinute <<
     ", fTempoParenthesizedKind = "  <<
     tempoParenthesizedAsString (fTempoParenthesizedKind);
 
@@ -14189,11 +14194,11 @@ void msrTempo::print (ostream& os)
   const int fieldWidth = 23;
   
   os << left <<
-    setw (fieldWidth) <<
     "tempoWords";
     
   if (fTempoWords) {
     os <<
+      ":" <<
       endl;
       
     gIndenter++;
@@ -14204,14 +14209,24 @@ void msrTempo::print (ostream& os)
   }
   else {
     os <<
+      setw (fieldWidth) <<
       " = " << "none" <<
       endl;;
   }
     
   os << left <<
     setw (fieldWidth) <<
-    "tempoUnit" << " = " << fTempoUnit <<
-    endl <<
+    "tempoBeatUnit:" <<
+    endl;
+
+  gIndenter++;
+
+  os <<
+    fTempoBeatUnit;
+
+  gIndenter--;
+  
+  os << left <<
     setw (fieldWidth) <<
     "tempoPerMinute" << " = " << fTempoPerMinute <<
     endl <<

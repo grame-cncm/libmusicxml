@@ -7715,7 +7715,8 @@ class msrTempo : public msrElement
     static SMARTP<msrTempo> create (
       int           inputLineNumber,
       S_msrWords    tempoWords,
-      int           tempoBeatUnit,
+      msrDottedDuration
+                    tempoBeatUnit,
       string        tempoPerMinute,
       msrTempoParenthesizedKind
                     tempoParenthesizedKind);
@@ -7728,7 +7729,8 @@ class msrTempo : public msrElement
     msrTempo (
       int           inputLineNumber,
       S_msrWords    tempoWords,
-      int           tempoBeatUnit,
+      msrDottedDuration
+                    tempoBeatUnit,
       string        tempoPerMinute,
       msrTempoParenthesizedKind
                     tempoParenthesizedKind);
@@ -7746,8 +7748,8 @@ class msrTempo : public msrElement
     S_msrWords            getTempoWords () const
                               { return fTempoWords; }
 
-    int                   getTempoUnit () const
-                              { return fTempoUnit; }
+    msrDottedDuration     getTempoBeatUnit () const
+                              { return fTempoBeatUnit; }
 
     string                getTempoPerMinute () const
                               { return fTempoPerMinute; }
@@ -7781,7 +7783,7 @@ class msrTempo : public msrElement
 
     S_msrWords            fTempoWords;
     
-    int                   fTempoUnit; // 0 to indicate there's only an indication
+    msrDottedDuration     fTempoBeatUnit;
     string                fTempoPerMinute; // '90' or '132-156' for example
 
     msrTempoParenthesizedKind

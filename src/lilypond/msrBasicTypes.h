@@ -503,7 +503,7 @@ class msrDottedDuration
     msrDurationKind       fDuration;
     int                   fDotsNumber;
 };
-EXP ostream& operator<< (ostream& os, msrDottedDuration& elt);
+EXP ostream& operator<< (ostream& os, msrDottedDuration elt);
 
 //______________________________________________________________________________
 class msrChordItem : public smartable

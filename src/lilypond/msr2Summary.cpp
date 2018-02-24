@@ -584,7 +584,7 @@ void msr2SummaryVisitor::visitStart (S_msrTempo& elt)
 
   fMsrSummaryOutputStream <<
     "Tempo" << " " <<
-    elt->getTempoUnit () << " " << elt->getTempoPerMinute () <<
+    elt->getTempoBeatUnit () << " " << elt->getTempoPerMinute () <<
     endl;
 }
 
