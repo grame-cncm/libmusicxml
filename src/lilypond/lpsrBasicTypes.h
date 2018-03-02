@@ -79,6 +79,15 @@ string wholeNotesAsLilypondString (
   int      inputLineNumber,
   rational wholeNotes);
 
+// dotted durations
+//______________________________________________________________________________
+
+string dottedDurationAsLilypondString (
+  int                inputLineNumber,
+  msrDottedDuration& dottedDuration);
+
+// multiple rests
+//______________________________________________________________________________
 string multipleRestWholeNoteAsLilypondString (
   int      inputLineNumber, // JMI
   rational wholeNotes);

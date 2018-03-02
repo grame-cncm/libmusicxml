@@ -185,6 +185,19 @@ string wholeNotesAsLilypondString (
       dotsNumber);
 }
 
+//_______________________________________________________________________________
+string dottedDurationAsLilypondString (
+  int                inputLineNumber,
+  msrDottedDuration& dottedDuration)
+{
+  return
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      dottedDuration.dottedDurationAsWholeNotes (
+        inputLineNumber));
+}
+
+//_______________________________________________________________________________
 string multipleRestWholeNoteAsLilypondString (
   int      inputLineNumber, // JMI
   rational wholeNotes)

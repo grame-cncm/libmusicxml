@@ -169,7 +169,7 @@
       </note>
     </measure>
     <!--=======================================================-->
-    <measure number="4">
+    <!--measure number="4">
      <direction placement="above">
         <direction-type>
           <metronome default-y="30" halign="left" relative-x="26">
@@ -237,7 +237,7 @@
       <barline location="right">
         <bar-style>light-heavy</bar-style>
       </barline>
-    </measure>
+    </measure-->
   </part>
   <!--=========================================================-->
 </score-partwise>

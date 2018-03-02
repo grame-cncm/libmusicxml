@@ -480,6 +480,9 @@ class msrDottedDuration
     // services
     // ------------------------------------------------------
 
+    rational              dottedDurationAsWholeNotes (
+                            int inputLineNumber) const;
+
     // visitors
     // ------------------------------------------------------
 

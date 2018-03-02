@@ -643,7 +643,7 @@ class lpsr2LilypondTranslator :
     string                durationAsExplicitLilypondString ( // JMI
                             int      inputLineNumber,
                             rational wholeNotes);
-
+                            
     // notes
     
     string                lilypondRelativeOctave (

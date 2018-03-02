@@ -54,13 +54,38 @@ msrDottedDuration::msrDottedDuration (
   fDotsNumber = dotsNumber;
 }
 
+rational msrDottedDuration::dottedDurationAsWholeNotes (
+  int inputLineNumber) const
+{
+  // convert duration into whole notes
+  rational result =
+    msrDurationKindAsWholeNotes (
+      fDuration);
+
+  // take dots into account if any
+  if (fDotsNumber > 0) {
+    int dots = fDotsNumber;
+
+    while (dots > 0) {
+      result *=
+        rational (3, 2);
+      result.rationalise ();
+
+      dots--;
+    } // while
+  }
+
+  return result;
+}
+
 void msrDottedDuration::print (ostream& os)
 {
   const int fieldWidth = 11;
 
   os << left <<
     setw (fieldWidth) <<
-    "duration" << " = " << fDuration <<
+    "duration" << " = " <<
+    msrDurationKindAsString (fDuration) <<
     endl <<
     setw (fieldWidth) <<
     "dotsNumber" << " = " << fDotsNumber <<
