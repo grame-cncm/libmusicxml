@@ -459,6 +459,8 @@ class msrDottedDuration
     // constructors/destructor
     // ------------------------------------------------------
 
+    msrDottedDuration ();
+
     msrDottedDuration (
       msrDurationKind duration,
       int             dotsNumber);

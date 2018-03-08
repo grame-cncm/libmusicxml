@@ -7703,6 +7703,13 @@ class msrTempo : public msrElement
     // data types
     // ------------------------------------------------------
 
+    enum msrTempoKind {
+      k_NoTempoKind,
+      kTempoPerMinute, kTempoEquivalence };
+      
+    static string tempoKindAsString (
+      msrTempoKind tempoKind);
+      
     enum msrTempoParenthesizedKind {
       kTempoParenthesizedYes, kTempoParenthesizedNo };
       
@@ -7711,6 +7718,16 @@ class msrTempo : public msrElement
       
     // creation from MusicXML
     // ------------------------------------------------------
+
+    static SMARTP<msrTempo> create (
+      int           inputLineNumber,
+      S_msrWords    tempoWords,
+      msrDottedDuration
+                    tempoBeatUnit,
+      msrDottedDuration
+                    tempoEquivalentBeatUnit,
+      msrTempoParenthesizedKind
+                    tempoParenthesizedKind);
 
     static SMARTP<msrTempo> create (
       int           inputLineNumber,
@@ -7735,12 +7752,25 @@ class msrTempo : public msrElement
       msrTempoParenthesizedKind
                     tempoParenthesizedKind);
       
-    virtual ~msrTempo();
+    msrTempo (
+      int           inputLineNumber,
+      S_msrWords    tempoWords,
+      msrDottedDuration
+                    tempoBeatUnit,
+      msrDottedDuration
+                    tempoEquivalentBeatUnit,
+      msrTempoParenthesizedKind
+                    tempoParenthesizedKind);
+      
+    virtual ~msrTempo ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
+
+    msrTempoKind          getTempoKind () const
+                              { return fTempoKind; }
 
     void                  setTempoWords (S_msrWords tempoWords) // JMI
                               { fTempoWords = tempoWords; }
@@ -7753,6 +7783,9 @@ class msrTempo : public msrElement
 
     string                getTempoPerMinute () const
                               { return fTempoPerMinute; }
+
+    msrDottedDuration     getTempoEquivalentBeatUnit () const
+                              { return fTempoEquivalentBeatUnit; }
 
     msrTempoParenthesizedKind
                           getTempoParenthesizedKind () const
@@ -7781,10 +7814,14 @@ class msrTempo : public msrElement
     // fields
     // ------------------------------------------------------
 
+    msrTempoKind          fTempoKind;
+    
     S_msrWords            fTempoWords;
     
     msrDottedDuration     fTempoBeatUnit;
+    
     string                fTempoPerMinute; // '90' or '132-156' for example
+    msrDottedDuration     fTempoEquivalentBeatUnit;
 
     msrTempoParenthesizedKind
                           fTempoParenthesizedKind;

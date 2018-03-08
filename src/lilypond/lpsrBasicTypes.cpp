@@ -187,8 +187,8 @@ string wholeNotesAsLilypondString (
 
 //_______________________________________________________________________________
 string dottedDurationAsLilypondString (
-  int                inputLineNumber,
-  msrDottedDuration& dottedDuration)
+  int               inputLineNumber,
+  msrDottedDuration dottedDuration)
 {
   return
     wholeNotesAsLilypondString (

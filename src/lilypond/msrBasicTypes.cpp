@@ -46,6 +46,12 @@ namespace MusicXML2 {
 
 // dotted durations
 //______________________________________________________________________________
+msrDottedDuration::msrDottedDuration ()
+{
+  fDuration   = k_NoDuration;
+  fDotsNumber = -1;
+}
+
 msrDottedDuration::msrDottedDuration (
   msrDurationKind duration,
   int             dotsNumber)

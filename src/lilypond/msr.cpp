@@ -14077,6 +14077,27 @@ S_msrTempo msrTempo::create (
   return o;
 }
 
+S_msrTempo msrTempo::create (
+  int           inputLineNumber,
+  S_msrWords    tempoWords,
+  msrDottedDuration
+                tempoBeatUnit,
+  msrDottedDuration
+                tempoEquivalentBeatUnit,
+  msrTempoParenthesizedKind
+                tempoParenthesizedKind)
+{
+  msrTempo* o =
+    new msrTempo (
+      inputLineNumber,
+      tempoWords,
+      tempoBeatUnit,
+      tempoEquivalentBeatUnit,
+      tempoParenthesizedKind);
+  assert(o!=0);
+  return o;
+}
+
 msrTempo::msrTempo (
   int           inputLineNumber,
   S_msrWords    tempoWords,
@@ -14086,11 +14107,34 @@ msrTempo::msrTempo (
   msrTempoParenthesizedKind
                 tempoParenthesizedKind)
     : msrElement (inputLineNumber),
-      fTempoBeatUnit (tempoBeatUnit)
+      fTempoBeatUnit (tempoBeatUnit),
+      fTempoEquivalentBeatUnit ()
 {
+  fTempoKind = kTempoPerMinute;
+  
   fTempoWords = tempoWords;
   
   fTempoPerMinute = tempoPerMinute;
+
+  fTempoParenthesizedKind = tempoParenthesizedKind;
+}
+
+msrTempo::msrTempo (
+  int           inputLineNumber,
+  S_msrWords    tempoWords,
+  msrDottedDuration
+                tempoBeatUnit,
+  msrDottedDuration
+                tempoEquivalentBeatUnit,
+  msrTempoParenthesizedKind
+                tempoParenthesizedKind)
+    : msrElement (inputLineNumber),
+      fTempoBeatUnit (tempoBeatUnit),
+      fTempoEquivalentBeatUnit (tempoEquivalentBeatUnit)
+{
+  fTempoKind = kTempoEquivalence;
+  
+  fTempoWords = tempoWords;
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
 }
@@ -14146,6 +14190,26 @@ void msrTempo::acceptOut (basevisitor* v)
 void msrTempo::browseData (basevisitor* v)
 {}
 
+string msrTempo::tempoKindAsString (
+  msrTempoKind tempoKind)
+{
+  string result;
+  
+  switch (tempoKind) {
+    case msrTempo::k_NoTempoKind:
+      result = "k_NoTempoKind???";
+      break;
+    case msrTempo::kTempoPerMinute:
+      result = "tempoPerMinute";
+      break;
+    case msrTempo::kTempoEquivalence:
+      result = "tempoEquivalence";
+      break;
+  } // switch
+
+  return result;
+}
+
 string msrTempo::tempoParenthesizedAsString (
   msrTempoParenthesizedKind tempoParenthesizedKind)
 {
@@ -14169,6 +14233,7 @@ string msrTempo::asString () const
 
   s <<
     "Tempo" <<
+    ", tempoKind = \"" << tempoKindAsString (fTempoKind) << "\"" <<
     ", tempoWords = \"" << fTempoWords << "\"" <<
     ", " << fTempoBeatUnit << " = " << fTempoPerMinute <<
     ", fTempoParenthesizedKind = "  <<
@@ -14192,7 +14257,11 @@ void msrTempo::print (ostream& os)
   gIndenter++;
 
   const int fieldWidth = 23;
-  
+
+  os << left <<
+    "tempoKind" << " = " << tempoKindAsString (fTempoKind) <<
+    endl;
+
   os << left <<
     "tempoWords";
     

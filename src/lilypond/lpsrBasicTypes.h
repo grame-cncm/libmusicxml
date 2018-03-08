@@ -83,8 +83,8 @@ string wholeNotesAsLilypondString (
 //______________________________________________________________________________
 
 string dottedDurationAsLilypondString (
-  int                inputLineNumber,
-  msrDottedDuration& dottedDuration);
+  int               inputLineNumber,
+  msrDottedDuration dottedDuration);
 
 // multiple rests
 //______________________________________________________________________________

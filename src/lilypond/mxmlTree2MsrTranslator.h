@@ -1121,9 +1121,8 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
 
     msrDurationKind           fCurrentMetronomeBeatUnitDurationKind;
-    int                       fCurrentMetronomeBeatUnitDotsNumber;
     
-    list<msrDottedDuration>   fCurrentMetronomeDottedDurationsList;
+    vector<msrDottedDuration> fCurrentMetronomeBeatUnitsVector;
     string                    fCurrentMetrenomePerMinute;
     msrTempo::msrTempoParenthesizedKind
                               fCurrentMetronomeParenthesedKind;

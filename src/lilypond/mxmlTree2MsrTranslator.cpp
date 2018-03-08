@@ -156,8 +156,6 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentAccordionNumbersCounter = 0;
 
   // metronome handling
-  fCurrentMetronomeBeatUnitDurationKind = k_NoDuration;
-  fCurrentMetronomeBeatUnitDotsNumber = -1;
   fCurrentMetrenomePerMinute = "";
   fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
@@ -3489,11 +3487,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
       endl;
   }
 
-  fCurrentMetronomeDottedDurationsList.clear();
+  fCurrentMetronomeBeatUnitsVector.clear();
   
   fCurrentMetrenomePerMinute = "";
-  fCurrentMetronomeBeatUnitDurationKind = k_NoDuration;
-  fCurrentMetronomeBeatUnitDotsNumber = 0;
   fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
   fCurrentMetrenomeDotsNumber = 0;
@@ -3536,38 +3532,51 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
   }
 
   string beatUnitString = elt->getValue();
-  
+
+  /*
+      <direction>
+        <direction-type>
+          <metronome>
+            <beat-unit>quarter</beat-unit>
+            <beat-unit-dot/>
+            <beat-unit>half</beat-unit>
+            <beat-unit-dot/>
+          </metronome>
+        </direction-type>
+      </direction>
+  */
+   
   // the type contains a display duration
-  fCurrentMetronomeBeatUnitDurationKind = k_NoDuration;
+  msrDurationKind beatUnitDurationKind = k_NoDuration;
   
   if      (beatUnitString == "maxima") {
-    fCurrentMetronomeBeatUnitDurationKind = kMaxima; }
+    beatUnitDurationKind = kMaxima; }
   else if (beatUnitString == "long") {
-    fCurrentMetronomeBeatUnitDurationKind = kLong; }
+    beatUnitDurationKind = kLong; }
   else if (beatUnitString == "breve") {
-      fCurrentMetronomeBeatUnitDurationKind = kBreve; } 
+      beatUnitDurationKind = kBreve; } 
   else if (beatUnitString == "whole") {
-      fCurrentMetronomeBeatUnitDurationKind = kWhole; } 
+      beatUnitDurationKind = kWhole; } 
   else if (beatUnitString == "half") {
-      fCurrentMetronomeBeatUnitDurationKind = kHalf; } 
+      beatUnitDurationKind = kHalf; } 
   else if (beatUnitString == "quarter") {
-      fCurrentMetronomeBeatUnitDurationKind = kQuarter; } 
+      beatUnitDurationKind = kQuarter; } 
   else if (beatUnitString == "eighth") {
-      fCurrentMetronomeBeatUnitDurationKind = kEighth; } 
+      beatUnitDurationKind = kEighth; } 
   else if (beatUnitString == "16th") {
-      fCurrentMetronomeBeatUnitDurationKind = k16th; } 
+      beatUnitDurationKind = k16th; } 
   else if (beatUnitString == "32nd") {
-      fCurrentMetronomeBeatUnitDurationKind = k32nd; } 
+      beatUnitDurationKind = k32nd; } 
   else if (beatUnitString == "64th") {
-      fCurrentMetronomeBeatUnitDurationKind = k64th; } 
+      beatUnitDurationKind = k64th; } 
   else if (beatUnitString == "128th") {
-      fCurrentMetronomeBeatUnitDurationKind = k128th; } 
+      beatUnitDurationKind = k128th; } 
   else if (beatUnitString == "256th") {
-      fCurrentMetronomeBeatUnitDurationKind = k256th; } 
+      beatUnitDurationKind = k256th; } 
   else if (beatUnitString == "512th") {
-      fCurrentMetronomeBeatUnitDurationKind = k512th; } 
+      beatUnitDurationKind = k512th; } 
   else if (beatUnitString == "1024th") {
-      fCurrentMetronomeBeatUnitDurationKind = k1024th; }
+      beatUnitDurationKind = k1024th; }
   else {
     stringstream s;
     
@@ -3581,6 +3590,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
       __FILE__, __LINE__,
       s.str ());
   }
+
+  // there can be several <beat-unit/> in a <metronome/> markup,
+  // register beat unit in in dotted durations list
+  fCurrentMetronomeBeatUnitsVector.push_back (
+    msrDottedDuration (
+      beatUnitDurationKind,
+      0));
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
@@ -3591,7 +3607,21 @@ void mxmlTree2MsrTranslator::visitStart ( S_beat_unit_dot& elt )
       endl;
   }
 
-  fCurrentMetronomeBeatUnitDotsNumber++;
+  if (fCurrentMetronomeBeatUnitsVector.size ()) {
+    fCurrentMetronomeBeatUnitsVector.back ().fDotsNumber++;
+  }
+  else {
+    stringstream s;
+    
+    s <<
+      "beat unit dot occurs without prior beat unit";
+
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
   
 void mxmlTree2MsrTranslator::visitStart ( S_per_minute& elt )
@@ -3862,30 +3892,35 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
 
   // fCurrentMetronomeParenthesedKind ??? JMI
 
-  fCurrentMetronomeDottedDurationsList.push_back(
-    msrDottedDuration (
-      fCurrentMetronomeBeatUnitDurationKind,
-      fCurrentMetronomeBeatUnitDotsNumber));
-        
-  if (fCurrentMetronomeDottedDurationsList.size () > 1) {
-    msrMusicXMLWarning (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      "multiple beats found JMI");
-  }
+  // determine tempo kind
+  msrTempo::msrTempoKind tempoKind = msrTempo::k_NoTempoKind;
+
+  int  beatUnitsSize    = fCurrentMetronomeBeatUnitsVector.size ();
+  bool perMinutePresent = fCurrentMetrenomePerMinute.size () > 0;
   
-  if (! fCurrentMetrenomePerMinute.size ()) {
-    msrMusicXMLWarning (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      "per-minute not found");
+  if (beatUnitsSize == 2 && ! perMinutePresent) {
+    tempoKind = msrTempo::kTempoEquivalence;
+  }
+  else if (beatUnitsSize == 1 && perMinutePresent) {
+    tempoKind = msrTempo::kTempoPerMinute;
   }
 
-  msrDottedDuration
-    beatUnit (
-      fCurrentMetronomeBeatUnitDurationKind,
-      fCurrentMetronomeBeatUnitDotsNumber);
+  if (tempoKind == msrTempo::k_NoTempoKind) {
+      stringstream s;
+  
+      s <<
+        "ill-formed <metronome/> markup: there are " <<
+        fCurrentMetronomeBeatUnitsVector.size () <<
+        " beat units";
+        
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
 
+  // handle metrenome words if any
   S_msrWords tempoWords;
 
   int pendingWordsSize = fPendingWords.size ();
@@ -3901,7 +3936,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
         
       msrMusicXMLWarning (
         gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
+        inputLineNumber,
         s.str ());
     }
 
@@ -3912,15 +3947,37 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
     // forget about this words
     fPendingWords.pop_front ();
   }
-  
-  S_msrTempo
-    tempo =
-      msrTempo::create (
-        inputLineNumber,
-        tempoWords,
-        beatUnit,
-        fCurrentMetrenomePerMinute,
-        fCurrentMetronomeParenthesedKind);
+
+  // create the tempo
+  S_msrTempo tempo;
+  msrDottedDuration
+    beatUnits =
+      fCurrentMetronomeBeatUnitsVector [0];
+    
+  switch (tempoKind) {
+    case msrTempo::k_NoTempoKind:
+      break;
+
+    case msrTempo::kTempoPerMinute:
+      tempo =
+        msrTempo::create (
+          inputLineNumber,
+          tempoWords,
+          beatUnits,
+          fCurrentMetrenomePerMinute,
+          fCurrentMetronomeParenthesedKind);
+      break;
+
+    case msrTempo::kTempoEquivalence:
+      tempo =
+        msrTempo::create (
+          inputLineNumber,
+          tempoWords,
+          beatUnits,
+          fCurrentMetronomeBeatUnitsVector [1],
+          fCurrentMetronomeParenthesedKind);
+      break;
+  } // switch
 
   // append the tempo to the pending tempos list
   fPendingTempos.push_back (tempo);
