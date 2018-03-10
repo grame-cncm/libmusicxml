@@ -86,6 +86,10 @@ string dottedDurationAsLilypondString (
   int               inputLineNumber,
   msrDottedDuration dottedDuration);
 
+string dottedDurationAsLilypondStringWithoutBackSlash (
+  int               inputLineNumber,
+  msrDottedDuration dottedDuration);
+
 // multiple rests
 //______________________________________________________________________________
 string multipleRestWholeNoteAsLilypondString (

@@ -197,6 +197,23 @@ string dottedDurationAsLilypondString (
         inputLineNumber));
 }
 
+string dottedDurationAsLilypondStringWithoutBackSlash (
+  int               inputLineNumber,
+  msrDottedDuration dottedDuration)
+{
+  string result =
+    wholeNotesAsLilypondString (
+      inputLineNumber,
+      dottedDuration.dottedDurationAsWholeNotes (
+        inputLineNumber));
+
+  if (result [0] == '\\') {
+    result = result.substr (1);
+  }
+
+  return result;
+}
+
 //_______________________________________________________________________________
 string multipleRestWholeNoteAsLilypondString (
   int      inputLineNumber, // JMI

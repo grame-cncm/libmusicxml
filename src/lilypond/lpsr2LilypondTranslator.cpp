@@ -6338,6 +6338,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
   string            tempoPerMinute = elt->getTempoPerMinute ();
 
   fLilypondCodeIOstream <<
+    endl <<
     "\\tempo";
 
   if (tempoWords) {
@@ -6346,27 +6347,74 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
   }
 
 // JMI ???  if (tempoBeatUnit)
-  fLilypondCodeIOstream <<
-    " " <<
-    dottedDurationAsLilypondString (
-      inputLineNumber,
-      tempoBeatUnit) <<
-    " = ";
-      
   switch (elt->getTempoKind ()) {
     case msrTempo::k_NoTempoKind:
       break;
 
     case msrTempo::kTempoPerMinute:
       fLilypondCodeIOstream <<
+        " " <<
+        dottedDurationAsLilypondString (
+          inputLineNumber,
+          tempoBeatUnit) <<
+        " = " <<
         tempoPerMinute;
       break;
 
     case msrTempo::kTempoEquivalence:
       fLilypondCodeIOstream <<
-        dottedDurationAsLilypondString (
+        " " <<
+        "\\markup {" <<
+        endl;
+
+      gIndenter++;
+
+      fLilypondCodeIOstream <<
+        "\\concat {" <<
+        endl;
+
+      gIndenter++;
+
+      fLilypondCodeIOstream <<
+        "(" <<
+        endl;
+        
+      gIndenter++;
+      
+      fLilypondCodeIOstream <<
+        "\\smaller \\general-align #Y #DOWN \\note #\"" <<
+        dottedDurationAsLilypondStringWithoutBackSlash (
           inputLineNumber,
-          elt->getTempoEquivalentBeatUnit ());
+          tempoBeatUnit) <<
+        "\" #UP" <<
+        endl <<
+        "=" <<
+        endl <<
+        "\\smaller \\general-align #Y #DOWN \\note #\"" <<
+        dottedDurationAsLilypondStringWithoutBackSlash (
+          inputLineNumber,
+          elt->getTempoEquivalentBeatUnit ()) <<
+        "\" #UP" <<
+        endl;
+        
+      gIndenter--;
+
+      fLilypondCodeIOstream <<
+        ")" <<
+        endl;
+        
+      gIndenter--;
+
+      fLilypondCodeIOstream <<
+        "}" <<
+        endl;
+        
+      gIndenter--;
+        
+      fLilypondCodeIOstream <<
+        "}" <<
+        endl;
+        
       break;
   } // switch
 
