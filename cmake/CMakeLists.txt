@@ -82,6 +82,11 @@ foreach(folder ${SRCFOLDERS})
   set(INCL ${INCL} "${LXMLSRC}/${folder}")           # add include folders
 endforeach(folder)
 
+if(WIN32)
+  set(SRC ${SRC} "${LXML}/win32/iconv/win_iconv.c")       # add source files
+  set(INCL ${INCL} "${LXML}/win32/iconv")           # add include folders
+endif()
+
 
 #######################################
 # set includes
