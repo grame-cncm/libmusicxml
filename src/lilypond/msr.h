@@ -7705,7 +7705,7 @@ class msrTempo : public msrElement
 
     enum msrTempoKind {
       k_NoTempoKind,
-      kTempoPerMinute,
+      kTempoBeatUnitsPerMinute,
       kTempoBeatUnitsEquivalence,
       kTempoNotesRelationShip };
       

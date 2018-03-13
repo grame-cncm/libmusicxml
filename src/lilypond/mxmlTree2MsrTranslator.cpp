@@ -3917,7 +3917,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
   bool perMinutePresent = fCurrentMetrenomePerMinute.size () > 0;
   
   if (beatUnitsSize == 1 && perMinutePresent) {
-    tempoKind = msrTempo::kTempoPerMinute;
+    tempoKind = msrTempo::kTempoBeatUnitsPerMinute;
   }
   else if (beatUnitsSize == 2 && ! perMinutePresent) {
     tempoKind = msrTempo::kTempoBeatUnitsEquivalence;
@@ -3971,35 +3971,47 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
 
   // create the tempo
   S_msrTempo tempo;
-  msrDottedDuration
-    beatUnits =
-      fCurrentMetronomeBeatUnitsVector [0];
     
   switch (tempoKind) {
     case msrTempo::k_NoTempoKind:
       break;
 
-    case msrTempo::kTempoPerMinute:
-      tempo =
-        msrTempo::create (
-          inputLineNumber,
-          tempoWords,
-          beatUnits,
-          fCurrentMetrenomePerMinute,
-          fCurrentMetronomeParenthesedKind);
+    case msrTempo::kTempoBeatUnitsPerMinute:
+      {
+        msrDottedDuration
+          beatUnits =
+            fCurrentMetronomeBeatUnitsVector [0];
+  
+        tempo =
+          msrTempo::create (
+            inputLineNumber,
+            tempoWords,
+            beatUnits,
+            fCurrentMetrenomePerMinute,
+            fCurrentMetronomeParenthesedKind);
+        }
       break;
 
     case msrTempo::kTempoBeatUnitsEquivalence:
-      tempo =
-        msrTempo::create (
-          inputLineNumber,
-          tempoWords,
-          beatUnits,
-          fCurrentMetronomeBeatUnitsVector [1],
-          fCurrentMetronomeParenthesedKind);
+      {
+        msrDottedDuration
+          beatUnits =
+            fCurrentMetronomeBeatUnitsVector [0];
+  
+        tempo =
+          msrTempo::create (
+            inputLineNumber,
+            tempoWords,
+            beatUnits,
+            fCurrentMetronomeBeatUnitsVector [1],
+            fCurrentMetronomeParenthesedKind);
+      }
       break;
 
     case msrTempo::kTempoNotesRelationShip:
+      {
+      }
+    /*
       tempo =
         msrTempo::create (
           inputLineNumber,
@@ -4007,6 +4019,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
           beatUnits,
           fCurrentMetronomeBeatUnitsVector [1],
           fCurrentMetronomeParenthesedKind);
+          */
       break;
   } // switch
 

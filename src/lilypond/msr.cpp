@@ -14110,7 +14110,7 @@ msrTempo::msrTempo (
       fTempoBeatUnit (tempoBeatUnit),
       fTempoEquivalentBeatUnit ()
 {
-  fTempoKind = kTempoPerMinute;
+  fTempoKind = kTempoBeatUnitsPerMinute;
   
   fTempoWords = tempoWords;
   
@@ -14199,7 +14199,7 @@ string msrTempo::tempoKindAsString (
     case msrTempo::k_NoTempoKind:
       result = "k_NoTempoKind???";
       break;
-    case msrTempo::kTempoPerMinute:
+    case msrTempo::kTempoBeatUnitsPerMinute:
       result = "tempoPerMinute";
       break;
     case msrTempo::kTempoBeatUnitsEquivalence:

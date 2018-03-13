@@ -6351,7 +6351,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     case msrTempo::k_NoTempoKind:
       break;
 
-    case msrTempo::kTempoPerMinute:
+    case msrTempo::kTempoBeatUnitsPerMinute:
       fLilypondCodeIOstream <<
         " " <<
         dottedDurationAsLilypondString (
