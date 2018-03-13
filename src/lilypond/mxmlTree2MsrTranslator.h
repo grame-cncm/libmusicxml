@@ -1129,7 +1129,8 @@ class mxmlTree2MsrTranslator :
     S_msrWords                fCurrentMetronomeWords;
 
     int                       fCurrentMetrenomeDotsNumber;
-    string                    fCurrentMetrenomeRelation;
+    msrTempo::msrTempoRelationKind
+                              fCurrentMetrenomeRelationKind;
     msrDurationKind           fCurrentMetronomeDurationKind;
     string                    fCurrentMetronomeBeamValue;
 

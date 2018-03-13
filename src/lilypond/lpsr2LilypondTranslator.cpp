@@ -6361,7 +6361,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         tempoPerMinute;
       break;
 
-    case msrTempo::kTempoEquivalence:
+    case msrTempo::kTempoBeatUnitsEquivalence:
       fLilypondCodeIOstream <<
         " " <<
         "\\markup {" <<
@@ -6415,6 +6415,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         "}" <<
         endl;
         
+      break;
+
+    case msrTempo::kTempoNotesRelationShip:
       break;
   } // switch
 

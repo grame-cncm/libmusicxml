@@ -160,7 +160,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
   fCurrentMetrenomeDotsNumber = 0;
-  fCurrentMetrenomeRelation = "";
+  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
   fCurrentMetronomeDurationKind = k_NoDuration;
   fCurrentMetronomeBeamValue = "";
 
@@ -3493,7 +3493,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
   fCurrentMetrenomeDotsNumber = 0;
-  fCurrentMetrenomeRelation = "";
+  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
   fCurrentMetronomeDurationKind = k_NoDuration;
   fCurrentMetronomeBeamValue = "";
 
@@ -3654,7 +3654,25 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
       endl;
   }
 
-  fCurrentMetrenomeRelation = elt->getValue ();
+  string metrenomeRelation = elt->getValue ();
+
+  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
+
+  if (metrenomeRelation == "equals") {
+    fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationEquals; }
+  else {
+    stringstream s;
+    
+    s <<
+      "metronome relation \"" << metrenomeRelation <<
+      "\" is unknown";
+
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_type& elt )
@@ -3704,7 +3722,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_type& elt )
       stringstream s;
       
       s <<
-        "note type \"" << noteType <<
+        "metronome type \"" << noteType <<
         "\" is unknown";
   
       msrMusicXMLError (
@@ -3898,11 +3916,14 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
   int  beatUnitsSize    = fCurrentMetronomeBeatUnitsVector.size ();
   bool perMinutePresent = fCurrentMetrenomePerMinute.size () > 0;
   
-  if (beatUnitsSize == 2 && ! perMinutePresent) {
-    tempoKind = msrTempo::kTempoEquivalence;
-  }
-  else if (beatUnitsSize == 1 && perMinutePresent) {
+  if (beatUnitsSize == 1 && perMinutePresent) {
     tempoKind = msrTempo::kTempoPerMinute;
+  }
+  else if (beatUnitsSize == 2 && ! perMinutePresent) {
+    tempoKind = msrTempo::kTempoBeatUnitsEquivalence;
+  }
+  else if (fCurrentMetrenomeRelationKind != msrTempo::k_NoTempoRelation) {
+    tempoKind = msrTempo::kTempoNotesRelationShip;
   }
 
   if (tempoKind == msrTempo::k_NoTempoKind) {
@@ -3968,7 +3989,17 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
           fCurrentMetronomeParenthesedKind);
       break;
 
-    case msrTempo::kTempoEquivalence:
+    case msrTempo::kTempoBeatUnitsEquivalence:
+      tempo =
+        msrTempo::create (
+          inputLineNumber,
+          tempoWords,
+          beatUnits,
+          fCurrentMetronomeBeatUnitsVector [1],
+          fCurrentMetronomeParenthesedKind);
+      break;
+
+    case msrTempo::kTempoNotesRelationShip:
       tempo =
         msrTempo::create (
           inputLineNumber,

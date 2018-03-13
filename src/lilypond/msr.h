@@ -7705,7 +7705,9 @@ class msrTempo : public msrElement
 
     enum msrTempoKind {
       k_NoTempoKind,
-      kTempoPerMinute, kTempoEquivalence };
+      kTempoPerMinute,
+      kTempoBeatUnitsEquivalence,
+      kTempoNotesRelationShip };
       
     static string tempoKindAsString (
       msrTempoKind tempoKind);
@@ -7715,6 +7717,12 @@ class msrTempo : public msrElement
       
     static string tempoParenthesizedAsString (
       msrTempoParenthesizedKind tempoParenthesizedKind);
+      
+    enum msrTempoRelationKind {
+      k_NoTempoRelation, kTempoRelationEquals };
+      
+    static string tempoRelationAsString (
+      msrTempoRelationKind tempoRelationKind);
       
     // creation from MusicXML
     // ------------------------------------------------------

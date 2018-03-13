@@ -14132,7 +14132,7 @@ msrTempo::msrTempo (
       fTempoBeatUnit (tempoBeatUnit),
       fTempoEquivalentBeatUnit (tempoEquivalentBeatUnit)
 {
-  fTempoKind = kTempoEquivalence;
+  fTempoKind = kTempoBeatUnitsEquivalence;
   
   fTempoWords = tempoWords;
 
@@ -14202,8 +14202,11 @@ string msrTempo::tempoKindAsString (
     case msrTempo::kTempoPerMinute:
       result = "tempoPerMinute";
       break;
-    case msrTempo::kTempoEquivalence:
-      result = "tempoEquivalence";
+    case msrTempo::kTempoBeatUnitsEquivalence:
+      result = "tempoBeatUnitsEquivalence";
+      break;
+    case msrTempo::kTempoNotesRelationShip:
+      result = "tempoNotesRelationShip";
       break;
   } // switch
 
@@ -14221,6 +14224,23 @@ string msrTempo::tempoParenthesizedAsString (
       break;
     case msrTempo::kTempoParenthesizedNo:
       result = "tempoParenthesizedNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTempo::tempoRelationAsString (
+  msrTempoRelationKind tempoRelationKind)
+{
+  string result;
+  
+  switch (tempoRelationKind) {
+    case msrTempo::kTempoRelationEquals:
+      result = "tempoRelationEquals";
+      break;
+    case msrTempo::k_NoTempoRelation:
+      result = "k_NoTempoRelation???";
       break;
   } // switch
 
