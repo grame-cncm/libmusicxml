@@ -5181,7 +5181,7 @@ class msrNote : public msrElement
       msrNoteHeadFilledKind      noteHeadFilledKind,
       msrNoteHeadParenthesesKind noteHeadParenthesesKind);
         
-    virtual ~msrNote();
+    virtual ~msrNote ();
     
   private:
 
@@ -7696,6 +7696,74 @@ typedef SMARTP<msrSlide> S_msrSlide;
 EXP ostream& operator<< (ostream& os, const S_msrSlide& elt);
 
 //______________________________________________________________________________
+class msrTempoNote : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTempoNote> create (
+      int      inputLineNumber,
+      rational tempoNoteWholeNotes,
+      bool     tempoNoteBelongsToATuplet);
+    
+  protected:
+ 
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTempoNote (
+      int      inputLineNumber,
+      rational tempoNoteWholeNotes,
+      bool     tempoNoteBelongsToATuplet);
+        
+    virtual ~msrTempoNote ();
+    
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    rational              getTempoNoteWholeNotes () const
+                              { return fTempoNoteWholeNotes; }
+
+    const list<S_msrBeam>&
+                          getTempoNoteBeams () const
+                              { return fTempoNoteBeams; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    void                  addBeamToTempoNote (S_msrBeam beam);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    rational              fTempoNoteWholeNotes;
+
+    list<S_msrBeam>       fTempoNoteBeams;
+
+    bool                  fTempoNoteBelongsToATuplet;
+};
+typedef SMARTP<msrTempoNote> S_msrTempoNote;
+EXP ostream& operator<< (ostream& os, const S_msrTempoNote& elt);
+
+//______________________________________________________________________________
 class msrTempo : public msrElement
 {
   public:
@@ -7746,6 +7814,16 @@ class msrTempo : public msrElement
       msrTempoParenthesizedKind
                     tempoParenthesizedKind);
 
+    static SMARTP<msrTempo> create (
+      int           inputLineNumber,
+      S_msrWords    tempoWords,
+      list<S_msrElement>
+                    tempoRelationLeftElementsList,
+      list<S_msrElement>
+                    tempoRelationRightElementsList,
+      msrTempoParenthesizedKind
+                    tempoParenthesizedKind);
+
   protected:
 
     // constructors/destructor
@@ -7767,6 +7845,16 @@ class msrTempo : public msrElement
                     tempoBeatUnit,
       msrDottedDuration
                     tempoEquivalentBeatUnit,
+      msrTempoParenthesizedKind
+                    tempoParenthesizedKind);
+      
+    msrTempo (
+      int           inputLineNumber,
+      S_msrWords    tempoWords,
+      list<S_msrElement>
+                    tempoRelationLeftElementsList,
+      list<S_msrElement>
+                    tempoRelationRightElementsList,
       msrTempoParenthesizedKind
                     tempoParenthesizedKind);
       
@@ -7830,6 +7918,11 @@ class msrTempo : public msrElement
     
     string                fTempoPerMinute; // '90' or '132-156' for example
     msrDottedDuration     fTempoEquivalentBeatUnit;
+
+    list<S_msrElement>
+                          fTempoRelationLeftElementsList;
+    list<S_msrElement>
+                          fTempoRelationRightElementsList;
 
     msrTempoParenthesizedKind
                           fTempoParenthesizedKind;

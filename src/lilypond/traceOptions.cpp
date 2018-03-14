@@ -158,6 +158,9 @@ debugging information to standard error for the specified measures.)",
     
     // times
     fTraceTimes = boolOptionsInitialValue;
+
+    // tempos
+    fTraceTempos = boolOptionsInitialValue;
   
     // transpositions
     fTraceTranspositions = boolOptionsInitialValue;
@@ -367,6 +370,15 @@ R"(Keys)",
 R"(Times)",
           "traceTimes",
           fTraceTimes,
+          fTraceBasic));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "ttempos", "traceTempos",
+R"(Tempos)",
+          "traceTempos",
+          fTraceTempos,
           fTraceBasic));
       
     specificTraceSubGroup->
@@ -707,6 +719,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   // times
   clone->fTraceTimes = true;
 
+  // tempos
+  clone->fTraceTempos = true;
+
   // transpositions
   clone->fTraceTranspositions = true;
 
@@ -945,6 +960,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // times
     setw (fieldWidth) << "traceTimes" << " : " <<
     booleanAsString (fTraceTimes) <<
+    endl <<
+    
+    // tempos
+    setw (fieldWidth) << "traceTempos" << " : " <<
+    booleanAsString (fTraceTempos) <<
     endl <<
     
     // transpositions

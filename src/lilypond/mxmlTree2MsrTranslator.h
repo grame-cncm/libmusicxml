@@ -628,6 +628,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_beat_unit_dot& elt );
     virtual void visitStart ( S_per_minute& elt );
     virtual void visitStart ( S_metronome_note& elt );
+    virtual void visitEnd   ( S_metronome_note& elt );
     virtual void visitStart ( S_metronome_relation& elt );
     virtual void visitStart ( S_metronome_type& elt );
     virtual void visitStart ( S_metronome_beam& elt );
@@ -1134,12 +1135,18 @@ class mxmlTree2MsrTranslator :
     msrDurationKind           fCurrentMetronomeDurationKind;
     string                    fCurrentMetronomeBeamValue;
 
+    bool                      fOnGoingMetronomeNote;
+
     bool                      fOnGoingMetronomeTuplet;
     int                       fCurrentMetrenomeNormalDotsNumber;
+    int                       fCurrentMetronomeNoteActualNotes;
+    int                       fCurrentMetronomeNoteNormalNotes;
 
+    list<S_msrElement>        fMetronomeRelationLeftElementsList;
+    list<S_msrElement>        fMetronomeRelationRightElementsList;
     
     S_msrTempo                fCurrentMetronomeTempo;
-    // tempos remain pending until the next note
+    // tempos remain pending until the next note:
     // in MusicXML, they precede the note and
     // may occur when no current voice exists
     list<S_msrTempo>          fPendingTempos;
@@ -1609,8 +1616,8 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     bool                      fCurrentNoteHasATimeModification;
-    int                       fCurrentActualNotes;
-    int                       fCurrentNormalNotes;
+    int                       fCurrentNoteActualNotes;
+    int                       fCurrentNoteNormalNotes;
     string                    fCurrentNormalNoteType;
     // nested tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;

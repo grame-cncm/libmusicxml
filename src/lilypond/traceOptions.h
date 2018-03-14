@@ -106,6 +106,9 @@ class traceOptions : public optionsGroup
     // times
     bool                  fTraceTimes;
 
+    // tempos
+    bool                  fTraceTempos;
+
     // transpositions
     bool                  fTraceTranspositions;
 

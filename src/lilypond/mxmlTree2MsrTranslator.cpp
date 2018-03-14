@@ -351,8 +351,8 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   
   fCurrentNoteBelongsToATuplet = false;
 
-  fCurrentActualNotes = -1;
-  fCurrentNormalNotes = -1;
+  fCurrentNoteActualNotes = -1;
+  fCurrentNoteNormalNotes = -1;
 
   fCurrentTupletDotsNumber = 0;
 
@@ -3500,6 +3500,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   fOnGoingMetronomeTuplet = false;
   fCurrentMetrenomeNormalDotsNumber = 0;
 
+  fMetronomeRelationLeftElementsList.clear ();
+  fMetronomeRelationRightElementsList.clear ();
+
   string parentheses = elt->getAttributeValue ("parentheses");
   
   if (parentheses.size ()) {    
@@ -3643,36 +3646,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_note& elt )
       endl;
   }
 
-  // JMI fCurrentMetrenomePerMinute = elt->getValue ();
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_metronome_relation" <<
-      endl;
-  }
-
-  string metrenomeRelation = elt->getValue ();
-
-  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
-
-  if (metrenomeRelation == "equals") {
-    fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationEquals; }
-  else {
-    stringstream s;
-    
-    s <<
-      "metronome relation \"" << metrenomeRelation <<
-      "\" is unknown";
-
-    msrMusicXMLError (
-      gXml2lyOptions->fInputSourceName,
-      elt->getInputLineNumber (),
-      __FILE__, __LINE__,
-      s.str ());
-  }
+  fOnGoingMetronomeNote = true;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_type& elt )
@@ -3732,6 +3706,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_type& elt )
         s.str ());
     }
   }
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_metronome_dot& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_metronome_dot" <<
+      endl;
+  }
+
+  fCurrentMetrenomeDotsNumber++;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
@@ -3795,15 +3780,83 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
 // JMI  fPendingBeams.push_back (beam);
 }
 
-void mxmlTree2MsrTranslator::visitStart ( S_metronome_dot& elt )
+void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_metronome_dot" <<
+      "--> End visiting S_metronome_note" <<
       endl;
   }
 
-  fCurrentMetrenomeDotsNumber++;
+  // convert metronome note duration into whole notes
+  rational
+    metronomeNoteWholeNotesFromMetronomeType =
+      msrDurationKindAsWholeNotes (
+        fCurrentMetronomeDurationKind);
+
+  // take metronome dots into account if any
+  if (fCurrentNoteDotsNumber > 0) {
+    int dots = fCurrentMetrenomeDotsNumber;
+
+    while (dots > 0) {
+      metronomeNoteWholeNotesFromMetronomeType *=
+        rational (3, 2);
+      metronomeNoteWholeNotesFromMetronomeType.rationalise ();
+
+      dots--;
+    } // while
+  }
+
+  // create the metronome note
+  S_msrTempoNote
+    tempoNote =
+      msrTempoNote::create (
+        elt->getInputLineNumber (),
+        metronomeNoteWholeNotesFromMetronomeType,
+        false /* tempoNoteBelongsToATuplet JMI */);
+
+  // register metronome note
+  if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
+    // this metronome note belongs to the left elements list
+    fMetronomeRelationLeftElementsList.push_back (
+      tempoNote);
+  }
+  else {
+    // this metronome note belongs to the right elements list
+    fMetronomeRelationRightElementsList.push_back (
+      tempoNote);
+  }
+  
+  fOnGoingMetronomeNote = false;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_metronome_relation" <<
+      endl;
+  }
+
+  string metrenomeRelation = elt->getValue ();
+
+  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
+
+  if (metrenomeRelation == "equals") {
+    fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationEquals; }
+  else {
+    stringstream s;
+    
+    s <<
+      "metronome relation \"" << metrenomeRelation <<
+      "\" is unknown";
+
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
@@ -3836,6 +3889,42 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
       endl;
   }
 
+/*
+      <note>
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>20</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <time-modification>
+          <actual-notes>3</actual-notes>
+          <normal-notes>2</normal-notes>
+        </time-modification>
+        <notations>
+          <tuplet number="1" type="start" />
+        </notations>
+      </note>
+
+            <metronome-note>
+              <metronome-type>quarter</metronome-type>
+              <metronome-tuplet bracket="yes" show-number="actual" type="start">
+                <actual-notes>3</actual-notes>
+                <normal-notes>2</normal-notes>
+                <normal-type>eighth</normal-type>
+              </metronome-tuplet>
+            </metronome-note>
+            <metronome-note>
+              <metronome-type>eighth</metronome-type>
+              <metronome-tuplet type="stop">
+                <actual-notes>3</actual-notes>
+                <normal-notes>2</normal-notes>
+                <normal-type>eighth</normal-type>
+              </metronome-tuplet>
+            </metronome-note>
+
+*/
   fOnGoingMetronomeTuplet = false;
 }
 
@@ -4011,15 +4100,13 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
     case msrTempo::kTempoNotesRelationShip:
       {
       }
-    /*
       tempo =
         msrTempo::create (
           inputLineNumber,
           tempoWords,
-          beatUnits,
-          fCurrentMetronomeBeatUnitsVector [1],
+          fMetronomeRelationLeftElementsList,
+          fMetronomeRelationRightElementsList,
           fCurrentMetronomeParenthesedKind);
-          */
       break;
   } // switch
 
@@ -7205,8 +7292,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 
   // tuplets
   
-  fCurrentActualNotes = -1;
-  fCurrentNormalNotes = -1;
+  fCurrentNoteActualNotes = -1;
+  fCurrentNoteNormalNotes = -1;
 
   // lyrics
   
@@ -12710,27 +12797,59 @@ void mxmlTree2MsrTranslator::visitStart ( S_actual_notes& elt )
       endl;
   }
 
-  fCurrentActualNotes = (int)(*elt);
+  int actualNotes = (int)(*elt);
 
-  if (
-    gTraceOptions->fTraceNotesDetails
-      ||
-    gTraceOptions->fTraceTuplets) {
-    fLogOutputStream <<
-      "fCurrentActualNotes: " <<
-      fCurrentActualNotes <<
-      endl;
+  if (fOnGoingNote) {
+    fCurrentNoteActualNotes = actualNotes;
+    
+    if (
+      gTraceOptions->fTraceNotesDetails
+        ||
+      gTraceOptions->fTraceTuplets) {
+      fLogOutputStream <<
+        "fCurrentNoteActualNotes: " <<
+        fCurrentNoteActualNotes <<
+        endl;
+    }
+  
+    // notes inside a tuplet have no <tuplet/> markup
+    // and 2 actual notes indicate a double tremolo
+    switch (fCurrentNoteActualNotes) {
+      case 2:
+        fCurrentNoteBelongsToADoubleTremolo = true;
+        break;
+      default:
+        fCurrentNoteBelongsToATuplet = true;
+    } // switch
   }
 
-  // notes inside a tuplet have no <tuplet/> markup
-  // and 2 actual notes indicate a double tremolo
-  switch (fCurrentActualNotes) {
-    case 2:
-      fCurrentNoteBelongsToADoubleTremolo = true;
-      break;
-    default:
-      fCurrentNoteBelongsToATuplet = true;
-  } // switch
+  else if (fOnGoingMetronomeNote) {
+    fCurrentMetronomeNoteActualNotes = actualNotes;
+    
+    if (
+      gTraceOptions->fTraceTempos
+        ||
+      gTraceOptions->fTraceTuplets) {
+      fLogOutputStream <<
+        "fCurrentMetronomeNoteActualNotes: " <<
+        fCurrentMetronomeNoteActualNotes <<
+        endl;
+    }
+  }
+
+  else {
+    stringstream s;
+    
+    s <<
+      "actual notes \"" << actualNotes <<
+      "\" is out of context";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
@@ -12741,27 +12860,59 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_notes& elt )
       endl;
   }
 
-  fCurrentNormalNotes = (int)(*elt);
+  int normalNotes = (int)(*elt);
 
-  if (
-    gTraceOptions->fTraceNotesDetails
-      ||
-    gTraceOptions->fTraceTuplets) {
-    fLogOutputStream <<
-      "fCurrentNormalNotes: " <<
-      fCurrentNormalNotes <<
-      endl;
+  if (fOnGoingNote) {
+    fCurrentNoteNormalNotes = normalNotes;
+    
+    if (
+      gTraceOptions->fTraceNotesDetails
+        ||
+      gTraceOptions->fTraceTuplets) {
+      fLogOutputStream <<
+        "fCurrentNoteNormalNotes: " <<
+        fCurrentNoteNormalNotes <<
+        endl;
+    }
+  
+    // notes inside a tuplet have no <tuplet/> markup
+    // and 1 actual note indicates a double tremolo
+    switch (fCurrentNoteNormalNotes) {
+      case 1:
+        fCurrentNoteBelongsToADoubleTremolo = true;
+        break;
+      default:
+        fCurrentNoteBelongsToATuplet = true;
+    } // switch
+  }
+  
+  else if (fOnGoingMetronomeNote) {
+    fCurrentMetronomeNoteNormalNotes = normalNotes;
+    
+    if (
+      gTraceOptions->fTraceTempos
+        ||
+      gTraceOptions->fTraceTuplets) {
+      fLogOutputStream <<
+        "fCurrentMetronomeNoteNormalNotes: " <<
+        fCurrentMetronomeNoteNormalNotes <<
+        endl;
+    }
   }
 
-  // notes inside a tuplet have no <tuplet/> markup
-  // and 1 actual note indicates a double tremolo
-  switch (fCurrentNormalNotes) {
-    case 1:
-      fCurrentNoteBelongsToADoubleTremolo = true;
-      break;
-    default:
-      fCurrentNoteBelongsToATuplet = true;
-  } // switch
+  else {
+    stringstream s;
+    
+    s <<
+      "normal notes \"" << normalNotes <<
+      "\" is out of context";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
@@ -13962,9 +14113,9 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
       "Creating a '" <<
-      fCurrentActualNotes <<
+      fCurrentNoteActualNotes <<
       "/" <<
-      fCurrentNormalNotes <<
+      fCurrentNoteNormalNotes <<
       "' tuplet with first note " <<
       firstNote->
         asShortStringWithRawWholeNotes () <<
@@ -13991,8 +14142,8 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
         fCurrentTupletLineShapeKind,
         fTupletShowNumberKind,
         fTupletShowTypeKind,
-        fCurrentActualNotes,
-        fCurrentNormalNotes,
+        fCurrentNoteActualNotes,
+        fCurrentNoteNormalNotes,
         memberNotesSoundingWholeNotes,
         memberNotesDisplayWholeNotes,
         firstNote->getNotePositionInMeasure ());
@@ -14027,8 +14178,8 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
   // set note displayed divisions
   firstNote->
     applyTupletMemberDisplayFactor (
-      fCurrentActualNotes,
-      fCurrentNormalNotes);
+      fCurrentNoteActualNotes,
+      fCurrentNoteNormalNotes);
   */
 
 
@@ -14078,8 +14229,8 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
 /*  // set note displayed divisions JMI
   note->
     applyTupletMemberDisplayFactor (
-      fCurrentActualNotes,
-      fCurrentNormalNotes);
+      fCurrentNoteActualNotes,
+      fCurrentNoteNormalNotes);
 */
 
 /* JMI
@@ -16340,8 +16491,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     // determine sounding from display whole notes
     note->
       determineTupletMemberSoundingFromDisplayWholeNotes (
-        fCurrentActualNotes,
-        fCurrentNormalNotes);
+        fCurrentNoteActualNotes,
+        fCurrentNoteNormalNotes);
   }
 
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
@@ -16533,8 +16684,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     // determine sounding from display whole notes
     newChordNote->
       determineTupletMemberSoundingFromDisplayWholeNotes (
-        fCurrentActualNotes,
-        fCurrentNormalNotes);
+        fCurrentNoteActualNotes,
+        fCurrentNoteNormalNotes);
   }
 
   if (
@@ -16661,8 +16812,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
         // determine sounding from display whole notes
         newChordNote->
           determineTupletMemberSoundingFromDisplayWholeNotes (
-            fCurrentActualNotes,
-            fCurrentNormalNotes);
+            fCurrentNoteActualNotes,
+            fCurrentNoteNormalNotes);
       }
     }
     
