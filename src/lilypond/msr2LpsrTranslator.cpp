@@ -2042,6 +2042,23 @@ void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
       endl;
   }
 
+  switch (elt->getTempoKind ()) {
+    case msrTempo::k_NoTempoKind:
+      break;
+
+    case msrTempo::kTempoBeatUnitsPerMinute:
+      break;
+
+    case msrTempo::kTempoBeatUnitsEquivalence:
+      break;
+
+    case msrTempo::kTempoNotesRelationShip:
+      fLpsrScore->
+        // this score need the 'tongue' Scheme function
+        setTempoRelationshipSchemeFunctionIsNeeded ();
+      break;
+  } // switch
+
   fCurrentVoiceClone->
     appendTempoToVoice (elt);
 }

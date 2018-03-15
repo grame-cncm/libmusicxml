@@ -12923,16 +12923,48 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
       endl;
   }
 
-  fCurrentNormalNoteType = elt->getValue();
+  string normalType = elt->getValue();
 
-  if (
-    gTraceOptions->fTraceNotesDetails
-      ||
-    gTraceOptions->fTraceTuplets) {
-    fLogOutputStream <<
-      "fCurrentNormalNoteType: " <<
-      fCurrentNormalNoteType <<
-      endl;
+  if (fOnGoingNote) {    
+    fCurrentNoteNormalType = normalType;
+    
+    if (
+      gTraceOptions->fTraceNotesDetails
+        ||
+      gTraceOptions->fTraceTuplets) {
+      fLogOutputStream <<
+        "fCurrentNoteNormalType: " <<
+        fCurrentNoteNormalType <<
+        endl;
+    }
+  }
+  
+  else if (fOnGoingMetronomeNote) {
+    fCurrentMetronomeNoteNormalType = normalType;
+    
+    if (
+      gTraceOptions->fTraceTempos
+        ||
+      gTraceOptions->fTraceTuplets) {
+      fLogOutputStream <<
+        "fCurrentMetronomeNoteNormalType: " <<
+        fCurrentMetronomeNoteNormalType <<
+        endl;
+    }
+  }
+
+  else {
+    stringstream s;
+    
+    s <<
+      "normal type \"" << normalType <<
+      "\" is out of context";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
   }
 }
 

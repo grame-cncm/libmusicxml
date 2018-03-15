@@ -4217,6 +4217,15 @@ void lpsrScore::setAfterSchemeFunctionIsNeeded ()
   }
 }
 
+void lpsrScore::setTempoRelationshipSchemeFunctionIsNeeded ()
+{
+  if (! fTempoRelationshipSchemeFunctionIsNeeded) {
+    addTempoRelationshipSchemeFunctionToScore ();
+    
+    fTempoRelationshipSchemeFunctionIsNeeded = true;    
+  }
+}
+
 void lpsrScore::addDateAndTimeSchemeFunctionsToScore ()
 {
   string
@@ -4634,6 +4643,97 @@ after =
        #m
        { \skip $t <> -\tweak extra-spacing-width #empty-interval $e }
      >>
+   #})
+)";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    gLogIOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addTempoRelationshipSchemeFunctionToScore ()
+{
+  string
+    schemeFunctionName =
+      "tempoRelationship",
+      
+    schemeFunctionDescription =
+R"(
+% A function to create tempo relationships,
+% such as 'b8 [ b8 ]' = '\tuplet 3/2 { b4 b8 }' for swing.
+% See http://lsr.di.unimi.it/LSR/Item?id=204
+)",
+
+    schemeFunctionCode =
+R"(
+tempoRelationshipStaffReduce = #-3
+
+tempoRelationship =
+#(define-music-function (parser location label musicI musicII )
+   (string? ly:music? ly:music?)
+   #{
+     \tempo \markup {
+       \line \general-align #Y #DOWN {
+         % 1st column in line
+         $label
+
+         % 2nd column in line
+         \score {
+           \new Staff \with {
+             % reduce the font size a la cue
+             fontSize = #tempoRelationshipStaffReduce
+             \override StaffSymbol.staff-space = #(magstep tempoRelationshipStaffReduce)
+             % hide the staff lines
+             \override StaffSymbol.line-count = #0
+             % align horizontally
+             \override VerticalAxisGroup.Y-extent = #'(-0.85 . 0)
+           }
+
+           {
+             % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2) % super-tight
+             % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/4) % tight
+             % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 3/16) % even
+             \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 5/32) % even
+
+             % the left music
+             \relative c' { \stemUp $musicI }
+
+             % the equivalence sign
+             \once \override Score.TextScript.Y-offset = #-0.4
+             s4.^\markup{
+               \halign #-1 "="
+             }
+
+             % the right music
+             \relative c' { \stemUp $musicII }
+           }
+
+           \layout {
+             indent = 0
+             \context {
+               \Staff
+               \remove "Clef_engraver"
+               \remove "Time_signature_engraver"
+             }
+           } % layout end
+         } % score end
+       } % line end
+     } % markup end
    #})
 )";
 

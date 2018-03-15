@@ -1141,6 +1141,7 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentMetrenomeNormalDotsNumber;
     int                       fCurrentMetronomeNoteActualNotes;
     int                       fCurrentMetronomeNoteNormalNotes;
+    string                    fCurrentMetronomeNoteNormalType;
 
     list<S_msrElement>        fMetronomeRelationLeftElementsList;
     list<S_msrElement>        fMetronomeRelationRightElementsList;
@@ -1618,7 +1619,7 @@ class mxmlTree2MsrTranslator :
     bool                      fCurrentNoteHasATimeModification;
     int                       fCurrentNoteActualNotes;
     int                       fCurrentNoteNormalNotes;
-    string                    fCurrentNormalNoteType;
+    string                    fCurrentNoteNormalType;
     // nested tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;
     int                       fCurrentTupletDisplayNumber;
