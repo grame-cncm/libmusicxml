@@ -7764,6 +7764,86 @@ typedef SMARTP<msrTempoNote> S_msrTempoNote;
 EXP ostream& operator<< (ostream& os, const S_msrTempoNote& elt);
 
 //______________________________________________________________________________
+class msrTempoRelationshipElements : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTempoRelationshipElementsKind {
+      kTempoRelationshipElementsLeft,
+      kTempoRelationshipElementsRight };
+      
+    static string tempoRelationshipElementsKindAsString (
+      msrTempoRelationshipElementsKind tempoRelationshipElementsKind);
+      
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTempoRelationshipElements> create (
+      int      inputLineNumber,
+      msrTempoRelationshipElementsKind
+               tempoRelationshipElementsKind);
+    
+  protected:
+ 
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTempoRelationshipElements (
+      int      inputLineNumber,
+      msrTempoRelationshipElementsKind
+               tempoRelationshipElementsKind);
+        
+    virtual ~msrTempoRelationshipElements ();
+    
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    rational              getTempoRelationshipElementsKind () const
+                              { return fTempoRelationshipElementsKind; }
+
+    const list<S_msrElement>&
+                          getTempoRelationshipElementsList () const
+                              { return fTempoRelationshipElementsList; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                asString () const;
+
+    void                  addElementToTempoRelationshipElements (
+                            S_msrElement element);
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    msrTempoRelationshipElementsKind
+                          fTempoRelationshipElementsKind;
+
+    list<S_msrElement>    fTempoRelationshipElementsList;
+};
+typedef SMARTP<msrTempoRelationshipElements> S_msrTempoRelationshipElements;
+EXP ostream& operator<< (ostream& os, const S_msrTempoRelationshipElements& elt);
+
+//______________________________________________________________________________
 class msrTempo : public msrElement
 {
   public:
@@ -7817,10 +7897,10 @@ class msrTempo : public msrElement
     static SMARTP<msrTempo> create (
       int           inputLineNumber,
       S_msrWords    tempoWords,
-      list<S_msrElement>
-                    tempoRelationLeftElementsList,
-      list<S_msrElement>
-                    tempoRelationRightElementsList,
+      S_msrTempoRelationshipElements
+                    tempoRelationLeftElements,
+      S_msrTempoRelationshipElements
+                    tempoRelationRightElements,
       msrTempoParenthesizedKind
                     tempoParenthesizedKind);
 
@@ -7851,10 +7931,10 @@ class msrTempo : public msrElement
     msrTempo (
       int           inputLineNumber,
       S_msrWords    tempoWords,
-      list<S_msrElement>
-                    tempoRelationLeftElementsList,
-      list<S_msrElement>
-                    tempoRelationRightElementsList,
+      S_msrTempoRelationshipElements
+                    tempoRelationLeftElements,
+      S_msrTempoRelationshipElements
+                    tempoRelationRightElements,
       msrTempoParenthesizedKind
                     tempoParenthesizedKind);
       
@@ -7919,10 +7999,10 @@ class msrTempo : public msrElement
     string                fTempoPerMinute; // '90' or '132-156' for example
     msrDottedDuration     fTempoEquivalentBeatUnit;
 
-    list<S_msrElement>
-                          fTempoRelationLeftElementsList;
-    list<S_msrElement>
-                          fTempoRelationRightElementsList;
+    S_msrTempoRelationshipElements
+                          fTempoRelationLeftElements;
+    S_msrTempoRelationshipElements
+                          fTempoRelationRightElements;
 
     msrTempoParenthesizedKind
                           fTempoParenthesizedKind;

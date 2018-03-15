@@ -3500,8 +3500,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   fOnGoingMetronomeTuplet = false;
   fCurrentMetrenomeNormalDotsNumber = 0;
 
-  fMetronomeRelationLeftElementsList.clear ();
-  fMetronomeRelationRightElementsList.clear ();
+  fCurrentMetronomeRelationLeftElements  = nullptr;
+  fCurrentMetronomeRelationRightElements = nullptr;
 
   string parentheses = elt->getAttributeValue ("parentheses");
   
@@ -3788,6 +3788,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
       endl;
   }
 
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
   // convert metronome note duration into whole notes
   rational
     metronomeNoteWholeNotesFromMetronomeType =
@@ -3811,20 +3814,40 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
   S_msrTempoNote
     tempoNote =
       msrTempoNote::create (
-        elt->getInputLineNumber (),
+        inputLineNumber,
         metronomeNoteWholeNotesFromMetronomeType,
         false /* tempoNoteBelongsToATuplet JMI */);
 
   // register metronome note
   if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
     // this metronome note belongs to the left elements list
-    fMetronomeRelationLeftElementsList.push_back (
-      tempoNote);
+
+    if (! fCurrentMetronomeRelationLeftElements) {
+      // create the relation left elements
+      fCurrentMetronomeRelationLeftElements =
+        msrTempoRelationshipElements::create (
+          inputLineNumber,
+          msrTempoRelationshipElements::kTempoRelationshipElementsLeft);
+    }
+    
+    fCurrentMetronomeRelationLeftElements->
+      addElementToTempoRelationshipElements (
+        tempoNote);
   }
   else {
     // this metronome note belongs to the right elements list
-    fMetronomeRelationRightElementsList.push_back (
-      tempoNote);
+
+    if (! fCurrentMetronomeRelationRightElements) {
+      // create the relation right elements
+      fCurrentMetronomeRelationRightElements =
+        msrTempoRelationshipElements::create (
+          inputLineNumber,
+          msrTempoRelationshipElements::kTempoRelationshipElementsRight);
+    }
+    
+    fCurrentMetronomeRelationRightElements->
+      addElementToTempoRelationshipElements (
+        tempoNote);
   }
   
   fOnGoingMetronomeNote = false;
@@ -4104,8 +4127,8 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
         msrTempo::create (
           inputLineNumber,
           tempoWords,
-          fMetronomeRelationLeftElementsList,
-          fMetronomeRelationRightElementsList,
+          fCurrentMetronomeRelationLeftElements,
+          fCurrentMetronomeRelationRightElements,
           fCurrentMetronomeParenthesedKind);
       break;
   } // switch

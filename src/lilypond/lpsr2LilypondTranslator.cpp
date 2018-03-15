@@ -6337,21 +6337,34 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
   msrDottedDuration tempoBeatUnit  = elt->getTempoBeatUnit ();
   string            tempoPerMinute = elt->getTempoPerMinute ();
 
-  fLilypondCodeIOstream <<
-    endl <<
-    "\\tempo";
-
-  if (tempoWords) {
-    fLilypondCodeIOstream <<
-      " \"" << tempoWords->getWordsContents () << "\"";
-  }
-
-// JMI ???  if (tempoBeatUnit)
+  msrTempo::msrTempoParenthesizedKind
+    tempoParenthesizedKind =
+      elt->getTempoParenthesizedKind ();
+      
   switch (elt->getTempoKind ()) {
     case msrTempo::k_NoTempoKind:
       break;
 
     case msrTempo::kTempoBeatUnitsPerMinute:
+      fLilypondCodeIOstream <<
+        endl <<
+        "\\tempo";
+    
+      if (tempoWords) {
+        fLilypondCodeIOstream <<
+          " \"" << tempoWords->getWordsContents () << "\"";
+      }
+
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+       //   fLilypondCodeIOstream <<
+        // JMI    "(" <<
+       //     endl;
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          break;
+      } // switch
+        
       fLilypondCodeIOstream <<
         " " <<
         dottedDurationAsLilypondString (
@@ -6359,9 +6372,28 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
           tempoBeatUnit) <<
         " = " <<
         tempoPerMinute;
+
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+      //    fLilypondCodeIOstream <<
+        // JMI    ")" <<
+     //       endl;
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          break;
+      } // switch
       break;
 
     case msrTempo::kTempoBeatUnitsEquivalence:
+      fLilypondCodeIOstream <<
+        endl <<
+        "\\tempo";
+    
+      if (tempoWords) {
+        fLilypondCodeIOstream <<
+          " \"" << tempoWords->getWordsContents () << "\"";
+      }
+
       fLilypondCodeIOstream <<
         " " <<
         "\\markup {" <<
@@ -6375,9 +6407,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 
       gIndenter++;
 
-      fLilypondCodeIOstream <<
-        "(" <<
-        endl;
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+          fLilypondCodeIOstream <<
+            "(" <<
+            endl;
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          break;
+      } // switch
         
       gIndenter++;
       
@@ -6399,9 +6437,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         
       gIndenter--;
 
-      fLilypondCodeIOstream <<
-        ")" <<
-        endl;
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+          fLilypondCodeIOstream <<
+            ")" <<
+            endl;
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          break;
+      } // switch
         
       gIndenter--;
 
@@ -6418,11 +6462,99 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       break;
 
     case msrTempo::kTempoNotesRelationShip:
+    /*
+    \tempoRelationship #"Swing"
+    \fixed b' {
+      b8 [ b8 ]
+    }
+    \fixed b' {
+      \tuplet 3/2 { b4 b8 }
+    }
+    */
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+          fLilypondCodeIOstream <<
+            "(" <<
+            endl;
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          break;
+      } // switch
+        
+      fLilypondCodeIOstream <<
+        "\\tempoRelationship #\"";
+
+      if (tempoWords) {
+        fLilypondCodeIOstream <<
+          tempoWords->getWordsContents ();
+      }
+
+      fLilypondCodeIOstream <<
+        "\"" <<
+        endl;
+
+      switch (tempoParenthesizedKind) {
+        case msrTempo::kTempoParenthesizedYes:
+          fLilypondCodeIOstream <<
+            ")" <<
+            endl;
+          break;
+        case msrTempo::kTempoParenthesizedNo:
+          break;
+      } // switch
+        
       break;
   } // switch
 
   fLilypondCodeIOstream <<
     endl;
+}
+
+void lpsr2LilypondTranslator::visitStart (S_msrTempoRelationshipElements& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrTempoRelationshipElements" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
+    "\\fixed b' {" <<
+    endl;
+
+  gIndenter++;
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrTempoRelationshipElements& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting msrTempoRelationshipElements" <<
+      endl;
+  }
+
+  gIndenter--;
+
+  fLilypondCodeIOstream <<
+    endl <<
+    "}" <<
+    endl;
+}
+
+void lpsr2LilypondTranslator::visitStart (S_msrTempoNote& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrTempoNote" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
+    "b" <<
+    wholeNotesAsLilypondString (
+      elt->getInputLineNumber (),
+      elt->getTempoNoteWholeNotes ()) <<
+      " ";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTempo& elt)

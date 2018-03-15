@@ -1143,8 +1143,10 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentMetronomeNoteNormalNotes;
     string                    fCurrentMetronomeNoteNormalType;
 
-    list<S_msrElement>        fMetronomeRelationLeftElementsList;
-    list<S_msrElement>        fMetronomeRelationRightElementsList;
+    S_msrTempoRelationshipElements
+                              fCurrentMetronomeRelationLeftElements;
+    S_msrTempoRelationshipElements
+                              fCurrentMetronomeRelationRightElements;
     
     S_msrTempo                fCurrentMetronomeTempo;
     // tempos remain pending until the next note:
