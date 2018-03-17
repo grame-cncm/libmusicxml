@@ -150,6 +150,9 @@ typedef SMARTP<msrScore> S_msrScore;
 class msrRepeat;
 typedef SMARTP<msrRepeat> S_msrRepeat;
 
+class msrTempoTuplet;
+typedef SMARTP<msrTempoTuplet> S_msrTempoTuplet;
+
 
 //______________________________________________________________________________
 class msrElement : public smartable
@@ -7762,6 +7765,220 @@ class msrTempoNote : public msrElement
 };
 typedef SMARTP<msrTempoNote> S_msrTempoNote;
 EXP ostream& operator<< (ostream& os, const S_msrTempoNote& elt);
+
+//______________________________________________________________________________
+class msrTempoTuplet : public msrElement
+{
+  public:
+    
+    // data types
+    // ------------------------------------------------------
+
+    enum msrTempoTupletTypeKind {
+      k_NoTempoTupletType,
+      kTempoTupletTypeStart, kTempoTupletTypeContinue, kTempoTupletTypeStop };
+
+    static string tempoTupletTypeKindAsString (
+      msrTempoTupletTypeKind tempoTupletTypeKind);
+      
+    enum msrTempoTupletBracketKind {
+      kTempoTupletBracketYes, kTempoTupletBracketNo};
+      
+    static string tempoTupletBracketKindAsString (
+      msrTempoTupletBracketKind tempoTupletBracketKind);
+      
+    enum msrTempoTupletLineShapeKind {
+      kTempoTupletLineShapeStraight, kTempoTupletLineShapeCurved};
+      
+    static string tempoTupletLineShapeKindAsString (
+      msrTempoTupletLineShapeKind tempoTupletLineShapeKind);
+      
+    enum msrTempoTupletShowNumberKind {
+      kTempoTupletShowNumberActual, kTempoTupletShowNumberBoth, kTempoTupletShowNumberNone };
+
+    static string tempoTupletShowNumberKindAsString (
+      msrTempoTupletShowNumberKind tempoTupletShowNumberKind);
+      
+    enum msrTempoTupletShowTypeKind {
+      kTempoTupletShowTypeActual, kTempoTupletShowTypeBoth, kTempoTupletShowTypeNone };
+
+    static string tempoTupletShowTypeKindAsString (
+      msrTempoTupletShowTypeKind tempoTupletShowTypeKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrTempoTuplet> create (
+      int                     inputLineNumber,
+      int                     tempoTupletNumber,
+      msrTempoTupletBracketKind    tempoTupletBracketKind,
+      msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
+      msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
+      msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
+      int                     tempoTupletActualNotes,
+      int                     tempoTupletNormalNotes,
+      rational                memberNotesSoundingWholeNotes,
+      rational                memberNotesDisplayWholeNotes,
+      rational                notePositionInMeasure); // JMI
+
+    SMARTP<msrTempoTuplet> createTempoTupletNewbornClone ();
+
+    SMARTP<msrTempoTuplet> createTempoTupletDeepCopy ();
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrTempoTuplet (
+      int                     inputLineNumber,
+      int                     tempoTupletNumber,
+      msrTempoTupletBracketKind    tempoTupletBracketKind,
+      msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
+      msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
+      msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
+      int                     tempoTupletActualNotes,
+      int                     tempoTupletNormalNotes,
+      rational                memberNotesSoundingWholeNotes,
+      rational                memberNotesDisplayWholeNotes,
+      rational                notePositionInMeasure);
+      
+    virtual ~msrTempoTuplet ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+    
+    int                   getTempoTupletNumber () const
+                              { return fTempoTupletNumber; }
+
+    msrTempoTupletBracketKind  getTempoTupletBracketKind () const
+                              { return fTempoTupletBracketKind; }
+
+    msrTempoTupletLineShapeKind
+                          getTempoTupletLineShapeKind () const
+                              { return fTempoTupletLineShapeKind; }
+
+    msrTempoTupletShowNumberKind
+                          getTempoTupletShowNumberKind () const
+                              { return fTempoTupletShowNumberKind; }
+
+    msrTempoTupletShowTypeKind getTempoTupletShowTypeKind () const
+                              { return fTempoTupletShowTypeKind; }
+
+    int                   getTempoTupletActualNotes () const
+                              { return fTempoTupletActualNotes; }
+    int                   getTempoTupletNormalNotes () const
+                              { return fTempoTupletNormalNotes; }
+    
+    rational              getMemberNotesSoundingWholeNotes () const
+                              { return fMemberNotesSoundingWholeNotes; }
+    rational              getMemberNotesDisplayWholeNotes () const
+                              { return fMemberNotesDisplayWholeNotes; }
+
+    const list<S_msrElement>&
+                          getTempoTupletElements () const
+                              { return fTempoTupletElements; }
+
+    rational              getTempoTupletSoundingWholeNotes () const
+                              { return fTempoTupletSoundingWholeNotes; }
+                              
+    rational              getTempoTupletDisplayWholeNotes () const
+                              { return fTempoTupletDisplayWholeNotes; }
+            
+    // measure uplink
+    void                  setTempoTupletMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fTempoTupletMeasureUplink = measure; }
+                      
+    S_msrMeasure          getTempoTupletMeasureUplink () const
+                              { return fTempoTupletMeasureUplink; }
+
+    // measure number
+    void                  setTempoTupletMeasureNumber (string measureNumber);
+
+    string                   getTempoTupletMeasureNumber () const
+                              { return fTempoTupletMeasureNumber; }
+ 
+    // position in measure
+    rational              setTempoTupletPositionInMeasure (
+                            rational position);
+                              // returns the position after the tempoTuplet
+
+    rational              getTempoTupletPositionInMeasure () const
+                              { return fTempoTupletPositionInMeasure; }
+                      
+    // services
+    // ------------------------------------------------------
+
+    void                  addNoteToTempoTuplet (S_msrNote note);
+    void                  addChordToTempoTuplet (S_msrChord chord);
+    void                  addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet);
+    
+    void                  addTempoTupletToTempoTupletClone (S_msrTempoTuplet tempoTuplet);
+    
+    void                  removeFirstNoteFromTempoTuplet (
+                            int       inputLineNumber,
+                            S_msrNote note);
+
+ // JMI   void                  applyDisplayFactorToTempoTupletMembers ();
+    
+    void                  unapplySoundingFactorToTempoTupletMembers (
+                            int containingTempoTupletActualNotes,
+                            int containingTempoTupletNormalNotes);
+
+    string                asString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    // uplink
+    S_msrMeasure          fTempoTupletMeasureUplink;
+    
+    int                   fTempoTupletNumber;
+    
+    msrTempoTupletBracketKind  fTempoTupletBracketKind;
+              
+    msrTempoTupletLineShapeKind
+                          fTempoTupletLineShapeKind;
+              
+    msrTempoTupletShowNumberKind
+                          fTempoTupletShowNumberKind;
+              
+    msrTempoTupletShowTypeKind fTempoTupletShowTypeKind;
+              
+    int                   fTempoTupletActualNotes;
+    int                   fTempoTupletNormalNotes;
+
+    rational              fMemberNotesSoundingWholeNotes;
+    rational              fMemberNotesDisplayWholeNotes;
+
+    rational              fTempoTupletSoundingWholeNotes;
+    rational              fTempoTupletDisplayWholeNotes;
+
+    string                fTempoTupletMeasureNumber;
+    rational              fTempoTupletPositionInMeasure;
+    
+    list<S_msrElement>    fTempoTupletElements;
+};
+typedef SMARTP<msrTempoTuplet> S_msrTempoTuplet;
+EXP ostream& operator<< (ostream& os, const S_msrTempoTuplet& elt);
 
 //______________________________________________________________________________
 class msrTempoRelationshipElements : public msrElement

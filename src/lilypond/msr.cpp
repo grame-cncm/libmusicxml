@@ -14181,6 +14181,917 @@ void msrTempoNote::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrTempoTuplet msrTempoTuplet::create (
+  int                     inputLineNumber,
+  int                     tempoTupletNumber,
+  msrTempoTupletBracketKind    tempoTupletBracketKind,
+  msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
+  msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
+  msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
+  int                     tempoTupletActualNotes,
+  int                     tempoTupletNormalNotes,
+  rational                memberNotesSoundingWholeNotes,
+  rational                memberNotesDisplayWholeNotes,
+  rational                notePositionInMeasure)
+{
+  msrTempoTuplet* o =
+    new msrTempoTuplet (
+      inputLineNumber,
+      tempoTupletNumber,
+      tempoTupletBracketKind,
+      tempoTupletLineShapeKind,
+      tempoTupletShowNumberKind,
+      tempoTupletShowTypeKind,
+      tempoTupletActualNotes,
+      tempoTupletNormalNotes,
+      memberNotesSoundingWholeNotes,
+      memberNotesDisplayWholeNotes,
+      notePositionInMeasure);
+  assert(o!=0);
+  return o;
+}
+
+msrTempoTuplet::msrTempoTuplet (
+  int                     inputLineNumber,
+  int                     tempoTupletNumber,
+  msrTempoTupletBracketKind    tempoTupletBracketKind,
+  msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
+  msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
+  msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
+  int                     tempoTupletActualNotes,
+  int                     tempoTupletNormalNotes,
+  rational                memberNotesSoundingWholeNotes,
+  rational                memberNotesDisplayWholeNotes,
+  rational                notePositionInMeasure)
+    : msrElement (inputLineNumber)
+{  
+  fTempoTupletNumber = tempoTupletNumber;
+  
+  fTempoTupletBracketKind    = tempoTupletBracketKind;
+  fTempoTupletLineShapeKind  = tempoTupletLineShapeKind;
+  fTempoTupletShowNumberKind = tempoTupletShowNumberKind;
+  fTempoTupletShowTypeKind   = tempoTupletShowTypeKind;
+
+  fTempoTupletActualNotes = tempoTupletActualNotes;
+  fTempoTupletNormalNotes = tempoTupletNormalNotes;
+
+  fMemberNotesSoundingWholeNotes = memberNotesSoundingWholeNotes;
+  fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
+  
+  fTempoTupletSoundingWholeNotes = rational (0, 1);
+  fTempoTupletDisplayWholeNotes  = rational (0, 1);
+
+  fTempoTupletPositionInMeasure = notePositionInMeasure;
+}
+
+msrTempoTuplet::~msrTempoTuplet()
+{}
+
+S_msrTempoTuplet msrTempoTuplet::createTempoTupletNewbornClone ()
+{
+  if (gTraceOptions->fTraceTempos) {
+    gLogIOstream <<
+      "Creating a newborn clone of tempoTuplet '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+  S_msrTempoTuplet
+    newbornClone =
+      msrTempoTuplet::create (
+        fInputLineNumber,
+        fTempoTupletNumber,
+        fTempoTupletBracketKind,
+        fTempoTupletLineShapeKind,
+        fTempoTupletShowNumberKind,
+        fTempoTupletShowTypeKind,
+        fTempoTupletActualNotes,
+        fTempoTupletNormalNotes,
+        fMemberNotesSoundingWholeNotes,
+        fMemberNotesDisplayWholeNotes,
+        fTempoTupletPositionInMeasure);
+
+  newbornClone->fTempoTupletSoundingWholeNotes =
+    fTempoTupletSoundingWholeNotes;
+
+  newbornClone->fTempoTupletDisplayWholeNotes =
+    fTempoTupletDisplayWholeNotes;
+
+  newbornClone->fTempoTupletMeasureNumber =
+    fTempoTupletMeasureNumber;
+
+  return newbornClone;
+}
+
+string msrTempoTuplet::tempoTupletTypeKindAsString (
+  msrTempoTupletTypeKind tempoTupletTypeKind)
+{
+  string result;
+
+  switch (tempoTupletTypeKind) {
+    case msrTempoTuplet::k_NoTempoTupletType:
+      result = "none";
+      break;
+    case msrTempoTuplet::kTempoTupletTypeStart:
+      result = "start";
+      break;
+    case msrTempoTuplet::kTempoTupletTypeContinue:
+      result = "continue";
+      break;
+    case msrTempoTuplet::kTempoTupletTypeStop:
+      result = "stop";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTempoTuplet::tempoTupletBracketKindAsString (
+  msrTempoTupletBracketKind tempoTupletBracketKind)
+{
+  string result;
+
+  switch (tempoTupletBracketKind) {
+    case msrTempoTuplet::kTempoTupletBracketYes:
+      result = "tempoTupletBracketYes";
+      break;
+    case msrTempoTuplet::kTempoTupletBracketNo:
+      result = "tempoTupletBracketNo";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTempoTuplet::tempoTupletLineShapeKindAsString (
+  msrTempoTupletLineShapeKind tempoTupletLineShapeKind)
+{
+  string result;
+
+  switch (tempoTupletLineShapeKind) {
+    case msrTempoTuplet::kTempoTupletLineShapeStraight:
+      result = "tempoTupletLineShapeStraight";
+      break;
+    case msrTempoTuplet::kTempoTupletLineShapeCurved:
+      result = "tempoTupletLineShapeCurved";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTempoTuplet::tempoTupletShowNumberKindAsString (
+  msrTempoTupletShowNumberKind tempoTupletShowNumberKind)
+{
+  string result;
+  
+  switch (tempoTupletShowNumberKind) {
+    case msrTempoTuplet::kTempoTupletShowNumberActual:
+      result = "tempoTupletShowNumberActual";
+      break;
+    case msrTempoTuplet::kTempoTupletShowNumberBoth:
+      result = "tempoTupletShowNumberBoth";
+      break;
+    case msrTempoTuplet::kTempoTupletShowNumberNone:
+      result = "tempoTupletShowNumberNone";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrTempoTuplet::tempoTupletShowTypeKindAsString (
+  msrTempoTupletShowTypeKind tempoTupletShowTypeKind)
+{
+  string result;
+  
+  switch (tempoTupletShowTypeKind) {
+    case msrTempoTuplet::kTempoTupletShowTypeActual:
+      result = "tempoTupletShowTypeActual";
+      break;
+    case msrTempoTuplet::kTempoTupletShowTypeBoth:
+      result = "tempoTupletShowTypeBoth";
+      break;
+    case msrTempoTuplet::kTempoTupletShowTypeNone:
+      result = "tempoTupletShowTypeNone";
+      break;
+  } // switch
+
+  return result;
+}
+      
+void msrTempoTuplet::addNoteToTempoTuplet (S_msrNote note)
+{
+  if (gTraceOptions->fTraceTempos) {
+    gLogIOstream <<
+      "Adding note '" <<
+      note->asShortStringWithRawWholeNotes () <<
+      // the information is missing to display it the normal way
+      "' to tempoTuplet '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+  fTempoTupletElements.push_back (note);
+
+/* JMI
+  // register note's tempoTuplet uplink
+  note->
+    setNoteTempoTupletUplink (this);
+
+  // account for note duration
+  fTempoTupletSoundingWholeNotes +=
+    note->getNoteSoundingWholeNotes ();
+  fTempoTupletSoundingWholeNotes.rationalise ();
+  
+  fTupletDisplayWholeNotes += // JMI
+    note->getNoteDisplayWholeNotes ();  
+  fTempoTupletDisplayWholeNotes.rationalise ();
+    
+  // populate note's measure number
+  note->setNoteMeasureNumber (
+    fTempoTupletMeasureNumber);
+
+  // populate note's position in measure
+  note->setNotePositionInMeasure (
+    fTempoTupletPositionInMeasure);
+    */
+}
+
+void msrTempoTuplet::addChordToTempoTuplet (S_msrChord chord)
+{
+  if (gTraceOptions->fTraceChords || gTraceOptions->fTraceTempos) {
+    gLogIOstream <<
+      "Adding chord '" <<
+      chord->asString () <<
+      "' to tempoTuplet '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+  fTempoTupletElements.push_back (chord);
+    
+  // account for chord duration
+  fTempoTupletSoundingWholeNotes +=
+    chord->getChordSoundingWholeNotes ();
+  fTempoTupletSoundingWholeNotes.rationalise ();
+
+  fTempoTupletDisplayWholeNotes += // JMI
+    chord->getChordDisplayWholeNotes ();  
+  fTempoTupletDisplayWholeNotes.rationalise ();
+    
+  // populate chord's measure number
+  chord->setChordMeasureNumber (
+    fTempoTupletMeasureNumber);
+
+  // populate chord's position in measure
+  chord->setChordPositionInMeasure (
+    fTempoTupletPositionInMeasure);
+}
+
+void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
+{
+  if (gTraceOptions->fTraceTempos) {
+    gLogIOstream <<
+      "Adding tempoTuplet '" <<
+      tempoTuplet->asString () <<
+      "' to tempoTuplet '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+/* JMI
+  // unapply containing tempoTuplet factor,
+  // i.e 3/2 inside 5/4 becomes 15/8 in MusicXML...
+  tempoTuplet->
+    unapplySoundingFactorToTempoTupletMembers (
+      this->fTempoTupletActualNotes,
+      this->fTempoTupletNormalNotes);
+  */
+  
+  // register tempoTuplet in elements list
+  fTempoTupletElements.push_back (tempoTuplet);
+    
+  // account for tempoTuplet duration
+  fTempoTupletSoundingWholeNotes +=
+    tempoTuplet->getTempoTupletSoundingWholeNotes ();
+  fTempoTupletSoundingWholeNotes.rationalise ();
+
+  fTempoTupletDisplayWholeNotes += // JMI
+    tempoTuplet->getTempoTupletDisplayWholeNotes ();
+  fTempoTupletDisplayWholeNotes.rationalise ();
+    
+    /*
+  fTempoTupletDisplayWholeNotes += // JMI
+    tempoTuplet->getTempoTupletDisplayWholeNotes ();  
+    */
+
+  // don't populate tempoTuplet's measure number nor position in measure,
+  // this will be done in setTupletMeasureNumber()
+  /* JMI
+  tempoTuplet->setTempoTupletMeasureNumber (
+    fTempoTupletMeasureNumber);
+
+  // populate tempoTuplet's position in measure
+  tempoTuplet->setTempoTupletPositionInMeasure (
+    fTempoTupletPositionInMeasure);
+    */
+}
+
+void msrTempoTuplet::addTempoTupletToTempoTupletClone (S_msrTempoTuplet tempoTuplet)
+{
+  if (gTraceOptions->fTraceTempos) {
+    gLogIOstream <<
+      "Adding tempoTuplet '" <<
+      tempoTuplet->asString () <<
+      "' to tempoTuplet '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+  // dont' unapply containing tempoTuplet factor,
+  // this has been done when building the MSR from MusicXML
+  
+  // register tempoTuplet in elements list
+  fTempoTupletElements.push_back (tempoTuplet);
+    
+  // account for tempoTuplet duration
+  fTempoTupletSoundingWholeNotes +=
+    tempoTuplet->getTempoTupletSoundingWholeNotes ();
+  fTempoTupletSoundingWholeNotes.rationalise ();
+
+  fTempoTupletDisplayWholeNotes +=
+    tempoTuplet->getTempoTupletDisplayWholeNotes ();
+  fTempoTupletDisplayWholeNotes.rationalise ();
+}
+
+void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
+  int       inputLineNumber,
+  S_msrNote note)
+{
+  if (gTraceOptions->fTraceTempos) {
+    gLogIOstream <<
+      "Removing first note '" <<
+      note->asShortStringWithRawWholeNotes () <<
+      "' from tempoTuplet '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+
+  if (fTempoTupletElements.size ()) {
+    S_msrElement
+      firstTempoTupletElement =
+        fTempoTupletElements.front ();
+
+    for (
+      list<S_msrElement>::iterator i=fTempoTupletElements.begin ();
+      i!=fTempoTupletElements.end ();
+      ++i) {
+      if ((*i) == note) {
+        // found note, erase it
+        fTempoTupletElements.erase (i);
+        
+        // account for note duration
+        fTempoTupletSoundingWholeNotes -=
+          note->getNoteSoundingWholeNotes ();
+        fTempoTupletSoundingWholeNotes.rationalise ();
+
+        fTempoTupletDisplayWholeNotes -= // JMI
+          note->getNoteDisplayWholeNotes ();  
+        fTempoTupletDisplayWholeNotes.rationalise ();
+
+        // don't update measure number nor position in measure: // JMI
+        // they have not been set yet
+  
+        // return from function
+        return;
+      }
+    } // for
+
+    stringstream s;
+
+    s <<
+      "cannot remove note " <<
+      note <<
+      " from tempoTuplet " << asString () <<
+      "' in voice \"" <<
+      fTempoTupletMeasureUplink->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+      "\"," <<
+      " since it has not been found";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+  
+  else {
+    stringstream s;
+
+    s <<
+      "cannot remove note " <<
+      note <<
+      " from empty tempoTuplet " <<
+      "' in voice \"" <<
+      fTempoTupletMeasureUplink->
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceName () <<
+      "\"," <<
+      " since it has not been found";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void msrTempoTuplet::setTempoTupletMeasureNumber (string measureNumber) // JMI
+{
+  fTempoTupletMeasureNumber = measureNumber;
+
+  // propagate measure number to the tempoTuplets elements
+  for (
+    list<S_msrElement>::const_iterator i = fTempoTupletElements.begin ();
+    i != fTempoTupletElements.end ();
+    i++ ) {
+    // set tempoTuplet element measure number
+
+  //  SMARTP<msrNote>* note = dynamic_cast<SMARTP<msrNote>*>(&(*tempoTupletMember));
+
+  // BON   SMARTP<msrNote> note = dynamic_cast<msrNote*>(&(*tempoTupletMember));
+
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      ) {
+      note->setNoteMeasureNumber (measureNumber);
+    }
+  
+    else if (
+      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      ) {
+      chord->setChordMeasureNumber (measureNumber);
+    }
+    
+    else if (
+      S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
+      ) {
+      tempoTuplet->setTempoTupletMeasureNumber (measureNumber);
+    }
+    
+    else {
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "tempoTuplet member should be a note, a chord or another tempoTuplet");
+    }
+  } // for
+}
+
+rational msrTempoTuplet::setTempoTupletPositionInMeasure (
+  rational positionInMeasure)
+  // returns the position in measure after the tempoTuplet
+{
+  fTempoTupletPositionInMeasure = positionInMeasure;
+
+  rational currentPosition = positionInMeasure;
+  
+  // compute position in measure for the tempoTuplets elements
+  for (
+    list<S_msrElement>::const_iterator i = fTempoTupletElements.begin ();
+    i != fTempoTupletElements.end ();
+    i++ ) {
+    // set tempoTuplet element position in measure
+    
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      ) {    
+      note->
+        setNotePositionInMeasure (currentPosition);
+        
+      currentPosition +=
+        note->
+          getNoteSoundingWholeNotes ();
+    }
+  
+    else if (
+      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      ) {
+      chord->
+        setChordPositionInMeasure (currentPosition);
+        
+      currentPosition +=
+        chord->
+          getChordSoundingWholeNotes ();
+    }
+    
+    else if (
+      S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
+      ) {
+      currentPosition =
+        tempoTuplet->
+          setTempoTupletPositionInMeasure (currentPosition);
+    }
+    
+    else {
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "tempoTuplet member should be a note, a chord or another tempoTuplet");
+    }
+
+  } // for
+
+  return currentPosition;
+}
+
+/* JMI
+void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
+{
+  if (gTraceOptions->fTraceTempos) {
+    gLogIOstream <<
+      "% ==> applyDisplayFactorToTempoTupletMembers()" <<
+      endl;
+
+    gIndenter++;
+    
+    gLogIOstream <<
+      "% fTempoTupletActualNotes = " <<
+      fTempoTupletActualNotes <<
+      ", fTempoTupletNormalNotes = " <<
+      fTempoTupletNormalNotes <<
+      endl <<
+      endl;
+
+    gIndenter--;
+  }
+
+  for (
+    list<S_msrElement>::const_iterator i = fTempoTupletElements.begin ();
+    i != fTempoTupletElements.end ();
+    i++ ) {
+    // apply sounding factor to tempoTuplet element
+    
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      ) {    
+      note->
+        applyTempoTupletMemberSoundingFactorToNote (
+          fTempoTupletActualNotes, fTempoTupletNormalNotes);
+     }
+  
+    else if (
+      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      ) {
+      chord->
+        applyTempoTupletMemberDisplayFactorToChordMembers (
+          fTempoTupletActualNotes, fTempoTupletNormalNotes);
+    }
+    
+    else if (
+      S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
+      ) {
+      // don't apply the sounding factor to nested tempoTuplets
+ // JMI     tempoTuplet->
+       // applyDisplayFactorToTempoTupletMembers ();
+    }
+    
+    else {
+      msrInternalError (
+        fInputLineNumber,
+        "tempoTuplet member should be a note, a chord or another tempoTuplet");
+    }
+
+  } // for
+}
+*/
+
+void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
+  int containingTempoTupletActualNotes,
+  int containingTempoTupletNormalNotes)
+{
+  if (gTraceOptions->fTraceTempos) {
+    gLogIOstream <<
+      "unapplySoundingFactorToTempoTupletMembers()" <<
+      endl;
+
+    gIndenter++;
+    
+    gLogIOstream <<
+      "% fTempoTupletActualNotes = " <<
+      fTempoTupletActualNotes <<
+      ", fTempoTupletNormalNotes = " <<
+      fTempoTupletNormalNotes <<
+      endl <<
+      "% containingTempoTupletActualNotes = " <<
+      containingTempoTupletActualNotes <<
+      ", containingTempoTupletNormalNotes = " <<
+      containingTempoTupletNormalNotes <<
+      endl <<
+      endl;
+
+    gIndenter--;
+  }
+
+  fTempoTupletActualNotes /=
+    containingTempoTupletActualNotes;
+  fTempoTupletNormalNotes /=
+    containingTempoTupletNormalNotes;
+}
+
+void msrTempoTuplet::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrTempoTuplet::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrTempoTuplet>*
+    p =
+      dynamic_cast<visitor<S_msrTempoTuplet>*> (v)) {
+        S_msrTempoTuplet elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrTempoTuplet::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrTempoTuplet::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrTempoTuplet::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrTempoTuplet>*
+    p =
+      dynamic_cast<visitor<S_msrTempoTuplet>*> (v)) {
+        S_msrTempoTuplet elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrTempoTuplet::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrTempoTuplet::browseData (basevisitor* v)
+{
+  for (
+    list<S_msrElement>::const_iterator i = fTempoTupletElements.begin ();
+    i != fTempoTupletElements.end ();
+    i++ ) {
+    // browse tempoTuplet element
+    msrBrowser<msrElement> browser (v);
+    browser.browse (*(*i));
+  } // for
+}
+
+ostream& operator<< (ostream& os, const S_msrTempoTuplet& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrTempoTuplet::asString () const
+{
+  stringstream s;
+
+  s <<
+    "TempoTuplet " <<
+    fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
+    " " << fTempoTupletSoundingWholeNotes << " sound whole notes" <<
+    " @meas "<<
+    fTempoTupletMeasureNumber <<
+    ":";
+
+  if (fTempoTupletPositionInMeasure.getNumerator () < 0)
+    s << "?";
+  else
+    s << fTempoTupletPositionInMeasure;
+  
+  s << "[[";
+
+  if (fTempoTupletElements.size ()) {
+    list<S_msrElement>::const_iterator
+      iBegin = fTempoTupletElements.begin (),
+      iEnd   = fTempoTupletElements.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      
+      if (
+        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+        ) {    
+        s <<
+          note->asShortStringWithRawWholeNotes ();
+      }
+    
+      else if (
+        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+        ) {
+        s <<
+          chord->asString ();
+      }
+      
+      else if (
+        S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
+        ) {
+        s <<
+          tempoTuplet->asString ();
+      }
+      
+      else {
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          "tempoTuplet member should be a note, a chord or another tempoTuplet");
+      }
+  
+      if (++i == iEnd) break;
+      s << " ";
+      
+    } // for
+  }
+
+  s << "]]";
+  
+  return s.str ();
+}
+
+/* JMI
+string msrTempoTuplet::asString () const
+{
+  stringstream s;
+
+  s <<
+    "TempoTuplet " <<
+    fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
+    " " << fTempoTupletSoundingWholeNotes << " sound whole notes" <<
+    " @meas "<<
+    fTempoTupletMeasureNumber <<
+    ":";
+
+  if (fTempoTupletPositionInMeasure.getNumerator () < 0)
+    s << "?";
+  else
+    s << fTempoTupletPositionInMeasure;
+  
+  s << "[[";
+
+  if (fTempoTupletElements.size ()) {
+    list<S_msrElement>::const_iterator
+      iBegin = fTempoTupletElements.begin (),
+      iEnd   = fTempoTupletElements.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      
+      if (
+        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+        ) {    
+        s <<
+          note->asShortStringWithRawWholeNotes ();
+      }
+    
+      else if (
+        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+        ) {
+        s <<
+          chord->asString ();
+      }
+      
+      else if (
+        S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
+        ) {
+        s <<
+          tempoTuplet->asString ();
+      }
+      
+      else {
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          fInputLineNumber,
+          __FILE__, __LINE__,
+          "tempoTuplet member should be a note, a chord or another tempoTuplet");
+      }
+  
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+  s << "]]";
+  
+  return s.str ();
+}
+*/
+
+void msrTempoTuplet::print (ostream& os)
+{
+  os <<
+    "TempoTuplet " <<
+    fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
+    ", " <<
+    singularOrPlural (
+      fTempoTupletElements.size (), "element", "elements") <<
+    ", whole notes: " <<
+    fTempoTupletSoundingWholeNotes << " sound, " <<
+    fTempoTupletDisplayWholeNotes << " disp" <<
+    ", meas "<<
+    fTempoTupletMeasureNumber <<
+    endl;
+
+  gIndenter++;
+  
+  const int fieldWidth = 30;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "TempoTupletBracketKind" << " : " <<
+    tempoTupletBracketKindAsString (
+      fTempoTupletBracketKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "TempoTupletLineShapeKind" << " : " <<
+    tempoTupletLineShapeKindAsString (
+      fTempoTupletLineShapeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "TempoTupletShowNumberKind" << " : " <<
+    tempoTupletShowNumberKindAsString (
+      fTempoTupletShowNumberKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "TempoTupletShowTypeKind" << " : " <<
+    tempoTupletShowTypeKindAsString (
+      fTempoTupletShowTypeKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "MemberNotesSoundingWholeNotes" << " : " <<
+    fMemberNotesSoundingWholeNotes <<
+    endl <<
+    setw (fieldWidth) <<
+    "MemberNotesDisplayWholeNotes" << " : " <<
+    fMemberNotesDisplayWholeNotes <<
+    endl <<
+    endl;
+
+/* JMI ???
+  os << left <<
+    setw (fieldWidth) <<
+    "(position in measure" << " : ";
+  if (fTempoTupletPositionInMeasure.getNumerator () < 0)
+    os << "???)";
+  else
+    os << fTempoTupletPositionInMeasure << ")";
+  os <<
+    endl;
+    */
+
+  gIndenter--;
+
+  if (fTempoTupletElements.size ()) {
+    gIndenter++;
+
+    list<S_msrElement>::const_iterator
+      iBegin = fTempoTupletElements.begin (),
+      iEnd   = fTempoTupletElements.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here
+    } // for
+    
+    gIndenter--;
+    
+  // JMI  os << endl;
+  }
+}
+
+//______________________________________________________________________________
 S_msrTempoRelationshipElements msrTempoRelationshipElements::create (
   int      inputLineNumber,
   msrTempoRelationshipElementsKind
