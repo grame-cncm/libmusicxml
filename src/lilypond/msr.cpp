@@ -14136,7 +14136,16 @@ void msrTempoNote::acceptOut (basevisitor* v)
 }
 
 void msrTempoNote::browseData (basevisitor* v)
-{}
+{
+  for (
+    list<S_msrBeam>::const_iterator i = fTempoNoteBeams.begin ();
+    i != fTempoNoteBeams.end ();
+    i++ ) {
+    // browse tempoTuplet element
+    msrBrowser<msrBeam> browser (v);
+    browser.browse (*(*i));
+  } // for
+}
 
 string msrTempoNote::asString () const
 {
@@ -14175,7 +14184,27 @@ void msrTempoNote::print (ostream& os)
     setw (fieldWidth) <<
     "tempoNoteBelongsToATuplet" << " : " <<
     booleanAsString (fTempoNoteBelongsToATuplet) <<
-    endl;
+    endl <<
+    setw (fieldWidth) <<
+    "tempoNoteBeams";
+    
+    if (fTempoNoteBeams.size ()) {
+      list<S_msrBeam>::const_iterator
+        iBegin = fTempoNoteBeams.begin (),
+        iEnd   = fTempoNoteBeams.end (),
+        i      = iBegin;
+      for ( ; ; ) {
+        os << (*i);
+        if (++i == iEnd) break;
+        os << endl;
+      } // for
+    }
+    else {
+      os <<
+        " : " <<
+       "none" <<
+        endl;
+    }
 
   gIndenter--;
 }
@@ -14998,13 +15027,16 @@ void msrTempoRelationshipElements::print (ostream& os)
 {  
   os <<
     "TempoRelationshipElements" <<
-    ", tempoRelationshipElementsKindAsString : " <<
-    tempoRelationshipElementsKindAsString (
-      fTempoRelationshipElementsKind) <<
     ", line " << fInputLineNumber <<
     endl;
-
+    
   gIndenter++;
+
+  os <<
+    "tempoRelationshipElementsKindAsString : " <<
+    tempoRelationshipElementsKindAsString (
+      fTempoRelationshipElementsKind) <<
+    endl;
 
   const int fieldWidth = 26;
   
@@ -15014,6 +15046,9 @@ void msrTempoRelationshipElements::print (ostream& os)
 
     if (fTempoRelationshipElementsList.size ()) {
       gIndenter++;
+
+      os <<
+        endl;
 
       list<S_msrElement>::const_iterator
         iBegin = fTempoRelationshipElementsList.begin (),
@@ -15033,7 +15068,7 @@ void msrTempoRelationshipElements::print (ostream& os)
       " : " << "none ???" <<
       endl;
   }
-
+  
   gIndenter--;
 }
 

@@ -1137,6 +1137,10 @@ class mxmlTree2MsrTranslator :
 
     bool                      fOnGoingMetronomeNote;
 
+    list<S_msrBeam>           fPendingMetronomeBeams; // stack JMI ???
+    void                      attachCurrentMetronomeBeamsToMetronomeNote (
+                                S_msrTempoNote tempoNote);
+
     bool                      fOnGoingMetronomeTuplet;
     int                       fCurrentMetrenomeNormalDotsNumber;
     int                       fCurrentMetronomeNoteActualNotes;

@@ -3777,7 +3777,42 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
         fCurrentBeamNumber,
         beamKind);
 
-// JMI  fPendingBeams.push_back (beam);
+  fPendingMetronomeBeams.push_back (beam);
+}
+
+void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
+  S_msrTempoNote tempoNote)
+{
+  // attach the current articulations if any to the note
+  if (fCurrentArticulations.size ()) {
+
+    if (gTraceOptions->fTraceNotes) {
+      fLogOutputStream <<
+        "Attaching current articulations to tempoNote " <<
+        tempoNote->asString () <<
+        endl;
+    }
+
+    while (fPendingMetronomeBeams.size ()) {
+      S_msrBeam
+        beam =
+          fPendingMetronomeBeams.front();
+          
+      if (gTraceOptions->fTraceNotes) {
+        fLogOutputStream <<
+          "Attaching beam '" <<
+          beam->asString () <<
+          "' to tempoNote " << tempoNote->asString () <<
+          endl;
+      }
+  
+      tempoNote->
+        addBeamToTempoNote (beam);
+
+      // forget about this articulation
+      fPendingMetronomeBeams.pop_front();
+    } // while
+  }
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
@@ -3848,6 +3883,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
     fCurrentMetronomeRelationRightElements->
       addElementToTempoRelationshipElements (
         tempoNote);
+  }
+
+  // attach beams if any to metronome note
+  if (fPendingMetronomeBeams.size ()) {
+    attachCurrentMetronomeBeamsToMetronomeNote (
+      tempoNote);
   }
   
   fOnGoingMetronomeNote = false;
