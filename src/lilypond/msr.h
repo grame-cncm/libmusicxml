@@ -7809,21 +7809,16 @@ class msrTempoTuplet : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTempoTuplet> create (
-      int                     inputLineNumber,
-      int                     tempoTupletNumber,
+      int                          inputLineNumber,
+      int                          tempoTupletNumber,
       msrTempoTupletBracketKind    tempoTupletBracketKind,
       msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
       msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
-      int                     tempoTupletActualNotes,
-      int                     tempoTupletNormalNotes,
-      rational                memberNotesSoundingWholeNotes,
-      rational                memberNotesDisplayWholeNotes,
-      rational                notePositionInMeasure); // JMI
-
-    SMARTP<msrTempoTuplet> createTempoTupletNewbornClone ();
-
-    SMARTP<msrTempoTuplet> createTempoTupletDeepCopy ();
+      int                          tempoTupletActualNotes,
+      int                          tempoTupletNormalNotes,
+      rational                     memberNotesSoundingWholeNotes,
+      rational                     memberNotesDisplayWholeNotes);
 
   protected:
 
@@ -7831,17 +7826,16 @@ class msrTempoTuplet : public msrElement
     // ------------------------------------------------------
 
     msrTempoTuplet (
-      int                     inputLineNumber,
-      int                     tempoTupletNumber,
+      int                          inputLineNumber,
+      int                          tempoTupletNumber,
       msrTempoTupletBracketKind    tempoTupletBracketKind,
       msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
       msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
-      int                     tempoTupletActualNotes,
-      int                     tempoTupletNormalNotes,
-      rational                memberNotesSoundingWholeNotes,
-      rational                memberNotesDisplayWholeNotes,
-      rational                notePositionInMeasure);
+      int                          tempoTupletActualNotes,
+      int                          tempoTupletNormalNotes,
+      rational                     memberNotesSoundingWholeNotes,
+      rational                     memberNotesDisplayWholeNotes);
       
     virtual ~msrTempoTuplet ();
   
@@ -7886,41 +7880,18 @@ class msrTempoTuplet : public msrElement
                               
     rational              getTempoTupletDisplayWholeNotes () const
                               { return fTempoTupletDisplayWholeNotes; }
-            
-    // measure uplink
-    void                  setTempoTupletMeasureUplink (
-                            const S_msrMeasure& measure)
-                              { fTempoTupletMeasureUplink = measure; }
-                      
-    S_msrMeasure          getTempoTupletMeasureUplink () const
-                              { return fTempoTupletMeasureUplink; }
-
-    // measure number
-    void                  setTempoTupletMeasureNumber (string measureNumber);
-
-    string                   getTempoTupletMeasureNumber () const
-                              { return fTempoTupletMeasureNumber; }
- 
-    // position in measure
-    rational              setTempoTupletPositionInMeasure (
-                            rational position);
-                              // returns the position after the tempoTuplet
-
-    rational              getTempoTupletPositionInMeasure () const
-                              { return fTempoTupletPositionInMeasure; }
-                      
+                                  
     // services
     // ------------------------------------------------------
 
-    void                  addNoteToTempoTuplet (S_msrNote note);
-    void                  addChordToTempoTuplet (S_msrChord chord);
+    void                  addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote);
     void                  addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet);
     
     void                  addTempoTupletToTempoTupletClone (S_msrTempoTuplet tempoTuplet);
     
     void                  removeFirstNoteFromTempoTuplet (
-                            int       inputLineNumber,
-                            S_msrNote note);
+                            int            inputLineNumber,
+                            S_msrTempoNote tempoNote);
 
  // JMI   void                  applyDisplayFactorToTempoTupletMembers ();
     
@@ -7948,12 +7919,10 @@ class msrTempoTuplet : public msrElement
     // fields
     // ------------------------------------------------------
 
-    // uplink
-    S_msrMeasure          fTempoTupletMeasureUplink;
-    
     int                   fTempoTupletNumber;
     
-    msrTempoTupletBracketKind  fTempoTupletBracketKind;
+    msrTempoTupletBracketKind
+                          fTempoTupletBracketKind;
               
     msrTempoTupletLineShapeKind
                           fTempoTupletLineShapeKind;
@@ -7961,7 +7930,8 @@ class msrTempoTuplet : public msrElement
     msrTempoTupletShowNumberKind
                           fTempoTupletShowNumberKind;
               
-    msrTempoTupletShowTypeKind fTempoTupletShowTypeKind;
+    msrTempoTupletShowTypeKind
+                          fTempoTupletShowTypeKind;
               
     int                   fTempoTupletActualNotes;
     int                   fTempoTupletNormalNotes;
@@ -7972,9 +7942,6 @@ class msrTempoTuplet : public msrElement
     rational              fTempoTupletSoundingWholeNotes;
     rational              fTempoTupletDisplayWholeNotes;
 
-    string                fTempoTupletMeasureNumber;
-    rational              fTempoTupletPositionInMeasure;
-    
     list<S_msrElement>    fTempoTupletElements;
 };
 typedef SMARTP<msrTempoTuplet> S_msrTempoTuplet;
