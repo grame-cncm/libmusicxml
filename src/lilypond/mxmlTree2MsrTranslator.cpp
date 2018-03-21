@@ -4186,7 +4186,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
       break;
       
     case msrTempoTuplet::kTempoTupletTypeStop:
-      fCurrentMetronomeTuplet = nullptr;
+      // don't set fCurrentMetronomeTuplet to nullptr here,
+      // it will be needed for the current metronome note a bit later
       break;
   } // switch
 
