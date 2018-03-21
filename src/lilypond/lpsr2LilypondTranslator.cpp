@@ -6582,8 +6582,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTempoTuplet& elt)
   }
 
   fLilypondCodeIOstream <<
-    " }" <<
-    endl;
+    "}";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTempo& elt)
