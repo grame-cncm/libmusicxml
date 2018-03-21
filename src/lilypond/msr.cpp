@@ -14268,6 +14268,14 @@ msrTempoTuplet::msrTempoTuplet (
   fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
   
   fTempoTupletDisplayWholeNotes  = rational (0, 1);
+
+  if (gTraceOptions->fTraceTempos){
+    gLogIOstream <<
+      "Creating tempo tuplet '" <<
+      this->asString () <<
+      "'" <<
+      endl;
+  }
 }
 
 msrTempoTuplet::~msrTempoTuplet ()
@@ -14284,9 +14292,6 @@ string msrTempoTuplet::tempoTupletTypeKindAsString (
       break;
     case msrTempoTuplet::kTempoTupletTypeStart:
       result = "start";
-      break;
-    case msrTempoTuplet::kTempoTupletTypeContinue:
-      result = "continue";
       break;
     case msrTempoTuplet::kTempoTupletTypeStop:
       result = "stop";
@@ -14754,8 +14759,9 @@ void msrTempoTuplet::print (ostream& os)
     endl;
     */
 
-  gIndenter--;
-
+  os <<
+    "TempoTupletsElements";
+    
   if (fTempoTupletElements.size ()) {
     gIndenter++;
 
@@ -14770,9 +14776,14 @@ void msrTempoTuplet::print (ostream& os)
     } // for
     
     gIndenter--;
-    
-  // JMI  os << endl;
+    }
+  else {
+    os << left <<
+      " : " << "none" <<
+      endl;
   }
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -14805,6 +14816,14 @@ msrTempoRelationshipElements::~msrTempoRelationshipElements ()
 void msrTempoRelationshipElements::addElementToTempoRelationshipElements (
   S_msrElement element)
 {
+  if (gTraceOptions->fTraceTempos){
+    gLogIOstream <<
+      "Adding element '" <<
+      element->asString () <<
+      "' to tempo relationship" <<
+      endl;
+  }
+  
   fTempoRelationshipElementsList.push_back (element);
 }
 

@@ -4049,8 +4049,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
     
     if      (tupletType == "start")
       fCurrentTempoTupletTypeKind = msrTempoTuplet::kTempoTupletTypeStart;
-    else if (tupletType == "continue")
-      fCurrentTempoTupletTypeKind = msrTempoTuplet::kTempoTupletTypeContinue;
     else if (tupletType == "stop")
       fCurrentTempoTupletTypeKind = msrTempoTuplet::kTempoTupletTypeStop;
     else {
@@ -4138,48 +4136,59 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  // create metronome tuplet
-  fCurrentMetronomeTuplet =
-    msrTempoTuplet::create (
-      elt->getInputLineNumber (),
-      fCurrentTempoTupletNumber,
-      fCurrentTempoTupletBracketKind,
-      fCurrentTempoTupletShowNumberKind,
-      fCurrentMetronomeNoteActualNotes,
-      fCurrentMetronomeNoteNormalNotes,
-      fCurrentMetronomeNoteWholeNotesFromMetronomeType);
-
-  // register the metronome tuplet 
-  if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
-    // this metronome tuplet belongs to the left elements list
-
-    if (! fCurrentMetronomeRelationLeftElements) {
-      // create the relation left elements
-      fCurrentMetronomeRelationLeftElements =
-        msrTempoRelationshipElements::create (
-          inputLineNumber,
-          msrTempoRelationshipElements::kTempoRelationshipElementsLeft);
-    }
+  switch (fCurrentTempoTupletTypeKind) {
+    case msrTempoTuplet::k_NoTempoTupletType:
+      break;
+      
+    case msrTempoTuplet::kTempoTupletTypeStart:
+      // create metronome tuplet
+      fCurrentMetronomeTuplet =
+        msrTempoTuplet::create (
+          elt->getInputLineNumber (),
+          fCurrentTempoTupletNumber,
+          fCurrentTempoTupletBracketKind,
+          fCurrentTempoTupletShowNumberKind,
+          fCurrentMetronomeNoteActualNotes,
+          fCurrentMetronomeNoteNormalNotes,
+          fCurrentMetronomeNoteWholeNotesFromMetronomeType);
     
-    fCurrentMetronomeRelationLeftElements->
-      addElementToTempoRelationshipElements (
-        fCurrentMetronomeTuplet);
-  }
-  else {
-    // this metronome tuplet belongs to the right elements list
-
-    if (! fCurrentMetronomeRelationRightElements) {
-      // create the relation right elements
-      fCurrentMetronomeRelationRightElements =
-        msrTempoRelationshipElements::create (
-          inputLineNumber,
-          msrTempoRelationshipElements::kTempoRelationshipElementsRight);
-    }
+      // register the metronome tuplet 
+      if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
+        // this metronome tuplet belongs to the left elements list
     
-    fCurrentMetronomeRelationRightElements->
-      addElementToTempoRelationshipElements (
-        fCurrentMetronomeTuplet);
-  }
+        if (! fCurrentMetronomeRelationLeftElements) {
+          // create the relation left elements
+          fCurrentMetronomeRelationLeftElements =
+            msrTempoRelationshipElements::create (
+              inputLineNumber,
+              msrTempoRelationshipElements::kTempoRelationshipElementsLeft);
+        }
+        
+        fCurrentMetronomeRelationLeftElements->
+          addElementToTempoRelationshipElements (
+            fCurrentMetronomeTuplet);
+      }
+      else {
+        // this metronome tuplet belongs to the right elements list
+    
+        if (! fCurrentMetronomeRelationRightElements) {
+          // create the relation right elements
+          fCurrentMetronomeRelationRightElements =
+            msrTempoRelationshipElements::create (
+              inputLineNumber,
+              msrTempoRelationshipElements::kTempoRelationshipElementsRight);
+        }
+        
+        fCurrentMetronomeRelationRightElements->
+          addElementToTempoRelationshipElements (
+            fCurrentMetronomeTuplet);
+      }
+      break;
+      
+    case msrTempoTuplet::kTempoTupletTypeStop:
+      fCurrentMetronomeTuplet = nullptr;
+      break;
+  } // switch
 
   fOnGoingMetronomeTuplet = false;
 }

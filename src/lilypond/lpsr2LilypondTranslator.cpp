@@ -6341,13 +6341,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     tempoParenthesizedKind =
       elt->getTempoParenthesizedKind ();
       
+  fLilypondCodeIOstream <<
+    endl;
+
   switch (elt->getTempoKind ()) {
     case msrTempo::k_NoTempoKind:
       break;
 
     case msrTempo::kTempoBeatUnitsPerMinute:
       fLilypondCodeIOstream <<
-        endl <<
         "\\tempo";
     
       if (tempoWords) {
@@ -6382,11 +6384,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         case msrTempo::kTempoParenthesizedNo:
           break;
       } // switch
-      break;
+      
+      fLilypondCodeIOstream <<
+        endl;
+     break;
 
     case msrTempo::kTempoBeatUnitsEquivalence:
       fLilypondCodeIOstream <<
-        endl <<
         "\\tempo";
     
       if (tempoWords) {
@@ -6505,9 +6509,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         
       break;
   } // switch
-
-  fLilypondCodeIOstream <<
-    endl;
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrTempoRelationshipElements& elt)

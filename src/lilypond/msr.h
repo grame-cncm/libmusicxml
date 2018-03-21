@@ -7776,7 +7776,7 @@ class msrTempoTuplet : public msrElement
 
     enum msrTempoTupletTypeKind {
       k_NoTempoTupletType,
-      kTempoTupletTypeStart, kTempoTupletTypeContinue, kTempoTupletTypeStop };
+      kTempoTupletTypeStart, kTempoTupletTypeStop };
 
     static string tempoTupletTypeKindAsString (
       msrTempoTupletTypeKind tempoTupletTypeKind);
