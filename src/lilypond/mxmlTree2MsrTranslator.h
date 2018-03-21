@@ -1141,11 +1141,22 @@ class mxmlTree2MsrTranslator :
     void                      attachCurrentMetronomeBeamsToMetronomeNote (
                                 S_msrTempoNote tempoNote);
 
-    bool                      fOnGoingMetronomeTuplet;
+    msrTempoTuplet::msrTempoTupletTypeKind
+                              fCurrentTempoTupletTypeKind;
+    msrTempoTuplet::msrTempoTupletBracketKind
+                              fCurrentTempoTupletBracketKind;
+    msrTempoTuplet::msrTempoTupletShowNumberKind
+                              fCurrentTempoTupletShowNumberKind;
+    
     int                       fCurrentMetrenomeNormalDotsNumber;
     int                       fCurrentMetronomeNoteActualNotes;
     int                       fCurrentMetronomeNoteNormalNotes;
     string                    fCurrentMetronomeNoteNormalType;
+
+    rational                  fCurrentMetronomeNoteWholeNotesFromMetronomeType;
+    
+    S_msrTempoTuplet          fCurrentMetronomeTuplet;
+    bool                      fOnGoingMetronomeTuplet;
 
     S_msrTempoRelationshipElements
                               fCurrentMetronomeRelationLeftElements;
@@ -1634,14 +1645,15 @@ class mxmlTree2MsrTranslator :
 
     msrTuplet::msrTupletTypeKind
                               fCurrentTupletTypeKind;
-    msrTuplet::msrTupletBracketKind
-                              fCurrentTupletBracketKind;
     msrTuplet::msrTupletLineShapeKind
                               fCurrentTupletLineShapeKind;
+    msrTuplet::msrTupletBracketKind
+                              fCurrentTupletBracketKind;
     msrTuplet::msrTupletShowNumberKind
-                              fTupletShowNumberKind;
+                              fCurrentTupletShowNumberKind;
     msrTuplet::msrTupletShowTypeKind
-                              fTupletShowTypeKind;
+                              fCurrentTupletShowTypeKind;
+    int                       fCurrentTempoTupletNumber;
     
     stack<S_msrTuplet>        fTupletsStack;
 

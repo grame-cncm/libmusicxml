@@ -14214,12 +14214,9 @@ S_msrTempoTuplet msrTempoTuplet::create (
   int                          inputLineNumber,
   int                          tempoTupletNumber,
   msrTempoTupletBracketKind    tempoTupletBracketKind,
-  msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
   msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
-  msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
   int                          tempoTupletActualNotes,
   int                          tempoTupletNormalNotes,
-  rational                     memberNotesSoundingWholeNotes,
   rational                     memberNotesDisplayWholeNotes)
 {
   msrTempoTuplet* o =
@@ -14227,12 +14224,9 @@ S_msrTempoTuplet msrTempoTuplet::create (
       inputLineNumber,
       tempoTupletNumber,
       tempoTupletBracketKind,
-      tempoTupletLineShapeKind,
       tempoTupletShowNumberKind,
-      tempoTupletShowTypeKind,
       tempoTupletActualNotes,
       tempoTupletNormalNotes,
-      memberNotesSoundingWholeNotes,
       memberNotesDisplayWholeNotes);
   assert(o!=0);
   return o;
@@ -14242,29 +14236,22 @@ msrTempoTuplet::msrTempoTuplet (
   int                          inputLineNumber,
   int                          tempoTupletNumber,
   msrTempoTupletBracketKind    tempoTupletBracketKind,
-  msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
   msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
-  msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
   int                          tempoTupletActualNotes,
   int                          tempoTupletNormalNotes,
-  rational                     memberNotesSoundingWholeNotes,
   rational                     memberNotesDisplayWholeNotes)
     : msrElement (inputLineNumber)
 {  
   fTempoTupletNumber = tempoTupletNumber;
   
   fTempoTupletBracketKind    = tempoTupletBracketKind;
-  fTempoTupletLineShapeKind  = tempoTupletLineShapeKind;
   fTempoTupletShowNumberKind = tempoTupletShowNumberKind;
-  fTempoTupletShowTypeKind   = tempoTupletShowTypeKind;
 
   fTempoTupletActualNotes = tempoTupletActualNotes;
   fTempoTupletNormalNotes = tempoTupletNormalNotes;
 
-  fMemberNotesSoundingWholeNotes = memberNotesSoundingWholeNotes;
   fMemberNotesDisplayWholeNotes  = memberNotesDisplayWholeNotes;
   
-  fTempoTupletSoundingWholeNotes = rational (0, 1);
   fTempoTupletDisplayWholeNotes  = rational (0, 1);
 }
 
@@ -14311,23 +14298,6 @@ string msrTempoTuplet::tempoTupletBracketKindAsString (
   return result;
 }
 
-string msrTempoTuplet::tempoTupletLineShapeKindAsString (
-  msrTempoTupletLineShapeKind tempoTupletLineShapeKind)
-{
-  string result;
-
-  switch (tempoTupletLineShapeKind) {
-    case msrTempoTuplet::kTempoTupletLineShapeStraight:
-      result = "tempoTupletLineShapeStraight";
-      break;
-    case msrTempoTuplet::kTempoTupletLineShapeCurved:
-      result = "tempoTupletLineShapeCurved";
-      break;
-  } // switch
-
-  return result;
-}
-
 string msrTempoTuplet::tempoTupletShowNumberKindAsString (
   msrTempoTupletShowNumberKind tempoTupletShowNumberKind)
 {
@@ -14348,26 +14318,6 @@ string msrTempoTuplet::tempoTupletShowNumberKindAsString (
   return result;
 }
 
-string msrTempoTuplet::tempoTupletShowTypeKindAsString (
-  msrTempoTupletShowTypeKind tempoTupletShowTypeKind)
-{
-  string result;
-  
-  switch (tempoTupletShowTypeKind) {
-    case msrTempoTuplet::kTempoTupletShowTypeActual:
-      result = "tempoTupletShowTypeActual";
-      break;
-    case msrTempoTuplet::kTempoTupletShowTypeBoth:
-      result = "tempoTupletShowTypeBoth";
-      break;
-    case msrTempoTuplet::kTempoTupletShowTypeNone:
-      result = "tempoTupletShowTypeNone";
-      break;
-  } // switch
-
-  return result;
-}
-      
 void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
 {
   if (gTraceOptions->fTraceTempos) {
@@ -14387,26 +14337,15 @@ void msrTempoTuplet::addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote)
   // register note's tempoTuplet uplink
   note->
     setNoteTempoTupletUplink (this);
-
-  // account for note duration
-  fTempoTupletSoundingWholeNotes +=
-    note->getNoteSoundingWholeNotes ();
-  fTempoTupletSoundingWholeNotes.rationalise ();
   
   fTupletDisplayWholeNotes += // JMI
     note->getNoteDisplayWholeNotes ();  
   fTempoTupletDisplayWholeNotes.rationalise ();
     
-  // populate note's measure number
-  note->setNoteMeasureNumber (
-    fTempoTupletMeasureNumber);
-
-  // populate note's position in measure
-  note->setNotePositionInMeasure (
-    fTempoTupletPositionInMeasure);
     */
 }
 
+/*
 void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
 {
   if (gTraceOptions->fTraceTempos) {
@@ -14419,42 +14358,29 @@ void msrTempoTuplet::addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet)
       endl;
   }
 
-/* JMI
-  // unapply containing tempoTuplet factor,
-  // i.e 3/2 inside 5/4 becomes 15/8 in MusicXML...
-  tempoTuplet->
-    unapplySoundingFactorToTempoTupletMembers (
-      this->fTempoTupletActualNotes,
-      this->fTempoTupletNormalNotes);
-  */
-  
   // register tempoTuplet in elements list
   fTempoTupletElements.push_back (tempoTuplet);
     
   // account for tempoTuplet duration
-  fTempoTupletSoundingWholeNotes +=
-    tempoTuplet->getTempoTupletSoundingWholeNotes ();
-  fTempoTupletSoundingWholeNotes.rationalise ();
-
   fTempoTupletDisplayWholeNotes += // JMI
     tempoTuplet->getTempoTupletDisplayWholeNotes ();
   fTempoTupletDisplayWholeNotes.rationalise ();
     
-    /*
+    / *
   fTempoTupletDisplayWholeNotes += // JMI
     tempoTuplet->getTempoTupletDisplayWholeNotes ();  
-    */
+    * /
 
   // don't populate tempoTuplet's measure number nor position in measure,
   // this will be done in setTupletMeasureNumber()
-  /* JMI
+  / * JMI
   tempoTuplet->setTempoTupletMeasureNumber (
     fTempoTupletMeasureNumber);
 
   // populate tempoTuplet's position in measure
   tempoTuplet->setTempoTupletPositionInMeasure (
     fTempoTupletPositionInMeasure);
-    */
+    * /
 }
 
 void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
@@ -14485,10 +14411,6 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
         fTempoTupletElements.erase (i);
         
         // account for note duration
-        fTempoTupletSoundingWholeNotes -=
-          tempoNote->getTempoNoteWholeNotes ();
-        fTempoTupletSoundingWholeNotes.rationalise ();
-
         fTempoTupletDisplayWholeNotes -= // JMI
           tempoNote->getTempoNoteWholeNotes ();  
         fTempoTupletDisplayWholeNotes.rationalise ();
@@ -14532,6 +14454,7 @@ void msrTempoTuplet::removeFirstNoteFromTempoTuplet (
       s.str ());
   }
 }
+*/
 
 /* JMI
 void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
@@ -14553,46 +14476,7 @@ void msrTempoTuplet::applyDisplayFactorToTempoTupletMembers ()
 
     gIndenter--;
   }
-
-  for (
-    list<S_msrElement>::const_iterator i = fTempoTupletElements.begin ();
-    i != fTempoTupletElements.end ();
-    i++ ) {
-    // apply sounding factor to tempoTuplet element
-    
-    if (
-      S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(**i))
-      ) {    
-      note->
-        applyTempoTupletMemberSoundingFactorToNote (
-          fTempoTupletActualNotes, fTempoTupletNormalNotes);
-     }
-  
-    else if (
-      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
-      ) {
-      chord->
-        applyTempoTupletMemberDisplayFactorToChordMembers (
-          fTempoTupletActualNotes, fTempoTupletNormalNotes);
-    }
-    
-    else if (
-      S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
-      ) {
-      // don't apply the sounding factor to nested tempoTuplets
- // JMI     tempoTuplet->
-       // applyDisplayFactorToTempoTupletMembers ();
-    }
-    
-    else {
-      msrInternalError (
-        fInputLineNumber,
-        "tempoTuplet member should be a note, a chord or another tempoTuplet");
-    }
-
-  } // for
 }
-*/
 
 void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
   int containingTempoTupletActualNotes,
@@ -14626,6 +14510,7 @@ void msrTempoTuplet::unapplySoundingFactorToTempoTupletMembers (
   fTempoTupletNormalNotes /=
     containingTempoTupletNormalNotes;
 }
+*/
 
 void msrTempoTuplet::acceptIn (basevisitor* v)
 {
@@ -14696,7 +14581,7 @@ string msrTempoTuplet::asString () const
   s <<
     "TempoTuplet " <<
     fTempoTupletActualNotes << "/" << fTempoTupletNormalNotes <<
-    " " << fTempoTupletSoundingWholeNotes << " sound whole notes" <<
+    " " << fTempoTupletDisplayWholeNotes << " display whole notes" <<
     ":";
   
   s << "[[";
@@ -14823,9 +14708,8 @@ void msrTempoTuplet::print (ostream& os)
     ", " <<
     singularOrPlural (
       fTempoTupletElements.size (), "element", "elements") <<
-    ", whole notes: " <<
-    fTempoTupletSoundingWholeNotes << " sound, " <<
-    fTempoTupletDisplayWholeNotes << " disp" <<
+    ", display whole notes: " <<
+    fTempoTupletDisplayWholeNotes <<
     endl;
 
   gIndenter++;
@@ -14839,23 +14723,9 @@ void msrTempoTuplet::print (ostream& os)
       fTempoTupletBracketKind) <<
     endl <<
     setw (fieldWidth) <<
-    "TempoTupletLineShapeKind" << " : " <<
-    tempoTupletLineShapeKindAsString (
-      fTempoTupletLineShapeKind) <<
-    endl <<
-    setw (fieldWidth) <<
     "TempoTupletShowNumberKind" << " : " <<
     tempoTupletShowNumberKindAsString (
       fTempoTupletShowNumberKind) <<
-    endl <<
-    setw (fieldWidth) <<
-    "TempoTupletShowTypeKind" << " : " <<
-    tempoTupletShowTypeKindAsString (
-      fTempoTupletShowTypeKind) <<
-    endl <<
-    setw (fieldWidth) <<
-    "MemberNotesSoundingWholeNotes" << " : " <<
-    fMemberNotesSoundingWholeNotes <<
     endl <<
     setw (fieldWidth) <<
     "MemberNotesDisplayWholeNotes" << " : " <<

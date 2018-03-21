@@ -3487,22 +3487,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
       endl;
   }
 
-  fCurrentMetronomeBeatUnitsVector.clear();
-  
-  fCurrentMetrenomePerMinute = "";
-  fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
-
-  fCurrentMetrenomeDotsNumber = 0;
-  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
-  fCurrentMetronomeDurationKind = k_NoDuration;
-  fCurrentMetronomeBeamValue = "";
-
-  fOnGoingMetronomeTuplet = false;
-  fCurrentMetrenomeNormalDotsNumber = 0;
-
-  fCurrentMetronomeRelationLeftElements  = nullptr;
-  fCurrentMetronomeRelationRightElements = nullptr;
-
   string parentheses = elt->getAttributeValue ("parentheses");
   
   if (parentheses.size ()) {    
@@ -3524,6 +3508,24 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
         s.str ());
     }
   }
+
+  fCurrentMetronomeBeatUnitsVector.clear();
+  
+  fCurrentMetrenomePerMinute = "";
+  fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
+
+  fCurrentMetrenomeDotsNumber = 0;
+  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
+  fCurrentMetronomeDurationKind = k_NoDuration;
+  fCurrentMetronomeBeamValue = "";
+
+  fOnGoingMetronomeTuplet = false;
+  fCurrentMetrenomeNormalDotsNumber = 0;
+
+  fCurrentMetronomeRelationLeftElements  = nullptr;
+  fCurrentMetronomeRelationRightElements = nullptr;
+
+  fCurrentMetronomeTuplet = nullptr;
 }
   
 void mxmlTree2MsrTranslator::visitStart ( S_beat_unit& elt )
@@ -3827,19 +3829,18 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
     elt->getInputLineNumber ();
     
   // convert metronome note duration into whole notes
-  rational
-    metronomeNoteWholeNotesFromMetronomeType =
-      msrDurationKindAsWholeNotes (
-        fCurrentMetronomeDurationKind);
+  fCurrentMetronomeNoteWholeNotesFromMetronomeType =
+    msrDurationKindAsWholeNotes (
+      fCurrentMetronomeDurationKind);
 
   // take metronome dots into account if any
   if (fCurrentNoteDotsNumber > 0) {
     int dots = fCurrentMetrenomeDotsNumber;
 
     while (dots > 0) {
-      metronomeNoteWholeNotesFromMetronomeType *=
+      fCurrentMetronomeNoteWholeNotesFromMetronomeType *=
         rational (3, 2);
-      metronomeNoteWholeNotesFromMetronomeType.rationalise ();
+      fCurrentMetronomeNoteWholeNotesFromMetronomeType.rationalise ();
 
       dots--;
     } // while
@@ -3850,47 +3851,58 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
     tempoNote =
       msrTempoNote::create (
         inputLineNumber,
-        metronomeNoteWholeNotesFromMetronomeType,
+        fCurrentMetronomeNoteWholeNotesFromMetronomeType,
         false /* tempoNoteBelongsToATuplet JMI */);
-
-  // register metronome note
-  if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
-    // this metronome note belongs to the left elements list
-
-    if (! fCurrentMetronomeRelationLeftElements) {
-      // create the relation left elements
-      fCurrentMetronomeRelationLeftElements =
-        msrTempoRelationshipElements::create (
-          inputLineNumber,
-          msrTempoRelationshipElements::kTempoRelationshipElementsLeft);
-    }
-    
-    fCurrentMetronomeRelationLeftElements->
-      addElementToTempoRelationshipElements (
-        tempoNote);
-  }
-  else {
-    // this metronome note belongs to the right elements list
-
-    if (! fCurrentMetronomeRelationRightElements) {
-      // create the relation right elements
-      fCurrentMetronomeRelationRightElements =
-        msrTempoRelationshipElements::create (
-          inputLineNumber,
-          msrTempoRelationshipElements::kTempoRelationshipElementsRight);
-    }
-    
-    fCurrentMetronomeRelationRightElements->
-      addElementToTempoRelationshipElements (
-        tempoNote);
-  }
-
+  
   // attach beams if any to metronome note
   if (fPendingMetronomeBeams.size ()) {
     attachCurrentMetronomeBeamsToMetronomeNote (
       tempoNote);
   }
   
+  if (fCurrentMetronomeTuplet) {
+    // register metronome note as metronome tuplet member
+    
+    fCurrentMetronomeTuplet->
+      addTempoNoteToTempoTuplet (
+        tempoNote);
+  }
+
+  else {
+    // register stand-alone metronome note
+    
+    if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
+      // this metronome note belongs to the left elements list
+  
+      if (! fCurrentMetronomeRelationLeftElements) {
+        // create the relation left elements
+        fCurrentMetronomeRelationLeftElements =
+          msrTempoRelationshipElements::create (
+            inputLineNumber,
+            msrTempoRelationshipElements::kTempoRelationshipElementsLeft);
+      }
+      
+      fCurrentMetronomeRelationLeftElements->
+        addElementToTempoRelationshipElements (
+          tempoNote);
+    }
+    else {
+      // this metronome note belongs to the right elements list
+  
+      if (! fCurrentMetronomeRelationRightElements) {
+        // create the relation right elements
+        fCurrentMetronomeRelationRightElements =
+          msrTempoRelationshipElements::create (
+            inputLineNumber,
+            msrTempoRelationshipElements::kTempoRelationshipElementsRight);
+      }
+      
+      fCurrentMetronomeRelationRightElements->
+        addElementToTempoRelationshipElements (
+          tempoNote);
+    }
+  }
+
   fOnGoingMetronomeNote = false;
 }
 
@@ -3931,28 +3943,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
       endl;
   }
 
-  fOnGoingMetronomeTuplet = true;
-}
-
-void mxmlTree2MsrTranslator::visitStart ( S_normal_dot& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_normal_dot" <<
-      endl;
-  }
-
-  fCurrentMetrenomeNormalDotsNumber++;
-}
-
-void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> End visiting S_metronome_tuplet" <<
-      endl;
-  }
-
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+    
 /*
       <note>
         <pitch>
@@ -3988,7 +3981,204 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
               </metronome-tuplet>
             </metronome-note>
 
+
+<!ELEMENT metronome-tuplet
+  (actual-notes, normal-notes, 
+   (normal-type, normal-dot*)?)>
+<!ATTLIST metronome-tuplet
+    type %start-stop; #REQUIRED
+    bracket %yes-no; #IMPLIED
+    show-number (actual | both | none) #IMPLIED
+>
 */
+
+  // number
+
+  fCurrentTupletNumber = elt->getAttributeIntValue ("number", 0);
+
+  // bracket
+
+  {
+    string tupletBracket = elt->getAttributeValue ("bracket");
+      
+    fCurrentTempoTupletBracketKind = msrTempoTuplet::kTempoTupletBracketYes; // option ??? JMI
+    
+    if      (tupletBracket == "yes")
+      fCurrentTempoTupletBracketKind = msrTempoTuplet::kTempoTupletBracketYes;
+    else if (tupletBracket == "no")
+      fCurrentTempoTupletBracketKind = msrTempoTuplet::kTempoTupletBracketNo;
+    else {
+      if (tupletBracket.size ()) {
+        stringstream s;
+        
+        s <<
+          "tuplet bracket \"" << tupletBracket <<
+          "\" is unknown";
+        
+        msrMusicXMLError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+      else {
+        if (gTraceOptions->fTraceTuplets) {
+          stringstream s;
+          
+          s <<
+            "tuplet bracket is empty: this is implementation dependent," <<
+            " \"yes\" is assumed"; // option ??? JMI
+          
+          msrMusicXMLWarning (
+            gXml2lyOptions->fInputSourceName,
+            inputLineNumber,
+            s.str ());
+        }
+      }
+    }
+  }
+
+  // type
+
+  {
+    string tupletType = elt->getAttributeValue ("type");
+      
+    fCurrentTempoTupletTypeKind = msrTempoTuplet::k_NoTempoTupletType;
+    
+    if      (tupletType == "start")
+      fCurrentTempoTupletTypeKind = msrTempoTuplet::kTempoTupletTypeStart;
+    else if (tupletType == "continue")
+      fCurrentTempoTupletTypeKind = msrTempoTuplet::kTempoTupletTypeContinue;
+    else if (tupletType == "stop")
+      fCurrentTempoTupletTypeKind = msrTempoTuplet::kTempoTupletTypeStop;
+    else {
+      stringstream s;
+      
+      s <<
+        "tuplet type \"" << tupletType <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  // show-number
+
+  {
+    string tupletShowNumber = elt->getAttributeValue ("show-number");
+  
+    fCurrentTempoTupletShowNumberKind =
+      msrTempoTuplet::kTempoTupletShowNumberActual; // default value
+    
+    if      (tupletShowNumber == "actual") {
+      fCurrentTempoTupletShowNumberKind = msrTempoTuplet::kTempoTupletShowNumberActual;
+    }
+    else if (tupletShowNumber == "both") {
+      fCurrentTempoTupletShowNumberKind = msrTempoTuplet::kTempoTupletShowNumberBoth;
+    }
+    else if (tupletShowNumber == "none") {
+      fCurrentTempoTupletShowNumberKind = msrTempoTuplet::kTempoTupletShowNumberNone;
+    }
+    else {
+      if (tupletShowNumber.size ()) {
+        msrMusicXMLError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          "tuplet show-number \"" + tupletShowNumber + "\" is unknown");
+      }
+    }
+  }
+  
+  if (
+    gTraceOptions->fTraceNotesDetails
+      ||
+    gTraceOptions->fTraceTuplets) {
+    fLogOutputStream <<
+      "fCurrentTempoTupletTypeKind: " <<
+      msrTempoTuplet::tempoTupletTypeKindAsString (
+        fCurrentTempoTupletTypeKind) <<
+      "fCurrentTempoTupletBracketKind: " <<
+      msrTempoTuplet::tempoTupletBracketKindAsString (
+        fCurrentTempoTupletBracketKind) <<
+      "fCurrentTempoTupletShowNumberKind: " <<
+      msrTempoTuplet::tempoTupletShowNumberKindAsString (
+        fCurrentTempoTupletShowNumberKind) <<
+      endl;
+  }
+
+  fOnGoingMetronomeTuplet = true;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_normal_dot& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_normal_dot" <<
+      endl;
+  }
+
+  fCurrentMetrenomeNormalDotsNumber++;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_metronome_tuplet" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+  // create metronome tuplet
+  fCurrentMetronomeTuplet =
+    msrTempoTuplet::create (
+      elt->getInputLineNumber (),
+      fCurrentTempoTupletNumber,
+      fCurrentTempoTupletBracketKind,
+      fCurrentTempoTupletShowNumberKind,
+      fCurrentMetronomeNoteActualNotes,
+      fCurrentMetronomeNoteNormalNotes,
+      fCurrentMetronomeNoteWholeNotesFromMetronomeType);
+
+  // register the metronome tuplet 
+  if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
+    // this metronome tuplet belongs to the left elements list
+
+    if (! fCurrentMetronomeRelationLeftElements) {
+      // create the relation left elements
+      fCurrentMetronomeRelationLeftElements =
+        msrTempoRelationshipElements::create (
+          inputLineNumber,
+          msrTempoRelationshipElements::kTempoRelationshipElementsLeft);
+    }
+    
+    fCurrentMetronomeRelationLeftElements->
+      addElementToTempoRelationshipElements (
+        fCurrentMetronomeTuplet);
+  }
+  else {
+    // this metronome tuplet belongs to the right elements list
+
+    if (! fCurrentMetronomeRelationRightElements) {
+      // create the relation right elements
+      fCurrentMetronomeRelationRightElements =
+        msrTempoRelationshipElements::create (
+          inputLineNumber,
+          msrTempoRelationshipElements::kTempoRelationshipElementsRight);
+    }
+    
+    fCurrentMetronomeRelationRightElements->
+      addElementToTempoRelationshipElements (
+        fCurrentMetronomeTuplet);
+  }
+
   fOnGoingMetronomeTuplet = false;
 }
 
@@ -13152,17 +13342,17 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   {
     string tupletShowNumber = elt->getAttributeValue ("show-number");
   
-    fTupletShowNumberKind =
+    fCurrentTupletShowNumberKind =
       msrTuplet::kTupletShowNumberActual; // default value
     
     if      (tupletShowNumber == "actual") {
-      fTupletShowNumberKind = msrTuplet::kTupletShowNumberActual;
+      fCurrentTupletShowNumberKind = msrTuplet::kTupletShowNumberActual;
     }
     else if (tupletShowNumber == "both") {
-      fTupletShowNumberKind = msrTuplet::kTupletShowNumberBoth;
+      fCurrentTupletShowNumberKind = msrTuplet::kTupletShowNumberBoth;
     }
     else if (tupletShowNumber == "none") {
-      fTupletShowNumberKind = msrTuplet::kTupletShowNumberNone;
+      fCurrentTupletShowNumberKind = msrTuplet::kTupletShowNumberNone;
     }
     else {
       if (tupletShowNumber.size ()) {
@@ -13180,16 +13370,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
   {
     string tupletShowType = elt->getAttributeValue ("show-type");
   
-    fTupletShowTypeKind = msrTuplet::kTupletShowTypeNone; // default value
+    fCurrentTupletShowTypeKind = msrTuplet::kTupletShowTypeNone; // default value
     
     if      (tupletShowType == "actual") {
-      fTupletShowTypeKind = msrTuplet::kTupletShowTypeActual;
+      fCurrentTupletShowTypeKind = msrTuplet::kTupletShowTypeActual;
     }
     else if (tupletShowType == "both") {
-      fTupletShowTypeKind = msrTuplet::kTupletShowTypeBoth;
+      fCurrentTupletShowTypeKind = msrTuplet::kTupletShowTypeBoth;
     }
     else if (tupletShowType == "none") {
-      fTupletShowTypeKind = msrTuplet::kTupletShowTypeNone;
+      fCurrentTupletShowTypeKind = msrTuplet::kTupletShowTypeNone;
     }
     else {
       if (tupletShowType.size ()) {
@@ -13209,18 +13399,18 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     fLogOutputStream <<
       "fCurrentTupletNumber: " <<
       fCurrentTupletNumber <<
-      "tupletType: " <<
+      "fCurrentTupletTypeKind: " <<
       msrTuplet::tupletTypeKindAsString (
         fCurrentTupletTypeKind) <<
-      "tupletBracket: " <<
+      "fCurrentTupletBracketKind: " <<
       msrTuplet::tupletBracketKindAsString (
         fCurrentTupletBracketKind) <<
-      "tupletShowNumber: " <<
+      "fCurrentTupletShowNumberKind: " <<
       msrTuplet::tupletShowNumberKindAsString (
-        fTupletShowNumberKind) <<
-      "tupletShowType: " <<
+        fCurrentTupletShowNumberKind) <<
+      "fCurrentTupletShowTypeKind: " <<
       msrTuplet::tupletShowTypeKindAsString (
-        fTupletShowTypeKind) <<
+        fCurrentTupletShowTypeKind) <<
       endl;
   }
 
@@ -14236,8 +14426,8 @@ void mxmlTree2MsrTranslator::createTupletWithItsFirstNote (
         fCurrentTupletNumber,
         fCurrentTupletBracketKind,
         fCurrentTupletLineShapeKind,
-        fTupletShowNumberKind,
-        fTupletShowTypeKind,
+        fCurrentTupletShowNumberKind,
+        fCurrentTupletShowTypeKind,
         fCurrentNoteActualNotes,
         fCurrentNoteNormalNotes,
         memberNotesSoundingWholeNotes,

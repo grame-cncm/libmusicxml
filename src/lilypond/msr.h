@@ -7787,24 +7787,12 @@ class msrTempoTuplet : public msrElement
     static string tempoTupletBracketKindAsString (
       msrTempoTupletBracketKind tempoTupletBracketKind);
       
-    enum msrTempoTupletLineShapeKind {
-      kTempoTupletLineShapeStraight, kTempoTupletLineShapeCurved};
-      
-    static string tempoTupletLineShapeKindAsString (
-      msrTempoTupletLineShapeKind tempoTupletLineShapeKind);
-      
     enum msrTempoTupletShowNumberKind {
       kTempoTupletShowNumberActual, kTempoTupletShowNumberBoth, kTempoTupletShowNumberNone };
 
     static string tempoTupletShowNumberKindAsString (
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind);
-      
-    enum msrTempoTupletShowTypeKind {
-      kTempoTupletShowTypeActual, kTempoTupletShowTypeBoth, kTempoTupletShowTypeNone };
-
-    static string tempoTupletShowTypeKindAsString (
-      msrTempoTupletShowTypeKind tempoTupletShowTypeKind);
-      
+            
     // creation from MusicXML
     // ------------------------------------------------------
 
@@ -7812,12 +7800,9 @@ class msrTempoTuplet : public msrElement
       int                          inputLineNumber,
       int                          tempoTupletNumber,
       msrTempoTupletBracketKind    tempoTupletBracketKind,
-      msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
-      msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
       int                          tempoTupletActualNotes,
       int                          tempoTupletNormalNotes,
-      rational                     memberNotesSoundingWholeNotes,
       rational                     memberNotesDisplayWholeNotes);
 
   protected:
@@ -7829,12 +7814,9 @@ class msrTempoTuplet : public msrElement
       int                          inputLineNumber,
       int                          tempoTupletNumber,
       msrTempoTupletBracketKind    tempoTupletBracketKind,
-      msrTempoTupletLineShapeKind  tempoTupletLineShapeKind,
       msrTempoTupletShowNumberKind tempoTupletShowNumberKind,
-      msrTempoTupletShowTypeKind   tempoTupletShowTypeKind,
       int                          tempoTupletActualNotes,
       int                          tempoTupletNormalNotes,
-      rational                     memberNotesSoundingWholeNotes,
       rational                     memberNotesDisplayWholeNotes);
       
     virtual ~msrTempoTuplet ();
@@ -7850,33 +7832,21 @@ class msrTempoTuplet : public msrElement
     msrTempoTupletBracketKind  getTempoTupletBracketKind () const
                               { return fTempoTupletBracketKind; }
 
-    msrTempoTupletLineShapeKind
-                          getTempoTupletLineShapeKind () const
-                              { return fTempoTupletLineShapeKind; }
-
     msrTempoTupletShowNumberKind
                           getTempoTupletShowNumberKind () const
                               { return fTempoTupletShowNumberKind; }
-
-    msrTempoTupletShowTypeKind getTempoTupletShowTypeKind () const
-                              { return fTempoTupletShowTypeKind; }
 
     int                   getTempoTupletActualNotes () const
                               { return fTempoTupletActualNotes; }
     int                   getTempoTupletNormalNotes () const
                               { return fTempoTupletNormalNotes; }
     
-    rational              getMemberNotesSoundingWholeNotes () const
-                              { return fMemberNotesSoundingWholeNotes; }
     rational              getMemberNotesDisplayWholeNotes () const
                               { return fMemberNotesDisplayWholeNotes; }
 
     const list<S_msrElement>&
                           getTempoTupletElements () const
                               { return fTempoTupletElements; }
-
-    rational              getTempoTupletSoundingWholeNotes () const
-                              { return fTempoTupletSoundingWholeNotes; }
                               
     rational              getTempoTupletDisplayWholeNotes () const
                               { return fTempoTupletDisplayWholeNotes; }
@@ -7885,6 +7855,7 @@ class msrTempoTuplet : public msrElement
     // ------------------------------------------------------
 
     void                  addTempoNoteToTempoTuplet (S_msrTempoNote tempoNote);
+    /*
     void                  addTempoTupletToTempoTuplet (S_msrTempoTuplet tempoTuplet);
     
     void                  addTempoTupletToTempoTupletClone (S_msrTempoTuplet tempoTuplet);
@@ -7892,12 +7863,15 @@ class msrTempoTuplet : public msrElement
     void                  removeFirstNoteFromTempoTuplet (
                             int            inputLineNumber,
                             S_msrTempoNote tempoNote);
+    */
 
  // JMI   void                  applyDisplayFactorToTempoTupletMembers ();
-    
+
+    /*
     void                  unapplySoundingFactorToTempoTupletMembers (
                             int containingTempoTupletActualNotes,
                             int containingTempoTupletNormalNotes);
+*/
 
     string                asString () const;
 
@@ -7924,22 +7898,14 @@ class msrTempoTuplet : public msrElement
     msrTempoTupletBracketKind
                           fTempoTupletBracketKind;
               
-    msrTempoTupletLineShapeKind
-                          fTempoTupletLineShapeKind;
-              
     msrTempoTupletShowNumberKind
                           fTempoTupletShowNumberKind;
-              
-    msrTempoTupletShowTypeKind
-                          fTempoTupletShowTypeKind;
               
     int                   fTempoTupletActualNotes;
     int                   fTempoTupletNormalNotes;
 
-    rational              fMemberNotesSoundingWholeNotes;
     rational              fMemberNotesDisplayWholeNotes;
 
-    rational              fTempoTupletSoundingWholeNotes;
     rational              fTempoTupletDisplayWholeNotes;
 
     list<S_msrElement>    fTempoTupletElements;
