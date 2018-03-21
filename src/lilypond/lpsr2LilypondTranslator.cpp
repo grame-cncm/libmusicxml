@@ -6557,6 +6557,34 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempoNote& elt)
       " ";
 }
 
+void lpsr2LilypondTranslator::visitStart (S_msrTempoTuplet& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrTempoTuplet" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
+    "\\tuplet " <<
+    elt->getTempoTupletActualNotes () <<
+    "/" <<
+    elt->getTempoTupletNormalNotes() << " { ";
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_msrTempoTuplet& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting msrTempoTuplet" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
+    " }" <<
+    endl;
+}
+
 void lpsr2LilypondTranslator::visitEnd (S_msrTempo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {

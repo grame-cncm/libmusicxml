@@ -211,6 +211,7 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrTempo>,
   public visitor<S_msrTempoRelationshipElements>,
   public visitor<S_msrTempoNote>,
+  public visitor<S_msrTempoTuplet>,
       
   // articulations
 
@@ -473,6 +474,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrTempoRelationshipElements& elt);
     virtual void visitEnd   (S_msrTempoRelationshipElements& elt);
     virtual void visitStart (S_msrTempoNote& elt);
+    virtual void visitStart (S_msrTempoTuplet& elt);
+    virtual void visitEnd   (S_msrTempoTuplet& elt);
 
     virtual void visitStart (S_msrArticulation& elt);
     virtual void visitEnd   (S_msrArticulation& elt);

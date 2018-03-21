@@ -14270,7 +14270,7 @@ msrTempoTuplet::msrTempoTuplet (
   fTempoTupletDisplayWholeNotes  = rational (0, 1);
 }
 
-msrTempoTuplet::~msrTempoTuplet()
+msrTempoTuplet::~msrTempoTuplet ()
 {}
 
 string msrTempoTuplet::tempoTupletTypeKindAsString (
@@ -14616,13 +14616,6 @@ string msrTempoTuplet::asString () const
       }
     
       else if (
-        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
-        ) {
-        s <<
-          chord->asString ();
-      }
-      
-      else if (
         S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
         ) {
         s <<
@@ -14725,6 +14718,7 @@ void msrTempoTuplet::print (ostream& os)
       fTempoTupletElements.size (), "element", "elements") <<
     ", display whole notes: " <<
     fTempoTupletDisplayWholeNotes <<
+    ", line " << fInputLineNumber <<
     endl;
 
   gIndenter++;
