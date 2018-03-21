@@ -3772,6 +3772,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
   fCurrentBeamNumber = 
     elt->getAttributeIntValue ("number", 0);
 
+  // create metronome note beam
   S_msrBeam
     beam =
       msrBeam::create (
@@ -3779,6 +3780,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_beam& elt )
         fCurrentBeamNumber,
         beamKind);
 
+  // register it
   fPendingMetronomeBeams.push_back (beam);
 }
 
@@ -3786,11 +3788,11 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
   S_msrTempoNote tempoNote)
 {
   // attach the current articulations if any to the note
-  if (fCurrentArticulations.size ()) {
+  if (fPendingMetronomeBeams.size ()) {
 
-    if (gTraceOptions->fTraceNotes) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceBeams) {
       fLogOutputStream <<
-        "Attaching current articulations to tempoNote " <<
+        "Attaching current beams to tempoNote " <<
         tempoNote->asString () <<
         endl;
     }
@@ -3800,11 +3802,11 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
         beam =
           fPendingMetronomeBeams.front();
           
-      if (gTraceOptions->fTraceNotes) {
+      if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceBeams) {
         fLogOutputStream <<
           "Attaching beam '" <<
           beam->asString () <<
-          "' to tempoNote " << tempoNote->asString () <<
+          "' to tempoNote '" << tempoNote->asString () << "'" <<
           endl;
       }
   

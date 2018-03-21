@@ -584,9 +584,17 @@ msrBeam::msrBeam (
 {
   fBeamNumber = number;
   fBeamKind   = beamKind; 
+
+  if (gTraceOptions->fTraceBeams) {
+    gLogIOstream <<
+      "Creating beam '" <<
+      this->asString () <<
+      "'" <<
+      endl;
+  }
 }
 
-msrBeam::~msrBeam()
+msrBeam::~msrBeam ()
 {}
 
 void msrBeam::acceptIn (basevisitor* v)
@@ -14189,6 +14197,11 @@ void msrTempoNote::print (ostream& os)
     "tempoNoteBeams";
     
     if (fTempoNoteBeams.size ()) {
+      os <<
+        endl;
+
+      gIndenter++;
+      
       list<S_msrBeam>::const_iterator
         iBegin = fTempoNoteBeams.begin (),
         iEnd   = fTempoNoteBeams.end (),
@@ -14198,6 +14211,8 @@ void msrTempoNote::print (ostream& os)
         if (++i == iEnd) break;
         os << endl;
       } // for
+
+      gIndenter--;
     }
     else {
       os <<
