@@ -6466,25 +6466,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       break;
 
     case msrTempo::kTempoNotesRelationShip:
-    /*
-    \tempoRelationship #"Swing"
-    \fixed b' {
-      b8 [ b8 ]
-    }
-    \fixed b' {
-      \tuplet 3/2 { b4 b8 }
-    }
-    */
-      switch (tempoParenthesizedKind) {
-        case msrTempo::kTempoParenthesizedYes:
-          fLilypondCodeIOstream <<
-            "(" <<
-            endl;
-          break;
-        case msrTempo::kTempoParenthesizedNo:
-          break;
-      } // switch
-        
       fLilypondCodeIOstream <<
         "\\tempoRelationship #\"";
 
@@ -6494,19 +6475,21 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       }
 
       fLilypondCodeIOstream <<
-        "\"" <<
-        endl;
+        "\"";
 
       switch (tempoParenthesizedKind) {
         case msrTempo::kTempoParenthesizedYes:
           fLilypondCodeIOstream <<
-            ")" <<
-            endl;
+            " ##t";
           break;
         case msrTempo::kTempoParenthesizedNo:
+          fLilypondCodeIOstream <<
+            " ##f";
           break;
       } // switch
         
+      fLilypondCodeIOstream <<
+        endl;
       break;
   } // switch
 }

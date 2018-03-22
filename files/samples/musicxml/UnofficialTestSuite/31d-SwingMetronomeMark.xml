@@ -35,7 +35,7 @@
           <words>Swing</words>
         </direction-type>
         <direction-type>
-          <metronome default-y="30" halign="left" relative-x="26">
+          <metronome parentheses="yes" default-y="30" halign="left" relative-x="26">
             <metronome-note>
               <metronome-type>eighth</metronome-type>
               <metronome-beam number="1">begin</metronome-beam>

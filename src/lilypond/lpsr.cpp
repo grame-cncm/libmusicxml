@@ -4680,62 +4680,73 @@ R"(
 )",
 
     schemeFunctionCode =
-R"(
+      // add ! before ( and after ) since the code contains )"
+R"!(
 tempoRelationshipStaffReduce = #-3
 
 tempoRelationship =
-#(define-music-function (parser location label musicI musicII )
-   (string? ly:music? ly:music?)
-   #{
-     \tempo \markup {
-       \line \general-align #Y #DOWN {
-         % 1st column in line
-         $label
+#(define-music-function (parser location label parenthesized musicI musicII)
+   (string? boolean? ly:music? ly:music?)
+   (let* (
+           (left-paren (if parenthesized "(" ""))
+           (right-paren (if parenthesized ")" ""))
+           )
+     #{
+       \tempo \markup {
+         \line \general-align #Y #DOWN {
+           % 1st column in line
+           $label
 
-         % 2nd column in line
-         \score {
-           \new Staff \with {
-             % reduce the font size a la cue
-             fontSize = #tempoRelationshipStaffReduce
-             \override StaffSymbol.staff-space = #(magstep tempoRelationshipStaffReduce)
-             % hide the staff lines
-             \override StaffSymbol.line-count = #0
-             % align horizontally
-             \override VerticalAxisGroup.Y-extent = #'(-0.85 . 0)
-           }
+           % 2nd column in line
 
-           {
-             % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2) % super-tight
-             % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/4) % tight
-             % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 3/16) % even
-             \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 5/32) % even
+           $left-paren
 
-             % the left music
-             \relative c' { \stemUp $musicI }
-
-             % the equivalence sign
-             \once \override Score.TextScript.Y-offset = #-0.4
-             s4.^\markup{
-               \halign #-1 "="
+           \score {
+             \new Staff \with {
+               % reduce the font size a la cue
+               fontSize = #tempoRelationshipStaffReduce
+               \override StaffSymbol.staff-space = #(magstep tempoRelationshipStaffReduce)
+               % hide the staff lines
+               \override StaffSymbol.line-count = #0
+               % align horizontally
+               \override VerticalAxisGroup.Y-extent = #'(-0.85 . 0)
              }
 
-             % the right music
-             \relative c' { \stemUp $musicII }
-           }
+             {
+               % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/2) % super-tight
+               % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 1/4) % tight
+               % \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 3/16) % even
+               \override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment 5/32) % even
 
-           \layout {
-             indent = 0
-             \context {
-               \Staff
-               \remove "Clef_engraver"
-               \remove "Time_signature_engraver"
+               % the left music
+               \relative c' { \stemUp $musicI }
+
+               % the equivalence sign
+               \once \override Score.TextScript.Y-offset = #-0.4
+               s4.^\markup{
+                 \halign #-1 "="
+               }
+
+               % the right music
+               \relative c' { \stemUp $musicII }
              }
-           } % layout end
-         } % score end
-       } % line end
-     } % markup end
-   #})
-)";
+
+             \layout {
+               indent = 0
+               \context {
+                 \Staff
+                 \remove "Clef_engraver"
+                 \remove "Time_signature_engraver"
+               }
+             } % layout end
+           } % score end
+
+           $right-paren
+
+         } % line end
+       } % markup end
+     #}))
+)!";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {
     gLogIOstream <<

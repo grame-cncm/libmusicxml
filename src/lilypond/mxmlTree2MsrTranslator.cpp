@@ -3512,7 +3512,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   fCurrentMetronomeBeatUnitsVector.clear();
   
   fCurrentMetrenomePerMinute = "";
-  fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
   fCurrentMetrenomeDotsNumber = 0;
   fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
