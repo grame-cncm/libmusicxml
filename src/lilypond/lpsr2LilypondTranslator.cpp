@@ -6349,45 +6349,88 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
       break;
 
     case msrTempo::kTempoBeatUnitsPerMinute:
-      fLilypondCodeIOstream <<
-        "\\tempo";
-    
-      if (tempoWords) {
-        fLilypondCodeIOstream <<
-          " \"" << tempoWords->getWordsContents () << "\"";
-      }
-
       switch (tempoParenthesizedKind) {
         case msrTempo::kTempoParenthesizedYes:
-       //   fLilypondCodeIOstream <<
-        // JMI    "(" <<
-       //     endl;
-          break;
-        case msrTempo::kTempoParenthesizedNo:
-          break;
-      } // switch
+          fLilypondCodeIOstream <<
+            "\\tempo";
         
-      fLilypondCodeIOstream <<
-        " " <<
-        dottedDurationAsLilypondString (
-          inputLineNumber,
-          tempoBeatUnit) <<
-        " = " <<
-        tempoPerMinute;
-
-      switch (tempoParenthesizedKind) {
-        case msrTempo::kTempoParenthesizedYes:
-      //    fLilypondCodeIOstream <<
-        // JMI    ")" <<
-     //       endl;
+          if (tempoWords) {
+            fLilypondCodeIOstream <<
+              " \"" << tempoWords->getWordsContents () << "\"";
+          }
+    
+          fLilypondCodeIOstream <<
+            " " <<
+            "\\markup {" <<
+            endl;
+    
+          gIndenter++;
+    
+          fLilypondCodeIOstream <<
+            "\\concat {" <<
+            endl;
+    
+          gIndenter++;
+    
+          fLilypondCodeIOstream <<
+            "(" <<
+            endl;
+            
+          gIndenter++;
+          
+          fLilypondCodeIOstream <<
+            "\\smaller \\general-align #Y #DOWN \\note #\"" <<
+            dottedDurationAsLilypondStringWithoutBackSlash (
+              inputLineNumber,
+              tempoBeatUnit) <<
+            "\" #UP" <<
+            endl <<
+            "=" <<
+            endl <<
+            tempoPerMinute <<
+            endl;
+            
+          gIndenter--;
+    
+          fLilypondCodeIOstream <<
+            ")" <<
+            endl;
+            
+          gIndenter--;
+    
+          fLilypondCodeIOstream <<
+            "}" <<
+            endl;
+            
+          gIndenter--;
+            
+          fLilypondCodeIOstream <<
+            "}" <<
+            endl;
           break;
+
         case msrTempo::kTempoParenthesizedNo:
+          fLilypondCodeIOstream <<
+            "\\tempo";
+        
+          if (tempoWords) {
+            fLilypondCodeIOstream <<
+              " \"" << tempoWords->getWordsContents () << "\"";
+          }
+    
+          fLilypondCodeIOstream <<
+            " " <<
+            dottedDurationAsLilypondString (
+              inputLineNumber,
+              tempoBeatUnit) <<
+            " = " <<
+            tempoPerMinute;
+
+          fLilypondCodeIOstream <<
+            endl;
           break;
       } // switch
-      
-      fLilypondCodeIOstream <<
-        endl;
-     break;
+      break;
 
     case msrTempo::kTempoBeatUnitsEquivalence:
       fLilypondCodeIOstream <<
@@ -6464,7 +6507,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         endl;
         
       break;
-
     case msrTempo::kTempoNotesRelationShip:
       fLilypondCodeIOstream <<
         "\\tempoRelationship #\"";

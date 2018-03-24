@@ -15189,7 +15189,7 @@ string msrTempo::tempoKindAsString (
       result = "k_NoTempoKind???";
       break;
     case msrTempo::kTempoBeatUnitsPerMinute:
-      result = "tempoPerMinute";
+      result = "tempoBeatUnitsPerMinute";
       break;
     case msrTempo::kTempoBeatUnitsEquivalence:
       result = "tempoBeatUnitsEquivalence";
