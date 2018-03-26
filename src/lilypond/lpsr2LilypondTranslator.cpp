@@ -3582,11 +3582,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     staff->getStaffName () <<
     "\"";
 
-  if (gLilypondOptions->fJianpu) {
-    fLilypondCodeIOstream <<
-      " \\jianpuMusic";
-  }
-
   fLilypondCodeIOstream <<
     endl;
     
@@ -3707,6 +3702,13 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   fLilypondCodeIOstream <<
     endl;
  
+
+  if (gLilypondOptions->fJianpu) {
+    fLilypondCodeIOstream <<
+      " \\jianpuMusic" <<
+      endl;
+  }
+
   gIndenter++;
 }
 

@@ -33635,10 +33635,9 @@ void msrPart::setPartHarmoniesSupplierVoice (
             partHarmoniesSupplierVoice->getVoiceKind ()) <<
           " \"" << partHarmoniesSupplierVoice->getVoiceName () << "\"";
     
-        msrMusicXMLError (
+        msrMusicXMLWarning (
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
-          __FILE__, __LINE__,
           s.str ());
       }
       break;
