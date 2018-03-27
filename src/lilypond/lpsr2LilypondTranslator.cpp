@@ -3285,8 +3285,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           fLilypondCodeIOstream <<
             "%kLinePartGroupSymbol" <<
             endl <<
-            "systemStartDelimiter = #'SystemStartSquare" <<
-            // how do we get a SystemStartLine ??? JMI
+            "systemStartDelimiter = #'SystemStartBar" <<
             endl;
           break;
         
