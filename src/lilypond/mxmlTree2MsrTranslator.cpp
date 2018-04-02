@@ -10993,19 +10993,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       break;
         
     case kTremoloTypeSingle:
-      if (gTraceOptions->fTraceTremolos) {
-        fLogOutputStream <<
-          "Creating a single tremolo" <<
-          ", line " << inputLineNumber <<
-          endl;
-      }
-      
       // create a single tremolo, it will be attached to current note
       // in attachCurrentSingleTremoloToNote()
       if (gTraceOptions->fTraceTremolos) {
         fLogOutputStream <<
           "Creating a single tremolo" <<
           ", line " << inputLineNumber <<
+          ", " <<
           singularOrPlural (
             tremoloMarksNumber, "mark", "marks") <<
           ", placement : " <<
@@ -13462,16 +13456,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     fLogOutputStream <<
       "fCurrentTupletNumber: " <<
       fCurrentTupletNumber <<
-      "fCurrentTupletTypeKind: " <<
+      ", fCurrentTupletTypeKind: " <<
       msrTuplet::tupletTypeKindAsString (
         fCurrentTupletTypeKind) <<
-      "fCurrentTupletBracketKind: " <<
+      ", fCurrentTupletBracketKind: " <<
       msrTuplet::tupletBracketKindAsString (
         fCurrentTupletBracketKind) <<
-      "fCurrentTupletShowNumberKind: " <<
+      ", fCurrentTupletShowNumberKind: " <<
       msrTuplet::tupletShowNumberKindAsString (
         fCurrentTupletShowNumberKind) <<
-      "fCurrentTupletShowTypeKind: " <<
+      ", fCurrentTupletShowTypeKind: " <<
       msrTuplet::tupletShowTypeKindAsString (
         fCurrentTupletShowTypeKind) <<
       endl;
