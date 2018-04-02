@@ -13188,24 +13188,76 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
       endl;
   }
 
-  string normalType = elt->getValue();
+  string normalTypeString = elt->getValue();
 
-  if (fOnGoingNote) {    
-    fCurrentNoteNormalType = normalType;
-    
+  if (fOnGoingNote) {        
     if (
       gTraceOptions->fTraceNotesDetails
         ||
       gTraceOptions->fTraceTuplets) {
       fLogOutputStream <<
-        "fCurrentNoteNormalType: " <<
-        fCurrentNoteNormalType <<
+        "normalTypeString: " <<
+        normalTypeString <<
         endl;
     }
+
+    // the type contains a display duration
+    fCurrentNoteNormalTypeDuration = k_NoDuration;
+    
+    if      (normalTypeString == "maxima") {
+      fCurrentNoteNormalTypeDuration = kMaxima; }
+    else if (normalTypeString == "long") {
+      fCurrentNoteNormalTypeDuration = kLong; }
+    else if (normalTypeString == "breve") {
+        fCurrentNoteNormalTypeDuration = kBreve; } 
+    else if (normalTypeString == "whole") {
+        fCurrentNoteNormalTypeDuration = kWhole; } 
+    else if (normalTypeString == "half") {
+        fCurrentNoteNormalTypeDuration = kHalf; } 
+    else if (normalTypeString == "quarter") {
+        fCurrentNoteNormalTypeDuration = kQuarter; } 
+    else if (normalTypeString == "eighth") {
+        fCurrentNoteNormalTypeDuration = kEighth; } 
+    else if (normalTypeString == "16th") {
+        fCurrentNoteNormalTypeDuration = k16th; } 
+    else if (normalTypeString == "32nd") {
+        fCurrentNoteNormalTypeDuration = k32nd; } 
+    else if (normalTypeString == "64th") {
+        fCurrentNoteNormalTypeDuration = k64th; } 
+    else if (normalTypeString == "128th") {
+        fCurrentNoteNormalTypeDuration = k128th; } 
+    else if (normalTypeString == "256th") {
+        fCurrentNoteNormalTypeDuration = k256th; } 
+    else if (normalTypeString == "512th") {
+        fCurrentNoteNormalTypeDuration = k512th; } 
+    else if (normalTypeString == "1024th") {
+        fCurrentNoteNormalTypeDuration = k1024th; }
+    else {
+      stringstream s;
+      
+      s <<
+        "normal type \"" << normalTypeString <<
+        "\" is unknown";
+  
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        elt->getInputLineNumber (),
+        __FILE__, __LINE__,
+        s.str ());
+    }
+
+  /*
+    // there can be several <beat-unit/> in a <metronome/> markup,
+    // register beat unit in in dotted durations list
+    fCurrentMetronomeBeatUnitsVector.push_back (
+      msrDottedDuration (
+        fCurrentNoteNormalTypeDuration,
+        0));
+        */
   }
   
-  else if (fOnGoingMetronomeNote) {
-    fCurrentMetronomeNoteNormalType = normalType;
+  else if (fOnGoingMetronomeNote) { // JMI ???
+    fCurrentMetronomeNoteNormalType = normalTypeString;
     
     if (
       gTraceOptions->fTraceTempos
@@ -13222,7 +13274,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_normal_type& elt )
     stringstream s;
     
     s <<
-      "normal type \"" << normalType <<
+      "normal type \"" << normalTypeString <<
       "\" is out of context";
     
     msrMusicXMLError (
@@ -14546,7 +14598,7 @@ void mxmlTree2MsrTranslator::finalizeTuplet (
   // pop from the tuplets stack
   if (gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
-      "Popping tuplet 2 '" <<
+      "Popping tuplet '" <<
       tuplet->asString () <<
       "' from tuplets stack" <<
       endl;
@@ -16798,6 +16850,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
       ", note: " <<
       note->
         asShortStringWithRawWholeNotes () <<
+      ", line " << inputLineNumber <<
       endl;
   }
 
@@ -16846,26 +16899,26 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
             currentTuplet =
               fTupletsStack.top ();
               
-        // populate the tuplet at the top of the stack
-        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
-          fLogOutputStream <<
-            "--> kTupletTypeContinue: adding tuplet member note '" <<
-            note->
-              asShortStringWithRawWholeNotes () <<
-            "' to stack top tuplet '" <<
-            currentTuplet->asString () <<
-            "', line " << inputLineNumber <<
-            endl;
-        }
-
-        fTupletsStack.top()->
-          addNoteToTuplet (note);
+          // populate the tuplet at the top of the stack
+          if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
+            fLogOutputStream <<
+              "--> kTupletTypeContinue: adding tuplet member note '" <<
+              note->
+                asShortStringWithRawWholeNotes () <<
+              "' to stack top tuplet '" <<
+              currentTuplet->asString () <<
+              "', line " << inputLineNumber <<
+              endl;
+          }
+  
+          fTupletsStack.top()->
+            addNoteToTuplet (note);
 /* JMI
-        // set note displayed divisions
-        note->
-          applyTupletMemberDisplayFactor (
-            fTupletsStack.top ()->getTupletActualNotes (),
-            fTupletsStack.top ()->getTupletNormalNotes ());
+          // set note displayed divisions
+          note->
+            applyTupletMemberDisplayFactor (
+              fTupletsStack.top ()->getTupletActualNotes (),
+              fTupletsStack.top ()->getTupletNormalNotes ());
 */
         }
         
@@ -16891,58 +16944,122 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
 
     case msrTuplet::kTupletTypeStop:
       {
-        if (fTupletsStack.size ()) {
-          S_msrTuplet
-            currentTuplet =
-              fTupletsStack.top ();
-              
-        // populate the tuplet at the top of the stack
-        if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
-          fLogOutputStream <<
-            "--> kTupletTypeStop: adding tuplet member note '" <<
-            note->
-              asShortStringWithRawWholeNotes () <<
-            "' to stack top tuplet '" <<
-            currentTuplet->asString () <<
-            "', line " << inputLineNumber <<
-            endl;
-        }
+        switch (fTupletsStack.size ()) {
+          case 0:
+            {
+              stringstream s;
     
-        fTupletsStack.top()->
-          addNoteToTuplet (note);
-/* JMI
-        // set note displayed divisions
-        note->
-          applyTupletMemberDisplayFactor (
-            fTupletsStack.top ()->getTupletActualNotes (),
-            fTupletsStack.top ()->getTupletNormalNotes ());
-*/
-          if (fCurrentATupletStopIsPending) {
-            // end of a tuplet forces handling of the pending one 
-            finalizeTuplet (inputLineNumber);
+              s <<
+                "handleNoteBelongingToATuplet():" <<
+                endl <<
+                "tuplet member note '" <<
+                note->
+                  asShortStringWithRawWholeNotes () <<
+                "' cannot be added, tuplets stack is empty";
+    
+              msrInternalError (
+                gXml2lyOptions->fInputSourceName,
+                inputLineNumber,
+                __FILE__, __LINE__,
+                s.str ());
+            }
+            break;
 
-            fCurrentATupletStopIsPending = false;
-          }
-        }
-        
-        else {
+          case 1:
+            {
+              // outer-most tuplet:
+              // add the note to to it before finalizing it
+              S_msrTuplet
+                currentTuplet =
+                  fTupletsStack.top ();
+                
+              // populate the tuplet at the top of the stack
+              if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
+                fLogOutputStream <<
+                  "--> kTupletTypeStop: adding tuplet member note '" <<
+                  note->
+                    asShortStringWithRawWholeNotes () <<
+                  "' to stack top tuplet '" <<
+                  currentTuplet->asString () <<
+                  "', line " << inputLineNumber <<
+                  endl;
+              }
           
-          stringstream s;
+              currentTuplet->
+                addNoteToTuplet (note);
+                
+      /* JMI
+              // set note displayed divisions
+              note->
+                applyTupletMemberDisplayFactor (
+                  fTupletsStack.top ()->getTupletActualNotes (),
+                  fTupletsStack.top ()->getTupletNormalNotes ());
+    */
+    
+              if (fCurrentATupletStopIsPending) {
+                // end of a tuplet forces handling of the pending one 
+                if (gTraceOptions->fTraceTuplets) {
+                  fLogOutputStream <<
+                    "--> kTupletTypeStop: finalizing tuplet" <<
+                    ", line " << inputLineNumber <<
+                    endl;
+                }
+    
+                finalizeTuplet (inputLineNumber);
+    
+                fCurrentATupletStopIsPending = false;
+              }
+    
+              // don't pop the inner-most tuplet from the stack yet
+            }
+          break;
 
-          s <<
-            "handleNoteBelongingToATuplet():" <<
-            endl <<
-            "tuplet member note '" <<
-            note->
-              asShortStringWithRawWholeNotes () <<
-            "' cannot be added, tuplets stack is empty";
+          default:
+            {
+              // nested tuplet:
+              // finalize it before adding the note to the containing tuplet
+              if (fCurrentATupletStopIsPending) {
+                // end of a tuplet forces handling of the pending one 
+                if (gTraceOptions->fTraceTuplets) {
+                  fLogOutputStream <<
+                    "--> kTupletTypeStop: finalizing tuplet" <<
+                    ", line " << inputLineNumber <<
+                    endl;
+                }
+    
+                finalizeTuplet (inputLineNumber);
+    
+                fCurrentATupletStopIsPending = false;
+              }
 
-          msrInternalError (
-            gXml2lyOptions->fInputSourceName,
-            inputLineNumber,
-            __FILE__, __LINE__,
-            s.str ());
-        }
+              S_msrTuplet
+                currentTuplet =
+                  fTupletsStack.top ();
+                
+              // populate the tuplet at the top of the stack
+              if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTuplets) {
+                fLogOutputStream <<
+                  "--> kTupletTypeStop: adding tuplet member note '" <<
+                  note->
+                    asShortStringWithRawWholeNotes () <<
+                  "' to stack top tuplet '" <<
+                  currentTuplet->asString () <<
+                  "', line " << inputLineNumber <<
+                  endl;
+              }
+          
+              currentTuplet->
+                addNoteToTuplet (note);
+                
+      /* JMI
+              // set note displayed divisions
+              note->
+                applyTupletMemberDisplayFactor (
+                  fTupletsStack.top ()->getTupletActualNotes (),
+                  fTupletsStack.top ()->getTupletNormalNotes ());
+    */
+            }
+        } // switch
 
         // finalizeTuplet() should be delayed in case this note
         // is the first one of a chord in a tuplet JMI XXL ???
@@ -16954,6 +17071,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
     case msrTuplet::k_NoTupletType:
       break;
   } // switch
+
+/* JMI ???
+  // forget about this tuplet type, needed for nested tuplets
+  fCurrentTupletTypeKind =
+    msrTuplet::k_NoTupletType;
+    */
 }
 
 //______________________________________________________________________________

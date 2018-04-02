@@ -9148,7 +9148,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrTuplet& elt)
   switch (tupletShowTypeKind) {
     case msrTuplet::kTupletShowTypeActual:
       fLilypondCodeIOstream <<
-        "\\once \\override TupletNumber.text = #(tuplet-number::append-note-wrapper tuplet-number::calc-fraction-text \"" <<
+     // JMI ???   "\\once \\override TupletNumber.text = #(tuplet-number::append-note-wrapper tuplet-number::calc-fraction-text \"" <<
+        "\\once \\override TupletNumber.text = #(tuplet-number::append-note-wrapper tuplet-number::calc-denominator-text \"" <<
         wholeNotesAsLilypondString (
           inputLineNumber,
           memberNoteDisplayWholeNotes) <<
