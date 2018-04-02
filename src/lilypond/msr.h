@@ -7298,7 +7298,8 @@ class msrTuplet : public msrElement
 
     enum msrTupletTypeKind {
       k_NoTupletType,
-      kTupletTypeStart, kTupletTypeContinue, kTupletTypeStop };
+      kTupletTypeStart, kTupletTypeContinue, kTupletTypeStop,
+      kTupletTypeStartAndStopInARow };
 
     static string tupletTypeKindAsString (
       msrTupletTypeKind tupletTypeKind);

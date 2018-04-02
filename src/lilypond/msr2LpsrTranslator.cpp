@@ -3201,6 +3201,9 @@ void msr2LpsrTranslator::visitEnd (S_msrNote& elt)
           s.str ());
         }
       break;
+
+    case msrNote::kGraceChordMemberNote:
+      break;
       
     case msrNote::kTupletMemberNote:
       if (gTraceOptions->fTraceNotes) {

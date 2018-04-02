@@ -1639,6 +1639,7 @@ class mxmlTree2MsrTranslator :
     msrDurationKind           fCurrentNoteNormalTypeDuration;
     // nested tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;
+    int                       fPreviousTupletNumber;
     int                       fCurrentTupletDisplayNumber;
     string                    fCurrentTupletDisplayType;
     int                       fCurrentTupletDotsNumber;
@@ -1662,7 +1663,7 @@ class mxmlTree2MsrTranslator :
     void                      createTupletWithItsFirstNote (
                                 S_msrNote note);
                                 
-    void                      finalizeTuplet (
+    void                      finalizeTupletAndPopItFromTupletsStack (
                                 int inputLineNumber);
                                 
     void                      handleTupletsPendingOnTupletsStack (

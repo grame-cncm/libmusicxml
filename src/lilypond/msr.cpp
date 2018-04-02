@@ -10173,6 +10173,9 @@ string msrTuplet::tupletTypeKindAsString (
     case msrTuplet::kTupletTypeStop:
       result = "stop";
       break;
+    case msrTuplet::kTupletTypeStartAndStopInARow:
+      result = "startAndStopInARow";
+      break;
   } // switch
 
   return result;
