@@ -5039,13 +5039,13 @@ else
             gXml2lyOptions->fInputSourceName,
             inputLineNumber,
             __FILE__, __LINE__,
-            "underfull measure is actuall the full measure length");
+            "underfull measure is actually the full measure length");
         }
 
         else {
           fLilypondCodeIOstream <<
             "\\set Score.measureLength = #(ly:make-moment " <<
-            ratioToFullLength.toString () <<
+            measureLength.toString () <<
             ")" <<
             endl;
     

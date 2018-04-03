@@ -20993,13 +20993,13 @@ string msrMeasure::measureKindAsString (
       result = "**upbeat**";
       break;
     case msrMeasure::kUnderfullMeasureKind:
-      result = "**under full**";
+      result = "**underfull**";
       break;
     case msrMeasure::kOverfullMeasureKind:
-      result = "**over full**";
+      result = "**overfull**";
       break;
     case msrMeasure::kSenzaMisuraMeasureKind:
-      result = "**senza misura**";
+      result = "**senzamisura**";
       break;
     case msrMeasure::kEmptyMeasureKind:
       result = "**empty**";
