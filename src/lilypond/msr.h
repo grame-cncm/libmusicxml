@@ -5116,6 +5116,7 @@ class msrNote : public msrElement
       bool                       noteIsARest,
       bool                       noteIsUnpitched,
     
+      bool                       noteIsACueNote,
       bool                       noteIsAGraceNote,
 
       msrNotePrintKind           msrNotePrintKind,
@@ -5176,6 +5177,7 @@ class msrNote : public msrElement
       bool                       noteIsARest,
       bool                       noteIsUnpitched,
     
+      bool                       noteIsACueNote,
       bool                       noteIsAGraceNote,
 
       msrNotePrintKind           msrNotePrintKind,
@@ -5252,7 +5254,7 @@ class msrNote : public msrElement
                           getNoteHeadParenthesesKind () const
                               { return fNoteHeadParenthesesKind; }
 
-   // accidentals
+    // accidentals
 
     void                  setNoteAccidentalKind (
                             msrNoteAccidentalKind
@@ -5349,6 +5351,9 @@ class msrNote : public msrElement
                       
     bool                  getNoteIsUnpitched () const
                               { return fNoteIsUnpitched; }
+                      
+    bool                  getNoteIsACueNote () const
+                              { return fNoteIsACueNote; }
                       
     // octave shifts
     void                  setNoteOctaveShift (
@@ -5735,6 +5740,7 @@ class msrNote : public msrElement
     bool                  fNoteIsARest;
     bool                  fNoteIsUnpitched;
   
+    bool                  fNoteIsACueNote;
     bool                  fNoteIsAGraceNote;
     
     S_msrOctaveShift      fNoteOctaveShift; // JMI ???

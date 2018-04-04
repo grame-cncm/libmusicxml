@@ -352,6 +352,10 @@ class mxmlTree2MsrTranslator :
   public visitor<S_other_dynamics>,
   
   public visitor<S_wedge>,
+
+  // cue notes
+
+  public visitor<S_cue>,
   
   // grace notes
   
@@ -855,13 +859,16 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_damp& elt);
     virtual void visitStart ( S_damp_all& elt);
 
+    // cue notes
+    // ------------------------------------------------------
+    
+    virtual void visitStart ( S_cue& elt );
+    
     // grace notes
     // ------------------------------------------------------
     
     virtual void visitStart ( S_grace& elt );
     
-//    virtual void visitStart ( S_voice& elt);
-
     // ???
     // ------------------------------------------------------
 
@@ -1424,6 +1431,9 @@ class mxmlTree2MsrTranslator :
 
     // unpitched notes
     bool                      fCurrentNoteIsUnpitched;
+
+    // cue notes
+    bool                      fCurrentNoteIsACueNote;
 
     // grace notes
     bool                      fCurrentNoteIsAGraceNote;

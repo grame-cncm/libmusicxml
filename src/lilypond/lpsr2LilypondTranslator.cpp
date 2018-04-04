@@ -7634,6 +7634,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // for
   }
 
+  // is the note a cue note?
+  if (elt->getNoteIsACueNote ()) {
+    fLilypondCodeIOstream <<
+      "\\once \\override NoteHead.font-size = -3 ";
+  }
+
   // print the note as a LilyPond string
   printNoteAsLilypondString (elt);
 

@@ -4603,6 +4603,7 @@ S_msrNote msrNote::create (
   bool                       noteIsARest,
   bool                       noteIsUnpitched,
 
+  bool                       noteIsACueNote,
   bool                       noteIsAGraceNote,
 
   msrNotePrintKind           msrNotePrintKind,
@@ -4633,7 +4634,8 @@ S_msrNote msrNote::create (
       
       noteIsARest,
       noteIsUnpitched,
-      
+
+      noteIsACueNote,
       noteIsAGraceNote,
 
       msrNotePrintKind,
@@ -4668,6 +4670,7 @@ msrNote::msrNote (
   bool                       noteIsARest,
   bool                       noteIsUnpitched,
 
+  bool                       noteIsACueNote,
   bool                       noteIsAGraceNote,
 
   msrNotePrintKind           notePrintKind,
@@ -4697,6 +4700,7 @@ msrNote::msrNote (
   fNoteIsARest     = noteIsARest;
   fNoteIsUnpitched = noteIsUnpitched;
 
+  fNoteIsACueNote   = noteIsACueNote;
   fNoteIsAGraceNote = noteIsAGraceNote;
 
   fNotePrintKind = notePrintKind;
@@ -4833,6 +4837,11 @@ void msrNote::initializeNote ()
 
       left <<
         setw (fieldWidth) <<
+        "fNoteIsACueNote" << " = " <<
+         booleanAsString (fNoteIsACueNote) <<
+        endl <<
+      left <<
+        setw (fieldWidth) <<
         "fNoteIsAGraceNote" << " = " <<
          booleanAsString (fNoteIsAGraceNote) <<
         endl <<
@@ -4942,7 +4951,7 @@ void msrNote::initializeNote ()
   fNoteHasADelayedOrnament = false;
 }
 
-msrNote::~msrNote()
+msrNote::~msrNote ()
 {}
 
 S_msrNote msrNote::createNoteNewbornClone (
@@ -4986,7 +4995,8 @@ S_msrNote msrNote::createNoteNewbornClone (
         
         fNoteIsARest,
         fNoteIsUnpitched,
-        
+
+        fNoteIsACueNote,
         fNoteIsAGraceNote,
 
         fNotePrintKind,
@@ -5215,7 +5225,8 @@ S_msrNote msrNote::createNoteDeepCopy (
         
         fNoteIsARest,
         fNoteIsUnpitched,
-        
+
+        fNoteIsACueNote,
         fNoteIsAGraceNote,
   
         fNotePrintKind,
@@ -5613,6 +5624,7 @@ S_msrNote msrNote::createRestNote (
       false, // noteIsARest
       false, // noteIsUnpitched
       
+      false, // noteIsACueNote
       false, // noteIsAGraceNote
 
       kNotePrintYes, // JMI
@@ -5656,6 +5668,7 @@ S_msrNote msrNote::createSkipNote (
       false, // noteIsARest
       false, // noteIsUnpitched
       
+      false, // noteIsACueNote
       false, // noteIsAGraceNote
 
       kNotePrintYes, // JMI
@@ -7195,6 +7208,11 @@ string msrNote::asString () const
       ", " << fNoteTie->tieKindAsString ();
   }
 
+  if (fNoteIsACueNote) {
+    s <<
+      ", " << "cue note";
+  }
+
   s <<
     " ===]";
   
@@ -7785,7 +7803,7 @@ void msrNote::print (ostream& os)
       fNoteTie;
     gIndenter--;
   }
-    
+
   // print the dynamics if any
   if (fNoteDynamics.size ()) {
     gIndenter++;

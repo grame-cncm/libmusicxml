@@ -347,6 +347,10 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   
   fCurrentNoteIsUnpitched = false;
 
+  // cue notes
+  
+  fCurrentNoteIsACueNote = false;
+
   // grace notes
   
   fCurrentNoteIsAGraceNote = false;
@@ -13011,6 +13015,18 @@ void mxmlTree2MsrTranslator::visitStart( S_damp_all& elt)
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_cue& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_cue" <<
+      endl;
+  }
+ 
+  fCurrentNoteIsACueNote = true;
+}
+       
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
@@ -15958,7 +15974,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         
         fCurrentNoteIsARest,
         fCurrentNoteIsUnpitched,
-        
+
+        fCurrentNoteIsACueNote,
         fCurrentNoteIsAGraceNote,
 
         fCurrentNotePrintKind,
