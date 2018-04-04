@@ -256,6 +256,26 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fPreviousTupletNumber = -1;
   fCurrentATupletStopIsPending = false;
 
+    bool                      fOnGoingTupletActual;
+    int                       fCurrentTupletActualNumber;
+    string                    fCurrentTupletActualType;
+    int                       fCurrentTupletActualDotsNumber;
+
+    bool                      fOnGoingTupletNormal;
+    int                       fCurrentTupletNormalNumber;
+    string                    fCurrentTupletNormalType;
+    int                       fCurrentTupletNormalDotsNumber;
+
+  fOnGoingTupletActual = false;
+  fCurrentTupletActualNumber = -1;
+  fCurrentTupletActualType = "";
+  fCurrentTupletActualDotsNumber = 0;
+  
+  fOnGoingTupletNormal = false;
+  fCurrentTupletNormalNumber = -1;
+  fCurrentTupletNormalType = "";
+  fCurrentTupletNormalDotsNumber = 0;
+
   // ties handling
 
   // slurs handling
@@ -356,7 +376,13 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   fCurrentNoteActualNotes = -1;
   fCurrentNoteNormalNotes = -1;
 
-  fCurrentTupletDotsNumber = 0;
+  fCurrentTupletActualNumber = -1;
+  fCurrentTupletActualType = "";
+  fCurrentTupletActualDotsNumber = 0;
+  
+  fCurrentTupletNormalNumber = -1;
+  fCurrentTupletNormalType = "";
+  fCurrentTupletNormalDotsNumber = 0;
 
   // chords
   
@@ -13537,6 +13563,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_actual& elt )
       "--> Start visiting S_tuplet_actual" <<
       endl;
   }
+
+  fOnGoingTupletActual = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_tuplet_actual& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_tuplet_actual" <<
+      endl;
+  }
+
+  fOnGoingTupletActual = false;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet_normal& elt )
@@ -13546,6 +13585,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_normal& elt )
       "--> Start visiting S_tuplet_normal" <<
       endl;
   }
+
+  fOnGoingTupletNormal = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_tuplet_normal& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_tuplet_normal" <<
+      endl;
+  }
+
+  fOnGoingTupletNormal = false;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
@@ -13557,15 +13609,29 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_number& elt )
   }
 
   // not handled JMI
-  fCurrentTupletDisplayNumber = (int)(*elt);
+  int tupletNumberValue = (int)(*elt);
+  
+  if (fOnGoingTupletActual) {
+    fCurrentTupletActualNumber = tupletNumberValue;
+  }
+  else if (fOnGoingTupletNormal) {
+    fCurrentTupletNormalNumber = tupletNumberValue;
+  }
+  else {
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "met a tuplet number out of context");
+  }
 
   if (
     gTraceOptions->fTraceNotesDetails
       ||
     gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
-      "fCurrentTupletDisplayNumber (not handled): " <<
-      fCurrentTupletDisplayNumber <<
+      "tuplet number (not handled): " <<
+      tupletNumberValue <<
       endl;
   }
 }
@@ -13578,20 +13644,30 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_type& elt )
       endl;
   }
 
-/*
- Type indicates the graphic note type, Valid values (from shortest to longest) are 1024th, 512th, 256th, 128th, 64th, 32nd, 16th, eighth, quarter, half, whole, breve, long, and maxima. The size attribute indicates full, cue, or large size, with full the default for regular notes and cue the default for cue and grace notes.
-*/
-
   // not handled JMI
-  fCurrentTupletDisplayType = elt->getValue();
+  string tupletTypeValue = elt->getValue();
+    
+  if (fOnGoingTupletActual) {
+    fCurrentTupletActualType = tupletTypeValue;
+  }
+  else if (fOnGoingTupletNormal) {
+    fCurrentTupletNormalType = tupletTypeValue;
+  }
+  else {
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "met a tuplet number out of context");
+  }
 
   if (
     gTraceOptions->fTraceNotesDetails
       ||
     gTraceOptions->fTraceTuplets) {
     fLogOutputStream <<
-      "fCurrentTupletDisplayType (not handled): " <<
-      fCurrentTupletDisplayType <<
+      "tuplet type (not handled): " <<
+      tupletTypeValue <<
       endl;
   }
 }
@@ -13604,7 +13680,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet_dot& elt )
       endl;
   }
 
-  fCurrentNoteDotsNumber++;
+  if (fOnGoingTupletActual) {
+    fCurrentTupletActualDotsNumber++;
+  }
+  else if (fOnGoingTupletNormal) {
+    fCurrentTupletNormalDotsNumber++;
+  }
+  else {
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      "met a tuplet dot out of context");
+  }
 }
 
 //______________________________________________________________________________

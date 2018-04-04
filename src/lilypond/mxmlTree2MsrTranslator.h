@@ -906,7 +906,9 @@ class mxmlTree2MsrTranslator :
 
     virtual void visitStart ( S_tuplet& elt);
     virtual void visitStart ( S_tuplet_actual& elt);
+    virtual void visitEnd   ( S_tuplet_actual& elt);
     virtual void visitStart ( S_tuplet_normal& elt);
+    virtual void visitEnd   ( S_tuplet_normal& elt);
     virtual void visitStart ( S_tuplet_number& elt);
     virtual void visitStart ( S_tuplet_type& elt);
     virtual void visitStart ( S_tuplet_dot& elt);
@@ -1634,15 +1636,24 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     bool                      fCurrentNoteHasATimeModification;
+    
     int                       fCurrentNoteActualNotes;
     int                       fCurrentNoteNormalNotes;
     msrDurationKind           fCurrentNoteNormalTypeDuration;
+    
     // nested tuplets are numbered 1, 2, ...
     int                       fCurrentTupletNumber;
     int                       fPreviousTupletNumber;
-    int                       fCurrentTupletDisplayNumber;
-    string                    fCurrentTupletDisplayType;
-    int                       fCurrentTupletDotsNumber;
+
+    bool                      fOnGoingTupletActual;
+    int                       fCurrentTupletActualNumber;
+    string                    fCurrentTupletActualType;
+    int                       fCurrentTupletActualDotsNumber;
+
+    bool                      fOnGoingTupletNormal;
+    int                       fCurrentTupletNormalNumber;
+    string                    fCurrentTupletNormalType;
+    int                       fCurrentTupletNormalDotsNumber;
 
     msrTuplet::msrTupletTypeKind
                               fCurrentTupletTypeKind;
