@@ -29617,8 +29617,8 @@ void msrVoice::print (ostream& os)
     booleanAsString (fMusicHasBeenInsertedInVoice) <<
     endl <<
     setw (fieldWidth) << "VoiceContainsMultipleRests" << " : " <<
-    endl <<
     booleanAsString (fVoiceContainsMultipleRests) <<
+    endl <<
     setw (fieldWidth) << "fVoiceFirstSegment" << " : ";
     
   if (fVoiceFirstSegment) {

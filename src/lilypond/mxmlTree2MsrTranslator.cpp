@@ -16186,7 +16186,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       case msrNote::kSkipNote:
       case msrNote::kStandaloneNote:
       case msrNote::kChordMemberNote:
-        {
+        if (! fCurrentNoteIsAGraceNote) {
           stringstream s;
       
           s <<
