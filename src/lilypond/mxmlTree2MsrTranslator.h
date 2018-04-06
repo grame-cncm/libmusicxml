@@ -1437,6 +1437,9 @@ class mxmlTree2MsrTranslator :
 
     // grace notes
     bool                      fCurrentNoteIsAGraceNote;
+    string                    fCurrentStealTimeFollowing;
+    string                    fCurrentStealTimePrevious;
+    string                    fCurrentMakeTime;
 
     // note context
     int                       fCurrentNoteStaffNumber;

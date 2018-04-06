@@ -4145,7 +4145,9 @@ string msrGraceNotes::asShortString () const
   stringstream s;
 
   s <<
-    "GraceNotes" " ";
+    "GraceNotes " <<
+    "fGraceNotesMeasureNumber \"" << fGraceNotesMeasureNumber <<
+    "\", ";
 
   list<S_msrNote>::const_iterator
     iBegin = fGraceNotesNotesList.begin (),
@@ -4174,6 +4176,9 @@ void msrGraceNotes::print (ostream& os)
     booleanAsString (fGraceNotesIsTied) <<
     ", followedByNotes: " <<
     booleanAsString (fGraceNotesIsFollowedByNotes) <<
+    ", fGraceNotesMeasureNumber: \"" <<
+    fGraceNotesMeasureNumber <<
+    "\"" <<
     endl;
   
   gIndenter++;
@@ -20283,6 +20288,11 @@ void msrMeasure::appendGraceNotesToMeasure (
 {
   fMeasureElementsList.push_back (graceNotes);
 
+  // set graceNotes' measure number
+  graceNotes->
+    setGraceNotesMeasureNumber (
+      this->getMeasureNumber ());
+    
   // this measure contains music
   fMeasureContainsMusic = true;
 }
@@ -25255,6 +25265,16 @@ void msrVoice::setVoiceNameFromNumber (
   */
 }
 
+void msrVoice::setVoiceCloneLastSegment (
+  S_msrSegment segment)
+{
+  fVoiceLastSegment = segment;
+
+  if (! fVoiceFirstSegment) {
+      fVoiceFirstSegment = fVoiceLastSegment;
+  }
+}
+
 void msrVoice::initializeVoice (
   msrVoiceCreateInitialLastSegmentKind
     voiceCreateInitialLastSegmentKind)
@@ -25703,6 +25723,11 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       fVoiceLastSegment->
         createSegmentDeepCopy (
           voiceDeepCopy);
+
+    if (! voiceDeepCopy->fVoiceFirstSegment) {
+      voiceDeepCopy->fVoiceFirstSegment =
+        voiceDeepCopy->fVoiceLastSegment;
+    }
   }
   else {    
     if (gTraceOptions->fTraceVoices) {
@@ -25849,6 +25874,10 @@ void msrVoice::createNewLastSegmentForVoice (
     msrSegment::create (
       inputLineNumber,
       this);
+
+  if (! fVoiceFirstSegment) {
+    fVoiceFirstSegment = fVoiceLastSegment;
+  }
 }
 
 void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
@@ -25872,6 +25901,9 @@ void msrVoice::createNewLastSegmentFromFirstMeasureForVoice (
       inputLineNumber,
       this);
 
+  if (! fVoiceFirstSegment) {
+    fVoiceFirstSegment = fVoiceLastSegment;
+  }
   // append firstMeasure to it
   fVoiceLastSegment->
     appendMeasureToSegment (firstMeasure);
@@ -25909,6 +25941,10 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
     msrSegment::create (
       inputLineNumber,
       this);
+
+  if (! fVoiceFirstSegment) {
+    fVoiceFirstSegment = fVoiceLastSegment;
+  }
 
   // create the new measure with number newMeasureMeasureNumber
   S_msrMeasure
@@ -26787,17 +26823,49 @@ void msrVoice::appendGraceNotesToVoice (S_msrGraceNotes graceNotes)
 
 void msrVoice::prependGraceNotesToVoice (S_msrGraceNotes graceNotes)
 {
+  int inputLineNumber =
+    graceNotes->getInputLineNumber ();
+  
   if (gTraceOptions->fTraceGraceNotes) {
     gLogIOstream <<
-      "Prepending grace notes " << // JMI graceNotes <<
-      " to voice \"" << getVoiceName () << "\"" <<
+      "Prepending grace notes '" <<
+      graceNotes->asString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
+
+/* JMI
+  gLogIOstream <<
+    endl <<
+    "======================= prependGraceNotesToVoice" <<
+    endl;
+  this->print (gLogIOstream);
+  gLogIOstream <<
+    "=======================" <<
+    endl <<
+    endl;
+  */
 
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
     graceNotes->getInputLineNumber ());
 
+  if (! fVoiceFirstSegment) {
+    // these graceNotes appear at the beginning of the voice:
+    // create a first segment
+    createNewLastSegmentForVoice (
+      inputLineNumber);
+    fVoiceFirstSegment = fVoiceLastSegment;
+
+    // the create the first measure
+    createMeasureAndAppendItToVoice (
+      inputLineNumber,
+      graceNotes->
+        getGraceNotesMeasureNumber (),
+      1, //    measureOrdinalNumber,
+      msrMeasure::kMeasureImplicitNo);
+  }
+  
   fVoiceFirstSegment->
     prependGraceNotesToSegment (graceNotes);
 
@@ -27845,6 +27913,10 @@ void msrVoice::createMeasuresRepeatFromItsFirstMeasuresInVoice (
               inputLineNumber,
               this);
 
+        if (! fVoiceFirstSegment) {
+          fVoiceFirstSegment = fVoiceLastSegment;
+        }
+
         // remove the repeated measure(s) for the last segment
         // and prepend them to the repeated segment
         if (
@@ -28352,6 +28424,10 @@ void msrVoice::createMultipleRestInVoice (
             msrSegment::create (
               inputLineNumber,
               this);
+
+  if (! fVoiceFirstSegment) {
+    fVoiceFirstSegment = fVoiceLastSegment;
+  }
 */
 
         // create the multiple rest
@@ -29541,7 +29617,22 @@ void msrVoice::print (ostream& os)
     booleanAsString (fMusicHasBeenInsertedInVoice) <<
     endl <<
     setw (fieldWidth) << "VoiceContainsMultipleRests" << " : " <<
+    endl <<
     booleanAsString (fVoiceContainsMultipleRests) <<
+    setw (fieldWidth) << "fVoiceFirstSegment" << " : ";
+    
+  if (fVoiceFirstSegment) {
+    os <<
+      "'" <<
+      fVoiceFirstSegment->getSegmentAbsoluteNumber () <<
+      "'";
+    }
+  else {
+    os <<
+      "none";
+  }
+  
+  os <<
     endl;
 
   os <<
@@ -34055,7 +34146,8 @@ void msrPart:: handleForward (
     */
 }
 
-void msrPart::appendSkipGraceNotesToVoicesClones (
+/* JMI
+void msrPart::appendSkipGraceNotesToVoicesClones ( // JMI ???
   S_msrVoice      graceNotesOriginVoice,
   S_msrGraceNotes skipGraceNotes)
 {
@@ -34069,6 +34161,16 @@ void msrPart::appendSkipGraceNotesToVoicesClones (
           getSegmentMeasuresList ().back ()->
             getMeasureLength ();
         
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceParts) {
+    gLogIOstream <<
+      "appendSkipGraceNotesToVoicesClones() in " <<
+      getPartCombinedName () <<
+      ", graceNotesOriginVoiceMeasureLength = " <<
+      graceNotesOriginVoiceMeasureLength <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
   for (
     map<int, S_msrStaff>::const_iterator i=fPartStavesMap.begin ();
     i!=fPartStavesMap.end ();
@@ -34100,6 +34202,69 @@ void msrPart::appendSkipGraceNotesToVoicesClones (
         // append skip grace notes to voice
         voice->
           appendGraceNotesToVoice (
+            skipGraceNotes);
+      }
+    } // for
+
+  } // for
+}
+*/
+
+void msrPart::prependSkipGraceNotesToVoicesClones (
+  S_msrVoice      graceNotesOriginVoice,
+  S_msrGraceNotes skipGraceNotes)
+{
+  int inputLineNumber =
+    skipGraceNotes->getInputLineNumber ();
+
+  rational
+    graceNotesOriginVoiceMeasureLength =
+      graceNotesOriginVoice->
+        getVoiceLastSegment ()->
+          getSegmentMeasuresList ().back ()->
+            getMeasureLength ();
+        
+  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceParts) {
+    gLogIOstream <<
+      "prependSkipGraceNotesToVoicesClones() in " <<
+      getPartCombinedName () <<
+      ", graceNotesOriginVoiceMeasureLength = " <<
+      graceNotesOriginVoiceMeasureLength <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  for (
+    map<int, S_msrStaff>::const_iterator i=fPartStavesMap.begin ();
+    i!=fPartStavesMap.end ();
+    i++) {
+
+    map<int, S_msrVoice>
+      staffAllVoicesMap =
+        (*i).second->
+          getStaffAllVoicesMap ();
+          
+    for (
+      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();
+      j!=staffAllVoicesMap.end ();
+      j++) {
+
+      S_msrVoice voice = (*j).second;
+      
+      if (voice != graceNotesOriginVoice) {
+        voice->
+          appendAFirstMeasureToVoiceIfNotYetDone ( // JMI
+            inputLineNumber);
+            
+        // bring voice to the same measure length as graceNotesOriginVoice
+        voice->
+          bringVoiceToMeasureLength (
+            inputLineNumber,
+            graceNotesOriginVoiceMeasureLength);
+        
+        // append skip grace notes to voice
+        voice->
+          prependGraceNotesToVoice (
             skipGraceNotes);
       }
     } // for

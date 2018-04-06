@@ -13059,6 +13059,28 @@ void mxmlTree2MsrTranslator::visitStart ( S_grace& elt )
         "grace slash \"" + slash + "\" unknown, should be 'yes' or 'no'");
     }
   }
+
+/*
+      <note>
+        <grace steal-time-previous="20"/>
+        <pitch>
+          <step>G</step>
+          <octave>5</octave>
+        </pitch>
+        <voice>1</voice>
+        <type>16th</type>
+        <staff>1</staff>
+      </note>
+*/
+
+  fCurrentStealTimeFollowing =
+    elt->getAttributeValue ("steal-time-following");
+
+  fCurrentStealTimePrevious =
+    elt->getAttributeValue ("steal-time-previous");
+
+  fCurrentMakeTime =
+    elt->getAttributeValue ("make-time");
 }
        
 //______________________________________________________________________________

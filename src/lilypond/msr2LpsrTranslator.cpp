@@ -1557,6 +1557,9 @@ void msr2LpsrTranslator::visitStart (S_msrMeasure& elt)
     fLogOutputStream <<
       endl <<
       "<!--=== measure " << measureNumber <<
+      ", voice \"" <<
+      fCurrentVoiceClone->getVoiceName () <<
+      "\"" <<
       ", line " << inputLineNumber << " ===-->" <<
       endl;
   }
@@ -2848,17 +2851,9 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
             createSkipGraceNotesClone (
               fCurrentVoiceClone);
   
-  /* JMI
       // prepend it to the other voices in the part
-      prependSkipGraceNotesToPartOtherVoices (
-        fCurrentPartClone,
-        fCurrentVoiceClone,
-        skipGraceNotes);
-  */
-  
-      // append it to the other voices in the part
       fCurrentPartClone->
-        appendSkipGraceNotesToVoicesClones (
+        prependSkipGraceNotesToVoicesClones (
           fCurrentVoiceClone,
           skipGraceNotes);
     }

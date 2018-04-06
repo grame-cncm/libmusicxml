@@ -4017,6 +4017,16 @@ class msrGraceNotes : public msrElement
     bool                  getGraceNotesIsFollowedByNotes () const
                               { return fGraceNotesIsFollowedByNotes; }
 
+    void                  setGraceNotesMeasureNumber (
+                            string graceNotesMeasureNumber)
+                              {
+                                fGraceNotesMeasureNumber =
+                                  graceNotesMeasureNumber;
+                              }
+                              
+    string                getGraceNotesMeasureNumber () const
+                              { return fGraceNotesMeasureNumber; }
+
     // services
     // ------------------------------------------------------
 
@@ -4053,6 +4063,12 @@ class msrGraceNotes : public msrElement
     bool                  fGraceNotesIsTied;
 
     bool                  fGraceNotesIsFollowedByNotes;
+
+    // LilyPond issue 34 may lead to add skip grace notes to voices
+    // other than the one containing these grace notes:
+    // the measure number is needed to create the first measure
+    // in case the grace notes are at the beginning of the voice
+    string                fGraceNotesMeasureNumber;
 };
 typedef SMARTP<msrGraceNotes> S_msrGraceNotes;
 EXP ostream& operator<< (ostream& os, const S_msrGraceNotes& elt);
@@ -9852,8 +9868,7 @@ class msrVoice : public msrElement
     // voice last segment
     
     void                  setVoiceCloneLastSegment (
-                            S_msrSegment segment)
-                              { fVoiceLastSegment = segment; }
+                            S_msrSegment segment);
 
     S_msrSegment          getVoiceLastSegment () const
                               { return fVoiceLastSegment; }
@@ -11478,7 +11493,11 @@ class msrPart : public msrElement
 
     // LilyPond issue 34
 
-    void                  appendSkipGraceNotesToVoicesClones (
+    void                  appendSkipGraceNotesToVoicesClones ( // JMI ???
+                            S_msrVoice      graceNotesOriginVoice,
+                            S_msrGraceNotes skipGraceNotes);
+                            
+    void                  prependSkipGraceNotesToVoicesClones (
                             S_msrVoice      graceNotesOriginVoice,
                             S_msrGraceNotes skipGraceNotes);
                             
