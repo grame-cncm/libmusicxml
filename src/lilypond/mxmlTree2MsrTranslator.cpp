@@ -16398,10 +16398,14 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       endl <<
       setw (fieldWidth) << "fCurrentGraceNotes" << " : ";
       
-    if (fCurrentGraceNotes)
-      fLogOutputStream << fCurrentGraceNotes;
-    else
-      fLogOutputStream << "fCurrentGraceNotes is NULL"; // JMI
+    if (fCurrentGraceNotes) {
+      fLogOutputStream <<
+        fCurrentGraceNotes;
+    }
+    else {
+      fLogOutputStream <<
+        "fCurrentGraceNotes is NULL"; // JMI
+    }
 
     fLogOutputStream <<
       endl;
@@ -17548,16 +17552,6 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
   newChordNote->
     setNoteKind (msrNote::kChordMemberNote);
 
-  // apply tuplet sounding factor to note
-  if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
-    // no duration has been found,
-    // determine sounding from display whole notes
-    newChordNote->
-      determineTupletMemberSoundingFromDisplayWholeNotes (
-        fCurrentNoteActualNotes,
-        fCurrentNoteNormalNotes);
-  }
-
   if (
     gTraceOptions->fTraceNotes
       ||
@@ -17602,8 +17596,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
     }
 
     else {
-      // fLastHandledNote is the first note of the chord
-      // ??? JMI and marked as a tuplet member
+      // the last handled note for the current voice
+      // is the first note of the chord
   
       // fetch last handled note for this voice
       chordFirstNote =
@@ -17650,6 +17644,9 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
           fCurrentChord);
     }
     else {
+      // append current chord to current voice
+      currentVoice->
+        appendChordToVoice (fCurrentChord);
     }
     
 
