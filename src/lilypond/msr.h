@@ -4002,8 +4002,8 @@ class msrGraceNotes : public msrElement
     // set and get
     // ------------------------------------------------------
                               
-    list<S_msrNote>&      getGraceNotesNotesList ()
-                              { return fGraceNotesNotesList; }
+    list<S_msrElement>&   getGraceNotesElementsList ()
+                              { return fGraceNotesElementsList; }
 
     bool                  getGraceNotesIsSlashed () const
                               { return fGraceNotesIsSlashed; }
@@ -4033,6 +4033,11 @@ class msrGraceNotes : public msrElement
     S_msrPart             graceNotesPartUplink () const;
 
     void                  appendNoteToGraceNotes (S_msrNote note);
+    void                  appendChordToGraceNotes (S_msrChord chord);
+
+    S_msrNote             removeLastNoteFromGraceNotes (
+                            int inputLineNumber);
+
 
     string                asShortString () const;
     
@@ -4057,7 +4062,7 @@ class msrGraceNotes : public msrElement
     // uplinks
     S_msrVoice            fGraceNotesVoiceUplink;
 
-    list<S_msrNote>       fGraceNotesNotesList;
+    list<S_msrElement>    fGraceNotesElementsList;
 
     bool                  fGraceNotesIsSlashed;
     bool                  fGraceNotesIsTied;

@@ -4043,24 +4043,40 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
     
   // populating the clone with skips
   for (
-    list<S_msrNote>::const_iterator i=fGraceNotesNotesList.begin ();
-    i!=fGraceNotesNotesList.end ();
-    i++) {
-    S_msrNote note = (*i);
+    list<S_msrElement>::const_iterator i=fGraceNotesElementsList.begin ();
+    i!=fGraceNotesElementsList.end ();
+    i++) {      
+    if (
+      S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
+      ) {
+      // create skip with same duration as note
+      S_msrNote
+        skip =
+          msrNote::createSkipNote (
+            note->            getInputLineNumber (),
+            note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
+            note->            getNoteDisplayWholeNotes (),
+            note->            getNoteDotsNumber (),
+            containingVoice-> getVoiceStaffRelativeNumber (), // JMI
+            containingVoice-> getVoicePartRelativeID ());
+  
+      clone->
+        appendNoteToGraceNotes (skip);
+    }
+  
+    else if (
+      S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
+      ) {
+      // JMI ???
+    }
     
-    // create skip with same duration as note
-    S_msrNote
-      skip =
-        msrNote::createSkipNote (
-          note->            getInputLineNumber (),
-          note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
-          note->            getNoteDisplayWholeNotes (),
-          note->            getNoteDotsNumber (),
-          containingVoice-> getVoiceStaffRelativeNumber (), // JMI
-          containingVoice-> getVoicePartRelativeID ());
-
-    clone->
-      appendNoteToGraceNotes (skip);
+    else {
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        fInputLineNumber,
+        __FILE__, __LINE__,
+        "grace notes element should be a note or a chord");
+    }    
   } // for
     
   return clone;
@@ -4068,12 +4084,46 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
 
 void msrGraceNotes::appendNoteToGraceNotes (S_msrNote note)
 {
-  fGraceNotesNotesList.push_back (note);
+  fGraceNotesElementsList.push_back (note);
 
   // is this grace note tied?
   if (note->getNoteTie ()) {
     fGraceNotesIsTied = true;
   }
+}
+
+void msrGraceNotes::appendChordToGraceNotes (S_msrChord chord)
+{
+  fGraceNotesElementsList.push_back (chord);
+}
+
+S_msrNote msrGraceNotes::removeLastNoteFromGraceNotes (
+  int inputLineNumber)
+{
+  // sanity check
+  msrAssert (
+    fGraceNotesElementsList.size () != 0,
+    "fGraceNotesElementsList.size () == 0");
+
+  S_msrNote result;
+
+  if (
+    S_msrNote note = dynamic_cast<msrNote*>(&(*fGraceNotesElementsList.back ()))
+    ) {
+    result = note;
+  }
+
+  else {
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      fInputLineNumber,
+      __FILE__, __LINE__,
+      "removeLastNoteFromGraceNotes(): grace notes element should be a note");
+  }   
+
+  fGraceNotesElementsList.pop_back ();
+
+  return result;
 }
 
 void msrGraceNotes::acceptIn (basevisitor* v)
@@ -4122,14 +4172,14 @@ void msrGraceNotes::acceptOut (basevisitor* v)
 
 void msrGraceNotes::browseData (basevisitor* v)
 {
-  list<S_msrNote>::const_iterator i;
+  list<S_msrElement>::const_iterator i;
 
   for (
-    i=fGraceNotesNotesList.begin ();
-    i!=fGraceNotesNotesList.end ();
+    i=fGraceNotesElementsList.begin ();
+    i!=fGraceNotesElementsList.end ();
     i++) {
     // browse the note
-    msrBrowser<msrNote> browser (v);
+    msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
   } // for
 }
@@ -4149,9 +4199,9 @@ string msrGraceNotes::asShortString () const
     "fGraceNotesMeasureNumber \"" << fGraceNotesMeasureNumber <<
     "\", ";
 
-  list<S_msrNote>::const_iterator
-    iBegin = fGraceNotesNotesList.begin (),
-    iEnd   = fGraceNotesNotesList.end (),
+  list<S_msrElement>::const_iterator
+    iBegin = fGraceNotesElementsList.begin (),
+    iEnd   = fGraceNotesElementsList.end (),
     i      = iBegin;
   for ( ; ; ) {
     s << (*i)->asShortString ();
@@ -4169,7 +4219,7 @@ void msrGraceNotes::print (ostream& os)
     ", line " << fInputLineNumber <<
     ", " <<
     singularOrPlural (
-      fGraceNotesNotesList.size (), "note", "notes") <<
+      fGraceNotesElementsList.size (), "element", "elementss") <<
     ", slashed: " <<
     booleanAsString (fGraceNotesIsSlashed) <<
     ", tied: " <<
@@ -4183,9 +4233,9 @@ void msrGraceNotes::print (ostream& os)
   
   gIndenter++;
             
-  list<S_msrNote>::const_iterator
-    iBegin = fGraceNotesNotesList.begin (),
-    iEnd   = fGraceNotesNotesList.end (),
+  list<S_msrElement>::const_iterator
+    iBegin = fGraceNotesElementsList.begin (),
+    iEnd   = fGraceNotesElementsList.end (),
     i      = iBegin;
     
   for ( ; ; ) {
@@ -10529,19 +10579,19 @@ void msrTuplet::setTupletMeasureNumber (string measureNumber) // JMI
   // BON   SMARTP<msrNote> note = dynamic_cast<msrNote*>(&(*tupletMember));
 
     if (
-      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
       ) {
       note->setNoteMeasureNumber (measureNumber);
     }
   
     else if (
-      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
       ) {
       chord->setChordMeasureNumber (measureNumber);
     }
     
     else if (
-      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
       ) {
       tuplet->setTupletMeasureNumber (measureNumber);
     }
@@ -10572,7 +10622,7 @@ rational msrTuplet::setTupletPositionInMeasure (
     // set tuplet element position in measure
     
     if (
-      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
       ) {    
       note->
         setNotePositionInMeasure (currentPosition);
@@ -10583,7 +10633,7 @@ rational msrTuplet::setTupletPositionInMeasure (
     }
   
     else if (
-      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
       ) {
       chord->
         setChordPositionInMeasure (currentPosition);
@@ -10594,7 +10644,7 @@ rational msrTuplet::setTupletPositionInMeasure (
     }
     
     else if (
-      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
       ) {
       currentPosition =
         tuplet->
@@ -10642,7 +10692,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
     // apply sounding factor to tuplet element
     
     if (
-      S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+      S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
       ) {    
       note->
         applyTupletMemberSoundingFactorToNote (
@@ -10650,7 +10700,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
      }
   
     else if (
-      S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+      S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
       ) {
       chord->
         applyTupletMemberDisplayFactorToChordMembers (
@@ -10658,7 +10708,7 @@ void msrTuplet::applyDisplayFactorToTupletMembers ()
     }
     
     else if (
-      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+      S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
       ) {
       // don't apply the sounding factor to nested tuplets
  // JMI     tuplet->
@@ -10797,21 +10847,21 @@ string msrTuplet::asString () const
     for ( ; ; ) {
       
       if (
-        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+        S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
         ) {    
         s <<
           note->asShortStringWithRawWholeNotes ();
       }
     
       else if (
-        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+        S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
         ) {
         s <<
           chord->asString ();
       }
       
       else if (
-        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
         ) {
         s <<
           tuplet->asString ();
@@ -10864,21 +10914,21 @@ string msrTuplet::asString () const
     for ( ; ; ) {
       
       if (
-        S_msrNote note = dynamic_cast<msrNote*>(&(**i))
+        S_msrNote note = dynamic_cast<msrNote*>(&(*(*i)))
         ) {    
         s <<
           note->asShortStringWithRawWholeNotes ();
       }
     
       else if (
-        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+        S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
         ) {
         s <<
           chord->asString ();
       }
       
       else if (
-        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(**i))
+        S_msrTuplet tuplet = dynamic_cast<msrTuplet*>(&(*(*i)))
         ) {
         s <<
           tuplet->asString ();
@@ -14640,14 +14690,14 @@ string msrTempoTuplet::asString () const
     for ( ; ; ) {
       
       if (
-        S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(**i))
+        S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(*(*i)))
         ) {    
         s <<
           note->asShortString ();
       }
     
       else if (
-        S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
+        S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(*(*i)))
         ) {
         s <<
           tempoTuplet->asString ();
@@ -14700,21 +14750,21 @@ string msrTempoTuplet::asString () const
     for ( ; ; ) {
       
       if (
-        S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(**i))
+        S_msrTempoNote note = dynamic_cast<msrTempoNote*>(&(*(*i)))
         ) {    
         s <<
           note->asShortStringWithRawWholeNotes ();
       }
     
       else if (
-        S_msrChord chord = dynamic_cast<msrChord*>(&(**i))
+        S_msrChord chord = dynamic_cast<msrChord*>(&(*(*i)))
         ) {
         s <<
           chord->asString ();
       }
       
       else if (
-        S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(**i))
+        S_msrTempoTuplet tempoTuplet = dynamic_cast<msrTempoTuplet*>(&(*(*i)))
         ) {
         s <<
           tempoTuplet->asString ();
@@ -20317,17 +20367,17 @@ void msrMeasure::prependGraceNotesToMeasure (
     i++ ) {
 
     if (
-      S_msrClef clef = dynamic_cast<msrClef*>(&(**i))
+      S_msrClef clef = dynamic_cast<msrClef*>(&(*(*i)))
       ) {
     }
   
     else if (
-      S_msrKey key = dynamic_cast<msrKey*>(&(**i))
+      S_msrKey key = dynamic_cast<msrKey*>(&(*(*i)))
       ) {
     }
     
     else if (
-      S_msrTime time = dynamic_cast<msrTime*>(&(**i))
+      S_msrTime time = dynamic_cast<msrTime*>(&(*(*i)))
       ) {
     }
     
@@ -20367,17 +20417,17 @@ void msrMeasure::prependAfterGraceNotesToMeasure (
     i++ ) {
 
     if (
-      S_msrClef clef = dynamic_cast<msrClef*>(&(**i))
+      S_msrClef clef = dynamic_cast<msrClef*>(&(*(*i)))
       ) {
     }
   
     else if (
-      S_msrKey key = dynamic_cast<msrKey*>(&(**i))
+      S_msrKey key = dynamic_cast<msrKey*>(&(*(*i)))
       ) {
     }
     
     else if (
-      S_msrTime time = dynamic_cast<msrTime*>(&(**i))
+      S_msrTime time = dynamic_cast<msrTime*>(&(*(*i)))
       ) {
     }
     
@@ -25671,7 +25721,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
         elementDeepCopy;
         
       if (
-        S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(**i))
+        S_msrRepeat repeat = dynamic_cast<msrRepeat*>(&(*(*i)))
         ) {
           /* JMI ???
         // create the repeat deep copy
@@ -25683,7 +25733,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
     
       else if (
         // create the segment deep copy
-        S_msrSegment segment = dynamic_cast<msrSegment*>(&(**i))
+        S_msrSegment segment = dynamic_cast<msrSegment*>(&(*(*i)))
         ) {
         elementDeepCopy =
           segment->createSegmentDeepCopy (

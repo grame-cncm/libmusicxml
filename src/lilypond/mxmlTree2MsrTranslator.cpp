@@ -256,15 +256,15 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fPreviousTupletNumber = -1;
   fCurrentATupletStopIsPending = false;
 
-    bool                      fOnGoingTupletActual;
-    int                       fCurrentTupletActualNumber;
-    string                    fCurrentTupletActualType;
-    int                       fCurrentTupletActualDotsNumber;
+  fOnGoingTupletActual = false;
+  fCurrentTupletActualNumber = -1;
+  fCurrentTupletActualType = "?";
+  fCurrentTupletActualDotsNumber = -1;
 
-    bool                      fOnGoingTupletNormal;
-    int                       fCurrentTupletNormalNumber;
-    string                    fCurrentTupletNormalType;
-    int                       fCurrentTupletNormalDotsNumber;
+  fOnGoingTupletNormal = false;
+  fCurrentTupletNormalNumber = -1;
+  fCurrentTupletNormalType = "?";
+  fCurrentTupletNormalDotsNumber = -1;
 
   fOnGoingTupletActual = false;
   fCurrentTupletActualNumber = -1;
@@ -16466,7 +16466,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       fLogOutputStream <<
         "Appending note " <<
         newNote->asString () <<
-        " to the grace notes in voice \"" <<
+        " to grace notes in voice \"" <<
         currentVoice->getVoiceName () << "\"" <<
         endl;
     }
@@ -17581,8 +17581,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
 
   // should a chord be created?
   if (! fOnGoingChord) {
-    // this is the second note of the chord to be created,
-    // fLastHandledNote being the first one and marked as a tuplet member
+    // this is the second note of the chord to be created
 
     // fetch current voice
     S_msrVoice
@@ -17591,34 +17590,48 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
           inputLineNumber,
           fCurrentNoteStaffNumber,
           fCurrentNoteVoiceNumber);
+  
+    S_msrNote chordFirstNote;
 
-    // fetch last handled note for this voice
-    S_msrNote
-      lastHandledNoteInVoice =
+    if (fCurrentGraceNotes) {
+      // the first note of the chord is currently the last one of fCurrentGraceNotes
+      chordFirstNote =
+        fCurrentGraceNotes->
+          removeLastNoteFromGraceNotes (
+            inputLineNumber);
+    }
+
+    else {
+      // fLastHandledNote is the first note of the chord
+      // ??? JMI and marked as a tuplet member
+  
+      // fetch last handled note for this voice
+      chordFirstNote =
         currentVoice->
           getVoiceLastAppendedNote ();
-
-    if (! lastHandledNoteInVoice) {
-      stringstream s;
-
-      s <<
-        "handleNoteBelongingToAChordInGraceNotes():" <<
-        endl <<
-        "lastHandledNoteInVoice is null on " <<
-        newChordNote->asString ();
-        
-      msrInternalError (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-        s.str ());
+  
+      if (! chordFirstNote) {
+        stringstream s;
+  
+        s <<
+          "handleNoteBelongingToAChordInGraceNotes():" <<
+          endl <<
+          "chordFirstNote is null on " <<
+          newChordNote->asString ();
+          
+        msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+          s.str ());
+      }
     }
-        
+       
     // create the chord from its first note
     fCurrentChord =
       createChordFromItsFirstNote (
         currentVoice,
-        lastHandledNoteInVoice);
+        chordFirstNote);
 
     if (false)
       fLogOutputStream <<
@@ -17630,63 +17643,17 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
         currentVoice <<
         endl << endl;
 
-    if (fTupletsStack.size ()) {
-      S_msrTuplet
-        currentTuplet =
-          fTupletsStack.top ();
-          
-      // remove last handled (previous current) note from the current tuplet
-      if (
-        gTraceOptions->fTraceNotes
-          ||
-        gTraceOptions->fTraceChords
-          ||
-        gTraceOptions->fTraceTuplets) {
-        fLogOutputStream <<
-          "Removing last handled note " <<
-          lastHandledNoteInVoice->
-            asShortStringWithRawWholeNotes () <<
-          ", line " << inputLineNumber <<
-          ", from tuplet '" <<
-          currentTuplet->asString () <<
-          "'" <<
-          endl;
-      }
-
-      // remove lastHandledNoteInVoice from the current voice
-      currentTuplet->
-        removeFirstNoteFromTuplet (
-          inputLineNumber,
-          lastHandledNoteInVoice);
-  
-      // add fCurrentChord to the current tuplet instead
-      if (
-        gTraceOptions->fTraceNotes
-          ||
-        gTraceOptions->fTraceChords
-          ||
-        gTraceOptions->fTraceTuplets) {
-        fLogOutputStream <<
-          "Adding chord " << fCurrentChord->asString () <<
-          " to stack top tuplet '" <<
-          currentTuplet->asString () <<
-          "', line " << inputLineNumber <<
-          endl;
-      }
-
-      currentTuplet->
-        addChordToTuplet (fCurrentChord);
-
-      if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
-        // no duration has been found,
-        // determine sounding from display whole notes
-        newChordNote->
-          determineTupletMemberSoundingFromDisplayWholeNotes (
-            fCurrentNoteActualNotes,
-            fCurrentNoteNormalNotes);
-      }
+    if (fCurrentGraceNotes) {
+      // append current chord to current grace notes
+      fCurrentGraceNotes->
+        appendChordToGraceNotes (
+          fCurrentChord);
+    }
+    else {
     }
     
+
+    /* JMI
     else {
       stringstream s;
 
@@ -17702,6 +17669,7 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
         __FILE__, __LINE__,
         s.str ());
     }
+    */
 
     // account for chord being built
     fOnGoingChord = true;
