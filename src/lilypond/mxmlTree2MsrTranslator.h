@@ -1473,6 +1473,9 @@ class mxmlTree2MsrTranslator :
     void                      handleNoteBelongingToAChordInATuplet (
                                 S_msrNote newChordNote);
 
+    void                      handleNoteBelongingToAChordInGraceNotes (
+                                S_msrNote newChordNote);
+
     // grace notes handling
     // ------------------------------------------------------
     

@@ -15575,12 +15575,19 @@ void msrSyllable::appendLyricTextToSyllable (string text)
 void msrSyllable::appendSyllableToNoteAndSetItsUplink (
   S_msrNote note)
 {
+  // sanity check
+  msrAssert (
+    note != nullptr,
+    "note is empty");
+    
   fSyllableNoteUplink = note;
 
-  // sanity check
+/*
+  // sanity check JMI ???
   msrAssert (
     fSyllableTextsList.size () != 0,
     "fSyllableTextsList is empty");
+    */
     
   // append syllable to note
   note->

@@ -16144,6 +16144,15 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       
     }
     
+    else if (fCurrentNoteIsAGraceNote) {
+    
+      // note is the second, third, ..., member of a chord
+      // that is a part of grace notes
+      handleNoteBelongingToAChordInGraceNotes (
+        newNote);
+      
+    }
+    
     else {
       
       // note is the second, third, ..., member of a chord
@@ -17486,6 +17495,203 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
 
       s <<
         "handleNoteBelongingToAChordInATuplet():" <<
+        endl <<
+        "tuplet member chord " << fCurrentChord->asString () <<
+        "cannot be added, tuplets stack is empty";
+
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }
+
+    // account for chord being built
+    fOnGoingChord = true;
+  }
+
+  // register note as another member of fCurrentChord
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceChords) {
+    fLogOutputStream <<
+      "Adding another note " <<
+      newChordNote->
+        asShortStringWithRawWholeNotes () <<
+      ", line " << inputLineNumber <<
+      " to current chord" <<
+      endl;
+  }
+  
+  fCurrentChord->
+    addAnotherNoteToChord (newChordNote);
+
+  // copy newChordNote's elements if any to the chord
+  copyNoteElementsToChord (
+    newChordNote, fCurrentChord);
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
+  S_msrNote newChordNote)
+{
+  /*
+   The first note of a chord belonging to a tuplet
+   is marked in MusicXML as a tuplet member only,
+   it has already been appended to the voice in
+   handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest (),
+   and the following ones are marked as both a tuplet and a chord member
+  */
+  
+  int inputLineNumber =
+    newChordNote->getInputLineNumber ();
+    
+  // set new note kind as a chord member
+  newChordNote->
+    setNoteKind (msrNote::kChordMemberNote);
+
+  // apply tuplet sounding factor to note
+  if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
+    // no duration has been found,
+    // determine sounding from display whole notes
+    newChordNote->
+      determineTupletMemberSoundingFromDisplayWholeNotes (
+        fCurrentNoteActualNotes,
+        fCurrentNoteNormalNotes);
+  }
+
+  if (
+    gTraceOptions->fTraceNotes
+      ||
+    gTraceOptions->fTraceChords
+      ||
+      gTraceOptions->fTraceTuplets) {
+    fLogOutputStream <<
+      "Handling a note belonging to a chord in grace notes" <<
+      ", newChordNote: " <<
+      newChordNote->
+        asShortStringWithRawWholeNotes () <<
+      endl;
+  }
+
+  if (fCurrentNoteIsARest)
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      "a rest cannot belong to a chord");
+
+  // should a chord be created?
+  if (! fOnGoingChord) {
+    // this is the second note of the chord to be created,
+    // fLastHandledNote being the first one and marked as a tuplet member
+
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        fetchVoiceFromCurrentPart (
+          inputLineNumber,
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber);
+
+    // fetch last handled note for this voice
+    S_msrNote
+      lastHandledNoteInVoice =
+        currentVoice->
+          getVoiceLastAppendedNote ();
+
+    if (! lastHandledNoteInVoice) {
+      stringstream s;
+
+      s <<
+        "handleNoteBelongingToAChordInGraceNotes():" <<
+        endl <<
+        "lastHandledNoteInVoice is null on " <<
+        newChordNote->asString ();
+        
+      msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+        s.str ());
+    }
+        
+    // create the chord from its first note
+    fCurrentChord =
+      createChordFromItsFirstNote (
+        currentVoice,
+        lastHandledNoteInVoice);
+
+    if (false)
+      fLogOutputStream <<
+        endl << endl <<
+        "&&&&&&&&&&&&&&&&&& currentVoice (" <<
+        currentVoice->getVoiceName () <<
+        ") contents &&&&&&&&&&&&&&&&&&" <<
+        endl <<
+        currentVoice <<
+        endl << endl;
+
+    if (fTupletsStack.size ()) {
+      S_msrTuplet
+        currentTuplet =
+          fTupletsStack.top ();
+          
+      // remove last handled (previous current) note from the current tuplet
+      if (
+        gTraceOptions->fTraceNotes
+          ||
+        gTraceOptions->fTraceChords
+          ||
+        gTraceOptions->fTraceTuplets) {
+        fLogOutputStream <<
+          "Removing last handled note " <<
+          lastHandledNoteInVoice->
+            asShortStringWithRawWholeNotes () <<
+          ", line " << inputLineNumber <<
+          ", from tuplet '" <<
+          currentTuplet->asString () <<
+          "'" <<
+          endl;
+      }
+
+      // remove lastHandledNoteInVoice from the current voice
+      currentTuplet->
+        removeFirstNoteFromTuplet (
+          inputLineNumber,
+          lastHandledNoteInVoice);
+  
+      // add fCurrentChord to the current tuplet instead
+      if (
+        gTraceOptions->fTraceNotes
+          ||
+        gTraceOptions->fTraceChords
+          ||
+        gTraceOptions->fTraceTuplets) {
+        fLogOutputStream <<
+          "Adding chord " << fCurrentChord->asString () <<
+          " to stack top tuplet '" <<
+          currentTuplet->asString () <<
+          "', line " << inputLineNumber <<
+          endl;
+      }
+
+      currentTuplet->
+        addChordToTuplet (fCurrentChord);
+
+      if (fCurrentNoteSoundingWholeNotesFromDuration.getNumerator () == 0) {
+        // no duration has been found,
+        // determine sounding from display whole notes
+        newChordNote->
+          determineTupletMemberSoundingFromDisplayWholeNotes (
+            fCurrentNoteActualNotes,
+            fCurrentNoteNormalNotes);
+      }
+    }
+    
+    else {
+      stringstream s;
+
+      s <<
+        "handleNoteBelongingToAChordInGraceNotes():" <<
         endl <<
         "tuplet member chord " << fCurrentChord->asString () <<
         "cannot be added, tuplets stack is empty";
