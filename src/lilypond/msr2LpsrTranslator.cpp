@@ -3449,6 +3449,13 @@ void msr2LpsrTranslator::visitStart (S_msrChord& elt)
     }
   }
   
+  else if (fCurrentGraceNotesClone) {
+    // append the chord to the grace notes
+    fCurrentGraceNotesClone->
+      appendChordToGraceNotes (
+        fCurrentChordClone);
+  }
+  
   else {
     // appending the chord to the voice clone at once
     fCurrentVoiceClone->

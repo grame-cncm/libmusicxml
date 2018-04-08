@@ -4178,7 +4178,7 @@ void msrGraceNotes::browseData (basevisitor* v)
     i=fGraceNotesElementsList.begin ();
     i!=fGraceNotesElementsList.end ();
     i++) {
-    // browse the note
+    // browse the element (note or chord)
     msrBrowser<msrElement> browser (v);
     browser.browse (*(*i));
   } // for
@@ -4228,23 +4228,32 @@ void msrGraceNotes::print (ostream& os)
     booleanAsString (fGraceNotesIsFollowedByNotes) <<
     ", fGraceNotesMeasureNumber: \"" <<
     fGraceNotesMeasureNumber <<
-    "\"" <<
-    endl;
+    "\"";
   
-  gIndenter++;
-            
-  list<S_msrElement>::const_iterator
-    iBegin = fGraceNotesElementsList.begin (),
-    iEnd   = fGraceNotesElementsList.end (),
-    i      = iBegin;
-    
-  for ( ; ; ) {
-    os << (*i);
-    if (++i == iEnd) break;
-    os << endl;
-  } // for
-
-  gIndenter--;
+  if (fGraceNotesElementsList.size ()) {
+    os <<
+      endl;
+      
+    gIndenter++;
+  
+    list<S_msrElement>::const_iterator
+      iBegin = fGraceNotesElementsList.begin (),
+      iEnd   = fGraceNotesElementsList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  
+    gIndenter--;
+  }
+  else {
+    os <<
+      "*** no grace notes elements ***" <<
+      endl;
+  }
 }
 
 //______________________________________________________________________________

@@ -3777,10 +3777,14 @@ string wholeNotesAsMsrString (
     endl;
 #endif
 
+  if (numerator == 0)
+    return "0/x"; // JMI
+/*
   // sanity check
   msrAssert (
     numerator != 0,
     "numerator is 0");
+*/
 
   if (numerator == 1) {
     // a number of ??? JMI notes

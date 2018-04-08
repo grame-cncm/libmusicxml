@@ -16398,6 +16398,16 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       endl <<
       setw (fieldWidth) << "fCurrentGraceNotes" << " : ";
       
+    fLogOutputStream <<
+      endl <<
+      "======================= handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRest" <<
+      endl;
+    currentVoice->print (fLogOutputStream);
+    fLogOutputStream <<
+      "=======================" <<
+      endl <<
+      endl;
+
     if (fCurrentGraceNotes) {
       fLogOutputStream <<
         fCurrentGraceNotes;
