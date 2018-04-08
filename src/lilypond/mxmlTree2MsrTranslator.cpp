@@ -16294,19 +16294,19 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // newNote is the first note after the chord
 
       msrAssert ( // JMI ???
-        fCurrentChord != nullptr,
-        "fCurrentChord is null");
-      
+        fVoicesCurrentChordMap [voice] != nullptr,
+        "fVoicesCurrentChordMap [voice] is null");
+
       // forget about this chord
       if (gTraceOptions->fTraceChords) {
         fLogOutputStream <<
           "Forgetting about chord '" <<
-          fCurrentChord->asString () <<
+          fVoicesCurrentChordMap [voice]->asString () <<
           "'" <<
           endl;
       }
       
-      fCurrentChord = nullptr;
+      fVoicesCurrentChordMap [voice] = nullptr;
 
       if (fCurrentDoubleTremolo) {
         // forget about a double tremolo containing a chord
@@ -16798,17 +16798,17 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       "a rest cannot belong to a chord");
   }
 
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentNoteVoiceNumber);
+
   // should a chord be created?
   if (! fOnGoingChord) {
     // newChordNote is the second note of the chord to be created
-
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        fetchVoiceFromCurrentPart (
-          inputLineNumber,
-          fCurrentNoteStaffNumber,
-          fCurrentNoteVoiceNumber);
 
     // sanity check JMI ???
     msrAssert (
@@ -16882,11 +16882,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     }
 
     // create the chord from its first note
-    fCurrentChord =
-      createChordFromItsFirstNote (
-        currentVoice,
-        chordFirstNote);
+    S_msrChord
+      fCurrentChord =
+        createChordFromItsFirstNote (
+          currentVoice,
+          chordFirstNote);
 
+    fVoicesCurrentChordMap [currentVoice] = fCurrentChord;
+    
     // handle chord's first note
     switch (savedChordFirstNoteKind) {
       case msrNote::kRestNote:
@@ -17023,6 +17026,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
       endl;
   }
   
+  S_msrChord
+    fCurrentChord =
+      fVoicesCurrentChordMap [currentVoice];
+
   fCurrentChord->
     addAnotherNoteToChord (newChordNote);
 
@@ -17396,18 +17403,18 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
 
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentNoteVoiceNumber);
+
   // should a chord be created?
   if (! fOnGoingChord) {
     // this is the second note of the chord to be created,
     // fLastHandledNote being the first one and marked as a tuplet member
-
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        fetchVoiceFromCurrentPart (
-          inputLineNumber,
-          fCurrentNoteStaffNumber,
-          fCurrentNoteVoiceNumber);
 
     // fetch last handled note for this voice
     S_msrNote
@@ -17432,11 +17439,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
     }
         
     // create the chord from its first note
-    fCurrentChord =
-      createChordFromItsFirstNote (
-        currentVoice,
-        lastHandledNoteInVoice);
+    S_msrChord
+      fCurrentChord =
+        createChordFromItsFirstNote (
+          currentVoice,
+          lastHandledNoteInVoice);
 
+    fVoicesCurrentChordMap [currentVoice] = fCurrentChord;
+    
     if (false)
       fLogOutputStream <<
         endl << endl <<
@@ -17535,6 +17545,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInATuplet (
       endl;
   }
   
+  S_msrChord
+    fCurrentChord =
+      fVoicesCurrentChordMap [currentVoice];
+
   fCurrentChord->
     addAnotherNoteToChord (newChordNote);
 
@@ -17583,18 +17597,18 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
       __FILE__, __LINE__,
       "a rest cannot belong to a chord");
 
+  // fetch current voice
+  S_msrVoice
+    currentVoice =
+      fetchVoiceFromCurrentPart (
+        inputLineNumber,
+        fCurrentNoteStaffNumber,
+        fCurrentNoteVoiceNumber);
+
   // should a chord be created?
   if (! fOnGoingChord) {
     // this is the second note of the chord to be created
 
-    // fetch current voice
-    S_msrVoice
-      currentVoice =
-        fetchVoiceFromCurrentPart (
-          inputLineNumber,
-          fCurrentNoteStaffNumber,
-          fCurrentNoteVoiceNumber);
-  
     S_msrNote chordFirstNote;
 
     if (fCurrentGraceNotes) {
@@ -17632,11 +17646,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
     }
        
     // create the chord from its first note
-    fCurrentChord =
-      createChordFromItsFirstNote (
-        currentVoice,
-        chordFirstNote);
+    S_msrChord
+      fCurrentChord =
+        createChordFromItsFirstNote (
+          currentVoice,
+          chordFirstNote);
 
+    fVoicesCurrentChordMap [currentVoice] = fCurrentChord;
+    
     if (false)
       fLogOutputStream <<
         endl << endl <<
@@ -17693,6 +17710,10 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChordInGraceNotes (
       endl;
   }
   
+  S_msrChord
+    fCurrentChord =
+      fVoicesCurrentChordMap [currentVoice];
+
   fCurrentChord->
     addAnotherNoteToChord (newChordNote);
 

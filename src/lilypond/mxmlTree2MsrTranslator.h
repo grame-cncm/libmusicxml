@@ -1641,7 +1641,8 @@ class mxmlTree2MsrTranslator :
     // chords handling
     // ------------------------------------------------------
 
-    S_msrChord                fCurrentChord;
+    map<S_msrVoice, S_msrChord>
+                              fVoicesCurrentChordMap;
     bool                      fOnGoingChord;
     
     S_msrChord                createChordFromItsFirstNote (
