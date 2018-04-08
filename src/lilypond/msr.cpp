@@ -8741,8 +8741,8 @@ void msrChord::print (ostream& os)
     
   os <<
     "Chord:" <<
-    chordSoundingWholeNotesAsMsrString () <<
-    ", " <<
+// JMI    chordSoundingWholeNotesAsMsrString () <<
+// JMI    ", " <<
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
     ", whole notes: " <<
