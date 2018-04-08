@@ -1369,7 +1369,8 @@ class mxmlTree2MsrTranslator :
     // notes/rests handling
     // ------------------------------------------------------
 
-    S_msrNote                 fLastMetNote;
+    map<S_msrVoice, S_msrNote>
+                              fVoicesLastMetNoteMap;
     
     void                      checkStep (
                                 int    inputLineNumber,
@@ -1648,6 +1649,13 @@ class mxmlTree2MsrTranslator :
     S_msrChord                createChordFromItsFirstNote (
                                 S_msrVoice voice,
                                 S_msrNote  chordFirstNote);
+
+    void                      registerVoiceCurrentChordMap (
+                                int        inputLineNumber,
+                                S_msrVoice voice,
+                                S_msrChord chord);
+                                
+    void                      displayVoicesCurrentChordMap ();
                                 
     // tuplets handling
     // ------------------------------------------------------

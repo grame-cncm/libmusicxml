@@ -7407,18 +7407,12 @@ void msrNote::print (ostream& os)
       os <<
         fNoteMeasureNumber;
     else {
-      os <<
-        "note measure number is empty in:" <<
-        endl;
-//      this->print (os); // this creates a loop (we're in already in the print method)
-//      os <<
-//        endl;
-    
       stringstream s;
 
       s <<
-        "see details above" <<
-        endl;
+        "note measure number is empty in note '" <<
+        this->asString () <<
+        "'";
       
  // JMI     msrInternalError (
       msrInternalWarning (
@@ -8740,20 +8734,18 @@ void msrChord::print (ostream& os)
         : rational (0, 1); // JMI
     
   os <<
-    "Chord:" <<
-// JMI    chordSoundingWholeNotesAsMsrString () <<
-// JMI    ", " <<
+    "Chord: " <<
     singularOrPlural (
       fChordNotes.size (), "note", "notes") <<
-    ", whole notes: " <<
+    ", " <<
     fChordSoundingWholeNotes << " sound whole notes" <<
     ", " <<
     fChordDisplayWholeNotes << " disp whole notes" <<
-    ", meas "<<
+    ", measure '"<<
     getChordMeasureNumber () <<
-    ":" <<
+    "':" <<
     fChordPositionInMeasure <<
-    "/" <<
+    ", fullMeasureLength: " <<
     fullMeasureLength;
 
   // print simplified position in measure if relevant
