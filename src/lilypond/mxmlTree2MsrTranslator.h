@@ -1647,10 +1647,11 @@ class mxmlTree2MsrTranslator :
     bool                      fOnGoingChord;
     
     S_msrChord                createChordFromItsFirstNote (
+                                int        inputLineNumber,
                                 S_msrVoice voice,
                                 S_msrNote  chordFirstNote);
 
-    void                      registerVoiceCurrentChordMap (
+    void                      registerVoiceCurrentChordInMap (
                                 int        inputLineNumber,
                                 S_msrVoice voice,
                                 S_msrChord chord);
