@@ -401,23 +401,12 @@ class msrStringTuning : public msrElement
 {
   public:
 
-    // data types
-    // ------------------------------------------------------
-
-    enum msrStringTuningKind {
-      k_NoStringTuning,
-      kStringTuningUp, kStringTuningDown,
-      kStringTuningStop, kStringTuningContinue };
-
-    static string stringTuningKindAsString (
-      msrStringTuningKind stringTuningKind);
-      
     // creation from MusicXML
     // ------------------------------------------------------
 
     static SMARTP<msrStringTuning> create (
       int                  inputLineNumber,
-      msrStringTuningKind  stringTuningNumber,
+      int                  stringTuningNumber,
       msrDiatonicPitchKind stringTuningDiatonicPitchKind,
       msrAlterationKind    stringTuningAlterationKind,
       int                  stringTuningOctave);
@@ -429,7 +418,7 @@ class msrStringTuning : public msrElement
 
     msrStringTuning (
       int                  inputLineNumber,
-      msrStringTuningKind  stringTuningNumber,
+      int                  stringTuningNumber,
       msrDiatonicPitchKind stringTuningDiatonicPitchKind,
       msrAlterationKind    stringTuningAlterationKind,
       int                  stringTuningOctave);
@@ -501,9 +490,7 @@ class msrScordatura : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrScordatura> create (
-      int               inputLineNumber,
-      msrScordaturaKind scordaturaKind,
-      int               scordaturaSize);
+      int inputLineNumber);
 
   protected:
 
@@ -511,9 +498,7 @@ class msrScordatura : public msrElement
     // ------------------------------------------------------
 
     msrScordatura (
-      int               inputLineNumber,
-      msrScordaturaKind scordaturaKind,
-      int               scordaturaSize);
+      int inputLineNumber);
       
     virtual ~msrScordatura ();
   
@@ -522,16 +507,15 @@ class msrScordatura : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrScordaturaKind     getScordaturaKind () const
-                              { return fScordaturaKind; }
-
-    int                   getScordaturaSize () const
-                              { return fScordaturaSize; }
+    const list<S_msrStringTuning>&
+                          getScordaturaStringTuningsList ()
+                              { return fScordaturaStringTuningsList; }
 
     // services
     // ------------------------------------------------------
 
-    string                scordaturaKindAsString () const;
+    void                  addStringTuningToScordatura (
+                            S_msrStringTuning stringTuning);
 
     // visitors
     // ------------------------------------------------------
@@ -551,9 +535,8 @@ class msrScordatura : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrScordaturaKind    fScordaturaKind;
-
-    int                   fScordaturaSize;
+    list<S_msrStringTuning>
+                          fScordaturaStringTuningsList;
 };
 typedef SMARTP<msrScordatura> S_msrScordatura;
 EXP ostream& operator<< (ostream& os, const S_msrScordatura& elt);
@@ -3600,6 +3583,11 @@ class msrMeasure : public msrElement
     void                  appendOctaveShiftToMeasure (
                             S_msrOctaveShift octaveShift);
 
+    // scordaturas
+    
+    void                  appendScordaturaToMeasure (
+                            S_msrScordatura scordatura);
+
     // accordion registration
 
     void                  appendAccordionRegistrationToMeasure (
@@ -3951,6 +3939,11 @@ class msrSegment : public msrElement
     
     void                  appendOctaveShiftToSegment (
                             S_msrOctaveShift octaveShift);
+
+    // scordaturas
+    
+    void                  appendScordaturaToSegment (
+                            S_msrScordatura scordatura);
 
     // accordion registration
 
@@ -10162,6 +10155,11 @@ class msrVoice : public msrElement
     void                  appendOctaveShiftToVoice (
                             S_msrOctaveShift octaveShift);
 
+    // scordaturas
+    
+    void                  appendScordaturaToVoice (
+                            S_msrScordatura scordatura);
+
     // accordion registration
 
     void                  appendAccordionRegistrationToVoice (
@@ -11057,6 +11055,11 @@ class msrStaff : public msrElement
     void                  appendTransposeToAllStaffVoices ( // JMI
                             S_msrTranspose transpose);
   
+    // scordaturas
+    
+    void                  appendScordaturaToStaff (
+                            S_msrScordatura scordatura);
+
     // accordion registration
 
     void                  appendAccordionRegistrationToStaff (
@@ -11631,6 +11634,11 @@ class msrPart : public msrElement
                             S_msrVoice       figuredBassSupplierVoice,
                             S_msrFiguredBass figuredBass);
   
+    // scordaturas
+    
+    void                  appendScordaturaToPart (
+                            S_msrScordatura scordatura);
+
     // accordion registration
 
     void                  appendAccordionRegistrationToPart (

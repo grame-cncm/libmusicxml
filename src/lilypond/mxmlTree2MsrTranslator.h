@@ -1202,6 +1202,8 @@ class mxmlTree2MsrTranslator :
     // scordatura handling
     // ------------------------------------------------------
 
+    S_msrScordatura           fCurrentScordatura;
+    
     int                       fCurrentStringTuningNumber;
     
     msrDiatonicPitchKind      fCurrentStringTuningDiatonicPitchKind;

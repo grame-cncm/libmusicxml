@@ -19819,6 +19819,10 @@ void mxmlTree2MsrTranslator::visitStart (S_scordatura& elt )
     </direction-type>
   </direction>
 */
+
+  fCurrentScordatura =
+    msrScordatura::create (
+      elt->getInputLineNumber ());
 }
 
 void mxmlTree2MsrTranslator::visitStart (S_accord& elt )
@@ -19848,6 +19852,19 @@ void mxmlTree2MsrTranslator::visitEnd (S_accord& elt)
       "--> End visiting S_accord" <<
       endl;
   }
+
+  S_msrStringTuning
+    stringTuning =
+      msrStringTuning::create (
+        elt->getInputLineNumber (),
+        fCurrentStringTuningNumber,
+        fCurrentStringTuningDiatonicPitchKind,
+        fCurrentStringTuningAlterationKind,
+        fCurrentStringTuningOctave);
+
+  fCurrentScordatura->
+    addStringTuningToScordatura (
+      stringTuning);
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_scordatura& elt)
@@ -19857,6 +19874,14 @@ void mxmlTree2MsrTranslator::visitEnd (S_scordatura& elt)
       "--> End visiting S_scordatura" <<
       endl;
   }
+
+  // append the current scordatura to the voice
+//  voice->
+//    appendScordaturaToVoice (
+//      fCurrentScordatura);
+
+  // forget about this scordatura
+  fCurrentScordatura = nullptr;
 }
 
 //______________________________________________________________________________

@@ -327,7 +327,7 @@ void msrOctaveShift::print (ostream& os)
 //______________________________________________________________________________
 S_msrStringTuning msrStringTuning::create (
   int                  inputLineNumber,
-  msrStringTuningKind  stringTuningNumber,
+  int                  stringTuningNumber,
   msrDiatonicPitchKind stringTuningDiatonicPitchKind,
   msrAlterationKind    stringTuningAlterationKind,
   int                  stringTuningOctave)
@@ -345,7 +345,7 @@ S_msrStringTuning msrStringTuning::create (
 
 msrStringTuning::msrStringTuning (
   int                  inputLineNumber,
-  msrStringTuningKind  stringTuningNumber,
+  int                  stringTuningNumber,
   msrDiatonicPitchKind stringTuningDiatonicPitchKind,
   msrAlterationKind    stringTuningAlterationKind,
   int                  stringTuningOctave)
@@ -444,30 +444,29 @@ void msrStringTuning::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrScordatura msrScordatura::create (
-  int               inputLineNumber,
-  msrScordaturaKind scordaturaKind,
-  int               scordaturaSize)
+  int inputLineNumber)
 {
   msrScordatura* o =
     new msrScordatura (
-      inputLineNumber, scordaturaKind, scordaturaSize);
+      inputLineNumber);
   assert(o!=0);
   return o;
 }
 
 msrScordatura::msrScordatura (
-  int               inputLineNumber,
-  msrScordaturaKind scordaturaKind,
-  int               scordaturaSize)
+  int inputLineNumber)
     : msrElement (inputLineNumber)
-{
-  fScordaturaKind = scordaturaKind;
-
-  fScordaturaSize = scordaturaSize;
-}
+{}
 
 msrScordatura::~msrScordatura ()
 {}
+
+void msrScordatura::addStringTuningToScordatura (
+  S_msrStringTuning stringTuning)
+{
+  fScordaturaStringTuningsList.push_back (
+    stringTuning);
+}
 
 void msrScordatura::acceptIn (basevisitor* v)
 {
@@ -522,42 +521,37 @@ ostream& operator<< (ostream& os, const S_msrScordatura& elt)
   return os;
 }
 
-string msrScordatura::scordaturaKindAsString () const
-{
-  string result;
-  
-  switch (fScordaturaKind) {
-    case k_NoScordatura:
-      result = "none";
-      break;
-    case kScordaturaUp:
-      result = "up";
-      break;
-    case kScordaturaDown:
-      result = "down";
-      break;
-    case kScordaturaStop:
-      result = "stop";
-      break;
-    case kScordaturaContinue:
-      result = "continue";
-      break;
-  } // switch
-
-  return result;
-}
 
 void msrScordatura::print (ostream& os)
 {
   gIndenter++;
   
   os <<
-    "Scordatura" <<
-    ", kind: " << scordaturaKindAsString () <<
-    ", size: " << fScordaturaSize <<
-    endl;
+    "Scordatura";
 
-  gIndenter--;
+  if (fScordaturaStringTuningsList.size ()) {
+    os <<
+      endl;
+
+    gIndenter++;
+
+    list<S_msrStringTuning>::const_iterator
+      iBegin = fScordaturaStringTuningsList.begin (),
+      iEnd   = fScordaturaStringTuningsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : no string tunings" <<
+      endl;
+  }
 }
 
 //______________________________________________________________________________
@@ -20699,6 +20693,12 @@ void msrMeasure::appendOctaveShiftToMeasure (
   fMeasureElementsList.push_back (octaveShift);
 }
 
+void msrMeasure::appendScordaturaToMeasure (
+  S_msrScordatura scordatura)
+{
+  fMeasureElementsList.push_back (scordatura);
+}
+
 void msrMeasure::appendAccordionRegistrationToMeasure (
   S_msrAccordionRegistration
     accordionRegistration)
@@ -22430,6 +22430,30 @@ void msrSegment::appendOctaveShiftToSegment (
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendOctaveShiftToMeasure (octaveShift);
+}
+
+void msrSegment::appendScordaturaToSegment (
+  S_msrScordatura scordatura)
+{
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Appending scordatura '" <<
+  // JMI ???    scordatura->octaveShiftKindAsString () <<
+      "' to segment " << asString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+      
+  // sanity check
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendScordaturaToMeasure (scordatura);
 }
 
 void msrSegment::appendAccordionRegistrationToSegment (
@@ -26791,7 +26815,8 @@ void msrVoice::appendTempoToVoice (S_msrTempo tempo)
     appendTempoToSegment (tempo);
 }
 
-void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
+void msrVoice::appendOctaveShiftToVoice (
+  S_msrOctaveShift octaveShift)
 {
   if (gMsrOptions->fTraceMsr) {
     gLogIOstream <<
@@ -26808,6 +26833,25 @@ void msrVoice::appendOctaveShiftToVoice (S_msrOctaveShift octaveShift)
 
   fVoiceLastSegment->
     appendOctaveShiftToSegment (octaveShift);
+}
+
+void msrVoice::appendScordaturaToVoice (
+  S_msrScordatura scordatura)
+{
+  if (gMsrOptions->fTraceMsr) {
+    gLogIOstream <<
+      "Appending scordatura '" <<
+      scordatura->asString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    scordatura->getInputLineNumber ());
+
+  fVoiceLastSegment->
+    appendScordaturaToSegment (scordatura);
 }
 
 void msrVoice::appendAccordionRegistrationToVoice (
@@ -32031,6 +32075,19 @@ void msrStaff::appendTransposeToAllStaffVoices (
   } // for
 }
 
+void msrStaff::appendScordaturaToStaff (
+  S_msrScordatura scordatura)
+{
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++) {
+    (*i).second->
+      appendScordaturaToVoice (
+        scordatura);
+  } // for
+}
+
 void msrStaff::appendAccordionRegistrationToStaff (
   S_msrAccordionRegistration
     accordionRegistration)
@@ -34308,6 +34365,28 @@ void msrPart::appendFiguredBassToPartClone (
       }
       break;
   } // switch
+}
+
+void msrPart::appendScordaturaToPart (
+  S_msrScordatura scordatura)
+{
+  if (gTraceOptions->fTraceBasic || gTraceOptions->fTraceParts) {
+    gLogIOstream <<
+      "Appending scordatura '" <<
+      scordatura->asString () <<
+      "' to part " <<
+      getPartCombinedName () <<
+      endl;
+  }
+
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    (*i).second->
+      appendScordaturaToStaff (
+        scordatura);
+  } // for
 }
 
 void msrPart::appendAccordionRegistrationToPart (
