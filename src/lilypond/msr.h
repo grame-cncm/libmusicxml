@@ -416,9 +416,11 @@ class msrStringTuning : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStringTuning> create (
-      int               inputLineNumber,
-      msrStringTuningKind stringTuningKind,
-      int               stringTuningSize);
+      int                  inputLineNumber,
+      msrStringTuningKind  stringTuningNumber,
+      msrDiatonicPitchKind stringTuningDiatonicPitchKind,
+      msrAlterationKind    stringTuningAlterationKind,
+      int                  stringTuningOctave);
 
   protected:
 
@@ -426,9 +428,11 @@ class msrStringTuning : public msrElement
     // ------------------------------------------------------
 
     msrStringTuning (
-      int               inputLineNumber,
-      msrStringTuningKind stringTuningKind,
-      int               stringTuningSize);
+      int                  inputLineNumber,
+      msrStringTuningKind  stringTuningNumber,
+      msrDiatonicPitchKind stringTuningDiatonicPitchKind,
+      msrAlterationKind    stringTuningAlterationKind,
+      int                  stringTuningOctave);
       
     virtual ~msrStringTuning ();
   
@@ -437,8 +441,8 @@ class msrStringTuning : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    msrStringTuningKind     getStringTuningKind () const
-                              { return fStringTuningKind; }
+    int                   getStringTuningNumber () const
+                              { return fStringTuningNumber; }
 
     int                   getStringTuningSize () const
                               { return fStringTuningSize; }
@@ -466,7 +470,11 @@ class msrStringTuning : public msrElement
     // fields
     // ------------------------------------------------------
 
-    msrStringTuningKind    fStringTuningKind;
+    int                   fStringTuningNumber;
+    
+    msrDiatonicPitchKind  fStringTuningDiatonicPitchKind;
+    msrAlterationKind     fStringTuningAlterationKind;
+    int                   fStringTuningOctave;
 
     int                   fStringTuningSize;
 };

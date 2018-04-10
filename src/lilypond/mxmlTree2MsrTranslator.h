@@ -141,8 +141,11 @@ class mxmlTree2MsrTranslator :
   public visitor<S_direction>,
   public visitor<S_direction_type>,
   public visitor<S_offset>,
+  
   public visitor<S_words>,
+  
   public visitor<S_octave_shift>,
+  
   public visitor<S_scordatura>,
   public visitor<S_accord>,
 
@@ -599,7 +602,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_octave_change& elt );
     virtual void visitStart ( S_double& elt );
 
-    // ???
+    // directions
     // ------------------------------------------------------
 
     virtual void visitStart ( S_direction& elt );
@@ -607,11 +610,15 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_direction_type& elt );
     virtual void visitEnd   ( S_direction_type& elt );
     virtual void visitStart ( S_offset& elt );
+    
     virtual void visitStart ( S_words& elt );
+    
     virtual void visitStart ( S_octave_shift& elt );
+    
     virtual void visitStart ( S_scordatura& elt );
     virtual void visitEnd   ( S_scordatura& elt );
     virtual void visitStart ( S_accord& elt );
+    virtual void visitEnd   ( S_accord& elt );
 
     // accordion registration
     // ------------------------------------------------------
@@ -1042,6 +1049,8 @@ class mxmlTree2MsrTranslator :
     msrDiatonicPitchKind      fCurrentStaffTuningDiatonicPitchKind;
     msrAlterationKind         fCurrentStaffTuningAlterationKind;
     int                       fCurrentStaffTuningOctave;
+
+    bool                      fOnGoingStaffTuning;
     
     // staff handling
     // ------------------------------------------------------
@@ -1189,6 +1198,17 @@ class mxmlTree2MsrTranslator :
     list<S_msrOctaveShift>    fPendingOctaveShifts;
     void                      attachPendingOctaveShiftsToTheVoiceOfNote (
                                 S_msrNote note);
+
+    // scordatura handling
+    // ------------------------------------------------------
+
+    int                       fCurrentStringTuningNumber;
+    
+    msrDiatonicPitchKind      fCurrentStringTuningDiatonicPitchKind;
+    msrAlterationKind         fCurrentStringTuningAlterationKind;
+    int                       fCurrentStringTuningOctave;
+
+    bool                      fOnGoingAccord;
 
     // time handling
     // ------------------------------------------------------

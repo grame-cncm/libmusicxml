@@ -100,11 +100,17 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentPrintSpacingKind =
     msrStaffDetails::kPrintSpacingNo; // default value ??? JMI
 
+  // staff tuning handling
   fCurrentStaffTuningAlterationKind = k_NoAlteration;
   fCurrentStaffTuningOctave         = -1;
 
   fCurrentStaffDetailsCapo = 0;
   fCurrentStaffDetailsStaffSize = 0;
+
+  fOnGoingStaffTuning = false;
+
+  // scordatura handling
+  fOnGoingAccord = false;
 
   // staff handling
   fCurrentStaffNumber = K_NO_STAFF_NUMBER;
@@ -188,6 +194,9 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   fLastHandledNoteInVoiceHasLyrics = false;
   fOnGoingMelisma = false;
+
+  // scordatura handling
+  fOnGoingAccord = false;
 
   // harmonies handling
   fHarmonyVoicesCounter = 0;
@@ -1959,19 +1968,19 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
       "Humdrum/Scot key alter found while no key step is being handled");
   }
   
-  float alter = (float)(*elt);
+  float keyAlter = (float)(*elt);
 
   // determine the alteration
   msrAlterationKind
     keyAlterationKind =
       msrAlterationKindFromMusicXMLAlter (
-        alter);
+        keyAlter);
       
   if (keyAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
-      "alter '" << alter << "'"
+      "key alter '" << keyAlter << "'"
       "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
       
     msrMusicXMLError (
@@ -4749,6 +4758,8 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_tuning& elt )
 
   fCurrentStaffTuningAlterationKind = kNatural; // may be absent
   fCurrentStaffTuningOctave         = -1;
+
+  fOnGoingStaffTuning = true;
 }
     
 void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
@@ -4765,9 +4776,28 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_step& elt )
     elt->getInputLineNumber (),
     tuningStep);
 
-  fCurrentStaffTuningDiatonicPitchKind =
-    msrDiatonicPitchKindFromString (
-      tuningStep [0]);
+  msrDiatonicPitchKind
+    tuningDiatonicKind =
+      msrDiatonicPitchKindFromString (
+        tuningStep [0]);
+        
+  if (fOnGoingStaffTuning) {
+    fCurrentStaffTuningDiatonicPitchKind = tuningDiatonicKind;
+  }
+  else if (fOnGoingAccord) {
+    fCurrentStringTuningDiatonicPitchKind = tuningDiatonicKind;
+  }
+  else {
+    stringstream s;
+    
+    s << "tuning step " << tuningStep << " is out of context";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart (S_tuning_octave& elt )
@@ -4778,7 +4808,25 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_octave& elt )
       endl;
   }
 
-  fCurrentStaffTuningOctave = (int)(*elt);
+  int tuningOctave = (int)(*elt);
+  
+  if (fOnGoingStaffTuning) {
+    fCurrentStaffTuningOctave = tuningOctave;
+  }
+  else if (fOnGoingAccord) {
+    fCurrentStringTuningOctave = tuningOctave;
+  }
+  else {
+    stringstream s;
+    
+    s << "tuning octave " << tuningOctave << " is out of context";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
 }
 
 void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
@@ -4791,9 +4839,10 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
 
   float tuningAlter = (float)(*elt);
 
-  fCurrentStaffTuningAlterationKind =
-    msrAlterationKindFromMusicXMLAlter (
-      tuningAlter);
+  msrAlterationKind
+    tuningAlterationKind =
+      msrAlterationKindFromMusicXMLAlter (
+        tuningAlter);
       
   if (fCurrentStaffTuningAlterationKind == k_NoAlteration) {
     stringstream s;
@@ -4802,6 +4851,24 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
       "tuning alter '" << tuningAlter << "'"
       "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
       
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  if (fOnGoingStaffTuning) {
+    fCurrentStaffTuningAlterationKind = tuningAlterationKind;
+  }
+  else if (fOnGoingAccord) {
+    fCurrentStringTuningAlterationKind = tuningAlterationKind;
+  }
+  else {
+    stringstream s;
+    
+    s << "tuning alter " << tuningAlter << " is out of context";
+    
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
       elt->getInputLineNumber (),
@@ -4881,6 +4948,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
       fCurrentStaffTuningLine,
       quarterTonesPitchKind,
       fCurrentStaffTuningOctave);
+
+  fOnGoingStaffTuning = false;
 }
 
 //________________________________________________________________________
@@ -19571,17 +19640,17 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_alter& elt )
       endl;
   }
 
-  float tuningAlter = (float)(*elt);
+  float pedalAlter = (float)(*elt);
 
   fCurrentHarpPedalAlterationKind =
     msrAlterationKindFromMusicXMLAlter (
-      tuningAlter);
+      pedalAlter);
       
   if (fCurrentHarpPedalAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
-      "tuning alter '" << tuningAlter << "'"
+      "pedal alter '" << pedalAlter << "'"
       "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
       
     msrMusicXMLError (
@@ -19750,8 +19819,6 @@ void mxmlTree2MsrTranslator::visitStart (S_scordatura& elt )
     </direction-type>
   </direction>
 */
-
-  // JMI not used
 }
 
 void mxmlTree2MsrTranslator::visitStart (S_accord& elt )
@@ -19769,7 +19836,18 @@ void mxmlTree2MsrTranslator::visitStart (S_accord& elt )
           </accord>
 */
 
-  // JMI not used
+  fCurrentStringTuningNumber = (int)(* elt);
+  
+  fOnGoingAccord = true;
+}
+
+void mxmlTree2MsrTranslator::visitEnd (S_accord& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_accord" <<
+      endl;
+  }
 }
 
 void mxmlTree2MsrTranslator::visitEnd (S_scordatura& elt)

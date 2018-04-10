@@ -325,6 +325,124 @@ void msrOctaveShift::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrStringTuning msrStringTuning::create (
+  int                  inputLineNumber,
+  msrStringTuningKind  stringTuningNumber,
+  msrDiatonicPitchKind stringTuningDiatonicPitchKind,
+  msrAlterationKind    stringTuningAlterationKind,
+  int                  stringTuningOctave)
+{
+  msrStringTuning* o =
+    new msrStringTuning (
+      inputLineNumber,
+      stringTuningNumber,
+      stringTuningDiatonicPitchKind,
+      stringTuningAlterationKind,
+      stringTuningOctave);
+  assert(o!=0);
+  return o;
+}
+
+msrStringTuning::msrStringTuning (
+  int                  inputLineNumber,
+  msrStringTuningKind  stringTuningNumber,
+  msrDiatonicPitchKind stringTuningDiatonicPitchKind,
+  msrAlterationKind    stringTuningAlterationKind,
+  int                  stringTuningOctave)
+    : msrElement (inputLineNumber)
+{
+  fStringTuningNumber = stringTuningNumber;
+
+  fStringTuningDiatonicPitchKind = stringTuningDiatonicPitchKind;
+  fStringTuningAlterationKind    = stringTuningAlterationKind;
+  fStringTuningOctave            = stringTuningOctave;
+}
+
+msrStringTuning::~msrStringTuning ()
+{}
+
+void msrStringTuning::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrStringTuning::acceptIn()" <<
+      endl;
+  }
+  
+  if (visitor<S_msrStringTuning>*
+    p =
+      dynamic_cast<visitor<S_msrStringTuning>*> (v)) {
+        S_msrStringTuning elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrStringTuning::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrStringTuning::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrStringTuning::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrStringTuning>*
+    p =
+      dynamic_cast<visitor<S_msrStringTuning>*> (v)) {
+        S_msrStringTuning elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrStringTuning::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrStringTuning::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrStringTuning& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrStringTuning::print (ostream& os)
+{
+  gIndenter++;
+
+  const int fieldWidth = 30;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "stringTuningNumber" << " : " << fStringTuningNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "stringTuningDiatonicPitchKind" << " : " <<
+    msrDiatonicPitchKindAsString (
+      fStringTuningDiatonicPitchKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "stringTuningAlterationKind" << " : " <<
+    msrAlterationKindAsString (
+      fStringTuningAlterationKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "stringTuningOctave" << " : " << fStringTuningOctave <<
+    endl <<
+    endl;
+
+  gIndenter--;
+}
+
+//______________________________________________________________________________
 S_msrScordatura msrScordatura::create (
   int               inputLineNumber,
   msrScordaturaKind scordaturaKind,
