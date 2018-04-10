@@ -325,6 +325,124 @@ void msrOctaveShift::print (ostream& os)
 }
 
 //______________________________________________________________________________
+S_msrScordatura msrScordatura::create (
+  int               inputLineNumber,
+  msrScordaturaKind scordaturaKind,
+  int               scordaturaSize)
+{
+  msrScordatura* o =
+    new msrScordatura (
+      inputLineNumber, scordaturaKind, scordaturaSize);
+  assert(o!=0);
+  return o;
+}
+
+msrScordatura::msrScordatura (
+  int               inputLineNumber,
+  msrScordaturaKind scordaturaKind,
+  int               scordaturaSize)
+    : msrElement (inputLineNumber)
+{
+  fScordaturaKind = scordaturaKind;
+
+  fScordaturaSize = scordaturaSize;
+}
+
+msrScordatura::~msrScordatura ()
+{}
+
+void msrScordatura::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrScordatura::acceptIn()" <<
+      endl;
+  }
+  
+  if (visitor<S_msrScordatura>*
+    p =
+      dynamic_cast<visitor<S_msrScordatura>*> (v)) {
+        S_msrScordatura elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrScordatura::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrScordatura::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrScordatura::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrScordatura>*
+    p =
+      dynamic_cast<visitor<S_msrScordatura>*> (v)) {
+        S_msrScordatura elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrScordatura::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrScordatura::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrScordatura& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+string msrScordatura::scordaturaKindAsString () const
+{
+  string result;
+  
+  switch (fScordaturaKind) {
+    case k_NoScordatura:
+      result = "none";
+      break;
+    case kScordaturaUp:
+      result = "up";
+      break;
+    case kScordaturaDown:
+      result = "down";
+      break;
+    case kScordaturaStop:
+      result = "stop";
+      break;
+    case kScordaturaContinue:
+      result = "continue";
+      break;
+  } // switch
+
+  return result;
+}
+
+void msrScordatura::print (ostream& os)
+{
+  gIndenter++;
+  
+  os <<
+    "Scordatura" <<
+    ", kind: " << scordaturaKindAsString () <<
+    ", size: " << fScordaturaSize <<
+    endl;
+
+  gIndenter--;
+}
+
+//______________________________________________________________________________
 void msrPolyphony::print (ostream& os)
 {
 /* JMI
@@ -3031,25 +3149,25 @@ string msrRehearsal::rehearsalKindAsString (
   string result;
   
   switch (rehearsalKind) {
-    case kNone:
+    case msrRehearsal::kNone:
       result = "none";
       break;
-    case kRectangle:
+    case msrRehearsal::kRectangle:
       result = "rectangle";
       break;
-    case kOval:
+    case msrRehearsal::kOval:
       result = "oval";
       break;
-    case kCircle:
+    case msrRehearsal::kCircle:
       result = "circle";
       break;
-    case kBracket:
+    case msrRehearsal::kBracket:
       result = "bracket";
       break;
-    case kTriangle:
+    case msrRehearsal::kTriangle:
       result = "triangle";
       break;
-    case kDiamond:
+    case msrRehearsal::kDiamond:
       result = "diamond";
       break;
   } // switch

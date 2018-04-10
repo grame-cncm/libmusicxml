@@ -7973,8 +7973,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             break;
         } // switch
 
-// JMI \teeny, \tiny, \small, \normalsize, \large, \huge, \smaller, \larger.
-
         switch (wordsFontSize->getFontSizeKind ()) {
           case msrFontSize::k_NoFontSize:
             break;
@@ -9881,7 +9879,39 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
 
   fLilypondCodeIOstream <<
     endl <<
-    "\\mark\\markup " "{" "\\box {"  "\""<<
+    "\\mark\\markup { ";
+
+  switch (elt->getRehearsalKind ()) {
+    case msrRehearsal::kNone:
+      break;
+    case msrRehearsal::kRectangle:
+      fLilypondCodeIOstream <<
+        "\\box";
+      break;
+    case msrRehearsal::kOval:
+      fLilypondCodeIOstream <<
+        "\\oval";
+      break;
+    case msrRehearsal::kCircle:
+      fLilypondCodeIOstream <<
+        "\\circle";
+      break;
+    case msrRehearsal::kBracket:
+      fLilypondCodeIOstream <<
+        "\\bracket";
+      break;
+    case msrRehearsal::kTriangle:
+      fLilypondCodeIOstream <<
+        "%{\\triangle???%}";
+      break;
+    case msrRehearsal::kDiamond:
+      fLilypondCodeIOstream <<
+        "%{\\diamond???";
+      break;
+  } // switch
+      
+  fLilypondCodeIOstream <<
+    " { \""<<
     elt->getRehearsalText () <<
     "\"" "}}" <<
     endl;

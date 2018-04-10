@@ -87,9 +87,6 @@ class mxmlTree2MsrTranslator :
   public visitor<S_tuning_alter>,
   public visitor<S_capo>,
   public visitor<S_staff_size>,
-  
-  public visitor<S_scordatura>,
-  public visitor<S_accord>,
 
   // ???
   
@@ -139,13 +136,15 @@ class mxmlTree2MsrTranslator :
   public visitor<S_octave_change>,
   public visitor<S_double>,
 
-  // ???
+  // directions
   
   public visitor<S_direction>,
   public visitor<S_direction_type>,
   public visitor<S_offset>,
   public visitor<S_words>,
   public visitor<S_octave_shift>,
+  public visitor<S_scordatura>,
+  public visitor<S_accord>,
 
   // tempo
   
@@ -539,9 +538,6 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_capo& elt);
     virtual void visitStart ( S_staff_size& elt);
     
-    virtual void visitStart ( S_scordatura& elt);
-    virtual void visitStart ( S_accord& elt);
-
     // ???
     // ------------------------------------------------------
 
@@ -613,6 +609,9 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_offset& elt );
     virtual void visitStart ( S_words& elt );
     virtual void visitStart ( S_octave_shift& elt );
+    virtual void visitStart ( S_scordatura& elt );
+    virtual void visitEnd   ( S_scordatura& elt );
+    virtual void visitStart ( S_accord& elt );
 
     // accordion registration
     // ------------------------------------------------------

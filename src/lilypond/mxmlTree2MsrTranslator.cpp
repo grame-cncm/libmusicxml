@@ -19772,6 +19772,15 @@ void mxmlTree2MsrTranslator::visitStart (S_accord& elt )
   // JMI not used
 }
 
+void mxmlTree2MsrTranslator::visitEnd (S_scordatura& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_scordatura" <<
+      endl;
+  }
+}
+
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_sound& elt )
 {

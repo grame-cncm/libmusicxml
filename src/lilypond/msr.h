@@ -397,6 +397,160 @@ typedef SMARTP<msrOctaveShift> S_msrOctaveShift;
 EXP ostream& operator<< (ostream& os, const S_msrOctaveShift& elt);
 
 //______________________________________________________________________________
+class msrStringTuning : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrStringTuningKind {
+      k_NoStringTuning,
+      kStringTuningUp, kStringTuningDown,
+      kStringTuningStop, kStringTuningContinue };
+
+    static string stringTuningKindAsString (
+      msrStringTuningKind stringTuningKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrStringTuning> create (
+      int               inputLineNumber,
+      msrStringTuningKind stringTuningKind,
+      int               stringTuningSize);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrStringTuning (
+      int               inputLineNumber,
+      msrStringTuningKind stringTuningKind,
+      int               stringTuningSize);
+      
+    virtual ~msrStringTuning ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrStringTuningKind     getStringTuningKind () const
+                              { return fStringTuningKind; }
+
+    int                   getStringTuningSize () const
+                              { return fStringTuningSize; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                stringTuningKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrStringTuningKind    fStringTuningKind;
+
+    int                   fStringTuningSize;
+};
+typedef SMARTP<msrStringTuning> S_msrStringTuning;
+EXP ostream& operator<< (ostream& os, const S_msrStringTuning& elt);
+
+//______________________________________________________________________________
+class msrScordatura : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrScordaturaKind {
+      k_NoScordatura,
+      kScordaturaUp, kScordaturaDown,
+      kScordaturaStop, kScordaturaContinue };
+
+    static string scordaturaKindAsString (
+      msrScordaturaKind scordaturaKind);
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrScordatura> create (
+      int               inputLineNumber,
+      msrScordaturaKind scordaturaKind,
+      int               scordaturaSize);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrScordatura (
+      int               inputLineNumber,
+      msrScordaturaKind scordaturaKind,
+      int               scordaturaSize);
+      
+    virtual ~msrScordatura ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrScordaturaKind     getScordaturaKind () const
+                              { return fScordaturaKind; }
+
+    int                   getScordaturaSize () const
+                              { return fScordaturaSize; }
+
+    // services
+    // ------------------------------------------------------
+
+    string                scordaturaKindAsString () const;
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrScordaturaKind    fScordaturaKind;
+
+    int                   fScordaturaSize;
+};
+typedef SMARTP<msrScordatura> S_msrScordatura;
+EXP ostream& operator<< (ostream& os, const S_msrScordatura& elt);
+
+//______________________________________________________________________________
 class msrAccordionRegistration : public msrElement
 {
   public:
