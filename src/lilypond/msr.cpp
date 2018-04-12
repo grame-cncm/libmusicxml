@@ -3085,6 +3085,9 @@ string msrSpanner::spannerKindAsString (
     case msrSpanner::kSpannerTrill:
       result = "spannerTrill";
       break;
+    case msrSpanner::kSpannerDashes:
+      result = "spannerDashes";
+      break;
     case msrSpanner::kSpannerWavyLine:
       result = "spannerWavyLine";
       break;
@@ -5252,6 +5255,8 @@ void msrNote::initializeNote ()
   fNoteHasATrill = false;
   fNoteIsFollowedByGraceNotes = false;
 
+  fNoteHasDashes = false;
+
   fNoteHasAWavyLineStart = false;
   
   fNoteHasADelayedOrnament = false;
@@ -5467,6 +5472,9 @@ S_msrNote msrNote::createNoteNewbornClone (
     fNoteHasATrill;
   newbornClone->fNoteIsFollowedByGraceNotes =
     fNoteIsFollowedByGraceNotes;
+
+  newbornClone->fNoteHasDashes =
+    fNoteHasDashes;
 
   newbornClone->fNoteHasAWavyLineStart =
     fNoteHasAWavyLineStart;
@@ -5879,6 +5887,9 @@ S_msrNote msrNote::createNoteDeepCopy (
     fNoteHasATrill;
   noteDeepCopy->fNoteIsFollowedByGraceNotes =
     fNoteIsFollowedByGraceNotes;
+
+  noteDeepCopy->fNoteHasDashes =
+    fNoteHasDashes;
 
   noteDeepCopy->fNoteHasAWavyLineStart =
     fNoteHasAWavyLineStart;
@@ -6527,6 +6538,9 @@ void msrNote::addSpannerToNote (S_msrSpanner span)
     case msrSpanner::kSpannerTrill:
       break;
       
+    case msrSpanner::kSpannerDashes:
+      break;
+      
     case msrSpanner::kSpannerWavyLine:
       switch (span->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
@@ -6614,6 +6628,10 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrill:
       fNoteHasATrill = true;
+      break;
+
+    case msrOrnament::kDashes:
+      fNoteHasDashes = true;
       break;
 
     case msrOrnament::kDelayedTurn:
@@ -7501,6 +7519,10 @@ string msrNote::asString () const
     s <<
       ", has a trill";
   
+  if (fNoteHasDashes)
+    s <<
+      ", has dashes";
+  
   if (fNoteHasAWavyLineStart)
     s <<
       ", has a wavy line start";
@@ -7718,6 +7740,11 @@ void msrNote::print (ostream& os)
     if (fNoteHasATrill)
       os <<
         "has a trill" <<
+        endl;
+        
+    if (fNoteHasDashes)
+      os <<
+        "has dashes" <<
         endl;
         
     if (fNoteHasAWavyLineStart)

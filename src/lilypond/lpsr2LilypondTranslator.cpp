@@ -1750,6 +1750,23 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
       } // switch
       break;
          
+    case msrSpanner::kSpannerDashes:
+      switch (spanner->getSpannerTypeKind ()) {
+        case kSpannerTypeStart:
+          result = "\\startTextSpan ";
+          fOnGoingTrillSpanner = true;
+          break;
+        case kSpannerTypeStop:
+          result = "\\stopTextSpan ";
+          fOnGoingTrillSpanner = false;
+          break;
+        case kSpannerTypeContinue:
+          break;
+        case k_NoSpannerType:
+          break;
+      } // switch
+      break;
+         
     case msrSpanner::kSpannerWavyLine:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
@@ -7476,6 +7493,37 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     } // for
   }
 
+  // print the note spanners if any
+  const list<S_msrSpanner>&
+    noteSpanners =
+      elt->getNoteSpanners ();
+      
+  if (noteSpanners.size ()) {
+    list<S_msrSpanner>::const_iterator i;
+    for (
+      i=noteSpanners.begin ();
+      i!=noteSpanners.end ();
+      i++) {
+      S_msrSpanner
+        spanner = (*i);
+        
+      switch (spanner->getSpannerKind ()) {
+        case msrSpanner::kSpannerTrill:
+          break;
+        case msrSpanner::kSpannerDashes:
+          fLilypondCodeIOstream <<
+            "\\override TextSpanner.bound-details.left.text = \\markup { " " }" <<
+            endl;
+          break;
+        case msrSpanner::kSpannerWavyLine:
+          break;
+      } // switch
+
+      fLilypondCodeIOstream <<
+        spannerAsLilypondString (spanner) << " ";
+    } // for
+  }
+  
   // should the note be parenthesized?
   msrNote::msrNoteHeadParenthesesKind
     noteHeadParenthesesKind =

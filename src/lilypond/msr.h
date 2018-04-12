@@ -1988,7 +1988,7 @@ class msrSpanner : public msrElement
     // ------------------------------------------------------
 
     enum msrSpannerKind {
-        kSpannerTrill, kSpannerWavyLine };
+        kSpannerTrill, kSpannerDashes, kSpannerWavyLine };
 
     static string spannerKindAsString (
       msrSpannerKind spannerKind);
@@ -5735,6 +5735,9 @@ class msrNote : public msrElement
     bool                  getNoteHasATrill () const
                               { return fNoteHasATrill; }
                   
+    bool                  getNoteHasDashes () const
+                              { return fNoteHasDashes; }
+                  
     bool                  getNoteHasAWavyLineStart () const
                               { return fNoteHasAWavyLineStart; }
                   
@@ -6088,6 +6091,9 @@ class msrNote : public msrElement
     // this is useful to produce a nice \aftergrace in LilyPond 
     bool                  fNoteHasATrill;
     bool                  fNoteIsFollowedByGraceNotes;
+
+    // this is useful to produce a text spanner in LilyPond
+    bool                  fNoteHasDashes;
 
     // this is useful to handle trill spans properly in LilyPond
     bool                  fNoteHasAWavyLineStart;

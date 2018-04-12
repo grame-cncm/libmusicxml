@@ -15253,6 +15253,23 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
           } // switch
           break;
                
+        case msrSpanner::kSpannerDashes: // JMI
+          switch (spanner->getSpannerTypeKind ()) {
+            case kSpannerTypeStart:
+              spannerStopMetForThisNote = true;
+              break;
+            case kSpannerTypeStop:
+              doHandleSpanner =
+                ! spannerStopMetForThisNote;
+              break;
+            case kSpannerTypeContinue:
+              break;
+            case k_NoSpannerType:
+              // JMI ???
+              break;
+          } // switch
+          break;
+               
         case msrSpanner::kSpannerWavyLine:
           switch (spanner->getSpannerTypeKind ()) {
             case kSpannerTypeStart:
