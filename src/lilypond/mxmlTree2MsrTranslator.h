@@ -192,7 +192,17 @@ class mxmlTree2MsrTranslator :
   public visitor<S_inversion>,
   public visitor<S_bass_step>,
   public visitor<S_bass_alter>,
-  
+
+  // frames
+  // ------------------------------------------------------
+    
+  public visitor<S_frame>,
+  public visitor<S_frame_strings>,
+  public visitor<S_frame_frets>,
+  public visitor<S_first_fret>,
+  public visitor<S_frame_note>,
+  public visitor<S_barre>,
+
   // figured bass
   
   public visitor<S_figured_bass>,
@@ -687,6 +697,18 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_bass_step& elt);
     virtual void visitStart ( S_bass_alter& elt);
     
+    // frames
+    // ------------------------------------------------------
+    
+    virtual void visitStart ( S_frame& elt);
+    virtual void visitEnd   ( S_frame& elt);
+    virtual void visitStart ( S_frame_strings& elt);
+    virtual void visitStart ( S_frame_frets& elt);
+    virtual void visitStart ( S_first_fret& elt);
+    virtual void visitStart ( S_frame_note& elt);
+    virtual void visitEnd   ( S_frame_note& elt);
+    virtual void visitStart ( S_barre& elt);
+
     // figured bass
     // ------------------------------------------------------
     
@@ -1324,6 +1346,22 @@ class mxmlTree2MsrTranslator :
     msrQuarterTonesPitchKind  fCurrentHarmonyRootQuarterTonesPitchKind;
     msrQuarterTonesPitchKind  fCurrentHarmonyBassQuarterTonesPitchKind;
 
+    // frames handling
+    // ------------------------------------------------------
+
+    int                       fCurrentFrameStrings;
+    int                       fCurrentFrameFrets;
+    int                       fCurrentFrameFirstFret;
+    bool                      fOnGoingFrame;
+
+    int                       fCurrentFrameNoteStringsNumber;
+    int                       fCurrentFrameNoteFretsNumber;
+    msrFrameNote::msrBarreTypeKind
+                              fCurrentFrameNoteBarreTypeKind;
+    bool                      fOnGoingFrameNote;
+
+    list<S_msrFrame>          fPendingFramesList;
+    
     // figured bass handling
     // ------------------------------------------------------
     
@@ -1599,6 +1637,8 @@ class mxmlTree2MsrTranslator :
                               fCurrentTechnicalWithIntegersList;
     list<S_msrTechnicalWithString>
                               fCurrentTechnicalWithStringsList;
+
+    bool                      fOnGoingTechnical;
 
     int                       fBendAlterValue;
     

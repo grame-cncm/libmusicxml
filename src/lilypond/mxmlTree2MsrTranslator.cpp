@@ -218,6 +218,12 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
     msrFiguredBass::kFiguredBassParenthesesNo; // default value
   fCurrentFigureNumber                  = -1;
   
+  // frames handling
+  fCurrentFrameStrings = -1;
+  fCurrentFrameFrets   = -1;
+  fOnGoingFrame = false;
+  fOnGoingFrameNote = false;
+
   // barline handling
   fOnGoingBarline      = false;
   fCurrentEndingStartBarline = nullptr;
@@ -247,6 +253,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentNoteVoiceNumber = K_NO_VOICE_NUMBER;
 
   // technicals handling
+  fOnGoingTechnical = false;
   fBendAlterValue = -39;
 
   // ornaments handling
@@ -9629,6 +9636,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_technical& elt )
       "--> Start visiting S_technical" <<
       endl;
   }
+
+  fOnGoingTechnical = true;
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_technical& elt )
@@ -9638,6 +9647,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_technical& elt )
       "--> Start visiting S_technical" <<
       endl;
   }
+
+  fOnGoingTechnical = false;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_arrow& elt )
@@ -9855,38 +9866,57 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
     
   int fingeringValue = (int)(*elt);
 
-  string placement = elt->getAttributeValue ("placement");
+  if (fOnGoingTechnical) {
+    string placement = elt->getAttributeValue ("placement");
+  
+    msrPlacementKind
+      fingeringPlacementKind = k_NoPlacement;
+  
+    if      (placement == "above")
+      fingeringPlacementKind = kAbovePlacement;    
+    else if (placement == "below")
+      fingeringPlacementKind = kBelowPlacement;
+    else if (placement.size ()) {    
+      stringstream s;
+      
+      s <<
+        "fingering placement \"" << placement <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());    
+    }
+  
+    S_msrTechnicalWithInteger
+      technicalWithInteger =
+        msrTechnicalWithInteger::create (
+          inputLineNumber,
+          msrTechnicalWithInteger::kFingering,
+          fingeringValue,
+          fingeringPlacementKind);
+        
+    fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
+  }
 
-  msrPlacementKind
-    fingeringPlacementKind = k_NoPlacement;
+  else if (fOnGoingFrameNote) {
+  }
 
-  if      (placement == "above")
-    fingeringPlacementKind = kAbovePlacement;    
-  else if (placement == "below")
-    fingeringPlacementKind = kBelowPlacement;
-  else if (placement.size ()) {    
+  else {
     stringstream s;
     
     s <<
-      "fingering placement \"" << placement <<
-      "\" is unknown";
+      "fingering \"" << fingeringValue <<
+      "\" is out of context";
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
+      elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());    
   }
-
-  S_msrTechnicalWithInteger
-    technicalWithInteger =
-      msrTechnicalWithInteger::create (
-        inputLineNumber,
-        msrTechnicalWithInteger::kFingering,
-        fingeringValue,
-        fingeringPlacementKind);
-      
-  fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_fingernails& elt )
@@ -10606,39 +10636,58 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
       inputLineNumber,
       s.str ());    
   }
+
+  if (fOnGoingTechnical) {
+    string placement = elt->getAttributeValue ("placement");
   
-  string placement = elt->getAttributeValue ("placement");
+    msrPlacementKind
+      stringPlacementKind = k_NoPlacement;
+  
+    if      (placement == "above")
+      stringPlacementKind = kAbovePlacement;
+    else if (placement == "below")
+      stringPlacementKind = kBelowPlacement;
+    else if (placement.size ()) {    
+      stringstream s;
+      
+      s <<
+        "string placement \"" << placement <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());    
+    }
+  
+    S_msrTechnicalWithInteger
+      technicalWithInteger =
+        msrTechnicalWithInteger::create (
+          inputLineNumber,
+          msrTechnicalWithInteger::kString,
+          stringIntegerValue,
+          stringPlacementKind);
+        
+    fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
+  }
 
-  msrPlacementKind
-    stringPlacementKind = k_NoPlacement;
+  else if (fOnGoingFrame) {
+  }
 
-  if      (placement == "above")
-    stringPlacementKind = kAbovePlacement;
-  else if (placement == "below")
-    stringPlacementKind = kBelowPlacement;
-  else if (placement.size ()) {    
+  else {
     stringstream s;
     
     s <<
-      "string placement \"" << placement <<
-      "\" is unknown";
+      "string \"" << stringValue <<
+      "\" is out of context";
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
+      elt->getInputLineNumber (),
       __FILE__, __LINE__,
-      s.str ());    
+      s.str ());
   }
-
-  S_msrTechnicalWithInteger
-    technicalWithInteger =
-      msrTechnicalWithInteger::create (
-        inputLineNumber,
-        msrTechnicalWithInteger::kString,
-        stringIntegerValue,
-        stringPlacementKind);
-      
-  fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_tap& elt )
@@ -16361,12 +16410,37 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
           voice,
           harmony);
   
-      // remove it from list
+      // remove it from the list
       fPendingHarmoniesList.pop_front ();
     } // while
   
     // reset harmony counter
     fHarmonyVoicesCounter = 0;
+  }
+
+  // handling the current pending frames if any,
+  // so that they get attached to the note right now
+  if (fPendingFramesList.size ()) {    
+    while (fPendingFramesList.size ()) {
+      S_msrFrame
+        frame =
+          fPendingFramesList.front ();
+  
+      // attach the frame to the note
+      newNote->
+        setNoteFrame (frame);
+
+  /* JMI ???
+      // append the frame to the current part
+      fCurrentPart->
+        appendFrameToPart (
+          voice,
+          frame);
+  */
+  
+      // remove it from the list
+      fPendingFramesList.pop_front ();
+    } // while
   }
 
   // handling the current pending figured bass if any,
@@ -19412,12 +19486,238 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       appendHarmonyDegreeToHarmony (
         harmonyDegree);
 
-    // remove it from list
+    // remove it from the list
     fCurrentHarmonyDegreesList.pop_front ();
   } // while
 
   // append the harmony to the pending harmonies list
   fPendingHarmoniesList.push_back (harmony);
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_frame" <<
+      endl;
+  }
+
+/*
+      <harmony>
+        <root>
+          <root-step>C</root-step>
+        </root>
+        <kind>major</kind>
+        <frame>
+          <frame-strings>6</frame-strings>
+          <frame-frets>4</frame-frets>
+          <frame-note>
+            <string>6</string>
+            <fret>0</fret>
+          </frame-note>
+          <frame-note>
+            <string>5</string>
+            <fret>3</fret>
+          </frame-note>
+          <frame-note>
+            <string>4</string>
+            <fret>2</fret>
+          </frame-note>
+          <frame-note>
+            <string>3</string>
+            <fret>0</fret>
+          </frame-note>
+          <frame-note>
+            <string>2</string>
+            <fret>1</fret>
+          </frame-note>
+          <frame-note>
+            <string>1</string>
+            <fret>0</fret>
+          </frame-note>
+        </frame>
+      </harmony>
+*/
+
+  float degreeAlter = (float)(*elt);
+
+  fCurrentHarmonyDegreeAlterationKind =
+    msrAlterationKindFromMusicXMLAlter (
+      degreeAlter);
+      
+  if (fCurrentHarmonyDegreeAlterationKind == k_NoAlteration) {
+    stringstream s;
+
+    s <<
+      "degree alter '" << degreeAlter << "'"
+      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  fOnGoingFrame = true;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_frame_strings& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_frame_strings" <<
+      endl;
+  }
+
+  fCurrentFrameStrings = (int)(*elt);
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_frame_frets& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_frame_frets" <<
+      endl;
+  }
+
+  fCurrentFrameFrets = (int)(*elt);
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_first_fret& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_first_fret" <<
+      endl;
+  }
+
+  fCurrentFrameFirstFret = (int)(*elt);
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_frame_note& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_frame_note" <<
+      endl;
+  }
+
+/*
+<!--
+  The frame-note element represents each note included in
+  the frame. The definitions for string, fret, and fingering
+  are found in the common.mod file. An open string will
+  have a fret value of 0, while a muted string will not be
+  associated with a frame-note element.
+-->
+<!ELEMENT frame-note (string, fret, fingering?, barre?)>
+
+<!-- 
+  The barre element indicates placing a finger over 
+  multiple strings on a single fret. The type is "start" 
+  for the lowest pitched string (e.g., the string with 
+  the highest MusicXML number) and is "stop" for the 
+  highest pitched string.
+-->
+<!ELEMENT barre EMPTY>
+<!ATTLIST barre
+    type %start-stop; #REQUIRED
+    %color;
+>
+*/
+
+  fOnGoingFrameNote = true;
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_barre" <<
+      endl;
+  }
+
+/*
+<!-- 
+  The barre element indicates placing a finger over 
+  multiple strings on a single fret. The type is "start" 
+  for the lowest pitched string (e.g., the string with 
+  the highest MusicXML number) and is "stop" for the 
+  highest pitched string.
+-->
+<!ELEMENT barre EMPTY>
+<!ATTLIST barre
+    type %start-stop; #REQUIRED
+    %color;
+>
+*/
+ 
+  string barreType = elt->getAttributeValue ("type");
+    
+  fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
+  
+  if      (barreType == "start")
+    fCurrentFrameNoteBarreTypeKind = msrFrameNote::kBarreTypeStart;
+  else if (barreType == "stop")
+    fCurrentFrameNoteBarreTypeKind = msrFrameNote::kBarreTypeStop;
+  else {
+    stringstream s;
+    
+    s <<
+      "barre type \"" << barreType <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      elt->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_frame_note" <<
+      endl;
+  }
+
+  S_msrFrameNote
+    frameNote =
+      msrFrameNote::create (
+        elt->getInputLineNumber (),
+        fCurrentFrameNoteStringsNumber,
+        fCurrentFrameNoteFretsNumber,
+        fCurrentFrameNoteBarreTypeKind);
+
+  fOnGoingFrameNote = false;
+}
+
+void mxmlTree2MsrTranslator::visitEnd ( S_frame& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_frame" <<
+      endl;
+  }
+
+  // create the frame
+  S_msrFrame
+    frame =
+      msrFrame::create (
+        elt->getInputLineNumber (),
+        fCurrentFrameStrings,
+        fCurrentFrameFrets,
+        fCurrentFrameFirstFret);
+        
+
+  // append the frame to the pending frames list
+  fPendingFramesList.push_back (frame);
+
+  fOnGoingFrame = false;
 }
 
 //______________________________________________________________________________

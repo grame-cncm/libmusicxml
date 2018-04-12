@@ -105,6 +105,9 @@ typedef SMARTP<msrVoice> S_msrVoice;
 class msrHarmony;
 typedef SMARTP<msrHarmony> S_msrHarmony;
 
+class msrFrame;
+typedef SMARTP<msrFrame> S_msrFrame;
+
 class msrFiguredBass;
 typedef SMARTP<msrFiguredBass> S_msrFiguredBass;
 
@@ -3657,6 +3660,14 @@ class msrMeasure : public msrElement
     void                  appendHarmonyToMeasureClone (
                             S_msrHarmony harmony);
 
+    // frames
+    
+    void                  appendFrameToMeasure (
+                            S_msrFrame frame);
+    
+    void                  appendFrameToMeasureClone (
+                            S_msrFrame frame);
+
     // figured bass
 
     void                  appendFiguredBassToMeasure (
@@ -3971,6 +3982,14 @@ class msrSegment : public msrElement
     
     void                  appendHarmonyToSegmentClone (
                             S_msrHarmony harmony);
+
+    // frames
+    
+    void                  appendFrameToSegment (
+                            S_msrFrame frame);
+    
+    void                  appendFrameToSegmentClone (
+                            S_msrFrame frame);
 
     // figured bass
 
@@ -4954,6 +4973,180 @@ typedef SMARTP<msrHarmony> S_msrHarmony;
 EXP ostream& operator<< (ostream& os, const S_msrHarmony& elt);
 
 //______________________________________________________________________________
+class msrFrameNote : public msrElement
+{
+  public:
+
+    // data types
+    // ------------------------------------------------------
+
+    enum msrBarreTypeKind {
+      k_NoBarreType,
+      kBarreTypeStart, kBarreTypeStop };
+
+    static string barreTypeKindAsString (
+      msrBarreTypeKind barreTypeKind);
+      
+/*
+          <frame-note>
+            <string>6</string>
+            <fret>0</fret>
+          </frame-note>
+*/
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrFrameNote> create (
+      int              inputLineNumber,
+      int              frameNoteStringsNumber,
+      int              frameNoteFretsNumber,
+      msrBarreTypeKind frameNoteBarreTypeKind);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFrameNote (
+      int              inputLineNumber,
+      int              frameNoteStringsNumber,
+      int              frameNoteFretsNumber,
+      msrBarreTypeKind frameNoteBarreTypeKind);
+
+    virtual ~msrFrameNote ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    int                   getFrameNoteStringsNumber () const
+                              { return fFrameNoteStringsNumber; }
+                              
+    int                   getFrameNoteFretsNumber () const
+                              { return fFrameNoteFretsNumber; }
+                              
+    msrBarreTypeKind      getfFrameNoteBarreTypeKind () const
+                              { return fFrameNoteBarreTypeKind; }
+                              
+    // services
+    // ------------------------------------------------------
+    
+    string                asString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    int                   fFrameNoteStringsNumber;
+    int                   fFrameNoteFretsNumber;
+
+    msrBarreTypeKind      fFrameNoteBarreTypeKind;
+};
+typedef SMARTP<msrFrameNote> S_msrFrameNote;
+EXP ostream& operator<< (ostream& os, const S_msrFrameNote& elt);
+
+//______________________________________________________________________________
+class msrFrame : public msrElement
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+      
+    static SMARTP<msrFrame> create (
+      int inputLineNumber,
+      int frameStringsNumber,
+      int frameFretsNumber,
+      int frameFirstFretNumber);
+    
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrFrame (
+      int inputLineNumber,
+      int frameStringsNumber,
+      int frameFretsNumber,
+      int frameFirstFretNumber);
+
+    virtual ~msrFrame ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+                
+    int                   getFrameStringsNumber () const
+                              { return fFrameStringsNumber; }
+
+    int                   getFrameFretsNumber () const
+                              { return fFrameFretsNumber; }
+
+    int                   getFrameFirstFretNumber () const
+                              { return fFrameFirstFretNumber; }
+
+    const list<S_msrFrameNote>&
+                          getFrameFrameNotesList ()
+                              { return fFrameFrameNotesList; }
+                                              
+    // services
+    // ------------------------------------------------------
+
+    void                  appendFrameNoteToFrame (
+                            S_msrFrameNote frameNote)
+                              {
+                                fFrameFrameNotesList.push_back (
+                                  frameNote);
+                              }
+    
+    string                asString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    int                   fFrameStringsNumber;
+    int                   fFrameFretsNumber;
+    int                   fFrameFirstFretNumber;
+
+    list<S_msrFrameNote>  fFrameFrameNotesList;
+};
+typedef SMARTP<msrFrame> S_msrFrame;
+EXP ostream& operator<< (ostream& os, const S_msrFrame& elt);
+
+//______________________________________________________________________________
 class msrFigure : public msrElement
 {
   public:
@@ -5562,6 +5755,13 @@ class msrNote : public msrElement
     const S_msrHarmony&   getNoteHarmony () const
                               { return fNoteHarmony; };
 
+    // frame
+    void                  setNoteFrame (
+                            S_msrFrame frame);
+                              
+    const S_msrFrame&     getNoteFrame () const
+                              { return fNoteFrame; };
+
     // figured bass
     void                  setNoteFiguredBass (
                             S_msrFiguredBass figuredBass);
@@ -6059,6 +6259,11 @@ class msrNote : public msrElement
     // ------------------------------------------------------
 
     S_msrHarmony          fNoteHarmony;
+
+    // frame
+    // ------------------------------------------------------
+
+    S_msrFrame            fNoteFrame;
 
     // figured bass
     // ------------------------------------------------------
@@ -10221,6 +10426,14 @@ class msrVoice : public msrElement
     void                  appendHarmonyToVoiceClone (
                             S_msrHarmony harmony);
 
+    // frames
+
+    void                  appendFrameToVoice (
+                            S_msrFrame frame);
+    
+    void                  appendFrameToVoiceClone (
+                            S_msrFrame frame);
+
     // figured bass
 
     void                  appendFiguredBassToVoice (
@@ -11641,6 +11854,16 @@ class msrPart : public msrElement
     S_msrVoice            fetchHarmonyVoiceFromPart (
                             int inputLineNumber,
                             int harmonyVoiceNumber);
+
+    // frames
+    
+    void                  appendFrameToPart (
+                            S_msrVoice harmoniesSupplierVoice,
+                            S_msrFrame frame);
+
+    void                  appendFrameToPartClone (
+                            S_msrVoice harmoniesSupplierVoiceClone,
+                            S_msrFrame frame);
 
     // figured bass
 

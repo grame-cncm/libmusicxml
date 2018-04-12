@@ -5435,6 +5435,12 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->fNoteHarmony = // JMI
     fNoteHarmony;
 
+  // frame
+  // ------------------------------------------------------
+
+  newbornClone->fNoteFrame = // JMI
+    fNoteFrame;
+
   // figured bass
   // ------------------------------------------------------
 
@@ -5843,6 +5849,14 @@ S_msrNote msrNote::createNoteDeepCopy (
       fNoteHarmony->
         createHarmonyDeepCopy (
           containingVoice);
+  }
+
+  // harmony
+  // ------------------------------------------------------
+
+  if (fNoteFrame) {
+    noteDeepCopy->fNoteFrame =
+      fNoteFrame;
   }
 
   // figured bass
@@ -6806,6 +6820,18 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
   fNoteHarmony = harmony;
 }
 
+void msrNote::setNoteFrame (S_msrFrame frame)
+{
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
+    gLogIOstream <<
+      "Setting note '" << asShortString ()  << "'" <<
+      " frame to '" << frame->asString () << "'" <<
+      endl;
+  }
+  
+  fNoteFrame = frame;
+}
+
 void msrNote::setNoteFiguredBass (S_msrFiguredBass figuredBass)
 {
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
@@ -7093,6 +7119,12 @@ void msrNote::browseData (basevisitor* v)
     // browse the harmony
     msrBrowser<msrHarmony> browser (v);
     browser.browse (*fNoteHarmony);
+  }
+
+  if (fNoteFrame) {
+    // browse the frame
+    msrBrowser<msrFrame> browser (v);
+    browser.browse (*fNoteFrame);
   }
 
   if (fNoteFiguredBass) {
@@ -8238,6 +8270,15 @@ void msrNote::print (ostream& os)
     gIndenter++;
     os <<
       fNoteHarmony <<
+      endl;
+    gIndenter--;
+  }
+
+  // print the frame if any
+  if (fNoteFrame) {
+    gIndenter++;
+    os <<
+      fNoteFrame <<
       endl;
     gIndenter--;
   }
@@ -17259,7 +17300,7 @@ msrHarmony::msrHarmony (
   }
 }
 
-msrHarmony::~msrHarmony()
+msrHarmony::~msrHarmony ()
 {}
 
 S_msrHarmony msrHarmony::createHarmonyNewbornClone (
@@ -17495,6 +17536,324 @@ void msrHarmony::print (ostream& os)
     list<S_msrHarmonyDegree>::const_iterator
       iBegin = fHarmonyDegreesList.begin (),
       iEnd   = fHarmonyDegreesList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      os <<
+        (*i)->asString ();
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    os << endl;
+    
+    gIndenter--;
+  }
+
+  gIndenter--;
+}
+
+//______________________________________________________________________________
+S_msrFrameNote msrFrameNote::create (
+  int              inputLineNumber,
+  int              frameNoteStringsNumber,
+  int              frameNoteFretsNumber,
+  msrBarreTypeKind frameNoteBarreTypeKind)
+{
+  msrFrameNote* o =
+    new msrFrameNote (
+      inputLineNumber,
+      frameNoteStringsNumber,
+      frameNoteFretsNumber,
+      frameNoteBarreTypeKind);
+  assert(o!=0);
+
+  return o;
+}
+
+msrFrameNote::msrFrameNote (
+  int              inputLineNumber,
+  int              frameNoteStringsNumber,
+  int              frameNoteFretsNumber,
+  msrBarreTypeKind frameNoteBarreTypeKind)
+    : msrElement (inputLineNumber)
+{
+  fFrameNoteStringsNumber = frameNoteStringsNumber;
+  fFrameNoteFretsNumber   = frameNoteFretsNumber;
+
+  fFrameNoteBarreTypeKind = frameNoteBarreTypeKind;
+
+  if (gTraceOptions->fTraceHarmonies) {
+    gLogIOstream <<
+      "Creating frame note '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+}
+
+msrFrameNote::~msrFrameNote ()
+{}
+
+string msrFrameNote::barreTypeKindAsString (
+  msrBarreTypeKind barreTypeKind)
+{
+  string result;
+  
+  switch (barreTypeKind) {
+    case msrFrameNote::k_NoBarreType:
+      result = "k_NoBarreType";
+      break;
+    case msrFrameNote::kBarreTypeStart:
+      result = "barreTypeStart";
+      break;
+    case msrFrameNote::kBarreTypeStop:
+      result = "barreTypeStop";
+      break;
+  } // switch
+
+  return result;
+}
+
+string msrFrameNote::asString () const
+{
+  stringstream s;
+
+  s <<
+    "FrameNote" <<
+    ", frameNoteStringsNumber: " << fFrameNoteStringsNumber <<
+    ", frameNoteFretsNumber: " << fFrameNoteFretsNumber <<
+    ", frameNoteBarreTypeKind: " <<
+    barreTypeKindAsString (
+      fFrameNoteBarreTypeKind) <<
+    ", line: " << fInputLineNumber;
+
+  return s.str ();
+}
+
+void msrFrameNote::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrFrameNote::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrFrameNote>*
+    p =
+      dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
+        S_msrFrameNote elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrFrameNote::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrFrameNote::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrFrameNote::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrFrameNote>*
+    p =
+      dynamic_cast<visitor<S_msrFrameNote>*> (v)) {
+        S_msrFrameNote elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrFrameNote::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrFrameNote::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrFrameNote& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrFrameNote::print (ostream& os)
+{  
+  os <<
+    asString () <<
+    endl;
+}
+
+//______________________________________________________________________________
+S_msrFrame msrFrame::create (
+  int inputLineNumber,
+  int frameStringsNumber,
+  int frameFretsNumber,
+  int frameFirstFretNumber)
+{
+  msrFrame* o =
+    new msrFrame (
+      inputLineNumber,
+      frameStringsNumber,
+      frameFretsNumber,
+      frameFirstFretNumber);
+  assert(o!=0);
+
+  return o;
+}
+
+msrFrame::msrFrame (
+  int inputLineNumber,
+  int frameStringsNumber,
+  int frameFretsNumber,
+  int frameFirstFretNumber)
+    : msrElement (inputLineNumber)
+{
+  fFrameStringsNumber   = frameStringsNumber;
+  fFrameFretsNumber     = frameFretsNumber;
+  fFrameFirstFretNumber = frameFirstFretNumber;
+ 
+  if (gTraceOptions->fTraceHarmonies) {
+    gLogIOstream <<
+      "Creating frame '" <<
+      asString () <<
+      "'" <<
+      endl;
+  }
+}
+
+msrFrame::~msrFrame ()
+{}
+
+string msrFrame::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Frame" <<
+    ", frameStringsNumber: " << fFrameStringsNumber <<
+    ", frameFretsNumber: " << fFrameFretsNumber <<
+    ", frameFirstFretNumber: " << fFrameFirstFretNumber;
+
+  if (fFrameFrameNotesList.size ()) {
+    list<S_msrFrameNote>::const_iterator
+      iBegin = fFrameFrameNotesList.begin (),
+      iEnd   = fFrameFrameNotesList.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      s << (*i);
+      if (++i == iEnd) break;
+      s << " ";
+    } // for
+  }
+
+  return s.str ();
+}
+
+void msrFrame::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrFrame::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrFrame>*
+    p =
+      dynamic_cast<visitor<S_msrFrame>*> (v)) {
+        S_msrFrame elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrFrame::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrFrame::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrFrame::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrFrame>*
+    p =
+      dynamic_cast<visitor<S_msrFrame>*> (v)) {
+        S_msrFrame elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrFrame::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrFrame::browseData (basevisitor* v)
+{
+  // browse frame notes if any
+  if (fFrameFrameNotesList.size ())
+    for (
+      list<S_msrFrameNote>::const_iterator i = fFrameFrameNotesList.begin ();
+      i != fFrameFrameNotesList.end ();
+      i++) {
+      // browse the harmony degree
+      msrBrowser<msrFrameNote> browser (v);
+      browser.browse (*(*i));
+    } // for
+}
+
+ostream& operator<< (ostream& os, const S_msrFrame& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrFrame::print (ostream& os)
+{  
+  os <<
+    "Frame" <<
+     ", line " << fInputLineNumber <<
+    endl;
+    
+  gIndenter++;
+
+  const int fieldWidth = 15;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "frameStringsNumber" << " = " << fFrameStringsNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "frameFretsNumber" << " = " << fFrameFretsNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "frameFirstFretNumber" << " = " << fFrameFirstFretNumber <<
+    endl;
+
+  // print frame notes if any
+  if (fFrameFrameNotesList.size ()) {
+    os <<
+      "Frame notes:" <<
+      endl;
+
+    gIndenter++;
+    
+    list<S_msrFrameNote>::const_iterator
+      iBegin = fFrameFrameNotesList.begin (),
+      iEnd   = fFrameFrameNotesList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
