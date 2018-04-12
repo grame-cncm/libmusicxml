@@ -2077,6 +2077,30 @@ void msr2LpsrTranslator::visitEnd (S_msrTempo& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrRehearsal& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrRehearsal" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentVoiceClone->
+    appendRehearsalToVoice (elt);
+}
+
+void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> End visiting msrRehearsal" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -4525,30 +4549,6 @@ void msr2LpsrTranslator::visitEnd (S_msrMidi& elt)
   if (gMsrOptions->fTraceMsrVisitors) {
     fLogOutputStream <<
       "--> End visiting msrMidi" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-}
-
-//________________________________________________________________________
-void msr2LpsrTranslator::visitStart (S_msrRehearsal& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting msrRehearsal" <<
-      ", line " << elt->getInputLineNumber () <<
-      endl;
-  }
-
-  fCurrentVoiceClone->
-    appendRehearsalToVoice (elt);
-}
-
-void msr2LpsrTranslator::visitEnd (S_msrRehearsal& elt)
-{
-  if (gMsrOptions->fTraceMsrVisitors) {
-    fLogOutputStream <<
-      "--> End visiting msrRehearsal" <<
       ", line " << elt->getInputLineNumber () <<
       endl;
   }

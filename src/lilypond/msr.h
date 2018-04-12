@@ -1428,7 +1428,7 @@ class msrOrnament : public msrElement
     // ------------------------------------------------------
 
     enum msrOrnamentKind {
-        kTrillMark,
+        kTrill, kDashes,
         kTurn, kInvertedTurn, kDelayedTurn,
         kDelayedInvertedTurn, kVerticalTurn,
         kMordent, kInvertedMordent,
@@ -2167,7 +2167,8 @@ class msrRehearsal : public msrElement
     static SMARTP<msrRehearsal> create (
       int              inputLineNumber,
       msrRehearsalKind rehearsalKind,
-      string           rehearsalText);
+      string           rehearsalText,
+      msrPlacementKind rehearsalPlacementKind);
 
   protected:
 
@@ -2177,7 +2178,8 @@ class msrRehearsal : public msrElement
     msrRehearsal (
       int              inputLineNumber,
       msrRehearsalKind rehearsalKind,
-      string           rehearsalText);
+      string           rehearsalText,
+      msrPlacementKind rehearsalPlacementKind);
       
     virtual ~msrRehearsal();
   
@@ -2188,7 +2190,10 @@ class msrRehearsal : public msrElement
 
     msrRehearsalKind      getRehearsalKind () const
                               { return fRehearsalKind; }
-        
+
+    msrPlacementKind      getRehearsalPlacementKind () const
+                              { return fRehearsalPlacementKind; }
+
     // services
     string                getRehearsalText () const
                               { return fRehearsalText; }
@@ -2217,6 +2222,8 @@ class msrRehearsal : public msrElement
     msrRehearsalKind fRehearsalKind;
 
     string           fRehearsalText;
+
+    msrPlacementKind fRehearsalPlacementKind;
 };
 typedef SMARTP<msrRehearsal> S_msrRehearsal;
 EXP ostream& operator<< (ostream& os, const S_msrRehearsal& elt);
@@ -8209,33 +8216,33 @@ class msrTempo : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrTempo> create (
-      int           inputLineNumber,
-      S_msrWords    tempoWords,
-      msrDottedDuration
-                    tempoBeatUnit,
-      msrDottedDuration
-                    tempoEquivalentBeatUnit,
+      int               inputLineNumber,
+      S_msrWords        tempoWords,
+      msrDottedDuration tempoBeatUnit,
+      string            tempoPerMinute,
       msrTempoParenthesizedKind
-                    tempoParenthesizedKind);
+                        tempoParenthesizedKind,
+      msrPlacementKind  tempoPlacementKind);
 
     static SMARTP<msrTempo> create (
-      int           inputLineNumber,
-      S_msrWords    tempoWords,
-      msrDottedDuration
-                    tempoBeatUnit,
-      string        tempoPerMinute,
+      int               inputLineNumber,
+      S_msrWords        tempoWords,
+      msrDottedDuration tempoBeatUnit,
+      msrDottedDuration tempoEquivalentBeatUnit,
       msrTempoParenthesizedKind
-                    tempoParenthesizedKind);
+                        tempoParenthesizedKind,
+      msrPlacementKind  tempoPlacementKind);
 
     static SMARTP<msrTempo> create (
-      int           inputLineNumber,
-      S_msrWords    tempoWords,
+      int               inputLineNumber,
+      S_msrWords        tempoWords,
       S_msrTempoRelationshipElements
-                    tempoRelationLeftElements,
+                        tempoRelationLeftElements,
       S_msrTempoRelationshipElements
-                    tempoRelationRightElements,
+                        tempoRelationRightElements,
       msrTempoParenthesizedKind
-                    tempoParenthesizedKind);
+                        tempoParenthesizedKind,
+      msrPlacementKind  tempoPlacementKind);
 
   protected:
 
@@ -8243,33 +8250,33 @@ class msrTempo : public msrElement
     // ------------------------------------------------------
 
     msrTempo (
-      int           inputLineNumber,
-      S_msrWords    tempoWords,
-      msrDottedDuration
-                    tempoBeatUnit,
-      string        tempoPerMinute,
+      int               inputLineNumber,
+      S_msrWords        tempoWords,
+      msrDottedDuration tempoBeatUnit,
+      string            tempoPerMinute,
       msrTempoParenthesizedKind
-                    tempoParenthesizedKind);
+                        tempoParenthesizedKind,
+      msrPlacementKind  tempoPlacementKind);
       
     msrTempo (
-      int           inputLineNumber,
-      S_msrWords    tempoWords,
-      msrDottedDuration
-                    tempoBeatUnit,
-      msrDottedDuration
-                    tempoEquivalentBeatUnit,
+      int               inputLineNumber,
+      S_msrWords        tempoWords,
+      msrDottedDuration tempoBeatUnit,
+      msrDottedDuration tempoEquivalentBeatUnit,
       msrTempoParenthesizedKind
-                    tempoParenthesizedKind);
+                        tempoParenthesizedKind,
+      msrPlacementKind  tempoPlacementKind);
       
     msrTempo (
-      int           inputLineNumber,
-      S_msrWords    tempoWords,
+      int               inputLineNumber,
+      S_msrWords        tempoWords,
       S_msrTempoRelationshipElements
-                    tempoRelationLeftElements,
+                        tempoRelationLeftElements,
       S_msrTempoRelationshipElements
-                    tempoRelationRightElements,
+                        tempoRelationRightElements,
       msrTempoParenthesizedKind
-                    tempoParenthesizedKind);
+                        tempoParenthesizedKind,
+      msrPlacementKind  tempoPlacementKind);
       
     virtual ~msrTempo ();
   
@@ -8299,6 +8306,9 @@ class msrTempo : public msrElement
     msrTempoParenthesizedKind
                           getTempoParenthesizedKind () const
                               { return fTempoParenthesizedKind; }
+
+    msrPlacementKind      getTempoPlacementKind () const
+                              { return fTempoPlacementKind; }
 
     // services
     // ------------------------------------------------------
@@ -8339,6 +8349,8 @@ class msrTempo : public msrElement
 
     msrTempoParenthesizedKind
                           fTempoParenthesizedKind;
+
+    msrPlacementKind      fTempoPlacementKind;
 };
 typedef SMARTP<msrTempo> S_msrTempo;
 EXP ostream& operator<< (ostream& os, const S_msrTempo& elt);

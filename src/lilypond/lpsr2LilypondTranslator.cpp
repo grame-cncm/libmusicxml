@@ -1604,9 +1604,15 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
         noteSoundingWholeNotesAsMsrString ();
 
   switch (ornament->getOrnamentKind ()) {
-    case msrOrnament::kTrillMark:
+    case msrOrnament::kTrill:
       if (! ornamentNoteUplink->getNoteHasAWavyLineStart ()) {      
         result = "\\trill ";
+      }
+      break;
+      
+    case msrOrnament::kDashes:
+      if (! ornamentNoteUplink->getNoteHasAWavyLineStart ()) {      
+        result = "%{\\dashes%} ";
       }
       break;
       
@@ -6345,6 +6351,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
   fLilypondCodeIOstream <<
     endl;
 
+  switch (elt->getTempoPlacementKind ()) {
+    case msrPlacementKind::k_NoPlacement:
+      break;
+    case msrPlacementKind::kAbovePlacement:
+      break;
+    case msrPlacementKind::kBelowPlacement:
+      fLilypondCodeIOstream <<
+        "\\once\\override Score.MetronomeMark.direction = #DOWN";
+      break;
+    } // switch
+  
   switch (elt->getTempoKind ()) {
     case msrTempo::k_NoTempoKind:
       break;
@@ -7936,7 +7953,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         
         switch (wordsPlacementKind) {
           case k_NoPlacement:
-            // should not occur
+            s << "^";
             break;
           case kAbovePlacement:
             s << "^";
@@ -9878,11 +9895,27 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
   }
 
   fLilypondCodeIOstream <<
+    endl;
+
+  switch (elt->getRehearsalPlacementKind ()) {
+    case msrPlacementKind::k_NoPlacement:
+      break;
+    case msrPlacementKind::kAbovePlacement:
+      break;
+    case msrPlacementKind::kBelowPlacement:
+      fLilypondCodeIOstream <<
+        "\\once\\override Score.RehearsalMark.direction = #DOWN";
+      break;
+    } // switch
+  
+  fLilypondCodeIOstream <<
     endl <<
     "\\mark\\markup { ";
 
   switch (elt->getRehearsalKind ()) {
     case msrRehearsal::kNone:
+      fLilypondCodeIOstream <<
+        "\\box"; // default value
       break;
     case msrRehearsal::kRectangle:
       fLilypondCodeIOstream <<

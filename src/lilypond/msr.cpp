@@ -2046,8 +2046,11 @@ string msrOrnament::ornamentKindAsString () const
   string result;
   
   switch (fOrnamentKind) {
-    case msrOrnament::kTrillMark:
+    case msrOrnament::kTrill:
       result = "trill";
+      break;
+    case msrOrnament::kDashes:
+      result = "dashes";
       break;
     case msrOrnament::kTurn:
       result = "turn";
@@ -3179,11 +3182,15 @@ void msrSpanner::print (ostream& os)
 S_msrRehearsal msrRehearsal::create (
   int              inputLineNumber,
   msrRehearsalKind rehearsalKind,
-  string           rehearsalText)
+  string           rehearsalText,
+  msrPlacementKind rehearsalPlacementKind)
 {
   msrRehearsal* o =
     new msrRehearsal (
-      inputLineNumber, rehearsalKind, rehearsalText);
+      inputLineNumber,
+      rehearsalKind,
+      rehearsalText,
+      rehearsalPlacementKind);
   assert (o!=0);
   return o;
 }
@@ -3191,12 +3198,15 @@ S_msrRehearsal msrRehearsal::create (
 msrRehearsal::msrRehearsal (
   int              inputLineNumber,
   msrRehearsalKind rehearsalKind,
-  string           rehearsalText)
+  string           rehearsalText,
+  msrPlacementKind rehearsalPlacementKind)
     : msrElement (inputLineNumber)
 {
   fRehearsalKind = rehearsalKind;
 
   fRehearsalText = rehearsalText;
+
+  fRehearsalPlacementKind = rehearsalPlacementKind;
 }
 
 msrRehearsal::~msrRehearsal()
@@ -3293,6 +3303,8 @@ void msrRehearsal::print (ostream& os)
     "Rehearsal" << " " << fRehearsalText <<
     " kind: " <<
     rehearsalKindAsString (fRehearsalKind) <<
+    " rehearsalPlacementKind: " <<
+    msrPlacementKindAsString (fRehearsalPlacementKind) <<
     endl;
 }
 
@@ -6600,7 +6612,7 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
   fNoteOrnaments.push_back (ornament);
 
   switch (ornament->getOrnamentKind ()) {
-    case msrOrnament::kTrillMark:
+    case msrOrnament::kTrill:
       fNoteHasATrill = true;
       break;
 
@@ -15279,13 +15291,13 @@ void msrTempoRelationshipElements::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrTempo msrTempo::create (
-  int           inputLineNumber,
-  S_msrWords    tempoWords,
-  msrDottedDuration
-                tempoBeatUnit,
-  string        tempoPerMinute,
+  int               inputLineNumber,
+  S_msrWords        tempoWords,
+  msrDottedDuration tempoBeatUnit,
+  string            tempoPerMinute,
   msrTempoParenthesizedKind
-                tempoParenthesizedKind)
+                    tempoParenthesizedKind,
+  msrPlacementKind  tempoPlacementKind)
 {
   msrTempo* o =
     new msrTempo (
@@ -15293,20 +15305,20 @@ S_msrTempo msrTempo::create (
       tempoWords,
       tempoBeatUnit,
       tempoPerMinute,
-      tempoParenthesizedKind);
+      tempoParenthesizedKind,
+      tempoPlacementKind);
   assert(o!=0);
   return o;
 }
 
 S_msrTempo msrTempo::create (
-  int           inputLineNumber,
-  S_msrWords    tempoWords,
-  msrDottedDuration
-                tempoBeatUnit,
-  msrDottedDuration
-                tempoEquivalentBeatUnit,
+  int               inputLineNumber,
+  S_msrWords        tempoWords,
+  msrDottedDuration tempoBeatUnit,
+  msrDottedDuration tempoEquivalentBeatUnit,
   msrTempoParenthesizedKind
-                tempoParenthesizedKind)
+                    tempoParenthesizedKind,
+  msrPlacementKind  tempoPlacementKind)
 {
   msrTempo* o =
     new msrTempo (
@@ -15314,20 +15326,22 @@ S_msrTempo msrTempo::create (
       tempoWords,
       tempoBeatUnit,
       tempoEquivalentBeatUnit,
-      tempoParenthesizedKind);
+      tempoParenthesizedKind,
+      tempoPlacementKind);
   assert(o!=0);
   return o;
 }
 
 S_msrTempo msrTempo::create (
-  int           inputLineNumber,
-  S_msrWords    tempoWords,
+  int               inputLineNumber,
+  S_msrWords        tempoWords,
   S_msrTempoRelationshipElements
-                tempoRelationLeftElements,
+                    tempoRelationLeftElements,
   S_msrTempoRelationshipElements
-                tempoRelationRightElements,
+                    tempoRelationRightElements,
   msrTempoParenthesizedKind
-                tempoParenthesizedKind)
+                    tempoParenthesizedKind,
+  msrPlacementKind  tempoPlacementKind)
 {
   msrTempo* o =
     new msrTempo (
@@ -15335,19 +15349,20 @@ S_msrTempo msrTempo::create (
       tempoWords,
       tempoRelationLeftElements,
       tempoRelationRightElements,
-      tempoParenthesizedKind);
+      tempoParenthesizedKind,
+      tempoPlacementKind);
   assert(o!=0);
   return o;
 }
 
 msrTempo::msrTempo (
-  int           inputLineNumber,
-  S_msrWords    tempoWords,
-  msrDottedDuration
-                tempoBeatUnit,
-  string        tempoPerMinute,
+  int               inputLineNumber,
+  S_msrWords        tempoWords,
+  msrDottedDuration tempoBeatUnit,
+  string            tempoPerMinute,
   msrTempoParenthesizedKind
-                tempoParenthesizedKind)
+                    tempoParenthesizedKind,
+  msrPlacementKind  tempoPlacementKind)
     : msrElement (inputLineNumber),
       fTempoBeatUnit (tempoBeatUnit),
       fTempoEquivalentBeatUnit ()
@@ -15359,17 +15374,18 @@ msrTempo::msrTempo (
   fTempoPerMinute = tempoPerMinute;
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
+
+  fTempoPlacementKind = tempoPlacementKind;
 }
 
 msrTempo::msrTempo (
-  int           inputLineNumber,
-  S_msrWords    tempoWords,
-  msrDottedDuration
-                tempoBeatUnit,
-  msrDottedDuration
-                tempoEquivalentBeatUnit,
+  int               inputLineNumber,
+  S_msrWords        tempoWords,
+  msrDottedDuration tempoBeatUnit,
+  msrDottedDuration tempoEquivalentBeatUnit,
   msrTempoParenthesizedKind
-                tempoParenthesizedKind)
+                    tempoParenthesizedKind,
+  msrPlacementKind  tempoPlacementKind)
     : msrElement (inputLineNumber),
       fTempoBeatUnit (tempoBeatUnit),
       fTempoEquivalentBeatUnit (tempoEquivalentBeatUnit)
@@ -15381,17 +15397,20 @@ msrTempo::msrTempo (
   fTempoPerMinute = "";
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
+
+  fTempoPlacementKind = tempoPlacementKind;
 }
 
 msrTempo::msrTempo (
-  int           inputLineNumber,
-  S_msrWords    tempoWords,
+  int               inputLineNumber,
+  S_msrWords        tempoWords,
   S_msrTempoRelationshipElements
-                tempoRelationLeftElements,
+                    tempoRelationLeftElements,
   S_msrTempoRelationshipElements
-                tempoRelationRightElements,
+                    tempoRelationRightElements,
   msrTempoParenthesizedKind
-                tempoParenthesizedKind)
+                    tempoParenthesizedKind,
+  msrPlacementKind  tempoPlacementKind)
     : msrElement (inputLineNumber)
 {
   fTempoKind = kTempoNotesRelationShip;
@@ -15406,6 +15425,8 @@ msrTempo::msrTempo (
     tempoRelationRightElements;
 
   fTempoParenthesizedKind = tempoParenthesizedKind;
+
+  fTempoPlacementKind = tempoPlacementKind;
 }
 
 msrTempo::~msrTempo ()

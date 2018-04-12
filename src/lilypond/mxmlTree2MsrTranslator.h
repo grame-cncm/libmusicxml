@@ -305,6 +305,7 @@ class mxmlTree2MsrTranslator :
   
   public visitor<S_ornaments>,
   public visitor<S_trill_mark>,
+  public visitor<S_dashes>,
   public visitor<S_wavy_line>,
   public visitor<S_turn>,
   public visitor<S_inverted_turn>,
@@ -391,7 +392,7 @@ class mxmlTree2MsrTranslator :
 
   public visitor<S_slide>,
 
-  // rehearsal
+  // rehearsals
   
   public visitor<S_rehearsal>,
   
@@ -801,6 +802,7 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_ornaments& elt );
     virtual void visitEnd   ( S_ornaments& elt );
     virtual void visitStart ( S_trill_mark& elt );
+    virtual void visitStart ( S_dashes& elt );
     virtual void visitStart ( S_wavy_line& elt );
     virtual void visitStart ( S_turn& elt );
     virtual void visitStart ( S_inverted_turn& elt );
@@ -1126,6 +1128,26 @@ class mxmlTree2MsrTranslator :
     // ------------------------------------------------------
     
     bool                      fOnGoingDirectionType;
+
+    // rehearsal handling
+    // ------------------------------------------------------
+    // rehearsals remain pending until the next note:
+    // in MusicXML, they precede the note and
+    // may occur when no current voice exists
+    list<S_msrRehearsal>      fPendingRehearsals;
+    
+    void                      attachPendingRehearsalsToTheVoiceOfNote (
+                                S_msrNote note);
+
+    // eyeglasses handling
+    // ------------------------------------------------------
+    // eyeglasses remain pending until the next note:
+    // in MusicXML, they precede the note and
+    // may occur when no current voice exists
+    list<S_msrEyeGlasses>     fPendingEyeGlasses;
+    
+    void                      attachPendingEyeGlassesToTheVoiceOfNote (
+                                S_msrNote note);
 
     // accordion-registration handling
     // ------------------------------------------------------

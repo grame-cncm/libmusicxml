@@ -96,6 +96,10 @@ class msr2LpsrTranslator :
   
   public visitor<S_msrSegment>,
   
+  // rehearsal
+
+  public visitor<S_msrRehearsal>,
+  
   // harmonies
 
   public visitor<S_msrHarmony>,
@@ -219,10 +223,6 @@ class msr2LpsrTranslator :
   public visitor<S_msrMultipleRest>,
   public visitor<S_msrMultipleRestContents>,
   
-  // rehearsal
-
-  public visitor<S_msrRehearsal>,
-  
   // midi
 
   public visitor<S_msrMidi>
@@ -300,6 +300,9 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrTempo& elt);
     virtual void visitEnd   (S_msrTempo& elt);
+
+    virtual void visitStart (S_msrRehearsal& elt);
+    virtual void visitEnd   (S_msrRehearsal& elt);
 
     virtual void visitStart (S_msrSegment& elt);
     virtual void visitEnd   (S_msrSegment& elt);
@@ -441,9 +444,6 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrLayout& elt);
     virtual void visitEnd   (S_msrLayout& elt);
-
-    virtual void visitStart (S_msrRehearsal& elt);
-    virtual void visitEnd   (S_msrRehearsal& elt);
 
     virtual void visitStart (S_msrMidi& elt);
     virtual void visitEnd   (S_msrMidi& elt);

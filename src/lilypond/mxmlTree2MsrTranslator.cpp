@@ -4397,7 +4397,8 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
             tempoWords,
             beatUnits,
             fCurrentMetrenomePerMinute,
-            fCurrentMetronomeParenthesedKind);
+            fCurrentMetronomeParenthesedKind,
+            fCurrentDirectionPlacementKind);
         }
       break;
 
@@ -4413,7 +4414,8 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
             tempoWords,
             beatUnits,
             fCurrentMetronomeBeatUnitsVector [1],
-            fCurrentMetronomeParenthesedKind);
+            fCurrentMetronomeParenthesedKind,
+            fCurrentDirectionPlacementKind);
       }
       break;
 
@@ -4426,7 +4428,8 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
           tempoWords,
           fCurrentMetronomeRelationLeftElements,
           fCurrentMetronomeRelationRightElements,
-          fCurrentMetronomeParenthesedKind);
+          fCurrentMetronomeParenthesedKind,
+          fCurrentDirectionPlacementKind);
       break;
   } // switch
 
@@ -7030,9 +7033,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_eyeglasses& elt )
         msrEyeGlasses::create (
           inputLineNumber);
 
-    // append it to the current voice
-    currentVoice->
-      appendEyeGlassesToVoice (eyeGlasses);
+    // append it to the pending eyeglasses list
+    fPendingEyeGlasses.push_back (eyeGlasses);
   }
 }
 
@@ -11254,7 +11256,57 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kTrillMark,
+        msrOrnament::kTrill,
+        ornamentPlacementKind);
+      
+  fCurrentOrnamentsList.push_back (ornament);
+}
+
+void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_dashes" <<
+      endl;
+  }
+
+  int inputLineNumber =
+    elt->getInputLineNumber ();
+
+ // type : upright inverted  (Binchois20.xml) JMI
+
+  // placement
+  
+  string placement =
+    elt->getAttributeValue ("placement");
+
+  msrPlacementKind
+    ornamentPlacementKind = k_NoPlacement;
+
+  if      (placement == "above")
+    ornamentPlacementKind = kAbovePlacement;
+  else if (placement == "below")
+    ornamentPlacementKind = kBelowPlacement;
+  else if (placement.size ()) {
+    
+    stringstream s;
+    
+    s <<
+      "dynamics placement \"" << placement <<
+      "\" is unknown";
+    
+    msrMusicXMLError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());    
+  }
+
+  S_msrOrnament
+    ornament =
+      msrOrnament::create (
+        elt->getInputLineNumber (),
+        msrOrnament::kDashes,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -15353,7 +15405,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
 void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
   S_msrNote note)
 {
- // attach the pending dynamics if any to the note
+ // attach the pending tempos if any to the note
   if (fPendingTempos.size ()) {
     if (gTraceOptions->fTraceBasic) { // tempos ??? JMI
       fLogOutputStream <<
@@ -15379,6 +15431,74 @@ void mxmlTree2MsrTranslator::attachPendingTemposToTheVoiceOfNote (
         appendTempoToVoice (tempo);
         
       fPendingTempos.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingRehearsalsToTheVoiceOfNote (
+  S_msrNote note)
+{
+ // attach the pending rehearsals if any to the note
+  if (fPendingRehearsals.size ()) {
+    if (gTraceOptions->fTraceBasic) { // Rehearsals ??? JMI
+      fLogOutputStream <<
+        "Attaching pending rehearsals to note " <<
+        note->asString () <<
+        endl;
+    }
+
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fetchVoiceFromCurrentPart (
+          note->getInputLineNumber (),
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber);
+
+    while (fPendingRehearsals.size ()) {
+      S_msrRehearsal
+        rehearsal =
+          fPendingRehearsals.front ();
+          
+      voice->
+        appendRehearsalToVoice (rehearsal);
+        
+      fPendingRehearsals.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingEyeGlassesToTheVoiceOfNote (
+  S_msrNote note)
+{
+ // attach the pending eyeglasses if any to the note
+  if (fPendingEyeGlasses.size ()) {
+    if (gTraceOptions->fTraceBasic) { // EyeGlasses ??? JMI
+      fLogOutputStream <<
+        "Attaching pending eyeglasses to note " <<
+        note->asString () <<
+        endl;
+    }
+
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fetchVoiceFromCurrentPart (
+          note->getInputLineNumber (),
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber);
+
+    while (fPendingEyeGlasses.size ()) {
+      S_msrEyeGlasses
+        eyeGlasses =
+          fPendingEyeGlasses.front ();
+          
+      voice->
+        appendEyeGlassesToVoice (eyeGlasses);
+        
+      fPendingEyeGlasses.pop_front ();
     } // while
   }
 }
@@ -15824,6 +15944,12 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
 {
   // attach the pending tempos, if any, to the note's voice
   attachPendingTemposToTheVoiceOfNote (note);
+
+  // attach the pending rehearsals, if any, to the note's voice
+  attachPendingRehearsalsToTheVoiceOfNote (note);
+
+  // attach the pending eyeglasses, if any, to the note's voice
+  attachPendingEyeGlassesToTheVoiceOfNote (note);
 
   // attach the pending octave shifts, if any, to the note's voice
   attachPendingOctaveShiftsToTheVoiceOfNote (note);
@@ -18612,20 +18738,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
     }    
   }
 
-  // fetch current voice
-  S_msrVoice
-    currentVoice =
-      fetchVoiceFromCurrentPart (
-        inputLineNumber,
-        fCurrentStaffNumber,
-        fCurrentVoiceNumber);
-    
   // create a rehearsal
   if (gTraceOptions->fTraceRepeats) {
     fLogOutputStream <<
       "Creating rehearsal \"" << rehearsalValue << "\"" <<
-      " in voice " <<
-      currentVoice->getVoiceName () <<
+      " in part " <<
+      fCurrentPart->getPartCombinedName () <<
       endl;
   }
 
@@ -18634,11 +18752,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_rehearsal& elt )
       msrRehearsal::create (
         inputLineNumber,
         rehearsalKind,
-        rehearsalValue);
+        rehearsalValue,
+        fCurrentDirectionPlacementKind);
 
-  // append the rehearsal to the current voice
-  currentVoice->
-    appendRehearsalToVoice (rehearsal);
+  // append the rehearsal to the pending tempos list
+  fPendingRehearsals.push_back (rehearsal);
 }
 
 //______________________________________________________________________________

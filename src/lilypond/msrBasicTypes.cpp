@@ -3549,14 +3549,13 @@ string msrPlacementKindAsString (
   string result;
   
   switch (placementKind) {
-    case k_NoPlacement:
+    case msrPlacementKind::k_NoPlacement:
       result = "placement: none";
       break;
-
-    case kAbovePlacement:
+    case msrPlacementKind::kAbovePlacement:
       result = "placement: above";
       break;
-    case kBelowPlacement:
+    case msrPlacementKind::kBelowPlacement:
       result = "placement: below";
       break;
     } // switch
