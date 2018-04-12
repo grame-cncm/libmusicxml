@@ -1358,6 +1358,7 @@ class mxmlTree2MsrTranslator :
 
     int                       fCurrentFrameNoteStringsNumber;
     int                       fCurrentFrameNoteFretsNumber;
+    int                       fCurrentFrameNoteFingering;
     msrFrameNote::msrBarreTypeKind
                               fCurrentFrameNoteBarreTypeKind;
     bool                      fOnGoingFrameNote;

@@ -5001,6 +5001,7 @@ class msrFrameNote : public msrElement
       int              inputLineNumber,
       int              frameNoteStringsNumber,
       int              frameNoteFretsNumber,
+      int              frameNoteFingering,
       msrBarreTypeKind frameNoteBarreTypeKind);
 
   protected:
@@ -5012,6 +5013,7 @@ class msrFrameNote : public msrElement
       int              inputLineNumber,
       int              frameNoteStringsNumber,
       int              frameNoteFretsNumber,
+      int              frameNoteFingering,
       msrBarreTypeKind frameNoteBarreTypeKind);
 
     virtual ~msrFrameNote ();
@@ -5027,7 +5029,10 @@ class msrFrameNote : public msrElement
     int                   getFrameNoteFretsNumber () const
                               { return fFrameNoteFretsNumber; }
                               
-    msrBarreTypeKind      getfFrameNoteBarreTypeKind () const
+    int                   getFrameNoteFingering () const
+                              { return fFrameNoteFingering; }
+                              
+    msrBarreTypeKind      getFrameNoteBarreTypeKind () const
                               { return fFrameNoteBarreTypeKind; }
                               
     // services
@@ -5055,6 +5060,8 @@ class msrFrameNote : public msrElement
 
     int                   fFrameNoteStringsNumber;
     int                   fFrameNoteFretsNumber;
+
+    int                   fFrameNoteFingering;
 
     msrBarreTypeKind      fFrameNoteBarreTypeKind;
 };
@@ -5107,15 +5114,14 @@ class msrFrame : public msrElement
                           getFrameFrameNotesList ()
                               { return fFrameFrameNotesList; }
                                               
+    bool                  getFrameContainsFingerings () const
+                              { return fFrameContainsFingerings; }
+
     // services
     // ------------------------------------------------------
 
     void                  appendFrameNoteToFrame (
-                            S_msrFrameNote frameNote)
-                              {
-                                fFrameFrameNotesList.push_back (
-                                  frameNote);
-                              }
+                            S_msrFrameNote frameNote);
     
     string                asString () const;
    
@@ -5142,6 +5148,9 @@ class msrFrame : public msrElement
     int                   fFrameFirstFretNumber;
 
     list<S_msrFrameNote>  fFrameFrameNotesList;
+
+    // optimizing computation
+    bool                  fFrameContainsFingerings;
 };
 typedef SMARTP<msrFrame> S_msrFrame;
 EXP ostream& operator<< (ostream& os, const S_msrFrame& elt);

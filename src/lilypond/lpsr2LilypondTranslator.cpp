@@ -2260,10 +2260,36 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
   const list<S_msrFrameNote>&
     frameFrameNotesList =
       frame->getFrameFrameNotesList ();
-      
+
+  int frameStringsNumber =
+    frame->getFrameStringsNumber ();
+  int frameFretsNumber =
+    frame->getFrameFretsNumber ();
+    
   s <<
     "^\\markup {\\fret-diagram #\"";
 
+  // are there fingerings?
+  if (frame->getFrameContainsFingerings ()) {
+    s <<
+      "f:1;";
+  }
+  
+  // strings number
+  if (frameStringsNumber != 6) {
+    s <<
+      "w:" <<
+      frameStringsNumber <<
+      ";";
+  }
+
+  // frets number
+  s <<
+    "h:" <<
+    frameFretsNumber <<
+    ";";
+
+  // frame notes
   list<S_msrFrameNote>::const_iterator
     iBegin = frameFrameNotesList.begin (),
     iEnd   = frameFrameNotesList.end (),
@@ -2275,6 +2301,8 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
     
     int frameNoteFretsNumber =
       frameNote->getFrameNoteFretsNumber ();
+    int frameNoteFingering =
+      frameNote->getFrameNoteFingering ();
     
     s <<
       frameNote->getFrameNoteStringsNumber () <<
@@ -2288,8 +2316,16 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
       s <<
         frameNoteFretsNumber;
     }
+
+    if (frameNoteFingering != -1) {
+      s <<
+        "-" <<
+        frameNoteFingering;
+    }
+    
     s <<
       ";";
+      
     if (++i == iEnd) break;
 // JMI    os << ";";
   } // for
@@ -4755,7 +4791,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrFrame& elt)
 
   fLilypondCodeIOstream <<
     frameAsLilypondString (elt) <<
-    " ";
+    endl;
   }
 }
 

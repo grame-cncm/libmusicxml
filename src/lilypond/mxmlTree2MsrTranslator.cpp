@@ -224,6 +224,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentFrameFirstFret = -1;
   fCurrentFrameNoteStringsNumber = -1;
   fCurrentFrameNoteFretsNumber = -1;
+  fCurrentFrameNoteFingering = -1;
   fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
 
   fOnGoingFrame = false;
@@ -9907,6 +9908,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
   }
 
   else if (fOnGoingFrameNote) {
+    fCurrentFrameNoteFingering = fingeringValue;
   }
 
   else {
@@ -19656,6 +19658,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame_note& elt )
 
   fCurrentFrameNoteStringsNumber = -1;
   fCurrentFrameNoteFretsNumber = -1;
+  fCurrentFrameNoteFingering = -1;
   fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
 
   fOnGoingFrameNote = true;
@@ -19722,6 +19725,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
         elt->getInputLineNumber (),
         fCurrentFrameNoteStringsNumber,
         fCurrentFrameNoteFretsNumber,
+        fCurrentFrameNoteFingering,
         fCurrentFrameNoteBarreTypeKind);
 
   // append the frame note to the pending frame notes list

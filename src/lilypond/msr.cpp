@@ -17557,6 +17557,7 @@ S_msrFrameNote msrFrameNote::create (
   int              inputLineNumber,
   int              frameNoteStringsNumber,
   int              frameNoteFretsNumber,
+  int              frameNoteFingering,
   msrBarreTypeKind frameNoteBarreTypeKind)
 {
   msrFrameNote* o =
@@ -17564,6 +17565,7 @@ S_msrFrameNote msrFrameNote::create (
       inputLineNumber,
       frameNoteStringsNumber,
       frameNoteFretsNumber,
+      frameNoteFingering,
       frameNoteBarreTypeKind);
   assert(o!=0);
 
@@ -17574,12 +17576,15 @@ msrFrameNote::msrFrameNote (
   int              inputLineNumber,
   int              frameNoteStringsNumber,
   int              frameNoteFretsNumber,
+  int              frameNoteFingering,
   msrBarreTypeKind frameNoteBarreTypeKind)
     : msrElement (inputLineNumber)
 {
   fFrameNoteStringsNumber = frameNoteStringsNumber;
   fFrameNoteFretsNumber   = frameNoteFretsNumber;
 
+  fFrameNoteFingering = frameNoteFingering;
+  
   fFrameNoteBarreTypeKind = frameNoteBarreTypeKind;
 
   if (gTraceOptions->fTraceHarmonies) {
@@ -17622,6 +17627,7 @@ string msrFrameNote::asString () const
     "FrameNote" <<
     ", frameNoteStringsNumber: " << fFrameNoteStringsNumber <<
     ", frameNoteFretsNumber: " << fFrameNoteFretsNumber <<
+    ", frameNoteFingering: " << fFrameNoteFingering <<
     ", frameNoteBarreTypeKind: " <<
     barreTypeKindAsString (
       fFrameNoteBarreTypeKind) <<
@@ -17702,6 +17708,9 @@ void msrFrameNote::print (ostream& os)
     "frameNoteFretsNumber" << " : " << fFrameNoteFretsNumber <<
     endl <<
     setw (fieldWidth) <<
+    "frameNoteFingering" << " : " << fFrameNoteFingering <<
+    endl <<
+    setw (fieldWidth) <<
     "frameNoteBarreTypeKind" << " : " << 
     barreTypeKindAsString (
       fFrameNoteBarreTypeKind) <<
@@ -17739,6 +17748,8 @@ msrFrame::msrFrame (
   fFrameFretsNumber     = frameFretsNumber;
   fFrameFirstFretNumber = frameFirstFretNumber;
  
+  fFrameContainsFingerings = false;
+  
   if (gTraceOptions->fTraceHarmonies) {
     gLogIOstream <<
       "Creating frame '" <<
@@ -17751,6 +17762,17 @@ msrFrame::msrFrame (
 msrFrame::~msrFrame ()
 {}
 
+void msrFrame::appendFrameNoteToFrame (
+  S_msrFrameNote frameNote)
+{
+  fFrameFrameNotesList.push_back (
+    frameNote);
+
+  if (frameNote->getFrameNoteFingering () != -1) {
+    fFrameContainsFingerings = true;
+  }
+}
+
 string msrFrame::asString () const
 {
   stringstream s;
@@ -17759,7 +17781,10 @@ string msrFrame::asString () const
     "Frame" <<
     ", frameStringsNumber: " << fFrameStringsNumber <<
     ", frameFretsNumber: " << fFrameFretsNumber <<
-    ", frameFirstFretNumber: " << fFrameFirstFretNumber;
+    ", frameFirstFretNumber: " << fFrameFirstFretNumber <<
+    ", frameContainsFingerings: " <<
+    booleanAsString (
+      fFrameContainsFingerings);
 
   if (fFrameFrameNotesList.size ()) {
     list<S_msrFrameNote>::const_iterator
@@ -17861,6 +17886,9 @@ void msrFrame::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "frameFirstFretNumber" << " = " << fFrameFirstFretNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "frameContainsFingerings" << " = " << fFrameContainsFingerings <<
     endl;
 
   // print frame notes if any
