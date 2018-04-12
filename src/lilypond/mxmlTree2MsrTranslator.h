@@ -1354,13 +1354,15 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentFrameFirstFret;
     bool                      fOnGoingFrame;
 
+    list<S_msrFrame>          fPendingFramesList;
+
     int                       fCurrentFrameNoteStringsNumber;
     int                       fCurrentFrameNoteFretsNumber;
     msrFrameNote::msrBarreTypeKind
                               fCurrentFrameNoteBarreTypeKind;
     bool                      fOnGoingFrameNote;
 
-    list<S_msrFrame>          fPendingFramesList;
+    list<S_msrFrameNote>      fPendingFramesNotesList;
     
     // figured bass handling
     // ------------------------------------------------------

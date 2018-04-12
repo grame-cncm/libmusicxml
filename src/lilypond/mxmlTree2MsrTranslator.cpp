@@ -219,8 +219,13 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentFigureNumber                  = -1;
   
   // frames handling
-  fCurrentFrameStrings = -1;
-  fCurrentFrameFrets   = -1;
+  fCurrentFrameStrings  = -1;
+  fCurrentFrameFrets    = -1;
+  fCurrentFrameFirstFret = -1;
+  fCurrentFrameNoteStringsNumber = -1;
+  fCurrentFrameNoteFretsNumber = -1;
+  fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
+
   fOnGoingFrame = false;
   fOnGoingFrameNote = false;
 
@@ -9977,39 +9982,59 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
     elt->getInputLineNumber ();
 
   int fretValue = (int)(*elt);
-    
-  string placement = elt->getAttributeValue ("placement");
 
-  msrPlacementKind
-    fretPlacementKind =  k_NoPlacement;
+  if (fOnGoingTechnical) {
+    string placement = elt->getAttributeValue ("placement");
+  
+    msrPlacementKind
+      fretPlacementKind =  k_NoPlacement;
+  
+    if      (placement == "above")
+      fretPlacementKind = kAbovePlacement;    
+    else if (placement == "below")
+      fretPlacementKind = kBelowPlacement;
+    else if (placement.size ()) {
+      stringstream s;
+      
+      s <<
+        "fret placement \"" << placement <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());    
+    }
+  
+    S_msrTechnicalWithInteger
+      technicalWithInteger =
+        msrTechnicalWithInteger::create (
+          inputLineNumber,
+          msrTechnicalWithInteger::kFret,
+          fretValue,
+          fretPlacementKind);
+        
+    fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
+  }
 
-  if      (placement == "above")
-    fretPlacementKind = kAbovePlacement;    
-  else if (placement == "below")
-    fretPlacementKind = kBelowPlacement;
-  else if (placement.size ()) {
+  else if (fOnGoingFrameNote) {
+    fCurrentFrameNoteFretsNumber = fretValue;
+  }
+
+  else {
     stringstream s;
     
     s <<
-      "fret placement \"" << placement <<
-      "\" is unknown";
+      "fret \"" << fretValue <<
+      "\" is out of context";
     
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
+      elt->getInputLineNumber (),
       __FILE__, __LINE__,
-      s.str ());    
+      s.str ());
   }
-
-  S_msrTechnicalWithInteger
-    technicalWithInteger =
-      msrTechnicalWithInteger::create (
-        inputLineNumber,
-        msrTechnicalWithInteger::kFret,
-        fretValue,
-        fretPlacementKind);
-      
-  fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
@@ -10673,6 +10698,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
   }
 
   else if (fOnGoingFrame) {
+    fCurrentFrameNoteStringsNumber = stringIntegerValue;
   }
 
   else {
@@ -19628,6 +19654,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame_note& elt )
 >
 */
 
+  fCurrentFrameNoteStringsNumber = -1;
+  fCurrentFrameNoteFretsNumber = -1;
+  fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
+
   fOnGoingFrameNote = true;
 }
 
@@ -19685,6 +19715,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
       endl;
   }
 
+  // create the frame note
   S_msrFrameNote
     frameNote =
       msrFrameNote::create (
@@ -19693,6 +19724,9 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
         fCurrentFrameNoteFretsNumber,
         fCurrentFrameNoteBarreTypeKind);
 
+  // append the frame note to the pending frame notes list
+  fPendingFramesNotesList.push_back (frameNote);
+  
   fOnGoingFrameNote = false;
 }
 
@@ -19713,6 +19747,22 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame& elt )
         fCurrentFrameFrets,
         fCurrentFrameFirstFret);
         
+  // handling the current pending frame notes if any,
+  // so that they get attached to the note right now
+  if (fPendingFramesNotesList.size ()) {    
+    while (fPendingFramesNotesList.size ()) {
+      S_msrFrameNote
+        frameNote =
+          fPendingFramesNotesList.front ();
+  
+      // append the frame note to the frame
+      frame->
+        appendFrameNoteToFrame (frameNote);
+  
+      // remove it from the list
+      fPendingFramesNotesList.pop_front ();
+    } // while
+  }
 
   // append the frame to the pending frames list
   fPendingFramesList.push_back (frame);

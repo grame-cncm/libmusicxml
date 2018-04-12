@@ -175,6 +175,10 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrHarmony>,
   
+  // frames
+
+  public visitor<S_msrFrame>,
+  
   // figured bass
 
   public visitor<S_msrFiguredBass>,
@@ -437,6 +441,8 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrVoiceStaffChange& elt);
 
     virtual void visitStart (S_msrHarmony& elt);
+    
+    virtual void visitStart (S_msrFrame& elt);
     
     virtual void visitStart (S_msrFiguredBass& elt);
     virtual void visitEnd   (S_msrFiguredBass& elt);
@@ -730,6 +736,11 @@ class lpsr2LilypondTranslator :
 
     string                harmonyDegreeAlterationKindAsLilypondString (
                             msrAlterationKind harmonyDegreeAlterationKind);
+
+    // frames
+
+    string                frameAsLilypondString (
+                            S_msrFrame frame);
 
     // figured bass
     

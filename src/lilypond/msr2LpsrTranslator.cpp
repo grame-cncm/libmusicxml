@@ -1455,6 +1455,24 @@ void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrFrame& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrFrame '" <<
+      elt->asString () <<
+      "'" <<
+      endl;
+  }
+
+  if (fOnGoingNote) {
+    // register the frame in the current note clone
+    fCurrentNoteClone->
+      setNoteFrame (elt);
+  }
+}  
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrFiguredBass& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {

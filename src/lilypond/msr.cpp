@@ -17686,8 +17686,28 @@ ostream& operator<< (ostream& os, const S_msrFrameNote& elt)
 void msrFrameNote::print (ostream& os)
 {  
   os <<
-    asString () <<
+    "FrameNote" <<
+    ", line: " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 23;
+  
+  os <<
+    setw (fieldWidth) <<
+    "frameNoteStringsNumber" << " : " << fFrameNoteStringsNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "frameNoteFretsNumber" << " : " << fFrameNoteFretsNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "frameNoteBarreTypeKind" << " : " << 
+    barreTypeKindAsString (
+      fFrameNoteBarreTypeKind) <<
+    endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -17857,8 +17877,7 @@ void msrFrame::print (ostream& os)
       i      = iBegin;
       
     for ( ; ; ) {
-      os <<
-        (*i)->asString ();
+      os << (*i);
       if (++i == iEnd) break;
       os << endl;
     } // for

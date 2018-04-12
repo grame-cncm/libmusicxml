@@ -2247,6 +2247,60 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 }
 
 //________________________________________________________________________
+string lpsr2LilypondTranslator::frameAsLilypondString (
+  S_msrFrame frame)
+{
+/* JMI
+  int inputLineNumber =
+    frame->getInputLineNumber ();
+  */
+    
+  stringstream s;
+
+  const list<S_msrFrameNote>&
+    frameFrameNotesList =
+      frame->getFrameFrameNotesList ();
+      
+  s <<
+    "^\\markup {\\fret-diagram #\"";
+
+  list<S_msrFrameNote>::const_iterator
+    iBegin = frameFrameNotesList.begin (),
+    iEnd   = frameFrameNotesList.end (),
+    i      = iBegin;
+  
+  for ( ; ; ) {
+    S_msrFrameNote
+      frameNote = (*i);
+    
+    int frameNoteFretsNumber =
+      frameNote->getFrameNoteFretsNumber ();
+    
+    s <<
+      frameNote->getFrameNoteStringsNumber () <<
+      "-";
+
+    if (frameNoteFretsNumber == 0) {
+      s <<
+        "o";
+    }
+    else {
+      s <<
+        frameNoteFretsNumber;
+    }
+    s <<
+      ";";
+    if (++i == iEnd) break;
+// JMI    os << ";";
+  } // for
+
+  s <<
+    "\" } ";
+    
+  return s.str ();
+}
+
+//________________________________________________________________________
 string lpsr2LilypondTranslator::generateMultilineName (string theString)
 {
   stringstream s;
@@ -4679,6 +4733,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
     // this will be done after the chord itself JMI
   }
   */
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrFrame& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrHarmony '" <<
+      elt->asString () <<
+      "'" <<
+      endl;
+  }
+  
+  if (fOnGoingNote) {
+    if (gTraceOptions->fTraceFrames) {
+      fLilypondCodeIOstream <<
+        "%{ " << elt->asString () << " %}" <<
+        endl;
+    }
+
+  fLilypondCodeIOstream <<
+    frameAsLilypondString (elt) <<
+    " ";
+  }
 }
 
 //________________________________________________________________________

@@ -223,6 +223,9 @@ debugging information to standard error for the specified measures.)",
     // harmonies
     fTraceHarmonies = boolOptionsInitialValue;
   
+    // frames
+    fTraceFrames = boolOptionsInitialValue;
+
     // figured bass
     fTraceFiguredBass = boolOptionsInitialValue;
       
@@ -575,6 +578,15 @@ R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
+          "tFrames", "traceFrames",
+R"(<frame/> in MusicXML, \fret-diagram in LilyPond)",
+          "traceFrames",
+          fTraceFrames,
+          fTraceBasic));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
           "tfigbass", "traceFiguredBass",
 R"(<figured-bass> in MusicXML, \figuremode in LilyPond)",
           "traceFiguredBass",
@@ -777,6 +789,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   // harmonies
   clone->fTraceHarmonies = true;
   
+  // frames
+  clone->fTraceFrames = true;
+
   // figured bass
   clone->fTraceFiguredBass = true;
     
@@ -1058,6 +1073,11 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // harmonies
     setw (fieldWidth) << "traceHarmonies" << " : " <<
     booleanAsString (fTraceHarmonies) <<
+    endl <<
+    
+    // frames
+    setw (fieldWidth) << "traceFrames" << " : " <<
+    booleanAsString (fTraceFrames) <<
     endl <<
     
     // figured bass

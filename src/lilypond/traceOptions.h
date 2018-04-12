@@ -170,6 +170,9 @@ class traceOptions : public optionsGroup
     // harmonies
     bool                  fTraceHarmonies;
 
+    // frames
+    bool                  fTraceFrames;
+
     // figured bass
     bool                  fTraceFiguredBass;
 

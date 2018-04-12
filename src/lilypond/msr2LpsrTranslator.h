@@ -104,6 +104,10 @@ class msr2LpsrTranslator :
 
   public visitor<S_msrHarmony>,
   
+  // frames
+
+  public visitor<S_msrFrame>,
+  
   // figured bass
 
   public visitor<S_msrFiguredBass>,
@@ -309,6 +313,8 @@ class msr2LpsrTranslator :
 
     virtual void visitStart (S_msrHarmony& elt);
     virtual void visitEnd   (S_msrHarmony& elt);
+    
+    virtual void visitStart (S_msrFrame& elt);
     
     virtual void visitStart (S_msrFiguredBass& elt);
     virtual void visitEnd   (S_msrFiguredBass& elt);
@@ -524,6 +530,12 @@ class msr2LpsrTranslator :
     bool                      fOnGoingHarmonyVoice;
     
     list<S_msrHarmony>        fPendingHarmoniesList;
+
+    // frames
+    // ------------------------------------------------------    
+ //   bool                      fOnGoingFramesVoice; JMI
+    
+ //   list<S_msrFrame>          fPendingFramesList; // JMI
 
     // figured bass
     // ------------------------------------------------------    
