@@ -2247,6 +2247,16 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 }
 
 //________________________________________________________________________
+bool compareFrameNotesByDecreasingStringNumber (
+  const S_msrFrameNote& first,
+  const S_msrFrameNote& second)
+{
+  return
+    first->getFrameNoteStringNumber ()
+      >
+    second->getFrameNoteStringNumber ();
+}
+
 string lpsr2LilypondTranslator::frameAsLilypondString (
   S_msrFrame frame)
 {
@@ -2257,7 +2267,7 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
     
   stringstream s;
 
-  const list<S_msrFrameNote>&
+  list<S_msrFrameNote>
     frameFrameNotesList =
       frame->getFrameFrameNotesList ();
 
@@ -2316,10 +2326,18 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
   // JMI    os << ";";
     } // for
   }
-    
   
   // frame notes
   if (frameFrameNotesList.size ()) {
+    // sort the frame notes,
+    // necessary both for code generation
+    // and the detectoin of muted (i.e. absent) frame notes
+    frameFrameNotesList.sort (
+      compareFrameNotesByDecreasingStringNumber);
+
+    int currentStringNumber = frameStringsNumber;
+    
+    // generate the code
     list<S_msrFrameNote>::const_iterator
       iBegin = frameFrameNotesList.begin (),
       iEnd   = frameFrameNotesList.end (),
@@ -2329,13 +2347,26 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
       S_msrFrameNote
         frameNote = (*i);
       
+      int frameNoteStringNumber =
+        frameNote->getFrameNoteStringNumber ();
       int frameNoteFretNumber =
         frameNote->getFrameNoteFretNumber ();
       int frameNoteFingering =
         frameNote->getFrameNoteFingering ();
+
+      while (currentStringNumber != frameNoteStringNumber) {
+        // currentStringNumber is missing,
+        // hence it is a muted note
+        s <<
+          currentStringNumber <<
+          "-x";
+
+        currentStringNumber--;
+      }
       
+      // generate code for the frame note
       s <<
-        frameNote->getFrameNoteStringNumber () <<
+        frameNoteStringNumber <<
         "-";
   
       if (frameNoteFretNumber == 0) {
@@ -2355,10 +2386,20 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
       
       s <<
         ";";
-        
+      
       if (++i == iEnd) break;
   // JMI    os << ";";
     } // for
+
+    while (currentStringNumber != 0) {
+      // currentStringNumber is missing,
+      // hence it is a muted note
+      s <<
+        currentStringNumber <<
+        "-x";
+
+      currentStringNumber--;
+    }
   }
 
   s <<
