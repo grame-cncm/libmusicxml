@@ -2261,6 +2261,10 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
     frameFrameNotesList =
       frame->getFrameFrameNotesList ();
 
+  const list<pair<int, int> >&
+    frameBarresList =
+      frame->getFrameBarresList ();
+
   int frameStringsNumber =
     frame->getFrameStringsNumber ();
   int frameFretsNumber =
@@ -2289,46 +2293,69 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
     frameFretsNumber <<
     ";";
 
-  // frame notes
-  list<S_msrFrameNote>::const_iterator
-    iBegin = frameFrameNotesList.begin (),
-    iEnd   = frameFrameNotesList.end (),
-    i      = iBegin;
-  
-  for ( ; ; ) {
-    S_msrFrameNote
-      frameNote = (*i);
-    
-    int frameNoteFretsNumber =
-      frameNote->getFrameNoteFretsNumber ();
-    int frameNoteFingering =
-      frameNote->getFrameNoteFingering ();
-    
-    s <<
-      frameNote->getFrameNoteStringsNumber () <<
-      "-";
-
-    if (frameNoteFretsNumber == 0) {
-      s <<
-        "o";
-    }
-    else {
-      s <<
-        frameNoteFretsNumber;
-    }
-
-    if (frameNoteFingering != -1) {
-      s <<
-        "-" <<
-        frameNoteFingering;
-    }
-    
-    s <<
-      ";";
+  // frame barres
+  if (frameBarresList.size ()) {
+    list<pair<int, int> >::const_iterator
+      iBegin = frameBarresList.begin (),
+      iEnd   = frameBarresList.end (),
+      i      = iBegin;
       
-    if (++i == iEnd) break;
-// JMI    os << ";";
-  } // for
+    for ( ; ; ) {
+      pair<int, int> barre = (*i);
+
+      s <<
+        "c:" <<
+        barre.first << "-" << barre.second <<
+        ";";
+        
+      if (++i == iEnd) break;
+  // JMI    os << ";";
+    } // for
+  }
+    
+  
+  // frame notes
+  if (frameFrameNotesList.size ()) {
+    list<S_msrFrameNote>::const_iterator
+      iBegin = frameFrameNotesList.begin (),
+      iEnd   = frameFrameNotesList.end (),
+      i      = iBegin;
+    
+    for ( ; ; ) {
+      S_msrFrameNote
+        frameNote = (*i);
+      
+      int frameNoteFretNumber =
+        frameNote->getFrameNoteFretNumber ();
+      int frameNoteFingering =
+        frameNote->getFrameNoteFingering ();
+      
+      s <<
+        frameNote->getFrameNoteStringNumber () <<
+        "-";
+  
+      if (frameNoteFretNumber == 0) {
+        s <<
+          "o";
+      }
+      else {
+        s <<
+          frameNoteFretNumber;
+      }
+  
+      if (frameNoteFingering != -1) {
+        s <<
+          "-" <<
+          frameNoteFingering;
+      }
+      
+      s <<
+        ";";
+        
+      if (++i == iEnd) break;
+  // JMI    os << ";";
+    } // for
+  }
 
   s <<
     "\" } ";

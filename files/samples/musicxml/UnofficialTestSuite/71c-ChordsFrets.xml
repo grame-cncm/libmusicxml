@@ -416,6 +416,52 @@
         <voice>1</voice>
         <type>quarter</type>
       </note>
+    </measure>
+    <measure number="3">
+      <harmony>
+        <root>
+          <root-step>G</root-step>
+        </root>
+        <kind>minor</kind>
+      <frame default-y="93" halign="center" unplayed="x" valign="top">
+          <frame-strings>6</frame-strings>
+          <frame-frets>5</frame-frets>
+          <first-fret location="right" text="12fr.">12</first-fret>
+          <frame-note>
+            <string>5</string>
+            <fret>12</fret>
+            <barre type="start"/>
+          </frame-note>
+          <frame-note>
+            <string>4</string>
+            <fret>14</fret>
+            <barre type="start"/>
+          </frame-note>
+          <frame-note>
+            <string>3</string>
+            <fret>14</fret>
+          </frame-note>
+          <frame-note>
+            <string>2</string>
+            <fret>14</fret>
+            <barre type="stop"/>
+          </frame-note>
+          <frame-note>
+            <string>1</string>
+            <fret>12</fret>
+            <barre type="stop"/>
+          </frame-note>
+        </frame>
+      </harmony>
+      <note>
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>whole</type>
+      </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>
       </barline>

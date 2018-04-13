@@ -17555,16 +17555,16 @@ void msrHarmony::print (ostream& os)
 //______________________________________________________________________________
 S_msrFrameNote msrFrameNote::create (
   int              inputLineNumber,
-  int              frameNoteStringsNumber,
-  int              frameNoteFretsNumber,
+  int              frameNoteStringNumber,
+  int              frameNoteFretNumber,
   int              frameNoteFingering,
   msrBarreTypeKind frameNoteBarreTypeKind)
 {
   msrFrameNote* o =
     new msrFrameNote (
       inputLineNumber,
-      frameNoteStringsNumber,
-      frameNoteFretsNumber,
+      frameNoteStringNumber,
+      frameNoteFretNumber,
       frameNoteFingering,
       frameNoteBarreTypeKind);
   assert(o!=0);
@@ -17574,14 +17574,14 @@ S_msrFrameNote msrFrameNote::create (
 
 msrFrameNote::msrFrameNote (
   int              inputLineNumber,
-  int              frameNoteStringsNumber,
-  int              frameNoteFretsNumber,
+  int              frameNoteStringNumber,
+  int              frameNoteFretNumber,
   int              frameNoteFingering,
   msrBarreTypeKind frameNoteBarreTypeKind)
     : msrElement (inputLineNumber)
 {
-  fFrameNoteStringsNumber = frameNoteStringsNumber;
-  fFrameNoteFretsNumber   = frameNoteFretsNumber;
+  fFrameNoteStringNumber = frameNoteStringNumber;
+  fFrameNoteFretNumber   = frameNoteFretNumber;
 
   fFrameNoteFingering = frameNoteFingering;
   
@@ -17625,8 +17625,8 @@ string msrFrameNote::asString () const
 
   s <<
     "FrameNote" <<
-    ", frameNoteStringsNumber: " << fFrameNoteStringsNumber <<
-    ", frameNoteFretsNumber: " << fFrameNoteFretsNumber <<
+    ", frameNoteStringNumber: " << fFrameNoteStringNumber <<
+    ", frameNoteFretNumber: " << fFrameNoteFretNumber <<
     ", frameNoteFingering: " << fFrameNoteFingering <<
     ", frameNoteBarreTypeKind: " <<
     barreTypeKindAsString (
@@ -17702,10 +17702,10 @@ void msrFrameNote::print (ostream& os)
   
   os <<
     setw (fieldWidth) <<
-    "frameNoteStringsNumber" << " : " << fFrameNoteStringsNumber <<
+    "frameNoteStringNumber" << " : " << fFrameNoteStringNumber <<
     endl <<
     setw (fieldWidth) <<
-    "frameNoteFretsNumber" << " : " << fFrameNoteFretsNumber <<
+    "frameNoteFretNumber" << " : " << fFrameNoteFretNumber <<
     endl <<
     setw (fieldWidth) <<
     "frameNoteFingering" << " : " << fFrameNoteFingering <<
@@ -17768,6 +17768,36 @@ void msrFrame::appendFrameNoteToFrame (
   fFrameFrameNotesList.push_back (
     frameNote);
 
+  // handle nested barre start/stop
+  switch (frameNote->getFrameNoteBarreTypeKind ()) {
+    case msrFrameNote::k_NoBarreType:
+      break;
+      
+    case msrFrameNote::kBarreTypeStart:
+      fPendingBarreStartStringNumbers.push (
+        frameNote->getFrameNoteStringNumber ());
+      break;
+      
+    case msrFrameNote::kBarreTypeStop:
+      {
+        if (! fPendingBarreStartStringNumbers.size ()) {
+        }
+        else {
+          int startStringNumber =
+            fPendingBarreStartStringNumbers.top ();
+  
+          fFrameBarresList.push_back (
+            make_pair (
+              startStringNumber,
+              frameNote->getFrameNoteStringNumber ()));
+              
+          fPendingBarreStartStringNumbers.pop ();
+        }
+      }
+      break;
+  } // switch
+
+  // are there fingerings in this frame?
   if (frameNote->getFrameNoteFingering () != -1) {
     fFrameContainsFingerings = true;
   }
@@ -17782,22 +17812,13 @@ string msrFrame::asString () const
     ", frameStringsNumber: " << fFrameStringsNumber <<
     ", frameFretsNumber: " << fFrameFretsNumber <<
     ", frameFirstFretNumber: " << fFrameFirstFretNumber <<
+    singularOrPlural (
+      fFrameFrameNotesList.size (), "frame note", "frame notes") <<
+    singularOrPlural (
+      fFrameBarresList.size (), "barre", "barres") <<
     ", frameContainsFingerings: " <<
     booleanAsString (
       fFrameContainsFingerings);
-
-  if (fFrameFrameNotesList.size ()) {
-    list<S_msrFrameNote>::const_iterator
-      iBegin = fFrameFrameNotesList.begin (),
-      iEnd   = fFrameFrameNotesList.end (),
-      i      = iBegin;
-      
-    for ( ; ; ) {
-      s << (*i);
-      if (++i == iEnd) break;
-      s << " ";
-    } // for
-  }
 
   return s.str ();
 }
@@ -17892,9 +17913,10 @@ void msrFrame::print (ostream& os)
     endl;
 
   // print frame notes if any
+  os <<
+    "Frame notes:";
   if (fFrameFrameNotesList.size ()) {
     os <<
-      "Frame notes:" <<
       endl;
 
     gIndenter++;
@@ -17907,11 +17929,47 @@ void msrFrame::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      os << endl;
+      // no endl here;
     } // for
-    os << endl;
     
     gIndenter--;
+  }
+  else {
+    os <<
+      "none" <<
+      endl;
+  }
+
+  // print the barres if any
+  os <<
+    "Frame barres:";
+  if (fFrameBarresList.size ()) {
+    os <<
+      endl;
+
+    gIndenter++;
+    
+    list<pair<int, int> >::const_iterator
+      iBegin = fFrameBarresList.begin (),
+      iEnd   = fFrameBarresList.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      pair<int, int> barre = (*i);
+      
+      os <<
+        "barre: " << barre.first << "-" << barre.second <<
+        endl;
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+    
+    gIndenter--;
+  }
+  else {
+    os <<
+      "none" <<
+      endl;
   }
 
   gIndenter--;

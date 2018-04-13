@@ -222,8 +222,8 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentFrameStrings  = -1;
   fCurrentFrameFrets    = -1;
   fCurrentFrameFirstFret = -1;
-  fCurrentFrameNoteStringsNumber = -1;
-  fCurrentFrameNoteFretsNumber = -1;
+  fCurrentFrameNoteStringNumber = -1;
+  fCurrentFrameNoteFretNumber = -1;
   fCurrentFrameNoteFingering = -1;
   fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
 
@@ -10021,7 +10021,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
   }
 
   else if (fOnGoingFrameNote) {
-    fCurrentFrameNoteFretsNumber = fretValue;
+    fCurrentFrameNoteFretNumber = fretValue;
   }
 
   else {
@@ -10700,7 +10700,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
   }
 
   else if (fOnGoingFrame) {
-    fCurrentFrameNoteStringsNumber = stringIntegerValue;
+    fCurrentFrameNoteStringNumber = stringIntegerValue;
   }
 
   else {
@@ -19621,7 +19621,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_first_fret& elt )
       endl;
   }
 
+/*
+          <first-fret location="right" text="12fr.">12</first-fret>
+*/
+ 
   fCurrentFrameFirstFret = (int)(*elt);
+
+  // the following two are not used yet JMI
+  string firstFretLocation = elt->getAttributeValue ("location");
+  string firstFretText = elt->getAttributeValue ("text");
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_frame_note& elt )
@@ -19656,8 +19664,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame_note& elt )
 >
 */
 
-  fCurrentFrameNoteStringsNumber = -1;
-  fCurrentFrameNoteFretsNumber = -1;
+  fCurrentFrameNoteStringNumber = -1;
+  fCurrentFrameNoteFretNumber = -1;
   fCurrentFrameNoteFingering = -1;
   fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
 
@@ -19685,6 +19693,36 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
     type %start-stop; #REQUIRED
     %color;
 >
+
+      <frame default-y="93" halign="center" unplayed="x" valign="top">
+          <frame-strings>6</frame-strings>
+          <frame-frets>5</frame-frets>
+          <first-fret location="right" text="12fr.">12</first-fret>
+          <frame-note>
+            <string>5</string>
+            <fret>12</fret>
+            <barre type="start"/>
+          </frame-note>
+          <frame-note>
+            <string>4</string>
+            <fret>14</fret>
+            <barre type="start"/>
+          </frame-note>
+          <frame-note>
+            <string>3</string>
+            <fret>14</fret>
+          </frame-note>
+          <frame-note>
+            <string>2</string>
+            <fret>14</fret>
+            <barre type="stop"/>
+          </frame-note>
+          <frame-note>
+            <string>1</string>
+            <fret>12</fret>
+            <barre type="stop"/>
+          </frame-note>
+        </frame>
 */
  
   string barreType = elt->getAttributeValue ("type");
@@ -19707,7 +19745,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
       elt->getInputLineNumber (),
       __FILE__, __LINE__,
       s.str ());
-  }
+  }  
 }
 
 void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
@@ -19723,14 +19761,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_frame_note& elt )
     frameNote =
       msrFrameNote::create (
         elt->getInputLineNumber (),
-        fCurrentFrameNoteStringsNumber,
-        fCurrentFrameNoteFretsNumber,
+        fCurrentFrameNoteStringNumber,
+        fCurrentFrameNoteFretNumber,
         fCurrentFrameNoteFingering,
         fCurrentFrameNoteBarreTypeKind);
 
   // append the frame note to the pending frame notes list
   fPendingFramesNotesList.push_back (frameNote);
-  
+
   fOnGoingFrameNote = false;
 }
 

@@ -4999,8 +4999,8 @@ class msrFrameNote : public msrElement
 
     static SMARTP<msrFrameNote> create (
       int              inputLineNumber,
-      int              frameNoteStringsNumber,
-      int              frameNoteFretsNumber,
+      int              frameNoteStringNumber,
+      int              frameNoteFretNumber,
       int              frameNoteFingering,
       msrBarreTypeKind frameNoteBarreTypeKind);
 
@@ -5011,8 +5011,8 @@ class msrFrameNote : public msrElement
 
     msrFrameNote (
       int              inputLineNumber,
-      int              frameNoteStringsNumber,
-      int              frameNoteFretsNumber,
+      int              frameNoteStringNumber,
+      int              frameNoteFretNumber,
       int              frameNoteFingering,
       msrBarreTypeKind frameNoteBarreTypeKind);
 
@@ -5023,11 +5023,11 @@ class msrFrameNote : public msrElement
     // set and get
     // ------------------------------------------------------
 
-    int                   getFrameNoteStringsNumber () const
-                              { return fFrameNoteStringsNumber; }
+    int                   getFrameNoteStringNumber () const
+                              { return fFrameNoteStringNumber; }
                               
-    int                   getFrameNoteFretsNumber () const
-                              { return fFrameNoteFretsNumber; }
+    int                   getFrameNoteFretNumber () const
+                              { return fFrameNoteFretNumber; }
                               
     int                   getFrameNoteFingering () const
                               { return fFrameNoteFingering; }
@@ -5058,8 +5058,8 @@ class msrFrameNote : public msrElement
     // fields
     // ------------------------------------------------------
 
-    int                   fFrameNoteStringsNumber;
-    int                   fFrameNoteFretsNumber;
+    int                   fFrameNoteStringNumber;
+    int                   fFrameNoteFretNumber;
 
     int                   fFrameNoteFingering;
 
@@ -5114,6 +5114,10 @@ class msrFrame : public msrElement
                           getFrameFrameNotesList ()
                               { return fFrameFrameNotesList; }
                                               
+    const list<pair<int, int> >&
+                          getFrameBarresList ()
+                              { return fFrameBarresList; }
+                                              
     bool                  getFrameContainsFingerings () const
                               { return fFrameContainsFingerings; }
 
@@ -5122,6 +5126,12 @@ class msrFrame : public msrElement
 
     void                  appendFrameNoteToFrame (
                             S_msrFrameNote frameNote);
+    
+    void                  appendBarreToFrame (
+                            pair<int, int> barre)
+                              {
+                                fFrameBarresList.push_back (barre);
+                              }
     
     string                asString () const;
    
@@ -5149,6 +5159,12 @@ class msrFrame : public msrElement
 
     list<S_msrFrameNote>  fFrameFrameNotesList;
 
+    // a barre is a pair of string numbers
+    list<pair<int, int> > fFrameBarresList;
+    // a barre start remains pending
+    // until the matching stop is appended to the frame
+    stack<int>            fPendingBarreStartStringNumbers;
+                              
     // optimizing computation
     bool                  fFrameContainsFingerings;
 };
