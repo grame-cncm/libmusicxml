@@ -9631,7 +9631,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           fLilypondCodeIOstream << "\\bar \"||\" ";
           break;
         case msrBarline::kBarlineStyleLightHeavy:
-          fLilypondCodeIOstream << "\\bar \"|.\" ";
+          fLilypondCodeIOstream <<
+            endl <<
+            "\\bar \"|.\" ";
           break;
         case msrBarline::kBarlineStyleHeavyLight:
           fLilypondCodeIOstream << "\\bar \".|\" ";
