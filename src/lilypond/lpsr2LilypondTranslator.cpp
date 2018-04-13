@@ -2354,12 +2354,12 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
       int frameNoteFingering =
         frameNote->getFrameNoteFingering ();
 
-      while (currentStringNumber != frameNoteStringNumber) {
+      while (currentStringNumber > frameNoteStringNumber) {
         // currentStringNumber is missing,
         // hence it is a muted note
         s <<
           currentStringNumber <<
-          "-x";
+          "-x;";
 
         currentStringNumber--;
       }
@@ -2387,16 +2387,19 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
       s <<
         ";";
       
+      currentStringNumber--;
+
       if (++i == iEnd) break;
   // JMI    os << ";";
     } // for
 
+    // handling low-numbered muted notes
     while (currentStringNumber != 0) {
       // currentStringNumber is missing,
       // hence it is a muted note
       s <<
         currentStringNumber <<
-        "-x";
+        "-x;";
 
       currentStringNumber--;
     }
