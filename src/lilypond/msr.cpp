@@ -11893,7 +11893,7 @@ void msrPageGeometry::print (ostream& os) {
   
   gIndenter++;
   
-    const int fieldWidth = 12;
+  const int fieldWidth = 12;
 
   if (fPaperWidth > 0) {
     os << left <<
@@ -12908,6 +12908,9 @@ string msrClef::asString () const
       break;
     case msrClef::kPercussionClef:
       s << "percussion";
+      break;
+    case msrClef::kJianpuClef:
+      s << "jianpu";
       break;
   } // switch
 
@@ -31250,7 +31253,7 @@ msrStaff::msrStaff (
     staffPartUplink;
 
   // set staff kind and number
-  fStaffKind = staffKind;
+  fStaffKind   = staffKind;
   fStaffNumber = staffNumber;
 
   // do other initializations
@@ -32048,10 +32051,16 @@ void msrStaff::appendClefToStaff (S_msrClef clef)
       case msrClef::kPercussionClef:
         fStaffKind = msrStaff::kDrumStaff;
         break;
+      case msrClef::kTablature4Clef:
+      case msrClef::kTablature5Clef:
+      case msrClef::kTablature6Clef:
+      case msrClef::kTablature7Clef:
+        fStaffKind = msrStaff::kTablatureStaff;
+        break;
       default:
         ;
     } // switch
-  
+
     // propagate clef to all voices
     for (
       map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -37102,6 +37111,7 @@ void msrIdentification::print (ostream& os)
   if (emptyIdentification)
     os <<
       " " << "nothing specified" <<
+      endl <<
       endl;
   
   gIndenter--;

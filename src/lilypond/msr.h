@@ -2754,7 +2754,8 @@ class msrClef : public msrElement
       kBassPlus8Clef, kBassPlus15Clef,
       kVarbaritoneClef,
       kTablature4Clef, kTablature5Clef, kTablature6Clef, kTablature7Clef,
-      kPercussionClef};
+      kPercussionClef,
+      kJianpuClef};
       
     static string clefKindAsString (
       msrClefKind clefKind);

@@ -1748,6 +1748,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_clef& elt )
     clefKind = msrClef::kPercussionClef;
   }
 
+  else if (fCurrentClefSign == "jianpu") {
+    clefKind = msrClef::kJianpuClef;
+  }
+
   else if (fCurrentClefSign == "NONE") {
     clefKind = msrClef::k_NoClef;
   }
@@ -4563,7 +4567,7 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
   // number
 
   fStaffDetailsStaffNumber =
-    elt->getAttributeIntValue ("number", 0);
+    elt->getAttributeIntValue ("number", 1); // default value is 1, as for clef
 
   // show-frets
 

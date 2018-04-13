@@ -3763,7 +3763,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       break;
     } // switch
 
-  
   fLilypondCodeIOstream <<
     " = \"" <<
     staff->getStaffName () <<
