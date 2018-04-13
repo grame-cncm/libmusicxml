@@ -5069,6 +5069,31 @@ typedef SMARTP<msrFrameNote> S_msrFrameNote;
 EXP ostream& operator<< (ostream& os, const S_msrFrameNote& elt);
 
 //______________________________________________________________________________
+struct msrBarre {
+  public:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrBarre (
+      int barreStartString,
+      int barreStopString,
+      int barreFretNumber)
+    {
+      fBarreStartString = barreStartString;
+      fBarreStopString  = barreStopString;
+      fBarreFretNumber  = barreFretNumber;
+    }
+
+
+    // fields
+    // ------------------------------------------------------
+    
+    int                   fBarreStartString;
+    int                   fBarreStopString;
+    int                   fBarreFretNumber;
+};
+
 class msrFrame : public msrElement
 {
   public:
@@ -5114,8 +5139,7 @@ class msrFrame : public msrElement
                           getFrameFrameNotesList ()
                               { return fFrameFrameNotesList; }
                                               
-    const list<pair<int, int> >&
-                          getFrameBarresList ()
+    const list<msrBarre>& getFrameBarresList ()
                               { return fFrameBarresList; }
                                               
     bool                  getFrameContainsFingerings () const
@@ -5128,7 +5152,7 @@ class msrFrame : public msrElement
                             S_msrFrameNote frameNote);
     
     void                  appendBarreToFrame (
-                            pair<int, int> barre)
+                            msrBarre barre)
                               {
                                 fFrameBarresList.push_back (barre);
                               }
@@ -5159,11 +5183,11 @@ class msrFrame : public msrElement
 
     list<S_msrFrameNote>  fFrameFrameNotesList;
 
-    // a barre is a pair of string numbers
-    list<pair<int, int> > fFrameBarresList;
+    list<msrBarre >       fFrameBarresList;
+    
     // a barre start remains pending
     // until the matching stop is appended to the frame
-    stack<int>            fPendingBarreStartStringNumbers;
+    stack<S_msrFrameNote> fPendingBarreStartFrameNotes;
                               
     // optimizing computation
     bool                  fFrameContainsFingerings;

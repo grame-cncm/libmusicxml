@@ -2261,7 +2261,7 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
     frameFrameNotesList =
       frame->getFrameFrameNotesList ();
 
-  const list<pair<int, int> >&
+  const list<msrBarre>&
     frameBarresList =
       frame->getFrameBarresList ();
 
@@ -2295,17 +2295,21 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
 
   // frame barres
   if (frameBarresList.size ()) {
-    list<pair<int, int> >::const_iterator
+    list<msrBarre>::const_iterator
       iBegin = frameBarresList.begin (),
       iEnd   = frameBarresList.end (),
       i      = iBegin;
       
     for ( ; ; ) {
-      pair<int, int> barre = (*i);
+      msrBarre barre = (*i);
 
       s <<
         "c:" <<
-        barre.first << "-" << barre.second <<
+        barre.fBarreStartString <<
+        "-" <<
+        barre.fBarreStopString <<
+        "-" <<
+        barre.fBarreFretNumber <<
         ";";
         
       if (++i == iEnd) break;

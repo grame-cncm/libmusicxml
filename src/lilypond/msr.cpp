@@ -17765,6 +17765,9 @@ msrFrame::~msrFrame ()
 void msrFrame::appendFrameNoteToFrame (
   S_msrFrameNote frameNote)
 {
+  int inputLineNumber =
+    frameNote->getInputLineNumber ();
+    
   fFrameFrameNotesList.push_back (
     frameNote);
 
@@ -17774,24 +17777,64 @@ void msrFrame::appendFrameNoteToFrame (
       break;
       
     case msrFrameNote::kBarreTypeStart:
-      fPendingBarreStartStringNumbers.push (
-        frameNote->getFrameNoteStringNumber ());
+      fPendingBarreStartFrameNotes.push (
+        frameNote);
       break;
       
     case msrFrameNote::kBarreTypeStop:
       {
-        if (! fPendingBarreStartStringNumbers.size ()) {
+        if (! fPendingBarreStartFrameNotes.size ()) {
+          stringstream s;
+      
+          s <<
+            "frame note with barre stop has no maching barre start" <<
+            frameNote;
+            
+          msrMusicXMLError (
+            gXml2lyOptions->fInputSourceName,
+            inputLineNumber,
+            __FILE__, __LINE__,
+            s.str ());
         }
+        
         else {
-          int startStringNumber =
-            fPendingBarreStartStringNumbers.top ();
+          S_msrFrameNote
+            pendingBarreStartFrameNotesTop =
+              fPendingBarreStartFrameNotes.top ();
+
+          int
+            barreStartFretNumber =
+              pendingBarreStartFrameNotesTop->
+                getFrameNoteFretNumber (),
+            barreStopFretNumber =
+              frameNote->
+                getFrameNoteFretNumber ();
+
+          if (barreStartFretNumber != barreStopFretNumber) {
+            stringstream s;
+        
+            s <<
+              "frame note with barre stop has is at fret" <<
+              barreStopFretNumber <<
+              "while the matching barre start is at fret" <<
+              barreStartFretNumber;
+              
+            msrMusicXMLError (
+              gXml2lyOptions->fInputSourceName,
+              inputLineNumber,
+              __FILE__, __LINE__,
+              s.str ());
+          }
   
           fFrameBarresList.push_back (
-            make_pair (
-              startStringNumber,
-              frameNote->getFrameNoteStringNumber ()));
+            msrBarre (
+              pendingBarreStartFrameNotesTop->
+                getFrameNoteStringNumber (),
+              frameNote->
+                getFrameNoteStringNumber (),
+              barreStartFretNumber));
               
-          fPendingBarreStartStringNumbers.pop ();
+          fPendingBarreStartFrameNotes.pop ();
         }
       }
       break;
@@ -17949,17 +17992,35 @@ void msrFrame::print (ostream& os)
 
     gIndenter++;
     
-    list<pair<int, int> >::const_iterator
+    list<msrBarre>::const_iterator
       iBegin = fFrameBarresList.begin (),
       iEnd   = fFrameBarresList.end (),
       i      = iBegin;
 
     for ( ; ; ) {
-      pair<int, int> barre = (*i);
+      msrBarre barre = (*i);
       
       os <<
-        "barre: " << barre.first << "-" << barre.second <<
+        "Barre" <<
         endl;
+
+      gIndenter++;
+
+      const int fieldWidth = 21;
+      
+      os << left <<
+        setw (fieldWidth) <<
+        "barreStartString" << " : " << barre.fBarreStartString <<
+        endl <<
+        setw (fieldWidth) <<
+        "barreStopString" << " : " << barre.fBarreStopString <<
+        endl <<
+        setw (fieldWidth) <<
+        "barreFretNumber" << " : " << barre.fBarreFretNumber <<
+        endl;
+
+      gIndenter--;
+      
       if (++i == iEnd) break;
       // no endl here;
     } // for
@@ -25808,7 +25869,7 @@ S_msrHarpPedalsTuning msrHarpPedalsTuning::createHarpPedalsTuningDeepCopy ()
 }
 
 void msrHarpPedalsTuning::addPedalTuning (
-  int                  intputLineNumber,
+  int                  inputLineNumber,
   msrDiatonicPitchKind diatonicPitchKind,
   msrAlterationKind    alterationKind)
 {
@@ -25830,7 +25891,7 @@ void msrHarpPedalsTuning::addPedalTuning (
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
-      intputLineNumber,
+      inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
   }
