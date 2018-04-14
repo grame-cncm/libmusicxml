@@ -11097,7 +11097,8 @@ class msrStaff : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_STAFF_NUMBER -79
+    #define K_NO_STAFF_NUMBER                 -79
+    #define K_STAFF_HARMONY_VOICE_BASE_NUMBER -100
 
     // data types
     // ------------------------------------------------------

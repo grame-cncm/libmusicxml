@@ -31843,7 +31843,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       break;
   } // switch
 
-  // register is by its part-relative ID
+  // register it by its part-relative ID
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
     voice;
   
@@ -31930,6 +31930,10 @@ S_msrVoice msrStaff::createHarmonyVoiceInStaff (
       msrVoice::kCreateInitialLastSegmentYes,
       this);
 
+  // register it by its relative number
+  fStaffAllVoicesMap [K_STAFF_HARMONY_VOICE_BASE_NUMBER - fStaffNumber] =
+    fStaffHarmonyVoice;
+
   return fStaffHarmonyVoice;
 }
 
@@ -31997,7 +32001,7 @@ void msrStaff::registerVoiceInStaff (
       endl;
   }
 
-  // register is by its relative number
+  // register it by its relative number
   fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
     voice;
 
