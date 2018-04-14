@@ -578,41 +578,67 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       
     case msrNote::kStandaloneNote:
       {
-        // should the stem be omitted?
-        if (note->getNoteIsStemless ()) {
-          fLilypondCodeIOstream <<
-            endl <<
-            "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
-        }
+        // is this note in a tab staff?
+        S_msrStaff
+          noteStaff =
+            note->
+              getNoteMeasureUplink ()->
+                getMeasureSegmentUplink ()->
+                  getSegmentVoiceUplink ()->
+                    getVoiceStaffUplink ();
+        
+        switch (noteStaff->getStaffKind ()) {
+          case msrStaff::kMasterStaff:
+            break;
+          case msrStaff::kTablatureStaff:
+            break;
+          case msrStaff::kHarmonyStaff:
+            break;
+          case msrStaff::kFiguredBassStaff:
+            break;
+          case msrStaff::kDrumStaff:
+            break;
+          case msrStaff::kRythmicStaff:
+            break;
 
-        // should stem direction be generated?
-        if (gLilypondOptions->fStems) {
-      
-          if (fCurrentStem) {
-            // should stem direction be generated?
-            if (stemKind != fCurrentStemKind) {
-              switch (stemKind) {
-                case msrStem::k_NoStem:
-                  fLilypondCodeIOstream << "\\stemNeutral ";
-                  break;
-                case msrStem::kStemUp:
-                  fLilypondCodeIOstream << "\\stemUp ";
-                  break;
-                case msrStem::kStemDown:
-                  fLilypondCodeIOstream << "\\stemDown ";
-                  break;
-                case msrStem::kStemNone:
-                  break;
-                case msrStem::kStemDouble: // JMI ???
-                  break;
-              } // switch
+          case msrStaff::kRegularStaff:
+            // should the stem be omitted?
+            if (note->getNoteIsStemless ()) {
+              fLilypondCodeIOstream <<
+                endl <<
+                "\\stemNeutral "; // JMI ""\\once\\omit Stem ";
             }
-      
-            // is there a stem kind change?
-            if (stemKind != fCurrentStemKind)
-              fCurrentStemKind = stemKind;
-          }
-        }
+    
+            // should stem direction be generated?
+            if (gLilypondOptions->fStems) {
+          
+              if (fCurrentStem) {
+                // should stem direction be generated?
+                if (stemKind != fCurrentStemKind) {
+                  switch (stemKind) {
+                    case msrStem::k_NoStem:
+                      fLilypondCodeIOstream << "\\stemNeutral ";
+                      break;
+                    case msrStem::kStemUp:
+                      fLilypondCodeIOstream << "\\stemUp ";
+                      break;
+                    case msrStem::kStemDown:
+                      fLilypondCodeIOstream << "\\stemDown ";
+                      break;
+                    case msrStem::kStemNone:
+                      break;
+                    case msrStem::kStemDouble: // JMI ???
+                      break;
+                  } // switch
+                }
+          
+                // is there a stem kind change?
+                if (stemKind != fCurrentStemKind)
+                  fCurrentStemKind = stemKind;
+              }
+            }
+            break;
+        } // switch
       }
       break;
 
@@ -5745,6 +5771,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
         break;
       case msrClef::kPercussionClef:
         fLilypondCodeIOstream << "percussion";
+        break;
+      case msrClef::kJianpuClef:
+        fLilypondCodeIOstream << "%{jianpu???%}";
         break;
     } // switch
   

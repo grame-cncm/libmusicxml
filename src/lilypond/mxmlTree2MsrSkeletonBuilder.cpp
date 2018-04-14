@@ -164,6 +164,7 @@ mxmlTree2MsrSkeletonBuilder::mxmlTree2MsrSkeletonBuilder (
   fCurrentStanzaName = K_NO_STANZA_NAME; // JMI
 
   // harmonies handling
+  fThereAreHarmoniesToBeAttachedToCurrentNote = false;
   fHarmonyVoicesCounter = 0;
   
   // figured bass handling
@@ -1588,7 +1589,7 @@ R"(Please contact the maintainers of xml2ly (see '-c, -contact'):
 }
 
 //______________________________________________________________________________
-S_msrStaff mxmlTree2MsrSkeletonBuilder::createStaffIfNotYetDone (
+S_msrStaff mxmlTree2MsrSkeletonBuilder::createStaffInCurrentPartIfNotYetDone (
   int            inputLineNumber,
   int            staffNumber)
 {    
@@ -1612,7 +1613,7 @@ S_msrStaff mxmlTree2MsrSkeletonBuilder::createStaffIfNotYetDone (
 }  
 
 //______________________________________________________________________________
-S_msrVoice mxmlTree2MsrSkeletonBuilder::createVoiceIfNotYetDone (
+S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
   int inputLineNumber,
   int staffNumber,
   int voiceNumber)
@@ -1623,7 +1624,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createVoiceIfNotYetDone (
   // create the staff if not yet done
   S_msrStaff
     staff =
-      createStaffIfNotYetDone (
+      createStaffInCurrentPartIfNotYetDone (
         inputLineNumber,
         staffNumber);
 
@@ -1647,6 +1648,39 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createVoiceIfNotYetDone (
   }
   
   return voice;
+}
+
+//______________________________________________________________________________
+S_msrVoice mxmlTree2MsrSkeletonBuilder::createHarmonyVoiceInStaffIfNotYetDone (
+  int inputLineNumber,
+  int staffNumber)
+{
+  // the voice number is relative to a part,
+  // we'll call it its part-relative ID
+
+  // create the staff if not yet done
+  S_msrStaff
+    staff =
+      createStaffInCurrentPartIfNotYetDone (
+        inputLineNumber,
+        staffNumber);
+
+  // is voice already present in staff?
+  S_msrVoice
+    harmonyVoice =
+      staff->
+        getStaffHarmonyVoice ();
+  
+  if (! harmonyVoice) {
+    // create the voice and append it to the staff
+    harmonyVoice =
+      staff->
+        createHarmonyVoiceInStaff (
+          inputLineNumber,
+          fCurrentMeasureNumber);
+  }
+  
+  return harmonyVoice;
 }
 
 //________________________________________________________________________
@@ -2830,14 +2864,14 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
   // should the staff be created?
   S_msrStaff
     staff =
-      createStaffIfNotYetDone (
+      createStaffInCurrentPartIfNotYetDone (
         inputLineNumber,
         fCurrentNoteStaffNumber);
 
   // should the voice be created?
   S_msrVoice
     voice =
-      createVoiceIfNotYetDone (
+      createRegularVoiceInStaffIfNotYetDone (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentNoteVoiceNumber);
@@ -2863,9 +2897,18 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
       endl;
   }
 
-  // reset harmony counter
-  fHarmonyVoicesCounter = 0;
+  // are there harmonies attached to the current note?
+  if (fThereAreHarmoniesToBeAttachedToCurrentNote) {
+    // should the harmony voice be created?
+    S_msrVoice
+      harmonyVoice =
+        createHarmonyVoiceInStaffIfNotYetDone (
+          inputLineNumber,
+          fCurrentNoteStaffNumber);
   
+    fThereAreHarmoniesToBeAttachedToCurrentNote = false;
+  }
+    
   fOnGoingNote = false;
 }
 
@@ -3018,15 +3061,15 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_lyric& elt )
     gIndenter--;
   }
 
-  // fetch current voice
+  // create current voice if need be
   S_msrVoice
     currentVoice =
-      createVoiceIfNotYetDone (
+      createRegularVoiceInStaffIfNotYetDone (
         inputLineNumber,
         fCurrentNoteStaffNumber,
         fCurrentVoiceNumber);
 
-  // fetch stanzaNumber in current voice
+  // create stanzaNumber in current voice if need be
   S_msrStanza
     stanza =
       currentVoice->
@@ -3065,11 +3108,15 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
         inputLineNumber);
   }
 
+/* JMI
   // append a harmony voice to the current part harmony staff
   fCurrentPart->
     addHarmonyVoiceToPartIfNotYetDone (
       inputLineNumber,
-      fHarmonyVoicesCounter);    
+      fHarmonyVoicesCounter);
+      */
+
+  fThereAreHarmoniesToBeAttachedToCurrentNote = true;
 }
 
 //______________________________________________________________________________

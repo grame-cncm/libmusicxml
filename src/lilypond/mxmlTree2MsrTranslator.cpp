@@ -5023,7 +5023,7 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
           inputLineNumber,
           fCurrentForwardVoiceNumber);
   
-    if (gTraceOptions->fTraceNotes && gTraceOptions->fTraceVoices) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
       fLogOutputStream <<
         "--> S_voice, fCurrentForwardVoiceNumber = " <<
         fCurrentForwardVoiceNumber << endl <<
@@ -16160,7 +16160,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
         inputLineNumber,
         fCurrentNoteStaffNumber);
 
-  if (gTraceOptions->fTraceNotes && gTraceOptions->fTraceVoices) {
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
     fLogOutputStream <<
       "--> fCurrentNoteVoiceNumber        = " <<
       fCurrentNoteVoiceNumber <<
@@ -16427,19 +16427,42 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       S_msrHarmony
         harmony =
           fPendingHarmoniesList.front ();
-  
+
+      // set the harmony's voice uplink
+      harmony->
+        setHarmonyVoiceUplink (
+          voice);
+      
       // set the harmony's whole notes JMI to be better done in setNoteHarmony???
-      harmony->setHarmonySoundingWholeNotes (
-        fCurrentNoteSoundingWholeNotes);
+      harmony->
+        setHarmonySoundingWholeNotes (
+          fCurrentNoteSoundingWholeNotes);
       
       // attach the harmony to the note
       newNote->
         setNoteHarmony (harmony);
-  
+
+  /* JMI ???
       // append the harmony to the current part
       fCurrentPart->
         appendHarmonyToPart (
           voice,
+          harmony);
+  */
+  
+      // append the harmony to the current staff's harmony voice
+      S_msrVoice
+        staffHarmonyVoice =
+          staff->getStaffHarmonyVoice ();
+        /* JMI
+          fetchVoiceFromCurrentPart (
+            inputLineNumber,
+            fCurrentNoteStaffNumber,
+            K_HARMONY_VOICE_NUMBER);
+            */
+            
+      staffHarmonyVoice->
+        appendHarmonyToVoice (
           harmony);
   
       // remove it from the list
@@ -19401,6 +19424,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       k_NoQuarterTonesPitch;
   }
 
+/*
   // fetch harmony voice
   S_msrVoice
     harmonyVoice =
@@ -19425,7 +19449,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       __FILE__, __LINE__,
       s.str ());
   }
-          
+    */
+    
   // create the harmony
   if (gTraceOptions->fTraceHarmonies) {
     fLogOutputStream <<
@@ -19441,9 +19466,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       setw (fieldWidth) << "fCurrentPart" << " = " <<
       fCurrentPart->getPartCombinedName () <<
       endl <<
+      /*
       setw (fieldWidth) << "harmonyVoice" << " = " <<
       harmonyVoice->getVoiceName () <<
       endl <<
+      */
       
       setw (fieldWidth) << "fCurrentHarmonyRootDiatonicPitch" << " = " <<
       msrDiatonicPitchKindAsString (
@@ -19489,7 +19516,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
     harmony =
       msrHarmony::create (
         fCurrentHarmonyInputLineNumber,
-        harmonyVoice,
+        // no harmonyVoiceUplink yet
         
         fCurrentHarmonyRootQuarterTonesPitchKind,
         

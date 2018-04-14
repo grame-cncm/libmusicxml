@@ -4854,7 +4854,7 @@ class msrHarmony : public msrElement
       
     static SMARTP<msrHarmony> create (
       int                      inputLineNumber,
-      S_msrVoice               harmonyVoiceUplink,
+      // no harmonyVoiceUplink yet
       msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
       msrHarmonyKind           harmonyKind,
       string                   harmonyKindText,
@@ -4867,6 +4867,19 @@ class msrHarmony : public msrElement
 
     SMARTP<msrHarmony> createHarmonyDeepCopy ( // JMI ???
       S_msrVoice containingVoice);
+
+    // applications API
+    // ------------------------------------------------------
+
+    static SMARTP<msrHarmony> create (
+      int                      inputLineNumber,
+      S_msrVoice               harmonyVoiceUplink,
+      msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+      msrHarmonyKind           harmonyKind,
+      string                   harmonyKindText,
+      int                      harmonyInversion,
+      msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+      rational                 harmonySoundingWholeNotes);
 
   protected:
 
@@ -4883,12 +4896,16 @@ class msrHarmony : public msrElement
       msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
       rational                 harmonySoundingWholeNotes);
 
-    virtual ~msrHarmony();
+    virtual ~msrHarmony ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
+
+    void                  setHarmonyVoiceUplink (
+                            S_msrVoice voice)
+                              { fHarmonyVoiceUplink = voice; }
 
     S_msrVoice            getHarmonyVoiceUplink () const
                              { return fHarmonyVoiceUplink; }
@@ -10181,7 +10198,8 @@ class msrVoice : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_VOICE_NUMBER -39
+    #define K_NO_VOICE_NUMBER      -39
+    #define K_HARMONY_VOICE_NUMBER -33
 
     // data types
     // ------------------------------------------------------
@@ -11195,6 +11213,11 @@ class msrStaff : public msrElement
                           getStaffAllVoicesMap () const
                               { return fStaffAllVoicesMap; }
 
+    // harmonies
+
+    S_msrVoice            getStaffHarmonyVoice () const
+                              { return fStaffHarmonyVoice; }
+
     // services
     // ------------------------------------------------------
 
@@ -11256,6 +11279,11 @@ class msrStaff : public msrElement
 
     const int             getStaffNumberOfMusicVoices () const;
 
+    // harmonies
+
+    S_msrVoice            createHarmonyVoiceInStaff (
+                            int    inputLineNumber,
+                            string currentMeasureNumber);
     // measures
     
     void                  createMeasureAndAppendItToStaff (
@@ -11412,6 +11440,10 @@ class msrStaff : public msrElement
                             //numbered 1 to gMaxStaffVoices
                               
     map<int, S_msrVoice>  fStaffAllVoicesMap;
+
+    // harmonies
+
+    S_msrVoice            fStaffHarmonyVoice;
 
     // clef, key, time
     

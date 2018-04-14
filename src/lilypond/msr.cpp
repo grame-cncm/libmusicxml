@@ -17237,6 +17237,31 @@ void msrHarmonyDegree::print (ostream& os)
 //______________________________________________________________________________
 S_msrHarmony msrHarmony::create (
   int                      inputLineNumber,
+  // no harmonyVoiceUplink yet
+  msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
+  msrHarmonyKind           harmonyKind,
+  string                   harmonyKindText,
+  int                      harmonyInversion,
+  msrQuarterTonesPitchKind harmonyBassQuarterTonesPitchKind,
+  rational                 harmonySoundingWholeNotes)
+{
+  msrHarmony* o =
+    new msrHarmony (
+      inputLineNumber,
+      nullptr,
+      harmonyRootQuarterTonesPitchKind,
+      harmonyKind,
+      harmonyKindText,
+      harmonyInversion,
+      harmonyBassQuarterTonesPitchKind,
+      harmonySoundingWholeNotes);
+  assert(o!=0);
+
+  return o;
+}
+
+S_msrHarmony msrHarmony::create (
+  int                      inputLineNumber,
   S_msrVoice               harmonyVoiceUplink,
   msrQuarterTonesPitchKind harmonyRootQuarterTonesPitchKind,
   msrHarmonyKind           harmonyKind,
@@ -17271,10 +17296,12 @@ msrHarmony::msrHarmony (
   rational                 harmonySoundingWholeNotes)
     : msrElement (inputLineNumber)
 {
+  /* JMI
   // sanity check
   msrAssert(
     harmonyVoiceUplink != nullptr,
      "harmonyVoiceUplink is null");
+     */
      
   // set harmony's voice uplink
   fHarmonyVoiceUplink =
@@ -31829,7 +31856,7 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
 {
   S_msrVoice result; // JMI avoid repetivite messages!
 
-  if (gTraceOptions->fTraceVoices && gTraceOptions->fTraceStaves) {
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Fetching part-relative voice ID " <<
       voicePartRelativeID <<
@@ -31849,13 +31876,11 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
       (*i).second->getVoicePartRelativeID ()
         ==
       voicePartRelativeID) {
-      if (gTraceOptions->fTraceVoicesDetails) {
         gLogIOstream <<
           "Voice " << voicePartRelativeID <<
           " in staff \"" << getStaffName () << "\"" <<
           " has staff relative number " << (*i).first <<
           endl;
-      }
         
       result = (*i).second;
       break;
@@ -31863,6 +31888,49 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
   } // for
 
   return result;
+}
+
+S_msrVoice msrStaff::createHarmonyVoiceInStaff (
+  int    inputLineNumber,
+  string currentMeasureNumber)
+{
+  if (fStaffHarmonyVoice) {
+    stringstream s;
+
+    s <<
+      "Staff \"" <<
+      getStaffName () <<
+      "\" already has a master staff";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // create the staff harmony voice
+  if (
+    gTraceOptions->fTraceHarmonies
+      ||
+    gTraceOptions->fTraceVoices
+      ||
+    gTraceOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Creating harmony voice in staff \"" << getStaffName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fStaffHarmonyVoice =
+    msrVoice::create (
+      inputLineNumber,
+      msrVoice::kHarmonyVoice,
+      K_HARMONY_VOICE_NUMBER,
+      msrVoice::kCreateInitialLastSegmentYes,
+      this);
+
+  return fStaffHarmonyVoice;
 }
 
 void msrStaff::registerVoiceInStaff (
@@ -32998,6 +33066,17 @@ void msrStaff::print (ostream& os)
   os <<
     endl;
 
+  // print the harmony voice if any
+  if (fStaffHarmonyVoice) {
+    os <<
+      fStaffHarmonyVoice;
+  }
+  else {
+    os <<
+      "No staff harmony voice" <<
+      endl;
+  }
+      
   // print the registered voices
 // JMI ???  if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
   if (fStaffAllVoicesMap.size ()) {
@@ -33579,15 +33658,14 @@ void msrPart::addHarmonyVoiceToPartIfNotYetDone (
         endl;
     }
   
-    // create the harmony voice
-    S_msrVoice
-      harmonyVoice =
-        msrVoice::create (
-          inputLineNumber,
-          msrVoice::kHarmonyVoice,
-          actualVoiceNumber,
-          msrVoice::kCreateInitialLastSegmentYes,
-          fPartHarmonyStaff);
+    // create the part harmony voice
+    harmonyVoice =
+      msrVoice::create (
+        inputLineNumber,
+        msrVoice::kHarmonyVoice,
+        actualVoiceNumber,
+        msrVoice::kCreateInitialLastSegmentYes,
+        fPartHarmonyStaff);
   
     // register it in harmony staff
     fPartHarmonyStaff->

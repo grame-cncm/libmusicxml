@@ -472,7 +472,7 @@ class mxmlTree2MsrSkeletonBuilder :
     
     int                       fCurrentStaffNumber; // used throughout
     
-    S_msrStaff                createStaffIfNotYetDone (
+    S_msrStaff                createStaffInCurrentPartIfNotYetDone (
                                 int            inputLineNumber,
                                 int            staffNumber);
 
@@ -482,7 +482,7 @@ class mxmlTree2MsrSkeletonBuilder :
     
     int                       fCurrentVoiceNumber; // used throughout
 
-    S_msrVoice                createVoiceIfNotYetDone (
+    S_msrVoice                createRegularVoiceInStaffIfNotYetDone (
                                 int inputLineNumber,
                                 int staffNumber,
                                 int voiceNumber);
@@ -514,7 +514,13 @@ class mxmlTree2MsrSkeletonBuilder :
     // harmonies handling
     // ------------------------------------------------------
 
+    bool                      fThereAreHarmoniesToBeAttachedToCurrentNote;
     int                       fHarmonyVoicesCounter;
+
+    S_msrVoice                createHarmonyVoiceInStaffIfNotYetDone (
+                                int inputLineNumber,
+                                int staffNumber);
+
 
     // figured bass handling
     // ------------------------------------------------------
