@@ -517,9 +517,9 @@ class mxmlTree2MsrSkeletonBuilder :
     bool                      fThereAreHarmoniesToBeAttachedToCurrentNote;
     int                       fHarmonyVoicesCounter;
 
-    S_msrVoice                createHarmonyVoiceInStaffIfNotYetDone (
-                                int inputLineNumber,
-                                int staffNumber);
+    S_msrVoice                createHarmonyVoiceForVoiceIfNotYetDone (
+                                int        inputLineNumber,
+                                S_msrVoice voice);
 
 
     // figured bass handling

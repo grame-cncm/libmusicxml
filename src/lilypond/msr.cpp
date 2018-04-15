@@ -26227,7 +26227,7 @@ void msrVoice::initializeVoice (
     case msrVoice::kHarmonyVoice:
       setVoiceNameFromNumber (
         fInputLineNumber,
-        voiceNumber - K_PART_HARMONY_VOICE_NUMBER);
+        voiceNumber);
       break;
       
     case msrVoice::kFiguredBassVoice:
@@ -26887,6 +26887,55 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
   // append new measure to new voice last segment
   fVoiceLastSegment->
     appendMeasureToSegment (newMeasure);
+}
+
+S_msrVoice msrVoice::createHarmonyVoiceForVoice (
+  int    inputLineNumber,
+  string currentMeasureNumber)
+{
+  if (fVoiceHarmonyVoice) {
+    stringstream s;
+
+    s <<
+      "Voice \"" <<
+      getVoiceName () <<
+      "\" already has a harmony voice";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  // create the voice harmony voice
+  if (
+    gTraceOptions->fTraceHarmonies
+      ||
+    gTraceOptions->fTraceVoices
+      ||
+    gTraceOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Creating harmony voice for msrVoice \"" << getVoiceName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  fVoiceHarmonyVoice =
+    msrVoice::create (
+      inputLineNumber,
+      msrVoice::kHarmonyVoice,
+      K_VOICE_HARMONY_VOICE_BASE_NUMBER - fVoiceStaffRelativeNumber,
+      msrVoice::kCreateInitialLastSegmentYes,
+      fVoiceStaffUplink);
+
+  // register it by its relative number
+  fVoiceStaffUplink->
+    registerVoiceInStaff (
+      inputLineNumber,
+      fVoiceHarmonyVoice);
+
+  return fVoiceHarmonyVoice;
 }
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
@@ -30639,6 +30688,24 @@ void msrVoice::print (ostream& os)
       endl;
   }
   
+  // print the harmony voice name if any
+  os <<
+    "HarmonyVoice:";
+  if (fVoiceHarmonyVoice) {
+    gIndenter++;
+    
+    os <<
+      endl <<
+      fVoiceHarmonyVoice->getVoiceName ();
+
+    gIndenter--;
+  }
+  else {
+    os <<
+      " none" <<
+      endl;
+  }
+      
   // print the stanzas if any
   if (fVoiceStanzasMap.size ()) {
     os <<
@@ -31822,6 +31889,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       break;
       
     case msrVoice::kRegularVoice:
+    case msrVoice::kHarmonyVoice:
       // register the voice by its relative number
       if (gTraceOptions->fTraceVoices) {
         gLogIOstream <<
@@ -31835,10 +31903,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       fStaffVoiceRelativeNumberToVoiceMap [fStaffRegisteredVoicesCounter] =
         voice;
       break;
-      
-    case msrVoice::kHarmonyVoice:
-      break;
-      
+            
     case msrVoice::kFiguredBassVoice:
       break;
   } // switch
@@ -31890,53 +31955,6 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
   return result;
 }
 
-S_msrVoice msrStaff::createHarmonyVoiceInStaff (
-  int    inputLineNumber,
-  string currentMeasureNumber)
-{
-  if (fStaffHarmonyVoice) {
-    stringstream s;
-
-    s <<
-      "Staff \"" <<
-      getStaffName () <<
-      "\" already has a master staff";
-
-    msrInternalError (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-
-  // create the staff harmony voice
-  if (
-    gTraceOptions->fTraceHarmonies
-      ||
-    gTraceOptions->fTraceVoices
-      ||
-    gTraceOptions->fTraceStaves) {
-    gLogIOstream <<
-      "Creating harmony voice in staff \"" << getStaffName () << "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  fStaffHarmonyVoice =
-    msrVoice::create (
-      inputLineNumber,
-      msrVoice::kHarmonyVoice,
-      K_HARMONY_VOICE_NUMBER,
-      msrVoice::kCreateInitialLastSegmentYes,
-      this);
-
-  // register it by its relative number
-  fStaffAllVoicesMap [K_STAFF_HARMONY_VOICE_BASE_NUMBER - fStaffNumber] =
-    fStaffHarmonyVoice;
-
-  return fStaffHarmonyVoice;
-}
-
 void msrStaff::registerVoiceInStaff (
   int        inputLineNumber,
   S_msrVoice voice)
@@ -31956,7 +31974,6 @@ void msrStaff::registerVoiceInStaff (
       break;
       
     case msrVoice::kRegularVoice:
-    case msrVoice::kHarmonyVoice:
       // take that regular voice into account
       fStaffRegisteredVoicesCounter++;
 
@@ -31985,6 +32002,8 @@ void msrStaff::registerVoiceInStaff (
       }
       break;
             
+    case msrVoice::kHarmonyVoice:
+      break;
     case msrVoice::kFiguredBassVoice:
       break;
   } // switch
@@ -33070,17 +33089,6 @@ void msrStaff::print (ostream& os)
   os <<
     endl;
 
-  // print the harmony voice if any
-  if (fStaffHarmonyVoice) {
-    os <<
-      fStaffHarmonyVoice;
-  }
-  else {
-    os <<
-      "No staff harmony voice" <<
-      endl;
-  }
-      
   // print the registered voices
 // JMI ???  if (fStaffVoiceRelativeNumberToVoiceMap.size ()) {
   if (fStaffAllVoicesMap.size ()) {

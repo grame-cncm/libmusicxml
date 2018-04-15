@@ -10199,7 +10199,7 @@ class msrVoice : public msrElement
     // ------------------------------------------------------
 
     #define K_NO_VOICE_NUMBER      -39
-    #define K_HARMONY_VOICE_NUMBER -33
+    #define K_VOICE_HARMONY_VOICE_BASE_NUMBER -100
 
     // data types
     // ------------------------------------------------------
@@ -10309,6 +10309,11 @@ class msrVoice : public msrElement
 
     string                getVoiceName () const
                               { return fVoiceName; }
+
+    // harmonies
+
+    S_msrVoice            getVoiceHarmonyVoice () const
+                              { return fVoiceHarmonyVoice; }
 
     // stanzas
                    
@@ -10422,6 +10427,12 @@ class msrVoice : public msrElement
     void                  appendTimeToVoice (S_msrTime time);
     void                  appendTimeToVoiceClone (S_msrTime time);
     
+    // harmonies
+
+    S_msrVoice            createHarmonyVoiceForVoice (
+                            int    inputLineNumber,
+                            string currentMeasureNumber);
+
     // transpose
 
     void                  appendTransposeToVoice (
@@ -10752,6 +10763,10 @@ class msrVoice : public msrElement
     // voice name
 
     string                fVoiceName;
+
+    // harmonies
+
+    S_msrVoice            fVoiceHarmonyVoice;
 
     // counters
     
@@ -11098,7 +11113,6 @@ class msrStaff : public msrElement
     // ------------------------------------------------------
 
     #define K_NO_STAFF_NUMBER                 -79
-    #define K_STAFF_HARMONY_VOICE_BASE_NUMBER -100
 
     // data types
     // ------------------------------------------------------
@@ -11214,11 +11228,6 @@ class msrStaff : public msrElement
                           getStaffAllVoicesMap () const
                               { return fStaffAllVoicesMap; }
 
-    // harmonies
-
-    S_msrVoice            getStaffHarmonyVoice () const
-                              { return fStaffHarmonyVoice; }
-
     // services
     // ------------------------------------------------------
 
@@ -11280,11 +11289,6 @@ class msrStaff : public msrElement
 
     const int             getStaffNumberOfMusicVoices () const;
 
-    // harmonies
-
-    S_msrVoice            createHarmonyVoiceInStaff (
-                            int    inputLineNumber,
-                            string currentMeasureNumber);
     // measures
     
     void                  createMeasureAndAppendItToStaff (
@@ -11441,10 +11445,6 @@ class msrStaff : public msrElement
                             //numbered 1 to gMaxStaffVoices
                               
     map<int, S_msrVoice>  fStaffAllVoicesMap;
-
-    // harmonies
-
-    S_msrVoice            fStaffHarmonyVoice;
 
     // clef, key, time
     

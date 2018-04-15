@@ -1651,31 +1651,21 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
 }
 
 //______________________________________________________________________________
-S_msrVoice mxmlTree2MsrSkeletonBuilder::createHarmonyVoiceInStaffIfNotYetDone (
-  int inputLineNumber,
-  int staffNumber)
+S_msrVoice mxmlTree2MsrSkeletonBuilder::createHarmonyVoiceForVoiceIfNotYetDone (
+  int        inputLineNumber,
+  S_msrVoice voice)
 {
-  // the voice number is relative to a part,
-  // we'll call it its part-relative ID
-
-  // create the staff if not yet done
-  S_msrStaff
-    staff =
-      createStaffInCurrentPartIfNotYetDone (
-        inputLineNumber,
-        staffNumber);
-
-  // is voice already present in staff?
+  // is the harmony voice already present in voice?
   S_msrVoice
     harmonyVoice =
-      staff->
-        getStaffHarmonyVoice ();
+      voice->
+        getVoiceHarmonyVoice ();
   
   if (! harmonyVoice) {
     // create the voice and append it to the staff
     harmonyVoice =
-      staff->
-        createHarmonyVoiceInStaff (
+      voice->
+        createHarmonyVoiceForVoice (
           inputLineNumber,
           fCurrentMeasureNumber);
   }
@@ -2902,9 +2892,9 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd ( S_note& elt )
     // should the harmony voice be created?
     S_msrVoice
       harmonyVoice =
-        createHarmonyVoiceInStaffIfNotYetDone (
+        createHarmonyVoiceForVoiceIfNotYetDone (
           inputLineNumber,
-          fCurrentNoteStaffNumber);
+          voice);
   
     fThereAreHarmoniesToBeAttachedToCurrentNote = false;
   }

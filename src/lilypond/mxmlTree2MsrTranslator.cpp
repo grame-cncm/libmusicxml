@@ -16441,25 +16441,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // attach the harmony to the note
       newNote->
         setNoteHarmony (harmony);
-
-  /* JMI ???
-      // append the harmony to the current part
-      fCurrentPart->
-        appendHarmonyToPart (
-          voice,
-          harmony);
-  */
   
-      // append the harmony to the current staff's harmony voice
+      // append the harmony to the harmony voice for the current voice
       S_msrVoice
         staffHarmonyVoice =
-          staff->getStaffHarmonyVoice ();
-        /* JMI
-          fetchVoiceFromCurrentPart (
-            inputLineNumber,
-            fCurrentNoteStaffNumber,
-            K_HARMONY_VOICE_NUMBER);
-            */
+          voice->getVoiceHarmonyVoice ();
             
       staffHarmonyVoice->
         appendHarmonyToVoice (
