@@ -4302,8 +4302,8 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
             note->            getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
             note->            getNoteDisplayWholeNotes (),
             note->            getNoteDotsNumber (),
-            containingVoice-> getVoiceStaffRelativeNumber (), // JMI
-            containingVoice-> getVoicePartRelativeID ());
+            containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
+            containingVoice-> getVoiceNumber ());
   
       clone->
         appendNoteToGraceNotes (skip);
@@ -5206,7 +5206,7 @@ void msrNote::initializeNote ()
         endl <<
       left <<
         setw (fieldWidth) <<
-        "fVoiceNumber" << " = " <<
+        "fNoteVoiceNumber" << " = " <<
         fNoteVoiceNumber <<
         endl <<
 
@@ -5930,7 +5930,7 @@ S_msrNote msrNote::createRestNote (
   rational  displayWholeNotes,
   int       dotsNumber,
   int       staffNumber,
-  int       voicePartRelativeID)
+  int       voiceNumber)
 {    
   msrNote * o =
     new msrNote (
@@ -5974,7 +5974,7 @@ S_msrNote msrNote::createSkipNote (
   rational  displayWholeNotes,
   int       dotsNumber,
   int       staffNumber,
-  int       voicePartRelativeID)
+  int       voiceNumber)
 {    
   msrNote * o =
     new msrNote (
@@ -20358,7 +20358,7 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
                       getVoiceStaffUplink ()->
                         getStaffNumber (),
                     harmonyVoice->
-                      getVoicePartRelativeID ());
+                      getVoiceNumber ());
         
               // append the skip to the part harmony voice
               if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
@@ -20513,7 +20513,7 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
                 getVoiceStaffUplink ()->
                   getStaffNumber (),
               partHarmonyVoice->
-                getVoicePartRelativeID ());
+                getVoiceNumber ());
   
         // append the skip to the part harmony voice
         if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
@@ -21134,7 +21134,7 @@ void msrMeasure::bringMeasureToMeasureLength (
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
           voice->
-            getVoicePartRelativeID ());
+            getVoiceNumber ());
 
     // does the rest occupy a full measure?
     if (restDuration == fFullMeasureLength)
@@ -21725,7 +21725,7 @@ void msrMeasure::appendARestToFinalizeMeasure (
           voice->
             getVoiceStaffUplink ()->getStaffNumber (),
           voice->
-            getVoicePartRelativeID ());
+            getVoiceNumber ());
 
     // does the rest occupy a full measure?
     if (restDuration == fFullMeasureLength)
@@ -23435,7 +23435,25 @@ void msrSegment::appendNoteToSegment (S_msrNote note)
   appendMeasureToSegmentIfNotYetDone (
     note->getInputLineNumber (),
     fSegmentMeasureNumber);
-  
+
+
+  if (! fSegmentMeasuresList.size ()) { // JMI
+    gLogIOstream <<
+      endl <<
+      endl <<
+      endl <<
+      "+++++++++++++++++ appendNoteToSegment, score:" <<
+      endl <<
+      fSegmentVoiceUplink->
+        getVoiceStaffUplink ()->
+          getStaffPartUplink ()->
+            getPartPartGroupUplink ()->
+              getPartGroupScoreUplink ()<<
+      endl <<
+      endl <<
+      endl;
+  }
+
   // sanity check
   msrAssert (
     fSegmentMeasuresList.size () > 0,
@@ -26071,7 +26089,7 @@ int msrVoice::gVoicesCounter = 0;
 S_msrVoice msrVoice::create (
   int          inputLineNumber,
   msrVoiceKind voiceKind,
-  int          voicePartRelativeID,
+  int          voiceNumber,
   msrVoiceCreateInitialLastSegmentKind
                voiceCreateInitialLastSegmentKind,
   S_msrStaff   voiceStaffUplink)
@@ -26080,7 +26098,7 @@ S_msrVoice msrVoice::create (
     new msrVoice (
       inputLineNumber,
       voiceKind,
-      voicePartRelativeID,
+      voiceNumber,
       voiceCreateInitialLastSegmentKind,
       voiceStaffUplink);
   assert(o!=0);
@@ -26091,14 +26109,12 @@ S_msrVoice msrVoice::create (
 msrVoice::msrVoice (
   int          inputLineNumber,
   msrVoiceKind voiceKind,
-  int          voicePartRelativeID,
+  int          voiceNumber,
   msrVoiceCreateInitialLastSegmentKind
                voiceCreateInitialLastSegmentKind,
   S_msrStaff   voiceStaffUplink)
     : msrElement (inputLineNumber)
-{
-  fVoiceAbsoluteNumber = ++gVoicesCounter;
-  
+{  
   // sanity check
   msrAssert(
     voiceStaffUplink != nullptr,
@@ -26110,15 +26126,15 @@ msrVoice::msrVoice (
   // set voice kind
   fVoiceKind = voiceKind;
 
-  // set voice part-relative ID
-  fVoicePartRelativeID = voicePartRelativeID;
+  // set voice number
+  fVoiceNumber = voiceNumber;
   
   // do other initializations
   initializeVoice (
     voiceCreateInitialLastSegmentKind);
 }
 
-msrVoice::~msrVoice()
+msrVoice::~msrVoice ()
 {}
 
 S_msrPart msrVoice::fetchVoicePartUplink () const
@@ -26175,15 +26191,6 @@ void msrVoice::setVoiceNameFromNumber (
       }
       break;
   } // switch
-  
-  /* JMI
-    CAUTION:
-      the following makes the generated LilyPond code not compilable,
-      but may be useful to disambiguate the voice and voice clones names
-
-  fVoiceName += // JMI
-    "[" + to_string (fVoiceAbsoluteNumber) + "]";
-  */
 }
 
 void msrVoice::setVoiceCloneLastSegment (
@@ -26200,15 +26207,16 @@ void msrVoice::initializeVoice (
   msrVoiceCreateInitialLastSegmentKind
     voiceCreateInitialLastSegmentKind)
 {
-  fVoiceStaffRelativeNumber = fVoicePartRelativeID;
-    // may be changed afterwards JMI ???
+  // the voice staff sequential number will be set
+  // when the voice is added to a staff
+  fRegularVoiceStaffSequentialNumber = 0;
 
   // compute voice number
   int voiceNumber =
     gMsrOptions->
       fCreateVoicesStaffRelativeNumbers // JMI use it
-        ? fVoiceStaffRelativeNumber
-        : fVoicePartRelativeID;
+        ? fRegularVoiceStaffSequentialNumber
+        : fVoiceNumber;
   
   // set voice name
   switch (fVoiceKind) {
@@ -26246,14 +26254,14 @@ void msrVoice::initializeVoice (
       endl;
   }
 
-  // check voice part-relative ID
+  // check voice number
   switch (fVoiceKind) {
     case msrVoice::kMasterVoice:
-      if (fVoicePartRelativeID != K_PART_MASTER_VOICE_NUMBER) {
+      if (fVoiceNumber != K_PART_MASTER_VOICE_NUMBER) {
         stringstream s;
     
         s <<
-          "master voice number " << fVoicePartRelativeID <<
+          "master voice number " << fVoiceNumber <<
           " is not equal to " << K_PART_MASTER_VOICE_NUMBER;
           
         msrInternalError (
@@ -26265,13 +26273,13 @@ void msrVoice::initializeVoice (
       break;
       
     case msrVoice::kRegularVoice:
-      // the voice part-relative ID should not be negative
-      if (fVoicePartRelativeID < 0) {
+      // the voice number should be positive
+      if (fVoiceNumber < 1 || fVoiceNumber > 4) {
         stringstream s;
     
         s <<
-          "regular voice number " << fVoicePartRelativeID <<
-          " is not in the 0..4 range";
+          "regular voice number " << fVoiceNumber <<
+          " is not in the 1..4 range";
           
         msrMusicXMLError (
           gXml2lyOptions->fInputSourceName,
@@ -26282,29 +26290,14 @@ void msrVoice::initializeVoice (
       break;
       
     case msrVoice::kHarmonyVoice:
-    /* JMI
-      if (fVoicePartRelativeID != K_PART_HARMONY_VOICE_NUMBER) {
-        stringstream s;
-    
-        s <<
-          "harmony voice number " << fVoicePartRelativeID <<
-          " is not equal to " << K_PART_HARMONY_VOICE_NUMBER;
-          
-        msrInternalError (
-          gXml2lyOptions->fInputSourceName,
-          fInputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
-      */
       break;
       
     case msrVoice::kFiguredBassVoice:
-      if (fVoicePartRelativeID != K_PART_FIGURED_BASS_VOICE_NUMBER) {
+      if (fVoiceNumber != K_PART_FIGURED_BASS_VOICE_NUMBER) {
         stringstream s;
     
         s <<
-          "harmony voice number " << fVoicePartRelativeID <<
+          "figured bass voice number " << fVoiceNumber <<
           " is not equal to " << K_PART_FIGURED_BASS_VOICE_NUMBER;
           
         msrInternalError (
@@ -26374,17 +26367,32 @@ void msrVoice::initializeVoice (
     appendStaffDetailsToVoice (
       staffStaffDetails);
   }
+
+  if (gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Initial contents of voice \"" << fVoiceName <<
+      "\" in staff \"" <<
+      fVoiceStaffUplink->getStaffName () <<
+      "\":" <<
+      endl;
+
+    gIndenter++;
+
+    this->print (gLogIOstream);
+
+    gIndenter--;
+  }
 }
 
 void msrVoice::changeVoiceIdentity ( // after a deep copy
-  int voicePartRelativeID)
+  int voiceNumber)
 {
   if (gTraceOptions->fTraceVoices) {
     gLogIOstream <<
       "Changing identity of voice \"" <<
       getVoiceName () <<
       "\"" <<
-      ", part-relative voice ID: " << voicePartRelativeID <<
+      ", number: " << voiceNumber <<
       endl;
   }
 
@@ -26392,14 +26400,14 @@ void msrVoice::changeVoiceIdentity ( // after a deep copy
   setVoiceKind (
     msrVoice::kRegularVoice);
 
-  // set its voice part-relative ID
-  setVoicePartRelativeID (
-    voicePartRelativeID);
+  // set its voice number
+  setVoiceNumber (
+    voiceNumber);
 
   // set its name
   setVoiceNameFromNumber (
     fInputLineNumber,
-    voicePartRelativeID);
+    voiceNumber);
 }
     
 S_msrVoice msrVoice::createVoiceNewbornClone (
@@ -26423,14 +26431,14 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
       msrVoice::create (
         fInputLineNumber,
         fVoiceKind,
-        fVoicePartRelativeID,
+        fVoiceNumber,
         msrVoice::kCreateInitialLastSegmentNo,
-          // will be created upon a later segment visit
+          // initial segment will be created upon a later segment visit
         staffClone);
 
   // voice numbers
-  newbornClone->fVoiceStaffRelativeNumber = // JMI ???
-    fVoiceStaffRelativeNumber;
+  newbornClone->fRegularVoiceStaffSequentialNumber =
+    fRegularVoiceStaffSequentialNumber;
 
   // voice name
   newbornClone->fVoiceName =
@@ -26477,7 +26485,7 @@ S_msrVoice msrVoice::createVoiceNewbornClone (
 S_msrVoice msrVoice::createVoiceDeepCopy (
   int          inputLineNumber,
   msrVoiceKind voiceKind,
-  int          voicePartRelativeID,
+  int          voiceNumber,
   S_msrStaff   containingStaff)
 {
   if (gTraceOptions->fTraceVoices) {
@@ -26515,15 +26523,15 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
       msrVoice::create (
         fInputLineNumber,
         voiceKind,
-        voicePartRelativeID,
+        voiceNumber,
         msrVoice::kCreateInitialLastSegmentNo,
           // the voice initial last segment
           // will be created by deep cloning below
         containingStaff);
 
   // voice numbers
-  voiceDeepCopy->fVoiceStaffRelativeNumber = // JMI ???
-    fVoiceStaffRelativeNumber;
+  voiceDeepCopy->fRegularVoiceStaffSequentialNumber =
+    fRegularVoiceStaffSequentialNumber;
 
   // voice name
   if (false) // JMI
@@ -26535,7 +26543,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
   voiceDeepCopy->
     setVoiceNameFromNumber (
       fInputLineNumber,
-      voicePartRelativeID);
+      voiceNumber);
 */
 
   // counters
@@ -26722,6 +26730,27 @@ void msrVoice::createMeasureAndAppendItToVoice (
       measureNumber,
       measureOrdinalNumber,
       measureImplicitKind);
+
+  // handle voice kind
+  switch (fVoiceKind) {
+    case msrVoice::kMasterVoice:
+      break;
+    case msrVoice::kHarmonyVoice:
+      break;
+    case msrVoice::kRegularVoice:
+      // append new measure with given number to voice harmony voice if any
+      if (fVoiceHarmonyVoice) {
+        fVoiceHarmonyVoice->
+          createMeasureAndAppendItToVoice (
+            inputLineNumber,
+            measureNumber,
+            measureOrdinalNumber,
+            measureImplicitKind);
+      }
+      break;
+    case msrVoice::kFiguredBassVoice:
+      break;
+  } // switch
 }
 
 void msrVoice::setNextMeasureNumberInVoice (
@@ -26925,11 +26954,11 @@ S_msrVoice msrVoice::createHarmonyVoiceForVoice (
     msrVoice::create (
       inputLineNumber,
       msrVoice::kHarmonyVoice,
-      K_VOICE_HARMONY_VOICE_BASE_NUMBER - fVoiceStaffRelativeNumber,
+      K_VOICE_HARMONY_VOICE_BASE_NUMBER + fVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
       fVoiceStaffUplink);
 
-  // register it by its relative number
+  // register it in the staff
   fVoiceStaffUplink->
     registerVoiceInStaff (
       inputLineNumber,
@@ -27586,16 +27615,20 @@ void msrVoice::appendVoiceStaffChangeToVoice (
 }
 
 void msrVoice::appendNoteToVoice (S_msrNote note) {
-  if (gTraceOptions->fTraceNotes) {
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending note:" <<
+      "Appending note '" <<
       endl;
 
     gIndenter++;
     
     gLogIOstream <<
       note <<
-        "to voice \"" << getVoiceName () << "\"" <<
+        "' to voice \"" << getVoiceName () << "\"" <<
+        ", line " << inputLineNumber <<
         endl;
 
     gIndenter--;
@@ -27652,7 +27685,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
-    note->getInputLineNumber ());
+    inputLineNumber);
 
   // append the note to the last segment
   fVoiceLastSegment->
@@ -27663,16 +27696,20 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
-  if (gTraceOptions->fTraceNotes) {
+  int inputLineNumber =
+    note->getInputLineNumber ();
+    
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
-      "Appending note:" <<
+      "Appending note '" <<
       endl;
 
     gIndenter++;
     
     gLogIOstream <<
       note <<
-        "to voice clone \"" << getVoiceName () << "\"" <<
+        "' to voice clone \"" << getVoiceName () << "\"" <<
+        ", line " << inputLineNumber <<
         endl;
 
     gIndenter--;
@@ -30489,43 +30526,37 @@ string msrVoice::voiceKindAsString (
   return result;
 }
 
-string msrVoice::voicePartRelativeIDAsString () const
+string msrVoice::voiceNumberAsString () const
 {
   string result;
   
-  switch (fVoicePartRelativeID) {
+  switch (fVoiceNumber) {
     case K_PART_MASTER_VOICE_NUMBER:
       result = "K_PART_MASTER_VOICE_NUMBER";
-      break;
-    case K_PART_HARMONY_VOICE_NUMBER:
-      result = "K_PART_HARMONY_VOICE_NUMBER";
       break;
     case K_PART_FIGURED_BASS_VOICE_NUMBER:
       result = "K_PART_FIGURED_BASS_VOICE_NUMBER";
       break;
     default:
-      result = to_string (fVoicePartRelativeID);
+      result = to_string (fVoiceNumber);
   } // switch
   
   return result;
 }
 
-string msrVoice::voiceStaffRelativeNumberAsString () const
+string msrVoice::regularVoiceStaffSequentialNumberAsString () const
 {
   string result;
   
-  switch (fVoiceStaffRelativeNumber) {
+  switch (fRegularVoiceStaffSequentialNumber) {
     case K_PART_MASTER_VOICE_NUMBER:
       result = "K_PART_MASTER_VOICE_NUMBER";
-      break;
-    case K_PART_HARMONY_VOICE_NUMBER:
-      result = "K_PART_HARMONY_VOICE_NUMBER";
       break;
     case K_PART_FIGURED_BASS_VOICE_NUMBER:
       result = "K_PART_FIGURED_BASS_VOICE_NUMBER";
       break;
     default:
-      result = to_string (fVoiceStaffRelativeNumber);
+      result = to_string (fRegularVoiceStaffSequentialNumber);
   } // switch
   
   return result;
@@ -30569,7 +30600,7 @@ void msrVoice::print (ostream& os)
 
   gIndenter++;
 
-  os <<
+  os << left <<
     "(" <<
     singularOrPlural (
       fVoiceActualHarmoniesCounter, "harmony", "harmonies") <<
@@ -30590,19 +30621,32 @@ void msrVoice::print (ostream& os)
 
   const int fieldWidth = 28;
 
-  os <<
+  os << left <<
     setw (fieldWidth) << "Staff uplink" << " : " <<
     fVoiceStaffUplink->getStaffName () <<
     endl <<
-    setw (fieldWidth) << "VoiceAbsoluteNumber" << " : " <<
-    fVoiceAbsoluteNumber <<
+    setw (fieldWidth) << "VoiceNumber" << " : " <<
+    voiceNumberAsString () <<
     endl <<
-    setw (fieldWidth) << "VoicePartRelativeID" << " : " <<
-    voicePartRelativeIDAsString () <<
-    endl <<
-    setw (fieldWidth) << "VoiceStaffRelativeNumber" << " : " <<
-    voiceStaffRelativeNumberAsString () <<
-    endl <<
+    setw (fieldWidth) << "RegularVoiceStaffSequentialNumber" << " : " <<
+    regularVoiceStaffSequentialNumberAsString () <<
+    endl;
+
+  // print the harmony voice name if any
+  os << left <<
+    setw (fieldWidth) << "HarmonyVoice" << " : ";
+  if (fVoiceHarmonyVoice) {    
+    os <<
+      fVoiceHarmonyVoice->getVoiceName ();
+  }
+  else {
+    os <<
+      "none";
+  }
+  os <<
+    endl;
+
+  os << left <<
     setw (fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
     booleanAsString (fMusicHasBeenInsertedInVoice) <<
     endl <<
@@ -30611,6 +30655,7 @@ void msrVoice::print (ostream& os)
     endl <<
     setw (fieldWidth) << "fVoiceFirstSegment" << " : ";
     
+  // print the voice first segment if any
   if (fVoiceFirstSegment) {
     os <<
       "'" <<
@@ -30621,7 +30666,6 @@ void msrVoice::print (ostream& os)
     os <<
       "none";
   }
-  
   os <<
     endl;
 
@@ -30688,24 +30732,6 @@ void msrVoice::print (ostream& os)
       endl;
   }
   
-  // print the harmony voice name if any
-  os <<
-    "HarmonyVoice:";
-  if (fVoiceHarmonyVoice) {
-    gIndenter++;
-    
-    os <<
-      endl <<
-      fVoiceHarmonyVoice->getVoiceName ();
-
-    gIndenter--;
-  }
-  else {
-    os <<
-      " none" <<
-      endl;
-  }
-      
   // print the stanzas if any
   if (fVoiceStanzasMap.size ()) {
     os <<
@@ -31311,7 +31337,7 @@ void msrStaffDetails::print (ostream& os)
 }
 
 //______________________________________________________________________________
-int msrStaff::gMaxStaffVoices = 4;
+int msrStaff::gStaffMaxRegularVoices = 4;
 
 S_msrStaff msrStaff::create (
   int          inputLineNumber,
@@ -31356,7 +31382,7 @@ msrStaff::msrStaff (
 
 void msrStaff::initializeStaff ()
 {
-  fStaffRegisteredVoicesCounter = 0;
+  fStaffRegularVoicesCounter = 0;
 
   // set staff name
   switch (fStaffKind) {
@@ -31436,19 +31462,6 @@ void msrStaff::initializeStaff ()
       break;
       
     case msrStaff::kHarmonyStaff:
-      if (fStaffNumber != K_PART_HARMONY_STAFF_NUMBER) {
-        stringstream s;
-    
-        s <<
-          "harmony staff number " << fStaffNumber <<
-          " is not equal to " << K_PART_HARMONY_STAFF_NUMBER;
-          
-        msrInternalError (
-          gXml2lyOptions->fInputSourceName,
-          fInputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
       break;
       
     case msrStaff::kFiguredBassStaff:
@@ -31671,9 +31684,6 @@ string msrStaff::staffNumberAsString ()
     case K_PART_MASTER_STAFF_NUMBER:
       result = "K_PART_MASTER_STAFF_NUMBER";
       break;
-    case K_PART_HARMONY_STAFF_NUMBER:
-      result = "K_PART_HARMONY_STAFF_NUMBER";
-      break;
     case K_PART_FIGURED_BASS_STAFF_NUMBER:
       result = "K_PART_FIGURED_BASS_STAFF_NUMBER";
       break;
@@ -31684,6 +31694,7 @@ string msrStaff::staffNumberAsString ()
   return result;
 }
 
+/* KEEP JMI
 const int msrStaff::getStaffNumberOfMusicVoices () const
 {
   int result = 0;
@@ -31719,6 +31730,7 @@ const int msrStaff::getStaffNumberOfMusicVoices () const
 
   return result;
 }
+*/
 
 void msrStaff::createMeasureAndAppendItToStaff (
   int    inputLineNumber,
@@ -31807,10 +31819,10 @@ void msrStaff::setNextMeasureNumberInStaff (
   } // for
 }
 
-S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
+S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
   int                    inputLineNumber,
   msrVoice::msrVoiceKind voiceKind,
-  int                    voicePartRelativeID,
+  int                    voiceNumber,
   string                 currentMeasureNumber)
 {
   // take this new voice into account if relevant
@@ -31819,50 +31831,80 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       break;
       
     case msrVoice::kRegularVoice:
-      fStaffRegisteredVoicesCounter++;
+      fStaffRegularVoicesCounter++;
+
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+        gLogIOstream <<
+          "Creating regular voice number '" <<
+          voiceNumber <<
+          "', voiceKind '" <<
+          msrVoice::voiceKindAsString (voiceKind) <<
+          "' as regular voice '" <<
+          fStaffRegularVoicesCounter <<
+          "' of staff \"" << getStaffName () <<
+          "\", line " << inputLineNumber <<
+          "\", current measure number: " <<
+          currentMeasureNumber <<
+     // JMI     " in part " << fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
       break;
       
     case msrVoice::kHarmonyVoice:
-      fStaffRegisteredVoicesCounter++;
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+        gLogIOstream <<
+          "Creating harmony voice number '" <<
+          voiceNumber <<
+          "', voiceKind '" <<
+          msrVoice::voiceKindAsString (voiceKind) <<
+          "' as harmony voice '" <<
+          fStaffRegularVoicesCounter <<
+          "' of staff \"" << getStaffName () <<
+          "\", line " << inputLineNumber <<
+          "\", current measure number: " <<
+          currentMeasureNumber <<
+     // JMI     " in part " << fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
       break;
       
     case msrVoice::kFiguredBassVoice:
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+        gLogIOstream <<
+          "Creating figured bass voice number '" <<
+          voiceNumber <<
+          "', voiceKind '" <<
+          msrVoice::voiceKindAsString (voiceKind) <<
+          "' as figured bass voice '" <<
+          fStaffRegularVoicesCounter <<
+          "' of staff \"" << getStaffName () <<
+          "\", line " << inputLineNumber <<
+          "\", current measure number: " <<
+          currentMeasureNumber <<
+     // JMI     " in part " << fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
       break;
   } // switch
 
-  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Creating voice with part-relative ID '" <<
-      voicePartRelativeID <<
-      "', voiceKind '" <<
-      msrVoice::voiceKindAsString (voiceKind) <<
-      "' as relative voice '" <<
-      fStaffRegisteredVoicesCounter <<
-      "' of staff \"" << getStaffName () <<
-      "\", line " << inputLineNumber <<
-      "\", current measure number: " <<
-      currentMeasureNumber <<
- // JMI     " in part " << fStaffPartUplink->getPartCombinedName () <<
-      endl;
-  }
 
-  // are there too many voices in this staff? 
-  if (fStaffRegisteredVoicesCounter > msrStaff::gMaxStaffVoices) {
+  // are there too many regular voices in this staff? 
+  if (fStaffRegularVoicesCounter > msrStaff::gStaffMaxRegularVoices) {
     stringstream s;
     
     s <<
       "staff \"" << getStaffName () <<
       "\" is already filled up with " <<
-      msrStaff::gMaxStaffVoices << " voices" <<
+      msrStaff::gStaffMaxRegularVoices << " regular voices" <<
       endl <<
-      "the voice with part-relative ID " <<
-      voicePartRelativeID <<
+      ". voice number " <<
+      voiceNumber <<
       " overflows it" <<
       endl <<
-      ", fStaffRegisteredVoicesCounter = " <<
-      fStaffRegisteredVoicesCounter <<
-      ", msrStaff::gMaxStaffVoices = " <<
-      msrStaff::gMaxStaffVoices <<
+      ", fStaffRegularVoicesCounter = " <<
+      fStaffRegularVoicesCounter <<
+      ", msrStaff::gStaffMaxRegularVoices = " <<
+      msrStaff::gStaffMaxRegularVoices <<
       endl;
       
     msrMusicXMLError (
@@ -31879,7 +31921,7 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       msrVoice::create (
         inputLineNumber,
         voiceKind,
-        voicePartRelativeID,
+        voiceNumber,
         msrVoice::kCreateInitialLastSegmentYes,
         this);
           
@@ -31893,14 +31935,14 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       // register the voice by its relative number
       if (gTraceOptions->fTraceVoices) {
         gLogIOstream <<
-          "Voice " << voicePartRelativeID <<
+          "Voice " << voiceNumber <<
           " in staff " << getStaffName () <<
-          " gets staff relative number " <<
-          fStaffRegisteredVoicesCounter <<
+          " gets staff regular voice number " <<
+          fStaffRegularVoicesCounter <<
           endl;
       }
         
-      fStaffVoiceRelativeNumberToVoiceMap [fStaffRegisteredVoicesCounter] =
+      fStaffVoiceRelativeNumberToVoiceMap [fStaffRegularVoicesCounter] =
         voice;
       break;
             
@@ -31908,23 +31950,23 @@ S_msrVoice msrStaff::createVoiceInStaffByItsPartRelativeID (
       break;
   } // switch
 
-  // register it by its part-relative ID
-  fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
+  // register it in staff by its number
+  fStaffAllVoicesMap [voiceNumber] =
     voice;
   
   return voice;
 }
 
-S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
+S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
   int inputLineNumber,
-  int voicePartRelativeID)
+  int voiceNumber)
 {
   S_msrVoice result; // JMI avoid repetivite messages!
 
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
-      "Fetching part-relative voice ID " <<
-      voicePartRelativeID <<
+      "Fetching voice number " <<
+      voiceNumber <<
      " in staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
       " in part " <<
@@ -31938,11 +31980,11 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsPartRelativeID (
     i != fStaffVoiceRelativeNumberToVoiceMap.end ();
     i++) {
     if (
-      (*i).second->getVoicePartRelativeID ()
+      (*i).second->getVoiceNumber ()
         ==
-      voicePartRelativeID) {
+      voiceNumber) {
         gLogIOstream <<
-          "Voice " << voicePartRelativeID <<
+          "Voice " << voiceNumber <<
           " in staff \"" << getStaffName () << "\"" <<
           " has staff relative number " << (*i).first <<
           endl;
@@ -31975,22 +32017,23 @@ void msrStaff::registerVoiceInStaff (
       
     case msrVoice::kRegularVoice:
       // take that regular voice into account
-      fStaffRegisteredVoicesCounter++;
+      fStaffRegularVoicesCounter++;
 
       // are there too many voices in this staff? 
-      if (fStaffRegisteredVoicesCounter > msrStaff::gMaxStaffVoices) {
+      if (fStaffRegularVoicesCounter > msrStaff::gStaffMaxRegularVoices) {
         stringstream s;
         
         s <<
           "staff \"" << getStaffName () <<
           "\" is already filled up with " <<
-          msrStaff::gMaxStaffVoices << " voices," <<
+          msrStaff::gStaffMaxRegularVoices << " regular voices," <<
           endl <<
           "the voice named \"" << voice->getVoiceName () << "\" overflows it" <<
           endl <<
-          ", fStaffRegisteredVoicesCounter = " <<
-          fStaffRegisteredVoicesCounter <<
-          ", msrStaff::gMaxStaffVoices = " << msrStaff::gMaxStaffVoices <<
+          ", fStaffRegularVoicesCounter = " <<
+          fStaffRegularVoicesCounter <<
+          ", msrStaff::gStaffMaxRegularVoices = " <<
+          msrStaff::gStaffMaxRegularVoices <<
           endl;
           
         msrMusicXMLError (
@@ -32013,7 +32056,7 @@ void msrStaff::registerVoiceInStaff (
     gLogIOstream <<
       "Registering voice \"" << voice->getVoiceName () <<
       "\" as relative voice " <<
-      fStaffRegisteredVoicesCounter <<
+      fStaffRegularVoicesCounter <<
       " of staff \"" << getStaffName () <<
       "\", line " << inputLineNumber <<
 // JMI       " in part " << fStaffPartUplink->getPartCombinedName () <<
@@ -32021,7 +32064,7 @@ void msrStaff::registerVoiceInStaff (
   }
 
   // register it by its relative number
-  fStaffAllVoicesMap [fStaffRegisteredVoicesCounter] =
+  fStaffAllVoicesMap [fStaffRegularVoicesCounter] =
     voice;
 
 /* JMI
@@ -32033,20 +32076,20 @@ void msrStaff::registerVoiceInStaff (
     case msrVoice::kRegularVoice:
       {
       */
-        int voicePartRelativeID = voice->getVoicePartRelativeID ();
+        int voiceNumber = voice->getVoiceNumber ();
         
-        // register the voice by its part-relative ID
+        // register the voice by its number
         if (gTraceOptions->fTraceVoices) {
           gLogIOstream <<
-            "Voice '" << voicePartRelativeID <<
+            "Voice '" << voiceNumber <<
             "' " << voice->getVoiceName () <<
             " in staff " << getStaffName () <<
-            " gets staff relative number " <<
-            fStaffRegisteredVoicesCounter <<
+            " gets staff regular voice number " <<
+            fStaffRegularVoicesCounter <<
             endl;
         }
           
-        fStaffVoiceRelativeNumberToVoiceMap [voicePartRelativeID] =
+        fStaffVoiceRelativeNumberToVoiceMap [voiceNumber] =
           voice;
           /* JMI
       }
@@ -33026,7 +33069,9 @@ void msrStaff::print (ostream& os)
       fStaffVoiceRelativeNumberToVoiceMap.size (), "voice", "voices") <<
     ", " <<
     singularOrPlural (
-      fStaffRegisteredVoicesCounter, "registered voice", "registered voices") << // JMI
+      fStaffRegularVoicesCounter,
+      "regular voice",
+      "regular voices") << // JMI
     ")" <<
     endl;
 
@@ -33427,11 +33472,6 @@ void msrPart::initializePart ()
   setPartMeasureLengthHighTide (
     fInputLineNumber,
     rational (0, 1));
-
-/* JMI
-  // create the part master staff and voice
-  createPartMasterStaffAndVoice (0); // input line number // JMI
-    */
 }
 
 msrPart::~msrPart()
@@ -33479,98 +33519,6 @@ S_msrPart msrPart::createPartNewbornClone (S_msrPartGroup partGroupClone)
   return newbornClone;
 }
 
-
-void msrPart::createPartMasterStaffAndVoice (
-  int inputLineNumber)
-{
-/* JMI
-  if (fPartMasterStaff) {
-    stringstream s;
-
-    s <<
-      "Part \"" <<
-      getPartCombinedName () <<
-      "\" already has a master staff";
-
-    msrInternalError (
-      inputLineNumber,
-      s.str ());
-  }
-    
-  // create the part master staff
-  if (
-    gTraceOptions->fTraceParts
-      ||
-    gTraceOptions->fTraceStaves
-      ||
-    gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Creating the master staff" <<
-      " with number " << K_PART_MASTER_STAFF_NUMBER <<
-      " for part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  fPartMasterStaff =
-    addStaffToPartByItsNumber (
-      inputLineNumber,
-      msrStaff::kMasterStaff,
-      K_PART_MASTER_STAFF_NUMBER);
-    
-  // create the part master voice  
-  if (
-    gTraceOptions->fTraceParts
-      ||
-    gTraceOptions->fTraceStaves
-      ||
-    gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Creating the master voice " <<
-      " with number " << K_PART_MASTER_VOICE_NUMBER <<
-      " for part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  fPartMasterVoice =
-    msrVoice::create (
-      inputLineNumber,
-      msrVoice::kMasterVoice,
-      K_PART_MASTER_VOICE_NUMBER,
-      msrVoice::kCreateInitialLastSegmentYes,
-      fPartMasterStaff);
-
-  // register it in master staff
-  fPartMasterStaff->
-    registerVoiceInStaff (
-      inputLineNumber,
-      fPartMasterVoice );
-
-  if (fPartCurrentTime) { // JMI
-    // append part current time to master voice
-    fPartMasterVoice->
-      appendTimeToVoice (
-        fPartCurrentTime);
-  }
-
-  if (false && gTraceOptions->fTraceParts) { // JMI
-    gLogIOstream <<
-      endl <<
-      "***********" <<
-      endl <<
-      endl;
-    print (gLogIOstream);
-    gLogIOstream <<
-      "***********" <<
-      endl <<
-      endl;
-  }
-  */
-}
-
 /* JMI
 void msrPart::setPartInstrumentAbbreviation (
   string partInstrumentAbbreviation)
@@ -33580,36 +33528,7 @@ void msrPart::setPartInstrumentAbbreviation (
     }
 */
 
-void msrPart::createPartHarmonyStaffIfNotYetDone (
-  int inputLineNumber)
-{
-  if (! fPartHarmonyStaff) {    
-    // create the part harmony staff
-    if (
-      gTraceOptions->fTraceParts
-        ||
-      gTraceOptions->fTraceHarmonies
-        ||
-      gTraceOptions->fTraceStaves
-        ||
-      gTraceOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Creating the harmony staff" <<
-        " with number " << K_PART_HARMONY_STAFF_NUMBER <<
-        " for part " <<
-        getPartCombinedName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-  
-    fPartHarmonyStaff =
-      addStaffToPartByItsNumber (
-        inputLineNumber,
-        msrStaff::kHarmonyStaff,
-        K_PART_HARMONY_STAFF_NUMBER);
-  }
-}
-
+/*
 void msrPart::addHarmonyVoiceToPartIfNotYetDone (
   int inputLineNumber,
   int harmonyVoiceNumber)
@@ -33637,20 +33556,20 @@ void msrPart::addHarmonyVoiceToPartIfNotYetDone (
     i++) {
     S_msrVoice voice = (*i).second;
 
-    int voicePartRelativeID = voice->getVoicePartRelativeID ();
+    int voiceNumber = voice->getVoiceNumber ();
     
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
       gLogIOstream <<
         "--> Finding harmony voice" <<
-        " with part relative ID ' " << voicePartRelativeID <<
-        "' (" << voicePartRelativeID - K_PART_HARMONY_VOICE_NUMBER << ")" <<
+        " with part relative ID ' " << voiceNumber <<
+        "' (" << voiceNumber - K_PART_HARMONY_VOICE_NUMBER << ")" <<
         " int part " <<
         getPartCombinedName () <<
         ", line " << inputLineNumber <<
         endl;
     }
 
-    if (voice->getVoicePartRelativeID () == actualVoiceNumber) {
+    if (voice->getVoiceNumber () == actualVoiceNumber) {
       // yes, remember it
       harmonyVoice = voice;
       break;
@@ -33661,7 +33580,7 @@ void msrPart::addHarmonyVoiceToPartIfNotYetDone (
     // this harmony voice doesn't exist yet, create it    
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
       gLogIOstream <<
-        "Adding a harmony voice with number '" <<
+        "Adding harmony voice number '" <<
         harmonyVoiceNumber <<
         "' (" << actualVoiceNumber << ")" <<
         " to part " <<
@@ -33693,7 +33612,9 @@ void msrPart::addHarmonyVoiceToPartIfNotYetDone (
     }
   }
 }
+*/
 
+/*
 S_msrVoice msrPart::fetchHarmonyVoiceFromPart (
   int inputLineNumber,
   int harmonyVoiceNumber)
@@ -33721,10 +33642,11 @@ S_msrVoice msrPart::fetchHarmonyVoiceFromPart (
 
   return
     fPartHarmonyStaff->
-      fetchVoiceFromStaffByItsPartRelativeID (
+      fetchVoiceFromStaffByItsNumber (
         inputLineNumber,
         actualVoiceNumber);
 }
+*/
 
 void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
   int inputLineNumber)
@@ -33757,8 +33679,8 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
     // create the part figured bass voice  
     if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
       gLogIOstream <<
-        "Creating the figured bass voice " <<
-        " with number " << K_PART_FIGURED_BASS_VOICE_NUMBER <<
+        "Creating figured bass voice " <<
+        " number " << K_PART_FIGURED_BASS_VOICE_NUMBER <<
         " for part " <<
         getPartCombinedName () <<
         ", line " << inputLineNumber <<
@@ -33844,36 +33766,6 @@ void msrPart::updatePartMeasureLengthHighTide (
     }
 
     fPartMeasureLengthHighTide = measureLength;
-  }
-}
-
-void msrPart::appendHarmonyVoiceCloneToPartCloneIfNotYetDone (
-  int        inputLineNumber,
-  S_msrVoice harmonyVoiceClone)
-{
-  // is the harmony voice clone already present in the staff voices map?
-  bool foundVoice = false;
-  
-  const map<int, S_msrVoice>& staffAllVoicesMap =
-     fPartHarmonyStaff->getStaffAllVoicesMap ();
-                          
-  for (
-    map<int, S_msrVoice>::const_iterator i = staffAllVoicesMap.begin ();
-    i != staffAllVoicesMap.end ();
-    i++) {
-    S_msrVoice voice = (*i).second;
-
-    if (voice == harmonyVoiceClone) {
-      // yes
-      foundVoice = true;
-      break;
-    }
-  } // for
-
-  if (! foundVoice) {
-    fPartHarmonyStaff->registerVoiceInStaff (
-      inputLineNumber,
-      harmonyVoiceClone);
   }
 }
 
@@ -34801,6 +34693,7 @@ void msrPart::setPartHarmoniesSupplierVoice (
   } // switch
 }
                               
+/* JMI
 void msrPart::appendHarmonyToPart (
   S_msrVoice   harmoniesSupplierVoice,
   S_msrHarmony harmony)
@@ -34873,12 +34766,12 @@ void msrPart::appendHarmonyToPartClone (
         createPartHarmonyStaffIfNotYetDone ( // JMI ???
           inputLineNumber);
   
-        /* JMI NON
+        / * JMI NON
         // register this voice as the part harmonies supplier voice
         setPartharmoniesSupplierVoiceClone (
           inputLineNumber,
           harmoniesSupplierVoiceClone);
-          */
+          * /
       
         // append the harmony to the part harmony voice
         if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
@@ -34922,6 +34815,7 @@ void msrPart::appendHarmonyToPartClone (
       break;
   } // switch
 }
+*/
 
 void msrPart::appendFiguredBassToPart (
   S_msrVoice       figuredBassSupplierVoice,

@@ -5583,7 +5583,7 @@ class msrNote : public msrElement
       rational  displayWholeNotes,
       int       dotsNumber,
       int       staffNumber,
-      int       voicePartRelativeID);
+      int       voiceNumber);
     
     static SMARTP<msrNote> createSkipNote (
       int       inputLineNumber,
@@ -5591,7 +5591,7 @@ class msrNote : public msrElement
       rational  displayWholeNotes,
       int       dotsNumber,
       int       staffNumber,
-      int       voicePartRelativeID);
+      int       voiceNumber);
     
   protected:
  
@@ -10198,8 +10198,8 @@ class msrVoice : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_NO_VOICE_NUMBER      -39
-    #define K_VOICE_HARMONY_VOICE_BASE_NUMBER -100
+    #define K_NO_VOICE_NUMBER                 -39
+    #define K_VOICE_HARMONY_VOICE_BASE_NUMBER 20
 
     // data types
     // ------------------------------------------------------
@@ -10229,7 +10229,7 @@ class msrVoice : public msrElement
     static SMARTP<msrVoice> create (
       int          inputLineNumber,
       msrVoiceKind voiceKind,
-      int          voicePartRelativeID,
+      int          voiceNumber,
       msrVoiceCreateInitialLastSegmentKind
                    voiceCreateInitialLastSegmentKind,
       S_msrStaff   voiceStaffUplink);
@@ -10240,7 +10240,7 @@ class msrVoice : public msrElement
     SMARTP<msrVoice> createVoiceDeepCopy (
       int          inputLineNumber,
       msrVoiceKind voiceKind,
-      int          voicePartRelativeID,
+      int          voiceNumber,
       S_msrStaff   containingStaff);
 
   protected:
@@ -10252,7 +10252,7 @@ class msrVoice : public msrElement
     msrVoice (
       int          inputLineNumber,
       msrVoiceKind voiceKind,
-      int          voicePartRelativeID,
+      int          voiceNumber,
       msrVoiceCreateInitialLastSegmentKind
                    voiceCreateInitialLastSegmentKind,
       S_msrStaff   voiceStaffUplink);
@@ -10289,18 +10289,22 @@ class msrVoice : public msrElement
 
     // voice numbers
     
-    void                  setVoicePartRelativeID (int voicePartRelativeID)
-                              { fVoicePartRelativeID = voicePartRelativeID; }
+    void                  setVoiceNumber (int voiceNumber)
+                              { fVoiceNumber = voiceNumber; }
 
-    int                   getVoicePartRelativeID () const
-                              { return fVoicePartRelativeID; }
+    int                   getVoiceNumber () const
+                              { return fVoiceNumber; }
                 
-    int                   getVoiceStaffRelativeNumber () const
-                              { return fVoiceStaffRelativeNumber; }
+    void                  setRegularVoiceStaffSequentialNumber (
+                            int regularVoiceStaffSequentialNumber)
+                              {
+                                fRegularVoiceStaffSequentialNumber =
+                                  regularVoiceStaffSequentialNumber;
+                              }
 
-    int                   getVoiceAbsoluteNumber () const
-                            { return fVoiceAbsoluteNumber; }
-                            
+    int                   getRegularVoiceStaffSequentialNumber () const
+                              { return fRegularVoiceStaffSequentialNumber; }
+
     // voice name
     
     void                  setVoiceNameFromNumber (
@@ -10382,7 +10386,7 @@ class msrVoice : public msrElement
     // identity
 
     void                  changeVoiceIdentity ( // after a deep copy
-                            int voicePartRelativeID);
+                            int voiceNumber);
 
     // voice kind
 
@@ -10390,9 +10394,9 @@ class msrVoice : public msrElement
 
     // voice numbers
     
-    string                voicePartRelativeIDAsString () const;
+    string                voiceNumberAsString () const;
 
-    string                voiceStaffRelativeNumberAsString () const;
+    string                regularVoiceStaffSequentialNumberAsString () const;
 
     // measures
      
@@ -10407,7 +10411,7 @@ class msrVoice : public msrElement
                             int    inputLineNumber,
                             string nextMeasureNumber);
 
-    void                  appendAFirstMeasureToVoiceIfNotYetDone (
+    void                  appendAFirstMeasureToVoiceIfNotYetDone ( // JMI ???
                              int inputLineNumber);
                                                     
     void                  bringVoiceToMeasureLength (
@@ -10753,12 +10757,14 @@ class msrVoice : public msrElement
 
     // voice numbers
 
-    int                   fVoiceAbsoluteNumber;
     // voice numbers in MusicXML may be greater than 4
-    // while there can only be 4 in a staff
-    // we thus have to cope with that
-    int                   fVoicePartRelativeID;
-    int                   fVoiceStaffRelativeNumber;
+    // and there can be holes
+    int                   fVoiceNumber;
+
+    // there can only be 4 regular voices in a staff
+    // (those that can contain beamed notes)
+    // and we need a number for the orientation of beams
+    int                   fRegularVoiceStaffSequentialNumber;
 
     // voice name
 
@@ -11152,7 +11158,7 @@ class msrStaff : public msrElement
       int          staffNumber,
       S_msrPart    staffPartUplink);
       
-    virtual ~msrStaff();
+    virtual ~msrStaff ();
   
   private:
 
@@ -11189,6 +11195,11 @@ class msrStaff : public msrElement
 
     string                getStaffInstrumentAbbreviation () const
                               { return fStaffInstrumentAbbreviation; }
+
+    // voices
+
+    int                   getStaffRegularVoicesCounter () const
+                              { return fStaffRegularVoicesCounter; }
 
     // clef, key, time
     
@@ -11264,30 +11275,23 @@ class msrStaff : public msrElement
     void                  appendTransposeToStaff (
                             S_msrTranspose transpose);
 
-    // staff voices
-    
-    S_msrVoice            addVoiceToStaffByItsRelativeNumber (
-                            int                    inputLineNumber,
-                            msrVoice::msrVoiceKind voiceKind,
-                            int                    voiceRelativeNumber);
-  
+    // voices
+      
     string                staffKindAsString () const;
     
-    S_msrVoice            createVoiceInStaffByItsPartRelativeID (
+    S_msrVoice            createVoiceInStaffByItsNumber (
                             int                    inputLineNumber,
                             msrVoice::msrVoiceKind voiceKind,
-                            int                    voicePartRelativeID,
+                            int                    voiceNumber,
                             string                 currentMeasureNumber);
 
     void                  registerVoiceInStaff (
                             int        inputLineNumber,
                             S_msrVoice voice);
 
-    S_msrVoice            fetchVoiceFromStaffByItsPartRelativeID (
+    S_msrVoice            fetchVoiceFromStaffByItsNumber (
                             int inputLineNumber,
-                            int voicePartRelativeID);
-
-    const int             getStaffNumberOfMusicVoices () const;
+                            int voiceNumber);
 
     // measures
     
@@ -11439,7 +11443,9 @@ class msrStaff : public msrElement
 
     // staff voices
     
-    static int            gMaxStaffVoices;
+    static int            gStaffMaxRegularVoices;
+
+    int                   fStaffRegularVoicesCounter;
 
     map<int, S_msrVoice>  fStaffVoiceRelativeNumberToVoiceMap;
                             //numbered 1 to gMaxStaffVoices
@@ -11461,10 +11467,6 @@ class msrStaff : public msrElement
     // staff details
 
     S_msrStaffDetails     fCurrentStaffStaffDetails;
-    
-    // counters
-    
-    int                   fStaffRegisteredVoicesCounter;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);
@@ -11540,10 +11542,7 @@ class msrPart : public msrElement
 
     #define K_PART_MASTER_STAFF_NUMBER -19
     #define K_PART_MASTER_VOICE_NUMBER -27
-    
-    #define K_PART_HARMONY_STAFF_NUMBER -119  
-    #define K_PART_HARMONY_VOICE_NUMBER -100
-    
+        
     #define K_PART_FIGURED_BASS_STAFF_NUMBER -219  
     #define K_PART_FIGURED_BASS_VOICE_NUMBER -227
 
@@ -11568,7 +11567,7 @@ class msrPart : public msrElement
       string         partID,
       S_msrPartGroup partPartGroupUplink);
       
-    virtual ~msrPart();
+    virtual ~msrPart ();
   
   private:
 
@@ -11805,24 +11804,6 @@ class msrPart : public msrElement
     void                  appendTransposeToPart (
                             S_msrTranspose transpose);
 
-    // master staff and voice
-    
-    void                  createPartMasterStaffAndVoice ( // JMI ???
-                            int inputLineNumber);
-        
-    // harmony staff and voices
-    
-    void                  createPartHarmonyStaffIfNotYetDone (
-                            int inputLineNumber);
-                            
-    void                  addHarmonyVoiceToPartIfNotYetDone (
-                            int inputLineNumber,
-                            int harmonyVoiceNumber);
-        
-    void                  appendHarmonyVoiceCloneToPartCloneIfNotYetDone (
-                            int        inputLineNumber,
-                            S_msrVoice harmonyVoiceClone);
-
     // figured bass staff and voice
     
     void                  createPartFiguredStaffAndVoiceIfNotYetDone ( // JMI ???
@@ -11926,6 +11907,7 @@ class msrPart : public msrElement
     
     // harmonies
     
+/* JMI
     void                  appendHarmonyToPart (
                             S_msrVoice   harmoniesSupplierVoice,
                             S_msrHarmony harmony);
@@ -11933,6 +11915,7 @@ class msrPart : public msrElement
     void                  appendHarmonyToPartClone (
                             S_msrVoice   harmoniesSupplierVoiceClone,
                             S_msrHarmony harmonyClone);
+*/
 
     S_msrVoice            fetchHarmonyVoiceFromPart (
                             int inputLineNumber,

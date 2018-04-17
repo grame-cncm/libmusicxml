@@ -4083,32 +4083,37 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       fLilypondCodeIOstream <<
         "\\set " << staffContextName << ".autoBeaming = ##f" <<
         endl;
-  
+
     switch (staffKind) {
       case msrStaff::kRegularStaff:
-        if (staff->getStaffNumberOfMusicVoices () > 1) {
-          switch (voice->getVoiceStaffRelativeNumber ()) {
-            case 1:
-              fLilypondCodeIOstream << "\\voiceOne ";
-              break;
-            case 2:
-              fLilypondCodeIOstream << "\\voiceTwo ";
-              break;
-            case 3:
-              fLilypondCodeIOstream << "\\voiceThree ";
-              break;
-            case 4:
-              fLilypondCodeIOstream << "\\voiceFour ";
-              break;
-            default:
-              {}
-          } // switch
-  
-          fLilypondCodeIOstream <<
-            "% " <<
-            staff->getStaffNumberOfMusicVoices () <<
-            " music voices" <<
-            endl;
+        {
+          int staffRegularVoicesCounter =
+            staff->getStaffRegularVoicesCounter ();
+            
+          if (staffRegularVoicesCounter > 1) {
+            switch (voice->getRegularVoiceStaffSequentialNumber ()) {
+              case 1:
+                fLilypondCodeIOstream << "\\voiceOne ";
+                break;
+              case 2:
+                fLilypondCodeIOstream << "\\voiceTwo ";
+                break;
+              case 3:
+                fLilypondCodeIOstream << "\\voiceThree ";
+                break;
+              case 4:
+                fLilypondCodeIOstream << "\\voiceFour ";
+                break;
+              default:
+                {}
+            } // switch
+    
+            fLilypondCodeIOstream <<
+              "% out of " <<
+              staffRegularVoicesCounter <<
+              " regular voices" <<
+              endl;
+          }
         }
       break;
 

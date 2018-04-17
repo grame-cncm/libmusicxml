@@ -515,7 +515,7 @@ S_msrVoice mxmlTree2MsrTranslator::fetchVoiceFromCurrentPart (
   S_msrVoice
     voice =
       staff->
-        fetchVoiceFromStaffByItsPartRelativeID (
+        fetchVoiceFromStaffByItsNumber (
           inputLineNumber,
           voiceNumber);
 

@@ -1632,7 +1632,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
   S_msrVoice
     voice =
       staff->
-        fetchVoiceFromStaffByItsPartRelativeID (
+        fetchVoiceFromStaffByItsNumber (
           inputLineNumber,
           voiceNumber);
   
@@ -1640,7 +1640,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createRegularVoiceInStaffIfNotYetDone (
     // create the voice and append it to the staff
     voice =
       staff->
-        createVoiceInStaffByItsPartRelativeID (
+        createVoiceInStaffByItsNumber (
           inputLineNumber,
           msrVoice::kRegularVoice,
           voiceNumber,
@@ -3089,14 +3089,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
   
   // take harmony voice into account
   fHarmonyVoicesCounter++;
-
-  // is is the first one?
-  if (fHarmonyVoicesCounter == 1) {
-    // yes, add a harmony staff to the current part
-    fCurrentPart->
-      createPartHarmonyStaffIfNotYetDone (
-        inputLineNumber);
-  }
 
 /* JMI
   // append a harmony voice to the current part harmony staff

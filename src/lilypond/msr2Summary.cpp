@@ -402,16 +402,12 @@ void msr2SummaryVisitor::visitStart (S_msrVoice& elt)
   
   fMsrSummaryOutputStream << left <<
     setw (fieldWidth) <<
-    "VoiceAbsoluteNumber" << " : " <<
-    elt->getVoiceAbsoluteNumber () <<
+    "VoiceNumber" << " : " <<
+    elt->getVoiceNumber () <<
     endl <<
     setw (fieldWidth) <<
-    "VoicePartRelativeID" << " : " <<
-    elt->getVoicePartRelativeID () <<
-    endl <<
-    setw (fieldWidth) <<
-    "VoiceStaffRelativeNumber" << " : " <<
-    elt->getVoiceStaffRelativeNumber () <<
+    "RegularVoiceStaffSequentialNumber" << " : " <<
+    elt->getRegularVoiceStaffSequentialNumber () <<
     endl <<
     setw (fieldWidth) <<
     "VoiceActualNotesCounter" << " : " <<

@@ -1162,12 +1162,6 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
             inputLineNumber,
             fCurrentVoiceClone);
     
-        // append it to the part clone if not yet done
-        fCurrentPartClone->
-          appendHarmonyVoiceCloneToPartCloneIfNotYetDone (
-            inputLineNumber,
-            fCurrentVoiceClone);
-
         if (
           elt->getMusicHasBeenInsertedInVoice () // superfluous test ??? JMI
           ) {          
@@ -1433,14 +1427,16 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
     fCurrentChordClone->
       setChordHarmony (harmonyNewBornClone); // JMI
   }
-  
+
+  /* JMI
   else if (fOnGoingHarmonyVoice) { // JMI
     // register the harmony in the part clone harmony
-    fCurrentPartClone->
+    fCurrentNoteClone->
       appendHarmonyToPartClone (
         fCurrentVoiceClone,
         harmonyNewBornClone);
   }
+  */
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrHarmony& elt)
