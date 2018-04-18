@@ -6824,6 +6824,29 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
   }
   
   fNoteHarmony = harmony;
+
+  // append harmony to note's voice harmony voice
+  S_msrMeasure
+    noteMeasure =
+      fNoteMeasureUplink;
+      
+  S_msrSegment
+    noteSegment =
+      noteMeasure->
+        getMeasureSegmentUplink ();
+        
+  S_msrVoice
+    noteVoice =
+      noteSegment->
+        getSegmentVoiceUplink (),
+        
+    noteVoiceHarmonyVoice =
+      noteVoice->
+        getVoiceHarmonyVoice ();
+
+  noteVoiceHarmonyVoice->
+    appendHarmonyToVoice (
+      harmony);
 }
 
 void msrNote::setNoteFrame (S_msrFrame frame)
@@ -17567,7 +17590,8 @@ void msrHarmony::print (ostream& os)
     os << "none";
   else
     os << fHarmonyInversion;
-  os << endl;
+  os <<
+    endl;
 
   // print harmony degrees if any
   if (fHarmonyDegreesList.size ()) {
@@ -17588,7 +17612,7 @@ void msrHarmony::print (ostream& os)
       if (++i == iEnd) break;
       os << endl;
     } // for
-    os << endl;
+ // JMI ???   os << endl;
     
     gIndenter--;
   }
@@ -19145,7 +19169,6 @@ void msrBarline::acceptOut (basevisitor* v)
   }
 }
 
-
 void msrBarline::browseData (basevisitor* v)
 {}
 
@@ -19162,16 +19185,16 @@ string msrBarline::barlineLocationKindAsString (
   
   switch (barlineLocationKind) {
     case k_NoBarlineLocation:
-      result = "none";
+      result = "noBarlineLocation";
       break;
     case kBarlineLocationLeft:
-      result = "left";
+      result = "barlineLocationLeft";
       break;
     case kBarlineLocationMiddle:
-      result = "middle";
+      result = "barlineLocationMiddle";
       break;
     case kBarlineLocationRight:
-      result = "right";
+      result = "barlineLocationRight";
       break;
   } // switch
 
@@ -19185,25 +19208,25 @@ string msrBarline::barlineCategoryKindAsString (
   
   switch (barlineCategoryKind) {
     case kBarlineCategoryStandalone:
-      result = "standalone";
+      result = "barlineCategoryStandalone";
       break;
     case kBarlineCategoryRepeatStart:
-      result = "repeat start";
+      result = "barlineCategoryRepeatStart";
       break;
     case kBarlineCategoryRepeatEnd:
-      result = "repeat end";
+      result = "barlineCategoryRepeatEnd";
       break;
     case kBarlineCategoryHookedEndingStart:
-      result = "hooked ending start";
+      result = "barlineCategoryHookedEndingStart";
       break;
     case kBarlineCategoryHookedEndingEnd:
-      result = "hooked ending end";
+      result = "kBarlineCategoryHookedEndingEnd";
       break;
     case kBarlineCategoryHooklessEndingStart:
-      result = "hookless ending start";
+      result = "barlineCategoryHooklessEndingStart";
       break;
     case kBarlineCategoryHooklessEndingEnd:
-      result = "hookless ending end";
+      result = "barlineCategoryHooklessEndingEnd";
       break;
   } // switch
 
@@ -19251,40 +19274,40 @@ string msrBarline::barlineStyleKindAsString (
   
   switch (barlineStyleKind) {
     case msrBarline::k_NoBarlineStyle:
-      result = "noBarlineStyle";
+      result = "NoBarlineStyle";
       break;
     case msrBarline::kBarlineStyleRegular:
-      result = "regular";
+      result = "barlineStyleRegular";
       break;
     case msrBarline::kBarlineStyleDotted:
-      result = "dotted";
+      result = "barlineStyleDotted";
       break;
     case msrBarline::kBarlineStyleDashed:
-      result = "dashed";
+      result = "barlineStyleDashed";
       break;
     case msrBarline::kBarlineStyleHeavy:
-      result = "heavy";
+      result = "barlineStyleHeavy";
       break;
     case msrBarline::kBarlineStyleLightLight:
-      result = "lightLight";
+      result = "barlineStyleLightLight";
       break;
     case msrBarline::kBarlineStyleLightHeavy:
-      result = "lightHeavy";
+      result = "barlineStyleLightHeavy";
       break;
     case msrBarline::kBarlineStyleHeavyLight:
-      result = "heavyLight";
+      result = "barlineStyleHeavyLight";
       break;
     case msrBarline::kBarlineStyleHeavyHeavy:
-      result = "heavyHeavy";
+      result = "barlineStyleHeavyHeavy";
       break;
     case msrBarline::kBarlineStyleTick:
-      result = "tick";
+      result = "barlineStyleTick";
       break;
     case msrBarline::kBarlineStyleShort:
-      result = "short";
+      result = "barlineStyleShort";
       break;
     case msrBarline::kBarlineStyleNone:
-      result = "none";
+      result = "barlineStyleNone";
       break;
   } // switch
 
@@ -19301,13 +19324,13 @@ string msrBarline::barlineEndingTypeKindAsString (
       result = "noBarlineEnding";
       break;
     case msrBarline::kBarlineEndingTypeStart:
-      result = "start";
+      result = "barlineEndingTypeStart";
       break;
     case msrBarline::kBarlineEndingTypeStop:
-      result = "stop";
+      result = "barlineEndingTypeStop";
       break;
     case msrBarline::kBarlineEndingTypeDiscontinue:
-      result = "discontinue";
+      result = "barlineEndingTypeDiscontinue";
       break;
   } // switch
 
@@ -19324,10 +19347,10 @@ string msrBarline::barlineRepeatDirectionKindAsString (
       result ="noBarlineRepeatDirection";
       break;
     case msrBarline::kBarlineRepeatDirectionForward:
-      result ="forward";
+      result ="barlineRepeatDirectionForward";
       break;
     case msrBarline::kBarlineRepeatDirectionBackward:
-      result ="backward";
+      result ="barlineRepeatDirectionBackward";
       break;
   } // switch
 
@@ -19344,19 +19367,19 @@ string msrBarline::barlineRepeatWingedKindAsString (
       result = "noBarlineRepeatWinged";
       break;
     case msrBarline::kBarlineRepeatWingedNone:
-      result = "none";
+      result = "barlineRepeatWingedNone";
       break;
     case msrBarline::kBarlineRepeatWingedStraight:
-      result = "straight";
+      result = "barlineRepeatWingedStraight";
       break;
     case msrBarline::kBarlineRepeatWingedCurved:
-      result = "curved";
+      result = "barlineRepeatWingedCurved";
       break;
     case msrBarline::kBarlineRepeatWingedDoubleStraight:
-      result = "doubleStraight";
+      result = "barlineRepeatWingedDoubleStraight";
       break;
     case msrBarline::kBarlineRepeatWingedDoubleCurved:
-      result = "doubleCurved";
+      result = "barlineRepeatWingedDoubleCurved";
       break;
   } // switch
 
@@ -21925,7 +21948,7 @@ string msrMeasure::measureKindAsString (
 
   switch (measureKind) {
     case msrMeasure::kUnknownMeasureKind:
-      result = "**unkwnown kind**";
+      result = "**unkwnownKind**";
       break;
     case msrMeasure::kFullMeasureKind:
       result = "full";
@@ -26738,7 +26761,7 @@ void msrVoice::createMeasureAndAppendItToVoice (
     gLogIOstream <<
       "Creating measure number '" <<
       measureNumber <<
-      "' and appending it to voice voice \"" << getVoiceName () << "\"" <<
+      "' and appending it to voice \"" << getVoiceName () << "\"" <<
       "', line " << inputLineNumber <<
       endl;
   }
@@ -26748,8 +26771,8 @@ void msrVoice::createMeasureAndAppendItToVoice (
     createNewLastSegmentForVoice (
       inputLineNumber);
   }
-  
- // append new measure with given number
+
+  // append new measure with given number
   fVoiceLastSegment->
     createMeasureAndAppendItToSegment (
       inputLineNumber,
@@ -26764,6 +26787,16 @@ void msrVoice::createMeasureAndAppendItToVoice (
     case msrVoice::kHarmonyVoice:
       break;
     case msrVoice::kRegularVoice:
+    /* JMI
+      // append a new measure with given number
+      fVoiceLastSegment->
+        createMeasureAndAppendItToSegment (
+          inputLineNumber,
+          measureNumber,
+          measureOrdinalNumber,
+          measureImplicitKind);
+*/
+
       // append new measure with given number to voice harmony voice if any
       if (fVoiceHarmonyVoice) {
         fVoiceHarmonyVoice->
@@ -31783,13 +31816,43 @@ void msrStaff::createMeasureAndAppendItToStaff (
     map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
     i != fStaffAllVoicesMap.end ();
     i++) {
-    S_msrVoice voice = (*i).second;
+    S_msrVoice
+      voice = (*i).second;
 
     // sanity check
     msrAssert (
       voice != nullptr,
       "voice is null");
     
+  switch (voice->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
+        gLogIOstream <<
+          "Propagating the creation and appending of measure '" <<
+          measureNumber <<
+          "', line " << inputLineNumber <<
+          ", to voice \"" << voice->getVoiceName () << "\"" <<
+          endl;
+      }
+  
+      voice->
+        createMeasureAndAppendItToVoice (
+          inputLineNumber,
+          measureNumber,
+          measureOrdinalNumber,
+          measureImplicitKind);
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+      break;
+      
+    case msrVoice::kMasterVoice:
+      break;
+    case msrVoice::kFiguredBassVoice:
+      break;
+  } // switch
+
+/* JMI
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceStaves) {
       gLogIOstream <<
         "Propagating the creation and appending of measure '" <<
@@ -31805,6 +31868,7 @@ void msrStaff::createMeasureAndAppendItToStaff (
         measureNumber,
         measureOrdinalNumber,
         measureImplicitKind);
+        */
   } // for
 }
 
@@ -32959,7 +33023,8 @@ void msrStaff::finalizeStaff (int inputLineNumber)
       voice = (*i).second;
 
     voice->
-      finalizeVoice (inputLineNumber);
+      finalizeVoice (
+        inputLineNumber);
 
 /* ??? JMI
     if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
