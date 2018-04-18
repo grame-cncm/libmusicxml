@@ -5819,6 +5819,9 @@ class msrNote : public msrElement
     void                  setNoteHarmony (
                             S_msrHarmony harmony);
                               
+    void                  setNoteCloneHarmony (
+                            S_msrHarmony harmony);
+                              
     const S_msrHarmony&   getNoteHarmony () const
                               { return fNoteHarmony; };
 

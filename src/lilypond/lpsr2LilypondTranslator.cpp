@@ -4837,6 +4837,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarmony& elt)
       "% --> Start visiting msrHarmony '" <<
       elt->asString () <<
       "'" <<
+      ", fOnGoingNote = " << booleanAsString (fOnGoingNote) <<
+      ", fOnGoingChord = " << booleanAsString (fOnGoingChord) <<
+      ", fOnGoingHarmonyVoice = " << booleanAsString (fOnGoingHarmonyVoice) <<
       endl;
   }
 

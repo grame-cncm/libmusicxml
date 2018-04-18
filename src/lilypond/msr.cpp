@@ -6820,6 +6820,7 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
     gLogIOstream <<
       "Setting note '" << asShortString ()  << "'" <<
       " harmony to '" << harmony->asString () << "'" <<
+      ", line " << fInputLineNumber <<
       endl;
   }
   
@@ -6847,6 +6848,44 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
   noteVoiceHarmonyVoice->
     appendHarmonyToVoice (
       harmony);
+}
+
+void msrNote::setNoteCloneHarmony (S_msrHarmony harmony)
+{
+  if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceHarmonies) {
+    gLogIOstream <<
+      "Setting note clone '" << asShortString ()  << "'" <<
+      " harmony to '" << harmony->asString () << "'" <<
+      ", line " << fInputLineNumber <<
+      endl;
+  }
+  
+  fNoteHarmony = harmony;
+
+/* JMI
+  // append harmony to note's voice harmony voice
+  S_msrMeasure
+    noteMeasure =
+      fNoteMeasureUplink;
+      
+  S_msrSegment
+    noteSegment =
+      noteMeasure->
+        getMeasureSegmentUplink ();
+        
+  S_msrVoice
+    noteVoice =
+      noteSegment->
+        getSegmentVoiceUplink (),
+        
+    noteVoiceHarmonyVoice =
+      noteVoice->
+        getVoiceHarmonyVoice ();
+
+  noteVoiceHarmonyVoice->
+    appendHarmonyToVoice (
+      harmony);
+      */
 }
 
 void msrNote::setNoteFrame (S_msrFrame frame)
@@ -17030,12 +17069,12 @@ msrHarmonyDegree::msrHarmonyDegree (
     gLogIOstream <<
       "Creating harmony degree '" <<
       asString () <<
-      "'" <<
+      "', line " << inputLineNumber <<
       endl;
   }
 }
 
-msrHarmonyDegree::~msrHarmonyDegree()
+msrHarmonyDegree::~msrHarmonyDegree ()
 {}
 
 void msrHarmonyDegree::setHarmonyDegreeHarmonyUplink (
@@ -17377,7 +17416,7 @@ S_msrHarmony msrHarmony::createHarmonyNewbornClone (
     gLogIOstream <<
       "Creating a newborn clone of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
-      "'" <<
+      "', line " << fInputLineNumber <<
       endl;
   }
 
@@ -17408,7 +17447,7 @@ S_msrHarmony msrHarmony::createHarmonyDeepCopy (
     gLogIOstream <<
       "Creating a deep copy of harmony '" <<
       msrHarmonyKindAsShortString (fHarmonyKind) <<
-      "'" <<
+      "', line " << fInputLineNumber <<
       endl;
   }
 
@@ -17437,8 +17476,9 @@ string msrHarmony::asString () const
 
   s <<
     "Harmony" <<
+    ", line " << fInputLineNumber <<
     ":" <<
-    msrQuarterTonesPitchKindAsString (
+    msrQuarterTonesPitchKindAsString ( // JMI XXL
       gMsrOptions->
         fMsrQuarterTonesPitchesLanguageKind,
           fHarmonyRootQuarterTonesPitchKind) <<          
