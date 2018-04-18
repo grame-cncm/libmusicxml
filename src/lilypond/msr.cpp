@@ -4304,7 +4304,8 @@ S_msrGraceNotes msrGraceNotes::createSkipGraceNotesClone (
             note->            getNoteDotsNumber (),
             containingVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
             containingVoice-> getVoiceNumber ());
-  
+
+      // append it to the grace notes
       clone->
         appendNoteToGraceNotes (skip);
     }
@@ -26656,7 +26657,7 @@ S_msrVoice msrVoice::createVoiceDeepCopy (
 
 void msrVoice::appendAFirstMeasureToVoiceIfNotYetDone (
   int inputLineNumber)
-{ // JMI
+{ // JMI EMPTY
 }
 
 void msrVoice::createMeasureAndAppendItToVoice (
@@ -27667,6 +27668,27 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
+
+  // should a skip be added to the voice harmony voice if any?
+  if (
+    fVoiceHarmonyVoice
+      &&
+    ! note->getNoteHarmony ()) {
+      // create skip with same duration as note
+      S_msrNote
+        skip =
+          msrNote::createSkipNote (
+            note->               getInputLineNumber (),
+            note->               getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
+            note->               getNoteDisplayWholeNotes (),
+            note->               getNoteDotsNumber (),
+            fVoiceHarmonyVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
+            fVoiceHarmonyVoice-> getVoiceNumber ());
+
+      // append it to the voice harmony voice
+      fVoiceHarmonyVoice->
+        appendNoteToVoice (skip);
+  }
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
