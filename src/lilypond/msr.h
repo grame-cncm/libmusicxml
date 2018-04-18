@@ -11229,10 +11229,10 @@ class msrStaff : public msrElement
     // staff voices
     
     const map<int, S_msrVoice>&
-                          getStaffVoiceRelativeNumberToVoiceMap () const
+                          getStaffRegularVoicesMap () const
                               {
                                 return
-                                  fStaffVoiceRelativeNumberToVoiceMap;
+                                  fStaffRegularVoicesMap;
                               }
 
     const map<int, S_msrVoice>&
@@ -11289,6 +11289,14 @@ class msrStaff : public msrElement
                             int        inputLineNumber,
                             S_msrVoice voice);
 
+    void                  registerVoiceInAllVoicesMap (
+                            int        voiceNumber,
+                            S_msrVoice voice);
+  
+    void                  registerVoiceInRegularVoicesMap (
+                            int        voiceNumber,
+                            S_msrVoice voice);
+  
     S_msrVoice            fetchVoiceFromStaffByItsNumber (
                             int inputLineNumber,
                             int voiceNumber);
@@ -11447,11 +11455,11 @@ class msrStaff : public msrElement
 
     int                   fStaffRegularVoicesCounter;
 
-    map<int, S_msrVoice>  fStaffVoiceRelativeNumberToVoiceMap;
-                            //numbered 1 to gMaxStaffVoices
-                              
     map<int, S_msrVoice>  fStaffAllVoicesMap;
 
+    map<int, S_msrVoice>  fStaffRegularVoicesMap;
+                            //numbered 1 to gMaxStaffVoices
+                              
     // clef, key, time
     
     S_msrClef             fStaffCurrentClef;

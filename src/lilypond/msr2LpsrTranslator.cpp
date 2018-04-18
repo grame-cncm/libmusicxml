@@ -1126,7 +1126,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
       // add it to the staff clone
       fCurrentStaffClone->
         registerVoiceInStaff (
-          inputLineNumber, fCurrentVoiceClone);
+          inputLineNumber,
+          fCurrentVoiceClone);
     
       // append the voice clone to the LPSR score elements list
       fLpsrScore ->
@@ -1232,7 +1233,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
         // add it to the staff clone
         fCurrentStaffClone->
           registerVoiceInStaff (
-            inputLineNumber, fCurrentVoiceClone);
+            inputLineNumber,
+            fCurrentVoiceClone);
     
         // register it as the part figured bass voice
         fCurrentPartClone->
