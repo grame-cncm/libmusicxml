@@ -19410,33 +19410,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       k_NoQuarterTonesPitch;
   }
 
-/*
-  // fetch harmony voice
-  S_msrVoice
-    harmonyVoice =
-      fCurrentPart->
-        fetchHarmonyVoiceFromPart (
-          inputLineNumber,
-          fHarmonyVoicesCounter);
-
-  if (! harmonyVoice) {
-    stringstream s;
-    
-    s <<
-      "harmony voice '" <<
-      fHarmonyVoicesCounter <<
-      "' not found in part " <<
-      fCurrentPart->getPartCombinedName () <<
-      ", line " << inputLineNumber;
-    
-    msrInternalError (
-      gXml2lyOptions->fInputSourceName,
-      inputLineNumber,
-      __FILE__, __LINE__,
-      s.str ());
-  }
-    */
-    
   // create the harmony
   if (gTraceOptions->fTraceHarmonies) {
     fLogOutputStream <<

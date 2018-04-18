@@ -5819,9 +5819,6 @@ class msrNote : public msrElement
     void                  setNoteHarmony (
                             S_msrHarmony harmony);
                               
-    void                  setNoteCloneHarmony (
-                            S_msrHarmony harmony);
-                              
     const S_msrHarmony&   getNoteHarmony () const
                               { return fNoteHarmony; };
 
@@ -11918,20 +11915,8 @@ class msrPart : public msrElement
     
     // harmonies
     
-/* JMI
-    void                  appendHarmonyToPart (
-                            S_msrVoice   harmoniesSupplierVoice,
-                            S_msrHarmony harmony);
-
-    void                  appendHarmonyToPartClone (
-                            S_msrVoice   harmoniesSupplierVoiceClone,
-                            S_msrHarmony harmonyClone);
-*/
-
-    S_msrVoice            fetchHarmonyVoiceFromPart (
-                            int inputLineNumber,
-                            int harmonyVoiceNumber);
-
+    // JMI ???
+    
     // frames
     
     void                  appendFrameToPart (

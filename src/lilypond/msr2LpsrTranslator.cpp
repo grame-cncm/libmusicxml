@@ -1421,7 +1421,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
   if (fOnGoingNote) {
     // register the harmony in the current note clone
     fCurrentNoteClone->
-      setNoteCloneHarmony (harmonyNewBornClone);
+      setNoteHarmony (harmonyNewBornClone);
 
   // don't append the harmony to the part harmony,
   // this has been done in pass2b
