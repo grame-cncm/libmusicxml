@@ -32799,10 +32799,19 @@ bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
       first->getVoiceNumber (),
     secondVoiceNumber =
       second->getVoiceNumber ();
-      
+
+  if (firstVoiceNumber > K_VOICE_HARMONY_VOICE_BASE_NUMBER) {
+    firstVoiceNumber -= K_VOICE_HARMONY_VOICE_BASE_NUMBER + 1;
+  }
+  if (secondVoiceNumber > K_VOICE_HARMONY_VOICE_BASE_NUMBER) {
+    secondVoiceNumber -= K_VOICE_HARMONY_VOICE_BASE_NUMBER + 1;
+  }
+
   bool result =
     firstVoiceNumber < secondVoiceNumber;
-    
+
+  return result;
+  
   switch (firstVoiceNumber) {
     case msrVoice::kRegularVoice:
       switch (secondVoiceNumber) {
@@ -32812,7 +32821,7 @@ bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
         case msrVoice::kHarmonyVoice:
           result =
             secondVoiceNumber - K_VOICE_HARMONY_VOICE_BASE_NUMBER
-              <=
+              >
             firstVoiceNumber;
           break;
   
@@ -32826,7 +32835,7 @@ bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
         case msrVoice::kRegularVoice:
           result =
             firstVoiceNumber - K_VOICE_HARMONY_VOICE_BASE_NUMBER
-              <=
+              >
             secondVoiceNumber;
           break;
   
