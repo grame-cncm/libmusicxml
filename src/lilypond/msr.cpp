@@ -20307,102 +20307,6 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
 // JMI  // only now to make it possible to remove it afterwards
   // if it happens to be the first note of a chord
   fMeasureElementsList.push_back (note);
-
-  // fetch note harmony
-  S_msrHarmony
-    noteHarmony =
-      note->getNoteHarmony ();
-      
-  // don't handle the note harmony here,
-  // this has been done after harmony::create ()
-
-  if (! noteHarmony) {
-    // should a rest be appended to the harmony voices?
-
-    // fetch part harmony staff
-    S_msrStaff
-      partHarmonyStaff =
-        fetchMeasurePartUplink ()->
-          getPartHarmonyStaff ();
-
-    if (partHarmonyStaff) {
-      // fetch part harmony voices map
-      const map<int, S_msrVoice>&
-        partHarmonyVoicesMap =
-          partHarmonyStaff->
-            getStaffAllVoicesMap ();
-    
-      if (partHarmonyVoicesMap.size ()) {
-        // fetch part harmonies supplier voice
-        S_msrVoice
-          partHarmoniesSupplierVoice =
-            fetchMeasurePartUplink ()->
-              getPartHarmoniesSupplierVoice ();
-    
-        if (partHarmoniesSupplierVoice) {
-          if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceMeasures) {
-            gLogIOstream <<
-              "measureVoiceUplink = \"" <<
-              fetchMeasureVoiceUplink ()->getVoiceName () <<
-              "\"" <<
-              endl <<
-              "partHarmoniesSupplierVoice = \"" <<
-              partHarmoniesSupplierVoice->getVoiceName () <<
-              "\"" <<
-              endl;
-          }
-    
-          // is measure voice uplink the part harmonies suppplier voice?
-          if (
-            fetchMeasureVoiceUplink ()
-              ==
-            partHarmoniesSupplierVoice) {
-            // yes, for each harmony voice,
-            // create a skip note of the same duration as the note
-            // and append it
-            for (
-              map<int, S_msrVoice>::const_iterator i = partHarmonyVoicesMap.begin ();
-              i != partHarmonyVoicesMap.end ();
-              i++) {
-              S_msrVoice harmonyVoice = (*i).second;
-              
-              S_msrNote
-                skipNote =
-                  msrNote::createSkipNote (
-                    inputLineNumber,
-                    noteSoundingWholeNotes,
-                    noteSoundingWholeNotes,
-                    note->getNoteDotsNumber (),
-                    harmonyVoice->
-                      getVoiceStaffUplink ()->
-                        getStaffNumber (),
-                    harmonyVoice->
-                      getVoiceNumber ());
-        
-              // append the skip to the part harmony voice
-              if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceMeasures) {
-                gLogIOstream <<
-                  "Appending skip '" << skipNote->asShortString () <<
-                  "' to measure '" << fMeasureNumber <<
-                  "' in harmony voice \"" <<
-                  harmonyVoice->getVoiceName () <<
-                  "\"" <<
-                  endl;
-              }
-     
-              // sanity check
-              msrAssert (
-                fMeasureElementsList.size () > 0,
-                "fMeasureElementsList is empty"); // JMI
-                
-              harmonyVoice->
-                appendNoteToVoice (skipNote);
-            } // for
-          }
-        }
-      }
-    }
-  }
   
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
@@ -20564,7 +20468,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // bring harmony voice to the same measure length
   fetchMeasurePartUplink->
     getPartHarmonyVoice ()->
-      bringVoiceToMeasureLength (
+      skipToToMeasureLengthInVoice (
         inputLineNumber,
         fMeasureLength);
         */
@@ -20865,7 +20769,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // bring harmony voice to the new measure length
   fetchMeasurePartUplink->
     getPartHarmonyVoice ()->
-      bringVoiceToMeasureLength (
+      skipToToMeasureLengthInVoice (
         inputLineNumber,
         fMeasureLength);
         */
@@ -21045,18 +20949,18 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   fMeasureContainsMusic = true;
 }
 
-void msrMeasure::bringMeasureToMeasureLength (
+void msrMeasure::skipToToMeasureLengthInMeasure (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Bringing measure length for measure '" <<
+      "Skipping from measure length '" << fMeasureLength <<
+      "' to '" << measureLength <<
+      "' in measure " <<
       fMeasureNumber <<
       "' in segment " <<
       fMeasureSegmentUplink->getSegmentAbsoluteNumber () << 
-      " from " << fMeasureLength <<
-      " to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -21099,13 +21003,12 @@ void msrMeasure::bringMeasureToMeasureLength (
            
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
       gLogIOstream <<
-       "Appending " << rest->asString () <<
-       " (" << restDuration <<
-       " whole notes) to bring voice \"" << voice->getVoiceName () <<
-       "\" measure '" << fMeasureNumber << "'" <<
-       " from length " << fMeasureLength <<
-       " to length '" << measureLength << "'" <<
-        ", restDuration = " << restDuration <<
+       "Appending rest" << rest->asString () <<
+       " (restDuration " << restDuration <<
+       " whole notes) to skip from length '" << fMeasureLength <<
+       " to length '" << measureLength << "'"
+       " in measure '" << fMeasureNumber <<
+       "in voice \"" << voice->getVoiceName () <<
        endl;
     }
 
@@ -23062,19 +22965,18 @@ void msrSegment::appendHarpPedalsTuningToSegment (
       harpPedalsTuning);
 }
 
-void msrSegment::bringSegmentToMeasureLength (
+void msrSegment::skipToToMeasureLengthInSegment (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Bringing measure length for segment '" <<
+      "Skipping to measure length '" << measureLength <<
+      "' in segment '" <<
       fSegmentAbsoluteNumber <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<
-      "\"," <<
-      "' to " << measureLength <<
-      ", line " << inputLineNumber <<
+      "\", line " << inputLineNumber <<
       endl;
   }
 
@@ -23117,7 +23019,7 @@ void msrSegment::bringSegmentToMeasureLength (
   if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
     // bring last measure to this length
     fSegmentMeasuresList.back ()->
-      bringMeasureToMeasureLength (
+      skipToToMeasureLengthInMeasure (
         inputLineNumber, measureLength);
   }
 }
@@ -27198,19 +27100,32 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
       "' to voice \"" << getVoiceName () << "\"" <<
       endl;
   }
-      
+
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+    
   switch (fVoiceKind) {
     case msrVoice::kHarmonyVoice:
       // create the voice last segment and first measure if needed
       appendAFirstMeasureToVoiceIfNotYetDone (
         harmony->getInputLineNumber ());
 
+      // skip to necessary position in the voice
+      skipToToMeasureLengthInVoice (
+        inputLineNumber,
+    // JMI    rational (3/8));
+        fVoiceStaffUplink->
+          getStaffPartUplink ()->
+            getPartMeasureLengthHighTide ());
+
+      // append the harmony to the voice last segment
       fVoiceLastSegment->
         appendHarmonyToSegment (harmony);
     
       // register harmony
       fVoiceActualHarmoniesCounter++;
       fMusicHasBeenInsertedInVoice = true;
+
       break;
       
     case msrVoice::kMasterVoice:
@@ -27228,7 +27143,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
 
         msrInternalError (
           gXml2lyOptions->fInputSourceName,
-          harmony->getInputLineNumber (),
+          inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
@@ -27380,21 +27295,21 @@ void msrVoice::appendFiguredBassToVoiceClone (
   } // switch
 }
 
-void msrVoice::bringVoiceToMeasureLength (
+void msrVoice::skipToToMeasureLengthInVoice (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Bringing measure length for voice \"" <<
+      "Skipping to measure length '" << measureLength <<
+      "' in voice \"" <<
       getVoiceName () <<
-      "\" to " << measureLength <<
-      ", line " << inputLineNumber <<
+      "\", line " << inputLineNumber <<
       endl;
   }
 
   fVoiceLastSegment->
-    bringSegmentToMeasureLength (
+    skipToToMeasureLengthInSegment (
       inputLineNumber, measureLength);
 }
 
@@ -27669,6 +27584,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
 
+/*
   // should a skip be added to the voice harmony voice if any?
   if (
     fVoiceHarmonyVoice
@@ -27689,6 +27605,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       fVoiceHarmonyVoice->
         appendNoteToVoice (skip);
   }
+  */
 }
 
 void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
@@ -32170,16 +32087,16 @@ void msrStaff::registerVoiceInStaff (
   } // switch
 }
 
-void msrStaff::bringStaffToMeasureLength (
+void msrStaff::skipToToMeasureLengthInStaff (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Bringing measure length for staff \"" <<
+      "Skipping to measure length '" << measureLength <<
+      "' in staff \"" <<
       getStaffName () <<
-      "\" to " << measureLength <<
-      ", line " << inputLineNumber <<
+      "\", line " << inputLineNumber <<
       endl;
   }
 
@@ -32188,7 +32105,7 @@ void msrStaff::bringStaffToMeasureLength (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
-      bringVoiceToMeasureLength (
+      skipToToMeasureLengthInVoice (
         inputLineNumber,
         measureLength);
   } // for
@@ -33594,126 +33511,6 @@ void msrPart::setPartInstrumentAbbreviation (
     }
 */
 
-/*
-void msrPart::addHarmonyVoiceToPartIfNotYetDone (
-  int inputLineNumber,
-  int harmonyVoiceNumber)
-{
-  int actualVoiceNumber =
-    K_PART_HARMONY_VOICE_NUMBER + harmonyVoiceNumber;
-
-  // fetch part harmony voices map
-  const map<int, S_msrVoice>&
-    partHarmonyVoicesMap =
-      fPartHarmonyStaff->
-        getStaffAllVoicesMap ();
-
-  S_msrVoice harmonyVoice;
-
-  // is this harmony voice present in the part harmony voices list?
-  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      endl; // JMI
-  }
-  
-  for (
-    map<int, S_msrVoice>::const_iterator i = partHarmonyVoicesMap.begin ();
-    i != partHarmonyVoicesMap.end ();
-    i++) {
-    S_msrVoice voice = (*i).second;
-
-    int voiceNumber = voice->getVoiceNumber ();
-    
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
-      gLogIOstream <<
-        "--> Finding harmony voice" <<
-        " with part relative ID ' " << voiceNumber <<
-        "' (" << voiceNumber - K_PART_HARMONY_VOICE_NUMBER << ")" <<
-        " int part " <<
-        getPartCombinedName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-
-    if (voice->getVoiceNumber () == actualVoiceNumber) {
-      // yes, remember it
-      harmonyVoice = voice;
-      break;
-    }
-  } // for
-      
-  if (! harmonyVoice) {
-    // this harmony voice doesn't exist yet, create it    
-    if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceVoices) {
-      gLogIOstream <<
-        "Adding harmony voice number '" <<
-        harmonyVoiceNumber <<
-        "' (" << actualVoiceNumber << ")" <<
-        " to part " <<
-        getPartCombinedName () <<
-        ", line " << inputLineNumber <<
-        endl;
-    }
-  
-    // create the part harmony voice
-    harmonyVoice =
-      msrVoice::create (
-        inputLineNumber,
-        msrVoice::kHarmonyVoice,
-        actualVoiceNumber,
-        msrVoice::kCreateInitialLastSegmentYes,
-        fPartHarmonyStaff);
-  
-    // register it in harmony staff
-    fPartHarmonyStaff->
-      registerVoiceInStaff (
-        inputLineNumber,
-        harmonyVoice );
-  
-    if (fPartCurrentTime) {
-      // append part current time to harmony voice
-      harmonyVoice->
-        appendTimeToVoice (
-          fPartCurrentTime);
-    }
-  }
-}
-*/
-
-/*
-S_msrVoice msrPart::fetchHarmonyVoiceFromPart ( JMI ???
-  int inputLineNumber,
-  int harmonyVoiceNumber)
-{
-  int actualVoiceNumber =
-    K_PART_HARMONY_VOICE_NUMBER + harmonyVoiceNumber;
-
-  S_msrVoice result;
-  
-  if (
-    gTraceOptions->fTraceParts
-      ||
-    gTraceOptions->fTraceHarmonies
-      ||
-    gTraceOptions->fTraceVoices) { // JMI
-    gLogIOstream <<
-      "Fetching harmony voice '" << harmonyVoiceNumber <<
-      "' (" << actualVoiceNumber << ")" <<
-      " in part " <<
-      getPartCombinedName () <<
-      ", line " << inputLineNumber <<
- // JMI     ", fPartHarmonyVoicesList size: " << fPartHarmonyVoicesList.size () <<
-      endl;
-  }
-
-  return
-    fPartHarmonyStaff->
-      fetchVoiceFromStaffByItsNumber (
-        inputLineNumber,
-        actualVoiceNumber);
-}
-*/
-
 void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
   int inputLineNumber)
 {
@@ -33835,15 +33632,15 @@ void msrPart::updatePartMeasureLengthHighTide (
   }
 }
 
-void msrPart::bringPartToMeasureLength (
+void msrPart::skipToToMeasureLengthInPart (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Bringing measure length for part \"" <<
+      "Skipping to measure length '" << measureLength <<
+      "' in part \"" <<
       getPartCombinedName () <<
-      "\" to " << measureLength <<
       ", line " << inputLineNumber <<
       endl;
   }
@@ -33851,7 +33648,7 @@ void msrPart::bringPartToMeasureLength (
 /* JMI
   // print the master staff to measure length specifically
   fPartMasterStaff->
-    bringStaffToMeasureLength (
+    skipToToMeasureLengthInStaff (
       inputLineNumber,
       measureLength);  
 */
@@ -33862,7 +33659,7 @@ void msrPart::bringPartToMeasureLength (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      bringStaffToMeasureLength (
+      skipToToMeasureLengthInStaff (
         inputLineNumber,
         measureLength);
   } // for
@@ -34687,78 +34484,6 @@ S_msrStaff msrPart::fetchStaffFromPart (
   return result;
 }
 
-void msrPart::setPartHarmoniesSupplierVoice (
-  int        inputLineNumber,
-  S_msrVoice partHarmoniesSupplierVoice)
-{
-  switch (partHarmoniesSupplierVoice->getVoiceKind ()) {
-    case msrVoice::kRegularVoice:
-      if (! fPartHarmoniesSupplierVoice) {
-        // first harmonies supplier voice met in this part,
-        // set part harmonies supplier voice accordingly
-        if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
-          gLogIOstream <<
-            "Setting voice \"" <<
-            partHarmoniesSupplierVoice->
-              getVoiceName () <<
-            "\" as harmonies supplier for part " <<
-            getPartCombinedName () <<
-            ", line " << inputLineNumber <<
-            endl;
-        }
-    
-        fPartHarmoniesSupplierVoice =
-          partHarmoniesSupplierVoice;
-      }
-    
-      else if (
-        fPartHarmoniesSupplierVoice != partHarmoniesSupplierVoice) {
-        stringstream s;
-    
-        s <<
-          "harmonies are supplied both by:" <<
-          endl <<
-          msrVoice::voiceKindAsString (
-            fPartHarmoniesSupplierVoice->getVoiceKind ()) <<
-          " \"" << fPartHarmoniesSupplierVoice->getVoiceName () << "\"" <<
-          endl <<
-          "and:" <<
-          endl <<
-          msrVoice::voiceKindAsString (
-            partHarmoniesSupplierVoice->getVoiceKind ()) <<
-          " \"" << partHarmoniesSupplierVoice->getVoiceName () << "\"";
-    
-        msrMusicXMLWarning (
-          gXml2lyOptions->fInputSourceName,
-          inputLineNumber,
-          s.str ());
-      }
-      break;
-      
-    case msrVoice::kMasterVoice:
-    case msrVoice::kHarmonyVoice:
-    case msrVoice::kFiguredBassVoice:
-      {
-        stringstream s;
-    
-        s <<
-          "harmonies cannot by supplied by " <<
-          msrVoice::voiceKindAsString (
-            partHarmoniesSupplierVoice->getVoiceKind ()) <<
-          " voice \"" <<
-           partHarmoniesSupplierVoice->getVoiceName () <<
-           "\"";
-    
-        msrMusicXMLError (
-          gXml2lyOptions->fInputSourceName,
-          inputLineNumber,
-          __FILE__, __LINE__,
-          s.str ());
-      }
-      break;
-  } // switch
-}
-
 void msrPart::appendFiguredBassToPart (
   S_msrVoice       figuredBassSupplierVoice,
   S_msrFiguredBass figuredBass)
@@ -34771,11 +34496,13 @@ void msrPart::appendFiguredBassToPart (
       // create the figured bass staff and voice if not yet done
       createPartFiguredStaffAndVoiceIfNotYetDone (
         inputLineNumber);
-      
+
+      /* JMI ???
       // register this voice as the part figured bass supplier voice
-      setPartHarmoniesSupplierVoice (
+      setPartFiguredBassSupplierVoice (
         inputLineNumber,
         figuredBassSupplierVoice);
+    */
     
       // append the figured bass to the part figured bass voice
       if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceParts) {
@@ -34978,7 +34705,7 @@ void msrPart:: handleBackup (
   measurePosition.rationalise ();
 
   // bring the part back to that measure position
-  bringPartToMeasureLength (
+  skipToToMeasureLengthInPart (
     inputLineNumber,
     measurePosition);
 }
@@ -35021,7 +34748,7 @@ void msrPart:: handleForward (
   measurePosition.rationalise ();
 
   // bring the voice forward to that measure position
-  bringPartToMeasureLength (
+  skipToToMeasureLengthInPart (
     inputLineNumber,
     measurePosition);
     */
@@ -35076,7 +34803,7 @@ void msrPart::appendSkipGraceNotesToVoicesClones ( // JMI ???
             
         // bring voice to the same measure length as graceNotesOriginVoice
         voice->
-          bringVoiceToMeasureLength (
+          skipToToMeasureLengthInVoice (
             inputLineNumber,
             graceNotesOriginVoiceMeasureLength);
         
@@ -35139,7 +34866,7 @@ void msrPart::prependSkipGraceNotesToVoicesClones (
             
         // bring voice to the same measure length as graceNotesOriginVoice
         voice->
-          bringVoiceToMeasureLength (
+          skipToToMeasureLengthInVoice (
             inputLineNumber,
             graceNotesOriginVoiceMeasureLength);
         
@@ -35341,13 +35068,6 @@ void msrPart::browseData (basevisitor* v)
       endl;
   }
 
-  // don't browse the harmony staff specifically,
-  // it's part of fPartStavesMap
-  /* JMI
-  msrBrowser<msrStaff> browser (v);
-  browser.browse (*fPartHarmonyStaff);
-*/
-
   // browse all non figured bass staves
   for (
     map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
@@ -35445,32 +35165,6 @@ void msrPart::print (ostream& os)
     fPartNumberOfMeasures <<
     endl <<
     endl;
-
-/* JMI not specifically
-  // print the harmony staff
-  if (fPartHarmonyStaff) {
-    os <<
-      endl <<
-      "Harmony staff:" <<
-      endl;
-            
-    gIndenter++;
-    os << fPartHarmonyStaff;
-    gIndenter--;
-  }
-*/
-
-/* JMI
-  // print the master staff specifically
-  os <<
-    "Part master staff:" <<
-    endl <<
-    endl;
-  gIndenter++;
-  os <<
-    fPartMasterStaff;
-  gIndenter--;
-  */
 
   // print the registered staves
   if (fPartStavesMap.size ()) {
@@ -35597,32 +35291,6 @@ void msrPart::printSummary (ostream& os)
     fPartNumberOfMeasures <<
     endl <<
     endl;
-
-/* JMI
-  // print the master staff specifically
-  if (fPartMasterStaff) {
-    os <<
-      "Master staff" <<
-      endl;
-            
-    gIndenter++;
-    os <<
-      fPartMasterStaff;
-    gIndenter--;
-  }
-*/
-
-  // print the harmony staff if any // JMI
-  if (fPartHarmonyStaff) {
-    os <<
-      "Harmony staff" <<
-      endl;
-            
-    gIndenter++;
-    os <<
-      fPartHarmonyStaff;
-    gIndenter--;
-  }
 
   // print the staves
   if (fPartStavesMap.size ()) {

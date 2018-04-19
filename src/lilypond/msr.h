@@ -3531,7 +3531,7 @@ class msrMeasure : public msrElement
 
     string                measureLengthAsMSRString ();
 
-    void                  bringMeasureToMeasureLength (
+    void                  skipToToMeasureLengthInMeasure (
                             int      inputLineNumber,
                             rational measureLength);
 
@@ -3893,7 +3893,7 @@ class msrSegment : public msrElement
 
     // divisions ??? JMI
     
-    void                  bringSegmentToMeasureLength (
+    void                  skipToToMeasureLengthInSegment (
                             int      inputLineNumber,
                             rational measureLength);
   
@@ -10414,7 +10414,7 @@ class msrVoice : public msrElement
     void                  appendAFirstMeasureToVoiceIfNotYetDone ( // JMI ???
                              int inputLineNumber);
                                                     
-    void                  bringVoiceToMeasureLength (
+    void                  skipToToMeasureLengthInVoice (
                             int      inputLineNumber,
                             rational measureLength);
   
@@ -11253,7 +11253,7 @@ class msrStaff : public msrElement
 
     // measures
 
-    void                  bringStaffToMeasureLength (
+    void                  skipToToMeasureLengthInStaff (
                             int      inputLineNumber,
                             rational measureLength);
   
@@ -11742,22 +11742,6 @@ class msrPart : public msrElement
     string                getPartInstrumentAbbreviation() const
                               { return fPartInstrumentAbbreviation; }
 
-    // harmony staff and voices
-    
-    void                  setPartHarmonyStaff (
-                            S_msrStaff harmonyStaff)
-                              { fPartHarmonyStaff = harmonyStaff; }
-                  
-    S_msrStaff            getPartHarmonyStaff () const
-                              { return fPartHarmonyStaff; }
-                 
-    void                  setPartHarmoniesSupplierVoice (
-                            int        inputLineNumber,
-                            S_msrVoice partHarmoniesSupplierVoice);
-
-    S_msrVoice            getPartHarmoniesSupplierVoice () const
-                              { return fPartHarmoniesSupplierVoice; }
-
     // figured bass staff and voice
     
     void                  setPartFiguredBassStaff (
@@ -11794,7 +11778,7 @@ class msrPart : public msrElement
     
     // measures
 
-    void                  bringPartToMeasureLength (
+    void                  skipToToMeasureLengthInPart (
                             int      inputLineNumber,
                             rational measureLength);
   
@@ -11919,14 +11903,8 @@ class msrPart : public msrElement
     
     // frames
     
-    void                  appendFrameToPart (
-                            S_msrVoice harmoniesSupplierVoice,
-                            S_msrFrame frame);
-
-    void                  appendFrameToPartClone (
-                            S_msrVoice harmoniesSupplierVoiceClone,
-                            S_msrFrame frame);
-
+    // JMI ???
+    
     // figured bass
 
     void                  appendFiguredBassToPart (
@@ -12014,11 +11992,6 @@ class msrPart : public msrElement
     
     S_msrPartGroup        fPartPartGroupUplink;
 
-    // master
-
-// JMI    S_msrStaff            fPartMasterStaff;
-// JMI    S_msrVoice            fPartMasterVoice;
-
     // part ID and name
     
     string                fPartID; // native
@@ -12063,11 +12036,6 @@ class msrPart : public msrElement
 
     S_msrStaffDetails     fCurrentPartStaffDetails;
     
-    // harmonies
-
-    S_msrStaff            fPartHarmonyStaff;
-    S_msrVoice            fPartHarmoniesSupplierVoice;
-
     // figured bass
 
     S_msrStaff            fPartFiguredBassStaff;

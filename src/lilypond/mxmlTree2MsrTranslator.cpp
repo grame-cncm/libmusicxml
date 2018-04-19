@@ -16601,10 +16601,10 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   
       // append the harmony to the harmony voice for the current voice
       S_msrVoice
-        staffHarmonyVoice =
+        voiceHarmonyVoice =
           voice->getVoiceHarmonyVoice ();
             
-      staffHarmonyVoice->
+      voiceHarmonyVoice->
         appendHarmonyToVoice (
           harmony);
   
@@ -16627,14 +16627,6 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // attach the frame to the note
       newNote->
         setNoteFrame (frame);
-
-  /* JMI ???
-      // append the frame to the current part
-      fCurrentPart->
-        appendFrameToPart (
-          voice,
-          frame);
-  */
   
       // remove it from the list
       fPendingFramesList.pop_front ();

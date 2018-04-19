@@ -1026,10 +1026,6 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
         fCurrentPartClone->
           addStaffToPartCloneByItsNumber (
             fCurrentStaffClone);
-
-        // register it as the part harmony staff
-        fCurrentPartClone->
-          setPartHarmonyStaff (fCurrentStaffClone);
       
         fOnGoingStaff = true;
       }
