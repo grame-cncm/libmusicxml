@@ -588,8 +588,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                     getVoiceStaffUplink ();
         
         switch (noteStaff->getStaffKind ()) {
-          case msrStaff::kMasterStaff:
-            break;
           case msrStaff::kTablatureStaff:
             break;
           case msrStaff::kHarmonyStaff:
@@ -2357,7 +2355,7 @@ string lpsr2LilypondTranslator::frameAsLilypondString (
   if (frameFrameNotesList.size ()) {
     // sort the frame notes,
     // necessary both for code generation
-    // and the detectoin of muted (i.e. absent) frame notes
+    // and the detection of muted (i.e. absent) frame notes
     frameFrameNotesList.sort (
       compareFrameNotesByDecreasingStringNumber);
 
@@ -3757,10 +3755,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
   // generate the staff context command
   switch (staff->getStaffKind ()) {
-    case msrStaff::kMasterStaff:
-      fLilypondCodeIOstream << "\\new Staff";
-      break;
-      
     case msrStaff::kRegularStaff:
       if (gLilypondOptions->fJianpu)
         fLilypondCodeIOstream << "\\new JianpuStaff";
@@ -4032,11 +4026,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
   string voiceContextName;
   
   switch (staffKind) {
-    case msrStaff::kMasterStaff:
-      staffContextName = "\\context Staff";
-      voiceContextName = "Voice";
-      break;
-      
     case msrStaff::kRegularStaff:
       staffContextName = "\\context Staff";
       voiceContextName = "Voice";
@@ -4594,14 +4583,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   // generate the beginning of the voice definition
   switch (fCurrentVoice->getVoiceKind ()) {
     
-    case msrVoice::kMasterVoice:
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        fCurrentVoice->getInputLineNumber (),
-        __FILE__, __LINE__,
-        "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
-      break;      
-    
     case msrVoice::kRegularVoice:
       if (gLilypondOptions->fAbsoluteOctaves)
         fLilypondCodeIOstream <<
@@ -4698,14 +4679,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrVoice& elt)
   fOnGoingVoice = true;
 
   switch (fCurrentVoice->getVoiceKind ()) {
-    case msrVoice::kMasterVoice:
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
-        __FILE__, __LINE__,
-        "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
-      break;      
-    
     case msrVoice::kRegularVoice:
       break;
       
@@ -4756,14 +4729,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
     
   // generate the end of the voice definition
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kMasterVoice:
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
-        __FILE__, __LINE__,
-        "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
-      break;      
-    
     case msrVoice::kRegularVoice:
       fLilypondCodeIOstream <<
         "}" <<
@@ -4787,14 +4752,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrVoice& elt)
   } // switch
 
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kMasterVoice:
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
-        __FILE__, __LINE__,
-        "a master voice is not expected in lpsr2LilypondTranslator"); // JMI
-      break;
-      
     case msrVoice::kRegularVoice:
       break;
       

@@ -962,7 +962,6 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
   gIndenter++;
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kMasterStaff:
     case msrStaff::kRegularStaff:
     case msrStaff::kTablatureStaff:
     case msrStaff::kDrumStaff:
@@ -1065,7 +1064,6 @@ void msr2LpsrTranslator::visitEnd (S_msrStaff& elt)
   }
 
   switch (elt->getStaffKind ()) {
-    case msrStaff::kMasterStaff:
     case msrStaff::kRegularStaff:
     case msrStaff::kDrumStaff:
     case msrStaff::kRythmicStaff:
@@ -1105,14 +1103,6 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
 
   switch (elt->getVoiceKind ()) {
     
-    case msrVoice::kMasterVoice:
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        __FILE__, __LINE__,
-        "a master voice is not expected in msr2LpsrTranslator");
-      break;
-      
     case msrVoice::kRegularVoice:
       // create a voice clone
       fCurrentVoiceClone =
@@ -1303,14 +1293,6 @@ void msr2LpsrTranslator::visitEnd (S_msrVoice& elt)
   }
 
   switch (elt->getVoiceKind ()) {
-    case msrVoice::kMasterVoice:
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        elt->getInputLineNumber (),
-        __FILE__, __LINE__,
-        "a master voice is not expected in msr2LpsrTranslator"); // JMI
-      break;
-      
     case msrVoice::kRegularVoice:
       // JMI
       break;

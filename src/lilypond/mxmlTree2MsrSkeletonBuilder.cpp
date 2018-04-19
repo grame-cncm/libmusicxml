@@ -3079,9 +3079,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
       endl;
   }
 
-  int inputLineNumber =
-    elt->getInputLineNumber ();
-
   /*
     several harmonies can be attached to a given note,
     leading to as many harmony voices in the current part
@@ -3089,14 +3086,6 @@ void mxmlTree2MsrSkeletonBuilder::visitStart ( S_harmony& elt )
   
   // take harmony voice into account
   fHarmonyVoicesCounter++;
-
-/* JMI
-  // append a harmony voice to the current part harmony staff
-  fCurrentPart->
-    addHarmonyVoiceToPartIfNotYetDone (
-      inputLineNumber,
-      fHarmonyVoicesCounter);
-      */
 
   fThereAreHarmoniesToBeAttachedToCurrentNote = true;
 }

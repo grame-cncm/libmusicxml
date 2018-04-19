@@ -10213,7 +10213,6 @@ class msrVoice : public msrElement
     // ------------------------------------------------------
 
     enum msrVoiceKind {
-      kMasterVoice,        // could be used to create master voices with no music JMI
       kRegularVoice,
       kHarmonyVoice,       // for MusicXML <harmony/>, LilyPond ChordNames
       kFiguredBassVoice }; // for MusicXML <figured-bass/>, LilyPond ChordNames
@@ -11132,7 +11131,6 @@ class msrStaff : public msrElement
     // ------------------------------------------------------
 
     enum msrStaffKind {
-      kMasterStaff,
       kRegularStaff,
       kTablatureStaff,
       kHarmonyStaff,
@@ -11414,6 +11412,12 @@ class msrStaff : public msrElement
     void                  finalizeStaff (
                             int inputLineNumber);
 
+    // voices ordering in staves
+    
+    static bool           compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
+                            const S_msrVoice& first,
+                            const S_msrVoice& second);
+
     // strings
     
     // visitors
@@ -11556,9 +11560,6 @@ class msrPart : public msrElement
     // constants
     // ------------------------------------------------------
 
-    #define K_PART_MASTER_STAFF_NUMBER -19
-    #define K_PART_MASTER_VOICE_NUMBER -27
-        
     #define K_PART_FIGURED_BASS_STAFF_NUMBER -219  
     #define K_PART_FIGURED_BASS_VOICE_NUMBER -227
 
@@ -11606,14 +11607,6 @@ class msrPart : public msrElement
     S_msrPartGroup        getPartPartGroupUplink () const
                               { return fPartPartGroupUplink; }
               
-    // master
-/* JMI
-    S_msrStaff            getPartMasterStaff () const
-                              { return fPartMasterStaff; }
-                              
-    S_msrVoice            getPartMasterVoice () const
-                              { return fPartMasterVoice; }
-*/
     // staves map
     
     const map<int, S_msrStaff>&
