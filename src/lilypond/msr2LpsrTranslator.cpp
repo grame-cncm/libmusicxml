@@ -1431,7 +1431,7 @@ void msr2LpsrTranslator::visitStart (S_msrHarmony& elt)
 
   else if (fOnGoingHarmonyVoice) {
     fCurrentVoiceClone->
-      appendHarmonyToVoice (
+      appendHarmonyToVoiceClone (
         harmonyNewBornClone);
   }
 }

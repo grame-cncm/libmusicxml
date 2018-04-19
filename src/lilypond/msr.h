@@ -4903,6 +4903,13 @@ class msrHarmony : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    void                  setHarmonyNoteUplink (
+                            S_msrNote note)
+                              { fHarmonyNoteUplink = note; }
+
+    S_msrNote             getHarmonyNoteUplink () const
+                             { return fHarmonyNoteUplink; }
+
     void                  setHarmonyVoiceUplink (
                             S_msrVoice voice)
                               { fHarmonyVoiceUplink = voice; }
@@ -4969,6 +4976,7 @@ class msrHarmony : public msrElement
     // ------------------------------------------------------
 
     // uplinks
+    S_msrNote             fHarmonyNoteUplink;
     S_msrVoice            fHarmonyVoiceUplink;
 
     rational              fHarmonySoundingWholeNotes;

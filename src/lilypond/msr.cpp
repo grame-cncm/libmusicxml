@@ -6826,6 +6826,10 @@ void msrNote::setNoteHarmony (S_msrHarmony harmony)
   }
   
   fNoteHarmony = harmony;
+
+  // register this note as the harmony uplink
+  harmony->
+    setHarmonyNoteUplink (this);
 }
 
 void msrNote::setNoteFrame (S_msrFrame frame)
@@ -17318,7 +17322,7 @@ msrHarmony::msrHarmony (
     harmonyVoiceUplink != nullptr,
      "harmonyVoiceUplink is null");
      */
-     
+
   // set harmony's voice uplink
   fHarmonyVoiceUplink =
     harmonyVoiceUplink;
@@ -20966,56 +20970,77 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
   }
 
   if (fMeasureLength < measureLength) {
-    // appending a rest to this measure to reach measureLength
+    // appending a padding rest or skip to this measure to reach measureLength
     rational
       restDuration =
         measureLength - fMeasureLength;
     
-    // fetch the voice
+    // fetch the measure voice
     S_msrVoice
-      voice =
+      measureVoice =
         fMeasureSegmentUplink->
           getSegmentVoiceUplink ();
       
-    // create the rest JMI rest or skip depending on an option???
-    S_msrNote
-      rest =
-        msrNote::createRestNote (
-          inputLineNumber,
-   // JMI       37, // JMI
-          restDuration,
-          restDuration,
-          0, // dots number JMI ???
-          voice->
-            getVoiceStaffUplink ()->getStaffNumber (),
-          voice->
-            getVoiceNumber ());
+    // create a rest or a skip depending on measureVoice kind
+    S_msrNote paddingNote;
+
+    switch (measureVoice->getVoiceKind ()) {
+      case msrVoice::kRegularVoice:
+        paddingNote =
+          msrNote::createRestNote (
+            inputLineNumber,
+            restDuration,
+            restDuration,
+            0, // dots number JMI ???
+            measureVoice->
+              getVoiceStaffUplink ()->getStaffNumber (),
+            measureVoice->
+              getVoiceNumber ());
+        break;
+        
+      case msrVoice::kHarmonyVoice:
+      case msrVoice::kFiguredBassVoice:
+        paddingNote =
+          msrNote::createSkipNote (
+            inputLineNumber,
+            restDuration,
+            restDuration,
+            0, // dots number JMI ???
+            measureVoice->
+              getVoiceStaffUplink ()->getStaffNumber (),
+            measureVoice->
+              getVoiceNumber ());
+        break;
+        
+      case msrVoice::kMasterVoice:
+        break;
+    } // switch
 
     // does the rest occupy a full measure?
     if (restDuration == fFullMeasureLength)
-      rest->
+      paddingNote->
         setNoteOccupiesAFullMeasure ();
   
     // register rest's measure length
-    rest->
+    paddingNote->
       setNotePositionInMeasure (
         fMeasureLength);
            
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
       gLogIOstream <<
-       "Appending rest" << rest->asString () <<
+       "Appending rest" << paddingNote->asString () <<
        " (restDuration " << restDuration <<
        " whole notes) to skip from length '" << fMeasureLength <<
        " to length '" << measureLength << "'"
        " in measure '" << fMeasureNumber <<
-       "in voice \"" << voice->getVoiceName () <<
+       "in voice \"" << measureVoice->getVoiceName () <<
        endl;
     }
 
     // append the rest to the measure elements list
     // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
-    appendNoteToMeasure (rest);
+    appendNoteToMeasure (paddingNote);
 
     // this measure contains music
     fMeasureContainsMusic = true;
@@ -27108,15 +27133,14 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
     case msrVoice::kHarmonyVoice:
       // create the voice last segment and first measure if needed
       appendAFirstMeasureToVoiceIfNotYetDone (
-        harmony->getInputLineNumber ());
+        inputLineNumber);
 
-      // skip to necessary position in the voice
+      // skip to harmony note position in the voice
       skipToToMeasureLengthInVoice (
         inputLineNumber,
-    // JMI    rational (3/8));
-        fVoiceStaffUplink->
-          getStaffPartUplink ()->
-            getPartMeasureLengthHighTide ());
+        harmony->
+          getHarmonyNoteUplink ()->
+            getNotePositionInMeasure ());
 
       // append the harmony to the voice last segment
       fVoiceLastSegment->
@@ -27160,12 +27184,15 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
       endl;
   }
       
+  int inputLineNumber =
+    harmony->getInputLineNumber ();
+    
   switch (fVoiceKind) {
     case msrVoice::kHarmonyVoice:
    // /* JMI DON'T
       // create the voice last segment and first measure if needed
       appendAFirstMeasureToVoiceIfNotYetDone (
-        harmony->getInputLineNumber ());
+        inputLineNumber);
 //*/
 
       fVoiceLastSegment->
@@ -27191,7 +27218,7 @@ void msrVoice::appendHarmonyToVoiceClone (S_msrHarmony harmony)
 
         msrInternalError (
           gXml2lyOptions->fInputSourceName,
-          harmony->getInputLineNumber (),
+          inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
       }
