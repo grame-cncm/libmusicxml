@@ -6518,7 +6518,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_measure& elt)
     if (fTupletsStack.size ()) { // JMI
       // finalize the tuplet, only now in case the last element
       // is actually a chord
-      finalizeTupletAndPopItFromTupletsStack (inputLineNumber);
+      finalizeTupletAndPopItFromTupletsStack (
+        inputLineNumber);
     }
 
     fCurrentATupletStopIsPending = false;
@@ -7393,7 +7394,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
   if (fTupletsStack.size ()) { // JMI
     // finalize the tuplet, for it to be create
     // before the barline
-    finalizeTupletAndPopItFromTupletsStack (inputLineNumber);
+    finalizeTupletAndPopItFromTupletsStack (
+      inputLineNumber);
   }
 
   // create the barline
@@ -17602,7 +17604,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
               "', line " << inputLineNumber <<
               endl;
           }
-          finalizeTupletAndPopItFromTupletsStack (inputLineNumber);
+          finalizeTupletAndPopItFromTupletsStack (
+            inputLineNumber);
 
           // the tuplet stop is not to be handled later
           fCurrentATupletStopIsPending = false;
@@ -17730,7 +17733,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                     ", line " << inputLineNumber <<
                     endl;
                 }
-                finalizeTupletAndPopItFromTupletsStack (inputLineNumber);
+                finalizeTupletAndPopItFromTupletsStack (
+                  inputLineNumber);
     
                 // the tuplet stop is not to be handled later
                 fCurrentATupletStopIsPending = false;
@@ -17743,7 +17747,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                     endl;
                 }
     
-                finalizeTupletAndPopItFromTupletsStack (inputLineNumber);
+                finalizeTupletAndPopItFromTupletsStack (
+                  inputLineNumber);
               }
     
               // don't pop the inner-most tuplet from the stack yet
@@ -17762,7 +17767,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
                     ", line " << inputLineNumber <<
                     endl;
                 }
-                finalizeTupletAndPopItFromTupletsStack (inputLineNumber);
+                finalizeTupletAndPopItFromTupletsStack (
+                  inputLineNumber);
     
                 // the tuplet stop is not to be handled later
                 fCurrentATupletStopIsPending = false;
@@ -17840,7 +17846,8 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
  //       fCurrentATupletStopIsPending = false; // JMI
       
         // finalize it
-        finalizeTupletAndPopItFromTupletsStack (inputLineNumber);
+        finalizeTupletAndPopItFromTupletsStack (
+          inputLineNumber);
       }
       break;
 
@@ -18269,7 +18276,8 @@ void mxmlTree2MsrTranslator::handleTupletsPendingOnTupletsStack (
         fTupletsStack.top ();
 
     // finalize the tuplet, thus popping it off the stack
-    finalizeTupletAndPopItFromTupletsStack (inputLineNumber);
+    finalizeTupletAndPopItFromTupletsStack (
+      inputLineNumber);
 
     /* JMI
     // pop it from the tuplets stack

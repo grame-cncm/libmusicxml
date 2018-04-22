@@ -27603,7 +27603,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
   // register note as the last appended one into this voice
   fVoiceLastAppendedNote = note;
 
-/*
+/* JMI
   // should a skip be added to the voice harmony voice if any?
   if (
     fHarmonyVoiceForRegularVoice
