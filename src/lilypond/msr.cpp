@@ -35228,7 +35228,7 @@ void msrPart::printSummary (ostream& os)
   // print the staves
   if (fPartStavesMap.size ()) {
     os << 
-      "Other staves" <<
+      "Part staves" <<
       endl;
               
     gIndenter++;

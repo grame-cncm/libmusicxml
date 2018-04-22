@@ -3676,14 +3676,10 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
         dynamic_cast<lpsrChordNamesContext*>(&(*otherElement))
     ) {
     // otherElement is a chord names context
-    
-    switch (secondChordNamesContext->getContextTypeKind ()) {
-      case lpsrContext::kChordNames:
- //       result = false;
-        break;
-      case lpsrContext::kFiguredBass:
-        break;
-    } // switch
+    result =
+      staffBlock->getStaff ()->getStaffNumber ()
+        >
+      secondChordNamesContext->getContextStaff ()->getStaffNumber ();
   }
 
   else if (
@@ -3724,6 +3720,10 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
         dynamic_cast<lpsrStaffBlock*>(&(*otherElement))
     ) {
     // otherElement is a staff block     
+    result =
+      chordNamesContext->getContextStaff ()->getStaffNumber ()
+        >=
+      secondStaffBlock->getStaff ()->getStaffNumber ();
   }
 
   else if (
@@ -3732,14 +3732,6 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
         dynamic_cast<lpsrChordNamesContext*>(&(*otherElement))
     ) {
     // otherElement is a chord names context
-    
-    switch (chordNamesContext->getContextTypeKind ()) {
-      case lpsrContext::kChordNames:
- //       result = false;
-        break;
-      case lpsrContext::kFiguredBass:
-        break;
-    } // switch
   }
 
   else if (
