@@ -3723,6 +3723,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
       s.str ());
   }
 
+/* JMI
   gLogIOstream <<
     endl <<
     "!!!!!!!!!!!!!!!!!!!!!!!!!" <<
@@ -3736,6 +3737,7 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
     "===> " << booleanAsString (result) <<
     endl <<
     endl;
+    */
     
   return result;
 }
@@ -3839,6 +3841,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       s.str ());
   }
 
+/* JMI
   gLogIOstream <<
     endl <<
     "!!!!!!!!!!!!!!!!!!!!!!!!!" <<
@@ -3852,6 +3855,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
     "===> " << booleanAsString (result) <<
     endl <<
     endl;
+*/
 
   return result;
 }
@@ -3935,6 +3939,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
       endl;
   }
 
+/* JMI
   gLogIOstream <<
     endl <<
     endl <<
@@ -3956,6 +3961,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   gLogIOstream <<
     endl <<
     endl;
+*/
   
   // sort fPartBlockElementsList, to have harmonies just before
   // the corresponding voice
@@ -3964,6 +3970,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
       compareElementsToHaveHarmoniesAboveCorrespondingStaff);
   }
 
+/* JMI
   gLogIOstream <<
     endl <<
     endl <<
@@ -3985,6 +3992,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   gLogIOstream <<
     endl <<
     endl;
+*/
 }
 
 void lpsrPartBlock::appendFiguredBassContextToPartBlock (

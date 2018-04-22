@@ -5178,7 +5178,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
   if (gLilypondOptions->fComments) {
     fLilypondCodeIOstream << left <<
       setw (commentFieldWidth) <<
-      "% start of measure \"" << measureNumber << "\"" <<
+      "% start of measure " << measureNumber <<
       ", line " << inputLineNumber <<
       endl;
 

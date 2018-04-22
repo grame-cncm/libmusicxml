@@ -31883,7 +31883,8 @@ void msrStaff::registerVoiceByItsNumber (
           ", line " << inputLineNumber <<
           endl;
       }
-    
+
+    /* JMI
       gLogIOstream <<
         endl <<
         endl <<
@@ -31905,6 +31906,7 @@ void msrStaff::registerVoiceByItsNumber (
       gLogIOstream <<
         endl <<
         endl;
+      */
       
       // sort fStaffAllVoicesList, to have harmonies just before
       // the corresponding voice
@@ -31912,7 +31914,8 @@ void msrStaff::registerVoiceByItsNumber (
         fStaffAllVoicesList.sort (
           compareVoicesToHaveHarmoniesAboveCorrespondingVoice);
       }
-    
+
+    /* JMI
       gLogIOstream <<
         endl <<
         endl <<
@@ -31934,6 +31937,7 @@ void msrStaff::registerVoiceByItsNumber (
       gLogIOstream <<
         endl <<
         endl;
+        */
       break;
             
     case msrVoice::kFiguredBassVoice:
