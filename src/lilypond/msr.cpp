@@ -20972,7 +20972,7 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
   if (fMeasureLength < measureLength) {
     // appending a padding rest or skip to this measure to reach measureLength
     rational
-      restDuration =
+      missingDuration =
         measureLength - fMeasureLength;
     
     // fetch the measure voice
@@ -20989,8 +20989,8 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
         paddingNote =
           msrNote::createRestNote (
             inputLineNumber,
-            restDuration,
-            restDuration,
+            missingDuration,
+            missingDuration,
             0, // dots number JMI ???
             measureVoice->
               getVoiceStaffUplink ()->getStaffNumber (),
@@ -21003,8 +21003,8 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
         paddingNote =
           msrNote::createSkipNote (
             inputLineNumber,
-            restDuration,
-            restDuration,
+            missingDuration,
+            missingDuration,
             0, // dots number JMI ???
             measureVoice->
               getVoiceStaffUplink ()->getStaffNumber (),
@@ -21014,7 +21014,7 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
     } // switch
 
     // does the rest occupy a full measure?
-    if (restDuration == fFullMeasureLength)
+    if (missingDuration == fFullMeasureLength)
       paddingNote->
         setNoteOccupiesAFullMeasure ();
   
@@ -21026,7 +21026,7 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
     if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceDivisions) {
       gLogIOstream <<
        "Appending rest" << paddingNote->asString () <<
-       " (restDuration " << restDuration <<
+       " (missingDuration " << missingDuration <<
        " whole notes) to skip from length '" << fMeasureLength <<
        " to length '" << measureLength << "'"
        " in measure '" << fMeasureNumber <<
@@ -21045,7 +21045,7 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
 /*
     // account for rest duration in measure length
     setMeasureLength (
-      inputLineNumber, fMeasureLength + restDuration);
+      inputLineNumber, fMeasureLength + missingDuration);
 */
   }
 }
@@ -21580,7 +21580,7 @@ void msrMeasure::appendARestToFinalizeMeasure (
   if (fMeasureLength < lengthToReach) {
     // appending a rest to this measure to reach lengthToReach 
     rational
-      restDuration =
+      missingDuration =
         lengthToReach - fMeasureLength;
       
     // fetch the voice
@@ -21589,45 +21589,63 @@ void msrMeasure::appendARestToFinalizeMeasure (
         fMeasureSegmentUplink->
           getSegmentVoiceUplink ();
     
-    // create the rest
-    S_msrNote
-      rest =
-        msrNote::createRestNote (
-          inputLineNumber,
- // JMI         49, // JMI
-          restDuration,
-          restDuration,
-          0, // dots number JMI ???
-          voice->
-            getVoiceStaffUplink ()->getStaffNumber (),
-          voice->
-            getVoiceNumber ());
+    // create a rest or a skip depending on measureVoice kind
+    S_msrNote paddingNote;
+
+    switch (voice->getVoiceKind ()) {
+      case msrVoice::kRegularVoice:
+        paddingNote =
+          msrNote::createRestNote (
+            inputLineNumber,
+            missingDuration,
+            missingDuration,
+            0, // dots number JMI ???
+            voice->
+              getVoiceStaffUplink ()->getStaffNumber (),
+            voice->
+              getVoiceNumber ());
+        break;
+        
+      case msrVoice::kHarmonyVoice:
+      case msrVoice::kFiguredBassVoice:
+        paddingNote =
+          msrNote::createSkipNote (
+            inputLineNumber,
+            missingDuration,
+            missingDuration,
+            0, // dots number JMI ???
+            voice->
+              getVoiceStaffUplink ()->getStaffNumber (),
+            voice->
+              getVoiceNumber ());
+        break;
+    } // switch
 
     // does the rest occupy a full measure?
-    if (restDuration == fFullMeasureLength)
-      rest->
+    if (missingDuration == fFullMeasureLength)
+      paddingNote->
         setNoteOccupiesAFullMeasure ();
   
     // register rest's position in measure
-    rest->
+    paddingNote->
       setNotePositionInMeasure (fMeasureLength);
            
     if (gTraceOptions->fTraceMeasures) {
       gLogIOstream <<
-       "Appending '" << rest->asString () <<
-       " (" << restDuration << " rest whole notes)'" <<
+       "Appending '" << paddingNote->asString () <<
+       " (" << missingDuration << " whole notes)'" <<
        " to finalize \"" << voice->getVoiceName () <<
        "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
        " % --> @" << fMeasureNumber << // JMI
        ":" << partMeasureLengthHighTide <<
-        ", restDuration = " << restDuration <<
+        ", missingDuration = " << missingDuration <<
        endl;
    }
 
     // append the rest to the measure elements list
     // only now to make it possible to remove it afterwards
     // if it happens to be the first note of a chord
-    appendNoteToMeasure (rest);
+    appendNoteToMeasure (paddingNote);
 
     // this measure contains music
     fMeasureContainsMusic = true;
