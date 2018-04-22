@@ -620,8 +620,8 @@ class lpsrBarNumberCheck : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrBarNumberCheck> create (
-      int                    inputLineNumber,
-      int                    nextBarNumber);
+      int inputLineNumber,
+      int nextBarNumber);
 
   protected:
 
@@ -629,8 +629,8 @@ class lpsrBarNumberCheck : public lpsrElement
     // ------------------------------------------------------
 
     lpsrBarNumberCheck(
-      int                    inputLineNumber,
-      int                    nextBarNumber);
+      int inputLineNumber,
+      int nextBarNumber);
       
     virtual ~lpsrBarNumberCheck();
   
@@ -673,7 +673,7 @@ class lpsrNewStaffgroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewStaffgroupBlock> create (
-      int            inputLineNumberr);
+      int inputLineNumber);
      
   protected:
 
@@ -681,9 +681,9 @@ class lpsrNewStaffgroupBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrNewStaffgroupBlock (
-      int            inputLineNumber);
+      int inputLineNumber);
       
-    virtual ~lpsrNewStaffgroupBlock();
+    virtual ~lpsrNewStaffgroupBlock ();
   
   public:
 
@@ -788,7 +788,7 @@ class lpsrNewStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewStaffBlock> create (
-      int            inputLineNumber);
+      int inputLineNumber);
      
   protected:
 
@@ -796,7 +796,7 @@ class lpsrNewStaffBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrNewStaffBlock (
-      int            inputLineNumber);
+      int inputLineNumber);
       
     virtual ~lpsrNewStaffBlock();
   
@@ -843,8 +843,8 @@ class lpsrUseVoiceCommand : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrUseVoiceCommand> create (
-      int            inputLineNumber,
-      S_msrVoice     voice);
+      int        inputLineNumber,
+      S_msrVoice voice);
 
   protected:
 
@@ -852,8 +852,8 @@ class lpsrUseVoiceCommand : public lpsrElement
     // ------------------------------------------------------
 
     lpsrUseVoiceCommand (
-      int            inputLineNumber,
-      S_msrVoice     voice);
+      int        inputLineNumber,
+      S_msrVoice voice);
       
     virtual ~lpsrUseVoiceCommand();
   
@@ -899,9 +899,9 @@ class lpsrNewLyricsBlock : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrNewLyricsBlock> create (
-      int            inputLineNumber,
-      S_msrStanza    stanza,
-      S_msrVoice     voice);
+      int         inputLineNumber,
+      S_msrStanza stanza,
+      S_msrVoice  voice);
 
   protected:
 
@@ -909,11 +909,11 @@ class lpsrNewLyricsBlock : public lpsrElement
     // ------------------------------------------------------
 
     lpsrNewLyricsBlock (
-      int            inputLineNumber,
-      S_msrStanza    stanza,
-      S_msrVoice );
+      int         inputLineNumber,
+      S_msrStanza stanza,
+      S_msrVoice  voice);
       
-    virtual ~lpsrNewLyricsBlock();
+    virtual ~lpsrNewLyricsBlock ();
   
   public:
 
@@ -959,8 +959,8 @@ class lpsrVariableUseCommand : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrVariableUseCommand> create (
-      int            inputLineNumber,
-      string         variableName);
+      int    inputLineNumber,
+      string variableName);
 
   protected:
 
@@ -968,10 +968,10 @@ class lpsrVariableUseCommand : public lpsrElement
     // ------------------------------------------------------
 
     lpsrVariableUseCommand (
-      int            inputLineNumber,
-      string         variableName);
+      int    inputLineNumber,
+      string variableName);
       
-    virtual ~lpsrVariableUseCommand();
+    virtual ~lpsrVariableUseCommand ();
   
   public:
 
@@ -1136,8 +1136,74 @@ class lpsrContext : public lpsrElement
 
     void                  addElementToContext (S_msrElement elem)
                             {
-                              fContextElements.push_back(elem);
+                              fContextElementsList.push_back(elem);
                             }
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  protected:
+  
+    // fields
+    // ------------------------------------------------------
+
+    lpsrContextExistingKind
+                          fContextExistingKind;
+    lpsrContextTypeKind   fContextTypeKind;
+    string                fContextName;
+
+    list<S_msrElement>    fContextElementsList;
+};
+typedef SMARTP<lpsrContext> S_lpsrContext;
+EXP ostream& operator<< (ostream& os, const S_lpsrContext& elt);
+
+//______________________________________________________________________________
+class lpsrChordNamesContext : public lpsrContext
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrChordNamesContext> create (
+      int                     inputLineNumber,
+      lpsrContextExistingKind contextExistingKind,
+      string                  contextName,
+      S_msrStaff              contextStaff);
+    
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrChordNamesContext (
+      int                     inputLineNumber,
+      lpsrContextExistingKind contextExistingKind,
+      string                  contextName,
+      S_msrStaff              contextStaff);
+      
+    virtual ~lpsrChordNamesContext ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrStaff            getContextStaff () const
+                              { return fContextStaff; }
+
+    // services
+    // ------------------------------------------------------
 
     // visitors
     // ------------------------------------------------------
@@ -1157,15 +1223,71 @@ class lpsrContext : public lpsrElement
     // fields
     // ------------------------------------------------------
 
-    lpsrContextExistingKind
-                          fContextExistingKind;
-    lpsrContextTypeKind   fContextTypeKind;
-    string                fContextName;
-
-    vector<S_msrElement> fContextElements;
+    S_msrStaff            fContextStaff;
 };
-typedef SMARTP<lpsrContext> S_lpsrContext;
-EXP ostream& operator<< (ostream& os, const S_lpsrContext& elt);
+typedef SMARTP<lpsrChordNamesContext> S_lpsrChordNamesContext;
+EXP ostream& operator<< (ostream& os, const S_lpsrChordNamesContext& elt);
+
+//______________________________________________________________________________
+class lpsrFiguredBassContext : public lpsrContext
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<lpsrFiguredBassContext> create (
+      int                     inputLineNumber,
+      lpsrContextExistingKind contextExistingKind,
+      string                  contextName,
+      S_msrStaff              contextStaff);
+    
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    lpsrFiguredBassContext (
+      int                     inputLineNumber,
+      lpsrContextExistingKind contextExistingKind,
+      string                  contextName,
+      S_msrStaff              contextStaff);
+      
+    virtual ~lpsrFiguredBassContext ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    S_msrStaff            getContextStaff () const
+                              { return fContextStaff; }
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    S_msrStaff            fContextStaff;
+};
+typedef SMARTP<lpsrFiguredBassContext> S_lpsrFiguredBassContext;
+EXP ostream& operator<< (ostream& os, const S_lpsrFiguredBassContext& elt);
 
 //______________________________________________________________________________
 class lpsrBarCommand : public lpsrElement
@@ -1176,7 +1298,7 @@ class lpsrBarCommand : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrBarCommand> create (
-      int            inputLineNumber);
+      int inputLineNumber);
 
   protected:
 
@@ -1184,7 +1306,7 @@ class lpsrBarCommand : public lpsrElement
     // ------------------------------------------------------
 
     lpsrBarCommand (
-      int            inputLineNumber);
+      int inputLineNumber);
       
     virtual ~lpsrBarCommand();
   
@@ -1293,7 +1415,7 @@ class lpsrHeader : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrHeader> create (
-      int            inputLineNumber);
+      int inputLineNumber);
     
   protected:
 
@@ -1301,9 +1423,9 @@ class lpsrHeader : public lpsrElement
     // ------------------------------------------------------
 
     lpsrHeader (
-      int            inputLineNumber);
+      int inputLineNumber);
       
-    virtual ~lpsrHeader();
+    virtual ~lpsrHeader ();
   
   public:
 
@@ -1947,17 +2069,25 @@ class lpsrPartBlock : public lpsrElement
                             S_lpsrStaffBlock staffBlock);
 
     void                  appendChordNamesContextToPartBlock (
-                            int           inputLineNumber,
-                            S_lpsrContext context);
+                            int                     inputLineNumber,
+                            S_lpsrChordNamesContext chordNamesContext);
 
     void                  appendFiguredBassContextToPartBlock (
-                            S_lpsrContext context);
+                            S_lpsrFiguredBassContext context);
 
     // voices ordering in staves
     
-    static bool           compareElementsToHaveHarmoniesAboveCorrespondingVoice (
+    static bool           compareElementsToHaveHarmoniesAboveCorrespondingStaff (
                             const S_msrElement& first,
                             const S_msrElement& second);
+
+    static bool           compareStaffBlockWithOtherElement (
+                            const S_lpsrStaffBlock& staffBlock,
+                            const S_msrElement&     otherElement);
+
+    static bool           compareChordNamesContextWithOtherElement (
+                            const S_lpsrChordNamesContext& chordNamesContext,
+                            const S_msrElement&            otherElement);
 
     // visitors
     // ------------------------------------------------------

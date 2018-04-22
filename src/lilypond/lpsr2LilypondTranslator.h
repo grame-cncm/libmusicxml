@@ -128,7 +128,9 @@ class lpsr2LilypondTranslator :
   public visitor<S_lpsrNewLyricsBlock>,
   public visitor<S_lpsrVariableUseCommand>,
   
-  public visitor<S_lpsrContext>,
+//  public visitor<S_lpsrContext>, JMI
+  public visitor<S_lpsrChordNamesContext>,
+  public visitor<S_lpsrFiguredBassContext>,
   
   public visitor<S_lpsrBarCommand>,
   
@@ -395,9 +397,13 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_lpsrVariableUseCommand& elt);
     virtual void visitEnd   (S_lpsrVariableUseCommand& elt);
     
-    virtual void visitStart (S_lpsrContext& elt);
-    virtual void visitEnd   (S_lpsrContext& elt);
-  
+ //   virtual void visitStart (S_lpsrContext& elt); JMI
+//    virtual void visitEnd   (S_lpsrContext& elt);
+    virtual void visitStart (S_lpsrChordNamesContext& elt);
+    virtual void visitEnd   (S_lpsrChordNamesContext& elt);
+    virtual void visitStart (S_lpsrFiguredBassContext& elt);
+    virtual void visitEnd   (S_lpsrFiguredBassContext& elt);
+
     virtual void visitStart (S_lpsrBarCommand& elt);
     virtual void visitEnd   (S_lpsrBarCommand& elt);
 

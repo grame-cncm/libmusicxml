@@ -4211,11 +4211,11 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrVariableUseCommand& elt)
 }
 
 //________________________________________________________________________
-void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
+void lpsr2LilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting lpsrContext" <<
+      "% --> Start visiting lpsrChordNamesContext" <<
       endl;
   }
 
@@ -4256,11 +4256,66 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrContext& elt)
     endl;
 }
 
-void lpsr2LilypondTranslator::visitEnd (S_lpsrContext& elt)
+void lpsr2LilypondTranslator::visitEnd (S_lpsrChordNamesContext& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> End visiting lpsrContext" <<
+      "% --> End visiting lpsrChordNamesContext" <<
+      endl;
+  }
+}
+  
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting lpsrFiguredBassContext" <<
+      endl;
+  }
+
+  string
+    contextTypeKindAsString =
+      elt->getContextTypeKindAsString (),
+    contextName =
+      elt->getContextName ();
+    
+  fLilypondCodeIOstream <<
+    "\\context " << contextTypeKindAsString <<
+    " = \"" << contextName << "\"" <<
+    endl;
+
+  if (false) { //option JMI
+    fLilypondCodeIOstream <<
+      "\\with {" <<
+      endl;
+
+    gIndenter++;
+    
+    fLilypondCodeIOstream <<
+      "\\override BarLine.bar-extent = #'(-2 . 2)" <<
+      endl <<
+      "\\consists \"Bar_engraver\"" <<
+      endl;
+        
+    gIndenter--;
+        
+    fLilypondCodeIOstream <<
+      "}" <<
+      endl;
+  }
+        
+  fLilypondCodeIOstream <<
+    "\\" << contextName <<
+    endl <<
+    endl;
+}
+
+void lpsr2LilypondTranslator::visitEnd (S_lpsrFiguredBassContext& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> End visiting lpsrFiguredBassContext" <<
       endl;
   }
 }

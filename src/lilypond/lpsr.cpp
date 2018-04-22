@@ -319,8 +319,8 @@ void lpsrComment::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrBarNumberCheck lpsrBarNumberCheck::create (
-  int                    inputLineNumber,
-  int                    nextBarNumber)
+  int inputLineNumber,
+  int nextBarNumber)
 {
   lpsrBarNumberCheck* o =
     new lpsrBarNumberCheck (
@@ -330,14 +330,14 @@ S_lpsrBarNumberCheck lpsrBarNumberCheck::create (
 }
 
 lpsrBarNumberCheck::lpsrBarNumberCheck (
-  int                    inputLineNumber,
-  int                    nextBarNumber)
+  int inputLineNumber,
+  int nextBarNumber)
     : lpsrElement (inputLineNumber)
 {
   fNextBarNumber=nextBarNumber; 
 }
 
-lpsrBarNumberCheck::~lpsrBarNumberCheck()
+lpsrBarNumberCheck::~lpsrBarNumberCheck ()
 {}
 
 void lpsrBarNumberCheck::acceptIn (basevisitor* v)
@@ -402,8 +402,8 @@ void lpsrBarNumberCheck::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrUseVoiceCommand lpsrUseVoiceCommand::create (
-  int            inputLineNumber,
-  S_msrVoice     voice)
+  int        inputLineNumber,
+  S_msrVoice voice)
 {
   lpsrUseVoiceCommand* o =
     new lpsrUseVoiceCommand (
@@ -414,8 +414,8 @@ S_lpsrUseVoiceCommand lpsrUseVoiceCommand::create (
 }
 
 lpsrUseVoiceCommand::lpsrUseVoiceCommand (
-  int            inputLineNumber,
-  S_msrVoice     voice)
+  int        inputLineNumber,
+  S_msrVoice voice)
     : lpsrElement (inputLineNumber)
 {
   fVoice  = voice;
@@ -490,9 +490,9 @@ void lpsrUseVoiceCommand::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
-  int            inputLineNumber,
-  S_msrStanza    stanza,
-  S_msrVoice     voice)
+  int         inputLineNumber,
+  S_msrStanza stanza,
+  S_msrVoice  voice)
 {
   lpsrNewLyricsBlock* o =
     new lpsrNewLyricsBlock (
@@ -503,9 +503,9 @@ S_lpsrNewLyricsBlock lpsrNewLyricsBlock::create (
 }
 
 lpsrNewLyricsBlock::lpsrNewLyricsBlock (
-  int            inputLineNumber,
-  S_msrStanza    stanza,
-  S_msrVoice     voice)
+  int         inputLineNumber,
+  S_msrStanza stanza,
+  S_msrVoice  voice)
     : lpsrElement (inputLineNumber)
 {
   fStanza = stanza;
@@ -1360,7 +1360,7 @@ void lpsrSchemeFunction::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrNewStaffgroupBlock lpsrNewStaffgroupBlock::create (
-  int            inputLineNumber)
+  int inputLineNumber)
 {
   lpsrNewStaffgroupBlock* o =
     new lpsrNewStaffgroupBlock (
@@ -1370,7 +1370,7 @@ S_lpsrNewStaffgroupBlock lpsrNewStaffgroupBlock::create (
 }
 
 lpsrNewStaffgroupBlock::lpsrNewStaffgroupBlock (
-  int            inputLineNumber)
+  int inputLineNumber)
     : lpsrElement (inputLineNumber)
 {}
 
@@ -1535,7 +1535,7 @@ void lpsrNewStaffTuningBlock::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrNewStaffBlock lpsrNewStaffBlock::create (
-  int            inputLineNumber)
+  int inputLineNumber)
 {
   lpsrNewStaffBlock* o =
     new lpsrNewStaffBlock (
@@ -1545,7 +1545,7 @@ S_lpsrNewStaffBlock lpsrNewStaffBlock::create (
 }
 
 lpsrNewStaffBlock::lpsrNewStaffBlock (
-  int            inputLineNumber)
+  int inputLineNumber)
     : lpsrElement (inputLineNumber)
 {}
 
@@ -1622,8 +1622,8 @@ void lpsrNewStaffBlock::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrVariableUseCommand lpsrVariableUseCommand::create (
-  int            inputLineNumber,
-  string         variableName)
+  int    inputLineNumber,
+  string variableName)
 {
   lpsrVariableUseCommand* o =
     new lpsrVariableUseCommand (
@@ -1633,8 +1633,8 @@ S_lpsrVariableUseCommand lpsrVariableUseCommand::create (
 }
 
 lpsrVariableUseCommand::lpsrVariableUseCommand (
-  int            inputLineNumber,
-  string         variableName)
+  int    inputLineNumber,
+  string variableName)
     : lpsrElement (inputLineNumber)
 {
   fVariableName = variableName;
@@ -1733,7 +1733,7 @@ lpsrContext::lpsrContext (
   fContextName = contextName; 
 }
 
-lpsrContext::~lpsrContext()
+lpsrContext::~lpsrContext ()
 {}
 
 void lpsrContext::acceptIn (basevisitor* v)
@@ -1831,22 +1831,332 @@ void lpsrContext::print (ostream& os)
   if (fContextName.size ())
     os << " " << fContextName;
   os <<
-  endl;
+    endl;
   
   gIndenter++;
 
-  int size = fContextElements.size ();
+  os <<
+    "ContextElements";
 
-  for (int i = 0; i < size; i++ ) {
-    os << fContextElements[i];
-  } // for
+  if (fContextElementsList.size ()) {
+    os <<
+      endl;
+      
+    gIndenter++;
+  
+    list<S_msrElement>::const_iterator
+      iBegin = fContextElementsList.begin (),
+      iEnd   = fContextElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+    
+    gIndenter--;
+  }
+  else {
+    os << "none" <<
+    endl;
+  }
 
   gIndenter--;
 }
 
 //______________________________________________________________________________
+S_lpsrChordNamesContext lpsrChordNamesContext::create (
+  int                     inputLineNumber,
+  lpsrContextExistingKind contextExistingKind,
+  string                  contextName,
+  S_msrStaff              contextStaff)
+{
+  lpsrChordNamesContext* o =
+    new lpsrChordNamesContext (
+      inputLineNumber,
+      contextExistingKind,
+      contextName,
+      contextStaff);
+  assert(o!=0);
+  return o;
+}
+
+lpsrChordNamesContext::lpsrChordNamesContext (
+  int                     inputLineNumber,
+  lpsrContextExistingKind contextExistingKind,
+  string                  contextName,
+  S_msrStaff              contextStaff)
+    : lpsrContext (
+      inputLineNumber,
+      contextExistingKind,
+      lpsrContext::kChordNames,
+      contextName)
+{
+  fContextExistingKind = contextExistingKind;
+    
+  fContextName = contextName;
+
+  fContextStaff = contextStaff;
+}
+
+lpsrChordNamesContext::~lpsrChordNamesContext ()
+{}
+
+void lpsrChordNamesContext::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrChordNamesContext::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_lpsrChordNamesContext>*
+    p =
+      dynamic_cast<visitor<S_lpsrChordNamesContext>*> (v)) {
+        S_lpsrChordNamesContext elem = this;
+        
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrChordNamesContext::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void lpsrChordNamesContext::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrChordNamesContext::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_lpsrChordNamesContext>*
+    p =
+      dynamic_cast<visitor<S_lpsrChordNamesContext>*> (v)) {
+        S_lpsrChordNamesContext elem = this;
+      
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrChordNamesContext::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrChordNamesContext::browseData (basevisitor* v)
+{}
+
+void lpsrChordNamesContext::print (ostream& os)
+{  
+  os <<
+  /* JMI
+    "ChordNamesContext, \"" <<
+    contextTypeKindAsString (
+      fContextTypeKind) <<
+    "\"" <<
+    */
+    "ChordNamesContext" <<
+    endl;
+    
+  gIndenter++;
+
+  const int fieldWidth = 20;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "contextExistingKind" << " : " <<
+    contextExistingKindAsString (
+      fContextExistingKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "contextName" << " : \"" << fContextName << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "contextStaff" << " : \"" << fContextStaff->getStaffName () << "\"" <<
+    endl;
+
+  os <<
+    setw (fieldWidth) <<
+    "ContextElements";
+
+  if (fContextElementsList.size ()) {
+    os <<
+      endl;
+      
+    gIndenter++;
+  
+    list<S_msrElement>::const_iterator
+      iBegin = fContextElementsList.begin (),
+      iEnd   = fContextElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+    
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+    endl;
+  }
+  
+  gIndenter--;
+}
+
+//______________________________________________________________________________
+S_lpsrFiguredBassContext lpsrFiguredBassContext::create (
+  int                     inputLineNumber,
+  lpsrContextExistingKind contextExistingKind,
+  string                  contextName,
+  S_msrStaff              contextStaff)
+{
+  lpsrFiguredBassContext* o =
+    new lpsrFiguredBassContext (
+      inputLineNumber,
+      contextExistingKind,
+      contextName,
+      contextStaff);
+  assert(o!=0);
+  return o;
+}
+
+lpsrFiguredBassContext::lpsrFiguredBassContext (
+  int                     inputLineNumber,
+  lpsrContextExistingKind contextExistingKind,
+  string                  contextName,
+  S_msrStaff              contextStaff)
+    : lpsrContext (
+      inputLineNumber,
+      contextExistingKind,
+      lpsrContext::kFiguredBass,
+      contextName)
+{
+  fContextExistingKind = contextExistingKind;
+    
+  fContextName = contextName;
+
+  fContextStaff = contextStaff;
+}
+
+lpsrFiguredBassContext::~lpsrFiguredBassContext ()
+{}
+
+void lpsrFiguredBassContext::acceptIn (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrFiguredBassContext::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_lpsrFiguredBassContext>*
+    p =
+      dynamic_cast<visitor<S_lpsrFiguredBassContext>*> (v)) {
+        S_lpsrFiguredBassContext elem = this;
+        
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrFiguredBassContext::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void lpsrFiguredBassContext::acceptOut (basevisitor* v)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    gLogIOstream <<
+      "% ==> lpsrFiguredBassContext::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_lpsrFiguredBassContext>*
+    p =
+      dynamic_cast<visitor<S_lpsrFiguredBassContext>*> (v)) {
+        S_lpsrFiguredBassContext elem = this;
+      
+        if (gLpsrOptions->fTraceLpsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching lpsrFiguredBassContext::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void lpsrFiguredBassContext::browseData (basevisitor* v)
+{}
+
+void lpsrFiguredBassContext::print (ostream& os)
+{  
+  os <<
+  /* JMI
+    "FiguredBassContext, \"" <<
+    contextTypeKindAsString (
+      fContextTypeKind) <<
+    "\"" <<
+    */
+    "FiguredBassContext" <<
+    endl;
+    
+  gIndenter++;
+
+  const int fieldWidth = 20;
+
+  os << left <<
+    setw (fieldWidth) <<
+    "contextExistingKind" << " : " <<
+    contextExistingKindAsString (
+      fContextExistingKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "contextName" << " : \"" << fContextName << "\"" <<
+    endl <<
+    setw (fieldWidth) <<
+    "contextStaff" << " : \"" << fContextStaff->getStaffName () << "\"" <<
+    endl;
+
+  os <<
+    setw (fieldWidth) <<
+    "ContextElements";
+
+  if (fContextElementsList.size ()) {
+    os <<
+      endl;
+      
+    gIndenter++;
+  
+    list<S_msrElement>::const_iterator
+      iBegin = fContextElementsList.begin (),
+      iEnd   = fContextElementsList.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+ // JMI     os << endl;
+    } // for
+    
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+    endl;
+  }
+  
+  gIndenter--;
+}
+
+//______________________________________________________________________________
 S_lpsrBarCommand lpsrBarCommand::create (
-  int            inputLineNumber)
+  int inputLineNumber)
 {
   lpsrBarCommand* o =
     new lpsrBarCommand (
@@ -1856,7 +2166,7 @@ S_lpsrBarCommand lpsrBarCommand::create (
 }
 
 lpsrBarCommand::lpsrBarCommand (
-  int            inputLineNumber)
+  int inputLineNumber)
     : lpsrElement (inputLineNumber)
 {}
 
@@ -2033,7 +2343,7 @@ void lpsrMelismaCommand::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrHeader lpsrHeader::create (
-  int            inputLineNumber)
+  int inputLineNumber)
 {
   lpsrHeader* o =
     new lpsrHeader (
@@ -2043,7 +2353,7 @@ S_lpsrHeader lpsrHeader::create (
 }
 
 lpsrHeader::lpsrHeader (
-  int            inputLineNumber)
+  int inputLineNumber)
     : lpsrElement (inputLineNumber)
 {}
 
@@ -3346,7 +3656,119 @@ lpsrPartBlock::lpsrPartBlock (
 lpsrPartBlock::~lpsrPartBlock ()
 {}
 
-bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingVoice (
+bool lpsrPartBlock::compareStaffBlockWithOtherElement (
+  const S_lpsrStaffBlock& staffBlock,
+  const S_msrElement&     otherElement)
+{
+  bool result = true;  
+
+  if (
+    S_lpsrStaffBlock
+      secondStaffBlock =
+        dynamic_cast<lpsrStaffBlock*>(&(*otherElement))
+    ) {
+    // otherElement is a staff block     
+  }
+
+  else if (
+    S_lpsrChordNamesContext
+      secondChordNamesContext =
+        dynamic_cast<lpsrChordNamesContext*>(&(*otherElement))
+    ) {
+    // otherElement is a chord names context
+    
+    switch (secondChordNamesContext->getContextTypeKind ()) {
+      case lpsrContext::kChordNames:
+ //       result = false;
+        break;
+      case lpsrContext::kFiguredBass:
+        break;
+    } // switch
+  }
+
+  else if (
+    S_lpsrFiguredBassContext
+      secondFiguredBassContext =
+        dynamic_cast<lpsrFiguredBassContext*>(&(*otherElement))
+    ) {
+    // otherElement is a figured bass context
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "part block element '" <<
+      otherElement->asShortString () <<
+      " is not a staff nor a chord names or figured bass context";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      otherElement->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
+  const S_lpsrChordNamesContext& chordNamesContext,
+  const S_msrElement&            otherElement)
+{
+  bool result = true;  
+
+  if (
+    S_lpsrStaffBlock
+      secondStaffBlock =
+        dynamic_cast<lpsrStaffBlock*>(&(*otherElement))
+    ) {
+    // otherElement is a staff block     
+  }
+
+  else if (
+    S_lpsrChordNamesContext
+      secondChordNamesContext =
+        dynamic_cast<lpsrChordNamesContext*>(&(*otherElement))
+    ) {
+    // otherElement is a chord names context
+    
+    switch (chordNamesContext->getContextTypeKind ()) {
+      case lpsrContext::kChordNames:
+ //       result = false;
+        break;
+      case lpsrContext::kFiguredBass:
+        break;
+    } // switch
+  }
+
+  else if (
+    S_lpsrFiguredBassContext
+      secondFiguredBassContext =
+        dynamic_cast<lpsrFiguredBassContext*>(&(*otherElement))
+    ) {
+    // otherElement is a figured bass context
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "part block element '" <<
+      otherElement->asShortString () <<
+      " is not a staff nor a chord names or figured bass context";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      otherElement->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingStaff (
   const S_msrElement& first,
   const S_msrElement& second)
 {
@@ -3357,56 +3779,32 @@ bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingVoice (
       firstStaffBlock =
         dynamic_cast<lpsrStaffBlock*>(&(*first))
     ) {
-    // first is a staff block     
+    // first is a staff block
+    result =
+      compareStaffBlockWithOtherElement (
+        firstStaffBlock,
+        second);
   }
 
   else if (
-    S_lpsrContext
-      firstContext =
-        dynamic_cast<lpsrContext*>(&(*first))
+    S_lpsrChordNamesContext
+      firstChordNamesContext =
+        dynamic_cast<lpsrChordNamesContext*>(&(*first))
     ) {
-      
-    // first is a context
-    
-    if (
-      S_lpsrStaffBlock
-        secondStaffBlock =
-          dynamic_cast<lpsrStaffBlock*>(&(*second))
-      ) {
-      // second is a staff block     
-    }
-  
-    else if (
-      S_lpsrContext
-        secondContext =
-          dynamic_cast<lpsrContext*>(&(*second))
-      ) {
-        
-      // second is a context
-      
-      switch (firstContext->getContextTypeKind ()) {
-        case lpsrContext::kChordNames:
-          result = false;
-          break;
-        case lpsrContext::kFiguredBass:
-          break;
-      } // switch
-    }
-  
-    else {
-      stringstream s;
-  
-      s <<
-        "part block element '" <<
-        second->asShortString () <<
-        " is not a part nor a context";
-  
-      msrInternalError (
-        gXml2lyOptions->fInputSourceName,
-        second->getInputLineNumber (),
-        __FILE__, __LINE__,
-        s.str ());
-    }
+    // first is a chord names context
+    result =
+      compareChordNamesContextWithOtherElement (
+        firstChordNamesContext,
+        second);
+  }
+
+  else if (
+    S_lpsrFiguredBassContext
+      firstFiguredBassContext =
+        dynamic_cast<lpsrFiguredBassContext*>(&(*first))
+    ) {
+    // first is a figured bass context
+    result = true;
   }
 
   else {
@@ -3415,7 +3813,7 @@ bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingVoice (
     s <<
       "part block element '" <<
       first->asShortString () <<
-      " is not a staff nor a context";
+      " is not a staff nor a chord names or figured bass context";
 
     msrInternalError (
       gXml2lyOptions->fInputSourceName,
@@ -3434,11 +3832,11 @@ void lpsrPartBlock::appendStaffBlockToPartBlock (
 }
 
 void lpsrPartBlock::appendChordNamesContextToPartBlock (
-  int           inputLineNumber,
-  S_lpsrContext context)
+  int                     inputLineNumber,
+  S_lpsrChordNamesContext chordNamesContext)
 {
-  // appent the context to the part block elements list
-  fPartBlockElementsList.push_back (context);
+  // appent chordNamesContext to the part block elements list
+  fPartBlockElementsList.push_back (chordNamesContext);
 
   // sort the list if necessary
   if (gTraceOptions->fTraceParts || gTraceOptions->fTraceHarmonies) {
@@ -3475,7 +3873,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
   // the corresponding voice
   if (fPartBlockElementsList.size ()) {
     fPartBlockElementsList.sort (
-      compareElementsToHaveHarmoniesAboveCorrespondingVoice);
+      compareElementsToHaveHarmoniesAboveCorrespondingStaff);
   }
 
   gLogIOstream <<
@@ -3502,7 +3900,7 @@ void lpsrPartBlock::appendChordNamesContextToPartBlock (
 }
 
 void lpsrPartBlock::appendFiguredBassContextToPartBlock (
-  S_lpsrContext context)
+  S_lpsrFiguredBassContext context)
 {
   fPartBlockElementsList.push_back (context);
 }

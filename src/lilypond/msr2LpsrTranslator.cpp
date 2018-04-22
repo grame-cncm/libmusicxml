@@ -1174,13 +1174,13 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               endl;
           }
   
-          S_lpsrContext
+          S_lpsrChordNamesContext
             chordNamesContext =
-              lpsrContext::create (
+              lpsrChordNamesContext::create (
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
-                lpsrContext::kChordNames,
-                voiceName);
+                voiceName,
+                elt-> getVoiceStaffUplink ());
   
           // append it to the current part block
           if (gTraceOptions->fTraceHarmonies) {
@@ -1252,13 +1252,13 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
               endl;
           }
   
-          S_lpsrContext
+          S_lpsrFiguredBassContext
             figuredBassContext =
-              lpsrContext::create (
+              lpsrFiguredBassContext::create (
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
-                lpsrContext::kFiguredBass,
-                voiceName);
+                voiceName,
+                elt-> getVoiceStaffUplink ());
   
           // append it to the current part block
           if (gTraceOptions->fTraceHarmonies) {
