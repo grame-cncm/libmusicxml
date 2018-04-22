@@ -11235,15 +11235,22 @@ class msrStaff : public msrElement
     // staff voices
     
     const map<int, S_msrVoice>&
+                          getStaffAllVoicesMap () const
+                              { return fStaffAllVoicesMap; }
+
+    const map<int, S_msrVoice>&
                           getStaffRegularVoicesMap () const
                               {
                                 return
                                   fStaffRegularVoicesMap;
                               }
 
-    const map<int, S_msrVoice>&
-                          getStaffAllVoicesMap () const
-                              { return fStaffAllVoicesMap; }
+    const list<S_msrVoice>&
+                          getStaffAllVoicesList () const
+                              {
+                                return
+                                  fStaffAllVoicesList;
+                              }
 
     // services
     // ------------------------------------------------------
@@ -11295,11 +11302,16 @@ class msrStaff : public msrElement
                             int        inputLineNumber,
                             S_msrVoice voice);
 
-    void                  registerVoiceInAllVoicesMap (
+    void                  registerVoiceByItsNumber (
+                            int        inputLineNumber,
                             int        voiceNumber,
                             S_msrVoice voice);
   
     void                  registerVoiceInRegularVoicesMap (
+                            int        voiceNumber,
+                            S_msrVoice voice);
+  
+    void                  registerVoiceInAllVoicesList (
                             int        voiceNumber,
                             S_msrVoice voice);
   
@@ -11465,12 +11477,18 @@ class msrStaff : public msrElement
     
     static int            gStaffMaxRegularVoices;
 
-    int                   fStaffRegularVoicesCounter;
-
+    // the dictionary of all the voices in the staff
     map<int, S_msrVoice>  fStaffAllVoicesMap;
 
+    // we need to handle the regular voice specifically
+    // to assign them sequencing numbers from 1 to gMaxStaffVoices,
+    // needed to set the beams orientation (up or down)
+    int                   fStaffRegularVoicesCounter;
     map<int, S_msrVoice>  fStaffRegularVoicesMap;
-                            //numbered 1 to gMaxStaffVoices
+
+    // we need to sort the voices by increasing voice numbers,
+    // but with harmony voices right before the corresponding regular voices
+    list<S_msrVoice>      fStaffAllVoicesList;
                               
     // clef, key, time
     

@@ -194,7 +194,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fPartGroupBlockElementsCounter  = 0;
 
   // staff blocks
-  fNumberOfStaffBlocks = -1;
+  fNumberOfStaffBlocksElements = -1;
   fStaffBlocksCounter  = 0;
 };
   
@@ -3619,8 +3619,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
 
   fPartGroupBlockElementsCounter++;
 
-  fNumberOfStaffBlocks =
-    elt->getPartBlockElements ().size ();
+  fNumberOfStaffBlocksElements =
+    elt->getPartBlockElementsList ().size ();
     
   // fetch part block's part
   S_msrPart
@@ -3942,7 +3942,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrStaffBlock& elt)
   fLilypondCodeIOstream <<
     endl;
 
-  if (fStaffBlocksCounter != fNumberOfStaffBlocks) {
+  if (fStaffBlocksCounter != fNumberOfStaffBlocksElements) {
     fLilypondCodeIOstream <<
       endl;
   }
@@ -4037,7 +4037,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrUseVoiceCommand& elt)
       break;
       
     case msrStaff::kHarmonyStaff:
-      staffContextName = "\\context ChordNames2";
+      staffContextName = "\\context ChordNames2"; // JMI
       voiceContextName = "???"; // JMI
       break;
       

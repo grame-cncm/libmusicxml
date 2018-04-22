@@ -1084,12 +1084,10 @@ class lpsrContext : public lpsrElement
     // ------------------------------------------------------
 
     static SMARTP<lpsrContext> create (
-      int             inputLineNumber,
-      lpsrContextExistingKind
-                      contextExistingKind,
-      lpsrContextTypeKind
-                      contextTypeKind,
-      string          contextName);
+      int                     inputLineNumber,
+      lpsrContextExistingKind contextExistingKind,
+      lpsrContextTypeKind     contextTypeKind,
+      string                  contextName);
     
   protected:
 
@@ -1097,14 +1095,12 @@ class lpsrContext : public lpsrElement
     // ------------------------------------------------------
 
     lpsrContext (
-      int             inputLineNumber,
-      lpsrContextExistingKind
-                      contextExistingKind,
-      lpsrContextTypeKind
-                      contextTypeKind,
-      string          contextName);
+      int                     inputLineNumber,
+      lpsrContextExistingKind contextExistingKind,
+      lpsrContextTypeKind     contextTypeKind,
+      string                  contextName);
       
-    virtual ~lpsrContext();
+    virtual ~lpsrContext ();
   
   public:
 
@@ -1115,7 +1111,7 @@ class lpsrContext : public lpsrElement
                           getContextExistingKind () const
                               { return fContextExistingKind; }
 
-    lpsrContextTypeKind   getContextType () const
+    lpsrContextTypeKind   getContextTypeKind () const
                               { return fContextTypeKind; }
 
     string                getContextName () const
@@ -1910,7 +1906,7 @@ class lpsrPartBlock : public lpsrElement
     lpsrPartBlock (
       S_msrPart part);
       
-    virtual ~lpsrPartBlock();
+    virtual ~lpsrPartBlock ();
   
   public:
 
@@ -1921,8 +1917,8 @@ class lpsrPartBlock : public lpsrElement
                               { return fPart; }
 
     const list<S_msrElement>&
-                          getPartBlockElements () const
-                              { return fPartBlockElements; }
+                          getPartBlockElementsList () const
+                              { return fPartBlockElementsList; }
 
     void                  setPartBlockInstrumentName (
                             string instrumentName)
@@ -1947,9 +1943,21 @@ class lpsrPartBlock : public lpsrElement
     // services
     // ------------------------------------------------------
 
-    void                  appendElementToPartBlock (
-                            S_msrElement elem)
-                              { fPartBlockElements.push_back (elem); }
+    void                  appendStaffBlockToPartBlock (
+                            S_lpsrStaffBlock staffBlock);
+
+    void                  appendChordNamesContextToPartBlock (
+                            int           inputLineNumber,
+                            S_lpsrContext context);
+
+    void                  appendFiguredBassContextToPartBlock (
+                            S_lpsrContext context);
+
+    // voices ordering in staves
+    
+    static bool           compareElementsToHaveHarmoniesAboveCorrespondingVoice (
+                            const S_msrElement& first,
+                            const S_msrElement& second);
 
     // visitors
     // ------------------------------------------------------
@@ -1971,7 +1979,7 @@ class lpsrPartBlock : public lpsrElement
 
     S_msrPart             fPart;
 
-    list<S_msrElement>    fPartBlockElements;
+    list<S_msrElement>    fPartBlockElementsList;
 
     string                fPartBlockInstrumentName; // JMI
     string                fPartBlockShortInstrumentName; // JMI

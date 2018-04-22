@@ -328,13 +328,13 @@ void msr2SummaryVisitor::visitStart (S_msrStaff& elt)
 
   fStavesCounter++;
   
-  int staffAllVoicesMapSize = elt->getStaffAllVoicesMap ().size ();
+  int staffAllVoicesListSize = elt->getStaffAllVoicesList ().size ();
     
   fMsrSummaryOutputStream <<
     "Staff" << " " << elt->getStaffName () <<
     " contains " <<
     singularOrPlural (
-      staffAllVoicesMapSize,
+      staffAllVoicesListSize,
       "voice", "voices") <<
     endl;
 

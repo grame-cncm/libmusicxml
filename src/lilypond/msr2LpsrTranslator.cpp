@@ -237,17 +237,17 @@ void msr2LpsrTranslator::prependSkipGraceNotesToPartOtherVoices (
     i!=partStavesMap.end ();
     i++) {
 
-    map<int, S_msrVoice>
-      staffAllVoicesMap =
+    list<S_msrVoice>
+      staffAllVoicesList =
         (*i).second->
-          getStaffAllVoicesMap ();
+          getStaffAllVoicesList ();
           
     for (
-      map<int, S_msrVoice>::const_iterator j=staffAllVoicesMap.begin ();
-      j!=staffAllVoicesMap.end ();
+      list<S_msrVoice>::const_iterator j=staffAllVoicesList.begin ();
+      j!=staffAllVoicesList.end ();
       j++) {
 
-      S_msrVoice voice = (*j).second;
+      S_msrVoice voice = (*j);
       
       if (voice != voiceClone) {
         // prepend skip grace notes to voice
@@ -1008,7 +1008,8 @@ void msr2LpsrTranslator::visitStart (S_msrStaff& elt)
               
         // append the staff block to the current part block
         fCurrentPartBlock->
-          appendElementToPartBlock (fCurrentStaffBlock);
+          appendStaffBlockToPartBlock (
+            fCurrentStaffBlock);
       
         fOnGoingStaff = true;
       }
@@ -1121,7 +1122,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
     
       // append a use of the voice to the current staff block
       fCurrentStaffBlock->
-        appendVoiceUseToStaffBlock (fCurrentVoiceClone);
+        appendVoiceUseToStaffBlock (
+          fCurrentVoiceClone);
       break;
       
     case msrVoice::kHarmonyVoice:
@@ -1189,7 +1191,8 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           }
   
           fCurrentPartBlock->
-            appendElementToPartBlock (
+            appendChordNamesContextToPartBlock (
+              inputLineNumber,
               chordNamesContext);
   
           fOnGoingHarmonyVoice = true;
@@ -1266,7 +1269,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
           }
   
           fCurrentPartBlock->
-            appendElementToPartBlock (
+            appendFiguredBassContextToPartBlock (
               figuredBassContext);
   
           fOnGoingFiguredBassVoice = true;

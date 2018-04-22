@@ -1706,12 +1706,10 @@ void lpsrVariableUseCommand::print (ostream& os)
 
 //______________________________________________________________________________
 S_lpsrContext lpsrContext::create (
-  int             inputLineNumber,
-  lpsrContextExistingKind
-                  contextExistingKind,
-  lpsrContextTypeKind
-                  contextTypeKind,
-  string          contextName)
+  int                     inputLineNumber,
+  lpsrContextExistingKind contextExistingKind,
+  lpsrContextTypeKind     contextTypeKind,
+  string                  contextName)
 {
   lpsrContext* o =
     new lpsrContext (
@@ -1724,12 +1722,10 @@ S_lpsrContext lpsrContext::create (
 }
 
 lpsrContext::lpsrContext (
-  int             inputLineNumber,
-  lpsrContextExistingKind
-                  contextExistingKind,
-  lpsrContextTypeKind
-                  contextTypeKind,
-  string          contextName)
+  int                     inputLineNumber,
+  lpsrContextExistingKind contextExistingKind,
+  lpsrContextTypeKind     contextTypeKind,
+  string                  contextName)
     : lpsrElement (inputLineNumber)
 {
   fContextExistingKind = contextExistingKind;
@@ -1793,10 +1789,10 @@ string lpsrContext::contextTypeKindAsString (
   string result;
   
   switch (contextTypeKind) {
-    case kChordNames:
+    case lpsrContext::kChordNames:
       result = "ChordNames";
       break;
-    case kFiguredBass:
+    case lpsrContext::kFiguredBass:
       result = "FiguredBass";
       break;
   } // switch
@@ -3347,8 +3343,169 @@ lpsrPartBlock::lpsrPartBlock (
       getPartAbbreviation();
 }
 
-lpsrPartBlock::~lpsrPartBlock()
+lpsrPartBlock::~lpsrPartBlock ()
 {}
+
+bool lpsrPartBlock::compareElementsToHaveHarmoniesAboveCorrespondingVoice (
+  const S_msrElement& first,
+  const S_msrElement& second)
+{
+  bool result = true;  
+
+  if (
+    S_lpsrStaffBlock
+      firstStaffBlock =
+        dynamic_cast<lpsrStaffBlock*>(&(*first))
+    ) {
+    // first is a staff block     
+  }
+
+  else if (
+    S_lpsrContext
+      firstContext =
+        dynamic_cast<lpsrContext*>(&(*first))
+    ) {
+      
+    // first is a context
+    
+    if (
+      S_lpsrStaffBlock
+        secondStaffBlock =
+          dynamic_cast<lpsrStaffBlock*>(&(*second))
+      ) {
+      // second is a staff block     
+    }
+  
+    else if (
+      S_lpsrContext
+        secondContext =
+          dynamic_cast<lpsrContext*>(&(*second))
+      ) {
+        
+      // second is a context
+      
+      switch (firstContext->getContextTypeKind ()) {
+        case lpsrContext::kChordNames:
+          result = false;
+          break;
+        case lpsrContext::kFiguredBass:
+          break;
+      } // switch
+    }
+  
+    else {
+      stringstream s;
+  
+      s <<
+        "part block element '" <<
+        second->asShortString () <<
+        " is not a part nor a context";
+  
+      msrInternalError (
+        gXml2lyOptions->fInputSourceName,
+        second->getInputLineNumber (),
+        __FILE__, __LINE__,
+        s.str ());
+    }
+  }
+
+  else {
+    stringstream s;
+
+    s <<
+      "part block element '" <<
+      first->asShortString () <<
+      " is not a staff nor a context";
+
+    msrInternalError (
+      gXml2lyOptions->fInputSourceName,
+      first->getInputLineNumber (),
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return result;
+}
+
+void lpsrPartBlock::appendStaffBlockToPartBlock (
+  S_lpsrStaffBlock staffBlock)
+{
+  fPartBlockElementsList.push_back (staffBlock);
+}
+
+void lpsrPartBlock::appendChordNamesContextToPartBlock (
+  int           inputLineNumber,
+  S_lpsrContext context)
+{
+  // appent the context to the part block elements list
+  fPartBlockElementsList.push_back (context);
+
+  // sort the list if necessary
+  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceHarmonies) {
+    gLogIOstream <<
+      "Sorting the voices in part block for part \"" <<
+      fPart->getPartCombinedName () << "\"" <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+
+  gLogIOstream <<
+    endl <<
+    endl <<
+    "@@@@@@@@@@@@@@@@ fPartBlockElementsList contains initially:" <<
+    endl <<
+    endl;
+
+  for (
+    list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
+    i != fPartBlockElementsList.end ();
+    i++) {
+    S_msrElement
+      element = (*i);
+      
+    gLogIOstream <<
+      element->asShortString () <<
+      endl;
+  } // for
+  gLogIOstream <<
+    endl <<
+    endl;
+  
+  // sort fPartBlockElementsList, to have harmonies just before
+  // the corresponding voice
+  if (fPartBlockElementsList.size ()) {
+    fPartBlockElementsList.sort (
+      compareElementsToHaveHarmoniesAboveCorrespondingVoice);
+  }
+
+  gLogIOstream <<
+    endl <<
+    endl <<
+    "@@@@@@@@@@@@@@@@ fPartBlockElementsList contains after sort:" <<
+    endl <<
+    endl;
+
+  for (
+    list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
+    i != fPartBlockElementsList.end ();
+    i++) {
+    S_msrElement
+      element = (*i);
+      
+    gLogIOstream <<
+      element->asShortString () <<
+      endl;
+  } // for
+  gLogIOstream <<
+    endl <<
+    endl;
+}
+
+void lpsrPartBlock::appendFiguredBassContextToPartBlock (
+  S_lpsrContext context)
+{
+  fPartBlockElementsList.push_back (context);
+}
 
 void lpsrPartBlock::acceptIn (basevisitor* v)
 {
@@ -3403,8 +3560,8 @@ void lpsrPartBlock::browseData (basevisitor* v)
   }
 
   for (
-    list<S_msrElement>::const_iterator i = fPartBlockElements.begin ();
-    i != fPartBlockElements.end ();
+    list<S_msrElement>::const_iterator i = fPartBlockElementsList.begin ();
+    i != fPartBlockElementsList.end ();
     i++) {
     // browse the element
     msrBrowser<msrElement> browser (v);
@@ -3431,7 +3588,7 @@ void lpsrPartBlock::print (ostream& os)
     "for part " << fPart->getPartCombinedName () <<
     ", " <<
     singularOrPlural (
-      fPartBlockElements.size (), "element", "elements") <<
+      fPartBlockElementsList.size (), "element", "elements") <<
     endl;
 
   gIndenter++;
@@ -3457,10 +3614,10 @@ void lpsrPartBlock::print (ostream& os)
 
   os << endl;
 
-  if (fPartBlockElements.size ()) {  
+  if (fPartBlockElementsList.size ()) {  
     list<S_msrElement>::const_iterator
-      iBegin = fPartBlockElements.begin (),
-      iEnd   = fPartBlockElements.end (),
+      iBegin = fPartBlockElementsList.begin (),
+      iEnd   = fPartBlockElementsList.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);

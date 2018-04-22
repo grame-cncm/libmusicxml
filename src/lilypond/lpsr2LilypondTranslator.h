@@ -871,7 +871,7 @@ class lpsr2LilypondTranslator :
 
     // staff blocks
     // ------------------------------------------------------
-    int                   fNumberOfStaffBlocks;
+    int                   fNumberOfStaffBlocksElements;
     int                   fStaffBlocksCounter;
 };
 

@@ -26044,8 +26044,10 @@ void msrVoice::setVoiceNameFromNumber (
     case msrVoice::kHarmonyVoice:
       fVoiceName =
         fVoiceStaffUplink->getStaffName() +
-        "_HARMONY_Voice_" +
-        int2EnglishWord (voiceNumber);
+        "_Voice_" +
+        int2EnglishWord (
+          voiceNumber - K_VOICE_HARMONY_VOICE_BASE_NUMBER) +
+          "_HARMONY";
       break;
       
     case msrVoice::kFiguredBassVoice:
@@ -31836,14 +31838,16 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
   } // switch
 
   // register it in staff by its number
-  registerVoiceInAllVoicesMap (
+  registerVoiceByItsNumber (
+    inputLineNumber,
     voiceNumber,
     voice);
     
   return voice;
 }
 
-void msrStaff::registerVoiceInAllVoicesMap (
+void msrStaff::registerVoiceByItsNumber (
+  int        inputLineNumber,
   int        voiceNumber,
   S_msrVoice voice)
 {
@@ -31852,12 +31856,85 @@ void msrStaff::registerVoiceInAllVoicesMap (
       "Registering voice number '" << voiceNumber <<
       "', named \"" << voice->getVoiceName () <<
       "\" in staff " << getStaffName () <<
-      "'s all voices map" <<
       endl;
   }
 
+  // register voice in all voices map
   fStaffAllVoicesMap [voiceNumber] =
     voice;
+
+  // register it in all voices list
+  fStaffAllVoicesList.push_back (voice);
+
+  // sort the list if necessary
+  switch (voice->getVoiceKind ()) {      
+    case msrVoice::kRegularVoice:
+      break;
+
+    case msrVoice::kHarmonyVoice:
+      if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+        gLogIOstream <<
+          "Sorting the voices in staff \"" <<
+          getStaffName () << "\"" <<
+          ", line " << inputLineNumber <<
+          endl;
+      }
+    
+      gLogIOstream <<
+        endl <<
+        endl <<
+        "@@@@@@@@@@@@@@@@ fStaffAllVoicesList contains initially:" <<
+        endl <<
+        endl;
+    
+      for (
+        list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
+        i != fStaffAllVoicesList.end ();
+        i++) {
+        S_msrVoice
+          voice = (*i);
+          
+        gLogIOstream <<
+          voice->getVoiceName () <<
+          endl;
+      } // for
+      gLogIOstream <<
+        endl <<
+        endl;
+      
+      // sort fStaffAllVoicesList, to have harmonies just before
+      // the corresponding voice
+      if (fStaffAllVoicesList.size ()) {
+        fStaffAllVoicesList.sort (
+          compareVoicesToHaveHarmoniesAboveCorrespondingVoice);
+      }
+    
+      gLogIOstream <<
+        endl <<
+        endl <<
+        "@@@@@@@@@@@@@@@@ fStaffAllVoicesList contains after sort:" <<
+        endl <<
+        endl;
+    
+      for (
+        list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
+        i != fStaffAllVoicesList.end ();
+        i++) {
+        S_msrVoice
+          voice = (*i);
+          
+        gLogIOstream <<
+          voice->getVoiceName () <<
+          endl;
+      } // for
+      gLogIOstream <<
+        endl <<
+        endl;
+      break;
+            
+    case msrVoice::kFiguredBassVoice:
+      break;
+  } // switch  
 }
 
 void msrStaff::registerVoiceInRegularVoicesMap (
@@ -31880,6 +31957,22 @@ void msrStaff::registerVoiceInRegularVoicesMap (
   voice->
     setRegularVoiceStaffSequentialNumber (
       fStaffRegularVoicesCounter);
+}
+
+void msrStaff::registerVoiceInAllVoicesList (
+  int        voiceNumber,
+  S_msrVoice voice)
+{
+  if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Registering voice number '" << voiceNumber <<
+      "', named \"" << voice->getVoiceName () <<
+      "\" in staff " << getStaffName () <<
+      "'s all voices list" <<
+      endl;
+  }
+
+  fStaffAllVoicesList.push_back (voice);
 }
 
 S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
@@ -31988,7 +32081,8 @@ void msrStaff::registerVoiceInStaff (
   }
 
   // register it in staff by its number
-  registerVoiceInAllVoicesMap (
+  registerVoiceByItsNumber (
+    inputLineNumber,
     voice->getVoiceNumber (),
     voice);
 
@@ -32811,7 +32905,8 @@ bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
     firstVoiceNumber < secondVoiceNumber;
 
   return result;
-  
+
+  /* JMI
   switch (firstVoiceNumber) {
     case msrVoice::kRegularVoice:
       switch (secondVoiceNumber) {
@@ -32862,6 +32957,7 @@ bool msrStaff::compareVoicesToHaveHarmoniesAboveCorrespondingVoice (
   } // switch
 
   return result;
+  */
 }
 
 void msrStaff::finalizeStaff (int inputLineNumber)
@@ -32874,89 +32970,6 @@ void msrStaff::finalizeStaff (int inputLineNumber)
       endl;
   }
 
-  if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
-    gLogIOstream <<
-      "Sorting the voices in staff \"" <<
-      getStaffName () << "\"" <<
-      ", line " << inputLineNumber <<
-      endl;
-  }
-
-  // copy all the voices to a list
-  list<S_msrVoice> allVoicesList;
-  
-  for (
-    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
-    i != fStaffAllVoicesMap.end ();
-    i++) {
-    allVoicesList.push_back ((*i).second);
-  } // for
-
-  gLogIOstream <<
-    endl <<
-    endl <<
-    "@@@@@@@@@@@@@@@@ allVoicesList contains initially:" <<
-    endl <<
-    endl;
-
-  for (
-    list<S_msrVoice>::const_iterator i = allVoicesList.begin ();
-    i != allVoicesList.end ();
-    i++) {
-    S_msrVoice
-      voice = (*i);
-      
-    gLogIOstream <<
-      voice->getVoiceName () <<
-      endl;
-  } // for
-  gLogIOstream <<
-    endl <<
-    endl;
-  
-  // sort allVoicesList, to have harmonies just before
-  // the corresponding voice
-  if (allVoicesList.size ()) {
-    allVoicesList.sort (
-      compareVoicesToHaveHarmoniesAboveCorrespondingVoice);
-  }
-
-  gLogIOstream <<
-    endl <<
-    endl <<
-    "@@@@@@@@@@@@@@@@ allVoicesList contains after sort:" <<
-    endl <<
-    endl;
-
-  for (
-    list<S_msrVoice>::const_iterator i = allVoicesList.begin ();
-    i != allVoicesList.end ();
-    i++) {
-    S_msrVoice
-      voice = (*i);
-      
-    gLogIOstream <<
-      voice->getVoiceName () <<
-      endl;
-  } // for
-  gLogIOstream <<
-    endl <<
-    endl;
-  
-  // remove all voices from fStaffAllVoicesMap
-  fStaffAllVoicesMap.clear ();
-
-  // insert the voices into fStaffAllVoicesMap again
-  for (
-    list<S_msrVoice>::const_iterator i = allVoicesList.begin ();
-    i != allVoicesList.end ();
-    i++) {
-    S_msrVoice
-      voice = (*i);
-      
-    fStaffAllVoicesMap [voice->getVoiceNumber ()] = voice;
-  } // for
-  
   // finalize the voices
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
@@ -33072,6 +33085,7 @@ void msrStaff::browseData (basevisitor* v)
   }
 */
 
+/* JMI may be useful???
   if (fStaffAllVoicesMap.size ()) {
     for (
       map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
@@ -33079,6 +33093,17 @@ void msrStaff::browseData (basevisitor* v)
       i++) {
         msrBrowser<msrVoice> browser (v);
         browser.browse (*((*i).second));
+    } // for
+  }
+  */
+
+  if (fStaffAllVoicesList.size ()) {
+    for (
+      list<S_msrVoice>::const_iterator i = fStaffAllVoicesList.begin ();
+      i != fStaffAllVoicesList.end ();
+      i++) {
+        msrBrowser<msrVoice> browser (v);
+        browser.browse (*(*i));
     } // for
   }
 
