@@ -1180,7 +1180,7 @@ void msr2LpsrTranslator::visitStart (S_msrVoice& elt)
                 inputLineNumber,
                 lpsrContext::kExistingContextYes,
                 voiceName,
-                elt);
+                elt->getRegularVoiceForHarmonyVoice ());
   
           // append it to the current part block
           if (gTraceOptions->fTraceHarmonies) {

@@ -3677,11 +3677,11 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
     ) {
     // otherElement is a chord names context
     result =
-      staffBlock->getStaff ()->getStaffNumber ()
-        >
       secondChordNamesContext->
         getContextVoice ()->
-          getVoiceStaffUplink ()->getStaffNumber ();
+          getVoiceStaffUplink ()->getStaffNumber ()
+        <
+      staffBlock->getStaff ()->getStaffNumber ();
   }
 
   else if (
@@ -3722,7 +3722,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
         dynamic_cast<lpsrStaffBlock*>(&(*otherElement))
     ) {
     // otherElement is a staff block     
-    result =
+    result = true ||
       chordNamesContext->
         getContextVoice ()->
           getVoiceStaffUplink ()->getStaffNumber ()
@@ -3736,6 +3736,36 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
         dynamic_cast<lpsrChordNamesContext*>(&(*otherElement))
     ) {
     // otherElement is a chord names context
+    S_msrVoice
+      chordNamesVoice =
+        chordNamesContext->
+          getContextVoice (),
+      secondChordNamesVoice =
+        chordNamesContext->
+          getContextVoice ();
+        
+    int
+      chordNamesContextStaffNumber =
+        chordNamesVoice->
+          getVoiceStaffUplink ()->
+            getStaffNumber (),
+      secondChordNamesContextStaffNumber =
+        secondChordNamesVoice->
+          getVoiceStaffUplink ()->
+            getStaffNumber ();
+
+    if (chordNamesContextStaffNumber == secondChordNamesContextStaffNumber) {
+      result =
+        chordNamesVoice->getVoiceNumber ()
+          <
+        secondChordNamesVoice->getVoiceNumber ();        
+    }
+    else {
+      result =
+        chordNamesContextStaffNumber
+          <
+        secondChordNamesContextStaffNumber;
+    }
   }
 
   else if (

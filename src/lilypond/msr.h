@@ -10326,8 +10326,8 @@ class msrVoice : public msrElement
     S_msrVoice            getHarmonyVoiceForRegularVoice () const
                               { return fHarmonyVoiceForRegularVoice; }
 
-    S_msrVoice            getReguralVoiceForHarmonyVoice () const
-                              { return fReguralVoiceForHarmonyVoice; }
+    S_msrVoice            getRegularVoiceForHarmonyVoice () const
+                              { return fRegularVoiceForHarmonyVoice; }
 
     // stanzas
                    
@@ -10443,7 +10443,7 @@ class msrVoice : public msrElement
     
     // harmonies
 
-    S_msrVoice            createHarmonyVoiceForVoice (
+    S_msrVoice            createHarmonyVoiceForRegularVoice (
                             int    inputLineNumber,
                             string currentMeasureNumber);
 
@@ -10784,7 +10784,7 @@ class msrVoice : public msrElement
 
     // two-way links
     S_msrVoice            fHarmonyVoiceForRegularVoice;
-    S_msrVoice            fReguralVoiceForHarmonyVoice;
+    S_msrVoice            fRegularVoiceForHarmonyVoice;
 
     // counters
     

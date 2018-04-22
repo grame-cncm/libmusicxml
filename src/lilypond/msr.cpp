@@ -26790,7 +26790,7 @@ void msrVoice::createNewLastSegmentAndANewMeasureAfterARepeat (
     appendMeasureToSegment (newMeasure);
 }
 
-S_msrVoice msrVoice::createHarmonyVoiceForVoice (
+S_msrVoice msrVoice::createHarmonyVoiceForRegularVoice (
   int    inputLineNumber,
   string currentMeasureNumber)
 {
@@ -26820,7 +26820,7 @@ S_msrVoice msrVoice::createHarmonyVoiceForVoice (
       ||
     gTraceOptions->fTraceStaves) {
     gLogIOstream <<
-      "Creating harmony voice for msrVoice \"" << getVoiceName () << "\"" <<
+      "Creating harmony voice for regular voice \"" << getVoiceName () << "\"" <<
       " with voice number " << harmonyVoiceForRegularVoiceNumber <<
       ", line " << inputLineNumber <<
       endl;
@@ -26839,6 +26839,10 @@ S_msrVoice msrVoice::createHarmonyVoiceForVoice (
     registerVoiceInStaff (
       inputLineNumber,
       fHarmonyVoiceForRegularVoice);
+
+  // set back link
+  fHarmonyVoiceForRegularVoice->
+    fRegularVoiceForHarmonyVoice = this;
 
   return fHarmonyVoiceForRegularVoice;
 }

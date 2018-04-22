@@ -1665,7 +1665,7 @@ S_msrVoice mxmlTree2MsrSkeletonBuilder::createHarmonyVoiceForVoiceIfNotYetDone (
     // create the voice and append it to the staff
     harmonyVoice =
       voice->
-        createHarmonyVoiceForVoice (
+        createHarmonyVoiceForRegularVoice (
           inputLineNumber,
           fCurrentMeasureNumber);
   }
