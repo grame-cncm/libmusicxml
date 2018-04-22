@@ -3738,7 +3738,7 @@ class msrMeasure : public msrElement
     void                  determineMeasureKind (
                             int inputLineNumber);
 
-    void                  appendARestToFinalizeMeasure (
+    void                  appendARestOrSkipToFinalizeMeasure (
                             int inputLineNumber);
 
     void                  finalizeMeasure (

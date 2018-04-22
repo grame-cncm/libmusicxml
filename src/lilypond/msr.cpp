@@ -21564,7 +21564,7 @@ void msrMeasure::determineMeasureKind (
   }
 }
 
-void msrMeasure::appendARestToFinalizeMeasure (
+void msrMeasure::appendARestOrSkipToFinalizeMeasure (
   int inputLineNumber)
 {
   // fetch the part measure length high tide
@@ -21711,7 +21711,7 @@ void msrMeasure::finalizeMeasure (
           break;
           
         case msrMeasure::kMeasureCreatedAfterARepeatNo:
-          appendARestToFinalizeMeasure (
+          appendARestOrSkipToFinalizeMeasure (
             inputLineNumber);
           break;
       } // switch
