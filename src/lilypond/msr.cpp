@@ -26611,8 +26611,8 @@ void msrVoice::createMeasureAndAppendItToVoice (
 */
 
       // append new measure with given number to voice harmony voice if any
-      if (fVoiceHarmonyVoice) {
-        fVoiceHarmonyVoice->
+      if (fHarmonyVoiceForRegularVoice) {
+        fHarmonyVoiceForRegularVoice->
           createMeasureAndAppendItToVoice (
             inputLineNumber,
             measureNumber,
@@ -26794,7 +26794,7 @@ S_msrVoice msrVoice::createHarmonyVoiceForVoice (
   int    inputLineNumber,
   string currentMeasureNumber)
 {
-  if (fVoiceHarmonyVoice) {
+  if (fHarmonyVoiceForRegularVoice) {
     stringstream s;
 
     s <<
@@ -26810,7 +26810,7 @@ S_msrVoice msrVoice::createHarmonyVoiceForVoice (
   }
 
   // create the voice harmony voice
-  int voiceHarmonyVoiceNumber =
+  int harmonyVoiceForRegularVoiceNumber =
     K_VOICE_HARMONY_VOICE_BASE_NUMBER + fVoiceNumber;
     
   if (
@@ -26821,16 +26821,16 @@ S_msrVoice msrVoice::createHarmonyVoiceForVoice (
     gTraceOptions->fTraceStaves) {
     gLogIOstream <<
       "Creating harmony voice for msrVoice \"" << getVoiceName () << "\"" <<
-      " with voice number " << voiceHarmonyVoiceNumber <<
+      " with voice number " << harmonyVoiceForRegularVoiceNumber <<
       ", line " << inputLineNumber <<
       endl;
   }
 
-  fVoiceHarmonyVoice =
+  fHarmonyVoiceForRegularVoice =
     msrVoice::create (
       inputLineNumber,
       msrVoice::kHarmonyVoice,
-      voiceHarmonyVoiceNumber,
+      harmonyVoiceForRegularVoiceNumber,
       msrVoice::kCreateInitialLastSegmentYes,
       fVoiceStaffUplink);
 
@@ -26838,9 +26838,9 @@ S_msrVoice msrVoice::createHarmonyVoiceForVoice (
   fVoiceStaffUplink->
     registerVoiceInStaff (
       inputLineNumber,
-      fVoiceHarmonyVoice);
+      fHarmonyVoiceForRegularVoice);
 
-  return fVoiceHarmonyVoice;
+  return fHarmonyVoiceForRegularVoice;
 }
 
 S_msrStanza msrVoice::addStanzaToVoiceByItsNumber (
@@ -27584,7 +27584,7 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
 /*
   // should a skip be added to the voice harmony voice if any?
   if (
-    fVoiceHarmonyVoice
+    fHarmonyVoiceForRegularVoice
       &&
     ! note->getNoteHarmony ()) {
       // create skip with same duration as note
@@ -27595,11 +27595,11 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
             note->               getNoteDisplayWholeNotes (), // would be 0/1 otherwise JMI
             note->               getNoteDisplayWholeNotes (),
             note->               getNoteDotsNumber (),
-            fVoiceHarmonyVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
-            fVoiceHarmonyVoice-> getVoiceNumber ());
+            fHarmonyVoiceForRegularVoice-> getRegularVoiceStaffSequentialNumber (), // JMI
+            fHarmonyVoiceForRegularVoice-> getVoiceNumber ());
 
       // append it to the voice harmony voice
-      fVoiceHarmonyVoice->
+      fHarmonyVoiceForRegularVoice->
         appendNoteToVoice (skip);
   }
   */
@@ -30520,9 +30520,9 @@ void msrVoice::print (ostream& os)
   // print the harmony voice name if any
   os << left <<
     setw (fieldWidth) << "HarmonyVoice" << " : ";
-  if (fVoiceHarmonyVoice) {    
+  if (fHarmonyVoiceForRegularVoice) {    
     os <<
-      fVoiceHarmonyVoice->getVoiceName ();
+      fHarmonyVoiceForRegularVoice->getVoiceName ();
   }
   else {
     os <<

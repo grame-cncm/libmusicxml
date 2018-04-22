@@ -16602,7 +16602,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       // append the harmony to the harmony voice for the current voice
       S_msrVoice
         voiceHarmonyVoice =
-          voice->getVoiceHarmonyVoice ();
+          voice->getHarmonyVoiceForRegularVoice ();
             
       voiceHarmonyVoice->
         appendHarmonyToVoice (

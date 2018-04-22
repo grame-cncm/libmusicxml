@@ -1179,7 +1179,7 @@ class lpsrChordNamesContext : public lpsrContext
       int                     inputLineNumber,
       lpsrContextExistingKind contextExistingKind,
       string                  contextName,
-      S_msrStaff              contextStaff);
+      S_msrVoice              contextVoice);
     
   protected:
 
@@ -1190,7 +1190,7 @@ class lpsrChordNamesContext : public lpsrContext
       int                     inputLineNumber,
       lpsrContextExistingKind contextExistingKind,
       string                  contextName,
-      S_msrStaff              contextStaff);
+      S_msrVoice              contextVoice);
       
     virtual ~lpsrChordNamesContext ();
   
@@ -1199,8 +1199,8 @@ class lpsrChordNamesContext : public lpsrContext
     // set and get
     // ------------------------------------------------------
 
-    S_msrStaff            getContextStaff () const
-                              { return fContextStaff; }
+    S_msrVoice            getContextVoice () const
+                              { return fContextVoice; }
 
     // services
     // ------------------------------------------------------
@@ -1223,7 +1223,7 @@ class lpsrChordNamesContext : public lpsrContext
     // fields
     // ------------------------------------------------------
 
-    S_msrStaff            fContextStaff;
+    S_msrVoice            fContextVoice;
 };
 typedef SMARTP<lpsrChordNamesContext> S_lpsrChordNamesContext;
 EXP ostream& operator<< (ostream& os, const S_lpsrChordNamesContext& elt);

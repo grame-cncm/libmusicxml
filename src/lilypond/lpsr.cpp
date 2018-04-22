@@ -1869,14 +1869,14 @@ S_lpsrChordNamesContext lpsrChordNamesContext::create (
   int                     inputLineNumber,
   lpsrContextExistingKind contextExistingKind,
   string                  contextName,
-  S_msrStaff              contextStaff)
+  S_msrVoice              contextVoice)
 {
   lpsrChordNamesContext* o =
     new lpsrChordNamesContext (
       inputLineNumber,
       contextExistingKind,
       contextName,
-      contextStaff);
+      contextVoice);
   assert(o!=0);
   return o;
 }
@@ -1885,7 +1885,7 @@ lpsrChordNamesContext::lpsrChordNamesContext (
   int                     inputLineNumber,
   lpsrContextExistingKind contextExistingKind,
   string                  contextName,
-  S_msrStaff              contextStaff)
+  S_msrVoice              contextVoice)
     : lpsrContext (
       inputLineNumber,
       contextExistingKind,
@@ -1896,7 +1896,7 @@ lpsrChordNamesContext::lpsrChordNamesContext (
     
   fContextName = contextName;
 
-  fContextStaff = contextStaff;
+  fContextVoice = contextVoice;
 }
 
 lpsrChordNamesContext::~lpsrChordNamesContext ()
@@ -1975,7 +1975,7 @@ void lpsrChordNamesContext::print (ostream& os)
     "contextName" << " : \"" << fContextName << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "contextStaff" << " : \"" << fContextStaff->getStaffName () << "\"" <<
+    "contextVoice" << " : \"" << fContextVoice->getVoiceName () << "\"" <<
     endl;
 
   os <<
@@ -3679,7 +3679,9 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
     result =
       staffBlock->getStaff ()->getStaffNumber ()
         >
-      secondChordNamesContext->getContextStaff ()->getStaffNumber ();
+      secondChordNamesContext->
+        getContextVoice ()->
+          getVoiceStaffUplink ()->getStaffNumber ();
   }
 
   else if (
@@ -3721,8 +3723,10 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
     ) {
     // otherElement is a staff block     
     result =
-      chordNamesContext->getContextStaff ()->getStaffNumber ()
-        >=
+      chordNamesContext->
+        getContextVoice ()->
+          getVoiceStaffUplink ()->getStaffNumber ()
+        <
       secondStaffBlock->getStaff ()->getStaffNumber ();
   }
 
