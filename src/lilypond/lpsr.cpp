@@ -1949,6 +1949,12 @@ void lpsrChordNamesContext::acceptOut (basevisitor* v)
 void lpsrChordNamesContext::browseData (basevisitor* v)
 {}
 
+ostream& operator<< (ostream& os, const S_lpsrChordNamesContext& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 void lpsrChordNamesContext::print (ostream& os)
 {  
   os <<
@@ -2093,6 +2099,12 @@ void lpsrFiguredBassContext::acceptOut (basevisitor* v)
 
 void lpsrFiguredBassContext::browseData (basevisitor* v)
 {}
+
+ostream& operator<< (ostream& os, const S_lpsrFiguredBassContext& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 void lpsrFiguredBassContext::print (ostream& os)
 {  
@@ -3667,7 +3679,11 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
       secondStaffBlock =
         dynamic_cast<lpsrStaffBlock*>(&(*otherElement))
     ) {
-    // otherElement is a staff block     
+    // otherElement is a staff block
+    result =  
+      staffBlock->getStaff ()->getStaffNumber ()
+        <
+      secondStaffBlock->getStaff ()->getStaffNumber ();
   }
 
   else if (
@@ -3677,11 +3693,11 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
     ) {
     // otherElement is a chord names context
     result =
+      staffBlock->getStaff ()->getStaffNumber ()
+        <
       secondChordNamesContext->
         getContextVoice ()->
-          getVoiceStaffUplink ()->getStaffNumber ()
-        <
-      staffBlock->getStaff ()->getStaffNumber ();
+          getVoiceStaffUplink ()->getStaffNumber ();
   }
 
   else if (
@@ -3707,6 +3723,20 @@ bool lpsrPartBlock::compareStaffBlockWithOtherElement (
       s.str ());
   }
 
+  gLogIOstream <<
+    endl <<
+    "!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+    endl <<
+    "compareStaffBlockWithOtherElement:" <<
+    endl <<
+    staffBlock <<
+    endl <<
+    otherElement <<
+    endl <<
+    "===> " << booleanAsString (result) <<
+    endl <<
+    endl;
+    
   return result;
 }
 
@@ -3722,12 +3752,30 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
         dynamic_cast<lpsrStaffBlock*>(&(*otherElement))
     ) {
     // otherElement is a staff block     
-    result = true ||
-      chordNamesContext->
-        getContextVoice ()->
-          getVoiceStaffUplink ()->getStaffNumber ()
-        <
-      secondStaffBlock->getStaff ()->getStaffNumber ();
+    S_msrVoice
+      chordNamesVoice =
+        chordNamesContext->
+          getContextVoice ();
+
+    int
+      chordNamesContextStaffNumber =
+        chordNamesVoice->
+          getVoiceStaffUplink ()->
+            getStaffNumber (),
+      secondStaffBlockStaffNumber =
+        secondStaffBlock->
+          getStaff ()->getStaffNumber ();
+
+    if (chordNamesContextStaffNumber == secondStaffBlockStaffNumber) {
+      // chord names should precede the staff
+      result = true;
+    }
+    else {
+      result =
+        chordNamesContextStaffNumber
+          <
+        secondStaffBlockStaffNumber;
+    }
   }
 
   else if (
@@ -3741,7 +3789,7 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
         chordNamesContext->
           getContextVoice (),
       secondChordNamesVoice =
-        chordNamesContext->
+        secondChordNamesContext->
           getContextVoice ();
         
     int
@@ -3790,6 +3838,20 @@ bool lpsrPartBlock::compareChordNamesContextWithOtherElement (
       __FILE__, __LINE__,
       s.str ());
   }
+
+  gLogIOstream <<
+    endl <<
+    "!!!!!!!!!!!!!!!!!!!!!!!!!" <<
+    endl <<
+    "compareChordNamesContextWithOtherElement:" <<
+    endl <<
+    chordNamesContext <<
+    endl <<
+    otherElement <<
+    endl <<
+    "===> " << booleanAsString (result) <<
+    endl <<
+    endl;
 
   return result;
 }
