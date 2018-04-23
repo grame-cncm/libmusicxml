@@ -3531,7 +3531,12 @@ class msrMeasure : public msrElement
 
     string                measureLengthAsMSRString ();
 
-    void                  skipToToMeasureLengthInMeasure (
+    S_msrNote             createPaddingNoteForVoice (
+                            int        inputLineNumber,
+                            rational   duration,
+                            S_msrVoice voice);
+  
+    void                  padUpToMeasureLengthInMeasure (
                             int      inputLineNumber,
                             rational measureLength);
 
@@ -3738,7 +3743,7 @@ class msrMeasure : public msrElement
     void                  determineMeasureKind (
                             int inputLineNumber);
 
-    void                  appendARestOrSkipToFinalizeMeasure (
+    void                  padUpToPartMeasureLengthHighTide (
                             int inputLineNumber);
 
     void                  finalizeMeasure (
@@ -3893,7 +3898,7 @@ class msrSegment : public msrElement
 
     // divisions ??? JMI
     
-    void                  skipToToMeasureLengthInSegment (
+    void                  padUpToMeasureLengthInSegment (
                             int      inputLineNumber,
                             rational measureLength);
   
@@ -10424,7 +10429,7 @@ class msrVoice : public msrElement
     void                  appendAFirstMeasureToVoiceIfNotYetDone ( // JMI ???
                              int inputLineNumber);
                                                     
-    void                  skipToToMeasureLengthInVoice (
+    void                  padUpToMeasureLengthInVoice (
                             int      inputLineNumber,
                             rational measureLength);
   
@@ -11271,7 +11276,7 @@ class msrStaff : public msrElement
 
     // measures
 
-    void                  skipToToMeasureLengthInStaff (
+    void                  padUpToMeasureLengthInStaff (
                             int      inputLineNumber,
                             rational measureLength);
   
@@ -11802,7 +11807,7 @@ class msrPart : public msrElement
     
     // measures
 
-    void                  skipToToMeasureLengthInPart (
+    void                  padUpToMeasureLengthInPart (
                             int      inputLineNumber,
                             rational measureLength);
   

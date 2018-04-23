@@ -20202,9 +20202,8 @@ void msrMeasure::appendTransposeToMeasure (
 
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
-  // the measure may have to be padded if it belongs
-  // to a harmony voice
-  appendARestOrSkipToFinalizeMeasure (
+  // the measure may have to be padded
+  padUpToPartMeasureLengthHighTide (
     barline->getInputLineNumber ());
     
   // append it to the measure elements list
@@ -20477,7 +20476,7 @@ void msrMeasure::appendDoubleTremoloToMeasure (
   // bring harmony voice to the same measure length
   fetchMeasurePartUplink->
     getPartHarmonyVoice ()->
-      skipToToMeasureLengthInVoice (
+      padUpToMeasureLengthInVoice (
         inputLineNumber,
         fMeasureLength);
         */
@@ -20778,7 +20777,7 @@ void msrMeasure::appendTupletToMeasure (S_msrTuplet tuplet)
   // bring harmony voice to the new measure length
   fetchMeasurePartUplink->
     getPartHarmonyVoice ()->
-      skipToToMeasureLengthInVoice (
+      padUpToMeasureLengthInVoice (
         inputLineNumber,
         fMeasureLength);
         */
@@ -20958,13 +20957,53 @@ void msrMeasure::appendFiguredBassToMeasureClone (
   fMeasureContainsMusic = true;
 }
 
-void msrMeasure::skipToToMeasureLengthInMeasure (
+S_msrNote msrMeasure::createPaddingNoteForVoice (
+  int        inputLineNumber,
+  rational   duration,
+  S_msrVoice voice)
+{
+  // create a rest or a skip depending on measureVoice kind
+  S_msrNote paddingNote;
+
+  switch (voice->getVoiceKind ()) {
+    case msrVoice::kRegularVoice:
+      paddingNote =
+        msrNote::createRestNote (
+          inputLineNumber,
+          duration,
+          duration,
+          0, // dots number JMI ???
+          voice->
+            getVoiceStaffUplink ()->getStaffNumber (),
+          voice->
+            getVoiceNumber ());
+      break;
+      
+    case msrVoice::kHarmonyVoice:
+    case msrVoice::kFiguredBassVoice:
+      paddingNote =
+        msrNote::createSkipNote (
+          inputLineNumber,
+          duration,
+          duration,
+          0, // dots number JMI ???
+          voice->
+            getVoiceStaffUplink ()->getStaffNumber (),
+          voice->
+            getVoiceNumber ());
+      break;
+  } // switch
+
+  return paddingNote;
+}
+
+void msrMeasure::padUpToMeasureLengthInMeasure (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Skipping from measure length '" << fMeasureLength <<
+      "Padding from measure length '" << fMeasureLength <<
       "' to '" << measureLength <<
       "' in measure " <<
       fMeasureNumber <<
@@ -20987,8 +21026,14 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
           getSegmentVoiceUplink ();
       
     // create a rest or a skip depending on measureVoice kind
-    S_msrNote paddingNote;
+    S_msrNote
+      paddingNote =
+        createPaddingNoteForVoice (
+          inputLineNumber,
+          missingDuration,
+          measureVoice);
 
+/* JMI
     switch (measureVoice->getVoiceKind ()) {
       case msrVoice::kRegularVoice:
         paddingNote =
@@ -21017,6 +21062,7 @@ void msrMeasure::skipToToMeasureLengthInMeasure (
               getVoiceNumber ());
         break;
     } // switch
+*/
 
     // does the rest occupy a full measure?
     if (missingDuration == fFullMeasureLength)
@@ -21569,7 +21615,7 @@ void msrMeasure::determineMeasureKind (
   }
 }
 
-void msrMeasure::appendARestOrSkipToFinalizeMeasure (
+void msrMeasure::padUpToPartMeasureLengthHighTide (
   int inputLineNumber)
 {
   // fetch the part measure length high tide
@@ -21590,14 +21636,21 @@ void msrMeasure::appendARestOrSkipToFinalizeMeasure (
       
     // fetch the voice
     S_msrVoice
-      voice =
+      measureVoice =
         fMeasureSegmentUplink->
           getSegmentVoiceUplink ();
     
     // create a rest or a skip depending on measureVoice kind
-    S_msrNote paddingNote;
+    S_msrNote
+      paddingNote =
+        createPaddingNoteForVoice (
+          inputLineNumber,
+          missingDuration,
+          measureVoice);
 
-    switch (voice->getVoiceKind ()) {
+/* JMI
+
+    switch (measureVoice->getVoiceKind ()) {
       case msrVoice::kRegularVoice:
         paddingNote =
           msrNote::createRestNote (
@@ -21605,9 +21658,9 @@ void msrMeasure::appendARestOrSkipToFinalizeMeasure (
             missingDuration,
             missingDuration,
             0, // dots number JMI ???
-            voice->
+            measureVoice->
               getVoiceStaffUplink ()->getStaffNumber (),
-            voice->
+            measureVoice->
               getVoiceNumber ());
         break;
         
@@ -21619,12 +21672,13 @@ void msrMeasure::appendARestOrSkipToFinalizeMeasure (
             missingDuration,
             missingDuration,
             0, // dots number JMI ???
-            voice->
+            measureVoice->
               getVoiceStaffUplink ()->getStaffNumber (),
-            voice->
+            measureVoice->
               getVoiceNumber ());
         break;
     } // switch
+*/
 
     // does the rest occupy a full measure?
     if (missingDuration == fFullMeasureLength)
@@ -21639,7 +21693,7 @@ void msrMeasure::appendARestOrSkipToFinalizeMeasure (
       gLogIOstream <<
        "Appending '" << paddingNote->asString () <<
        " (" << missingDuration << " whole notes)'" <<
-       " to finalize \"" << voice->getVoiceName () <<
+       " to finalize \"" << measureVoice->getVoiceName () <<
        "\" measure: @" << fMeasureNumber << ":" << fMeasureLength <<
        " % --> @" << fMeasureNumber << // JMI
        ":" << partMeasureLengthHighTide <<
@@ -21716,7 +21770,7 @@ void msrMeasure::finalizeMeasure (
           break;
           
         case msrMeasure::kMeasureCreatedAfterARepeatNo:
-          appendARestOrSkipToFinalizeMeasure (
+          padUpToPartMeasureLengthHighTide (
             inputLineNumber);
           break;
       } // switch
@@ -23010,13 +23064,13 @@ void msrSegment::appendHarpPedalsTuningToSegment (
       harpPedalsTuning);
 }
 
-void msrSegment::skipToToMeasureLengthInSegment (
+void msrSegment::padUpToMeasureLengthInSegment (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceSegments || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Skipping to measure length '" << measureLength <<
+      "Padding up to measure length '" << measureLength <<
       "' in segment '" <<
       fSegmentAbsoluteNumber <<
       "' in voice \"" <<
@@ -23064,7 +23118,7 @@ void msrSegment::skipToToMeasureLengthInSegment (
   if (fSegmentMeasuresList.size ()) { // JMI BOFBOF
     // bring last measure to this length
     fSegmentMeasuresList.back ()->
-      skipToToMeasureLengthInMeasure (
+      padUpToMeasureLengthInMeasure (
         inputLineNumber, measureLength);
   }
 }
@@ -27137,7 +27191,7 @@ void msrVoice::appendHarmonyToVoice (S_msrHarmony harmony)
         inputLineNumber);
 
       // skip to harmony note position in the voice
-      skipToToMeasureLengthInVoice (
+      padUpToMeasureLengthInVoice (
         inputLineNumber,
         harmony->
           getHarmonyNoteUplink ()->
@@ -27319,13 +27373,13 @@ void msrVoice::appendFiguredBassToVoiceClone (
   } // switch
 }
 
-void msrVoice::skipToToMeasureLengthInVoice (
+void msrVoice::padUpToMeasureLengthInVoice (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceVoices || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Skipping to measure length '" << measureLength <<
+      "Padding up to measure length '" << measureLength <<
       "' in voice \"" <<
       getVoiceName () <<
       "\", line " << inputLineNumber <<
@@ -27333,7 +27387,7 @@ void msrVoice::skipToToMeasureLengthInVoice (
   }
 
   fVoiceLastSegment->
-    skipToToMeasureLengthInSegment (
+    padUpToMeasureLengthInSegment (
       inputLineNumber, measureLength);
 }
 
@@ -32148,13 +32202,13 @@ void msrStaff::registerVoiceInStaff (
   } // switch
 }
 
-void msrStaff::skipToToMeasureLengthInStaff (
+void msrStaff::padUpToMeasureLengthInStaff (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Skipping to measure length '" << measureLength <<
+      "Padding up to measure length '" << measureLength <<
       "' in staff \"" <<
       getStaffName () <<
       "\", line " << inputLineNumber <<
@@ -32166,7 +32220,7 @@ void msrStaff::skipToToMeasureLengthInStaff (
     i != fStaffAllVoicesMap.end ();
     i++) {
     (*i).second-> // JMI msrAssert???
-      skipToToMeasureLengthInVoice (
+      padUpToMeasureLengthInVoice (
         inputLineNumber,
         measureLength);
   } // for
@@ -33761,13 +33815,13 @@ void msrPart::updatePartMeasureLengthHighTide (
   }
 }
 
-void msrPart::skipToToMeasureLengthInPart (
+void msrPart::padUpToMeasureLengthInPart (
   int      inputLineNumber,
   rational measureLength)
 {
   if (gTraceOptions->fTraceParts || gTraceOptions->fTraceMeasures) {
     gLogIOstream <<
-      "Skipping to measure length '" << measureLength <<
+      "Padding up to measure length '" << measureLength <<
       "' in part \"" <<
       getPartCombinedName () <<
       ", line " << inputLineNumber <<
@@ -33780,7 +33834,7 @@ void msrPart::skipToToMeasureLengthInPart (
     i != fPartStavesMap.end ();
     i++) {
     (*i).second->
-      skipToToMeasureLengthInStaff (
+      padUpToMeasureLengthInStaff (
         inputLineNumber,
         measureLength);
   } // for
@@ -34695,7 +34749,7 @@ void msrPart:: handleBackup (
   measurePosition.rationalise ();
 
   // bring the part back to that measure position
-  skipToToMeasureLengthInPart (
+  padUpToMeasureLengthInPart (
     inputLineNumber,
     measurePosition);
 }
@@ -34738,7 +34792,7 @@ void msrPart:: handleForward (
   measurePosition.rationalise ();
 
   // bring the voice forward to that measure position
-  skipToToMeasureLengthInPart (
+  padUpToMeasureLengthInPart (
     inputLineNumber,
     measurePosition);
     */
@@ -34793,7 +34847,7 @@ void msrPart::appendSkipGraceNotesToVoicesClones ( // JMI ???
             
         // bring voice to the same measure length as graceNotesOriginVoice
         voice->
-          skipToToMeasureLengthInVoice (
+          padUpToMeasureLengthInVoice (
             inputLineNumber,
             graceNotesOriginVoiceMeasureLength);
         
@@ -34856,7 +34910,7 @@ void msrPart::prependSkipGraceNotesToVoicesClones (
             
         // bring voice to the same measure length as graceNotesOriginVoice
         voice->
-          skipToToMeasureLengthInVoice (
+          padUpToMeasureLengthInVoice (
             inputLineNumber,
             graceNotesOriginVoiceMeasureLength);
         
