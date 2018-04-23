@@ -20201,7 +20201,12 @@ void msrMeasure::appendTransposeToMeasure (
 }
 
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
-{    
+{
+  // the measure may have to be padded if it belongs
+  // to a harmony voice
+  appendARestOrSkipToFinalizeMeasure (
+    barline->getInputLineNumber ());
+    
   // append it to the measure elements list
   fMeasureElementsList.push_back (barline);
 }
