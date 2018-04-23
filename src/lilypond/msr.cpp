@@ -30964,7 +30964,7 @@ void msrStaffTuning::print (ostream& os)
 {
   os <<
     "StaffTuning" <<
-    ", line " << fStaffTuningLineNumber <<
+    ", line " << fInputLineNumber <<
     ", " <<
     endl;
 

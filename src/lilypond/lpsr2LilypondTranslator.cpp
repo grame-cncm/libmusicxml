@@ -4555,15 +4555,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
     linesNumber =
       elt->getLinesNumber ();
 
-  if (linesNumber != 5) { // default value
-    fLilypondCodeIOstream <<
-      endl <<
-      "\\stopStaff " <<
-      "\\override Staff.StaffSymbol.line-count = " <<
-      linesNumber <<
-      " \\startStaff" <<
-      endl;
-  }
+  fLilypondCodeIOstream <<
+    endl <<
+    "\\stopStaff " <<
+    "\\override Staff.StaffSymbol.line-count = " <<
+    linesNumber <<
+    " \\startStaff" <<
+    endl;
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
