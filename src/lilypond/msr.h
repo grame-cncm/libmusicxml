@@ -10856,6 +10856,7 @@ class msrVoice : public msrElement
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
 //______________________________________________________________________________
+/* JMI
 class msrStaffLinesNumber : public msrElement
 {
   public:
@@ -10917,6 +10918,7 @@ class msrStaffLinesNumber : public msrElement
 };
 typedef SMARTP<msrStaffLinesNumber> S_msrStaffLinesNumber;
 EXP ostream& operator<< (ostream& os, const S_msrStaffLinesNumber& elt);
+*/
 
 //______________________________________________________________________________
 class msrStaffTuning : public msrElement
@@ -11035,21 +11037,11 @@ class msrStaffDetails : public msrElement
     // ------------------------------------------------------
 
     static SMARTP<msrStaffDetails> create (
-      int                   inputLineNumber,
-      msrStaffTypeKind      staffTypeKind,
-      S_msrStaffLinesNumber staffLinesNumber,
-      S_msrStaffTuning      staffTuning,
-      msrShowFretsKind      showFretsKind,
-      msrPrintObjectKind    printObjectKind,
-      msrPrintSpacingKind   printSpacingKind);
-
-    SMARTP<msrStaffDetails> createStaffDetailsNewbornClone (
-      S_msrStaffLinesNumber staffLinesNumberClone,
-      S_msrStaffTuning      staffTuningClone);
-
-    SMARTP<msrVoice> createStaffDetailsDeepCopy (
-      S_msrStaffLinesNumber staffLinesNumberClone,
-      S_msrStaffTuning      staffTuningClone);
+      int                 inputLineNumber,
+      msrStaffTypeKind    staffTypeKind,
+      msrShowFretsKind    showFretsKind,
+      msrPrintObjectKind  printObjectKind,
+      msrPrintSpacingKind printSpacingKin);
 
   protected:
 
@@ -11057,15 +11049,13 @@ class msrStaffDetails : public msrElement
     // ------------------------------------------------------
 
     msrStaffDetails (
-      int                   inputLineNumber,
-      msrStaffTypeKind      staffTypeKind,
-      S_msrStaffLinesNumber staffLinesNumber,
-      S_msrStaffTuning      staffTuning,
-      msrShowFretsKind      showFretsKind,
-      msrPrintObjectKind    printObjectKind,
-      msrPrintSpacingKind   printSpacingKind);
+      int                 inputLineNumber,
+      msrStaffTypeKind    staffTypeKind,
+      msrShowFretsKind    showFretsKind,
+      msrPrintObjectKind  printObjectKind,
+      msrPrintSpacingKind printSpacingKin);
       
-    virtual ~msrStaffDetails();
+    virtual ~msrStaffDetails ();
   
   public:
 
@@ -11075,11 +11065,16 @@ class msrStaffDetails : public msrElement
     msrStaffTypeKind      getStaffTypeKind () const
                               { return fStaffTypeKind; }
                         
-    S_msrStaffLinesNumber getStaffLinesNumber () const
+    void                  setStaffLinesNumber (
+                            int staffLinesNumber)
+                              { fStaffLinesNumber = staffLinesNumber; }
+                        
+    int                   getStaffLinesNumber () const
                               { return fStaffLinesNumber; }
                         
-    S_msrStaffTuning      getStaffTuning () const
-                              { return fStaffTuning; }
+    const list<S_msrStaffTuning>&
+                          getStaffTuningsList () const
+                              { return fStaffTuningsList; }
                         
     msrShowFretsKind      getShowFretsKind () const
                               { return fShowFretsKind; }
@@ -11093,6 +11088,12 @@ class msrStaffDetails : public msrElement
     // services
     // ------------------------------------------------------
 
+    void                  addStaffTuningToStaffDetails (
+                            S_msrStaffTuning staffTuning)
+                              {
+                                fStaffTuningsList.push_back (staffTuning);
+                              }
+                            
     string                asShortString ();
     
     // visitors
@@ -11115,8 +11116,9 @@ class msrStaffDetails : public msrElement
 
     msrStaffTypeKind      fStaffTypeKind;
 
-    S_msrStaffLinesNumber fStaffLinesNumber;
-    S_msrStaffTuning      fStaffTuning;
+    int                   fStaffLinesNumber;
+    list<S_msrStaffTuning>
+                          fStaffTuningsList;
 
     msrShowFretsKind      fShowFretsKind;
     
@@ -11238,8 +11240,8 @@ class msrStaff : public msrElement
     
     // staff details
 
-    S_msrStaffDetails     getCurrentStaffStaffDetails () const
-                            { return fCurrentStaffStaffDetails; }
+    S_msrStaffDetails     getStaffStaffDetails () const
+                            { return fStaffStaffDetails; }
 
     // staff voices
     
@@ -11513,7 +11515,7 @@ class msrStaff : public msrElement
 
     // staff details
 
-    S_msrStaffDetails     fCurrentStaffStaffDetails;
+    S_msrStaffDetails     fStaffStaffDetails;
 };
 typedef SMARTP<msrStaff> S_msrStaff;
 EXP ostream& operator<< (ostream& os, const S_msrStaff& elt);

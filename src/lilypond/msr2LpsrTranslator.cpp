@@ -863,6 +863,7 @@ void msr2LpsrTranslator::visitEnd (S_msrPart& elt)
 }
 
 //________________________________________________________________________
+/* JMI
 void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
@@ -877,6 +878,7 @@ void msr2LpsrTranslator::visitStart (S_msrStaffLinesNumber& elt)
     elt->
       createStaffLinesNumberNewbornClone ();
 }
+*/
 
 //________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrStaffTuning& elt)
@@ -904,7 +906,6 @@ void msr2LpsrTranslator::visitStart (S_msrStaffDetails& elt)
       endl;
   }
 
-  fCurrentStaffLinesNumberClone = nullptr;
   fCurrentStaffTuningClone      = nullptr;
 }
 
@@ -917,17 +918,10 @@ void msr2LpsrTranslator::visitEnd (S_msrStaffDetails& elt)
       endl;
   }
 
-  // create a staff details clone
-  S_msrStaffDetails
-    staffDetailsClone =
-      elt->createStaffDetailsNewbornClone (
-        fCurrentStaffLinesNumberClone,
-        fCurrentStaffTuningClone);
-
-  // append it to the current staff clone
+  // append the staff details to the current staff clone
   fCurrentStaffClone->
     appendStaffDetailsToStaff (
-      staffDetailsClone);
+      elt);
 
         
 /* JMI

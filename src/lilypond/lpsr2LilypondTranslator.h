@@ -161,7 +161,6 @@ class lpsr2LilypondTranslator :
   
   // staff details
 
-  public visitor<S_msrStaffLinesNumber>,
   public visitor<S_msrStaffTuning>,
   public visitor<S_msrStaffDetails>,
 
@@ -434,7 +433,6 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrPart& elt);
     virtual void visitEnd   (S_msrPart& elt);
 
-    virtual void visitStart (S_msrStaffLinesNumber& elt);
     virtual void visitStart (S_msrStaffTuning& elt);
     virtual void visitStart (S_msrStaffDetails& elt);
 

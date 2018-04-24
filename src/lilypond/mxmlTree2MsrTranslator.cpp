@@ -4686,10 +4686,18 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_details& elt )
 
   fCurrentStaffDetailsStaffSize = 0;
   
-  fCurrentStaffLinesNumber = nullptr;
-  fCurrentStaffTuning = nullptr;
+  fCurrentStaffLinesNumber = -1;
   
   fCurrentStaffDetailsCapo = 0;
+
+  // create the staff details
+  fCurrentStaffDetails =
+    msrStaffDetails::create (
+      elt->getInputLineNumber (),
+      fCurrentStaffTypeKind,
+      fCurrentShowFretsKind,
+      fCurrentPrintObjectKind,
+      fCurrentPrintSpacingKind);
 
   gIndenter++;
 }
@@ -4755,14 +4763,9 @@ void mxmlTree2MsrTranslator::visitStart (S_staff_lines& elt )
       endl;
   }
 
-  int staffLines = (int)(*elt);
+  fCurrentStaffLinesNumber = (int)(*elt);
 
 // JMI           <staff-lines>0</staff-lines> cache la portee
-
-  fCurrentStaffLinesNumber =
-    msrStaffLinesNumber::create (
-      elt->getInputLineNumber (),
-      staffLines);
 }
 
 void mxmlTree2MsrTranslator::visitStart (S_staff_tuning& elt )
@@ -4961,14 +4964,21 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_tuning& elt )
 
     gIndenter--;
   }
-    
-  fCurrentStaffTuning =
-    msrStaffTuning::create (
-      inputLineNumber,
-      fCurrentStaffTuningLine,
-      quarterTonesPitchKind,
-      fCurrentStaffTuningOctave);
 
+  // create the staff tuning
+  S_msrStaffTuning
+    staffTuning =
+      msrStaffTuning::create (
+        inputLineNumber,
+        fCurrentStaffTuningLine,
+        quarterTonesPitchKind,
+        fCurrentStaffTuningOctave);
+
+  // add it to the current staff details
+  fCurrentStaffDetails->
+    addStaffTuningToStaffDetails (
+      staffTuning);
+      
   fOnGoingStaffTuning = false;
 }
 
@@ -20260,7 +20270,7 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
     fLogOutputStream << left <<
       setw (fieldWidth) <<
       "CurrentStaffLinesNumber" << " = " <<
-      fCurrentStaffLinesNumber->asString () <<
+      fCurrentStaffLinesNumber <<
       endl <<
       setw (fieldWidth) <<
       "StaffDetailsStaffNumber" << " = " <<
@@ -20277,23 +20287,17 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
   }
 
   gIndenter--;
-  
-  // create the staff details
-  S_msrStaffDetails
-    staffDetails =
-      msrStaffDetails::create (
-        elt->getInputLineNumber (),
-        fCurrentStaffTypeKind,
-        fCurrentStaffLinesNumber,
-        fCurrentStaffTuning,
-        fCurrentShowFretsKind,
-        fCurrentPrintObjectKind,
-        fCurrentPrintSpacingKind);
 
+  // set staff details line number
+  fCurrentStaffDetails->
+    setStaffLinesNumber (
+      fCurrentStaffLinesNumber);
+  
   // append staff details in part or staff
   if (fStaffDetailsStaffNumber == 0)
     fCurrentPart->
-      appendStaffDetailsToPart (staffDetails);
+      appendStaffDetailsToPart (
+        fCurrentStaffDetails);
     
   else {
     S_msrStaff
@@ -20303,8 +20307,12 @@ void mxmlTree2MsrTranslator::visitEnd (S_staff_details& elt )
           fStaffDetailsStaffNumber);
     
     staff->
-      appendStaffDetailsToStaff (staffDetails);
+      appendStaffDetailsToStaff (
+        fCurrentStaffDetails);
   }
+
+  // forget about this staff details
+  fCurrentStaffDetails = nullptr;
 }
 
 //______________________________________________________________________________

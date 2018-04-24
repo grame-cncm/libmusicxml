@@ -1062,10 +1062,8 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentStaffDetailsCapo;
 
     int                       fCurrentStaffDetailsStaffSize; // JMI
-
-    S_msrStaffTuning          fCurrentStaffTuning;
     
-    S_msrStaffLinesNumber     fCurrentStaffLinesNumber;
+    int     fCurrentStaffLinesNumber;
 
     int                       fStaffDetailsStaffNumber;
     
@@ -1073,6 +1071,8 @@ class mxmlTree2MsrTranslator :
     msrDiatonicPitchKind      fCurrentStaffTuningDiatonicPitchKind;
     msrAlterationKind         fCurrentStaffTuningAlterationKind;
     int                       fCurrentStaffTuningOctave;
+
+   S_msrStaffDetails          fCurrentStaffDetails;
 
     bool                      fOnGoingStaffTuning;
     

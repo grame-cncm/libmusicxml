@@ -26292,7 +26292,7 @@ void msrVoice::initializeVoice (
   S_msrStaffDetails
     staffStaffDetails =
       fVoiceStaffUplink->
-        getCurrentStaffStaffDetails ();
+        getStaffStaffDetails ();
 
   if (staffStaffDetails) {
     // append it to the voice
@@ -30724,6 +30724,7 @@ void msrVoice::print (ostream& os)
 }
 
 //______________________________________________________________________________
+/* JMI
 S_msrStaffLinesNumber msrStaffLinesNumber::create (
   int inputLineNumber,
   int linesNumber)
@@ -30837,6 +30838,7 @@ void msrStaffLinesNumber::print (ostream& os)
     asString () <<
     endl;
 }
+*/
 
 //______________________________________________________________________________
 S_msrStaffTuning msrStaffTuning::create (
@@ -30993,20 +30995,16 @@ void msrStaffTuning::print (ostream& os)
 
 //______________________________________________________________________________
 S_msrStaffDetails msrStaffDetails::create (
-  int                   inputLineNumber,
-  msrStaffTypeKind      staffTypeKind,
-  S_msrStaffLinesNumber staffLinesNumber,
-  S_msrStaffTuning      staffTuning,
-  msrShowFretsKind      showFretsKind,
-  msrPrintObjectKind    printObjectKind,
-  msrPrintSpacingKind   printSpacingKind)
+  int                 inputLineNumber,
+  msrStaffTypeKind    staffTypeKind,
+  msrShowFretsKind    showFretsKind,
+  msrPrintObjectKind  printObjectKind,
+  msrPrintSpacingKind printSpacingKind)
 {
   msrStaffDetails* o =
     new msrStaffDetails (
       inputLineNumber,
       staffTypeKind,
-      staffLinesNumber,
-      staffTuning,
       showFretsKind,
       printObjectKind,
       printSpacingKind);
@@ -31015,51 +31013,25 @@ S_msrStaffDetails msrStaffDetails::create (
 }
 
 msrStaffDetails::msrStaffDetails (
-  int                   inputLineNumber,
-  msrStaffTypeKind      staffTypeKind,
-  S_msrStaffLinesNumber staffLinesNumber,
-  S_msrStaffTuning      staffTuning,
-  msrShowFretsKind      showFretsKind,
-  msrPrintObjectKind    printObjectKind,
-  msrPrintSpacingKind   printSpacingKind)
+  int                 inputLineNumber,
+  msrStaffTypeKind    staffTypeKind,
+  msrShowFretsKind    showFretsKind,
+  msrPrintObjectKind  printObjectKind,
+  msrPrintSpacingKind printSpacingKind)
     : msrElement (inputLineNumber)
 {
   fStaffTypeKind    = staffTypeKind;
-  fStaffLinesNumber = staffLinesNumber;
-  fStaffTuning      = staffTuning;
+  
+  fStaffLinesNumber = 5; // default value JMI ???
+
   fShowFretsKind    = showFretsKind;
+  
   fPrintObjectKind  = printObjectKind;
   fPrintSpacingKind = printSpacingKind;
 }
 
-msrStaffDetails::~msrStaffDetails()
+msrStaffDetails::~msrStaffDetails ()
 {}
-
-S_msrStaffDetails msrStaffDetails::createStaffDetailsNewbornClone (
-  S_msrStaffLinesNumber staffLinesNumberClone,
-  S_msrStaffTuning      staffTuningClone)
-{
-  if (gTraceOptions->fTraceStaves) {
-    gLogIOstream <<
-      "Creating a newborn clone of staff details \"" <<
-      asShortString () <<
-      "\"" <<
-      endl;
-  }
-      
-  S_msrStaffDetails
-    newbornClone =
-      msrStaffDetails::create (
-        fInputLineNumber,
-        fStaffTypeKind,
-        staffLinesNumberClone,
-        staffTuningClone,
-        fShowFretsKind,
-        fPrintObjectKind,
-        fPrintSpacingKind);
-
-  return newbornClone;
-}
 
 void msrStaffDetails::acceptIn (basevisitor* v)
 {
@@ -31107,16 +31079,15 @@ void msrStaffDetails::acceptOut (basevisitor* v)
 
 void msrStaffDetails::browseData (basevisitor* v)
 {
-  if (fStaffLinesNumber) {
-    // browse the staff lines number
-    msrBrowser<msrStaffLinesNumber> browser (v);
-    browser.browse (*fStaffLinesNumber);
-  }
-
-  if (fStaffTuning) {
-    // browse the staff tuning
-    msrBrowser<msrStaffTuning> browser (v);
-    browser.browse (*fStaffTuning);
+  if (fStaffTuningsList.size ()) {
+    for (
+      list<S_msrStaffTuning>::const_iterator i = fStaffTuningsList.begin ();
+      i != fStaffTuningsList.end ();
+      i++) {
+        // browse the staff tuning
+        msrBrowser<msrStaffTuning> browser (v);
+        browser.browse (*(*i));
+    } // for
   }
 }
 
@@ -31211,25 +31182,15 @@ string msrStaffDetails::asShortString ()
     "StaffDetails" <<
     ", staffTypeKind" <<
     staffTypeKindAsString (fStaffTypeKind) <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    endl;
 
-  // print the staff lines number if any
-  s << ", staffLinesNumber: ";
-  if (fStaffLinesNumber)
-    s <<
-      fStaffLinesNumber->getLinesNumber ();
-  else
-    s <<
-      "none";
+  // print the staff lines number
+  s << ", staffLinesNumber: " << fStaffLinesNumber;
 
-  // print the staff tuning if any
-  s << ", StaffTuning: ";
-  if (fStaffTuning)
-    s <<
-      fStaffTuning;
-  else
-    s <<
-      "none";
+  // print the staff tunings if any
+  s <<
+    ", StaffTunings: " << fStaffTuningsList.size ();
 
   s <<
     ", showFretsKind = " <<
@@ -31257,33 +31218,40 @@ void msrStaffDetails::print (ostream& os)
     setw (fieldWidth) <<
     "staffTypeKind" << " = " <<
     staffTypeKindAsString (fStaffTypeKind) <<
-    endl; // <<
-
-  // print the staff lines number if any
-  os << left <<
+    endl <<
     setw (fieldWidth) <<
-    "staffLinesNumber" << " = ";
-  if (fStaffLinesNumber)
-    os <<
-      fStaffLinesNumber->getLinesNumber ();
-  else
-    os <<
-      "none";
-  os <<
-      endl;
+    "staffLinesNumber" << " = " << fStaffLinesNumber <<
+    endl;
 
-  // print the staff tuning if any
-  os << left <<
-    setw (fieldWidth) <<
-    "staffTuning" << " = ";
-  if (fStaffTuning)
+  // print the staff tunings if any
+  os << "StaffTunings: ";
+  if (fStaffTuningsList.size ()) {
     os <<
-      fStaffTuning;
-  else
-    os <<
-      "none";
-  os <<
       endl;
+      
+    list<S_msrStaffTuning>::const_iterator
+      iBegin = fStaffTuningsList.begin (),
+      iEnd   = fStaffTuningsList.end (),
+      i      = iBegin;
+      
+    gIndenter++;
+    
+    for ( ; ; ) {
+      os <<
+        (*i)->asString ();
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+    os <<
+      endl;
+    
+    gIndenter--;
+  }
+  else {
+    os <<
+      " : " << "none" <<
+      endl;
+  }
 
   os << left <<
     setw (fieldWidth) <<
@@ -32845,11 +32813,16 @@ void msrStaff::appendStaffDetailsToStaff (
       endl;
   }
 
+  // sanity check
+  msrAssert (
+    staffDetails != nullptr,
+    "staffDetails is null");
+    
   // register staff details in staff
-  fCurrentStaffStaffDetails = staffDetails;
+  fStaffStaffDetails = staffDetails;
 
   // set staff kind accordingly if relevant
-  switch (staffDetails->getStaffLinesNumber ()->getLinesNumber ()) {
+  switch (staffDetails->getStaffLinesNumber ()) {
     case 1:
       fStaffKind = msrStaff::kRythmicStaff;
       break;
@@ -33278,19 +33251,18 @@ void msrStaff::print (ostream& os)
     "\"" <<
     endl;
 
-/* JMI
-  // print the staff datails if any
+  // print the staff details if any
   os <<
     "Staff details: ";
-  if (fCurrentStaffStaffDetails) {
-    os << fCurrentStaffStaffDetails;
+  if (fStaffStaffDetails) {
+    os << fStaffStaffDetails;
   }
   else
     os << "none";
   os << endl;
-*/
 
-  /* JMI
+/* JMI
+  // print the staff tunings if any
   if (fStaffTuningsList.size ()) {
     os <<
       "Staff tunings:" <<
@@ -33311,11 +33283,9 @@ void msrStaff::print (ostream& os)
     os << endl;
     gIndenter--;
   }
-
-*/
-
   os <<
     endl;
+*/
 
   // print the  voices
   if (fStaffAllVoicesMap.size ()) {

@@ -798,7 +798,7 @@ class lpsrNewStaffBlock : public lpsrElement
     lpsrNewStaffBlock (
       int inputLineNumber);
       
-    virtual ~lpsrNewStaffBlock();
+    virtual ~lpsrNewStaffBlock ();
   
   public:
 

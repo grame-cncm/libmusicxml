@@ -3886,6 +3886,49 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     }
   }
 
+  // generate the string tunings if any
+  S_msrStaffDetails
+    staffDetails =
+      staff->getStaffStaffDetails ();
+
+  if (staffDetails) {
+    const list<S_msrStaffTuning>&
+      staffTuningsList =
+        staffDetails->getStaffTuningsList ();
+
+    if (staffTuningsList.size ()) {
+      fLilypondCodeIOstream <<
+        "stringTunings = \\stringTuning <";
+
+      list<S_msrStaffTuning>::const_iterator
+        iBegin = staffTuningsList.begin (),
+        iEnd   = staffTuningsList.end (),
+        i      = iBegin;
+        
+      gIndenter++;
+      
+      for ( ; ; ) {
+        S_msrStaffTuning
+          staffTuning = (*i);
+          
+        fLilypondCodeIOstream <<
+          msrQuarterTonesPitchKindAsString (
+            gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
+            staffTuning->getStaffTuningQuarterTonesPitchKind ()) <<
+          absoluteOctaveAsLilypondString (
+            staffTuning->getStaffTuningOctave ());
+              
+        if (++i == iEnd) break;
+        
+        fLilypondCodeIOstream << " ";
+      } // for
+        
+      fLilypondCodeIOstream <<
+        ">" <<
+        endl;
+    }
+  }
+  
   gIndenter--;
 
   // generate the 'with' block ending
@@ -4542,6 +4585,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrStaff& elt)
 }
 
 //________________________________________________________________________
+/* JMI
 void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -4563,6 +4607,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrStaffLinesNumber& elt)
     " \\startStaff" <<
     endl;
 }
+*/
 
 void lpsr2LilypondTranslator::visitStart (S_msrStaffTuning& elt)
 {
