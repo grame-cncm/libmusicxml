@@ -3886,6 +3886,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
     }
   }
 
+  gIndenter--;
+
   // generate the string tunings if any
   S_msrStaffDetails
     staffDetails =
@@ -3926,11 +3928,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
       fLilypondCodeIOstream <<
         ">" <<
         endl;
+
+      gIndenter--;
     }
   }
   
-  gIndenter--;
-
   // generate the 'with' block ending
   fLilypondCodeIOstream <<
     "}" <<  
@@ -3951,7 +3953,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
   fLilypondCodeIOstream <<
     endl;
  
-
   if (gLilypondOptions->fJianpu) {
     fLilypondCodeIOstream <<
       " \\jianpuMusic" <<

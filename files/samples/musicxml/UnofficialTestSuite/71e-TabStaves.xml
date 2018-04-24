@@ -15,20 +15,20 @@
       <group-barline>yes</group-barline>
     </part-group>
     <score-part id="P1">
-      <part-name>Guitar</part-name>
-      <part-abbreviation>Gtr.</part-abbreviation>
+      <part-name>Guitar 1</part-name>
+      <part-abbreviation>Gtr. 1</part-abbreviation>
     </score-part>
     <score-part id="P2">
-      <part-name>Guitar</part-name>
-      <part-abbreviation>Gtr.</part-abbreviation>
+      <part-name>Guitar 2</part-name>
+      <part-abbreviation>Gtr. 2</part-abbreviation>
     </score-part>
     <score-part id="P3">
-      <part-name>Guitar</part-name>
-      <part-abbreviation>Gtr.</part-abbreviation>
+      <part-name>Guitar 3</part-name>
+      <part-abbreviation>Gtr. 3</part-abbreviation>
     </score-part>
     <score-part id="P4">
-      <part-name>Guitar</part-name>
-      <part-abbreviation>Gtr.</part-abbreviation>
+      <part-name>Guitar 4</part-name>
+      <part-abbreviation>Gtr. 4</part-abbreviation>
     </score-part>
     <score-part id="P5">
       <part-name>Bass Guitar</part-name>
