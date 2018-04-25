@@ -6777,6 +6777,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   // handle 'page-number' if present
 
   const string pageNumber = elt->getAttributeValue ("page-number"); // JMI
+
+  fCurrentDisplayText = "";
 }
 
 //______________________________________________________________________________
@@ -6800,13 +6802,51 @@ void mxmlTree2MsrTranslator::visitStart ( S_part_name_display& elt )
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::visitStart ( S_part_abbreviation& elt ) 
+void mxmlTree2MsrTranslator::visitEnd ( S_part_name_display& elt ) 
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_part_abbreviation" <<
+      "--> End visiting S_part_name_display" <<
       endl;
   }
+
+  S_msrPartNameDisplay
+    partNameDisplay =
+      msrPartNameDisplay::create (
+        elt->getInputLineNumber (),
+        fCurrentDisplayText);
+
+  fCurrentPart->
+    appendPartNameDisplayToPart (partNameDisplay);
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_part_abbreviation_display& elt ) 
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_part_abbreviation_display" <<
+      endl;
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitEnd ( S_part_abbreviation_display& elt ) 
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> End visiting S_part_abbreviation_display" <<
+      endl;
+  }
+
+  S_msrPartAbbreviationDisplay
+    partAbbreviationDisplay =
+      msrPartAbbreviationDisplay::create (
+        elt->getInputLineNumber (),
+        fCurrentDisplayText);
+
+  fCurrentPart->
+    appendPartAbbreviationDisplayToPart (partAbbreviationDisplay);
 }
 
 //______________________________________________________________________________
@@ -6814,7 +6854,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_display_text& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_part_abbreviation" <<
+      "--> Start visiting S_display_text" <<
       endl;
   }
 

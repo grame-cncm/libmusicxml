@@ -120,6 +120,12 @@ typedef SMARTP<msrMeasure> S_msrMeasure;
 class msrTranspose;
 typedef SMARTP<msrTranspose> S_msrTranspose;
 
+class msrPartNameDisplay;
+typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
+
+class msrPartAbbreviationDisplay;
+typedef SMARTP<msrPartAbbreviationDisplay> S_msrPartAbbreviationDisplay;
+
 class msrStaffDetails;
 typedef SMARTP<msrStaffDetails> S_msrStaffDetails;
 
@@ -3570,6 +3576,16 @@ class msrMeasure : public msrElement
     void                  appendTransposeToMeasure (
                             S_msrTranspose transpose);
 
+    // part name display
+
+    void                  appendPartNameDisplayToMeasure (
+                            S_msrPartNameDisplay partNameDisplay);
+
+    // part abbreviation display
+
+    void                  appendPartAbbreviationDisplayToMeasure (
+                            S_msrPartAbbreviationDisplay partAbbreviationDisplay);
+
     // staff details
 
     void                  appendStaffDetailsToMeasure (
@@ -3944,6 +3960,16 @@ class msrSegment : public msrElement
 
     void                  appendTransposeToSegment (
                             S_msrTranspose transpose);
+
+    // part name display
+
+    void                  appendPartNameDisplayToSegment (
+                            S_msrPartNameDisplay partNameDisplay);
+
+    // part abbreviation display
+
+    void                  appendPartAbbreviationDisplayToSegment (
+                            S_msrPartAbbreviationDisplay partAbbreviationDisplay);
 
     // staff details
 
@@ -10457,6 +10483,16 @@ class msrVoice : public msrElement
     void                  appendTransposeToVoice (
                             S_msrTranspose transpose);
 
+    // part name display
+
+    void                  appendPartNameDisplayToVoice (
+                            S_msrPartNameDisplay partNameDisplay);
+
+    // part abbreviation display
+
+    void                  appendPartAbbreviationDisplayToVoice (
+                            S_msrPartAbbreviationDisplay partAbbreviationDisplay);
+
     // staff details
 
     void                  appendStaffDetailsToVoice (
@@ -10856,40 +10892,35 @@ class msrVoice : public msrElement
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
 
 //______________________________________________________________________________
-/* JMI
-class msrStaffLinesNumber : public msrElement
+class msrPartNameDisplay : public msrElement
 {
   public:
     
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrStaffLinesNumber> create (
-      int inputLineNumber,
-      int linesNumber);
-
-    SMARTP<msrStaffLinesNumber> createStaffLinesNumberNewbornClone ();
-
-    SMARTP<msrStaffLinesNumber> createStaffLinesNumberDeepCopy ();
+    static SMARTP<msrPartNameDisplay> create (
+      int    inputLineNumber,
+      string partNameDisplayValue);
 
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrStaffLinesNumber (
-      int inputLineNumber,
-      int linesNumber);
+    msrPartNameDisplay (
+      int    inputLineNumber,
+      string partNameDisplayValue);
       
-    virtual ~msrStaffLinesNumber();
+    virtual ~msrPartNameDisplay ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int                   getLinesNumber () const
-                              { return fLinesNumber; }
+    string                getPartNameDisplayValue () const
+                              { return fPartNameDisplayValue; }
                         
     // services
     // ------------------------------------------------------
@@ -10914,11 +10945,69 @@ class msrStaffLinesNumber : public msrElement
     // fields
     // ------------------------------------------------------
 
-    int                   fLinesNumber;
+    string                fPartNameDisplayValue;
 };
-typedef SMARTP<msrStaffLinesNumber> S_msrStaffLinesNumber;
-EXP ostream& operator<< (ostream& os, const S_msrStaffLinesNumber& elt);
-*/
+typedef SMARTP<msrPartNameDisplay> S_msrPartNameDisplay;
+EXP ostream& operator<< (ostream& os, const S_msrPartNameDisplay& elt);
+
+//______________________________________________________________________________
+class msrPartAbbreviationDisplay : public msrElement
+{
+  public:
+    
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrPartAbbreviationDisplay> create (
+      int    inputLineNumber,
+      string partAbbreviationDisplayValue);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrPartAbbreviationDisplay (
+      int    inputLineNumber,
+      string partAbbreviationDisplayValue);
+      
+    virtual ~msrPartAbbreviationDisplay ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    string                getPartAbbreviationDisplayValue () const
+                              { return fPartAbbreviationDisplayValue; }
+                        
+    // services
+    // ------------------------------------------------------
+
+    string                asString () const;
+         
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    string                fPartAbbreviationDisplayValue;
+};
+typedef SMARTP<msrPartAbbreviationDisplay> S_msrPartAbbreviationDisplay;
+EXP ostream& operator<< (ostream& os, const S_msrPartAbbreviationDisplay& elt);
 
 //______________________________________________________________________________
 class msrStaffTuning : public msrElement
@@ -11299,6 +11388,16 @@ class msrStaff : public msrElement
     void                  appendTransposeToStaff (
                             S_msrTranspose transpose);
 
+    // part name display
+
+    void                  appendPartNameDisplayToStaff (
+                            S_msrPartNameDisplay partNameDisplay);
+
+    // part abbreviation display
+
+    void                  appendPartAbbreviationDisplayToStaff (
+                            S_msrPartAbbreviationDisplay partAbbreviationDisplay);
+
     // voices
       
     string                staffKindAsString () const;
@@ -11409,6 +11508,16 @@ class msrStaff : public msrElement
     
     void                  appendTransposeToAllStaffVoices ( // JMI
                             S_msrTranspose transpose);
+  
+    // part name display
+    
+    void                  appendPartNameDisplayToAllStaffVoices ( // JMI
+                            S_msrPartNameDisplay partNameDisplay);
+  
+    // part abbreviation display
+    
+    void                  appendPartAbbreviationDisplayToAllStaffVoices ( // JMI
+                            S_msrPartAbbreviationDisplay partAbbreviationDisplay);
   
     // scordaturas
     
@@ -11825,6 +11934,16 @@ class msrPart : public msrElement
 
     void                  appendTransposeToPart (
                             S_msrTranspose transpose);
+
+    // part name display
+
+    void                  appendPartNameDisplayToPart (
+                            S_msrPartNameDisplay partNameDisplay);
+
+    // part abbreviation display
+
+    void                  appendPartAbbreviationDisplayToPart (
+                            S_msrPartAbbreviationDisplay partAbbreviationDisplay);
 
     // figured bass staff and voice
     

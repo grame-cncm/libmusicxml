@@ -207,6 +207,11 @@ class lpsr2LilypondTranslator :
 
   public visitor<S_msrTranspose>,
   
+  // print
+
+  public visitor<S_msrPartNameDisplay>,
+  public visitor<S_msrPartAbbreviationDisplay>,
+
   // words
 
   public visitor<S_msrWords>,
@@ -476,6 +481,9 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrTranspose& elt);
     virtual void visitEnd   (S_msrTranspose& elt);
     
+    virtual void visitStart (S_msrPartNameDisplay& elt);
+    virtual void visitStart (S_msrPartAbbreviationDisplay& elt);
+
     virtual void visitStart (S_msrWords& elt);
     virtual void visitEnd   (S_msrWords& elt);
 

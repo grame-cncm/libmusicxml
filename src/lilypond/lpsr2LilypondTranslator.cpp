@@ -6626,6 +6626,52 @@ void lpsr2LilypondTranslator::visitEnd (S_msrTranspose& elt)
 }
 
 //________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrPartNameDisplay& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrPartNameDisplay" <<
+      endl;
+  }
+
+  string partNameDisplayValue =
+    elt->getPartNameDisplayValue ();
+    
+  fLilypondCodeIOstream <<
+    "\\set Staff.instrumentName = \"" <<
+    partNameDisplayValue <<
+    "\"" <<
+    endl <<
+ // JMI ???   "\\tweak break-visibility #end-of-line-visible" <<
+ //   endl <<
+    "\\tweak RehearsalMark.self-alignment-X #LEFT" <<
+    endl <<
+    "\\mark\\markup{\"" <<
+    partNameDisplayValue <<
+    "\"}" <<
+    endl;
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting msrPartAbbreviationDisplay" <<
+      endl;
+  }
+
+  string partAbbreviationDisplayValue =
+    elt->getPartAbbreviationDisplayValue ();
+
+  fLilypondCodeIOstream <<
+    "\\set Staff.shortInstrumentName = \"" <<
+    partAbbreviationDisplayValue <<
+    "\"" <<
+    endl;
+}
+
+//________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {

@@ -219,7 +219,7 @@ class mxmlTree2MsrTranslator :
   public visitor<S_print>,
   public visitor<S_system_layout>,
   public visitor<S_part_name_display>,
-  public visitor<S_part_abbreviation>,
+  public visitor<S_part_abbreviation_display>,
   public visitor<S_display_text>,
   public visitor<S_measure_numbering>,
   
@@ -738,7 +738,9 @@ class mxmlTree2MsrTranslator :
     virtual void visitStart ( S_print& elt);
     virtual void visitStart ( S_system_layout& elt);
     virtual void visitStart ( S_part_name_display& elt);
-    virtual void visitStart ( S_part_abbreviation& elt);
+    virtual void visitEnd   ( S_part_name_display& elt);
+    virtual void visitStart ( S_part_abbreviation_display& elt);
+    virtual void visitEnd   ( S_part_abbreviation_display& elt);
     virtual void visitStart ( S_display_text& elt);
     virtual void visitStart ( S_measure_numbering& elt);
     

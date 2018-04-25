@@ -20200,6 +20200,20 @@ void msrMeasure::appendTransposeToMeasure (
   fMeasureElementsList.push_back (transpose);
 }
 
+void msrMeasure::appendPartNameDisplayToMeasure (
+  S_msrPartNameDisplay partNameDisplay)
+{    
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (partNameDisplay);
+}
+
+void msrMeasure::appendPartAbbreviationDisplayToMeasure (
+  S_msrPartAbbreviationDisplay partAbbreviationDisplay)
+{    
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (partAbbreviationDisplay);
+}
+
 void msrMeasure::appendBarlineToMeasure (S_msrBarline barline)
 {
   // the measure may have to be padded
@@ -22809,6 +22823,53 @@ void msrSegment::appendTransposeToSegment (
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendTransposeToMeasure (transpose);
+}
+
+void msrSegment::appendPartNameDisplayToSegment (
+  S_msrPartNameDisplay partNameDisplay)
+{
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Appending part name display " <<
+      " to segment " << asString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+      
+  // sanity check
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendPartNameDisplayToMeasure (partNameDisplay);
+}
+
+void msrSegment::appendPartAbbreviationDisplayToSegment (
+  S_msrPartAbbreviationDisplay partAbbreviationDisplay)
+{
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Appending part abbreviation display " <<
+      
+      " to segment " << asString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+      
+  // sanity check
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendPartAbbreviationDisplayToMeasure (partAbbreviationDisplay);
 }
 
 void msrSegment::appendStaffDetailsToSegment (
@@ -27391,7 +27452,8 @@ void msrVoice::padUpToMeasureLengthInVoice (
       inputLineNumber, measureLength);
 }
 
-void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
+void msrVoice::appendTransposeToVoice (
+  S_msrTranspose transpose)
 {
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
@@ -27407,6 +27469,44 @@ void msrVoice::appendTransposeToVoice (S_msrTranspose transpose)
 
   fVoiceLastSegment->
     appendTransposeToSegment (transpose);
+}
+
+void msrVoice::appendPartNameDisplayToVoice (
+  S_msrPartNameDisplay partNameDisplay)
+{
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending part name display '" <<
+      partNameDisplay->asString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    partNameDisplay->getInputLineNumber ());
+
+  fVoiceLastSegment->
+    appendPartNameDisplayToSegment (partNameDisplay);
+}
+
+void msrVoice::appendPartAbbreviationDisplayToVoice (
+  S_msrPartAbbreviationDisplay partAbbreviationDisplay)
+{
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceVoices) {
+    gLogIOstream <<
+      "Appending part abbreviation display '" <<
+      partAbbreviationDisplay->asString () <<
+      "' to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    partAbbreviationDisplay->getInputLineNumber ());
+
+  fVoiceLastSegment->
+    appendPartAbbreviationDisplayToSegment (partAbbreviationDisplay);
 }
 
 void msrVoice::appendStaffDetailsToVoice (
@@ -30724,121 +30824,195 @@ void msrVoice::print (ostream& os)
 }
 
 //______________________________________________________________________________
-/* JMI
-S_msrStaffLinesNumber msrStaffLinesNumber::create (
-  int inputLineNumber,
-  int linesNumber)
+S_msrPartNameDisplay msrPartNameDisplay::create (
+  int    inputLineNumber,
+  string partNameDisplayValue)
 {
-  msrStaffLinesNumber* o =
-    new msrStaffLinesNumber (
-      inputLineNumber, linesNumber);
+  msrPartNameDisplay* o =
+    new msrPartNameDisplay (
+      inputLineNumber, partNameDisplayValue);
   assert(o!=0);
   return o;
 }
 
-msrStaffLinesNumber::msrStaffLinesNumber (
-  int inputLineNumber,
-  int linesNumber)
+msrPartNameDisplay::msrPartNameDisplay (
+  int    inputLineNumber,
+  string partNameDisplayValue)
     : msrElement (inputLineNumber)
 {
-  fLinesNumber = linesNumber;
+  fPartNameDisplayValue = partNameDisplayValue;
 }
 
-msrStaffLinesNumber::~msrStaffLinesNumber()
+msrPartNameDisplay::~msrPartNameDisplay ()
 {}
 
-S_msrStaffLinesNumber msrStaffLinesNumber::createStaffLinesNumberNewbornClone ()
-{
- if (gTraceOptions->fTraceStaffTuning) {
-    gLogIOstream <<
-      "Creating a newborn clone of staff lines number '" <<
-      asString () <<
-      "'" <<
-      endl;
-  }
-
- S_msrStaffLinesNumber
-    newbornClone =
-      msrStaffLinesNumber::create (
-        fInputLineNumber,
-        fLinesNumber);
-  
-  return newbornClone;
-}
-
-void msrStaffLinesNumber::acceptIn (basevisitor* v)
+void msrPartNameDisplay::acceptIn (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaffLinesNumber::acceptIn()" <<
+      "% ==> msrPartNameDisplay::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_msrStaffLinesNumber>*
+  if (visitor<S_msrPartNameDisplay>*
     p =
-      dynamic_cast<visitor<S_msrStaffLinesNumber>*> (v)) {
-        S_msrStaffLinesNumber elem = this;
+      dynamic_cast<visitor<S_msrPartNameDisplay>*> (v)) {
+        S_msrPartNameDisplay elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStaffLinesNumber::visitStart()" <<
+            "% ==> Launching msrPartNameDisplay::visitStart()" <<
             endl;
         }
         p->visitStart (elem);
   }
 }
 
-void msrStaffLinesNumber::acceptOut (basevisitor* v)
+void msrPartNameDisplay::acceptOut (basevisitor* v)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrStaffLinesNumber::acceptOut()" <<
+      "% ==> msrPartNameDisplay::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_msrStaffLinesNumber>*
+  if (visitor<S_msrPartNameDisplay>*
     p =
-      dynamic_cast<visitor<S_msrStaffLinesNumber>*> (v)) {
-        S_msrStaffLinesNumber elem = this;
+      dynamic_cast<visitor<S_msrPartNameDisplay>*> (v)) {
+        S_msrPartNameDisplay elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrStaffLinesNumber::visitEnd()" <<
+            "% ==> Launching msrPartNameDisplay::visitEnd()" <<
             endl;
         }
         p->visitEnd (elem);
   }
 }
 
-void msrStaffLinesNumber::browseData (basevisitor* v)
+void msrPartNameDisplay::browseData (basevisitor* v)
 {}
 
-string msrStaffLinesNumber::asString () const
+string msrPartNameDisplay::asString () const
 {
   stringstream s;
 
   s <<
-    "StaffLinesNumber" <<
+    "PartNameDisplay" <<
     ", line " << fInputLineNumber <<
-    ", " <<
-    "linesNumber: " << fLinesNumber;
+    ", partNameDisplayValue: " << fPartNameDisplayValue;
     
   return s.str ();
 }
 
-ostream& operator<< (ostream& os, const S_msrStaffLinesNumber& elt)
+ostream& operator<< (ostream& os, const S_msrPartNameDisplay& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrStaffLinesNumber::print (ostream& os)
+void msrPartNameDisplay::print (ostream& os)
 {
   os <<
     asString () <<
     endl;
 }
-*/
+
+//______________________________________________________________________________
+S_msrPartAbbreviationDisplay msrPartAbbreviationDisplay::create (
+  int    inputLineNumber,
+  string partAbbreviationDisplayValue)
+{
+  msrPartAbbreviationDisplay* o =
+    new msrPartAbbreviationDisplay (
+      inputLineNumber, partAbbreviationDisplayValue);
+  assert(o!=0);
+  return o;
+}
+
+msrPartAbbreviationDisplay::msrPartAbbreviationDisplay (
+  int    inputLineNumber,
+  string partAbbreviationDisplayValue)
+    : msrElement (inputLineNumber)
+{
+  fPartAbbreviationDisplayValue = partAbbreviationDisplayValue;
+}
+
+msrPartAbbreviationDisplay::~msrPartAbbreviationDisplay ()
+{}
+
+void msrPartAbbreviationDisplay::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrPartAbbreviationDisplay::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrPartAbbreviationDisplay>*
+    p =
+      dynamic_cast<visitor<S_msrPartAbbreviationDisplay>*> (v)) {
+        S_msrPartAbbreviationDisplay elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrPartAbbreviationDisplay::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrPartAbbreviationDisplay::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrPartAbbreviationDisplay::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrPartAbbreviationDisplay>*
+    p =
+      dynamic_cast<visitor<S_msrPartAbbreviationDisplay>*> (v)) {
+        S_msrPartAbbreviationDisplay elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrPartAbbreviationDisplay::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrPartAbbreviationDisplay::browseData (basevisitor* v)
+{}
+
+string msrPartAbbreviationDisplay::asString () const
+{
+  stringstream s;
+
+  s <<
+    "PartAbbreviationDisplay" <<
+    ", line " << fInputLineNumber <<
+    ", " <<
+    "partAbbreviationDisplayValue: " << fPartAbbreviationDisplayValue;
+    
+  return s.str ();
+}
+
+ostream& operator<< (ostream& os, const S_msrPartAbbreviationDisplay& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrPartAbbreviationDisplay::print (ostream& os)
+{
+  os <<
+    asString () <<
+    endl;
+}
 
 //______________________________________________________________________________
 S_msrStaffTuning msrStaffTuning::create (
@@ -32753,7 +32927,8 @@ void msrStaff::appendBarlineToStaff (S_msrBarline barline)
   } // for
 }
 
-void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
+void msrStaff::appendTransposeToStaff (
+  S_msrTranspose transpose)
 {
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
     gLogIOstream <<
@@ -32796,6 +32971,104 @@ void msrStaff::appendTransposeToStaff (S_msrTranspose transpose)
   
     // propagate it to all voices
     appendTransposeToAllStaffVoices (transpose);
+  }
+}
+
+void msrStaff::appendPartNameDisplayToStaff (
+  S_msrPartNameDisplay partNameDisplay)
+{
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Setting part name display '" <<
+      partNameDisplay->asString () <<
+      "' in staff " <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      endl;
+  }
+
+  // set staff transpose
+  bool doAppendPartNameDisplayToStaff = true;
+
+  /* JMI ???
+  if (! fStaffCurrentTranspose) {
+    doAppendPartNameDisplayToStaff = true;
+  }
+  
+  else {
+    if (partNameDisplay->isEqualTo (fStaffCurrentTranspose)) {
+      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+        gLogIOstream <<
+          "Transpose '" <<
+          partNameDisplay->asString () <<
+          "' ignored because it is already present in staff " <<
+          getStaffName () <<
+          "\" in part " <<
+          fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
+
+      doAppendPartNameDisplayToStaff = false;
+    }
+  }
+  */
+  
+  if (doAppendPartNameDisplayToStaff) {
+    // register transpose as current staff transpose
+ // JMI   fStaffCurrentTranspose = partNameDisplay;
+  
+    // propagate it to all voices
+    appendPartNameDisplayToAllStaffVoices (partNameDisplay);
+  }
+}
+
+void msrStaff::appendPartAbbreviationDisplayToStaff (
+  S_msrPartAbbreviationDisplay partAbbreviationDisplay)
+{
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+    gLogIOstream <<
+      "Setting part abbreviation display '" <<
+      partAbbreviationDisplay->asString () <<
+      "' in staff " <<
+      getStaffName () <<
+      "\" in part " <<
+      fStaffPartUplink->getPartCombinedName () <<
+      endl;
+  }
+
+  // set staff transpose
+  bool doAppendPartAbbreviationDisplayToStaff = true;
+  
+/* JMI ???
+  if (! fStaffCurrentTranspose) {
+    doAppendPartAbbreviationDisplayToStaff = true;
+  }
+  
+  else {
+    if (partAbbreviationDisplay->isEqualTo (fStaffCurrentTranspose)) {
+      if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceStaves) {
+        gLogIOstream <<
+          "Transpose '" <<
+          transpose->asString () <<
+          "' ignored because it is already present in staff " <<
+          getStaffName () <<
+          "\" in part " <<
+          fStaffPartUplink->getPartCombinedName () <<
+          endl;
+      }
+
+      doAppendPartAbbreviationDisplayToStaff = false;
+    }
+  }
+  */
+  
+  if (doAppendPartAbbreviationDisplayToStaff) {
+    // register transpose as current staff transpose
+ // JMI   fStaffCurrentTranspose = partAbbreviationDisplay;
+  
+    // propagate it to all voices
+    appendPartAbbreviationDisplayToAllStaffVoices (partAbbreviationDisplay);
   }
 }
 
@@ -32859,6 +33132,30 @@ void msrStaff::appendTransposeToAllStaffVoices (
     i++) {
     (*i).second->
       appendTransposeToVoice (transpose);
+  } // for
+}
+
+void msrStaff::appendPartNameDisplayToAllStaffVoices (
+  S_msrPartNameDisplay partNameDisplay)
+{
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++) {
+    (*i).second->
+      appendPartNameDisplayToVoice (partNameDisplay);
+  } // for
+}
+
+void msrStaff::appendPartAbbreviationDisplayToAllStaffVoices (
+  S_msrPartAbbreviationDisplay partAbbreviationDisplay)
+{
+  for (
+    map<int, S_msrVoice>::const_iterator i = fStaffAllVoicesMap.begin ();
+    i != fStaffAllVoicesMap.end ();
+    i++) {
+    (*i).second->
+      appendPartAbbreviationDisplayToVoice (partAbbreviationDisplay);
   } // for
 }
 
@@ -34112,7 +34409,8 @@ void msrPart::appendTimeToPartClone (S_msrTime time)
   } // for
 }
 
-void msrPart::appendTransposeToPart (S_msrTranspose transpose)
+void msrPart::appendTransposeToPart (
+  S_msrTranspose transpose)
 {
   if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceParts) {
     gLogIOstream <<
@@ -34138,6 +34436,59 @@ void msrPart::appendTransposeToPart (S_msrTranspose transpose)
   } // for
 }
 
+void msrPart::appendPartNameDisplayToPart (
+  S_msrPartNameDisplay partNameDisplay)
+{
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceParts) {
+    gLogIOstream <<
+      "Appending part name display \"" <<
+      partNameDisplay->asString () <<
+      "\" to part " << getPartCombinedName () <<
+    endl;
+  }
+
+  // set part current transpose
+// JMI ???  fPartCurrentTranspose = partNameDisplay;
+
+  // propagate it to all staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    S_msrStaff
+      staff = (*i).second;
+
+    staff->
+      appendPartNameDisplayToStaff (partNameDisplay);
+  } // for
+}
+
+void msrPart::appendPartAbbreviationDisplayToPart (
+  S_msrPartAbbreviationDisplay partAbbreviationDisplay)
+{
+  if (gTraceOptions->fTraceTranspositions || gTraceOptions->fTraceParts) {
+    gLogIOstream <<
+      "Appending part abbreviation display \"" <<
+      partAbbreviationDisplay->asString () <<
+      "\" to part " << getPartCombinedName () <<
+    endl;
+  }
+
+  // set part current transpose
+// JMI ???  fPartCurrentTranspose = partAbbreviationDisplay;
+
+  // propagate it to all staves
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    S_msrStaff
+      staff = (*i).second;
+
+    staff->
+      appendPartAbbreviationDisplayToStaff (partAbbreviationDisplay);
+  } // for
+}
 
 void msrPart::prepareForRepeatInPart (
   int inputLineNumber)

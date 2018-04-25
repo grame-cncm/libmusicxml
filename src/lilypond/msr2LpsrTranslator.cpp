@@ -2026,6 +2026,36 @@ void msr2LpsrTranslator::visitEnd (S_msrTranspose& elt)
 }
 
 //________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrPartNameDisplay& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrPartNameDisplay" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  // append part name display to voice clone
+  fCurrentVoiceClone->
+    appendPartNameDisplayToVoice (elt);
+}
+
+//________________________________________________________________________
+void msr2LpsrTranslator::visitStart (S_msrPartAbbreviationDisplay& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting msrPartAbbreviationDisplay" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  // append part abbreviation display to voice clone
+  fCurrentVoiceClone->
+    appendPartAbbreviationDisplayToVoice (elt);
+}
+
+//________________________________________________________________________
 void msr2LpsrTranslator::visitStart (S_msrTempo& elt)
 {
   if (gMsrOptions->fTraceMsrVisitors) {
