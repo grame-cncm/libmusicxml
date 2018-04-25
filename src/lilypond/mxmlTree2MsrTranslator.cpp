@@ -6777,7 +6777,48 @@ void mxmlTree2MsrTranslator::visitStart ( S_print& elt )
   // handle 'page-number' if present
 
   const string pageNumber = elt->getAttributeValue ("page-number"); // JMI
-  
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt ) 
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_system_layout" <<
+      endl;
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_part_name_display& elt ) 
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_part_name_display" <<
+      endl;
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_part_abbreviation& elt ) 
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_part_abbreviation" <<
+      endl;
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::visitStart ( S_display_text& elt ) 
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_part_abbreviation" <<
+      endl;
+  }
+
+  fCurrentDisplayText = elt->getValue ();
 }
 
 //______________________________________________________________________________
@@ -6785,7 +6826,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt )
 {
   if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
     fLogOutputStream <<
-      "--> Start visiting S_print" <<
+      "--> Start visiting S_measure_numbering" <<
       endl;
   }
 
