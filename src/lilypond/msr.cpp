@@ -21479,7 +21479,40 @@ void msrMeasure::removeNoteFromMeasure (
       return;
     }
   } // for
-  
+
+  S_msrVoice
+    segmentVoiceUplink =
+      fMeasureSegmentUplink->
+        getSegmentVoiceUplink ();
+
+  S_msrPart
+    segmentVoicePart =
+      segmentVoiceUplink->
+        getVoiceStaffUplink ()->
+        getStaffPartUplink ();
+      
+  gLogIOstream <<
+    endl <<
+    endl <<
+    "@@@@@@@@@@@@@@@@@ segmentVoicePart" <<
+    endl <<
+    segmentVoicePart <<
+    endl <<
+    "@@@@@@@@@@@@@@@@@" <<
+    endl <<
+    endl;
+    
+  gLogIOstream <<
+    endl <<
+    endl <<
+    "@@@@@@@@@@@@@@@@@ segmentVoiceUplink" <<
+    endl <<
+    segmentVoiceUplink <<
+    endl <<
+    "@@@@@@@@@@@@@@@@@" <<
+    endl <<
+    endl;
+    
   stringstream s;
 
   s <<
@@ -21487,9 +21520,7 @@ void msrMeasure::removeNoteFromMeasure (
     note <<
     " from measure " << fMeasureNumber <<
     "' in voice \"" <<
-    fMeasureSegmentUplink->
-      getSegmentVoiceUplink ()->
-        getVoiceName () <<
+    segmentVoiceUplink->getVoiceName () <<
     "\"," <<
     " since it has not been found";
 
