@@ -8010,6 +8010,11 @@ void msrNote::print (ostream& os)
   // print the beams if any
   if (fNoteBeams.size ()) {
     gIndenter++;
+    os <<
+      "Note beams:" <<
+      endl;
+      
+    gIndenter++;
 
     list<S_msrBeam>::const_iterator
       iBegin = fNoteBeams.begin (),
@@ -8022,10 +8027,16 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the articulations if any
   if (fNoteArticulations.size ()) {
+    gIndenter++;
+    os <<
+      "Note articulations:" <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrArticulation>::const_iterator
@@ -8039,10 +8050,16 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the spanners if any
   if (fNoteSpanners.size ()) {
+    gIndenter++;
+    os <<
+      "Note spanners:" <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrSpanner>::const_iterator
@@ -8056,10 +8073,16 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the technicals if any
   if (fNoteTechnicals.size ()) {
+    gIndenter++;
+    os <<
+      "Note technicals:" <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrTechnical>::const_iterator
@@ -8073,10 +8096,16 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the technicals with integer if any
   if (fNoteTechnicalWithIntegers.size ()) {
+    gIndenter++;
+    os <<
+      "Note technicals with integers:" <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrTechnicalWithInteger>::const_iterator
@@ -8090,10 +8119,16 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the technicals with string if any
   if (fNoteTechnicalWithStrings.size ()) {
+    gIndenter++;
+    os <<
+      "Note technicals with strings:" <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrTechnicalWithString>::const_iterator
@@ -8107,10 +8142,16 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the ornaments if any
   if (fNoteOrnaments.size ()) {
+    gIndenter++;
+    os <<
+      "Note ornaments:" <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrOrnament>::const_iterator
@@ -8124,10 +8165,16 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the glissandos if any
   if (fNoteGlissandos.size ()) {
+    gIndenter++;
+    os <<
+      "Note glissandos:" <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrGlissando>::const_iterator
@@ -8141,10 +8188,16 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the slides if any
   if (fNoteSlides.size ()) {
+    gIndenter++;
+    os <<
+      "Note slides:" <<
+      endl;
+      
     gIndenter++;
 
     list<S_msrSlide>::const_iterator
@@ -8158,12 +8211,19 @@ void msrNote::print (ostream& os)
     } // for
         
     gIndenter--;
+    gIndenter--;
   }
   
   // print the singleTremolo if any
   if (fNoteSingleTremolo) {
     gIndenter++;
+    os <<
+      "Note single tremolos:" <<
+      endl;
+      
+    gIndenter++;
     os << fNoteSingleTremolo;
+    gIndenter--;
     gIndenter--;
   }
   
@@ -8171,12 +8231,23 @@ void msrNote::print (ostream& os)
   if (fNoteTie) {
     gIndenter++;
     os <<
+      "Note tie:" <<
+      endl;
+      
+    gIndenter++;
+    os <<
       fNoteTie;
+    gIndenter--;
     gIndenter--;
   }
 
   // print the dynamics if any
   if (fNoteDynamics.size ()) {
+    gIndenter++;
+    os <<
+      "Note dynamics:" <<
+      endl;
+      
     gIndenter++;
     
     list<S_msrDynamics>::const_iterator
@@ -8190,10 +8261,16 @@ void msrNote::print (ostream& os)
     } // for
 
     gIndenter--;
+    gIndenter--;
   }
 
   // print the other dynamics if any
   if (fNoteOtherDynamics.size ()) {
+    gIndenter++;
+    os <<
+      "Note other dynamics:" <<
+      endl;
+      
     gIndenter++;
     
     list<S_msrOtherDynamics>::const_iterator
@@ -8207,10 +8284,16 @@ void msrNote::print (ostream& os)
     } // for
 
     gIndenter--;
+    gIndenter--;
   }
 
   // print the words if any
   if (fNoteWords.size ()) {
+    gIndenter++;
+    os <<
+      "Note words:" <<
+      endl;
+      
     gIndenter++;
     
     list<S_msrWords>::const_iterator
@@ -8224,10 +8307,16 @@ void msrNote::print (ostream& os)
     } // for
 
     gIndenter--;
+    gIndenter--;
   }
 
   // print the slurs if any
   if (fNoteSlurs.size ()) {
+    gIndenter++;
+    os <<
+      "Note slurs:" <<
+      endl;
+      
     gIndenter++;
     
     list<S_msrSlur>::const_iterator
@@ -8241,10 +8330,16 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    gIndenter--;
   }
   
   // print the ligatures if any
   if (fNoteLigatures.size ()) {
+    gIndenter++;
+    os <<
+      "Note ligatures:" <<
+      endl;
+      
     gIndenter++;
     
     list<S_msrLigature>::const_iterator
@@ -8258,10 +8353,16 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    gIndenter--;
   }
   
   // print the wedges if any
   if (fNoteWedges.size ()) {
+    gIndenter++;
+    os <<
+      "Note wedges:" <<
+      endl;
+      
     gIndenter++;
     
     list<S_msrWedge>::const_iterator
@@ -8275,14 +8376,21 @@ void msrNote::print (ostream& os)
     } // for
     
     gIndenter--;
+    gIndenter--;
   }
 
   // print the harmony if any
   if (fNoteHarmony) {
     gIndenter++;
     os <<
+      "Note harmony:" <<
+      endl;
+      
+    gIndenter++;
+    os <<
       fNoteHarmony <<
       endl;
+    gIndenter--;
     gIndenter--;
   }
 
@@ -8290,8 +8398,14 @@ void msrNote::print (ostream& os)
   if (fNoteFrame) {
     gIndenter++;
     os <<
+      "Note frame:" <<
+      endl;
+      
+    gIndenter++;
+    os <<
       fNoteFrame <<
       endl;
+    gIndenter--;
     gIndenter--;
   }
 
@@ -8299,8 +8413,14 @@ void msrNote::print (ostream& os)
   if (fNoteFiguredBass) {
     gIndenter++;
     os <<
+      "Note figures bass:" <<
+      endl;
+      
+    gIndenter++;
+    os <<
       fNoteFiguredBass <<
       endl;
+    gIndenter--;
     gIndenter--;
   }
 }
@@ -37095,7 +37215,7 @@ msrScore::msrScore (
   fInhibitMultipleRestMeasuresBrowsing = false;
 }
 
-msrScore::~msrScore()
+msrScore::~msrScore ()
 {}
 
 S_msrScore msrScore::createScoreNewbornClone ()
@@ -37420,6 +37540,12 @@ void msrScore::print (ostream& os)
     "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
     fScoreInstrumentAbbreviationsMaxLength <<
     endl<<
+
+    setw (fieldWidth) <<
+    "inhibitMultipleRestMeasuresBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitMultipleRestMeasuresBrowsing) <<
+    endl<<
     endl;
 
   // print the identification if any
@@ -37507,6 +37633,12 @@ void msrScore::printSummary (ostream& os)
     setw (fieldWidth) <<
     "scoreInstrumentAbbreviationsMaxLength" <<  " : " <<
     fScoreInstrumentAbbreviationsMaxLength <<
+    endl<<
+
+    setw (fieldWidth) <<
+    "inhibitMultipleRestMeasuresBrowsing" <<  " : " <<
+    booleanAsString (
+      fInhibitMultipleRestMeasuresBrowsing) <<
     endl<<
     endl;
 

@@ -7599,8 +7599,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       if (fOnGoingMultipleRestMeasures) {
         if (elt->getNoteOccupiesAFullMeasure ()) {
           bool inhibitMultipleRestMeasuresBrowsing =
-            fVisitedLpsrScore->getMsrScore ()->
-              getInhibitMultipleRestMeasuresBrowsing ();
+            fVisitedLpsrScore->
+              getMsrScore ()->
+                getInhibitMultipleRestMeasuresBrowsing ();
         
           if (inhibitMultipleRestMeasuresBrowsing) {
             if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
@@ -7608,6 +7609,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
                 "% ==> visiting multiple rest measure is ignored" <<
                 endl;
             }
+
+          gLogIOstream <<
+            "% ==> returning from visitStart (S_msrNote&)" <<
+            endl;
   
           return;
           }
@@ -8057,19 +8062,27 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   // is this a multiple rest to be ignored?
   switch (elt->getNoteKind ()) {
     case msrNote::kRestNote:
-      if (elt->getNoteOccupiesAFullMeasure ()) {
-        bool inhibitMultipleRestMeasuresBrowsing =
-          fVisitedLpsrScore->getMsrScore ()->
-            getInhibitMultipleRestMeasuresBrowsing ();
-      
-        if (inhibitMultipleRestMeasuresBrowsing) {
-          if (gMsrOptions->fTraceMsrVisitors || gTraceOptions->fTraceRepeats) {
-            gLogIOstream <<
-              "% ==> visiting multiple rest measure is ignored" <<
-              endl;
+      // don't handle multiple rests, that's done in visitEnd (S_msrMultipleRest&)
+      if (fOnGoingMultipleRestMeasures) {
+        if (elt->getNoteOccupiesAFullMeasure ()) {
+          bool inhibitMultipleRestMeasuresBrowsing =
+            fVisitedLpsrScore->
+              getMsrScore ()->
+                getInhibitMultipleRestMeasuresBrowsing ();
+        
+          if (inhibitMultipleRestMeasuresBrowsing) {
+            if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceRepeats) {
+              gLogIOstream <<
+                "% ==> visiting multiple rest measure is ignored" <<
+                endl;
+            }
+  
+          gLogIOstream <<
+            "% ==> returning from visitEnd (S_msrNote&)" <<
+            endl;
+            
+          return;
           }
-
-        return;
         }
       }
       break;
@@ -8294,7 +8307,11 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   const list<S_msrWords>&
     noteWords =
       elt->getNoteWords ();
-      
+
+  fLilypondCodeIOstream <<
+    "% noteWords.size () = " << noteWords.size () <<
+    endl;
+
   if (noteWords.size ()) {
     list<S_msrWords>::const_iterator i;
     for (
