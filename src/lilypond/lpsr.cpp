@@ -4877,6 +4877,24 @@ void lpsrScore::setTempoRelationshipSchemeFunctionIsNeeded ()
   }
 }
 
+void lpsrScore::setDampMarkupIsNeeded ()
+{
+  if (! fDampMarkupIsNeeded) {
+    addDampMarkupToScore ();
+    
+    fDampMarkupIsNeeded = true;    
+  }
+}
+
+void lpsrScore::setDampAllMarkupIsNeeded ()
+{
+  if (! fDampAllMarkupIsNeeded) {
+    addDampAllMarkupToScore ();
+    
+    fDampAllMarkupIsNeeded = true;    
+  }
+}
+
 void lpsrScore::addDateAndTimeSchemeFunctionsToScore ()
 {
   string
@@ -5397,6 +5415,104 @@ tempoRelationship =
          } % line end
        } % markup end
      #}))
+)!";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    gLogIOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addDampMarkupToScore ()
+{
+  string
+    schemeFunctionName =
+      "dampMarkup",
+      
+    schemeFunctionDescription =
+R"(
+% A function to create damp markups,
+)",
+
+    schemeFunctionCode =
+      // add ! before ( and after ) since the code contains )"
+R"!(
+damp = \markup {
+%  \scale #'(5 . 5)
+  {
+    \center-column {
+      {
+        \override #'(thickness . 1.8)
+        \combine \draw-line #'(-1.5 . 0)
+        \combine \draw-line #'(0 . -1.5)
+        \combine \draw-line #'(0 . 1.5)
+        \combine \draw-line #'(1.5 . 0)
+        \draw-circle #0.8 #0.2 ##f
+      }
+    }
+  }
+
+}
+)!";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    gLogIOstream <<
+      "Creating Scheme function '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addDampAllMarkupToScore ()
+{
+  string
+    schemeFunctionName =
+      "dampAllMarkup",
+      
+    schemeFunctionDescription =
+R"(
+% A function to create damp all markups,
+)",
+
+    schemeFunctionCode =
+      // add ! before ( and after ) since the code contains )"
+R"!(
+dampAll = \markup
+%% do not use 'fontsize
+%\scale #'(5 . 5)
+{
+  \combine \bold "O"
+  \path #0.2
+  #'((moveto -.4 .8)(lineto 2.2 .8)
+      (closepath)
+      (moveto .9 -.5)(lineto .9 2.1))
+}
 )!";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {

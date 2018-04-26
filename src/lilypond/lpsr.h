@@ -2472,6 +2472,11 @@ class lpsrScore : public lpsrElement
     
     void                  setTempoRelationshipSchemeFunctionIsNeeded ();
                         
+    // markups
+    void                  setDampMarkupIsNeeded ();
+                        
+    void                  setDampAllMarkupIsNeeded ();
+                        
     // services
     // ------------------------------------------------------
 
@@ -2526,6 +2531,11 @@ class lpsrScore : public lpsrElement
     void                  addAfterSchemeFunctionToScore ();
     
     void                  addTempoRelationshipSchemeFunctionToScore ();
+
+    // markups
+    
+    void                  addDampMarkupToScore ();
+    void                  addDampAllMarkupToScore ();
 
     // visitors
     // ------------------------------------------------------
@@ -2600,6 +2610,10 @@ class lpsrScore : public lpsrElement
     bool                  fTupletsCurvedBracketsSchemeFunctionIsNeeded;
     bool                  fAfterSchemeFunctionIsNeeded;
     bool                  fTempoRelationshipSchemeFunctionIsNeeded;
+
+    // markups
+    bool                  fDampMarkupIsNeeded;
+    bool                  fDampAllMarkupIsNeeded;
 
     map<string, S_lpsrSchemeFunction>
                           fScoreSchemeFunctionsMap;

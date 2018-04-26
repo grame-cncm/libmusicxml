@@ -13301,28 +13301,6 @@ void mxmlTree2MsrTranslator::visitStart( S_sostenuto_pedal& elt)
 }
 */
 
-void mxmlTree2MsrTranslator::visitStart( S_damp& elt)
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_damp" <<
-      endl;
-  }
-
-  // JMI
-}
-
-void mxmlTree2MsrTranslator::visitStart( S_damp_all& elt)
-{
-  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
-    fLogOutputStream <<
-      "--> Start visiting S_damp_all" <<
-      endl;
-  }
-
-  // JMI
-}
-
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_cue& elt )
 {
@@ -15695,6 +15673,74 @@ void mxmlTree2MsrTranslator::attachPendingEyeGlassesToTheVoiceOfNote (
 }
 
 //______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingDampsToTheVoiceOfNote (
+  S_msrNote note)
+{
+ // attach the pending damps if any to the note
+  if (fPendingDampAlls.size ()) {
+    if (gTraceOptions->fTraceBasic) {
+      fLogOutputStream <<
+        "Attaching pending damps to note " <<
+        note->asString () <<
+        endl;
+    }
+
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fetchVoiceFromCurrentPart (
+          note->getInputLineNumber (),
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber);
+
+    while (fPendingDamps.size ()) {
+      S_msrDamp
+        damp =
+          fPendingDamps.front ();
+          
+      voice->
+        appendDampToVoice (damp);
+        
+      fPendingDamps.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingDampAllsToTheVoiceOfNote (
+  S_msrNote note)
+{
+ // attach the pending damp alls if any to the note
+  if (fPendingDampAlls.size ()) {
+    if (gTraceOptions->fTraceBasic) {
+      fLogOutputStream <<
+        "Attaching pending damps alls to note " <<
+        note->asString () <<
+        endl;
+    }
+
+    // fetch the voice
+    S_msrVoice
+      voice =
+        fetchVoiceFromCurrentPart (
+          note->getInputLineNumber (),
+          fCurrentNoteStaffNumber,
+          fCurrentNoteVoiceNumber);
+
+    while (fPendingDampAlls.size ()) {
+      S_msrDampAll
+        dampAll =
+          fPendingDampAlls.front ();
+          
+      voice->
+        appendDampAllToVoice (dampAll);
+        
+      fPendingDampAlls.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
 void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
   S_msrNote note)
 {
@@ -16141,6 +16187,12 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
 
   // attach the pending eyeglasses, if any, to the note's voice
   attachPendingEyeGlassesToTheVoiceOfNote (note);
+
+  // attach the pending damps, if any, to the note's voice
+  attachPendingDampsToTheVoiceOfNote (note);
+
+  // attach the pending damp alls, if any, to the note's voice
+  attachPendingDampAllsToTheVoiceOfNote (note);
 
   // attach the pending octave shifts, if any, to the note's voice
   attachPendingOctaveShiftsToTheVoiceOfNote (note);
@@ -20311,6 +20363,68 @@ void mxmlTree2MsrTranslator::visitEnd (S_pedal_tuning& elt )
       inputLineNumber,
       fCurrentHarpPedalDiatonicPitchKind,
       fCurrentHarpPedalAlterationKind);
+}
+
+void mxmlTree2MsrTranslator::visitStart( S_damp& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_damp" <<
+      endl;
+  }
+
+  if (fOnGoingDirectionType) {
+    int inputLineNumber =
+      elt->getInputLineNumber ();
+      
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        fetchVoiceFromCurrentPart (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // create the damp
+    S_msrDamp
+      damp =
+        msrDamp::create (
+          inputLineNumber);
+
+    // append it to the pending damps list
+    fPendingDamps.push_back (damp);
+  }
+}
+
+void mxmlTree2MsrTranslator::visitStart( S_damp_all& elt)
+{
+  if (gMusicXMLOptions->fTraceMusicXMLTreeVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting S_damp_all" <<
+      endl;
+  }
+
+  if (fOnGoingDirectionType) {
+    int inputLineNumber =
+      elt->getInputLineNumber ();
+      
+    // fetch current voice
+    S_msrVoice
+      currentVoice =
+        fetchVoiceFromCurrentPart (
+          inputLineNumber,
+          fCurrentStaffNumber,
+          fCurrentVoiceNumber);
+  
+    // create the damp all
+    S_msrDampAll
+      dampAll =
+        msrDampAll::create (
+          inputLineNumber);
+
+    // append it to the pending damp alls list
+    fPendingDampAlls.push_back (dampAll);
+  }
 }
 
 //________________________________________________________________________

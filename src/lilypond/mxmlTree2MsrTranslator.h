@@ -1188,6 +1188,26 @@ class mxmlTree2MsrTranslator :
     void                      attachPendingEyeGlassesToTheVoiceOfNote (
                                 S_msrNote note);
 
+    // damp handling
+    // ------------------------------------------------------
+    // damps remain pending until the next note:
+    // in MusicXML, they precede the note and
+    // may occur when no current voice exists
+    list<S_msrDamp>           fPendingDamps;
+    
+    void                      attachPendingDampsToTheVoiceOfNote (
+                                S_msrNote note);
+
+    // damp all handling
+    // ------------------------------------------------------
+    // damp alls remain pending until the next note:
+    // in MusicXML, they precede the note and
+    // may occur when no current voice exists
+    list<S_msrDampAll>        fPendingDampAlls;
+    
+    void                      attachPendingDampAllsToTheVoiceOfNote (
+                                S_msrNote note);
+
     // accordion-registration handling
     // ------------------------------------------------------
 

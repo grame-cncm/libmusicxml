@@ -9748,6 +9748,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
     endl;
 }
 
+void lpsr2LilypondTranslator::visitStart (S_msrDamp& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting damp" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
+    "^\\markup {\\damp} ";
+}
+
+void lpsr2LilypondTranslator::visitStart (S_msrDampAll& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting dampAll" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
+    "^\\markup {\\dampAll} ";
+}
+
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
 {

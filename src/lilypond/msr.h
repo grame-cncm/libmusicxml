@@ -144,6 +144,12 @@ typedef SMARTP<msrEyeGlasses> S_msrEyeGlasses;
 class msrPedal;
 typedef SMARTP<msrPedal> S_msrPedal;
 
+class msrDamp;
+typedef SMARTP<msrDamp> S_msrDamp;
+
+class msrDampAll;
+typedef SMARTP<msrDampAll> S_msrDampAll;
+
 class msrStaff;
 typedef SMARTP<msrStaff> S_msrStaff;
 
@@ -3729,6 +3735,14 @@ class msrMeasure : public msrElement
     
     void                  appendPedalToMeasure (S_msrPedal pedal);
 
+    // damp
+    
+    void                  appendDampToMeasure (S_msrDamp damp);
+
+    // damp all
+    
+    void                  appendDampAllToMeasure (S_msrDampAll dampAll);
+
     // other elements
     
     void                  prependOtherElementToMeasure (S_msrElement elem);
@@ -4101,6 +4115,14 @@ class msrSegment : public msrElement
     // pedal
     
     void                  appendPedalToSegment (S_msrPedal pedal);
+
+    // damp
+    
+    void                  appendDampToSegment (S_msrDamp damp);
+
+    // damp all
+    
+    void                  appendDampAllToSegment (S_msrDampAll dampAll);
 
     // grace notes
     
@@ -9087,6 +9109,106 @@ typedef SMARTP<msrPedal> S_msrPedal;
 EXP ostream& operator<< (ostream& os, const S_msrPedal& elt);
 
 //______________________________________________________________________________
+class msrDamp : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrDamp> create (
+      int inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrDamp (
+      int inputLineNumber);
+      
+    virtual ~msrDamp ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msrDamp> S_msrDamp;
+EXP ostream& operator<< (ostream& os, const S_msrDamp& elt);
+
+//______________________________________________________________________________
+class msrDampAll : public msrElement
+{
+  public:
+      
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrDampAll> create (
+      int inputLineNumber);
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrDampAll (
+      int inputLineNumber);
+      
+    virtual ~msrDampAll ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // visitors
+    // ------------------------------------------------------
+
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<msrDampAll> S_msrDampAll;
+EXP ostream& operator<< (ostream& os, const S_msrDampAll& elt);
+
+//______________________________________________________________________________
 class msrBarline : public msrElement
 {
   public:
@@ -10634,6 +10756,14 @@ class msrVoice : public msrElement
     // pedal
     
     void                  appendPedalToVoice (S_msrPedal pedal);
+
+    // damp
+    
+    void                  appendDampToVoice (S_msrDamp damp);
+
+    // damp all
+    
+    void                  appendDampAllToVoice (S_msrDampAll dampAll);
 
     // other elements
     

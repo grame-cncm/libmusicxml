@@ -18953,7 +18953,7 @@ msrEyeGlasses::msrEyeGlasses (
     : msrElement (inputLineNumber)
 {}
 
-msrEyeGlasses::~msrEyeGlasses()
+msrEyeGlasses::~msrEyeGlasses ()
 {}
 
 void msrEyeGlasses::acceptIn (basevisitor* v)
@@ -19164,6 +19164,166 @@ void msrPedal::print (ostream& os)
     pedalLineAsString () <<
     ", " <<
     pedalSignAsString () <<
+    endl;
+}
+
+//______________________________________________________________________________
+S_msrDamp msrDamp::create (
+  int inputLineNumber)
+{
+  msrDamp* o =
+    new msrDamp (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrDamp::msrDamp (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{}
+
+msrDamp::~msrDamp ()
+{}
+
+void msrDamp::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrDamp::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrDamp>*
+    p =
+      dynamic_cast<visitor<S_msrDamp>*> (v)) {
+        S_msrDamp elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrDamp::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrDamp::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrDamp::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrDamp>*
+    p =
+      dynamic_cast<visitor<S_msrDamp>*> (v)) {
+        S_msrDamp elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrDamp::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrDamp::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrDamp& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrDamp::print (ostream& os)
+{
+  os <<
+    "Damp" <<
+    ", line " << fInputLineNumber <<
+    endl;
+}
+
+//______________________________________________________________________________
+S_msrDampAll msrDampAll::create (
+  int inputLineNumber)
+{
+  msrDampAll* o =
+    new msrDampAll (
+      inputLineNumber);
+  assert(o!=0);
+  return o;
+}
+
+msrDampAll::msrDampAll (
+  int inputLineNumber)
+    : msrElement (inputLineNumber)
+{}
+
+msrDampAll::~msrDampAll ()
+{}
+
+void msrDampAll::acceptIn (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrDampAll::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrDampAll>*
+    p =
+      dynamic_cast<visitor<S_msrDampAll>*> (v)) {
+        S_msrDampAll elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrDampAll::visitStart()" <<
+            endl;
+        }
+        p->visitStart (elem);
+  }
+}
+
+void msrDampAll::acceptOut (basevisitor* v)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrDampAll::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrDampAll>*
+    p =
+      dynamic_cast<visitor<S_msrDampAll>*> (v)) {
+        S_msrDampAll elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrDampAll::visitEnd()" <<
+            endl;
+        }
+        p->visitEnd (elem);
+  }
+}
+
+void msrDampAll::browseData (basevisitor* v)
+{}
+
+ostream& operator<< (ostream& os, const S_msrDampAll& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrDampAll::print (ostream& os)
+{
+  os <<
+    "DampAll" <<
+    ", line " << fInputLineNumber <<
     endl;
 }
 
@@ -20373,6 +20533,18 @@ void msrMeasure::appendPedalToMeasure (S_msrPedal pedal)
 {    
   // append it to the measure elements list
   fMeasureElementsList.push_back (pedal);
+}
+
+void msrMeasure::appendDampToMeasure (S_msrDamp damp)
+{    
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (damp);
+}
+
+void msrMeasure::appendDampAllToMeasure (S_msrDampAll dampAll)
+{    
+  // append it to the measure elements list
+  fMeasureElementsList.push_back (dampAll);
 }
 
 void msrMeasure::appendBarCheckToMeasure (S_msrBarCheck barCheck)
@@ -22951,6 +23123,50 @@ void msrSegment::appendPedalToSegment (S_msrPedal pedal)
   // append it to this segment
   fSegmentMeasuresList.back ()->
     appendPedalToMeasure (pedal);
+}
+
+void msrSegment::appendDampToSegment (S_msrDamp damp)
+{
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Appending damp " <<
+      " to segment " << asString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+      
+  // sanity check
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendDampToMeasure (damp);
+}
+
+void msrSegment::appendDampAllToSegment (S_msrDampAll dampAll)
+{
+  if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
+    gLogIOstream <<
+      "Appending damp all " <<
+      " to segment " << asString () <<
+      "' in voice \"" <<
+      fSegmentVoiceUplink->getVoiceName () <<
+      "\"" <<
+      endl;
+  }
+      
+  // sanity check
+  msrAssert (
+    fSegmentMeasuresList.size () > 0,
+    "fSegmentMeasuresList is empty");
+    
+  // append it to this segment
+  fSegmentMeasuresList.back ()->
+    appendDampAllToMeasure (dampAll);
 }
 
 void msrSegment::appendTransposeToSegment (
@@ -30519,6 +30735,38 @@ void msrVoice::appendPedalToVoice (S_msrPedal pedal)
 
   fVoiceLastSegment->
     appendPedalToSegment (pedal);
+}
+
+void msrVoice::appendDampToVoice (S_msrDamp damp)
+{
+  if (gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Appending a damp to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    damp->getInputLineNumber ());
+
+  fVoiceLastSegment->
+    appendDampToSegment (damp);
+}
+
+void msrVoice::appendDampAllToVoice (S_msrDampAll dampAll)
+{
+  if (gTraceOptions->fTraceNotes) {
+    gLogIOstream <<
+      "Appending a damp all to voice \"" << getVoiceName () << "\"" <<
+      endl;
+  }
+
+  // create the voice last segment and first measure if needed
+  appendAFirstMeasureToVoiceIfNotYetDone (
+    dampAll->getInputLineNumber ());
+
+  fVoiceLastSegment->
+    appendDampAllToSegment (dampAll);
 }
 
 /*
