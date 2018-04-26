@@ -3096,13 +3096,13 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   // size
   
   string octaveShiftSizeString = elt->getAttributeValue ("size");
-  int    octaveShiftSize = 0;
+  int    octaveShiftSize = 8;
 
   if (! octaveShiftSizeString.size ()) {
     stringstream s;
 
     s <<
-      "octave shift size absent, assuming 0";
+      "octave shift size absent, assuming 8";
       
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,

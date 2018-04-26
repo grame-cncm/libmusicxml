@@ -7769,7 +7769,7 @@ void msrNote::print (ostream& os)
 
     if (fNoteIsStemless)
       os <<
-        "stemless" <<
+        "note  is stemless" <<
         endl;
   
     if (fNoteIsFirstNoteInADoubleTremolo)
@@ -7783,27 +7783,27 @@ void msrNote::print (ostream& os)
   
     if (fNoteHasATrill)
       os <<
-        "has a trill" <<
+        "note has a trill" <<
         endl;
         
     if (fNoteHasDashes)
       os <<
-        "has dashes" <<
+        "note has dashes" <<
         endl;
         
     if (fNoteHasAWavyLineStart)
       os <<
-        "has a wavy line start" <<
+        "note has a wavy line start" <<
         endl;
         
     if (fNoteIsFollowedByGraceNotes)
       os <<
-        "is followed by graceNotes" <<
+        "note is followed by graceNotes" <<
         endl;
   
     if (fNoteHasADelayedOrnament)
       os <<
-        "has a delayed ornament" <<
+        "note has a delayed ornament" <<
         endl;
 
      gIndenter--;

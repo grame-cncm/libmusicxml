@@ -8308,10 +8308,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     noteWords =
       elt->getNoteWords ();
 
-  fLilypondCodeIOstream <<
-    "% noteWords.size () = " << noteWords.size () <<
-    endl;
-
   if (noteWords.size ()) {
     list<S_msrWords>::const_iterator i;
     for (
@@ -8682,13 +8678,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
     case msrOctaveShift::k_NoOctaveShift:
       break;
     case msrOctaveShift::kOctaveShiftUp:
-      fLilypondCodeIOstream << "-" << (octaveShiftSize - 1) / 7; // 1 or 2
+      fLilypondCodeIOstream <<
+        "-" << (octaveShiftSize - 1) / 7; // 1 or 2
       break;
     case msrOctaveShift::kOctaveShiftDown:
-      fLilypondCodeIOstream << (octaveShiftSize - 1) / 7; // 1 or 2
+      fLilypondCodeIOstream <<
+        (octaveShiftSize - 1) / 7; // 1 or 2
       break;
     case msrOctaveShift::kOctaveShiftStop:
-      fLilypondCodeIOstream << 0;
+      fLilypondCodeIOstream <<
+        0;
       break;
     case msrOctaveShift::kOctaveShiftContinue:
      // JMI ??? fLilypondCodeIOstream << 0;
