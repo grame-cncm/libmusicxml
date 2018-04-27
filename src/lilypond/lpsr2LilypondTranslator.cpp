@@ -9117,6 +9117,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
 
   fLilypondCodeIOstream <<
     "<";
+
+  fOnGoingChord = true;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
@@ -9542,6 +9544,8 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
   // of a following note or chord
   fRelativeOctaveReference =
     elt->getChordNotes () [0];
+
+  fOnGoingChord = false; 
 }
 
 //________________________________________________________________________

@@ -851,7 +851,7 @@ class lpsr2LilypondTranslator :
     // chords
     // ------------------------------------------------------
     list<int>             fPendingChordMemberNotesStringNumbers;
-    bool                  fOnGoingChord; // JMI
+    bool                  fOnGoingChord;
     
     // tuplets
     // ------------------------------------------------------
