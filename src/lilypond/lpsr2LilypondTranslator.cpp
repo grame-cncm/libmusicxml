@@ -879,15 +879,54 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       break;
       
     case msrNote::kChordMemberNote:
-      // print the note name
-      fLilypondCodeIOstream <<
-        notePitchAsLilypondString (note);
-      
-      // don't print the note duration,
-      // it will be printed for the chord itself
+      {
+        // print the note name
+        fLilypondCodeIOstream <<
+          notePitchAsLilypondString (note);
+        
+        // don't print the note duration,
+        // it will be printed for the chord itself
+  
+        // don't print the string number if any,
+        // it should appear after the chord itself
+        const list<S_msrTechnicalWithInteger>&
+          chordMemberNoteTechnicalsWithIntegers =
+            note->getNoteTechnicalWithIntegers ();
 
-      // inside chords, a note is relative to the preceding one
-      fRelativeOctaveReference = note;
+        if (chordMemberNoteTechnicalsWithIntegers.size ()) {
+          list<S_msrTechnicalWithInteger>::const_iterator i;
+          for (
+            i=chordMemberNoteTechnicalsWithIntegers.begin ();
+            i!=chordMemberNoteTechnicalsWithIntegers.end ();
+            i++) {
+            S_msrTechnicalWithInteger
+              technicalWithInteger = (*i);
+
+                fLilypondCodeIOstream <<
+                  "FOO" <<
+                  endl;
+                  
+            switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
+              case msrTechnicalWithInteger::kBend:
+                break;
+              case msrTechnicalWithInteger::kFingering:
+                break;
+              case msrTechnicalWithInteger::kFret:
+                break;
+              case msrTechnicalWithInteger::kString:
+                if (fOnGoingChord) {
+                  fPendingChordMemberNotesStringNumbers.push_back (
+                    technicalWithInteger->
+                        getTechnicalWithIntegerValue ());
+                }
+                break;
+            } // switch
+          } // for
+        }
+  
+        // inside chords, a note is relative to the preceding one
+        fRelativeOctaveReference = note;
+      }
       break;
       
     case msrNote::kTupletMemberNote:
@@ -3900,6 +3939,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
 
     if (staffTuningsList.size ()) {
       fLilypondCodeIOstream <<
+  // JMI      "restrainOpenStrings = ##t" <<
+  // JMI      endl <<
         "stringTunings = \\stringTuning <";
 
       list<S_msrStaffTuning>::const_iterator
@@ -3930,9 +3971,20 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
         endl;
 
       gIndenter--;
+
+      // should letters be used for frets?
+      switch (staffDetails->getShowFretsKind ()) {
+        case msrStaffDetails::kShowFretsNumbers:
+          break;
+        case msrStaffDetails::kShowFretsLetters:
+          fLilypondCodeIOstream <<
+            "tablatureFormat = #fret-letter-tablature-format" <<
+            endl;
+          break;
+      } // switch
     }
   }
-  
+
   // generate the 'with' block ending
   fLilypondCodeIOstream <<
     "}" <<  
@@ -5753,96 +5805,86 @@ void lpsr2LilypondTranslator::visitStart (S_msrClef& elt)
 
   if (clefKind != msrClef::k_NoClef) {
     fLilypondCodeIOstream <<
-      "\\clef" " \"";
+      "\\clef ";
   
     switch (clefKind) {
       case msrClef::k_NoClef:
         break;
       case msrClef::kTrebleClef:
-        fLilypondCodeIOstream << "treble";
+        fLilypondCodeIOstream << "\"treble\"";
         break;
       case msrClef::kSopranoClef:
-        fLilypondCodeIOstream << "soprano";
+        fLilypondCodeIOstream << "\"soprano\"";
         break;
       case msrClef::kMezzoSopranoClef:
-        fLilypondCodeIOstream << "mezzosoprano";
+        fLilypondCodeIOstream << "\"mezzosoprano\"";
         break;
       case msrClef::kAltoClef:
-        fLilypondCodeIOstream << "alto";
+        fLilypondCodeIOstream << "\"alto\"";
         break;
       case msrClef::kTenorClef:
-        fLilypondCodeIOstream << "tenor";
+        fLilypondCodeIOstream << "\"tenor\"";
         break;
       case msrClef::kBaritoneClef:
-        fLilypondCodeIOstream << "baritone";
+        fLilypondCodeIOstream << "\"baritone\"";
         break;
       case msrClef::kBassClef:
-        fLilypondCodeIOstream << "bass";
+        fLilypondCodeIOstream << "\"bass\"";
         break;
       case msrClef::kTrebleLine1Clef:
-        fLilypondCodeIOstream << "french";
+        fLilypondCodeIOstream << "\"french\"";
         break;
       case msrClef::kTrebleMinus15Clef:
-        fLilypondCodeIOstream << "treble_15";
+        fLilypondCodeIOstream << "\"treble_15\"";
         break;
       case msrClef::kTrebleMinus8Clef:
-        fLilypondCodeIOstream << "treble_8";
+        fLilypondCodeIOstream << "\"treble_8\"";
         break;
       case msrClef::kTreblePlus8Clef:
-        fLilypondCodeIOstream << "treble^8";
+        fLilypondCodeIOstream << "\"treble^8\"";
         break;
       case msrClef::kTreblePlus15Clef:
-        fLilypondCodeIOstream << "treble^15";
+        fLilypondCodeIOstream << "\"treble^15\"";
         break;
       case msrClef::kBassMinus15Clef:
-        fLilypondCodeIOstream << "bass_15";
+        fLilypondCodeIOstream << "\"bass_15\"";
         break;
       case msrClef::kBassMinus8Clef:
-        fLilypondCodeIOstream << "bass_8";
+        fLilypondCodeIOstream << "\"bass_8\"";
         break;
       case msrClef::kBassPlus8Clef:
-        fLilypondCodeIOstream << "bass^8";
+        fLilypondCodeIOstream << "\"bass^8\"";
         break;
       case msrClef::kBassPlus15Clef:
-        fLilypondCodeIOstream << "bass^15";
+        fLilypondCodeIOstream << "\"bass^15\"";
         break;
       case msrClef::kVarbaritoneClef:
-        fLilypondCodeIOstream << "varbaritone";
+        fLilypondCodeIOstream << "\"varbaritone\"";
         break;
       case msrClef::kTablature4Clef:
-        if (gLilypondOptions->fModernTab)
-          fLilypondCodeIOstream << "moderntab";
-        else
-          fLilypondCodeIOstream << "tab";
-        break;
       case msrClef::kTablature5Clef:
-        if (gLilypondOptions->fModernTab)
-          fLilypondCodeIOstream << "moderntab";
-        else
-          fLilypondCodeIOstream << "tab";
-        break;
       case msrClef::kTablature6Clef:
-        if (gLilypondOptions->fModernTab)
-          fLilypondCodeIOstream << "moderntab";
-        else
-          fLilypondCodeIOstream << "tab";
-        break;
       case msrClef::kTablature7Clef:
         if (gLilypondOptions->fModernTab)
-          fLilypondCodeIOstream << "moderntab";
+          fLilypondCodeIOstream <<
+            "\"moderntab\"" <<
+            endl <<
+            "\\tabFullNotation";
         else
-          fLilypondCodeIOstream << "tab";
+          fLilypondCodeIOstream <<
+            "\"tab\"" <<
+            endl <<
+            "\\tabFullNotation";
         break;
       case msrClef::kPercussionClef:
-        fLilypondCodeIOstream << "percussion";
+        fLilypondCodeIOstream << "\"percussion\"";
         break;
       case msrClef::kJianpuClef:
-        fLilypondCodeIOstream << "%{jianpu???%}";
+        fLilypondCodeIOstream << "%{jianpuClef???%}";
         break;
     } // switch
   
   fLilypondCodeIOstream <<
-    "\"" <<
     endl;
   }
 }
@@ -8193,6 +8235,28 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       fLilypondCodeIOstream <<
         technicalWithIntegerAsLilypondString ((*i));
 
+
+          S_msrTechnicalWithInteger
+              technicalWithInteger = (*i);
+
+                
+            switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
+              case msrTechnicalWithInteger::kBend:
+                break;
+              case msrTechnicalWithInteger::kFingering:
+                break;
+              case msrTechnicalWithInteger::kFret:
+                break;
+              case msrTechnicalWithInteger::kString:
+                if (true || fOnGoingChord) {
+                  fPendingChordMemberNotesStringNumbers.push_back (
+                    technicalWithInteger->
+                        getTechnicalWithIntegerValue ());
+                }
+                break;
+            } // switch
+
+
       switch ((*i)->getTechnicalWithIntegerPlacementKind ()) {
         case k_NoPlacement:
           break;
@@ -9051,7 +9115,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
    } // for
   }
 
-  fLilypondCodeIOstream << "<";
+  fLilypondCodeIOstream <<
+    "<";
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
@@ -9085,7 +9150,32 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         elt->
           getChordDisplayWholeNotes ()); // JMI test wether chord is in a tuplet?
   }
-   
+
+  // are there pending chord member notes string numbers?
+  if (fPendingChordMemberNotesStringNumbers.size ()) {
+    list<int>::const_iterator
+      iBegin = fPendingChordMemberNotesStringNumbers.begin (),
+      iEnd   = fPendingChordMemberNotesStringNumbers.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      int stringNumber = (*i);
+
+      fLilypondCodeIOstream <<
+        "\\" <<
+        stringNumber;
+        
+      if (++i == iEnd) break;
+      fLilypondCodeIOstream <<
+        " ";
+    } // for
+    fLilypondCodeIOstream <<
+      " ";
+
+    // forget about the pending string numbers
+    fPendingChordMemberNotesStringNumbers.clear ();
+  }
+ 
   // fetch the chord single tremolo
   S_msrSingleTremolo
     chordSingleTremolo =

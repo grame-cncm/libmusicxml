@@ -694,7 +694,9 @@
           </technical>
         </notations>
       </note>
-      <note>
+      <!--note>
+      This one is conflicting with the previous note
+      on the same string
         <chord/>
         <pitch>
           <step>G</step>
@@ -710,8 +712,9 @@
             <fret>5</fret>
           </technical>
         </notations>
-      </note>
-      <note>
+      </note-->
+      <!--note>
+      This note conflicts widh D3 above on the same string
         <chord/>
         <pitch>
           <step>A</step>
@@ -727,8 +730,9 @@
             <fret>0</fret>
           </technical>
         </notations>
-      </note>
-      <note>
+      </note-->
+      <!--note>
+      This note is identical to the preceding one
         <chord/>
         <pitch>
           <step>A</step>
@@ -744,7 +748,7 @@
             <fret>0</fret>
           </technical>
         </notations>
-      </note>
+      </note-->
       <note print-object="no">
         <rest/>
         <duration>2</duration>

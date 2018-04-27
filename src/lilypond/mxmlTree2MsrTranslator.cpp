@@ -9861,7 +9861,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_bend& elt )
         fBendAlterValue,
         bendPlacementKind);
       
-  fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
+  fCurrentTechnicalWithIntegersList.push_back (
+    technicalWithInteger);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_double_tongue& elt )
@@ -10001,7 +10002,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
           fingeringValue,
           fingeringPlacementKind);
         
-    fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
+    fCurrentTechnicalWithIntegersList.push_back (
+      technicalWithInteger);
   }
 
   else if (fOnGoingFrameNote) {
@@ -10114,7 +10116,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
           fretValue,
           fretPlacementKind);
         
-    fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
+    fCurrentTechnicalWithIntegersList.push_back (
+      technicalWithInteger);
   }
 
   else if (fOnGoingFrameNote) {
@@ -10793,7 +10796,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
           stringIntegerValue,
           stringPlacementKind);
         
-    fCurrentTechnicalWithIntegersList.push_back (technicalWithInteger);
+    fCurrentTechnicalWithIntegersList.push_back (
+      technicalWithInteger);
   }
 
   else if (fOnGoingFrame) {
