@@ -8183,39 +8183,49 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     } // for
   }
 
-  // print the note technicals with integer if any
-  const list<S_msrTechnicalWithInteger>&
-    noteTechnicalWithIntegers =
-      elt->getNoteTechnicalWithIntegers ();
+  // print the note technicals with integer if any,
+  // but not for chord member notes strings:
+  // they should appear after the chord itself
+  switch (elt->getNoteKind ()) {
+    case msrNote::kChordMemberNote:
+       break;
+
+    default:
+      {
+        const list<S_msrTechnicalWithInteger>&
+          noteTechnicalWithIntegers =
+            elt->getNoteTechnicalWithIntegers ();
+            
+        if (noteTechnicalWithIntegers.size ()) {
+          list<S_msrTechnicalWithInteger>::const_iterator i;
+          for (
+            i=noteTechnicalWithIntegers.begin ();
+            i!=noteTechnicalWithIntegers.end ();
+            i++) {
+              
+            S_msrTechnicalWithInteger
+                technicalWithInteger = (*i);
       
-  if (noteTechnicalWithIntegers.size ()) {
-    list<S_msrTechnicalWithInteger>::const_iterator i;
-    for (
-      i=noteTechnicalWithIntegers.begin ();
-      i!=noteTechnicalWithIntegers.end ();
-      i++) {
-        
-      S_msrTechnicalWithInteger
-          technicalWithInteger = (*i);
-
-      fLilypondCodeIOstream <<
-        technicalWithIntegerAsLilypondString (
-          technicalWithInteger);
-
-      switch (technicalWithInteger->getTechnicalWithIntegerPlacementKind ()) {
-        case k_NoPlacement:
-          break;
-        case kAbovePlacement:
-          fLilypondCodeIOstream << "^";
-          break;
-        case kBelowPlacement:
-          fLilypondCodeIOstream << "_";
-          break;
-      } // switch
-
-      fLilypondCodeIOstream << " ";
-    } // for
-  }
+            fLilypondCodeIOstream <<
+              technicalWithIntegerAsLilypondString (
+                technicalWithInteger);
+      
+            switch (technicalWithInteger->getTechnicalWithIntegerPlacementKind ()) {
+              case k_NoPlacement:
+                break;
+              case kAbovePlacement:
+                fLilypondCodeIOstream << "^";
+                break;
+              case kBelowPlacement:
+                fLilypondCodeIOstream << "_";
+                break;
+            } // switch
+      
+            fLilypondCodeIOstream << " ";
+          } // for
+        }
+      }
+  } // switch
 
   // print the note technicals with string if any
   const list<S_msrTechnicalWithString>&
