@@ -902,10 +902,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             S_msrTechnicalWithInteger
               technicalWithInteger = (*i);
 
- //               fLilypondCodeIOstream <<
-  //                "FOO" <<
-   //               endl;
-                  
             switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
               case msrTechnicalWithInteger::kBend:
                 break;
@@ -7185,27 +7181,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 
   // don't generate the technicalWithInteger here,
   // the note or chord will do it in its visitEnd() method
-
-  /* JMI
-  // but put the string numbers apart in cse a chord is ongoing
-  // since they should appear after the chord itself
-
-  switch (elt->getTechnicalWithIntegerKind ()) {
-      case msrTechnicalWithInteger::kBend:
-        break;
-      case msrTechnicalWithInteger::kFingering:
-        break;
-      case msrTechnicalWithInteger::kFret:
-        break;
-      case msrTechnicalWithInteger::kString:
-        if (fOnGoingChord) {
-          fPendingChordMemberNotesStringNumbers.push_back (
-            elt->
-                getTechnicalWithIntegerValue ());
-        }
-        break;
-    } // switch
-    */
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
@@ -8226,30 +8201,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       fLilypondCodeIOstream <<
         technicalWithIntegerAsLilypondString (
           technicalWithInteger);
-
-      fLilypondCodeIOstream <<
-        "%{" <<
-        "technicalWithInteger->technicalWithIntegerKindAsString () = " <<
-        technicalWithInteger->technicalWithIntegerKindAsString () <<
-        "%}" <<
-        endl;
-
-            switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
-              case msrTechnicalWithInteger::kBend:
-                break;
-              case msrTechnicalWithInteger::kFingering:
-                break;
-              case msrTechnicalWithInteger::kFret:
-                break;
-              case msrTechnicalWithInteger::kString:
-                if (fOnGoingChord) {
-                  fPendingChordMemberNotesStringNumbers.push_back (
-                    technicalWithInteger->
-                        getTechnicalWithIntegerValue ());
-                }
-                break;
-            } // switch
-
 
       switch (technicalWithInteger->getTechnicalWithIntegerPlacementKind ()) {
         case k_NoPlacement:

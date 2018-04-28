@@ -2131,10 +2131,8 @@ void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add articulations to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addArticulationToNote (elt);
+    fCurrentNoteClone->
+      addArticulationToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2165,10 +2163,8 @@ void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
   // a fermata is an articulation
   
   if (fOnGoingNote) {
-    // don't add articulations to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addArticulationToNote (elt);
+    fCurrentNoteClone->
+      addArticulationToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2189,10 +2185,8 @@ void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
   // an arpeggiato is an articulation
   
   if (fOnGoingNote) {
-    // don't add articulations to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addArticulationToNote (elt);
+    fCurrentNoteClone->
+      addArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2213,10 +2207,8 @@ void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
   // an nonArpeggiato is an articulation
   
   if (fOnGoingNote) {
-    // don't add articulations to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addArticulationToNote (elt);
+    fCurrentNoteClone->
+      addArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2235,10 +2227,8 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add technicals to chord member notes
-  // JMI ???  if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addTechnicalToNote (elt);
+    fCurrentNoteClone->
+      addTechnicalToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2307,10 +2297,8 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add technicalWithIntegers to chord member notes
-  // JMI  ??? if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addTechnicalWithIntegerToNote (elt);
+    fCurrentNoteClone->
+      addTechnicalWithIntegerToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2339,10 +2327,8 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add technicalWithStrings to chord member notes
-  // JMI ???  if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addTechnicalWithStringToNote (elt);
+    fCurrentNoteClone->
+      addTechnicalWithStringToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2382,10 +2368,8 @@ void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add ornaments to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addOrnamentToNote (elt);
+    fCurrentNoteClone->
+      addOrnamentToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2414,10 +2398,8 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add spanners to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addSpannerToNote (elt);
+    fCurrentNoteClone->
+      addSpannerToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2446,10 +2428,8 @@ void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add glissandos to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addGlissandoToNote (elt);
+    fCurrentNoteClone->
+      addGlissandoToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2478,10 +2458,8 @@ void msr2LpsrTranslator::visitStart (S_msrSlide& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add slides to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addSlideToNote (elt);
+    fCurrentNoteClone->
+      addSlideToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2510,10 +2488,8 @@ void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add single tremolos to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addSingleTremoloToNote (elt);
+    fCurrentNoteClone->
+      addSingleTremoloToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2580,22 +2556,10 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add dynamics to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addDynamicsToNote (elt);
+    fCurrentNoteClone->
+      addDynamicsToNote (elt);
 
     // is this a non LilyPond native dynamics?
-/* JMI
-rf = #(make-dynamic-script "rf")
-sfpp = #(make-dynamic-script "sfpp")
-sffz = #(make-dynamic-script "sffz")
-ppppp = #(make-dynamic-script "ppppp")
-pppppp = #(make-dynamic-script "pppppp")
-fffff = #(make-dynamic-script "fffff")
-ffffff = #(make-dynamic-script "ffffff")
-*/
-
     bool knownToLilyPondNatively = true;
     
     switch (elt->getDynamicsKind ()) {
@@ -2647,10 +2611,8 @@ void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add other dynamics to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addOtherDynamicsToNote (elt);
+    fCurrentNoteClone->
+      addOtherDynamicsToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2679,10 +2641,8 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add words to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addWordsToNote (elt);
+    fCurrentNoteClone->
+      addWordsToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2760,10 +2720,8 @@ void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add ligatures to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addLigatureToNote (elt);
+    fCurrentNoteClone->
+      addLigatureToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
@@ -2792,10 +2750,8 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add wedges to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addWedgeToNote (elt);
+    fCurrentNoteClone->
+      addWedgeToNote (elt);
   }
   
   else if (fOnGoingChord) {
@@ -3387,10 +3343,8 @@ void msr2LpsrTranslator::visitStart (S_msrStem& elt)
   }
 
   if (fOnGoingNote) {
- //   // don't add stems to chord member notes JMI ???
- //   if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        setNoteStem (elt);
+    fCurrentNoteClone->
+      setNoteStem (elt);
   }
   /* JMI
   else if (fOnGoingChord) {
@@ -3421,10 +3375,8 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
   }
 
   if (fOnGoingNote) {
-    // don't add beams to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
-      fCurrentNoteClone->
-        addBeamToNote (elt);
+    fCurrentNoteClone->
+      addBeamToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
