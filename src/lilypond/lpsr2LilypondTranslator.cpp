@@ -886,7 +886,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
         
         // don't print the note duration,
         // it will be printed for the chord itself
-  
+
         // don't print the string number if any,
         // it should appear after the chord itself
         const list<S_msrTechnicalWithInteger>&
@@ -902,9 +902,9 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             S_msrTechnicalWithInteger
               technicalWithInteger = (*i);
 
-                fLilypondCodeIOstream <<
-                  "FOO" <<
-                  endl;
+ //               fLilypondCodeIOstream <<
+  //                "FOO" <<
+   //               endl;
                   
             switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
               case msrTechnicalWithInteger::kBend:
@@ -7178,11 +7178,34 @@ void lpsr2LilypondTranslator::visitStart (S_msrTechnicalWithInteger& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting msrTechnicalWithInteger" <<
+      ", fOnGoingChord = " <<
+      booleanAsString (fOnGoingChord) <<
       endl;
   }
 
   // don't generate the technicalWithInteger here,
   // the note or chord will do it in its visitEnd() method
+
+  /* JMI
+  // but put the string numbers apart in cse a chord is ongoing
+  // since they should appear after the chord itself
+
+  switch (elt->getTechnicalWithIntegerKind ()) {
+      case msrTechnicalWithInteger::kBend:
+        break;
+      case msrTechnicalWithInteger::kFingering:
+        break;
+      case msrTechnicalWithInteger::kFret:
+        break;
+      case msrTechnicalWithInteger::kString:
+        if (fOnGoingChord) {
+          fPendingChordMemberNotesStringNumbers.push_back (
+            elt->
+                getTechnicalWithIntegerValue ());
+        }
+        break;
+    } // switch
+    */
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrTechnicalWithInteger& elt)
@@ -7593,44 +7616,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting ";
-      
-    switch (elt->getNoteKind ()) {
-
-      case msrNote::k_NoNoteKind:
-        break;
-        
-      case msrNote::kRestNote:        
-        fLilypondCodeIOstream << "rest";
-        break;
-        
-      case msrNote::kSkipNote:        
-        fLilypondCodeIOstream << "skip";
-        break;
-        
-      case msrNote::kStandaloneNote:
-        fLilypondCodeIOstream << "standalone";
-        break;
-        
-      case msrNote::kDoubleTremoloMemberNote:
-        fLilypondCodeIOstream << "double tremolo member note";
-        break;
-        
-      case msrNote::kGraceNote:
-      case msrNote::kGraceChordMemberNote:
-        fLilypondCodeIOstream << "grace";
-        break;
-        
-      case msrNote::kChordMemberNote:
-        fLilypondCodeIOstream << "chord member";
-        break;
-        
-      case msrNote::kTupletMemberNote:
-        fLilypondCodeIOstream << "tuplet member";
-        break;
-    } // switch
-    
-    fLilypondCodeIOstream << " msrNote" <<
+      "% --> Start visiting " <<
+      msrNote::noteKindAsString (elt->getNoteKind ()) <<
+      " note" <<
       endl;
   }
 
@@ -8097,7 +8085,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     fLilypondCodeIOstream <<
       "% --> End visiting " <<
       msrNote::noteKindAsString (elt->getNoteKind ()) <<
-      " msrNote" <<
+      " note" <<
       endl;
   }
 
@@ -8232,14 +8220,20 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i!=noteTechnicalWithIntegers.end ();
       i++) {
         
+      S_msrTechnicalWithInteger
+          technicalWithInteger = (*i);
+
       fLilypondCodeIOstream <<
-        technicalWithIntegerAsLilypondString ((*i));
+        technicalWithIntegerAsLilypondString (
+          technicalWithInteger);
 
+      fLilypondCodeIOstream <<
+        "%{" <<
+        "technicalWithInteger->technicalWithIntegerKindAsString () = " <<
+        technicalWithInteger->technicalWithIntegerKindAsString () <<
+        "%}" <<
+        endl;
 
-          S_msrTechnicalWithInteger
-              technicalWithInteger = (*i);
-
-                
             switch (technicalWithInteger->getTechnicalWithIntegerKind ()) {
               case msrTechnicalWithInteger::kBend:
                 break;
@@ -8248,7 +8242,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               case msrTechnicalWithInteger::kFret:
                 break;
               case msrTechnicalWithInteger::kString:
-                if (true || fOnGoingChord) {
+                if (fOnGoingChord) {
                   fPendingChordMemberNotesStringNumbers.push_back (
                     technicalWithInteger->
                         getTechnicalWithIntegerValue ());
@@ -8257,7 +8251,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             } // switch
 
 
-      switch ((*i)->getTechnicalWithIntegerPlacementKind ()) {
+      switch (technicalWithInteger->getTechnicalWithIntegerPlacementKind ()) {
         case k_NoPlacement:
           break;
         case kAbovePlacement:

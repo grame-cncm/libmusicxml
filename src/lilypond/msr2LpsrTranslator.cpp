@@ -2236,7 +2236,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
 
   if (fOnGoingNote) {
     // don't add technicals to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+  // JMI ???  if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
       fCurrentNoteClone->
         addTechnicalToNote (elt);
   }
@@ -2308,7 +2308,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 
   if (fOnGoingNote) {
     // don't add technicalWithIntegers to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+  // JMI  ??? if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
       fCurrentNoteClone->
         addTechnicalWithIntegerToNote (elt);
   }
@@ -2340,7 +2340,7 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
 
   if (fOnGoingNote) {
     // don't add technicalWithStrings to chord member notes
-    if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
+  // JMI ???  if (fCurrentNoteClone->getNoteKind () != msrNote::kChordMemberNote)
       fCurrentNoteClone->
         addTechnicalWithStringToNote (elt);
   }

@@ -1563,16 +1563,16 @@ string msrTechnicalWithInteger::technicalWithIntegerKindAsString () const
   
   switch (fTechnicalWithIntegerKind) {
     case msrTechnicalWithInteger::kBend:
-      result = "Bend";
+      result = "bend";
       break;
     case msrTechnicalWithInteger::kFingering:
-      result = "Fingering";
+      result = "fingering";
       break;
     case msrTechnicalWithInteger::kFret:
-      result = "Fret";
+      result = "fret";
       break;
     case msrTechnicalWithInteger::kString:
-      result = "String";
+      result = "string";
       break;
   } // switch
 
@@ -8941,7 +8941,7 @@ void msrChord::browseData (basevisitor* v)
     vector<S_msrNote>::const_iterator i = fChordNotes.begin ();
     i != fChordNotes.end ();
     i++ ) {
-    // browse chord member note
+    // browse chord note
     msrBrowser<msrNote> browser (v);
     browser.browse (*(*i));
   } // for
