@@ -5212,7 +5212,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
   */
 }
 
-msrChordIntervals::~msrChordIntervals()
+msrChordIntervals::~msrChordIntervals ()
 {}
 
 void msrChordIntervals::appendChordItemToChordIntervals (
@@ -5305,6 +5305,8 @@ void msrChordIntervals::print (ostream& os)
     */
     endl;
 
+  gIndenter++;
+    
   if (fChordIntervalsItems.size ()) {
     for (unsigned int i = 0; i < fChordIntervalsItems.size (); i++) {
       S_msrChordItem
@@ -5321,6 +5323,233 @@ void msrChordIntervals::print (ostream& os)
       "no intervals" <<
       endl;
   }
+
+  gIndenter--;
+}
+
+void msrChordIntervals::printAllChordIntervals ()
+{
+  for (
+    msrHarmonyKind harmonyKind = kMajorHarmony;
+    harmonyKind <= kTristanHarmony;
+    harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
+    // create the chord intervals
+    S_msrChordIntervals
+      chordIntervals =
+        msrChordIntervals::create (
+          0, // inputLineNumber
+          harmonyKind);
+
+    // print it
+    gLogIOstream <<
+      chordIntervals <<
+      endl;
+  } // for
+}
+
+list<msrSemiTonesPitchKind> buildSemiTonesChord (
+  msrHarmonyKind        harmonyKind,
+  msrSemiTonesPitchKind rootNote)
+{
+  list<msrSemiTonesPitchKind> result;
+
+  // create the chord intervals
+  S_msrChordIntervals
+    chordIntervals =
+      msrChordIntervals::create (
+        0, // inputLineNumber
+        harmonyKind);
+
+  // add the root to the chord
+  result.push_back (rootNote);
+
+  // add the other notes to the chord
+  const vector<S_msrChordItem>&
+    chordIntervalsItems =
+      chordIntervals->getChordIntervalsItems ();
+
+  for (unsigned int i = 1; i << chordIntervalsItems.size (); i++) {
+    result.push_back (rootNote);
+  } // for
+
+  return result;
+}
+
+//______________________________________________________________________________
+S_msrChordNotes msrChordNotes::create (
+  int                   inputLineNumber,
+  msrSemiTonesPitchKind chordRootNote,
+  msrHarmonyKind        chordHarmonyKind)
+{
+  msrChordNotes* o =
+    new msrChordNotes (
+      inputLineNumber,
+      chordRootNote,
+      chordHarmonyKind);
+  assert(o!=0);
+
+  return o;
+}
+
+msrChordNotes::msrChordNotes (
+  int                   inputLineNumber,
+  msrSemiTonesPitchKind chordRootNote,
+  msrHarmonyKind        chordHarmonyKind)
+   // JMI : msrElement (inputLineNumber)
+{
+  fChordRootNote    = chordRootNote;
+  fChordHarmonyKind = chordHarmonyKind;
+
+  if (TRACE_MSR_BASIC_TYPES) {
+    gLogIOstream <<
+      "==> Creating chordNotes '" <<
+      chordNotesAsString () <<
+      "'" <<
+      endl;
+  }
+
+  // add the root to the chord notes
+  fChordSemiTonesPitches.push_back (fChordRootNote);
+
+  // add the other notes to the chord notes
+  S_msrChordIntervals
+    chordIntervals =
+      msrChordIntervals::create (
+        inputLineNumber,
+        fChordHarmonyKind);
+      
+  const vector<S_msrChordItem>&
+    chordItems =
+      chordIntervals->getChordIntervalsItems ();
+
+  for (unsigned int i = 1; i < chordItems.size (); i++) {
+    msrSemiTonesPitchKind
+      note = fChordRootNote;
+      
+    fChordSemiTonesPitches.push_back (note);
+  } // for
+}
+
+msrChordNotes::~msrChordNotes ()
+{}
+
+string msrChordNotes::chordNotesAsString () const
+{
+  stringstream s;
+
+  s <<
+    "ChordNotes" <<
+    ", " <<
+    msrHarmonyKindAsString (fChordHarmonyKind) <<
+    ", " <<
+    singularOrPlural (
+      fChordSemiTonesPitches.size (), "note", "notes");
+
+  return s.str ();
+}
+
+/* JMI
+void msrChordNotes::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrChordNotes::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrChordNotes>*
+    p =
+      dynamic_cast<visitor<S_msrChordNotes>*> (v)) {
+        S_msrChordNotes elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrChordNotes::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrChordNotes::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrChordNotes::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrChordNotes>*
+    p =
+      dynamic_cast<visitor<S_msrChordNotes>*> (v)) {
+        S_msrChordNotes elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrChordNotes::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrChordNotes::browseData (basevisitor* v)
+{}
+*/
+
+ostream& operator<< (ostream& os, const S_msrChordNotes& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrChordNotes::print (ostream& os)
+{  
+  os <<
+    "ChordNotes" <<
+  /* JMI
+    ", line: " << fInputLineNumber <<
+    */
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 17;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "chordRootNote" << " : " <<
+    msrSemiTonesPitchKindAsString (fChordRootNote) <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordHarmonyKind" << " : " <<
+    msrHarmonyKindAsString (fChordHarmonyKind) <<
+    endl;
+
+  if (fChordSemiTonesPitches.size ()) {
+    os <<
+    singularOrPlural (
+      fChordSemiTonesPitches.size (), "note", "notes") <<
+    ":" <<
+    endl;
+
+    gIndenter++;
+
+    for (unsigned int i = 0; i < fChordSemiTonesPitches.size (); i++) {
+      msrSemiTonesPitchKind
+        semiTonesPitchKind =
+          fChordSemiTonesPitches [i];
+
+      os <<
+        msrSemiTonesPitchKindAsString (semiTonesPitchKind) <<
+        endl;
+    } // for
+    
+    gIndenter--;
+  }
+  else {
+    os <<
+      "no notes" <<
+      endl;
+  }
+
+  gIndenter--;
 }
 
 

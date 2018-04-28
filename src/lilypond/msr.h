@@ -6465,7 +6465,7 @@ class msrChord : public msrElement
     msrChord (
       int             inputLineNumber,
       rational        chordSoundingWholeNotes,
-      rational       chordDisplayWholeNotes,
+      rational        chordDisplayWholeNotes,
       msrDurationKind chordGraphicDurationKind);
       
     virtual ~msrChord();

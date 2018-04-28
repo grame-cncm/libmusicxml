@@ -624,7 +624,7 @@ class msrChordIntervals : public smartable
       int            inputLineNumber,
       msrHarmonyKind chordIntervalsHarmonyKind);
 
-    virtual ~msrChordIntervals();
+    virtual ~msrChordIntervals ();
   
   private:
 
@@ -653,7 +653,9 @@ class msrChordIntervals : public smartable
         
     string                chordIntervalsAsString () const;
     string                chordIntervalsAsShortString () const;
-   
+
+    static void           printAllChordIntervals ();
+    
     // visitors
     // ------------------------------------------------------
 /* JMI
@@ -674,11 +676,86 @@ class msrChordIntervals : public smartable
     // ------------------------------------------------------
 
     msrHarmonyKind        fChordIntervalsHarmonyKind;
-    vector <S_msrChordItem>
+    vector<S_msrChordItem>
                           fChordIntervalsItems;
 };
 typedef SMARTP<msrChordIntervals> S_msrChordIntervals;
 EXP ostream& operator<< (ostream& os, const S_msrChordIntervals& elt);
+
+//______________________________________________________________________________
+class msrChordNotes : public smartable
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrChordNotes> create (
+      int                   inputLineNumber,
+      msrSemiTonesPitchKind chordRootNote,
+      msrHarmonyKind        chordHarmonyKind);
+   
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrChordNotes (
+      int                   inputLineNumber,
+      msrSemiTonesPitchKind chordRootNote,
+      msrHarmonyKind        chordHarmonyKind);
+
+    virtual ~msrChordNotes ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+    msrSemiTonesPitchKind
+                          getChordRootNote () const
+                              { return fChordRootNote; }
+                              
+    msrHarmonyKind        getChordHarmonyKind () const
+                              { return fChordHarmonyKind; }
+                              
+    const vector<msrSemiTonesPitchKind>&
+                          getChordSemiTonesPitches () const
+                              { return fChordSemiTonesPitches; }
+                              
+    // services
+    // ------------------------------------------------------
+        
+    string                chordNotesAsString () const;
+    string                chordNotesAsShortString () const;
+    
+    // visitors
+    // ------------------------------------------------------
+/* JMI
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+*/
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+    msrSemiTonesPitchKind fChordRootNote;
+    msrHarmonyKind        fChordHarmonyKind;
+
+    vector<msrSemiTonesPitchKind>
+                          fChordSemiTonesPitches;
+};
+typedef SMARTP<msrChordNotes> S_msrChordNotes;
+EXP ostream& operator<< (ostream& os, const S_msrChordNotes& elt);
 
 //______________________________________________________________________________
 // global variable 

@@ -590,7 +590,21 @@ void initializeXml2lyOptionsHandling (
   
   gXml2lyOptions = xml2lyOptions::create (
     optionsHandler);
-  assert(gXml2lyOptions != 0);
+  assert (gXml2lyOptions != 0);
+
+
+  msrChordIntervals::printAllChordIntervals ();
+
+  S_msrChordNotes
+    chordNotes =
+      msrChordNotes::create (
+        0, // inputLineNumber
+        kG_Natural_STP,
+        kHalfDiminishedHarmony);
+
+  gLogIOstream <<
+    chordNotes <<
+    endl;   
 }
 
 
