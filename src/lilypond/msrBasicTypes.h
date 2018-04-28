@@ -142,35 +142,35 @@ const int K_HARMONY_NO_INVERSION = -1;
 enum msrQuarterTonesPitchKind {
   k_NoQuarterTonesPitch,
 
-  k_Rest,
+  k_Rest_QTP,
   
-  k_aDoubleFlat, k_aSesquiFlat, k_aFlat, k_aSemiFlat,
-  k_aNatural,
-  k_aSemiSharp, k_aSharp, k_aSesquiSharp, k_aDoubleSharp,
+  kA_DoubleFlat_QTP, kA_SesquiFlat_QTP, kA_Flat_QTP, kA_SemiFlat_QTP,
+  kA_Natural_QTP,
+  kA_SemiSharp_QTP, kA_Sharp_QTP, kA_SesquiSharp_QTP, kA_DoubleSharp_QTP,
   
-  k_bDoubleFlat, k_bSesquiFlat, k_bFlat, k_bSemiFlat,
-  k_bNatural,
-  k_bSemiSharp, k_bSharp, k_bSesquiSharp, k_bDoubleSharp,
+  kB_DoubleFlat_QTP, kB_SesquiFlat_QTP, kB_Flat_QTP, kB_SemiFlat_QTP,
+  kB_Natural_QTP,
+  kB_SemiSharp_QTP, kB_Sharp_QTP, kB_SesquiSharp_QTP, kB_DoubleSharp_QTP,
   
-  k_cDoubleFlat, k_cSesquiFlat, k_cFlat, k_cSemiFlat,
-  k_cNatural,
-  k_cSemiSharp, k_cSharp, k_cSesquiSharp, k_cDoubleSharp,
+  kC_DoubleFlat_QTP, kC_SesquiFlat_QTP, kC_Flat_QTP, kC_SemiFlat_QTP,
+  kC_Natural_QTP,
+  kC_SemiSharp_QTP, kC_Sharp_QTP, kC_SesquiSharp_QTP, kC_DoubleSharp_QTP,
   
-  k_dDoubleFlat, k_dSesquiFlat, k_dFlat, k_dSemiFlat,
-  k_dNatural,
-  k_dSemiSharp, k_dSharp, k_dSesquiSharp, k_dDoubleSharp,
+  kD_DoubleFlat_QTP, kD_SesquiFlat_QTP, kD_Flat_QTP, kD_SemiFlat_QTP,
+  kD_Natural_QTP,
+  kD_SemiSharp_QTP, kD_Sharp_QTP, kD_SesquiSharp_QTP, kD_DoubleSharp_QTP,
   
-  k_eDoubleFlat, k_eSesquiFlat, k_eFlat, k_eSemiFlat,
-  k_eNatural,
-  k_eSemiSharp, k_eSharp, k_eSesquiSharp, k_eDoubleSharp,
+  kE_DoubleFlat_QTP, kE_SesquiFlat_QTP, kE_Flat_QTP, kE_SemiFlat_QTP,
+  kE_Natural_QTP,
+  kE_SemiSharp_QTP, kE_Sharp_QTP, kE_SesquiSharp_QTP, kE_DoubleSharp_QTP,
   
-  k_fDoubleFlat, k_fSesquiFlat, k_fFlat, k_fSemiFlat,
-  k_fNatural,
-  k_fSemiSharp, k_fSharp, k_fSesquiSharp, k_fDoubleSharp,
+  kF_DoubleFlat_QTP, kF_SesquiFlat_QTP, kF_Flat_QTP, kF_SemiFlat_QTP,
+  kF_Natural_QTP,
+  kF_SemiSharp_QTP, kF_Sharp_QTP, kF_SesquiSharp_QTP, kF_DoubleSharp_QTP,
   
-  k_gDoubleFlat, k_gSesquiFlat, k_gFlat, k_gSemiFlat,
-  k_gNatural,
-  k_gSemiSharp, k_gSharp, k_gSesquiSharp, k_gDoubleSharp };
+  kG_DoubleFlat_QTP, kG_SesquiFlat_QTP, kG_Flat_QTP, kG_SemiFlat_QTP,
+  kG_Natural_QTP,
+  kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP };
 
 void setDiatonicPitchKindAndAlterationKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind,
@@ -206,6 +206,7 @@ string msrQuarterTonesPitchKindAsString (
 // semi tones pitches
 //______________________________________________________________________________
 enum msrSemiTonesPitchKind {
+  /* JMI
   kC_Natural_STP, kB_Sharp_STP = kC_Natural_STP, kD_DoubleFlat_STP = kC_Natural_STP,
   
   kC_Sharp_STP, kB_DoubleSharp_STP = kC_Sharp_STP, kD_Flat_STP = kC_Sharp_STP,
@@ -231,14 +232,49 @@ enum msrSemiTonesPitchKind {
   kB_Natural_STP, kA_DoubleSharp_STP = kB_Natural_STP, kC_Flat_STP = kB_Natural_STP,
   
   k_NoWelTemperedPitch_STP };
+  */
+  
+  kC_Natural_STP, kB_Sharp_STP, kD_DoubleFlat_STP,
+  
+  kC_Sharp_STP, kB_DoubleSharp_STP, kD_Flat_STP,
+  
+  kD_Natural_STP, kC_DoubleSharp_STP, kE_DoubleFlat_STP,
+  
+  kD_Sharp_STP, kE_Flat_STP,
+  
+  kE_Natural_STP, kD_DoubleSharp_STP, kF_Flat_STP,
+  
+  kF_Natural_STP, kE_Sharp_STP, kG_DoubleFlat_STP,
+  
+  kF_Sharp_STP, kE_DoubleSharp_STP, kG_Flat_STP,
+  
+  kG_Natural_STP, kF_DoubleSharp_STP, kA_DoubleFlat_STP,
+  
+  kG_Sharp_STP, kA_Flat_STP,
+  
+  kA_Natural_STP, kG_DoubleSharp_STP, kB_DoubleFlat_STP,
+  
+  kA_Sharp_STP, kB_Flat_STP,
+  
+  kB_Natural_STP, kA_DoubleSharp_STP, kC_Flat_STP,
+  
+  k_NoWelTemperedPitch_STP };
   
 string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind);
 
+// alterations preferences
+//______________________________________________________________________________
 enum msrAlterationPreferenceKind {
   kPreferSharp, kPreferFlat };
   
 msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
+  msrSemiTonesPitchKind       semiTonesPitchKind,
+  msrAlterationPreferenceKind alterationPreferenceKind);
+
+// enharmonies
+//______________________________________________________________________________
+msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 

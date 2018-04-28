@@ -1104,891 +1104,891 @@ void initializeQuarterTonesPitchesLanguageKinds ()
 
   // nederlands
   gNederlandsPitchName [k_NoQuarterTonesPitch]  = "";
-  gNederlandsPitchName [k_Rest]                 = "r";
+  gNederlandsPitchName [k_Rest_QTP]                 = "r";
   
-  gNederlandsPitchName [k_aDoubleFlat]  = "aeses";
-  gNederlandsPitchName [k_aSesquiFlat]  = "aeseh";
-  gNederlandsPitchName [k_aFlat]        = "aes";
-  gNederlandsPitchName [k_aSemiFlat]    = "aeh";
-  gNederlandsPitchName [k_aNatural]     = "a";
-  gNederlandsPitchName [k_aSemiSharp]   = "aih";
-  gNederlandsPitchName [k_aSharp]       = "ais";
-  gNederlandsPitchName [k_aSesquiSharp] = "aisih";
-  gNederlandsPitchName [k_aDoubleSharp] = "aisis";
+  gNederlandsPitchName [kA_DoubleFlat_QTP]  = "aeses";
+  gNederlandsPitchName [kA_SesquiFlat_QTP]  = "aeseh";
+  gNederlandsPitchName [kA_Flat_QTP]        = "aes";
+  gNederlandsPitchName [kA_SemiFlat_QTP]    = "aeh";
+  gNederlandsPitchName [kA_Natural_QTP]     = "a";
+  gNederlandsPitchName [kA_SemiSharp_QTP]   = "aih";
+  gNederlandsPitchName [kA_Sharp_QTP]       = "ais";
+  gNederlandsPitchName [kA_SesquiSharp_QTP] = "aisih";
+  gNederlandsPitchName [kA_DoubleSharp_QTP] = "aisis";
     
-  gNederlandsPitchName [k_bDoubleFlat]  = "beses";
-  gNederlandsPitchName [k_bSesquiFlat]  = "beseh";
-  gNederlandsPitchName [k_bFlat]        = "bes";
-  gNederlandsPitchName [k_bSemiFlat]    = "beh";
-  gNederlandsPitchName [k_bNatural]     = "b";
-  gNederlandsPitchName [k_bSemiSharp]   = "bih";
-  gNederlandsPitchName [k_bSharp]       = "bis";
-  gNederlandsPitchName [k_bSesquiSharp] = "bisih";
-  gNederlandsPitchName [k_bDoubleSharp] = "bisis";
+  gNederlandsPitchName [kB_DoubleFlat_QTP]  = "beses";
+  gNederlandsPitchName [kB_SesquiFlat_QTP]  = "beseh";
+  gNederlandsPitchName [kB_Flat_QTP]        = "bes";
+  gNederlandsPitchName [kB_SemiFlat_QTP]    = "beh";
+  gNederlandsPitchName [kB_Natural_QTP]     = "b";
+  gNederlandsPitchName [kB_SemiSharp_QTP]   = "bih";
+  gNederlandsPitchName [kB_Sharp_QTP]       = "bis";
+  gNederlandsPitchName [kB_SesquiSharp_QTP] = "bisih";
+  gNederlandsPitchName [kB_DoubleSharp_QTP] = "bisis";
     
-  gNederlandsPitchName [k_cDoubleFlat]  = "ceses";
-  gNederlandsPitchName [k_cSesquiFlat]  = "ceseh";
-  gNederlandsPitchName [k_cFlat]        = "ces";
-  gNederlandsPitchName [k_cSemiFlat]    = "ceh";
-  gNederlandsPitchName [k_cNatural]     = "c";
-  gNederlandsPitchName [k_cSemiSharp]   = "cih";
-  gNederlandsPitchName [k_cSharp]       = "cis";
-  gNederlandsPitchName [k_cSesquiSharp] = "cisih";
-  gNederlandsPitchName [k_cDoubleSharp] = "cisis";
+  gNederlandsPitchName [kC_DoubleFlat_QTP]  = "ceses";
+  gNederlandsPitchName [kC_SesquiFlat_QTP]  = "ceseh";
+  gNederlandsPitchName [kC_Flat_QTP]        = "ces";
+  gNederlandsPitchName [kC_SemiFlat_QTP]    = "ceh";
+  gNederlandsPitchName [kC_Natural_QTP]     = "c";
+  gNederlandsPitchName [kC_SemiSharp_QTP]   = "cih";
+  gNederlandsPitchName [kC_Sharp_QTP]       = "cis";
+  gNederlandsPitchName [kC_SesquiSharp_QTP] = "cisih";
+  gNederlandsPitchName [kC_DoubleSharp_QTP] = "cisis";
     
-  gNederlandsPitchName [k_dDoubleFlat]  = "deses";
-  gNederlandsPitchName [k_dSesquiFlat]  = "deseh";
-  gNederlandsPitchName [k_dFlat]        = "des";
-  gNederlandsPitchName [k_dSemiFlat]    = "deh";
-  gNederlandsPitchName [k_dNatural]     = "d";
-  gNederlandsPitchName [k_dSemiSharp]   = "dih";
-  gNederlandsPitchName [k_dSharp]       = "dis";
-  gNederlandsPitchName [k_dSesquiSharp] = "disih";
-  gNederlandsPitchName [k_dDoubleSharp] = "disis";
+  gNederlandsPitchName [kD_DoubleFlat_QTP]  = "deses";
+  gNederlandsPitchName [kD_SesquiFlat_QTP]  = "deseh";
+  gNederlandsPitchName [kD_Flat_QTP]        = "des";
+  gNederlandsPitchName [kD_SemiFlat_QTP]    = "deh";
+  gNederlandsPitchName [kD_Natural_QTP]     = "d";
+  gNederlandsPitchName [kD_SemiSharp_QTP]   = "dih";
+  gNederlandsPitchName [kD_Sharp_QTP]       = "dis";
+  gNederlandsPitchName [kD_SesquiSharp_QTP] = "disih";
+  gNederlandsPitchName [kD_DoubleSharp_QTP] = "disis";
 
-  gNederlandsPitchName [k_eDoubleFlat]  = "eeses";
-  gNederlandsPitchName [k_eSesquiFlat]  = "eeseh";
-  gNederlandsPitchName [k_eFlat]        = "ees";
-  gNederlandsPitchName [k_eSemiFlat]    = "eeh";
-  gNederlandsPitchName [k_eNatural]     = "e";
-  gNederlandsPitchName [k_eSemiSharp]   = "eih";
-  gNederlandsPitchName [k_eSharp]       = "eis";
-  gNederlandsPitchName [k_eSesquiSharp] = "eisih";
-  gNederlandsPitchName [k_eDoubleSharp] = "eisis";
+  gNederlandsPitchName [kE_DoubleFlat_QTP]  = "eeses";
+  gNederlandsPitchName [kE_SesquiFlat_QTP]  = "eeseh";
+  gNederlandsPitchName [kE_Flat_QTP]        = "ees";
+  gNederlandsPitchName [kE_SemiFlat_QTP]    = "eeh";
+  gNederlandsPitchName [kE_Natural_QTP]     = "e";
+  gNederlandsPitchName [kE_SemiSharp_QTP]   = "eih";
+  gNederlandsPitchName [kE_Sharp_QTP]       = "eis";
+  gNederlandsPitchName [kE_SesquiSharp_QTP] = "eisih";
+  gNederlandsPitchName [kE_DoubleSharp_QTP] = "eisis";
     
-  gNederlandsPitchName [k_fDoubleFlat]  = "feses";
-  gNederlandsPitchName [k_fSesquiFlat]  = "feseh";
-  gNederlandsPitchName [k_fFlat]        = "fes";
-  gNederlandsPitchName [k_fSemiFlat]    = "feh";
-  gNederlandsPitchName [k_fNatural]     = "f";
-  gNederlandsPitchName [k_fSemiSharp]   = "fih";
-  gNederlandsPitchName [k_fSharp]       = "fis";
-  gNederlandsPitchName [k_fSesquiSharp] = "fisih";
-  gNederlandsPitchName [k_fDoubleSharp] = "fisis";
+  gNederlandsPitchName [kF_DoubleFlat_QTP]  = "feses";
+  gNederlandsPitchName [kF_SesquiFlat_QTP]  = "feseh";
+  gNederlandsPitchName [kF_Flat_QTP]        = "fes";
+  gNederlandsPitchName [kF_SemiFlat_QTP]    = "feh";
+  gNederlandsPitchName [kF_Natural_QTP]     = "f";
+  gNederlandsPitchName [kF_SemiSharp_QTP]   = "fih";
+  gNederlandsPitchName [kF_Sharp_QTP]       = "fis";
+  gNederlandsPitchName [kF_SesquiSharp_QTP] = "fisih";
+  gNederlandsPitchName [kF_DoubleSharp_QTP] = "fisis";
     
-  gNederlandsPitchName [k_gDoubleFlat]  = "geses";
-  gNederlandsPitchName [k_gSesquiFlat]  = "geseh";
-  gNederlandsPitchName [k_gFlat]        = "ges";
-  gNederlandsPitchName [k_gSemiFlat]    = "geh";
-  gNederlandsPitchName [k_gNatural]     = "g";
-  gNederlandsPitchName [k_gSemiSharp]   = "gih";
-  gNederlandsPitchName [k_gSharp]       = "gis";
-  gNederlandsPitchName [k_gSesquiSharp] = "gisih";
-  gNederlandsPitchName [k_gDoubleSharp] = "gisis";
+  gNederlandsPitchName [kG_DoubleFlat_QTP]  = "geses";
+  gNederlandsPitchName [kG_SesquiFlat_QTP]  = "geseh";
+  gNederlandsPitchName [kG_Flat_QTP]        = "ges";
+  gNederlandsPitchName [kG_SemiFlat_QTP]    = "geh";
+  gNederlandsPitchName [kG_Natural_QTP]     = "g";
+  gNederlandsPitchName [kG_SemiSharp_QTP]   = "gih";
+  gNederlandsPitchName [kG_Sharp_QTP]       = "gis";
+  gNederlandsPitchName [kG_SesquiSharp_QTP] = "gisih";
+  gNederlandsPitchName [kG_DoubleSharp_QTP] = "gisis";
 
   // catalan
   gCatalanPitchName [k_NoQuarterTonesPitch]  = "";
-  gCatalanPitchName [k_Rest]                 = "r";
+  gCatalanPitchName [k_Rest_QTP]                 = "r";
   
-  gCatalanPitchName [k_aDoubleFlat]  = "labb";
-  gCatalanPitchName [k_aSesquiFlat]  = "labSesquiFlat???";
-  gCatalanPitchName [k_aFlat]        = "lab";
-  gCatalanPitchName [k_aSemiFlat]    = "aSemiFlat???";
-  gCatalanPitchName [k_aNatural]     = "la";
-  gCatalanPitchName [k_aSemiSharp]   = "aSemiSharp???";
-  gCatalanPitchName [k_aSharp]       = "lad";
-  gCatalanPitchName [k_aSesquiSharp] = "laSesquiSharp???";
-  gCatalanPitchName [k_aDoubleSharp] = "ladd";
+  gCatalanPitchName [kA_DoubleFlat_QTP]  = "labb";
+  gCatalanPitchName [kA_SesquiFlat_QTP]  = "labSesquiFlat???";
+  gCatalanPitchName [kA_Flat_QTP]        = "lab";
+  gCatalanPitchName [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gCatalanPitchName [kA_Natural_QTP]     = "la";
+  gCatalanPitchName [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gCatalanPitchName [kA_Sharp_QTP]       = "lad";
+  gCatalanPitchName [kA_SesquiSharp_QTP] = "laSesquiSharp???";
+  gCatalanPitchName [kA_DoubleSharp_QTP] = "ladd";
     
-  gCatalanPitchName [k_bDoubleFlat]  = "sibb";
-  gCatalanPitchName [k_bSesquiFlat]  = "sibSesquiFlat???";
-  gCatalanPitchName [k_bFlat]        = "sib";
-  gCatalanPitchName [k_bSemiFlat]    = "bSemiFlat???";
-  gCatalanPitchName [k_bNatural]     = "b";
-  gCatalanPitchName [k_bSemiSharp]   = "bSemiSharp???";
-  gCatalanPitchName [k_bSharp]       = "sid";
-  gCatalanPitchName [k_bSesquiSharp] = "siSesquiSharp???";
-  gCatalanPitchName [k_bDoubleSharp] = "sidd";
+  gCatalanPitchName [kB_DoubleFlat_QTP]  = "sibb";
+  gCatalanPitchName [kB_SesquiFlat_QTP]  = "sibSesquiFlat???";
+  gCatalanPitchName [kB_Flat_QTP]        = "sib";
+  gCatalanPitchName [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gCatalanPitchName [kB_Natural_QTP]     = "b";
+  gCatalanPitchName [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gCatalanPitchName [kB_Sharp_QTP]       = "sid";
+  gCatalanPitchName [kB_SesquiSharp_QTP] = "siSesquiSharp???";
+  gCatalanPitchName [kB_DoubleSharp_QTP] = "sidd";
     
-  gCatalanPitchName [k_cDoubleFlat]  = "dobb";
-  gCatalanPitchName [k_cSesquiFlat]  = "doSesquiFlat???";
-  gCatalanPitchName [k_cFlat]        = "dob";
-  gCatalanPitchName [k_cSemiFlat]    = "cSemiFlat???";
-  gCatalanPitchName [k_cNatural]     = "do";
-  gCatalanPitchName [k_cSemiSharp]   = "cSemiSharp???";
-  gCatalanPitchName [k_cSharp]       = "dod";
-  gCatalanPitchName [k_cSesquiSharp] = "doSesquiSharp???";
-  gCatalanPitchName [k_cDoubleSharp] = "dodd";
+  gCatalanPitchName [kC_DoubleFlat_QTP]  = "dobb";
+  gCatalanPitchName [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
+  gCatalanPitchName [kC_Flat_QTP]        = "dob";
+  gCatalanPitchName [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gCatalanPitchName [kC_Natural_QTP]     = "do";
+  gCatalanPitchName [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gCatalanPitchName [kC_Sharp_QTP]       = "dod";
+  gCatalanPitchName [kC_SesquiSharp_QTP] = "doSesquiSharp???";
+  gCatalanPitchName [kC_DoubleSharp_QTP] = "dodd";
     
-  gCatalanPitchName [k_dDoubleFlat]  = "rebb";
-  gCatalanPitchName [k_dSesquiFlat]  = "reSesquiFlat???";
-  gCatalanPitchName [k_dFlat]        = "reb";
-  gCatalanPitchName [k_dSemiFlat]    = "dSemiFlat???";
-  gCatalanPitchName [k_dNatural]     = "re";
-  gCatalanPitchName [k_dSemiSharp]   = "dSemiSharp???";
-  gCatalanPitchName [k_dSharp]       = "red";
-  gCatalanPitchName [k_dSesquiSharp] = "reSesquiSharp???";
-  gCatalanPitchName [k_dDoubleSharp] = "redd";
+  gCatalanPitchName [kD_DoubleFlat_QTP]  = "rebb";
+  gCatalanPitchName [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
+  gCatalanPitchName [kD_Flat_QTP]        = "reb";
+  gCatalanPitchName [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gCatalanPitchName [kD_Natural_QTP]     = "re";
+  gCatalanPitchName [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gCatalanPitchName [kD_Sharp_QTP]       = "red";
+  gCatalanPitchName [kD_SesquiSharp_QTP] = "reSesquiSharp???";
+  gCatalanPitchName [kD_DoubleSharp_QTP] = "redd";
 
-  gCatalanPitchName [k_eDoubleFlat]  = "mibb";
-  gCatalanPitchName [k_eSesquiFlat]  = "miSesquiFlat???";
-  gCatalanPitchName [k_eFlat]        = "mib";
-  gCatalanPitchName [k_eSemiFlat]    = "eSemiFlat???";
-  gCatalanPitchName [k_eNatural]     = "mi";
-  gCatalanPitchName [k_eSemiSharp]   = "eSemiSharp???";
-  gCatalanPitchName [k_eSharp]       = "mid";
-  gCatalanPitchName [k_eSesquiSharp] = "miSesquiSharp???";
-  gCatalanPitchName [k_eDoubleSharp] = "midd";
+  gCatalanPitchName [kE_DoubleFlat_QTP]  = "mibb";
+  gCatalanPitchName [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
+  gCatalanPitchName [kE_Flat_QTP]        = "mib";
+  gCatalanPitchName [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gCatalanPitchName [kE_Natural_QTP]     = "mi";
+  gCatalanPitchName [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gCatalanPitchName [kE_Sharp_QTP]       = "mid";
+  gCatalanPitchName [kE_SesquiSharp_QTP] = "miSesquiSharp???";
+  gCatalanPitchName [kE_DoubleSharp_QTP] = "midd";
     
-  gCatalanPitchName [k_fDoubleFlat]  = "fabb";
-  gCatalanPitchName [k_fSesquiFlat]  = "faSesquiFlat???";
-  gCatalanPitchName [k_fFlat]        = "fab";
-  gCatalanPitchName [k_fSemiFlat]    = "fSemiFlat???";
-  gCatalanPitchName [k_fNatural]     = "fa";
-  gCatalanPitchName [k_fSemiSharp]   = "fSemiSharp???";
-  gCatalanPitchName [k_fSharp]       = "fad";
-  gCatalanPitchName [k_fSesquiSharp] = "faSesquiSharp???";
-  gCatalanPitchName [k_fDoubleSharp] = "fadd";
+  gCatalanPitchName [kF_DoubleFlat_QTP]  = "fabb";
+  gCatalanPitchName [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
+  gCatalanPitchName [kF_Flat_QTP]        = "fab";
+  gCatalanPitchName [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gCatalanPitchName [kF_Natural_QTP]     = "fa";
+  gCatalanPitchName [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gCatalanPitchName [kF_Sharp_QTP]       = "fad";
+  gCatalanPitchName [kF_SesquiSharp_QTP] = "faSesquiSharp???";
+  gCatalanPitchName [kF_DoubleSharp_QTP] = "fadd";
     
-  gCatalanPitchName [k_gDoubleFlat]  = "solbb";
-  gCatalanPitchName [k_gSesquiFlat]  = "solSesquiFlat???";
-  gCatalanPitchName [k_gFlat]        = "solb";
-  gCatalanPitchName [k_gSemiFlat]    = "gSemiFlat???";
-  gCatalanPitchName [k_gNatural]     = "sol";
-  gCatalanPitchName [k_gSemiSharp]   = "gSemiSharp???";
-  gCatalanPitchName [k_gSharp]       = "sold";
-  gCatalanPitchName [k_gSesquiSharp] = "solSesquiSharp???";
-  gCatalanPitchName [k_gDoubleSharp] = "soldd";
+  gCatalanPitchName [kG_DoubleFlat_QTP]  = "solbb";
+  gCatalanPitchName [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
+  gCatalanPitchName [kG_Flat_QTP]        = "solb";
+  gCatalanPitchName [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gCatalanPitchName [kG_Natural_QTP]     = "sol";
+  gCatalanPitchName [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gCatalanPitchName [kG_Sharp_QTP]       = "sold";
+  gCatalanPitchName [kG_SesquiSharp_QTP] = "solSesquiSharp???";
+  gCatalanPitchName [kG_DoubleSharp_QTP] = "soldd";
 
   // deutsch
   gDeutschPitchName [k_NoQuarterTonesPitch]  = "";
-  gDeutschPitchName [k_Rest]                 = "r";
+  gDeutschPitchName [k_Rest_QTP]                 = "r";
   
-  gDeutschPitchName [k_aDoubleFlat]  = "asas";
-  gDeutschPitchName [k_aSesquiFlat]  = "asah";
-  gDeutschPitchName [k_aFlat]        = "as";
-  gDeutschPitchName [k_aSemiFlat]    = "aeh";
-  gDeutschPitchName [k_aNatural]     = "a";
-  gDeutschPitchName [k_aSemiSharp]   = "aih";
-  gDeutschPitchName [k_aSharp]       = "ais";
-  gDeutschPitchName [k_aSesquiSharp] = "aisih";
-  gDeutschPitchName [k_aDoubleSharp] = "aisis";
+  gDeutschPitchName [kA_DoubleFlat_QTP]  = "asas";
+  gDeutschPitchName [kA_SesquiFlat_QTP]  = "asah";
+  gDeutschPitchName [kA_Flat_QTP]        = "as";
+  gDeutschPitchName [kA_SemiFlat_QTP]    = "aeh";
+  gDeutschPitchName [kA_Natural_QTP]     = "a";
+  gDeutschPitchName [kA_SemiSharp_QTP]   = "aih";
+  gDeutschPitchName [kA_Sharp_QTP]       = "ais";
+  gDeutschPitchName [kA_SesquiSharp_QTP] = "aisih";
+  gDeutschPitchName [kA_DoubleSharp_QTP] = "aisis";
     
-  gDeutschPitchName [k_bDoubleFlat]  = "heses";
-  gDeutschPitchName [k_bSesquiFlat]  = "heseh";
-  gDeutschPitchName [k_bFlat]        = "b";
-  gDeutschPitchName [k_bSemiFlat]    = "beh";
-  gDeutschPitchName [k_bNatural]     = "h";
-  gDeutschPitchName [k_bSemiSharp]   = "hih";
-  gDeutschPitchName [k_bSharp]       = "his";
-  gDeutschPitchName [k_bSesquiSharp] = "hisih";
-  gDeutschPitchName [k_bDoubleSharp] = "hisis";
+  gDeutschPitchName [kB_DoubleFlat_QTP]  = "heses";
+  gDeutschPitchName [kB_SesquiFlat_QTP]  = "heseh";
+  gDeutschPitchName [kB_Flat_QTP]        = "b";
+  gDeutschPitchName [kB_SemiFlat_QTP]    = "beh";
+  gDeutschPitchName [kB_Natural_QTP]     = "h";
+  gDeutschPitchName [kB_SemiSharp_QTP]   = "hih";
+  gDeutschPitchName [kB_Sharp_QTP]       = "his";
+  gDeutschPitchName [kB_SesquiSharp_QTP] = "hisih";
+  gDeutschPitchName [kB_DoubleSharp_QTP] = "hisis";
     
-  gDeutschPitchName [k_cDoubleFlat]  = "ceses";
-  gDeutschPitchName [k_cSesquiFlat]  = "ceseh";
-  gDeutschPitchName [k_cFlat]        = "ces";
-  gDeutschPitchName [k_cSemiFlat]    = "ceh";
-  gDeutschPitchName [k_cNatural]     = "c";
-  gDeutschPitchName [k_cSemiSharp]   = "cih";
-  gDeutschPitchName [k_cSharp]       = "cis";
-  gDeutschPitchName [k_cSesquiSharp] = "cisih";
-  gDeutschPitchName [k_cDoubleSharp] = "cisis";
+  gDeutschPitchName [kC_DoubleFlat_QTP]  = "ceses";
+  gDeutschPitchName [kC_SesquiFlat_QTP]  = "ceseh";
+  gDeutschPitchName [kC_Flat_QTP]        = "ces";
+  gDeutschPitchName [kC_SemiFlat_QTP]    = "ceh";
+  gDeutschPitchName [kC_Natural_QTP]     = "c";
+  gDeutschPitchName [kC_SemiSharp_QTP]   = "cih";
+  gDeutschPitchName [kC_Sharp_QTP]       = "cis";
+  gDeutschPitchName [kC_SesquiSharp_QTP] = "cisih";
+  gDeutschPitchName [kC_DoubleSharp_QTP] = "cisis";
     
-  gDeutschPitchName [k_dDoubleFlat]  = "deses";
-  gDeutschPitchName [k_dSesquiFlat]  = "deseh";
-  gDeutschPitchName [k_dFlat]        = "des";
-  gDeutschPitchName [k_dSemiFlat]    = "deh";
-  gDeutschPitchName [k_dNatural]     = "d";
-  gDeutschPitchName [k_dSemiSharp]   = "dih";
-  gDeutschPitchName [k_dSharp]       = "dis";
-  gDeutschPitchName [k_dSesquiSharp] = "disih";
-  gDeutschPitchName [k_dDoubleSharp] = "disis";
+  gDeutschPitchName [kD_DoubleFlat_QTP]  = "deses";
+  gDeutschPitchName [kD_SesquiFlat_QTP]  = "deseh";
+  gDeutschPitchName [kD_Flat_QTP]        = "des";
+  gDeutschPitchName [kD_SemiFlat_QTP]    = "deh";
+  gDeutschPitchName [kD_Natural_QTP]     = "d";
+  gDeutschPitchName [kD_SemiSharp_QTP]   = "dih";
+  gDeutschPitchName [kD_Sharp_QTP]       = "dis";
+  gDeutschPitchName [kD_SesquiSharp_QTP] = "disih";
+  gDeutschPitchName [kD_DoubleSharp_QTP] = "disis";
 
-  gDeutschPitchName [k_eDoubleFlat]  = "eses";
-  gDeutschPitchName [k_eSesquiFlat]  = "esseh";
-  gDeutschPitchName [k_eFlat]        = "es";
-  gDeutschPitchName [k_eSemiFlat]    = "eeh";
-  gDeutschPitchName [k_eNatural]     = "e";
-  gDeutschPitchName [k_eSemiSharp]   = "eih";
-  gDeutschPitchName [k_eSharp]       = "eis";
-  gDeutschPitchName [k_eSesquiSharp] = "eisih";
-  gDeutschPitchName [k_eDoubleSharp] = "eisis";
+  gDeutschPitchName [kE_DoubleFlat_QTP]  = "eses";
+  gDeutschPitchName [kE_SesquiFlat_QTP]  = "esseh";
+  gDeutschPitchName [kE_Flat_QTP]        = "es";
+  gDeutschPitchName [kE_SemiFlat_QTP]    = "eeh";
+  gDeutschPitchName [kE_Natural_QTP]     = "e";
+  gDeutschPitchName [kE_SemiSharp_QTP]   = "eih";
+  gDeutschPitchName [kE_Sharp_QTP]       = "eis";
+  gDeutschPitchName [kE_SesquiSharp_QTP] = "eisih";
+  gDeutschPitchName [kE_DoubleSharp_QTP] = "eisis";
     
-  gDeutschPitchName [k_fDoubleFlat]  = "feses";
-  gDeutschPitchName [k_fSesquiFlat]  = "feseh";
-  gDeutschPitchName [k_fFlat]        = "fes";
-  gDeutschPitchName [k_fSemiFlat]    = "feh";
-  gDeutschPitchName [k_fNatural]     = "f";
-  gDeutschPitchName [k_fSemiSharp]   = "fih";
-  gDeutschPitchName [k_fSharp]       = "fis";
-  gDeutschPitchName [k_fSesquiSharp] = "fisih";
-  gDeutschPitchName [k_fDoubleSharp] = "fisis";
+  gDeutschPitchName [kF_DoubleFlat_QTP]  = "feses";
+  gDeutschPitchName [kF_SesquiFlat_QTP]  = "feseh";
+  gDeutschPitchName [kF_Flat_QTP]        = "fes";
+  gDeutschPitchName [kF_SemiFlat_QTP]    = "feh";
+  gDeutschPitchName [kF_Natural_QTP]     = "f";
+  gDeutschPitchName [kF_SemiSharp_QTP]   = "fih";
+  gDeutschPitchName [kF_Sharp_QTP]       = "fis";
+  gDeutschPitchName [kF_SesquiSharp_QTP] = "fisih";
+  gDeutschPitchName [kF_DoubleSharp_QTP] = "fisis";
     
-  gDeutschPitchName [k_gDoubleFlat]  = "geses";
-  gDeutschPitchName [k_gSesquiFlat]  = "geseh";
-  gDeutschPitchName [k_gFlat]        = "ges";
-  gDeutschPitchName [k_gSemiFlat]    = "geh";
-  gDeutschPitchName [k_gNatural]     = "g";
-  gDeutschPitchName [k_gSemiSharp]   = "gih";
-  gDeutschPitchName [k_gSharp]       = "gis";
-  gDeutschPitchName [k_gSesquiSharp] = "gisih";
-  gDeutschPitchName [k_gDoubleSharp] = "gisis";
+  gDeutschPitchName [kG_DoubleFlat_QTP]  = "geses";
+  gDeutschPitchName [kG_SesquiFlat_QTP]  = "geseh";
+  gDeutschPitchName [kG_Flat_QTP]        = "ges";
+  gDeutschPitchName [kG_SemiFlat_QTP]    = "geh";
+  gDeutschPitchName [kG_Natural_QTP]     = "g";
+  gDeutschPitchName [kG_SemiSharp_QTP]   = "gih";
+  gDeutschPitchName [kG_Sharp_QTP]       = "gis";
+  gDeutschPitchName [kG_SesquiSharp_QTP] = "gisih";
+  gDeutschPitchName [kG_DoubleSharp_QTP] = "gisis";
 
   // english
   gEnglishPitchName [k_NoQuarterTonesPitch]  = "";
-  gEnglishPitchName [k_Rest]                 = "r";
+  gEnglishPitchName [k_Rest_QTP]                 = "r";
   
-  gEnglishPitchName [k_aDoubleFlat]  = "aff";
-  gEnglishPitchName [k_aSesquiFlat]  = "atqf";
-  gEnglishPitchName [k_aFlat]        = "af";
-  gEnglishPitchName [k_aSemiFlat]    = "aqf";
-  gEnglishPitchName [k_aNatural]     = "a";
-  gEnglishPitchName [k_aSemiSharp]   = "aqs";
-  gEnglishPitchName [k_aSharp]       = "as";
-  gEnglishPitchName [k_aSesquiSharp] = "atqs";
-  gEnglishPitchName [k_aDoubleSharp] = "a";
+  gEnglishPitchName [kA_DoubleFlat_QTP]  = "aff";
+  gEnglishPitchName [kA_SesquiFlat_QTP]  = "atqf";
+  gEnglishPitchName [kA_Flat_QTP]        = "af";
+  gEnglishPitchName [kA_SemiFlat_QTP]    = "aqf";
+  gEnglishPitchName [kA_Natural_QTP]     = "a";
+  gEnglishPitchName [kA_SemiSharp_QTP]   = "aqs";
+  gEnglishPitchName [kA_Sharp_QTP]       = "as";
+  gEnglishPitchName [kA_SesquiSharp_QTP] = "atqs";
+  gEnglishPitchName [kA_DoubleSharp_QTP] = "a";
     
-  gEnglishPitchName [k_bDoubleFlat]  = "bfqf";
-  gEnglishPitchName [k_bSesquiFlat]  = "btqf";
-  gEnglishPitchName [k_bFlat]        = "bf";
-  gEnglishPitchName [k_bSemiFlat]    = "bqf";
-  gEnglishPitchName [k_bNatural]     = "b";
-  gEnglishPitchName [k_bSemiSharp]   = "bqs";
-  gEnglishPitchName [k_bSharp]       = "bs";
-  gEnglishPitchName [k_bSesquiSharp] = "btqs";
-  gEnglishPitchName [k_bDoubleSharp] = "bx";
+  gEnglishPitchName [kB_DoubleFlat_QTP]  = "bfqf";
+  gEnglishPitchName [kB_SesquiFlat_QTP]  = "btqf";
+  gEnglishPitchName [kB_Flat_QTP]        = "bf";
+  gEnglishPitchName [kB_SemiFlat_QTP]    = "bqf";
+  gEnglishPitchName [kB_Natural_QTP]     = "b";
+  gEnglishPitchName [kB_SemiSharp_QTP]   = "bqs";
+  gEnglishPitchName [kB_Sharp_QTP]       = "bs";
+  gEnglishPitchName [kB_SesquiSharp_QTP] = "btqs";
+  gEnglishPitchName [kB_DoubleSharp_QTP] = "bx";
     
-  gEnglishPitchName [k_cDoubleFlat]  = "cff";
-  gEnglishPitchName [k_cSesquiFlat]  = "ctqf";
-  gEnglishPitchName [k_cFlat]        = "cf";
-  gEnglishPitchName [k_cSemiFlat]    = "cqf";
-  gEnglishPitchName [k_cNatural]     = "c";
-  gEnglishPitchName [k_cSemiSharp]   = "cqs";
-  gEnglishPitchName [k_cSharp]       = "cs";
-  gEnglishPitchName [k_cSesquiSharp] = "ctqs";
-  gEnglishPitchName [k_cDoubleSharp] = "cx";
+  gEnglishPitchName [kC_DoubleFlat_QTP]  = "cff";
+  gEnglishPitchName [kC_SesquiFlat_QTP]  = "ctqf";
+  gEnglishPitchName [kC_Flat_QTP]        = "cf";
+  gEnglishPitchName [kC_SemiFlat_QTP]    = "cqf";
+  gEnglishPitchName [kC_Natural_QTP]     = "c";
+  gEnglishPitchName [kC_SemiSharp_QTP]   = "cqs";
+  gEnglishPitchName [kC_Sharp_QTP]       = "cs";
+  gEnglishPitchName [kC_SesquiSharp_QTP] = "ctqs";
+  gEnglishPitchName [kC_DoubleSharp_QTP] = "cx";
     
-  gEnglishPitchName [k_dDoubleFlat]  = "dff";
-  gEnglishPitchName [k_dSesquiFlat]  = "dtqf";
-  gEnglishPitchName [k_dFlat]        = "df";
-  gEnglishPitchName [k_dSemiFlat]    = "dqf";
-  gEnglishPitchName [k_dNatural]     = "d";
-  gEnglishPitchName [k_dSemiSharp]   = "dqs";
-  gEnglishPitchName [k_dSharp]       = "ds";
-  gEnglishPitchName [k_dSesquiSharp] = "dtqs";
-  gEnglishPitchName [k_dDoubleSharp] = "dx";
+  gEnglishPitchName [kD_DoubleFlat_QTP]  = "dff";
+  gEnglishPitchName [kD_SesquiFlat_QTP]  = "dtqf";
+  gEnglishPitchName [kD_Flat_QTP]        = "df";
+  gEnglishPitchName [kD_SemiFlat_QTP]    = "dqf";
+  gEnglishPitchName [kD_Natural_QTP]     = "d";
+  gEnglishPitchName [kD_SemiSharp_QTP]   = "dqs";
+  gEnglishPitchName [kD_Sharp_QTP]       = "ds";
+  gEnglishPitchName [kD_SesquiSharp_QTP] = "dtqs";
+  gEnglishPitchName [kD_DoubleSharp_QTP] = "dx";
 
-  gEnglishPitchName [k_eDoubleFlat]  = "eff";
-  gEnglishPitchName [k_eSesquiFlat]  = "etqf";
-  gEnglishPitchName [k_eFlat]        = "ef";
-  gEnglishPitchName [k_eSemiFlat]    = "eqf";
-  gEnglishPitchName [k_eNatural]     = "e";
-  gEnglishPitchName [k_eSemiSharp]   = "eqs";
-  gEnglishPitchName [k_eSharp]       = "es";
-  gEnglishPitchName [k_eSesquiSharp] = "etqs";
-  gEnglishPitchName [k_eDoubleSharp] = "ex";
+  gEnglishPitchName [kE_DoubleFlat_QTP]  = "eff";
+  gEnglishPitchName [kE_SesquiFlat_QTP]  = "etqf";
+  gEnglishPitchName [kE_Flat_QTP]        = "ef";
+  gEnglishPitchName [kE_SemiFlat_QTP]    = "eqf";
+  gEnglishPitchName [kE_Natural_QTP]     = "e";
+  gEnglishPitchName [kE_SemiSharp_QTP]   = "eqs";
+  gEnglishPitchName [kE_Sharp_QTP]       = "es";
+  gEnglishPitchName [kE_SesquiSharp_QTP] = "etqs";
+  gEnglishPitchName [kE_DoubleSharp_QTP] = "ex";
     
-  gEnglishPitchName [k_fDoubleFlat]  = "fff";
-  gEnglishPitchName [k_fSesquiFlat]  = "ftqf";
-  gEnglishPitchName [k_fFlat]        = "ff";
-  gEnglishPitchName [k_fSemiFlat]    = "fqf";
-  gEnglishPitchName [k_fNatural]     = "f";
-  gEnglishPitchName [k_fSemiSharp]   = "fqs";
-  gEnglishPitchName [k_fSharp]       = "fs";
-  gEnglishPitchName [k_fSesquiSharp] = "ftqs";
-  gEnglishPitchName [k_fDoubleSharp] = "fx";
+  gEnglishPitchName [kF_DoubleFlat_QTP]  = "fff";
+  gEnglishPitchName [kF_SesquiFlat_QTP]  = "ftqf";
+  gEnglishPitchName [kF_Flat_QTP]        = "ff";
+  gEnglishPitchName [kF_SemiFlat_QTP]    = "fqf";
+  gEnglishPitchName [kF_Natural_QTP]     = "f";
+  gEnglishPitchName [kF_SemiSharp_QTP]   = "fqs";
+  gEnglishPitchName [kF_Sharp_QTP]       = "fs";
+  gEnglishPitchName [kF_SesquiSharp_QTP] = "ftqs";
+  gEnglishPitchName [kF_DoubleSharp_QTP] = "fx";
     
-  gEnglishPitchName [k_gDoubleFlat]  = "gff";
-  gEnglishPitchName [k_gSesquiFlat]  = "gtqf";
-  gEnglishPitchName [k_gFlat]        = "gf";
-  gEnglishPitchName [k_gSemiFlat]    = "gqf";
-  gEnglishPitchName [k_gNatural]     = "g";
-  gEnglishPitchName [k_gSemiSharp]   = "gqs";
-  gEnglishPitchName [k_gSharp]       = "gs";
-  gEnglishPitchName [k_gSesquiSharp] = "gtqs";
-  gEnglishPitchName [k_gDoubleSharp] = "gx";
+  gEnglishPitchName [kG_DoubleFlat_QTP]  = "gff";
+  gEnglishPitchName [kG_SesquiFlat_QTP]  = "gtqf";
+  gEnglishPitchName [kG_Flat_QTP]        = "gf";
+  gEnglishPitchName [kG_SemiFlat_QTP]    = "gqf";
+  gEnglishPitchName [kG_Natural_QTP]     = "g";
+  gEnglishPitchName [kG_SemiSharp_QTP]   = "gqs";
+  gEnglishPitchName [kG_Sharp_QTP]       = "gs";
+  gEnglishPitchName [kG_SesquiSharp_QTP] = "gtqs";
+  gEnglishPitchName [kG_DoubleSharp_QTP] = "gx";
 
   // espanol
   gEspanolPitchName [k_NoQuarterTonesPitch]  = "";
-  gEspanolPitchName [k_Rest]                 = "r";
+  gEspanolPitchName [k_Rest_QTP]                 = "r";
   
-  gEspanolPitchName [k_aDoubleFlat]  = "labb";
-  gEspanolPitchName [k_aSesquiFlat]  = "latcb";
-  gEspanolPitchName [k_aFlat]        = "lab";
-  gEspanolPitchName [k_aSemiFlat]    = "lacb";
-  gEspanolPitchName [k_aNatural]     = "la";
-  gEspanolPitchName [k_aSemiSharp]   = "lacs";
-  gEspanolPitchName [k_aSharp]       = "las";
-  gEspanolPitchName [k_aSesquiSharp] = "latcs";
-  gEspanolPitchName [k_aDoubleSharp] = "lax";
+  gEspanolPitchName [kA_DoubleFlat_QTP]  = "labb";
+  gEspanolPitchName [kA_SesquiFlat_QTP]  = "latcb";
+  gEspanolPitchName [kA_Flat_QTP]        = "lab";
+  gEspanolPitchName [kA_SemiFlat_QTP]    = "lacb";
+  gEspanolPitchName [kA_Natural_QTP]     = "la";
+  gEspanolPitchName [kA_SemiSharp_QTP]   = "lacs";
+  gEspanolPitchName [kA_Sharp_QTP]       = "las";
+  gEspanolPitchName [kA_SesquiSharp_QTP] = "latcs";
+  gEspanolPitchName [kA_DoubleSharp_QTP] = "lax";
     
-  gEspanolPitchName [k_bDoubleFlat]  = "sibb";
-  gEspanolPitchName [k_bSesquiFlat]  = "sitcb";
-  gEspanolPitchName [k_bFlat]        = "sib";
-  gEspanolPitchName [k_bSemiFlat]    = "sicb";
-  gEspanolPitchName [k_bNatural]     = "si";
-  gEspanolPitchName [k_bSemiSharp]   = "sics";
-  gEspanolPitchName [k_bSharp]       = "sis";
-  gEspanolPitchName [k_bSesquiSharp] = "sitcs";
-  gEspanolPitchName [k_bDoubleSharp] = "six";
+  gEspanolPitchName [kB_DoubleFlat_QTP]  = "sibb";
+  gEspanolPitchName [kB_SesquiFlat_QTP]  = "sitcb";
+  gEspanolPitchName [kB_Flat_QTP]        = "sib";
+  gEspanolPitchName [kB_SemiFlat_QTP]    = "sicb";
+  gEspanolPitchName [kB_Natural_QTP]     = "si";
+  gEspanolPitchName [kB_SemiSharp_QTP]   = "sics";
+  gEspanolPitchName [kB_Sharp_QTP]       = "sis";
+  gEspanolPitchName [kB_SesquiSharp_QTP] = "sitcs";
+  gEspanolPitchName [kB_DoubleSharp_QTP] = "six";
     
-  gEspanolPitchName [k_cDoubleFlat]  = "dobb";
-  gEspanolPitchName [k_cSesquiFlat]  = "dotcb";
-  gEspanolPitchName [k_cFlat]        = "dob";
-  gEspanolPitchName [k_cSemiFlat]    = "docb";
-  gEspanolPitchName [k_cNatural]     = "do";
-  gEspanolPitchName [k_cSemiSharp]   = "docs";
-  gEspanolPitchName [k_cSharp]       = "dos";
-  gEspanolPitchName [k_cSesquiSharp] = "dotcs";
-  gEspanolPitchName [k_cDoubleSharp] = "dox";
+  gEspanolPitchName [kC_DoubleFlat_QTP]  = "dobb";
+  gEspanolPitchName [kC_SesquiFlat_QTP]  = "dotcb";
+  gEspanolPitchName [kC_Flat_QTP]        = "dob";
+  gEspanolPitchName [kC_SemiFlat_QTP]    = "docb";
+  gEspanolPitchName [kC_Natural_QTP]     = "do";
+  gEspanolPitchName [kC_SemiSharp_QTP]   = "docs";
+  gEspanolPitchName [kC_Sharp_QTP]       = "dos";
+  gEspanolPitchName [kC_SesquiSharp_QTP] = "dotcs";
+  gEspanolPitchName [kC_DoubleSharp_QTP] = "dox";
     
-  gEspanolPitchName [k_dDoubleFlat]  = "rebb";
-  gEspanolPitchName [k_dSesquiFlat]  = "retcb";
-  gEspanolPitchName [k_dFlat]        = "reb";
-  gEspanolPitchName [k_dSemiFlat]    = "recb";
-  gEspanolPitchName [k_dNatural]     = "re";
-  gEspanolPitchName [k_dSemiSharp]   = "recs";
-  gEspanolPitchName [k_dSharp]       = "res";
-  gEspanolPitchName [k_dSesquiSharp] = "retcs";
-  gEspanolPitchName [k_dDoubleSharp] = "rex";
+  gEspanolPitchName [kD_DoubleFlat_QTP]  = "rebb";
+  gEspanolPitchName [kD_SesquiFlat_QTP]  = "retcb";
+  gEspanolPitchName [kD_Flat_QTP]        = "reb";
+  gEspanolPitchName [kD_SemiFlat_QTP]    = "recb";
+  gEspanolPitchName [kD_Natural_QTP]     = "re";
+  gEspanolPitchName [kD_SemiSharp_QTP]   = "recs";
+  gEspanolPitchName [kD_Sharp_QTP]       = "res";
+  gEspanolPitchName [kD_SesquiSharp_QTP] = "retcs";
+  gEspanolPitchName [kD_DoubleSharp_QTP] = "rex";
 
-  gEspanolPitchName [k_eDoubleFlat]  = "mibb";
-  gEspanolPitchName [k_eSesquiFlat]  = "mitcb";
-  gEspanolPitchName [k_eFlat]        = "mib";
-  gEspanolPitchName [k_eSemiFlat]    = "micb";
-  gEspanolPitchName [k_eNatural]     = "mi";
-  gEspanolPitchName [k_eSemiSharp]   = "mics";
-  gEspanolPitchName [k_eSharp]       = "mis";
-  gEspanolPitchName [k_eSesquiSharp] = "mitcs";
-  gEspanolPitchName [k_eDoubleSharp] = "mix";
+  gEspanolPitchName [kE_DoubleFlat_QTP]  = "mibb";
+  gEspanolPitchName [kE_SesquiFlat_QTP]  = "mitcb";
+  gEspanolPitchName [kE_Flat_QTP]        = "mib";
+  gEspanolPitchName [kE_SemiFlat_QTP]    = "micb";
+  gEspanolPitchName [kE_Natural_QTP]     = "mi";
+  gEspanolPitchName [kE_SemiSharp_QTP]   = "mics";
+  gEspanolPitchName [kE_Sharp_QTP]       = "mis";
+  gEspanolPitchName [kE_SesquiSharp_QTP] = "mitcs";
+  gEspanolPitchName [kE_DoubleSharp_QTP] = "mix";
     
-  gEspanolPitchName [k_fDoubleFlat]  = "fabb";
-  gEspanolPitchName [k_fSesquiFlat]  = "fatcb";
-  gEspanolPitchName [k_fFlat]        = "fab";
-  gEspanolPitchName [k_fSemiFlat]    = "facb";
-  gEspanolPitchName [k_fNatural]     = "fa";
-  gEspanolPitchName [k_fSemiSharp]   = "facs";
-  gEspanolPitchName [k_fSharp]       = "fas";
-  gEspanolPitchName [k_fSesquiSharp] = "fatcs";
-  gEspanolPitchName [k_fDoubleSharp] = "fax";
+  gEspanolPitchName [kF_DoubleFlat_QTP]  = "fabb";
+  gEspanolPitchName [kF_SesquiFlat_QTP]  = "fatcb";
+  gEspanolPitchName [kF_Flat_QTP]        = "fab";
+  gEspanolPitchName [kF_SemiFlat_QTP]    = "facb";
+  gEspanolPitchName [kF_Natural_QTP]     = "fa";
+  gEspanolPitchName [kF_SemiSharp_QTP]   = "facs";
+  gEspanolPitchName [kF_Sharp_QTP]       = "fas";
+  gEspanolPitchName [kF_SesquiSharp_QTP] = "fatcs";
+  gEspanolPitchName [kF_DoubleSharp_QTP] = "fax";
     
-  gEspanolPitchName [k_gDoubleFlat]  = "solbb";
-  gEspanolPitchName [k_gSesquiFlat]  = "soltcb";
-  gEspanolPitchName [k_gFlat]        = "solb";
-  gEspanolPitchName [k_gSemiFlat]    = "solcb";
-  gEspanolPitchName [k_gNatural]     = "sol";
-  gEspanolPitchName [k_gSemiSharp]   = "solcs";
-  gEspanolPitchName [k_gSharp]       = "sols";
-  gEspanolPitchName [k_gSesquiSharp] = "soltcs";
-  gEspanolPitchName [k_gDoubleSharp] = "solx";
+  gEspanolPitchName [kG_DoubleFlat_QTP]  = "solbb";
+  gEspanolPitchName [kG_SesquiFlat_QTP]  = "soltcb";
+  gEspanolPitchName [kG_Flat_QTP]        = "solb";
+  gEspanolPitchName [kG_SemiFlat_QTP]    = "solcb";
+  gEspanolPitchName [kG_Natural_QTP]     = "sol";
+  gEspanolPitchName [kG_SemiSharp_QTP]   = "solcs";
+  gEspanolPitchName [kG_Sharp_QTP]       = "sols";
+  gEspanolPitchName [kG_SesquiSharp_QTP] = "soltcs";
+  gEspanolPitchName [kG_DoubleSharp_QTP] = "solx";
 
   // francais
   gFrancaisPitchName [k_NoQuarterTonesPitch]  = "";
-  gFrancaisPitchName [k_Rest]                 = "r";
+  gFrancaisPitchName [k_Rest_QTP]                 = "r";
   
-  gFrancaisPitchName [k_aDoubleFlat]  = "labb";
-  gFrancaisPitchName [k_aSesquiFlat]  = "labtqt";
-  gFrancaisPitchName [k_aFlat]        = "lab";
-  gFrancaisPitchName [k_aSemiFlat]    = "labqt";
-  gFrancaisPitchName [k_aNatural]     = "la";
-  gFrancaisPitchName [k_aSemiSharp]   = "lasqt";
-  gFrancaisPitchName [k_aSharp]       = "lad";
-  gFrancaisPitchName [k_aSesquiSharp] = "lastqt";
-  gFrancaisPitchName [k_aDoubleSharp] = "lass";
+  gFrancaisPitchName [kA_DoubleFlat_QTP]  = "labb";
+  gFrancaisPitchName [kA_SesquiFlat_QTP]  = "labtqt";
+  gFrancaisPitchName [kA_Flat_QTP]        = "lab";
+  gFrancaisPitchName [kA_SemiFlat_QTP]    = "labqt";
+  gFrancaisPitchName [kA_Natural_QTP]     = "la";
+  gFrancaisPitchName [kA_SemiSharp_QTP]   = "lasqt";
+  gFrancaisPitchName [kA_Sharp_QTP]       = "lad";
+  gFrancaisPitchName [kA_SesquiSharp_QTP] = "lastqt";
+  gFrancaisPitchName [kA_DoubleSharp_QTP] = "lass";
     
-  gFrancaisPitchName [k_bDoubleFlat]  = "sibb";
-  gFrancaisPitchName [k_bSesquiFlat]  = "sibtqt";
-  gFrancaisPitchName [k_bFlat]        = "sib";
-  gFrancaisPitchName [k_bSemiFlat]    = "sibqt";
-  gFrancaisPitchName [k_bNatural]     = "si";
-  gFrancaisPitchName [k_bSemiSharp]   = "sisqt";
-  gFrancaisPitchName [k_bSharp]       = "sid";
-  gFrancaisPitchName [k_bSesquiSharp] = "sistqt";
-  gFrancaisPitchName [k_bDoubleSharp] = "siss";
+  gFrancaisPitchName [kB_DoubleFlat_QTP]  = "sibb";
+  gFrancaisPitchName [kB_SesquiFlat_QTP]  = "sibtqt";
+  gFrancaisPitchName [kB_Flat_QTP]        = "sib";
+  gFrancaisPitchName [kB_SemiFlat_QTP]    = "sibqt";
+  gFrancaisPitchName [kB_Natural_QTP]     = "si";
+  gFrancaisPitchName [kB_SemiSharp_QTP]   = "sisqt";
+  gFrancaisPitchName [kB_Sharp_QTP]       = "sid";
+  gFrancaisPitchName [kB_SesquiSharp_QTP] = "sistqt";
+  gFrancaisPitchName [kB_DoubleSharp_QTP] = "siss";
     
-  gFrancaisPitchName [k_cDoubleFlat]  = "dobb";
-  gFrancaisPitchName [k_cSesquiFlat]  = "dobtqt";
-  gFrancaisPitchName [k_cFlat]        = "dob";
-  gFrancaisPitchName [k_cSemiFlat]    = "dobqt";
-  gFrancaisPitchName [k_cNatural]     = "do";
-  gFrancaisPitchName [k_cSemiSharp]   = "dosqt";
-  gFrancaisPitchName [k_cSharp]       = "dod";
-  gFrancaisPitchName [k_cSesquiSharp] = "dostqt";
-  gFrancaisPitchName [k_cDoubleSharp] = "doss";
+  gFrancaisPitchName [kC_DoubleFlat_QTP]  = "dobb";
+  gFrancaisPitchName [kC_SesquiFlat_QTP]  = "dobtqt";
+  gFrancaisPitchName [kC_Flat_QTP]        = "dob";
+  gFrancaisPitchName [kC_SemiFlat_QTP]    = "dobqt";
+  gFrancaisPitchName [kC_Natural_QTP]     = "do";
+  gFrancaisPitchName [kC_SemiSharp_QTP]   = "dosqt";
+  gFrancaisPitchName [kC_Sharp_QTP]       = "dod";
+  gFrancaisPitchName [kC_SesquiSharp_QTP] = "dostqt";
+  gFrancaisPitchName [kC_DoubleSharp_QTP] = "doss";
     
-  gFrancaisPitchName [k_dDoubleFlat]  = "rebb";
-  gFrancaisPitchName [k_dSesquiFlat]  = "rebtqt";
-  gFrancaisPitchName [k_dFlat]        = "reb";
-  gFrancaisPitchName [k_dSemiFlat]    = "rebqt";
-  gFrancaisPitchName [k_dNatural]     = "re";
-  gFrancaisPitchName [k_dSemiSharp]   = "resqt";
-  gFrancaisPitchName [k_dSharp]       = "red";
-  gFrancaisPitchName [k_dSesquiSharp] = "restqt";
-  gFrancaisPitchName [k_dDoubleSharp] = "ress";
+  gFrancaisPitchName [kD_DoubleFlat_QTP]  = "rebb";
+  gFrancaisPitchName [kD_SesquiFlat_QTP]  = "rebtqt";
+  gFrancaisPitchName [kD_Flat_QTP]        = "reb";
+  gFrancaisPitchName [kD_SemiFlat_QTP]    = "rebqt";
+  gFrancaisPitchName [kD_Natural_QTP]     = "re";
+  gFrancaisPitchName [kD_SemiSharp_QTP]   = "resqt";
+  gFrancaisPitchName [kD_Sharp_QTP]       = "red";
+  gFrancaisPitchName [kD_SesquiSharp_QTP] = "restqt";
+  gFrancaisPitchName [kD_DoubleSharp_QTP] = "ress";
 
-  gFrancaisPitchName [k_eDoubleFlat]  = "mibb";
-  gFrancaisPitchName [k_eSesquiFlat]  = "mibtqt";
-  gFrancaisPitchName [k_eFlat]        = "mib";
-  gFrancaisPitchName [k_eSemiFlat]    = "mibqt";
-  gFrancaisPitchName [k_eNatural]     = "mi";
-  gFrancaisPitchName [k_eSemiSharp]   = "misqt";
-  gFrancaisPitchName [k_eSharp]       = "mid";
-  gFrancaisPitchName [k_eSesquiSharp] = "mistqt";
-  gFrancaisPitchName [k_eDoubleSharp] = "miss";
+  gFrancaisPitchName [kE_DoubleFlat_QTP]  = "mibb";
+  gFrancaisPitchName [kE_SesquiFlat_QTP]  = "mibtqt";
+  gFrancaisPitchName [kE_Flat_QTP]        = "mib";
+  gFrancaisPitchName [kE_SemiFlat_QTP]    = "mibqt";
+  gFrancaisPitchName [kE_Natural_QTP]     = "mi";
+  gFrancaisPitchName [kE_SemiSharp_QTP]   = "misqt";
+  gFrancaisPitchName [kE_Sharp_QTP]       = "mid";
+  gFrancaisPitchName [kE_SesquiSharp_QTP] = "mistqt";
+  gFrancaisPitchName [kE_DoubleSharp_QTP] = "miss";
     
-  gFrancaisPitchName [k_fDoubleFlat]  = "fabb";
-  gFrancaisPitchName [k_fSesquiFlat]  = "fabtqt";
-  gFrancaisPitchName [k_fFlat]        = "fab";
-  gFrancaisPitchName [k_fSemiFlat]    = "fabqt";
-  gFrancaisPitchName [k_fNatural]     = "fa";
-  gFrancaisPitchName [k_fSemiSharp]   = "fasqt";
-  gFrancaisPitchName [k_fSharp]       = "fad";
-  gFrancaisPitchName [k_fSesquiSharp] = "fastqt";
-  gFrancaisPitchName [k_fDoubleSharp] = "fass";
+  gFrancaisPitchName [kF_DoubleFlat_QTP]  = "fabb";
+  gFrancaisPitchName [kF_SesquiFlat_QTP]  = "fabtqt";
+  gFrancaisPitchName [kF_Flat_QTP]        = "fab";
+  gFrancaisPitchName [kF_SemiFlat_QTP]    = "fabqt";
+  gFrancaisPitchName [kF_Natural_QTP]     = "fa";
+  gFrancaisPitchName [kF_SemiSharp_QTP]   = "fasqt";
+  gFrancaisPitchName [kF_Sharp_QTP]       = "fad";
+  gFrancaisPitchName [kF_SesquiSharp_QTP] = "fastqt";
+  gFrancaisPitchName [kF_DoubleSharp_QTP] = "fass";
     
-  gFrancaisPitchName [k_gDoubleFlat]  = "solbb";
-  gFrancaisPitchName [k_gSesquiFlat]  = "solbtqt";
-  gFrancaisPitchName [k_gFlat]        = "solb";
-  gFrancaisPitchName [k_gSemiFlat]    = "solbqt";
-  gFrancaisPitchName [k_gNatural]     = "sol";
-  gFrancaisPitchName [k_gSemiSharp]   = "solsqt";
-  gFrancaisPitchName [k_gSharp]       = "sold";
-  gFrancaisPitchName [k_gSesquiSharp] = "solstqt";
-  gFrancaisPitchName [k_gDoubleSharp] = "solss";
+  gFrancaisPitchName [kG_DoubleFlat_QTP]  = "solbb";
+  gFrancaisPitchName [kG_SesquiFlat_QTP]  = "solbtqt";
+  gFrancaisPitchName [kG_Flat_QTP]        = "solb";
+  gFrancaisPitchName [kG_SemiFlat_QTP]    = "solbqt";
+  gFrancaisPitchName [kG_Natural_QTP]     = "sol";
+  gFrancaisPitchName [kG_SemiSharp_QTP]   = "solsqt";
+  gFrancaisPitchName [kG_Sharp_QTP]       = "sold";
+  gFrancaisPitchName [kG_SesquiSharp_QTP] = "solstqt";
+  gFrancaisPitchName [kG_DoubleSharp_QTP] = "solss";
 
   // italiano
   gItalianoPitchName [k_NoQuarterTonesPitch]  = "";
-  gItalianoPitchName [k_Rest]                 = "r";
+  gItalianoPitchName [k_Rest_QTP]                 = "r";
   
-  gItalianoPitchName [k_aDoubleFlat]  = "labb";
-  gItalianoPitchName [k_aSesquiFlat]  = "labsb";
-  gItalianoPitchName [k_aFlat]        = "lab";
-  gItalianoPitchName [k_aSemiFlat]    = "lasb";
-  gItalianoPitchName [k_aNatural]     = "la";
-  gItalianoPitchName [k_aSemiSharp]   = "lasd";
-  gItalianoPitchName [k_aSharp]       = "lad";
-  gItalianoPitchName [k_aSesquiSharp] = "ladsd";
-  gItalianoPitchName [k_aDoubleSharp] = "ladd";
+  gItalianoPitchName [kA_DoubleFlat_QTP]  = "labb";
+  gItalianoPitchName [kA_SesquiFlat_QTP]  = "labsb";
+  gItalianoPitchName [kA_Flat_QTP]        = "lab";
+  gItalianoPitchName [kA_SemiFlat_QTP]    = "lasb";
+  gItalianoPitchName [kA_Natural_QTP]     = "la";
+  gItalianoPitchName [kA_SemiSharp_QTP]   = "lasd";
+  gItalianoPitchName [kA_Sharp_QTP]       = "lad";
+  gItalianoPitchName [kA_SesquiSharp_QTP] = "ladsd";
+  gItalianoPitchName [kA_DoubleSharp_QTP] = "ladd";
     
-  gItalianoPitchName [k_bDoubleFlat]  = "sibb";
-  gItalianoPitchName [k_bSesquiFlat]  = "sibsb";
-  gItalianoPitchName [k_bFlat]        = "sib";
-  gItalianoPitchName [k_bSemiFlat]    = "sisb";
-  gItalianoPitchName [k_bNatural]     = "si";
-  gItalianoPitchName [k_bSemiSharp]   = "sisd";
-  gItalianoPitchName [k_bSharp]       = "sid";
-  gItalianoPitchName [k_bSesquiSharp] = "sidsd";
-  gItalianoPitchName [k_bDoubleSharp] = "sidd";
+  gItalianoPitchName [kB_DoubleFlat_QTP]  = "sibb";
+  gItalianoPitchName [kB_SesquiFlat_QTP]  = "sibsb";
+  gItalianoPitchName [kB_Flat_QTP]        = "sib";
+  gItalianoPitchName [kB_SemiFlat_QTP]    = "sisb";
+  gItalianoPitchName [kB_Natural_QTP]     = "si";
+  gItalianoPitchName [kB_SemiSharp_QTP]   = "sisd";
+  gItalianoPitchName [kB_Sharp_QTP]       = "sid";
+  gItalianoPitchName [kB_SesquiSharp_QTP] = "sidsd";
+  gItalianoPitchName [kB_DoubleSharp_QTP] = "sidd";
     
-  gItalianoPitchName [k_cDoubleFlat]  = "dobb";
-  gItalianoPitchName [k_cSesquiFlat]  = "dobsb";
-  gItalianoPitchName [k_cFlat]        = "dob";
-  gItalianoPitchName [k_cSemiFlat]    = "dosb";
-  gItalianoPitchName [k_cNatural]     = "do";
-  gItalianoPitchName [k_cSemiSharp]   = "dosd";
-  gItalianoPitchName [k_cSharp]       = "dod";
-  gItalianoPitchName [k_cSesquiSharp] = "dodsd";
-  gItalianoPitchName [k_cDoubleSharp] = "dodd";
+  gItalianoPitchName [kC_DoubleFlat_QTP]  = "dobb";
+  gItalianoPitchName [kC_SesquiFlat_QTP]  = "dobsb";
+  gItalianoPitchName [kC_Flat_QTP]        = "dob";
+  gItalianoPitchName [kC_SemiFlat_QTP]    = "dosb";
+  gItalianoPitchName [kC_Natural_QTP]     = "do";
+  gItalianoPitchName [kC_SemiSharp_QTP]   = "dosd";
+  gItalianoPitchName [kC_Sharp_QTP]       = "dod";
+  gItalianoPitchName [kC_SesquiSharp_QTP] = "dodsd";
+  gItalianoPitchName [kC_DoubleSharp_QTP] = "dodd";
     
-  gItalianoPitchName [k_dDoubleFlat]  = "rebb";
-  gItalianoPitchName [k_dSesquiFlat]  = "rebsb";
-  gItalianoPitchName [k_dFlat]        = "reb";
-  gItalianoPitchName [k_dSemiFlat]    = "resb";
-  gItalianoPitchName [k_dNatural]     = "re";
-  gItalianoPitchName [k_dSemiSharp]   = "resd";
-  gItalianoPitchName [k_dSharp]       = "red";
-  gItalianoPitchName [k_dSesquiSharp] = "redsd";
-  gItalianoPitchName [k_dDoubleSharp] = "redd";
+  gItalianoPitchName [kD_DoubleFlat_QTP]  = "rebb";
+  gItalianoPitchName [kD_SesquiFlat_QTP]  = "rebsb";
+  gItalianoPitchName [kD_Flat_QTP]        = "reb";
+  gItalianoPitchName [kD_SemiFlat_QTP]    = "resb";
+  gItalianoPitchName [kD_Natural_QTP]     = "re";
+  gItalianoPitchName [kD_SemiSharp_QTP]   = "resd";
+  gItalianoPitchName [kD_Sharp_QTP]       = "red";
+  gItalianoPitchName [kD_SesquiSharp_QTP] = "redsd";
+  gItalianoPitchName [kD_DoubleSharp_QTP] = "redd";
 
-  gItalianoPitchName [k_eDoubleFlat]  = "mibb";
-  gItalianoPitchName [k_eSesquiFlat]  = "mibsb";
-  gItalianoPitchName [k_eFlat]        = "mib";
-  gItalianoPitchName [k_eSemiFlat]    = "misb";
-  gItalianoPitchName [k_eNatural]     = "mi";
-  gItalianoPitchName [k_eSemiSharp]   = "misd";
-  gItalianoPitchName [k_eSharp]       = "mid";
-  gItalianoPitchName [k_eSesquiSharp] = "midsd";
-  gItalianoPitchName [k_eDoubleSharp] = "midd";
+  gItalianoPitchName [kE_DoubleFlat_QTP]  = "mibb";
+  gItalianoPitchName [kE_SesquiFlat_QTP]  = "mibsb";
+  gItalianoPitchName [kE_Flat_QTP]        = "mib";
+  gItalianoPitchName [kE_SemiFlat_QTP]    = "misb";
+  gItalianoPitchName [kE_Natural_QTP]     = "mi";
+  gItalianoPitchName [kE_SemiSharp_QTP]   = "misd";
+  gItalianoPitchName [kE_Sharp_QTP]       = "mid";
+  gItalianoPitchName [kE_SesquiSharp_QTP] = "midsd";
+  gItalianoPitchName [kE_DoubleSharp_QTP] = "midd";
     
-  gItalianoPitchName [k_fDoubleFlat]  = "fabb";
-  gItalianoPitchName [k_fSesquiFlat]  = "fabsb";
-  gItalianoPitchName [k_fFlat]        = "fab";
-  gItalianoPitchName [k_fSemiFlat]    = "fasb";
-  gItalianoPitchName [k_fNatural]     = "fa";
-  gItalianoPitchName [k_fSemiSharp]   = "fasd";
-  gItalianoPitchName [k_fSharp]       = "fad";
-  gItalianoPitchName [k_fSesquiSharp] = "fadsd";
-  gItalianoPitchName [k_fDoubleSharp] = "fadd";
+  gItalianoPitchName [kF_DoubleFlat_QTP]  = "fabb";
+  gItalianoPitchName [kF_SesquiFlat_QTP]  = "fabsb";
+  gItalianoPitchName [kF_Flat_QTP]        = "fab";
+  gItalianoPitchName [kF_SemiFlat_QTP]    = "fasb";
+  gItalianoPitchName [kF_Natural_QTP]     = "fa";
+  gItalianoPitchName [kF_SemiSharp_QTP]   = "fasd";
+  gItalianoPitchName [kF_Sharp_QTP]       = "fad";
+  gItalianoPitchName [kF_SesquiSharp_QTP] = "fadsd";
+  gItalianoPitchName [kF_DoubleSharp_QTP] = "fadd";
     
-  gItalianoPitchName [k_gDoubleFlat]  = "solbb";
-  gItalianoPitchName [k_gSesquiFlat]  = "solbsb";
-  gItalianoPitchName [k_gFlat]        = "solb";
-  gItalianoPitchName [k_gSemiFlat]    = "solsb";
-  gItalianoPitchName [k_gNatural]     = "sol";
-  gItalianoPitchName [k_gSemiSharp]   = "solsd";
-  gItalianoPitchName [k_gSharp]       = "sold";
-  gItalianoPitchName [k_gSesquiSharp] = "soldsd";
-  gItalianoPitchName [k_gDoubleSharp] = "soldd";
+  gItalianoPitchName [kG_DoubleFlat_QTP]  = "solbb";
+  gItalianoPitchName [kG_SesquiFlat_QTP]  = "solbsb";
+  gItalianoPitchName [kG_Flat_QTP]        = "solb";
+  gItalianoPitchName [kG_SemiFlat_QTP]    = "solsb";
+  gItalianoPitchName [kG_Natural_QTP]     = "sol";
+  gItalianoPitchName [kG_SemiSharp_QTP]   = "solsd";
+  gItalianoPitchName [kG_Sharp_QTP]       = "sold";
+  gItalianoPitchName [kG_SesquiSharp_QTP] = "soldsd";
+  gItalianoPitchName [kG_DoubleSharp_QTP] = "soldd";
 
   // norsk
   gNorskPitchName [k_NoQuarterTonesPitch]  = "";
-  gNorskPitchName [k_Rest]                 = "r";
+  gNorskPitchName [k_Rest_QTP]                 = "r";
   
-  gNorskPitchName [k_aDoubleFlat]  = "aeses";
-  gNorskPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
-  gNorskPitchName [k_aFlat]        = "aes";
-  gNorskPitchName [k_aSemiFlat]    = "aSemiFlat???";
-  gNorskPitchName [k_aNatural]     = "a";
-  gNorskPitchName [k_aSemiSharp]   = "aSemiSharp???";
-  gNorskPitchName [k_aSharp]       = "ais";
-  gNorskPitchName [k_aSesquiSharp] = "aSesquiSharp???";
-  gNorskPitchName [k_aDoubleSharp] = "aisis";
+  gNorskPitchName [kA_DoubleFlat_QTP]  = "aeses";
+  gNorskPitchName [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gNorskPitchName [kA_Flat_QTP]        = "aes";
+  gNorskPitchName [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gNorskPitchName [kA_Natural_QTP]     = "a";
+  gNorskPitchName [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gNorskPitchName [kA_Sharp_QTP]       = "ais";
+  gNorskPitchName [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gNorskPitchName [kA_DoubleSharp_QTP] = "aisis";
     
-  gNorskPitchName [k_bDoubleFlat]  = "beses";
-  gNorskPitchName [k_bSesquiFlat]  = "bSesquiFlat???";
-  gNorskPitchName [k_bFlat]        = "bes";
-  gNorskPitchName [k_bSemiFlat]    = "bSemiFlat???";
-  gNorskPitchName [k_bNatural]     = "b";
-  gNorskPitchName [k_bSemiSharp]   = "bSemiSharp???";
-  gNorskPitchName [k_bSharp]       = "bis";
-  gNorskPitchName [k_bSesquiSharp] = "bSesquiSharp???";
-  gNorskPitchName [k_bDoubleSharp] = "bisis";
+  gNorskPitchName [kB_DoubleFlat_QTP]  = "beses";
+  gNorskPitchName [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gNorskPitchName [kB_Flat_QTP]        = "bes";
+  gNorskPitchName [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gNorskPitchName [kB_Natural_QTP]     = "b";
+  gNorskPitchName [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gNorskPitchName [kB_Sharp_QTP]       = "bis";
+  gNorskPitchName [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gNorskPitchName [kB_DoubleSharp_QTP] = "bisis";
     
-  gNorskPitchName [k_cDoubleFlat]  = "ceses";
-  gNorskPitchName [k_cSesquiFlat]  = "cSesquiFlat???";
-  gNorskPitchName [k_cFlat]        = "ces";
-  gNorskPitchName [k_cSemiFlat]    = "cSemiFlat???";
-  gNorskPitchName [k_cNatural]     = "c";
-  gNorskPitchName [k_cSemiSharp]   = "cSemiSharp???";
-  gNorskPitchName [k_cSharp]       = "cis";
-  gNorskPitchName [k_cSesquiSharp] = "cSesquiSharp???";
-  gNorskPitchName [k_cDoubleSharp] = "cisis";
+  gNorskPitchName [kC_DoubleFlat_QTP]  = "ceses";
+  gNorskPitchName [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gNorskPitchName [kC_Flat_QTP]        = "ces";
+  gNorskPitchName [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gNorskPitchName [kC_Natural_QTP]     = "c";
+  gNorskPitchName [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gNorskPitchName [kC_Sharp_QTP]       = "cis";
+  gNorskPitchName [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gNorskPitchName [kC_DoubleSharp_QTP] = "cisis";
     
-  gNorskPitchName [k_dDoubleFlat]  = "deses";
-  gNorskPitchName [k_dSesquiFlat]  = "dSesquiFlat???";
-  gNorskPitchName [k_dFlat]        = "des";
-  gNorskPitchName [k_dSemiFlat]    = "dSemiFlat???";
-  gNorskPitchName [k_dNatural]     = "d";
-  gNorskPitchName [k_dSemiSharp]   = "dSemiSharp???";
-  gNorskPitchName [k_dSharp]       = "dis";
-  gNorskPitchName [k_dSesquiSharp] = "dSesquiSharp???";
-  gNorskPitchName [k_dDoubleSharp] = "disis";
+  gNorskPitchName [kD_DoubleFlat_QTP]  = "deses";
+  gNorskPitchName [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gNorskPitchName [kD_Flat_QTP]        = "des";
+  gNorskPitchName [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gNorskPitchName [kD_Natural_QTP]     = "d";
+  gNorskPitchName [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gNorskPitchName [kD_Sharp_QTP]       = "dis";
+  gNorskPitchName [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gNorskPitchName [kD_DoubleSharp_QTP] = "disis";
 
-  gNorskPitchName [k_eDoubleFlat]  = "eeses";
-  gNorskPitchName [k_eSesquiFlat]  = "eSesquiFlat???";
-  gNorskPitchName [k_eFlat]        = "ees";
-  gNorskPitchName [k_eSemiFlat]    = "eSemiFlat???";
-  gNorskPitchName [k_eNatural]     = "e";
-  gNorskPitchName [k_eSemiSharp]   = "eSemiSharp???";
-  gNorskPitchName [k_eSharp]       = "eis";
-  gNorskPitchName [k_eSesquiSharp] = "eSesquiSharp???";
-  gNorskPitchName [k_eDoubleSharp] = "eisis";
+  gNorskPitchName [kE_DoubleFlat_QTP]  = "eeses";
+  gNorskPitchName [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gNorskPitchName [kE_Flat_QTP]        = "ees";
+  gNorskPitchName [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gNorskPitchName [kE_Natural_QTP]     = "e";
+  gNorskPitchName [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gNorskPitchName [kE_Sharp_QTP]       = "eis";
+  gNorskPitchName [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gNorskPitchName [kE_DoubleSharp_QTP] = "eisis";
     
-  gNorskPitchName [k_fDoubleFlat]  = "feses";
-  gNorskPitchName [k_fSesquiFlat]  = "fSesquiFlat???";
-  gNorskPitchName [k_fFlat]        = "fes";
-  gNorskPitchName [k_fSemiFlat]    = "fSemiFlat???";
-  gNorskPitchName [k_fNatural]     = "f";
-  gNorskPitchName [k_fSemiSharp]   = "fSemiSharp???";
-  gNorskPitchName [k_fSharp]       = "fis";
-  gNorskPitchName [k_fSesquiSharp] = "fSesquiSharp???";
-  gNorskPitchName [k_fDoubleSharp] = "fisis";
+  gNorskPitchName [kF_DoubleFlat_QTP]  = "feses";
+  gNorskPitchName [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gNorskPitchName [kF_Flat_QTP]        = "fes";
+  gNorskPitchName [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gNorskPitchName [kF_Natural_QTP]     = "f";
+  gNorskPitchName [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gNorskPitchName [kF_Sharp_QTP]       = "fis";
+  gNorskPitchName [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gNorskPitchName [kF_DoubleSharp_QTP] = "fisis";
     
-  gNorskPitchName [k_gDoubleFlat]  = "geses";
-  gNorskPitchName [k_gSesquiFlat]  = "gSesquiFlat???";
-  gNorskPitchName [k_gFlat]        = "ges";
-  gNorskPitchName [k_gSemiFlat]    = "gSemiFlat???";
-  gNorskPitchName [k_gNatural]     = "g";
-  gNorskPitchName [k_gSemiSharp]   = "gSemiSharp???";
-  gNorskPitchName [k_gSharp]       = "gis";
-  gNorskPitchName [k_gSesquiSharp] = "gSesquiSharp???";
-  gNorskPitchName [k_gDoubleSharp] = "gisis";
+  gNorskPitchName [kG_DoubleFlat_QTP]  = "geses";
+  gNorskPitchName [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gNorskPitchName [kG_Flat_QTP]        = "ges";
+  gNorskPitchName [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gNorskPitchName [kG_Natural_QTP]     = "g";
+  gNorskPitchName [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gNorskPitchName [kG_Sharp_QTP]       = "gis";
+  gNorskPitchName [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gNorskPitchName [kG_DoubleSharp_QTP] = "gisis";
 
   // portugues
   gPortuguesPitchName [k_NoQuarterTonesPitch]  = "";
-  gPortuguesPitchName [k_Rest]                 = "r";
+  gPortuguesPitchName [k_Rest_QTP]                 = "r";
   
-  gPortuguesPitchName [k_aDoubleFlat]  = "labb";
-  gPortuguesPitchName [k_aSesquiFlat]  = "labtqt";
-  gPortuguesPitchName [k_aFlat]        = "lab";
-  gPortuguesPitchName [k_aSemiFlat]    = "lasb";
-  gPortuguesPitchName [k_aNatural]     = "la";
-  gPortuguesPitchName [k_aSemiSharp]   = "lasd";
-  gPortuguesPitchName [k_aSharp]       = "lad";
-  gPortuguesPitchName [k_aSesquiSharp] = "ladsd";
-  gPortuguesPitchName [k_aDoubleSharp] = "ladd";
+  gPortuguesPitchName [kA_DoubleFlat_QTP]  = "labb";
+  gPortuguesPitchName [kA_SesquiFlat_QTP]  = "labtqt";
+  gPortuguesPitchName [kA_Flat_QTP]        = "lab";
+  gPortuguesPitchName [kA_SemiFlat_QTP]    = "lasb";
+  gPortuguesPitchName [kA_Natural_QTP]     = "la";
+  gPortuguesPitchName [kA_SemiSharp_QTP]   = "lasd";
+  gPortuguesPitchName [kA_Sharp_QTP]       = "lad";
+  gPortuguesPitchName [kA_SesquiSharp_QTP] = "ladsd";
+  gPortuguesPitchName [kA_DoubleSharp_QTP] = "ladd";
     
-  gPortuguesPitchName [k_bDoubleFlat]  = "sibb";
-  gPortuguesPitchName [k_bSesquiFlat]  = "sibtqt";
-  gPortuguesPitchName [k_bFlat]        = "sib";
-  gPortuguesPitchName [k_bSemiFlat]    = "sisb";
-  gPortuguesPitchName [k_bNatural]     = "si";
-  gPortuguesPitchName [k_bSemiSharp]   = "sisd";
-  gPortuguesPitchName [k_bSharp]       = "sid";
-  gPortuguesPitchName [k_bSesquiSharp] = "sidsd";
-  gPortuguesPitchName [k_bDoubleSharp] = "sidd";
+  gPortuguesPitchName [kB_DoubleFlat_QTP]  = "sibb";
+  gPortuguesPitchName [kB_SesquiFlat_QTP]  = "sibtqt";
+  gPortuguesPitchName [kB_Flat_QTP]        = "sib";
+  gPortuguesPitchName [kB_SemiFlat_QTP]    = "sisb";
+  gPortuguesPitchName [kB_Natural_QTP]     = "si";
+  gPortuguesPitchName [kB_SemiSharp_QTP]   = "sisd";
+  gPortuguesPitchName [kB_Sharp_QTP]       = "sid";
+  gPortuguesPitchName [kB_SesquiSharp_QTP] = "sidsd";
+  gPortuguesPitchName [kB_DoubleSharp_QTP] = "sidd";
     
-  gPortuguesPitchName [k_cDoubleFlat]  = "dobb";
-  gPortuguesPitchName [k_cSesquiFlat]  = "dobtqt";
-  gPortuguesPitchName [k_cFlat]        = "dob";
-  gPortuguesPitchName [k_cSemiFlat]    = "dosb";
-  gPortuguesPitchName [k_cNatural]     = "do";
-  gPortuguesPitchName [k_cSemiSharp]   = "dosd";
-  gPortuguesPitchName [k_cSharp]       = "dod";
-  gPortuguesPitchName [k_cSesquiSharp] = "dodsd";
-  gPortuguesPitchName [k_cDoubleSharp] = "dodd";
+  gPortuguesPitchName [kC_DoubleFlat_QTP]  = "dobb";
+  gPortuguesPitchName [kC_SesquiFlat_QTP]  = "dobtqt";
+  gPortuguesPitchName [kC_Flat_QTP]        = "dob";
+  gPortuguesPitchName [kC_SemiFlat_QTP]    = "dosb";
+  gPortuguesPitchName [kC_Natural_QTP]     = "do";
+  gPortuguesPitchName [kC_SemiSharp_QTP]   = "dosd";
+  gPortuguesPitchName [kC_Sharp_QTP]       = "dod";
+  gPortuguesPitchName [kC_SesquiSharp_QTP] = "dodsd";
+  gPortuguesPitchName [kC_DoubleSharp_QTP] = "dodd";
     
-  gPortuguesPitchName [k_dDoubleFlat]  = "rebb";
-  gPortuguesPitchName [k_dSesquiFlat]  = "rebtqt";
-  gPortuguesPitchName [k_dFlat]        = "reb";
-  gPortuguesPitchName [k_dSemiFlat]    = "resb";
-  gPortuguesPitchName [k_dNatural]     = "re";
-  gPortuguesPitchName [k_dSemiSharp]   = "resd";
-  gPortuguesPitchName [k_dSharp]       = "red";
-  gPortuguesPitchName [k_dSesquiSharp] = "redsd";
-  gPortuguesPitchName [k_dDoubleSharp] = "redd";
+  gPortuguesPitchName [kD_DoubleFlat_QTP]  = "rebb";
+  gPortuguesPitchName [kD_SesquiFlat_QTP]  = "rebtqt";
+  gPortuguesPitchName [kD_Flat_QTP]        = "reb";
+  gPortuguesPitchName [kD_SemiFlat_QTP]    = "resb";
+  gPortuguesPitchName [kD_Natural_QTP]     = "re";
+  gPortuguesPitchName [kD_SemiSharp_QTP]   = "resd";
+  gPortuguesPitchName [kD_Sharp_QTP]       = "red";
+  gPortuguesPitchName [kD_SesquiSharp_QTP] = "redsd";
+  gPortuguesPitchName [kD_DoubleSharp_QTP] = "redd";
 
-  gPortuguesPitchName [k_eDoubleFlat]  = "mibb";
-  gPortuguesPitchName [k_eSesquiFlat]  = "mibtqt";
-  gPortuguesPitchName [k_eFlat]        = "mib";
-  gPortuguesPitchName [k_eSemiFlat]    = "misb";
-  gPortuguesPitchName [k_eNatural]     = "mi";
-  gPortuguesPitchName [k_eSemiSharp]   = "misd";
-  gPortuguesPitchName [k_eSharp]       = "mid";
-  gPortuguesPitchName [k_eSesquiSharp] = "midsd";
-  gPortuguesPitchName [k_eDoubleSharp] = "midd";
+  gPortuguesPitchName [kE_DoubleFlat_QTP]  = "mibb";
+  gPortuguesPitchName [kE_SesquiFlat_QTP]  = "mibtqt";
+  gPortuguesPitchName [kE_Flat_QTP]        = "mib";
+  gPortuguesPitchName [kE_SemiFlat_QTP]    = "misb";
+  gPortuguesPitchName [kE_Natural_QTP]     = "mi";
+  gPortuguesPitchName [kE_SemiSharp_QTP]   = "misd";
+  gPortuguesPitchName [kE_Sharp_QTP]       = "mid";
+  gPortuguesPitchName [kE_SesquiSharp_QTP] = "midsd";
+  gPortuguesPitchName [kE_DoubleSharp_QTP] = "midd";
     
-  gPortuguesPitchName [k_fDoubleFlat]  = "fabb";
-  gPortuguesPitchName [k_fSesquiFlat]  = "fabtqt";
-  gPortuguesPitchName [k_fFlat]        = "fab";
-  gPortuguesPitchName [k_fSemiFlat]    = "fasb";
-  gPortuguesPitchName [k_fNatural]     = "fa";
-  gPortuguesPitchName [k_fSemiSharp]   = "fasd";
-  gPortuguesPitchName [k_fSharp]       = "fad";
-  gPortuguesPitchName [k_fSesquiSharp] = "fadsd";
-  gPortuguesPitchName [k_fDoubleSharp] = "fadd";
+  gPortuguesPitchName [kF_DoubleFlat_QTP]  = "fabb";
+  gPortuguesPitchName [kF_SesquiFlat_QTP]  = "fabtqt";
+  gPortuguesPitchName [kF_Flat_QTP]        = "fab";
+  gPortuguesPitchName [kF_SemiFlat_QTP]    = "fasb";
+  gPortuguesPitchName [kF_Natural_QTP]     = "fa";
+  gPortuguesPitchName [kF_SemiSharp_QTP]   = "fasd";
+  gPortuguesPitchName [kF_Sharp_QTP]       = "fad";
+  gPortuguesPitchName [kF_SesquiSharp_QTP] = "fadsd";
+  gPortuguesPitchName [kF_DoubleSharp_QTP] = "fadd";
     
-  gPortuguesPitchName [k_gDoubleFlat]  = "solbb";
-  gPortuguesPitchName [k_gSesquiFlat]  = "solbtqt";
-  gPortuguesPitchName [k_gFlat]        = "solb";
-  gPortuguesPitchName [k_gSemiFlat]    = "solsb";
-  gPortuguesPitchName [k_gNatural]     = "sol";
-  gPortuguesPitchName [k_gSemiSharp]   = "solsd";
-  gPortuguesPitchName [k_gSharp]       = "sold";
-  gPortuguesPitchName [k_gSesquiSharp] = "soldsd";
-  gPortuguesPitchName [k_gDoubleSharp] = "soldd";
+  gPortuguesPitchName [kG_DoubleFlat_QTP]  = "solbb";
+  gPortuguesPitchName [kG_SesquiFlat_QTP]  = "solbtqt";
+  gPortuguesPitchName [kG_Flat_QTP]        = "solb";
+  gPortuguesPitchName [kG_SemiFlat_QTP]    = "solsb";
+  gPortuguesPitchName [kG_Natural_QTP]     = "sol";
+  gPortuguesPitchName [kG_SemiSharp_QTP]   = "solsd";
+  gPortuguesPitchName [kG_Sharp_QTP]       = "sold";
+  gPortuguesPitchName [kG_SesquiSharp_QTP] = "soldsd";
+  gPortuguesPitchName [kG_DoubleSharp_QTP] = "soldd";
 
   // suomi
   gSuomiPitchName [k_NoQuarterTonesPitch]  = "";
-  gSuomiPitchName [k_Rest]                 = "r";
+  gSuomiPitchName [k_Rest_QTP]                 = "r";
   
-  gSuomiPitchName [k_aDoubleFlat]  = "asas";
-  gSuomiPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
-  gSuomiPitchName [k_aFlat]        = "as";
-  gSuomiPitchName [k_aSemiFlat]    = "aSemiFlat???";
-  gSuomiPitchName [k_aNatural]     = "a";
-  gSuomiPitchName [k_aSemiSharp]   = "aSemiSharp???";
-  gSuomiPitchName [k_aSharp]       = "ais";
-  gSuomiPitchName [k_aSesquiSharp] = "aSesquiSharp???";
-  gSuomiPitchName [k_aDoubleSharp] = "aisis";
+  gSuomiPitchName [kA_DoubleFlat_QTP]  = "asas";
+  gSuomiPitchName [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gSuomiPitchName [kA_Flat_QTP]        = "as";
+  gSuomiPitchName [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gSuomiPitchName [kA_Natural_QTP]     = "a";
+  gSuomiPitchName [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gSuomiPitchName [kA_Sharp_QTP]       = "ais";
+  gSuomiPitchName [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gSuomiPitchName [kA_DoubleSharp_QTP] = "aisis";
     
-  gSuomiPitchName [k_bDoubleFlat]  = "bes";
-  gSuomiPitchName [k_bSesquiFlat]  = "bSesquiFlat???";
-  gSuomiPitchName [k_bFlat]        = "b";
-  gSuomiPitchName [k_bSemiFlat]    = "bSemiFlat???";
-  gSuomiPitchName [k_bNatural]     = "h";
-  gSuomiPitchName [k_bSemiSharp]   = "bSemiSharp???";
-  gSuomiPitchName [k_bSharp]       = "his";
-  gSuomiPitchName [k_bSesquiSharp] = "bSesquiSharp???";
-  gSuomiPitchName [k_bDoubleSharp] = "hisis";
+  gSuomiPitchName [kB_DoubleFlat_QTP]  = "bes";
+  gSuomiPitchName [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gSuomiPitchName [kB_Flat_QTP]        = "b";
+  gSuomiPitchName [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gSuomiPitchName [kB_Natural_QTP]     = "h";
+  gSuomiPitchName [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gSuomiPitchName [kB_Sharp_QTP]       = "his";
+  gSuomiPitchName [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gSuomiPitchName [kB_DoubleSharp_QTP] = "hisis";
     
-  gSuomiPitchName [k_cDoubleFlat]  = "ceses";
-  gSuomiPitchName [k_cSesquiFlat]  = "cSesquiFlat???";
-  gSuomiPitchName [k_cFlat]        = "ces";
-  gSuomiPitchName [k_cSemiFlat]    = "cSemiFlat???";
-  gSuomiPitchName [k_cNatural]     = "c";
-  gSuomiPitchName [k_cSemiSharp]   = "cSemiSharp???";
-  gSuomiPitchName [k_cSharp]       = "cis";
-  gSuomiPitchName [k_cSesquiSharp] = "cSesquiSharp???";
-  gSuomiPitchName [k_cDoubleSharp] = "cisis";
+  gSuomiPitchName [kC_DoubleFlat_QTP]  = "ceses";
+  gSuomiPitchName [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gSuomiPitchName [kC_Flat_QTP]        = "ces";
+  gSuomiPitchName [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gSuomiPitchName [kC_Natural_QTP]     = "c";
+  gSuomiPitchName [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gSuomiPitchName [kC_Sharp_QTP]       = "cis";
+  gSuomiPitchName [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gSuomiPitchName [kC_DoubleSharp_QTP] = "cisis";
     
-  gSuomiPitchName [k_dDoubleFlat]  = "deses";
-  gSuomiPitchName [k_dSesquiFlat]  = "dSesquiFlat???";
-  gSuomiPitchName [k_dFlat]        = "des";
-  gSuomiPitchName [k_dSemiFlat]    = "dSemiFlat???";
-  gSuomiPitchName [k_dNatural]     = "d";
-  gSuomiPitchName [k_dSemiSharp]   = "dSemiSharp???";
-  gSuomiPitchName [k_dSharp]       = "dis";
-  gSuomiPitchName [k_dSesquiSharp] = "dSesquiSharp???";
-  gSuomiPitchName [k_dDoubleSharp] = "disis";
+  gSuomiPitchName [kD_DoubleFlat_QTP]  = "deses";
+  gSuomiPitchName [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gSuomiPitchName [kD_Flat_QTP]        = "des";
+  gSuomiPitchName [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gSuomiPitchName [kD_Natural_QTP]     = "d";
+  gSuomiPitchName [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gSuomiPitchName [kD_Sharp_QTP]       = "dis";
+  gSuomiPitchName [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gSuomiPitchName [kD_DoubleSharp_QTP] = "disis";
 
-  gSuomiPitchName [k_eDoubleFlat]  = "eses";
-  gSuomiPitchName [k_eSesquiFlat]  = "eSesquiFlat???";
-  gSuomiPitchName [k_eFlat]        = "es";
-  gSuomiPitchName [k_eSemiFlat]    = "eSemiFlat???";
-  gSuomiPitchName [k_eNatural]     = "e";
-  gSuomiPitchName [k_eSemiSharp]   = "eSemiSharp???";
-  gSuomiPitchName [k_eSharp]       = "eis";
-  gSuomiPitchName [k_eSesquiSharp] = "eSesquiSharp???";
-  gSuomiPitchName [k_eDoubleSharp] = "eisis";
+  gSuomiPitchName [kE_DoubleFlat_QTP]  = "eses";
+  gSuomiPitchName [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gSuomiPitchName [kE_Flat_QTP]        = "es";
+  gSuomiPitchName [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gSuomiPitchName [kE_Natural_QTP]     = "e";
+  gSuomiPitchName [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gSuomiPitchName [kE_Sharp_QTP]       = "eis";
+  gSuomiPitchName [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gSuomiPitchName [kE_DoubleSharp_QTP] = "eisis";
     
-  gSuomiPitchName [k_fDoubleFlat]  = "feses";
-  gSuomiPitchName [k_fSesquiFlat]  = "fSesquiFlat???";
-  gSuomiPitchName [k_fFlat]        = "fes";
-  gSuomiPitchName [k_fSemiFlat]    = "fSemiFlat???";
-  gSuomiPitchName [k_fNatural]     = "f";
-  gSuomiPitchName [k_fSemiSharp]   = "fSemiSharp???";
-  gSuomiPitchName [k_fSharp]       = "fis";
-  gSuomiPitchName [k_fSesquiSharp] = "fSesquiSharp???";
-  gSuomiPitchName [k_fDoubleSharp] = "fisis";
+  gSuomiPitchName [kF_DoubleFlat_QTP]  = "feses";
+  gSuomiPitchName [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gSuomiPitchName [kF_Flat_QTP]        = "fes";
+  gSuomiPitchName [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gSuomiPitchName [kF_Natural_QTP]     = "f";
+  gSuomiPitchName [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gSuomiPitchName [kF_Sharp_QTP]       = "fis";
+  gSuomiPitchName [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gSuomiPitchName [kF_DoubleSharp_QTP] = "fisis";
     
-  gSuomiPitchName [k_gDoubleFlat]  = "geses";
-  gSuomiPitchName [k_gSesquiFlat]  = "gSesquiFlat???";
-  gSuomiPitchName [k_gFlat]        = "ges";
-  gSuomiPitchName [k_gSemiFlat]    = "gSemiFlat???";
-  gSuomiPitchName [k_gNatural]     = "g";
-  gSuomiPitchName [k_gSemiSharp]   = "gSemiSharp???";
-  gSuomiPitchName [k_gSharp]       = "gis";
-  gSuomiPitchName [k_gSesquiSharp] = "gSesquiSharp???";
-  gSuomiPitchName [k_gDoubleSharp] = "gisis";
+  gSuomiPitchName [kG_DoubleFlat_QTP]  = "geses";
+  gSuomiPitchName [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gSuomiPitchName [kG_Flat_QTP]        = "ges";
+  gSuomiPitchName [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gSuomiPitchName [kG_Natural_QTP]     = "g";
+  gSuomiPitchName [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gSuomiPitchName [kG_Sharp_QTP]       = "gis";
+  gSuomiPitchName [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gSuomiPitchName [kG_DoubleSharp_QTP] = "gisis";
 
   // svenska
   gSvenskaPitchName [k_NoQuarterTonesPitch]  = "";
-  gSvenskaPitchName [k_Rest]                 = "r";
+  gSvenskaPitchName [k_Rest_QTP]                 = "r";
   
-  gSvenskaPitchName [k_aDoubleFlat]  = "assess";
-  gSvenskaPitchName [k_aSesquiFlat]  = "aSesquiFlat???";
-  gSvenskaPitchName [k_aFlat]        = "ass";
-  gSvenskaPitchName [k_aSemiFlat]    = "aSemiFlat???";
-  gSvenskaPitchName [k_aNatural]     = "a";
-  gSvenskaPitchName [k_aSemiSharp]   = "aSemiSharp???";
-  gSvenskaPitchName [k_aSharp]       = "aiss";
-  gSvenskaPitchName [k_aSesquiSharp] = "aSesquiSharp???";
-  gSvenskaPitchName [k_aDoubleSharp] = "aississ";
+  gSvenskaPitchName [kA_DoubleFlat_QTP]  = "assess";
+  gSvenskaPitchName [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gSvenskaPitchName [kA_Flat_QTP]        = "ass";
+  gSvenskaPitchName [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gSvenskaPitchName [kA_Natural_QTP]     = "a";
+  gSvenskaPitchName [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gSvenskaPitchName [kA_Sharp_QTP]       = "aiss";
+  gSvenskaPitchName [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gSvenskaPitchName [kA_DoubleSharp_QTP] = "aississ";
     
-  gSvenskaPitchName [k_bDoubleFlat]  = "hessess";
-  gSvenskaPitchName [k_bSesquiFlat]  = "bSesquiFlat???";
-  gSvenskaPitchName [k_bFlat]        = "b";
-  gSvenskaPitchName [k_bSemiFlat]    = "bSemiFlat???";
-  gSvenskaPitchName [k_bNatural]     = "h";
-  gSvenskaPitchName [k_bSemiSharp]   = "bSemiSharp???";
-  gSvenskaPitchName [k_bSharp]       = "hiss";
-  gSvenskaPitchName [k_bSesquiSharp] = "bSesquiSharp???";
-  gSvenskaPitchName [k_bDoubleSharp] = "hississ";
+  gSvenskaPitchName [kB_DoubleFlat_QTP]  = "hessess";
+  gSvenskaPitchName [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gSvenskaPitchName [kB_Flat_QTP]        = "b";
+  gSvenskaPitchName [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gSvenskaPitchName [kB_Natural_QTP]     = "h";
+  gSvenskaPitchName [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gSvenskaPitchName [kB_Sharp_QTP]       = "hiss";
+  gSvenskaPitchName [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gSvenskaPitchName [kB_DoubleSharp_QTP] = "hississ";
     
-  gSvenskaPitchName [k_cDoubleFlat]  = "cessess";
-  gSvenskaPitchName [k_cSesquiFlat]  = "cSesquiFlat???";
-  gSvenskaPitchName [k_cFlat]        = "cess";
-  gSvenskaPitchName [k_cSemiFlat]    = "cSemiFlat???";
-  gSvenskaPitchName [k_cNatural]     = "c";
-  gSvenskaPitchName [k_cSemiSharp]   = "cSemiSharp???";
-  gSvenskaPitchName [k_cSharp]       = "ciss";
-  gSvenskaPitchName [k_cSesquiSharp] = "cSesquiSharp???";
-  gSvenskaPitchName [k_cDoubleSharp] = "cississ";
+  gSvenskaPitchName [kC_DoubleFlat_QTP]  = "cessess";
+  gSvenskaPitchName [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gSvenskaPitchName [kC_Flat_QTP]        = "cess";
+  gSvenskaPitchName [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gSvenskaPitchName [kC_Natural_QTP]     = "c";
+  gSvenskaPitchName [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gSvenskaPitchName [kC_Sharp_QTP]       = "ciss";
+  gSvenskaPitchName [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gSvenskaPitchName [kC_DoubleSharp_QTP] = "cississ";
     
-  gSvenskaPitchName [k_dDoubleFlat]  = "dessess";
-  gSvenskaPitchName [k_dSesquiFlat]  = "dSesquiFlat???";
-  gSvenskaPitchName [k_dFlat]        = "dess";
-  gSvenskaPitchName [k_dSemiFlat]    = "dSemiFlat???";
-  gSvenskaPitchName [k_dNatural]     = "d";
-  gSvenskaPitchName [k_dSemiSharp]   = "dSemiSharp???";
-  gSvenskaPitchName [k_dSharp]       = "diss";
-  gSvenskaPitchName [k_dSesquiSharp] = "dSesquiSharp???";
-  gSvenskaPitchName [k_dDoubleSharp] = "dississ";
+  gSvenskaPitchName [kD_DoubleFlat_QTP]  = "dessess";
+  gSvenskaPitchName [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gSvenskaPitchName [kD_Flat_QTP]        = "dess";
+  gSvenskaPitchName [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gSvenskaPitchName [kD_Natural_QTP]     = "d";
+  gSvenskaPitchName [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gSvenskaPitchName [kD_Sharp_QTP]       = "diss";
+  gSvenskaPitchName [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gSvenskaPitchName [kD_DoubleSharp_QTP] = "dississ";
 
-  gSvenskaPitchName [k_eDoubleFlat]  = "essess";
-  gSvenskaPitchName [k_eSesquiFlat]  = "eSesquiFlat???";
-  gSvenskaPitchName [k_eFlat]        = "ess";
-  gSvenskaPitchName [k_eSemiFlat]    = "eSemiFlat???";
-  gSvenskaPitchName [k_eNatural]     = "e";
-  gSvenskaPitchName [k_eSemiSharp]   = "eSemiSharp???";
-  gSvenskaPitchName [k_eSharp]       = "eiss";
-  gSvenskaPitchName [k_eSesquiSharp] = "eSesquiSharp???";
-  gSvenskaPitchName [k_eDoubleSharp] = "eississ";
+  gSvenskaPitchName [kE_DoubleFlat_QTP]  = "essess";
+  gSvenskaPitchName [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gSvenskaPitchName [kE_Flat_QTP]        = "ess";
+  gSvenskaPitchName [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gSvenskaPitchName [kE_Natural_QTP]     = "e";
+  gSvenskaPitchName [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gSvenskaPitchName [kE_Sharp_QTP]       = "eiss";
+  gSvenskaPitchName [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gSvenskaPitchName [kE_DoubleSharp_QTP] = "eississ";
     
-  gSvenskaPitchName [k_fDoubleFlat]  = "fessess";
-  gSvenskaPitchName [k_fSesquiFlat]  = "fSesquiFlat???";
-  gSvenskaPitchName [k_fFlat]        = "fess";
-  gSvenskaPitchName [k_fSemiFlat]    = "fSemiFlat???";
-  gSvenskaPitchName [k_fNatural]     = "f";
-  gSvenskaPitchName [k_fSemiSharp]   = "fSemiSharp???";
-  gSvenskaPitchName [k_fSharp]       = "fiss";
-  gSvenskaPitchName [k_fSesquiSharp] = "fSesquiSharp???";
-  gSvenskaPitchName [k_fDoubleSharp] = "fississ";
+  gSvenskaPitchName [kF_DoubleFlat_QTP]  = "fessess";
+  gSvenskaPitchName [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gSvenskaPitchName [kF_Flat_QTP]        = "fess";
+  gSvenskaPitchName [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gSvenskaPitchName [kF_Natural_QTP]     = "f";
+  gSvenskaPitchName [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gSvenskaPitchName [kF_Sharp_QTP]       = "fiss";
+  gSvenskaPitchName [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gSvenskaPitchName [kF_DoubleSharp_QTP] = "fississ";
     
-  gSvenskaPitchName [k_gDoubleFlat]  = "gessess";
-  gSvenskaPitchName [k_gSesquiFlat]  = "gSesquiFlat???";
-  gSvenskaPitchName [k_gFlat]        = "gess";
-  gSvenskaPitchName [k_gSemiFlat]    = "gSemiFlat???";
-  gSvenskaPitchName [k_gNatural]     = "g";
-  gSvenskaPitchName [k_gSemiSharp]   = "gSemiSharp???";
-  gSvenskaPitchName [k_gSharp]       = "giss";
-  gSvenskaPitchName [k_gSesquiSharp] = "gSesquiSharp???";
-  gSvenskaPitchName [k_gDoubleSharp] = "gississ";
+  gSvenskaPitchName [kG_DoubleFlat_QTP]  = "gessess";
+  gSvenskaPitchName [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gSvenskaPitchName [kG_Flat_QTP]        = "gess";
+  gSvenskaPitchName [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gSvenskaPitchName [kG_Natural_QTP]     = "g";
+  gSvenskaPitchName [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gSvenskaPitchName [kG_Sharp_QTP]       = "giss";
+  gSvenskaPitchName [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gSvenskaPitchName [kG_DoubleSharp_QTP] = "gississ";
 
   // vlaams
   gVlaamsPitchName [k_NoQuarterTonesPitch]  = "none";
-  gVlaamsPitchName [k_Rest]                 = "r";
+  gVlaamsPitchName [k_Rest_QTP]                 = "r";
   
-  gVlaamsPitchName [k_aDoubleFlat]  = "labb";
-  gVlaamsPitchName [k_aSesquiFlat]  = "laSesquiFlat???";
-  gVlaamsPitchName [k_aFlat]        = "lab";
-  gVlaamsPitchName [k_aSemiFlat]    = "laSemiFlat???";
-  gVlaamsPitchName [k_aNatural]     = "la";
-  gVlaamsPitchName [k_aSemiSharp]   = "laSemiSharp???";
-  gVlaamsPitchName [k_aSharp]       = "lak";
-  gVlaamsPitchName [k_aSesquiSharp] = "laSesquiSharp???";
-  gVlaamsPitchName [k_aDoubleSharp] = "lakk";
+  gVlaamsPitchName [kA_DoubleFlat_QTP]  = "labb";
+  gVlaamsPitchName [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
+  gVlaamsPitchName [kA_Flat_QTP]        = "lab";
+  gVlaamsPitchName [kA_SemiFlat_QTP]    = "laSemiFlat???";
+  gVlaamsPitchName [kA_Natural_QTP]     = "la";
+  gVlaamsPitchName [kA_SemiSharp_QTP]   = "laSemiSharp???";
+  gVlaamsPitchName [kA_Sharp_QTP]       = "lak";
+  gVlaamsPitchName [kA_SesquiSharp_QTP] = "laSesquiSharp???";
+  gVlaamsPitchName [kA_DoubleSharp_QTP] = "lakk";
     
-  gVlaamsPitchName [k_bDoubleFlat]  = "sibb";
-  gVlaamsPitchName [k_bSesquiFlat]  = "siSesquiFlat???";
-  gVlaamsPitchName [k_bFlat]        = "sib";
-  gVlaamsPitchName [k_bSemiFlat]    = "siSemiFlat???";
-  gVlaamsPitchName [k_bNatural]     = "si";
-  gVlaamsPitchName [k_bSemiSharp]   = "siSemiSharp???";
-  gVlaamsPitchName [k_bSharp]       = "sik";
-  gVlaamsPitchName [k_bSesquiSharp] = "siSesquiSharp???";
-  gVlaamsPitchName [k_bDoubleSharp] = "sikk";
+  gVlaamsPitchName [kB_DoubleFlat_QTP]  = "sibb";
+  gVlaamsPitchName [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
+  gVlaamsPitchName [kB_Flat_QTP]        = "sib";
+  gVlaamsPitchName [kB_SemiFlat_QTP]    = "siSemiFlat???";
+  gVlaamsPitchName [kB_Natural_QTP]     = "si";
+  gVlaamsPitchName [kB_SemiSharp_QTP]   = "siSemiSharp???";
+  gVlaamsPitchName [kB_Sharp_QTP]       = "sik";
+  gVlaamsPitchName [kB_SesquiSharp_QTP] = "siSesquiSharp???";
+  gVlaamsPitchName [kB_DoubleSharp_QTP] = "sikk";
     
-  gVlaamsPitchName [k_cDoubleFlat]  = "dobb";
-  gVlaamsPitchName [k_cSesquiFlat]  = "doSesquiFlat???";
-  gVlaamsPitchName [k_cFlat]        = "dob";
-  gVlaamsPitchName [k_cSemiFlat]    = "doSemiFlat???";
-  gVlaamsPitchName [k_cNatural]     = "do";
-  gVlaamsPitchName [k_cSemiSharp]   = "doSemiSharp???";
-  gVlaamsPitchName [k_cSharp]       = "dok";
-  gVlaamsPitchName [k_cSesquiSharp] = "doSesquiSharp???";
-  gVlaamsPitchName [k_cDoubleSharp] = "dokk";
+  gVlaamsPitchName [kC_DoubleFlat_QTP]  = "dobb";
+  gVlaamsPitchName [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
+  gVlaamsPitchName [kC_Flat_QTP]        = "dob";
+  gVlaamsPitchName [kC_SemiFlat_QTP]    = "doSemiFlat???";
+  gVlaamsPitchName [kC_Natural_QTP]     = "do";
+  gVlaamsPitchName [kC_SemiSharp_QTP]   = "doSemiSharp???";
+  gVlaamsPitchName [kC_Sharp_QTP]       = "dok";
+  gVlaamsPitchName [kC_SesquiSharp_QTP] = "doSesquiSharp???";
+  gVlaamsPitchName [kC_DoubleSharp_QTP] = "dokk";
     
-  gVlaamsPitchName [k_dDoubleFlat]  = "rebb";
-  gVlaamsPitchName [k_dSesquiFlat]  = "reSesquiFlat???";
-  gVlaamsPitchName [k_dFlat]        = "reb";
-  gVlaamsPitchName [k_dSemiFlat]    = "reSemiFlat???";
-  gVlaamsPitchName [k_dNatural]     = "re";
-  gVlaamsPitchName [k_dSemiSharp]   = "reSemiSharp???";
-  gVlaamsPitchName [k_dSharp]       = "rek";
-  gVlaamsPitchName [k_dSesquiSharp] = "reSesquiSharp???";
-  gVlaamsPitchName [k_dDoubleSharp] = "rekk";
+  gVlaamsPitchName [kD_DoubleFlat_QTP]  = "rebb";
+  gVlaamsPitchName [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
+  gVlaamsPitchName [kD_Flat_QTP]        = "reb";
+  gVlaamsPitchName [kD_SemiFlat_QTP]    = "reSemiFlat???";
+  gVlaamsPitchName [kD_Natural_QTP]     = "re";
+  gVlaamsPitchName [kD_SemiSharp_QTP]   = "reSemiSharp???";
+  gVlaamsPitchName [kD_Sharp_QTP]       = "rek";
+  gVlaamsPitchName [kD_SesquiSharp_QTP] = "reSesquiSharp???";
+  gVlaamsPitchName [kD_DoubleSharp_QTP] = "rekk";
 
-  gVlaamsPitchName [k_eDoubleFlat]  = "mibb";
-  gVlaamsPitchName [k_eSesquiFlat]  = "miSesquiFlat???";
-  gVlaamsPitchName [k_eFlat]        = "mib";
-  gVlaamsPitchName [k_eSemiFlat]    = "miSemiFlat???";
-  gVlaamsPitchName [k_eNatural]     = "mi";
-  gVlaamsPitchName [k_eSemiSharp]   = "miSemiSharp???";
-  gVlaamsPitchName [k_eSharp]       = "mik";
-  gVlaamsPitchName [k_eSesquiSharp] = "miSesquiSharp???";
-  gVlaamsPitchName [k_eDoubleSharp] = "mikk";
+  gVlaamsPitchName [kE_DoubleFlat_QTP]  = "mibb";
+  gVlaamsPitchName [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
+  gVlaamsPitchName [kE_Flat_QTP]        = "mib";
+  gVlaamsPitchName [kE_SemiFlat_QTP]    = "miSemiFlat???";
+  gVlaamsPitchName [kE_Natural_QTP]     = "mi";
+  gVlaamsPitchName [kE_SemiSharp_QTP]   = "miSemiSharp???";
+  gVlaamsPitchName [kE_Sharp_QTP]       = "mik";
+  gVlaamsPitchName [kE_SesquiSharp_QTP] = "miSesquiSharp???";
+  gVlaamsPitchName [kE_DoubleSharp_QTP] = "mikk";
     
-  gVlaamsPitchName [k_fDoubleFlat]  = "fabb";
-  gVlaamsPitchName [k_fSesquiFlat]  = "faSesquiFlat???";
-  gVlaamsPitchName [k_fFlat]        = "fab";
-  gVlaamsPitchName [k_fSemiFlat]    = "faSemiFlat???";
-  gVlaamsPitchName [k_fNatural]     = "fa";
-  gVlaamsPitchName [k_fSemiSharp]   = "faSemiSharp???";
-  gVlaamsPitchName [k_fSharp]       = "fak";
-  gVlaamsPitchName [k_fSesquiSharp] = "faSesquiSharp???";
-  gVlaamsPitchName [k_fDoubleSharp] = "fakk";
+  gVlaamsPitchName [kF_DoubleFlat_QTP]  = "fabb";
+  gVlaamsPitchName [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
+  gVlaamsPitchName [kF_Flat_QTP]        = "fab";
+  gVlaamsPitchName [kF_SemiFlat_QTP]    = "faSemiFlat???";
+  gVlaamsPitchName [kF_Natural_QTP]     = "fa";
+  gVlaamsPitchName [kF_SemiSharp_QTP]   = "faSemiSharp???";
+  gVlaamsPitchName [kF_Sharp_QTP]       = "fak";
+  gVlaamsPitchName [kF_SesquiSharp_QTP] = "faSesquiSharp???";
+  gVlaamsPitchName [kF_DoubleSharp_QTP] = "fakk";
     
-  gVlaamsPitchName [k_gDoubleFlat]  = "solbb";
-  gVlaamsPitchName [k_gSesquiFlat]  = "solSesquiFlat???";
-  gVlaamsPitchName [k_gFlat]        = "solb";
-  gVlaamsPitchName [k_gSemiFlat]    = "solSemiFlat???";
-  gVlaamsPitchName [k_gNatural]     = "sol";
-  gVlaamsPitchName [k_gSemiSharp]   = "solSemiSharp???";
-  gVlaamsPitchName [k_gSharp]       = "solk";
-  gVlaamsPitchName [k_gSesquiSharp] = "solSesquiSharp???";
-  gVlaamsPitchName [k_gDoubleSharp] = "solkk";
+  gVlaamsPitchName [kG_DoubleFlat_QTP]  = "solbb";
+  gVlaamsPitchName [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
+  gVlaamsPitchName [kG_Flat_QTP]        = "solb";
+  gVlaamsPitchName [kG_SemiFlat_QTP]    = "solSemiFlat???";
+  gVlaamsPitchName [kG_Natural_QTP]     = "sol";
+  gVlaamsPitchName [kG_SemiSharp_QTP]   = "solSemiSharp???";
+  gVlaamsPitchName [kG_Sharp_QTP]       = "solk";
+  gVlaamsPitchName [kG_SesquiSharp_QTP] = "solSesquiSharp???";
+  gVlaamsPitchName [kG_DoubleSharp_QTP] = "solkk";
 }
 
 string msrDiatonicPitchKindAsString (
@@ -2264,265 +2264,265 @@ void setDiatonicPitchAndAlterationKind (
       alterationKind    = k_NoAlteration;
       break;
 
-    case k_aDoubleFlat:
+    case kA_DoubleFlat_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kDoubleFlat;
       break;
-    case k_aSesquiFlat:
+    case kA_SesquiFlat_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kSesquiFlat;
       break;
-    case k_aFlat:
+    case kA_Flat_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kFlat;
       break;
-    case k_aSemiFlat:
+    case kA_SemiFlat_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kSemiFlat;
       break;
-    case k_aNatural:
+    case kA_Natural_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kNatural;
       break;
-    case k_aSemiSharp:
+    case kA_SemiSharp_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kSemiSharp;
       break;
-    case k_aSharp:
+    case kA_Sharp_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kSharp;
       break;
-    case k_aSesquiSharp:
+    case kA_SesquiSharp_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kSesquiSharp;
       break;
-    case k_aDoubleSharp:
+    case kA_DoubleSharp_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kDoubleSharp;
       break;
 
-    case k_bDoubleFlat:
+    case kB_DoubleFlat_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kDoubleFlat;
       break;
-    case k_bSesquiFlat:
+    case kB_SesquiFlat_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kSesquiFlat;
       break;
-    case k_bFlat:
+    case kB_Flat_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kFlat;
       break;
-    case k_bSemiFlat:
+    case kB_SemiFlat_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kSemiFlat;
       break;
-    case k_bNatural:
+    case kB_Natural_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kNatural;
       break;
-    case k_bSemiSharp:
+    case kB_SemiSharp_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kSemiSharp;
       break;
-    case k_bSharp:
+    case kB_Sharp_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kSharp;
       break;
-    case k_bSesquiSharp:
+    case kB_SesquiSharp_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kSesquiSharp;
       break;
-    case k_bDoubleSharp:
+    case kB_DoubleSharp_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kDoubleSharp;
       break;
 
-    case k_cDoubleFlat:
+    case kC_DoubleFlat_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kDoubleFlat;
       break;
-    case k_cSesquiFlat:
+    case kC_SesquiFlat_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kSesquiFlat;
       break;
-    case k_cFlat:
+    case kC_Flat_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kFlat;
       break;
-    case k_cSemiFlat:
+    case kC_SemiFlat_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kSemiFlat;
       break;
-    case k_cNatural:
+    case kC_Natural_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kNatural;
       break;
-    case k_cSemiSharp:
+    case kC_SemiSharp_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kSemiSharp;
       break;
-    case k_cSharp:
+    case kC_Sharp_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kSharp;
       break;
-    case k_cSesquiSharp:
+    case kC_SesquiSharp_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kSesquiSharp;
       break;
-    case k_cDoubleSharp:
+    case kC_DoubleSharp_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kDoubleSharp;
       break;
 
-    case k_dDoubleFlat:
+    case kD_DoubleFlat_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kDoubleFlat;
       break;
-    case k_dSesquiFlat:
+    case kD_SesquiFlat_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kSesquiFlat;
       break;
-    case k_dFlat:
+    case kD_Flat_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kFlat;
       break;
-    case k_dSemiFlat:
+    case kD_SemiFlat_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kSemiFlat;
       break;
-    case k_dNatural:
+    case kD_Natural_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kNatural;
       break;
-    case k_dSemiSharp:
+    case kD_SemiSharp_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kSemiSharp;
       break;
-    case k_dSharp:
+    case kD_Sharp_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kSharp;
       break;
-    case k_dSesquiSharp:
+    case kD_SesquiSharp_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kSesquiSharp;
       break;
-    case k_dDoubleSharp:
+    case kD_DoubleSharp_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kDoubleSharp;
       break;
 
-    case k_eDoubleFlat:
+    case kE_DoubleFlat_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kDoubleFlat;
       break;
-    case k_eSesquiFlat:
+    case kE_SesquiFlat_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kSesquiFlat;
       break;
-    case k_eFlat:
+    case kE_Flat_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kFlat;
       break;
-    case k_eSemiFlat:
+    case kE_SemiFlat_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kSemiFlat;
       break;
-    case k_eNatural:
+    case kE_Natural_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kNatural;
       break;
-    case k_eSemiSharp:
+    case kE_SemiSharp_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kSemiSharp;
       break;
-    case k_eSharp:
+    case kE_Sharp_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kSharp;
       break;
-    case k_eSesquiSharp:
+    case kE_SesquiSharp_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kSesquiSharp;
       break;
-    case k_eDoubleSharp:
+    case kE_DoubleSharp_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kDoubleSharp;
       break;
 
-    case k_fDoubleFlat:
+    case kF_DoubleFlat_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kDoubleFlat;
       break;
-    case k_fSesquiFlat:
+    case kF_SesquiFlat_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kSesquiFlat;
       break;
-    case k_fFlat:
+    case kF_Flat_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kFlat;
       break;
-    case k_fSemiFlat:
+    case kF_SemiFlat_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kSemiFlat;
       break;
-    case k_fNatural:
+    case kF_Natural_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kNatural;
       break;
-    case k_fSemiSharp:
+    case kF_SemiSharp_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kSemiSharp;
       break;
-    case k_fSharp:
+    case kF_Sharp_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kSharp;
       break;
-    case k_fSesquiSharp:
+    case kF_SesquiSharp_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kSesquiSharp;
       break;
-    case k_fDoubleSharp:
+    case kF_DoubleSharp_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kDoubleSharp;
       break;
 
-    case k_gDoubleFlat:
+    case kG_DoubleFlat_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kDoubleFlat;
       break;
-    case k_gSesquiFlat:
+    case kG_SesquiFlat_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kSesquiFlat;
       break;
-    case k_gFlat:
+    case kG_Flat_QTP:
       diatonicPitchKind = kG;
       break;
-    case k_gSemiFlat:
+    case kG_SemiFlat_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kSemiFlat;
       break;
-    case k_gNatural:
+    case kG_Natural_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kNatural;
       break;
-    case k_gSemiSharp:
+    case kG_SemiSharp_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kSemiSharp;
       break;
-    case k_gSharp:
+    case kG_Sharp_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kSharp;
       break;
-    case k_gSesquiSharp:
+    case kG_SesquiSharp_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kSesquiSharp;
       break;
-    case k_gDoubleSharp:
+    case kG_DoubleSharp_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kDoubleSharp;
       break;
       
-    case k_Rest:
+    case k_Rest_QTP:
       diatonicPitchKind = kA; // any value would fit JMI
       alterationKind    = k_NoAlteration;
       
@@ -2543,31 +2543,31 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
     case kA:
       switch (alterationKind) {
         case kDoubleFlat:
-          result = k_aDoubleFlat;
+          result = kA_DoubleFlat_QTP;
           break;
         case kSesquiFlat:
-          result = k_aSesquiFlat;
+          result = kA_SesquiFlat_QTP;
           break;
         case kFlat:
-          result = k_aFlat;
+          result = kA_Flat_QTP;
           break;
         case kSemiFlat:
-          result = k_aSemiFlat;
+          result = kA_SemiFlat_QTP;
           break;
         case kNatural:
-          result = k_aNatural;
+          result = kA_Natural_QTP;
           break;
         case kSemiSharp:
-          result = k_aSemiSharp;
+          result = kA_SemiSharp_QTP;
           break;
         case kSharp:
-          result = k_aSharp;
+          result = kA_Sharp_QTP;
           break;
         case kSesquiSharp:
-          result = k_aSesquiSharp;
+          result = kA_SesquiSharp_QTP;
           break;
         case kDoubleSharp:
-          result = k_aDoubleSharp;
+          result = kA_DoubleSharp_QTP;
           break;
         case k_NoAlteration:
           {
@@ -2590,31 +2590,31 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
     case kB:
       switch (alterationKind) {
         case kDoubleFlat:
-          result = k_bDoubleFlat;
+          result = kB_DoubleFlat_QTP;
           break;
         case kSesquiFlat:
-          result = k_bSesquiFlat;
+          result = kB_SesquiFlat_QTP;
           break;
         case kFlat:
-          result = k_bFlat;
+          result = kB_Flat_QTP;
           break;
         case kSemiFlat:
-          result = k_bSemiFlat;
+          result = kB_SemiFlat_QTP;
           break;
         case kNatural:
-          result = k_bNatural;
+          result = kB_Natural_QTP;
           break;
         case kSemiSharp:
-          result = k_bSemiSharp;
+          result = kB_SemiSharp_QTP;
           break;
         case kSharp:
-          result = k_bSharp;
+          result = kB_Sharp_QTP;
           break;
         case kSesquiSharp:
-          result = k_bSesquiSharp;
+          result = kB_SesquiSharp_QTP;
           break;
         case kDoubleSharp:
-          result = k_bDoubleSharp;
+          result = kB_DoubleSharp_QTP;
           break;
         case k_NoAlteration:
           {
@@ -2639,31 +2639,31 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
     case kC:
       switch (alterationKind) {
         case kDoubleFlat:
-          result = k_cDoubleFlat;
+          result = kC_DoubleFlat_QTP;
           break;
         case kSesquiFlat:
-          result = k_cSesquiFlat;
+          result = kC_SesquiFlat_QTP;
           break;
         case kFlat:
-          result = k_cFlat;
+          result = kC_Flat_QTP;
           break;
         case kSemiFlat:
-          result = k_cSemiFlat;
+          result = kC_SemiFlat_QTP;
           break;
         case kNatural:
-          result = k_cNatural;
+          result = kC_Natural_QTP;
           break;
         case kSemiSharp:
-          result = k_cSemiSharp;
+          result = kC_SemiSharp_QTP;
           break;
         case kSharp:
-          result = k_cSharp;
+          result = kC_Sharp_QTP;
           break;
         case kSesquiSharp:
-          result = k_cSesquiSharp;
+          result = kC_SesquiSharp_QTP;
           break;
         case kDoubleSharp:
-          result = k_cDoubleSharp;
+          result = kC_DoubleSharp_QTP;
           break;
         case k_NoAlteration:
           {
@@ -2686,31 +2686,31 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
     case kD:
       switch (alterationKind) {
         case kDoubleFlat:
-          result = k_dDoubleFlat;
+          result = kD_DoubleFlat_QTP;
           break;
         case kSesquiFlat:
-          result = k_dSesquiFlat;
+          result = kD_SesquiFlat_QTP;
           break;
         case kFlat:
-          result = k_dFlat;
+          result = kD_Flat_QTP;
           break;
         case kSemiFlat:
-          result = k_dSemiFlat;
+          result = kD_SemiFlat_QTP;
           break;
         case kNatural:
-          result = k_dNatural;
+          result = kD_Natural_QTP;
           break;
         case kSemiSharp:
-          result = k_dSemiSharp;
+          result = kD_SemiSharp_QTP;
           break;
         case kSharp:
-          result = k_dSharp;
+          result = kD_Sharp_QTP;
           break;
         case kSesquiSharp:
-          result = k_dSesquiSharp;
+          result = kD_SesquiSharp_QTP;
           break;
         case kDoubleSharp:
-          result = k_dDoubleSharp;
+          result = kD_DoubleSharp_QTP;
           break;
         case k_NoAlteration:
           {
@@ -2733,31 +2733,31 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
     case kE:
       switch (alterationKind) {
         case kDoubleFlat:
-          result = k_eDoubleFlat;
+          result = kE_DoubleFlat_QTP;
           break;
         case kSesquiFlat:
-          result = k_eSesquiFlat;
+          result = kE_SesquiFlat_QTP;
           break;
         case kFlat:
-          result = k_eFlat;
+          result = kE_Flat_QTP;
           break;
         case kSemiFlat:
-          result = k_eSemiFlat;
+          result = kE_SemiFlat_QTP;
           break;
         case kNatural:
-          result = k_eNatural;
+          result = kE_Natural_QTP;
           break;
         case kSemiSharp:
-          result = k_eSemiSharp;
+          result = kE_SemiSharp_QTP;
           break;
         case kSharp:
-          result = k_eSharp;
+          result = kE_Sharp_QTP;
           break;
         case kSesquiSharp:
-          result = k_eSesquiSharp;
+          result = kE_SesquiSharp_QTP;
           break;
         case kDoubleSharp:
-          result = k_eDoubleSharp;
+          result = kE_DoubleSharp_QTP;
           break;
         case k_NoAlteration:
           {
@@ -2780,31 +2780,31 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
     case kF:
       switch (alterationKind) {
         case kDoubleFlat:
-          result = k_fDoubleFlat;
+          result = kF_DoubleFlat_QTP;
           break;
         case kSesquiFlat:
-          result = k_fSesquiFlat;
+          result = kF_SesquiFlat_QTP;
           break;
         case kFlat:
-          result = k_fFlat;
+          result = kF_Flat_QTP;
           break;
         case kSemiFlat:
-          result = k_fSemiFlat;
+          result = kF_SemiFlat_QTP;
           break;
         case kNatural:
-          result = k_fNatural;
+          result = kF_Natural_QTP;
           break;
         case kSemiSharp:
-          result = k_fSemiSharp;
+          result = kF_SemiSharp_QTP;
           break;
         case kSharp:
-          result = k_fSharp;
+          result = kF_Sharp_QTP;
           break;
         case kSesquiSharp:
-          result = k_fSesquiSharp;
+          result = kF_SesquiSharp_QTP;
           break;
         case kDoubleSharp:
-          result = k_fDoubleSharp;
+          result = kF_DoubleSharp_QTP;
           break;
         case k_NoAlteration:
           {
@@ -2827,31 +2827,31 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
     case kG:
       switch (alterationKind) {
         case kDoubleFlat:
-          result = k_gDoubleFlat;
+          result = kG_DoubleFlat_QTP;
           break;
         case kSesquiFlat:
-          result = k_gSesquiFlat;
+          result = kG_SesquiFlat_QTP;
           break;
         case kFlat:
-          result = k_gFlat;
+          result = kG_Flat_QTP;
           break;
         case kSemiFlat:
-          result = k_gSemiFlat;
+          result = kG_SemiFlat_QTP;
           break;
         case kNatural:
-          result = k_gNatural;
+          result = kG_Natural_QTP;
           break;
         case kSemiSharp:
-          result = k_gSemiSharp;
+          result = kG_SemiSharp_QTP;
           break;
         case kSharp:
-          result = k_gSharp;
+          result = kG_Sharp_QTP;
           break;
         case kSesquiSharp:
-          result = k_gSesquiSharp;
+          result = kG_SesquiSharp_QTP;
           break;
         case kDoubleSharp:
-          result = k_gDoubleSharp;
+          result = kG_DoubleSharp_QTP;
           break;
         case k_NoAlteration:
           {
@@ -2901,91 +2901,91 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
   msrDiatonicPitchKind result;
   
   switch (quarterTonesPitchKind) {
-    case k_aDoubleFlat:
-    case k_aSesquiFlat:
-    case k_aFlat:
-    case k_aSemiFlat:
-    case k_aNatural:
-    case k_aSemiSharp:
-    case k_aSharp:
-    case k_aSesquiSharp:
-    case k_aDoubleSharp:
+    case kA_DoubleFlat_QTP:
+    case kA_SesquiFlat_QTP:
+    case kA_Flat_QTP:
+    case kA_SemiFlat_QTP:
+    case kA_Natural_QTP:
+    case kA_SemiSharp_QTP:
+    case kA_Sharp_QTP:
+    case kA_SesquiSharp_QTP:
+    case kA_DoubleSharp_QTP:
       result = kA;
       break;
 
-    case k_bDoubleFlat:
-    case k_bSesquiFlat:
-    case k_bFlat:
-    case k_bSemiFlat:
-    case k_bNatural:
-    case k_bSemiSharp:
-    case k_bSharp:
-    case k_bSesquiSharp:
-    case k_bDoubleSharp:
+    case kB_DoubleFlat_QTP:
+    case kB_SesquiFlat_QTP:
+    case kB_Flat_QTP:
+    case kB_SemiFlat_QTP:
+    case kB_Natural_QTP:
+    case kB_SemiSharp_QTP:
+    case kB_Sharp_QTP:
+    case kB_SesquiSharp_QTP:
+    case kB_DoubleSharp_QTP:
       result = kB;
       break;
 
-    case k_cDoubleFlat:
-    case k_cSesquiFlat:
-    case k_cFlat:
-    case k_cSemiFlat:
-    case k_cNatural:
-    case k_cSemiSharp:
-    case k_cSharp:
-    case k_cSesquiSharp:
-    case k_cDoubleSharp:
+    case kC_DoubleFlat_QTP:
+    case kC_SesquiFlat_QTP:
+    case kC_Flat_QTP:
+    case kC_SemiFlat_QTP:
+    case kC_Natural_QTP:
+    case kC_SemiSharp_QTP:
+    case kC_Sharp_QTP:
+    case kC_SesquiSharp_QTP:
+    case kC_DoubleSharp_QTP:
       result = kC;
       break;
 
-    case k_dDoubleFlat:
-    case k_dSesquiFlat:
-    case k_dFlat:
-    case k_dSemiFlat:
-    case k_dNatural:
-    case k_dSemiSharp:
-    case k_dSharp:
-    case k_dSesquiSharp:
-    case k_dDoubleSharp:
+    case kD_DoubleFlat_QTP:
+    case kD_SesquiFlat_QTP:
+    case kD_Flat_QTP:
+    case kD_SemiFlat_QTP:
+    case kD_Natural_QTP:
+    case kD_SemiSharp_QTP:
+    case kD_Sharp_QTP:
+    case kD_SesquiSharp_QTP:
+    case kD_DoubleSharp_QTP:
       result = kD;
       break;
 
-    case k_eDoubleFlat:
-    case k_eSesquiFlat:
-    case k_eFlat:
-    case k_eSemiFlat:
-    case k_eNatural:
-    case k_eSemiSharp:
-    case k_eSharp:
-    case k_eSesquiSharp:
-    case k_eDoubleSharp:
+    case kE_DoubleFlat_QTP:
+    case kE_SesquiFlat_QTP:
+    case kE_Flat_QTP:
+    case kE_SemiFlat_QTP:
+    case kE_Natural_QTP:
+    case kE_SemiSharp_QTP:
+    case kE_Sharp_QTP:
+    case kE_SesquiSharp_QTP:
+    case kE_DoubleSharp_QTP:
       result = kE;
       break;
 
-    case k_fDoubleFlat:
-    case k_fSesquiFlat:
-    case k_fFlat:
-    case k_fSemiFlat:
-    case k_fNatural:
-    case k_fSemiSharp:
-    case k_fSharp:
-    case k_fSesquiSharp:
-    case k_fDoubleSharp:
+    case kF_DoubleFlat_QTP:
+    case kF_SesquiFlat_QTP:
+    case kF_Flat_QTP:
+    case kF_SemiFlat_QTP:
+    case kF_Natural_QTP:
+    case kF_SemiSharp_QTP:
+    case kF_Sharp_QTP:
+    case kF_SesquiSharp_QTP:
+    case kF_DoubleSharp_QTP:
       result = kF;
       break;
 
-    case k_gDoubleFlat:
-    case k_gSesquiFlat:
-    case k_gFlat:
-    case k_gSemiFlat:
-    case k_gNatural:
-    case k_gSemiSharp:
-    case k_gSharp:
-    case k_gSesquiSharp:
-    case k_gDoubleSharp:
+    case kG_DoubleFlat_QTP:
+    case kG_SesquiFlat_QTP:
+    case kG_Flat_QTP:
+    case kG_SemiFlat_QTP:
+    case kG_Natural_QTP:
+    case kG_SemiSharp_QTP:
+    case kG_Sharp_QTP:
+    case kG_SesquiSharp_QTP:
+    case kG_DoubleSharp_QTP:
       result = kG;
       break;
 
-    case k_Rest:
+    case k_Rest_QTP:
       {
         stringstream s;
 
@@ -3097,7 +3097,8 @@ string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
   string result;
-  
+
+  /* JMI
   switch (semiTonesPitchKind) {
     case k_NoWelTemperedPitch_STP:
       result = "NoWelTemperedPitch???";
@@ -3151,6 +3152,124 @@ string msrSemiTonesPitchKindAsString (
       result = "B_Natural_A_DoubleSharp_C_Flat";
       break;
   } // switch
+  */
+  
+  switch (semiTonesPitchKind) {
+    case k_NoWelTemperedPitch_STP:
+      result = "NoWelTemperedPitch???";
+      break;
+
+    case kB_Sharp_STP:
+      result = "B_Sharp_STP";
+      break;
+    case kC_Natural_STP:
+      result = "C_Natural_STP";
+      break;
+    case kD_DoubleFlat_STP:
+      result = "D_DoubleFlat_STP";
+      break;
+      
+    case kC_Sharp_STP:
+      result = "C_Sharp_STP";
+      break;
+    case kB_DoubleSharp_STP:
+      result = "B_DoubleSharp_STP";
+      break;
+    case kD_Flat_STP:
+      result = "D_Flat_STP";
+      break;
+
+    case kD_Natural_STP:
+      result = "D_Natural_STP";
+      break;
+    case kC_DoubleSharp_STP:
+      result = "C_DoubleSharp_STP";
+      break;
+    case kE_DoubleFlat_STP:
+      result = "E_DoubleFlat_STP";
+      break;
+
+    case kD_Sharp_STP:
+      result = "D_Sharp_STP";
+      break;
+    case kE_Flat_STP:
+      result = "E_Flat_STP";
+      break;
+      
+    case kE_Natural_STP: // , 
+      result = "E_Natural_STP";
+      break;
+    case kD_DoubleSharp_STP:
+      result = "D_DoubleSharp_STP";
+      break;
+    case kF_Flat_STP:
+      result = "F_Flat_STP";
+      break;
+      
+    case kF_Natural_STP:
+      result = "F_Natural_STP";
+      break;
+    case kE_Sharp_STP:
+      result = "E_Sharp_STP";
+      break;
+    case kG_DoubleFlat_STP:
+      result = "G_DoubleFlat_STP";
+      break;
+      
+    case kF_Sharp_STP:
+      result = "F_Sharp_STP";
+      break;
+    case kE_DoubleSharp_STP:
+      result = "E_DoubleSharp_STP";
+      break;
+    case kG_Flat_STP:
+      result = "G_Flat_STP";
+      break;
+      
+    case kG_Natural_STP:
+      result = "G_Natural_STP";
+      break;
+    case kF_DoubleSharp_STP:
+      result = "F_DoubleSharp_STP";
+      break;
+    case kA_DoubleFlat_STP:
+      result = "A_DoubleFlat_STP";
+      break;
+      
+    case kG_Sharp_STP:
+      result = "G_Sharp_STP";
+      break;
+    case kA_Flat_STP:
+      result = "A_Flat_STP";
+      break;
+      
+    case kA_Natural_STP:
+      result = "A_Natural_STP";
+      break;
+    case kG_DoubleSharp_STP:
+      result = "G_DoubleSharp_STP";
+      break;
+    case kB_DoubleFlat_STP:
+      result = "B_DoubleFlat_STP";
+      break;
+      
+    case kA_Sharp_STP:
+      result = "A_Sharp_STP";
+      break;
+    case kB_Flat_STP:
+      result = "B_Flat_STP";
+      break;
+
+    case kB_Natural_STP:
+      result = "B_Natural_STP";
+      break;
+    case kA_DoubleSharp_STP:
+      result = "A_DoubleSharp_STP";
+      break;
+    case kC_Flat_STP:
+      result = "C_Flat_STP";
+      break;
+  } // switch
 
   return result;
 }
@@ -3160,6 +3279,97 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   msrAlterationPreferenceKind alterationPreferenceKind)
 {
   msrQuarterTonesPitchKind result;
+
+  /* JMI
+  switch (semiTonesPitchKind) {
+    case k_NoWelTemperedPitch_STP:
+      result = k_NoQuarterTonesPitch;
+      break;
+
+    case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
+      result = kC_Natural;
+      break;
+      
+    case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
+      switch (alterationPreferenceKind) {
+        case kPreferSharp:
+          result = kC_Sharp;
+          break;
+        case kPreferFlat:
+          result = kD_Flat;
+          break;
+      } // switch
+      break;
+
+    case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
+      result = kD_Natural;
+      break;
+
+    case kD_Sharp_STP: // kE_Flat_STP
+      switch (alterationPreferenceKind) {
+        case kPreferSharp:
+          result = kD_Sharp;
+          break;
+        case kPreferFlat:
+          result = kE_Flat;
+          break;
+      } // switch
+      break;
+      
+    case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
+      result = kE_Natural;
+      break;
+      
+    case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
+      result = kF_Natural;
+      break;
+      
+    case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
+      switch (alterationPreferenceKind) {
+        case kPreferSharp:
+          result = kF_Sharp;
+          break;
+        case kPreferFlat:
+          result = kG_Flat;
+          break;
+      } // switch
+      break;
+      
+    case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
+      result = kG_Natural;
+      break;
+      
+    case kG_Sharp_STP: // kA_Flat_STP
+      switch (alterationPreferenceKind) {
+        case kPreferSharp:
+          result = kG_Sharp;
+          break;
+        case kPreferFlat:
+          result = kA_Flat;
+          break;
+      } // switch
+      break;
+      
+    case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
+      result = kA_Natural;
+      break;
+      
+    case kA_Sharp_STP: // kB_Flat_STP
+      switch (alterationPreferenceKind) {
+        case kPreferSharp:
+          result = kA_Sharp;
+          break;
+        case kPreferFlat:
+          result = kB_Flat;
+          break;
+      } // switch
+      break;
+
+    case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
+      result = kB_Natural;
+      break;
+  } // switch
+  */
   
   switch (semiTonesPitchKind) {
     case k_NoWelTemperedPitch_STP:
@@ -3167,87 +3377,167 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
       break;
 
     case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
-      result = k_cNatural;
+      result = kC_Natural_QTP;
       break;
       
     case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
-          result = k_cSharp;
+          result = kC_Sharp_QTP;
           break;
         case kPreferFlat:
-          result = k_dFlat;
+          result = kD_Flat_QTP;
           break;
       } // switch
       break;
 
     case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
-      result = k_dNatural;
+      result = kD_Natural_QTP;
       break;
 
     case kD_Sharp_STP: // kE_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
-          result = k_dSharp;
+          result = kD_Sharp_QTP;
           break;
         case kPreferFlat:
-          result = k_eFlat;
+          result = kE_Flat_QTP;
           break;
       } // switch
       break;
       
     case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
-      result = k_eNatural;
+      result = kE_Natural_QTP;
       break;
       
     case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
-      result = k_fNatural;
+      result = kF_Natural_QTP;
       break;
       
     case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
-          result = k_fSharp;
+          result = kF_Sharp_QTP;
           break;
         case kPreferFlat:
-          result = k_gFlat;
+          result = kG_Flat_QTP;
           break;
       } // switch
       break;
       
     case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
-      result = k_gNatural;
+      result = kG_Natural_QTP;
       break;
       
     case kG_Sharp_STP: // kA_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
-          result = k_gSharp;
+          result = kG_Sharp_QTP;
           break;
         case kPreferFlat:
-          result = k_aFlat;
+          result = kA_Flat_QTP;
           break;
       } // switch
       break;
       
     case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
-      result = k_aNatural;
+      result = kA_Natural_QTP;
       break;
       
     case kA_Sharp_STP: // kB_Flat_STP
       switch (alterationPreferenceKind) {
         case kPreferSharp:
-          result = k_aSharp;
+          result = kA_Sharp_QTP;
           break;
         case kPreferFlat:
-          result = k_bFlat;
+          result = kB_Flat_QTP;
           break;
       } // switch
       break;
 
     case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
-      result = k_bNatural;
+      result = kB_Natural_QTP;
       break;
+  } // switch
+
+  return result;
+}
+
+// enharmonies
+//______________________________________________________________________________
+msrSemiTonesPitchKind enharmonicSemiTonesPitch (
+  msrSemiTonesPitchKind       semiTonesPitchKind,
+  msrAlterationPreferenceKind alterationPreferenceKind)
+{
+  msrSemiTonesPitchKind result = semiTonesPitchKind;
+  
+  switch (semiTonesPitchKind) {
+   case kC_Flat_STP: // kA_DoubleSharp_STP, kC_Flat_STP
+      result = kB_Natural_STP;
+      break;
+
+   case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
+      break;
+      
+    case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
+      result = kD_Flat_STP;
+      break;
+    case kD_Flat_STP: // kB_DoubleSharp_STP, kD_Flat_STP
+      result = kC_Sharp_STP;
+      break;
+
+    case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
+      break;
+
+    case kD_Sharp_STP: // kE_Flat_STP
+      result = kE_Flat_STP;
+      break;
+    case kE_Flat_STP: // kE_Flat_STP
+      result = kD_Sharp_STP;
+      break;
+      
+    case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
+      break;
+      
+    case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
+      break;
+      
+    case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
+      result = kG_Flat_STP;
+      break;
+    case kG_Flat_STP: // kE_DoubleSharp_STP, kG_Flat_STP
+      result = kF_Sharp_STP;
+      break;
+      
+    case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
+      break;
+      
+    case kG_Sharp_STP: // kA_Flat_STP
+      result = kA_Flat_STP;
+      break;
+    case kA_Flat_STP: // kA_Flat_STP
+      result = kG_Sharp_STP;
+      break;
+      
+    case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
+      break;
+      
+    case kA_Sharp_STP: // kB_Flat_STP
+      result = kB_Flat_STP;
+      break;
+    case kB_Flat_STP: // kB_Flat_STP
+      result = kA_Sharp_STP;
+      break;
+
+    case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
+      break;
+
+    case kB_Sharp_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
+      result = kC_Natural_STP;
+      break;
+
+    default:
+      ;
   } // switch
 
   return result;

@@ -6220,11 +6220,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -11:
       switch (transposeDiatonic) {
         case -7:
-          transpositionPitchKind = k_cSharp;
+          transpositionPitchKind = kC_Sharp_QTP;
           break;
 
         case -6:
-          transpositionPitchKind = k_dFlat;
+          transpositionPitchKind = kD_Flat_QTP;
           break;
 
         default:
@@ -6238,7 +6238,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -10:
       switch (transposeDiatonic) {
         case -6:
-          transpositionPitchKind = k_dNatural;
+          transpositionPitchKind = kD_Natural_QTP;
           break;
 
         default:
@@ -6252,11 +6252,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -9:
       switch (transposeDiatonic) {
         case -6:
-          transpositionPitchKind = k_dSharp;
+          transpositionPitchKind = kD_Sharp_QTP;
           break;
 
         case -5:
-          transpositionPitchKind = k_eFlat;
+          transpositionPitchKind = kE_Flat_QTP;
           break;
 
         default:
@@ -6270,7 +6270,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -8:
       switch (transposeDiatonic) {
         case -5:
-          transpositionPitchKind = k_eNatural;
+          transpositionPitchKind = kE_Natural_QTP;
           break;
 
         default:
@@ -6284,7 +6284,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -7:
       switch (transposeDiatonic) {
         case -4:
-          transpositionPitchKind = k_fNatural;
+          transpositionPitchKind = kF_Natural_QTP;
           break;
 
         default:
@@ -6298,11 +6298,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -6:
       switch (transposeDiatonic) {
         case -4:
-          transpositionPitchKind = k_fSharp;
+          transpositionPitchKind = kF_Sharp_QTP;
           break;
 
         case -3:
-          transpositionPitchKind = k_gFlat;
+          transpositionPitchKind = kG_Flat_QTP;
           break;
 
         default:
@@ -6316,7 +6316,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -5:
       switch (transposeDiatonic) {
         case -3:
-          transpositionPitchKind = k_gNatural;
+          transpositionPitchKind = kG_Natural_QTP;
           break;
 
         default:
@@ -6330,11 +6330,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -4:
       switch (transposeDiatonic) {
         case -3:
-          transpositionPitchKind = k_gSharp;
+          transpositionPitchKind = kG_Sharp_QTP;
           break;
 
         case -2:
-          transpositionPitchKind = k_aFlat;
+          transpositionPitchKind = kA_Flat_QTP;
           break;
 
         default:
@@ -6348,7 +6348,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -3:
       switch (transposeDiatonic) {
         case -2:
-          transpositionPitchKind = k_aNatural;
+          transpositionPitchKind = kA_Natural_QTP;
           break;
 
         default:
@@ -6362,11 +6362,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case -2:
       switch (transposeDiatonic) {
         case -2:
-          transpositionPitchKind = k_aSharp;
+          transpositionPitchKind = kA_Sharp_QTP;
           break;
 
         case -1:
-          transpositionPitchKind = k_bFlat;
+          transpositionPitchKind = kB_Flat_QTP;
           break;
 
         default:
@@ -6380,7 +6380,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case -1:
       switch (transposeDiatonic) {
         case -1:
-          transpositionPitchKind = k_bNatural;
+          transpositionPitchKind = kB_Natural_QTP;
           break;
 
         default:
@@ -6394,7 +6394,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 0:
       switch (transposeDiatonic) {
         case 0:
-          transpositionPitchKind = k_cNatural;
+          transpositionPitchKind = kC_Natural_QTP;
           break;
 
         default:
@@ -6408,11 +6408,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 1:
       switch (transposeDiatonic) {
         case 0:
-          transpositionPitchKind = k_cSharp;
+          transpositionPitchKind = kC_Sharp_QTP;
           break;
 
         case 1:
-          transpositionPitchKind = k_dFlat;
+          transpositionPitchKind = kD_Flat_QTP;
           break;
 
         default:
@@ -6426,7 +6426,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 2:
       switch (transposeDiatonic) {
         case 1:
-          transpositionPitchKind = k_dNatural;
+          transpositionPitchKind = kD_Natural_QTP;
           break;
 
         default:
@@ -6440,11 +6440,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 3:
       switch (transposeDiatonic) {
         case 1:
-          transpositionPitchKind = k_dSharp;
+          transpositionPitchKind = kD_Sharp_QTP;
           break;
 
         case 2:
-          transpositionPitchKind = k_eFlat;
+          transpositionPitchKind = kE_Flat_QTP;
           break;
 
         default:
@@ -6458,7 +6458,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 4:
       switch (transposeDiatonic) {
         case 2:
-          transpositionPitchKind = k_eNatural;
+          transpositionPitchKind = kE_Natural_QTP;
           break;
 
         default:
@@ -6472,7 +6472,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 5:
       switch (transposeDiatonic) {
         case 3:
-          transpositionPitchKind = k_fNatural;
+          transpositionPitchKind = kF_Natural_QTP;
           break;
 
         default:
@@ -6486,11 +6486,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 6:
       switch (transposeDiatonic) {
         case 3:
-          transpositionPitchKind = k_fSharp;
+          transpositionPitchKind = kF_Sharp_QTP;
           break;
 
         case 4:
-          transpositionPitchKind = k_gFlat;
+          transpositionPitchKind = kG_Flat_QTP;
           break;
 
         default:
@@ -6504,7 +6504,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 7:
       switch (transposeDiatonic) {
         case 4:
-          transpositionPitchKind = k_gNatural;
+          transpositionPitchKind = kG_Natural_QTP;
           break;
 
         default:
@@ -6518,11 +6518,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 8:
       switch (transposeDiatonic) {
         case 4:
-          transpositionPitchKind = k_gSharp;
+          transpositionPitchKind = kG_Sharp_QTP;
           break;
 
         case 5:
-          transpositionPitchKind = k_aFlat;
+          transpositionPitchKind = kA_Flat_QTP;
           break;
 
         default:
@@ -6536,7 +6536,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 9:
       switch (transposeDiatonic) {
         case 5:
-          transpositionPitchKind = k_aNatural;
+          transpositionPitchKind = kA_Natural_QTP;
           break;
 
         default:
@@ -6550,11 +6550,11 @@ If the double element is present, it indicates that the music is doubled one oct
     case 10:
       switch (transposeDiatonic) {
         case 5:
-          transpositionPitchKind = k_aSharp;
+          transpositionPitchKind = kA_Sharp_QTP;
           break;
 
         case 6:
-          transpositionPitchKind = k_bFlat;
+          transpositionPitchKind = kB_Flat_QTP;
           break;
 
         default:
@@ -6568,7 +6568,7 @@ If the double element is present, it indicates that the music is doubled one oct
     case 11:
       switch (transposeDiatonic) {
         case 6:
-          transpositionPitchKind = k_bNatural;
+          transpositionPitchKind = kB_Natural_QTP;
           break;
 
         default:

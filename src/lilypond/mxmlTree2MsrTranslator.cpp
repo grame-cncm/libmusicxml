@@ -2146,76 +2146,76 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
   
   switch (fCurrentKeyFifths) {
     case 0:
-      keyTonicPitchKind = k_cNatural;
+      keyTonicPitchKind = kC_Natural_QTP;
       break;
     case 1:
-      keyTonicPitchKind = k_gNatural;
+      keyTonicPitchKind = kG_Natural_QTP;
       break;
     case 2:
-      keyTonicPitchKind = k_dNatural;
+      keyTonicPitchKind = kD_Natural_QTP;
       break;
     case 3:
-      keyTonicPitchKind = k_aNatural;
+      keyTonicPitchKind = kA_Natural_QTP;
       break;
     case 4:
-      keyTonicPitchKind = k_eNatural;
+      keyTonicPitchKind = kE_Natural_QTP;
       break;
     case 5:
-      keyTonicPitchKind = k_bNatural;
+      keyTonicPitchKind = kB_Natural_QTP;
       break;
     case 6:
-      keyTonicPitchKind = k_fSharp;
+      keyTonicPitchKind = kF_Sharp_QTP;
       break;
     case 7:
-      keyTonicPitchKind = k_cSharp;
+      keyTonicPitchKind = kC_Sharp_QTP;
       break;
       
     case 8: // JMI
-      keyTonicPitchKind = k_gSharp;
+      keyTonicPitchKind = kG_Sharp_QTP;
       break;
     case 9:
-      keyTonicPitchKind = k_dSharp;
+      keyTonicPitchKind = kD_Sharp_QTP;
       break;
     case 10:
-      keyTonicPitchKind = k_aSharp;
+      keyTonicPitchKind = kA_Sharp_QTP;
       break;
     case 11:
-      keyTonicPitchKind = k_eSharp;
+      keyTonicPitchKind = kE_Sharp_QTP;
       break;
       
     case -1:
-      keyTonicPitchKind = k_fNatural;
+      keyTonicPitchKind = kF_Natural_QTP;
       break;
     case -2:
-      keyTonicPitchKind = k_bFlat;
+      keyTonicPitchKind = kB_Flat_QTP;
       break;
     case -3:
-      keyTonicPitchKind = k_eFlat;
+      keyTonicPitchKind = kE_Flat_QTP;
       break;
     case -4:
-      keyTonicPitchKind = k_aFlat;
+      keyTonicPitchKind = kA_Flat_QTP;
       break;
     case -5:
-      keyTonicPitchKind = k_dFlat;
+      keyTonicPitchKind = kD_Flat_QTP;
       break;
     case -6:
-      keyTonicPitchKind = k_gFlat;
+      keyTonicPitchKind = kG_Flat_QTP;
       break;
     case -7:
-      keyTonicPitchKind = k_cFlat;
+      keyTonicPitchKind = kC_Flat_QTP;
       break;
 
     case -8: // JMI
-      keyTonicPitchKind = k_fFlat;
+      keyTonicPitchKind = kF_Flat_QTP;
       break;
     case -9:
-      keyTonicPitchKind = k_bDoubleFlat;
+      keyTonicPitchKind = kB_DoubleFlat_QTP;
       break;
     case -10:
-      keyTonicPitchKind = k_eDoubleFlat;
+      keyTonicPitchKind = kE_DoubleFlat_QTP;
       break;
     case -11:
-      keyTonicPitchKind = k_aDoubleFlat;
+      keyTonicPitchKind = kA_DoubleFlat_QTP;
       break;
       
     default: // unknown key sign!!
@@ -14269,7 +14269,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_rest& elt)
 
 */
   //  fLogOutputStream << "--> mxmlTree2MsrTranslator::visitStart ( S_rest& elt ) " <<endl;
-  fCurrentNoteQuarterTonesPitchKind = k_Rest;
+  fCurrentNoteQuarterTonesPitchKind = k_Rest_QTP;
   fCurrentNoteIsARest = true;
 
   string restMeasure = elt->getAttributeValue ("measure");
