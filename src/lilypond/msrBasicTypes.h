@@ -52,157 +52,6 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
 string msrAlterationKindAsString (
   msrAlterationKind alterationKind);
 
-// intervals
-//______________________________________________________________________________
-enum msrIntervalKind {
-  kDiminishedUnisson, kUnisson, kAugmentedUnison,
-  
-  kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
-  
-  kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
-  
-  kDiminishedFourth, kPerFourth, kAugmentedFourth,
-  
-  kDiminishedFifth, kPerFifth, kAugmentedFifth,
-  
-  kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
-  
-  kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
-  
-  kDiminishedOctave, kPerOctave, kAugmentedOctave,
-  
-  kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
-  
-  kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
-  
-  kDiminishedEleventh, kPerEleventh, kAugmentedEleventh,
-  
-  kDiminishedTwelfth, kPerTwelfth, kAugmentedTwelfth,
-  
-  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
-
-int msrIntervalKindAsSemiTones (
-  msrIntervalKind intervalKind);
-  
-int msrIntervalKindAsQuarterTones (
-  msrIntervalKind intervalKind);
-  
-string msrIntervalKindAsString (
-  msrIntervalKind intervaKindl);
-      
-string msrIntervalKindAsShortString (
-  msrIntervalKind intervalKind);
-
-msrIntervalKind invertIntervalKind (
-  msrIntervalKind intervalKind);
-
-// harmonies
-//______________________________________________________________________________
-enum msrHarmonyKind {
-  k_NoHarmony,
-  
-  kMajorHarmony, kMinorHarmony, 
-  kAugmentedHarmony, kDiminishedHarmony,
-
-  kDominantHarmony,
-  kMajorSeventhHarmony, kMinorSeventhHarmony,
-  kDiminishedSeventhHarmony, kAugmentedSeventhHarmony,
-  kHalfDiminishedHarmony,
-  kMajorMinorHarmony,
-
-  kMajorSixthHarmony, kMinorSixthHarmony,
-
-  kDominantNinthHarmony,
-  kMajorNinthHarmony, kMinorNinthHarmony,
-
-  kDominantEleventhHarmony, kMajorEleventhHarmony, kMinorEleventhHarmony,
-
-  kDominantThirteenthHarmony, kMajorThirteenthHarmony, kMinorThirteenthHarmony,
-
-  kSuspendedSecondHarmony, kSuspendedFourthHarmony,
-
-  kNeapolitanHarmony, kItalianHarmony, kFrenchHarmony, kGermanHarmony,
-
-  kPedalHarmony, kPowerHarmony, kTristanHarmony,
-
-  kOtherHarmony,
-  kNoneHarmony };
-
-string msrHarmonyKindAsString (
-  msrHarmonyKind harmonyKind);
-
-string msrHarmonyKindAsShortString (
-  msrHarmonyKind harmonyKind);
-
-// constant
-const int K_HARMONY_NO_INVERSION = -1;
-
-// quarter tones pitches
-//______________________________________________________________________________
-enum msrQuarterTonesPitchKind {
-  k_NoQuarterTonesPitch,
-
-  k_Rest_QTP,
-  
-  kA_DoubleFlat_QTP, kA_SesquiFlat_QTP, kA_Flat_QTP, kA_SemiFlat_QTP,
-  kA_Natural_QTP,
-  kA_SemiSharp_QTP, kA_Sharp_QTP, kA_SesquiSharp_QTP, kA_DoubleSharp_QTP,
-  
-  kB_DoubleFlat_QTP, kB_SesquiFlat_QTP, kB_Flat_QTP, kB_SemiFlat_QTP,
-  kB_Natural_QTP,
-  kB_SemiSharp_QTP, kB_Sharp_QTP, kB_SesquiSharp_QTP, kB_DoubleSharp_QTP,
-  
-  kC_DoubleFlat_QTP, kC_SesquiFlat_QTP, kC_Flat_QTP, kC_SemiFlat_QTP,
-  kC_Natural_QTP,
-  kC_SemiSharp_QTP, kC_Sharp_QTP, kC_SesquiSharp_QTP, kC_DoubleSharp_QTP,
-  
-  kD_DoubleFlat_QTP, kD_SesquiFlat_QTP, kD_Flat_QTP, kD_SemiFlat_QTP,
-  kD_Natural_QTP,
-  kD_SemiSharp_QTP, kD_Sharp_QTP, kD_SesquiSharp_QTP, kD_DoubleSharp_QTP,
-  
-  kE_DoubleFlat_QTP, kE_SesquiFlat_QTP, kE_Flat_QTP, kE_SemiFlat_QTP,
-  kE_Natural_QTP,
-  kE_SemiSharp_QTP, kE_Sharp_QTP, kE_SesquiSharp_QTP, kE_DoubleSharp_QTP,
-  
-  kF_DoubleFlat_QTP, kF_SesquiFlat_QTP, kF_Flat_QTP, kF_SemiFlat_QTP,
-  kF_Natural_QTP,
-  kF_SemiSharp_QTP, kF_Sharp_QTP, kF_SesquiSharp_QTP, kF_DoubleSharp_QTP,
-  
-  kG_DoubleFlat_QTP, kG_SesquiFlat_QTP, kG_Flat_QTP, kG_SemiFlat_QTP,
-  kG_Natural_QTP,
-  kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP };
-
-void setDiatonicPitchKindAndAlterationKind (
-  msrQuarterTonesPitchKind quarterTonesPitchKind,
-  msrDiatonicPitchKind&    diatonicPitchKind,
-  msrAlterationKind&       alterationKind);
-
-msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
-  int                  inputLineNumber,
-  msrDiatonicPitchKind diatonicPitchKind,
-  msrAlterationKind    alterationKind);
-
-msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
-  int                      inputLineNumber,
-  msrQuarterTonesPitchKind quarterTonesPitchKind);
-
-// quarter tones pitches languages
-//______________________________________________________________________________
-enum msrQuarterTonesPitchesLanguageKind {
-  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
-  kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams };
-  
-string msrQuarterTonesPitchesLanguageKindAsString (
-  msrQuarterTonesPitchesLanguageKind languageKind);
-
-string msrDiatonicPitchKindAsString ( // JMI
-  msrQuarterTonesPitchesLanguageKind languageKind,
-  msrDiatonicPitchKind               diatonicPitchKind);
-
-string msrQuarterTonesPitchKindAsString (
-  msrQuarterTonesPitchesLanguageKind languageKind,
-  msrQuarterTonesPitchKind           quarterTonesPitchKind);
-
 // semi tones pitches
 //______________________________________________________________________________
 enum msrSemiTonesPitchKind {
@@ -258,19 +107,175 @@ enum msrSemiTonesPitchKind {
   
   kB_Natural_STP, kA_DoubleSharp_STP, kC_Flat_STP,
   
-  k_NoWelTemperedPitch_STP };
+  k_NoWellTemperedPitch_STP };
   
 string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind);
 
+// quarter tones pitches
+//______________________________________________________________________________
+enum msrQuarterTonesPitchKind {
+  k_NoQuarterTonesPitch,
+
+  k_Rest_QTP,
+  
+  kA_DoubleFlat_QTP, kA_SesquiFlat_QTP, kA_Flat_QTP, kA_SemiFlat_QTP,
+  kA_Natural_QTP,
+  kA_SemiSharp_QTP, kA_Sharp_QTP, kA_SesquiSharp_QTP, kA_DoubleSharp_QTP,
+  
+  kB_DoubleFlat_QTP, kB_SesquiFlat_QTP, kB_Flat_QTP, kB_SemiFlat_QTP,
+  kB_Natural_QTP,
+  kB_SemiSharp_QTP, kB_Sharp_QTP, kB_SesquiSharp_QTP, kB_DoubleSharp_QTP,
+  
+  kC_DoubleFlat_QTP, kC_SesquiFlat_QTP, kC_Flat_QTP, kC_SemiFlat_QTP,
+  kC_Natural_QTP,
+  kC_SemiSharp_QTP, kC_Sharp_QTP, kC_SesquiSharp_QTP, kC_DoubleSharp_QTP,
+  
+  kD_DoubleFlat_QTP, kD_SesquiFlat_QTP, kD_Flat_QTP, kD_SemiFlat_QTP,
+  kD_Natural_QTP,
+  kD_SemiSharp_QTP, kD_Sharp_QTP, kD_SesquiSharp_QTP, kD_DoubleSharp_QTP,
+  
+  kE_DoubleFlat_QTP, kE_SesquiFlat_QTP, kE_Flat_QTP, kE_SemiFlat_QTP,
+  kE_Natural_QTP,
+  kE_SemiSharp_QTP, kE_Sharp_QTP, kE_SesquiSharp_QTP, kE_DoubleSharp_QTP,
+  
+  kF_DoubleFlat_QTP, kF_SesquiFlat_QTP, kF_Flat_QTP, kF_SemiFlat_QTP,
+  kF_Natural_QTP,
+  kF_SemiSharp_QTP, kF_Sharp_QTP, kF_SesquiSharp_QTP, kF_DoubleSharp_QTP,
+  
+  kG_DoubleFlat_QTP, kG_SesquiFlat_QTP, kG_Flat_QTP, kG_SemiFlat_QTP,
+  kG_Natural_QTP,
+  kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP };
+
+void setDiatonicPitchKindAndAlterationKind (
+  msrQuarterTonesPitchKind quarterTonesPitchKind,
+  msrDiatonicPitchKind&    diatonicPitchKind,
+  msrAlterationKind&       alterationKind);
+
+msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
+  int                  inputLineNumber,
+  msrDiatonicPitchKind diatonicPitchKind,
+  msrAlterationKind    alterationKind);
+
+msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
+  int                      inputLineNumber,
+  msrQuarterTonesPitchKind quarterTonesPitchKind);
+
 // alterations preferences
 //______________________________________________________________________________
 enum msrAlterationPreferenceKind {
-  kPreferSharp, kPreferFlat };
+  kPreferFlat, kPreferNatural, kPreferSharp };
   
 msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
+
+// intervals
+//______________________________________________________________________________
+enum msrIntervalKind {
+  kDiminishedUnisson, kUnisson, kAugmentedUnison,
+  
+  kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
+  
+  kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
+  
+  kDiminishedFourth, kPerFourth, kAugmentedFourth,
+  
+  kDiminishedFifth, kPerFifth, kAugmentedFifth,
+  
+  kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
+  
+  kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
+  
+  kDiminishedOctave, kPerOctave, kAugmentedOctave,
+  
+  kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
+  
+  kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
+  
+  kDiminishedEleventh, kPerEleventh, kAugmentedEleventh,
+  
+  kDiminishedTwelfth, kPerTwelfth, kAugmentedTwelfth,
+  
+  kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
+
+int msrIntervalKindAsSemiTones (
+  msrIntervalKind intervalKind);
+  
+int msrIntervalKindAsQuarterTones (
+  msrIntervalKind intervalKind);
+  
+string msrIntervalKindAsString (
+  msrIntervalKind intervaKindl);
+      
+string msrIntervalKindAsShortString (
+  msrIntervalKind intervalKind);
+
+msrIntervalKind invertIntervalKind (
+  msrIntervalKind intervalKind);
+
+msrSemiTonesPitchKind noteAtIntervalKindFromNote (
+  msrIntervalKind             intervalKind,
+  msrSemiTonesPitchKind       semiTonesPitchKind,
+  msrAlterationPreferenceKind alterationPreferenceKind);
+
+// harmonies
+//______________________________________________________________________________
+enum msrHarmonyKind {
+  k_NoHarmony,
+  
+  kMajorHarmony, kMinorHarmony, 
+  kAugmentedHarmony, kDiminishedHarmony,
+
+  kDominantHarmony,
+  kMajorSeventhHarmony, kMinorSeventhHarmony,
+  kDiminishedSeventhHarmony, kAugmentedSeventhHarmony,
+  kHalfDiminishedHarmony,
+  kMajorMinorHarmony,
+
+  kMajorSixthHarmony, kMinorSixthHarmony,
+
+  kDominantNinthHarmony,
+  kMajorNinthHarmony, kMinorNinthHarmony,
+
+  kDominantEleventhHarmony, kMajorEleventhHarmony, kMinorEleventhHarmony,
+
+  kDominantThirteenthHarmony, kMajorThirteenthHarmony, kMinorThirteenthHarmony,
+
+  kSuspendedSecondHarmony, kSuspendedFourthHarmony,
+
+  kNeapolitanHarmony, kItalianHarmony, kFrenchHarmony, kGermanHarmony,
+
+  kPedalHarmony, kPowerHarmony, kTristanHarmony,
+
+  kOtherHarmony,
+  kNoneHarmony };
+
+string msrHarmonyKindAsString (
+  msrHarmonyKind harmonyKind);
+
+string msrHarmonyKindAsShortString (
+  msrHarmonyKind harmonyKind);
+
+// constant
+const int K_HARMONY_NO_INVERSION = -1;
+
+// quarter tones pitches languages
+//______________________________________________________________________________
+enum msrQuarterTonesPitchesLanguageKind {
+  kNederlands, kCatalan, kDeutsch, kEnglish, kEspanol, kFrancais, 
+  kItaliano, kNorsk, kPortugues, kSuomi, kSvenska, kVlaams };
+  
+string msrQuarterTonesPitchesLanguageKindAsString (
+  msrQuarterTonesPitchesLanguageKind languageKind);
+
+string msrDiatonicPitchKindAsString ( // JMI
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrDiatonicPitchKind               diatonicPitchKind);
+
+string msrQuarterTonesPitchKindAsString (
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrQuarterTonesPitchKind           quarterTonesPitchKind);
 
 // enharmonies
 //______________________________________________________________________________
@@ -792,6 +797,15 @@ class msrChordNotes : public smartable
 };
 typedef SMARTP<msrChordNotes> S_msrChordNotes;
 EXP ostream& operator<< (ostream& os, const S_msrChordNotes& elt);
+
+//______________________________________________________________________________
+enum msrScoreNotationKind {
+  kScoreNotationWestern,
+  kScoreNotationJianpu,
+  kScoreNotationDiatonicAccordion };
+
+string msrScoreNotationKindAsString (
+  msrScoreNotationKind scoreNotationKind);
 
 //______________________________________________________________________________
 // global variable 

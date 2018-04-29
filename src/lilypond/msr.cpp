@@ -13346,6 +13346,59 @@ bool msrKey::isEqualTo (S_msrKey otherKey) const
   return true;
 }
 
+msrClef::msrClefKind msrClef::clefKindFromString (
+  string theString)
+{
+  msrClef::msrClefKind result = msrClef::k_NoClef;
+
+  if      (theString == "treble")
+    result = msrClef::kTrebleClef;
+  else if (theString == "bass")
+    result = msrClef::kBassClef;
+  else if (theString == "alto")
+    result = msrClef::kAltoClef;
+  else if (theString == "tenor")
+    result = msrClef::kTenorClef;
+  else if (theString == "soprano")
+    result = msrClef::kSopranoClef;
+  else if (theString == "mezzosoprano")
+    result = msrClef::kMezzoSopranoClef;
+  else if (theString == "baritone")
+    result = msrClef::kBaritoneClef;
+  else if (theString == "treble^8")
+    result = msrClef::kTreblePlus8Clef;
+  else if (theString == "treble_8")
+    result = msrClef::kTrebleMinus8Clef;
+  else if (theString == "bass_8")
+    result = msrClef::kBassMinus8Clef;
+  else if (theString == "bass^8")
+    result = msrClef::kBassPlus8Clef;
+  else if (theString == "varbaritone")
+    result = msrClef::kVarbaritoneClef;
+  else if (theString == "treble^15")
+    result = msrClef::kTreblePlus15Clef;
+  else if (theString == "treble_15")
+    result = msrClef::kTrebleMinus15Clef;
+  else if (theString == "bass^15")
+    result = msrClef::kBassPlus15Clef;
+  else if (theString == "bass_15")
+    result = msrClef::kBassMinus15Clef;
+  else if (theString == "tab4")
+    result = msrClef::kTablature4Clef;
+  else if (theString == "tab5")
+    result = msrClef::kTablature5Clef;
+  else if (theString == "tab6")
+    result = msrClef::kTablature6Clef;
+  else if (theString == "tab7")
+    result = msrClef::kTablature7Clef;
+  else if (theString == "percussion")
+    result = msrClef::kPercussionClef;
+  else if (theString == "jianpu")
+    result = msrClef::kJianpuClef;
+
+  return result;
+}
+
 void msrKey::appendHumdrumScotKeyItem (
   S_msrHumdrumScotKeyItem item)
 {

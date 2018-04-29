@@ -2809,7 +2809,9 @@ class msrClef : public msrElement
 
     string                asString () const;
 
-
+    static msrClefKind    clefKindFromString (
+                            string theString);
+                            
     // visitors
     // ------------------------------------------------------
 
