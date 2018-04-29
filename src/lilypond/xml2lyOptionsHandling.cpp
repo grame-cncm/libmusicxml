@@ -26,6 +26,7 @@
 #include "msrOptions.h"
 #include "lpsrOptions.h"
 #include "lilypondOptions.h"
+#include "extraOptions.h"
 
 
 using namespace std;
@@ -113,6 +114,9 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
     this);
     
   initializeLilypondOptionsHandling (
+    this);
+
+  initializeExtraOptionsHandling (
     this);
 
 
@@ -592,7 +596,7 @@ void initializeXml2lyOptionsHandling (
     optionsHandler);
   assert (gXml2lyOptions != 0);
 
-
+/* JMI ???
   msrChordIntervals::printAllChordIntervals ();
 
   S_msrChordNotes
@@ -604,7 +608,8 @@ void initializeXml2lyOptionsHandling (
 
   gLogIOstream <<
     chordNotes <<
-    endl;   
+    endl;
+    */
 }
 
 
