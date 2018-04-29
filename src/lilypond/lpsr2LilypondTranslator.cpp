@@ -2186,7 +2186,8 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     s <<
       "/" <<
       msrQuarterTonesPitchKindAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+        gMsrOptions->
+          fMsrQuarterTonesPitchesLanguageKind,
         harmonyBassQuarterTonesPitchKind);
 
 
@@ -3952,8 +3953,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrStaffBlock& elt)
           
         fLilypondCodeIOstream <<
           msrQuarterTonesPitchKindAsString (
-            gLpsrOptions->fLpsrQuarterTonesPitchesLanguageKind,
-            staffTuning->getStaffTuningQuarterTonesPitchKind ()) <<
+            gLpsrOptions->
+              fLpsrQuarterTonesPitchesLanguageKind,
+            staffTuning->
+              getStaffTuningQuarterTonesPitchKind ()) <<
           absoluteOctaveAsLilypondString (
             staffTuning->getStaffTuningOctave ());
               
@@ -4580,7 +4583,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrPart& elt)
       endl;
   }
 
-  if (gTraceOptions->fTraceParts || gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTraceParts) {
     fLogOutputStream <<
       endl <<
       "<!--=== part \"" << partCombinedName << "\"" <<
@@ -5237,7 +5240,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrMeasure& elt)
     measureNumber =
       elt->getMeasureNumber ();
 
-  if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceBasic) {
+  if (gTraceOptions->fTraceMeasures) {
     fLogOutputStream <<
       endl <<
       "% <!--=== measure " << measureNumber <<

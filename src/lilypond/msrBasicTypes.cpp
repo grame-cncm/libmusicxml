@@ -1685,18 +1685,18 @@ void printChordIntervalsMap ()
 map<string, msrQuarterTonesPitchesLanguageKind>
   gQuarterTonesPitchesLanguageKindsMap;
 
-map<msrQuarterTonesPitchKind, string> gNederlandsPitchName;
-map<msrQuarterTonesPitchKind, string> gCatalanPitchName;
-map<msrQuarterTonesPitchKind, string> gDeutschPitchName;
-map<msrQuarterTonesPitchKind, string> gEnglishPitchName;
-map<msrQuarterTonesPitchKind, string> gEspanolPitchName;
-map<msrQuarterTonesPitchKind, string> gFrancaisPitchName;
-map<msrQuarterTonesPitchKind, string> gItalianoPitchName;
-map<msrQuarterTonesPitchKind, string> gNorskPitchName;
-map<msrQuarterTonesPitchKind, string> gPortuguesPitchName;
-map<msrQuarterTonesPitchKind, string> gSuomiPitchName;
-map<msrQuarterTonesPitchKind, string> gSvenskaPitchName;
-map<msrQuarterTonesPitchKind, string> gVlaamsPitchName;
+map<msrQuarterTonesPitchKind, string> gNederlandsPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gCatalanPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gDeutschPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gEnglishPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gEspanolPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gFrancaisPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gItalianoPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gNorskPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gPortuguesPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gSuomiPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gSvenskaPitchNamesMap;
+map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
 
 void initializeQuarterTonesPitchesLanguageKinds ()
 {
@@ -1714,892 +1714,892 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
 
   // nederlands
-  gNederlandsPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gNederlandsPitchName [k_Rest_QTP]                 = "r";
+  gNederlandsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gNederlandsPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gNederlandsPitchName [kA_DoubleFlat_QTP]  = "aeses";
-  gNederlandsPitchName [kA_SesquiFlat_QTP]  = "aeseh";
-  gNederlandsPitchName [kA_Flat_QTP]        = "aes";
-  gNederlandsPitchName [kA_SemiFlat_QTP]    = "aeh";
-  gNederlandsPitchName [kA_Natural_QTP]     = "a";
-  gNederlandsPitchName [kA_SemiSharp_QTP]   = "aih";
-  gNederlandsPitchName [kA_Sharp_QTP]       = "ais";
-  gNederlandsPitchName [kA_SesquiSharp_QTP] = "aisih";
-  gNederlandsPitchName [kA_DoubleSharp_QTP] = "aisis";
+  gNederlandsPitchNamesMap [kA_DoubleFlat_QTP]  = "aeses";
+  gNederlandsPitchNamesMap [kA_SesquiFlat_QTP]  = "aeseh";
+  gNederlandsPitchNamesMap [kA_Flat_QTP]        = "aes";
+  gNederlandsPitchNamesMap [kA_SemiFlat_QTP]    = "aeh";
+  gNederlandsPitchNamesMap [kA_Natural_QTP]     = "a";
+  gNederlandsPitchNamesMap [kA_SemiSharp_QTP]   = "aih";
+  gNederlandsPitchNamesMap [kA_Sharp_QTP]       = "ais";
+  gNederlandsPitchNamesMap [kA_SesquiSharp_QTP] = "aisih";
+  gNederlandsPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
     
-  gNederlandsPitchName [kB_DoubleFlat_QTP]  = "beses";
-  gNederlandsPitchName [kB_SesquiFlat_QTP]  = "beseh";
-  gNederlandsPitchName [kB_Flat_QTP]        = "bes";
-  gNederlandsPitchName [kB_SemiFlat_QTP]    = "beh";
-  gNederlandsPitchName [kB_Natural_QTP]     = "b";
-  gNederlandsPitchName [kB_SemiSharp_QTP]   = "bih";
-  gNederlandsPitchName [kB_Sharp_QTP]       = "bis";
-  gNederlandsPitchName [kB_SesquiSharp_QTP] = "bisih";
-  gNederlandsPitchName [kB_DoubleSharp_QTP] = "bisis";
+  gNederlandsPitchNamesMap [kB_DoubleFlat_QTP]  = "beses";
+  gNederlandsPitchNamesMap [kB_SesquiFlat_QTP]  = "beseh";
+  gNederlandsPitchNamesMap [kB_Flat_QTP]        = "bes";
+  gNederlandsPitchNamesMap [kB_SemiFlat_QTP]    = "beh";
+  gNederlandsPitchNamesMap [kB_Natural_QTP]     = "b";
+  gNederlandsPitchNamesMap [kB_SemiSharp_QTP]   = "bih";
+  gNederlandsPitchNamesMap [kB_Sharp_QTP]       = "bis";
+  gNederlandsPitchNamesMap [kB_SesquiSharp_QTP] = "bisih";
+  gNederlandsPitchNamesMap [kB_DoubleSharp_QTP] = "bisis";
     
-  gNederlandsPitchName [kC_DoubleFlat_QTP]  = "ceses";
-  gNederlandsPitchName [kC_SesquiFlat_QTP]  = "ceseh";
-  gNederlandsPitchName [kC_Flat_QTP]        = "ces";
-  gNederlandsPitchName [kC_SemiFlat_QTP]    = "ceh";
-  gNederlandsPitchName [kC_Natural_QTP]     = "c";
-  gNederlandsPitchName [kC_SemiSharp_QTP]   = "cih";
-  gNederlandsPitchName [kC_Sharp_QTP]       = "cis";
-  gNederlandsPitchName [kC_SesquiSharp_QTP] = "cisih";
-  gNederlandsPitchName [kC_DoubleSharp_QTP] = "cisis";
+  gNederlandsPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
+  gNederlandsPitchNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
+  gNederlandsPitchNamesMap [kC_Flat_QTP]        = "ces";
+  gNederlandsPitchNamesMap [kC_SemiFlat_QTP]    = "ceh";
+  gNederlandsPitchNamesMap [kC_Natural_QTP]     = "c";
+  gNederlandsPitchNamesMap [kC_SemiSharp_QTP]   = "cih";
+  gNederlandsPitchNamesMap [kC_Sharp_QTP]       = "cis";
+  gNederlandsPitchNamesMap [kC_SesquiSharp_QTP] = "cisih";
+  gNederlandsPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
     
-  gNederlandsPitchName [kD_DoubleFlat_QTP]  = "deses";
-  gNederlandsPitchName [kD_SesquiFlat_QTP]  = "deseh";
-  gNederlandsPitchName [kD_Flat_QTP]        = "des";
-  gNederlandsPitchName [kD_SemiFlat_QTP]    = "deh";
-  gNederlandsPitchName [kD_Natural_QTP]     = "d";
-  gNederlandsPitchName [kD_SemiSharp_QTP]   = "dih";
-  gNederlandsPitchName [kD_Sharp_QTP]       = "dis";
-  gNederlandsPitchName [kD_SesquiSharp_QTP] = "disih";
-  gNederlandsPitchName [kD_DoubleSharp_QTP] = "disis";
+  gNederlandsPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
+  gNederlandsPitchNamesMap [kD_SesquiFlat_QTP]  = "deseh";
+  gNederlandsPitchNamesMap [kD_Flat_QTP]        = "des";
+  gNederlandsPitchNamesMap [kD_SemiFlat_QTP]    = "deh";
+  gNederlandsPitchNamesMap [kD_Natural_QTP]     = "d";
+  gNederlandsPitchNamesMap [kD_SemiSharp_QTP]   = "dih";
+  gNederlandsPitchNamesMap [kD_Sharp_QTP]       = "dis";
+  gNederlandsPitchNamesMap [kD_SesquiSharp_QTP] = "disih";
+  gNederlandsPitchNamesMap [kD_DoubleSharp_QTP] = "disis";
 
-  gNederlandsPitchName [kE_DoubleFlat_QTP]  = "eeses";
-  gNederlandsPitchName [kE_SesquiFlat_QTP]  = "eeseh";
-  gNederlandsPitchName [kE_Flat_QTP]        = "ees";
-  gNederlandsPitchName [kE_SemiFlat_QTP]    = "eeh";
-  gNederlandsPitchName [kE_Natural_QTP]     = "e";
-  gNederlandsPitchName [kE_SemiSharp_QTP]   = "eih";
-  gNederlandsPitchName [kE_Sharp_QTP]       = "eis";
-  gNederlandsPitchName [kE_SesquiSharp_QTP] = "eisih";
-  gNederlandsPitchName [kE_DoubleSharp_QTP] = "eisis";
+  gNederlandsPitchNamesMap [kE_DoubleFlat_QTP]  = "eeses";
+  gNederlandsPitchNamesMap [kE_SesquiFlat_QTP]  = "eeseh";
+  gNederlandsPitchNamesMap [kE_Flat_QTP]        = "ees";
+  gNederlandsPitchNamesMap [kE_SemiFlat_QTP]    = "eeh";
+  gNederlandsPitchNamesMap [kE_Natural_QTP]     = "e";
+  gNederlandsPitchNamesMap [kE_SemiSharp_QTP]   = "eih";
+  gNederlandsPitchNamesMap [kE_Sharp_QTP]       = "eis";
+  gNederlandsPitchNamesMap [kE_SesquiSharp_QTP] = "eisih";
+  gNederlandsPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
     
-  gNederlandsPitchName [kF_DoubleFlat_QTP]  = "feses";
-  gNederlandsPitchName [kF_SesquiFlat_QTP]  = "feseh";
-  gNederlandsPitchName [kF_Flat_QTP]        = "fes";
-  gNederlandsPitchName [kF_SemiFlat_QTP]    = "feh";
-  gNederlandsPitchName [kF_Natural_QTP]     = "f";
-  gNederlandsPitchName [kF_SemiSharp_QTP]   = "fih";
-  gNederlandsPitchName [kF_Sharp_QTP]       = "fis";
-  gNederlandsPitchName [kF_SesquiSharp_QTP] = "fisih";
-  gNederlandsPitchName [kF_DoubleSharp_QTP] = "fisis";
+  gNederlandsPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
+  gNederlandsPitchNamesMap [kF_SesquiFlat_QTP]  = "feseh";
+  gNederlandsPitchNamesMap [kF_Flat_QTP]        = "fes";
+  gNederlandsPitchNamesMap [kF_SemiFlat_QTP]    = "feh";
+  gNederlandsPitchNamesMap [kF_Natural_QTP]     = "f";
+  gNederlandsPitchNamesMap [kF_SemiSharp_QTP]   = "fih";
+  gNederlandsPitchNamesMap [kF_Sharp_QTP]       = "fis";
+  gNederlandsPitchNamesMap [kF_SesquiSharp_QTP] = "fisih";
+  gNederlandsPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
     
-  gNederlandsPitchName [kG_DoubleFlat_QTP]  = "geses";
-  gNederlandsPitchName [kG_SesquiFlat_QTP]  = "geseh";
-  gNederlandsPitchName [kG_Flat_QTP]        = "ges";
-  gNederlandsPitchName [kG_SemiFlat_QTP]    = "geh";
-  gNederlandsPitchName [kG_Natural_QTP]     = "g";
-  gNederlandsPitchName [kG_SemiSharp_QTP]   = "gih";
-  gNederlandsPitchName [kG_Sharp_QTP]       = "gis";
-  gNederlandsPitchName [kG_SesquiSharp_QTP] = "gisih";
-  gNederlandsPitchName [kG_DoubleSharp_QTP] = "gisis";
+  gNederlandsPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
+  gNederlandsPitchNamesMap [kG_SesquiFlat_QTP]  = "geseh";
+  gNederlandsPitchNamesMap [kG_Flat_QTP]        = "ges";
+  gNederlandsPitchNamesMap [kG_SemiFlat_QTP]    = "geh";
+  gNederlandsPitchNamesMap [kG_Natural_QTP]     = "g";
+  gNederlandsPitchNamesMap [kG_SemiSharp_QTP]   = "gih";
+  gNederlandsPitchNamesMap [kG_Sharp_QTP]       = "gis";
+  gNederlandsPitchNamesMap [kG_SesquiSharp_QTP] = "gisih";
+  gNederlandsPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
 
   // catalan
-  gCatalanPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gCatalanPitchName [k_Rest_QTP]                 = "r";
+  gCatalanPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gCatalanPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gCatalanPitchName [kA_DoubleFlat_QTP]  = "labb";
-  gCatalanPitchName [kA_SesquiFlat_QTP]  = "labSesquiFlat???";
-  gCatalanPitchName [kA_Flat_QTP]        = "lab";
-  gCatalanPitchName [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gCatalanPitchName [kA_Natural_QTP]     = "la";
-  gCatalanPitchName [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gCatalanPitchName [kA_Sharp_QTP]       = "lad";
-  gCatalanPitchName [kA_SesquiSharp_QTP] = "laSesquiSharp???";
-  gCatalanPitchName [kA_DoubleSharp_QTP] = "ladd";
+  gCatalanPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gCatalanPitchNamesMap [kA_SesquiFlat_QTP]  = "labSesquiFlat???";
+  gCatalanPitchNamesMap [kA_Flat_QTP]        = "lab";
+  gCatalanPitchNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gCatalanPitchNamesMap [kA_Natural_QTP]     = "la";
+  gCatalanPitchNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gCatalanPitchNamesMap [kA_Sharp_QTP]       = "lad";
+  gCatalanPitchNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
+  gCatalanPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
     
-  gCatalanPitchName [kB_DoubleFlat_QTP]  = "sibb";
-  gCatalanPitchName [kB_SesquiFlat_QTP]  = "sibSesquiFlat???";
-  gCatalanPitchName [kB_Flat_QTP]        = "sib";
-  gCatalanPitchName [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gCatalanPitchName [kB_Natural_QTP]     = "b";
-  gCatalanPitchName [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gCatalanPitchName [kB_Sharp_QTP]       = "sid";
-  gCatalanPitchName [kB_SesquiSharp_QTP] = "siSesquiSharp???";
-  gCatalanPitchName [kB_DoubleSharp_QTP] = "sidd";
+  gCatalanPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gCatalanPitchNamesMap [kB_SesquiFlat_QTP]  = "sibSesquiFlat???";
+  gCatalanPitchNamesMap [kB_Flat_QTP]        = "sib";
+  gCatalanPitchNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gCatalanPitchNamesMap [kB_Natural_QTP]     = "b";
+  gCatalanPitchNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gCatalanPitchNamesMap [kB_Sharp_QTP]       = "sid";
+  gCatalanPitchNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
+  gCatalanPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
     
-  gCatalanPitchName [kC_DoubleFlat_QTP]  = "dobb";
-  gCatalanPitchName [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
-  gCatalanPitchName [kC_Flat_QTP]        = "dob";
-  gCatalanPitchName [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gCatalanPitchName [kC_Natural_QTP]     = "do";
-  gCatalanPitchName [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gCatalanPitchName [kC_Sharp_QTP]       = "dod";
-  gCatalanPitchName [kC_SesquiSharp_QTP] = "doSesquiSharp???";
-  gCatalanPitchName [kC_DoubleSharp_QTP] = "dodd";
+  gCatalanPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gCatalanPitchNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
+  gCatalanPitchNamesMap [kC_Flat_QTP]        = "dob";
+  gCatalanPitchNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gCatalanPitchNamesMap [kC_Natural_QTP]     = "do";
+  gCatalanPitchNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gCatalanPitchNamesMap [kC_Sharp_QTP]       = "dod";
+  gCatalanPitchNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
+  gCatalanPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
     
-  gCatalanPitchName [kD_DoubleFlat_QTP]  = "rebb";
-  gCatalanPitchName [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
-  gCatalanPitchName [kD_Flat_QTP]        = "reb";
-  gCatalanPitchName [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gCatalanPitchName [kD_Natural_QTP]     = "re";
-  gCatalanPitchName [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gCatalanPitchName [kD_Sharp_QTP]       = "red";
-  gCatalanPitchName [kD_SesquiSharp_QTP] = "reSesquiSharp???";
-  gCatalanPitchName [kD_DoubleSharp_QTP] = "redd";
+  gCatalanPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gCatalanPitchNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
+  gCatalanPitchNamesMap [kD_Flat_QTP]        = "reb";
+  gCatalanPitchNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gCatalanPitchNamesMap [kD_Natural_QTP]     = "re";
+  gCatalanPitchNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gCatalanPitchNamesMap [kD_Sharp_QTP]       = "red";
+  gCatalanPitchNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
+  gCatalanPitchNamesMap [kD_DoubleSharp_QTP] = "redd";
 
-  gCatalanPitchName [kE_DoubleFlat_QTP]  = "mibb";
-  gCatalanPitchName [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
-  gCatalanPitchName [kE_Flat_QTP]        = "mib";
-  gCatalanPitchName [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gCatalanPitchName [kE_Natural_QTP]     = "mi";
-  gCatalanPitchName [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gCatalanPitchName [kE_Sharp_QTP]       = "mid";
-  gCatalanPitchName [kE_SesquiSharp_QTP] = "miSesquiSharp???";
-  gCatalanPitchName [kE_DoubleSharp_QTP] = "midd";
+  gCatalanPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gCatalanPitchNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
+  gCatalanPitchNamesMap [kE_Flat_QTP]        = "mib";
+  gCatalanPitchNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gCatalanPitchNamesMap [kE_Natural_QTP]     = "mi";
+  gCatalanPitchNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gCatalanPitchNamesMap [kE_Sharp_QTP]       = "mid";
+  gCatalanPitchNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
+  gCatalanPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
     
-  gCatalanPitchName [kF_DoubleFlat_QTP]  = "fabb";
-  gCatalanPitchName [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
-  gCatalanPitchName [kF_Flat_QTP]        = "fab";
-  gCatalanPitchName [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gCatalanPitchName [kF_Natural_QTP]     = "fa";
-  gCatalanPitchName [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gCatalanPitchName [kF_Sharp_QTP]       = "fad";
-  gCatalanPitchName [kF_SesquiSharp_QTP] = "faSesquiSharp???";
-  gCatalanPitchName [kF_DoubleSharp_QTP] = "fadd";
+  gCatalanPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gCatalanPitchNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
+  gCatalanPitchNamesMap [kF_Flat_QTP]        = "fab";
+  gCatalanPitchNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gCatalanPitchNamesMap [kF_Natural_QTP]     = "fa";
+  gCatalanPitchNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gCatalanPitchNamesMap [kF_Sharp_QTP]       = "fad";
+  gCatalanPitchNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
+  gCatalanPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
     
-  gCatalanPitchName [kG_DoubleFlat_QTP]  = "solbb";
-  gCatalanPitchName [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
-  gCatalanPitchName [kG_Flat_QTP]        = "solb";
-  gCatalanPitchName [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gCatalanPitchName [kG_Natural_QTP]     = "sol";
-  gCatalanPitchName [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gCatalanPitchName [kG_Sharp_QTP]       = "sold";
-  gCatalanPitchName [kG_SesquiSharp_QTP] = "solSesquiSharp???";
-  gCatalanPitchName [kG_DoubleSharp_QTP] = "soldd";
+  gCatalanPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gCatalanPitchNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
+  gCatalanPitchNamesMap [kG_Flat_QTP]        = "solb";
+  gCatalanPitchNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gCatalanPitchNamesMap [kG_Natural_QTP]     = "sol";
+  gCatalanPitchNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gCatalanPitchNamesMap [kG_Sharp_QTP]       = "sold";
+  gCatalanPitchNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
+  gCatalanPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
 
   // deutsch
-  gDeutschPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gDeutschPitchName [k_Rest_QTP]                 = "r";
+  gDeutschPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gDeutschPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gDeutschPitchName [kA_DoubleFlat_QTP]  = "asas";
-  gDeutschPitchName [kA_SesquiFlat_QTP]  = "asah";
-  gDeutschPitchName [kA_Flat_QTP]        = "as";
-  gDeutschPitchName [kA_SemiFlat_QTP]    = "aeh";
-  gDeutschPitchName [kA_Natural_QTP]     = "a";
-  gDeutschPitchName [kA_SemiSharp_QTP]   = "aih";
-  gDeutschPitchName [kA_Sharp_QTP]       = "ais";
-  gDeutschPitchName [kA_SesquiSharp_QTP] = "aisih";
-  gDeutschPitchName [kA_DoubleSharp_QTP] = "aisis";
+  gDeutschPitchNamesMap [kA_DoubleFlat_QTP]  = "asas";
+  gDeutschPitchNamesMap [kA_SesquiFlat_QTP]  = "asah";
+  gDeutschPitchNamesMap [kA_Flat_QTP]        = "as";
+  gDeutschPitchNamesMap [kA_SemiFlat_QTP]    = "aeh";
+  gDeutschPitchNamesMap [kA_Natural_QTP]     = "a";
+  gDeutschPitchNamesMap [kA_SemiSharp_QTP]   = "aih";
+  gDeutschPitchNamesMap [kA_Sharp_QTP]       = "ais";
+  gDeutschPitchNamesMap [kA_SesquiSharp_QTP] = "aisih";
+  gDeutschPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
     
-  gDeutschPitchName [kB_DoubleFlat_QTP]  = "heses";
-  gDeutschPitchName [kB_SesquiFlat_QTP]  = "heseh";
-  gDeutschPitchName [kB_Flat_QTP]        = "b";
-  gDeutschPitchName [kB_SemiFlat_QTP]    = "beh";
-  gDeutschPitchName [kB_Natural_QTP]     = "h";
-  gDeutschPitchName [kB_SemiSharp_QTP]   = "hih";
-  gDeutschPitchName [kB_Sharp_QTP]       = "his";
-  gDeutschPitchName [kB_SesquiSharp_QTP] = "hisih";
-  gDeutschPitchName [kB_DoubleSharp_QTP] = "hisis";
+  gDeutschPitchNamesMap [kB_DoubleFlat_QTP]  = "heses";
+  gDeutschPitchNamesMap [kB_SesquiFlat_QTP]  = "heseh";
+  gDeutschPitchNamesMap [kB_Flat_QTP]        = "b";
+  gDeutschPitchNamesMap [kB_SemiFlat_QTP]    = "beh";
+  gDeutschPitchNamesMap [kB_Natural_QTP]     = "h";
+  gDeutschPitchNamesMap [kB_SemiSharp_QTP]   = "hih";
+  gDeutschPitchNamesMap [kB_Sharp_QTP]       = "his";
+  gDeutschPitchNamesMap [kB_SesquiSharp_QTP] = "hisih";
+  gDeutschPitchNamesMap [kB_DoubleSharp_QTP] = "hisis";
     
-  gDeutschPitchName [kC_DoubleFlat_QTP]  = "ceses";
-  gDeutschPitchName [kC_SesquiFlat_QTP]  = "ceseh";
-  gDeutschPitchName [kC_Flat_QTP]        = "ces";
-  gDeutschPitchName [kC_SemiFlat_QTP]    = "ceh";
-  gDeutschPitchName [kC_Natural_QTP]     = "c";
-  gDeutschPitchName [kC_SemiSharp_QTP]   = "cih";
-  gDeutschPitchName [kC_Sharp_QTP]       = "cis";
-  gDeutschPitchName [kC_SesquiSharp_QTP] = "cisih";
-  gDeutschPitchName [kC_DoubleSharp_QTP] = "cisis";
+  gDeutschPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
+  gDeutschPitchNamesMap [kC_SesquiFlat_QTP]  = "ceseh";
+  gDeutschPitchNamesMap [kC_Flat_QTP]        = "ces";
+  gDeutschPitchNamesMap [kC_SemiFlat_QTP]    = "ceh";
+  gDeutschPitchNamesMap [kC_Natural_QTP]     = "c";
+  gDeutschPitchNamesMap [kC_SemiSharp_QTP]   = "cih";
+  gDeutschPitchNamesMap [kC_Sharp_QTP]       = "cis";
+  gDeutschPitchNamesMap [kC_SesquiSharp_QTP] = "cisih";
+  gDeutschPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
     
-  gDeutschPitchName [kD_DoubleFlat_QTP]  = "deses";
-  gDeutschPitchName [kD_SesquiFlat_QTP]  = "deseh";
-  gDeutschPitchName [kD_Flat_QTP]        = "des";
-  gDeutschPitchName [kD_SemiFlat_QTP]    = "deh";
-  gDeutschPitchName [kD_Natural_QTP]     = "d";
-  gDeutschPitchName [kD_SemiSharp_QTP]   = "dih";
-  gDeutschPitchName [kD_Sharp_QTP]       = "dis";
-  gDeutschPitchName [kD_SesquiSharp_QTP] = "disih";
-  gDeutschPitchName [kD_DoubleSharp_QTP] = "disis";
+  gDeutschPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
+  gDeutschPitchNamesMap [kD_SesquiFlat_QTP]  = "deseh";
+  gDeutschPitchNamesMap [kD_Flat_QTP]        = "des";
+  gDeutschPitchNamesMap [kD_SemiFlat_QTP]    = "deh";
+  gDeutschPitchNamesMap [kD_Natural_QTP]     = "d";
+  gDeutschPitchNamesMap [kD_SemiSharp_QTP]   = "dih";
+  gDeutschPitchNamesMap [kD_Sharp_QTP]       = "dis";
+  gDeutschPitchNamesMap [kD_SesquiSharp_QTP] = "disih";
+  gDeutschPitchNamesMap [kD_DoubleSharp_QTP] = "disis";
 
-  gDeutschPitchName [kE_DoubleFlat_QTP]  = "eses";
-  gDeutschPitchName [kE_SesquiFlat_QTP]  = "esseh";
-  gDeutschPitchName [kE_Flat_QTP]        = "es";
-  gDeutschPitchName [kE_SemiFlat_QTP]    = "eeh";
-  gDeutschPitchName [kE_Natural_QTP]     = "e";
-  gDeutschPitchName [kE_SemiSharp_QTP]   = "eih";
-  gDeutschPitchName [kE_Sharp_QTP]       = "eis";
-  gDeutschPitchName [kE_SesquiSharp_QTP] = "eisih";
-  gDeutschPitchName [kE_DoubleSharp_QTP] = "eisis";
+  gDeutschPitchNamesMap [kE_DoubleFlat_QTP]  = "eses";
+  gDeutschPitchNamesMap [kE_SesquiFlat_QTP]  = "esseh";
+  gDeutschPitchNamesMap [kE_Flat_QTP]        = "es";
+  gDeutschPitchNamesMap [kE_SemiFlat_QTP]    = "eeh";
+  gDeutschPitchNamesMap [kE_Natural_QTP]     = "e";
+  gDeutschPitchNamesMap [kE_SemiSharp_QTP]   = "eih";
+  gDeutschPitchNamesMap [kE_Sharp_QTP]       = "eis";
+  gDeutschPitchNamesMap [kE_SesquiSharp_QTP] = "eisih";
+  gDeutschPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
     
-  gDeutschPitchName [kF_DoubleFlat_QTP]  = "feses";
-  gDeutschPitchName [kF_SesquiFlat_QTP]  = "feseh";
-  gDeutschPitchName [kF_Flat_QTP]        = "fes";
-  gDeutschPitchName [kF_SemiFlat_QTP]    = "feh";
-  gDeutschPitchName [kF_Natural_QTP]     = "f";
-  gDeutschPitchName [kF_SemiSharp_QTP]   = "fih";
-  gDeutschPitchName [kF_Sharp_QTP]       = "fis";
-  gDeutschPitchName [kF_SesquiSharp_QTP] = "fisih";
-  gDeutschPitchName [kF_DoubleSharp_QTP] = "fisis";
+  gDeutschPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
+  gDeutschPitchNamesMap [kF_SesquiFlat_QTP]  = "feseh";
+  gDeutschPitchNamesMap [kF_Flat_QTP]        = "fes";
+  gDeutschPitchNamesMap [kF_SemiFlat_QTP]    = "feh";
+  gDeutschPitchNamesMap [kF_Natural_QTP]     = "f";
+  gDeutschPitchNamesMap [kF_SemiSharp_QTP]   = "fih";
+  gDeutschPitchNamesMap [kF_Sharp_QTP]       = "fis";
+  gDeutschPitchNamesMap [kF_SesquiSharp_QTP] = "fisih";
+  gDeutschPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
     
-  gDeutschPitchName [kG_DoubleFlat_QTP]  = "geses";
-  gDeutschPitchName [kG_SesquiFlat_QTP]  = "geseh";
-  gDeutschPitchName [kG_Flat_QTP]        = "ges";
-  gDeutschPitchName [kG_SemiFlat_QTP]    = "geh";
-  gDeutschPitchName [kG_Natural_QTP]     = "g";
-  gDeutschPitchName [kG_SemiSharp_QTP]   = "gih";
-  gDeutschPitchName [kG_Sharp_QTP]       = "gis";
-  gDeutschPitchName [kG_SesquiSharp_QTP] = "gisih";
-  gDeutschPitchName [kG_DoubleSharp_QTP] = "gisis";
+  gDeutschPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
+  gDeutschPitchNamesMap [kG_SesquiFlat_QTP]  = "geseh";
+  gDeutschPitchNamesMap [kG_Flat_QTP]        = "ges";
+  gDeutschPitchNamesMap [kG_SemiFlat_QTP]    = "geh";
+  gDeutschPitchNamesMap [kG_Natural_QTP]     = "g";
+  gDeutschPitchNamesMap [kG_SemiSharp_QTP]   = "gih";
+  gDeutschPitchNamesMap [kG_Sharp_QTP]       = "gis";
+  gDeutschPitchNamesMap [kG_SesquiSharp_QTP] = "gisih";
+  gDeutschPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
 
   // english
-  gEnglishPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gEnglishPitchName [k_Rest_QTP]                 = "r";
+  gEnglishPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gEnglishPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gEnglishPitchName [kA_DoubleFlat_QTP]  = "aff";
-  gEnglishPitchName [kA_SesquiFlat_QTP]  = "atqf";
-  gEnglishPitchName [kA_Flat_QTP]        = "af";
-  gEnglishPitchName [kA_SemiFlat_QTP]    = "aqf";
-  gEnglishPitchName [kA_Natural_QTP]     = "a";
-  gEnglishPitchName [kA_SemiSharp_QTP]   = "aqs";
-  gEnglishPitchName [kA_Sharp_QTP]       = "as";
-  gEnglishPitchName [kA_SesquiSharp_QTP] = "atqs";
-  gEnglishPitchName [kA_DoubleSharp_QTP] = "a";
+  gEnglishPitchNamesMap [kA_DoubleFlat_QTP]  = "aff";
+  gEnglishPitchNamesMap [kA_SesquiFlat_QTP]  = "atqf";
+  gEnglishPitchNamesMap [kA_Flat_QTP]        = "af";
+  gEnglishPitchNamesMap [kA_SemiFlat_QTP]    = "aqf";
+  gEnglishPitchNamesMap [kA_Natural_QTP]     = "a";
+  gEnglishPitchNamesMap [kA_SemiSharp_QTP]   = "aqs";
+  gEnglishPitchNamesMap [kA_Sharp_QTP]       = "as";
+  gEnglishPitchNamesMap [kA_SesquiSharp_QTP] = "atqs";
+  gEnglishPitchNamesMap [kA_DoubleSharp_QTP] = "a";
     
-  gEnglishPitchName [kB_DoubleFlat_QTP]  = "bfqf";
-  gEnglishPitchName [kB_SesquiFlat_QTP]  = "btqf";
-  gEnglishPitchName [kB_Flat_QTP]        = "bf";
-  gEnglishPitchName [kB_SemiFlat_QTP]    = "bqf";
-  gEnglishPitchName [kB_Natural_QTP]     = "b";
-  gEnglishPitchName [kB_SemiSharp_QTP]   = "bqs";
-  gEnglishPitchName [kB_Sharp_QTP]       = "bs";
-  gEnglishPitchName [kB_SesquiSharp_QTP] = "btqs";
-  gEnglishPitchName [kB_DoubleSharp_QTP] = "bx";
+  gEnglishPitchNamesMap [kB_DoubleFlat_QTP]  = "bfqf";
+  gEnglishPitchNamesMap [kB_SesquiFlat_QTP]  = "btqf";
+  gEnglishPitchNamesMap [kB_Flat_QTP]        = "bf";
+  gEnglishPitchNamesMap [kB_SemiFlat_QTP]    = "bqf";
+  gEnglishPitchNamesMap [kB_Natural_QTP]     = "b";
+  gEnglishPitchNamesMap [kB_SemiSharp_QTP]   = "bqs";
+  gEnglishPitchNamesMap [kB_Sharp_QTP]       = "bs";
+  gEnglishPitchNamesMap [kB_SesquiSharp_QTP] = "btqs";
+  gEnglishPitchNamesMap [kB_DoubleSharp_QTP] = "bx";
     
-  gEnglishPitchName [kC_DoubleFlat_QTP]  = "cff";
-  gEnglishPitchName [kC_SesquiFlat_QTP]  = "ctqf";
-  gEnglishPitchName [kC_Flat_QTP]        = "cf";
-  gEnglishPitchName [kC_SemiFlat_QTP]    = "cqf";
-  gEnglishPitchName [kC_Natural_QTP]     = "c";
-  gEnglishPitchName [kC_SemiSharp_QTP]   = "cqs";
-  gEnglishPitchName [kC_Sharp_QTP]       = "cs";
-  gEnglishPitchName [kC_SesquiSharp_QTP] = "ctqs";
-  gEnglishPitchName [kC_DoubleSharp_QTP] = "cx";
+  gEnglishPitchNamesMap [kC_DoubleFlat_QTP]  = "cff";
+  gEnglishPitchNamesMap [kC_SesquiFlat_QTP]  = "ctqf";
+  gEnglishPitchNamesMap [kC_Flat_QTP]        = "cf";
+  gEnglishPitchNamesMap [kC_SemiFlat_QTP]    = "cqf";
+  gEnglishPitchNamesMap [kC_Natural_QTP]     = "c";
+  gEnglishPitchNamesMap [kC_SemiSharp_QTP]   = "cqs";
+  gEnglishPitchNamesMap [kC_Sharp_QTP]       = "cs";
+  gEnglishPitchNamesMap [kC_SesquiSharp_QTP] = "ctqs";
+  gEnglishPitchNamesMap [kC_DoubleSharp_QTP] = "cx";
     
-  gEnglishPitchName [kD_DoubleFlat_QTP]  = "dff";
-  gEnglishPitchName [kD_SesquiFlat_QTP]  = "dtqf";
-  gEnglishPitchName [kD_Flat_QTP]        = "df";
-  gEnglishPitchName [kD_SemiFlat_QTP]    = "dqf";
-  gEnglishPitchName [kD_Natural_QTP]     = "d";
-  gEnglishPitchName [kD_SemiSharp_QTP]   = "dqs";
-  gEnglishPitchName [kD_Sharp_QTP]       = "ds";
-  gEnglishPitchName [kD_SesquiSharp_QTP] = "dtqs";
-  gEnglishPitchName [kD_DoubleSharp_QTP] = "dx";
+  gEnglishPitchNamesMap [kD_DoubleFlat_QTP]  = "dff";
+  gEnglishPitchNamesMap [kD_SesquiFlat_QTP]  = "dtqf";
+  gEnglishPitchNamesMap [kD_Flat_QTP]        = "df";
+  gEnglishPitchNamesMap [kD_SemiFlat_QTP]    = "dqf";
+  gEnglishPitchNamesMap [kD_Natural_QTP]     = "d";
+  gEnglishPitchNamesMap [kD_SemiSharp_QTP]   = "dqs";
+  gEnglishPitchNamesMap [kD_Sharp_QTP]       = "ds";
+  gEnglishPitchNamesMap [kD_SesquiSharp_QTP] = "dtqs";
+  gEnglishPitchNamesMap [kD_DoubleSharp_QTP] = "dx";
 
-  gEnglishPitchName [kE_DoubleFlat_QTP]  = "eff";
-  gEnglishPitchName [kE_SesquiFlat_QTP]  = "etqf";
-  gEnglishPitchName [kE_Flat_QTP]        = "ef";
-  gEnglishPitchName [kE_SemiFlat_QTP]    = "eqf";
-  gEnglishPitchName [kE_Natural_QTP]     = "e";
-  gEnglishPitchName [kE_SemiSharp_QTP]   = "eqs";
-  gEnglishPitchName [kE_Sharp_QTP]       = "es";
-  gEnglishPitchName [kE_SesquiSharp_QTP] = "etqs";
-  gEnglishPitchName [kE_DoubleSharp_QTP] = "ex";
+  gEnglishPitchNamesMap [kE_DoubleFlat_QTP]  = "eff";
+  gEnglishPitchNamesMap [kE_SesquiFlat_QTP]  = "etqf";
+  gEnglishPitchNamesMap [kE_Flat_QTP]        = "ef";
+  gEnglishPitchNamesMap [kE_SemiFlat_QTP]    = "eqf";
+  gEnglishPitchNamesMap [kE_Natural_QTP]     = "e";
+  gEnglishPitchNamesMap [kE_SemiSharp_QTP]   = "eqs";
+  gEnglishPitchNamesMap [kE_Sharp_QTP]       = "es";
+  gEnglishPitchNamesMap [kE_SesquiSharp_QTP] = "etqs";
+  gEnglishPitchNamesMap [kE_DoubleSharp_QTP] = "ex";
     
-  gEnglishPitchName [kF_DoubleFlat_QTP]  = "fff";
-  gEnglishPitchName [kF_SesquiFlat_QTP]  = "ftqf";
-  gEnglishPitchName [kF_Flat_QTP]        = "ff";
-  gEnglishPitchName [kF_SemiFlat_QTP]    = "fqf";
-  gEnglishPitchName [kF_Natural_QTP]     = "f";
-  gEnglishPitchName [kF_SemiSharp_QTP]   = "fqs";
-  gEnglishPitchName [kF_Sharp_QTP]       = "fs";
-  gEnglishPitchName [kF_SesquiSharp_QTP] = "ftqs";
-  gEnglishPitchName [kF_DoubleSharp_QTP] = "fx";
+  gEnglishPitchNamesMap [kF_DoubleFlat_QTP]  = "fff";
+  gEnglishPitchNamesMap [kF_SesquiFlat_QTP]  = "ftqf";
+  gEnglishPitchNamesMap [kF_Flat_QTP]        = "ff";
+  gEnglishPitchNamesMap [kF_SemiFlat_QTP]    = "fqf";
+  gEnglishPitchNamesMap [kF_Natural_QTP]     = "f";
+  gEnglishPitchNamesMap [kF_SemiSharp_QTP]   = "fqs";
+  gEnglishPitchNamesMap [kF_Sharp_QTP]       = "fs";
+  gEnglishPitchNamesMap [kF_SesquiSharp_QTP] = "ftqs";
+  gEnglishPitchNamesMap [kF_DoubleSharp_QTP] = "fx";
     
-  gEnglishPitchName [kG_DoubleFlat_QTP]  = "gff";
-  gEnglishPitchName [kG_SesquiFlat_QTP]  = "gtqf";
-  gEnglishPitchName [kG_Flat_QTP]        = "gf";
-  gEnglishPitchName [kG_SemiFlat_QTP]    = "gqf";
-  gEnglishPitchName [kG_Natural_QTP]     = "g";
-  gEnglishPitchName [kG_SemiSharp_QTP]   = "gqs";
-  gEnglishPitchName [kG_Sharp_QTP]       = "gs";
-  gEnglishPitchName [kG_SesquiSharp_QTP] = "gtqs";
-  gEnglishPitchName [kG_DoubleSharp_QTP] = "gx";
+  gEnglishPitchNamesMap [kG_DoubleFlat_QTP]  = "gff";
+  gEnglishPitchNamesMap [kG_SesquiFlat_QTP]  = "gtqf";
+  gEnglishPitchNamesMap [kG_Flat_QTP]        = "gf";
+  gEnglishPitchNamesMap [kG_SemiFlat_QTP]    = "gqf";
+  gEnglishPitchNamesMap [kG_Natural_QTP]     = "g";
+  gEnglishPitchNamesMap [kG_SemiSharp_QTP]   = "gqs";
+  gEnglishPitchNamesMap [kG_Sharp_QTP]       = "gs";
+  gEnglishPitchNamesMap [kG_SesquiSharp_QTP] = "gtqs";
+  gEnglishPitchNamesMap [kG_DoubleSharp_QTP] = "gx";
 
   // espanol
-  gEspanolPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gEspanolPitchName [k_Rest_QTP]                 = "r";
+  gEspanolPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gEspanolPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gEspanolPitchName [kA_DoubleFlat_QTP]  = "labb";
-  gEspanolPitchName [kA_SesquiFlat_QTP]  = "latcb";
-  gEspanolPitchName [kA_Flat_QTP]        = "lab";
-  gEspanolPitchName [kA_SemiFlat_QTP]    = "lacb";
-  gEspanolPitchName [kA_Natural_QTP]     = "la";
-  gEspanolPitchName [kA_SemiSharp_QTP]   = "lacs";
-  gEspanolPitchName [kA_Sharp_QTP]       = "las";
-  gEspanolPitchName [kA_SesquiSharp_QTP] = "latcs";
-  gEspanolPitchName [kA_DoubleSharp_QTP] = "lax";
+  gEspanolPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gEspanolPitchNamesMap [kA_SesquiFlat_QTP]  = "latcb";
+  gEspanolPitchNamesMap [kA_Flat_QTP]        = "lab";
+  gEspanolPitchNamesMap [kA_SemiFlat_QTP]    = "lacb";
+  gEspanolPitchNamesMap [kA_Natural_QTP]     = "la";
+  gEspanolPitchNamesMap [kA_SemiSharp_QTP]   = "lacs";
+  gEspanolPitchNamesMap [kA_Sharp_QTP]       = "las";
+  gEspanolPitchNamesMap [kA_SesquiSharp_QTP] = "latcs";
+  gEspanolPitchNamesMap [kA_DoubleSharp_QTP] = "lax";
     
-  gEspanolPitchName [kB_DoubleFlat_QTP]  = "sibb";
-  gEspanolPitchName [kB_SesquiFlat_QTP]  = "sitcb";
-  gEspanolPitchName [kB_Flat_QTP]        = "sib";
-  gEspanolPitchName [kB_SemiFlat_QTP]    = "sicb";
-  gEspanolPitchName [kB_Natural_QTP]     = "si";
-  gEspanolPitchName [kB_SemiSharp_QTP]   = "sics";
-  gEspanolPitchName [kB_Sharp_QTP]       = "sis";
-  gEspanolPitchName [kB_SesquiSharp_QTP] = "sitcs";
-  gEspanolPitchName [kB_DoubleSharp_QTP] = "six";
+  gEspanolPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gEspanolPitchNamesMap [kB_SesquiFlat_QTP]  = "sitcb";
+  gEspanolPitchNamesMap [kB_Flat_QTP]        = "sib";
+  gEspanolPitchNamesMap [kB_SemiFlat_QTP]    = "sicb";
+  gEspanolPitchNamesMap [kB_Natural_QTP]     = "si";
+  gEspanolPitchNamesMap [kB_SemiSharp_QTP]   = "sics";
+  gEspanolPitchNamesMap [kB_Sharp_QTP]       = "sis";
+  gEspanolPitchNamesMap [kB_SesquiSharp_QTP] = "sitcs";
+  gEspanolPitchNamesMap [kB_DoubleSharp_QTP] = "six";
     
-  gEspanolPitchName [kC_DoubleFlat_QTP]  = "dobb";
-  gEspanolPitchName [kC_SesquiFlat_QTP]  = "dotcb";
-  gEspanolPitchName [kC_Flat_QTP]        = "dob";
-  gEspanolPitchName [kC_SemiFlat_QTP]    = "docb";
-  gEspanolPitchName [kC_Natural_QTP]     = "do";
-  gEspanolPitchName [kC_SemiSharp_QTP]   = "docs";
-  gEspanolPitchName [kC_Sharp_QTP]       = "dos";
-  gEspanolPitchName [kC_SesquiSharp_QTP] = "dotcs";
-  gEspanolPitchName [kC_DoubleSharp_QTP] = "dox";
+  gEspanolPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gEspanolPitchNamesMap [kC_SesquiFlat_QTP]  = "dotcb";
+  gEspanolPitchNamesMap [kC_Flat_QTP]        = "dob";
+  gEspanolPitchNamesMap [kC_SemiFlat_QTP]    = "docb";
+  gEspanolPitchNamesMap [kC_Natural_QTP]     = "do";
+  gEspanolPitchNamesMap [kC_SemiSharp_QTP]   = "docs";
+  gEspanolPitchNamesMap [kC_Sharp_QTP]       = "dos";
+  gEspanolPitchNamesMap [kC_SesquiSharp_QTP] = "dotcs";
+  gEspanolPitchNamesMap [kC_DoubleSharp_QTP] = "dox";
     
-  gEspanolPitchName [kD_DoubleFlat_QTP]  = "rebb";
-  gEspanolPitchName [kD_SesquiFlat_QTP]  = "retcb";
-  gEspanolPitchName [kD_Flat_QTP]        = "reb";
-  gEspanolPitchName [kD_SemiFlat_QTP]    = "recb";
-  gEspanolPitchName [kD_Natural_QTP]     = "re";
-  gEspanolPitchName [kD_SemiSharp_QTP]   = "recs";
-  gEspanolPitchName [kD_Sharp_QTP]       = "res";
-  gEspanolPitchName [kD_SesquiSharp_QTP] = "retcs";
-  gEspanolPitchName [kD_DoubleSharp_QTP] = "rex";
+  gEspanolPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gEspanolPitchNamesMap [kD_SesquiFlat_QTP]  = "retcb";
+  gEspanolPitchNamesMap [kD_Flat_QTP]        = "reb";
+  gEspanolPitchNamesMap [kD_SemiFlat_QTP]    = "recb";
+  gEspanolPitchNamesMap [kD_Natural_QTP]     = "re";
+  gEspanolPitchNamesMap [kD_SemiSharp_QTP]   = "recs";
+  gEspanolPitchNamesMap [kD_Sharp_QTP]       = "res";
+  gEspanolPitchNamesMap [kD_SesquiSharp_QTP] = "retcs";
+  gEspanolPitchNamesMap [kD_DoubleSharp_QTP] = "rex";
 
-  gEspanolPitchName [kE_DoubleFlat_QTP]  = "mibb";
-  gEspanolPitchName [kE_SesquiFlat_QTP]  = "mitcb";
-  gEspanolPitchName [kE_Flat_QTP]        = "mib";
-  gEspanolPitchName [kE_SemiFlat_QTP]    = "micb";
-  gEspanolPitchName [kE_Natural_QTP]     = "mi";
-  gEspanolPitchName [kE_SemiSharp_QTP]   = "mics";
-  gEspanolPitchName [kE_Sharp_QTP]       = "mis";
-  gEspanolPitchName [kE_SesquiSharp_QTP] = "mitcs";
-  gEspanolPitchName [kE_DoubleSharp_QTP] = "mix";
+  gEspanolPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gEspanolPitchNamesMap [kE_SesquiFlat_QTP]  = "mitcb";
+  gEspanolPitchNamesMap [kE_Flat_QTP]        = "mib";
+  gEspanolPitchNamesMap [kE_SemiFlat_QTP]    = "micb";
+  gEspanolPitchNamesMap [kE_Natural_QTP]     = "mi";
+  gEspanolPitchNamesMap [kE_SemiSharp_QTP]   = "mics";
+  gEspanolPitchNamesMap [kE_Sharp_QTP]       = "mis";
+  gEspanolPitchNamesMap [kE_SesquiSharp_QTP] = "mitcs";
+  gEspanolPitchNamesMap [kE_DoubleSharp_QTP] = "mix";
     
-  gEspanolPitchName [kF_DoubleFlat_QTP]  = "fabb";
-  gEspanolPitchName [kF_SesquiFlat_QTP]  = "fatcb";
-  gEspanolPitchName [kF_Flat_QTP]        = "fab";
-  gEspanolPitchName [kF_SemiFlat_QTP]    = "facb";
-  gEspanolPitchName [kF_Natural_QTP]     = "fa";
-  gEspanolPitchName [kF_SemiSharp_QTP]   = "facs";
-  gEspanolPitchName [kF_Sharp_QTP]       = "fas";
-  gEspanolPitchName [kF_SesquiSharp_QTP] = "fatcs";
-  gEspanolPitchName [kF_DoubleSharp_QTP] = "fax";
+  gEspanolPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gEspanolPitchNamesMap [kF_SesquiFlat_QTP]  = "fatcb";
+  gEspanolPitchNamesMap [kF_Flat_QTP]        = "fab";
+  gEspanolPitchNamesMap [kF_SemiFlat_QTP]    = "facb";
+  gEspanolPitchNamesMap [kF_Natural_QTP]     = "fa";
+  gEspanolPitchNamesMap [kF_SemiSharp_QTP]   = "facs";
+  gEspanolPitchNamesMap [kF_Sharp_QTP]       = "fas";
+  gEspanolPitchNamesMap [kF_SesquiSharp_QTP] = "fatcs";
+  gEspanolPitchNamesMap [kF_DoubleSharp_QTP] = "fax";
     
-  gEspanolPitchName [kG_DoubleFlat_QTP]  = "solbb";
-  gEspanolPitchName [kG_SesquiFlat_QTP]  = "soltcb";
-  gEspanolPitchName [kG_Flat_QTP]        = "solb";
-  gEspanolPitchName [kG_SemiFlat_QTP]    = "solcb";
-  gEspanolPitchName [kG_Natural_QTP]     = "sol";
-  gEspanolPitchName [kG_SemiSharp_QTP]   = "solcs";
-  gEspanolPitchName [kG_Sharp_QTP]       = "sols";
-  gEspanolPitchName [kG_SesquiSharp_QTP] = "soltcs";
-  gEspanolPitchName [kG_DoubleSharp_QTP] = "solx";
+  gEspanolPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gEspanolPitchNamesMap [kG_SesquiFlat_QTP]  = "soltcb";
+  gEspanolPitchNamesMap [kG_Flat_QTP]        = "solb";
+  gEspanolPitchNamesMap [kG_SemiFlat_QTP]    = "solcb";
+  gEspanolPitchNamesMap [kG_Natural_QTP]     = "sol";
+  gEspanolPitchNamesMap [kG_SemiSharp_QTP]   = "solcs";
+  gEspanolPitchNamesMap [kG_Sharp_QTP]       = "sols";
+  gEspanolPitchNamesMap [kG_SesquiSharp_QTP] = "soltcs";
+  gEspanolPitchNamesMap [kG_DoubleSharp_QTP] = "solx";
 
   // francais
-  gFrancaisPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gFrancaisPitchName [k_Rest_QTP]                 = "r";
+  gFrancaisPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gFrancaisPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gFrancaisPitchName [kA_DoubleFlat_QTP]  = "labb";
-  gFrancaisPitchName [kA_SesquiFlat_QTP]  = "labtqt";
-  gFrancaisPitchName [kA_Flat_QTP]        = "lab";
-  gFrancaisPitchName [kA_SemiFlat_QTP]    = "labqt";
-  gFrancaisPitchName [kA_Natural_QTP]     = "la";
-  gFrancaisPitchName [kA_SemiSharp_QTP]   = "lasqt";
-  gFrancaisPitchName [kA_Sharp_QTP]       = "lad";
-  gFrancaisPitchName [kA_SesquiSharp_QTP] = "lastqt";
-  gFrancaisPitchName [kA_DoubleSharp_QTP] = "lass";
+  gFrancaisPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gFrancaisPitchNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
+  gFrancaisPitchNamesMap [kA_Flat_QTP]        = "lab";
+  gFrancaisPitchNamesMap [kA_SemiFlat_QTP]    = "labqt";
+  gFrancaisPitchNamesMap [kA_Natural_QTP]     = "la";
+  gFrancaisPitchNamesMap [kA_SemiSharp_QTP]   = "lasqt";
+  gFrancaisPitchNamesMap [kA_Sharp_QTP]       = "lad";
+  gFrancaisPitchNamesMap [kA_SesquiSharp_QTP] = "lastqt";
+  gFrancaisPitchNamesMap [kA_DoubleSharp_QTP] = "lass";
     
-  gFrancaisPitchName [kB_DoubleFlat_QTP]  = "sibb";
-  gFrancaisPitchName [kB_SesquiFlat_QTP]  = "sibtqt";
-  gFrancaisPitchName [kB_Flat_QTP]        = "sib";
-  gFrancaisPitchName [kB_SemiFlat_QTP]    = "sibqt";
-  gFrancaisPitchName [kB_Natural_QTP]     = "si";
-  gFrancaisPitchName [kB_SemiSharp_QTP]   = "sisqt";
-  gFrancaisPitchName [kB_Sharp_QTP]       = "sid";
-  gFrancaisPitchName [kB_SesquiSharp_QTP] = "sistqt";
-  gFrancaisPitchName [kB_DoubleSharp_QTP] = "siss";
+  gFrancaisPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gFrancaisPitchNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
+  gFrancaisPitchNamesMap [kB_Flat_QTP]        = "sib";
+  gFrancaisPitchNamesMap [kB_SemiFlat_QTP]    = "sibqt";
+  gFrancaisPitchNamesMap [kB_Natural_QTP]     = "si";
+  gFrancaisPitchNamesMap [kB_SemiSharp_QTP]   = "sisqt";
+  gFrancaisPitchNamesMap [kB_Sharp_QTP]       = "sid";
+  gFrancaisPitchNamesMap [kB_SesquiSharp_QTP] = "sistqt";
+  gFrancaisPitchNamesMap [kB_DoubleSharp_QTP] = "siss";
     
-  gFrancaisPitchName [kC_DoubleFlat_QTP]  = "dobb";
-  gFrancaisPitchName [kC_SesquiFlat_QTP]  = "dobtqt";
-  gFrancaisPitchName [kC_Flat_QTP]        = "dob";
-  gFrancaisPitchName [kC_SemiFlat_QTP]    = "dobqt";
-  gFrancaisPitchName [kC_Natural_QTP]     = "do";
-  gFrancaisPitchName [kC_SemiSharp_QTP]   = "dosqt";
-  gFrancaisPitchName [kC_Sharp_QTP]       = "dod";
-  gFrancaisPitchName [kC_SesquiSharp_QTP] = "dostqt";
-  gFrancaisPitchName [kC_DoubleSharp_QTP] = "doss";
+  gFrancaisPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gFrancaisPitchNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
+  gFrancaisPitchNamesMap [kC_Flat_QTP]        = "dob";
+  gFrancaisPitchNamesMap [kC_SemiFlat_QTP]    = "dobqt";
+  gFrancaisPitchNamesMap [kC_Natural_QTP]     = "do";
+  gFrancaisPitchNamesMap [kC_SemiSharp_QTP]   = "dosqt";
+  gFrancaisPitchNamesMap [kC_Sharp_QTP]       = "dod";
+  gFrancaisPitchNamesMap [kC_SesquiSharp_QTP] = "dostqt";
+  gFrancaisPitchNamesMap [kC_DoubleSharp_QTP] = "doss";
     
-  gFrancaisPitchName [kD_DoubleFlat_QTP]  = "rebb";
-  gFrancaisPitchName [kD_SesquiFlat_QTP]  = "rebtqt";
-  gFrancaisPitchName [kD_Flat_QTP]        = "reb";
-  gFrancaisPitchName [kD_SemiFlat_QTP]    = "rebqt";
-  gFrancaisPitchName [kD_Natural_QTP]     = "re";
-  gFrancaisPitchName [kD_SemiSharp_QTP]   = "resqt";
-  gFrancaisPitchName [kD_Sharp_QTP]       = "red";
-  gFrancaisPitchName [kD_SesquiSharp_QTP] = "restqt";
-  gFrancaisPitchName [kD_DoubleSharp_QTP] = "ress";
+  gFrancaisPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gFrancaisPitchNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
+  gFrancaisPitchNamesMap [kD_Flat_QTP]        = "reb";
+  gFrancaisPitchNamesMap [kD_SemiFlat_QTP]    = "rebqt";
+  gFrancaisPitchNamesMap [kD_Natural_QTP]     = "re";
+  gFrancaisPitchNamesMap [kD_SemiSharp_QTP]   = "resqt";
+  gFrancaisPitchNamesMap [kD_Sharp_QTP]       = "red";
+  gFrancaisPitchNamesMap [kD_SesquiSharp_QTP] = "restqt";
+  gFrancaisPitchNamesMap [kD_DoubleSharp_QTP] = "ress";
 
-  gFrancaisPitchName [kE_DoubleFlat_QTP]  = "mibb";
-  gFrancaisPitchName [kE_SesquiFlat_QTP]  = "mibtqt";
-  gFrancaisPitchName [kE_Flat_QTP]        = "mib";
-  gFrancaisPitchName [kE_SemiFlat_QTP]    = "mibqt";
-  gFrancaisPitchName [kE_Natural_QTP]     = "mi";
-  gFrancaisPitchName [kE_SemiSharp_QTP]   = "misqt";
-  gFrancaisPitchName [kE_Sharp_QTP]       = "mid";
-  gFrancaisPitchName [kE_SesquiSharp_QTP] = "mistqt";
-  gFrancaisPitchName [kE_DoubleSharp_QTP] = "miss";
+  gFrancaisPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gFrancaisPitchNamesMap [kE_SesquiFlat_QTP]  = "mibtqt";
+  gFrancaisPitchNamesMap [kE_Flat_QTP]        = "mib";
+  gFrancaisPitchNamesMap [kE_SemiFlat_QTP]    = "mibqt";
+  gFrancaisPitchNamesMap [kE_Natural_QTP]     = "mi";
+  gFrancaisPitchNamesMap [kE_SemiSharp_QTP]   = "misqt";
+  gFrancaisPitchNamesMap [kE_Sharp_QTP]       = "mid";
+  gFrancaisPitchNamesMap [kE_SesquiSharp_QTP] = "mistqt";
+  gFrancaisPitchNamesMap [kE_DoubleSharp_QTP] = "miss";
     
-  gFrancaisPitchName [kF_DoubleFlat_QTP]  = "fabb";
-  gFrancaisPitchName [kF_SesquiFlat_QTP]  = "fabtqt";
-  gFrancaisPitchName [kF_Flat_QTP]        = "fab";
-  gFrancaisPitchName [kF_SemiFlat_QTP]    = "fabqt";
-  gFrancaisPitchName [kF_Natural_QTP]     = "fa";
-  gFrancaisPitchName [kF_SemiSharp_QTP]   = "fasqt";
-  gFrancaisPitchName [kF_Sharp_QTP]       = "fad";
-  gFrancaisPitchName [kF_SesquiSharp_QTP] = "fastqt";
-  gFrancaisPitchName [kF_DoubleSharp_QTP] = "fass";
+  gFrancaisPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gFrancaisPitchNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
+  gFrancaisPitchNamesMap [kF_Flat_QTP]        = "fab";
+  gFrancaisPitchNamesMap [kF_SemiFlat_QTP]    = "fabqt";
+  gFrancaisPitchNamesMap [kF_Natural_QTP]     = "fa";
+  gFrancaisPitchNamesMap [kF_SemiSharp_QTP]   = "fasqt";
+  gFrancaisPitchNamesMap [kF_Sharp_QTP]       = "fad";
+  gFrancaisPitchNamesMap [kF_SesquiSharp_QTP] = "fastqt";
+  gFrancaisPitchNamesMap [kF_DoubleSharp_QTP] = "fass";
     
-  gFrancaisPitchName [kG_DoubleFlat_QTP]  = "solbb";
-  gFrancaisPitchName [kG_SesquiFlat_QTP]  = "solbtqt";
-  gFrancaisPitchName [kG_Flat_QTP]        = "solb";
-  gFrancaisPitchName [kG_SemiFlat_QTP]    = "solbqt";
-  gFrancaisPitchName [kG_Natural_QTP]     = "sol";
-  gFrancaisPitchName [kG_SemiSharp_QTP]   = "solsqt";
-  gFrancaisPitchName [kG_Sharp_QTP]       = "sold";
-  gFrancaisPitchName [kG_SesquiSharp_QTP] = "solstqt";
-  gFrancaisPitchName [kG_DoubleSharp_QTP] = "solss";
+  gFrancaisPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gFrancaisPitchNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
+  gFrancaisPitchNamesMap [kG_Flat_QTP]        = "solb";
+  gFrancaisPitchNamesMap [kG_SemiFlat_QTP]    = "solbqt";
+  gFrancaisPitchNamesMap [kG_Natural_QTP]     = "sol";
+  gFrancaisPitchNamesMap [kG_SemiSharp_QTP]   = "solsqt";
+  gFrancaisPitchNamesMap [kG_Sharp_QTP]       = "sold";
+  gFrancaisPitchNamesMap [kG_SesquiSharp_QTP] = "solstqt";
+  gFrancaisPitchNamesMap [kG_DoubleSharp_QTP] = "solss";
 
   // italiano
-  gItalianoPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gItalianoPitchName [k_Rest_QTP]                 = "r";
+  gItalianoPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gItalianoPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gItalianoPitchName [kA_DoubleFlat_QTP]  = "labb";
-  gItalianoPitchName [kA_SesquiFlat_QTP]  = "labsb";
-  gItalianoPitchName [kA_Flat_QTP]        = "lab";
-  gItalianoPitchName [kA_SemiFlat_QTP]    = "lasb";
-  gItalianoPitchName [kA_Natural_QTP]     = "la";
-  gItalianoPitchName [kA_SemiSharp_QTP]   = "lasd";
-  gItalianoPitchName [kA_Sharp_QTP]       = "lad";
-  gItalianoPitchName [kA_SesquiSharp_QTP] = "ladsd";
-  gItalianoPitchName [kA_DoubleSharp_QTP] = "ladd";
+  gItalianoPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gItalianoPitchNamesMap [kA_SesquiFlat_QTP]  = "labsb";
+  gItalianoPitchNamesMap [kA_Flat_QTP]        = "lab";
+  gItalianoPitchNamesMap [kA_SemiFlat_QTP]    = "lasb";
+  gItalianoPitchNamesMap [kA_Natural_QTP]     = "la";
+  gItalianoPitchNamesMap [kA_SemiSharp_QTP]   = "lasd";
+  gItalianoPitchNamesMap [kA_Sharp_QTP]       = "lad";
+  gItalianoPitchNamesMap [kA_SesquiSharp_QTP] = "ladsd";
+  gItalianoPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
     
-  gItalianoPitchName [kB_DoubleFlat_QTP]  = "sibb";
-  gItalianoPitchName [kB_SesquiFlat_QTP]  = "sibsb";
-  gItalianoPitchName [kB_Flat_QTP]        = "sib";
-  gItalianoPitchName [kB_SemiFlat_QTP]    = "sisb";
-  gItalianoPitchName [kB_Natural_QTP]     = "si";
-  gItalianoPitchName [kB_SemiSharp_QTP]   = "sisd";
-  gItalianoPitchName [kB_Sharp_QTP]       = "sid";
-  gItalianoPitchName [kB_SesquiSharp_QTP] = "sidsd";
-  gItalianoPitchName [kB_DoubleSharp_QTP] = "sidd";
+  gItalianoPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gItalianoPitchNamesMap [kB_SesquiFlat_QTP]  = "sibsb";
+  gItalianoPitchNamesMap [kB_Flat_QTP]        = "sib";
+  gItalianoPitchNamesMap [kB_SemiFlat_QTP]    = "sisb";
+  gItalianoPitchNamesMap [kB_Natural_QTP]     = "si";
+  gItalianoPitchNamesMap [kB_SemiSharp_QTP]   = "sisd";
+  gItalianoPitchNamesMap [kB_Sharp_QTP]       = "sid";
+  gItalianoPitchNamesMap [kB_SesquiSharp_QTP] = "sidsd";
+  gItalianoPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
     
-  gItalianoPitchName [kC_DoubleFlat_QTP]  = "dobb";
-  gItalianoPitchName [kC_SesquiFlat_QTP]  = "dobsb";
-  gItalianoPitchName [kC_Flat_QTP]        = "dob";
-  gItalianoPitchName [kC_SemiFlat_QTP]    = "dosb";
-  gItalianoPitchName [kC_Natural_QTP]     = "do";
-  gItalianoPitchName [kC_SemiSharp_QTP]   = "dosd";
-  gItalianoPitchName [kC_Sharp_QTP]       = "dod";
-  gItalianoPitchName [kC_SesquiSharp_QTP] = "dodsd";
-  gItalianoPitchName [kC_DoubleSharp_QTP] = "dodd";
+  gItalianoPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gItalianoPitchNamesMap [kC_SesquiFlat_QTP]  = "dobsb";
+  gItalianoPitchNamesMap [kC_Flat_QTP]        = "dob";
+  gItalianoPitchNamesMap [kC_SemiFlat_QTP]    = "dosb";
+  gItalianoPitchNamesMap [kC_Natural_QTP]     = "do";
+  gItalianoPitchNamesMap [kC_SemiSharp_QTP]   = "dosd";
+  gItalianoPitchNamesMap [kC_Sharp_QTP]       = "dod";
+  gItalianoPitchNamesMap [kC_SesquiSharp_QTP] = "dodsd";
+  gItalianoPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
     
-  gItalianoPitchName [kD_DoubleFlat_QTP]  = "rebb";
-  gItalianoPitchName [kD_SesquiFlat_QTP]  = "rebsb";
-  gItalianoPitchName [kD_Flat_QTP]        = "reb";
-  gItalianoPitchName [kD_SemiFlat_QTP]    = "resb";
-  gItalianoPitchName [kD_Natural_QTP]     = "re";
-  gItalianoPitchName [kD_SemiSharp_QTP]   = "resd";
-  gItalianoPitchName [kD_Sharp_QTP]       = "red";
-  gItalianoPitchName [kD_SesquiSharp_QTP] = "redsd";
-  gItalianoPitchName [kD_DoubleSharp_QTP] = "redd";
+  gItalianoPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gItalianoPitchNamesMap [kD_SesquiFlat_QTP]  = "rebsb";
+  gItalianoPitchNamesMap [kD_Flat_QTP]        = "reb";
+  gItalianoPitchNamesMap [kD_SemiFlat_QTP]    = "resb";
+  gItalianoPitchNamesMap [kD_Natural_QTP]     = "re";
+  gItalianoPitchNamesMap [kD_SemiSharp_QTP]   = "resd";
+  gItalianoPitchNamesMap [kD_Sharp_QTP]       = "red";
+  gItalianoPitchNamesMap [kD_SesquiSharp_QTP] = "redsd";
+  gItalianoPitchNamesMap [kD_DoubleSharp_QTP] = "redd";
 
-  gItalianoPitchName [kE_DoubleFlat_QTP]  = "mibb";
-  gItalianoPitchName [kE_SesquiFlat_QTP]  = "mibsb";
-  gItalianoPitchName [kE_Flat_QTP]        = "mib";
-  gItalianoPitchName [kE_SemiFlat_QTP]    = "misb";
-  gItalianoPitchName [kE_Natural_QTP]     = "mi";
-  gItalianoPitchName [kE_SemiSharp_QTP]   = "misd";
-  gItalianoPitchName [kE_Sharp_QTP]       = "mid";
-  gItalianoPitchName [kE_SesquiSharp_QTP] = "midsd";
-  gItalianoPitchName [kE_DoubleSharp_QTP] = "midd";
+  gItalianoPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gItalianoPitchNamesMap [kE_SesquiFlat_QTP]  = "mibsb";
+  gItalianoPitchNamesMap [kE_Flat_QTP]        = "mib";
+  gItalianoPitchNamesMap [kE_SemiFlat_QTP]    = "misb";
+  gItalianoPitchNamesMap [kE_Natural_QTP]     = "mi";
+  gItalianoPitchNamesMap [kE_SemiSharp_QTP]   = "misd";
+  gItalianoPitchNamesMap [kE_Sharp_QTP]       = "mid";
+  gItalianoPitchNamesMap [kE_SesquiSharp_QTP] = "midsd";
+  gItalianoPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
     
-  gItalianoPitchName [kF_DoubleFlat_QTP]  = "fabb";
-  gItalianoPitchName [kF_SesquiFlat_QTP]  = "fabsb";
-  gItalianoPitchName [kF_Flat_QTP]        = "fab";
-  gItalianoPitchName [kF_SemiFlat_QTP]    = "fasb";
-  gItalianoPitchName [kF_Natural_QTP]     = "fa";
-  gItalianoPitchName [kF_SemiSharp_QTP]   = "fasd";
-  gItalianoPitchName [kF_Sharp_QTP]       = "fad";
-  gItalianoPitchName [kF_SesquiSharp_QTP] = "fadsd";
-  gItalianoPitchName [kF_DoubleSharp_QTP] = "fadd";
+  gItalianoPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gItalianoPitchNamesMap [kF_SesquiFlat_QTP]  = "fabsb";
+  gItalianoPitchNamesMap [kF_Flat_QTP]        = "fab";
+  gItalianoPitchNamesMap [kF_SemiFlat_QTP]    = "fasb";
+  gItalianoPitchNamesMap [kF_Natural_QTP]     = "fa";
+  gItalianoPitchNamesMap [kF_SemiSharp_QTP]   = "fasd";
+  gItalianoPitchNamesMap [kF_Sharp_QTP]       = "fad";
+  gItalianoPitchNamesMap [kF_SesquiSharp_QTP] = "fadsd";
+  gItalianoPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
     
-  gItalianoPitchName [kG_DoubleFlat_QTP]  = "solbb";
-  gItalianoPitchName [kG_SesquiFlat_QTP]  = "solbsb";
-  gItalianoPitchName [kG_Flat_QTP]        = "solb";
-  gItalianoPitchName [kG_SemiFlat_QTP]    = "solsb";
-  gItalianoPitchName [kG_Natural_QTP]     = "sol";
-  gItalianoPitchName [kG_SemiSharp_QTP]   = "solsd";
-  gItalianoPitchName [kG_Sharp_QTP]       = "sold";
-  gItalianoPitchName [kG_SesquiSharp_QTP] = "soldsd";
-  gItalianoPitchName [kG_DoubleSharp_QTP] = "soldd";
+  gItalianoPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gItalianoPitchNamesMap [kG_SesquiFlat_QTP]  = "solbsb";
+  gItalianoPitchNamesMap [kG_Flat_QTP]        = "solb";
+  gItalianoPitchNamesMap [kG_SemiFlat_QTP]    = "solsb";
+  gItalianoPitchNamesMap [kG_Natural_QTP]     = "sol";
+  gItalianoPitchNamesMap [kG_SemiSharp_QTP]   = "solsd";
+  gItalianoPitchNamesMap [kG_Sharp_QTP]       = "sold";
+  gItalianoPitchNamesMap [kG_SesquiSharp_QTP] = "soldsd";
+  gItalianoPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
 
   // norsk
-  gNorskPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gNorskPitchName [k_Rest_QTP]                 = "r";
+  gNorskPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gNorskPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gNorskPitchName [kA_DoubleFlat_QTP]  = "aeses";
-  gNorskPitchName [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gNorskPitchName [kA_Flat_QTP]        = "aes";
-  gNorskPitchName [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gNorskPitchName [kA_Natural_QTP]     = "a";
-  gNorskPitchName [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gNorskPitchName [kA_Sharp_QTP]       = "ais";
-  gNorskPitchName [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gNorskPitchName [kA_DoubleSharp_QTP] = "aisis";
+  gNorskPitchNamesMap [kA_DoubleFlat_QTP]  = "aeses";
+  gNorskPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gNorskPitchNamesMap [kA_Flat_QTP]        = "aes";
+  gNorskPitchNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gNorskPitchNamesMap [kA_Natural_QTP]     = "a";
+  gNorskPitchNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gNorskPitchNamesMap [kA_Sharp_QTP]       = "ais";
+  gNorskPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gNorskPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
     
-  gNorskPitchName [kB_DoubleFlat_QTP]  = "beses";
-  gNorskPitchName [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gNorskPitchName [kB_Flat_QTP]        = "bes";
-  gNorskPitchName [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gNorskPitchName [kB_Natural_QTP]     = "b";
-  gNorskPitchName [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gNorskPitchName [kB_Sharp_QTP]       = "bis";
-  gNorskPitchName [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gNorskPitchName [kB_DoubleSharp_QTP] = "bisis";
+  gNorskPitchNamesMap [kB_DoubleFlat_QTP]  = "beses";
+  gNorskPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gNorskPitchNamesMap [kB_Flat_QTP]        = "bes";
+  gNorskPitchNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gNorskPitchNamesMap [kB_Natural_QTP]     = "b";
+  gNorskPitchNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gNorskPitchNamesMap [kB_Sharp_QTP]       = "bis";
+  gNorskPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gNorskPitchNamesMap [kB_DoubleSharp_QTP] = "bisis";
     
-  gNorskPitchName [kC_DoubleFlat_QTP]  = "ceses";
-  gNorskPitchName [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gNorskPitchName [kC_Flat_QTP]        = "ces";
-  gNorskPitchName [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gNorskPitchName [kC_Natural_QTP]     = "c";
-  gNorskPitchName [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gNorskPitchName [kC_Sharp_QTP]       = "cis";
-  gNorskPitchName [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gNorskPitchName [kC_DoubleSharp_QTP] = "cisis";
+  gNorskPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
+  gNorskPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gNorskPitchNamesMap [kC_Flat_QTP]        = "ces";
+  gNorskPitchNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gNorskPitchNamesMap [kC_Natural_QTP]     = "c";
+  gNorskPitchNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gNorskPitchNamesMap [kC_Sharp_QTP]       = "cis";
+  gNorskPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gNorskPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
     
-  gNorskPitchName [kD_DoubleFlat_QTP]  = "deses";
-  gNorskPitchName [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gNorskPitchName [kD_Flat_QTP]        = "des";
-  gNorskPitchName [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gNorskPitchName [kD_Natural_QTP]     = "d";
-  gNorskPitchName [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gNorskPitchName [kD_Sharp_QTP]       = "dis";
-  gNorskPitchName [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gNorskPitchName [kD_DoubleSharp_QTP] = "disis";
+  gNorskPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
+  gNorskPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gNorskPitchNamesMap [kD_Flat_QTP]        = "des";
+  gNorskPitchNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gNorskPitchNamesMap [kD_Natural_QTP]     = "d";
+  gNorskPitchNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gNorskPitchNamesMap [kD_Sharp_QTP]       = "dis";
+  gNorskPitchNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gNorskPitchNamesMap [kD_DoubleSharp_QTP] = "disis";
 
-  gNorskPitchName [kE_DoubleFlat_QTP]  = "eeses";
-  gNorskPitchName [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gNorskPitchName [kE_Flat_QTP]        = "ees";
-  gNorskPitchName [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gNorskPitchName [kE_Natural_QTP]     = "e";
-  gNorskPitchName [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gNorskPitchName [kE_Sharp_QTP]       = "eis";
-  gNorskPitchName [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gNorskPitchName [kE_DoubleSharp_QTP] = "eisis";
+  gNorskPitchNamesMap [kE_DoubleFlat_QTP]  = "eeses";
+  gNorskPitchNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gNorskPitchNamesMap [kE_Flat_QTP]        = "ees";
+  gNorskPitchNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gNorskPitchNamesMap [kE_Natural_QTP]     = "e";
+  gNorskPitchNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gNorskPitchNamesMap [kE_Sharp_QTP]       = "eis";
+  gNorskPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gNorskPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
     
-  gNorskPitchName [kF_DoubleFlat_QTP]  = "feses";
-  gNorskPitchName [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gNorskPitchName [kF_Flat_QTP]        = "fes";
-  gNorskPitchName [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gNorskPitchName [kF_Natural_QTP]     = "f";
-  gNorskPitchName [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gNorskPitchName [kF_Sharp_QTP]       = "fis";
-  gNorskPitchName [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gNorskPitchName [kF_DoubleSharp_QTP] = "fisis";
+  gNorskPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
+  gNorskPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gNorskPitchNamesMap [kF_Flat_QTP]        = "fes";
+  gNorskPitchNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gNorskPitchNamesMap [kF_Natural_QTP]     = "f";
+  gNorskPitchNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gNorskPitchNamesMap [kF_Sharp_QTP]       = "fis";
+  gNorskPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gNorskPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
     
-  gNorskPitchName [kG_DoubleFlat_QTP]  = "geses";
-  gNorskPitchName [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gNorskPitchName [kG_Flat_QTP]        = "ges";
-  gNorskPitchName [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gNorskPitchName [kG_Natural_QTP]     = "g";
-  gNorskPitchName [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gNorskPitchName [kG_Sharp_QTP]       = "gis";
-  gNorskPitchName [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gNorskPitchName [kG_DoubleSharp_QTP] = "gisis";
+  gNorskPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
+  gNorskPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gNorskPitchNamesMap [kG_Flat_QTP]        = "ges";
+  gNorskPitchNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gNorskPitchNamesMap [kG_Natural_QTP]     = "g";
+  gNorskPitchNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gNorskPitchNamesMap [kG_Sharp_QTP]       = "gis";
+  gNorskPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gNorskPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
 
   // portugues
-  gPortuguesPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gPortuguesPitchName [k_Rest_QTP]                 = "r";
+  gPortuguesPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gPortuguesPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gPortuguesPitchName [kA_DoubleFlat_QTP]  = "labb";
-  gPortuguesPitchName [kA_SesquiFlat_QTP]  = "labtqt";
-  gPortuguesPitchName [kA_Flat_QTP]        = "lab";
-  gPortuguesPitchName [kA_SemiFlat_QTP]    = "lasb";
-  gPortuguesPitchName [kA_Natural_QTP]     = "la";
-  gPortuguesPitchName [kA_SemiSharp_QTP]   = "lasd";
-  gPortuguesPitchName [kA_Sharp_QTP]       = "lad";
-  gPortuguesPitchName [kA_SesquiSharp_QTP] = "ladsd";
-  gPortuguesPitchName [kA_DoubleSharp_QTP] = "ladd";
+  gPortuguesPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gPortuguesPitchNamesMap [kA_SesquiFlat_QTP]  = "labtqt";
+  gPortuguesPitchNamesMap [kA_Flat_QTP]        = "lab";
+  gPortuguesPitchNamesMap [kA_SemiFlat_QTP]    = "lasb";
+  gPortuguesPitchNamesMap [kA_Natural_QTP]     = "la";
+  gPortuguesPitchNamesMap [kA_SemiSharp_QTP]   = "lasd";
+  gPortuguesPitchNamesMap [kA_Sharp_QTP]       = "lad";
+  gPortuguesPitchNamesMap [kA_SesquiSharp_QTP] = "ladsd";
+  gPortuguesPitchNamesMap [kA_DoubleSharp_QTP] = "ladd";
     
-  gPortuguesPitchName [kB_DoubleFlat_QTP]  = "sibb";
-  gPortuguesPitchName [kB_SesquiFlat_QTP]  = "sibtqt";
-  gPortuguesPitchName [kB_Flat_QTP]        = "sib";
-  gPortuguesPitchName [kB_SemiFlat_QTP]    = "sisb";
-  gPortuguesPitchName [kB_Natural_QTP]     = "si";
-  gPortuguesPitchName [kB_SemiSharp_QTP]   = "sisd";
-  gPortuguesPitchName [kB_Sharp_QTP]       = "sid";
-  gPortuguesPitchName [kB_SesquiSharp_QTP] = "sidsd";
-  gPortuguesPitchName [kB_DoubleSharp_QTP] = "sidd";
+  gPortuguesPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gPortuguesPitchNamesMap [kB_SesquiFlat_QTP]  = "sibtqt";
+  gPortuguesPitchNamesMap [kB_Flat_QTP]        = "sib";
+  gPortuguesPitchNamesMap [kB_SemiFlat_QTP]    = "sisb";
+  gPortuguesPitchNamesMap [kB_Natural_QTP]     = "si";
+  gPortuguesPitchNamesMap [kB_SemiSharp_QTP]   = "sisd";
+  gPortuguesPitchNamesMap [kB_Sharp_QTP]       = "sid";
+  gPortuguesPitchNamesMap [kB_SesquiSharp_QTP] = "sidsd";
+  gPortuguesPitchNamesMap [kB_DoubleSharp_QTP] = "sidd";
     
-  gPortuguesPitchName [kC_DoubleFlat_QTP]  = "dobb";
-  gPortuguesPitchName [kC_SesquiFlat_QTP]  = "dobtqt";
-  gPortuguesPitchName [kC_Flat_QTP]        = "dob";
-  gPortuguesPitchName [kC_SemiFlat_QTP]    = "dosb";
-  gPortuguesPitchName [kC_Natural_QTP]     = "do";
-  gPortuguesPitchName [kC_SemiSharp_QTP]   = "dosd";
-  gPortuguesPitchName [kC_Sharp_QTP]       = "dod";
-  gPortuguesPitchName [kC_SesquiSharp_QTP] = "dodsd";
-  gPortuguesPitchName [kC_DoubleSharp_QTP] = "dodd";
+  gPortuguesPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gPortuguesPitchNamesMap [kC_SesquiFlat_QTP]  = "dobtqt";
+  gPortuguesPitchNamesMap [kC_Flat_QTP]        = "dob";
+  gPortuguesPitchNamesMap [kC_SemiFlat_QTP]    = "dosb";
+  gPortuguesPitchNamesMap [kC_Natural_QTP]     = "do";
+  gPortuguesPitchNamesMap [kC_SemiSharp_QTP]   = "dosd";
+  gPortuguesPitchNamesMap [kC_Sharp_QTP]       = "dod";
+  gPortuguesPitchNamesMap [kC_SesquiSharp_QTP] = "dodsd";
+  gPortuguesPitchNamesMap [kC_DoubleSharp_QTP] = "dodd";
     
-  gPortuguesPitchName [kD_DoubleFlat_QTP]  = "rebb";
-  gPortuguesPitchName [kD_SesquiFlat_QTP]  = "rebtqt";
-  gPortuguesPitchName [kD_Flat_QTP]        = "reb";
-  gPortuguesPitchName [kD_SemiFlat_QTP]    = "resb";
-  gPortuguesPitchName [kD_Natural_QTP]     = "re";
-  gPortuguesPitchName [kD_SemiSharp_QTP]   = "resd";
-  gPortuguesPitchName [kD_Sharp_QTP]       = "red";
-  gPortuguesPitchName [kD_SesquiSharp_QTP] = "redsd";
-  gPortuguesPitchName [kD_DoubleSharp_QTP] = "redd";
+  gPortuguesPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gPortuguesPitchNamesMap [kD_SesquiFlat_QTP]  = "rebtqt";
+  gPortuguesPitchNamesMap [kD_Flat_QTP]        = "reb";
+  gPortuguesPitchNamesMap [kD_SemiFlat_QTP]    = "resb";
+  gPortuguesPitchNamesMap [kD_Natural_QTP]     = "re";
+  gPortuguesPitchNamesMap [kD_SemiSharp_QTP]   = "resd";
+  gPortuguesPitchNamesMap [kD_Sharp_QTP]       = "red";
+  gPortuguesPitchNamesMap [kD_SesquiSharp_QTP] = "redsd";
+  gPortuguesPitchNamesMap [kD_DoubleSharp_QTP] = "redd";
 
-  gPortuguesPitchName [kE_DoubleFlat_QTP]  = "mibb";
-  gPortuguesPitchName [kE_SesquiFlat_QTP]  = "mibtqt";
-  gPortuguesPitchName [kE_Flat_QTP]        = "mib";
-  gPortuguesPitchName [kE_SemiFlat_QTP]    = "misb";
-  gPortuguesPitchName [kE_Natural_QTP]     = "mi";
-  gPortuguesPitchName [kE_SemiSharp_QTP]   = "misd";
-  gPortuguesPitchName [kE_Sharp_QTP]       = "mid";
-  gPortuguesPitchName [kE_SesquiSharp_QTP] = "midsd";
-  gPortuguesPitchName [kE_DoubleSharp_QTP] = "midd";
+  gPortuguesPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gPortuguesPitchNamesMap [kE_SesquiFlat_QTP]  = "mibtqt";
+  gPortuguesPitchNamesMap [kE_Flat_QTP]        = "mib";
+  gPortuguesPitchNamesMap [kE_SemiFlat_QTP]    = "misb";
+  gPortuguesPitchNamesMap [kE_Natural_QTP]     = "mi";
+  gPortuguesPitchNamesMap [kE_SemiSharp_QTP]   = "misd";
+  gPortuguesPitchNamesMap [kE_Sharp_QTP]       = "mid";
+  gPortuguesPitchNamesMap [kE_SesquiSharp_QTP] = "midsd";
+  gPortuguesPitchNamesMap [kE_DoubleSharp_QTP] = "midd";
     
-  gPortuguesPitchName [kF_DoubleFlat_QTP]  = "fabb";
-  gPortuguesPitchName [kF_SesquiFlat_QTP]  = "fabtqt";
-  gPortuguesPitchName [kF_Flat_QTP]        = "fab";
-  gPortuguesPitchName [kF_SemiFlat_QTP]    = "fasb";
-  gPortuguesPitchName [kF_Natural_QTP]     = "fa";
-  gPortuguesPitchName [kF_SemiSharp_QTP]   = "fasd";
-  gPortuguesPitchName [kF_Sharp_QTP]       = "fad";
-  gPortuguesPitchName [kF_SesquiSharp_QTP] = "fadsd";
-  gPortuguesPitchName [kF_DoubleSharp_QTP] = "fadd";
+  gPortuguesPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gPortuguesPitchNamesMap [kF_SesquiFlat_QTP]  = "fabtqt";
+  gPortuguesPitchNamesMap [kF_Flat_QTP]        = "fab";
+  gPortuguesPitchNamesMap [kF_SemiFlat_QTP]    = "fasb";
+  gPortuguesPitchNamesMap [kF_Natural_QTP]     = "fa";
+  gPortuguesPitchNamesMap [kF_SemiSharp_QTP]   = "fasd";
+  gPortuguesPitchNamesMap [kF_Sharp_QTP]       = "fad";
+  gPortuguesPitchNamesMap [kF_SesquiSharp_QTP] = "fadsd";
+  gPortuguesPitchNamesMap [kF_DoubleSharp_QTP] = "fadd";
     
-  gPortuguesPitchName [kG_DoubleFlat_QTP]  = "solbb";
-  gPortuguesPitchName [kG_SesquiFlat_QTP]  = "solbtqt";
-  gPortuguesPitchName [kG_Flat_QTP]        = "solb";
-  gPortuguesPitchName [kG_SemiFlat_QTP]    = "solsb";
-  gPortuguesPitchName [kG_Natural_QTP]     = "sol";
-  gPortuguesPitchName [kG_SemiSharp_QTP]   = "solsd";
-  gPortuguesPitchName [kG_Sharp_QTP]       = "sold";
-  gPortuguesPitchName [kG_SesquiSharp_QTP] = "soldsd";
-  gPortuguesPitchName [kG_DoubleSharp_QTP] = "soldd";
+  gPortuguesPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gPortuguesPitchNamesMap [kG_SesquiFlat_QTP]  = "solbtqt";
+  gPortuguesPitchNamesMap [kG_Flat_QTP]        = "solb";
+  gPortuguesPitchNamesMap [kG_SemiFlat_QTP]    = "solsb";
+  gPortuguesPitchNamesMap [kG_Natural_QTP]     = "sol";
+  gPortuguesPitchNamesMap [kG_SemiSharp_QTP]   = "solsd";
+  gPortuguesPitchNamesMap [kG_Sharp_QTP]       = "sold";
+  gPortuguesPitchNamesMap [kG_SesquiSharp_QTP] = "soldsd";
+  gPortuguesPitchNamesMap [kG_DoubleSharp_QTP] = "soldd";
 
   // suomi
-  gSuomiPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gSuomiPitchName [k_Rest_QTP]                 = "r";
+  gSuomiPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gSuomiPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gSuomiPitchName [kA_DoubleFlat_QTP]  = "asas";
-  gSuomiPitchName [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gSuomiPitchName [kA_Flat_QTP]        = "as";
-  gSuomiPitchName [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gSuomiPitchName [kA_Natural_QTP]     = "a";
-  gSuomiPitchName [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gSuomiPitchName [kA_Sharp_QTP]       = "ais";
-  gSuomiPitchName [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gSuomiPitchName [kA_DoubleSharp_QTP] = "aisis";
+  gSuomiPitchNamesMap [kA_DoubleFlat_QTP]  = "asas";
+  gSuomiPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gSuomiPitchNamesMap [kA_Flat_QTP]        = "as";
+  gSuomiPitchNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gSuomiPitchNamesMap [kA_Natural_QTP]     = "a";
+  gSuomiPitchNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gSuomiPitchNamesMap [kA_Sharp_QTP]       = "ais";
+  gSuomiPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gSuomiPitchNamesMap [kA_DoubleSharp_QTP] = "aisis";
     
-  gSuomiPitchName [kB_DoubleFlat_QTP]  = "bes";
-  gSuomiPitchName [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gSuomiPitchName [kB_Flat_QTP]        = "b";
-  gSuomiPitchName [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gSuomiPitchName [kB_Natural_QTP]     = "h";
-  gSuomiPitchName [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gSuomiPitchName [kB_Sharp_QTP]       = "his";
-  gSuomiPitchName [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gSuomiPitchName [kB_DoubleSharp_QTP] = "hisis";
+  gSuomiPitchNamesMap [kB_DoubleFlat_QTP]  = "bes";
+  gSuomiPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gSuomiPitchNamesMap [kB_Flat_QTP]        = "b";
+  gSuomiPitchNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gSuomiPitchNamesMap [kB_Natural_QTP]     = "h";
+  gSuomiPitchNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gSuomiPitchNamesMap [kB_Sharp_QTP]       = "his";
+  gSuomiPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gSuomiPitchNamesMap [kB_DoubleSharp_QTP] = "hisis";
     
-  gSuomiPitchName [kC_DoubleFlat_QTP]  = "ceses";
-  gSuomiPitchName [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gSuomiPitchName [kC_Flat_QTP]        = "ces";
-  gSuomiPitchName [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gSuomiPitchName [kC_Natural_QTP]     = "c";
-  gSuomiPitchName [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gSuomiPitchName [kC_Sharp_QTP]       = "cis";
-  gSuomiPitchName [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gSuomiPitchName [kC_DoubleSharp_QTP] = "cisis";
+  gSuomiPitchNamesMap [kC_DoubleFlat_QTP]  = "ceses";
+  gSuomiPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gSuomiPitchNamesMap [kC_Flat_QTP]        = "ces";
+  gSuomiPitchNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gSuomiPitchNamesMap [kC_Natural_QTP]     = "c";
+  gSuomiPitchNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gSuomiPitchNamesMap [kC_Sharp_QTP]       = "cis";
+  gSuomiPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gSuomiPitchNamesMap [kC_DoubleSharp_QTP] = "cisis";
     
-  gSuomiPitchName [kD_DoubleFlat_QTP]  = "deses";
-  gSuomiPitchName [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gSuomiPitchName [kD_Flat_QTP]        = "des";
-  gSuomiPitchName [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gSuomiPitchName [kD_Natural_QTP]     = "d";
-  gSuomiPitchName [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gSuomiPitchName [kD_Sharp_QTP]       = "dis";
-  gSuomiPitchName [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gSuomiPitchName [kD_DoubleSharp_QTP] = "disis";
+  gSuomiPitchNamesMap [kD_DoubleFlat_QTP]  = "deses";
+  gSuomiPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gSuomiPitchNamesMap [kD_Flat_QTP]        = "des";
+  gSuomiPitchNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gSuomiPitchNamesMap [kD_Natural_QTP]     = "d";
+  gSuomiPitchNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gSuomiPitchNamesMap [kD_Sharp_QTP]       = "dis";
+  gSuomiPitchNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gSuomiPitchNamesMap [kD_DoubleSharp_QTP] = "disis";
 
-  gSuomiPitchName [kE_DoubleFlat_QTP]  = "eses";
-  gSuomiPitchName [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gSuomiPitchName [kE_Flat_QTP]        = "es";
-  gSuomiPitchName [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gSuomiPitchName [kE_Natural_QTP]     = "e";
-  gSuomiPitchName [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gSuomiPitchName [kE_Sharp_QTP]       = "eis";
-  gSuomiPitchName [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gSuomiPitchName [kE_DoubleSharp_QTP] = "eisis";
+  gSuomiPitchNamesMap [kE_DoubleFlat_QTP]  = "eses";
+  gSuomiPitchNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gSuomiPitchNamesMap [kE_Flat_QTP]        = "es";
+  gSuomiPitchNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gSuomiPitchNamesMap [kE_Natural_QTP]     = "e";
+  gSuomiPitchNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gSuomiPitchNamesMap [kE_Sharp_QTP]       = "eis";
+  gSuomiPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gSuomiPitchNamesMap [kE_DoubleSharp_QTP] = "eisis";
     
-  gSuomiPitchName [kF_DoubleFlat_QTP]  = "feses";
-  gSuomiPitchName [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gSuomiPitchName [kF_Flat_QTP]        = "fes";
-  gSuomiPitchName [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gSuomiPitchName [kF_Natural_QTP]     = "f";
-  gSuomiPitchName [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gSuomiPitchName [kF_Sharp_QTP]       = "fis";
-  gSuomiPitchName [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gSuomiPitchName [kF_DoubleSharp_QTP] = "fisis";
+  gSuomiPitchNamesMap [kF_DoubleFlat_QTP]  = "feses";
+  gSuomiPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gSuomiPitchNamesMap [kF_Flat_QTP]        = "fes";
+  gSuomiPitchNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gSuomiPitchNamesMap [kF_Natural_QTP]     = "f";
+  gSuomiPitchNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gSuomiPitchNamesMap [kF_Sharp_QTP]       = "fis";
+  gSuomiPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gSuomiPitchNamesMap [kF_DoubleSharp_QTP] = "fisis";
     
-  gSuomiPitchName [kG_DoubleFlat_QTP]  = "geses";
-  gSuomiPitchName [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gSuomiPitchName [kG_Flat_QTP]        = "ges";
-  gSuomiPitchName [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gSuomiPitchName [kG_Natural_QTP]     = "g";
-  gSuomiPitchName [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gSuomiPitchName [kG_Sharp_QTP]       = "gis";
-  gSuomiPitchName [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gSuomiPitchName [kG_DoubleSharp_QTP] = "gisis";
+  gSuomiPitchNamesMap [kG_DoubleFlat_QTP]  = "geses";
+  gSuomiPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gSuomiPitchNamesMap [kG_Flat_QTP]        = "ges";
+  gSuomiPitchNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gSuomiPitchNamesMap [kG_Natural_QTP]     = "g";
+  gSuomiPitchNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gSuomiPitchNamesMap [kG_Sharp_QTP]       = "gis";
+  gSuomiPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gSuomiPitchNamesMap [kG_DoubleSharp_QTP] = "gisis";
 
   // svenska
-  gSvenskaPitchName [k_NoQuarterTonesPitch_QTP]  = "";
-  gSvenskaPitchName [k_Rest_QTP]                 = "r";
+  gSvenskaPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "";
+  gSvenskaPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gSvenskaPitchName [kA_DoubleFlat_QTP]  = "assess";
-  gSvenskaPitchName [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
-  gSvenskaPitchName [kA_Flat_QTP]        = "ass";
-  gSvenskaPitchName [kA_SemiFlat_QTP]    = "aSemiFlat???";
-  gSvenskaPitchName [kA_Natural_QTP]     = "a";
-  gSvenskaPitchName [kA_SemiSharp_QTP]   = "aSemiSharp???";
-  gSvenskaPitchName [kA_Sharp_QTP]       = "aiss";
-  gSvenskaPitchName [kA_SesquiSharp_QTP] = "aSesquiSharp???";
-  gSvenskaPitchName [kA_DoubleSharp_QTP] = "aississ";
+  gSvenskaPitchNamesMap [kA_DoubleFlat_QTP]  = "assess";
+  gSvenskaPitchNamesMap [kA_SesquiFlat_QTP]  = "aSesquiFlat???";
+  gSvenskaPitchNamesMap [kA_Flat_QTP]        = "ass";
+  gSvenskaPitchNamesMap [kA_SemiFlat_QTP]    = "aSemiFlat???";
+  gSvenskaPitchNamesMap [kA_Natural_QTP]     = "a";
+  gSvenskaPitchNamesMap [kA_SemiSharp_QTP]   = "aSemiSharp???";
+  gSvenskaPitchNamesMap [kA_Sharp_QTP]       = "aiss";
+  gSvenskaPitchNamesMap [kA_SesquiSharp_QTP] = "aSesquiSharp???";
+  gSvenskaPitchNamesMap [kA_DoubleSharp_QTP] = "aississ";
     
-  gSvenskaPitchName [kB_DoubleFlat_QTP]  = "hessess";
-  gSvenskaPitchName [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
-  gSvenskaPitchName [kB_Flat_QTP]        = "b";
-  gSvenskaPitchName [kB_SemiFlat_QTP]    = "bSemiFlat???";
-  gSvenskaPitchName [kB_Natural_QTP]     = "h";
-  gSvenskaPitchName [kB_SemiSharp_QTP]   = "bSemiSharp???";
-  gSvenskaPitchName [kB_Sharp_QTP]       = "hiss";
-  gSvenskaPitchName [kB_SesquiSharp_QTP] = "bSesquiSharp???";
-  gSvenskaPitchName [kB_DoubleSharp_QTP] = "hississ";
+  gSvenskaPitchNamesMap [kB_DoubleFlat_QTP]  = "hessess";
+  gSvenskaPitchNamesMap [kB_SesquiFlat_QTP]  = "bSesquiFlat???";
+  gSvenskaPitchNamesMap [kB_Flat_QTP]        = "b";
+  gSvenskaPitchNamesMap [kB_SemiFlat_QTP]    = "bSemiFlat???";
+  gSvenskaPitchNamesMap [kB_Natural_QTP]     = "h";
+  gSvenskaPitchNamesMap [kB_SemiSharp_QTP]   = "bSemiSharp???";
+  gSvenskaPitchNamesMap [kB_Sharp_QTP]       = "hiss";
+  gSvenskaPitchNamesMap [kB_SesquiSharp_QTP] = "bSesquiSharp???";
+  gSvenskaPitchNamesMap [kB_DoubleSharp_QTP] = "hississ";
     
-  gSvenskaPitchName [kC_DoubleFlat_QTP]  = "cessess";
-  gSvenskaPitchName [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
-  gSvenskaPitchName [kC_Flat_QTP]        = "cess";
-  gSvenskaPitchName [kC_SemiFlat_QTP]    = "cSemiFlat???";
-  gSvenskaPitchName [kC_Natural_QTP]     = "c";
-  gSvenskaPitchName [kC_SemiSharp_QTP]   = "cSemiSharp???";
-  gSvenskaPitchName [kC_Sharp_QTP]       = "ciss";
-  gSvenskaPitchName [kC_SesquiSharp_QTP] = "cSesquiSharp???";
-  gSvenskaPitchName [kC_DoubleSharp_QTP] = "cississ";
+  gSvenskaPitchNamesMap [kC_DoubleFlat_QTP]  = "cessess";
+  gSvenskaPitchNamesMap [kC_SesquiFlat_QTP]  = "cSesquiFlat???";
+  gSvenskaPitchNamesMap [kC_Flat_QTP]        = "cess";
+  gSvenskaPitchNamesMap [kC_SemiFlat_QTP]    = "cSemiFlat???";
+  gSvenskaPitchNamesMap [kC_Natural_QTP]     = "c";
+  gSvenskaPitchNamesMap [kC_SemiSharp_QTP]   = "cSemiSharp???";
+  gSvenskaPitchNamesMap [kC_Sharp_QTP]       = "ciss";
+  gSvenskaPitchNamesMap [kC_SesquiSharp_QTP] = "cSesquiSharp???";
+  gSvenskaPitchNamesMap [kC_DoubleSharp_QTP] = "cississ";
     
-  gSvenskaPitchName [kD_DoubleFlat_QTP]  = "dessess";
-  gSvenskaPitchName [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
-  gSvenskaPitchName [kD_Flat_QTP]        = "dess";
-  gSvenskaPitchName [kD_SemiFlat_QTP]    = "dSemiFlat???";
-  gSvenskaPitchName [kD_Natural_QTP]     = "d";
-  gSvenskaPitchName [kD_SemiSharp_QTP]   = "dSemiSharp???";
-  gSvenskaPitchName [kD_Sharp_QTP]       = "diss";
-  gSvenskaPitchName [kD_SesquiSharp_QTP] = "dSesquiSharp???";
-  gSvenskaPitchName [kD_DoubleSharp_QTP] = "dississ";
+  gSvenskaPitchNamesMap [kD_DoubleFlat_QTP]  = "dessess";
+  gSvenskaPitchNamesMap [kD_SesquiFlat_QTP]  = "dSesquiFlat???";
+  gSvenskaPitchNamesMap [kD_Flat_QTP]        = "dess";
+  gSvenskaPitchNamesMap [kD_SemiFlat_QTP]    = "dSemiFlat???";
+  gSvenskaPitchNamesMap [kD_Natural_QTP]     = "d";
+  gSvenskaPitchNamesMap [kD_SemiSharp_QTP]   = "dSemiSharp???";
+  gSvenskaPitchNamesMap [kD_Sharp_QTP]       = "diss";
+  gSvenskaPitchNamesMap [kD_SesquiSharp_QTP] = "dSesquiSharp???";
+  gSvenskaPitchNamesMap [kD_DoubleSharp_QTP] = "dississ";
 
-  gSvenskaPitchName [kE_DoubleFlat_QTP]  = "essess";
-  gSvenskaPitchName [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
-  gSvenskaPitchName [kE_Flat_QTP]        = "ess";
-  gSvenskaPitchName [kE_SemiFlat_QTP]    = "eSemiFlat???";
-  gSvenskaPitchName [kE_Natural_QTP]     = "e";
-  gSvenskaPitchName [kE_SemiSharp_QTP]   = "eSemiSharp???";
-  gSvenskaPitchName [kE_Sharp_QTP]       = "eiss";
-  gSvenskaPitchName [kE_SesquiSharp_QTP] = "eSesquiSharp???";
-  gSvenskaPitchName [kE_DoubleSharp_QTP] = "eississ";
+  gSvenskaPitchNamesMap [kE_DoubleFlat_QTP]  = "essess";
+  gSvenskaPitchNamesMap [kE_SesquiFlat_QTP]  = "eSesquiFlat???";
+  gSvenskaPitchNamesMap [kE_Flat_QTP]        = "ess";
+  gSvenskaPitchNamesMap [kE_SemiFlat_QTP]    = "eSemiFlat???";
+  gSvenskaPitchNamesMap [kE_Natural_QTP]     = "e";
+  gSvenskaPitchNamesMap [kE_SemiSharp_QTP]   = "eSemiSharp???";
+  gSvenskaPitchNamesMap [kE_Sharp_QTP]       = "eiss";
+  gSvenskaPitchNamesMap [kE_SesquiSharp_QTP] = "eSesquiSharp???";
+  gSvenskaPitchNamesMap [kE_DoubleSharp_QTP] = "eississ";
     
-  gSvenskaPitchName [kF_DoubleFlat_QTP]  = "fessess";
-  gSvenskaPitchName [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
-  gSvenskaPitchName [kF_Flat_QTP]        = "fess";
-  gSvenskaPitchName [kF_SemiFlat_QTP]    = "fSemiFlat???";
-  gSvenskaPitchName [kF_Natural_QTP]     = "f";
-  gSvenskaPitchName [kF_SemiSharp_QTP]   = "fSemiSharp???";
-  gSvenskaPitchName [kF_Sharp_QTP]       = "fiss";
-  gSvenskaPitchName [kF_SesquiSharp_QTP] = "fSesquiSharp???";
-  gSvenskaPitchName [kF_DoubleSharp_QTP] = "fississ";
+  gSvenskaPitchNamesMap [kF_DoubleFlat_QTP]  = "fessess";
+  gSvenskaPitchNamesMap [kF_SesquiFlat_QTP]  = "fSesquiFlat???";
+  gSvenskaPitchNamesMap [kF_Flat_QTP]        = "fess";
+  gSvenskaPitchNamesMap [kF_SemiFlat_QTP]    = "fSemiFlat???";
+  gSvenskaPitchNamesMap [kF_Natural_QTP]     = "f";
+  gSvenskaPitchNamesMap [kF_SemiSharp_QTP]   = "fSemiSharp???";
+  gSvenskaPitchNamesMap [kF_Sharp_QTP]       = "fiss";
+  gSvenskaPitchNamesMap [kF_SesquiSharp_QTP] = "fSesquiSharp???";
+  gSvenskaPitchNamesMap [kF_DoubleSharp_QTP] = "fississ";
     
-  gSvenskaPitchName [kG_DoubleFlat_QTP]  = "gessess";
-  gSvenskaPitchName [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
-  gSvenskaPitchName [kG_Flat_QTP]        = "gess";
-  gSvenskaPitchName [kG_SemiFlat_QTP]    = "gSemiFlat???";
-  gSvenskaPitchName [kG_Natural_QTP]     = "g";
-  gSvenskaPitchName [kG_SemiSharp_QTP]   = "gSemiSharp???";
-  gSvenskaPitchName [kG_Sharp_QTP]       = "giss";
-  gSvenskaPitchName [kG_SesquiSharp_QTP] = "gSesquiSharp???";
-  gSvenskaPitchName [kG_DoubleSharp_QTP] = "gississ";
+  gSvenskaPitchNamesMap [kG_DoubleFlat_QTP]  = "gessess";
+  gSvenskaPitchNamesMap [kG_SesquiFlat_QTP]  = "gSesquiFlat???";
+  gSvenskaPitchNamesMap [kG_Flat_QTP]        = "gess";
+  gSvenskaPitchNamesMap [kG_SemiFlat_QTP]    = "gSemiFlat???";
+  gSvenskaPitchNamesMap [kG_Natural_QTP]     = "g";
+  gSvenskaPitchNamesMap [kG_SemiSharp_QTP]   = "gSemiSharp???";
+  gSvenskaPitchNamesMap [kG_Sharp_QTP]       = "giss";
+  gSvenskaPitchNamesMap [kG_SesquiSharp_QTP] = "gSesquiSharp???";
+  gSvenskaPitchNamesMap [kG_DoubleSharp_QTP] = "gississ";
 
   // vlaams
-  gVlaamsPitchName [k_NoQuarterTonesPitch_QTP]  = "none";
-  gVlaamsPitchName [k_Rest_QTP]                 = "r";
+  gVlaamsPitchNamesMap [k_NoQuarterTonesPitch_QTP]  = "none";
+  gVlaamsPitchNamesMap [k_Rest_QTP]                 = "r";
   
-  gVlaamsPitchName [kA_DoubleFlat_QTP]  = "labb";
-  gVlaamsPitchName [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
-  gVlaamsPitchName [kA_Flat_QTP]        = "lab";
-  gVlaamsPitchName [kA_SemiFlat_QTP]    = "laSemiFlat???";
-  gVlaamsPitchName [kA_Natural_QTP]     = "la";
-  gVlaamsPitchName [kA_SemiSharp_QTP]   = "laSemiSharp???";
-  gVlaamsPitchName [kA_Sharp_QTP]       = "lak";
-  gVlaamsPitchName [kA_SesquiSharp_QTP] = "laSesquiSharp???";
-  gVlaamsPitchName [kA_DoubleSharp_QTP] = "lakk";
+  gVlaamsPitchNamesMap [kA_DoubleFlat_QTP]  = "labb";
+  gVlaamsPitchNamesMap [kA_SesquiFlat_QTP]  = "laSesquiFlat???";
+  gVlaamsPitchNamesMap [kA_Flat_QTP]        = "lab";
+  gVlaamsPitchNamesMap [kA_SemiFlat_QTP]    = "laSemiFlat???";
+  gVlaamsPitchNamesMap [kA_Natural_QTP]     = "la";
+  gVlaamsPitchNamesMap [kA_SemiSharp_QTP]   = "laSemiSharp???";
+  gVlaamsPitchNamesMap [kA_Sharp_QTP]       = "lak";
+  gVlaamsPitchNamesMap [kA_SesquiSharp_QTP] = "laSesquiSharp???";
+  gVlaamsPitchNamesMap [kA_DoubleSharp_QTP] = "lakk";
     
-  gVlaamsPitchName [kB_DoubleFlat_QTP]  = "sibb";
-  gVlaamsPitchName [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
-  gVlaamsPitchName [kB_Flat_QTP]        = "sib";
-  gVlaamsPitchName [kB_SemiFlat_QTP]    = "siSemiFlat???";
-  gVlaamsPitchName [kB_Natural_QTP]     = "si";
-  gVlaamsPitchName [kB_SemiSharp_QTP]   = "siSemiSharp???";
-  gVlaamsPitchName [kB_Sharp_QTP]       = "sik";
-  gVlaamsPitchName [kB_SesquiSharp_QTP] = "siSesquiSharp???";
-  gVlaamsPitchName [kB_DoubleSharp_QTP] = "sikk";
+  gVlaamsPitchNamesMap [kB_DoubleFlat_QTP]  = "sibb";
+  gVlaamsPitchNamesMap [kB_SesquiFlat_QTP]  = "siSesquiFlat???";
+  gVlaamsPitchNamesMap [kB_Flat_QTP]        = "sib";
+  gVlaamsPitchNamesMap [kB_SemiFlat_QTP]    = "siSemiFlat???";
+  gVlaamsPitchNamesMap [kB_Natural_QTP]     = "si";
+  gVlaamsPitchNamesMap [kB_SemiSharp_QTP]   = "siSemiSharp???";
+  gVlaamsPitchNamesMap [kB_Sharp_QTP]       = "sik";
+  gVlaamsPitchNamesMap [kB_SesquiSharp_QTP] = "siSesquiSharp???";
+  gVlaamsPitchNamesMap [kB_DoubleSharp_QTP] = "sikk";
     
-  gVlaamsPitchName [kC_DoubleFlat_QTP]  = "dobb";
-  gVlaamsPitchName [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
-  gVlaamsPitchName [kC_Flat_QTP]        = "dob";
-  gVlaamsPitchName [kC_SemiFlat_QTP]    = "doSemiFlat???";
-  gVlaamsPitchName [kC_Natural_QTP]     = "do";
-  gVlaamsPitchName [kC_SemiSharp_QTP]   = "doSemiSharp???";
-  gVlaamsPitchName [kC_Sharp_QTP]       = "dok";
-  gVlaamsPitchName [kC_SesquiSharp_QTP] = "doSesquiSharp???";
-  gVlaamsPitchName [kC_DoubleSharp_QTP] = "dokk";
+  gVlaamsPitchNamesMap [kC_DoubleFlat_QTP]  = "dobb";
+  gVlaamsPitchNamesMap [kC_SesquiFlat_QTP]  = "doSesquiFlat???";
+  gVlaamsPitchNamesMap [kC_Flat_QTP]        = "dob";
+  gVlaamsPitchNamesMap [kC_SemiFlat_QTP]    = "doSemiFlat???";
+  gVlaamsPitchNamesMap [kC_Natural_QTP]     = "do";
+  gVlaamsPitchNamesMap [kC_SemiSharp_QTP]   = "doSemiSharp???";
+  gVlaamsPitchNamesMap [kC_Sharp_QTP]       = "dok";
+  gVlaamsPitchNamesMap [kC_SesquiSharp_QTP] = "doSesquiSharp???";
+  gVlaamsPitchNamesMap [kC_DoubleSharp_QTP] = "dokk";
     
-  gVlaamsPitchName [kD_DoubleFlat_QTP]  = "rebb";
-  gVlaamsPitchName [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
-  gVlaamsPitchName [kD_Flat_QTP]        = "reb";
-  gVlaamsPitchName [kD_SemiFlat_QTP]    = "reSemiFlat???";
-  gVlaamsPitchName [kD_Natural_QTP]     = "re";
-  gVlaamsPitchName [kD_SemiSharp_QTP]   = "reSemiSharp???";
-  gVlaamsPitchName [kD_Sharp_QTP]       = "rek";
-  gVlaamsPitchName [kD_SesquiSharp_QTP] = "reSesquiSharp???";
-  gVlaamsPitchName [kD_DoubleSharp_QTP] = "rekk";
+  gVlaamsPitchNamesMap [kD_DoubleFlat_QTP]  = "rebb";
+  gVlaamsPitchNamesMap [kD_SesquiFlat_QTP]  = "reSesquiFlat???";
+  gVlaamsPitchNamesMap [kD_Flat_QTP]        = "reb";
+  gVlaamsPitchNamesMap [kD_SemiFlat_QTP]    = "reSemiFlat???";
+  gVlaamsPitchNamesMap [kD_Natural_QTP]     = "re";
+  gVlaamsPitchNamesMap [kD_SemiSharp_QTP]   = "reSemiSharp???";
+  gVlaamsPitchNamesMap [kD_Sharp_QTP]       = "rek";
+  gVlaamsPitchNamesMap [kD_SesquiSharp_QTP] = "reSesquiSharp???";
+  gVlaamsPitchNamesMap [kD_DoubleSharp_QTP] = "rekk";
 
-  gVlaamsPitchName [kE_DoubleFlat_QTP]  = "mibb";
-  gVlaamsPitchName [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
-  gVlaamsPitchName [kE_Flat_QTP]        = "mib";
-  gVlaamsPitchName [kE_SemiFlat_QTP]    = "miSemiFlat???";
-  gVlaamsPitchName [kE_Natural_QTP]     = "mi";
-  gVlaamsPitchName [kE_SemiSharp_QTP]   = "miSemiSharp???";
-  gVlaamsPitchName [kE_Sharp_QTP]       = "mik";
-  gVlaamsPitchName [kE_SesquiSharp_QTP] = "miSesquiSharp???";
-  gVlaamsPitchName [kE_DoubleSharp_QTP] = "mikk";
+  gVlaamsPitchNamesMap [kE_DoubleFlat_QTP]  = "mibb";
+  gVlaamsPitchNamesMap [kE_SesquiFlat_QTP]  = "miSesquiFlat???";
+  gVlaamsPitchNamesMap [kE_Flat_QTP]        = "mib";
+  gVlaamsPitchNamesMap [kE_SemiFlat_QTP]    = "miSemiFlat???";
+  gVlaamsPitchNamesMap [kE_Natural_QTP]     = "mi";
+  gVlaamsPitchNamesMap [kE_SemiSharp_QTP]   = "miSemiSharp???";
+  gVlaamsPitchNamesMap [kE_Sharp_QTP]       = "mik";
+  gVlaamsPitchNamesMap [kE_SesquiSharp_QTP] = "miSesquiSharp???";
+  gVlaamsPitchNamesMap [kE_DoubleSharp_QTP] = "mikk";
     
-  gVlaamsPitchName [kF_DoubleFlat_QTP]  = "fabb";
-  gVlaamsPitchName [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
-  gVlaamsPitchName [kF_Flat_QTP]        = "fab";
-  gVlaamsPitchName [kF_SemiFlat_QTP]    = "faSemiFlat???";
-  gVlaamsPitchName [kF_Natural_QTP]     = "fa";
-  gVlaamsPitchName [kF_SemiSharp_QTP]   = "faSemiSharp???";
-  gVlaamsPitchName [kF_Sharp_QTP]       = "fak";
-  gVlaamsPitchName [kF_SesquiSharp_QTP] = "faSesquiSharp???";
-  gVlaamsPitchName [kF_DoubleSharp_QTP] = "fakk";
+  gVlaamsPitchNamesMap [kF_DoubleFlat_QTP]  = "fabb";
+  gVlaamsPitchNamesMap [kF_SesquiFlat_QTP]  = "faSesquiFlat???";
+  gVlaamsPitchNamesMap [kF_Flat_QTP]        = "fab";
+  gVlaamsPitchNamesMap [kF_SemiFlat_QTP]    = "faSemiFlat???";
+  gVlaamsPitchNamesMap [kF_Natural_QTP]     = "fa";
+  gVlaamsPitchNamesMap [kF_SemiSharp_QTP]   = "faSemiSharp???";
+  gVlaamsPitchNamesMap [kF_Sharp_QTP]       = "fak";
+  gVlaamsPitchNamesMap [kF_SesquiSharp_QTP] = "faSesquiSharp???";
+  gVlaamsPitchNamesMap [kF_DoubleSharp_QTP] = "fakk";
     
-  gVlaamsPitchName [kG_DoubleFlat_QTP]  = "solbb";
-  gVlaamsPitchName [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
-  gVlaamsPitchName [kG_Flat_QTP]        = "solb";
-  gVlaamsPitchName [kG_SemiFlat_QTP]    = "solSemiFlat???";
-  gVlaamsPitchName [kG_Natural_QTP]     = "sol";
-  gVlaamsPitchName [kG_SemiSharp_QTP]   = "solSemiSharp???";
-  gVlaamsPitchName [kG_Sharp_QTP]       = "solk";
-  gVlaamsPitchName [kG_SesquiSharp_QTP] = "solSesquiSharp???";
-  gVlaamsPitchName [kG_DoubleSharp_QTP] = "solkk";
+  gVlaamsPitchNamesMap [kG_DoubleFlat_QTP]  = "solbb";
+  gVlaamsPitchNamesMap [kG_SesquiFlat_QTP]  = "solSesquiFlat???";
+  gVlaamsPitchNamesMap [kG_Flat_QTP]        = "solb";
+  gVlaamsPitchNamesMap [kG_SemiFlat_QTP]    = "solSemiFlat???";
+  gVlaamsPitchNamesMap [kG_Natural_QTP]     = "sol";
+  gVlaamsPitchNamesMap [kG_SemiSharp_QTP]   = "solSemiSharp???";
+  gVlaamsPitchNamesMap [kG_Sharp_QTP]       = "solk";
+  gVlaamsPitchNamesMap [kG_SesquiSharp_QTP] = "solSesquiSharp???";
+  gVlaamsPitchNamesMap [kG_DoubleSharp_QTP] = "solkk";
 }
 
 string msrDiatonicPitchKindAsString (
@@ -2678,7 +2678,7 @@ msrDiatonicPitchKind msrDiatonicPitchKindFromString (
 }
 
 string msrDiatonicPitchKindAsString (
-  msrQuarterTonesPitchesLanguageKind languageKind,
+  msrQuarterTonesPitchesLanguageKind languageKind, // JMI
   msrDiatonicPitchKind               diatonicPitchKind)
 {
   string result;
@@ -3642,40 +3642,40 @@ string msrQuarterTonesPitchKindAsString (
   
   switch (languageKind) {
     case kNederlands:
-      result = gNederlandsPitchName [quarterTonesPitchKind];
+      result = gNederlandsPitchNamesMap [quarterTonesPitchKind];
       break;
     case kCatalan:
-      result = gCatalanPitchName [quarterTonesPitchKind];
+      result = gCatalanPitchNamesMap [quarterTonesPitchKind];
       break;
     case kDeutsch:
-      result = gDeutschPitchName [quarterTonesPitchKind];
+      result = gDeutschPitchNamesMap [quarterTonesPitchKind];
       break;
     case kEnglish:
-      result = gEnglishPitchName [quarterTonesPitchKind];
+      result = gEnglishPitchNamesMap [quarterTonesPitchKind];
       break;
     case kEspanol:
-      result = gEspanolPitchName [quarterTonesPitchKind];
+      result = gEspanolPitchNamesMap [quarterTonesPitchKind];
       break;
     case kFrancais:
-      result = gFrancaisPitchName [quarterTonesPitchKind];
+      result = gFrancaisPitchNamesMap [quarterTonesPitchKind];
       break;
     case kItaliano:
-      result = gItalianoPitchName [quarterTonesPitchKind];
+      result = gItalianoPitchNamesMap [quarterTonesPitchKind];
       break;
     case kNorsk:
-      result = gNorskPitchName [quarterTonesPitchKind];
+      result = gNorskPitchNamesMap [quarterTonesPitchKind];
       break;
     case kPortugues:
-      result = gPortuguesPitchName [quarterTonesPitchKind];
+      result = gPortuguesPitchNamesMap [quarterTonesPitchKind];
       break;
     case kSuomi:
-      result = gSuomiPitchName [quarterTonesPitchKind];
+      result = gSuomiPitchNamesMap [quarterTonesPitchKind];
       break;
     case kSvenska:
-      result = gSvenskaPitchName [quarterTonesPitchKind];
+      result = gSvenskaPitchNamesMap [quarterTonesPitchKind];
       break;
     case kVlaams:
-      result = gVlaamsPitchName [quarterTonesPitchKind];
+      result = gVlaamsPitchNamesMap [quarterTonesPitchKind];
       break;
   } // switch
 
@@ -3683,11 +3683,67 @@ string msrQuarterTonesPitchKindAsString (
 }
 
 msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
-  string quarterTonesPitchName)
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  string                             quarterTonesPitchName)
 {
   msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
 
+  map<msrQuarterTonesPitchKind, string> *pitchNamesMapPTR;
 
+  // is quarterTonesPitchName in the part renaming map?
+  switch (languageKind) {
+    case kNederlands:
+      pitchNamesMapPTR = &gNederlandsPitchNamesMap;
+      break;
+    case kCatalan:
+      pitchNamesMapPTR = &gCatalanPitchNamesMap;
+      break;
+    case kDeutsch:
+      pitchNamesMapPTR = &gDeutschPitchNamesMap;
+      break;
+    case kEnglish:
+      pitchNamesMapPTR = &gEnglishPitchNamesMap;
+      break;
+    case kEspanol:
+      pitchNamesMapPTR = &gEspanolPitchNamesMap;
+      break;
+    case kFrancais:
+      pitchNamesMapPTR = &gFrancaisPitchNamesMap;
+      break;
+    case kItaliano:
+      pitchNamesMapPTR = &gItalianoPitchNamesMap;
+      break;
+    case kNorsk:
+      pitchNamesMapPTR = &gNorskPitchNamesMap;
+      break;
+    case kPortugues:
+      pitchNamesMapPTR = &gPortuguesPitchNamesMap;
+      break;
+    case kSuomi:
+      pitchNamesMapPTR = &gSuomiPitchNamesMap;
+      break;
+    case kSvenska:
+      pitchNamesMapPTR = &gSvenskaPitchNamesMap;
+      break;
+    case kVlaams:
+      pitchNamesMapPTR = &gVlaamsPitchNamesMap;
+      break;
+  } // switch
+
+  // is quarterTonesPitchName present in the map?
+  if (gQuarterTonesPitchesLanguageKindsMap.size ()) {
+    map<msrQuarterTonesPitchKind, string>::const_iterator
+      iBegin = (*pitchNamesMapPTR).begin (),
+      iEnd   = (*pitchNamesMapPTR).end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      if ((*i).second == quarterTonesPitchName) {
+        result = (*i).first;
+        break;
+      }
+      if (++i == iEnd) break;
+    } // for
+  }
   
   return result;
 }
@@ -3991,7 +4047,9 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
       break;
   } // switch
   */
-  
+
+
+  /* JMI
   switch (semiTonesPitchKind) {
     case k_NoWellTemperedPitch_STP:
       result = k_NoQuarterTonesPitch_QTP;
@@ -4080,6 +4138,9 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
       result = kB_Natural_QTP;
       break;
   } // switch
+  */
+
+  
 
   return result;
 }
@@ -5011,13 +5072,15 @@ string msrSpannerTypeKindAsString (
 S_msrChordItem msrChordItem::create (
   int             inputLineNumber,
   int             chordItemNumber,
-  msrIntervalKind chordItemIntervalKind)
+  msrIntervalKind chordItemIntervalKind,
+  int             chordItemRelativeOctave)
 {
   msrChordItem* o =
     new msrChordItem (
       inputLineNumber,
       chordItemNumber,
-      chordItemIntervalKind);
+      chordItemIntervalKind,
+      chordItemRelativeOctave);
   assert(o!=0);
 
   return o;
@@ -5026,11 +5089,15 @@ S_msrChordItem msrChordItem::create (
 msrChordItem::msrChordItem (
   int             inputLineNumber,
   int             chordItemNumber,
-  msrIntervalKind chordItemIntervalKind)
+  msrIntervalKind chordItemIntervalKind,
+  int             chordItemRelativeOctave)
   // JMI  : msrElement (inputLineNumber)
 {
   fChordItemNumber       = chordItemNumber;
+  
   fChordItemIntervalKind = chordItemIntervalKind;
+
+  fChordItemRelativeOctave = chordItemRelativeOctave;
 
   if (TRACE_MSR_BASIC_TYPES) {
     gLogIOstream <<
@@ -5052,7 +5119,8 @@ string msrChordItem::chordItemAsString () const
   s <<
     "ChordItem" <<
     " " << fChordItemNumber <<
-    ": " << msrIntervalKindAsString (fChordItemIntervalKind);
+    ": " << msrIntervalKindAsString (fChordItemIntervalKind) <<
+    ", chordItemRelativeOctave: " << fChordItemRelativeOctave;
 
   return s.str ();
 }
@@ -5112,12 +5180,28 @@ void msrChordItem::print (ostream& os)
 {  
   os <<
     "ChordItem" <<
-    ", number: " << fChordItemNumber <<
-    ", interval: " << msrIntervalKindAsString (fChordItemIntervalKind) <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "chordItemNumber" << " : " << fChordItemNumber <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordItemIntervalKind" << " : " <<
+      msrIntervalKindAsString (fChordItemIntervalKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordItemRelativeOctave" << " : " << fChordItemRelativeOctave <<
   /* JMI
     ", line: " << fInputLineNumber <<
     */
     endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________
@@ -5168,19 +5252,22 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
 /* JMI
         gLogIOstream <<
@@ -5202,19 +5289,22 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
       }
       break;
@@ -5225,19 +5315,22 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kAugmentedFifth)
+            kAugmentedFifth,
+            0) // relative octave
           );
       }
       break;
@@ -5248,19 +5341,22 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kDiminishedFifth)
+            kDiminishedFifth,
+            0) // relative octave
           );
       }
       break;
@@ -5271,25 +5367,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
       }
       break;
@@ -5300,25 +5400,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMajorSeventh)
+            kMajorSeventh,
+            0) // relative octave
           );
       }
       break;
@@ -5329,25 +5433,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
       }
       break;
@@ -5358,25 +5466,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kDiminishedFifth)
+            kDiminishedFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kDiminishedSeventh)
+            kDiminishedSeventh,
+            0) // relative octave
           );
       }
       break;
@@ -5387,25 +5499,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kAugmentedFifth)
+            kAugmentedFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
       }
       break;
@@ -5416,25 +5532,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kDiminishedFifth)
+            kDiminishedFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
       }
       break;
@@ -5445,25 +5565,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMajorSeventh)
+            kMajorSeventh,
+            0) // relative octave
           );
       }
       break;
@@ -5474,25 +5598,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMajorSixth)
+            kMajorSixth,
+            0) // relative octave
           );
       }
       break;
@@ -5503,25 +5631,29 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMajorSixth)
+            kMajorSixth,
+            0) // relative octave
           );
       }
       break;
@@ -5532,31 +5664,36 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorSeventh)
+            kMajorSeventh,
+            0) // relative octave
           );
       }
       break;
@@ -5567,31 +5704,36 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMajorSeventh)
+            kMajorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorNinth)
+            kMajorNinth,
+            0) // relative octave
           );
       }
       break;
@@ -5602,31 +5744,36 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorNinth)
+            kMajorNinth,
+            0) // relative octave
           );
       }
       break;
@@ -5637,37 +5784,43 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorSeventh)
+            kMajorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             6, // chord item number
-            kPerEleventh)
+            kPerEleventh,
+            0) // relative octave
           );
       }
       break;
@@ -5678,37 +5831,43 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMajorSeventh)
+            kMajorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorNinth)
+            kMajorNinth,
+            0) // relative octave
           );
          appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             6, // chord item number
-            kPerEleventh)
+            kPerEleventh,
+            0) // relative octave
           );
       }
       break;
@@ -5719,37 +5878,43 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorNinth)
+            kMajorNinth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             6, // chord item number
-            kPerEleventh)
+            kPerEleventh,
+            0) // relative octave
           );
       }
       break;
@@ -5760,43 +5925,50 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorSeventh)
+            kMajorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             6, // chord item number
-            kPerEleventh)
+            kPerEleventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             7, // chord item number
-            kMajorThirteenth)
+            kMajorThirteenth,
+            0) // relative octave
           );
       }
       break;
@@ -5807,43 +5979,50 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMajorSeventh)
+            kMajorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorNinth)
+            kMajorNinth,
+            0) // relative octave
           );
          appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             6, // chord item number
-            kPerEleventh)
+            kPerEleventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             7, // chord item number
-            kMajorThirteenth)
+            kMajorThirteenth,
+            0) // relative octave
           );
       }
       break;
@@ -5854,43 +6033,50 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kMinorSeventh)
+            kMinorSeventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             5, // chord item number
-            kMajorNinth)
+            kMajorNinth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             6, // chord item number
-            kPerEleventh)
+            kPerEleventh,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             7, // chord item number
-            kMajorThirteenth)
+            kMajorThirteenth,
+            0) // relative octave
           );
       }
       break;
@@ -5901,19 +6087,22 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorSecond)
+            kMajorSecond,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
       }
       break;
@@ -5924,19 +6113,22 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kPerFourth)
+            kPerFourth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
       }
       break;
@@ -5963,19 +6155,22 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMinorThird)
+            kMinorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kDiminishedSixth)
+            kDiminishedSixth,
+            0) // relative octave
           );
       }
       break;
@@ -5986,19 +6181,22 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kAugmentedSixth)
+            kAugmentedSixth,
+            0) // relative octave
           );
       }
       break;
@@ -6009,25 +6207,29 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kAugmentedFourth)
+            kAugmentedFourth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kAugmentedSixth)
+            kAugmentedSixth,
+            0) // relative octave
           );
       }
       break;
@@ -6038,25 +6240,29 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kMajorThird)
+            kMajorThird,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kAugmentedSixth)
+            kAugmentedSixth,
+            0) // relative octave
           );
       }
       break;
@@ -6070,13 +6276,15 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kPerFifth)
+            kPerFifth,
+            0) // relative octave
           );
       }
       break;
@@ -6087,25 +6295,29 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             0, // input line number
             1, // chord item number
-            kUnisson)
+            kUnisson,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             2, // chord item number
-            kAugmentedSecond)
+            kAugmentedSecond,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             3, // chord item number
-            kAugmentedFourth)
+            kAugmentedFourth,
+            0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             0, // input line number
             4, // chord item number
-            kAugmentedSixth)
+            kAugmentedSixth,
+            0) // relative octave
           );
       }
       break;

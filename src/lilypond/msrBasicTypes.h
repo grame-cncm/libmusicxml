@@ -220,8 +220,8 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrAlterationPreferenceKind alterationPreferenceKind);
 
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
-  msrIntervalKind             intervalKind,
-  msrSemiTonesPitchKind       semiTonesPitchKind);
+  msrIntervalKind       intervalKind,
+  msrSemiTonesPitchKind semiTonesPitchKind);
 
 // harmonies
 //______________________________________________________________________________
@@ -282,7 +282,8 @@ string msrQuarterTonesPitchKindAsString (
   msrQuarterTonesPitchKind           quarterTonesPitchKind);
 
 msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
-  string quarterTonesPitchName);
+  msrQuarterTonesPitchesLanguageKind languageKind,
+  string                             quarterTonesPitchName);
 
 // enharmonies
 //______________________________________________________________________________
@@ -569,7 +570,8 @@ class msrChordItem : public smartable
     static SMARTP<msrChordItem> create (
       int             inputLineNumber,
       int             chordItemNumber,
-      msrIntervalKind chordItemIntervalKind);
+      msrIntervalKind chordItemIntervalKind,
+      int             chordItemRelativeOctave);
 
     /* JMI
     SMARTP<msrChordItem> createChordItemNewbornClone (
@@ -587,7 +589,8 @@ class msrChordItem : public smartable
     msrChordItem (
       int             inputLineNumber,
       int             chordItemNumber,
-      msrIntervalKind chordItemIntervalKind);
+      msrIntervalKind chordItemIntervalKind,
+      int             chordItemRelativeOctave);
 
     virtual ~msrChordItem ();
   
@@ -601,6 +604,9 @@ class msrChordItem : public smartable
                               
     msrIntervalKind       getChordItemIntervalKind () const
                               { return fChordItemIntervalKind; }
+                              
+    int                   getChordItemRelativeOctave () const
+                              { return fChordItemRelativeOctave; }
                               
     // services
     // ------------------------------------------------------
@@ -638,7 +644,10 @@ class msrChordItem : public smartable
     // ------------------------------------------------------
 
     int                   fChordItemNumber;
+    
     msrIntervalKind       fChordItemIntervalKind;
+
+    int                   fChordItemRelativeOctave;
 };
 typedef SMARTP<msrChordItem> S_msrChordItem;
 EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
@@ -825,18 +834,18 @@ extern map<msrHarmonyKind, S_msrChordIntervals>
 extern map<string, msrQuarterTonesPitchesLanguageKind>
   gQuarterTonesPitchesLanguageKindsMap;
 
-extern map<msrQuarterTonesPitchKind, string> gNederlandsPitchName;
-extern map<msrQuarterTonesPitchKind, string> gCatalanPitchName;
-extern map<msrQuarterTonesPitchKind, string> gDeutschPitchName;
-extern map<msrQuarterTonesPitchKind, string> gEnglishPitchName;
-extern map<msrQuarterTonesPitchKind, string> gEspanolPitchName;
-extern map<msrQuarterTonesPitchKind, string> gFrancaisPitchName;
-extern map<msrQuarterTonesPitchKind, string> gItalianoPitchName;
-extern map<msrQuarterTonesPitchKind, string> gNorskPitchName;
-extern map<msrQuarterTonesPitchKind, string> gPortuguesPitchName;
-extern map<msrQuarterTonesPitchKind, string> gSuomiPitchName;
-extern map<msrQuarterTonesPitchKind, string> gSvenskaPitchName;
-extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchName;
+extern map<msrQuarterTonesPitchKind, string> gNederlandsPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gCatalanPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gDeutschPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gEnglishPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gEspanolPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gFrancaisPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gItalianoPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gNorskPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gPortuguesPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gSuomiPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gSvenskaPitchNamesMap;
+extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
 
 string existingQuarterTonesPitchesLanguageKinds ();
 
