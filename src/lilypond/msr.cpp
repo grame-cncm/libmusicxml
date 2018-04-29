@@ -26069,7 +26069,7 @@ void msrMultipleRest::print (ostream& os)
 
   const int fieldWidth = 24;
 
-  // print teh voice uplink
+  // print the voice uplink
   os << left <<
     setw (fieldWidth) <<
     "MultipleRestVoiceUplink" << " : " <<

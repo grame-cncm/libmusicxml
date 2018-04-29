@@ -365,7 +365,7 @@ S_generalOptions generalOptions::createCloneWithTrueValues ()
   S_generalOptions
     clone =
       generalOptions::create (0);
-      // 0 not to have it inserted twice in teh option handler
+      // 0 not to have it inserted twice in the option handler
 
   // set the options handler uplink
   clone->

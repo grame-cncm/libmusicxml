@@ -219,6 +219,10 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
 
+msrSemiTonesPitchKind noteAtIntervalKindFromNote (
+  msrIntervalKind             intervalKind,
+  msrSemiTonesPitchKind       semiTonesPitchKind);
+
 // harmonies
 //______________________________________________________________________________
 enum msrHarmonyKind {

@@ -697,7 +697,7 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
   S_lilypondOptions
     clone =
       lilypondOptions::create (0);
-      // 0 not to have it inserted twice in teh option handler
+      // 0 not to have it inserted twice in the option handler
 
   // set the options handler uplink
   clone->

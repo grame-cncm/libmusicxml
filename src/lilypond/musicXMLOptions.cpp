@@ -279,7 +279,7 @@ S_musicXMLOptions musicXMLOptions::createCloneWithDetailedTrace ()
   S_musicXMLOptions
     clone =
       musicXMLOptions::create (0);
-      // 0 not to have it inserted twice in teh option handler
+      // 0 not to have it inserted twice in the option handler
 
   // set the options handler uplink
   clone->

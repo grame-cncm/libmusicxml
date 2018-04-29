@@ -970,6 +970,405 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   return result;
 }
 
+msrSemiTonesPitchKind noteAtIntervalKindFromNote (
+  msrIntervalKind             intervalKind,
+  msrSemiTonesPitchKind       semiTonesPitchKind)
+{
+  msrSemiTonesPitchKind result = k_NoWellTemperedPitch_STP;
+
+  switch (semiTonesPitchKind) {
+    case k_NoWellTemperedPitch_STP:
+      result = k_NoWellTemperedPitch_STP;
+      break;
+
+    case kB_Sharp_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kB_Natural_STP;
+          break;
+        case kUnisson:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedUnison:
+          result = kC_Natural_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorSecond:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorSecond:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedSecond:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedThird:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorThird:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorThird:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedThird:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedFourth:
+          result = semiTonesPitchKind;
+          break;
+        case kPerFourth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedFourth:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedFifth:
+          result = semiTonesPitchKind;
+          break;
+        case kPerFifth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedFifth:
+          result = semiTonesPitchKind;
+          break;
+    
+        case kDiminishedSixth:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorSixth:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorSixth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedSixth:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedSeventh:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorSeventh:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorSeventh:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedSeventh:
+          result = semiTonesPitchKind;
+          break;
+    
+        case kDiminishedOctave:
+          result = semiTonesPitchKind;
+          break;
+        case kPerOctave:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedOctave:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedNinth:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorNinth:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorNinth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedNinth:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedTenth:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorTenth:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorTenth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedTenth:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedEleventh:
+          result = semiTonesPitchKind;
+          break;
+        case kPerEleventh:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedEleventh:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = semiTonesPitchKind;
+          break;
+        case kPerTwelfth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedTwelfth:
+          result = semiTonesPitchKind;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorThirteenth:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorThirteenth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedThirteenth:
+          result = semiTonesPitchKind;
+          break;
+      } // switch
+      break;
+          
+    case kC_Natural_STP:
+      break;
+    case kD_DoubleFlat_STP:
+      break;
+      
+    case kC_Sharp_STP:
+      break;
+    case kB_DoubleSharp_STP:
+      break;
+    case kD_Flat_STP:
+      break;
+
+    case kD_Natural_STP:
+      break;
+    case kC_DoubleSharp_STP:
+      break;
+    case kE_DoubleFlat_STP:
+      break;
+
+    case kD_Sharp_STP:
+      break;
+
+    case kE_Flat_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kB_Natural_STP;
+          break;
+        case kUnisson:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedUnison:
+          result = kC_Natural_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorSecond:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorSecond:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedSecond:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedThird:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorThird:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorThird:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedThird:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedFourth:
+          result = semiTonesPitchKind;
+          break;
+        case kPerFourth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedFourth:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedFifth:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kPerFifth:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedFifth:
+          result = kB_Natural_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorSixth:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorSixth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedSixth:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedSeventh:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorSeventh:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorSeventh:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedSeventh:
+          result = semiTonesPitchKind;
+          break;
+    
+        case kDiminishedOctave:
+          result = semiTonesPitchKind;
+          break;
+        case kPerOctave:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedOctave:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedNinth:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorNinth:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorNinth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedNinth:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedTenth:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorTenth:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorTenth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedTenth:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedEleventh:
+          result = semiTonesPitchKind;
+          break;
+        case kPerEleventh:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedEleventh:
+          result = semiTonesPitchKind;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = semiTonesPitchKind;
+          break;
+        case kPerTwelfth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedTwelfth:
+          result = semiTonesPitchKind;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = semiTonesPitchKind;
+          break;
+        case kMinorThirteenth:
+          result = semiTonesPitchKind;
+          break;
+        case kMajorThirteenth:
+          result = semiTonesPitchKind;
+          break;
+        case kAugmentedThirteenth:
+          result = semiTonesPitchKind;
+          break;
+      } // switch
+      break;
+      
+    case kE_Natural_STP:
+      break;
+    case kD_DoubleSharp_STP:
+      break;
+    case kF_Flat_STP:
+      break;
+      
+    case kF_Natural_STP:
+      break;
+    case kE_Sharp_STP:
+      break;
+    case kG_DoubleFlat_STP:
+      break;
+      
+    case kF_Sharp_STP:
+      break;
+    case kE_DoubleSharp_STP:
+      break;
+    case kG_Flat_STP:
+      break;
+      
+    case kG_Natural_STP:
+      break;
+    case kF_DoubleSharp_STP:
+      break;
+    case kA_DoubleFlat_STP:
+      break;
+      
+    case kG_Sharp_STP:
+      break;
+    case kA_Flat_STP:
+      break;
+      
+    case kA_Natural_STP:
+      break;
+    case kG_DoubleSharp_STP:
+      break;
+    case kB_DoubleFlat_STP:
+      break;
+      
+    case kA_Sharp_STP:
+      break;
+    case kB_Flat_STP:
+      break;
+
+    case kB_Natural_STP:
+      break;
+    case kA_DoubleSharp_STP:
+      break;
+    case kC_Flat_STP:
+      break;
+  } // switch
+
+  return result;
+}
+
 // harmonies
 //______________________________________________________________________________
 string msrHarmonyKindAsString (
