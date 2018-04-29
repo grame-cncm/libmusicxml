@@ -115,7 +115,7 @@ string msrSemiTonesPitchKindAsString (
 // quarter tones pitches
 //______________________________________________________________________________
 enum msrQuarterTonesPitchKind {
-  k_NoQuarterTonesPitch,
+  k_NoQuarterTonesPitch_QTP,
 
   k_Rest_QTP,
   
@@ -280,6 +280,9 @@ string msrDiatonicPitchKindAsString ( // JMI
 string msrQuarterTonesPitchKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrQuarterTonesPitchKind           quarterTonesPitchKind);
+
+msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
+  string quarterTonesPitchName);
 
 // enharmonies
 //______________________________________________________________________________

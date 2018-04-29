@@ -342,7 +342,7 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
 // JMI  fCurrentNoteKind = k_NoNoteKind;
 
-  fCurrentNoteQuarterTonesPitchKind = k_NoQuarterTonesPitch;
+  fCurrentNoteQuarterTonesPitchKind = k_NoQuarterTonesPitch_QTP;
   
   fCurrentNoteSoundingWholeNotes             = rational (-13, 1);
   fCurrentNoteSoundingWholeNotesFromDuration = rational (-17, 1);
@@ -356,7 +356,7 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
   fCurrentNoteOctave = K_NO_OCTAVE;
 
-  fCurrentNoteQuarterTonesDisplayPitchKind = k_NoQuarterTonesPitch;
+  fCurrentNoteQuarterTonesDisplayPitchKind = k_NoQuarterTonesPitch_QTP;
   fCurrentDisplayDiatonicPitchKind = k_NoDiatonicPitch;  
   fCurrentDisplayOctave = K_NO_OCTAVE;
 
@@ -2142,7 +2142,7 @@ S_msrKey mxmlTree2MsrTranslator::handleTraditionalKey (
   // key fifths number
   msrQuarterTonesPitchKind
     keyTonicPitchKind =
-      k_NoQuarterTonesPitch;
+      k_NoQuarterTonesPitch_QTP;
   
   switch (fCurrentKeyFifths) {
     case 0:
@@ -19554,7 +19554,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_harmony& elt )
       s.str ());
 
     fCurrentHarmonyBassQuarterTonesPitchKind =
-      k_NoQuarterTonesPitch;
+      k_NoQuarterTonesPitch_QTP;
   }
 
   // create the harmony

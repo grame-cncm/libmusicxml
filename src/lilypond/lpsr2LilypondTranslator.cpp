@@ -2182,7 +2182,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       harmony->
         getHarmonyBassQuarterTonesPitchKind ();
       
-  if (harmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch)
+  if (harmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP)
     s <<
       "/" <<
       msrQuarterTonesPitchKindAsString (
@@ -6214,7 +6214,7 @@ If the double element is present, it indicates that the music is doubled one oct
   
   // determine transposition pitch
   msrQuarterTonesPitchKind
-    transpositionPitchKind = k_NoQuarterTonesPitch;
+    transpositionPitchKind = k_NoQuarterTonesPitch_QTP;
   
   switch (transposeChromatic) {
     case -11:

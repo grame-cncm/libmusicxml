@@ -5945,7 +5945,7 @@ S_msrNote msrNote::createRestNote (
       
       kRestNote, // noteKind
       
-      k_NoQuarterTonesPitch,
+      k_NoQuarterTonesPitch_QTP,
       
       soundingWholeNotes,
       displayWholeNotes,
@@ -5956,7 +5956,7 @@ S_msrNote msrNote::createRestNote (
       
       K_NO_OCTAVE, // noteOctave,
       
-      k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
+      k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
       
       false, // noteIsARest
@@ -5989,7 +5989,7 @@ S_msrNote msrNote::createSkipNote (
       
       kSkipNote, // noteKind
       
-      k_NoQuarterTonesPitch,
+      k_NoQuarterTonesPitch_QTP,
       
       soundingWholeNotes,
       displayWholeNotes,
@@ -6000,7 +6000,7 @@ S_msrNote msrNote::createSkipNote (
       
       K_NO_OCTAVE, // noteOctave,
       
-      k_NoQuarterTonesPitch, // noteDisplayQuarterTonesPitch
+      k_NoQuarterTonesPitch_QTP, // noteDisplayQuarterTonesPitch
       K_NO_OCTAVE, // noteDisplayOctave,
       
       false, // noteIsARest
@@ -17615,7 +17615,7 @@ string msrHarmony::asString () const
   else
     s << fHarmonyInversion;
     
-  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch)
+  if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP)
     s <<
       "/" <<
     msrQuarterTonesPitchKindAsString (

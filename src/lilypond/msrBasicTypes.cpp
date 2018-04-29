@@ -1714,7 +1714,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gQuarterTonesPitchesLanguageKindsMap ["vlaams"]     = kVlaams;
 
   // nederlands
-  gNederlandsPitchName [k_NoQuarterTonesPitch]  = "";
+  gNederlandsPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gNederlandsPitchName [k_Rest_QTP]                 = "r";
   
   gNederlandsPitchName [kA_DoubleFlat_QTP]  = "aeses";
@@ -1788,7 +1788,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNederlandsPitchName [kG_DoubleSharp_QTP] = "gisis";
 
   // catalan
-  gCatalanPitchName [k_NoQuarterTonesPitch]  = "";
+  gCatalanPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gCatalanPitchName [k_Rest_QTP]                 = "r";
   
   gCatalanPitchName [kA_DoubleFlat_QTP]  = "labb";
@@ -1862,7 +1862,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gCatalanPitchName [kG_DoubleSharp_QTP] = "soldd";
 
   // deutsch
-  gDeutschPitchName [k_NoQuarterTonesPitch]  = "";
+  gDeutschPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gDeutschPitchName [k_Rest_QTP]                 = "r";
   
   gDeutschPitchName [kA_DoubleFlat_QTP]  = "asas";
@@ -1936,7 +1936,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gDeutschPitchName [kG_DoubleSharp_QTP] = "gisis";
 
   // english
-  gEnglishPitchName [k_NoQuarterTonesPitch]  = "";
+  gEnglishPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gEnglishPitchName [k_Rest_QTP]                 = "r";
   
   gEnglishPitchName [kA_DoubleFlat_QTP]  = "aff";
@@ -2010,7 +2010,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEnglishPitchName [kG_DoubleSharp_QTP] = "gx";
 
   // espanol
-  gEspanolPitchName [k_NoQuarterTonesPitch]  = "";
+  gEspanolPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gEspanolPitchName [k_Rest_QTP]                 = "r";
   
   gEspanolPitchName [kA_DoubleFlat_QTP]  = "labb";
@@ -2084,7 +2084,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gEspanolPitchName [kG_DoubleSharp_QTP] = "solx";
 
   // francais
-  gFrancaisPitchName [k_NoQuarterTonesPitch]  = "";
+  gFrancaisPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gFrancaisPitchName [k_Rest_QTP]                 = "r";
   
   gFrancaisPitchName [kA_DoubleFlat_QTP]  = "labb";
@@ -2158,7 +2158,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gFrancaisPitchName [kG_DoubleSharp_QTP] = "solss";
 
   // italiano
-  gItalianoPitchName [k_NoQuarterTonesPitch]  = "";
+  gItalianoPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gItalianoPitchName [k_Rest_QTP]                 = "r";
   
   gItalianoPitchName [kA_DoubleFlat_QTP]  = "labb";
@@ -2232,7 +2232,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gItalianoPitchName [kG_DoubleSharp_QTP] = "soldd";
 
   // norsk
-  gNorskPitchName [k_NoQuarterTonesPitch]  = "";
+  gNorskPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gNorskPitchName [k_Rest_QTP]                 = "r";
   
   gNorskPitchName [kA_DoubleFlat_QTP]  = "aeses";
@@ -2306,7 +2306,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gNorskPitchName [kG_DoubleSharp_QTP] = "gisis";
 
   // portugues
-  gPortuguesPitchName [k_NoQuarterTonesPitch]  = "";
+  gPortuguesPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gPortuguesPitchName [k_Rest_QTP]                 = "r";
   
   gPortuguesPitchName [kA_DoubleFlat_QTP]  = "labb";
@@ -2380,7 +2380,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gPortuguesPitchName [kG_DoubleSharp_QTP] = "soldd";
 
   // suomi
-  gSuomiPitchName [k_NoQuarterTonesPitch]  = "";
+  gSuomiPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gSuomiPitchName [k_Rest_QTP]                 = "r";
   
   gSuomiPitchName [kA_DoubleFlat_QTP]  = "asas";
@@ -2454,7 +2454,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSuomiPitchName [kG_DoubleSharp_QTP] = "gisis";
 
   // svenska
-  gSvenskaPitchName [k_NoQuarterTonesPitch]  = "";
+  gSvenskaPitchName [k_NoQuarterTonesPitch_QTP]  = "";
   gSvenskaPitchName [k_Rest_QTP]                 = "r";
   
   gSvenskaPitchName [kA_DoubleFlat_QTP]  = "assess";
@@ -2528,7 +2528,7 @@ void initializeQuarterTonesPitchesLanguageKinds ()
   gSvenskaPitchName [kG_DoubleSharp_QTP] = "gississ";
 
   // vlaams
-  gVlaamsPitchName [k_NoQuarterTonesPitch]  = "none";
+  gVlaamsPitchName [k_NoQuarterTonesPitch_QTP]  = "none";
   gVlaamsPitchName [k_Rest_QTP]                 = "r";
   
   gVlaamsPitchName [kA_DoubleFlat_QTP]  = "labb";
@@ -2870,7 +2870,7 @@ void setDiatonicPitchAndAlterationKind (
   msrAlterationKind&       alterationKind)
 {
   switch (quarterTonesPitchKind) {
-    case k_NoQuarterTonesPitch:
+    case k_NoQuarterTonesPitch_QTP:
       diatonicPitchKind = kA; // any value would fit
       alterationKind    = k_NoAlteration;
       break;
@@ -3148,7 +3148,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
 {
   msrQuarterTonesPitchKind
     result =
-      k_NoQuarterTonesPitch;
+      k_NoQuarterTonesPitch_QTP;
   
   switch (diatonicPitchKind) {
     case kA:
@@ -3484,7 +3484,7 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
 
     case k_NoDiatonicPitch:
       {
-        result = k_NoQuarterTonesPitch;
+        result = k_NoQuarterTonesPitch_QTP;
         /* JMI
         stringstream s;
 
@@ -3611,7 +3611,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
           s.str ());
       }
       
-    case k_NoQuarterTonesPitch:
+    case k_NoQuarterTonesPitch_QTP:
       {
         result = k_NoDiatonicPitch;
         
@@ -3619,7 +3619,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
         stringstream s;
 
         s <<
-          "cannot get the diatonic pitch of a k_NoQuarterTonesPitch"
+          "cannot get the diatonic pitch of a k_NoQuarterTonesPitch_QTP"
           ", line = " << inputLineNumber;
 
         msrInternalError (
@@ -3679,6 +3679,16 @@ string msrQuarterTonesPitchKindAsString (
       break;
   } // switch
 
+  return result;
+}
+
+msrQuarterTonesPitchKind msrQuarterTonesPitchKindFromString (
+  string quarterTonesPitchName)
+{
+  msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
+
+
+  
   return result;
 }
 
@@ -3894,7 +3904,7 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   /* JMI
   switch (semiTonesPitchKind) {
     case k_NoWellTemperedPitch_STP:
-      result = k_NoQuarterTonesPitch;
+      result = k_NoQuarterTonesPitch_QTP;
       break;
 
     case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
@@ -3984,7 +3994,7 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
   
   switch (semiTonesPitchKind) {
     case k_NoWellTemperedPitch_STP:
-      result = k_NoQuarterTonesPitch;
+      result = k_NoQuarterTonesPitch_QTP;
       break;
 
     case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
