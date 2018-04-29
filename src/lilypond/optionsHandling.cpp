@@ -2489,6 +2489,96 @@ ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt)
 }
 
 //______________________________________________________________________________
+S_optionsShowChordsNotesItem optionsShowChordsNotesItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsShowChordsNotesKindItemVariableDisplayName,
+  msrSemiTonesPitchKind&
+                     optionsShowChordsNotesKindItemVariable)
+{
+  optionsShowChordsNotesItem* o = new
+    optionsShowChordsNotesItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsShowChordsNotesKindItemVariableDisplayName,
+      optionsShowChordsNotesKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsShowChordsNotesItem::optionsShowChordsNotesItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsShowChordsNotesKindItemVariableDisplayName,
+  msrSemiTonesPitchKind&
+                     optionsShowChordsNotesKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsShowChordsNotesKindItemVariableDisplayName (
+      optionsShowChordsNotesKindItemVariableDisplayName),
+    fOptionsShowChordsNotesKindItemVariable (
+      optionsShowChordsNotesKindItemVariable)
+{}
+
+optionsShowChordsNotesItem::~optionsShowChordsNotesItem()
+{}
+
+void optionsShowChordsNotesItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsShowChordsNotesItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsShowChordsNotesKindItemVariableDisplayName" << " : " <<
+    fOptionsShowChordsNotesKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsShowChordsNotesKindItemVariable" << " : \"" <<
+    msrSemiTonesPitchKindAsString (
+      fOptionsShowChordsNotesKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsShowChordsNotesItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsShowChordsNotesKindItemVariableDisplayName <<
+    " : \"" <<
+    msrSemiTonesPitchKindAsString (
+      fOptionsShowChordsNotesKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsShowChordsNotesItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_optionsSubGroup optionsSubGroup::create (
   string optionsSubGroupHelpHeader,
   string optionsSubGroupShortName,
