@@ -173,7 +173,7 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 // intervals
 //______________________________________________________________________________
 enum msrIntervalKind {
-  kDiminishedUnisson, kUnisson, kAugmentedUnison,
+  kDiminishedUnisson, kPerUnison, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
   
@@ -214,10 +214,12 @@ string msrIntervalKindAsShortString (
 msrIntervalKind invertIntervalKind (
   msrIntervalKind intervalKind);
 
+/* JMI
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrIntervalKind             intervalKind,
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind);
+*/
 
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrIntervalKind       intervalKind,
