@@ -42,9 +42,9 @@ string msrDiatonicPitchKindAsString (
 enum msrAlterationKind {
   k_NoAlteration,
   
-  kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
+  kTripleFlat, kDoubleFlat, kSesquiFlat, kFlat, kSemiFlat,
   kNatural,
-  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp };
+  kSemiSharp, kSharp, kSesquiSharp, kDoubleSharp, kTripleSharp };
 
 msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   float alter);
@@ -82,32 +82,50 @@ enum msrSemiTonesPitchKind {
   
   k_NoWelTemperedPitch_STP };
   */
+
+  k_NoWellTemperedPitch_STP,
   
-  kC_Natural_STP, kB_Sharp_STP, kD_DoubleFlat_STP,
+  kC_TripleFlat_STP,
+  kC_DoubleFlat_STP, kC_Flat_STP,
+  kC_Natural_STP,
+  kC_Sharp_STP, kC_DoubleSharp_STP,
+  kC_TripleSharp_STP,
+
+  kD_TripleFlat_STP,
+  kD_DoubleFlat_STP, kD_Flat_STP,
+  kD_Natural_STP,
+  kD_Sharp_STP, kD_DoubleSharp_STP,
+  kD_TripleSharp_STP,
+    
+  kE_TripleFlat_STP,
+  kE_DoubleFlat_STP, kE_Flat_STP,
+  kE_Natural_STP, 
+  kE_Sharp_STP, kE_DoubleSharp_STP,
+  kE_TripleSharp_STP,
   
-  kC_Sharp_STP, kB_DoubleSharp_STP, kD_Flat_STP,
-  
-  kD_Natural_STP, kC_DoubleSharp_STP, kE_DoubleFlat_STP,
-  
-  kD_Sharp_STP, kE_Flat_STP,
-  
-  kE_Natural_STP, kD_DoubleSharp_STP, kF_Flat_STP,
-  
-  kF_Natural_STP, kE_Sharp_STP, kG_DoubleFlat_STP,
-  
-  kF_Sharp_STP, kE_DoubleSharp_STP, kG_Flat_STP,
-  
-  kG_Natural_STP, kF_DoubleSharp_STP, kA_DoubleFlat_STP,
-  
-  kG_Sharp_STP, kA_Flat_STP,
-  
-  kA_Natural_STP, kG_DoubleSharp_STP, kB_DoubleFlat_STP,
-  
-  kA_Sharp_STP, kB_Flat_STP,
-  
-  kB_Natural_STP, kA_DoubleSharp_STP, kC_Flat_STP,
-  
-  k_NoWellTemperedPitch_STP };
+  kF_TripleFlat_STP,
+  kF_DoubleFlat_STP, kF_Flat_STP, 
+  kF_Natural_STP,
+  kF_Sharp_STP, kF_DoubleSharp_STP, 
+  kF_TripleSharp_STP,
+
+  kG_TripleFlat_STP,
+  kG_DoubleFlat_STP, kG_Flat_STP,
+  kG_Natural_STP,
+  kG_Sharp_STP, kG_DoubleSharp_STP, 
+  kG_TripleSharp_STP,
+
+  kA_TripleFlat_STP,
+  kA_DoubleFlat_STP, kA_Flat_STP,
+  kA_Natural_STP,
+  kA_Sharp_STP, kA_DoubleSharp_STP, 
+  kA_TripleSharp_STP,
+    
+  kB_TripleFlat_STP,
+  kB_DoubleFlat_STP, kB_Flat_STP,
+  kB_Natural_STP,
+  kB_Sharp_STP, kB_DoubleSharp_STP,
+  kB_TripleSharp_STP };
   
 string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind);
@@ -222,6 +240,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
 */
 
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
+  int                   inputLineNumber,
   msrIntervalKind       intervalKind,
   msrSemiTonesPitchKind semiTonesPitchKind);
 

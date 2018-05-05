@@ -973,8 +973,9 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
 */
 
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
-  msrIntervalKind             intervalKind,
-  msrSemiTonesPitchKind       semiTonesPitchKind)
+  int                   inputLineNumber,
+  msrIntervalKind       intervalKind,
+  msrSemiTonesPitchKind semiTonesPitchKind)
 {
   msrSemiTonesPitchKind result = k_NoWellTemperedPitch_STP;
 
@@ -982,162 +983,10 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
     case k_NoWellTemperedPitch_STP:
       result = k_NoWellTemperedPitch_STP;
       break;
-
-    case kB_Sharp_STP:
-      switch (intervalKind) {
-        case kDiminishedUnisson:
-          result = kB_Natural_STP;
-          break;
-        case kPerUnison:
-          result = kB_Sharp_STP;
-          break;
-        case kAugmentedUnison:
-          result = kB_DoubleSharp_STP;
-          break;
           
-        case kDiminishedSecond:
-          result = kC_Flat_STP;
-          break;
-        case kMinorSecond:
-          result = kC_Natural_STP;
-          break;
-        case kMajorSecond:
-          result = kC_Sharp_STP;
-          break;
-        case kAugmentedSecond:
-          result = kC_DoubleSharp_STP;
-          break;
-          
-        case kDiminishedThird:
-          result = kD_Flat_STP;
-          break;
-        case kMinorThird:
-          result = kD_Natural_STP;
-          break;
-        case kMajorThird:
-          result = kD_Sharp_STP;
-          break;
-        case kAugmentedThird:
-          result = kD_DoubleSharp_STP;
-          break;
-          
-        case kDiminishedFourth:
-          result = kE_Flat_STP;
-          break;
-        case kPerFourth:
-          result = kE_Natural_STP;
-          break;
-        case kAugmentedFourth:
-          result = kE_Sharp_STP;
-          break;
-          
-        case kDiminishedFifth:
-          result = kF_Natural_STP;
-          break;
-        case kPerFifth:
-          result = kF_Sharp_STP;
-          break;
-        case kAugmentedFifth:
-          result = kF_DoubleSharp_STP;
-          break;
-    
-        case kDiminishedSixth:
-          result = kG_Flat_STP;
-          break;
-        case kMinorSixth:
-          result = kG_Natural_STP;
-          break;
-        case kMajorSixth:
-          result = kG_Sharp_STP;
-          break;
-        case kAugmentedSixth:
-          result = kG_DoubleSharp_STP;
-          break;
-          
-        case kDiminishedSeventh:
-          result = kA_Flat_STP;
-          break;
-        case kMinorSeventh:
-          result = kA_Natural_STP;
-          break;
-        case kMajorSeventh:
-          result = kA_Sharp_STP;
-          break;
-        case kAugmentedSeventh:
-          result = kA_DoubleSharp_STP;
-          break;
-    
-        case kDiminishedOctave:
-          result = kB_Flat_STP;
-          break;
-        case kPerOctave:
-          result = kB_Natural_STP;
-          break;
-        case kAugmentedOctave:
-          result = kB_Sharp_STP;
-          break;
-          
-        case kDiminishedNinth:
-          result = kC_Flat_STP;
-          break;
-        case kMinorNinth:
-          result = kC_Natural_STP;
-          break;
-        case kMajorNinth:
-          result = kC_Sharp_STP;
-          break;
-        case kAugmentedNinth:
-          result = kC_DoubleSharp_STP;
-          break;
-          
-        case kDiminishedTenth:
-          result = kD_Flat_STP;
-          break;
-        case kMinorTenth:
-          result = kD_Natural_STP;
-          break;
-        case kMajorTenth:
-          result = kD_Sharp_STP;
-          break;
-        case kAugmentedTenth:
-          result = kD_DoubleSharp_STP;
-          break;
-          
-        case kDiminishedEleventh:
-          result = kE_Flat_STP;
-          break;
-        case kPerEleventh:
-          result = kE_Natural_STP;
-          break;
-        case kAugmentedEleventh:
-          result = kE_Sharp_STP;
-          break;
-          
-        case kDiminishedTwelfth:
-          result = kF_Natural_STP;
-          break;
-        case kPerTwelfth:
-          result = kF_Sharp_STP;
-          break;
-        case kAugmentedTwelfth:
-          result = kF_DoubleSharp_STP;
-          break;
-    
-        case kDiminishedThirteenth:
-          result = kG_Flat_STP;
-          break;
-        case kMinorThirteenth:
-          result = kG_Natural_STP;
-          break;
-        case kMajorThirteenth:
-          result = kG_Sharp_STP;
-          break;
-        case kAugmentedThirteenth:
-          result = kG_DoubleSharp_STP;
-          break;
-      } // switch
+    case kC_Flat_STP:
       break;
-          
+
     case kC_Natural_STP:
       switch (intervalKind) {
         case kDiminishedUnisson:
@@ -1292,15 +1141,315 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
       } // switch
       break;
-
-    case kD_DoubleFlat_STP:
-      break;
       
     case kC_Sharp_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kC_Natural_STP;
+          break;
+        case kPerUnison:
+          result = kC_Sharp_STP;
+          break;
+        case kAugmentedUnison:
+          result = kC_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kD_Flat_STP;
+          break;
+        case kMinorSecond:
+          result = kD_Natural_STP;
+          break;
+        case kMajorSecond:
+          result = kD_Sharp_STP;
+          break;
+        case kAugmentedSecond:
+          result = kD_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kE_Flat_STP;
+          break;
+        case kMinorThird:
+          result = kE_Natural_STP;
+          break;
+        case kMajorThird:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedThird:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kF_Natural_STP;
+          break;
+        case kPerFourth:
+          result = kF_Sharp_STP;
+          break;
+        case kAugmentedFourth:
+          result = kF_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kG_Natural_STP;
+          break;
+        case kPerFifth:
+          result = kG_Sharp_STP;
+          break;
+        case kAugmentedFifth:
+          result = kG_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kA_Flat_STP;
+          break;
+        case kMinorSixth:
+          result = kA_Natural_STP;
+          break;
+        case kMajorSixth:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedSixth:
+          result = kA_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kB_Flat_STP;
+          break;
+        case kMinorSeventh:
+          result = kB_Natural_STP;
+          break;
+        case kMajorSeventh:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kB_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kC_Natural_STP;
+          break;
+        case kPerOctave:
+          result = kC_Sharp_STP;
+          break;
+        case kAugmentedOctave:
+          result = kC_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kD_Flat_STP;
+          break;
+        case kMinorNinth:
+          result = kD_Natural_STP;
+          break;
+        case kMajorNinth:
+          result = kD_Sharp_STP;
+          break;
+        case kAugmentedNinth:
+          result = kD_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kE_Flat_STP;
+          break;
+        case kMinorTenth:
+          result = kE_Natural_STP;
+          break;
+        case kMajorTenth:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedTenth:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kF_Natural_STP;
+          break;
+        case kPerEleventh:
+          result = kF_Sharp_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kF_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kG_Natural_STP;
+          break;
+        case kPerTwelfth:
+          result = kG_Sharp_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kG_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kA_Flat_STP;
+          break;
+        case kMinorThirteenth:
+          result = kA_Natural_STP;
+          break;
+        case kMajorThirteenth:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kA_DoubleSharp_STP;
+          break;
+      } // switch
       break;
-    case kB_DoubleSharp_STP:
-      break;
+
     case kD_Flat_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kD_DoubleFlat_STP;
+          break;
+        case kPerUnison:
+          result = kD_Flat_STP;
+          break;
+        case kAugmentedUnison:
+          result = kD_Natural_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kE_TripleFlat_STP;
+          break;
+        case kMinorSecond:
+          result = kE_DoubleFlat_STP;
+          break;
+        case kMajorSecond:
+          result = kE_Flat_STP;
+          break;
+        case kAugmentedSecond:
+          result = kE_Natural_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kF_DoubleFlat_STP;
+          break;
+        case kMinorThird:
+          result = kF_Flat_STP;
+          break;
+        case kMajorThird:
+          result = kF_Natural_STP;
+          break;
+        case kAugmentedThird:
+          result = kF_Sharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kG_DoubleFlat_STP;
+          break;
+        case kPerFourth:
+          result = kG_Flat_STP;
+          break;
+        case kAugmentedFourth:
+          result = kG_Natural_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kA_DoubleFlat_STP;
+          break;
+        case kPerFifth:
+          result = kA_Flat_STP;
+          break;
+        case kAugmentedFifth:
+          result = kA_Natural_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kB_TripleFlat_STP;
+          break;
+        case kMinorSixth:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kMajorSixth:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedSixth:
+          result = kB_Natural_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kC_DoubleFlat_STP;
+          break;
+        case kMinorSeventh:
+          result = kC_Flat_STP;
+          break;
+        case kMajorSeventh:
+          result = kC_Natural_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kC_Sharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kD_DoubleFlat_STP;
+          break;
+        case kPerOctave:
+          result = kD_Flat_STP;
+          break;
+        case kAugmentedOctave:
+          result = kD_Natural_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kE_TripleFlat_STP;
+          break;
+        case kMinorNinth:
+          result = kE_DoubleFlat_STP;
+          break;
+        case kMajorNinth:
+          result = kE_Flat_STP;
+          break;
+        case kAugmentedNinth:
+          result = kE_Natural_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kF_DoubleFlat_STP;
+          break;
+        case kMinorTenth:
+          result = kF_Flat_STP;
+          break;
+        case kMajorTenth:
+          result = kF_Natural_STP;
+          break;
+        case kAugmentedTenth:
+          result = kF_Sharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kG_DoubleFlat_STP;
+          break;
+        case kPerEleventh:
+          result = kG_Flat_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kG_Natural_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kA_DoubleFlat_STP;
+          break;
+        case kPerTwelfth:
+          result = kA_Flat_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kA_Natural_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kB_TripleFlat_STP;
+          break;
+        case kMinorThirteenth:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kMajorThirteenth:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kB_Natural_STP;
+          break;
+      } // switch
       break;
 
     case kD_Natural_STP:
@@ -1458,61 +1607,207 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
       } // switch
       break;
 
-    case kC_DoubleSharp_STP:
-      break;
-
-    case kE_DoubleFlat_STP:
-      break;
-
     case kD_Sharp_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kD_Natural_STP;
+          break;
+        case kPerUnison:
+          result = kD_Sharp_STP;
+          break;
+        case kAugmentedUnison:
+          result = kD_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kE_Flat_STP;
+          break;
+        case kMinorSecond:
+          result = kE_Natural_STP;
+          break;
+        case kMajorSecond:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedSecond:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kF_Flat_STP;
+          break;
+        case kMinorThird:
+          result = kF_Natural_STP;
+          break;
+        case kMajorThird:
+          result = kF_Sharp_STP;
+          break;
+        case kAugmentedThird:
+          result = kF_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kG_Natural_STP;
+          break;
+        case kPerFourth:
+          result = kG_Sharp_STP;
+          break;
+        case kAugmentedFourth:
+          result = kG_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kA_Natural_STP;
+          break;
+        case kPerFifth:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedFifth:
+          result = kA_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kB_Flat_STP;
+          break;
+        case kMinorSixth:
+          result = kB_Natural_STP;
+          break;
+        case kMajorSixth:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedSixth:
+          result = kB_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kC_Natural_STP;
+          break;
+        case kMinorSeventh:
+          result = kC_Sharp_STP;
+          break;
+        case kMajorSeventh:
+          result = kC_DoubleSharp_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kC_TripleSharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kD_Natural_STP;
+          break;
+        case kPerOctave:
+          result = kD_Sharp_STP;
+          break;
+        case kAugmentedOctave:
+          result = kD_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kE_Flat_STP;
+          break;
+        case kMinorNinth:
+          result = kE_Natural_STP;
+          break;
+        case kMajorNinth:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedNinth:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kF_Natural_STP;
+          break;
+        case kMinorTenth:
+          result = kF_Sharp_STP;
+          break;
+        case kMajorTenth:
+          result = kF_DoubleSharp_STP;
+          break;
+        case kAugmentedTenth:
+          result = kF_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kG_Natural_STP;
+          break;
+        case kPerEleventh:
+          result = kG_Sharp_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kG_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kA_Natural_STP;
+          break;
+        case kPerTwelfth:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kA_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kB_Flat_STP;
+          break;
+        case kMinorThirteenth:
+          result = kB_Natural_STP;
+          break;
+        case kMajorThirteenth:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kB_DoubleSharp_STP;
+          break;
+      } // switch
       break;
 
     case kE_Flat_STP:
       switch (intervalKind) {
         case kDiminishedUnisson:
-          result = kB_Natural_STP;
+          result = kE_DoubleFlat_STP;
           break;
         case kPerUnison:
-          result = semiTonesPitchKind;
+          result = kE_Flat_STP;
           break;
         case kAugmentedUnison:
-          result = kC_Natural_STP;
+          result = kE_Natural_STP;
           break;
           
         case kDiminishedSecond:
-          result = semiTonesPitchKind;
+          result = kF_DoubleFlat_STP;
           break;
         case kMinorSecond:
-          result = semiTonesPitchKind;
+          result = kF_Flat_STP;
           break;
         case kMajorSecond:
-          result = semiTonesPitchKind;
+          result = kF_Natural_STP;
           break;
         case kAugmentedSecond:
-          result = semiTonesPitchKind;
+          result = kF_Sharp_STP;
           break;
           
         case kDiminishedThird:
-          result = semiTonesPitchKind;
+          result = kG_DoubleFlat_STP;
           break;
         case kMinorThird:
-          result = semiTonesPitchKind;
+          result = kG_Flat_STP;
           break;
         case kMajorThird:
-          result = semiTonesPitchKind;
+          result = kG_Natural_STP;
           break;
         case kAugmentedThird:
-          result = semiTonesPitchKind;
+          result = kG_Sharp_STP;
           break;
           
         case kDiminishedFourth:
-          result = semiTonesPitchKind;
+          result = kA_DoubleFlat_STP;
           break;
         case kPerFourth:
-          result = semiTonesPitchKind;
+          result = kA_Flat_STP;
           break;
         case kAugmentedFourth:
-          result = semiTonesPitchKind;
+          result = kA_Natural_STP;
           break;
           
         case kDiminishedFifth:
@@ -1526,98 +1821,98 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
     
         case kDiminishedSixth:
-          result = semiTonesPitchKind;
+          result = kC_DoubleFlat_STP;
           break;
         case kMinorSixth:
-          result = semiTonesPitchKind;
+          result = kC_Flat_STP;
           break;
         case kMajorSixth:
-          result = semiTonesPitchKind;
+          result = kC_Natural_STP;
           break;
         case kAugmentedSixth:
-          result = semiTonesPitchKind;
+          result = kC_Sharp_STP;
           break;
           
         case kDiminishedSeventh:
-          result = semiTonesPitchKind;
+          result = kD_DoubleFlat_STP;
           break;
         case kMinorSeventh:
-          result = semiTonesPitchKind;
+          result = kD_Flat_STP;
           break;
         case kMajorSeventh:
-          result = semiTonesPitchKind;
+          result = kD_Natural_STP;
           break;
         case kAugmentedSeventh:
-          result = semiTonesPitchKind;
+          result = kD_Sharp_STP;
           break;
     
         case kDiminishedOctave:
-          result = semiTonesPitchKind;
+          result = kE_DoubleFlat_STP;
           break;
         case kPerOctave:
-          result = semiTonesPitchKind;
+          result = kE_Flat_STP;
           break;
         case kAugmentedOctave:
-          result = semiTonesPitchKind;
+          result = kE_Natural_STP;
           break;
           
         case kDiminishedNinth:
-          result = semiTonesPitchKind;
+          result = kF_DoubleFlat_STP;
           break;
         case kMinorNinth:
-          result = semiTonesPitchKind;
+          result = kF_Flat_STP;
           break;
         case kMajorNinth:
-          result = semiTonesPitchKind;
+          result = kF_Natural_STP;
           break;
         case kAugmentedNinth:
-          result = semiTonesPitchKind;
+          result = kF_Sharp_STP;
           break;
           
         case kDiminishedTenth:
-          result = semiTonesPitchKind;
+          result = kG_DoubleFlat_STP;
           break;
         case kMinorTenth:
-          result = semiTonesPitchKind;
+          result = kG_Flat_STP;
           break;
         case kMajorTenth:
-          result = semiTonesPitchKind;
+          result = kG_Natural_STP;
           break;
         case kAugmentedTenth:
-          result = semiTonesPitchKind;
+          result = kG_Sharp_STP;
           break;
           
         case kDiminishedEleventh:
-          result = semiTonesPitchKind;
+          result = kA_DoubleFlat_STP;
           break;
         case kPerEleventh:
-          result = semiTonesPitchKind;
+          result = kA_Flat_STP;
           break;
         case kAugmentedEleventh:
-          result = semiTonesPitchKind;
+          result = kA_Natural_STP;
           break;
           
         case kDiminishedTwelfth:
-          result = semiTonesPitchKind;
+          result = kB_DoubleFlat_STP;
           break;
         case kPerTwelfth:
-          result = semiTonesPitchKind;
+          result = kB_Flat_STP;
           break;
         case kAugmentedTwelfth:
-          result = semiTonesPitchKind;
+          result = kB_Natural_STP;
           break;
     
         case kDiminishedThirteenth:
-          result = semiTonesPitchKind;
+          result = kC_DoubleFlat_STP;
           break;
         case kMinorThirteenth:
-          result = semiTonesPitchKind;
+          result = kC_Flat_STP;
           break;
         case kMajorThirteenth:
-          result = semiTonesPitchKind;
+          result = kC_Natural_STP;
           break;
         case kAugmentedThirteenth:
-          result = semiTonesPitchKind;
+          result = kC_Sharp_STP;
           break;
       } // switch
       break;
@@ -1777,7 +2072,159 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
       } // switch
       break;
 
-    case kD_DoubleSharp_STP:
+    case kE_Sharp_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kE_Natural_STP;
+          break;
+        case kPerUnison:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedUnison:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kF_Natural_STP;
+          break;
+        case kMinorSecond:
+          result = kF_Sharp_STP;
+          break;
+        case kMajorSecond:
+          result = kF_DoubleSharp_STP;
+          break;
+        case kAugmentedSecond:
+          result = kF_TripleSharp_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kG_Natural_STP;
+          break;
+        case kMinorThird:
+          result = kG_Sharp_STP;
+          break;
+        case kMajorThird:
+          result = kG_DoubleSharp_STP;
+          break;
+        case kAugmentedThird:
+          result = kG_TripleSharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kA_Natural_STP;
+          break;
+        case kPerFourth:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedFourth:
+          result = kA_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kB_Natural_STP;
+          break;
+        case kPerFifth:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedFifth:
+          result = kB_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kC_Natural_STP;
+          break;
+        case kMinorSixth:
+          result = kC_Sharp_STP;
+          break;
+        case kMajorSixth:
+          result = kC_DoubleSharp_STP;
+          break;
+        case kAugmentedSixth:
+          result = kC_TripleSharp_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kD_Natural_STP;
+          break;
+        case kMinorSeventh:
+          result = kD_Sharp_STP;
+          break;
+        case kMajorSeventh:
+          result = kD_DoubleSharp_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kD_TripleSharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kE_Natural_STP;
+          break;
+        case kPerOctave:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedOctave:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kF_Natural_STP;
+          break;
+        case kMinorNinth:
+          result = kF_Sharp_STP;
+          break;
+        case kMajorNinth:
+          result = kF_DoubleSharp_STP;
+          break;
+        case kAugmentedNinth:
+          result = kF_TripleSharp_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kG_Natural_STP;
+          break;
+        case kMinorTenth:
+          result = kG_Sharp_STP;
+          break;
+        case kMajorTenth:
+          result = kG_DoubleSharp_STP;
+          break;
+        case kAugmentedTenth:
+          result = kG_TripleSharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kA_Natural_STP;
+          break;
+        case kPerEleventh:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kA_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kB_Natural_STP;
+          break;
+        case kPerTwelfth:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kB_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kC_Natural_STP;
+          break;
+        case kMinorThirteenth:
+          result = kC_Sharp_STP;
+          break;
+        case kMajorThirteenth:
+          result = kC_DoubleSharp_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kC_TripleSharp_STP;
+          break;
+      } // switch
       break;
 
     case kF_Flat_STP:
@@ -1937,18 +2384,315 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
       } // switch
       break;
-
-    case kE_Sharp_STP:
-      break;
-
-    case kG_DoubleFlat_STP:
-      break;
       
     case kF_Sharp_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kF_Natural_STP;
+          break;
+        case kPerUnison:
+          result = kF_Sharp_STP;
+          break;
+        case kAugmentedUnison:
+          result = kF_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kG_Flat_STP;
+          break;
+        case kMinorSecond:
+          result = kG_Natural_STP;
+          break;
+        case kMajorSecond:
+          result = kG_Sharp_STP;
+          break;
+        case kAugmentedSecond:
+          result = kG_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kA_Flat_STP;
+          break;
+        case kMinorThird:
+          result = kA_Natural_STP;
+          break;
+        case kMajorThird:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedThird:
+          result = kA_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kB_Sharp_STP;
+          break;
+        case kPerFourth:
+          result = kB_DoubleSharp_STP;
+          break;
+        case kAugmentedFourth:
+          result = kB_TripleSharp_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kC_Natural_STP;
+          break;
+        case kPerFifth:
+          result = kC_Sharp_STP;
+          break;
+        case kAugmentedFifth:
+          result = kC_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kD_Flat_STP;
+          break;
+        case kMinorSixth:
+          result = kD_Natural_STP;
+          break;
+        case kMajorSixth:
+          result = kD_Sharp_STP;
+          break;
+        case kAugmentedSixth:
+          result = kD_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kE_Flat_STP;
+          break;
+        case kMinorSeventh:
+          result = kE_Natural_STP;
+          break;
+        case kMajorSeventh:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kE_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kF_Natural_STP;
+          break;
+        case kPerOctave:
+          result = kF_Sharp_STP;
+          break;
+        case kAugmentedOctave:
+          result = kF_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kG_Flat_STP;
+          break;
+        case kMinorNinth:
+          result = kG_Natural_STP;
+          break;
+        case kMajorNinth:
+          result = kG_Sharp_STP;
+          break;
+        case kAugmentedNinth:
+          result = kG_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kA_Natural_STP;
+          break;
+        case kMinorTenth:
+          result = kA_Natural_STP;
+          break;
+        case kMajorTenth:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedTenth:
+          result = kA_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kB_Sharp_STP;
+          break;
+        case kPerEleventh:
+          result = kB_DoubleSharp_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kB_TripleSharp_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kC_Natural_STP;
+          break;
+        case kPerTwelfth:
+          result = kC_Sharp_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kC_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kE_Flat_STP;
+          break;
+        case kMinorThirteenth:
+          result = kD_Natural_STP;
+          break;
+        case kMajorThirteenth:
+          result = kD_Sharp_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kD_DoubleSharp_STP;
+          break;
+      } // switch
       break;
-    case kE_DoubleSharp_STP:
-      break;
+
     case kG_Flat_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kG_DoubleFlat_STP;
+          break;
+        case kPerUnison:
+          result = kG_Flat_STP;
+          break;
+        case kAugmentedUnison:
+          result = kG_Natural_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kA_TripleFlat_STP;
+          break;
+        case kMinorSecond:
+          result = kA_DoubleFlat_STP;
+          break;
+        case kMajorSecond:
+          result = kA_Flat_STP;
+          break;
+        case kAugmentedSecond:
+          result = kA_Natural_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kB_TripleFlat_STP;
+          break;
+        case kMinorThird:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kMajorThird:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedThird:
+          result = kB_Natural_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kC_DoubleFlat_STP;
+          break;
+        case kPerFourth:
+          result = kC_Flat_STP;
+          break;
+        case kAugmentedFourth:
+          result = kC_Natural_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kD_DoubleFlat_STP;
+          break;
+        case kPerFifth:
+          result = kD_Flat_STP;
+          break;
+        case kAugmentedFifth:
+          result = kD_Natural_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kE_TripleFlat_STP;
+          break;
+        case kMinorSixth:
+          result = kE_DoubleFlat_STP;
+          break;
+        case kMajorSixth:
+          result = kE_Flat_STP;
+          break;
+        case kAugmentedSixth:
+          result = kE_Natural_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kF_DoubleFlat_STP;
+          break;
+        case kMinorSeventh:
+          result = kF_Flat_STP;
+          break;
+        case kMajorSeventh:
+          result = kF_Natural_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kF_Sharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kG_DoubleFlat_STP;
+          break;
+        case kPerOctave:
+          result = kG_Flat_STP;
+          break;
+        case kAugmentedOctave:
+          result = kG_Natural_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kA_TripleFlat_STP;
+          break;
+        case kMinorNinth:
+          result = kA_DoubleFlat_STP;
+          break;
+        case kMajorNinth:
+          result = kA_Flat_STP;
+          break;
+        case kAugmentedNinth:
+          result = kA_Natural_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kB_TripleFlat_STP;
+          break;
+        case kMinorTenth:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kMajorTenth:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedTenth:
+          result = kB_Natural_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kC_DoubleFlat_STP;
+          break;
+        case kPerEleventh:
+          result = kC_Flat_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kC_Natural_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kD_DoubleFlat_STP;
+          break;
+        case kPerTwelfth:
+          result = kD_Flat_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kD_Natural_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kE_TripleFlat_STP;
+          break;
+        case kMinorThirteenth:
+          result = kE_DoubleFlat_STP;
+          break;
+        case kMajorThirteenth:
+          result = kE_Flat_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kE_Natural_STP;
+          break;
+      } // switch
       break;
       
     case kG_Natural_STP:
@@ -2105,16 +2849,315 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
       } // switch
       break;
-
-    case kF_DoubleSharp_STP:
-      break;
-
-    case kA_DoubleFlat_STP:
-      break;
       
     case kG_Sharp_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kG_Natural_STP;
+          break;
+        case kPerUnison:
+          result = kG_Sharp_STP;
+          break;
+        case kAugmentedUnison:
+          result = kG_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kA_Flat_STP;
+          break;
+        case kMinorSecond:
+          result = kA_Natural_STP;
+          break;
+        case kMajorSecond:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedSecond:
+          result = kA_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kB_Flat_STP;
+          break;
+        case kMinorThird:
+          result = kB_Natural_STP;
+          break;
+        case kMajorThird:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedThird:
+          result = kB_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kC_Natural_STP;
+          break;
+        case kPerFourth:
+          result = kC_Sharp_STP;
+          break;
+        case kAugmentedFourth:
+          result = kC_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kD_Natural_STP;
+          break;
+        case kPerFifth:
+          result = kD_Sharp_STP;
+          break;
+        case kAugmentedFifth:
+          result = kD_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kE_Flat_STP;
+          break;
+        case kMinorSixth:
+          result = kE_Natural_STP;
+          break;
+        case kMajorSixth:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedSixth:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kF_Natural_STP;
+          break;
+        case kMinorSeventh:
+          result = kF_Sharp_STP;
+          break;
+        case kMajorSeventh:
+          result = kF_DoubleSharp_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kF_TripleSharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kG_Natural_STP;
+          break;
+        case kPerOctave:
+          result = kG_Sharp_STP;
+          break;
+        case kAugmentedOctave:
+          result = kG_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kA_Flat_STP;
+          break;
+        case kMinorNinth:
+          result = kA_Natural_STP;
+          break;
+        case kMajorNinth:
+          result = kA_Sharp_STP;
+          break;
+        case kAugmentedNinth:
+          result = kA_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kB_Flat_STP;
+          break;
+        case kMinorTenth:
+          result = kB_Natural_STP;
+          break;
+        case kMajorTenth:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedTenth:
+          result = kB_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kC_Natural_STP;
+          break;
+        case kPerEleventh:
+          result = kC_Sharp_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kC_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kD_Natural_STP;
+          break;
+        case kPerTwelfth:
+          result = kD_Sharp_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kD_DoubleSharp_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kE_Flat_STP;
+          break;
+        case kMinorThirteenth:
+          result = kE_Natural_STP;
+          break;
+        case kMajorThirteenth:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kE_DoubleSharp_STP;
+          break;
+      } // switch
       break;
+
     case kA_Flat_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kA_DoubleFlat_STP;
+          break;
+        case kPerUnison:
+          result = kA_Flat_STP;
+          break;
+        case kAugmentedUnison:
+          result = kA_Natural_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kB_TripleFlat_STP;
+          break;
+        case kMinorSecond:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kMajorSecond:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedSecond:
+          result = kB_Natural_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kC_DoubleFlat_STP;
+          break;
+        case kMinorThird:
+          result = kC_Flat_STP;
+          break;
+        case kMajorThird:
+          result = kC_Natural_STP;
+          break;
+        case kAugmentedThird:
+          result = kC_Sharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kD_DoubleFlat_STP;
+          break;
+        case kPerFourth:
+          result = kD_Flat_STP;
+          break;
+        case kAugmentedFourth:
+          result = kD_Natural_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kE_DoubleFlat_STP;
+          break;
+        case kPerFifth:
+          result = kE_Flat_STP;
+          break;
+        case kAugmentedFifth:
+          result = kE_Natural_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kF_DoubleFlat_STP;
+          break;
+        case kMinorSixth:
+          result = kF_Flat_STP;
+          break;
+        case kMajorSixth:
+          result = kF_Natural_STP;
+          break;
+        case kAugmentedSixth:
+          result = kF_Sharp_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kG_DoubleFlat_STP;
+          break;
+        case kMinorSeventh:
+          result = kG_Flat_STP;
+          break;
+        case kMajorSeventh:
+          result = kG_Natural_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kG_Sharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kA_DoubleFlat_STP;
+          break;
+        case kPerOctave:
+          result = kA_Flat_STP;
+          break;
+        case kAugmentedOctave:
+          result = kA_Natural_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kB_TripleFlat_STP;
+          break;
+        case kMinorNinth:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kMajorNinth:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedNinth:
+          result = kB_Natural_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kC_DoubleFlat_STP;
+          break;
+        case kMinorTenth:
+          result = kC_Flat_STP;
+          break;
+        case kMajorTenth:
+          result = kC_Natural_STP;
+          break;
+        case kAugmentedTenth:
+          result = kC_Sharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kD_DoubleFlat_STP;
+          break;
+        case kPerEleventh:
+          result = kD_Flat_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kD_Natural_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kE_DoubleFlat_STP;
+          break;
+        case kPerTwelfth:
+          result = kE_Flat_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kE_Natural_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kF_TripleFlat_STP;
+          break;
+        case kMinorThirteenth:
+          result = kF_DoubleFlat_STP;
+          break;
+        case kMajorThirteenth:
+          result = kF_Flat_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kF_Natural_STP;
+          break;
+      } // switch
       break;
       
     case kA_Natural_STP:
@@ -2271,16 +3314,163 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           break;
       } // switch
       break;
-
-    case kG_DoubleSharp_STP:
-      break;
-
-    case kB_DoubleFlat_STP:
-      break;
       
     case kA_Sharp_STP:
       break;
+
     case kB_Flat_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kPerUnison:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedUnison:
+          result = kB_Natural_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kC_DoubleFlat_STP;
+          break;
+        case kMinorSecond:
+          result = kC_Flat_STP;
+          break;
+        case kMajorSecond:
+          result = kC_Natural_STP;
+          break;
+        case kAugmentedSecond:
+          result = kC_Sharp_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kD_DoubleFlat_STP;
+          break;
+        case kMinorThird:
+          result = kD_Flat_STP;
+          break;
+        case kMajorThird:
+          result = kD_Natural_STP;
+          break;
+        case kAugmentedThird:
+          result = kD_Sharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kE_DoubleFlat_STP;
+          break;
+        case kPerFourth:
+          result = kE_Flat_STP;
+          break;
+        case kAugmentedFourth:
+          result = kE_Natural_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kF_Flat_STP;
+          break;
+        case kPerFifth:
+          result = kF_Natural_STP;
+          break;
+        case kAugmentedFifth:
+          result = kF_Sharp_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kG_DoubleFlat_STP;
+          break;
+        case kMinorSixth:
+          result = kG_Flat_STP;
+          break;
+        case kMajorSixth:
+          result = kG_Natural_STP;
+          break;
+        case kAugmentedSixth:
+          result = kG_Sharp_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kA_DoubleFlat_STP;
+          break;
+        case kMinorSeventh:
+          result = kA_Flat_STP;
+          break;
+        case kMajorSeventh:
+          result = kA_Natural_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kA_Sharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kB_DoubleFlat_STP;
+          break;
+        case kPerOctave:
+          result = kB_Flat_STP;
+          break;
+        case kAugmentedOctave:
+          result = kB_Natural_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kC_DoubleFlat_STP;
+          break;
+        case kMinorNinth:
+          result = kC_Flat_STP;
+          break;
+        case kMajorNinth:
+          result = kC_Natural_STP;
+          break;
+        case kAugmentedNinth:
+          result = kC_Sharp_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kD_DoubleFlat_STP;
+          break;
+        case kMinorTenth:
+          result = kD_Flat_STP;
+          break;
+        case kMajorTenth:
+          result = kD_Natural_STP;
+          break;
+        case kAugmentedTenth:
+          result = kD_Sharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kE_DoubleFlat_STP;
+          break;
+        case kPerEleventh:
+          result = kE_Flat_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kE_Natural_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kF_Flat_STP;
+          break;
+        case kPerTwelfth:
+          result = kF_Natural_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kF_Sharp_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kG_DoubleFlat_STP;
+          break;
+        case kMinorThirteenth:
+          result = kG_Flat_STP;
+          break;
+        case kMajorThirteenth:
+          result = kG_Natural_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kG_Sharp_STP;
+          break;
+      } // switch
       break;
 
     case kB_Natural_STP:
@@ -2438,10 +3628,179 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
       } // switch
       break;
 
-    case kA_DoubleSharp_STP:
+    case kB_Sharp_STP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kB_Natural_STP;
+          break;
+        case kPerUnison:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedUnison:
+          result = kB_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kC_Natural_STP;
+          break;
+        case kMinorSecond:
+          result = kC_Sharp_STP;
+          break;
+        case kMajorSecond:
+          result = kC_DoubleSharp_STP;
+          break;
+        case kAugmentedSecond:
+          result = kC_TripleSharp_STP;
+          break;
+          
+        case kDiminishedThird:
+          result = kD_Natural_STP;
+          break;
+        case kMinorThird:
+          result = kD_Sharp_STP;
+          break;
+        case kMajorThird:
+          result = kD_DoubleSharp_STP;
+          break;
+        case kAugmentedThird:
+          result = kD_TripleSharp_STP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kE_Natural_STP;
+          break;
+        case kPerFourth:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedFourth:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kF_Sharp_STP;
+          break;
+        case kPerFifth:
+          result = kF_DoubleSharp_STP;
+          break;
+        case kAugmentedFifth:
+          result = kF_TripleSharp_STP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kG_Natural_STP;
+          break;
+        case kMinorSixth:
+          result = kG_Sharp_STP;
+          break;
+        case kMajorSixth:
+          result = kG_DoubleSharp_STP;
+          break;
+        case kAugmentedSixth:
+          result = kG_TripleSharp_STP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kA_Natural_STP;
+          break;
+        case kMinorSeventh:
+          result = kA_Sharp_STP;
+          break;
+        case kMajorSeventh:
+          result = kA_DoubleSharp_STP;
+          break;
+        case kAugmentedSeventh:
+          result = kA_TripleSharp_STP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kB_Natural_STP;
+          break;
+        case kPerOctave:
+          result = kB_Sharp_STP;
+          break;
+        case kAugmentedOctave:
+          result = kB_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kC_Natural_STP;
+          break;
+        case kMinorNinth:
+          result = kC_Sharp_STP;
+          break;
+        case kMajorNinth:
+          result = kC_DoubleSharp_STP;
+          break;
+        case kAugmentedNinth:
+          result = kC_TripleSharp_STP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kD_Natural_STP;
+          break;
+        case kMinorTenth:
+          result = kD_Sharp_STP;
+          break;
+        case kMajorTenth:
+          result = kD_DoubleSharp_STP;
+          break;
+        case kAugmentedTenth:
+          result = kD_TripleSharp_STP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kE_Natural_STP;
+          break;
+        case kPerEleventh:
+          result = kE_Sharp_STP;
+          break;
+        case kAugmentedEleventh:
+          result = kE_DoubleSharp_STP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kF_Sharp_STP;
+          break;
+        case kPerTwelfth:
+          result = kF_DoubleSharp_STP;
+          break;
+        case kAugmentedTwelfth:
+          result = kF_TripleSharp_STP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kG_Natural_STP;
+          break;
+        case kMinorThirteenth:
+          result = kG_Sharp_STP;
+          break;
+        case kMajorThirteenth:
+          result = kG_DoubleSharp_STP;
+          break;
+        case kAugmentedThirteenth:
+          result = kG_TripleSharp_STP;
+          break;
+      } // switch
       break;
-    case kC_Flat_STP:
-      break;
+
+      default:
+      {
+        // computing intervals on double or triple flats/sharps
+        // is not considered useful as of alpha2, hence not supported
+        stringstream s;
+
+        s <<
+          "Sorry, computing intervals from pitch '" <<
+          msrSemiTonesPitchKindAsString (semiTonesPitchKind) <<
+          "' is not supported"
+          ", line = " << inputLineNumber;
+
+        msrInternalError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
   } // switch
 
   return result;
@@ -3909,6 +5268,9 @@ string msrAlterationKindAsString (
       result = "alteration???";
       break;
 
+    case kTripleFlat:
+      result = "TripleFlat";
+      break;
     case kDoubleFlat:
       result = "DoubleFlat";
       break;
@@ -3935,6 +5297,9 @@ string msrAlterationKindAsString (
       break;
     case kDoubleSharp:
       result = "DoubleSharp";
+      break;
+    case kTripleSharp:
+      result = "TripleSharp";
       break;
   } // switch
 
@@ -4913,116 +6278,159 @@ string msrSemiTonesPitchKindAsString (
     case k_NoWellTemperedPitch_STP:
       result = "NoWellTemperedPitch???";
       break;
-
-    case kB_Sharp_STP:
-      result = "B_Sharp_STP";
+      
+    case kC_TripleFlat_STP:
+      result = "C_TripleFlat_STP";
+      break;
+    case kC_DoubleFlat_STP:
+      result = "C_DoubleFlat_STP";
+      break;
+    case kC_Flat_STP:
+      result = "C_Flat_STP";
       break;
     case kC_Natural_STP:
       result = "C_Natural_STP";
       break;
-    case kD_DoubleFlat_STP:
-      result = "D_DoubleFlat_STP";
-      break;
-      
     case kC_Sharp_STP:
       result = "C_Sharp_STP";
-      break;
-    case kB_DoubleSharp_STP:
-      result = "B_DoubleSharp_STP";
-      break;
-    case kD_Flat_STP:
-      result = "D_Flat_STP";
-      break;
-
-    case kD_Natural_STP:
-      result = "D_Natural_STP";
       break;
     case kC_DoubleSharp_STP:
       result = "C_DoubleSharp_STP";
       break;
-    case kE_DoubleFlat_STP:
-      result = "E_DoubleFlat_STP";
+    case kC_TripleSharp_STP:
+      result = "C_TripleSharp_STP";
       break;
 
+    case kD_TripleFlat_STP:
+      result = "D_TripleFlat_STP";
+      break;
+    case kD_DoubleFlat_STP:
+      result = "D_DoubleFlat_STP";
+      break;
+    case kD_Flat_STP:
+      result = "D_Flat_STP";
+      break;
+    case kD_Natural_STP:
+      result = "D_Natural_STP";
+      break;      
     case kD_Sharp_STP:
       result = "D_Sharp_STP";
-      break;
-    case kE_Flat_STP:
-      result = "E_Flat_STP";
-      break;
-      
-    case kE_Natural_STP: // , 
-      result = "E_Natural_STP";
       break;
     case kD_DoubleSharp_STP:
       result = "D_DoubleSharp_STP";
       break;
-    case kF_Flat_STP:
-      result = "F_Flat_STP";
+    case kD_TripleSharp_STP:
+      result = "D_TripleSharp_STP";
       break;
       
-    case kF_Natural_STP:
-      result = "F_Natural_STP";
+    case kE_TripleFlat_STP:
+      result = "E_TripleFlat_STP";
+      break;
+    case kE_DoubleFlat_STP:
+      result = "E_DoubleFlat_STP";
+      break;
+    case kE_Flat_STP:
+      result = "E_Flat_STP";
+      break;
+    case kE_Natural_STP:
+      result = "E_Natural_STP";
       break;
     case kE_Sharp_STP:
       result = "E_Sharp_STP";
       break;
-    case kG_DoubleFlat_STP:
-      result = "G_DoubleFlat_STP";
-      break;
-      
-    case kF_Sharp_STP:
-      result = "F_Sharp_STP";
-      break;
     case kE_DoubleSharp_STP:
       result = "E_DoubleSharp_STP";
+      break;
+    case kE_TripleSharp_STP:
+      result = "E_TripleSharp_STP";
+      break;
+      
+    case kF_TripleFlat_STP:
+      result = "F_TripleFlat_STP";
+      break;
+    case kF_DoubleFlat_STP:
+      result = "F_DoubleFlat_STP";
+      break;
+    case kF_Flat_STP:
+      result = "F_Flat_STP";
+      break;
+    case kF_Natural_STP:
+      result = "F_Natural_STP";
+      break;
+    case kF_Sharp_STP:
+      result = "F_Sharp_STP";
+      break;      
+    case kF_DoubleSharp_STP:
+      result = "F_DoubleSharp_STP";
+      break;
+    case kF_TripleSharp_STP:
+      result = "F_TripleSharp_STP";
+      break;
+      
+    case kG_TripleFlat_STP:
+      result = "G_TripleFlat_STP";
+      break;
+    case kG_DoubleFlat_STP:
+      result = "G_DoubleFlat_STP";
       break;
     case kG_Flat_STP:
       result = "G_Flat_STP";
       break;
-      
     case kG_Natural_STP:
       result = "G_Natural_STP";
       break;
-    case kF_DoubleSharp_STP:
-      result = "F_DoubleSharp_STP";
-      break;
-    case kA_DoubleFlat_STP:
-      result = "A_DoubleFlat_STP";
-      break;
-      
     case kG_Sharp_STP:
       result = "G_Sharp_STP";
-      break;
-    case kA_Flat_STP:
-      result = "A_Flat_STP";
-      break;
-      
-    case kA_Natural_STP:
-      result = "A_Natural_STP";
       break;
     case kG_DoubleSharp_STP:
       result = "G_DoubleSharp_STP";
       break;
-    case kB_DoubleFlat_STP:
-      result = "B_DoubleFlat_STP";
-      break;
-      
-    case kA_Sharp_STP:
-      result = "A_Sharp_STP";
-      break;
-    case kB_Flat_STP:
-      result = "B_Flat_STP";
+    case kG_TripleSharp_STP:
+      result = "G_TripleSharp_STP";
       break;
 
-    case kB_Natural_STP:
-      result = "B_Natural_STP";
+    case kA_TripleFlat_STP:
+      result = "A_TripleFlat_STP";
+      break;
+    case kA_DoubleFlat_STP:
+      result = "A_DoubleFlat_STP";
+      break;
+    case kA_Flat_STP:
+      result = "A_Flat_STP";
+      break;
+    case kA_Natural_STP:
+      result = "A_Natural_STP";
+      break;
+    case kA_Sharp_STP:
+      result = "A_Sharp_STP";
       break;
     case kA_DoubleSharp_STP:
       result = "A_DoubleSharp_STP";
       break;
-    case kC_Flat_STP:
-      result = "C_Flat_STP";
+    case kA_TripleSharp_STP:
+      result = "A_TripleSharp_STP";
+      break;
+
+    case kB_TripleFlat_STP:
+      result = "B_TripleFlat_STP";
+      break;
+    case kB_DoubleFlat_STP:
+      result = "B_DoubleFlat_STP";
+      break;      
+    case kB_Flat_STP:
+      result = "B_Flat_STP";
+      break;
+    case kB_Natural_STP:
+      result = "B_Natural_STP";
+      break;
+    case kB_Sharp_STP:
+      result = "B_Sharp_STP";
+      break;
+    case kB_DoubleSharp_STP:
+      result = "B_DoubleSharp_STP";
+      break;
+    case kB_TripleSharp_STP:
+      result = "B_TripleSharp_STP";
       break;
   } // switch
 
