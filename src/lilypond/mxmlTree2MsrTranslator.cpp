@@ -6067,7 +6067,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
 
   if (fOnGoingLyric) {
     fCurrentSyllableExtendKind =
-      msrSyllable::kSyllableExtendStandalone; // default value
+      msrSyllable::kSyllableExtendSingle; // default value
 
     if      (extendType == "start") {
       fCurrentSyllableExtendKind =
@@ -7795,7 +7795,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentSyllabic = "";
   fCurrentLyricTextsList.clear ();
   fCurrentSyllableKind = msrSyllable::k_NoSyllable;
-    // to handle properly a note without any <text/> JMI
   fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
   
   // assume this note hasn't got any stanzas until S_lyric is met

@@ -4648,7 +4648,7 @@ class msrSyllable : public msrElement
       
     enum msrSyllableExtendKind {
       k_NoSyllableExtend,
-      kSyllableExtendStandalone,
+      kSyllableExtendSingle,
       kSyllableExtendStart, kSyllableExtendContinue, kSyllableExtendStop };
 
     static string syllableExtendKindAsString (
@@ -8789,6 +8789,9 @@ class msrStanza : public msrElement
                                             syllableKind,
                             rational        wholeNote);
 
+    S_msrSyllable         appendLineBreakSyllableToStanza (
+                            int inputLineNumber);
+
 /* JMI
     S_msrSyllable         appendTiedSyllableToStanza (
                             int      inputLineNumber,
@@ -8819,11 +8822,11 @@ class msrStanza : public msrElement
                             string nextMeasureNumber);
 */
 
-    S_msrSyllable         appendLineBreakSyllableToStanza (
+    S_msrSyllable         appendLineBreakSyllableToStanza ( // JMI ???
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 
-    S_msrSyllable         appendPageBreakSyllableToStanza (
+    S_msrSyllable         appendPageBreakSyllableToStanza ( // JMI ???
                             int    inputLineNumber,
                             string nextMeasureNumber);
                 

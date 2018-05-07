@@ -3786,7 +3786,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
       default:
       {
         // computing intervals on double or triple flats/sharps
-        // is not considered useful as of alpha2, hence not supported
+        // is not considered useful, hence not supported
         stringstream s;
 
         s <<

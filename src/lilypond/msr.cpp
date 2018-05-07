@@ -7933,7 +7933,7 @@ void msrNote::print (ostream& os)
     gIndenter++;
 
     os <<
-      "Syllables:" <<
+      "Note syllables:" <<
       endl;
       
     gIndenter++;
@@ -7945,7 +7945,11 @@ void msrNote::print (ostream& os)
     for ( ; ; ) {
       S_msrSyllable
         syllable = (*i);
+
+      os <<
+        syllable;
         
+/* JMI
       os <<
         syllable->syllableKindAsString () <<
         ", " <<
@@ -7966,6 +7970,7 @@ void msrNote::print (ostream& os)
         syllable->
           getSyllableNoteUplink ()->
             asShortString ();
+*/
             
       if (++i == iEnd) break;
       
@@ -10369,7 +10374,8 @@ ostream& operator<< (ostream& os, const S_msrBarNumberCheck& elt)
 void msrBarNumberCheck::print (ostream& os)
 {
   os <<
-    asString ();
+    asString () <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -16300,8 +16306,8 @@ string msrSyllable::syllableExtendKindAsString (
   string result;
   
   switch (syllableExtendKind) {
-    case msrSyllable::kSyllableExtendStandalone:
-      result = "syllableExtendStandalone";
+    case msrSyllable::kSyllableExtendSingle:
+      result = "syllableExtendSingle";
       break;
     case msrSyllable::kSyllableExtendStart:
       result = "syllableExtendStart";
@@ -16757,6 +16763,34 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
         syllableKind,
         msrSyllable::k_NoSyllableExtend,
         wholeNotes,
+        this);
+
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
+
+  // and return it
+  return syllable;
+}
+
+S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
+  int inputLineNumber)
+{
+  if (gTraceOptions->fTraceLyrics) {
+    gLogIOstream <<
+      "Appending 'line break' syllable" <<
+      " to stanza " << getStanzaName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+  
+  // create stanza line break syllable
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        msrSyllable::kSyllableLineBreak,
+        msrSyllable::k_NoSyllableExtend,
+        0,
         this);
 
   // append syllable to this stanza
@@ -28530,6 +28564,19 @@ void msrVoice::appendLineBreakToVoice (S_msrLineBreak lineBreak)
 
   fVoiceLastSegment->
     appendLineBreakToSegment (lineBreak);
+
+  // propagate this lineBreak to the voice stanzas if any
+  if (fVoiceStanzasMap.size ()) {
+    for (
+      map<string, S_msrStanza>::const_iterator i = fVoiceStanzasMap.begin ();
+      i != fVoiceStanzasMap.end ();
+      i++) {
+      S_msrStanza stanza = (*i).second;
+
+      stanza->appendLineBreakSyllableToStanza (
+        lineBreak->getInputLineNumber ());
+    } // for
+  }
 }
 
 void msrVoice::appendPageBreakToVoice (S_msrPageBreak pageBreak)

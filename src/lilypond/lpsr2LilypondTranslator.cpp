@@ -5626,9 +5626,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrStanza& elt)
         endl;
         
       gIndenter++;
-
-      fLilypondCodeIOstream <<
-        gTab; // JMI ???
     }
   }
 }
@@ -5723,27 +5720,17 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
            
         case msrSyllable::kSyllableLineBreak:
           fLilypondCodeIOstream <<
-            "%{ break " << "\"";
-            
-          writeTextsListAsLilypondString (
-            elt->getSyllableTextsList (),
-            fLilypondCodeIOstream);
-            
-          fLilypondCodeIOstream <<
-            "\"" << " %}" <<
+            "%{ line break, line " <<
+            elt->getInputLineNumber () <<
+            " %}" <<
             endl;
           break;
     
         case msrSyllable::kSyllablePageBreak:
           fLilypondCodeIOstream <<
-            "%{ pageBreak " << "\"";
-            
-          writeTextsListAsLilypondString (
-            elt->getSyllableTextsList (),
-            fLilypondCodeIOstream);
-            
-          fLilypondCodeIOstream <<
-            "\"" << " %}" <<
+            "%{ page break, line " <<
+            elt->getInputLineNumber () <<
+            " %}" <<
             endl;
           break;
     
@@ -5752,8 +5739,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
       } // switch
 
       switch (elt->getSyllableExtendKind ()) {
-        case msrSyllable::kSyllableExtendStandalone:
-          // generate a lyric extender after this syllable
+        case msrSyllable::kSyllableExtendSingle:
+          // generate a lyric extender,
+          // i.e. a melisma,
+          // after this syllable
           fLilypondCodeIOstream <<
             "__ ";
           break;
