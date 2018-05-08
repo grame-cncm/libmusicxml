@@ -31311,7 +31311,7 @@ void msrVoice::print (ostream& os)
     for ( ; ; ) {
       os << (*i).second;
       if (++i == iEnd) break;
-      os << endl;
+      // no endl here
     } // for
 
     gIndenter--;

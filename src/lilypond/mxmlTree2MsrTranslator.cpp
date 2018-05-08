@@ -17347,7 +17347,12 @@ void mxmlTree2MsrTranslator::handleLyrics (
             msrSyllable::create (
               inputLineNumber,
               msrSyllable::kSyllableSkip,
-              msrSyllable::k_NoSyllableExtend,
+              fCurrentSyllableExtendKind,
+/*
+              fOnGoingSyllableExtend
+                ? msrSyllable::kSyllableExtendContinue
+                : msrSyllable::k_NoSyllableExtend,
+                */
               fCurrentNoteSoundingWholeNotes,
               stanza);
             
