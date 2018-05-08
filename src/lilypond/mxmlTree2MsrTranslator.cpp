@@ -17348,7 +17348,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
               inputLineNumber,
               msrSyllable::kSyllableSkip,
               fCurrentSyllableExtendKind,
-/*
+/* JMI
               fOnGoingSyllableExtend
                 ? msrSyllable::kSyllableExtendContinue
                 : msrSyllable::k_NoSyllableExtend,

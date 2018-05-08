@@ -5756,7 +5756,9 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
         case msrSyllable::kSyllableExtendContinue:
           // generate a skip after this syllable
           fLilypondCodeIOstream <<
-            "\\skip" << 1 << " ";
+            "\\skip" <<
+            elt->syllableWholeNotesAsMsrString () <<
+            " ";
           break;
         case msrSyllable::kSyllableExtendStop:
           break;
