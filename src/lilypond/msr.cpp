@@ -7973,13 +7973,11 @@ void msrNote::print (ostream& os)
 */
             
       if (++i == iEnd) break;
-      
-      os <<
-        endl;
+      // no endl here
     } // for
 
-    os <<
-      endl;
+ // JMI   os <<
+  //    endl;
 
     gIndenter--;    
 

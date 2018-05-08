@@ -6179,7 +6179,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
         "fCurrentStanzaName" << " = \"" << fCurrentStanzaName << "\"" <<
         endl <<
         setw (fieldwidth) <<
-        "fCurrentLyricText" << " = ";
+        "fCurrentLyricTextsList" << " = ";
 
       msrSyllable::writeTextsList (
         fCurrentLyricTextsList,
@@ -6307,7 +6307,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
         fCurrentSyllableKind) <<
       "\"" <<
       " syllable"
-      ", text = \"";
+      ", fCurrentLyricTextsList = \"";
 
     msrSyllable::writeTextsList (
       fCurrentLyricTextsList,
@@ -7795,7 +7795,15 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   fCurrentSyllabic = "";
   fCurrentLyricTextsList.clear ();
   fCurrentSyllableKind = msrSyllable::k_NoSyllable;
-  fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
+
+  if (fOnGoingSyllableExtend) {
+    fCurrentSyllableExtendKind =
+      msrSyllable::kSyllableExtendContinue; // it may be absent
+  }
+  else {
+    fCurrentSyllableExtendKind =
+      msrSyllable::k_NoSyllableExtend;
+  }
   
   // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
@@ -17214,30 +17222,61 @@ void mxmlTree2MsrTranslator::handleLyrics (
     fLogOutputStream <<
       "Handling lyric" <<
       ", line " << inputLineNumber <<
-      ", currentVoice = \"" << currentVoice->getVoiceName () <<"\"" <<
-      ", newNote = \"" << newNote->asShortString () << "\"" <<
-      ", fLastHandledNoteInVoiceHasLyrics = " <<
+      endl;
+
+    gIndenter++;
+
+    const int fieldWidth = 33;
+    
+    fLogOutputStream <<
+      setw (fieldWidth) <<
+      "currentVoice" << " = \"" << currentVoice->getVoiceName () <<"\"" <<
+      endl <<
+      setw (fieldWidth) <<
+      "newNote" << " = \"" << newNote->asShortString () << "\"" <<
+      endl <<
+      setw (fieldWidth) <<
+      "fLastHandledNoteInVoiceHasLyrics" << " = " <<
       booleanAsString (
         fLastHandledNoteInVoiceHasLyrics) <<
-      ", fOnGoingSyllableExtend = " <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentSyllableExtendKind" << "" << " = " <<
+      msrSyllable::syllableExtendKindAsString (
+        fCurrentSyllableExtendKind) <<
+      endl <<
+      setw (fieldWidth) <<
+      "fOnGoingSyllableExtend" << " = " <<
       booleanAsString (
         fOnGoingSyllableExtend) <<
-      ", fOnGoingMelisma = " <<
+      endl <<
+      setw (fieldWidth) <<
+      "fOnGoingMelisma" << " = " <<
       booleanAsString (
         fOnGoingMelisma) <<
-      ", fCurrentNoteHasLyrics = " <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentNoteHasLyrics" << " = " <<
       booleanAsString (
         fCurrentNoteHasLyrics) <<
-      ", fCurrentStanzaNumber = " << fCurrentStanzaNumber <<
-      ", fCurrentStanzaName = " << fCurrentStanzaName << "\"" <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentStanzaNumber" << " = " << fCurrentStanzaNumber <<
+      endl <<
+      setw (fieldWidth) <<
+      "fCurrentStanzaName" << " = " << fCurrentStanzaName << "\"" <<
       endl;
+
+    gIndenter--;
   }
 
   if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
-    if (gTraceOptions->fTraceNotesDetails) {
+    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceLyrics) {
       fLogOutputStream <<
-        "*** " << "newNote has lyrics attached to it" << " ***" <<
+        "*** " << "newNote '" <<
+        newNote->asShortString () <<
+        "' has lyrics attached to it" << " ***" <<
         endl;
     }
       
@@ -17264,6 +17303,11 @@ void mxmlTree2MsrTranslator::handleLyrics (
     // don't create a skip for chord note members except the first
     // nor for grace notes
 
+    fLogOutputStream <<
+      "FAFAFA" <<
+      ", line " << inputLineNumber <<
+      endl;
+
     if (
       !
         (
@@ -17272,6 +17316,11 @@ void mxmlTree2MsrTranslator::handleLyrics (
           fCurrentNoteIsAGraceNote
         )
       ) {
+      fLogOutputStream <<
+        "FIFIFI" <<
+        ", line " << inputLineNumber <<
+        endl;
+
       // get the current voice's stanzas map
       const map<string, S_msrStanza>&
         voiceStanzasMap =
@@ -17302,7 +17351,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
               fCurrentNoteSoundingWholeNotes,
               stanza);
             
-        // append syllable to stanza
+        // append skip syllable to stanza
         stanza->
           appendSyllableToStanza (
             skipSyllable);

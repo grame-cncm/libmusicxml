@@ -59,7 +59,8 @@
         <stem default-y="-55">down</stem>
         <lyric default-y="-80" number="1">
           <syllabic>single</syllabic>
-          <text>テ</text>
+          <!--text>テ</text-->
+          <text>Ahh</text>
           <extend type="start"/>
         </lyric>
       </note>

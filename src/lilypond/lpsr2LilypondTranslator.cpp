@@ -5747,8 +5747,16 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             "__ ";
           break;
         case msrSyllable::kSyllableExtendStart:
+          // generate a lyric extender,
+          // i.e. a melisma,
+          // after this syllable
+          fLilypondCodeIOstream <<
+            "__ ";
           break;
         case msrSyllable::kSyllableExtendContinue:
+          // generate a skip after this syllable
+          fLilypondCodeIOstream <<
+            "\\skip" << 1 << " ";
           break;
         case msrSyllable::kSyllableExtendStop:
           break;
