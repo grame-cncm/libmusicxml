@@ -787,7 +787,11 @@ void optionsShowAllChordIntervalsItem::print (ostream& os) const
 }
 
 void optionsShowAllChordIntervalsItem::printAllChordIntervals (ostream& os) const
-{  
+{
+  os <<
+    "optionsShowAllChordIntervalsItem::printAllChordInterval" <<
+    endl;
+    
   msrChordIntervals::printAllChordIntervals (os);
 }
 
