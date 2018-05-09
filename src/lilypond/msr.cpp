@@ -16278,6 +16278,10 @@ string msrSyllable::syllableKindAsString (
       result = "syllableSkip";
       break;
       
+    case msrSyllable::kSyllableMeasureEnd:
+      result = "syllableMeasureEnd";
+      break;
+      
     case msrSyllable::kSyllableLineBreak:
       result = "syllableLineBreak";
       break;
@@ -16372,6 +16376,13 @@ string msrSyllable::asString () const
     case msrSyllable::kSyllableSkip:
       break;
  
+    case msrSyllable::kSyllableMeasureEnd:
+      // fSyllableText contains the measure number
+      s << 
+        "measure end" <<
+        " measure " << "fSyllableText ???";
+      break;
+      
     case msrSyllable::kSyllableLineBreak:
       // fSyllableText contains the measure number
       s << 
@@ -16443,6 +16454,13 @@ void msrSyllable::print (ostream& os)
     case msrSyllable::kSyllableMiddle:
     case msrSyllable::kSyllableEnd:
     case msrSyllable::kSyllableSkip:
+      break;
+      
+    case kSyllableMeasureEnd:
+      // fSyllableText contains the measure number
+      os << 
+        "measure end" <<
+        " measure " << "fSyllableText ???";
       break;
       
     case kSyllableLineBreak:
@@ -16663,6 +16681,7 @@ void msrStanza::appendSyllableToStanza (
       break;
       
     case msrSyllable::kSyllableSkip:
+    case msrSyllable::kSyllableMeasureEnd:
     case msrSyllable::kSyllableLineBreak:
     case msrSyllable::kSyllablePageBreak:
       break;

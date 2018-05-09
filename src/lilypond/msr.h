@@ -4641,6 +4641,7 @@ class msrSyllable : public msrElement
       kSyllableSingle,
       kSyllableBegin, kSyllableMiddle, kSyllableEnd,
       kSyllableSkip,
+      kSyllableMeasureEnd,
       kSyllableLineBreak, kSyllablePageBreak};
 
     static string syllableKindAsString (

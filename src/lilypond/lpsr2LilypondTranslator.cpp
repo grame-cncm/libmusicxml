@@ -276,6 +276,9 @@ string lpsr2LilypondTranslator::alterationKindAsLilypondString (
   string result;
   
   switch (alterationKind) {
+    case kTripleFlat:
+      result = "TRIPLE-FLAT";
+      break;
     case kDoubleFlat:
       result = "DOUBLE-FLAT";
       break;
@@ -303,6 +306,9 @@ string lpsr2LilypondTranslator::alterationKindAsLilypondString (
     case kDoubleSharp:
       result = "DOUBLE-SHARP";
       break;
+    case kTripleSharp:
+      result = "TRIPLE-SHARP";
+      break;
     case k_NoAlteration:
       result = "alteration???";
       break;
@@ -318,6 +324,9 @@ string lpsr2LilypondTranslator::alterationKindAsLilypondAccidentalMark (
   string result;
   
   switch (alterationKind) {
+    case kTripleFlat:
+      result = " \\markup { \\tripleflat } ";
+      break;
     case kDoubleFlat:
       result = " \\markup { \\doubleflat } ";
       break;
@@ -344,6 +353,9 @@ string lpsr2LilypondTranslator::alterationKindAsLilypondAccidentalMark (
       break;
     case kDoubleSharp:
       result = " \\markup { \\doublesharp } ";
+      break;
+    case kTripleSharp:
+      result = " \\markup { \\triplesharp } ";
       break;
     case k_NoAlteration:
       break;
@@ -1874,11 +1886,14 @@ string lpsr2LilypondTranslator::harpPedalTuningAsLilypondString (
   string result;
   
   switch (alterationKind) {
+    case kTripleFlat:
+      result = "%{ tripleFlat %} ";
+      break;
     case kDoubleFlat:
-      result = "?";
+      result = "%{ doubleFlat %} ";
       break;
     case kSesquiFlat:
-      result = "?";
+      result = "%{ sesquiFlat %} ";
       break;
     case kFlat:
       result = "^";
@@ -1896,10 +1911,13 @@ string lpsr2LilypondTranslator::harpPedalTuningAsLilypondString (
       result = "v";
       break;
     case kSesquiSharp:
-      result = "?";
+      result = "%{ sesquiSharp %} ";
       break;
     case kDoubleSharp:
-      result = "?";
+      result = "%{ doubleSharp %} ";
+      break;
+    case kTripleSharp:
+      result = "%{ tripleSharp %} ";
       break;
     case k_NoAlteration:
       result = "alteration???";
@@ -1982,6 +2000,9 @@ string lpsr2LilypondTranslator::harmonyDegreeAlterationKindAsLilypondString (
     case k_NoAlteration:
       result = "?";
       break;
+    case kTripleFlat:
+      result = "?";
+      break;
     case kDoubleFlat:
       result = "?";
       break;
@@ -2007,6 +2028,9 @@ string lpsr2LilypondTranslator::harmonyDegreeAlterationKindAsLilypondString (
       result = "?";
       break;
     case kDoubleSharp:
+      result = "?";
+      break;
+    case kTripleSharp:
       result = "?";
       break;
   } // switch
@@ -5718,6 +5742,14 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             " ";
           break;
            
+        case msrSyllable::kSyllableMeasureEnd:
+          fLilypondCodeIOstream <<
+            "%{ measure end, line " <<
+            elt->getInputLineNumber () <<
+            " %}" <<
+            endl;
+          break;
+    
         case msrSyllable::kSyllableLineBreak:
           fLilypondCodeIOstream <<
             "%{ line break, line " <<
