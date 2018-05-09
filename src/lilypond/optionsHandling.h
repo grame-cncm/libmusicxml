@@ -322,7 +322,7 @@ class optionsContactItem : public optionsItem
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~optionsContactItem();
+    virtual ~optionsContactItem ();
 
   public:
   
@@ -454,6 +454,110 @@ class optionsHelpSummaryItem : public optionsItem
 };
 typedef SMARTP<optionsHelpSummaryItem> S_optionsHelpSummaryItem;
 ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt);
+
+//______________________________________________________________________________
+class optionsShowAllChordIntervalsItem : public optionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsShowAllChordIntervalsItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsShowAllChordIntervalsItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~optionsShowAllChordIntervalsItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printAllChordIntervals (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<optionsShowAllChordIntervalsItem> S_optionsShowAllChordIntervalsItem;
+ostream& operator<< (ostream& os, const S_optionsShowAllChordIntervalsItem& elt);
+
+//______________________________________________________________________________
+class optionsShowChordNotesItem : public optionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsShowChordNotesItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsShowChordNotesItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~optionsShowChordNotesItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printChordNotes (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<optionsShowChordNotesItem> S_optionsShowChordNotesItem;
+ostream& operator<< (ostream& os, const S_optionsShowChordNotesItem& elt);
 
 //______________________________________________________________________________
 class optionsCombinedItemsItem : public optionsItem

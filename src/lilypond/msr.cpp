@@ -2099,6 +2099,9 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
   string result;
   
   switch (fOrnamentAccidentalMark) {
+    case kTripleFlat:
+      result = "tripleFlat";
+      break;
     case kDoubleFlat:
       result = "doubleFlat";
       break;
@@ -2125,6 +2128,9 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
       break;
     case kDoubleSharp:
       result = "doubleSharp";
+      break;
+    case kTripleSharp:
+      result = "tripleSharp";
       break;
     case k_NoAlteration:
       result = "none";

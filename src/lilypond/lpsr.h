@@ -2518,6 +2518,8 @@ class lpsrScore : public lpsrElement
     
     void                  addDateAndTimeSchemeFunctionsToScore ();
     
+    void                  addPointAndClickOffSchemeFunctionsToScore ();
+    
     void                  addCustomShortBarLineSchemeFunctionToScore ();
 
     void                  addTongueSchemeFunctionToScore ();

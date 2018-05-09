@@ -166,6 +166,8 @@ class lilypondOptions : public optionsGroup
 
     bool                  fLilypondCompileDate;
 
+    bool                  fPointAndClickOff;
+
     // score notation
     // --------------------------------------
 

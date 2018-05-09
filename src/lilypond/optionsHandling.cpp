@@ -736,6 +736,146 @@ ostream& operator<< (ostream& os, const S_optionsHelpSummaryItem& elt)
 }
 
 //______________________________________________________________________________
+S_optionsShowAllChordIntervalsItem optionsShowAllChordIntervalsItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  optionsShowAllChordIntervalsItem* o = new
+    optionsShowAllChordIntervalsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+optionsShowAllChordIntervalsItem::optionsShowAllChordIntervalsItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+optionsShowAllChordIntervalsItem::~optionsShowAllChordIntervalsItem()
+{}
+
+void optionsShowAllChordIntervalsItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsShowAllChordIntervalsItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void optionsShowAllChordIntervalsItem::printAllChordIntervals (ostream& os) const
+{  
+  msrChordIntervals::printAllChordIntervals (os);
+}
+
+void optionsShowAllChordIntervalsItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_optionsShowAllChordIntervalsItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsShowChordNotesItem optionsShowChordNotesItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  optionsShowChordNotesItem* o = new
+    optionsShowChordNotesItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+optionsShowChordNotesItem::optionsShowChordNotesItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+optionsShowChordNotesItem::~optionsShowChordNotesItem ()
+{}
+
+void optionsShowChordNotesItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsShowChordNotesItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void optionsShowChordNotesItem::printChordNotes (ostream& os) const
+{  
+  os <<
+    "xml2ly printChordNotes"<<
+    endl;
+}
+
+void optionsShowChordNotesItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_optionsShowChordNotesItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
 S_optionsCombinedItemsItem optionsCombinedItemsItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
@@ -4645,6 +4785,36 @@ void optionsHandler::handleOptionsItemName (
         // handle it at once
         printHelpSummary (
           fOptionsHandlerLogIOstream);
+
+        // exit
+        exit (0);
+      }
+      
+      else if (
+        // show all chord intervals item?
+        S_optionsShowAllChordIntervalsItem
+          showAllChordIntervalsItem =
+            dynamic_cast<optionsShowAllChordIntervalsItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        showAllChordIntervalsItem->
+          printAllChordIntervals (
+            fOptionsHandlerLogIOstream);
+
+        // exit
+        exit (0);
+      }
+      
+      else if (
+        // show chord notes item?
+        S_optionsShowChordNotesItem
+          showChordNotesItem =
+            dynamic_cast<optionsShowChordNotesItem*>(&(*optionsElement))
+        ) {
+        // handle it at once
+        showChordNotesItem->
+          printChordNotes (
+            fOptionsHandlerLogIOstream);
 
         // exit
         exit (0);

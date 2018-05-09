@@ -4590,6 +4590,11 @@ lpsrScore::lpsrScore (
     addDateAndTimeSchemeFunctionsToScore ();
   }
 
+  if (gLilypondOptions->fPointAndClickOff) {
+    // create the pointAndClickOff command
+    addPointAndClickOffSchemeFunctionsToScore ();
+  }
+
   if (gLilypondOptions->fJianpu) {
     // create the Jianpu include command
   }
@@ -4918,6 +4923,42 @@ R"(
 #(define tim             (strftime "%H:%M:%S" (localtime (current-time))))
 #(define modTime         (stat:mtime (stat filen)))
 #(define modTimeAsString (strftime "%d/%m/%Y - %H:%M:%S" (localtime modTime)))
+)";
+
+  if (gLpsrOptions->fTraceSchemeFunctions) {
+    gLogIOstream <<
+      "Creating Scheme functions for '" << schemeFunctionName << "'" <<
+      endl;
+  }
+
+  // create the Scheme function
+  S_lpsrSchemeFunction
+    schemeFunction =
+      lpsrSchemeFunction::create (
+        1, // inputLineNumber, JMI ???
+        schemeFunctionName,
+        schemeFunctionDescription,
+        schemeFunctionCode);
+
+  // register it in the Scheme functions map
+  fScoreSchemeFunctionsMap [schemeFunctionName] =
+    schemeFunction;
+}
+
+void lpsrScore::addPointAndClickOffSchemeFunctionsToScore ()
+{
+  string
+    schemeFunctionName =
+      "pointAndClickOff",
+      
+    schemeFunctionDescription =
+R"(
+% \pointAndClickOff to reduce the size of the produced PDF file.
+)",
+
+    schemeFunctionCode =
+R"(
+\pointAndClickOff
 )";
 
   if (gLpsrOptions->fTraceSchemeFunctions) {

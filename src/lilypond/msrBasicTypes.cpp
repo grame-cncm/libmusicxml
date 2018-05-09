@@ -9380,7 +9380,7 @@ void msrChordIntervals::print (ostream& os)
   gIndenter--;
 }
 
-void msrChordIntervals::printAllChordIntervals ()
+void msrChordIntervals::printAllChordIntervals (ostream& os)
 {
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
@@ -9394,7 +9394,7 @@ void msrChordIntervals::printAllChordIntervals ()
           harmonyKind);
 
     // print it
-    gLogIOstream <<
+    os <<
       chordIntervals <<
       endl;
   } // for

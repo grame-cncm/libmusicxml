@@ -754,7 +754,7 @@ class msrChordIntervals : public smartable
     string                chordIntervalsAsString () const;
     string                chordIntervalsAsShortString () const;
 
-    static void           printAllChordIntervals ();
+    static void           printAllChordIntervals (ostream& os);
     
     // visitors
     // ------------------------------------------------------

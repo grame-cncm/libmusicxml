@@ -514,6 +514,8 @@ https://github.com/OpenLilyPondFonts/lilyjazz/blob/master/LilyPond-Fonts-Install
     fNoLilypondLyrics    = boolOptionsInitialValue;
     
     fLilypondCompileDate = boolOptionsInitialValue;
+    
+    fPointAndClickOff    = boolOptionsInitialValue;
   
     // options
   
@@ -580,6 +582,15 @@ R"(Generate code to include the compilation date
 when LilyPond creates the score.)",
           "lilypondCompileDate",
           fLilypondCompileDate));
+
+    codeGenerationSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "paco", "pointAndClickOff",
+R"(Generate \pointAndClickOff at the beginning of the LilyPond code
+to reduce the size of the resulting PDF file.)",
+          "pointAndClickOff",
+          fPointAndClickOff));
   } 
       
     
