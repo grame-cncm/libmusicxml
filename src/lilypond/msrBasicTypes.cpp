@@ -5573,6 +5573,14 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
     result = kDoubleSharp;
   }
   
+  else if (alter == -3 ) {
+    result = kTripleFlat;
+  }
+  
+  else if (alter == +3 ) {
+    result = kTripleSharp;
+  }
+  
   else {
     result = k_NoAlteration;
   }
@@ -5642,6 +5650,10 @@ void setDiatonicPitchAndAlterationKind (
       alterationKind    = k_NoAlteration;
       break;
 
+    case kA_TripleFlat_QTP:
+      diatonicPitchKind = kA;
+      alterationKind    = kTripleFlat;
+      break;
     case kA_DoubleFlat_QTP:
       diatonicPitchKind = kA;
       alterationKind    = kDoubleFlat;
@@ -5678,7 +5690,15 @@ void setDiatonicPitchAndAlterationKind (
       diatonicPitchKind = kA;
       alterationKind    = kDoubleSharp;
       break;
+    case kA_TripleSharp_QTP:
+      diatonicPitchKind = kA;
+      alterationKind    = kTripleSharp;
+      break;
 
+    case kB_TripleFlat_QTP:
+      diatonicPitchKind = kB;
+      alterationKind    = kTripleFlat;
+      break;
     case kB_DoubleFlat_QTP:
       diatonicPitchKind = kB;
       alterationKind    = kDoubleFlat;
@@ -5715,7 +5735,15 @@ void setDiatonicPitchAndAlterationKind (
       diatonicPitchKind = kB;
       alterationKind    = kDoubleSharp;
       break;
+    case kB_TripleSharp_QTP:
+      diatonicPitchKind = kB;
+      alterationKind    = kTripleSharp;
+      break;
 
+    case kC_TripleFlat_QTP:
+      diatonicPitchKind = kC;
+      alterationKind    = kTripleFlat;
+      break;
     case kC_DoubleFlat_QTP:
       diatonicPitchKind = kC;
       alterationKind    = kDoubleFlat;
@@ -5752,7 +5780,15 @@ void setDiatonicPitchAndAlterationKind (
       diatonicPitchKind = kC;
       alterationKind    = kDoubleSharp;
       break;
+    case kC_TripleSharp_QTP:
+      diatonicPitchKind = kC;
+      alterationKind    = kTripleSharp;
+      break;
 
+    case kD_TripleFlat_QTP:
+      diatonicPitchKind = kD;
+      alterationKind    = kTripleFlat;
+      break;
     case kD_DoubleFlat_QTP:
       diatonicPitchKind = kD;
       alterationKind    = kDoubleFlat;
@@ -5789,7 +5825,15 @@ void setDiatonicPitchAndAlterationKind (
       diatonicPitchKind = kD;
       alterationKind    = kDoubleSharp;
       break;
+    case kD_TripleSharp_QTP:
+      diatonicPitchKind = kD;
+      alterationKind    = kTripleSharp;
+      break;
 
+    case kE_TripleFlat_QTP:
+      diatonicPitchKind = kE;
+      alterationKind    = kTripleFlat;
+      break;
     case kE_DoubleFlat_QTP:
       diatonicPitchKind = kE;
       alterationKind    = kDoubleFlat;
@@ -5826,7 +5870,15 @@ void setDiatonicPitchAndAlterationKind (
       diatonicPitchKind = kE;
       alterationKind    = kDoubleSharp;
       break;
+    case kE_TripleSharp_QTP:
+      diatonicPitchKind = kE;
+      alterationKind    = kTripleSharp;
+      break;
 
+    case kF_TripleFlat_QTP:
+      diatonicPitchKind = kF;
+      alterationKind    = kTripleFlat;
+      break;
     case kF_DoubleFlat_QTP:
       diatonicPitchKind = kF;
       alterationKind    = kDoubleFlat;
@@ -5863,7 +5915,15 @@ void setDiatonicPitchAndAlterationKind (
       diatonicPitchKind = kF;
       alterationKind    = kDoubleSharp;
       break;
+    case kF_TripleSharp_QTP:
+      diatonicPitchKind = kF;
+      alterationKind    = kTripleSharp;
+      break;
 
+    case kG_TripleFlat_QTP:
+      diatonicPitchKind = kG;
+      alterationKind    = kTripleFlat;
+      break;
     case kG_DoubleFlat_QTP:
       diatonicPitchKind = kG;
       alterationKind    = kDoubleFlat;
@@ -5899,6 +5959,10 @@ void setDiatonicPitchAndAlterationKind (
       diatonicPitchKind = kG;
       alterationKind    = kDoubleSharp;
       break;
+    case kG_TripleSharp_QTP:
+      diatonicPitchKind = kG;
+      alterationKind    = kTripleSharp;
+      break;
       
     case k_Rest_QTP:
       diatonicPitchKind = kA; // any value would fit JMI
@@ -5920,6 +5984,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
   switch (diatonicPitchKind) {
     case kA:
       switch (alterationKind) {
+        case kTripleFlat:
+          result = kA_TripleFlat_QTP;
+          break;
         case kDoubleFlat:
           result = kA_DoubleFlat_QTP;
           break;
@@ -5947,6 +6014,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = kA_DoubleSharp_QTP;
           break;
+        case kTripleSharp:
+          result = kA_TripleSharp_QTP;
+          break;
         case k_NoAlteration:
           {
             stringstream s;
@@ -5967,6 +6037,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       
     case kB:
       switch (alterationKind) {
+        case kTripleFlat:
+          result = kB_TripleFlat_QTP;
+          break;
         case kDoubleFlat:
           result = kB_DoubleFlat_QTP;
           break;
@@ -5994,6 +6067,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = kB_DoubleSharp_QTP;
           break;
+        case kTripleSharp:
+          result = kB_TripleSharp_QTP;
+          break;
         case k_NoAlteration:
           {
             stringstream s;
@@ -6016,6 +6092,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       
     case kC:
       switch (alterationKind) {
+        case kTripleFlat:
+          result = kC_TripleFlat_QTP;
+          break;
         case kDoubleFlat:
           result = kC_DoubleFlat_QTP;
           break;
@@ -6043,6 +6122,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = kC_DoubleSharp_QTP;
           break;
+        case kTripleSharp:
+          result = kC_TripleSharp_QTP;
+          break;
         case k_NoAlteration:
           {
             stringstream s;
@@ -6063,6 +6145,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       
     case kD:
       switch (alterationKind) {
+        case kTripleFlat:
+          result = kD_TripleFlat_QTP;
+          break;
         case kDoubleFlat:
           result = kD_DoubleFlat_QTP;
           break;
@@ -6090,6 +6175,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = kD_DoubleSharp_QTP;
           break;
+        case kTripleSharp:
+          result = kD_TripleSharp_QTP;
+          break;
         case k_NoAlteration:
           {
             stringstream s;
@@ -6110,6 +6198,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       
     case kE:
       switch (alterationKind) {
+        case kTripleFlat:
+          result = kE_TripleFlat_QTP;
+          break;
         case kDoubleFlat:
           result = kE_DoubleFlat_QTP;
           break;
@@ -6137,6 +6228,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = kE_DoubleSharp_QTP;
           break;
+        case kTripleSharp:
+          result = kE_TripleSharp_QTP;
+          break;
         case k_NoAlteration:
           {
             stringstream s;
@@ -6157,6 +6251,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       
     case kF:
       switch (alterationKind) {
+        case kTripleFlat:
+          result = kF_TripleFlat_QTP;
+          break;
         case kDoubleFlat:
           result = kF_DoubleFlat_QTP;
           break;
@@ -6184,6 +6281,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
         case kDoubleSharp:
           result = kF_DoubleSharp_QTP;
           break;
+        case kTripleSharp:
+          result = kF_TripleSharp_QTP;
+          break;
         case k_NoAlteration:
           {
             stringstream s;
@@ -6204,6 +6304,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
       
     case kG:
       switch (alterationKind) {
+        case kTripleFlat:
+          result = kG_TripleFlat_QTP;
+          break;
         case kDoubleFlat:
           result = kG_DoubleFlat_QTP;
           break;
@@ -6230,6 +6333,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromDiatonicPitchAndAlteration (
           break;
         case kDoubleSharp:
           result = kG_DoubleSharp_QTP;
+          break;
+        case kTripleSharp:
+          result = kG_TripleSharp_QTP;
           break;
         case k_NoAlteration:
           {
@@ -6279,6 +6385,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
   msrDiatonicPitchKind result;
   
   switch (quarterTonesPitchKind) {
+    case kA_TripleFlat_QTP:
     case kA_DoubleFlat_QTP:
     case kA_SesquiFlat_QTP:
     case kA_Flat_QTP:
@@ -6288,9 +6395,11 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kA_Sharp_QTP:
     case kA_SesquiSharp_QTP:
     case kA_DoubleSharp_QTP:
+    case kA_TripleSharp_QTP:
       result = kA;
       break;
 
+    case kB_TripleFlat_QTP:
     case kB_DoubleFlat_QTP:
     case kB_SesquiFlat_QTP:
     case kB_Flat_QTP:
@@ -6300,9 +6409,11 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kB_Sharp_QTP:
     case kB_SesquiSharp_QTP:
     case kB_DoubleSharp_QTP:
+    case kB_TripleSharp_QTP:
       result = kB;
       break;
 
+    case kC_TripleFlat_QTP:
     case kC_DoubleFlat_QTP:
     case kC_SesquiFlat_QTP:
     case kC_Flat_QTP:
@@ -6312,9 +6423,11 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kC_Sharp_QTP:
     case kC_SesquiSharp_QTP:
     case kC_DoubleSharp_QTP:
+    case kC_TripleSharp_QTP:
       result = kC;
       break;
 
+    case kD_TripleFlat_QTP:
     case kD_DoubleFlat_QTP:
     case kD_SesquiFlat_QTP:
     case kD_Flat_QTP:
@@ -6324,9 +6437,11 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kD_Sharp_QTP:
     case kD_SesquiSharp_QTP:
     case kD_DoubleSharp_QTP:
+    case kD_TripleSharp_QTP:
       result = kD;
       break;
 
+    case kE_TripleFlat_QTP:
     case kE_DoubleFlat_QTP:
     case kE_SesquiFlat_QTP:
     case kE_Flat_QTP:
@@ -6336,9 +6451,11 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kE_Sharp_QTP:
     case kE_SesquiSharp_QTP:
     case kE_DoubleSharp_QTP:
+    case kE_TripleSharp_QTP:
       result = kE;
       break;
 
+    case kF_TripleFlat_QTP:
     case kF_DoubleFlat_QTP:
     case kF_SesquiFlat_QTP:
     case kF_Flat_QTP:
@@ -6348,9 +6465,11 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kF_Sharp_QTP:
     case kF_SesquiSharp_QTP:
     case kF_DoubleSharp_QTP:
+    case kF_TripleSharp_QTP:
       result = kF;
       break;
 
+    case kG_TripleFlat_QTP:
     case kG_DoubleFlat_QTP:
     case kG_SesquiFlat_QTP:
     case kG_Flat_QTP:
@@ -6360,6 +6479,7 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
     case kG_Sharp_QTP:
     case kG_SesquiSharp_QTP:
     case kG_DoubleSharp_QTP:
+    case kG_TripleSharp_QTP:
       result = kG;
       break;
 

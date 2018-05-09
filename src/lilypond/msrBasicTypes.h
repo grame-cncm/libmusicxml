@@ -136,34 +136,48 @@ enum msrQuarterTonesPitchKind {
   k_NoQuarterTonesPitch_QTP,
 
   k_Rest_QTP,
-  
+
+  kA_TripleFlat_QTP,
   kA_DoubleFlat_QTP, kA_SesquiFlat_QTP, kA_Flat_QTP, kA_SemiFlat_QTP,
   kA_Natural_QTP,
   kA_SemiSharp_QTP, kA_Sharp_QTP, kA_SesquiSharp_QTP, kA_DoubleSharp_QTP,
+  kA_TripleSharp_QTP,
   
+  kB_TripleFlat_QTP,
   kB_DoubleFlat_QTP, kB_SesquiFlat_QTP, kB_Flat_QTP, kB_SemiFlat_QTP,
   kB_Natural_QTP,
   kB_SemiSharp_QTP, kB_Sharp_QTP, kB_SesquiSharp_QTP, kB_DoubleSharp_QTP,
+  kB_TripleSharp_QTP,
   
+  kC_TripleFlat_QTP,
   kC_DoubleFlat_QTP, kC_SesquiFlat_QTP, kC_Flat_QTP, kC_SemiFlat_QTP,
   kC_Natural_QTP,
   kC_SemiSharp_QTP, kC_Sharp_QTP, kC_SesquiSharp_QTP, kC_DoubleSharp_QTP,
+  kC_TripleSharp_QTP,
   
+  kD_TripleFlat_QTP,
   kD_DoubleFlat_QTP, kD_SesquiFlat_QTP, kD_Flat_QTP, kD_SemiFlat_QTP,
   kD_Natural_QTP,
   kD_SemiSharp_QTP, kD_Sharp_QTP, kD_SesquiSharp_QTP, kD_DoubleSharp_QTP,
+  kD_TripleSharp_QTP,
   
+  kE_TripleFlat_QTP,
   kE_DoubleFlat_QTP, kE_SesquiFlat_QTP, kE_Flat_QTP, kE_SemiFlat_QTP,
   kE_Natural_QTP,
   kE_SemiSharp_QTP, kE_Sharp_QTP, kE_SesquiSharp_QTP, kE_DoubleSharp_QTP,
+  kE_TripleSharp_QTP,
   
+  kF_TripleFlat_QTP,
   kF_DoubleFlat_QTP, kF_SesquiFlat_QTP, kF_Flat_QTP, kF_SemiFlat_QTP,
   kF_Natural_QTP,
   kF_SemiSharp_QTP, kF_Sharp_QTP, kF_SesquiSharp_QTP, kF_DoubleSharp_QTP,
+  kF_TripleSharp_QTP,
   
+  kG_TripleFlat_QTP,
   kG_DoubleFlat_QTP, kG_SesquiFlat_QTP, kG_Flat_QTP, kG_SemiFlat_QTP,
   kG_Natural_QTP,
-  kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP };
+  kG_SemiSharp_QTP, kG_Sharp_QTP, kG_SesquiSharp_QTP, kG_DoubleSharp_QTP,
+  kG_TripleSharp_QTP };
 
 void setDiatonicPitchKindAndAlterationKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind,
