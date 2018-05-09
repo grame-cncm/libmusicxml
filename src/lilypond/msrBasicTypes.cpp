@@ -758,6 +758,330 @@ msrIntervalKind invertIntervalKind (
   return result;
 }
 
+msrIntervalKind intervalKindSum (
+  msrIntervalKind intervalKind1,
+  msrIntervalKind intervalKind2)
+{
+  msrIntervalKind result;
+
+  switch (intervalKind1) { // JMI TODO
+    case kDiminishedUnisson:
+      result = kAugmentedUnison;
+      break;
+    case kPerUnison:
+      result = kPerUnison;
+      break;
+    case kAugmentedUnison:
+      result = kDiminishedOctave;
+      break;
+      
+    case kDiminishedSecond:
+      result = kAugmentedSeventh;
+      break;
+    case kMinorSecond:
+      result = kMajorSeventh;
+      break;
+    case kMajorSecond:
+      result = kMinorSeventh;
+      break;
+    case kAugmentedSecond:
+      result = kDiminishedSeventh;
+      break;
+      
+    case kDiminishedThird:
+      result = kAugmentedSixth;
+      break;
+    case kMinorThird:
+      result = kMajorSixth;
+      break;
+    case kMajorThird:
+      result = kMinorSixth;
+      break;
+    case kAugmentedThird:
+      result = kDiminishedSixth;
+      break;
+      
+    case kDiminishedFourth:
+      result = kAugmentedFifth;
+      break;
+    case kPerFourth:
+      result = kPerFifth;
+      break;
+    case kAugmentedFourth:
+      result = kDiminishedFifth;
+      break;
+      
+    case kDiminishedFifth:
+      result = kAugmentedFourth;
+      break;
+    case kPerFifth:
+      result = kPerFourth;
+      break;
+    case kAugmentedFifth:
+      result = kDiminishedFourth;
+      break;
+
+    case kDiminishedSixth:
+      result = kAugmentedThird;
+      break;
+    case kMinorSixth:
+      result = kMajorThird;
+      break;
+    case kMajorSixth:
+      result = kMinorThird;
+      break;
+    case kAugmentedSixth:
+      result = kDiminishedThird;
+      break;
+      
+    case kDiminishedSeventh:
+      result = kAugmentedSecond;
+      break;
+    case kMinorSeventh:
+      result = kMajorSecond;
+      break;
+    case kMajorSeventh:
+      result = kMinorSecond;
+      break;
+    case kAugmentedSeventh:
+      result = kDiminishedSecond;
+      break;
+
+    case kDiminishedOctave:
+      result = kAugmentedUnison;
+      break;
+    case kPerOctave:
+      result = kPerOctave;
+      break;
+    case kAugmentedOctave:
+      result = kDiminishedUnisson;
+      break;
+      
+    case kDiminishedNinth:
+      result = kAugmentedSeventh;
+      break;
+    case kMinorNinth:
+      result = kMajorSeventh;
+      break;
+    case kMajorNinth:
+      result = kMinorSeventh;
+      break;
+    case kAugmentedNinth:
+      result = kDiminishedSeventh;
+      break;
+      
+    case kDiminishedTenth:
+      result = kAugmentedSixth;
+      break;
+    case kMinorTenth:
+      result = kMajorSixth;
+      break;
+    case kMajorTenth:
+      result = kMinorSixth;
+      break;
+    case kAugmentedTenth:
+      result = kDiminishedSixth;
+      break;
+      
+    case kDiminishedEleventh:
+      result = kAugmentedFifth;
+      break;
+    case kPerEleventh:
+      result = kPerFifth;
+      break;
+    case kAugmentedEleventh:
+      result = kDiminishedFifth;
+      break;
+      
+    case kDiminishedTwelfth:
+      result = kAugmentedFourth;
+      break;
+    case kPerTwelfth:
+      result = kPerFourth;
+      break;
+    case kAugmentedTwelfth:
+      result = kDiminishedFourth;
+      break;
+
+    case kDiminishedThirteenth:
+      result = kAugmentedThird;
+      break;
+    case kMinorThirteenth:
+      result = kMajorThird;
+      break;
+    case kMajorThirteenth:
+      result = kMinorThird;
+      break;
+    case kAugmentedThirteenth:
+      result = kDiminishedThird;
+      break;
+  } // switch
+
+  return result;
+}
+
+msrIntervalKind intervalKindDifference (
+  msrIntervalKind intervalKind1,
+  msrIntervalKind intervalKind2)
+{
+  msrIntervalKind result;
+
+  switch (intervalKind1) { // JMI TODO
+    case kDiminishedUnisson:
+      result = kAugmentedUnison;
+      break;
+    case kPerUnison:
+      result = kPerUnison;
+      break;
+    case kAugmentedUnison:
+      result = kDiminishedOctave;
+      break;
+      
+    case kDiminishedSecond:
+      result = kAugmentedSeventh;
+      break;
+    case kMinorSecond:
+      result = kMajorSeventh;
+      break;
+    case kMajorSecond:
+      result = kMinorSeventh;
+      break;
+    case kAugmentedSecond:
+      result = kDiminishedSeventh;
+      break;
+      
+    case kDiminishedThird:
+      result = kAugmentedSixth;
+      break;
+    case kMinorThird:
+      result = kMajorSixth;
+      break;
+    case kMajorThird:
+      result = kMinorSixth;
+      break;
+    case kAugmentedThird:
+      result = kDiminishedSixth;
+      break;
+      
+    case kDiminishedFourth:
+      result = kAugmentedFifth;
+      break;
+    case kPerFourth:
+      result = kPerFifth;
+      break;
+    case kAugmentedFourth:
+      result = kDiminishedFifth;
+      break;
+      
+    case kDiminishedFifth:
+      result = kAugmentedFourth;
+      break;
+    case kPerFifth:
+      result = kPerFourth;
+      break;
+    case kAugmentedFifth:
+      result = kDiminishedFourth;
+      break;
+
+    case kDiminishedSixth:
+      result = kAugmentedThird;
+      break;
+    case kMinorSixth:
+      result = kMajorThird;
+      break;
+    case kMajorSixth:
+      result = kMinorThird;
+      break;
+    case kAugmentedSixth:
+      result = kDiminishedThird;
+      break;
+      
+    case kDiminishedSeventh:
+      result = kAugmentedSecond;
+      break;
+    case kMinorSeventh:
+      result = kMajorSecond;
+      break;
+    case kMajorSeventh:
+      result = kMinorSecond;
+      break;
+    case kAugmentedSeventh:
+      result = kDiminishedSecond;
+      break;
+
+    case kDiminishedOctave:
+      result = kAugmentedUnison;
+      break;
+    case kPerOctave:
+      result = kPerOctave;
+      break;
+    case kAugmentedOctave:
+      result = kDiminishedUnisson;
+      break;
+      
+    case kDiminishedNinth:
+      result = kAugmentedSeventh;
+      break;
+    case kMinorNinth:
+      result = kMajorSeventh;
+      break;
+    case kMajorNinth:
+      result = kMinorSeventh;
+      break;
+    case kAugmentedNinth:
+      result = kDiminishedSeventh;
+      break;
+      
+    case kDiminishedTenth:
+      result = kAugmentedSixth;
+      break;
+    case kMinorTenth:
+      result = kMajorSixth;
+      break;
+    case kMajorTenth:
+      result = kMinorSixth;
+      break;
+    case kAugmentedTenth:
+      result = kDiminishedSixth;
+      break;
+      
+    case kDiminishedEleventh:
+      result = kAugmentedFifth;
+      break;
+    case kPerEleventh:
+      result = kPerFifth;
+      break;
+    case kAugmentedEleventh:
+      result = kDiminishedFifth;
+      break;
+      
+    case kDiminishedTwelfth:
+      result = kAugmentedFourth;
+      break;
+    case kPerTwelfth:
+      result = kPerFourth;
+      break;
+    case kAugmentedTwelfth:
+      result = kDiminishedFourth;
+      break;
+
+    case kDiminishedThirteenth:
+      result = kAugmentedThird;
+      break;
+    case kMinorThirteenth:
+      result = kMajorThird;
+      break;
+    case kMajorThirteenth:
+      result = kMinorThird;
+      break;
+    case kAugmentedThirteenth:
+      result = kDiminishedThird;
+      break;
+  } // switch
+
+  return result;
+}
+
 /* JMI
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrIntervalKind             intervalKind,

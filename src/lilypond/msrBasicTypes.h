@@ -232,6 +232,14 @@ string msrIntervalKindAsShortString (
 msrIntervalKind invertIntervalKind (
   msrIntervalKind intervalKind);
 
+msrIntervalKind intervalKindSum (
+  msrIntervalKind intervalKind1,
+  msrIntervalKind intervalKind2);
+
+msrIntervalKind intervalKindDifference (
+  msrIntervalKind intervalKind1,
+  msrIntervalKind intervalKind2);
+
 /* JMI
 msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrIntervalKind             intervalKind,
