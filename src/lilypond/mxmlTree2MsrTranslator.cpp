@@ -17328,6 +17328,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
         i++) {
         S_msrStanza stanza = (*i).second;
 
+/* JMI
         // create a skip syllable
         if (gTraceOptions->fTraceLyrics) {
           fLogOutputStream <<
@@ -17350,6 +17351,7 @@ void mxmlTree2MsrTranslator::handleLyrics (
         stanza->
           appendSyllableToStanza (
             skipSyllable);
+            */
       } // for
     }
   }
