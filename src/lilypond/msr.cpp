@@ -7374,14 +7374,14 @@ string msrNote::asShortString () const
       s <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
       s <<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kGraceNote:
@@ -7389,7 +7389,7 @@ string msrNote::asShortString () const
       s <<
         notePitchAsString () <<
         noteGraphicDurationAsMsrString () <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
         
       for (int i = 0; i < fNoteDotsNumber; i++) {
         s << "."; // JMI
@@ -7401,7 +7401,7 @@ string msrNote::asShortString () const
         notePitchAsString () <<
         ", " <<
         noteSoundingWholeNotesAsMsrString () <<
-        "[octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        " [octave: " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kTupletMemberNote:
@@ -16128,9 +16128,9 @@ void msrSyllable::appendLyricTextToSyllable (string text)
 {
   if (gTraceOptions->fTraceLyrics) {
     gLogIOstream <<
-      "Appending text '" <<
+      "Appending text \"" <<
       text <<
-      "' to the texts list of syllable '" <<
+      "\" to the texts list of syllable '" <<
       asString () <<
       "'" <<
       endl;
@@ -17177,7 +17177,7 @@ void msrStanza::print (ostream& os)
       for ( ; ; ) {
         os << (*i);
         if (++i == iEnd) break;
-        os << endl;
+        // no endl here
       } // for
     }
   }

@@ -1347,7 +1347,6 @@ class mxmlTree2MsrTranslator :
     list<S_msrSyllable>       fCurrentNoteSyllables;
 
     bool                      fLastHandledNoteInVoiceHasLyrics;
-    bool                      fOnGoingMelisma;
     
     void                      handleLyrics (
                                 S_msrVoice currentVoice,
