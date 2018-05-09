@@ -6087,7 +6087,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
 
       fOnGoingSyllableExtend = false;
     }
-    else if (extendType.size ()) {
+    else {
+      if (extendType.size ()) {
         stringstream s;
         
         s <<
@@ -6099,6 +6100,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
           elt->getInputLineNumber (),
           __FILE__, __LINE__,
           s.str ());
+      }
+      else {
+        fOnGoingSyllableExtend = true;
+      }
     }
   }
 
@@ -17327,31 +17332,21 @@ void mxmlTree2MsrTranslator::handleLyrics (
         i != voiceStanzasMap.end ();
         i++) {
         S_msrStanza stanza = (*i).second;
-
-/* JMI
+/* JMI ???
         // create a skip syllable
-        if (gTraceOptions->fTraceLyrics) {
-          fLogOutputStream <<
-            "Creating a skip syllable for textless note '" <<
-            newNote->asShortString () <<
-            "', line " << inputLineNumber  <<
-            endl;
-        }
-
         S_msrSyllable
-          skipSyllable =
+          syllable =
             msrSyllable::create (
               inputLineNumber,
               msrSyllable::kSyllableSkip,
               fCurrentSyllableExtendKind,
-              fCurrentNoteSoundingWholeNotes,
+              fCurrentNoteSoundingWholeNotesFromDuration,
               stanza);
-            
-        // append skip syllable to stanza
+  
+        // append syllable to stanza
         stanza->
-          appendSyllableToStanza (
-            skipSyllable);
-            */
+          appendSyllableToStanza (syllable);
+          */
       } // for
     }
   }

@@ -16405,7 +16405,8 @@ string msrSyllable::asString () const
 void msrSyllable::print (ostream& os)
 {  
   os <<
-    "Syllable '" <<
+    "Syllable" <<
+    ", syllableKind: " <<
     syllableKindAsString () <<
     ", whole notes:" <<
     syllableWholeNotesAsMsrString () <<
