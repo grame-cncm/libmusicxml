@@ -9384,6 +9384,37 @@ void msrChordIntervals::print (ostream& os)
   gIndenter--;
 }
 
+S_msrChordItem msrChordIntervals::bassChordItemForChordInversion (
+  int inputLineNumber,
+  int inversionNumber)
+{
+  /*
+    Inversion is a number indicating which inversion is used:
+    0 for root position, 1 for first inversion, etc.
+  */
+
+  S_msrChordItem result;
+
+  if (inversionNumber < 0 || inversionNumber > fChordIntervalsItems.size () - 1 ) {
+    stringstream s;
+
+    s <<
+      "Sorry, inversion number '" <<
+      inversionNumber <<
+      "' does not exist for chord intevals '" <<
+      msrHarmonyKindAsString (fChordIntervalsHarmonyKind) <<
+      "', line " << inputLineNumber;
+
+    msrLimitation (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return fChordIntervalsItems [inversionNumber];
+}
+
 void msrChordIntervals::printAllChordsIntervals (ostream& os)
 {
   os <<
@@ -9512,6 +9543,37 @@ string msrChordNotes::chordNotesAsString () const
       fChordSemiTonesPitches.size (), "note", "notes");
 
   return s.str ();
+}
+
+msrSemiTonesPitchKind msrChordNotes::bassSemiTonesPitchKindForChordInversion (
+  int inputLineNumber,
+  int inversionNumber)
+{
+  /*
+    Inversion is a number indicating which inversion is used:
+    0 for root position, 1 for first inversion, etc.
+  */
+
+  S_msrChordItem result;
+
+  if (inversionNumber < 0 || inversionNumber > fChordSemiTonesPitches.size () - 1 ) {
+    stringstream s;
+
+    s <<
+      "Sorry, inversion number '" <<
+      inversionNumber <<
+      "' does not exist for chord notes '" <<
+      msrHarmonyKindAsString (fChordHarmonyKind) <<
+      "', line " << inputLineNumber;
+
+    msrLimitation (
+      gXml2lyOptions->fInputSourceName,
+      inputLineNumber,
+      __FILE__, __LINE__,
+      s.str ());
+  }
+
+  return fChordSemiTonesPitches [inversionNumber];
 }
 
 /* JMI

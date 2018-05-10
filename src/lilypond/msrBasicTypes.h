@@ -754,6 +754,10 @@ class msrChordIntervals : public smartable
     string                chordIntervalsAsString () const;
     string                chordIntervalsAsShortString () const;
 
+    S_msrChordItem        bassChordItemForChordInversion (
+                            int inputLineNumber,
+                            int inversionNumber);
+                            
     static void           printAllChordsIntervals (ostream& os);
     
     // visitors
@@ -829,6 +833,10 @@ class msrChordNotes : public smartable
     string                chordNotesAsString () const;
     string                chordNotesAsShortString () const;
     
+    msrSemiTonesPitchKind bassSemiTonesPitchKindForChordInversion (
+                            int inputLineNumber,
+                            int inversionNumber);
+                            
     // visitors
     // ------------------------------------------------------
 /* JMI

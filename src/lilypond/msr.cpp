@@ -17607,6 +17607,13 @@ msrHarmony::msrHarmony (
       "'" <<
       endl;
   }
+
+  // check harmony inversion
+  /*
+    Inversion is a number indicating which inversion is used:
+    0 for root position, 1 for first inversion, etc.
+  */
+
 }
 
 msrHarmony::~msrHarmony ()
