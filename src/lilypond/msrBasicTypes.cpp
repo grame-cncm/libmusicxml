@@ -8046,11 +8046,15 @@ string msrChordItem::chordItemAsString () const
 {
   stringstream s;
 
-  s <<
+  const int fieldWidth = 19;
+  
+  s << left <<
     "ChordItem" <<
     " " << fChordItemNumber <<
-    ": " << msrIntervalKindAsString (fChordItemIntervalKind) <<
-    ", chordItemRelativeOctave: " << fChordItemRelativeOctave;
+    ": " <<
+    setw (fieldWidth) <<
+    msrIntervalKindAsString (fChordItemIntervalKind) + "," <<
+    "chordItemRelativeOctave: " << fChordItemRelativeOctave;
 
   return s.str ();
 }

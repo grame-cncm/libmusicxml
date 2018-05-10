@@ -86,11 +86,9 @@ R"()",
         
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        optionsShowAllChordIntervalsItem::create (
           "saci", "showAllChordIntervals",
-R"(Write all known chord intervals.)",
-          "showAllChordIntervals",
-          fShowAllChordIntervals));
+R"(Write all known chord intervals.)"));
   }
   
   
@@ -116,11 +114,9 @@ R"()",
         
     workSubGroup->
       appendOptionsItem (
-        optionsBooleanItem::create (
+        optionsShowChordNotesItem::create (
           "scn", "showChordNotes",
-R"(Show the chord notes for the given chord.)",
-          "showChordNotes",
-          fShowChordNotes));
+R"(Show the chord notes for the given chord.)"));
   }
 }
 

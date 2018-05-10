@@ -30,7 +30,7 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 0
+#define TRACE_OPTIONS 1
 
 const int K_OPTIONS_ELEMENTS_INDENTER_OFFSET = 3;
   // indent a bit more for readability
@@ -587,7 +587,7 @@ optionsHelpUsageItem::optionsHelpUsageItem (
       optionsItemDescription)
 {}
 
-optionsHelpUsageItem::~optionsHelpUsageItem()
+optionsHelpUsageItem::~optionsHelpUsageItem ()
 {}
 
 void optionsHelpUsageItem::print (ostream& os) const
@@ -4641,6 +4641,12 @@ void optionsHandler::handleOptionsItemName (
           dynamic_cast<optionsHandler*>(&(*optionsElement))
       ) {
       // print the option handler help or help summary
+      if (TRACE_OPTIONS) {
+        fOptionsHandlerLogIOstream <<
+          "==> optionsElement is of type 'optionsHandler'" <<
+          endl;
+      }
+      
       if (
         optionsItemName ==
           handler->
@@ -4670,6 +4676,12 @@ void optionsHandler::handleOptionsItemName (
         group =
           dynamic_cast<optionsGroup*>(&(*optionsElement))
       ) {
+      if (TRACE_OPTIONS) {
+        fOptionsHandlerLogIOstream <<
+          "==> optionsElement is of type 'optionsGroup'" <<
+          endl;
+      }
+
       // print the help
       fOptionsHandlerLogIOstream <<
         endl <<
@@ -4691,6 +4703,12 @@ void optionsHandler::handleOptionsItemName (
         subGroup =
           dynamic_cast<optionsSubGroup*>(&(*optionsElement))
       ) {
+      if (TRACE_OPTIONS) {
+        fOptionsHandlerLogIOstream <<
+          "==> optionsElement is of type 'optionsSubGroup'" <<
+          endl;
+      }
+
       // get the options group uplink
       S_optionsGroup
         group =
@@ -4718,6 +4736,12 @@ void optionsHandler::handleOptionsItemName (
     }
     
     else {
+      if (TRACE_OPTIONS) {
+        fOptionsHandlerLogIOstream <<
+          "==> optionsElement is of type '*optionsItem'" <<
+          endl;
+      }
+
       // this is an options item, handle it
       
       if (
@@ -4726,6 +4750,12 @@ void optionsHandler::handleOptionsItemName (
           versionItem =
             dynamic_cast<optionsVersionItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsVersionItem'" <<
+            endl;
+        }
+  
         // handle it at once
         versionItem->
           printVersion (
@@ -4741,6 +4771,12 @@ void optionsHandler::handleOptionsItemName (
           aboutItem =
             dynamic_cast<optionsAboutItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsAboutItem'" <<
+            endl;
+        }
+  
         // handle it at once
         aboutItem->
           printAbout (
@@ -4756,6 +4792,12 @@ void optionsHandler::handleOptionsItemName (
           contactItem =
             dynamic_cast<optionsContactItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsContactItem'" <<
+            endl;
+        }
+  
         // handle it at once
         contactItem->
           printContact (
@@ -4771,6 +4813,12 @@ void optionsHandler::handleOptionsItemName (
           helpUsageItem =
             dynamic_cast<optionsHelpUsageItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsHelpUsageItem'" <<
+            endl;
+        }
+  
         // handle it at once
         helpUsageItem->
           printHelpUsage (
@@ -4786,6 +4834,12 @@ void optionsHandler::handleOptionsItemName (
           helpSummaryItem =
             dynamic_cast<optionsHelpSummaryItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsHelpSummaryItem'" <<
+            endl;
+        }
+  
         // handle it at once
         printHelpSummary (
           fOptionsHandlerLogIOstream);
@@ -4800,6 +4854,12 @@ void optionsHandler::handleOptionsItemName (
           showAllChordIntervalsItem =
             dynamic_cast<optionsShowAllChordIntervalsItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsShowAllChordIntervalsItem'" <<
+            endl;
+        }
+  
         // handle it at once
         showAllChordIntervalsItem->
           printAllChordIntervals (
@@ -4815,6 +4875,12 @@ void optionsHandler::handleOptionsItemName (
           showChordNotesItem =
             dynamic_cast<optionsShowChordNotesItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsShowChordNotesItem'" <<
+            endl;
+        }
+  
         // handle it at once
         showChordNotesItem->
           printChordNotes (
@@ -4830,6 +4896,12 @@ void optionsHandler::handleOptionsItemName (
           combinedItemsItem =
             dynamic_cast<optionsCombinedItemsItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsCombinedItemsItem'" <<
+            endl;
+        }
+  
         // handle it at once
         combinedItemsItem->
           setCombinedItemsVariablesValue (true);
@@ -4841,6 +4913,12 @@ void optionsHandler::handleOptionsItemName (
           booleanItem =
             dynamic_cast<optionsBooleanItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsBooleanItem'" <<
+            endl;
+        }
+  
         // handle it at once
         booleanItem->
           setBooleanItemVariableValue (true);              
@@ -4852,6 +4930,12 @@ void optionsHandler::handleOptionsItemName (
           twoBooleansItem =
             dynamic_cast<optionsTwoBooleansItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsTwoBooleansItem'" <<
+            endl;
+        }
+  
         // handle it at once
         twoBooleansItem->
           setTwoBooleansItemVariableValue (true);              
@@ -4863,6 +4947,12 @@ void optionsHandler::handleOptionsItemName (
           threeBooleansItem =
             dynamic_cast<optionsThreeBooleansItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsThreeBooleansItem'" <<
+            endl;
+        }
+  
         // handle it at once
         threeBooleansItem->
           setThreeBooleansItemVariableValue (true);              
@@ -4874,6 +4964,12 @@ void optionsHandler::handleOptionsItemName (
           itemHelpItem =
             dynamic_cast<optionsItemHelpItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsItemHelpItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = itemHelpItem;
       }
@@ -4884,6 +4980,12 @@ void optionsHandler::handleOptionsItemName (
           integerItem =
             dynamic_cast<optionsIntegerItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsIntegerItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = integerItem;
       }
@@ -4894,6 +4996,12 @@ void optionsHandler::handleOptionsItemName (
           floatItem =
             dynamic_cast<optionsFloatItem*>(&(*optionsElement))
         ) {              
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsFloatItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = floatItem;
       }
@@ -4904,6 +5012,12 @@ void optionsHandler::handleOptionsItemName (
           stringItem =
             dynamic_cast<optionsStringItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsStringItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = stringItem;
       }
@@ -4914,6 +5028,12 @@ void optionsHandler::handleOptionsItemName (
           rationalItem =
             dynamic_cast<optionsRationalItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsRationalItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = rationalItem;
       }
@@ -4924,6 +5044,12 @@ void optionsHandler::handleOptionsItemName (
           numbersSetItem =
             dynamic_cast<optionsNumbersSetItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsNumbersSetItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = numbersSetItem;
       }
@@ -4934,6 +5060,12 @@ void optionsHandler::handleOptionsItemName (
           pitchesLanguageItem =
             dynamic_cast<optionsPitchesLanguageItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsPitchesLanguageItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = pitchesLanguageItem;
       }
@@ -4944,6 +5076,12 @@ void optionsHandler::handleOptionsItemName (
           accidentalStyleItem =
             dynamic_cast<optionsAccidentalStyleItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsAccidentalStyleItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = accidentalStyleItem;
       }
@@ -4954,6 +5092,12 @@ void optionsHandler::handleOptionsItemName (
           chordsLanguageItem =
             dynamic_cast<optionsChordsLanguageItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsChordsLanguageItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = chordsLanguageItem;
       }
@@ -4964,6 +5108,12 @@ void optionsHandler::handleOptionsItemName (
           partRenameItem =
             dynamic_cast<optionsPartRenameItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsPartRenameItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = partRenameItem;
       }
@@ -4974,6 +5124,12 @@ void optionsHandler::handleOptionsItemName (
           midiTempoItem =
             dynamic_cast<optionsMidiTempoItem*>(&(*optionsElement))
         ) {
+        if (TRACE_OPTIONS) {
+          fOptionsHandlerLogIOstream <<
+            "==> optionsElement is of type 'optionsMidiTempoItem'" <<
+            endl;
+        }
+  
         // wait until the value is met
         fPendingOptionsItem = midiTempoItem;
       }

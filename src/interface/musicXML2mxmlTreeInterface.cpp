@@ -823,7 +823,7 @@ EXP Sxmlelement musicXMLFile2mxmlTree (
   
   if (encoding == desiredEncoding) {
     logIOstream <<
-      "MusicXML data uses \"" <<
+      "% MusicXML data uses \"" <<
       desiredEncoding <<
       "\" encoding" <<
       endl;
@@ -950,7 +950,7 @@ EXP Sxmlelement musicXMLFd2mxmlTree (
   
   if (encoding == desiredEncoding) {
     logIOstream <<
-      "MusicXML data uses \"" <<
+      "% MusicXML data uses \"" <<
       desiredEncoding <<
       "\" encoding" <<
       ", desired encoding is \"" << desiredEncoding << "\"" <<
