@@ -17608,11 +17608,13 @@ msrHarmony::msrHarmony (
       endl;
   }
 
-  // check harmony inversion
+  // handle harmony inversion if any
   /*
     Inversion is a number indicating which inversion is used:
     0 for root position, 1 for first inversion, etc.
   */
+  if (fHarmonyInversion > 0) {
+  }
 
 }
 
