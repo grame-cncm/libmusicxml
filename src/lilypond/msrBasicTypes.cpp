@@ -9384,8 +9384,15 @@ void msrChordIntervals::print (ostream& os)
   gIndenter--;
 }
 
-void msrChordIntervals::printAllChordIntervals (ostream& os)
+void msrChordIntervals::printAllChordsIntervals (ostream& os)
 {
+  os <<
+    "All the known chords intervals are:" <<
+    endl <<
+    endl;
+
+  gIndenter++;
+  
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
     harmonyKind <= kTristanHarmony;
@@ -9402,6 +9409,8 @@ void msrChordIntervals::printAllChordIntervals (ostream& os)
       chordIntervals <<
       endl;
   } // for
+
+  gIndenter--;
 }
 
 list<msrSemiTonesPitchKind> buildSemiTonesChord (

@@ -30,7 +30,7 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 1
+#define TRACE_OPTIONS 0
 
 const int K_OPTIONS_ELEMENTS_INDENTER_OFFSET = 3;
   // indent a bit more for readability
@@ -788,11 +788,7 @@ void optionsShowAllChordIntervalsItem::print (ostream& os) const
 
 void optionsShowAllChordIntervalsItem::printAllChordIntervals (ostream& os) const
 {
-  os <<
-    "optionsShowAllChordIntervalsItem::printAllChordInterval" <<
-    endl;
-    
-  msrChordIntervals::printAllChordIntervals (os);
+  msrChordIntervals::printAllChordsIntervals (os);
 }
 
 void optionsShowAllChordIntervalsItem::printOptionsValues (
