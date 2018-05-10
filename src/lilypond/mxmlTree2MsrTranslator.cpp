@@ -5884,7 +5884,7 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
     
     if (gTraceOptions->fTraceLyrics) {
       fLogOutputStream <<
-        "--> setting fCurrentStanzaNumber to " <<
+        "Setting fCurrentStanzaNumber to " <<
         fCurrentStanzaNumber <<
         ", line " << inputLineNumber <<
         endl;
@@ -5904,26 +5904,22 @@ void mxmlTree2MsrTranslator::visitStart (S_lyric& elt )
 
     if (fCurrentStanzaName.size () == 0) {
       // lyrics names are not so frequent after all...
-      stringstream s;
-
-      s <<
-        "lyric name is empty, using \"" <<
-        K_NO_STANZA_NAME <<
-        "\" by default";
-
-      msrMusicXMLWarning (
-        gXml2lyOptions->fInputSourceName,
-        inputLineNumber,
-        s.str ());
+      if (gTraceOptions->fTraceLyrics) {
+        fLogOutputStream <<
+          "lyric name is empty, using \"" <<
+          K_NO_STANZA_NAME <<
+          "\" by default" <<
+          endl;
+      }
 
       fCurrentStanzaName = K_NO_STANZA_NAME;
     }
     
     if (gTraceOptions->fTraceLyrics) {
       fLogOutputStream <<
-        "--> setting fCurrentStanzaName to " <<
+        "Setting fCurrentStanzaName to \"" <<
         fCurrentStanzaName <<
-        ", line " << inputLineNumber <<
+        "\", line " << inputLineNumber <<
         endl;
     }
         
@@ -6155,7 +6151,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       msrSyllable::kSyllableSkip; // kSyllableRest ??? JMI
   }
 
-  if (gTraceOptions->fTraceLyrics) {
+  if (gTraceOptions->fTraceLyricsDetails) {
     fLogOutputStream <<
       "==> visitEnd ( S_lyric&), fCurrentSyllableKind = " <<
       msrSyllable::syllableKindAsString (fCurrentSyllableKind) <<
@@ -17277,9 +17273,9 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
 
   if (fCurrentNoteHasLyrics) {
     // newNote has lyrics attached to it
-    if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceLyrics) {
+    if (gTraceOptions->fTraceNotesDetails || gTraceOptions->fTraceLyricsDetails) {
       fLogOutputStream <<
-        "*** " << "newNote '" <<
+        "Note '" <<
         newNote->asShortString () <<
         "' has lyrics attached to it" << " ***" <<
         endl;

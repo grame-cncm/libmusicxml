@@ -122,6 +122,53 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
         <sound tempo="92"/>
       </direction>
       <sound dynamics="98"/>
+      <note default-x="80">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="13">up</stem>
+        <beam number="1">begin</beam>
+      </note>
+      <note default-x="116">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="13">up</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <note default-x="152">
+        <pitch>
+          <step>B</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="13">up</stem>
+        <beam number="1">continue</beam>
+      </note>
+      <note default-x="187">
+        <pitch>
+          <step>A</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem default-y="13">up</stem>
+        <beam number="1">end</beam>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="224">
       <note default-x="11">
         <pitch>
           <step>B</step>
@@ -161,7 +208,7 @@ Lyrics added by Karen Tanaka and Michael Good, 2006. See http://www.recordare.co
       </note>
     </measure>
     <!--=======================================================-->
-    <measure number="2" width="146">
+    <measure number="3" width="146">
       <note default-x="23">
         <pitch>
           <step>F</step>

@@ -218,7 +218,8 @@ debugging information to standard error for the specified measures.)",
     fTraceGraceNotes = boolOptionsInitialValue;
   
     // lyrics
-    fTraceLyrics = boolOptionsInitialValue;
+    fTraceLyrics        = boolOptionsInitialValue;
+    fTraceLyricsDetails = boolOptionsInitialValue;
   
     // harmonies
     fTraceHarmonies = boolOptionsInitialValue;
@@ -569,6 +570,15 @@ R"(Lyrics in MusicXML, stanzas in MSR)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
+          "tlyricsd", "traceLyricsDetails",
+R"(Lyrics in MusicXML, stanzas in MSR)",
+          "traceLyricsDetails",
+          fTraceLyricsDetails,
+          fTraceBasic));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
           "tharms", "traceHarmonies",
 R"(<harmony/> in MusicXML, \chordmode in LilyPond)",
           "traceHarmonies",
@@ -784,7 +794,8 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   clone->fTraceGraceNotes = true;
 
   // lyrics
-  clone->fTraceLyrics = true;
+  clone->fTraceLyrics        = true;
+  clone->fTraceLyricsDetails = true;
   
   // harmonies
   clone->fTraceHarmonies = true;
@@ -1068,6 +1079,9 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
     // lyrics
     setw (fieldWidth) << "traceLyrics" << " : " <<
     booleanAsString (fTraceLyrics) <<
+    endl <<
+    setw (fieldWidth) << "traceLyricsDetails" << " : " <<
+    booleanAsString (fTraceLyricsDetails) <<
     endl <<
     
     // harmonies

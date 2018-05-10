@@ -166,6 +166,7 @@ class traceOptions : public optionsGroup
 
     // lyrics
     bool                  fTraceLyrics;
+    bool                  fTraceLyricsDetails;
 
     // harmonies
     bool                  fTraceHarmonies;

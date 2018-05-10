@@ -4119,7 +4119,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           "' is not supported"
           ", line = " << inputLineNumber;
 
-        msrInternalError (
+        msrLimitation (
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,

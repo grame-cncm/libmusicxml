@@ -47,7 +47,7 @@ void msrWarning (
 {
   if (! gGeneralOptions->fQuiet) {
     gLogIOstream <<
-      " *** " << context << " warning *** " <<
+      "*** " << context << " warning *** " <<
       inputSourceName << ":" << inputLineNumber << ": " <<message <<
       endl;
   }
@@ -104,7 +104,7 @@ void msrError (
   if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
     gLogIOstream <<
       baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
-      " ### " << context << " ERROR ### " <<
+      "### " << context << " ERROR ### " <<
       inputSourceName << ":" << inputLineNumber << ": " << message <<
       endl <<
       endl;
@@ -174,6 +174,25 @@ void msrInternalError (
     message);
 
   abort ();
+}
+
+void msrLimitation (
+  string inputSourceName,
+  int    inputLineNumber,
+  string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  string message)
+{
+  if (! (gGeneralOptions->fQuiet && gGeneralOptions->fIgnoreErrors)) {  
+    gLogIOstream <<
+      baseName (sourceCodeFileName) << ":" << sourceCodeLineNumber <<
+      "### MSR LIMITATION ### " <<
+      inputSourceName << ":" << inputLineNumber << ": " << message <<
+      endl <<
+      endl;
+
+    abort ();
+  }
 }
 
 

@@ -75,8 +75,15 @@ void lpsrMusicXMLError (
   std::string message);
 
 //______________________________________________________________________________
-
 void msrInternalError (
+  std::string inputSourceName,
+  int    inputLineNumber,
+  std::string sourceCodeFileName,
+  int    sourceCodeLineNumber,
+  std::string message);
+
+//______________________________________________________________________________  
+void msrLimitation (
   std::string inputSourceName,
   int    inputLineNumber,
   std::string sourceCodeFileName,
