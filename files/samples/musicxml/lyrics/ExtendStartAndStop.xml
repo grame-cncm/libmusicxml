@@ -73,7 +73,7 @@
         <voice>1</voice>
         <type>eighth</type>
         <stem default-y="-45">down</stem>
-        <beam number="1">begin</beam>
+        <!--beam number="1">begin</beam-->
       </note>
       <note default-x="87">
         <pitch>
@@ -84,7 +84,7 @@
         <voice>1</voice>
         <type>eighth</type>
         <stem default-y="-40">down</stem>
-        <beam number="1">end</beam>
+        <!--beam number="1">end</beam-->
         <lyric number="1">
           <extend type="stop"/>
         </lyric>

@@ -5701,6 +5701,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableSingle %} ";
+          }
           break;
           
         case msrSyllable::kSyllableBegin:
@@ -5711,6 +5715,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " -- ";
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableBegin %} ";
+          }
           break;
           
         case msrSyllable::kSyllableMiddle:
@@ -5721,6 +5729,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " -- ";
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableMiddle %} ";
+          }
           break;
           
         case msrSyllable::kSyllableEnd:
@@ -5731,6 +5743,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           fLilypondCodeIOstream <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableEnd %} ";
+          }
           break;
                   
         case msrSyllable::kSyllableSkip:
@@ -5740,6 +5756,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             "\\skip" <<
             elt->syllableWholeNotesAsMsrString () <<
             " ";
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableSkip %} ";
+          }
           break;
            
         case msrSyllable::kSyllableMeasureEnd:
@@ -5772,28 +5792,41 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
 
       switch (elt->getSyllableExtendKind ()) {
         case msrSyllable::kSyllableExtendSingle:
-          // generate a lyric extender,
-          // i.e. a melisma,
+          // generate a lyric extender, i.e. a melisma,
           // after this syllable
           fLilypondCodeIOstream <<
             "__ ";
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableExtendSingle %} ";
+          }
           break;
+          
         case msrSyllable::kSyllableExtendStart:
-          // generate a lyric extender,
-          // i.e. a melisma,
+          // generate a lyric extender, i.e. a melisma,
           // after this syllable
           fLilypondCodeIOstream <<
             "__ ";
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableExtendStart %} ";
+          }
           break;
+          
         case msrSyllable::kSyllableExtendContinue:
-          // generate a skip after this syllable
-          fLilypondCodeIOstream <<
-            "\\skip" <<
-            elt->syllableWholeNotesAsMsrString () <<
-            " ";
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableExtendContinue %} ";
+          }
           break;
+          
         case msrSyllable::kSyllableExtendStop:
+          if (gTraceOptions->fTraceLyrics) {
+            fLilypondCodeIOstream <<
+              "%{ kSyllableExtendStop %} ";
+          }
           break;
+          
         case msrSyllable::k_NoSyllableExtend:
           break;
       } // switch

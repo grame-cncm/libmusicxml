@@ -16762,6 +16762,34 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
   return syllable;
 }
 
+S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
+  int inputLineNumber)
+{
+  if (gTraceOptions->fTraceLyrics) {
+    gLogIOstream <<
+      "Appending 'Measure end' syllable " <<
+      " to stanza " << getStanzaName () <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
+  
+  // create stanza skip syllable
+  S_msrSyllable
+    syllable =
+      msrSyllable::create (
+        inputLineNumber,
+        msrSyllable::kSyllableMeasureEnd,
+        msrSyllable::k_NoSyllableExtend,
+        0, // wholeNotes
+        this);
+
+  // append syllable to this stanza
+  appendSyllableToStanza (syllable);
+
+  // and return it
+  return syllable;
+}
+
 S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
   int             inputLineNumber,
   msrSyllable::msrSyllableKind
@@ -30965,7 +30993,7 @@ S_msrMeasure msrVoice::removeLastMeasureFromVoice (
 }
 
 void msrVoice::finalizeCurrentMeasureInVoice (
-  int    inputLineNumber)
+  int inputLineNumber)
 {
   if (gTraceOptions->fTraceMeasures || gTraceOptions->fTraceVoices) {
     gLogIOstream <<
@@ -30996,6 +31024,25 @@ void msrVoice::finalizeCurrentMeasureInVoice (
   fVoiceLastSegment->
     finalizeCurrentMeasureInSegment (
       inputLineNumber);
+
+  // append a measure end syllable to the voice stanzas if any
+  if (fVoiceStanzasMap.size ()) {
+    map<string, S_msrStanza>::const_iterator
+      iBegin = fVoiceStanzasMap.begin (),
+      iEnd   = fVoiceStanzasMap.end (),
+      i      = iBegin;
+      
+    for ( ; ; ) {
+      S_msrStanza
+        stanza = (*i).second;
+
+      stanza->
+        appendMeasureEndSyllableToStanza (
+          inputLineNumber);
+
+      if (++i == iEnd) break;
+    } // for
+  }
 }
 
 void msrVoice::finalizeVoice ( // JMI ???

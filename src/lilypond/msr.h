@@ -8784,6 +8784,9 @@ class msrStanza : public msrElement
                             int      inputLineNumber,
                             rational wholeNotes);
 
+    S_msrSyllable         appendMeasureEndSyllableToStanza (
+                            int inputLineNumber);
+
     S_msrSyllable         appendMelismaSyllableToStanza (
                             int             inputLineNumber,
                             msrSyllable::msrSyllableKind

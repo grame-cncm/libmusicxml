@@ -1348,7 +1348,7 @@ class mxmlTree2MsrTranslator :
 
     bool                      fLastHandledNoteInVoiceHasLyrics;
     
-    void                      handleLyrics (
+    void                      handleLyricsForNote (
                                 S_msrVoice currentVoice,
                                 S_msrNote  newNote);
 

@@ -6032,7 +6032,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   }
 
   // a <text/> markup puts an end to the effect of <extend/>
-  fOnGoingSyllableExtend = false;
+  fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_elision& elt ) 
@@ -6074,8 +6074,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
     if      (extendType == "start") {
       fCurrentSyllableExtendKind =
         msrSyllable::kSyllableExtendStart;
-
-      fOnGoingSyllableExtend = true;
     }
     else if (extendType == "continue") {
       fCurrentSyllableExtendKind =
@@ -6084,8 +6082,6 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
     else if (extendType == "stop") {
       fCurrentSyllableExtendKind =
         msrSyllable::kSyllableExtendStop;
-
-      fOnGoingSyllableExtend = false;
     }
     else {
       if (extendType.size ()) {
@@ -6102,7 +6098,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_extend& elt )
           s.str ());
       }
       else {
-        fOnGoingSyllableExtend = true;
+  //   JMI   fOnGoingSyllableExtend = true;
       }
     }
   }
@@ -6345,9 +6341,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
       appendLyricTextToSyllable ((*i));
   } // for
 
-  // don't forget about fCurrentLyricTextsList, this will be done in handleLyrics()
+  // don't forget about fCurrentLyricTextsList,
+  // this will be done in handleLyricsForNote()
   
-  // appendSyllableToNoteAndSetItsUplink() will be called in handleLyrics(),
+  // appendSyllableToNoteAndSetItsUplink()
+  // will be called in handleLyrics(),
   // after the note has been created
     
   // append syllable to current note's syllables list
@@ -7803,7 +7801,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
     fCurrentSyllableExtendKind =
       msrSyllable::k_NoSyllableExtend;
   }
-  
+
   // assume this note hasn't got any stanzas until S_lyric is met
   fCurrentNoteHasStanza = false;
 
@@ -16888,7 +16886,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
   }
 
   // lyrics if any have to be handled in all cases
-  handleLyrics (
+  handleLyricsForNote (
     voice,
     newNote);
 
@@ -17209,7 +17207,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::handleLyrics (
+void mxmlTree2MsrTranslator::handleLyricsForNote (
   S_msrVoice currentVoice,
   S_msrNote  newNote)
 {
@@ -17313,47 +17311,84 @@ void mxmlTree2MsrTranslator::handleLyrics (
     // don't create a skip for chord note members except the first
     // nor for grace notes
 
-    if (
-      !
-        (
-          fCurrentNoteBelongsToAChord
-            ||
-          fCurrentNoteIsAGraceNote
-        )
-      ) {
-      // get the current voice's stanzas map
-      const map<string, S_msrStanza>&
-        voiceStanzasMap =
-          currentVoice->
-            getVoiceStanzasMap ();
-            
-      for (
-        map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
-        i != voiceStanzasMap.end ();
-        i++) {
-        S_msrStanza stanza = (*i).second;
-/* JMI ???
-        // create a skip syllable
-        S_msrSyllable
-          syllable =
-            msrSyllable::create (
-              inputLineNumber,
-              msrSyllable::kSyllableSkip,
-              fCurrentSyllableExtendKind,
-              fCurrentNoteSoundingWholeNotesFromDuration,
-              stanza);
-  
-        // append syllable to stanza
-        stanza->
-          appendSyllableToStanza (syllable);
-          */
-      } // for
+    bool doCreateASkipSyllable = false;
+    
+    switch (fCurrentSyllableExtendKind) {
+      case msrSyllable::kSyllableExtendSingle:
+        break;
+      case msrSyllable::kSyllableExtendStart:
+        break;
+      case msrSyllable::kSyllableExtendContinue:
+        doCreateASkipSyllable = true;
+        break;
+      case msrSyllable::kSyllableExtendStop:
+        break;
+      case msrSyllable::k_NoSyllableExtend:
+        break;
+    } // switch
+
+    if (doCreateASkipSyllable) {
+      if (
+        !
+          (
+            fCurrentNoteBelongsToAChord
+              ||
+            fCurrentNoteIsAGraceNote
+          )
+        ) {
+        // get the current voice's stanzas map
+        const map<string, S_msrStanza>&
+          voiceStanzasMap =
+            currentVoice->
+              getVoiceStanzasMap ();
+              
+        for (
+          map<string, S_msrStanza>::const_iterator i = voiceStanzasMap.begin ();
+          i != voiceStanzasMap.end ();
+          i++) {
+          S_msrStanza stanza = (*i).second;
+          // create a skip syllable
+          S_msrSyllable
+            syllable =
+              msrSyllable::create (
+                inputLineNumber,
+                msrSyllable::kSyllableSkip,
+                fCurrentSyllableExtendKind,
+                fCurrentNoteSoundingWholeNotesFromDuration,
+                stanza);
+    
+          // append syllable to stanza
+          stanza->
+            appendSyllableToStanza (syllable);
+        } // for
+      }
     }
   }
 
   // register whether the new last handled note has lyrics
   fLastHandledNoteInVoiceHasLyrics =
     fCurrentNoteHasLyrics;
+
+  // take care of ongoing extends
+  switch (fCurrentSyllableExtendKind) {
+    case msrSyllable::kSyllableExtendSingle:
+      fOnGoingSyllableExtend = true;
+      break;
+    case msrSyllable::kSyllableExtendStart:
+      fOnGoingSyllableExtend = true;
+      break;
+    case msrSyllable::kSyllableExtendContinue:
+      msrAssert (
+        fOnGoingSyllableExtend,
+        "fOnGoingSyllableExtend is false");
+      break;
+    case msrSyllable::kSyllableExtendStop:
+      fOnGoingSyllableExtend = false;
+      break;
+    case msrSyllable::k_NoSyllableExtend:
+      break;
+  } // switch
+    
 }
 
 //______________________________________________________________________________
