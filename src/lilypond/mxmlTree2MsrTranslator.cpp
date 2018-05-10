@@ -17320,6 +17320,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
       case msrSyllable::kSyllableExtendStop:
         break;
       case msrSyllable::k_NoSyllableExtend:
+        doCreateASkipSyllable = true; // JMI
         break;
     } // switch
 
