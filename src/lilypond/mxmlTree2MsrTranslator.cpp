@@ -3122,12 +3122,23 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   
     inputStream >> octaveShiftSize;
     
-    if (octaveShiftSize != 8 && octaveShiftSize != 15) {
+    if (
+      octaveShiftSize != 8
+        &&
+      octaveShiftSize != 15
+      /* JMI allow larger values???
+        &&
+      octaveShiftSize != 22
+        &&
+      octaveShiftSize != 27
+      */
+      ) {
       stringstream s;
   
       s <<
         "octave-shift size \"" << octaveShiftSize <<
-        "\" is unknown";
+    // JMI    "\" should be 8, 15, 22 or 27";
+        "\" is wrong, should be 8 or 15";
         
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
