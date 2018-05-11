@@ -2456,19 +2456,25 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_score_part& elt)
         
   // populate it
   part->
-    setPartName (fCurrentPartName);
+    setPartName (
+      fCurrentPartName);
   part->
-    setPartNameDisplayText (fCurrentPartNameDisplayText);
+    setPartNameDisplayText (
+      fCurrentPartNameDisplayText);
 
   part->
-    setPartAbbreviation (fCurrentPartAbbreviation);
+    setPartAbbreviation (
+      fCurrentPartAbbreviation);
   part->
-    setPartAbbreviationDisplayText (fCurrentPartAbbreviationDisplayText);
+    setPartAbbreviationDisplayText (
+      fCurrentPartAbbreviationDisplayText);
 
   part->
-    setPartInstrumentName (fCurrentPartInstrumentName);
+    setPartInstrumentName (
+      fCurrentPartInstrumentName);
   part->
-    setPartInstrumentAbbreviation (fCurrentPartInstrumentAbbreviation);
+    setPartInstrumentAbbreviation (
+      fCurrentPartInstrumentAbbreviation);
 
   // register part in the parts data
   registerPart (

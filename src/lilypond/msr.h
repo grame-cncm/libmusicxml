@@ -6915,7 +6915,7 @@ class msrVarValsListAssoc : public msrElement
 
     enum msrVarValsListAssocKind {
       kRights,
-      kComposer, kArranger, kPoet, kLyricist,
+      kComposer, kArranger, kLyricist, kPoet, kTranslator,
       kSoftware };
 
     static string varValsListAssocKindAsString (
@@ -7069,11 +7069,14 @@ class msrIdentification : public msrElement
     S_msrVarValsListAssoc getArrangers () const
                               { return fArrangers; };
                     
+    S_msrVarValsListAssoc getLyricists () const
+                              { return fLyricists; };
+    
     S_msrVarValsListAssoc getPoets () const
                               { return fPoets; };
     
-    S_msrVarValsListAssoc getLyricists () const
-                              { return fLyricists; };
+    S_msrVarValsListAssoc getTranslators () const
+                              { return fTranslators; };
     
     S_msrVarValsListAssoc getSoftwares () const
                               { return fSoftwares; };
@@ -7104,6 +7107,10 @@ class msrIdentification : public msrElement
                             string value);
 
     void                  addPoet (
+                            int    inputLineNumber,
+                            string value);
+
+    void                  addTranslator (
                             int    inputLineNumber,
                             string value);
 
@@ -7139,8 +7146,9 @@ class msrIdentification : public msrElement
     
     S_msrVarValsListAssoc    fComposers;
     S_msrVarValsListAssoc    fArrangers;
-    S_msrVarValsListAssoc    fPoets;
     S_msrVarValsListAssoc    fLyricists;
+    S_msrVarValsListAssoc    fPoets;
+    S_msrVarValsListAssoc    fTranslators;
     
     S_msrVarValsListAssoc    fSoftwares;
     

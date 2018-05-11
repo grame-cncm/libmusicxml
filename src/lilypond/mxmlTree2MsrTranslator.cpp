@@ -754,6 +754,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_creator& elt )
         creatorValue);
   }
   
+  else if (creatorType == "lyricist") {
+    fMsrScore->getIdentification () ->
+      addLyricist (
+        inputLineNumber,
+        creatorValue);
+  }
+  
   else if (creatorType == "poet") {
     fMsrScore->getIdentification () ->
       addPoet (
@@ -761,9 +768,9 @@ void mxmlTree2MsrTranslator::visitStart ( S_creator& elt )
         elt->getValue ());
   }
   
-  else if (creatorType == "lyricist") {
+  else if (creatorType == "translator") {
     fMsrScore->getIdentification () ->
-      addLyricist (
+      addTranslator (
         inputLineNumber,
         creatorValue);
   }
@@ -6784,6 +6791,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_system_layout& elt )
   }
 }
 
+/* JMI
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_part_name_display& elt ) 
 {
@@ -6853,6 +6861,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_display_text& elt )
 
   fCurrentDisplayText = elt->getValue ();
 }
+*/
 
 //______________________________________________________________________________
 void mxmlTree2MsrTranslator::visitStart ( S_measure_numbering& elt ) 

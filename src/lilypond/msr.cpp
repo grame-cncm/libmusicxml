@@ -12638,11 +12638,14 @@ string msrVarValsListAssoc::varValsListAssocKindAsString (
     case msrVarValsListAssoc::kArranger:
       result = "arranger";
       break;
+    case msrVarValsListAssoc::kLyricist:
+      result = "lyricist";
+      break;
     case msrVarValsListAssoc::kPoet:
       result = "poet";
       break;
-    case msrVarValsListAssoc::kLyricist:
-      result = "lyricist";
+    case msrVarValsListAssoc::kTranslator:
+      result = "translator";
       break;
     case msrVarValsListAssoc::kSoftware:
       result = "software";
@@ -37433,6 +37436,21 @@ void msrIdentification::addPoet (
     addAssocVariableValue (value);
 }
 
+void msrIdentification::addTranslator (
+  int    inputLineNumber,
+  string value)
+{
+  if (! fTranslators) {
+    fTranslators =
+      msrVarValsListAssoc::create (
+        inputLineNumber,
+        msrVarValsListAssoc::kTranslator);
+  }
+  
+  fTranslators->
+    addAssocVariableValue (value);
+}
+
 void msrIdentification::addSoftware (
   int    inputLineNumber,
   string value)
@@ -37530,16 +37548,22 @@ void msrIdentification::browseData (basevisitor* v)
     browser.browse (*fArrangers);
   }
     
+  if (fLyricists) {
+    // browse fLyricists
+    msrBrowser<msrVarValsListAssoc> browser (v);
+    browser.browse (*fLyricists);
+  }
+    
   if (fPoets) {
     // browse fPoets
     msrBrowser<msrVarValsListAssoc> browser (v);
     browser.browse (*fPoets);
   }
     
-  if (fLyricists) {
-    // browse fLyricists
+  if (fTranslators) {
+    // browse fTranslators
     msrBrowser<msrVarValsListAssoc> browser (v);
-    browser.browse (*fLyricists);
+    browser.browse (*fTranslators);
   }
     
   if (fRights) {
@@ -37639,6 +37663,14 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
+  if (fLyricists) {
+    os <<
+      fLyricists <<
+      endl;
+      
+    emptyIdentification = false;
+  }
+    
   if (fPoets) {
     os <<
       fPoets <<
@@ -37647,9 +37679,9 @@ void msrIdentification::print (ostream& os)
     emptyIdentification = false;
   }
     
-  if (fLyricists) {
+  if (fTranslators) {
     os <<
-      fLyricists <<
+      fTranslators <<
       endl;
       
     emptyIdentification = false;
