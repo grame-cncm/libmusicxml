@@ -3149,7 +3149,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPaper& elt)
     }
   }
 
-  fLilypondCodeIOstream << endl;
+  fLilypondCodeIOstream <<
+    endl;
 
   // generate a 'page-count' comment ready for the user
   fLilypondCodeIOstream << left <<
@@ -3775,7 +3776,7 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartBlock& elt)
   if (part->getPartStavesMap ().size () > 1) {
     // don't generate code for a part with only one stave
 
-    gIndenter--;
+ // JMI ???   gIndenter--;
   
     if (gLilypondOptions->fComments) {
       fLilypondCodeIOstream << left <<
@@ -4349,6 +4350,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
     " = \"" << contextName << "\"" <<
     endl;
 
+/* JMI
   if (false) { //option JMI
     fLilypondCodeIOstream <<
       "\\with {" <<
@@ -4368,6 +4370,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrChordNamesContext& elt)
       "}" <<
       endl;
   }
+      */
         
   fLilypondCodeIOstream <<
     "\\" << contextName <<
@@ -4404,6 +4407,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
     " = \"" << contextName << "\"" <<
     endl;
 
+/* JMI
   if (false) { //option JMI
     fLilypondCodeIOstream <<
       "\\with {" <<
@@ -4423,6 +4427,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrFiguredBassContext& elt)
       "}" <<
       endl;
   }
+  */
         
   fLilypondCodeIOstream <<
     "\\" << contextName <<
