@@ -5271,6 +5271,7 @@ void msrNote::initializeNote ()
   fNoteHasDashes = false;
 
   fNoteHasAWavyLineStart = false;
+  fNoteHasAWavyLineStop  = false;
   
   fNoteHasADelayedOrnament = false;
 }
@@ -5497,6 +5498,8 @@ S_msrNote msrNote::createNoteNewbornClone (
 
   newbornClone->fNoteHasAWavyLineStart =
     fNoteHasAWavyLineStart;
+  newbornClone->fNoteHasAWavyLineStop =
+    fNoteHasAWavyLineStop;
 
   newbornClone->fNoteHasADelayedOrnament =
     fNoteHasADelayedOrnament;
@@ -5920,6 +5923,8 @@ S_msrNote msrNote::createNoteDeepCopy (
 
   noteDeepCopy->fNoteHasAWavyLineStart =
     fNoteHasAWavyLineStart;
+  noteDeepCopy->fNoteHasAWavyLineStop =
+    fNoteHasAWavyLineStop;
 
   noteDeepCopy->fNoteHasADelayedOrnament =
     fNoteHasADelayedOrnament;
@@ -6574,6 +6579,7 @@ void msrNote::addSpannerToNote (S_msrSpanner span)
           fNoteHasAWavyLineStart = true;
           break;
         case kSpannerTypeStop:
+          fNoteHasAWavyLineStop = true;
           break;
         case kSpannerTypeContinue:
           break;
@@ -7577,6 +7583,10 @@ string msrNote::asString () const
     s <<
       ", has a wavy line start";
   
+  if (fNoteHasAWavyLineStop)
+    s <<
+      ", has a wavy line stop";
+  
   if (fNoteIsFollowedByGraceNotes)
     s <<
       ", followed by grace notes";
@@ -7800,6 +7810,10 @@ void msrNote::print (ostream& os)
     if (fNoteHasAWavyLineStart)
       os <<
         "note has a wavy line start" <<
+        endl;
+    if (fNoteHasAWavyLineStop)
+      os <<
+        "note has a wavy line stop" <<
         endl;
         
     if (fNoteIsFollowedByGraceNotes)

@@ -6072,6 +6072,9 @@ class msrNote : public msrElement
     bool                  getNoteHasAWavyLineStart () const
                               { return fNoteHasAWavyLineStart; }
                   
+    bool                  getNoteHasAWavyLineStop () const
+                              { return fNoteHasAWavyLineStop; }
+                  
     void                  setNoteIsFollowedByGraceNotes ()
                               { fNoteIsFollowedByGraceNotes = true; }
 
@@ -6424,15 +6427,17 @@ class msrNote : public msrElement
     bool                  fNoteIsFirstNoteInADoubleTremolo;
     bool                  fNoteIsSecondNoteInADoubleTremolo;
 
-    // this is useful to produce a nice \aftergrace in LilyPond 
+    // this is useful
+    // as well as to produce a nice \aftergrace in LilyPond 
     bool                  fNoteHasATrill;
     bool                  fNoteIsFollowedByGraceNotes;
 
     // this is useful to produce a text spanner in LilyPond
     bool                  fNoteHasDashes;
 
-    // this is useful to handle trill spans properly in LilyPond
+    // this is useful to  to combine a trill and a wavy line in LilyPond
     bool                  fNoteHasAWavyLineStart;
+    bool                  fNoteHasAWavyLineStop;
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
     bool                  fNoteHasADelayedOrnament;
