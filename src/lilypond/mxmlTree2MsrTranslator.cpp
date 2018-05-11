@@ -5034,18 +5034,19 @@ void mxmlTree2MsrTranslator::visitStart (S_voice& elt )
   if (fOnGoingForward) {
     fCurrentForwardVoiceNumber = fCurrentVoiceNumber;
 
-    S_msrStaff
-      staff =
-        fetchStaffFromCurrentPart (
+    S_msrVoice
+      voice =
+        fetchVoiceFromCurrentPart (
           inputLineNumber,
+          fCurrentForwardStaffNumber,
           fCurrentForwardVoiceNumber);
   
     if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceVoices) {
       fLogOutputStream <<
         "--> S_voice, fCurrentForwardVoiceNumber = " <<
         fCurrentForwardVoiceNumber << endl <<
-        "--> S_voice, current staff name  = " <<
-        staff->getStaffName() <<
+        "--> S_voice, current voice name  = " <<
+        voice->getVoiceName() <<
         endl;
     }
   }

@@ -26841,12 +26841,14 @@ void msrVoice::initializeVoice (
         s <<
           "regular voice number " << fVoiceNumber <<
           " is not in the 1..4 range";
-          
+
+          /* JMI ???
         msrMusicXMLError (
           gXml2lyOptions->fInputSourceName,
           fInputLineNumber,
           __FILE__, __LINE__,
           s.str ());
+          */
       }
       break;
       
@@ -32648,13 +32650,15 @@ S_msrVoice msrStaff::createVoiceInStaffByItsNumber (
       ", msrStaff::gStaffMaxRegularVoices = " <<
       msrStaff::gStaffMaxRegularVoices <<
       endl;
-      
+
+      /* JMI ???
     msrMusicXMLError (
 // JMI    msrMusicXMLWarning ( JMI
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       __FILE__, __LINE__,
       s.str ());
+      */
   }
 
   // create the voice
@@ -32911,13 +32915,15 @@ void msrStaff::registerVoiceInStaff (
           ", msrStaff::gStaffMaxRegularVoices = " <<
           msrStaff::gStaffMaxRegularVoices <<
           endl;
-          
+
+          /* JMI ???
         msrMusicXMLError (
     // JMI    msrMusicXMLWarning ( JMI
           gXml2lyOptions->fInputSourceName,
           inputLineNumber,
           __FILE__, __LINE__,
           s.str ());
+          */
       }
       break;
             
