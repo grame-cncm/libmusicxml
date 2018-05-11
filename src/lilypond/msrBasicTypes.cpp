@@ -32,6 +32,7 @@
 #include "msrBasicTypes.h"
 
 #include "generalOptions.h"
+#include "msrOptions.h"
 
 #include "xml2lyOptionsHandling.h"
 
@@ -1088,11 +1089,11 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrSemiTonesPitchKind       semiTonesPitchKind,
   msrAlterationPreferenceKind alterationPreferenceKind)
 {
-  msrSemiTonesPitchKind result = k_NoWellTemperedPitch_STP;
+  msrSemiTonesPitchKind result = k_NoSemiTonesPitch_STP;
 
   switch (semiTonesPitchKind) {
-    case k_NoWellTemperedPitch_STP:
-      result = k_NoWellTemperedPitch_STP;
+    case k_NoSemiTonesPitch_STP:
+      result = k_NoSemiTonesPitch_STP;
       break;
 
     case kB_Sharp_STP:
@@ -1296,16 +1297,16 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
 }
 */
 
-msrSemiTonesPitchKind noteAtIntervalKindFromNote (
+msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
   int                   inputLineNumber,
   msrIntervalKind       intervalKind,
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
-  msrSemiTonesPitchKind result = k_NoWellTemperedPitch_STP;
+  msrSemiTonesPitchKind result = k_NoSemiTonesPitch_STP;
 
   switch (semiTonesPitchKind) {
-    case k_NoWellTemperedPitch_STP:
-      result = k_NoWellTemperedPitch_STP;
+    case k_NoSemiTonesPitch_STP:
+      result = k_NoSemiTonesPitch_STP;
       break;
           
     case kC_Flat_STP:
@@ -4130,6 +4131,2842 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   return result;
 }
 
+msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
+  int                      inputLineNumber,
+  msrIntervalKind          intervalKind,
+  msrQuarterTonesPitchKind quarterTonesPitchKind)
+{
+  msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
+
+  switch (quarterTonesPitchKind) {
+    case k_NoQuarterTonesPitch_QTP:
+      result = k_NoQuarterTonesPitch_QTP;
+      break;
+          
+    case kC_Flat_QTP:
+      break;
+
+    case kC_Natural_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kC_Flat_QTP;
+          break;
+        case kPerUnison:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kD_Flat_QTP;
+          break;
+        case kMajorSecond:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMinorThird:
+          result = kE_Flat_QTP;
+          break;
+        case kMajorThird:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedThird:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kF_Flat_QTP;
+          break;
+        case kPerFourth:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kG_Flat_QTP;
+          break;
+        case kPerFifth:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kG_Sharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kA_Flat_QTP;
+          break;
+        case kMajorSixth:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kB_Flat_QTP;
+          break;
+        case kMajorSeventh:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kB_Sharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kC_Flat_QTP;
+          break;
+        case kPerOctave:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kD_Flat_QTP;
+          break;
+        case kMajorNinth:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMinorTenth:
+          result = kE_Flat_QTP;
+          break;
+        case kMajorTenth:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kF_Flat_QTP;
+          break;
+        case kPerEleventh:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kG_Flat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kG_Sharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kA_Flat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kG_Sharp_QTP;
+          break;
+      } // switch
+      break;
+      
+    case kC_Sharp_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kC_Natural_QTP;
+          break;
+        case kPerUnison:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kD_Flat_QTP;
+          break;
+        case kMinorSecond:
+          result = kD_Natural_QTP;
+          break;
+        case kMajorSecond:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kD_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kE_Flat_QTP;
+          break;
+        case kMinorThird:
+          result = kE_Natural_QTP;
+          break;
+        case kMajorThird:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kF_Natural_QTP;
+          break;
+        case kPerFourth:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kG_Natural_QTP;
+          break;
+        case kPerFifth:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kG_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kA_Flat_QTP;
+          break;
+        case kMinorSixth:
+          result = kA_Natural_QTP;
+          break;
+        case kMajorSixth:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kA_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kB_Flat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kB_Natural_QTP;
+          break;
+        case kMajorSeventh:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kB_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kC_Natural_QTP;
+          break;
+        case kPerOctave:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kD_Flat_QTP;
+          break;
+        case kMinorNinth:
+          result = kD_Natural_QTP;
+          break;
+        case kMajorNinth:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kD_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kE_Flat_QTP;
+          break;
+        case kMinorTenth:
+          result = kE_Natural_QTP;
+          break;
+        case kMajorTenth:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kF_Natural_QTP;
+          break;
+        case kPerEleventh:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kG_Natural_QTP;
+          break;
+        case kPerTwelfth:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kG_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kA_Flat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kA_Natural_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kA_DoubleSharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kD_Flat_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kPerUnison:
+          result = kD_Flat_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kD_Natural_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kE_TripleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMajorSecond:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kE_Natural_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kF_DoubleFlat_QTP;
+          break;
+        case kMinorThird:
+          result = kF_Flat_QTP;
+          break;
+        case kMajorThird:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedThird:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kPerFourth:
+          result = kG_Flat_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kG_Natural_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kPerFifth:
+          result = kA_Flat_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kA_Natural_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kB_TripleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMajorSixth:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kC_Flat_QTP;
+          break;
+        case kMajorSeventh:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kC_Sharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kPerOctave:
+          result = kD_Flat_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kD_Natural_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kE_TripleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMajorNinth:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kE_Natural_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kF_DoubleFlat_QTP;
+          break;
+        case kMinorTenth:
+          result = kF_Flat_QTP;
+          break;
+        case kMajorTenth:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kPerEleventh:
+          result = kG_Flat_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kG_Natural_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kA_Flat_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kA_Natural_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kB_TripleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kB_Natural_QTP;
+          break;
+      } // switch
+      break;
+
+    case kD_Natural_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kD_Flat_QTP;
+          break;
+        case kPerUnison:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kE_Flat_QTP;
+          break;
+        case kMajorSecond:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kF_Flat_QTP;
+          break;
+        case kMinorThird:
+          result = kF_Natural_QTP;
+          break;
+        case kMajorThird:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kG_Flat_QTP;
+          break;
+        case kPerFourth:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kA_Flat_QTP;
+          break;
+        case kPerFifth:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kA_Sharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kB_Flat_QTP;
+          break;
+        case kMajorSixth:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kB_Sharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kC_Flat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kC_Natural_QTP;
+          break;
+        case kMajorSeventh:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kC_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kD_Flat_QTP;
+          break;
+        case kPerOctave:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kE_Flat_QTP;
+          break;
+        case kMajorNinth:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kF_Flat_QTP;
+          break;
+        case kMinorTenth:
+          result = kF_Natural_QTP;
+          break;
+        case kMajorTenth:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kG_Flat_QTP;
+          break;
+        case kPerEleventh:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kA_Flat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kA_Sharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kB_Flat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kB_Sharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kD_Sharp_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kD_Natural_QTP;
+          break;
+        case kPerUnison:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kD_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kE_Flat_QTP;
+          break;
+        case kMinorSecond:
+          result = kE_Natural_QTP;
+          break;
+        case kMajorSecond:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kF_Flat_QTP;
+          break;
+        case kMinorThird:
+          result = kF_Natural_QTP;
+          break;
+        case kMajorThird:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kG_Natural_QTP;
+          break;
+        case kPerFourth:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kA_Natural_QTP;
+          break;
+        case kPerFifth:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kA_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kB_Flat_QTP;
+          break;
+        case kMinorSixth:
+          result = kB_Natural_QTP;
+          break;
+        case kMajorSixth:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kB_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kC_Natural_QTP;
+          break;
+        case kMinorSeventh:
+          result = kC_Sharp_QTP;
+          break;
+        case kMajorSeventh:
+          result = kC_DoubleSharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kC_TripleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kD_Natural_QTP;
+          break;
+        case kPerOctave:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kD_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kE_Flat_QTP;
+          break;
+        case kMinorNinth:
+          result = kE_Natural_QTP;
+          break;
+        case kMajorNinth:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kF_Natural_QTP;
+          break;
+        case kMinorTenth:
+          result = kF_Sharp_QTP;
+          break;
+        case kMajorTenth:
+          result = kF_DoubleSharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kG_Natural_QTP;
+          break;
+        case kPerEleventh:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kA_Natural_QTP;
+          break;
+        case kPerTwelfth:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kA_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kB_Flat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kB_Natural_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kB_DoubleSharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kE_Flat_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kPerUnison:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kE_Natural_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kF_DoubleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kF_Flat_QTP;
+          break;
+        case kMajorSecond:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kMinorThird:
+          result = kG_Flat_QTP;
+          break;
+        case kMajorThird:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedThird:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kPerFourth:
+          result = kA_Flat_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kA_Natural_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kPerFifth:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kB_Natural_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kC_Flat_QTP;
+          break;
+        case kMajorSixth:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kD_Flat_QTP;
+          break;
+        case kMajorSeventh:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kD_Sharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kPerOctave:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kE_Natural_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kF_DoubleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kF_Flat_QTP;
+          break;
+        case kMajorNinth:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kMinorTenth:
+          result = kG_Flat_QTP;
+          break;
+        case kMajorTenth:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kPerEleventh:
+          result = kA_Flat_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kA_Natural_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kB_Natural_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kC_Flat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kC_Sharp_QTP;
+          break;
+      } // switch
+      break;
+      
+    case kE_Natural_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kE_Flat_QTP;
+          break;
+        case kPerUnison:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kF_Flat_QTP;
+          break;
+        case kMinorSecond:
+          result = kF_Natural_QTP;
+          break;
+        case kMajorSecond:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kG_Flat_QTP;
+          break;
+        case kMinorThird:
+          result = kG_Natural_QTP;
+          break;
+        case kMajorThird:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kA_Flat_QTP;
+          break;
+        case kPerFourth:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kB_Natural_QTP;
+          break;
+        case kPerFifth:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kB_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kC_Flat_QTP;
+          break;
+        case kMinorSixth:
+          result = kC_Natural_QTP;
+          break;
+        case kMajorSixth:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kD_Flat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kD_Natural_QTP;
+          break;
+        case kMajorSeventh:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kD_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kE_Flat_QTP;
+          break;
+        case kPerOctave:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kF_Flat_QTP;
+          break;
+        case kMinorNinth:
+          result = kF_Natural_QTP;
+          break;
+        case kMajorNinth:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kG_Flat_QTP;
+          break;
+        case kMinorTenth:
+          result = kG_Natural_QTP;
+          break;
+        case kMajorTenth:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kA_Flat_QTP;
+          break;
+        case kPerEleventh:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kB_Natural_QTP;
+          break;
+        case kPerTwelfth:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kB_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kC_Flat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kC_Natural_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kC_DoubleSharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kE_Sharp_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kE_Natural_QTP;
+          break;
+        case kPerUnison:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kF_Natural_QTP;
+          break;
+        case kMinorSecond:
+          result = kF_Sharp_QTP;
+          break;
+        case kMajorSecond:
+          result = kF_DoubleSharp_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kF_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kG_Natural_QTP;
+          break;
+        case kMinorThird:
+          result = kG_Sharp_QTP;
+          break;
+        case kMajorThird:
+          result = kG_DoubleSharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kG_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kA_Natural_QTP;
+          break;
+        case kPerFourth:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kA_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kB_Natural_QTP;
+          break;
+        case kPerFifth:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kB_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kC_Natural_QTP;
+          break;
+        case kMinorSixth:
+          result = kC_Sharp_QTP;
+          break;
+        case kMajorSixth:
+          result = kC_DoubleSharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kC_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kD_Natural_QTP;
+          break;
+        case kMinorSeventh:
+          result = kD_Sharp_QTP;
+          break;
+        case kMajorSeventh:
+          result = kD_DoubleSharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kD_TripleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kE_Natural_QTP;
+          break;
+        case kPerOctave:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kF_Natural_QTP;
+          break;
+        case kMinorNinth:
+          result = kF_Sharp_QTP;
+          break;
+        case kMajorNinth:
+          result = kF_DoubleSharp_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kF_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kG_Natural_QTP;
+          break;
+        case kMinorTenth:
+          result = kG_Sharp_QTP;
+          break;
+        case kMajorTenth:
+          result = kG_DoubleSharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kG_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kA_Natural_QTP;
+          break;
+        case kPerEleventh:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kA_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kB_Natural_QTP;
+          break;
+        case kPerTwelfth:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kB_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kC_Natural_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kC_Sharp_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kC_DoubleSharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kC_TripleSharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kF_Flat_QTP:
+      break;
+      
+    case kF_Natural_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kF_Flat_QTP;
+          break;
+        case kPerUnison:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kG_Flat_QTP;
+          break;
+        case kMajorSecond:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMinorThird:
+          result = kA_Flat_QTP;
+          break;
+        case kMajorThird:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedThird:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kPerFourth:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kC_Flat_QTP;
+          break;
+        case kPerFifth:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kC_Sharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kD_Flat_QTP;
+          break;
+        case kMajorSixth:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kE_Flat_QTP;
+          break;
+        case kMajorSeventh:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kE_Sharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kF_Flat_QTP;
+          break;
+        case kPerOctave:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kG_Flat_QTP;
+          break;
+        case kMajorNinth:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMinorTenth:
+          result = kA_Flat_QTP;
+          break;
+        case kMajorTenth:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kPerEleventh:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kC_Flat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kC_Sharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kD_Flat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kD_Sharp_QTP;
+          break;
+      } // switch
+      break;
+      
+    case kF_Sharp_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kF_Natural_QTP;
+          break;
+        case kPerUnison:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kG_Flat_QTP;
+          break;
+        case kMinorSecond:
+          result = kG_Natural_QTP;
+          break;
+        case kMajorSecond:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kA_Flat_QTP;
+          break;
+        case kMinorThird:
+          result = kA_Natural_QTP;
+          break;
+        case kMajorThird:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kA_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kB_Sharp_QTP;
+          break;
+        case kPerFourth:
+          result = kB_DoubleSharp_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kB_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kC_Natural_QTP;
+          break;
+        case kPerFifth:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kC_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kD_Flat_QTP;
+          break;
+        case kMinorSixth:
+          result = kD_Natural_QTP;
+          break;
+        case kMajorSixth:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kD_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kE_Flat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kE_Natural_QTP;
+          break;
+        case kMajorSeventh:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kE_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kF_Natural_QTP;
+          break;
+        case kPerOctave:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kG_Flat_QTP;
+          break;
+        case kMinorNinth:
+          result = kG_Natural_QTP;
+          break;
+        case kMajorNinth:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kA_Natural_QTP;
+          break;
+        case kMinorTenth:
+          result = kA_Natural_QTP;
+          break;
+        case kMajorTenth:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kA_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kB_Sharp_QTP;
+          break;
+        case kPerEleventh:
+          result = kB_DoubleSharp_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kB_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kC_Natural_QTP;
+          break;
+        case kPerTwelfth:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kC_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kE_Flat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kD_Natural_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kD_DoubleSharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kG_Flat_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kPerUnison:
+          result = kG_Flat_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kG_Natural_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kA_TripleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMajorSecond:
+          result = kA_Flat_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kA_Natural_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kB_TripleFlat_QTP;
+          break;
+        case kMinorThird:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMajorThird:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedThird:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kPerFourth:
+          result = kC_Flat_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kC_Natural_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kPerFifth:
+          result = kD_Flat_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kD_Natural_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kE_TripleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMajorSixth:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kE_Natural_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kF_DoubleFlat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kF_Flat_QTP;
+          break;
+        case kMajorSeventh:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kF_Sharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kPerOctave:
+          result = kG_Flat_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kG_Natural_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kA_TripleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMajorNinth:
+          result = kA_Flat_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kA_Natural_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kB_TripleFlat_QTP;
+          break;
+        case kMinorTenth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMajorTenth:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kPerEleventh:
+          result = kC_Flat_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kC_Natural_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kD_Flat_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kD_Natural_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kE_TripleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kE_Natural_QTP;
+          break;
+      } // switch
+      break;
+      
+    case kG_Natural_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kG_Flat_QTP;
+          break;
+        case kPerUnison:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kA_Flat_QTP;
+          break;
+        case kMajorSecond:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMinorThird:
+          result = kB_Flat_QTP;
+          break;
+        case kMajorThird:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedThird:
+          result = kB_Sharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kC_Flat_QTP;
+          break;
+        case kPerFourth:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kD_Flat_QTP;
+          break;
+        case kPerFifth:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kD_Sharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kE_Flat_QTP;
+          break;
+        case kMajorSixth:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kF_Flat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kF_Natural_QTP;
+          break;
+        case kMajorSeventh:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kF_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kG_Flat_QTP;
+          break;
+        case kPerOctave:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kA_Flat_QTP;
+          break;
+        case kMajorNinth:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMinorTenth:
+          result = kB_Flat_QTP;
+          break;
+        case kMajorTenth:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kB_Sharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kC_Flat_QTP;
+          break;
+        case kPerEleventh:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kD_Flat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kD_Sharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kE_Flat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kE_Sharp_QTP;
+          break;
+      } // switch
+      break;
+      
+    case kG_Sharp_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kG_Natural_QTP;
+          break;
+        case kPerUnison:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kA_Flat_QTP;
+          break;
+        case kMinorSecond:
+          result = kA_Natural_QTP;
+          break;
+        case kMajorSecond:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kA_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kB_Flat_QTP;
+          break;
+        case kMinorThird:
+          result = kB_Natural_QTP;
+          break;
+        case kMajorThird:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kB_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kC_Natural_QTP;
+          break;
+        case kPerFourth:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kD_Natural_QTP;
+          break;
+        case kPerFifth:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kD_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kE_Flat_QTP;
+          break;
+        case kMinorSixth:
+          result = kE_Natural_QTP;
+          break;
+        case kMajorSixth:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kF_Natural_QTP;
+          break;
+        case kMinorSeventh:
+          result = kF_Sharp_QTP;
+          break;
+        case kMajorSeventh:
+          result = kF_DoubleSharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kF_TripleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kG_Natural_QTP;
+          break;
+        case kPerOctave:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kA_Flat_QTP;
+          break;
+        case kMinorNinth:
+          result = kA_Natural_QTP;
+          break;
+        case kMajorNinth:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kA_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kB_Flat_QTP;
+          break;
+        case kMinorTenth:
+          result = kB_Natural_QTP;
+          break;
+        case kMajorTenth:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kB_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kC_Natural_QTP;
+          break;
+        case kPerEleventh:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kD_Natural_QTP;
+          break;
+        case kPerTwelfth:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kD_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kE_Flat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kE_Natural_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kE_DoubleSharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kA_Flat_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kPerUnison:
+          result = kA_Flat_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kA_Natural_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kB_TripleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMajorSecond:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kMinorThird:
+          result = kC_Flat_QTP;
+          break;
+        case kMajorThird:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedThird:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kPerFourth:
+          result = kD_Flat_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kD_Natural_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kPerFifth:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kE_Natural_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kF_DoubleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kF_Flat_QTP;
+          break;
+        case kMajorSixth:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kF_Sharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kG_Flat_QTP;
+          break;
+        case kMajorSeventh:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kG_Sharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kPerOctave:
+          result = kA_Flat_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kA_Natural_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kB_TripleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMajorNinth:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kMinorTenth:
+          result = kC_Flat_QTP;
+          break;
+        case kMajorTenth:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kPerEleventh:
+          result = kD_Flat_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kD_Natural_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kE_Natural_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kF_TripleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kF_DoubleFlat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kF_Flat_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kF_Natural_QTP;
+          break;
+      } // switch
+      break;
+      
+    case kA_Natural_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kA_Flat_QTP;
+          break;
+        case kPerUnison:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kB_Flat_QTP;
+          break;
+        case kMajorSecond:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kB_Sharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kC_Flat_QTP;
+          break;
+        case kMinorThird:
+          result = kC_Natural_QTP;
+          break;
+        case kMajorThird:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kD_Flat_QTP;
+          break;
+        case kPerFourth:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kE_Flat_QTP;
+          break;
+        case kPerFifth:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kE_Sharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kF_Flat_QTP;
+          break;
+        case kMinorSixth:
+          result = kF_Natural_QTP;
+          break;
+        case kMajorSixth:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kF_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kG_Flat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kG_Natural_QTP;
+          break;
+        case kMajorSeventh:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kG_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kA_Flat_QTP;
+          break;
+        case kPerOctave:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kA_Sharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kB_Flat_QTP;
+          break;
+        case kMajorNinth:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kB_Sharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kC_Flat_QTP;
+          break;
+        case kMinorTenth:
+          result = kC_Natural_QTP;
+          break;
+        case kMajorTenth:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kD_Flat_QTP;
+          break;
+        case kPerEleventh:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kE_Flat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kE_Sharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kF_Flat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kF_Natural_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kF_DoubleSharp_QTP;
+          break;
+      } // switch
+      break;
+      
+    case kA_Sharp_QTP:
+      break;
+
+    case kB_Flat_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kPerUnison:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kMinorSecond:
+          result = kC_Flat_QTP;
+          break;
+        case kMajorSecond:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kMinorThird:
+          result = kD_Flat_QTP;
+          break;
+        case kMajorThird:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedThird:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kPerFourth:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kE_Natural_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kF_Flat_QTP;
+          break;
+        case kPerFifth:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kF_Sharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kMinorSixth:
+          result = kG_Flat_QTP;
+          break;
+        case kMajorSixth:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kG_Sharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kA_DoubleFlat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kA_Flat_QTP;
+          break;
+        case kMajorSeventh:
+          result = kA_Natural_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kA_Sharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kB_DoubleFlat_QTP;
+          break;
+        case kPerOctave:
+          result = kB_Flat_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kB_Natural_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kC_DoubleFlat_QTP;
+          break;
+        case kMinorNinth:
+          result = kC_Flat_QTP;
+          break;
+        case kMajorNinth:
+          result = kC_Natural_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kC_Sharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kD_DoubleFlat_QTP;
+          break;
+        case kMinorTenth:
+          result = kD_Flat_QTP;
+          break;
+        case kMajorTenth:
+          result = kD_Natural_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kD_Sharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kE_DoubleFlat_QTP;
+          break;
+        case kPerEleventh:
+          result = kE_Flat_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kE_Natural_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kF_Flat_QTP;
+          break;
+        case kPerTwelfth:
+          result = kF_Natural_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kF_Sharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kG_DoubleFlat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kG_Flat_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kG_Natural_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kG_Sharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kB_Natural_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kB_Flat_QTP;
+          break;
+        case kPerUnison:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kB_Sharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kC_Flat_QTP;
+          break;
+        case kMinorSecond:
+          result = kC_Natural_QTP;
+          break;
+        case kMajorSecond:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kD_Flat_QTP;
+          break;
+        case kMinorThird:
+          result = kD_Natural_QTP;
+          break;
+        case kMajorThird:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kD_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kE_Flat_QTP;
+          break;
+        case kPerFourth:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kF_Natural_QTP;
+          break;
+        case kPerFifth:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kF_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kG_Flat_QTP;
+          break;
+        case kMinorSixth:
+          result = kG_Natural_QTP;
+          break;
+        case kMajorSixth:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kG_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kA_Flat_QTP;
+          break;
+        case kMinorSeventh:
+          result = kA_Natural_QTP;
+          break;
+        case kMajorSeventh:
+          result = kA_Sharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kA_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kB_Flat_QTP;
+          break;
+        case kPerOctave:
+          result = kB_Natural_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kB_Sharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kC_Flat_QTP;
+          break;
+        case kMinorNinth:
+          result = kC_Natural_QTP;
+          break;
+        case kMajorNinth:
+          result = kC_Sharp_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kC_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kD_Flat_QTP;
+          break;
+        case kMinorTenth:
+          result = kD_Natural_QTP;
+          break;
+        case kMajorTenth:
+          result = kD_Sharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kD_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kE_Flat_QTP;
+          break;
+        case kPerEleventh:
+          result = kE_Natural_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kE_Sharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kF_Natural_QTP;
+          break;
+        case kPerTwelfth:
+          result = kF_Sharp_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kF_DoubleSharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kG_Flat_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kG_Natural_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kG_Sharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kG_DoubleSharp_QTP;
+          break;
+      } // switch
+      break;
+
+    case kB_Sharp_QTP:
+      switch (intervalKind) {
+        case kDiminishedUnisson:
+          result = kB_Natural_QTP;
+          break;
+        case kPerUnison:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedUnison:
+          result = kB_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedSecond:
+          result = kC_Natural_QTP;
+          break;
+        case kMinorSecond:
+          result = kC_Sharp_QTP;
+          break;
+        case kMajorSecond:
+          result = kC_DoubleSharp_QTP;
+          break;
+        case kAugmentedSecond:
+          result = kC_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedThird:
+          result = kD_Natural_QTP;
+          break;
+        case kMinorThird:
+          result = kD_Sharp_QTP;
+          break;
+        case kMajorThird:
+          result = kD_DoubleSharp_QTP;
+          break;
+        case kAugmentedThird:
+          result = kD_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedFourth:
+          result = kE_Natural_QTP;
+          break;
+        case kPerFourth:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedFourth:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedFifth:
+          result = kF_Sharp_QTP;
+          break;
+        case kPerFifth:
+          result = kF_DoubleSharp_QTP;
+          break;
+        case kAugmentedFifth:
+          result = kF_TripleSharp_QTP;
+          break;
+    
+        case kDiminishedSixth:
+          result = kG_Natural_QTP;
+          break;
+        case kMinorSixth:
+          result = kG_Sharp_QTP;
+          break;
+        case kMajorSixth:
+          result = kG_DoubleSharp_QTP;
+          break;
+        case kAugmentedSixth:
+          result = kG_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedSeventh:
+          result = kA_Natural_QTP;
+          break;
+        case kMinorSeventh:
+          result = kA_Sharp_QTP;
+          break;
+        case kMajorSeventh:
+          result = kA_DoubleSharp_QTP;
+          break;
+        case kAugmentedSeventh:
+          result = kA_TripleSharp_QTP;
+          break;
+    
+        case kDiminishedOctave:
+          result = kB_Natural_QTP;
+          break;
+        case kPerOctave:
+          result = kB_Sharp_QTP;
+          break;
+        case kAugmentedOctave:
+          result = kB_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedNinth:
+          result = kC_Natural_QTP;
+          break;
+        case kMinorNinth:
+          result = kC_Sharp_QTP;
+          break;
+        case kMajorNinth:
+          result = kC_DoubleSharp_QTP;
+          break;
+        case kAugmentedNinth:
+          result = kC_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedTenth:
+          result = kD_Natural_QTP;
+          break;
+        case kMinorTenth:
+          result = kD_Sharp_QTP;
+          break;
+        case kMajorTenth:
+          result = kD_DoubleSharp_QTP;
+          break;
+        case kAugmentedTenth:
+          result = kD_TripleSharp_QTP;
+          break;
+          
+        case kDiminishedEleventh:
+          result = kE_Natural_QTP;
+          break;
+        case kPerEleventh:
+          result = kE_Sharp_QTP;
+          break;
+        case kAugmentedEleventh:
+          result = kE_DoubleSharp_QTP;
+          break;
+          
+        case kDiminishedTwelfth:
+          result = kF_Sharp_QTP;
+          break;
+        case kPerTwelfth:
+          result = kF_DoubleSharp_QTP;
+          break;
+        case kAugmentedTwelfth:
+          result = kF_TripleSharp_QTP;
+          break;
+    
+        case kDiminishedThirteenth:
+          result = kG_Natural_QTP;
+          break;
+        case kMinorThirteenth:
+          result = kG_Sharp_QTP;
+          break;
+        case kMajorThirteenth:
+          result = kG_DoubleSharp_QTP;
+          break;
+        case kAugmentedThirteenth:
+          result = kG_TripleSharp_QTP;
+          break;
+      } // switch
+      break;
+
+      default:
+      {
+        // computing intervals on double or triple flats/sharps
+        // is not considered useful, hence not supported
+        stringstream s;
+
+        s <<
+          "Sorry, computing intervals from pitch '" <<
+          msrQuarterTonesPitchKindAsString (
+            gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+            quarterTonesPitchKind) <<
+          "' is not supported"
+          ", line = " << inputLineNumber;
+
+        msrLimitation (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());
+      }
+  } // switch
+
+  return result;
+}
+
 // harmonies
 //______________________________________________________________________________
 string msrHarmonyKindAsString (
@@ -6521,6 +9358,174 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
   return result;
 }
 
+msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
+  int                   inputLineNumber,
+  msrSemiTonesPitchKind semiTonesPitchKind)
+{
+  msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
+  
+  switch (semiTonesPitchKind) {
+    case kC_TripleFlat_STP:
+      result = kC_TripleFlat_QTP;
+      break;
+    case kC_DoubleFlat_STP:
+      result = kC_DoubleFlat_QTP;
+      break;
+    case kC_Flat_STP:
+      result = kC_Flat_QTP;
+      break;
+    case kC_Natural_STP:
+      result = kC_Natural_QTP;
+      break;
+    case kC_Sharp_STP:
+      result = kC_Sharp_QTP;
+      break;
+    case kC_DoubleSharp_STP:
+      result = kC_DoubleSharp_QTP;
+      break;
+    case kC_TripleSharp_STP:
+      result = kC_TripleSharp_QTP;
+      break;
+      
+    case kD_TripleFlat_STP:
+      result = kD_TripleFlat_QTP;
+      break;
+    case kD_DoubleFlat_STP:
+      result = kD_DoubleFlat_QTP;
+      break;
+    case kD_Flat_STP:
+      result = kD_Flat_QTP;
+      break;
+    case kD_Natural_STP:
+      result = kD_Natural_QTP;
+      break;
+    case kD_Sharp_STP:
+      result = kD_Sharp_QTP;
+      break;
+    case kD_DoubleSharp_STP:
+      result = kD_DoubleSharp_QTP;
+      break;
+    case kD_TripleSharp_STP:
+      result = kD_TripleSharp_QTP;
+      break;
+      
+    case kE_TripleFlat_STP:
+      result = kE_TripleFlat_QTP;
+      break;
+    case kE_DoubleFlat_STP:
+      result = kE_DoubleFlat_QTP;
+      break;
+    case kE_Flat_STP:
+      result = kE_Flat_QTP;
+      break;
+    case kE_Natural_STP:
+      result = kE_Natural_QTP;
+      break;
+    case kE_Sharp_STP:
+      result = kE_Sharp_QTP;
+      break;
+    case kE_DoubleSharp_STP:
+      result = kE_DoubleSharp_QTP;
+      break;
+    case kE_TripleSharp_STP:
+      result = kE_TripleSharp_QTP;
+      break;
+      
+    case kF_TripleFlat_STP:
+      result = kF_TripleFlat_QTP;
+      break;
+    case kF_DoubleFlat_STP:
+      result = kF_DoubleFlat_QTP;
+      break;
+    case kF_Flat_STP:
+      result = kF_Flat_QTP;
+      break;
+    case kF_Natural_STP:
+      result = kF_Natural_QTP;
+      break;
+    case kF_Sharp_STP:
+      result = kF_Sharp_QTP;
+      break;
+    case kF_DoubleSharp_STP:
+      result = kF_DoubleSharp_QTP;
+      break;
+    case kF_TripleSharp_STP:
+      result = kF_TripleSharp_QTP;
+      break;
+      
+    case kG_TripleFlat_STP:
+      result = kG_TripleFlat_QTP;
+      break;
+    case kG_DoubleFlat_STP:
+      result = kG_DoubleFlat_QTP;
+      break;
+    case kG_Flat_STP:
+      result = kG_Flat_QTP;
+      break;
+    case kG_Natural_STP:
+      result = kG_Natural_QTP;
+      break;
+    case kG_Sharp_STP:
+      result = kG_Sharp_QTP;
+      break;
+    case kG_DoubleSharp_STP:
+      result = kG_DoubleSharp_QTP;
+      break;
+    case kG_TripleSharp_STP:
+      result = kG_TripleSharp_QTP;
+      break;
+      
+    case kA_TripleFlat_STP:
+      result = kA_TripleFlat_QTP;
+      break;
+    case kA_DoubleFlat_STP:
+      result = kA_DoubleFlat_QTP;
+      break;
+    case kA_Flat_STP:
+      result = kA_Flat_QTP;
+      break;
+    case kA_Natural_STP:
+      result = kA_Natural_QTP;
+      break;
+    case kA_Sharp_STP:
+      result = kA_Sharp_QTP;
+      break;
+    case kA_DoubleSharp_STP:
+      result = kA_DoubleSharp_QTP;
+      break;
+    case kA_TripleSharp_STP:
+      result = kA_TripleSharp_QTP;
+      break;
+      
+    case kB_TripleFlat_STP:
+      result = kB_TripleFlat_QTP;
+      break;
+    case kB_DoubleFlat_STP:
+      result = kB_DoubleFlat_QTP;
+      break;
+    case kB_Flat_STP:
+      result = kB_Flat_QTP;
+      break;
+    case kB_Natural_STP:
+      result = kB_Natural_QTP;
+      break;
+    case kB_Sharp_STP:
+      result = kB_Sharp_QTP;
+      break;
+    case kB_DoubleSharp_STP:
+      result = kB_DoubleSharp_QTP;
+      break;
+    case kB_TripleSharp_STP:
+      result = kB_TripleSharp_QTP;
+      break;
+      
+    default:
+      ;
+  } // switch
+
+  return result;
+}
+
 string msrQuarterTonesPitchKindAsString (
   msrQuarterTonesPitchesLanguageKind languageKind,
   msrQuarterTonesPitchKind           quarterTonesPitchKind)
@@ -6664,7 +9669,7 @@ string msrSemiTonesPitchKindAsString (
 
   /* JMI
   switch (semiTonesPitchKind) {
-    case k_NoWellTemperedPitch_STP:
+    case k_NoSemiTonesPitch_STP:
       result = "NoWellTemperedPitch???";
       break;
 
@@ -6719,8 +9724,8 @@ string msrSemiTonesPitchKindAsString (
   */
   
   switch (semiTonesPitchKind) {
-    case k_NoWellTemperedPitch_STP:
-      result = "NoWellTemperedPitch???";
+    case k_NoSemiTonesPitch_STP:
+      result = "k_NoSemiTonesPitch_STP???";
       break;
       
     case kC_TripleFlat_STP:
@@ -6889,7 +9894,7 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 
   /* JMI
   switch (semiTonesPitchKind) {
-    case k_NoWellTemperedPitch_STP:
+    case k_NoSemiTonesPitch_STP:
       result = k_NoQuarterTonesPitch_QTP;
       break;
 
@@ -6981,7 +9986,7 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 
   /* JMI
   switch (semiTonesPitchKind) {
-    case k_NoWellTemperedPitch_STP:
+    case k_NoSemiTonesPitch_STP:
       result = k_NoQuarterTonesPitch_QTP;
       break;
 
@@ -7084,67 +10089,67 @@ msrSemiTonesPitchKind enharmonicSemiTonesPitch (
   msrSemiTonesPitchKind result = semiTonesPitchKind;
   
   switch (semiTonesPitchKind) {
-   case kC_Flat_STP: // kA_DoubleSharp_STP, kC_Flat_STP
+    case kC_Flat_STP:
       result = kB_Natural_STP;
       break;
 
-   case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
+    case kC_Natural_STP:
       break;
       
-    case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
+    case kC_Sharp_STP:
       result = kD_Flat_STP;
       break;
-    case kD_Flat_STP: // kB_DoubleSharp_STP, kD_Flat_STP
+    case kD_Flat_STP:
       result = kC_Sharp_STP;
       break;
 
-    case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
+    case kD_Natural_STP:
       break;
 
-    case kD_Sharp_STP: // kE_Flat_STP
+    case kD_Sharp_STP:
       result = kE_Flat_STP;
       break;
-    case kE_Flat_STP: // kE_Flat_STP
+    case kE_Flat_STP:
       result = kD_Sharp_STP;
       break;
       
-    case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
+    case kE_Natural_STP:
       break;
       
-    case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
+    case kF_Natural_STP:
       break;
       
-    case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
+    case kF_Sharp_STP:
       result = kG_Flat_STP;
       break;
-    case kG_Flat_STP: // kE_DoubleSharp_STP, kG_Flat_STP
+    case kG_Flat_STP:
       result = kF_Sharp_STP;
       break;
       
-    case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
+    case kG_Natural_STP:
       break;
       
-    case kG_Sharp_STP: // kA_Flat_STP
+    case kG_Sharp_STP:
       result = kA_Flat_STP;
       break;
-    case kA_Flat_STP: // kA_Flat_STP
+    case kA_Flat_STP:
       result = kG_Sharp_STP;
       break;
       
-    case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
+    case kA_Natural_STP:
       break;
       
-    case kA_Sharp_STP: // kB_Flat_STP
+    case kA_Sharp_STP:
       result = kB_Flat_STP;
       break;
-    case kB_Flat_STP: // kB_Flat_STP
+    case kB_Flat_STP:
       result = kA_Sharp_STP;
       break;
 
-    case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
+    case kB_Natural_STP:
       break;
 
-    case kB_Sharp_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
+    case kB_Sharp_STP:
       result = kC_Natural_STP;
       break;
 
@@ -9395,7 +12400,10 @@ S_msrChordItem msrChordIntervals::bassChordItemForChordInversion (
 
   S_msrChordItem result;
 
-  if (inversionNumber < 0 || inversionNumber > fChordIntervalsItems.size () - 1 ) {
+  if (
+    inversionNumber < 0
+      ||
+    inversionNumber > int (fChordIntervalsItems.size ()) - 1 ) {
     stringstream s;
 
     s <<
@@ -9556,7 +12564,10 @@ msrSemiTonesPitchKind msrChordNotes::bassSemiTonesPitchKindForChordInversion (
 
   S_msrChordItem result;
 
-  if (inversionNumber < 0 || inversionNumber > fChordSemiTonesPitches.size () - 1 ) {
+  if (
+    inversionNumber < 0
+      ||
+    inversionNumber > int (fChordSemiTonesPitches.size ()) - 1 ) {
     stringstream s;
 
     s <<

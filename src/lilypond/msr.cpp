@@ -17614,8 +17614,59 @@ msrHarmony::msrHarmony (
     0 for root position, 1 for first inversion, etc.
   */
   if (fHarmonyInversion > 0) {
-  }
+    // fetch the chord intervals
+    S_msrChordIntervals
+      chordIntervals =
+        msrChordIntervals::create (
+          inputLineNumber,
+          fHarmonyKind);
 
+    // fetch the bass chord item for the inversion
+    S_msrChordItem
+      bassChordItem =
+        chordIntervals->
+          bassChordItemForChordInversion (
+            inputLineNumber,
+            fHarmonyInversion);
+
+    // fetch the inverted chord bass semitones pitch
+    msrQuarterTonesPitchKind
+      invertedChordBassQuarterTonesPitchKind =
+        noteAtIntervalFromQuarterTonesPitch (
+          inputLineNumber,
+          bassChordItem->getChordItemIntervalKind (),
+          fHarmonyRootQuarterTonesPitchKind);
+
+    // is this compatible with bass quartertones pitch if specified?
+    if (fHarmonyBassQuarterTonesPitchKind != k_NoQuarterTonesPitch_QTP) {
+      if (
+        invertedChordBassQuarterTonesPitchKind
+          !=
+        fHarmonyBassQuarterTonesPitchKind
+        ) {
+        stringstream s;
+    
+        s <<
+          "inversion '" <<
+          fHarmonyInversion <<
+          "' is not compatible with bass quaternotes pitch '" <<
+          msrQuarterTonesPitchKindAsString (
+            gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+            fHarmonyBassQuarterTonesPitchKind) <<
+          "'";
+          
+        msrMusicXMLError (
+          gXml2lyOptions->fInputSourceName,
+          inputLineNumber,
+          __FILE__, __LINE__,
+          s.str ());        
+      }
+    }
+
+    // set the bass quartertones pitch according to the inversion
+    fHarmonyBassQuarterTonesPitchKind =
+      invertedChordBassQuarterTonesPitchKind;
+  }
 }
 
 msrHarmony::~msrHarmony ()
@@ -17691,9 +17742,8 @@ string msrHarmony::asString () const
     ", line " << fInputLineNumber <<
     ":" <<
     msrQuarterTonesPitchKindAsString ( // JMI XXL
-      gMsrOptions->
-        fMsrQuarterTonesPitchesLanguageKind,
-          fHarmonyRootQuarterTonesPitchKind) <<          
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fHarmonyRootQuarterTonesPitchKind) <<          
     msrHarmonyKindAsShortString (fHarmonyKind) <<
     ", duration: " <<
     wholeNotesAsMsrString (

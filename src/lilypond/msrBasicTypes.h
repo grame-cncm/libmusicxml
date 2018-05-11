@@ -83,7 +83,7 @@ enum msrSemiTonesPitchKind {
   k_NoWelTemperedPitch_STP };
   */
 
-  k_NoWellTemperedPitch_STP,
+  k_NoSemiTonesPitch_STP,
   
   kC_TripleFlat_STP,
   kC_DoubleFlat_STP, kC_Flat_STP,
@@ -193,6 +193,10 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
   int                      inputLineNumber,
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
+msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
+  int                   inputLineNumber,
+  msrSemiTonesPitchKind semiTonesPitchKind);
+
 // alterations preferences
 //______________________________________________________________________________
 enum msrAlterationPreferenceKind {
@@ -261,10 +265,15 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
   msrAlterationPreferenceKind alterationPreferenceKind);
 */
 
-msrSemiTonesPitchKind noteAtIntervalKindFromNote (
+msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
   int                   inputLineNumber,
   msrIntervalKind       intervalKind,
   msrSemiTonesPitchKind semiTonesPitchKind);
+
+msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
+  int                      inputLineNumber,
+  msrIntervalKind          intervalKind,
+  msrQuarterTonesPitchKind quarterTonesPitchKind);
 
 // harmonies
 //______________________________________________________________________________
