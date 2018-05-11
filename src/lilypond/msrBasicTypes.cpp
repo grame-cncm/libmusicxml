@@ -7010,8 +7010,8 @@ string msrHarmonyKindAsString (
     case kHalfDiminishedHarmony:
       result = "HalfDiminished";
       break;
-    case kMajorMinorHarmony:
-      result = "MajorMinor";
+    case kMinorMajorSeventhHarmony:
+      result = "MinorMajorSeventhHarmony";
       break;
 
     case kMajorSixthHarmony:
@@ -7133,7 +7133,7 @@ string msrHarmonyKindAsShortString (
     case kHalfDiminishedHarmony:
       result = "ø7";
       break;
-    case kMajorMinorHarmony:
+    case kMinorMajorSeventhHarmony:
       result = "m∆7";
       break;
 
@@ -7212,6 +7212,105 @@ string msrHarmonyKindAsShortString (
       break;
   } // switch
 
+  return result;
+}
+
+msrHarmonyKind msrHarmonyKindFromString (
+  string theString)
+{
+  msrHarmonyKind result = k_NoHarmony;
+
+  if (theString == "maj") {
+    result = kMajorHarmony;
+  }
+  else if (theString == "min") {
+    result = kMinorHarmony;
+  }
+  else if (theString == "aug") {
+    result = kAugmentedHarmony;
+  }
+  else if (theString == "dom") {
+    result = kDominantHarmony;
+  }
+  else if (theString == "maj7") {
+    result = kMajorSeventhHarmony;
+  }
+  else if (theString == "min7") {
+    result = kMinorSeventhHarmony;
+  }
+  else if (theString == "dim7") {
+    result = kDiminishedSeventhHarmony;
+  }
+  else if (theString == "aug7") {
+    result = kAugmentedSeventhHarmony;
+  }
+  else if (theString == "halfdim") {
+    result = kHalfDiminishedHarmony;
+  }
+  else if (theString == "minmaj7") {
+    result = kMinorMajorSeventhHarmony;
+  }
+  else if (theString == "maj6") {
+    result = kMajorSixthHarmony;
+  }
+  else if (theString == "min6") {
+    result = kMinorSixthHarmony;
+  }
+  else if (theString == "dom9") {
+    result = kDominantNinthHarmony;
+  }
+  else if (theString == "maj9") {
+    result = kMajorNinthHarmony;
+  }
+  else if (theString == "min9") {
+    result = kMinorNinthHarmony;
+  }
+  else if (theString == "dom11") {
+    result = kDominantEleventhHarmony;
+  }
+  else if (theString == "maj11") {
+    result = kMajorEleventhHarmony;
+  }
+  else if (theString == "min11") {
+    result = kMinorEleventhHarmony;
+  }
+  else if (theString == "dom13") {
+    result = kDominantThirteenthHarmony;
+  }
+  else if (theString == "maj13") {
+    result = kMajorThirteenthHarmony;
+  }
+  else if (theString == "min13") {
+    result = kMinorThirteenthHarmony;
+  }
+  else if (theString == "sus2") {
+    result = kSuspendedSecondHarmony;
+  }
+  else if (theString == "sus4") {
+    result = kSuspendedFourthHarmony;
+  }
+  else if (theString == "neapolitan") {
+    result = kNeapolitanHarmony;
+  }
+  else if (theString == "italian") {
+    result = kItalianHarmony;
+  }
+  else if (theString == "french") {
+    result = kFrenchHarmony;
+  }
+  else if (theString == "german") {
+    result = kGermanHarmony;
+  }
+  else if (theString == "pedal") {
+    result = kPedalHarmony;
+  }
+  else if (theString == "power") {
+    result = kPowerHarmony;
+  }
+  else if (theString == "tristan") {
+    result = kTristanHarmony;
+  }
+  
   return result;
 }
 
@@ -11498,7 +11597,7 @@ void msrChordIntervals::initializeChordIntervals ()
       }
       break;
     
-     case kMajorMinorHarmony:
+     case kMinorMajorSeventhHarmony:
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (

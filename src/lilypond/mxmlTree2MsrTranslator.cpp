@@ -19245,7 +19245,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_kind& elt )
   else if (kind == "half-diminished")
     fCurrentHarmonyKind = kHalfDiminishedHarmony;
   else if (kind == "major-minor")
-    fCurrentHarmonyKind = kMajorMinorHarmony;
+    fCurrentHarmonyKind = kMinorMajorSeventhHarmony;
     
   else if (kind == "major-sixth")
     fCurrentHarmonyKind = kMajorSixthHarmony;

@@ -2107,7 +2107,7 @@ string lpsr2LilypondTranslator::harmonyAsLilypondString (
     case kHalfDiminishedHarmony:
       s << ":m7.5-";
       break;
-    case kMajorMinorHarmony:
+    case kMinorMajorSeventhHarmony:
       s << ":m7+";
       break;
 

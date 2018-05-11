@@ -287,7 +287,7 @@ enum msrHarmonyKind {
   kMajorSeventhHarmony, kMinorSeventhHarmony,
   kDiminishedSeventhHarmony, kAugmentedSeventhHarmony,
   kHalfDiminishedHarmony,
-  kMajorMinorHarmony,
+  kMinorMajorSeventhHarmony,
 
   kMajorSixthHarmony, kMinorSixthHarmony,
 
@@ -312,6 +312,9 @@ string msrHarmonyKindAsString (
 
 string msrHarmonyKindAsShortString (
   msrHarmonyKind harmonyKind);
+
+msrHarmonyKind msrHarmonyKindFromString (
+  string theString);
 
 // constant
 const int K_HARMONY_NO_INVERSION = -1;
