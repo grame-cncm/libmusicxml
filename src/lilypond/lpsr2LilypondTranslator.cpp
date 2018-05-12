@@ -1675,27 +1675,27 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
         noteSoundingWholeNotesAsMsrString ();
 
   switch (ornament->getOrnamentKind ()) {
-    case msrOrnament::kTrill:
+    case msrOrnament::kOrnamentTrill:
       if (! ornamentNoteUplink->getNoteWavyLineSpannerStart ()) {      
         result = "\\trill ";
       }
       break;
       
-    case msrOrnament::kDashes:
+    case msrOrnament::kOrnamentDashes:
       if (! ornamentNoteUplink->getNoteWavyLineSpannerStart ()) {      
         result = "%{\\dashes%} ";
       }
       break;
       
-    case msrOrnament::kTurn:
+    case msrOrnament::kOrnamentTurn:
       result = "\\turn ";
       break;
       
-    case msrOrnament::kInvertedTurn:
+    case msrOrnament::kOrnamentInvertedTurn:
       result = "\\reverseturn ";
       break;
       
-    case msrOrnament::kDelayedTurn:
+    case msrOrnament::kOrnamentDelayedTurn:
       {
         // c2*2/3 ( s2*1/3\turn
         int
@@ -1725,7 +1725,7 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
       }
       break;
       
-    case msrOrnament::kDelayedInvertedTurn:
+    case msrOrnament::kOrnamentDelayedInvertedTurn:
       {
 /* JMI
         stringstream s;
@@ -1753,7 +1753,7 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
       }
       break;
       
-    case msrOrnament::kVerticalTurn:
+    case msrOrnament::kOrnamentVerticalTurn:
       result =
         "^\\markup { \\rotate #90 \\musicglyph #\"scripts.turn\" } ";
           /* JMI
@@ -1770,23 +1770,23 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
         */
       break;
       
-    case msrOrnament::kMordent:
+    case msrOrnament::kOrnamentMordent:
       result = "\\mordent ";
       break;
       
-    case msrOrnament::kInvertedMordent:
+    case msrOrnament::kOrnamentInvertedMordent:
       result = "%{\\inverted mordent???%} ";
       break;
       \
-    case msrOrnament::kSchleifer:
+    case msrOrnament::kOrnamentSchleifer:
       result = "%{\\schleifer???%} ";
       break;
       
-    case msrOrnament::kShake:
+    case msrOrnament::kOrnamentShake:
       result = "%{\\shake???%} ";
       break;
       
-    case msrOrnament::kAccidentalMark:
+    case msrOrnament::kOrnamentAccidentalMark:
       result =
         alterationKindAsLilypondAccidentalMark (
           ornament->

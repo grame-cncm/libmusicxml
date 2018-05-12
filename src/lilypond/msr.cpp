@@ -2046,41 +2046,41 @@ string msrOrnament::ornamentKindAsString () const
   string result;
   
   switch (fOrnamentKind) {
-    case msrOrnament::kTrill:
-      result = "trill";
+    case msrOrnament::kOrnamentTrill:
+      result = "ornamentTrill";
       break;
-    case msrOrnament::kDashes:
-      result = "dashes";
+    case msrOrnament::kOrnamentDashes:
+      result = "ornamentDashes";
       break;
-    case msrOrnament::kTurn:
-      result = "turn";
+    case msrOrnament::kOrnamentTurn:
+      result = "ornamentTurn";
       break;
-    case msrOrnament::kInvertedTurn:
-      result = "invertedTurn";
+    case msrOrnament::kOrnamentInvertedTurn:
+      result = "ornamentInvertedTurn";
       break;
-    case msrOrnament::kDelayedTurn:
-      result = "delayedTurn";
+    case msrOrnament::kOrnamentDelayedTurn:
+      result = "ornamentDelayedTurn";
       break;
-    case msrOrnament::kDelayedInvertedTurn:
-      result = "delayedInvertedTurn";
+    case msrOrnament::kOrnamentDelayedInvertedTurn:
+      result = "ornamentDelayedInvertedTurn";
       break;
-    case msrOrnament::kVerticalTurn:
-      result = "verticTurn";
+    case msrOrnament::kOrnamentVerticalTurn:
+      result = "ornamentVerticalTurn";
       break;
-    case msrOrnament::kMordent:
-      result = "mordent";
+    case msrOrnament::kOrnamentMordent:
+      result = "ornamentMordent";
       break;
-    case msrOrnament::kInvertedMordent:
-      result = "invertedMordent";
+    case msrOrnament::kOrnamentInvertedMordent:
+      result = "ornamentInvertedMordent";
       break;
-    case msrOrnament::kSchleifer:
-      result = "schleifer";
+    case msrOrnament::kOrnamentSchleifer:
+      result = "ornamentSchleifer";
       break;
-    case msrOrnament::kShake:
-      result = "shake";
+    case msrOrnament::kOrnamentShake:
+      result = "ornamentShake";
       break;
-    case msrOrnament::kAccidentalMark:
-      result = "accidentalMark";
+    case msrOrnament::kOrnamentAccidentalMark:
+      result = "ornamentAccidentalMark";
       break;
   } // switch
 
@@ -6655,19 +6655,19 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
   fNoteOrnaments.push_back (ornament);
 
   switch (ornament->getOrnamentKind ()) {
-    case msrOrnament::kTrill:
+    case msrOrnament::kOrnamentTrill:
       fNoteTrillOrnament = ornament;
       break;
 
-    case msrOrnament::kDashes:
+    case msrOrnament::kOrnamentDashes:
       fNoteDashesOrnament = ornament;
       break;
 
-    case msrOrnament::kDelayedTurn:
+    case msrOrnament::kOrnamentDelayedTurn:
       fNoteDelayedTurnOrnament = ornament;
       break;
 
-    case msrOrnament::kDelayedInvertedTurn:
+    case msrOrnament::kOrnamentDelayedInvertedTurn:
       fNoteDelayedInvertedTurnOrnament = ornament;
       break;
 

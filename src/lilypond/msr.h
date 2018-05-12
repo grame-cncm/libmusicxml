@@ -1443,12 +1443,12 @@ class msrOrnament : public msrElement
     // ------------------------------------------------------
 
     enum msrOrnamentKind {
-        kTrill, kDashes,
-        kTurn, kInvertedTurn, kDelayedTurn,
-        kDelayedInvertedTurn, kVerticalTurn,
-        kMordent, kInvertedMordent,
-        kSchleifer, kShake,
-        kAccidentalMark };
+        kOrnamentTrill, kOrnamentDashes,
+        kOrnamentTurn, kOrnamentInvertedTurn, kOrnamentDelayedTurn,
+        kOrnamentDelayedInvertedTurn, kOrnamentVerticalTurn,
+        kOrnamentMordent, kOrnamentInvertedMordent,
+        kOrnamentSchleifer, kOrnamentShake,
+        kOrnamentAccidentalMark };
 
     static string ornamentKindAsString (
       msrOrnamentKind ornamentKind);

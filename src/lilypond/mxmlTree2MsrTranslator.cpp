@@ -11454,7 +11454,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kTrill,
+        msrOrnament::kOrnamentTrill,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11504,7 +11504,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kDashes,
+        msrOrnament::kOrnamentDashes,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11645,7 +11645,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kTurn,
+        msrOrnament::kOrnamentTurn,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11693,7 +11693,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kInvertedTurn,
+        msrOrnament::kOrnamentInvertedTurn,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11741,7 +11741,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kDelayedTurn,
+        msrOrnament::kOrnamentDelayedTurn,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11789,7 +11789,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kDelayedInvertedTurn,
+        msrOrnament::kOrnamentDelayedInvertedTurn,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11837,7 +11837,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kVerticalTurn,
+        msrOrnament::kOrnamentVerticalTurn,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11885,7 +11885,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kMordent,
+        msrOrnament::kOrnamentMordent,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11933,7 +11933,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kInvertedMordent,
+        msrOrnament::kOrnamentInvertedMordent,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -11981,7 +11981,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kSchleifer,
+        msrOrnament::kOrnamentSchleifer,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -12029,7 +12029,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kShake,
+        msrOrnament::kOrnamentShake,
         ornamentPlacementKind);
       
   fCurrentOrnamentsList.push_back (ornament);
@@ -12123,7 +12123,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     ornament =
       msrOrnament::create (
         elt->getInputLineNumber (),
-        msrOrnament::kAccidentalMark,
+        msrOrnament::kOrnamentAccidentalMark,
         ornamentPlacementKind);
       
   ornament->
