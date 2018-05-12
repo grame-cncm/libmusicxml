@@ -1679,6 +1679,9 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
       if (! ornamentNoteUplink->getNoteWavyLineSpannerStart ()) {      
         result = "\\trill ";
       }
+      else {
+        result = "\\startTrillSpan ";
+      }
       break;
       
     case msrOrnament::kOrnamentDashes:
@@ -1807,11 +1810,11 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
     case msrSpanner::kSpannerTrill:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
-          result = "\\startTrillSpan ";
+     // JMI     result = "\\startTrillSpan ";
           fOnGoingTrillSpanner = true;
           break;
         case kSpannerTypeStop:
-          result = "\\stopTrillSpan ";
+    // JMI      result = "\\stopTrillSpan ";
           fOnGoingTrillSpanner = false;
           break;
         case kSpannerTypeContinue:
@@ -1842,7 +1845,7 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
           if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
-            result = "\\startTrillSpan";
+     // JMI       result = "\\startTrillSpan";
             fOnGoingTrillSpanner = true;
           }
           else {
@@ -1851,7 +1854,7 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
           break;
         case kSpannerTypeStop:
           if (fOnGoingTrillSpanner) {
-            result = "\\stopTrillSpan";
+      // JMI      result = "\\stopTrillSpan";
             fOnGoingTrillSpanner = false;
           }
           else {

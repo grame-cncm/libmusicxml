@@ -2424,6 +2424,8 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
         break;
     } // switch
 
+    doAddSpannerToNote = true; // JMI
+    
     if (doAddSpannerToNote) {
       fCurrentNoteClone->
         addSpannerToNote (elt);
