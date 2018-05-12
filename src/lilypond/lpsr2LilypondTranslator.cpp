@@ -1849,7 +1849,8 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
             fOnGoingTrillSpanner = true;
           }
           else {
-            result = "-\\tweak style #'trill \\startTextSpan";
+      // JMI      result = "-\\tweak style #'trill \\startTextSpan";
+            result = "\\once \\override TextSpanner #'style = #'trill";
           }
           break;
         case kSpannerTypeStop:
