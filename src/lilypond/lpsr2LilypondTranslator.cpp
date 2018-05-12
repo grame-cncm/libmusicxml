@@ -796,7 +796,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             noteSoundingWholeNotes);
   
         // handle delayed ornaments if any
-        if (note->getNoteHasADelayedOrnament ())
+        if (note->getNoteDelayedTurnOrnament ())
           // c2*2/3 ( s2*1/3\turn) JMI
           // we need the explicit duration in all cases,
           // regardless of gGeneralOptions->fAllDurations
@@ -835,7 +835,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           note->getNoteSoundingWholeNotes ());
 
       // handle delayed ornaments if any
-      if (note->getNoteHasADelayedOrnament ())
+      if (note->getNoteDelayedTurnOrnament ())
         // c2*2/3 ( s2*1/3\turn JMI
         fLilypondCodeIOstream <<
           "*" <<
@@ -1676,13 +1676,13 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrill:
-      if (! ornamentNoteUplink->getNoteHasAWavyLineStart ()) {      
+      if (! ornamentNoteUplink->getNoteWavyLineSpannerStart ()) {      
         result = "\\trill ";
       }
       break;
       
     case msrOrnament::kDashes:
-      if (! ornamentNoteUplink->getNoteHasAWavyLineStart ()) {      
+      if (! ornamentNoteUplink->getNoteWavyLineSpannerStart ()) {      
         result = "%{\\dashes%} ";
       }
       break;
@@ -1841,7 +1841,7 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
     case msrSpanner::kSpannerWavyLine:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
-          if (spanner->getSpannerNoteUplink ()->getNoteHasATrill ()) {
+          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
             result = "\\startTrillSpan";
             fOnGoingTrillSpanner = true;
           }

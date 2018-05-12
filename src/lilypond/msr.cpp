@@ -5265,15 +5265,7 @@ void msrNote::initializeNote ()
   fNoteIsFirstNoteInADoubleTremolo  = false;
   fNoteIsSecondNoteInADoubleTremolo = false;
   
-  fNoteHasATrill = false;
   fNoteIsFollowedByGraceNotes = false;
-
-  fNoteHasDashes = false;
-
-  fNoteHasAWavyLineStart = false;
-  fNoteHasAWavyLineStop  = false;
-  
-  fNoteHasADelayedOrnament = false;
 }
 
 msrNote::~msrNote ()
@@ -5488,21 +5480,23 @@ S_msrNote msrNote::createNoteNewbornClone (
   newbornClone->fNoteIsSecondNoteInADoubleTremolo =
     fNoteIsSecondNoteInADoubleTremolo;
 
-  newbornClone->fNoteHasATrill =
-    fNoteHasATrill;
+  newbornClone->fNoteTrillOrnament =
+    fNoteTrillOrnament;
   newbornClone->fNoteIsFollowedByGraceNotes =
     fNoteIsFollowedByGraceNotes;
 
-  newbornClone->fNoteHasDashes =
-    fNoteHasDashes;
+  newbornClone->fNoteDashesOrnament =
+    fNoteDashesOrnament;
 
-  newbornClone->fNoteHasAWavyLineStart =
-    fNoteHasAWavyLineStart;
-  newbornClone->fNoteHasAWavyLineStop =
-    fNoteHasAWavyLineStop;
+  newbornClone->fNoteWavyLineSpannerStart =
+    fNoteWavyLineSpannerStart;
+  newbornClone->fNoteWavyLineSpannerStop =
+    fNoteWavyLineSpannerStop;
 
-  newbornClone->fNoteHasADelayedOrnament =
-    fNoteHasADelayedOrnament;
+  newbornClone->fNoteDelayedTurnOrnament =
+    fNoteDelayedTurnOrnament;
+  newbornClone->fNoteDelayedInvertedTurnOrnament =
+    fNoteDelayedInvertedTurnOrnament;
 
   // uplinks
   // ------------------------------------------------------
@@ -5913,21 +5907,23 @@ S_msrNote msrNote::createNoteDeepCopy (
   noteDeepCopy->fNoteIsSecondNoteInADoubleTremolo =
     fNoteIsSecondNoteInADoubleTremolo;
 
-  noteDeepCopy->fNoteHasATrill =
-    fNoteHasATrill;
+  noteDeepCopy->fNoteTrillOrnament =
+    fNoteTrillOrnament;
   noteDeepCopy->fNoteIsFollowedByGraceNotes =
     fNoteIsFollowedByGraceNotes;
 
-  noteDeepCopy->fNoteHasDashes =
-    fNoteHasDashes;
+  noteDeepCopy->fNoteDashesOrnament =
+    fNoteDashesOrnament;
 
-  noteDeepCopy->fNoteHasAWavyLineStart =
-    fNoteHasAWavyLineStart;
-  noteDeepCopy->fNoteHasAWavyLineStop =
-    fNoteHasAWavyLineStop;
+  noteDeepCopy->fNoteWavyLineSpannerStart =
+    fNoteWavyLineSpannerStart;
+  noteDeepCopy->fNoteWavyLineSpannerStop =
+    fNoteWavyLineSpannerStop;
 
-  noteDeepCopy->fNoteHasADelayedOrnament =
-    fNoteHasADelayedOrnament;
+  noteDeepCopy->fNoteDelayedTurnOrnament =
+    fNoteDelayedTurnOrnament;
+  noteDeepCopy->fNoteDelayedInvertedTurnOrnament =
+    fNoteDelayedInvertedTurnOrnament;
 
   // uplinks
   // ------------------------------------------------------
@@ -6553,12 +6549,12 @@ void msrNote::addArticulationToNote (S_msrArticulation art)
   fNoteArticulations.push_back (art);
 }
 
-void msrNote::addSpannerToNote (S_msrSpanner span)
+void msrNote::addSpannerToNote (S_msrSpanner spanner)
 {
   if (gTraceOptions->fTraceSpanners || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
       "Adding spanner '" <<
-      span->spannerKindAsString () <<
+      spanner->spannerKindAsString () <<
       "' to note '" <<
       asShortString () <<
       "'" <<
@@ -6566,7 +6562,7 @@ void msrNote::addSpannerToNote (S_msrSpanner span)
   }
 
   // register note has having a wavy line start
-  switch (span->getSpannerKind ()) {
+  switch (spanner->getSpannerKind ()) {
     case msrSpanner::kSpannerTrill:
       break;
       
@@ -6574,12 +6570,12 @@ void msrNote::addSpannerToNote (S_msrSpanner span)
       break;
       
     case msrSpanner::kSpannerWavyLine:
-      switch (span->getSpannerTypeKind ()) {
+      switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
-          fNoteHasAWavyLineStart = true;
+          fNoteWavyLineSpannerStart = spanner;
           break;
         case kSpannerTypeStop:
-          fNoteHasAWavyLineStop = true;
+          fNoteWavyLineSpannerStop = spanner;
           break;
         case kSpannerTypeContinue:
           break;
@@ -6591,7 +6587,7 @@ void msrNote::addSpannerToNote (S_msrSpanner span)
   } // switch
 
   // append spanner to note spanners
-  fNoteSpanners.push_back (span);
+  fNoteSpanners.push_back (spanner);
 }
 
 void msrNote::addTechnicalToNote (S_msrTechnical technical)
@@ -6660,16 +6656,19 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
 
   switch (ornament->getOrnamentKind ()) {
     case msrOrnament::kTrill:
-      fNoteHasATrill = true;
+      fNoteTrillOrnament = ornament;
       break;
 
     case msrOrnament::kDashes:
-      fNoteHasDashes = true;
+      fNoteDashesOrnament = ornament;
       break;
 
     case msrOrnament::kDelayedTurn:
+      fNoteDelayedTurnOrnament = ornament;
+      break;
+
     case msrOrnament::kDelayedInvertedTurn:
-      fNoteHasADelayedOrnament = true;
+      fNoteDelayedInvertedTurnOrnament = ornament;
       break;
 
     default:
@@ -7571,21 +7570,21 @@ string msrNote::asString () const
     s <<
       ", full measure";
 
-  if (fNoteHasATrill)
+  if (fNoteTrillOrnament)
     s <<
-      ", has a trill";
+      ", has a trill ornament";
   
-  if (fNoteHasDashes)
+  if (fNoteDashesOrnament)
     s <<
-      ", has dashes";
+      ", has a dashes ornament";
   
-  if (fNoteHasAWavyLineStart)
+  if (fNoteWavyLineSpannerStart)
     s <<
-      ", has a wavy line start";
+      ", has a wavy line spanner start";
   
-  if (fNoteHasAWavyLineStop)
+  if (fNoteWavyLineSpannerStop)
     s <<
-      ", has a wavy line stop";
+      ", has a wavy line spanner stop";
   
   if (fNoteIsFollowedByGraceNotes)
     s <<
@@ -7797,33 +7796,37 @@ void msrNote::print (ostream& os)
         "second note in a double tremolo" <<
         endl;
   
-    if (fNoteHasATrill)
+    if (fNoteTrillOrnament)
       os <<
-        "note has a trill" <<
+        "note has a trill ornament" <<
         endl;
         
-    if (fNoteHasDashes)
+    if (fNoteDashesOrnament)
       os <<
-        "note has dashes" <<
+        "note has a dashes ornament" <<
         endl;
-        
-    if (fNoteHasAWavyLineStart)
+          
+    if (fNoteDelayedTurnOrnament)
       os <<
-        "note has a wavy line start" <<
+        "note has a delayed turn ornament" <<
         endl;
-    if (fNoteHasAWavyLineStop)
+    if (fNoteDelayedInvertedTurnOrnament)
       os <<
-        "note has a wavy line stop" <<
+        "note has a delayed inverted turn ornament" <<
+        endl;
+
+    if (fNoteWavyLineSpannerStart)
+      os <<
+        "note has a wavy line spanner start" <<
+        endl;
+    if (fNoteWavyLineSpannerStop)
+      os <<
+        "note has a wavy line spanner stop" <<
         endl;
         
     if (fNoteIsFollowedByGraceNotes)
       os <<
         "note is followed by graceNotes" <<
-        endl;
-  
-    if (fNoteHasADelayedOrnament)
-      os <<
-        "note has a delayed ornament" <<
         endl;
 
      gIndenter--;

@@ -6063,17 +6063,23 @@ class msrNote : public msrElement
     bool                  getNoteIsSecondNoteInADoubleTremolo () const
                               { return fNoteIsSecondNoteInADoubleTremolo; }
                   
-    bool                  getNoteHasATrill () const
-                              { return fNoteHasATrill; }
+    S_msrOrnament         getNoteTrillOrnament () const
+                              { return fNoteTrillOrnament; }
                   
-    bool                  getNoteHasDashes () const
-                              { return fNoteHasDashes; }
+    S_msrOrnament         getNoteDashesOrnament () const
+                              { return fNoteDashesOrnament; }
                   
-    bool                  getNoteHasAWavyLineStart () const
-                              { return fNoteHasAWavyLineStart; }
+    S_msrOrnament         getNoteDelayedTurnOrnament () const
+                              { return fNoteDelayedTurnOrnament; }
+                              
+    S_msrOrnament         getNoteDelayedInvertedTurnOrnament () const
+                              { return fNoteDelayedInvertedTurnOrnament; }
+                              
+    S_msrSpanner          getNoteWavyLineSpannerStart () const
+                              { return fNoteWavyLineSpannerStart; }
                   
-    bool                  getNoteHasAWavyLineStop () const
-                              { return fNoteHasAWavyLineStop; }
+    S_msrSpanner          getNoteWavyLineSpannerStop () const
+                              { return fNoteWavyLineSpannerStop; }
                   
     void                  setNoteIsFollowedByGraceNotes ()
                               { fNoteIsFollowedByGraceNotes = true; }
@@ -6081,9 +6087,6 @@ class msrNote : public msrElement
     bool                  getNoteIsFollowedByGraceNotes () const
                               { return fNoteIsFollowedByGraceNotes; }
                   
-    bool                  getNoteHasADelayedOrnament () const
-                              { return fNoteHasADelayedOrnament; }
-                              
     // measure uplink
     void                  setNoteMeasureUplink (
                             const S_msrMeasure& measure)
@@ -6429,18 +6432,19 @@ class msrNote : public msrElement
 
     // this is useful
     // as well as to produce a nice \aftergrace in LilyPond 
-    bool                  fNoteHasATrill;
+    S_msrOrnament         fNoteTrillOrnament;
     bool                  fNoteIsFollowedByGraceNotes;
 
     // this is useful to produce a text spanner in LilyPond
-    bool                  fNoteHasDashes;
-
-    // this is useful to  to combine a trill and a wavy line in LilyPond
-    bool                  fNoteHasAWavyLineStart;
-    bool                  fNoteHasAWavyLineStop;
+    S_msrOrnament         fNoteDashesOrnament;
 
     // this is needed to produce a delayed turn/inverted-turn in LilyPond 
-    bool                  fNoteHasADelayedOrnament;
+    S_msrOrnament         fNoteDelayedTurnOrnament;
+    S_msrOrnament         fNoteDelayedInvertedTurnOrnament;
+
+    // this is useful to  to combine a trill and a wavy line in LilyPond
+    S_msrSpanner          fNoteWavyLineSpannerStart;
+    S_msrSpanner          fNoteWavyLineSpannerStop;
 };
 typedef SMARTP<msrNote> S_msrNote;
 EXP ostream& operator<< (ostream& os, const S_msrNote& elt);

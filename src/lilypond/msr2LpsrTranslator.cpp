@@ -2397,6 +2397,17 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
       endl;
   }
 
+  switch (elt->getSpannerTypeKind ()) {
+    case kSpannerTypeStart:
+      break;
+    case kSpannerTypeStop:
+      break;
+    case kSpannerTypeContinue:
+      break;
+    case k_NoSpannerType:
+      break;
+  } // switch
+
   if (fOnGoingNote) {
     bool doAddSpannerToNote = true;
     
@@ -2406,7 +2417,7 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
       case msrSpanner::kSpannerDashes:
         break;
       case msrSpanner::kSpannerWavyLine:
-        if (elt->getSpannerNoteUplink ()->getNoteHasATrill ()) {
+        if (elt->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
           // LilyPond combines a trill and a wavy line, don't add the spanner
           doAddSpannerToNote = false;
         }
@@ -2807,7 +2818,7 @@ void msr2LpsrTranslator::visitStart (S_msrGraceNotes& elt)
     // there is at least a note before these grace notes in the voice
     
     if (
-      fCurrentNoteClone->getNoteHasATrill ()
+      fCurrentNoteClone->getNoteTrillOrnament ()
         &&
       fCurrentNoteClone->getNoteIsFollowedByGraceNotes ()) {
       // fPendingAfterGraceNotes already contains
@@ -2985,7 +2996,7 @@ void msr2LpsrTranslator::visitStart (S_msrNote& elt)
   if (
     elt->getNoteIsFollowedByGraceNotes ()
       &&
-    elt->getNoteHasATrill ()) {
+    elt->getNoteTrillOrnament ()) {
     // yes, create the after grace notes
     if (gTraceOptions->fTraceNotes) {
       fLogOutputStream <<
