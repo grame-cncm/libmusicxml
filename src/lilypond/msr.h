@@ -1002,7 +1002,7 @@ class msrNonArpeggiato : public msrArticulation
     // ------------------------------------------------------
 
     enum msrNonArpeggiatoTypeKind {
-      k_NoNonArpeggiatoType,
+      kNonArpeggiatoTypeNone,
       kNonArpeggiatoTypeTop, kNonArpeggiatoTypeBottom };
 
     static string nonArpeggiatoTypeKindAsString (
@@ -1562,8 +1562,8 @@ class msrFermata : public msrArticulation
       msrFermataKind fermataKind);
 
     enum msrFermataTypeKind {
-        k_NoFermataType,
-        kUprightFermataType, kInvertedFermataType};
+        kFermataTypeNone,
+        kFermataTypeUpright, kFermataTypeInverted };
 
     static string fermataTypeKindAsString (
       msrFermataTypeKind fermataTypeKind);

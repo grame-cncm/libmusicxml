@@ -1251,14 +1251,14 @@ string msrNonArpeggiato::nonArpeggiatoTypeKindAsString (
   string result;
   
   switch (nonArpeggiatoTypeKind) {
-    case msrNonArpeggiato::k_NoNonArpeggiatoType:
-      result = "nonArpeggiatoType: none";
+    case msrNonArpeggiato::kNonArpeggiatoTypeNone:
+      result = "nonArpeggiatoTypeNone";
       break;
     case msrNonArpeggiato::kNonArpeggiatoTypeTop:
-      result = "nonArpeggiatoType: top";
+      result = "nonArpeggiatoTypeTop";
       break;
     case msrNonArpeggiato::kNonArpeggiatoTypeBottom:
-      result = "nonArpeggiatoType: bottom";
+      result = "nonArpeggiatoTypeBottom";
       break;
   } // switch
 
@@ -1970,14 +1970,14 @@ string msrFermata::fermataTypeKindAsString (
   string result;
   
   switch (fermataTypeKind) {
-    case msrFermata::k_NoFermataType:
-      result = "fermata type: none";
+    case msrFermata::kFermataTypeNone:
+      result = "fermataTypeNone";
       break;
-    case msrFermata::kUprightFermataType:
-      result = "fermata type: upright";
+    case msrFermata::kFermataTypeUpright:
+      result = "fermataTypeUpright";
       break;
-    case msrFermata::kInvertedFermataType:
-      result = "fermata type: inverted";
+    case msrFermata::kFermataTypeInverted:
+      result = "fermataTypeInverted";
       break;
   } // switch
 
@@ -6311,82 +6311,82 @@ string msrNote::noteHeadKindAsString (
  
   switch (noteHeadKind) {
     case msrNote::kNoteHeadSlash:
-      result = "noteHead: Slash";
+      result = "noteHeadSlash";
       break;
     case msrNote::kNoteHeadTriangle:
-      result = "noteHead: triangle";
+      result = "noteHeadTriangle";
       break;
     case msrNote::kNoteHeadDiamond:
-      result = "noteHead: diamond";
+      result = "noteHeadDiamond";
       break;
     case msrNote::kNoteHeadSquare:
-      result = "noteHead: square";
+      result = "noteHeadSquare";
       break;
     case msrNote::kNoteHeadCross:
-      result = "noteHead: cross";
+      result = "noteHeadCross";
       break;
     case msrNote::kNoteHeadX:
-      result = "noteHead: X";
+      result = "noteHeadX";
       break;
     case msrNote::kNoteHeadCircleX:
-      result = "noteHead: circleX";
+      result = "noteHeadCircleX";
       break;
     case msrNote::kNoteHeadInvertedTriangle:
-      result = "noteHead: invertedTriangle";
+      result = "noteHeadInvertedTriangle";
       break;
     case msrNote::kNoteHeadArrowDown:
-      result = "noteHead: arrowDown";
+      result = "noteHeadArrowDown";
       break;
     case msrNote::kNoteHeadArrowUp:
-      result = "noteHead: arrowUp";
+      result = "noteHeadArrowUp";
       break;
     case msrNote::kNoteHeadSlashed:
-      result = "noteHead: slashed";
+      result = "noteHeadSlashed";
       break;
     case msrNote::kNoteHeadBackSlashed:
-      result = "noteHead: backSlashed";
+      result = "noteHeadBackSlashed";
       break;
     case msrNote::kNoteHeadNormal:
-      result = "noteHead: normal";
+      result = "noteHeadNormal";
       break;
     case msrNote::kNoteHeadCluster:
-      result = "noteHead: cluster";
+      result = "noteHeadCluster";
       break;
     case msrNote::kNoteHeadCircleDot:
-      result = "noteHead: circleDot";
+      result = "noteHeadCircleDot";
       break;
     case msrNote::kNoteHeadLeftTriangle:
-      result = "noteHead: leftTriangle";
+      result = "noteHeadLeftTriangle";
       break;
     case msrNote::kNoteHeadRectangle:
-      result = "noteHead: rectangle";
+      result = "noteHeadRectangle";
       break;
     case msrNote::kNoteHeadNone:
-      result = "noteHead: none";
+      result = "noteHeadNone";
       break;
     case msrNote::kNoteHeadDo:
-      result = "noteHead: do";
+      result = "noteHeadDo";
       break;
     case msrNote::kNoteHeadRe:
-      result = "noteHead: re";
+      result = "noteHeadRe";
       break;
     case msrNote::kNoteHeadMi:
-      result = "noteHead: mi";
+      result = "noteHeadMi";
       break;
     case msrNote::kNoteHeadFa:
-      result = "noteHead: fa";
+      result = "noteHeadFa";
       break;
     case msrNote::kNoteHeadFaUp:
-      result = "noteHead: faUp";
+      result = "noteHeadFaUp";
       break;
     case msrNote::kNoteHeadSo:
-      result = "noteHead: so";
+      result = "noteHeadSo";
       break;
     case msrNote::kNoteHeadLa:
-      result = "noteHead: la";
+      result = "noteHeadLa";
       break;
     case msrNote::kNoteHeadTi:
-      result = "noteHead: ii";
+      result = "noteHeadTi";
       break;
   } // switch
 

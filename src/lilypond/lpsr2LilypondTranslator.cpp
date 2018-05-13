@@ -7151,13 +7151,13 @@ Articulations can be attached to rests as well as notes but they cannot be attac
 */
       
   switch (elt->getFermataTypeKind ()) {
-    case msrFermata::k_NoFermataType:
+    case msrFermata::kFermataTypeNone:
       // no placement needed
       break;
-    case msrFermata::kUprightFermataType:
+    case msrFermata::kFermataTypeUpright:
       // no placement needed
       break;
-    case msrFermata::kInvertedFermataType:
+    case msrFermata::kFermataTypeInverted:
       fLilypondCodeIOstream << "_";
       break;
   } // switch
@@ -9184,8 +9184,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
         fLilypondCodeIOstream << "\\arpeggioBracket";
         
         switch (nonArpeggiato->getNonArpeggiatoTypeKind ()) {
-          case msrNonArpeggiato::k_NoNonArpeggiatoType:
-            fLilypondCodeIOstream << " %{\\k_NoNonArpeggiatoType???%}";
+          case msrNonArpeggiato::kNonArpeggiatoTypeNone:
+            fLilypondCodeIOstream << " %{\\kNonArpeggiatoTypeNone???%}";
             break;
           case msrNonArpeggiato::kNonArpeggiatoTypeTop:
             fLilypondCodeIOstream << " %{\\kNonArpeggiatoTypeTop???%}";

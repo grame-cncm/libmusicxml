@@ -9710,7 +9710,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
 
   msrNonArpeggiato::msrNonArpeggiatoTypeKind
     nonArpeggiatoTypeKind =
-      msrNonArpeggiato::k_NoNonArpeggiatoType; // default value
+      msrNonArpeggiato::kNonArpeggiatoTypeNone; // default value
 
   if      (typeString == "top")
     nonArpeggiatoTypeKind =
@@ -11120,13 +11120,13 @@ void mxmlTree2MsrTranslator::visitStart ( S_fermata& elt )
   
   msrFermata::msrFermataTypeKind
     fermataTypeKind =
-      msrFermata::k_NoFermataType; // default value
+      msrFermata::kFermataTypeNone; // default value
 
   if      (fermataTypeValue == "upright")
-    fermataTypeKind = msrFermata::kUprightFermataType;
+    fermataTypeKind = msrFermata::kFermataTypeUpright;
     
   else if (fermataTypeValue == "inverted")
-    fermataTypeKind = msrFermata::kInvertedFermataType;
+    fermataTypeKind = msrFermata::kFermataTypeInverted;
     
   else {
     if (fermataTypeValue.size ()) {
