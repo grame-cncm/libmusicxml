@@ -134,7 +134,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
 
   // time handling
   fCurrentTimeSymbolKind =
-    msrTime::k_NoTimeSymbol; // default value
+    msrTime::kTimeSymbolNone; // default value
 
   fOnGoingInterchangeable = false;
 
@@ -166,7 +166,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentMetronomeParenthesedKind = msrTempo::kTempoParenthesizedNo;
 
   fCurrentMetrenomeDotsNumber = 0;
-  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
+  fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationNone;
   fCurrentMetronomeDurationKind = k_NoDuration;
   fCurrentMetronomeBeamValue = "";
 
@@ -185,12 +185,12 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   
   fCurrentSyllabic = "";
 
-  fCurrentSyllableKind       = msrSyllable::k_NoSyllable;
-  fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
+  fCurrentSyllableKind       = msrSyllable::kSyllableNone;
+  fCurrentSyllableExtendKind = msrSyllable::kSyllableExtendNone;
   fOnGoingSyllableExtend     = false;
 
-  fFirstSyllableInSlurKind     = msrSyllable::k_NoSyllable;
-  fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
+  fFirstSyllableInSlurKind     = msrSyllable::kSyllableNone;
+  fFirstSyllableInLigatureKind = msrSyllable::kSyllableNone;
 
   fCurrentNoteHasLyrics = false;
   fLastHandledNoteInVoiceHasLyrics = false;
@@ -225,7 +225,7 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fCurrentFrameNoteStringNumber = -1;
   fCurrentFrameNoteFretNumber = -1;
   fCurrentFrameNoteFingering = -1;
-  fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
+  fCurrentFrameNoteBarreTypeKind = msrFrameNote::kBarreTypeNone;
 
   fOnGoingFrame = false;
   fOnGoingFrameNote = false;
@@ -380,7 +380,7 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
   // accidentals
   
   fCurrentNoteAccidentalKind =
-    msrNote::k_NoNoteAccidental; // default value
+    msrNote::kNoteAccidentalNone; // default value
     
   fCurrentNoteEditorialAccidentalKind =
     msrNote::kNoteEditorialAccidentalNo; // default value
@@ -417,7 +417,7 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 
   // note lyrics
 
-// JMI  fCurrentNoteSyllableExtendKind = k_NoSyllableExtend;
+// JMI  fCurrentNoteSyllableExtendKind = kSyllableExtendNone;
 }
 
 //________________________________________________________________________
@@ -2347,7 +2347,7 @@ Cut time, also known as  or alla breve, is a meter with two half-note beats per 
     elt->getAttributeValue ("symbol");
 
   fCurrentTimeSymbolKind =
-    msrTime::k_NoTimeSymbol; // default value
+    msrTime::kTimeSymbolNone; // default value
   
   if       (timeSymbol == "common") {
     fCurrentTimeSymbolKind = msrTime::kTimeSymbolCommon;
@@ -2479,7 +2479,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_interchangeable& elt )
     elt->getAttributeValue ("symbol");
 
   fCurrentInterchangeableSymbolKind =
-    msrTime::k_NoTimeSymbol; // default value
+    msrTime::kTimeSymbolNone; // default value
   
   if       (interchangeableSymbol == "common") {
     fCurrentInterchangeableSymbolKind = msrTime::kTimeSymbolCommon;
@@ -2516,10 +2516,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_interchangeable& elt )
     elt->getAttributeValue ("separator");
 
   fCurrentInterchangeableSeparatorKind =
-    msrTime::k_NoTimeSeparator; // default value
+    msrTime::kTimeSeparatorNone; // default value
   
   if       (interchangeableSymbol == "none") {
-    fCurrentInterchangeableSeparatorKind = msrTime::k_NoTimeSeparator;
+    fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorNone;
   }
   else  if (interchangeableSymbol == "horizontal") {
     fCurrentInterchangeableSeparatorKind = msrTime::kTimeSeparatorHorizontal;
@@ -2565,7 +2565,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_time_relation& elt )
   string timeRelation = elt->getValue ();
   
   fCurrentInterchangeableRelationKind =
-    msrTime::k_NoTimeRelation; // default value
+    msrTime::kTimeRelationNone; // default value
   
   if       (timeRelation == "parentheses") {
     fCurrentInterchangeableRelationKind = msrTime::kTimeRelationParentheses;
@@ -3153,7 +3153,7 @@ void mxmlTree2MsrTranslator::visitStart (S_octave_shift& elt)
   string type = elt->getAttributeValue ("type");
 
   msrOctaveShift::msrOctaveShiftKind
-    octaveShiftKind = msrOctaveShift::k_NoOctaveShift;
+    octaveShiftKind = msrOctaveShift::kOctaveShiftNone;
   
   if      (type == "up")
     octaveShiftKind = msrOctaveShift::kOctaveShiftUp;
@@ -3604,7 +3604,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome& elt )
   fCurrentMetrenomePerMinute = "";
 
   fCurrentMetrenomeDotsNumber = 0;
-  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
+  fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationNone;
   fCurrentMetronomeDurationKind = k_NoDuration;
   fCurrentMetronomeBeamValue = "";
 
@@ -3962,7 +3962,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_note& elt )
   else {
     // register stand-alone metronome note
     
-    if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
+    if (fCurrentMetrenomeRelationKind == msrTempo::kTempoRelationNone) {
       // this metronome note belongs to the left elements list
   
       if (! fCurrentMetronomeRelationLeftElements) {
@@ -4007,7 +4007,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_relation& elt )
 
   string metrenomeRelation = elt->getValue ();
 
-  fCurrentMetrenomeRelationKind = msrTempo::k_NoTempoRelation;
+  fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationNone;
 
   if (metrenomeRelation == "equals") {
     fCurrentMetrenomeRelationKind = msrTempo::kTempoRelationEquals; }
@@ -4134,7 +4134,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_metronome_tuplet& elt )
   {
     string tupletType = elt->getAttributeValue ("type");
       
-    fCurrentTempoTupletTypeKind = msrTempoTuplet::k_NoTempoTupletType;
+    fCurrentTempoTupletTypeKind = msrTempoTuplet::kTempoTupletTypeNone;
     
     if      (tupletType == "start")
       fCurrentTempoTupletTypeKind = msrTempoTuplet::kTempoTupletTypeStart;
@@ -4226,7 +4226,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
     elt->getInputLineNumber ();
 
   switch (fCurrentTempoTupletTypeKind) {
-    case msrTempoTuplet::k_NoTempoTupletType:
+    case msrTempoTuplet::kTempoTupletTypeNone:
       break;
       
     case msrTempoTuplet::kTempoTupletTypeStart:
@@ -4242,7 +4242,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_metronome_tuplet& elt )
           fCurrentMetronomeNoteWholeNotesFromMetronomeType);
     
       // register the metronome tuplet 
-      if (fCurrentMetrenomeRelationKind == msrTempo::k_NoTempoRelation) {
+      if (fCurrentMetrenomeRelationKind == msrTempo::kTempoRelationNone) {
         // this metronome tuplet belongs to the left elements list
     
         if (! fCurrentMetronomeRelationLeftElements) {
@@ -4366,7 +4366,7 @@ http://usermanuals.musicxml.com/MusicXML/Content/EL-MusicXML-metronome-type.htm
   else if (beatUnitsSize == 2 && ! perMinutePresent) {
     tempoKind = msrTempo::kTempoBeatUnitsEquivalence;
   }
-  else if (fCurrentMetrenomeRelationKind != msrTempo::k_NoTempoRelation) {
+  else if (fCurrentMetrenomeRelationKind != msrTempo::kTempoRelationNone) {
     tempoKind = msrTempo::kTempoNotesRelationShip;
   }
 
@@ -5257,7 +5257,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
   fCurrentTiedOrientation =
     elt->getAttributeValue ("orientation");
 
-  fCurrentTieKind = msrTie::k_NoTie;
+  fCurrentTieKind = msrTie::kTieNone;
   
   if      (tiedType == "start") {
     fCurrentTieKind = msrTie::kTieStart;
@@ -5304,7 +5304,7 @@ void mxmlTree2MsrTranslator::visitStart (S_tied& elt )
     
   }
 
-  if (fCurrentTieKind != msrTie::k_NoTie)
+  if (fCurrentTieKind != msrTie::kTieNone)
     fCurrentTie =
       msrTie::create (
         elt->getInputLineNumber (),
@@ -5773,16 +5773,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_wedge& elt )
   
   string type = elt->getAttributeValue("type");
   
-  msrWedge::msrWedgeKind wedgeKind = msrWedge::k_NoWedgeKind;
+  msrWedge::msrWedgeKind wedgeKind = msrWedge::kWedgeKindNone;
 
   if      (type == "crescendo") {
-    wedgeKind = msrWedge::kCrescendoWedge;
+    wedgeKind = msrWedge::kWedgeCrescendo;
   }
   else if (type == "diminuendo") {
-    wedgeKind = msrWedge::kDecrescendoWedge;
+    wedgeKind = msrWedge::kWedgeDecrescendo;
   }
   else if (type == "stop") {
-    wedgeKind = msrWedge::kStopWedge;
+    wedgeKind = msrWedge::kWedgeStop;
   }
   else {
     if (type.size ()) {
@@ -6068,7 +6068,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_text& elt )
   }
 
   // a <text/> markup puts an end to the effect of <extend/>
-  fCurrentSyllableExtendKind = msrSyllable::k_NoSyllableExtend;
+  fCurrentSyllableExtendKind = msrSyllable::kSyllableExtendNone;
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_elision& elt ) 
@@ -6154,7 +6154,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
   int inputLineNumber =
     elt->getInputLineNumber ();
 
-  if (fCurrentSyllableKind == msrSyllable::k_NoSyllable) {
+  if (fCurrentSyllableKind == msrSyllable::kSyllableNone) {
     // syllabic is not mandatory...
     stringstream s;
 
@@ -6966,11 +6966,11 @@ void mxmlTree2MsrTranslator::visitStart ( S_barline& elt )
   fCurrentBarlineHasSegnoKind = msrBarline::kBarlineHasSegnoNo;
   fCurrentBarlineHasCodaKind  = msrBarline::kBarlineHasCodaNo;
 
-  fCurrentBarlineLocationKind        = msrBarline::k_NoBarlineLocation;
-  fCurrentBarlineStyleKind           = msrBarline::k_NoBarlineStyle;
-  fCurrentBarlineEndingTypeKind      = msrBarline::k_NoBarlineEnding;
-  fCurrentBarlineRepeatDirectionKind = msrBarline::k_NoBarlineRepeatDirection;
-  fCurrentBarlineRepeatWingedKind    = msrBarline::k_NoBarlineRepeatWinged;
+  fCurrentBarlineLocationKind        = msrBarline::kBarlineLocationNone;
+  fCurrentBarlineStyleKind           = msrBarline::kBarlineStyleNone;
+  fCurrentBarlineEndingTypeKind      = msrBarline::kBarlineEndingNone;
+  fCurrentBarlineRepeatDirectionKind = msrBarline::kBarlineRepeatDirectionNone;
+  fCurrentBarlineRepeatWingedKind    = msrBarline::kBarlineRepeatWingedNone;
 
   fCurrentBarlineTimes = 2; // default value JMI ???
   
@@ -7378,7 +7378,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_ending& elt )
       elt->getAttributeValue ("type");
         
     fCurrentBarlineEndingTypeKind =
-      msrBarline::k_NoBarlineEnding;
+      msrBarline::kBarlineEndingNone;
 
     if       (type == "start") {
       fCurrentBarlineEndingTypeKind =
@@ -7426,7 +7426,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_repeat& elt )
     string direction = elt->getAttributeValue ("direction");
   
     fCurrentBarlineRepeatDirectionKind =
-      msrBarline::k_NoBarlineRepeatDirection;
+      msrBarline::kBarlineRepeatDirectionNone;
       
     if       (direction == "forward") {
       fCurrentBarlineRepeatDirectionKind =
@@ -7696,9 +7696,11 @@ void mxmlTree2MsrTranslator::visitEnd ( S_barline& elt )
       
         barlineIsAlright = true;
         break;
-  
-      case msrBarline::k_NoBarlineStyle:
+
+  /* JMI
+      case msrBarline::kBarlineStyleNone:
         ; // no <bar-style> has been found
+        */
     } // switch
   }
       
@@ -7829,7 +7831,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 
   fCurrentSyllabic = "";
   fCurrentLyricTextsList.clear ();
-  fCurrentSyllableKind = msrSyllable::k_NoSyllable;
+  fCurrentSyllableKind = msrSyllable::kSyllableNone;
 
   if (fOnGoingSyllableExtend) {
     fCurrentSyllableExtendKind =
@@ -7837,7 +7839,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
   }
   else {
     fCurrentSyllableExtendKind =
-      msrSyllable::k_NoSyllableExtend;
+      msrSyllable::kSyllableExtendNone;
   }
 
   // assume this note hasn't got any stanzas until S_lyric is met
@@ -8331,7 +8333,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental& elt ) // JMI
   {
     string accidentalValue = elt->getValue ();
   
-    fCurrentNoteAccidentalKind = msrNote::k_NoNoteAccidental;
+    fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalNone;
 
     if      (accidentalValue == "sharp")
       fCurrentNoteAccidentalKind = msrNote::kNoteAccidentalSharp;
@@ -8495,7 +8497,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_stem& elt )
 
   string        stem = elt->getValue();
 
-  msrStem::msrStemKind stemKind = msrStem::k_NoStem;
+  msrStem::msrStemKind stemKind = msrStem::kStemNone;
   
   if      (stem == "up")
     stemKind = msrStem::kStemUp;
@@ -13831,7 +13833,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_tuplet& elt )
     msrTuplet::msrTupletTypeKind
       previousTupletTypeKind = fCurrentTupletTypeKind;
       
-    fCurrentTupletTypeKind = msrTuplet::k_NoTupletType;
+    fCurrentTupletTypeKind = msrTuplet::kTupletTypeNone;
     
     if      (tupletType == "start") {
       if (gTraceOptions->fTraceTuplets) {
@@ -14143,7 +14145,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_glissando& elt )
   string glissandoType = elt->getAttributeValue ("type");
     
   msrGlissando::msrGlissandoTypeKind
-    glissandoTypeKind = msrGlissando::k_NoGlissandoType;
+    glissandoTypeKind = msrGlissando::kGlissandoTypeNone;
   
   if      (glissandoType == "start")
     glissandoTypeKind = msrGlissando::kGlissandoTypeStart;
@@ -14254,7 +14256,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_slide& elt )
   string slideType = elt->getAttributeValue ("type");
     
   msrSlide::msrSlideTypeKind
-    slideTypeKind = msrSlide::k_NoSlideType;
+    slideTypeKind = msrSlide::kSlideTypeNone;
   
   if      (slideType == "start")
     slideTypeKind = msrSlide::kSlideTypeStart;
@@ -17263,7 +17265,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
       break;
     case msrSlur::kRegularSlurStop:
     case msrSlur::kPhrasingSlurStop:
-      fFirstSyllableInSlurKind = msrSyllable::k_NoSyllable;
+      fFirstSyllableInSlurKind = msrSyllable::kSyllableNone;
       break;
     case msrSlur::k_NoSlur:
       ;
@@ -17277,7 +17279,7 @@ void mxmlTree2MsrTranslator::handleStandaloneOrDoubleTremoloNoteOrGraceNoteOrRes
     case msrLigature::kLigatureContinue:
       break;
     case msrLigature::kLigatureStop:
-      fFirstSyllableInLigatureKind = msrSyllable::k_NoSyllable;
+      fFirstSyllableInLigatureKind = msrSyllable::kSyllableNone;
       break;
     default:
       ;
@@ -17401,7 +17403,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
         break;
       case msrSyllable::kSyllableExtendStop:
         break;
-      case msrSyllable::k_NoSyllableExtend:
+      case msrSyllable::kSyllableExtendNone:
         doCreateASkipSyllable = true;
         break;
     } // switch
@@ -17464,7 +17466,7 @@ void mxmlTree2MsrTranslator::handleLyricsForNote (
     case msrSyllable::kSyllableExtendStop:
       fOnGoingSyllableExtend = false;
       break;
-    case msrSyllable::k_NoSyllableExtend:
+    case msrSyllable::kSyllableExtendNone:
       break;
   } // switch
     
@@ -18152,14 +18154,14 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToATuplet (
       }
       break;
 
-    case msrTuplet::k_NoTupletType:
+    case msrTuplet::kTupletTypeNone:
       break;
   } // switch
 
 /* JMI ???
   // forget about this tuplet type, needed for nested tuplets
   fCurrentTupletTypeKind =
-    msrTuplet::k_NoTupletType;
+    msrTuplet::kTupletTypeNone;
     */
 }
 
@@ -19958,7 +19960,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame_note& elt )
   fCurrentFrameNoteStringNumber = -1;
   fCurrentFrameNoteFretNumber = -1;
   fCurrentFrameNoteFingering = -1;
-  fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
+  fCurrentFrameNoteBarreTypeKind = msrFrameNote::kBarreTypeNone;
 
   fOnGoingFrameNote = true;
 }
@@ -20018,7 +20020,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_barre& elt )
  
   string barreType = elt->getAttributeValue ("type");
     
-  fCurrentFrameNoteBarreTypeKind = msrFrameNote::k_NoBarreType;
+  fCurrentFrameNoteBarreTypeKind = msrFrameNote::kBarreTypeNone;
   
   if      (barreType == "start")
     fCurrentFrameNoteBarreTypeKind = msrFrameNote::kBarreTypeStart;

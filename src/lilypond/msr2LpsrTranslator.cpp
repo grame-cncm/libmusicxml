@@ -4240,7 +4240,7 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
   }
 
   switch (elt->getBarlineStyleKind ()) {
-    case msrBarline::k_NoBarlineStyle:
+    case msrBarline::kBarlineStyleNone:
       break;
     case msrBarline::kBarlineStyleRegular:
       break;
@@ -4265,8 +4265,10 @@ void msr2LpsrTranslator::visitStart (S_msrBarline& elt)
         // this score needs the 'custom short barline' Scheme function
         setCustomShortBarLineSchemeFunctionIsNeeded ();
       break;
+      /* JMI
     case msrBarline::kBarlineStyleNone:
       break;
+      */
   } // switch
 
   // append the barline to the current voice clone

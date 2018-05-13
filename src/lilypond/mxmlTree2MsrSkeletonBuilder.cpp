@@ -1989,12 +1989,12 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
   
   string partGroupType = elt->getAttributeValue ("type");
 
-  fCurrentPartGroupTypeKind = msrPartGroup::k_NoPartGroupType;
+  fCurrentPartGroupTypeKind = msrPartGroup::kPartGroupTypeNone;
     
   if      (partGroupType == "start")
-    fCurrentPartGroupTypeKind = msrPartGroup::kStartPartGroupType;
+    fCurrentPartGroupTypeKind = msrPartGroup::kPartGroupTypeStart;
   else if (partGroupType == "stop")
-    fCurrentPartGroupTypeKind = msrPartGroup::kStopPartGroupType;
+    fCurrentPartGroupTypeKind = msrPartGroup::kPartGroupTypeStop;
   else {
     stringstream s;
 
@@ -2021,20 +2021,20 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_part_group& elt)
   // handle part group type
   switch (fCurrentPartGroupTypeKind) {
     
-    case msrPartGroup::kStartPartGroupType:
+    case msrPartGroup::kPartGroupTypeStart:
       fCurrentPartGroupName = "";
       fCurrentPartGroupNameDisplayText = "";
       fCurrentPartGroupAccidentalText = "";
       fCurrentPartGroupAbbreviation = "";
-      fCurrentPartGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
+      fCurrentPartGroupSymbolKind = msrPartGroup::kPartGroupSymbolNone;
       fCurrentPartGroupSymbolDefaultX = INT_MIN;
       fCurrentPartGroupBarlineKind = msrPartGroup::kPartGroupBarlineYes;
       break;
       
-    case msrPartGroup::kStopPartGroupType:
+    case msrPartGroup::kPartGroupTypeStop:
       break;
       
-    case msrPartGroup::k_NoPartGroupType:
+    case msrPartGroup::kPartGroupTypeNone:
       // should not occur
       break;
   } // switch
@@ -2138,22 +2138,22 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_group_symbol& elt)
   string groupSymbol = elt->getValue ();
 
   fCurrentPartGroupSymbolKind =
-    msrPartGroup::k_NoPartGroupSymbol; // default value
+    msrPartGroup::kPartGroupSymbolNone; // default value
    
   if      (groupSymbol == "brace")
-    fCurrentPartGroupSymbolKind = msrPartGroup::kBracePartGroupSymbol;
+    fCurrentPartGroupSymbolKind = msrPartGroup::kPartGroupSymbolBrace;
     
   else if (groupSymbol == "bracket")
-    fCurrentPartGroupSymbolKind = msrPartGroup::kBracketPartGroupSymbol;
+    fCurrentPartGroupSymbolKind = msrPartGroup::kPartGroupSymbolBracket;
     
   else if (groupSymbol == "line")
-    fCurrentPartGroupSymbolKind = msrPartGroup::kLinePartGroupSymbol;
+    fCurrentPartGroupSymbolKind = msrPartGroup::kPartGroupSymbolLine;
     
   else if (groupSymbol == "square")
-    fCurrentPartGroupSymbolKind = msrPartGroup::kSquarePartGroupSymbol;
+    fCurrentPartGroupSymbolKind = msrPartGroup::kPartGroupSymbolSquare;
     
   else if (groupSymbol == "none")
-    fCurrentPartGroupSymbolKind = msrPartGroup::k_NoPartGroupSymbol;
+    fCurrentPartGroupSymbolKind = msrPartGroup::kPartGroupSymbolNone;
     
   else {
     if (groupSymbol.size ()) {
@@ -2233,19 +2233,19 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part_group& elt)
   // handle part group type
   switch (fCurrentPartGroupTypeKind) {
     
-    case msrPartGroup::kStartPartGroupType:
+    case msrPartGroup::kPartGroupTypeStart:
       // handle the part group start
       handlePartGroupStart (
         inputLineNumber);
       break;
       
-    case msrPartGroup::kStopPartGroupType:
+    case msrPartGroup::kPartGroupTypeStop:
       // handle the part group stop
       handlePartGroupStop (
         inputLineNumber);
       break;
 
-    case msrPartGroup::k_NoPartGroupType:
+    case msrPartGroup::kPartGroupTypeNone:
       // should not occur
       break;
   } // switch

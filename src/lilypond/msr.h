@@ -343,7 +343,7 @@ class msrOctaveShift : public msrElement
     // ------------------------------------------------------
 
     enum msrOctaveShiftKind {
-      k_NoOctaveShift,
+      kOctaveShiftNone,
       kOctaveShiftUp, kOctaveShiftDown,
       kOctaveShiftStop, kOctaveShiftContinue };
 
@@ -494,7 +494,7 @@ class msrScordatura : public msrElement
     // ------------------------------------------------------
 
     enum msrScordaturaKind {
-      k_NoScordatura,
+      kScordaturaNone,
       kScordaturaUp, kScordaturaDown,
       kScordaturaStop, kScordaturaContinue };
 
@@ -707,8 +707,8 @@ class msrStem : public msrElement
     // ------------------------------------------------------
 
     enum msrStemKind {
-      k_NoStem,
-      kStemUp, kStemDown, kStemNone, kStemDouble};
+      kStemNone,
+      kStemUp, kStemDown, kStemDouble};
 
     static string stemKindAsString (
       msrStemKind stemKind);
@@ -2274,7 +2274,7 @@ class msrTie : public msrElement
     // ------------------------------------------------------
 
     enum msrTieKind {
-      k_NoTie,
+      kTieNone,
       kTieStart, kTieContinue, kTieStop};        
     
     static string tieKindAsString (
@@ -2695,8 +2695,8 @@ class msrWedge : public msrElement
     // ------------------------------------------------------
 
     enum msrWedgeKind {
-      k_NoWedgeKind,
-      kCrescendoWedge, kDecrescendoWedge, kStopWedge };
+      kWedgeKindNone,
+      kWedgeCrescendo, kWedgeDecrescendo, kWedgeStop };
     
     static string wedgeKindAsString (
       msrWedgeKind wedgeKind);
@@ -3172,7 +3172,7 @@ class msrTime : public msrElement
     // ------------------------------------------------------
 
     enum msrTimeSymbolKind {
-        k_NoTimeSymbol,
+        kTimeSymbolNone,
         kTimeSymbolCommon,
         kTimeSymbolCut,
         kTimeSymbolNote,
@@ -3184,7 +3184,7 @@ class msrTime : public msrElement
       msrTimeSymbolKind timeSymbolKind);
       
     enum msrTimeSeparatorKind {
-        k_NoTimeSeparator,
+        kTimeSeparatorNone,
         kTimeSeparatorHorizontal,
         kTimeSeparatorDiagonal,
         kTimeSeparatorVertical,
@@ -3194,7 +3194,7 @@ class msrTime : public msrElement
       msrTimeSeparatorKind timeSeparatorKind);
       
     enum msrTimeRelationKind {
-        k_NoTimeRelation,
+        kTimeRelationNone,
         kTimeRelationParentheses,
         kTimeRelationBracket,
         kTimeRelationEquals,
@@ -4673,7 +4673,7 @@ class msrSyllable : public msrElement
 
     // we want to end the line in the LilyPond code at a break
     enum msrSyllableKind {
-      k_NoSyllable,
+      kSyllableNone,
       kSyllableSingle,
       kSyllableBegin, kSyllableMiddle, kSyllableEnd,
       kSyllableSkip,
@@ -4684,7 +4684,7 @@ class msrSyllable : public msrElement
       msrSyllableKind syllableKind);
       
     enum msrSyllableExtendKind {
-      k_NoSyllableExtend,
+      kSyllableExtendNone,
       kSyllableExtendSingle,
       kSyllableExtendStart, kSyllableExtendContinue, kSyllableExtendStop };
 
@@ -5099,7 +5099,7 @@ class msrFrameNote : public msrElement
     // ------------------------------------------------------
 
     enum msrBarreTypeKind {
-      k_NoBarreType,
+      kBarreTypeNone,
       kBarreTypeStart, kBarreTypeStop };
 
     static string barreTypeKindAsString (
@@ -5571,7 +5571,7 @@ class msrNote : public msrElement
       msrNoteKind noteKind);
       
     enum msrNoteAccidentalKind {
-      k_NoNoteAccidental,
+      kNoteAccidentalNone,
       
       kNoteAccidentalSharp, kNoteAccidentalNatural, kNoteAccidentalFlat, kNoteAccidentaldoubleSharp, kNoteAccidentalSharpSharp,
       kNoteAccidentalFlatFlat, kNoteAccidentalNaturalSharp,
@@ -7881,7 +7881,7 @@ class msrTuplet : public msrElement
     // ------------------------------------------------------
 
     enum msrTupletTypeKind {
-      k_NoTupletType,
+      kTupletTypeNone,
       kTupletTypeStart, kTupletTypeContinue, kTupletTypeStop,
       kTupletTypeStartAndStopInARow };
 
@@ -8096,7 +8096,7 @@ class msrGlissando : public msrElement
     // ------------------------------------------------------
 
     enum msrGlissandoTypeKind {
-      k_NoGlissandoType,
+      kGlissandoTypeNone,
       kGlissandoTypeStart, kGlissandoTypeStop };
 
     static string glissandoTypeKindAsString (
@@ -8194,7 +8194,7 @@ class msrSlide : public msrElement
     // ------------------------------------------------------
 
     enum msrSlideTypeKind {
-      k_NoSlideType,
+      kSlideTypeNone,
       kSlideTypeStart, kSlideTypeStop };
 
     static string slideTypeKindAsString (
@@ -8360,7 +8360,7 @@ class msrTempoTuplet : public msrElement
     // ------------------------------------------------------
 
     enum msrTempoTupletTypeKind {
-      k_NoTempoTupletType,
+      kTempoTupletTypeNone,
       kTempoTupletTypeStart, kTempoTupletTypeStop };
 
     static string tempoTupletTypeKindAsString (
@@ -8602,7 +8602,7 @@ class msrTempo : public msrElement
       msrTempoParenthesizedKind tempoParenthesizedKind);
       
     enum msrTempoRelationKind {
-      k_NoTempoRelation, kTempoRelationEquals };
+      kTempoRelationNone, kTempoRelationEquals };
       
     static string tempoRelationAsString (
       msrTempoRelationKind tempoRelationKind);
@@ -9309,7 +9309,7 @@ class msrBarline : public msrElement
 
     // location
     enum msrBarlineLocationKind {
-      k_NoBarlineLocation,
+      kBarlineLocationNone,
       kBarlineLocationLeft, kBarlineLocationMiddle, kBarlineLocationRight };
         // kBarlineLocationRight by default
         
@@ -9318,20 +9318,19 @@ class msrBarline : public msrElement
 
     // style
     enum msrBarlineStyleKind {
-      k_NoBarlineStyle,
+      kBarlineStyleNone,
       kBarlineStyleRegular,  // by default
       kBarlineStyleDotted, kBarlineStyleDashed, kBarlineStyleHeavy,
       kBarlineStyleLightLight, kBarlineStyleLightHeavy,
       kBarlineStyleHeavyLight, kBarlineStyleHeavyHeavy,
-      kBarlineStyleTick, kBarlineStyleShort,
-      kBarlineStyleNone };
+      kBarlineStyleTick, kBarlineStyleShort };
 
     static string barlineStyleKindAsString (
       msrBarlineStyleKind barlineStyleKind);
 
     // ending type
     enum msrBarlineEndingTypeKind {
-      k_NoBarlineEnding,
+      kBarlineEndingNone,
       kBarlineEndingTypeStart, kBarlineEndingTypeStop, kBarlineEndingTypeDiscontinue };
 
     static string barlineEndingTypeKindAsString (
@@ -9339,7 +9338,7 @@ class msrBarline : public msrElement
 
     // repeat direction
     enum msrBarlineRepeatDirectionKind {
-      k_NoBarlineRepeatDirection,
+      kBarlineRepeatDirectionNone,
       kBarlineRepeatDirectionForward, kBarlineRepeatDirectionBackward };
 
     static string barlineRepeatDirectionKindAsString (
@@ -9347,7 +9346,6 @@ class msrBarline : public msrElement
 
     // repeat winged
     enum msrBarlineRepeatWingedKind {
-      k_NoBarlineRepeatWinged,
       kBarlineRepeatWingedNone,
       kBarlineRepeatWingedStraight, kBarlineRepeatWingedCurved,
       kBarlineRepeatWingedDoubleStraight, kBarlineRepeatWingedDoubleCurved };
@@ -12418,16 +12416,16 @@ class msrPartGroup : public msrElement
       msrPartGroupImplicitKind partGroupImplicitKind);
       
     enum msrPartGroupTypeKind {
-        k_NoPartGroupType,
-        kStartPartGroupType, kStopPartGroupType};
+        kPartGroupTypeNone,
+        kPartGroupTypeStart, kPartGroupTypeStop };
           
     static string partGroupTypeKindAsString (
       msrPartGroupTypeKind partGroupTypeKind);
       
     enum msrPartGroupSymbolKind {
-        k_NoPartGroupSymbol,
-        kBracePartGroupSymbol, kBracketPartGroupSymbol,
-        kLinePartGroupSymbol, kSquarePartGroupSymbol};
+        kPartGroupSymbolNone,
+        kPartGroupSymbolBrace, kPartGroupSymbolBracket,
+        kPartGroupSymbolLine, kPartGroupSymbolSquare};
           
     static string partGroupSymbolKindAsString (
       msrPartGroupSymbolKind partGroupSymbolKind);
@@ -12573,6 +12571,8 @@ class msrPartGroup : public msrElement
     
     string                partGroupBarlineKindAsString () const;
 
+    string                asString ();
+    
     S_msrPart             appendPartToPartGroupByItsPartID (
                             int    inputLineNumber,
                             string partID);

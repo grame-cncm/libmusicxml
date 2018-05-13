@@ -4221,14 +4221,14 @@ void lpsrPartGroupBlock::print (ostream& os)
 {
   os <<
     endl <<
-    "PartGroupBlock" << " " <<
-    "for partGroup \"" <<
+    "PartGroupBlock for partGroup \"" <<
     fPartGroup->getPartGroupCombinedName () <<
     "\", " << fPartGroup->partGroupSymbolKindAsString () <<
     ", " <<
     singularOrPlural (
       fPartGroupBlockElements.size (), "element", "elements") <<
-    endl << endl;
+    endl <<
+    endl;
 
   gIndenter++;
 

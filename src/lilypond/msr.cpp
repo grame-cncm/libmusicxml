@@ -291,20 +291,20 @@ string msrOctaveShift::octaveShiftKindAsString () const
   string result;
   
   switch (fOctaveShiftKind) {
-    case k_NoOctaveShift:
-      result = "none";
+    case kOctaveShiftNone:
+      result = "octaveShiftNone";
       break;
     case kOctaveShiftUp:
-      result = "up";
+      result = "octaveShiftUp";
       break;
     case kOctaveShiftDown:
-      result = "down";
+      result = "octaveShiftDown";
       break;
     case kOctaveShiftStop:
-      result = "stop";
+      result = "octaveShiftStop";
       break;
     case kOctaveShiftContinue:
-      result = "continue";
+      result = "octaveShiftContinue";
       break;
   } // switch
 
@@ -760,20 +760,17 @@ string msrStem::stemKindAsString (
   string result;
   
   switch (stemKind) {
-    case k_NoStem:
-      result = "none";
+    case kStemNone:
+      result = "stemNone";
       break;
     case kStemUp:
-      result = "up";
+      result = "stemUp";
       break;
     case kStemDown:
-      result = "down";
-      break;
-    case kStemNone:
-      result = "none";
+      result = "stemDown";
       break;
     case kStemDouble:
-      result = "double";
+      result = "stemDouble";
       break;
   } // switch
 
@@ -2133,7 +2130,7 @@ string msrOrnament::ornamentAccidentalMarkAsString () const
       result = "tripleSharp";
       break;
     case k_NoAlteration:
-      result = "none";
+      result = "noAlteration";
       break;
   } // switch
 
@@ -3682,17 +3679,17 @@ string msrWedge::wedgeKindAsString ()
   string result;
   
   switch (fWedgeKind) {
-    case msrWedge::k_NoWedgeKind:
-      result = "none";
+    case msrWedge::kWedgeKindNone:
+      result = "wedgeKindNone";
       break;
-    case msrWedge::kCrescendoWedge:
-      result = "crescendo";
+    case msrWedge::kWedgeCrescendo:
+      result = "wedgeCrescendo";
       break;
-    case msrWedge::kDecrescendoWedge:
-      result = "decrescendo";
+    case msrWedge::kWedgeDecrescendo:
+      result = "wedgeDecrescendo";
       break;
-    case msrWedge::kStopWedge:
-      result = "stop";
+    case msrWedge::kWedgeStop:
+      result = "wedgeStop";
       break;
   } // switch
     
@@ -3837,8 +3834,8 @@ string msrTie::tieKindAsString (msrTieKind tieKind)
     case kTieStop:
       s << "tieStop";
       break;
-    case k_NoTie:
-      s << "k_NoTie???";
+    case kTieNone:
+      s << "tieNone";
   } // switch
     
   return s.str ();
@@ -5097,7 +5094,7 @@ void msrNote::initializeNote ()
   // ------------------------------------------------------
 
   fNoteAccidentalKind =
-    msrNote::k_NoNoteAccidental; // default value
+    msrNote::kNoteAccidentalNone; // default value
   
   fNoteEditorialAccidentalKind =
     msrNote::kNoteEditorialAccidentalNo; // default value
@@ -6168,112 +6165,112 @@ string msrNote::noteAccidentalKindAsString (
   string result;
   
   switch (noteAccidentalKind) {
-    case k_NoNoteAccidental:
-      result = "none";
+    case kNoteAccidentalNone:
+      result = "noteAccidentalNone";
       break;
       
     case kNoteAccidentalSharp:
-      result = "NoteAccidentalSharp";
+      result = "noteAccidentalSharp";
       break;
     case kNoteAccidentalNatural:
-      result = "NoteAccidentalNatural";
+      result = "noteAccidentalNatural";
       break;
     case kNoteAccidentalFlat:
-      result = "NoteAccidentalFlat";
+      result = "noteAccidentalFlat";
       break;
     case kNoteAccidentaldoubleSharp:
-      result = "NoteAccidentaldoubleSharp";
+      result = "noteAccidentaldoubleSharp";
       break;
     case kNoteAccidentalSharpSharp:
-      result = "NoteAccidentalSharpSharp";
+      result = "noteAccidentalSharpSharp";
       break;
     case kNoteAccidentalFlatFlat:
-      result = "NoteAccidentalFlatFlat";
+      result = "noteAccidentalFlatFlat";
       break;
     case kNoteAccidentalNaturalSharp:
-      result = "NoteAccidentalNaturalSharp";
+      result = "noteAccidentalNaturalSharp";
       break;
     case kNoteAccidentalNaturalFlat:
-      result = "NoteAccidentalNaturalFlat";
+      result = "noteAccidentalNaturalFlat";
       break;
     case kNoteAccidentalQuarterFlat:
-      result = "NoteAccidentalQuarterFlat";
+      result = "noteAccidentalQuarterFlat";
       break;
     case kNoteAccidentalQuarterSharp:
-      result = "NoteAccidentalQuarterSharp";
+      result = "noteAccidentalQuarterSharp";
       break;
     case kNoteAccidentalThreeQuartersFlat:
-      result = "NoteAccidentalThreeQuartersFlat";
+      result = "noteAccidentalThreeQuartersFlat";
       break;
     case kNoteAccidentalThreeQuartersSharp:
-      result = "NoteAccidentalThreeQuartersSharp";
+      result = "noteAccidentalThreeQuartersSharp";
       break;
       
     case kNoteAccidentalSharpDown:
-      result = "NoteAccidentalSharpDown";
+      result = "noteAccidentalSharpDown";
       break;
     case kNoteAccidentalSharpUp:
-      result = "NoteAccidentalSharpUp";
+      result = "noteAccidentalSharpUp";
       break;
     case kNoteAccidentalNaturalDown:
-      result = "NoteAccidentalNaturalDown";
+      result = "noteAccidentalNaturalDown";
       break;
     case kNoteAccidentalNaturalUp:
-      result = "NoteAccidentalNaturalUp";
+      result = "noteAccidentalNaturalUp";
       break;
     case kNoteAccidentalFlatDown:
-      result = "NoteAccidentalFlatDown";
+      result = "noteAccidentalFlatDown";
       break;
     case kNoteAccidentalFlatUp:
-      result = "NoteAccidentalFlatUp";
+      result = "noteAccidentalFlatUp";
       break;
     case kNoteAccidentalTripleSharp:
-      result = "NoteAccidentalTripleSharp";
+      result = "noteAccidentalTripleSharp";
       break;
     case kNoteAccidentalTripleFlat:
-      result = "NoteAccidentalTripleFlat";
+      result = "noteAccidentalTripleFlat";
       break;
     case kNoteAccidentalSlashQuarterSharp:
-      result = "NoteAccidentalSlashQuarterSharp";
+      result = "noteAccidentalSlashQuarterSharp";
       break;
     case kNoteAccidentalSlashSharp:
-      result = "NoteAccidentalSlashSharp";
+      result = "noteAccidentalSlashSharp";
       break;
     case kNoteAccidentalSlashFlat:
-      result = "NoteAccidentalSlashFlat";
+      result = "noteAccidentalSlashFlat";
       break;
     case kNoteAccidentaldoubleSlashFlat:
-      result = "NoteAccidentaldoubleSlashFlat";
+      result = "noteAccidentaldoubleSlashFlat";
       break;
     case kNoteAccidentalSharp_1:
-      result = "NoteAccidentalSharp_1";
+      result = "noteAccidentalSharp_1";
       break;
     case kNoteAccidentalSharp_2:
-      result = "NoteAccidentalSharp_2";
+      result = "noteAccidentalSharp_2";
       break;
     case kNoteAccidentalSharp_3:
-      result = "NoteAccidentalSharp_3";
+      result = "noteAccidentalSharp_3";
       break;
     case kNoteAccidentalSharp_5:
-      result = "NoteAccidentalSharp_5";
+      result = "noteAccidentalSharp_5";
       break;
     case kNoteAccidentalFlat_1:
-      result = "NoteAccidentalFlat_1";
+      result = "noteAccidentalFlat_1";
       break;
     case kNoteAccidentalFlat_2:
-      result = "NoteAccidentalFlat_2";
+      result = "noteAccidentalFlat_2";
       break;
     case kNoteAccidentalFlat_3:
-      result = "NoteAccidentalFlat_3";
+      result = "noteAccidentalFlat_3";
       break;
     case kNoteAccidentalFlat_4:
-      result = "NoteAccidentalFlat_4";
+      result = "noteAccidentalFlat_4";
       break;
     case kNoteAccidentalSori:
-      result = "NoteAccidentalSori";
+      result = "noteAccidentalSori";
       break;
     case kNoteAccidentalKoron:
-      result = "NoteAccidentalKoron";
+      result = "noteAccidentalKoron";
       break;
   } // switch
 
@@ -10746,20 +10743,20 @@ string msrTuplet::tupletTypeKindAsString (
   string result;
 
   switch (tupletTypeKind) {
-    case msrTuplet::k_NoTupletType:
-      result = "none";
+    case msrTuplet::kTupletTypeNone:
+      result = "tupletTypeNone";
       break;
     case msrTuplet::kTupletTypeStart:
-      result = "start";
+      result = "tupletTypeStart";
       break;
     case msrTuplet::kTupletTypeContinue:
-      result = "continue";
+      result = "tupletTypeContinue";
       break;
     case msrTuplet::kTupletTypeStop:
-      result = "stop";
+      result = "tupletTypeStop";
       break;
     case msrTuplet::kTupletTypeStartAndStopInARow:
-      result = "startAndStopInARow";
+      result = "tupletTypeStartAndStopInARow";
       break;
   } // switch
 
@@ -11608,8 +11605,8 @@ string msrGlissando::glissandoTypeKindAsString (
   string result;
 
   switch (glissandoTypeKind) {
-    case msrGlissando::k_NoGlissandoType:
-      result = "none";
+    case msrGlissando::kGlissandoTypeNone:
+      result = "glissandoTypeNone";
       break;
     case msrGlissando::kGlissandoTypeStart:
       result = "glissandoTypeStart";
@@ -11756,8 +11753,8 @@ string msrSlide::slideTypeKindAsString (
   string result;
 
   switch (slideTypeKind) {
-    case msrSlide::k_NoSlideType:
-      result = "none";
+    case msrSlide::kSlideTypeNone:
+      result = "slideTypeNone";
       break;
     case msrSlide::kSlideTypeStart:
       result = "slideTypeStart";
@@ -13951,7 +13948,7 @@ S_msrTime msrTime::createFourQuartersTime (
     time =
       msrTime::create (
         inputLineNumber,
-        msrTime::k_NoTimeSymbol);
+        msrTime::kTimeSymbolNone);
 
   // create a four quarters time item
   S_msrTimeItem
@@ -14128,25 +14125,25 @@ string msrTime::timeSymbolKindAsString (
  
   switch (timeSymbolKind) {
     case msrTime::kTimeSymbolCommon:
-      result = "common";
+      result = "timeSymbolCommon";
       break;
     case msrTime::kTimeSymbolCut:
-      result = "cut";
+      result = "timeSymbolCut";
       break;
     case msrTime::kTimeSymbolNote:
-      result = "note";
+      result = "timeSymbolNote";
       break;
     case msrTime::kTimeSymbolDottedNote:
-      result = "dotted note";
+      result = "timeSymbolDottedNote";
       break;
     case msrTime::kTimeSymbolSingleNumber:
-      result = "single number";
+      result = "timeSymbolSingleNumber";
       break;
     case msrTime::kTimeSymbolSenzaMisura:
-      result = "senza misura";
+      result = "timeSymbolSenzaMisura";
       break;
-    case msrTime::k_NoTimeSymbol:
-      result = "none";
+    case msrTime::kTimeSymbolNone:
+      result = "timeSymbolNone";
       break;
   } // switch
 
@@ -14159,20 +14156,20 @@ string msrTime::timeSeparatorKindAsString (
   string result;
  
   switch (timeSeparatorKind) {
-    case msrTime::k_NoTimeSeparator:
-      result = "none";
+    case msrTime::kTimeSeparatorNone:
+      result = "timeSeparatorNone";
       break;
     case msrTime::kTimeSeparatorHorizontal:
-      result = "horizontal";
+      result = "timeSeparatorHorizontal";
       break;
     case msrTime::kTimeSeparatorDiagonal:
-      result = "diagonal";
+      result = "timeSeparatorDiagonal";
       break;
     case msrTime::kTimeSeparatorVertical:
-      result = "vertical";
+      result = "timeSeparatorVertical";
       break;
     case msrTime::kTimeSeparatorAdjacent:
-      result = "adjacent";
+      result = "timeSeparatorAdjacent";
       break;
   } // switch
 
@@ -14185,26 +14182,26 @@ string msrTime::timeRelationKindAsString (
   string result;
  
   switch (timeRelationKind) {
-    case msrTime::k_NoTimeRelation:
-      result = "none";
+    case msrTime::kTimeRelationNone:
+      result = "timeRelationNone";
       break;
     case msrTime::kTimeRelationParentheses:
-      result = "parentheses";
+      result = "timeRelationParentheses";
       break;
     case msrTime::kTimeRelationBracket:
-      result = "bracket";
+      result = "timeRelationBracket";
       break;
     case msrTime::kTimeRelationEquals:
-      result = "equals";
+      result = "timeRelationEquals";
       break;
     case msrTime::kTimeRelationSlash:
-      result = "slash";
+      result = "timeRelationSlash";
       break;
     case msrTime::kTimeRelationSpace:
-      result = "space";
+      result = "timeRelationSpace";
       break;
     case msrTime::kTimeRelationHyphen:
-      result = "hyphen";
+      result = "timeRelationHyphen";
       break;
   } // switch
 
@@ -14940,14 +14937,14 @@ string msrTempoTuplet::tempoTupletTypeKindAsString (
   string result;
 
   switch (tempoTupletTypeKind) {
-    case msrTempoTuplet::k_NoTempoTupletType:
-      result = "none";
+    case msrTempoTuplet::kTempoTupletTypeNone:
+      result = "tempoTupletTypeNone";
       break;
     case msrTempoTuplet::kTempoTupletTypeStart:
-      result = "start";
+      result = "tempoTupletTypeStart";
       break;
     case msrTempoTuplet::kTempoTupletTypeStop:
-      result = "stop";
+      result = "tempoTupletTypeStop";
       break;
   } // switch
 
@@ -15890,8 +15887,8 @@ string msrTempo::tempoRelationAsString (
     case msrTempo::kTempoRelationEquals:
       result = "tempoRelationEquals";
       break;
-    case msrTempo::k_NoTempoRelation:
-      result = "k_NoTempoRelation???";
+    case msrTempo::kTempoRelationNone:
+      result = "tempoRelationNone";
       break;
   } // switch
 
@@ -16357,8 +16354,8 @@ string msrSyllable::syllableKindAsString (
       result = "syllablePageBreak";
       break;
       
-    case msrSyllable::k_NoSyllable:
-      result = "noSyllable ???";
+    case msrSyllable::kSyllableNone:
+      result = "syllableNone";
       break;
   } // switch
 
@@ -16388,8 +16385,8 @@ string msrSyllable::syllableExtendKindAsString (
     case msrSyllable::kSyllableExtendStop:
       result = "syllableExtendStop";
       break;
-    case msrSyllable::k_NoSyllableExtend:
-      result = "noSyllableExtend";
+    case msrSyllable::kSyllableExtendNone:
+      result = "syllableExtendNone";
       break;
   } // switch
 
@@ -16464,7 +16461,7 @@ string msrSyllable::asString () const
         " measure " << "fSyllableText ???";
       break;
       
-    case msrSyllable::k_NoSyllable:
+    case msrSyllable::kSyllableNone:
       msrInternalError (
         gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
@@ -16544,7 +16541,7 @@ void msrSyllable::print (ostream& os)
         " measure " << "fSyllableText ???";
       break;
       
-    case k_NoSyllable:
+    case kSyllableNone:
       msrInternalError (
         gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
@@ -16754,7 +16751,7 @@ void msrStanza::appendSyllableToStanza (
     case msrSyllable::kSyllablePageBreak:
       break;
       
-    case msrSyllable::k_NoSyllable:
+    case msrSyllable::kSyllableNone:
       msrInternalError (
         gXml2lyOptions->fInputSourceName,
         fInputLineNumber,
@@ -16783,7 +16780,7 @@ S_msrSyllable msrStanza::appendRestSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSyllableSkip, // JMI ??? kSyllableRest,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         wholeNotes,
         this);
 
@@ -16813,7 +16810,7 @@ S_msrSyllable msrStanza::appendSkipSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSyllableSkip,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         wholeNotes,
         this);
 
@@ -16841,7 +16838,7 @@ S_msrSyllable msrStanza::appendMeasureEndSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSyllableMeasureEnd,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         0, // wholeNotes
         this);
 
@@ -16875,7 +16872,7 @@ S_msrSyllable msrStanza::appendMelismaSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         syllableKind,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         wholeNotes,
         this);
 
@@ -16903,7 +16900,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSyllableLineBreak,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         0,
         this);
 
@@ -16934,7 +16931,7 @@ S_msrSyllable msrStanza::appendTiedSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kTiedSyllable,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         wholeNotes,
         this);
         
@@ -16964,7 +16961,7 @@ S_msrSyllable msrStanza::appendSlurSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSlurSyllable,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         wholeNotes,
         this);
         
@@ -16994,7 +16991,7 @@ S_msrSyllable msrStanza::appendSlurBeyondEndSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kSlurBeyondEndSyllable,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         wholeNotes,
         this);
         
@@ -17024,7 +17021,7 @@ S_msrSyllable msrStanza::appendLigatureSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kLigatureSyllable,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         wholeNotes,
         this);
         
@@ -17054,7 +17051,7 @@ S_msrSyllable msrStanza::appendLigatureBeyondEndSyllableToStanza (
       msrSyllable::create (
         inputLineNumber,
         msrSyllable::kLigatureBeyondEndSyllable,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         wholeNotes,
         this);
         
@@ -17084,7 +17081,7 @@ S_msrSyllable msrStanza::appendBarcheckSyllableToStanza (
         inputLineNumber,
         msrSyllable::kBarcheckSyllable,
  // JMI       nextMeasureNumber,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         0,  // wholeNotes
         this);
        
@@ -17114,7 +17111,7 @@ S_msrSyllable msrStanza::appendBarNumberCheckSyllableToStanza (
         inputLineNumber,
         msrSyllable::kBarNumberCheckSyllable,
  // JMI  nextMeasureNumber,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         0,  // wholeNotes
         this);
        
@@ -17145,7 +17142,7 @@ S_msrSyllable msrStanza::appendLineBreakSyllableToStanza (
         inputLineNumber,
         msrSyllable::kSyllableLineBreak,
  // JMI  nextMeasureNumber,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         0,  // wholeNotes
         this);
         
@@ -17175,7 +17172,7 @@ S_msrSyllable msrStanza::appendPageBreakSyllableToStanza (
         inputLineNumber,
         msrSyllable::kSyllablePageBreak,
  // JMI  nextMeasureNumber,
-        msrSyllable::k_NoSyllableExtend,
+        msrSyllable::kSyllableExtendNone,
         0,  // wholeNotes
         this);
         
@@ -18037,8 +18034,8 @@ string msrFrameNote::barreTypeKindAsString (
   string result;
   
   switch (barreTypeKind) {
-    case msrFrameNote::k_NoBarreType:
-      result = "k_NoBarreType";
+    case msrFrameNote::kBarreTypeNone:
+      result = "barreTypeNone";
       break;
     case msrFrameNote::kBarreTypeStart:
       result = "barreTypeStart";
@@ -18205,7 +18202,7 @@ void msrFrame::appendFrameNoteToFrame (
 
   // handle nested barre start/stop
   switch (frameNote->getFrameNoteBarreTypeKind ()) {
-    case msrFrameNote::k_NoBarreType:
+    case msrFrameNote::kBarreTypeNone:
       break;
       
     case msrFrameNote::kBarreTypeStart:
@@ -19708,8 +19705,8 @@ string msrBarline::barlineLocationKindAsString (
   string result;
   
   switch (barlineLocationKind) {
-    case k_NoBarlineLocation:
-      result = "noBarlineLocation";
+    case kBarlineLocationNone:
+      result = "barlineLocationNone";
       break;
     case kBarlineLocationLeft:
       result = "barlineLocationLeft";
@@ -19797,8 +19794,8 @@ string msrBarline::barlineStyleKindAsString (
   string result;
   
   switch (barlineStyleKind) {
-    case msrBarline::k_NoBarlineStyle:
-      result = "NoBarlineStyle";
+    case msrBarline::kBarlineStyleNone:
+      result = "barlineStyleNone";
       break;
     case msrBarline::kBarlineStyleRegular:
       result = "barlineStyleRegular";
@@ -19830,9 +19827,6 @@ string msrBarline::barlineStyleKindAsString (
     case msrBarline::kBarlineStyleShort:
       result = "barlineStyleShort";
       break;
-    case msrBarline::kBarlineStyleNone:
-      result = "barlineStyleNone";
-      break;
   } // switch
 
   return result;
@@ -19844,8 +19838,8 @@ string msrBarline::barlineEndingTypeKindAsString (
   string result;
   
   switch (barlineEndingTypeKind) {
-    case msrBarline::k_NoBarlineEnding:
-      result = "noBarlineEnding";
+    case msrBarline::kBarlineEndingNone:
+      result = "barlineEndingNone";
       break;
     case msrBarline::kBarlineEndingTypeStart:
       result = "barlineEndingTypeStart";
@@ -19867,8 +19861,8 @@ string msrBarline::barlineRepeatDirectionKindAsString (
   string result;
   
   switch (barlineRepeatDirectionKind) {
-    case msrBarline::k_NoBarlineRepeatDirection:
-      result ="noBarlineRepeatDirection";
+    case msrBarline::kBarlineRepeatDirectionNone:
+      result ="barlineRepeatDirectionNone";
       break;
     case msrBarline::kBarlineRepeatDirectionForward:
       result ="barlineRepeatDirectionForward";
@@ -19887,9 +19881,6 @@ string msrBarline::barlineRepeatWingedKindAsString (
   string result;
   
   switch (barlineRepeatWingedKind) {
-    case msrBarline::k_NoBarlineRepeatWinged:
-      result = "noBarlineRepeatWinged";
-      break;
     case msrBarline::kBarlineRepeatWingedNone:
       result = "barlineRepeatWingedNone";
       break;
@@ -36411,19 +36402,19 @@ S_msrPartGroup msrPartGroup::createImplicitPartGroup (
 {
   msrPartGroup* o =
     new msrPartGroup (
-      0,                                 // inputLineNumber
+      0,                                  // inputLineNumber
       partGroupNumber,
       partGroupAbsoluteNumber,
       partGroupName,
       partGroupNameDisplayText,
       partGroupAccidentalText,
       partGroupAbbreviation,
-      msrPartGroup::k_NoPartGroupSymbol, // partGroupSymbolKind
-      0,                                 // partGroupSymbolDefaultX,
+      msrPartGroup::kPartGroupSymbolNone, // partGroupSymbolKind
+      0,                                  // partGroupSymbolDefaultX,
       msrPartGroup::kPartGroupImplicitYes,
       partGroupBarlineKind,
-      0,                                 // partGroupPartGroupUplink,
-                                         // will be set below
+      0,                                  // partGroupPartGroupUplink,
+                                          // will be set below
       partGroupScoreUplink);
   assert(o!=0);
 
@@ -37090,14 +37081,14 @@ string msrPartGroup::partGroupTypeKindAsString (
   string result;
   
   switch (partGroupTypeKind) {
-    case msrPartGroup::k_NoPartGroupType:
-      result = "none";
+    case msrPartGroup::kPartGroupTypeNone:
+      result = "partGroupTypeNone";
       break;
-    case msrPartGroup::kStartPartGroupType:
-      result = "start";
+    case msrPartGroup::kPartGroupTypeStart:
+      result = "partGroupTypeStart";
       break;
-    case msrPartGroup::kStopPartGroupType:
-      result = "stop";
+    case msrPartGroup::kPartGroupTypeStop:
+      result = "partGroupTypeStop";
       break;
   } // switch
 
@@ -37111,26 +37102,38 @@ string msrPartGroup::partGroupBarlineKindAsString () const
       fPartGroupBarlineKind);
 }
 
+string msrPartGroup::asString ()
+{
+  stringstream s;
+
+  s <<
+    "PartGroup " <<
+    fPartGroupName <<
+    ", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
 string msrPartGroup::partGroupSymbolKindAsString (
   msrPartGroupSymbolKind partGroupSymbolKind)
 {
   string result;
   
   switch (partGroupSymbolKind) {
-    case msrPartGroup::k_NoPartGroupSymbol:
-      result = "none";
+    case msrPartGroup::kPartGroupSymbolNone:
+      result = "partGroupSymbolNone";
       break;
-    case msrPartGroup::kBracePartGroupSymbol:
-      result = "brace";
+    case msrPartGroup::kPartGroupSymbolBrace:
+      result = "partGroupSymbolBrace";
       break;
-    case msrPartGroup::kBracketPartGroupSymbol:
-      result = "bracket";
+    case msrPartGroup::kPartGroupSymbolBracket:
+      result = "partGroupSymbolBracket";
       break;
-    case msrPartGroup::kLinePartGroupSymbol:
-      result = "line";
+    case msrPartGroup::kPartGroupSymbolLine:
+      result = "partGroupSymbolLine";
       break;
-    case msrPartGroup::kSquarePartGroupSymbol:
-      result = "square";
+    case msrPartGroup::kPartGroupSymbolSquare:
+      result = "partGroupSymbolSquare";
       break;
   } // switch
 

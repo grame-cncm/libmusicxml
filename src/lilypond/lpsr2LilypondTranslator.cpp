@@ -168,7 +168,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fCurrentArpeggioDirectionKind = kDirectionNone;
 
   // stems
-  fCurrentStemKind = msrStem::k_NoStem;
+  fCurrentStemKind = msrStem::kStemNone;
 //  fOnGoingStemNone = false; JMI
 
   // double tremolos
@@ -610,7 +610,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
     stemKind =
       fCurrentStem
         ? fCurrentStem->getStemKind ()
-        : msrStem::k_NoStem;
+        : msrStem::kStemNone;
 
   // handle note kind before printing note itself
   switch (note->getNoteKind ()) {
@@ -662,7 +662,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                 // should stem direction be generated?
                 if (stemKind != fCurrentStemKind) {
                   switch (stemKind) {
-                    case msrStem::k_NoStem:
+                    case msrStem::kStemNone:
                       fLilypondCodeIOstream << "\\stemNeutral ";
                       break;
                     case msrStem::kStemUp:
@@ -670,8 +670,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                       break;
                     case msrStem::kStemDown:
                       fLilypondCodeIOstream << "\\stemDown ";
-                      break;
-                    case msrStem::kStemNone:
                       break;
                     case msrStem::kStemDouble: // JMI ???
                       break;
@@ -704,7 +702,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             // should stem direction be generated?
             if (stemKind != fCurrentStemKind) {
               switch (stemKind) {
-                case msrStem::k_NoStem:
+                case msrStem::kStemNone:
                   fLilypondCodeIOstream << "\\stemNeutral ";
                   break;
                 case msrStem::kStemUp:
@@ -713,8 +711,10 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                 case msrStem::kStemDown:
                   fLilypondCodeIOstream << "\\stemDown ";
                   break;
+                  /* JMI
                 case msrStem::kStemNone:
                   break;
+                  */
                 case msrStem::kStemDouble: // JMI ???
                   break;
               } // switch
@@ -1025,7 +1025,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       case msrStem::kStemNone:
         break;
         
-      case msrStem::k_NoStem:
+// JMI      case msrStem::kStemNone:
       case msrStem::kStemUp:
       case msrStem::kStemDown:
       case msrStem::kStemDouble:
@@ -1148,7 +1148,7 @@ string lpsr2LilypondTranslator::notePitchAsLilypondString (
 
   // should an accidental be generated? JMI this can be fine tuned with cautionary
   switch (note->getNoteAccidentalKind ()) {
-    case msrNote::k_NoNoteAccidental:
+    case msrNote::kNoteAccidentalNone:
       break;
     default:
       s <<
@@ -3493,9 +3493,16 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrParallelMusicBLock& elt)
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 {
+  // fetch part group
+  S_msrPartGroup
+    partGroup =
+      elt->getPartGroup ();
+
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrPartGroupBlock" <<
+      " for part group " <<
+      partGroup->asShortString () <<
       endl;
   }
 
@@ -3504,11 +3511,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   fNumberOfPartGroupBlockElements =
     elt -> getPartGroupBlockElements ().size ();
     
-  // fetch part group
-  S_msrPartGroup
-    partGroup =
-      elt->getPartGroup ();
-
 // JMI  fLilypondCodeIOstream << endl << endl << partGroup << endl << endl;
 
   msrPartGroup::msrPartGroupImplicitKind
@@ -3530,9 +3532,11 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
     partGroupName =
       partGroup->
         getPartGroupName (),
+
     partGroupAbbreviation =
       partGroup->
         getPartGroupAbbreviation (),
+        
     partGroupInstrumentName =
       partGroup->
         getPartGroupInstrumentName ();
@@ -3551,10 +3555,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       }
       
       switch (partGroupSymbolKind) {
-        case msrPartGroup::k_NoPartGroupSymbol:
+        case msrPartGroup::kPartGroupSymbolNone:
           break;
           
-        case msrPartGroup::kBracePartGroupSymbol: // JMI
+        case msrPartGroup::kPartGroupSymbolBrace: // JMI
           switch (partGroupBarlineKind) {
             case msrPartGroup::kPartGroupBarlineYes:
               fLilypondCodeIOstream <<
@@ -3567,7 +3571,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           } // switch
           break;
           
-        case msrPartGroup::kBracketPartGroupSymbol:
+        case msrPartGroup::kPartGroupSymbolBracket:
           switch (partGroupBarlineKind) {
             case msrPartGroup::kPartGroupBarlineYes:
               fLilypondCodeIOstream <<
@@ -3580,22 +3584,29 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
           } // switch
           break;
           
-        case msrPartGroup::kLinePartGroupSymbol:
+        case msrPartGroup::kPartGroupSymbolLine:
           fLilypondCodeIOstream <<
             "\\new StaffGroup";
           break;
         
-        case msrPartGroup::kSquarePartGroupSymbol:
+        case msrPartGroup::kPartGroupSymbolSquare:
           fLilypondCodeIOstream <<
             "\\new StaffGroup";
           break;
       } // switch
 
       // generate the '\with' block beginning
-      fLilypondCodeIOstream <<
-        endl <<
-        "\\with {" <<
-        endl;
+      // if the part group is not implicit
+      switch (partGroup->getPartGroupImplicitKind ()) {
+        case msrPartGroup::kPartGroupImplicitYes:
+          break;
+        case msrPartGroup::kPartGroupImplicitNo:
+          fLilypondCodeIOstream <<
+            endl <<
+            "\\with {" <<
+            endl;
+          break;
+      } // switch
 
       gIndenter++;
 
@@ -3615,10 +3626,10 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       }
             
       switch (partGroupSymbolKind) {
-        case msrPartGroup::k_NoPartGroupSymbol:
+        case msrPartGroup::kPartGroupSymbolNone:
           break;
           
-        case msrPartGroup::kBracePartGroupSymbol: // JMI
+        case msrPartGroup::kPartGroupSymbolBrace: // JMI
           /*
            *
            * check whether individual part have instrument names JMI
@@ -3630,20 +3641,20 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
               */
           break;
           
-        case msrPartGroup::kBracketPartGroupSymbol:
+        case msrPartGroup::kPartGroupSymbolBracket:
           break;
           
-        case msrPartGroup::kLinePartGroupSymbol:
+        case msrPartGroup::kPartGroupSymbolLine:
           fLilypondCodeIOstream <<
-            "%kLinePartGroupSymbol" <<
+            "%kPartGroupSymbolLine" <<
             endl <<
             "systemStartDelimiter = #'SystemStartBar" <<
             endl;
           break;
         
-        case msrPartGroup::kSquarePartGroupSymbol:
+        case msrPartGroup::kPartGroupSymbolSquare:
           fLilypondCodeIOstream <<
-            "%kSquarePartGroupSymbol" <<
+            "%kPartGroupSymbolSquare" <<
             endl <<
             "systemStartDelimiter = #'SystemStartSquare" <<
             endl;
@@ -3653,10 +3664,17 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       gIndenter--;
 
       // generate the '\with' block ending      
-      fLilypondCodeIOstream <<
-        endl <<
-        "}" <<
-        endl;
+      // if the part group is not implicit
+      switch (partGroup->getPartGroupImplicitKind ()) {
+        case msrPartGroup::kPartGroupImplicitYes:
+          break;
+        case msrPartGroup::kPartGroupImplicitNo:
+          fLilypondCodeIOstream <<
+            endl <<
+            "}" <<
+            endl;
+          break;
+      } // switch
 
       if (gLilypondOptions->fComments) {
         fLilypondCodeIOstream << left <<
@@ -3682,14 +3700,14 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       endl;
   }
 
-  bool doConnectArpeggios = true; // JMI
+  bool doConnectArpeggios = false; // JMI
   
   if (doConnectArpeggios)
     fLilypondCodeIOstream <<
       "\\set PianoStaff.connectArpeggios = ##t" <<
       endl;
 
-  if (partGroupSymbolKind == msrPartGroup::kSquarePartGroupSymbol) { // JMI
+  if (partGroupSymbolKind == msrPartGroup::kPartGroupSymbolSquare) { // JMI
     gIndenter++;
     fLilypondCodeIOstream <<
       "systemStartDelimiter = #'SystemStartSquare" <<
@@ -5870,7 +5888,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
             endl;
           break;
     
-        case msrSyllable::k_NoSyllable: // JMI
+        case msrSyllable::kSyllableNone: // JMI
           break;
       } // switch
 
@@ -5911,7 +5929,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrSyllable& elt)
           }
           break;
           
-        case msrSyllable::k_NoSyllableExtend:
+        case msrSyllable::kSyllableExtendNone:
           break;
       } // switch
       
@@ -6220,7 +6238,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
           break;
         case msrTime::kTimeSymbolSenzaMisura:
           break;
-        case msrTime::k_NoTimeSymbol:
+        case msrTime::kTimeSymbolNone:
           break;
       } // switch
   
@@ -6241,7 +6259,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTime& elt)
     
         // should the time be numeric?
         if (
-          timeSymbolKind == msrTime::k_NoTimeSymbol
+          timeSymbolKind == msrTime::kTimeSymbolNone
             ||
           gLilypondOptions->fNumericalTime) {
           fLilypondCodeIOstream <<
@@ -7793,10 +7811,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       S_msrWedge wedge = (*i);
       
       switch (wedge->getWedgeKind ()) {
-        case msrWedge::k_NoWedgeKind:
+        case msrWedge::kWedgeKindNone:
           break;
           
-        case msrWedge::kCrescendoWedge:
+        case msrWedge::kWedgeCrescendo:
           switch (wedge->getWedgeNienteKind ()) {
             case msrWedge::kWedgeNienteYes:
               fLilypondCodeIOstream <<
@@ -7809,7 +7827,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             } // switch
           break;
 
-        case msrWedge::kDecrescendoWedge:
+        case msrWedge::kWedgeDecrescendo:
           switch (wedge->getWedgeNienteKind ()) {
             case msrWedge::kWedgeNienteYes:
               fLilypondCodeIOstream <<
@@ -7822,7 +7840,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
             } // switch
           break;
           
-        case msrWedge::kStopWedge:
+        case msrWedge::kWedgeStop:
         /* JMI
           fLilypondCodeIOstream <<
             "\\! ";
@@ -7897,7 +7915,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       S_msrGlissando glissando = (*i);
         
       switch (glissando->getGlissandoTypeKind ()) {
-        case msrGlissando::k_NoGlissandoType:
+        case msrGlissando::kGlissandoTypeNone:
           break;
           
         case msrGlissando::kGlissandoTypeStart:
@@ -7946,7 +7964,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       S_msrSlide slide = (*i);
         
       switch (slide->getSlideTypeKind ()) {
-        case msrSlide::k_NoSlideType:
+        case msrSlide::kSlideTypeNone:
           break;
           
         case msrSlide::kSlideTypeStart:
@@ -8276,7 +8294,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     stemKind = // JMI
       fCurrentStem
         ? fCurrentStem->getStemKind ()
-        : msrStem::k_NoStem;
+        : msrStem::kStemNone;
 */
 
 /* JMI
@@ -8691,10 +8709,10 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       S_msrWedge wedge = (*i);
       
       switch (wedge->getWedgeKind ()) {
-        case msrWedge::k_NoWedgeKind:
+        case msrWedge::kWedgeKindNone:
           break;
           
-        case msrWedge::kCrescendoWedge:
+        case msrWedge::kWedgeCrescendo:
           switch (wedge->getWedgePlacementKind ()) {
             case kPlacementNone:
               break;
@@ -8711,7 +8729,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             "\\< ";
           break;
 
-        case msrWedge::kDecrescendoWedge:
+        case msrWedge::kWedgeDecrescendo:
           switch (wedge->getWedgePlacementKind ()) {
             case kPlacementNone:
               break;
@@ -8728,7 +8746,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             "\\> ";
           break;
           
-        case msrWedge::kStopWedge:
+        case msrWedge::kWedgeStop:
           fLilypondCodeIOstream <<
             "\\! ";
           break;
@@ -8750,7 +8768,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       S_msrGlissando glissando = (*i);
         
       switch (glissando->getGlissandoTypeKind ()) {
-        case msrGlissando::k_NoGlissandoType:
+        case msrGlissando::kGlissandoTypeNone:
           break;
           
         case msrGlissando::kGlissandoTypeStart:
@@ -8779,7 +8797,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       S_msrSlide slide = (*i);
         
       switch (slide->getSlideTypeKind ()) {
-        case msrSlide::k_NoSlideType:
+        case msrSlide::kSlideTypeNone:
           break;
           
         case msrSlide::kSlideTypeStart:
@@ -8867,7 +8885,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
     "\\ottava #";
     
   switch (elt->getOctaveShiftKind ()) {
-    case msrOctaveShift::k_NoOctaveShift:
+    case msrOctaveShift::kOctaveShiftNone:
       break;
     case msrOctaveShift::kOctaveShiftUp:
       fLilypondCodeIOstream <<
@@ -9077,7 +9095,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       S_msrGlissando glissando = (*i);
         
       switch (glissando->getGlissandoTypeKind ()) {
-        case msrGlissando::k_NoGlissandoType:
+        case msrGlissando::kGlissandoTypeNone:
           break;
           
         case msrGlissando::kGlissandoTypeStart:
@@ -9120,7 +9138,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       S_msrSlide slide = (*i);
         
       switch (slide->getSlideTypeKind ()) {
-        case msrSlide::k_NoSlideType:
+        case msrSlide::kSlideTypeNone:
           break;
           
         case msrSlide::kSlideTypeStart:
@@ -9581,15 +9599,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i++) {
         
       switch ((*i)->getWedgeKind ()) {
-        case msrWedge::k_NoWedgeKind:
+        case msrWedge::kWedgeKindNone:
           break;
-        case msrWedge::kCrescendoWedge:
+        case msrWedge::kWedgeCrescendo:
           fLilypondCodeIOstream << "\\< ";
           break;
-        case msrWedge::kDecrescendoWedge:
+        case msrWedge::kWedgeDecrescendo:
           fLilypondCodeIOstream << "\\> ";
           break;
-        case msrWedge::kStopWedge:
+        case msrWedge::kWedgeStop:
           fLilypondCodeIOstream << "\\! ";
           break;
       } // switch
@@ -9610,7 +9628,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       S_msrGlissando glissando = (*i);
         
       switch (glissando->getGlissandoTypeKind ()) {
-        case msrGlissando::k_NoGlissandoType:
+        case msrGlissando::kGlissandoTypeNone:
           break;
           
         case msrGlissando::kGlissandoTypeStart:
@@ -9639,7 +9657,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       S_msrSlide slide = (*i);
         
       switch (slide->getSlideTypeKind ()) {
-        case msrSlide::k_NoSlideType:
+        case msrSlide::kSlideTypeNone:
           break;
           
         case msrSlide::kSlideTypeStart:
@@ -9874,7 +9892,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTie& elt)
   }
   
   switch (elt->getTieKind ()) {
-    case msrTie::k_NoTie:
+    case msrTie::kTieNone:
       break;
     case msrTie::kTieStart:
  // JMI     fLilypondCodeIOstream << "~ "; // JMI
@@ -10013,7 +10031,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
         */
       
       switch (elt->getBarlineStyleKind ()) {
-        case msrBarline::k_NoBarlineStyle:
+        case msrBarline::kBarlineStyleNone:
           break;
         case msrBarline::kBarlineStyleRegular:
           fLilypondCodeIOstream << "\\bar \"|\" ";
@@ -10048,9 +10066,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrBarline& elt)
           // \bar "/" is the custom short barline
           fLilypondCodeIOstream << "\\bar \"/\" ";
           break;
+          /* JMI
         case msrBarline::kBarlineStyleNone:
           fLilypondCodeIOstream << "\\bar \"\" ";
           break;
+          */
       } // switch
 
       if (gLilypondOptions->fNoteInputLineNumbers) {
@@ -10985,7 +11005,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrMidi& elt)
         }
         break;
         
-      case msrStem::k_NoStem:
+      case msrStem::kStemNone:
       case msrStem::kStemUp:
       case msrStem::kStemDown:
       case msrStem::kStemDouble:
