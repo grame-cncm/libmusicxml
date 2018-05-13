@@ -498,35 +498,75 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
           break;
           
         case msrLigature::kLigatureStart:
-          // generate ligature line end type if any
-          switch (ligature->getLigatureLineEndKind ()) {
-            case msrLigature::kLigatureLineEndUp:
-              fLilypondCodeIOstream <<
-                endl <<
-                "\\once \\override Staff.LigatureBracket.edge-height = #'(.7 . .7)" <<
-                endl;
-              break;
-            case msrLigature::kLigatureLineEndDown:
-              fLilypondCodeIOstream <<
-                endl <<
-                "\\once \\override Staff.LigatureBracket.edge-height = #'(-.7 . .7)" <<
-                endl;
-              break;
-            case msrLigature::kLigatureLineEndBoth:
-              fLilypondCodeIOstream <<
-                "%{ligatureLineEndBoth???%} ";
-              break;
-            case msrLigature::kLigatureLineEndArrow:
-              fLilypondCodeIOstream <<
-                "%{ligatureLineEndArrow???%} ";
-              break;
-            case msrLigature::kLigatureLineEndNone:
-              fLilypondCodeIOstream <<
-                endl <<
-                "\\once \\override Staff.LigatureBracket.edge-height = #'(0 . 0)" <<
-                endl;
-              break;
-          } // switch
+          {
+            // compute ligature start edge height
+            string ligatureStartEdgeHeight;
+                
+            switch (ligature->getLigatureLineEndKind ()) {
+              case msrLigature::kLigatureLineEndUp:
+                ligatureStartEdgeHeight = "-0.7";
+                break;
+                
+              case msrLigature::kLigatureLineEndDown:
+                ligatureStartEdgeHeight = "0.7";
+                break;
+                
+              case msrLigature::kLigatureLineEndBoth: // JMI
+                ligatureStartEdgeHeight = "-0.7";
+                break;
+                
+              case msrLigature::kLigatureLineEndArrow:
+                fLilypondCodeIOstream <<
+                  "%{ligatureLineEndArrow???%} ";
+                break;
+                
+              case msrLigature::kLigatureLineEndNone:
+                ligatureStartEdgeHeight = "0";
+                break;
+            } // switch
+
+            // fetch ligature's other end
+            S_msrLigature
+              ligatureOtherEnd =
+                ligature->
+                  getLigatureOtherEndSidelink ();
+
+            // compute ligature end edge height
+            string ligatureEndEdgeHeight;
+                
+            switch (ligatureOtherEnd->getLigatureLineEndKind ()) {
+              case msrLigature::kLigatureLineEndUp:
+                ligatureEndEdgeHeight = "-0.7";
+                break;
+                
+              case msrLigature::kLigatureLineEndDown:
+                ligatureEndEdgeHeight = "0.7";
+                break;
+                
+              case msrLigature::kLigatureLineEndBoth: // JMI
+                ligatureEndEdgeHeight = "-0.7";
+                break;
+                
+              case msrLigature::kLigatureLineEndArrow:
+                fLilypondCodeIOstream <<
+                  "%{ligatureLineEndArrow???%} ";
+                break;
+                
+              case msrLigature::kLigatureLineEndNone:
+                ligatureEndEdgeHeight = "0";
+                break;
+            } // switch
+
+            // generate the code the the edge-height pair of values
+            fLilypondCodeIOstream <<
+              endl <<
+              "\\once \\override Staff.LigatureBracket.edge-height = #'(" <<
+              ligatureStartEdgeHeight <<
+              " . " <<
+              ligatureEndEdgeHeight <<
+              ")" <<
+              endl;
+          }
           
           // generate ligature line type if any
           switch (ligature->getLigatureLineTypeKind ()) {
