@@ -87,6 +87,88 @@
           <line>4</line>
         </clef>
       </attributes>
+      <sound tempo="60"/>
+      <direction placement="above">
+        <direction-type>
+          <words default-y="46" relative-x="-37">Chorus</words>
+        </direction-type>
+      </direction>
+      <note default-x="74">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <lyric default-y="-66" number="1">
+          <syllabic>begin</syllabic>
+          <text>Ma</text>
+        </lyric>
+      </note>
+      <note default-x="103">
+        <pitch>
+          <step>D</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <lyric default-y="-66" number="1">
+          <syllabic>middle</syllabic>
+          <text>gni</text>
+        </lyric>
+      </note>
+      <note default-x="129">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <notations>
+          <slur number="1" placement="above" type="start"/>
+        </notations>
+        <lyric default-y="-66" justify="left" number="1">
+          <syllabic>middle</syllabic>
+          <text>fi</text>
+        </lyric>
+      </note>
+      <note default-x="158">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <notations>
+          <slur number="1" type="stop"/>
+        </notations>
+      </note>
+      <note default-x="185">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem>none</stem>
+        <lyric default-y="-66" number="1">
+          <syllabic>end</syllabic>
+          <text>cat</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="217">
+      <print new-system="no"/>
       <attributes>
         <time>
           <beats>3</beats>
@@ -98,6 +180,35 @@
           <words default-y="24" relative-x="-65">(C.)</words>
         </direction-type>
       </direction>
+      <note default-x="106">
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="142">
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="179">
+        <pitch>
+          <step>F</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-20">down</stem>
+        <lyric default-y="-66" justify="left" number="1">
+          <syllabic>begin</syllabic>
+          <text>A</text>
+        </lyric>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="3" width="147">
       <print new-system="no"/>
       <direction placement="above">
         <direction-type>
@@ -113,6 +224,10 @@
         <voice>1</voice>
         <type>quarter</type>
         <stem default-y="-20">down</stem>
+        <lyric default-y="-66" justify="left" number="1">
+          <syllabic>single</syllabic>
+          <text>in</text>
+        </lyric>
       </note>
       <direction placement="above">
         <direction-type>
@@ -160,6 +275,15 @@
         <staff-details print-object="no" print-spacing="yes"/>
       </attributes>
       <sound tempo="60"/>
+      <note>
+        <rest/>
+        <duration>40</duration>
+        <voice>1</voice>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="2" width="217">
+      <print new-system="no"/>
       <attributes>
         <time>
           <beats>3</beats>
@@ -174,6 +298,66 @@
           <words default-y="17" relative-x="-67">(CT.)</words>
         </direction-type>
       </direction>
+      <note default-x="106">
+        <rest/>
+        <duration>8</duration>
+        <instrument id="P2-I4"/>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="142">
+        <rest/>
+        <duration>8</duration>
+        <instrument id="P2-I4"/>
+        <voice>1</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="179">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <instrument id="P2-I4"/>
+        <voice>1</voice>
+        <type>quarter</type>
+        <stem default-y="-45">down</stem>
+        <lyric default-y="-75" justify="left" number="1">
+          <syllabic>begin</syllabic>
+          <text>A</text>
+        </lyric>
+      </note>
+      <backup>
+        <duration>24</duration>
+      </backup>
+      <note default-x="106">
+        <rest/>
+        <duration>8</duration>
+        <instrument id="P2-I3"/>
+        <voice>2</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="142">
+        <rest/>
+        <duration>8</duration>
+        <instrument id="P2-I3"/>
+        <voice>2</voice>
+        <type>quarter</type>
+      </note>
+      <note default-x="179">
+        <pitch>
+          <step>F</step>
+          <octave>3</octave>
+        </pitch>
+        <duration>8</duration>
+        <instrument id="P2-I3"/>
+        <voice>2</voice>
+        <type>quarter</type>
+        <stem default-y="-45">down</stem>
+      </note>
+    </measure>
+    <!--=======================================================-->
+    <measure number="3" width="147">
       <print new-system="no"/>
       <direction placement="above">
         <direction-type>
