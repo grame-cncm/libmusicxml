@@ -11536,6 +11536,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
     spanner =
       msrSpanner::create (
         inputLineNumber,
+        dashesNumber,
         msrSpanner::kSpannerDashes,
         fDashesSpannerTypeKind,
         ornamentPlacementKind,
@@ -11629,12 +11630,34 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
     spanner =
       msrSpanner::create (
         inputLineNumber,
+        wavyLineNumber,
         msrSpanner::kSpannerWavyLine,
         fWavyLineSpannerTypeKind,
         ornamentPlacementKind,
         nullptr); // will be set later REMOVE??? JMI
       
   fCurrentSpannersList.push_back (spanner);
+
+  switch (fWavyLineSpannerTypeKind) {
+    case kSpannerTypeStart:
+      // remember this wavy line spanner start
+      fCurrentWavyLineSpannerStart = spanner;
+      break;
+    case kSpannerTypeStop:
+      // set spanner two-way sidelinks
+      // between both ends of the wavy line spanner
+      spanner->
+        setSpannerOtherEndSidelink (
+          fCurrentWavyLineSpannerStart);
+      // forget this wavy line spanner start
+      fCurrentWavyLineSpannerStart = nullptr;
+      break;
+    case kSpannerTypeContinue:
+      break;
+    case k_NoSpannerType:
+      // JMI ???
+      break;
+  } // switch
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )

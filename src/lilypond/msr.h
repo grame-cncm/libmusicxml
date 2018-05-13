@@ -1995,6 +1995,10 @@ typedef SMARTP<msrDoubleTremolo> S_msrDoubleTremolo;
 EXP ostream& operator<< (ostream& os, const S_msrDoubleTremolo& elt);
 
 //______________________________________________________________________________
+// pre-declaration for two-way sidelinks
+class msrSpanner;
+typedef SMARTP<msrSpanner> S_msrSpanner;
+
 class msrSpanner : public msrElement
 {
   public:
@@ -2013,6 +2017,7 @@ class msrSpanner : public msrElement
 
     static SMARTP<msrSpanner> create (
       int                inputLineNumber,
+      int                spannerNumber,
       msrSpannerKind     spannerKind,
       msrSpannerTypeKind spannerTypeKind,
       msrPlacementKind   spannerPlacementKind,
@@ -2025,6 +2030,7 @@ class msrSpanner : public msrElement
 
     msrSpanner (
       int                inputLineNumber,
+      int                spannerNumber,
       msrSpannerKind     spannerKind,
       msrSpannerTypeKind spannerTypeKind,
       msrPlacementKind   spannerPlacementKind,
@@ -2045,6 +2051,16 @@ class msrSpanner : public msrElement
     S_msrNote             getSpannerNoteUplink () const
                               { return fSpannerNoteUplink; }
 
+    // uplinks
+    void                  setSpannerOtherEndSidelink (
+                            S_msrSpanner otherEndSideLink);
+      
+    S_msrSpanner          getSpannerOtherEndSidelink () const
+                              { return fSpannerOtherEndSidelink; }
+
+    int                   getSpannerNumber () const
+                              { return fSpannerNumber; }
+        
     msrSpannerKind        getSpannerKind () const
                               { return fSpannerKind; }
         
@@ -2053,7 +2069,7 @@ class msrSpanner : public msrElement
         
     msrPlacementKind      getSpannerPlacementKind () const
                               { return fSpannerPlacementKind; }
-                        
+
     // services
     // ------------------------------------------------------
 
@@ -2082,9 +2098,15 @@ class msrSpanner : public msrElement
     // ------------------------------------------------------
     S_msrNote             fSpannerNoteUplink;
 
+    // sidelinks
+    // ------------------------------------------------------
+    S_msrSpanner          fSpannerOtherEndSidelink; // two-way
+
     // fields
     // ------------------------------------------------------
 
+    int                   fSpannerNumber;
+    
     msrSpannerKind        fSpannerKind;
 
     msrSpannerTypeKind    fSpannerTypeKind;

@@ -3046,6 +3046,7 @@ void msrDoubleTremolo::print (ostream& os)
 //______________________________________________________________________________
 S_msrSpanner msrSpanner::create (
   int                inputLineNumber,
+  int                spannerNumber,
   msrSpannerKind     spannerKind,
   msrSpannerTypeKind spannerTypeKind,
   msrPlacementKind   spannerPlacementKind,
@@ -3054,6 +3055,7 @@ S_msrSpanner msrSpanner::create (
   msrSpanner* o =
     new msrSpanner (
       inputLineNumber,
+      spannerNumber,
       spannerKind,
       spannerTypeKind,
       spannerPlacementKind,
@@ -3064,6 +3066,7 @@ S_msrSpanner msrSpanner::create (
 
 msrSpanner::msrSpanner (
   int                inputLineNumber,
+  int                spannerNumber,
   msrSpannerKind     spannerKind,
   msrSpannerTypeKind spannerTypeKind,
   msrPlacementKind   spannerPlacementKind,
@@ -3071,6 +3074,8 @@ msrSpanner::msrSpanner (
     : msrElement (inputLineNumber)
 {
   fSpannerNoteUplink = spannerNoteUplink;
+
+  fSpannerNumber = spannerNumber;
   
   fSpannerKind = spannerKind;
   
@@ -3081,6 +3086,17 @@ msrSpanner::msrSpanner (
 
 msrSpanner::~msrSpanner ()
 {}
+
+void msrSpanner::setSpannerOtherEndSidelink (
+  S_msrSpanner otherEndSideLink)
+{
+  // set the two-way sidelink between both ends of the spanner
+  fSpannerOtherEndSidelink =
+    otherEndSideLink;
+    
+  otherEndSideLink->fSpannerOtherEndSidelink =
+    this;
+}
 
 string msrSpanner::spannerKindAsString (
   msrSpannerKind spannerKind)
@@ -3177,6 +3193,7 @@ void msrSpanner::print (ostream& os)
 {
   os <<
     "Spanner" <<
+    ", spannerNumber = " << fSpannerNumber <<
     ", " << spannerKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;

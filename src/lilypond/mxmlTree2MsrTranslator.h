@@ -1720,6 +1720,8 @@ class mxmlTree2MsrTranslator :
 
     // spanners handling
     // ------------------------------------------------------
+
+    S_msrSpanner              fCurrentWavyLineSpannerStart;
     
     list<S_msrSpanner>        fCurrentSpannersList;
 

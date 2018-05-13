@@ -1879,21 +1879,29 @@ void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
           }
           else {
             fLilypondCodeIOstream <<
-              "\\startTrillSpan " <<
+              "\\startTextSpan " <<
               endl;
           }
           break;
         case kSpannerTypeStop:
-          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
-      // JMI      // don't generate anything, the trill will display the wavy line
-            fLilypondCodeIOstream <<
-              "\\stopTrillSpan ";
+          {
+            // get spanner start end
+            S_msrSpanner
+              spannerStartEnd =
+                spanner->
+                  getSpannerOtherEndSidelink ();
+
+            // has the start end a trill ornament?
+            if (spannerStartEnd->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+              fLilypondCodeIOstream <<
+                "\\stopTrillSpan ";
+            }
+            else {
+              fLilypondCodeIOstream <<
+                "\\stopTextSpan ";
+            }
+            fOnGoingTrillSpanner = false;
           }
-          else {
-            fLilypondCodeIOstream <<
-              "\\stopTextSpan ";
-          }
-          fOnGoingTrillSpanner = false;
           break;
         case kSpannerTypeContinue:
           break;
