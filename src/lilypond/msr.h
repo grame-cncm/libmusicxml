@@ -2051,7 +2051,7 @@ class msrSpanner : public msrElement
     S_msrNote             getSpannerNoteUplink () const
                               { return fSpannerNoteUplink; }
 
-    // uplinks
+    // sidelinks
     void                  setSpannerOtherEndSidelink (
                             S_msrSpanner otherEndSideLink);
       
@@ -2426,6 +2426,10 @@ typedef SMARTP<msrSlur> S_msrSlur;
 EXP ostream& operator<< (ostream& os, const S_msrSlur& elt);
 
 //______________________________________________________________________________
+// pre-declaration for two-way sidelinks
+class msrLigature;
+typedef SMARTP<msrLigature> S_msrLigature;
+
 class msrLigature : public msrElement
 {
   public:
@@ -2434,17 +2438,16 @@ class msrLigature : public msrElement
     // ------------------------------------------------------
 
     enum msrLigatureKind {
-      k_NoLigature,
+      kLigatureNone,
       kLigatureStart, kLigatureContinue, kLigatureStop};
     
     static string ligatureKindAsString (
       msrLigatureKind ligatureKind);
       
     enum msrLigatureLineEndKind {
-      k_NoLigatureLineEnd,
+      kLigatureLineEndNone,
       kLigatureLineEndUp, kLigatureLineEndDown,
-      kLigatureLineEndBoth, kLigatureLineEndArrow,
-      kLigatureLineEndNone };
+      kLigatureLineEndBoth, kLigatureLineEndArrow };
     
     static string ligatureLineEndKindAsString (
       msrLigatureLineEndKind ligatureLineEndKind);
@@ -2479,6 +2482,13 @@ class msrLigature : public msrElement
 
     // set and get
     // ------------------------------------------------------
+
+    // sidelinks
+    void                  setLigatureOtherEndSidelink (
+                            S_msrLigature otherEndSideLink);
+      
+    S_msrLigature         getLigatureOtherEndSidelink () const
+                              { return fLigatureOtherEndSidelink; }
 
     int                   getLigatureNumber () const
                               { return fLigatureNumber; }
@@ -2515,6 +2525,10 @@ class msrLigature : public msrElement
     virtual void          print (ostream& os);
 
   private:
+
+    // sidelinks
+    // ------------------------------------------------------
+    S_msrLigature         fLigatureOtherEndSidelink; // two-way
 
     // fields
     // ------------------------------------------------------

@@ -5622,7 +5622,7 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
   string ligatureType =
     elt->getAttributeValue ("type");
 
-  fCurrentLigatureKind = msrLigature::k_NoLigature;
+  fCurrentLigatureKind = msrLigature::kLigatureNone;
 
   if      (ligatureType == "start") {
     fCurrentLigatureKind = msrLigature::kLigatureStart;
@@ -5657,32 +5657,32 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
   
   // line-end
 
-  string ligatureLineEnd = elt->getAttributeValue ("line-end");
+  string ligatureLineEndValue = elt->getAttributeValue ("line-end");
 
   msrLigature::msrLigatureLineEndKind
-    ligatureLineEndKind = msrLigature::k_NoLigatureLineEnd;
+    ligatureLineEndKind = msrLigature::kLigatureLineEndNone;
     
-  if      (ligatureLineEnd == "up") {
+  if      (ligatureLineEndValue == "up") {
     ligatureLineEndKind = msrLigature::kLigatureLineEndUp;
   }
-  else if (ligatureLineEnd == "down") {
+  else if (ligatureLineEndValue == "down") {
     ligatureLineEndKind = msrLigature::kLigatureLineEndDown;
   }
-  else if (ligatureLineEnd == "both") {
+  else if (ligatureLineEndValue == "both") {
     ligatureLineEndKind = msrLigature::kLigatureLineEndBoth;
   }
-  else if (ligatureLineEnd == "arrow") {
+  else if (ligatureLineEndValue == "arrow") {
     ligatureLineEndKind = msrLigature::kLigatureLineEndArrow;
   }
-  else if (ligatureLineEnd == "none") {
+  else if (ligatureLineEndValue == "none") {
     ligatureLineEndKind = msrLigature::kLigatureLineEndNone;
   }
   else {
-    if (ligatureLineEnd.size ()) {
+    if (ligatureLineEndValue.size ()) {
       stringstream s;
       
       s <<
-        "ligature line-end \"" << ligatureLineEnd <<
+        "ligature line-end \"" << ligatureLineEndValue <<
         "\" is unknown";
       
       msrMusicXMLError (
@@ -5695,31 +5695,31 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
 
   // line-type
 
-  string ligatureLineType = elt->getAttributeValue ("line-type");
+  string ligatureLineTypeValue = elt->getAttributeValue ("line-type");
 
   msrLineTypeKind
     ligatureLineTypeKind =
       kLineTypeSolid; // default value
   
-  if      (ligatureLineType == "solid") {
+  if      (ligatureLineTypeValue == "solid") {
     ligatureLineTypeKind = kLineTypeSolid;
   }
-  else if (ligatureLineType == "dashed") {
+  else if (ligatureLineTypeValue == "dashed") {
     ligatureLineTypeKind = kLineTypeDashed;
   }
-  else if (ligatureLineType == "dotted") {
+  else if (ligatureLineTypeValue == "dotted") {
     ligatureLineTypeKind = kLineTypeDotted;
   }
-  else if (ligatureLineType == "wavy") {
+  else if (ligatureLineTypeValue == "wavy") {
     ligatureLineTypeKind = kLineTypeWavy;
   }
   else {
-    if (ligatureLineType.size ()) {
+    if (ligatureLineTypeValue.size ()) {
       msrMusicXMLError (
         gXml2lyOptions->fInputSourceName,
         inputLineNumber,
         __FILE__, __LINE__,
-        "ligature line-type \"" + ligatureLineType + "\" is unknown");
+        "ligature line-type \"" + ligatureLineTypeValue + "\" is unknown");
     }
   }
 
@@ -5734,6 +5734,27 @@ void mxmlTree2MsrTranslator::visitStart (S_bracket& elt )
         fCurrentDirectionPlacementKind);
         
   fPendingLigatures.push_back (ligature);
+
+  switch (fCurrentLigatureKind) {
+    case msrLigature::kLigatureStart:
+      // remember this wavy line spanner start
+      fCurrentLigatureStart = ligature;
+      break;
+    case msrLigature::kLigatureStop:
+      // set spanner two-way sidelinks
+      // between both ends of the wavy line spanner
+      ligature->
+        setLigatureOtherEndSidelink (
+          fCurrentLigatureStart);
+      // forget this wavy line spanner start
+      fCurrentLigatureStart = nullptr;
+      break;
+    case msrLigature::kLigatureContinue:
+      break;
+    case msrLigature::kLigatureNone:
+      // JMI ???
+      break;
+  } // switch
 }
 
 //______________________________________________________________________________
@@ -7844,7 +7865,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_note& elt )
 
   // ligatures
   
-  fCurrentLigatureKind = msrLigature::k_NoLigature;
+  fCurrentLigatureKind = msrLigature::kLigatureNone;
 
   // staff and voice
   

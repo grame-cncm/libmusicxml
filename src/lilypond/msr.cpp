@@ -4083,6 +4083,17 @@ msrLigature::msrLigature (
 msrLigature::~msrLigature()
 {}
 
+void msrLigature::setLigatureOtherEndSidelink (
+  S_msrLigature otherEndSideLink)
+{
+  // set the two-way sidelink between both ends of the spanner
+  fLigatureOtherEndSidelink =
+    otherEndSideLink;
+    
+  otherEndSideLink->fLigatureOtherEndSidelink =
+    this;
+}
+
 string msrLigature::ligatureKindAsString (
   msrLigatureKind ligatureKind)
 {
@@ -4098,8 +4109,8 @@ string msrLigature::ligatureKindAsString (
     case msrLigature::kLigatureStop:
       s << "ligatureStop";
       break;
-    case k_NoLigature:
-      s << "none";
+    case kLigatureNone:
+      s << "ligatureNone";
   } // switch
     
   return s.str ();
@@ -4126,9 +4137,6 @@ string msrLigature::ligatureLineEndKindAsString (
       break;
     case msrLigature::kLigatureLineEndNone:
       s << "ligatureLineEndNone";
-      break;
-    case msrLigature::k_NoLigatureLineEnd:
-      s << "k_NoLigatureLineEnd ???";
       break;
   } // switch
     

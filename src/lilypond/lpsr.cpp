@@ -4240,7 +4240,7 @@ void lpsrPartGroupBlock::print (ostream& os)
     for ( ; ; ) {
       os << (*i);
       if (++i == iEnd) break;
-      // no endl here ??? JMI
+      os << endl;
     } // for
   }
 

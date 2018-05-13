@@ -494,7 +494,7 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
       S_msrLigature ligature = (*i);
       
       switch (ligature->getLigatureKind ()) {
-        case msrLigature::k_NoLigature:
+        case msrLigature::kLigatureNone:
           break;
           
         case msrLigature::kLigatureStart:
@@ -525,10 +525,6 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
                 endl <<
                 "\\once \\override Staff.LigatureBracket.edge-height = #'(0 . 0)" <<
                 endl;
-              break;
-            case msrLigature::k_NoLigatureLineEnd:
-              fLilypondCodeIOstream <<
-                "%{k_NoLigatureLineEnd???%} ";
               break;
           } // switch
           
@@ -8627,7 +8623,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       i++) {
         
       switch ((*i)->getLigatureKind ()) {
-        case msrLigature::k_NoLigature:
+        case msrLigature::kLigatureNone:
           break;
         case msrLigature::kLigatureStart:
    // JMI       fLilypondCodeIOstream << "\\[ ";
@@ -9126,7 +9122,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
       i++) {
         
       switch ((*i)->getLigatureKind ()) {
-        case msrLigature::k_NoLigature:
+        case msrLigature::kLigatureNone:
           break;
         case msrLigature::kLigatureStart:
           fLilypondCodeIOstream << "\\[ ";
@@ -9518,7 +9514,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
       i++) {
         
       switch ((*i)->getLigatureKind ()) {
-        case msrLigature::k_NoLigature:
+        case msrLigature::kLigatureNone:
           break;
         case msrLigature::kLigatureStart:
   // JMI        fLilypondCodeIOstream << "\\[ ";
@@ -9917,11 +9913,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
       break;
     case msrPedal::kPedalContinue:
       fLilypondCodeIOstream <<
-        "%{\\continue pedal???%}"; // JMI
+        "<>\\sustainOff\\sustainOn"; // JMI
       break;
     case msrPedal::kPedalChange:
       fLilypondCodeIOstream <<
-        "%{\\change pedal???%}"; // JMI
+        "<>\\sustainOff\\sustainOn";
       break;
     case msrPedal::kPedalStop:
       fLilypondCodeIOstream <<
