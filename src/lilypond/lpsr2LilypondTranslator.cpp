@@ -1845,11 +1845,12 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
           if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
-            result = "\\startTrillSpan";
+            // don't generate anything, the trill will display the wavy line
             fOnGoingTrillSpanner = true;
           }
           else {
-      // JMI      result = "-\\tweak style #'trill \\startTextSpan";
+       //     result = "\\startTrillSpan";
+            //* JMI
             stringstream s;
 
             s <<
@@ -1857,15 +1858,16 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
             endl;
 
             result = s.str ();
+            //*/
           }
           break;
         case kSpannerTypeStop:
-          if (fOnGoingTrillSpanner) {
-      // JMI      result = "\\stopTrillSpan";
+          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+            // don't generate anything, the trill will display the wavy line
             fOnGoingTrillSpanner = false;
           }
           else {
-        // JMI    result = "\\stopTextSpan";
+            result = "\\stopTextSpan";
           }
           break;
         case kSpannerTypeContinue:
@@ -8148,7 +8150,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       "\\once \\override NoteHead.font-size = -3 ";
   }
 
-  // print the note as a LilyPond string
+  // print the note itself as a LilyPond string
   printNoteAsLilypondString (elt);
 
   if (gLilypondOptions->fNoteInputLineNumbers) {

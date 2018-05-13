@@ -3199,9 +3199,14 @@ void msrSpanner::print (ostream& os)
     endl <<
     setw (fieldWidth) <<
     "spannerNoteUplink" << " : " <<
-    fSpannerNoteUplink->asShortString () <<
     endl;
 
+  gIndenter++;
+    os <<
+      fSpannerNoteUplink->asString () <<
+      endl;
+  gIndenter--;
+    
   gIndenter--;
 }
 
