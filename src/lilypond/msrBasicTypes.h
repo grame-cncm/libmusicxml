@@ -356,11 +356,11 @@ class msrFontSize : public smartable
     // ------------------------------------------------------
 
     enum msrFontSizeKind {
-      k_NoFontSize,
-      kXXSmallFontSize, kXSmallFontSize, kSmallFontSize,
-      kMediumFontSize,
-      kLargeFontSize, kXLargeFontSize, kXXLargeFontSize,
-      kNumericFontSize };
+      kFontSizeNone,
+      kFontSizeXXSmall, kFontSizeXSmall, kFontSizeSmall,
+      kFontSizeMedium,
+      kFontSizeLarge, kFontSizeXLarge, kFontSizeXXLarge,
+      kFontSizeNumeric };
     
     static string fontSizeKindAsString (
       msrFontSizeKind fontSizeKind);
@@ -424,15 +424,15 @@ typedef SMARTP<msrFontSize> S_msrFontSize;
 EXP ostream& operator<< (ostream& os, const S_msrFontSize& elt);
 
 enum msrFontStyleKind {
-  k_NoFontStyle,
-  kNormalFontStyle, KItalicFontStyle };
+  kFontStyleNone,
+  kFontStyleNormal, KFontStyleItalic };
 
 string msrFontStyleKindAsString (
   msrFontStyleKind fontStyleKind);
 
 enum msrFontWeightKind {
-  k_NoFontWeight,
-  kNormalFontWeight, kBoldFontWeight };
+  kFontWeightNone,
+  kFontWeightNormal, kFontWeightBold };
 
 string msrFontWeightKindAsString (
   msrFontWeightKind tontWeightKind);
@@ -440,15 +440,15 @@ string msrFontWeightKindAsString (
 // alignement
 //______________________________________________________________________________
 enum msrJustifyKind {
-  k_NoJustify,
-  kLeftJustify, kCenterJustify, kRightJustify };
+  kJustifyNone,
+  kJustifyLeft, kJustifyCenter, kJustifyRight };
 
 string msrJustifyKindAsString (
   msrJustifyKind justifyKind);
 
 enum msrVerticalAlignmentKind {
-  k_NoVerticalAlignment,
-  kTopVerticalAlignment, kMiddleVerticalAlignment, kBottomVerticalAlignment };
+  kVerticalAlignmentNone,
+  kVerticalAlignmentTop, kVerticalAlignmentMiddle, kVerticalAlignmentBottom };
 
 string msrVerticalAlignmentKindAsString (
   msrVerticalAlignmentKind verticalAlignmentKind);
@@ -456,8 +456,8 @@ string msrVerticalAlignmentKindAsString (
 // direction
 //______________________________________________________________________________
 enum msrDirectionKind {
-  k_NoDirection,
-  kUpDirection, kDownDirection };
+  kDirectionNone,
+  kDirectionUp, kDirectionDown };
 
 string msrDirectionKindAsString (
   msrDirectionKind directionKind);
@@ -465,8 +465,8 @@ string msrDirectionKindAsString (
 // placement
 //______________________________________________________________________________
 enum msrPlacementKind {
-  k_NoPlacement,
-  kAbovePlacement, kBelowPlacement };
+  kPlacementNone,
+  kPlacementAbove, kPlacementBelow };
 
 string msrPlacementKindAsString (
   msrPlacementKind placementKind);

@@ -165,7 +165,7 @@ lpsr2LilypondTranslator::lpsr2LilypondTranslator (
   fOnGoingNote = false;
 
   // articulations
-  fCurrentArpeggioDirectionKind = k_NoDirection;
+  fCurrentArpeggioDirectionKind = kDirectionNone;
 
   // stems
   fCurrentStemKind = msrStem::k_NoStem;
@@ -1348,13 +1348,13 @@ void lpsr2LilypondTranslator::writeNoteArticulationAsLilyponString (
 
   if (doGeneratePlacement) {
     switch (articulation->getArticulationPlacementKind ()) {
-      case k_NoPlacement:
+      case kPlacementNone:
         fLilypondCodeIOstream << "-";
         break;
-      case kAbovePlacement:
+      case kPlacementAbove:
         fLilypondCodeIOstream << "^";
         break;
-      case kBelowPlacement:
+      case kPlacementBelow:
         fLilypondCodeIOstream << "_";
         break;
     } // switch
@@ -1450,13 +1450,13 @@ void lpsr2LilypondTranslator::writeChordArticulationAsLilyponString (
   S_msrArticulation articulation)
 {  
   switch (articulation->getArticulationPlacementKind ()) {
-    case k_NoPlacement:
+    case kPlacementNone:
       fLilypondCodeIOstream << "-";
       break;
-    case kAbovePlacement:
+    case kPlacementAbove:
       fLilypondCodeIOstream << "^";
       break;
-    case kBelowPlacement:
+    case kPlacementBelow:
       fLilypondCodeIOstream << "_";
       break;
   } // switch
@@ -1845,12 +1845,18 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
           if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
-     // JMI       result = "\\startTrillSpan";
+            result = "\\startTrillSpan";
             fOnGoingTrillSpanner = true;
           }
           else {
       // JMI      result = "-\\tweak style #'trill \\startTextSpan";
-            result = "\\once \\override TextSpanner #'style = #'trill";
+            stringstream s;
+
+            s <<
+              "\\once \\override TextSpanner #'style = #'trill" <<
+            endl;
+
+            result = s.str ();
           }
           break;
         case kSpannerTypeStop:
@@ -1859,7 +1865,7 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
             fOnGoingTrillSpanner = false;
           }
           else {
-            result = "\\stopTextSpan";
+        // JMI    result = "\\stopTextSpan";
           }
           break;
         case kSpannerTypeContinue:
@@ -6810,11 +6816,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
     endl;
 
   switch (elt->getTempoPlacementKind ()) {
-    case msrPlacementKind::k_NoPlacement:
+    case msrPlacementKind::kPlacementNone:
       break;
-    case msrPlacementKind::kAbovePlacement:
+    case msrPlacementKind::kPlacementAbove:
       break;
-    case msrPlacementKind::kBelowPlacement:
+    case msrPlacementKind::kPlacementBelow:
       fLilypondCodeIOstream <<
         "\\once\\override Score.MetronomeMark.direction = #DOWN";
       break;
@@ -7132,13 +7138,13 @@ Articulations can be attached to rests as well as notes but they cannot be attac
 
 /* JMI
   switch (elt->getArticulationPlacement ()) {
-    case k_NoPlacement:
+    case kPlacementNone:
       // nothing needed
       break;
-    case kAbovePlacement:
+    case kPlacementAbove:
       fLilypondCodeIOstream << "^";
       break;
-    case kBelowPlacement:
+    case kPlacementBelow:
       fLilypondCodeIOstream << "_";
       break;
   } // switch
@@ -7920,20 +7926,44 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       S_msrSpanner
         spanner = (*i);
         
+      bool doGenerateSpannerCode = true;
+      
       switch (spanner->getSpannerKind ()) {
         case msrSpanner::kSpannerTrill:
           break;
         case msrSpanner::kSpannerDashes:
-          fLilypondCodeIOstream <<
-            "\\override TextSpanner.bound-details.left.text = \\markup { " " }" <<
-            endl;
           break;
         case msrSpanner::kSpannerWavyLine:
+          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+            // don't generate anything, the trill will display the wavy line
+            doGenerateSpannerCode = false;
+          }
           break;
       } // switch
 
+  //    doGenerateSpannerCode = true;
+      
       fLilypondCodeIOstream <<
-        spannerAsLilypondString (spanner) << " ";
+        "% doGenerateSpannerCode = " <<
+        booleanAsString (doGenerateSpannerCode) <<
+        endl;
+
+      if (doGenerateSpannerCode) {
+        switch (spanner->getSpannerKind ()) {
+          case msrSpanner::kSpannerTrill:
+            break;
+          case msrSpanner::kSpannerDashes:
+            fLilypondCodeIOstream <<
+              "\\override TextSpanner.bound-details.left.text = \\markup { " " }" <<
+              endl;
+            break;
+          case msrSpanner::kSpannerWavyLine:
+            break;
+        } // switch
+  
+        fLilypondCodeIOstream <<
+          spannerAsLilypondString (spanner) << " ";
+      }
     } // for
   }
   
@@ -8245,12 +8275,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         technicalAsLilypondString ((*i));
 
       switch ((*i)->getTechnicalPlacementKind ()) {
-        case k_NoPlacement:
+        case kPlacementNone:
           break;
-        case kAbovePlacement:
+        case kPlacementAbove:
           fLilypondCodeIOstream << "^";
           break;
-        case kBelowPlacement:
+        case kPlacementBelow:
           fLilypondCodeIOstream << "_";
           break;
       } // switch
@@ -8287,12 +8317,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
                 technicalWithInteger);
       
             switch (technicalWithInteger->getTechnicalWithIntegerPlacementKind ()) {
-              case k_NoPlacement:
+              case kPlacementNone:
                 break;
-              case kAbovePlacement:
+              case kPlacementAbove:
                 fLilypondCodeIOstream << "^";
                 break;
-              case kBelowPlacement:
+              case kPlacementBelow:
                 fLilypondCodeIOstream << "_";
                 break;
             } // switch
@@ -8319,12 +8349,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         technicalWithStringAsLilypondString ((*i));
 
       switch ((*i)->getTechnicalWithStringPlacementKind ()) {
-        case k_NoPlacement:
+        case kPlacementNone:
           break;
-        case kAbovePlacement:
+        case kPlacementAbove:
           fLilypondCodeIOstream << "^";
           break;
-        case kBelowPlacement:
+        case kPlacementBelow:
           fLilypondCodeIOstream << "_";
           break;
       } // switch
@@ -8365,13 +8395,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         dynamics = (*i);
         
       switch (dynamics->getDynamicsPlacementKind ()) {
-        case k_NoPlacement:
+        case kPlacementNone:
    // JMI       fLilypondCodeIOstream << "-3";
           break;
-        case kAbovePlacement:
+        case kPlacementAbove:
           fLilypondCodeIOstream << "^";
           break;
-        case kBelowPlacement:
+        case kPlacementBelow:
           // this is done by LilyPond by default
           break;
       } // switch
@@ -8435,13 +8465,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
         stringstream s;
         
         switch (wordsPlacementKind) {
-          case k_NoPlacement:
+          case kPlacementNone:
             s << "^";
             break;
-          case kAbovePlacement:
+          case kPlacementAbove:
             s << "^";
             break;
-          case kBelowPlacement:
+          case kPlacementBelow:
             s << "_";
             break;
         } // switch
@@ -8450,61 +8480,61 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           "\\markup" << " { ";
 
         switch (wordsFontStyleKind) {
-          case k_NoFontStyle:
+          case kFontStyleNone:
             break;
-          case kNormalFontStyle:
+          case kFontStyleNormal:
             // LilyPond produces 'normal style' text by default
             break;
-          case KItalicFontStyle:
+          case KFontStyleItalic:
             s <<
               "\\italic ";
             break;
         } // switch
 
         switch (wordsFontWeightKind) {
-          case k_NoFontWeight:
+          case kFontWeightNone:
             break;
-          case kNormalFontWeight:
+          case kFontWeightNormal:
             // LilyPond produces 'normal weight' text by default
             break;
-          case kBoldFontWeight:
+          case kFontWeightBold:
             s <<
               "\\bold ";
             break;
         } // switch
 
         switch (wordsFontSize->getFontSizeKind ()) {
-          case msrFontSize::k_NoFontSize:
+          case msrFontSize::kFontSizeNone:
             break;
-          case msrFontSize::kXXSmallFontSize:
+          case msrFontSize::kFontSizeXXSmall:
             s <<
               "\\tiny ";
             break;
-          case msrFontSize::kXSmallFontSize:
+          case msrFontSize::kFontSizeXSmall:
             s <<
               "\\smaller ";
             break;
-          case msrFontSize::kSmallFontSize:
+          case msrFontSize::kFontSizeSmall:
             s <<
               "\\small ";
             break;
-          case msrFontSize::kMediumFontSize:
+          case msrFontSize::kFontSizeMedium:
             s <<
               "\\normalsize ";
             break;
-          case msrFontSize::kLargeFontSize:
+          case msrFontSize::kFontSizeLarge:
             s <<
               "\\large ";
             break;
-          case msrFontSize::kXLargeFontSize:
+          case msrFontSize::kFontSizeXLarge:
             s <<
               "\\larger ";
             break;
-          case msrFontSize::kXXLargeFontSize:
+          case msrFontSize::kFontSizeXXLarge:
             s <<
               "\\huge ";
             break;
-          case msrFontSize::kNumericFontSize:
+          case msrFontSize::kFontSizeNumeric:
             s <<
               "%{ " <<
               wordsFontSize->getFontNumericSize () <<
@@ -8613,13 +8643,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           
         case msrWedge::kCrescendoWedge:
           switch (wedge->getWedgePlacementKind ()) {
-            case k_NoPlacement:
+            case kPlacementNone:
               break;
-            case kAbovePlacement:
+            case kPlacementAbove:
               fLilypondCodeIOstream <<
                 "^";
               break;
-            case kBelowPlacement:
+            case kPlacementBelow:
               fLilypondCodeIOstream <<
                 "_";
               break;
@@ -8630,13 +8660,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
 
         case msrWedge::kDecrescendoWedge:
           switch (wedge->getWedgePlacementKind ()) {
-            case k_NoPlacement:
+            case kPlacementNone:
               break;
-            case kAbovePlacement:
+            case kPlacementAbove:
               fLilypondCodeIOstream <<
                 "^";
               break;
-            case kBelowPlacement:
+            case kPlacementBelow:
               fLilypondCodeIOstream <<
                 "_";
               break;
@@ -8725,20 +8755,44 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       S_msrSpanner
         spanner = (*i);
         
-      switch (spanner->getSpannerPlacementKind ()) {
-        case k_NoPlacement:
-   // JMI       fLilypondCodeIOstream << "-3";
+      bool doGenerateSpannerCode = true;
+      
+      switch (spanner->getSpannerKind ()) {
+        case msrSpanner::kSpannerTrill:
           break;
-        case kAbovePlacement:
-          fLilypondCodeIOstream << "^";
+        case msrSpanner::kSpannerDashes:
           break;
-        case kBelowPlacement:
-          // this is done by LilyPond by default
+        case msrSpanner::kSpannerWavyLine:
+          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+            // don't generate anything, the trill will display the wavy line
+            doGenerateSpannerCode = false;
+          }
           break;
       } // switch
 
+   //   doGenerateSpannerCode = true;
+
       fLilypondCodeIOstream <<
-        spannerAsLilypondString (spanner) << " ";
+        "% doGenerateSpannerCode = " <<
+        booleanAsString (doGenerateSpannerCode) <<
+        endl;
+
+      if (doGenerateSpannerCode) {
+        switch (spanner->getSpannerPlacementKind ()) {
+          case kPlacementNone:
+     // JMI       fLilypondCodeIOstream << "-3";
+            break;
+          case kPlacementAbove:
+            fLilypondCodeIOstream << "^";
+            break;
+          case kPlacementBelow:
+            // this is done by LilyPond by default
+            break;
+        } // switch
+  
+        fLilypondCodeIOstream <<
+          spannerAsLilypondString (spanner) << " ";
+      }
     } // for
   }
   
@@ -9105,13 +9159,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrChord& elt)
             arpeggiato->getArpeggiatoDirectionKind ();
         
         switch (directionKind) {
-          case k_NoDirection:
+          case kDirectionNone:
             fLilypondCodeIOstream << "\\arpeggioNormal";
             break;
-          case kUpDirection:
+          case kDirectionUp:
             fLilypondCodeIOstream << "\\arpeggioArrowUp";
             break;
-          case kDownDirection:
+          case kDirectionDown:
             fLilypondCodeIOstream << "\\arpeggioArrowDown";
             break;
         } // switch
@@ -9325,13 +9379,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         dynamics = (*i);
         
       switch (dynamics->getDynamicsPlacementKind ()) {
-        case k_NoPlacement:
+        case kPlacementNone:
           fLilypondCodeIOstream << "-";
           break;
-        case kAbovePlacement:
+        case kPlacementAbove:
           fLilypondCodeIOstream << "^";
           break;
-        case kBelowPlacement:
+        case kPlacementBelow:
           // this is done by LilyPond by default
           break;
       } // switch
@@ -9393,13 +9447,13 @@ void lpsr2LilypondTranslator::visitEnd (S_msrChord& elt)
         (*i)->getWordsContents ();
     
       switch (wordsPlacementKind) {
-        case k_NoPlacement:
+        case kPlacementNone:
           // should not occur
           break;
-        case kAbovePlacement:
+        case kPlacementAbove:
           fLilypondCodeIOstream << "^";
           break;
-        case kBelowPlacement:
+        case kPlacementBelow:
           fLilypondCodeIOstream << "_";
           break;
       } // switch
@@ -10440,11 +10494,11 @@ void lpsr2LilypondTranslator::visitStart (S_msrRehearsal& elt)
     endl;
 
   switch (elt->getRehearsalPlacementKind ()) {
-    case msrPlacementKind::k_NoPlacement:
+    case msrPlacementKind::kPlacementNone:
       break;
-    case msrPlacementKind::kAbovePlacement:
+    case msrPlacementKind::kPlacementAbove:
       break;
-    case msrPlacementKind::kBelowPlacement:
+    case msrPlacementKind::kPlacementBelow:
       fLilypondCodeIOstream <<
         "\\once\\override Score.RehearsalMark.direction = #DOWN";
       break;

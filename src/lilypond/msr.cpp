@@ -1888,7 +1888,7 @@ msrFermata::msrFermata (
     : msrArticulation (
       inputLineNumber,
       msrArticulation::kFermata,
-      k_NoPlacement) // temporary, JMI TEMP
+      kPlacementNone) // temporary, JMI TEMP
 {
   fFermataKind = fermataKind;
   fFermataTypeKind = fermataTypeKind;
@@ -3181,10 +3181,28 @@ void msrSpanner::print (ostream& os)
   os <<
     "Spanner" <<
     ", " << spannerKindAsString () <<
-    ", " << spannerTypeKindAsString () <<
-    ", " << spannerPlacementKindAsString () <<
     ", line " << fInputLineNumber <<
     endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 21;
+  
+  os << left <<
+    setw (fieldWidth) <<
+    "spannerPlacementKind" << " : " <<
+    spannerPlacementKindAsString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "spannerTypeKind" << " : " <<
+    spannerTypeKindAsString () <<
+    endl <<
+    setw (fieldWidth) <<
+    "spannerNoteUplink" << " : " <<
+    fSpannerNoteUplink->asShortString () <<
+    endl;
+
+  gIndenter--;
 }
 
 //______________________________________________________________________________

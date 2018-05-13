@@ -2409,27 +2409,8 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
   } // switch
 
   if (fOnGoingNote) {
-    bool doAddSpannerToNote = true;
-    
-    switch (elt->getSpannerKind ()) {
-      case msrSpanner::kSpannerTrill:
-        break;
-      case msrSpanner::kSpannerDashes:
-        break;
-      case msrSpanner::kSpannerWavyLine:
-        if (elt->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
-          // LilyPond combines a trill and a wavy line, don't add the spanner
-          doAddSpannerToNote = false;
-        }
-        break;
-    } // switch
-
-    doAddSpannerToNote = true; // JMI
-    
-    if (doAddSpannerToNote) {
-      fCurrentNoteClone->
-        addSpannerToNote (elt);
-    }
+    fCurrentNoteClone->
+      addSpannerToNote (elt);
   }
   
   else if (fOnGoingChord) {

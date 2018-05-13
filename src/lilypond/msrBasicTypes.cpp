@@ -10292,7 +10292,7 @@ msrFontSize::msrFontSize (
 msrFontSize::msrFontSize (
   float fontNumericSize)
 {
-  fFontSizeKind = kNumericFontSize;
+  fFontSizeKind = kFontSizeNumeric;
   fFontNumericSize = fontNumericSize;
 }
 
@@ -10305,33 +10305,32 @@ string msrFontSize::fontSizeKindAsString (
   string result;
 
   switch (fontSizeKind) {
-    case msrFontSize::k_NoFontSize:
-      result = "font size: none";
+    case msrFontSize::kFontSizeNone:
+      result = "fontSizeNone";
       break;
-
-    case msrFontSize::kXXSmallFontSize:
-      result = "font size: xx-small";
+    case msrFontSize::kFontSizeXXSmall:
+      result = "fontSizeXXSmall";
       break;
-    case msrFontSize::kXSmallFontSize:
-      result = "font size: x-small";
+    case msrFontSize::kFontSizeXSmall:
+      result = "fontSizeXSmall";
       break;
-    case msrFontSize::kSmallFontSize:
-      result = "font size: small";
+    case msrFontSize::kFontSizeSmall:
+      result = "fontSizeSmall";
       break;
-    case msrFontSize::kMediumFontSize:
-      result = "font size: medium";
+    case msrFontSize::kFontSizeMedium:
+      result = "fontSizeMedium";
       break;
-    case msrFontSize::kLargeFontSize:
-      result = "font size: large";
+    case msrFontSize::kFontSizeLarge:
+      result = "fontSizeLarge";
       break;
-    case msrFontSize::kXLargeFontSize:
-      result = "font size: x-large";
+    case msrFontSize::kFontSizeXLarge:
+      result = "fontSizeXLarge";
       break;
-    case msrFontSize::kXXLargeFontSize:
-      result = "font size: xx-large";
+    case msrFontSize::kFontSizeXXLarge:
+      result = "fontSizeXXLarge";
       break;
-    case msrFontSize::kNumericFontSize:
-      result = "font size: numeric";
+    case msrFontSize::kFontSizeNumeric:
+      result = "fontSizeNumeric";
       break;
     } // switch
 
@@ -10349,18 +10348,18 @@ string msrFontSize::fontSizeAsString () const
   string result;
   
   switch (fFontSizeKind) {
-    case msrFontSize::k_NoFontSize:
-    case msrFontSize::kXXSmallFontSize:
-    case msrFontSize::kXSmallFontSize:
-    case msrFontSize::kSmallFontSize:
-    case msrFontSize::kMediumFontSize:
-    case msrFontSize::kLargeFontSize:
-    case msrFontSize::kXLargeFontSize:
-    case msrFontSize::kXXLargeFontSize:
+    case msrFontSize::kFontSizeNone:
+    case msrFontSize::kFontSizeXXSmall:
+    case msrFontSize::kFontSizeXSmall:
+    case msrFontSize::kFontSizeSmall:
+    case msrFontSize::kFontSizeMedium:
+    case msrFontSize::kFontSizeLarge:
+    case msrFontSize::kFontSizeXLarge:
+    case msrFontSize::kFontSizeXXLarge:
       result = fontSizeKindAsString (fFontSizeKind);
       break;
       
-    case msrFontSize::kNumericFontSize:
+    case msrFontSize::kFontSizeNumeric:
       result =
         to_string (fFontNumericSize);
       break;
@@ -10374,14 +10373,14 @@ float msrFontSize::getFontNumericSize ()
   float result = 12; // JMI
   
   switch (fFontSizeKind) {
-    case msrFontSize::k_NoFontSize:
-    case msrFontSize::kXXSmallFontSize:
-    case msrFontSize::kXSmallFontSize:
-    case msrFontSize::kSmallFontSize:
-    case msrFontSize::kMediumFontSize:
-    case msrFontSize::kLargeFontSize:
-    case msrFontSize::kXLargeFontSize:
-    case msrFontSize::kXXLargeFontSize:
+    case msrFontSize::kFontSizeNone:
+    case msrFontSize::kFontSizeXXSmall:
+    case msrFontSize::kFontSizeXSmall:
+    case msrFontSize::kFontSizeSmall:
+    case msrFontSize::kFontSizeMedium:
+    case msrFontSize::kFontSizeLarge:
+    case msrFontSize::kFontSizeXLarge:
+    case msrFontSize::kFontSizeXXLarge:
       {
         stringstream s;
 
@@ -10397,7 +10396,7 @@ float msrFontSize::getFontNumericSize ()
       }
       break;
       
-    case msrFontSize::kNumericFontSize:
+    case msrFontSize::kFontSizeNumeric:
       result = fFontNumericSize;
       break;
     } // switch
@@ -10408,19 +10407,19 @@ float msrFontSize::getFontNumericSize ()
 void msrFontSize::print (ostream& os)
 {
   switch (fFontSizeKind) {
-    case msrFontSize::k_NoFontSize:
-    case msrFontSize::kXXSmallFontSize:
-    case msrFontSize::kXSmallFontSize:
-    case msrFontSize::kSmallFontSize:
-    case msrFontSize::kMediumFontSize:
-    case msrFontSize::kLargeFontSize:
-    case msrFontSize::kXLargeFontSize:
-    case msrFontSize::kXXLargeFontSize:
+    case msrFontSize::kFontSizeNone:
+    case msrFontSize::kFontSizeXXSmall:
+    case msrFontSize::kFontSizeXSmall:
+    case msrFontSize::kFontSizeSmall:
+    case msrFontSize::kFontSizeMedium:
+    case msrFontSize::kFontSizeLarge:
+    case msrFontSize::kFontSizeXLarge:
+    case msrFontSize::kFontSizeXXLarge:
       os <<
         msrFontSize::fontSizeKindAsString (fFontSizeKind);
       break;
       
-    case msrFontSize::kNumericFontSize:
+    case msrFontSize::kFontSizeNumeric:
       os <<
         fFontNumericSize;
       break;
@@ -10435,15 +10434,14 @@ string msrFontStyleKindAsString (
   string result;
   
   switch (fontStyleKind) {
-    case k_NoFontStyle:
-      result = "font style: none";
+    case kFontStyleNone:
+      result = "fontStyleNone";
       break;
-
-    case kNormalFontStyle:
-      result = "font style: normal";
+    case kFontStyleNormal:
+      result = "fontStyleNormal";
       break;
-    case KItalicFontStyle:
-      result = "font style: italic";
+    case KFontStyleItalic:
+      result = "fontStyleItalic";
       break;
     } // switch
 
@@ -10458,15 +10456,14 @@ string msrFontWeightKindAsString (
   string result;
   
   switch (fontWeightKind) {
-    case k_NoFontWeight:
-      result = "font weight: none";
+    case kFontWeightNone:
+      result = "fontWeightNone";
       break;
-
-    case kNormalFontWeight:
-      result = "font weight: normal";
+    case kFontWeightNormal:
+      result = "fontWeightNormal";
       break;
-    case kBoldFontWeight:
-      result = "font weight: bold";
+    case kFontWeightBold:
+      result = "fontWeightBold";
       break;
     } // switch
 
@@ -10481,18 +10478,17 @@ string msrJustifyKindAsString (
   string result;
   
   switch (justifyKind) {
-    case k_NoJustify:
-      result = "justify: none";
+    case kJustifyNone:
+      result = "justifyNone";
       break;
-
-    case kLeftJustify:
-      result = "justify: left";
+    case kJustifyLeft:
+      result = "justifyLeft";
       break;
-    case kCenterJustify:
-      result = "justify: center";
+    case kJustifyCenter:
+      result = "justifyCenter";
       break;
-    case kRightJustify:
-      result = "justify: right";
+    case kJustifyRight:
+      result = "justifyRight";
       break;
     } // switch
 
@@ -10505,18 +10501,17 @@ string msrVerticalAlignmentKindAsString (
   string result;
   
   switch (verticalAlignmentKind) {
-    case k_NoVerticalAlignment:
-      result = "vertical alignment: none";
+    case kVerticalAlignmentNone:
+      result = "verticalAlignmentNone";
       break;
-
-    case kTopVerticalAlignment:
-      result = "vertical alignment: top";
+    case kVerticalAlignmentTop:
+      result = "verticalAlignmentTop";
       break;
-    case kMiddleVerticalAlignment:
-      result = "vertical alignment: middle";
+    case kVerticalAlignmentMiddle:
+      result = "verticalAlignmentMiddle";
       break;
-    case kBottomVerticalAlignment:
-      result = "vertical alignment: bottom";
+    case kVerticalAlignmentBottom:
+      result = "verticalAlignmentBottom";
       break;
     } // switch
 
@@ -10531,15 +10526,15 @@ string msrDirectionKindAsString (
   string result;
   
   switch (directionKind) {
-    case k_NoDirection:
-      result = "direction: none";
+    case kDirectionNone:
+      result = "directionNone";
       break;
 
-    case kUpDirection:
-      result = "direction: up";
+    case kDirectionUp:
+      result = "directionUp";
       break;
-    case kDownDirection:
-      result = "direction: down";
+    case kDirectionDown:
+      result = "directionDown";
       break;
     } // switch
 
@@ -10555,14 +10550,14 @@ string msrPlacementKindAsString (
   string result;
   
   switch (placementKind) {
-    case msrPlacementKind::k_NoPlacement:
-      result = "placement: none";
+    case msrPlacementKind::kPlacementNone:
+      result = "placementNone";
       break;
-    case msrPlacementKind::kAbovePlacement:
-      result = "placement: above";
+    case msrPlacementKind::kPlacementAbove:
+      result = "placementAbove";
       break;
-    case msrPlacementKind::kBelowPlacement:
-      result = "placement: below";
+    case msrPlacementKind::kPlacementBelow:
+      result = "placementBelow";
       break;
     } // switch
 

@@ -2917,12 +2917,12 @@ void mxmlTree2MsrTranslator::visitStart (S_direction& elt)
   string directionPlacementString =
     elt->getAttributeValue ("placement");
 
-  fCurrentDirectionPlacementKind = k_NoPlacement;
+  fCurrentDirectionPlacementKind = kPlacementNone;
   
   if      (directionPlacementString == "above")
-    fCurrentDirectionPlacementKind = kAbovePlacement;
+    fCurrentDirectionPlacementKind = kPlacementAbove;
   else if (directionPlacementString == "below")
-    fCurrentDirectionPlacementKind = kBelowPlacement;
+    fCurrentDirectionPlacementKind = kPlacementBelow;
   else if (directionPlacementString.size ()) {
     stringstream s;
     
@@ -3212,14 +3212,14 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsJustify = elt->getAttributeValue ("justify");
 
-  msrJustifyKind justifyKind = k_NoJustify; // default value
+  msrJustifyKind justifyKind = kJustifyNone; // default value
 
   if      (wordsJustify == "left")
-    justifyKind = kLeftJustify;
+    justifyKind = kJustifyLeft;
   else if (wordsJustify == "center")
-    justifyKind = kCenterJustify;
+    justifyKind = kJustifyCenter;
   else if (wordsJustify == "right")
-    justifyKind = kRightJustify;
+    justifyKind = kJustifyRight;
   else {
     if (wordsJustify.size ()) {
       stringstream s;
@@ -3241,14 +3241,14 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
   string wordsVerticalAlignment = elt->getAttributeValue ("valign");
 
   msrVerticalAlignmentKind
-    verticalAlignmentKind = k_NoVerticalAlignment; // default value
+    verticalAlignmentKind = kVerticalAlignmentNone; // default value
 
   if      (wordsVerticalAlignment == "top")
-    verticalAlignmentKind = kTopVerticalAlignment;
+    verticalAlignmentKind = kVerticalAlignmentTop;
   else if (wordsVerticalAlignment == "middle")
-    verticalAlignmentKind = kMiddleVerticalAlignment;
+    verticalAlignmentKind = kVerticalAlignmentMiddle;
   else if (wordsVerticalAlignment == "bottom")
-    verticalAlignmentKind = kBottomVerticalAlignment;
+    verticalAlignmentKind = kVerticalAlignmentBottom;
   else {
     if (wordsVerticalAlignment.size ()) {
       stringstream s;
@@ -3269,12 +3269,12 @@ void mxmlTree2MsrTranslator::visitStart (S_words& elt)
 
   string wordsFontStyle = elt->getAttributeValue ("font-style");
 
-  msrFontStyleKind fontStyleKind = k_NoFontStyle; // default value
+  msrFontStyleKind fontStyleKind = kFontStyleNone; // default value
 
   if      (wordsFontStyle == "normal")
-    fontStyleKind = kNormalFontStyle;
+    fontStyleKind = kFontStyleNormal;
   else if (wordsFontStyle == "italic")
-    fontStyleKind = KItalicFontStyle;
+    fontStyleKind = KFontStyleItalic;
   else {
     if (wordsFontStyle.size ()) {
       stringstream s;
@@ -3303,45 +3303,45 @@ The
   
   msrFontSize::msrFontSizeKind
     fontSizeKind =
-      msrFontSize::k_NoFontSize; // default value
+      msrFontSize::kFontSizeNone; // default value
 
   float fontSizeFloatValue = 0.0;
 
   if      (wordsFontSize == "xx-smal")
-    fontSizeKind = msrFontSize::kXXSmallFontSize;
+    fontSizeKind = msrFontSize::kFontSizeXXSmall;
   else if (wordsFontSize == "x-small")
-    fontSizeKind = msrFontSize::kXSmallFontSize;
+    fontSizeKind = msrFontSize::kFontSizeXSmall;
   else if (wordsFontSize == "small")
-    fontSizeKind = msrFontSize::kSmallFontSize;
+    fontSizeKind = msrFontSize::kFontSizeSmall;
   else if (wordsFontSize == "medium")
-    fontSizeKind = msrFontSize::kMediumFontSize;
+    fontSizeKind = msrFontSize::kFontSizeMedium;
   else if (wordsFontSize == "large")
-    fontSizeKind = msrFontSize::kLargeFontSize;
+    fontSizeKind = msrFontSize::kFontSizeLarge;
   else if (wordsFontSize == "x-large")
-    fontSizeKind = msrFontSize::kXLargeFontSize;
+    fontSizeKind = msrFontSize::kFontSizeXLarge;
   else if (wordsFontSize == "xx-large")
-    fontSizeKind = msrFontSize::kXXLargeFontSize;
+    fontSizeKind = msrFontSize::kFontSizeXXLarge;
   else {
     elt->getAttributeFloatValue ("font-size", 0.0);
-    fontSizeKind = msrFontSize::kNumericFontSize;
+    fontSizeKind = msrFontSize::kFontSizeNumeric;
   }
 
   S_msrFontSize fontSize;
 
   switch (fontSizeKind) {
-    case msrFontSize::k_NoFontSize:
-    case msrFontSize::kXXSmallFontSize:
-    case msrFontSize::kXSmallFontSize:
-    case msrFontSize::kSmallFontSize:
-    case msrFontSize::kMediumFontSize:
-    case msrFontSize::kLargeFontSize:
-    case msrFontSize::kXLargeFontSize:
-    case msrFontSize::kXXLargeFontSize:
+    case msrFontSize::kFontSizeNone:
+    case msrFontSize::kFontSizeXXSmall:
+    case msrFontSize::kFontSizeXSmall:
+    case msrFontSize::kFontSizeSmall:
+    case msrFontSize::kFontSizeMedium:
+    case msrFontSize::kFontSizeLarge:
+    case msrFontSize::kFontSizeXLarge:
+    case msrFontSize::kFontSizeXXLarge:
       fontSize =
         msrFontSize::create (fontSizeKind);
       break;
       
-    case msrFontSize::kNumericFontSize:
+    case msrFontSize::kFontSizeNumeric:
       fontSize =
         msrFontSize::create (fontSizeFloatValue);
       break;
@@ -3351,12 +3351,12 @@ The
 
   string wordsFontWeight = elt->getAttributeValue ("font-weight");
   
-  msrFontWeightKind fontWeightKind = k_NoFontWeight; // default value
+  msrFontWeightKind fontWeightKind = kFontWeightNone; // default value
 
   if      (wordsFontWeight == "normal")
-    fontWeightKind = kNormalFontWeight;
+    fontWeightKind = kFontWeightNormal;
   else if (wordsFontWeight == "bold")
-    fontWeightKind = kBoldFontWeight;
+    fontWeightKind = kFontWeightBold;
   else {
     if (wordsFontWeight.size ()) {
       stringstream s;
@@ -8831,12 +8831,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_accent& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8879,12 +8879,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_breath_mark& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8927,12 +8927,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_caesura& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -8975,12 +8975,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_spiccato& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9023,12 +9023,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccato& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9071,12 +9071,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_staccatissimo& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9119,12 +9119,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_stress& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9167,12 +9167,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_unstress& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9215,12 +9215,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_detached_legato& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9263,12 +9263,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_strong_accent& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9312,12 +9312,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_tenuto& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9361,12 +9361,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_doit& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9409,12 +9409,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_falloff& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9457,12 +9457,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_plop& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9505,12 +9505,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_scoop& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement;
+  msrPlacementKind placementKind = kPlacementNone;
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;    
+    placementKind = kPlacementBelow;    
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9585,12 +9585,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement; // default value
+  msrPlacementKind placementKind = kPlacementNone; // default value
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;
+    placementKind = kPlacementBelow;
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9615,12 +9615,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_arpeggiate& elt )
   
   string directionString = elt->getAttributeValue ("direction");
 
-  msrDirectionKind directionKind = k_NoDirection; // default value
+  msrDirectionKind directionKind = kDirectionNone; // default value
   
   if      (directionString == "up")
-    directionKind = kUpDirection;
+    directionKind = kDirectionUp;
   else if (directionString == "down")
-    directionKind = kDownDirection;
+    directionKind = kDirectionDown;
   else {
     if (directionString.size ()) {
       stringstream s;
@@ -9682,12 +9682,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_non_arpeggiate& elt )
   
   string placementString = elt->getAttributeValue ("placement");
 
-  msrPlacementKind placementKind = k_NoPlacement; // default value
+  msrPlacementKind placementKind = kPlacementNone; // default value
 
   if      (placementString == "above")
-    placementKind = kAbovePlacement;
+    placementKind = kPlacementAbove;
   else if (placementString == "below")
-    placementKind = kBelowPlacement;
+    placementKind = kPlacementBelow;
   else {
     if (placementString.size ()) {
       stringstream s;
@@ -9788,12 +9788,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_arrow& elt )
   string placement = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    arrowPlacementKind = k_NoPlacement;
+    arrowPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    arrowPlacementKind = kAbovePlacement;
+    arrowPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    arrowPlacementKind = kBelowPlacement;
+    arrowPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -9853,12 +9853,12 @@ void mxmlTree2MsrTranslator::visitEnd ( S_bend& elt )
   string placement = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    bendPlacementKind = k_NoPlacement;
+    bendPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    bendPlacementKind = kAbovePlacement;
+    bendPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    bendPlacementKind = kBelowPlacement;
+    bendPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -9901,12 +9901,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_double_tongue& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    doubleTonguePlacementKind = k_NoPlacement;
+    doubleTonguePlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    doubleTonguePlacementKind = kAbovePlacement;
+    doubleTonguePlacementKind = kPlacementAbove;
   else if (placement == "below")
-    doubleTonguePlacementKind = kBelowPlacement;
+    doubleTonguePlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -9947,12 +9947,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_down_bow& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    downBowPlacementKind = k_NoPlacement;
+    downBowPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    downBowPlacementKind = kAbovePlacement;
+    downBowPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    downBowPlacementKind = kBelowPlacement;
+    downBowPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -9994,12 +9994,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingering& elt )
     string placement = elt->getAttributeValue ("placement");
   
     msrPlacementKind
-      fingeringPlacementKind = k_NoPlacement;
+      fingeringPlacementKind = kPlacementNone;
   
     if      (placement == "above")
-      fingeringPlacementKind = kAbovePlacement;    
+      fingeringPlacementKind = kPlacementAbove;    
     else if (placement == "below")
-      fingeringPlacementKind = kBelowPlacement;
+      fingeringPlacementKind = kPlacementBelow;
     else if (placement.size ()) {    
       stringstream s;
       
@@ -10061,12 +10061,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_fingernails& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    fingernailsPlacementKind = k_NoPlacement;
+    fingernailsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    fingernailsPlacementKind = kAbovePlacement;
+    fingernailsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    fingernailsPlacementKind = kBelowPlacement;
+    fingernailsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -10108,12 +10108,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_fret& elt )
     string placement = elt->getAttributeValue ("placement");
   
     msrPlacementKind
-      fretPlacementKind =  k_NoPlacement;
+      fretPlacementKind =  kPlacementNone;
   
     if      (placement == "above")
-      fretPlacementKind = kAbovePlacement;    
+      fretPlacementKind = kPlacementAbove;    
     else if (placement == "below")
-      fretPlacementKind = kBelowPlacement;
+      fretPlacementKind = kPlacementBelow;
     else if (placement.size ()) {
       stringstream s;
       
@@ -10203,12 +10203,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_hammer_on& elt )
   string placement = elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    hammerOnPlacementKind = k_NoPlacement;
+    hammerOnPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    hammerOnPlacementKind = kAbovePlacement;    
+    hammerOnPlacementKind = kPlacementAbove;    
   else if (placement == "below")
-    hammerOnPlacementKind = kBelowPlacement;
+    hammerOnPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -10255,12 +10255,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_handbell& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    handbellPlacementKind = k_NoPlacement;
+    handbellPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    handbellPlacementKind = kAbovePlacement;
+    handbellPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    handbellPlacementKind = kBelowPlacement;
+    handbellPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -10303,12 +10303,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_harmonic& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    harmonicPlacementKind = k_NoPlacement;
+    harmonicPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    harmonicPlacementKind = kAbovePlacement;
+    harmonicPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    harmonicPlacementKind = kBelowPlacement;
+    harmonicPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -10349,12 +10349,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_heel& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    heelPlacementKind = k_NoPlacement;
+    heelPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    heelPlacementKind = kAbovePlacement;
+    heelPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    heelPlacementKind = kBelowPlacement;
+    heelPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -10395,12 +10395,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_hole& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    holePlacementKind = k_NoPlacement;
+    holePlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    holePlacementKind = kAbovePlacement;
+    holePlacementKind = kPlacementAbove;
   else if (placement == "below")
-    holePlacementKind = kBelowPlacement;
+    holePlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -10441,12 +10441,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_open_string& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    openStringPlacementKind = k_NoPlacement;
+    openStringPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    openStringPlacementKind = kAbovePlacement;
+    openStringPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    openStringPlacementKind = kBelowPlacement;
+    openStringPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -10489,12 +10489,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_other_technical& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    otherTechnicalWithStringPlacementKind = k_NoPlacement;
+    otherTechnicalWithStringPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    otherTechnicalWithStringPlacementKind = kAbovePlacement;
+    otherTechnicalWithStringPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    otherTechnicalWithStringPlacementKind = kBelowPlacement;
+    otherTechnicalWithStringPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -10539,12 +10539,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_pluck& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    pluckPlacementKind = k_NoPlacement;
+    pluckPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    pluckPlacementKind = kAbovePlacement;
+    pluckPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    pluckPlacementKind = kBelowPlacement;
+    pluckPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -10617,12 +10617,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_pull_off& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    pullOffPlacementKind = k_NoPlacement;
+    pullOffPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    pullOffPlacementKind = kAbovePlacement;
+    pullOffPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    pullOffPlacementKind = kBelowPlacement;
+    pullOffPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -10665,12 +10665,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_snap_pizzicato& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    snapPizzicatoPlacementKind = k_NoPlacement;
+    snapPizzicatoPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    snapPizzicatoPlacementKind = kAbovePlacement;
+    snapPizzicatoPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    snapPizzicatoPlacementKind = kBelowPlacement;
+    snapPizzicatoPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -10711,12 +10711,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_stopped& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    stoppedPlacementKind = k_NoPlacement;
+    stoppedPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    stoppedPlacementKind = kAbovePlacement;
+    stoppedPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    stoppedPlacementKind = kBelowPlacement;
+    stoppedPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -10788,12 +10788,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_string& elt )
     string placement = elt->getAttributeValue ("placement");
   
     msrPlacementKind
-      stringPlacementKind = k_NoPlacement;
+      stringPlacementKind = kPlacementNone;
   
     if      (placement == "above")
-      stringPlacementKind = kAbovePlacement;
+      stringPlacementKind = kPlacementAbove;
     else if (placement == "below")
-      stringPlacementKind = kBelowPlacement;
+      stringPlacementKind = kPlacementBelow;
     else if (placement.size ()) {    
       stringstream s;
       
@@ -10855,12 +10855,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_tap& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    tapPlacementKind = k_NoPlacement;
+    tapPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    tapPlacementKind = kAbovePlacement;
+    tapPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    tapPlacementKind = kBelowPlacement;
+    tapPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -10901,12 +10901,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_thumb_position& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    thumbPositionPlacementKind = k_NoPlacement;
+    thumbPositionPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    thumbPositionPlacementKind = kAbovePlacement;    
+    thumbPositionPlacementKind = kPlacementAbove;    
   else if (placement == "below")
-    thumbPositionPlacementKind = kBelowPlacement;
+    thumbPositionPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -10947,12 +10947,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_toe& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    toePlacementKind = k_NoPlacement;
+    toePlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    toePlacementKind = kAbovePlacement;    
+    toePlacementKind = kPlacementAbove;    
   else if (placement == "below")
-    toePlacementKind = kBelowPlacement;
+    toePlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -10993,12 +10993,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_triple_tongue& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    tripleTonguePlacementKind = k_NoPlacement;
+    tripleTonguePlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    tripleTonguePlacementKind = kAbovePlacement;    
+    tripleTonguePlacementKind = kPlacementAbove;    
   else if (placement == "below")
-    tripleTonguePlacementKind = kBelowPlacement;
+    tripleTonguePlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -11039,12 +11039,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_up_bow& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    upBowPlacementKind = k_NoPlacement;
+    upBowPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    upBowPlacementKind = kAbovePlacement;    
+    upBowPlacementKind = kPlacementAbove;    
   else if (placement == "below")
-    upBowPlacementKind = kBelowPlacement;
+    upBowPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -11247,10 +11247,10 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
       elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    singleTremoloPlacementKind = k_NoPlacement;
+    singleTremoloPlacementKind = kPlacementNone;
       
   msrPlacementKind
-    doubleTremoloPlacementKind = k_NoPlacement;
+    doubleTremoloPlacementKind = kPlacementNone;
 
   if      (tremoloPlacement == "above") {
     switch (fCurrentTremoloTypeKind) {
@@ -11259,12 +11259,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
         break;
         
       case kTremoloTypeSingle:
-        singleTremoloPlacementKind = kAbovePlacement;
+        singleTremoloPlacementKind = kPlacementAbove;
         break;
         
       case kTremoloTypeStart:
       case kTremoloTypeStop:
-        doubleTremoloPlacementKind = kAbovePlacement;
+        doubleTremoloPlacementKind = kPlacementAbove;
         break;
     } // switch
   }
@@ -11276,12 +11276,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_tremolo& elt )
         break;
         
       case kTremoloTypeSingle:
-        singleTremoloPlacementKind = kBelowPlacement;
+        singleTremoloPlacementKind = kPlacementBelow;
         break;
         
       case kTremoloTypeStart:
       case kTremoloTypeStop:
-        doubleTremoloPlacementKind = kBelowPlacement;
+        doubleTremoloPlacementKind = kPlacementBelow;
         break;
     } // switch
   }
@@ -11429,12 +11429,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_trill_mark& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11479,12 +11479,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11571,12 +11571,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -11620,12 +11620,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_turn& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11668,12 +11668,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_turn& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11716,12 +11716,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_turn& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11764,12 +11764,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_delayed_inverted_turn& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11812,12 +11812,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_vertical_turn& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11860,12 +11860,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_mordent& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11908,12 +11908,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_inverted_mordent& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -11956,12 +11956,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_schleifer& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12004,12 +12004,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_shake& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12099,12 +12099,12 @@ void mxmlTree2MsrTranslator::visitStart ( S_accidental_mark& elt )
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    ornamentPlacementKind = k_NoPlacement;
+    ornamentPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    ornamentPlacementKind = kAbovePlacement;
+    ornamentPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    ornamentPlacementKind = kBelowPlacement;
+    ornamentPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -12160,12 +12160,12 @@ void mxmlTree2MsrTranslator::visitStart( S_f& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12205,12 +12205,12 @@ void mxmlTree2MsrTranslator::visitStart( S_ff& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12250,12 +12250,12 @@ void mxmlTree2MsrTranslator::visitStart( S_fff& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12295,12 +12295,12 @@ void mxmlTree2MsrTranslator::visitStart( S_ffff& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12340,12 +12340,12 @@ void mxmlTree2MsrTranslator::visitStart( S_fffff& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12385,12 +12385,12 @@ void mxmlTree2MsrTranslator::visitStart( S_ffffff& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12431,12 +12431,12 @@ void mxmlTree2MsrTranslator::visitStart( S_p& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12476,12 +12476,12 @@ void mxmlTree2MsrTranslator::visitStart( S_pp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12521,12 +12521,12 @@ void mxmlTree2MsrTranslator::visitStart( S_ppp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12566,12 +12566,12 @@ void mxmlTree2MsrTranslator::visitStart( S_pppp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12611,12 +12611,12 @@ void mxmlTree2MsrTranslator::visitStart( S_ppppp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;    
+    dynamicsPlacementKind = kPlacementAbove;    
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12656,12 +12656,12 @@ void mxmlTree2MsrTranslator::visitStart( S_pppppp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12703,12 +12703,12 @@ void mxmlTree2MsrTranslator::visitStart( S_mf& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12748,12 +12748,12 @@ void mxmlTree2MsrTranslator::visitStart( S_mp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12794,12 +12794,12 @@ void mxmlTree2MsrTranslator::visitStart( S_fp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12839,12 +12839,12 @@ void mxmlTree2MsrTranslator::visitStart( S_fz& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12885,12 +12885,12 @@ void mxmlTree2MsrTranslator::visitStart( S_rf& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12931,12 +12931,12 @@ void mxmlTree2MsrTranslator::visitStart( S_sf& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
@@ -12977,12 +12977,12 @@ void mxmlTree2MsrTranslator::visitStart( S_rfz& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -13022,12 +13022,12 @@ void mxmlTree2MsrTranslator::visitStart( S_sfz& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -13067,12 +13067,12 @@ void mxmlTree2MsrTranslator::visitStart( S_sfp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {    
     stringstream s;
     
@@ -13112,12 +13112,12 @@ void mxmlTree2MsrTranslator::visitStart( S_sfpp& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     stringstream s;
     
@@ -13157,12 +13157,12 @@ void mxmlTree2MsrTranslator::visitStart( S_sffz& elt)
     elt->getAttributeValue ("placement");
 
   msrPlacementKind
-    dynamicsPlacementKind = k_NoPlacement;
+    dynamicsPlacementKind = kPlacementNone;
 
   if      (placement == "above")
-    dynamicsPlacementKind = kAbovePlacement;
+    dynamicsPlacementKind = kPlacementAbove;
   else if (placement == "below")
-    dynamicsPlacementKind = kBelowPlacement;
+    dynamicsPlacementKind = kPlacementBelow;
   else if (placement.size ()) {
     
     stringstream s;
