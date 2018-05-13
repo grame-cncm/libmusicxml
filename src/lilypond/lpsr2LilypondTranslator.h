@@ -713,11 +713,14 @@ class lpsr2LilypondTranslator :
 
     // trills
 
-    bool                  fOnGoingTrillSpanner;
+    bool                  fOnGoingTrillSpanner; // JMI
     
     // spanners
     
-    string                spannerAsLilypondString (
+    void                  generateCodeForSpannerBeforeNote (
+                            S_msrSpanner spanner);
+
+    void                  generateCodeForSpannerAfterNote (
                             S_msrSpanner spanner);
 
     // tremolos

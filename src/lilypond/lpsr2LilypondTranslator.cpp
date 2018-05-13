@@ -1801,21 +1801,19 @@ string lpsr2LilypondTranslator::ornamentAsLilypondString (
 }
 
 //________________________________________________________________________
-string lpsr2LilypondTranslator::spannerAsLilypondString (
+void lpsr2LilypondTranslator::generateCodeForSpannerBeforeNote (
   S_msrSpanner spanner)
 {
-  string result;
-  
-  switch (spanner->getSpannerKind ()) {     
-    case msrSpanner::kSpannerTrill:
+  switch (spanner->getSpannerKind ()) {
+    case msrSpanner::kSpannerDashes:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
-     // JMI     result = "\\startTrillSpan ";
+          fLilypondCodeIOstream <<
+            "\\once \\override TextSpanner #'style = #'dashed-line" <<
+            endl;
           fOnGoingTrillSpanner = true;
           break;
         case kSpannerTypeStop:
-    // JMI      result = "\\stopTrillSpan ";
-          fOnGoingTrillSpanner = false;
           break;
         case kSpannerTypeContinue:
           break;
@@ -1824,14 +1822,45 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
       } // switch
       break;
          
+    case msrSpanner::kSpannerWavyLine:
+      switch (spanner->getSpannerTypeKind ()) {
+        case kSpannerTypeStart:
+          if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
+            // don't generate anything, the trill will display the wavy line
+            fOnGoingTrillSpanner = true;
+          }
+          else {
+            fLilypondCodeIOstream <<
+              "\\once \\override TextSpanner #'style = #'trill" <<
+              endl;
+          }
+          break;
+        case kSpannerTypeStop:
+          break;
+        case kSpannerTypeContinue:
+          break;
+        case k_NoSpannerType:
+          break;
+      } // switch
+      break;      
+  } // switch
+}
+
+//________________________________________________________________________
+void lpsr2LilypondTranslator::generateCodeForSpannerAfterNote (
+  S_msrSpanner spanner)
+{
+  switch (spanner->getSpannerKind ()) {
     case msrSpanner::kSpannerDashes:
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
-          result = "\\startTextSpan ";
+          fLilypondCodeIOstream <<
+            "\\startTextSpan ";
           fOnGoingTrillSpanner = true;
           break;
         case kSpannerTypeStop:
-          result = "\\stopTextSpan ";
+          fLilypondCodeIOstream <<
+            "\\stopTextSpan ";
           fOnGoingTrillSpanner = false;
           break;
         case kSpannerTypeContinue:
@@ -1849,26 +1878,22 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
             fOnGoingTrillSpanner = true;
           }
           else {
-       //     result = "\\startTrillSpan";
-            //* JMI
-            stringstream s;
-
-            s <<
-              "\\once \\override TextSpanner #'style = #'trill" <<
-            endl;
-
-            result = s.str ();
-            //*/
+            fLilypondCodeIOstream <<
+              "\\startTrillSpan " <<
+              endl;
           }
           break;
         case kSpannerTypeStop:
           if (spanner->getSpannerNoteUplink ()->getNoteTrillOrnament ()) {
-            // don't generate anything, the trill will display the wavy line
-            fOnGoingTrillSpanner = false;
+      // JMI      // don't generate anything, the trill will display the wavy line
+            fLilypondCodeIOstream <<
+              "\\stopTrillSpan ";
           }
           else {
-            result = "\\stopTextSpan";
+            fLilypondCodeIOstream <<
+              "\\stopTextSpan ";
           }
+          fOnGoingTrillSpanner = false;
           break;
         case kSpannerTypeContinue:
           break;
@@ -1877,8 +1902,6 @@ string lpsr2LilypondTranslator::spannerAsLilypondString (
       } // switch
       break;      
   } // switch
-
-  return result;
 }
 
 //________________________________________________________________________
@@ -7931,8 +7954,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       bool doGenerateSpannerCode = true;
       
       switch (spanner->getSpannerKind ()) {
-        case msrSpanner::kSpannerTrill:
-          break;
         case msrSpanner::kSpannerDashes:
           break;
         case msrSpanner::kSpannerWavyLine:
@@ -7942,29 +7963,15 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
           }
           break;
       } // switch
-
-  //    doGenerateSpannerCode = true;
       
-      fLilypondCodeIOstream <<
-        "% doGenerateSpannerCode = " <<
-        booleanAsString (doGenerateSpannerCode) <<
-        endl;
-
       if (doGenerateSpannerCode) {
         switch (spanner->getSpannerKind ()) {
-          case msrSpanner::kSpannerTrill:
-            break;
           case msrSpanner::kSpannerDashes:
-            fLilypondCodeIOstream <<
-              "\\override TextSpanner.bound-details.left.text = \\markup { " " }" <<
-              endl;
-            break;
           case msrSpanner::kSpannerWavyLine:
             break;
         } // switch
   
-        fLilypondCodeIOstream <<
-          spannerAsLilypondString (spanner) << " ";
+        generateCodeForSpannerBeforeNote (spanner);
       }
     } // for
   }
@@ -8760,8 +8767,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
       bool doGenerateSpannerCode = true;
       
       switch (spanner->getSpannerKind ()) {
-        case msrSpanner::kSpannerTrill:
-          break;
         case msrSpanner::kSpannerDashes:
           break;
         case msrSpanner::kSpannerWavyLine:
@@ -8771,13 +8776,6 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
           }
           break;
       } // switch
-
-   //   doGenerateSpannerCode = true;
-
-      fLilypondCodeIOstream <<
-        "% doGenerateSpannerCode = " <<
-        booleanAsString (doGenerateSpannerCode) <<
-        endl;
 
       if (doGenerateSpannerCode) {
         switch (spanner->getSpannerPlacementKind ()) {
@@ -8792,8 +8790,7 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
             break;
         } // switch
   
-        fLilypondCodeIOstream <<
-          spannerAsLilypondString (spanner) << " ";
+        generateCodeForSpannerAfterNote (spanner);
       }
     } // for
   }

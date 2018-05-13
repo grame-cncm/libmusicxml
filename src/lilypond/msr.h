@@ -2003,7 +2003,7 @@ class msrSpanner : public msrElement
     // ------------------------------------------------------
 
     enum msrSpannerKind {
-        kSpannerTrill, kSpannerDashes, kSpannerWavyLine };
+        kSpannerDashes, kSpannerWavyLine };
 
     static string spannerKindAsString (
       msrSpannerKind spannerKind);

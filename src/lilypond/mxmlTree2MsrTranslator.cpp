@@ -11473,6 +11473,38 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
 
  // type : upright inverted  (Binchois20.xml) JMI
 
+  // number
+
+  int dashesNumber = elt->getAttributeIntValue ("number", 0); // JMI
+
+  // type
+  
+  string dashesType = elt->getAttributeValue ("type");
+  
+  msrSpannerTypeKind fDashesSpannerTypeKind = k_NoSpannerType;
+
+  if      (dashesType == "start")
+    fDashesSpannerTypeKind = kSpannerTypeStart;
+  else if (dashesType == "continue")
+    fDashesSpannerTypeKind = kSpannerTypeContinue;
+  else if (dashesType == "stop")
+    fDashesSpannerTypeKind = kSpannerTypeStop;
+  else {
+    if (dashesType.size ()) {
+      stringstream s;
+      
+      s <<
+        "dashes type \"" << dashesType <<
+        "\" is unknown";
+      
+      msrMusicXMLError (
+        gXml2lyOptions->fInputSourceName,
+        inputLineNumber,
+        __FILE__, __LINE__,
+        s.str ());
+    }   
+  }
+
   // placement
   
   string placement =
@@ -11500,14 +11532,16 @@ void mxmlTree2MsrTranslator::visitStart ( S_dashes& elt )
       s.str ());    
   }
 
-  S_msrOrnament
-    ornament =
-      msrOrnament::create (
-        elt->getInputLineNumber (),
-        msrOrnament::kOrnamentDashes,
-        ornamentPlacementKind);
+  S_msrSpanner
+    spanner =
+      msrSpanner::create (
+        inputLineNumber,
+        msrSpanner::kSpannerDashes,
+        fDashesSpannerTypeKind,
+        ornamentPlacementKind,
+        nullptr); // will be set later REMOVE??? JMI
       
-  fCurrentOrnamentsList.push_back (ornament);
+  fCurrentSpannersList.push_back (spanner);
 }
 
 void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
@@ -11535,7 +11569,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_wavy_line& elt )
 
   // number
 
-  fWavyLineNumber = elt->getAttributeIntValue ("number", 0); // JMI
+  int wavyLineNumber = elt->getAttributeIntValue ("number", 0); // JMI
 
   // type
   
@@ -15411,24 +15445,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
         spanner =
           fCurrentSpannersList.front();
           
-      switch (spanner->getSpannerKind ()) {     
-        case msrSpanner::kSpannerTrill: // JMI
-          switch (spanner->getSpannerTypeKind ()) {
-            case kSpannerTypeStart:
-              spannerStopMetForThisNote = true;
-              break;
-            case kSpannerTypeStop:
-              doHandleSpanner =
-                ! spannerStopMetForThisNote;
-              break;
-            case kSpannerTypeContinue:
-              break;
-            case k_NoSpannerType:
-              // JMI ???
-              break;
-          } // switch
-          break;
-               
+      switch (spanner->getSpannerKind ()) {
         case msrSpanner::kSpannerDashes: // JMI
           switch (spanner->getSpannerTypeKind ()) {
             case kSpannerTypeStart:

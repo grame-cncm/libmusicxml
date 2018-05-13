@@ -1721,9 +1721,6 @@ class mxmlTree2MsrTranslator :
     // spanners handling
     // ------------------------------------------------------
     
-    msrPlacementKind          fWavyLinePlacementKind;
-    int                       fWavyLineNumber;
-    
     list<S_msrSpanner>        fCurrentSpannersList;
 
     void                      attachCurrentSpannersToNote (

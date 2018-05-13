@@ -3088,9 +3088,6 @@ string msrSpanner::spannerKindAsString (
   string result;
   
   switch (spannerKind) {
-    case msrSpanner::kSpannerTrill:
-      result = "spannerTrill";
-      break;
     case msrSpanner::kSpannerDashes:
       result = "spannerDashes";
       break;
@@ -6586,9 +6583,6 @@ void msrNote::addSpannerToNote (S_msrSpanner spanner)
 
   // register note has having a wavy line start
   switch (spanner->getSpannerKind ()) {
-    case msrSpanner::kSpannerTrill:
-      break;
-      
     case msrSpanner::kSpannerDashes:
       break;
       
