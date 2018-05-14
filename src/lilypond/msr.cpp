@@ -89,7 +89,7 @@ void msrElement::acceptOut (basevisitor* v)
 string msrElement::asString () const
 {
   // this is overriden all in actual elements
-  return "??? Element ???";
+  return "??? msrElement::asString () ???";
 }
 
 string msrElement::asShortString () const
@@ -37102,14 +37102,14 @@ string msrPartGroup::partGroupBarlineKindAsString () const
       fPartGroupBarlineKind);
 }
 
-string msrPartGroup::asString ()
+string msrPartGroup::asString () const
 {
   stringstream s;
 
   s <<
-    "PartGroup " <<
-    fPartGroupName <<
-    ", line " << fInputLineNumber;
+    "PartGroup \"" <<
+    getPartGroupCombinedName () <<
+    "\", line " << fInputLineNumber;
 
   return s.str ();
 }

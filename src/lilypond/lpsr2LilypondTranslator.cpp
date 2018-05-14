@@ -3501,8 +3501,9 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
       "% --> Start visiting lpsrPartGroupBlock" <<
-      " for part group " <<
+      " for part group '" <<
       partGroup->asShortString () <<
+      "'" <<
       endl;
   }
 

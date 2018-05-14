@@ -12571,7 +12571,7 @@ class msrPartGroup : public msrElement
     
     string                partGroupBarlineKindAsString () const;
 
-    string                asString ();
+    virtual string        asString () const;
     
     S_msrPart             appendPartToPartGroupByItsPartID (
                             int    inputLineNumber,
