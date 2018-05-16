@@ -34274,6 +34274,9 @@ void msrStaff::print (ostream& os)
 
   // print the  voices
   if (fStaffAllVoicesMap.size ()) {
+    os <<
+      endl;
+    
     map<int, S_msrVoice>::const_iterator
       iBegin = fStaffAllVoicesMap.begin (),
       iEnd   = fStaffAllVoicesMap.end (),

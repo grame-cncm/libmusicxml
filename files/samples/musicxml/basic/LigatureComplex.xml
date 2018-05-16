@@ -98,7 +98,7 @@
           <step>C</step>
           <octave>4</octave>
         </pitch>
-        <duration>8</duration>
+        <duration>40</duration>
         <voice>1</voice>
         <type>quarter</type>
         <stem>none</stem>
@@ -107,7 +107,7 @@
           <text>Ma</text>
         </lyric>
       </note>
-      <note default-x="103">
+      <!--note default-x="103">
         <pitch>
           <step>D</step>
           <octave>4</octave>
@@ -164,7 +164,7 @@
           <syllabic>end</syllabic>
           <text>cat</text>
         </lyric>
-      </note>
+      </note-->
     </measure>
     <!--=======================================================-->
     <measure number="2" width="217">
