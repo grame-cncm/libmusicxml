@@ -12101,6 +12101,8 @@ class msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
+    virtual string        asString () const;
+
     // comments
 
     void                  appendCommentToPart (S_msrComment comment);

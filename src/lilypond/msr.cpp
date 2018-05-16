@@ -35992,6 +35992,18 @@ void msrPart::setPartInstrumentNamesMaxLengthes ()
   }
 }
 
+string msrPart::asString () const
+{
+  stringstream s;
+
+  s <<
+    "Part \"" <<
+    getPartName () <<
+    "\", line " << fInputLineNumber;
+
+  return s.str ();
+}
+
 void msrPart::finalizePart (
   int inputLineNumber)
 {

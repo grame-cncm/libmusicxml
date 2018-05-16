@@ -3500,8 +3500,7 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
 
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting lpsrPartGroupBlock" <<
-      " for part group '" <<
+      "% --> Start visiting lpsrPartGroupBlock for '" <<
       partGroup->asShortString () <<
       "'" <<
       endl;
@@ -3602,10 +3601,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kPartGroupImplicitYes:
           break;
         case msrPartGroup::kPartGroupImplicitNo:
+        /* JMI
           fLilypondCodeIOstream <<
             endl <<
             "\\with {" <<
             endl;
+            */
           break;
       } // switch
 
@@ -3670,10 +3671,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
         case msrPartGroup::kPartGroupImplicitYes:
           break;
         case msrPartGroup::kPartGroupImplicitNo:
+        /* JMI
           fLilypondCodeIOstream <<
             endl <<
             "}" <<
             endl;
+            */
           break;
       } // switch
 
@@ -3770,9 +3773,15 @@ void lpsr2LilypondTranslator::visitEnd (S_lpsrPartGroupBlock& elt)
 //________________________________________________________________________
 void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
 {
+  // fetch part block's part
+  S_msrPart
+    part =
+      elt->getPart ();
+      
   if (gLpsrOptions->fTraceLpsrVisitors) {
     fLilypondCodeIOstream <<
-      "% --> Start visiting lpsrPartBlock" <<
+      "% --> Start visiting lpsrPartBlock for '" <<
+      part->asShortString () <<
       endl;
   }
 
@@ -3781,11 +3790,6 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
   fNumberOfStaffBlocksElements =
     elt->getPartBlockElementsList ().size ();
     
-  // fetch part block's part
-  S_msrPart
-    part =
-      elt->getPart ();
-      
   if (part->getPartStavesMap ().size () > 1) {
     // don't generate code for a part with only one stave
 
