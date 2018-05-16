@@ -2670,6 +2670,11 @@ void mxmlTree2MsrSkeletonBuilder::visitEnd (S_part& elt)
   fCurrentPart->
     setPartNumberOfMeasures (
       fPartNumberOfMeasures);
+
+  // are there more staves in <staves/> that specified with <stave/>?
+  fCurrentPart->
+    addAVoiceToStavesThatHaveNone (
+      elt->getInputLineNumber ());
 }
 
 //________________________________________________________________________
@@ -2709,8 +2714,8 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staves& elt)
   }
 
   if (stavesNumber > 1) {
-    // add n-1 staves to current part since 1 already exists JMI
-    int n = 2;
+    // add stavesNumber staves to current part
+    int n = 1;
     
     while (n <= stavesNumber) {
       fCurrentPart->
@@ -2732,10 +2737,10 @@ void mxmlTree2MsrSkeletonBuilder::visitStart (S_staff& elt)
       endl;
   }
 
-  fCurrentStaffNumber = int(*elt);
-
   int inputLineNumber =
     elt->getInputLineNumber ();
+
+  fCurrentStaffNumber = int(*elt);
 
   // the staff number should be positive
   if (fCurrentStaffNumber <= 0) {

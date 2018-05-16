@@ -11619,6 +11619,9 @@ class msrStaff : public msrElement
                             int inputLineNumber,
                             int voiceNumber);
 
+    void                  addAVoiceToStaffIfItHasNone (
+                            int inputLineNumber);
+  
     // measures
     
     void                  createMeasureAndAppendItToStaff (
@@ -12101,6 +12104,9 @@ class msrPart : public msrElement
     // services
     // ------------------------------------------------------
 
+    void                  addAVoiceToStavesThatHaveNone (
+                            int inputLineNumber);
+  
     virtual string        asString () const;
 
     // comments

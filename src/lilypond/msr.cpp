@@ -32930,6 +32930,28 @@ S_msrVoice msrStaff::fetchVoiceFromStaffByItsNumber (
   return result;
 }
 
+void msrStaff::addAVoiceToStaffIfItHasNone (
+  int inputLineNumber)
+{
+  if (fStaffAllVoicesMap.size () == 0) {
+    if (gTraceOptions->fTraceStaves || gTraceOptions->fTraceVoices) {
+      gLogIOstream <<
+        "Staff \"" <<
+        getStaffName () <<
+        "\" doesn't contain any voice, adding one" <<
+        ", line " << inputLineNumber <<
+        endl;
+    }
+
+    this->
+      createVoiceInStaffByItsNumber (
+        inputLineNumber,
+        msrVoice::kRegularVoice,
+        1,    // voiceNumber,
+        "1"); // fCurrentMeasureNumber
+  }
+}
+
 void msrStaff::registerVoiceInStaff (
   int        inputLineNumber,
   S_msrVoice voice)
@@ -34739,6 +34761,19 @@ void msrPart::createPartFiguredStaffAndVoiceIfNotYetDone (
   */  
 }
 
+void msrPart::addAVoiceToStavesThatHaveNone (
+  int inputLineNumber)
+{
+  for (
+    map<int, S_msrStaff>::const_iterator i = fPartStavesMap.begin ();
+    i != fPartStavesMap.end ();
+    i++) {
+    (*i).second->
+      addAVoiceToStaffIfItHasNone (
+        inputLineNumber);
+  } // for
+}
+
 void msrPart::setPartMeasureLengthHighTide (
   int      inputLineNumber,
   rational measureLength)
@@ -35459,7 +35494,8 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
     
     s <<      
       "staffNumber " << staffNumber <<
-      " already exists in part " << getPartCombinedName ();
+      " already exists in part " << getPartCombinedName () <<
+      ", line " << inputLineNumber;
 
     msrInternalError ( // JMI ???
       gXml2lyOptions->fInputSourceName,
@@ -35476,6 +35512,7 @@ S_msrStaff msrPart::addStaffToPartByItsNumber (
       msrStaff::staffKindAsString (staffKind) <<
       " staff " << staffNumber <<
       " to part " << getPartCombinedName () <<
+      ", line " << inputLineNumber <<
       endl;
   }
   
