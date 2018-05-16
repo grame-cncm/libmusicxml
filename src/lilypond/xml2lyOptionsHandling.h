@@ -14,14 +14,14 @@
 #define __xml2lyOptionsHandling__
 
 #include "exports.h"
-#include "optionsHandling.h"
+#include "optionsBasicTypes.h"
 
 
 namespace MusicXML2 
 {
 
 //______________________________________________________________________________
-class xml2lyOptionsVersionItem : public optionsVersionItem
+class xml2lyOptionsVersionItem : public optionsItem
 {
   public:
   
@@ -71,6 +71,110 @@ class xml2lyOptionsVersionItem : public optionsVersionItem
 };
 typedef SMARTP<xml2lyOptionsVersionItem> S_xml2lyOptionsVersionItem;
 ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionItem& elt);
+
+//______________________________________________________________________________
+class xml2lyOptionsAboutItem : public optionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<xml2lyOptionsAboutItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    xml2lyOptionsAboutItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~xml2lyOptionsAboutItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printAbout (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<xml2lyOptionsAboutItem> S_xml2lyOptionsAboutItem;
+ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutItem& elt);
+
+//______________________________________________________________________________
+class xml2lyOptionsContactItem : public optionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<xml2lyOptionsContactItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    xml2lyOptionsContactItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~xml2lyOptionsContactItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printContact (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<xml2lyOptionsContactItem> S_xml2lyOptionsContactItem;
+ostream& operator<< (ostream& os, const S_xml2lyOptionsContactItem& elt);
 
 //_______________________________________________________________________________
 class EXP xml2lyOptionsHandler : public optionsHandler
@@ -156,6 +260,13 @@ class xml2lyOptions : public optionsGroup
 
     void                  checkXml2lyOptionsConsistency () const;
 
+    // services
+    // ------------------------------------------------------
+
+    virtual S_optionsItem handleOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item);
+        
   public:
 
     // input

@@ -14,11 +14,85 @@
 #define __lpsrOptions__
 
 #include "lpsrBasicTypes.h"
-#include "optionsHandling.h"
+#include "optionsBasicTypes.h"
 #include "exports.h"
 
 namespace MusicXML2 
 {
+
+//______________________________________________________________________________
+class optionsChordsLanguageItem : public optionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsChordsLanguageItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsChordsLanguageKindItemVariableDisplayName,
+      lpsrChordsLanguageKind&
+                         optionsChordsLanguageKindItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsChordsLanguageItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsChordsLanguageKindItemVariableDisplayName,
+      lpsrChordsLanguageKind&
+                         optionsChordsLanguageKindItemVariable);
+      
+    virtual ~optionsChordsLanguageItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsChordsLanguageKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsChordsLanguageKindItemVariableDisplayName;
+                              }
+                              
+    void                  setChordsLanguageKindItemVariableValue (
+                            lpsrChordsLanguageKind value)
+                              {
+                                fOptionsChordsLanguageKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsChordsLanguageKindItemVariableDisplayName;
+    lpsrChordsLanguageKind&
+                          fOptionsChordsLanguageKindItemVariable;
+};
+typedef SMARTP<optionsChordsLanguageItem> S_optionsChordsLanguageItem;
+ostream& operator<< (ostream& os, const S_optionsChordsLanguageItem& elt);
 
 //______________________________________________________________________________
 class lpsrOptions : public optionsGroup
@@ -67,6 +141,18 @@ class lpsrOptions : public optionsGroup
     // ------------------------------------------------------
 
     void                  checkLpsrOptionsConsistency () const;
+
+    // services
+    // ------------------------------------------------------
+
+    virtual S_optionsItem handleOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item);
+                            
+    virtual void          handleValuedOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item,
+                            string        theString);
 
   public:
 

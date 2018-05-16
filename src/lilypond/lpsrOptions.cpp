@@ -15,6 +15,7 @@
 
 #include "utilities.h"
 
+#include "msrOptions.h" // for optionsPitchesLanguageItem
 #include "lpsrOptions.h"
 
 
@@ -22,6 +23,97 @@ using namespace std;
 
 namespace MusicXML2 
 {
+
+#define TRACE_OPTIONS 0
+
+//______________________________________________________________________________
+S_optionsChordsLanguageItem optionsChordsLanguageItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsChordsLanguageKindItemVariableDisplayName,
+  lpsrChordsLanguageKind&
+                     optionsChordsLanguageKindItemVariable)
+{
+  optionsChordsLanguageItem* o = new
+    optionsChordsLanguageItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsChordsLanguageKindItemVariableDisplayName,
+      optionsChordsLanguageKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsChordsLanguageItem::optionsChordsLanguageItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsChordsLanguageKindItemVariableDisplayName,
+  lpsrChordsLanguageKind&
+                     optionsChordsLanguageKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsChordsLanguageKindItemVariableDisplayName (
+      optionsChordsLanguageKindItemVariableDisplayName),
+    fOptionsChordsLanguageKindItemVariable (
+      optionsChordsLanguageKindItemVariable)
+{}
+
+optionsChordsLanguageItem::~optionsChordsLanguageItem()
+{}
+
+void optionsChordsLanguageItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsChordsLanguageItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsChordsLanguageKindItemVariableDisplayName" << " : " <<
+    fOptionsChordsLanguageKindItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsChordsLanguageKindItemVariable" << " : \"" <<
+    lpsrChordsLanguageKindAsString (
+      fOptionsChordsLanguageKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsChordsLanguageItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsChordsLanguageKindItemVariableDisplayName <<
+    " : \"" <<
+    lpsrChordsLanguageKindAsString (
+      fOptionsChordsLanguageKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsChordsLanguageItem& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 //_______________________________________________________________________________
 S_lpsrOptions gLpsrOptions;
@@ -333,6 +425,81 @@ void lpsrOptions::printLpsrOptionsValues (int fieldWidth)
 
   
   gIndenter--;
+}
+
+S_optionsItem lpsrOptions::handleOptionsItem (
+  ostream&      os,
+  S_optionsItem item)
+{
+  S_optionsItem result;
+  
+  if (
+    // chords language item?
+    S_optionsChordsLanguageItem
+      chordsLanguageItem =
+        dynamic_cast<optionsChordsLanguageItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsChordsLanguageItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = chordsLanguageItem;
+  }
+
+  return result;
+}
+
+void lpsrOptions::handleValuedOptionsItem (
+  ostream&      os,
+  S_optionsItem item,
+  string        theString)
+{
+  if (
+    // chords language item?
+    S_optionsChordsLanguageItem
+      chordsLanguageItem =
+        dynamic_cast<optionsChordsLanguageItem*>(&(*item))
+    ) {
+    // theString contains the language name:     
+    // is it in the chords languages map?
+    map<string, lpsrChordsLanguageKind>::const_iterator
+      it =
+        gLpsrChordsLanguageKindsMap.find (theString);
+          
+    if (it == gLpsrChordsLanguageKindsMap.end ()) {
+      // no, language is unknown in the map    
+      stringstream s;
+  
+      s <<
+        "LPSR chords language " << theString <<
+        " is unknown" <<
+        endl <<
+        "The " <<
+        gLpsrChordsLanguageKindsMap.size () - 1 <<
+        " known LPSR chords languages apart from the default Ignatzek are:" <<
+        endl;
+  
+      gIndenter++;
+    
+      s <<
+        existingLpsrChordsLanguageKinds ();
+  
+      gIndenter--;
+  
+      optionError (s.str ());
+      
+      printHelpSummary (os);
+      
+      exit (4);
+    }
+  
+    chordsLanguageItem->
+      setChordsLanguageKindItemVariableValue (
+        (*it).second);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lpsrOptions& elt)

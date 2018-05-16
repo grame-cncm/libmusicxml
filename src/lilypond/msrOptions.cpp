@@ -14,6 +14,8 @@
 #include <iomanip>      // setw, setprecision, ...
 #include <sstream>
 
+#include <regex>
+
 #include "utilities.h"
 
 #include "msrOptions.h"
@@ -23,6 +25,230 @@ using namespace std;
 
 namespace MusicXML2 
 {
+
+#define TRACE_OPTIONS 0
+
+//______________________________________________________________________________
+S_optionsPartRenameItem optionsPartRenameItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsPartRenameItemVariableDisplayName,
+  map<string, string>&
+                     optionsPartRenameItemVariable)
+{
+  optionsPartRenameItem* o = new
+    optionsPartRenameItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsPartRenameItemVariableDisplayName,
+      optionsPartRenameItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsPartRenameItem::optionsPartRenameItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsPartRenameItemVariableDisplayName,
+  map<string, string>&
+                     optionsPartRenameItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsPartRenameItemVariableDisplayName (
+      optionsPartRenameItemVariableDisplayName),
+    fOptionsPartRenameItemVariable (
+      optionsPartRenameItemVariable)
+{}
+
+optionsPartRenameItem::~optionsPartRenameItem()
+{}
+
+void optionsPartRenameItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsPartRenameItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsPartRenameItemVariableDisplayName" << " : " <<
+    fOptionsPartRenameItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsPartRenameItemVariable" << " : " <<
+    endl;
+
+  if (! fOptionsPartRenameItemVariable.size ()) {
+    os << "none";
+  }
+  else {
+    map<string, string>::const_iterator
+      iBegin = fOptionsPartRenameItemVariable.begin (),
+      iEnd   = fOptionsPartRenameItemVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i).first << " --> " << (*i).second;
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+  }
+  
+  os <<
+    endl;
+}
+
+void optionsPartRenameItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsPartRenameItemVariableDisplayName <<
+    " : ";
+      
+  if (! fOptionsPartRenameItemVariable.size ()) {
+    os << "none";
+  }
+  else {
+    gIndenter++;
+    
+    os <<
+      endl;
+
+    map<string, string>::const_iterator
+      iBegin = fOptionsPartRenameItemVariable.begin (),
+      iEnd   = fOptionsPartRenameItemVariable.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << left <<
+        setw (valueFieldWidth) <<
+        " " <<
+        " \"" <<
+        (*i).first <<
+        "\" --> \"" <<
+        (*i).second <<
+        "\"";
+      if (++i == iEnd) break;
+      os << endl;
+    } // for
+
+    gIndenter--;
+  }
+  
+  os <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsPitchesLanguageItem optionsPitchesLanguageItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsPitchesLanguageKindItemVariableDisplayName,
+  msrQuarterTonesPitchesLanguageKind&
+                     optionsPitchesLanguageKindItemVariable)
+{
+  optionsPitchesLanguageItem* o = new
+    optionsPitchesLanguageItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsPitchesLanguageKindItemVariableDisplayName,
+      optionsPitchesLanguageKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsPitchesLanguageItem::optionsPitchesLanguageItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsPitchesLanguageKindItemVariableDisplayName,
+  msrQuarterTonesPitchesLanguageKind&
+                     optionsPitchesLanguageKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsPitchesLanguageKindItemVariableDisplayName (
+      optionsPitchesLanguageKindItemVariableDisplayName),
+    fOptionsPitchesLanguageKindItemVariable (
+      optionsPitchesLanguageKindItemVariable)
+{}
+
+optionsPitchesLanguageItem::~optionsPitchesLanguageItem()
+{}
+
+void optionsPitchesLanguageItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsPitchesLanguageItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsPitchesLanguagKindeItemVariableDisplayName" << " : " <<
+    fOptionsPitchesLanguageKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsPitchesLanguageItemVariable" << " : \"" <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fOptionsPitchesLanguageKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsPitchesLanguageItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsPitchesLanguageKindItemVariableDisplayName <<
+    " : \"" <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fOptionsPitchesLanguageKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsPitchesLanguageItem& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 //_______________________________________________________________________________
 S_msrOptions gMsrOptions;
@@ -714,6 +940,238 @@ void msrOptions::printMsrOptionsValues (int fieldWidth)
   gIndenter--;
   
   gIndenter--;
+}
+
+S_optionsItem msrOptions::handleOptionsItem (
+  ostream&      os,
+  S_optionsItem item)
+{
+  S_optionsItem result;
+  
+  if (
+    // pitches language item?
+    S_optionsPitchesLanguageItem
+      pitchesLanguageItem =
+        dynamic_cast<optionsPitchesLanguageItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsPitchesLanguageItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = pitchesLanguageItem;
+  }
+
+  else if (
+    // part rename item?
+    S_optionsPartRenameItem
+      partRenameItem =
+        dynamic_cast<optionsPartRenameItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsPartRenameItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = partRenameItem;
+  }
+
+  return result;
+}
+
+void msrOptions::handleValuedOptionsItem (
+  ostream&      os,
+  S_optionsItem item,
+  string        theString)
+{
+  if (
+    // part rename item?
+    S_optionsPartRenameItem
+      partRenameItem =
+        dynamic_cast<optionsPartRenameItem*>(&(*item))
+    ) {
+    // theString contains the part rename specification
+    // decipher it to extract the old and new part names
+    string regularExpression (
+      "[[:space:]]*(.*)[[:space:]]*"
+      "="
+      "[[:space:]]*(.*)[[:space:]]*");
+      
+    regex  e (regularExpression);
+    smatch sm;
+
+    regex_match (theString, sm, e);
+
+    if (TRACE_OPTIONS) {
+      os <<
+        "There are " << sm.size () << " matches" <<
+        " for MIDI tempo string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl;
+    }
+  
+    if (sm.size ()) {
+      for (unsigned i = 0; i < sm.size (); ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+      os <<
+        endl;
+    }
+    
+    else {
+      stringstream s;
+
+      s <<
+        "-msrPartRename argument '" << theString <<
+        "' is ill-formed";
+        
+      optionError (s.str ());
+      
+      printSpecificSubGroupHelp (
+        os,
+        partRenameItem->
+          getOptionsSubGroupUplink ());
+          
+      exit (4);
+    }
+
+    string
+      oldPartName = sm [1],
+      newPartName = sm [2];
+      
+    if (TRACE_OPTIONS) {
+      os <<
+        "--> oldPartName = \"" << oldPartName << "\", " <<
+        "--> newPartName = \"" << newPartName << "\"" <<
+        endl;
+    }
+
+    map<string, string>
+      partRenameItemVariable =
+        partRenameItem->
+          getOptionsPartRenameItemVariable ();
+          
+    // is this part name in the part renaming map?
+    map<string, string>::iterator
+      it =
+        partRenameItemVariable.find (oldPartName);
+          
+    if (it != partRenameItemVariable.end ()) {
+      // yes, issue error message
+      stringstream s;
+
+      s <<
+        "Part \"" << oldPartName << "\" occurs more that one" <<
+        "in the '--partName' option";
+        
+      optionError (s.str ());
+      exit (4);
+    }
+    
+    else {
+      partRenameItem->
+        setPartRenameItemVariableValue (
+          oldPartName, newPartName);
+    }
+  }
+
+  else if (
+    // pitches language item?
+    S_optionsPitchesLanguageItem
+      pitchesLanguageKindItem =
+        dynamic_cast<optionsPitchesLanguageItem*>(&(*item))
+    ) {
+    // theString contains the language name:     
+    // is it in the pitches languages map?
+    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+      it =
+        gQuarterTonesPitchesLanguageKindsMap.find (
+          theString);
+          
+    if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+      // no, language is unknown in the map
+      
+      printHelpSummary (os);
+      
+      stringstream s;
+  
+      s <<
+        "MSR pitches language " << theString <<
+        " is unknown" <<
+        endl <<
+        "The " <<
+        gQuarterTonesPitchesLanguageKindsMap.size () <<
+        " known MSR pitches languages are:" <<
+        endl;
+  
+      gIndenter++;
+    
+      s <<
+        existingQuarterTonesPitchesLanguageKinds ();
+  
+      gIndenter--;
+  
+      optionError (s.str ());
+      
+      exit (4);
+    }
+  
+    pitchesLanguageKindItem->
+      setPitchesLanguageKindItemVariableValue (
+        (*it).second);
+  }
+
+  else if (
+    // pitches language item?
+    S_optionsPitchesLanguageItem
+      pitchesLanguageKindItem =
+        dynamic_cast<optionsPitchesLanguageItem*>(&(*item))
+    ) {
+    // theString contains the language name:     
+    // is it in the pitches languages map?
+    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+      it =
+        gQuarterTonesPitchesLanguageKindsMap.find (
+          theString);
+          
+    if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+      // no, language is unknown in the map
+      
+      printHelpSummary (os);
+      
+      stringstream s;
+  
+      s <<
+        "MSR pitches language " << theString <<
+        " is unknown" <<
+        endl <<
+        "The " <<
+        gQuarterTonesPitchesLanguageKindsMap.size () <<
+        " known MSR pitches languages are:" <<
+        endl;
+  
+      gIndenter++;
+    
+      s <<
+        existingQuarterTonesPitchesLanguageKinds ();
+  
+      gIndenter--;
+  
+      optionError (s.str ());
+      
+      exit (4);
+    }
+  
+    pitchesLanguageKindItem->
+      setPitchesLanguageKindItemVariableValue (
+        (*it).second);
+  }
 }
 
 ostream& operator<< (ostream& os, const S_msrOptions& elt)

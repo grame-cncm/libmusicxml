@@ -15,11 +15,165 @@
 
 #include <set>
 
-#include "optionsHandling.h"
+#include "optionsBasicTypes.h"
 
 
 namespace MusicXML2 
 {
+
+//______________________________________________________________________________
+class optionsAccidentalStyleItem : public optionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsAccidentalStyleItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsAccidentalStyleItemVariableDisplayName,
+      lpsrAccidentalStyleKind&
+                         optionsAccidentalStyleKindItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsAccidentalStyleItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsAccidentalStyleItemVariableDisplayName,
+      lpsrAccidentalStyleKind&
+                         optionsAccidentalStyleKindItemVariable);
+      
+    virtual ~optionsAccidentalStyleItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsAccidentalStyleKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsAccidentalStyleKindItemVariableDisplayName;
+                              }
+                              
+    void                  setAccidentalStyleKindItemVariableValue (
+                            lpsrAccidentalStyleKind value)
+                              {
+                                fOptionsAccidentalStyleKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsAccidentalStyleKindItemVariableDisplayName;
+    lpsrAccidentalStyleKind&
+                          fOptionsAccidentalStyleKindItemVariable;
+};
+typedef SMARTP<optionsAccidentalStyleItem> S_optionsAccidentalStyleItem;
+ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt);
+
+//______________________________________________________________________________
+class optionsMidiTempoItem : public optionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsMidiTempoItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsMidiTempoItemVariableDisplayName,
+      pair<string, int>&
+                         optionsMidiTempoItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsMidiTempoItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsMidiTempoItemVariableDisplayName,
+      pair<string, int>&
+                         optionsMidiTempoItemVariable);
+      
+    virtual ~optionsMidiTempoItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsMidiTempoItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsMidiTempoItemVariableDisplayName;
+                              }
+                              
+    void                  setMidiTempoItemVariableValue (
+                            pair<string, int> value)
+                              {
+                                fOptionsMidiTempoItemVariable = value;
+                              }
+
+    const pair<string, int>&
+                          getOptionsMidiTempoItemVariable ()
+                              {
+                                return
+                                  fOptionsMidiTempoItemVariable;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsMidiTempoItemVariableDisplayName;
+    pair<string, int>&    fOptionsMidiTempoItemVariable;
+};
+typedef SMARTP<optionsMidiTempoItem> S_optionsMidiTempoItem;
+ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt);
 
 //______________________________________________________________________________
 class lilypondOptions : public optionsGroup
@@ -80,6 +234,18 @@ class lilypondOptions : public optionsGroup
 
     void                  checkLilypondOptionsConsistency () const;
 
+    // services
+    // ------------------------------------------------------
+
+    virtual S_optionsItem handleOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item);
+                            
+    virtual void          handleValuedOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item,
+                            string        theString);
+
   public:
 
     // time
@@ -130,6 +296,11 @@ class lilypondOptions : public optionsGroup
     // --------------------------------------
     
     bool                  fModernTab;
+
+    // chords
+    // --------------------------------------
+    
+    bool                  fConnectArpeggios;
 
     // tuplets
     // --------------------------------------

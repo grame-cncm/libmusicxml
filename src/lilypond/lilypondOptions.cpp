@@ -13,6 +13,8 @@
 #include <climits>      /* INT_MIN, INT_MAX */
 #include <iomanip>      // setw, setprecision, ...
 
+#include <regex>
+
 #include "utilities.h"
 
 #include "lilypondOptions.h"
@@ -22,6 +24,189 @@ using namespace std;
 
 namespace MusicXML2 
 {
+
+#define TRACE_OPTIONS 0
+
+//______________________________________________________________________________
+S_optionsAccidentalStyleItem optionsAccidentalStyleItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsAccidentalStyleKindItemVariableDisplayName,
+  lpsrAccidentalStyleKind&
+                     optionsAccidentalStyleKindItemVariable)
+{
+  optionsAccidentalStyleItem* o = new
+    optionsAccidentalStyleItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsAccidentalStyleKindItemVariableDisplayName,
+      optionsAccidentalStyleKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsAccidentalStyleItem::optionsAccidentalStyleItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsAccidentalStyleKindItemVariableDisplayName,
+  lpsrAccidentalStyleKind&
+                     optionsAccidentalStyleKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsAccidentalStyleKindItemVariableDisplayName (
+      optionsAccidentalStyleKindItemVariableDisplayName),
+    fOptionsAccidentalStyleKindItemVariable (
+      optionsAccidentalStyleKindItemVariable)
+{}
+
+optionsAccidentalStyleItem::~optionsAccidentalStyleItem()
+{}
+
+void optionsAccidentalStyleItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsAccidentalStyleItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsAccidentalStyleKindItemVariableDisplayName" << " : " <<
+    fOptionsAccidentalStyleKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsAccidentalStyleKindItemVariable" << " : \"" <<
+    lpsrAccidentalStyleKindAsString (
+      fOptionsAccidentalStyleKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsAccidentalStyleItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsAccidentalStyleKindItemVariableDisplayName <<
+    " : \"" <<
+    lpsrAccidentalStyleKindAsString (
+      fOptionsAccidentalStyleKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsAccidentalStyleItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsMidiTempoItem optionsMidiTempoItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsMidiTempoItemVariableDisplayName,
+  pair<string, int>&
+                     optionsMidiTempoItemVariable)
+{
+  optionsMidiTempoItem* o = new
+    optionsMidiTempoItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsMidiTempoItemVariableDisplayName,
+      optionsMidiTempoItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsMidiTempoItem::optionsMidiTempoItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsMidiTempoItemVariableDisplayName,
+  pair<string, int>&
+                     optionsMidiTempoItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsMidiTempoItemVariableDisplayName (
+      optionsMidiTempoItemVariableDisplayName),
+    fOptionsMidiTempoItemVariable (
+      optionsMidiTempoItemVariable)
+{}
+
+optionsMidiTempoItem::~optionsMidiTempoItem()
+{}
+
+void optionsMidiTempoItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsMidiTempoItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsMidiTempoItemVariableDisplayName" << " : " <<
+    fOptionsMidiTempoItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsMidiTempoItemVariable" << " : '" <<
+    fOptionsMidiTempoItemVariable.first <<
+    " = " <<
+    fOptionsMidiTempoItemVariable.second <<
+    "'" <<
+    endl;
+}
+
+void optionsMidiTempoItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsMidiTempoItemVariableDisplayName <<
+    " : '" <<
+    fOptionsMidiTempoItemVariable.first <<
+    " = " <<
+    fOptionsMidiTempoItemVariable.second <<
+    "'" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsMidiTempoItem& elt)
+{
+  elt->print (os);
+  return os;
+}
 
 //_______________________________________________________________________________
 S_lilypondOptions gLilypondOptions;
@@ -366,6 +551,37 @@ R"(Generate '\moderntab' instead of the default '\tab'.)",
           fModernTab));
   }
   
+
+  // chords
+  // --------------------------------------
+
+  {
+    // variables  
+  
+    fConnectArpeggios = boolOptionsInitialValue;
+    
+    // options
+  
+    S_optionsSubGroup
+      chordsSubGroup =
+        optionsSubGroup::create (
+          "Chords",
+          "hlilych", "helpLilypondChordss",
+R"()",
+        optionsSubGroup::kAlwaysShowDescription,
+        this);
+  
+    appendOptionsSubGroup (chordsSubGroup);
+
+    chordsSubGroup->
+      appendOptionsItem (
+        optionsBooleanItem::create (
+          "carpeg", "connectArpeggios",
+R"(Connect arpeggios across piano staves.)",
+          "connectArpeggios",
+          fConnectArpeggios));
+  }
+      
 
   // tuplets
   // --------------------------------------
@@ -788,6 +1004,13 @@ S_lilypondOptions lilypondOptions::createCloneWithDetailedTrace ()
     fModernTab;
 
   
+  // chords
+  // --------------------------------------
+    
+  clone->fConnectArpeggios =
+    fConnectArpeggios;
+
+  
   // tuplets
   // --------------------------------------
     
@@ -1032,6 +1255,22 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
 
   gIndenter--;
   
+  // chords
+  // --------------------------------------
+
+  gLogIOstream <<
+    "Chords:" <<
+    endl;
+
+  gIndenter++;
+
+  gLogIOstream << left <<
+    setw (fieldWidth) << "connectArpeggios" << " : " <<
+    booleanAsString (fConnectArpeggios) <<
+    endl;
+    
+  gIndenter--;
+
   // tuplets
   // --------------------------------------
 
@@ -1171,6 +1410,176 @@ void lilypondOptions::printLilypondOptionsValues (int fieldWidth)
   
 
   gIndenter--;
+}
+
+S_optionsItem lilypondOptions::handleOptionsItem (
+  ostream&      os,
+  S_optionsItem item)
+{
+  S_optionsItem result;
+  
+  if (
+    // acccidentals style item?
+    S_optionsAccidentalStyleItem
+      accidentalStyleItem =
+        dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = accidentalStyleItem;
+  }
+
+  else if (
+    // midi tempo item?
+    S_optionsMidiTempoItem
+      midiTempoItem =
+        dynamic_cast<optionsMidiTempoItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsMidiTempoItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = midiTempoItem;
+  }
+
+  return result;
+}
+
+void lilypondOptions::handleValuedOptionsItem (
+  ostream&      os,
+  S_optionsItem item,
+  string        theString)
+{
+  if (
+    // accidental style item?
+    S_optionsAccidentalStyleItem
+      accidentalStyleKindItem =
+        dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
+    ) {
+    // theString contains the language name:     
+    // is it in the accidental styles map?
+    map<string, lpsrAccidentalStyleKind>::const_iterator
+      it =
+        gLpsrAccidentalStyleKindsMap.find (
+          theString);
+          
+    if (it == gLpsrAccidentalStyleKindsMap.end ()) {
+      // no, accidental style is unknown in the map
+      stringstream s;
+  
+      s <<
+        "LPSR accidental style " << theString <<
+        " is unknown" <<
+        endl <<
+        "The " <<
+        gLpsrAccidentalStyleKindsMap.size () - 1 <<
+        " known LPSR accidental styles are:" <<
+        endl;
+  
+      gIndenter++;
+    
+      s <<
+        existingLpsrAccidentalStyleKinds ();
+  
+      gIndenter--;
+  
+      optionError (s.str ());
+      
+      printHelpSummary (os);
+      
+      exit (4);
+    }
+  
+    accidentalStyleKindItem->
+      setAccidentalStyleKindItemVariableValue (
+        (*it).second);
+  }
+
+  else if (
+    // midi tempo item?
+    S_optionsMidiTempoItem
+      midiTempoItem =
+        dynamic_cast<optionsMidiTempoItem*>(&(*item))
+    ) {
+    // theString contains the midi tempo specification
+    // decipher it to extract duration and perSecond values
+    string regularExpression (
+      "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
+      "="
+      "[[:space:]]*([[:digit:]]+)[[:space:]]*");
+      
+    regex  e (regularExpression);
+    smatch sm;
+
+    regex_match (theString, sm, e);
+
+    if (TRACE_OPTIONS) {
+      os <<
+        "There are " << sm.size () << " matches" <<
+        " for MIDI tempo string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl;
+    }
+  
+    if (sm.size ()) {
+      for (unsigned i = 0; i < sm.size (); ++i) {
+        os <<
+          "[" << sm [i] << "] ";
+      } // for
+      os <<
+        endl;
+    }
+    
+    else {
+      stringstream s;
+
+      s <<
+        "-midiTempo argument '" << theString <<
+        "' is ill-formed";
+        
+      optionError (s.str ());
+      
+      printSpecificSubGroupHelp (
+        os,
+        midiTempoItem->
+          getOptionsSubGroupUplink ());
+          
+      exit (4);
+    }
+
+    string midiTempoDuration  = sm [1];
+
+    int    midiTempoPerSecond;
+    {
+      stringstream s;
+      s << sm [2];
+      s >> midiTempoPerSecond;
+    }
+    
+    if (TRACE_OPTIONS) {
+      os <<
+        "midiTempoDuration  = " <<
+        midiTempoDuration <<
+        endl <<
+        "midiTempoPerSecond = " <<
+        midiTempoPerSecond <<
+        endl;
+
+    midiTempoItem->
+      setMidiTempoItemVariableValue (
+        pair<string, int> (
+          midiTempoDuration, midiTempoPerSecond));
+    }
+  }
 }
 
 ostream& operator<< (ostream& os, const S_lilypondOptions& elt)

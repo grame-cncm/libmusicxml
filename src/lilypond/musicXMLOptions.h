@@ -13,7 +13,7 @@
 #ifndef __musicXMLOptions__
 #define __musicXMLOptions__
 
-#include "optionsHandling.h"
+#include "optionsBasicTypes.h"
 #include "exports.h"
 
 
@@ -57,6 +57,13 @@ class musicXMLOptions : public optionsGroup
     // ------------------------------------------------------
 
     void                  checkMusicXMLOptionsConsistency () const;
+
+    // services
+    // ------------------------------------------------------
+
+    virtual S_optionsItem handleOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item);
 
   public:
 

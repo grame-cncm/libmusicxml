@@ -13,12 +13,190 @@
 #ifndef __extraOptions__
 #define __extraOptions__
 
-#include "optionsHandling.h"
+#include "optionsBasicTypes.h"
 #include "exports.h"
 
 
 namespace MusicXML2 
 {
+
+//______________________________________________________________________________
+class optionsShowAllChordIntervalsItem : public optionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsShowAllChordIntervalsItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsShowAllChordIntervalsItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~optionsShowAllChordIntervalsItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printAllChordIntervals (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<optionsShowAllChordIntervalsItem> S_optionsShowAllChordIntervalsItem;
+ostream& operator<< (ostream& os, const S_optionsShowAllChordIntervalsItem& elt);
+
+//______________________________________________________________________________
+class optionsShowChordsNotesItem : public optionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsShowChordsNotesItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsShowChordsNotesItemVariableDisplayName,
+      msrSemiTonesPitchKind&
+                         optionsShowChordsNotesKindItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsShowChordsNotesItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsShowChordsNotesItemVariableDisplayName,
+      msrSemiTonesPitchKind&
+                         optionsShowChordsNotesKindItemVariable);
+      
+    virtual ~optionsShowChordsNotesItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsShowChordsNotesKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsShowChordsNotesKindItemVariableDisplayName;
+                              }
+                              
+    void                  setShowChordNotesKindItemVariableValue (
+                            msrSemiTonesPitchKind value)
+                              {
+                                fOptionsShowChordsNotesKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsShowChordsNotesKindItemVariableDisplayName;
+    msrSemiTonesPitchKind&
+                          fOptionsShowChordsNotesKindItemVariable;
+};
+typedef SMARTP<optionsShowChordsNotesItem> S_optionsShowChordsNotesItem;
+ostream& operator<< (ostream& os, const S_optionsShowChordsNotesItem& elt);
+
+//______________________________________________________________________________
+class optionsShowChordNotesItem : public optionsItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsShowChordNotesItem> create (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsShowChordNotesItem (
+      string optionsItemShortName,
+      string optionsItemLongName,
+      string optionsItemDescription);
+      
+    virtual ~optionsShowChordNotesItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printChordNotes (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+};
+typedef SMARTP<optionsShowChordNotesItem> S_optionsShowChordNotesItem;
+ostream& operator<< (ostream& os, const S_optionsShowChordNotesItem& elt);
 
 //______________________________________________________________________________
 class extraOptions : public optionsGroup
@@ -57,6 +235,13 @@ class extraOptions : public optionsGroup
     // ------------------------------------------------------
 
     void                  checkExtraOptionsConsistency () const;
+
+    // services
+    // ------------------------------------------------------
+
+    virtual S_optionsItem handleOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item);
 
   public:
 

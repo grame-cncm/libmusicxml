@@ -23,6 +23,238 @@ using namespace std;
 namespace MusicXML2 
 {
 
+#define TRACE_OPTIONS 0
+
+//______________________________________________________________________________
+S_optionsShowAllChordIntervalsItem optionsShowAllChordIntervalsItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  optionsShowAllChordIntervalsItem* o = new
+    optionsShowAllChordIntervalsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+optionsShowAllChordIntervalsItem::optionsShowAllChordIntervalsItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+optionsShowAllChordIntervalsItem::~optionsShowAllChordIntervalsItem()
+{}
+
+void optionsShowAllChordIntervalsItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsShowAllChordIntervalsItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void optionsShowAllChordIntervalsItem::printAllChordIntervals (ostream& os) const
+{
+  msrChordIntervals::printAllChordsIntervals (os);
+}
+
+void optionsShowAllChordIntervalsItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_optionsShowAllChordIntervalsItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsShowChordNotesItem optionsShowChordNotesItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  optionsShowChordNotesItem* o = new
+    optionsShowChordNotesItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+optionsShowChordNotesItem::optionsShowChordNotesItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+optionsShowChordNotesItem::~optionsShowChordNotesItem ()
+{}
+
+void optionsShowChordNotesItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsShowChordNotesItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void optionsShowChordNotesItem::printChordNotes (ostream& os) const
+{  
+  os <<
+    "xml2ly printChordNotes"<<
+    endl;
+}
+
+void optionsShowChordNotesItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_optionsShowChordNotesItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsShowChordsNotesItem optionsShowChordsNotesItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsShowChordsNotesKindItemVariableDisplayName,
+  msrSemiTonesPitchKind&
+                     optionsShowChordsNotesKindItemVariable)
+{
+  optionsShowChordsNotesItem* o = new
+    optionsShowChordsNotesItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsShowChordsNotesKindItemVariableDisplayName,
+      optionsShowChordsNotesKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsShowChordsNotesItem::optionsShowChordsNotesItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsShowChordsNotesKindItemVariableDisplayName,
+  msrSemiTonesPitchKind&
+                     optionsShowChordsNotesKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsShowChordsNotesKindItemVariableDisplayName (
+      optionsShowChordsNotesKindItemVariableDisplayName),
+    fOptionsShowChordsNotesKindItemVariable (
+      optionsShowChordsNotesKindItemVariable)
+{}
+
+optionsShowChordsNotesItem::~optionsShowChordsNotesItem()
+{}
+
+void optionsShowChordsNotesItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsShowChordsNotesItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsShowChordsNotesKindItemVariableDisplayName" << " : " <<
+    fOptionsShowChordsNotesKindItemVariableDisplayName <<
+    endl <<
+    setw (fieldWidth) <<
+    "fOptionsShowChordsNotesKindItemVariable" << " : \"" <<
+    msrSemiTonesPitchKindAsString (
+      fOptionsShowChordsNotesKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsShowChordsNotesItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsShowChordsNotesKindItemVariableDisplayName <<
+    " : \"" <<
+    msrSemiTonesPitchKindAsString (
+      fOptionsShowChordsNotesKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsShowChordsNotesItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 
 S_extraOptions gExtraOptions;
@@ -193,6 +425,55 @@ void extraOptions::printExtraOptionsValues (int fieldWidth)
 
   gIndenter--;
 }
+
+S_optionsItem extraOptions::handleOptionsItem (
+  ostream&      os,
+  S_optionsItem item)
+{
+  S_optionsItem result;
+  
+  if (
+    // show all chord intervals item?
+    S_optionsShowAllChordIntervalsItem
+      showAllChordIntervalsItem =
+        dynamic_cast<optionsShowAllChordIntervalsItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsShowAllChordIntervalsItem'" <<
+        endl;
+    }
+
+    // handle it at once
+    showAllChordIntervalsItem->
+      printAllChordIntervals (os);
+
+    // exit
+    exit (0);
+  }
+  
+  else if (
+    // show chord notes item?
+    S_optionsShowChordNotesItem
+      showChordNotesItem =
+        dynamic_cast<optionsShowChordNotesItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsShowChordNotesItem'" <<
+        endl;
+    }
+
+    // handle it at once
+    showChordNotesItem->
+      printChordNotes (os);
+
+    // exit
+    exit (0);
+  }
+
+  return result;
+}   
 
 ostream& operator<< (ostream& os, const S_extraOptions& elt)
 {

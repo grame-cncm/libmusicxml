@@ -17,11 +17,167 @@
 
 #include "msrBasicTypes.h"
 
-#include "optionsHandling.h"
+#include "optionsBasicTypes.h"
 
 
 namespace MusicXML2 
 {
+
+//______________________________________________________________________________
+class optionsPartRenameItem : public optionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsPartRenameItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsPartRenameItemVariableDisplayName,
+      map<string, string>&
+                         optionsPartRenameItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsPartRenameItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsPartRenameItemVariableDisplayName,
+      map<string, string>&
+                         optionsPartRenameItemVariable);
+      
+    virtual ~optionsPartRenameItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsPartRenameItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsPartRenameItemVariableDisplayName;
+                              }
+                              
+    void                  setPartRenameItemVariableValue (
+                            string oldPartName,
+                            string newPartName)
+                              {
+                                fOptionsPartRenameItemVariable [oldPartName] =
+                                  newPartName;
+                              }
+
+    const map<string, string>&
+                          getOptionsPartRenameItemVariable ()
+                              {
+                                return
+                                  fOptionsPartRenameItemVariable;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsPartRenameItemVariableDisplayName;
+    map<string, string>&  fOptionsPartRenameItemVariable;
+};
+typedef SMARTP<optionsPartRenameItem> S_optionsPartRenameItem;
+ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
+
+//______________________________________________________________________________
+class optionsPitchesLanguageItem : public optionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsPitchesLanguageItem> create (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsPitchesLanguageKindItemVariableDisplayName,
+      msrQuarterTonesPitchesLanguageKind&
+                         optionsPitchesLanguageKindItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsPitchesLanguageItem (
+      string             optionsItemShortName,
+      string             optionsItemLongName,
+      string             optionsItemDescription,
+      string             optionsValueSpecification,
+      string             optionsPitchesLanguageKindItemVariableDisplayName,
+      msrQuarterTonesPitchesLanguageKind&
+                         optionsPitchesLanguageKindItemVariable);
+      
+    virtual ~optionsPitchesLanguageItem();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsPitchesLanguageKindItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsPitchesLanguageKindItemVariableDisplayName;
+                              }
+                              
+    void                  setPitchesLanguageKindItemVariableValue (
+                            msrQuarterTonesPitchesLanguageKind value)
+                              {
+                                fOptionsPitchesLanguageKindItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsPitchesLanguageKindItemVariableDisplayName;
+    msrQuarterTonesPitchesLanguageKind&
+                          fOptionsPitchesLanguageKindItemVariable;
+};
+typedef SMARTP<optionsPitchesLanguageItem> S_optionsPitchesLanguageItem;
+ostream& operator<< (ostream& os, const S_optionsPitchesLanguageItem& elt);
 
 //______________________________________________________________________________
 class msrOptions : public optionsGroup
@@ -68,6 +224,19 @@ class msrOptions : public optionsGroup
 
     void                  checkMsrOptionsConsistency () const;
 
+
+    // services
+    // ------------------------------------------------------
+
+    virtual S_optionsItem handleOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item);
+                            
+    virtual void          handleValuedOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item,
+                            string        theString);
+  
   public:
 
     // trace and display

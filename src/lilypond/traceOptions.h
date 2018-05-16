@@ -15,7 +15,7 @@
 
 #include <set>
 
-#include "optionsHandling.h"
+#include "optionsBasicTypes.h"
 #include "exports.h"
 
 
@@ -60,6 +60,13 @@ class traceOptions : public optionsGroup
     // ------------------------------------------------------
 
     void                  checkTraceOptionsConsistency () const;
+
+    // services
+    // ------------------------------------------------------
+
+    virtual S_optionsItem handleOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item);
 
   public:
 

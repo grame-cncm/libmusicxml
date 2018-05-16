@@ -22,6 +22,8 @@ using namespace std;
 namespace MusicXML2 
 {
 
+#define TRACE_OPTIONS 0
+
 //_______________________________________________________________________________
 S_traceOptions gTraceOptions;
 S_traceOptions gTraceOptionsUserChoices;
@@ -1107,6 +1109,15 @@ void traceOptions::printTraceOptionsValues (int fieldWidth)
   gIndenter--;
 
   gIndenter--;
+}
+
+S_optionsItem traceOptions::handleOptionsItem (
+  ostream&      os,
+  S_optionsItem item)
+{
+  S_optionsItem result;
+  
+  return result;
 }
 
 ostream& operator<< (ostream& os, const S_traceOptions& elt)

@@ -23,6 +23,8 @@ using namespace std;
 namespace MusicXML2 
 {
 
+#define TRACE_OPTIONS 0
+
 //_______________________________________________________________________________
 
 S_musicXMLOptions gMusicXMLOptions;
@@ -367,6 +369,15 @@ void musicXMLOptions::printMusicXMLOptionsValues (int fieldWidth)
 
 
   gIndenter--;
+}
+
+S_optionsItem musicXMLOptions::handleOptionsItem (
+  ostream&      os,
+  S_optionsItem item)
+{
+  S_optionsItem result;
+  
+  return result;
 }
 
 ostream& operator<< (ostream& os, const S_musicXMLOptions& elt)

@@ -3703,13 +3703,12 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartGroupBlock& elt)
       "\"" <<
       endl;
   }
-
-  bool doConnectArpeggios = false; // JMI
   
-  if (doConnectArpeggios)
+  if (gLilypondOptions->fConnectArpeggios) {
     fLilypondCodeIOstream <<
       "\\set PianoStaff.connectArpeggios = ##t" <<
       endl;
+  }
 
   if (partGroupSymbolKind == msrPartGroup::kPartGroupSymbolSquare) { // JMI
     gIndenter++;
@@ -3840,10 +3839,8 @@ void lpsr2LilypondTranslator::visitStart (S_lpsrPartBlock& elt)
         "\"" <<
         endl;
     }
-
-    bool doConnectArpeggios = true; // JMI
     
-    if (doConnectArpeggios) {
+    if (gLilypondOptions->fConnectArpeggios) {
       fLilypondCodeIOstream <<
         "connectArpeggios = ##t" <<
         endl;

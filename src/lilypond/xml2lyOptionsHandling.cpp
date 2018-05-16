@@ -37,6 +37,56 @@ namespace MusicXML2
 #define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
+S_xml2lyOptionsVersionItem xml2lyOptionsVersionItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  xml2lyOptionsVersionItem* o = new
+    xml2lyOptionsVersionItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+xml2lyOptionsVersionItem::xml2lyOptionsVersionItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+xml2lyOptionsVersionItem::~xml2lyOptionsVersionItem()
+{}
+
+void xml2lyOptionsVersionItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "xml2lyOptionsVersionItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
 void xml2lyOptionsVersionItem::printVersion (ostream& os) const
 {  
   os <<
@@ -48,6 +98,185 @@ void xml2lyOptionsVersionItem::printVersion (ostream& os) const
 
   // print versions history
   printVersionsHistory (os);
+}
+
+void xml2lyOptionsVersionItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_xml2lyOptionsVersionItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_xml2lyOptionsAboutItem xml2lyOptionsAboutItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  xml2lyOptionsAboutItem* o = new
+    xml2lyOptionsAboutItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+xml2lyOptionsAboutItem::xml2lyOptionsAboutItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+xml2lyOptionsAboutItem::~xml2lyOptionsAboutItem ()
+{}
+
+void xml2lyOptionsAboutItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "xml2lyOptionsAboutItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void xml2lyOptionsAboutItem::printAbout (ostream& os) const
+{  
+  os <<
+    endl <<
+R"(What xml2ly does:
+
+    This multi-pass translator basically performs 5 passes:
+        Pass 1:  reads the contents of MusicXMLFile or stdin ('-')
+                 and converts it to a MusicXML tree;
+        Pass 2a: converts that MusicXML tree into to
+                 a Music Score Representation (MSR) skeleton;
+        Pass 2b: converts that tree and the skeleton into a
+                 Music Score Representation (MSR);
+        Pass 3:  converts the MSR into a
+                 LilyPond Score Representation (LPSR);
+        Pass 4:  converts the LPSR to LilyPond source code 
+                 and writes it to standard output.
+
+    Other passes are performed according to the options, such as
+    printing views of the internal data or printing a summary of the score.
+
+    The activity log and warning/error messages go to standard error.)" <<
+    endl <<
+    endl;
+}
+
+void xml2lyOptionsAboutItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_xml2lyOptionsAboutItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_xml2lyOptionsContactItem xml2lyOptionsContactItem::create (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+{
+  xml2lyOptionsContactItem* o = new
+    xml2lyOptionsContactItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription);
+  assert(o!=0);
+  return o;
+}
+
+xml2lyOptionsContactItem::xml2lyOptionsContactItem (
+  string optionsItemShortName,
+  string optionsItemLongName,
+  string optionsItemDescription)
+  : optionsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription)
+{}
+
+xml2lyOptionsContactItem::~xml2lyOptionsContactItem ()
+{}
+
+void xml2lyOptionsContactItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "xml2lyOptionsContactItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void xml2lyOptionsContactItem::printContact (ostream& os) const
+{  
+  os <<
+    endl <<
+R"(To contact xml2ly maintainers:
+
+    Send a mail to mailto:lilypond-user@gnu.org describing the problem
+    and error messages you obtain if relevant.)" <<
+    endl <<
+    endl;
+}
+
+void xml2lyOptionsContactItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_xml2lyOptionsContactItem& elt)
+{
+  elt->print (os);
+  return os;
 }
 
 //______________________________________________________________________________
@@ -422,7 +651,7 @@ R"()",
   
     versionSubGroup->
       appendOptionsItem (
-        optionsVersionItem::create (
+        xml2lyOptionsVersionItem::create (
           "v", "version",
 R"(Display xml2ly's version number and history and exit.)"));
   }
@@ -449,7 +678,7 @@ R"()",
   
     aboutSubGroup->
       appendOptionsItem (
-        optionsAboutItem::create (
+        xml2lyOptionsAboutItem::create (
           "a", "about",
 R"(Display information about xml2ly and exit.)"));
   }
@@ -476,7 +705,7 @@ R"()",
   
     contactSubGroup->
       appendOptionsItem (
-        optionsContactItem::create (
+        xml2lyOptionsContactItem::create (
           "c", "contact",
 R"(Display information about how to contacct xml2ly maintainers and exit.)"));
   }
@@ -572,6 +801,83 @@ void xml2lyOptions::printXml2lyOptionsValues (int fieldWidth)
     endl;
 
   gIndenter--;
+}
+
+S_optionsItem xml2lyOptions::handleOptionsItem (
+  ostream&      os,
+  S_optionsItem item)
+{
+  S_optionsItem result;
+  
+  if (TRACE_OPTIONS) {
+    os <<
+      "---> Handling options item '" <<
+      item <<
+      "'" <<
+      endl;
+  }
+
+  if (
+    // version item?
+    S_xml2lyOptionsVersionItem
+      versionItem =
+        dynamic_cast<xml2lyOptionsVersionItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsVersionItem'" <<
+        endl;
+    }
+
+    // handle it at once
+    versionItem->
+      printVersion (os);
+
+    // exit
+    exit (0);
+  }
+  
+  else if (
+    // about item?
+    S_xml2lyOptionsAboutItem
+      aboutItem =
+        dynamic_cast<xml2lyOptionsAboutItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsAboutItem'" <<
+        endl;
+    }
+
+    // handle it at once
+    aboutItem->
+      printAbout (os);
+
+    // exit
+    exit (0);
+  }
+  
+  else if (
+    // contact item?
+    S_xml2lyOptionsContactItem
+      contactItem =
+        dynamic_cast<xml2lyOptionsContactItem*>(&(*item))
+    ) {
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsContactItem'" <<
+        endl;
+    }
+
+    // handle it at once
+    contactItem->
+      printContact (os);
+
+    // exit
+    exit (0);
+  }
+
+  return result;
 }
 
 //______________________________________________________________________________

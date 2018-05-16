@@ -22,6 +22,8 @@ using namespace std;
 namespace MusicXML2 
 {
 
+#define TRACE_OPTIONS 0
+
 //_______________________________________________________________________________
 S_generalOptions gGeneralOptions;
 S_generalOptions gGeneralOptionsUserChoices;
@@ -479,6 +481,15 @@ void generalOptions::printGeneralOptionsValues (int fieldWidth)
   gIndenter--;
 
   gIndenter--;
+}
+
+S_optionsItem generalOptions::handleOptionsItem (
+  ostream&      os,
+  S_optionsItem item)
+{
+  S_optionsItem result;
+  
+  return result;
 }
 
 ostream& operator<< (ostream& os, const S_generalOptions& elt)
