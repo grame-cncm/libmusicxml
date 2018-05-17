@@ -55,34 +55,6 @@ string msrAlterationKindAsString (
 // semi tones pitches
 //______________________________________________________________________________
 enum msrSemiTonesPitchKind {
-  /* JMI
-  kC_Natural_STP, kB_Sharp_STP = kC_Natural_STP, kD_DoubleFlat_STP = kC_Natural_STP,
-  
-  kC_Sharp_STP, kB_DoubleSharp_STP = kC_Sharp_STP, kD_Flat_STP = kC_Sharp_STP,
-  
-  kD_Natural_STP, kC_DoubleSharp_STP = kD_Natural_STP, kE_DoubleFlat_STP = kD_Natural_STP,
-  
-  kD_Sharp_STP, kE_Flat_STP = kD_Sharp_STP,
-  
-  kE_Natural_STP, kD_DoubleSharp_STP = kE_Natural_STP, kF_Flat_STP = kE_Natural_STP,
-  
-  kF_Natural_STP, kE_Sharp_STP = kF_Natural_STP, kG_DoubleFlat_STP = kF_Natural_STP,
-  
-  kF_Sharp_STP, kE_DoubleSharp_STP = kF_Sharp_STP, kG_Flat_STP = kF_Sharp_STP,
-  
-  kG_Natural_STP, kF_DoubleSharp_STP = kG_Natural_STP, kA_DoubleFlat_STP = kG_Natural_STP,
-  
-  kG_Sharp_STP, kA_Flat_STP = kG_Sharp_STP,
-  
-  kA_Natural_STP, kG_DoubleSharp_STP = kA_Natural_STP, kB_DoubleFlat_STP = kA_Natural_STP,
-  
-  kA_Sharp_STP, kB_Flat_STP = kA_Sharp_STP,
-  
-  kB_Natural_STP, kA_DoubleSharp_STP = kB_Natural_STP, kC_Flat_STP = kB_Natural_STP,
-  
-  k_NoWelTemperedPitch_STP };
-  */
-
   k_NoSemiTonesPitch_STP,
   
   kC_TripleFlat_STP,
@@ -851,6 +823,10 @@ class msrChordNotes : public smartable
                             int inputLineNumber,
                             int inversionNumber);
                             
+    static void           printAllChordsNotes (
+                            ostream&              os,
+                            msrSemiTonesPitchKind semiTonesPitchKind);
+
     // visitors
     // ------------------------------------------------------
 /* JMI

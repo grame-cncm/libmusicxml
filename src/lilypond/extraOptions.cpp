@@ -25,7 +25,7 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 1
+#define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
 S_optionsShowAllChordIntervalsItem optionsShowAllChordIntervalsItem::create (
@@ -151,9 +151,9 @@ void optionsShowAllChordNotesItem::printAllChordNotes (
   ostream&              os,
   msrSemiTonesPitchKind semiTonesPitchKind) const
 {  
-  os <<
-    "xml2ly optionsShowAllChordNotesItem"<<
-    endl;
+  msrChordNotes::printAllChordsNotes (
+    os,
+    semiTonesPitchKind);
 }
 
 void optionsShowAllChordNotesItem::printOptionsValues (
@@ -352,9 +352,7 @@ void extraOptions::handleValuedOptionsItem (
   ostream&      os,
   S_optionsItem item,
   string        theString)
-{
-  os << "FOO" << endl;
-  
+{  
   if (
     // show chord notes item?
     S_optionsShowAllChordNotesItem

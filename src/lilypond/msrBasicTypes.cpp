@@ -4115,8 +4115,9 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         stringstream s;
 
         s <<
-          "Sorry, computing intervals from pitch '" <<
+          "Sorry, computing intervals from semitones pitch '" <<
           msrSemiTonesPitchKindAsString (semiTonesPitchKind) <<
+          "(" << semiTonesPitchKind << ")" <<
           "' is not supported"
           ", line = " << inputLineNumber;
 
@@ -6949,10 +6950,11 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         stringstream s;
 
         s <<
-          "Sorry, computing intervals from pitch '" <<
+          "Sorry, computing intervals from quartertones pitch '" <<
           msrQuarterTonesPitchKindAsString (
             gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
             quarterTonesPitchKind) <<
+          "(" << quarterTonesPitchKind << ")" <<
           "' is not supported"
           ", line = " << inputLineNumber;
 
@@ -9853,62 +9855,6 @@ string msrSemiTonesPitchKindAsString (
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
   string result;
-
-  /* JMI
-  switch (semiTonesPitchKind) {
-    case k_NoSemiTonesPitch_STP:
-      result = "NoWellTemperedPitch???";
-      break;
-
-    case kC_Natural_STP: // kB_Sharp_STP, kD_DoubleFlat_STP
-      result = "C_Natural_B_Sharp_D_DoubleFlat";
-      break;
-      
-    case kC_Sharp_STP: // kB_DoubleSharp_STP, kD_Flat_STP
-      result = "C_Sharp_B_DoubleSharp_D_Flat";
-      break;
-
-    case kD_Natural_STP: // kC_DoubleSharp_STP, kE_DoubleFlat_STP
-      result = "D_Natural_C_DoubleSharp_E_DoubleFlat";
-      break;
-
-    case kD_Sharp_STP: // kE_Flat_STP
-      result = "D_Sharp_E_Flat";
-      break;
-      
-    case kE_Natural_STP: // kD_DoubleSharp_STP, kF_Flat_STP
-      result = "E_Natural_D_DoubleSharp_F_Flat";
-      break;
-      
-    case kF_Natural_STP: // kE_Sharp_STP, kG_DoubleFlat_STP
-      result = "F_Natural_E_Sharp_G_DoubleFlat";
-      break;
-      
-    case kF_Sharp_STP: // kE_DoubleSharp_STP, kG_Flat_STP
-      result = "F_Sharp_E_DoubleSharp_G_Flat";
-      break;
-      
-    case kG_Natural_STP: // kF_DoubleSharp_STP, kA_DoubleFlat_STP
-      result = "G_Natural_F_DoubleSharp_A_DoubleFlat";
-      break;
-      
-    case kG_Sharp_STP: // kA_Flat_STP
-      result = "G_Sharp_A_Flat";
-      break;
-      
-    case kA_Natural_STP: // kG_DoubleSharp_STP, kB_DoubleFlat_STP
-      result = "A_Natural_G_DoubleSharp_B_DoubleFlat";
-      break;
-      
-    case kA_Sharp_STP: // kB_Flat_STP
-      result = "A_Sharp_B_Flat";
-      break;
-
-    case kB_Natural_STP: // kA_DoubleSharp_STP, kC_Flat_STP
-      result = "B_Natural_A_DoubleSharp_C_Flat";
-      break;
-  } // switch
-  */
   
   switch (semiTonesPitchKind) {
     case k_NoSemiTonesPitch_STP:
@@ -12767,6 +12713,83 @@ msrSemiTonesPitchKind msrChordNotes::bassSemiTonesPitchKindForChordInversion (
   }
 
   return fChordSemiTonesPitches [inversionNumber];
+}
+
+void msrChordNotes::printAllChordsNotes (
+  ostream&              os,
+  msrSemiTonesPitchKind semiTonesPitchKind)
+{
+  os <<
+    "All the known chords notes for diatonic (semitones) pitch '" <<
+    msrSemiTonesPitchKindAsString (
+      semiTonesPitchKind) <<
+    " 'are:" <<
+    endl <<
+    endl;
+
+  gIndenter++;
+  
+  for (
+    msrHarmonyKind harmonyKind = kMajorHarmony;
+    harmonyKind <= kTristanHarmony;
+    harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
+    // create the chord intervals
+    S_msrChordIntervals
+      chordIntervals =
+        msrChordIntervals::create (
+          0, // inputLineNumber
+          harmonyKind);
+
+    // fetch the intervals items for these intervals
+    // with semiTonesPitchKind as root
+    const vector <S_msrChordItem>&
+      getChordIntervalsItems =
+        chordIntervals->
+          getChordIntervalsItems ();
+
+    // fetch the notes for these intervals
+    // with semiTonesPitchKind as root
+        
+    vector <S_msrChordItem>::const_iterator
+      iBegin = getChordIntervalsItems.begin (),
+      iEnd   = getChordIntervalsItems.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrChordItem
+        chordItem = (*i);
+      /*
+    int                   getChordItemNumber () const
+                              { return fChordItemNumber; }
+                              
+    msrIntervalKind       getChordItemIntervalKind () const
+                              { return fChordItemIntervalKind; }
+                              
+    int                   getChordItemRelativeOctave () const
+                              { return fChordItemRelativeOctave; }
+*/
+
+      msrIntervalKind
+        intervalKind =
+          chordItem->
+            getChordItemIntervalKind ();
+          
+      msrSemiTonesPitchKind
+        semiTonesPitchKind =
+          noteAtIntervalFromSemiTonesPitch (
+            0, //                   inputLineNumber,
+            intervalKind,
+            semiTonesPitchKind);
+
+      os <<
+        msrSemiTonesPitchKindAsString (
+          semiTonesPitchKind);
+      if (++i == iEnd) break;
+      os <<
+        " ";
+    } // for
+  } // for
+
+  gIndenter--;
 }
 
 /* JMI
