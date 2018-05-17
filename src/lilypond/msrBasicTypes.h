@@ -194,8 +194,10 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
 msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
-  int                   inputLineNumber,
   msrSemiTonesPitchKind semiTonesPitchKind);
+
+msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
+  msrQuarterTonesPitchKind quarterTonesPitchKind);
 
 // alterations preferences
 //______________________________________________________________________________

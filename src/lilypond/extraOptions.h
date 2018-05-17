@@ -73,88 +73,14 @@ typedef SMARTP<optionsShowAllChordIntervalsItem> S_optionsShowAllChordIntervalsI
 ostream& operator<< (ostream& os, const S_optionsShowAllChordIntervalsItem& elt);
 
 //______________________________________________________________________________
-class optionsShowChordsNotesItem : public optionsValuedItem
+class optionsShowAllChordNotesItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsShowChordsNotesItem> create (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsShowChordsNotesItemVariableDisplayName,
-      msrSemiTonesPitchKind&
-                         optionsShowChordsNotesKindItemVariable);
-     
-  protected:
-
-    // constructors/destructor
-    // ------------------------------------------------------
-
-    optionsShowChordsNotesItem (
-      string             optionsItemShortName,
-      string             optionsItemLongName,
-      string             optionsItemDescription,
-      string             optionsValueSpecification,
-      string             optionsShowChordsNotesItemVariableDisplayName,
-      msrSemiTonesPitchKind&
-                         optionsShowChordsNotesKindItemVariable);
-      
-    virtual ~optionsShowChordsNotesItem();
-
-  public:
-  
-    // set and get
-    // ------------------------------------------------------
-
-    string                getOptionsShowChordsNotesKindItemVariableDisplayName () const
-                              {
-                                return
-                                  fOptionsShowChordsNotesKindItemVariableDisplayName;
-                              }
-                              
-    void                  setShowChordNotesKindItemVariableValue (
-                            msrSemiTonesPitchKind value)
-                              {
-                                fOptionsShowChordsNotesKindItemVariable = value;
-                              }
-
-    // services
-    // ------------------------------------------------------
-
-    // print
-    // ------------------------------------------------------
-
-    void                  print (ostream& os) const;
-
-    void                  printOptionsValues (
-                            ostream& os,
-                            int      valueFieldWidth) const;
-
-  private:
-  
-    // fields
-    // ------------------------------------------------------
-
-    string                fOptionsShowChordsNotesKindItemVariableDisplayName;
-    msrSemiTonesPitchKind&
-                          fOptionsShowChordsNotesKindItemVariable;
-};
-typedef SMARTP<optionsShowChordsNotesItem> S_optionsShowChordsNotesItem;
-ostream& operator<< (ostream& os, const S_optionsShowChordsNotesItem& elt);
-
-//______________________________________________________________________________
-class optionsShowChordNotesItem : public optionsItem
-{
-  public:
-  
-    // creation
-    // ------------------------------------------------------
-
-    static SMARTP<optionsShowChordNotesItem> create (
+    static SMARTP<optionsShowAllChordNotesItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
@@ -164,12 +90,12 @@ class optionsShowChordNotesItem : public optionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsShowChordNotesItem (
+    optionsShowAllChordNotesItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~optionsShowChordNotesItem ();
+    virtual ~optionsShowAllChordNotesItem ();
 
   public:
   
@@ -184,7 +110,9 @@ class optionsShowChordNotesItem : public optionsItem
 
     void                  print (ostream& os) const;
 
-    void                  printChordNotes (ostream& os) const;
+    void                  printAllChordNotes (
+                            ostream&              os,
+                            msrSemiTonesPitchKind semiTonesPitchKind) const;
 
     void                  printOptionsValues (
                             ostream& os,
@@ -195,8 +123,8 @@ class optionsShowChordNotesItem : public optionsItem
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<optionsShowChordNotesItem> S_optionsShowChordNotesItem;
-ostream& operator<< (ostream& os, const S_optionsShowChordNotesItem& elt);
+typedef SMARTP<optionsShowAllChordNotesItem> S_optionsShowAllChordNotesItem;
+ostream& operator<< (ostream& os, const S_optionsShowAllChordNotesItem& elt);
 
 //______________________________________________________________________________
 class extraOptions : public optionsGroup
@@ -243,6 +171,10 @@ class extraOptions : public optionsGroup
                             ostream&      os,
                             S_optionsItem item);
 
+    virtual void          handleValuedOptionsItem (
+                            ostream&      os,
+                            S_optionsItem item,
+                            string        theString);
   public:
 
     // print
@@ -256,15 +188,6 @@ class extraOptions : public optionsGroup
 
     // fields
     // ------------------------------------------------------
-
-    // chord intervals
-    
-    bool                  fShowAllChordIntervals;
-
-
-    // chord notes
-
-    bool                  fShowChordNotes;
 };
 typedef SMARTP<extraOptions> S_extraOptions;
 EXP ostream& operator<< (ostream& os, const S_extraOptions& elt);

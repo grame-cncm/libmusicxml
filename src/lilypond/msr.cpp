@@ -5313,6 +5313,32 @@ void msrNote::initializeNote ()
 msrNote::~msrNote ()
 {}
 
+void msrNote::setNoteSoundingWholeNotes (
+  rational wholeNotes)
+{
+  fNoteSoundingWholeNotes = wholeNotes;
+
+  // is wholeNotes the shortest one in this voice?      
+/* JMI
+  if (fNoteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = fNoteSoundingWholeNotes;
+  }
+  */
+}
+
+void msrNote::setNoteDisplayWholeNotes (
+  rational wholeNotes)
+{
+  fNoteDisplayWholeNotes = wholeNotes;
+
+/* JMI
+  // is wholeNotes the shortest one in this voice?
+  if (fNoteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = fNoteDisplayWholeNotes;
+  }
+  */
+}
+
 S_msrNote msrNote::createNoteNewbornClone (
   S_msrPart containingPart)
 {
@@ -20876,6 +20902,28 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
   // register note as the last one in this measure
   fMeasureLastHandledNote = note;
 
+  // is this note the longest one in this measure?
+  if (! fMeasureLongestNote) {
+    fMeasureLongestNote = note;
+  }
+  else {
+    if (
+      note->getNoteSoundingWholeNotes ()
+        >
+      fMeasureLongestNote->getNoteSoundingWholeNotes ()
+    ) {
+      fMeasureLongestNote = note;
+    }
+  
+    if (
+      note->getNoteDisplayWholeNotes ()
+        >
+      fMeasureLongestNote->getNoteSoundingWholeNotes ()
+    ) {
+      fMeasureLongestNote = note;
+    }
+  }
+
   // this measure contains music
   fMeasureContainsMusic = true;
 }
@@ -22566,8 +22614,23 @@ void msrMeasure::print (ostream& os)
     "first in segment" << " : " <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
-    endl <<
+    endl;
     
+  os << left <<
+    setw (fieldWidth) <<
+    "measureLongestNote" << " : ";
+  if (fMeasureLongestNote) {
+    os <<
+      fMeasureLongestNote->asShortString ();
+  }
+  else {
+    os <<
+      "none";
+  }
+  os <<
+    endl;
+    
+  os << left <<
     setw (fieldWidth) <<
     "measureContainsMusic" << " : " <<
     booleanAsString (
@@ -26922,6 +26985,12 @@ void msrVoice::initializeVoice (
       break;
   } // switch
 
+  // voice shortest note
+  fVoiceShortestNoteDuration =
+    rational (INT_MAX, 1);
+  fVoiceShortestNoteTupletFactor =
+    rational (1, 1);
+    
   // should the initial last segment be created?
   switch (voiceCreateInitialLastSegmentKind) {
     case msrVoice::kCreateInitialLastSegmentYes:
@@ -28371,6 +28440,20 @@ void msrVoice::appendNoteToVoice (S_msrNote note) {
       break;
   } // switch
   
+  // is this note the shortest one in this voice?
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes (),
+    noteDisplayWholeNotes =
+      note->getNoteDisplayWholeNotes (); // JMI
+      
+  if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+  }
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+  }
+
   // create the voice last segment and first measure if needed
   appendAFirstMeasureToVoiceIfNotYetDone (
     inputLineNumber);
@@ -28478,6 +28561,20 @@ void msrVoice::appendNoteToVoiceClone (S_msrNote note) {
   // append the note to the last segment
   fVoiceLastSegment->
     appendNoteToSegmentClone (note);
+
+  // is this note the shortest one in this voice?
+  rational
+    noteSoundingWholeNotes =
+      note->getNoteSoundingWholeNotes (),
+    noteDisplayWholeNotes =
+      note->getNoteDisplayWholeNotes (); // JMI
+      
+  if (noteSoundingWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteSoundingWholeNotes;
+  }
+  if (noteDisplayWholeNotes < fVoiceShortestNoteDuration) {
+    fVoiceShortestNoteDuration = noteDisplayWholeNotes;
+  }
 }
 
 void msrVoice::appendDoubleTremoloToVoice (
@@ -31396,6 +31493,14 @@ void msrVoice::print (ostream& os)
   os <<
     endl;
 
+  os << left <<
+    setw (fieldWidth) << "voiceShortestNoteDuration" << " : " <<
+    fVoiceShortestNoteDuration <<
+    endl <<
+    setw (fieldWidth) << "voiceShortestNoteTupletFactor" << " : " <<
+    fVoiceShortestNoteTupletFactor <<
+    endl;
+    
   os << left <<
     setw (fieldWidth) << "MusicHasBeenInsertedInVoice" << " : " <<
     booleanAsString (fMusicHasBeenInsertedInVoice) <<

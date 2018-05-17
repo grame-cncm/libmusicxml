@@ -9458,7 +9458,6 @@ msrDiatonicPitchKind diatonicPitchKindFromQuarterTonesPitchKind (
 }
 
 msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
-  int                   inputLineNumber,
   msrSemiTonesPitchKind semiTonesPitchKind)
 {
   msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
@@ -9621,6 +9620,95 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
     default:
       ;
   } // switch
+
+  return result;
+}
+
+msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
+  msrQuarterTonesPitchKind quarterTonesPitchKind)
+{
+  msrSemiTonesPitchKind result = k_NoSemiTonesPitch_STP;
+  
+    switch (quarterTonesPitchKind) {
+      case k_NoQuarterTonesPitch_QTP:
+        break;
+
+      case k_Rest_QTP:
+        break;
+  
+      case kA_Flat_QTP:
+        result = kA_Flat_STP;
+        break;
+      case kA_Natural_QTP:
+        result = kA_Flat_STP;
+        break;
+      case kA_Sharp_QTP:
+        result = kA_Sharp_STP;
+        break;
+
+      case kB_Flat_QTP:
+        result = kB_Flat_STP;
+        break;
+      case kB_Natural_QTP:
+        result = kB_Natural_STP;
+        break;
+      case kB_Sharp_QTP:
+        result = kB_Sharp_STP;
+        break;
+
+      case kC_Flat_QTP:
+        result = kC_Flat_STP;
+        break;
+      case kC_Natural_QTP:
+        result = kC_Natural_STP;
+        break;
+      case kC_Sharp_QTP:
+        result = kC_Sharp_STP;
+        break;
+
+      case kD_Flat_QTP:
+        result = kD_Flat_STP;
+        break;
+      case kD_Natural_QTP:
+        result = kD_Natural_STP;
+        break;
+      case kD_Sharp_QTP:
+        result = kD_Sharp_STP;
+        break;
+
+      case kE_Flat_QTP:
+        result = kE_Flat_STP;
+        break;
+      case kE_Natural_QTP:
+        result = kE_Natural_STP;
+        break;
+      case kE_Sharp_QTP:
+        result = kE_Sharp_STP;
+        break;
+
+      case kF_Flat_QTP:
+        result = kF_Flat_STP;
+        break;
+      case kF_Natural_QTP:
+        result = kF_Natural_STP;
+        break;
+      case kF_Sharp_QTP:
+        result = kF_Sharp_STP;
+        break;
+
+      case kG_Flat_QTP:
+        result = kG_Flat_STP;
+        break;
+      case kG_Natural_QTP:
+        result = kG_Natural_STP;
+        break;
+      case kG_Sharp_QTP:
+        result = kG_Sharp_STP;
+        break;
+  
+      default:
+        ;
+    } // switch
 
   return result;
 }

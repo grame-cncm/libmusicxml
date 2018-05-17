@@ -3429,7 +3429,7 @@ class msrMeasure : public msrElement
       string        measureNumber,
       S_msrSegment  measureSegmentUplink);
       
-    virtual ~msrMeasure();
+    virtual ~msrMeasure ();
   
   private:
 
@@ -3471,7 +3471,13 @@ class msrMeasure : public msrElement
 
     string                getNextMeasureNumber () const
                               { return fNextMeasureNumber; }
-    // lengthes
+
+    // measure longest note
+    
+    S_msrNote             getMeasureLongestNote () const
+                              { return fMeasureLongestNote; }
+                              
+    // measure lengthes
     
     void                  setFullMeasureLength (
                             rational fullMeasureLength)
@@ -3501,7 +3507,7 @@ class msrMeasure : public msrElement
     msrMeasureKind        getMeasureKind () const
                               { return fMeasureKind; }
 
-    // measure implicit
+    // measure implicit kind
     
     void                  setMeasureImplicitKind (
                             msrMeasureImplicitKind measureImplicitKind)
@@ -3840,7 +3846,7 @@ class msrMeasure : public msrElement
     
     S_msrSegment          fMeasureSegmentUplink;
 
-    // lengthes
+    // measure lengthes
     
     rational              fFullMeasureLength;
     
@@ -3851,6 +3857,10 @@ class msrMeasure : public msrElement
     string                fMeasureNumber;
     string                fNextMeasureNumber;
     int                   fMeasureOrdinalNumber;
+
+    // measure longest note
+    
+    S_msrNote             fMeasureLongestNote;
 
     // measure kind
 
@@ -5847,10 +5857,7 @@ class msrNote : public msrElement
     // note whole notes
     
     void                  setNoteSoundingWholeNotes (
-                            rational wholeNotes)
-                              {
-                                fNoteSoundingWholeNotes = wholeNotes;
-                              }
+                            rational wholeNotes);
 
     rational              getNoteSoundingWholeNotes ()
                               {
@@ -5868,8 +5875,7 @@ class msrNote : public msrElement
                               }
                               
     void                  setNoteDisplayWholeNotes (
-                            rational wholeNotes)
-                              { fNoteDisplayWholeNotes = wholeNotes; }
+                            rational wholeNotes);
 
     rational              getNoteDisplayWholeNotes ()
                               { return fNoteDisplayWholeNotes; }
@@ -10561,6 +10567,14 @@ class msrVoice : public msrElement
     S_msrNote             getVoiceLastAppendedNote () const
                               { return fVoiceLastAppendedNote; }
 
+    // voice shortest note
+    
+    rational             getVoiceShortestNoteDuration () const
+                              { return fVoiceShortestNoteDuration; }
+
+    rational              getVoiceShortestNoteTupletFactor () const
+                              { return fVoiceShortestNoteTupletFactor; }
+
     // counters
     
     int                   getVoiceActualNotesCounter () const
@@ -11048,6 +11062,12 @@ class msrVoice : public msrElement
 
     // fVoiceLastAppendedNote is used to build chords upon their second note
     S_msrNote             fVoiceLastAppendedNote;
+
+    // fVoiceShortestNoteDuration and fVoiceShortestNoteTupletFactor
+    // are used to compute a number of divisions per quarter note
+    // if needed, such as when generating MusicXML from MSR
+    rational              fVoiceShortestNoteDuration;
+    rational              fVoiceShortestNoteTupletFactor;
     
     // fVoiceFirstSegment is used to work around LilyPond issue 34
     S_msrSegment          fVoiceFirstSegment;

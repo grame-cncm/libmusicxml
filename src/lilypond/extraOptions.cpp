@@ -17,13 +17,15 @@
 
 #include "extraOptions.h"
 
+#include "lpsrOptions.h"
+
 
 using namespace std;
 
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 0
+#define TRACE_OPTIONS 1
 
 //______________________________________________________________________________
 S_optionsShowAllChordIntervalsItem optionsShowAllChordIntervalsItem::create (
@@ -95,13 +97,13 @@ ostream& operator<< (ostream& os, const S_optionsShowAllChordIntervalsItem& elt)
 }
 
 //______________________________________________________________________________
-S_optionsShowChordNotesItem optionsShowChordNotesItem::create (
+S_optionsShowAllChordNotesItem optionsShowAllChordNotesItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
 {
-  optionsShowChordNotesItem* o = new
-    optionsShowChordNotesItem (
+  optionsShowAllChordNotesItem* o = new
+    optionsShowAllChordNotesItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription);
@@ -109,7 +111,7 @@ S_optionsShowChordNotesItem optionsShowChordNotesItem::create (
   return o;
 }
 
-optionsShowChordNotesItem::optionsShowChordNotesItem (
+optionsShowAllChordNotesItem::optionsShowAllChordNotesItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
@@ -119,15 +121,15 @@ optionsShowChordNotesItem::optionsShowChordNotesItem (
       optionsItemDescription)
 {}
 
-optionsShowChordNotesItem::~optionsShowChordNotesItem ()
+optionsShowAllChordNotesItem::~optionsShowAllChordNotesItem ()
 {}
 
-void optionsShowChordNotesItem::print (ostream& os) const
+void optionsShowAllChordNotesItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
-    "OptionsShowChordNotesItem:" <<
+    "optionsShowAllChordNotesItem:" <<
     endl;
 
   gIndenter++;
@@ -145,111 +147,23 @@ void optionsShowChordNotesItem::print (ostream& os) const
   gIndenter--;
 }
 
-void optionsShowChordNotesItem::printChordNotes (ostream& os) const
+void optionsShowAllChordNotesItem::printAllChordNotes (
+  ostream&              os,
+  msrSemiTonesPitchKind semiTonesPitchKind) const
 {  
   os <<
-    "xml2ly printChordNotes"<<
+    "xml2ly optionsShowAllChordNotesItem"<<
     endl;
 }
 
-void optionsShowChordNotesItem::printOptionsValues (
+void optionsShowAllChordNotesItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_optionsShowChordNotesItem& elt)
-{
-  elt->print (os);
-  return os;
-}
-
-//______________________________________________________________________________
-S_optionsShowChordsNotesItem optionsShowChordsNotesItem::create (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
-  string             optionsValueSpecification,
-  string             optionsShowChordsNotesKindItemVariableDisplayName,
-  msrSemiTonesPitchKind&
-                     optionsShowChordsNotesKindItemVariable)
-{
-  optionsShowChordsNotesItem* o = new
-    optionsShowChordsNotesItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsValueSpecification,
-      optionsShowChordsNotesKindItemVariableDisplayName,
-      optionsShowChordsNotesKindItemVariable);
-  assert(o!=0);
-  return o;
-}
-
-optionsShowChordsNotesItem::optionsShowChordsNotesItem (
-  string             optionsItemShortName,
-  string             optionsItemLongName,
-  string             optionsItemDescription,
-  string             optionsValueSpecification,
-  string             optionsShowChordsNotesKindItemVariableDisplayName,
-  msrSemiTonesPitchKind&
-                     optionsShowChordsNotesKindItemVariable)
-  : optionsValuedItem (
-      optionsItemShortName,
-      optionsItemLongName,
-      optionsItemDescription,
-      optionsValueSpecification),
-    fOptionsShowChordsNotesKindItemVariableDisplayName (
-      optionsShowChordsNotesKindItemVariableDisplayName),
-    fOptionsShowChordsNotesKindItemVariable (
-      optionsShowChordsNotesKindItemVariable)
-{}
-
-optionsShowChordsNotesItem::~optionsShowChordsNotesItem()
-{}
-
-void optionsShowChordsNotesItem::print (ostream& os) const
-{
-  const int fieldWidth = K_FIELD_WIDTH;
-  
-  os <<
-    "OptionsShowChordsNotesItem:" <<
-    endl;
-
-  gIndenter++;
-
-  printValuedItemEssentials (
-    os, fieldWidth);
-
-  os << left <<
-    setw (fieldWidth) <<
-    "fOptionsShowChordsNotesKindItemVariableDisplayName" << " : " <<
-    fOptionsShowChordsNotesKindItemVariableDisplayName <<
-    endl <<
-    setw (fieldWidth) <<
-    "fOptionsShowChordsNotesKindItemVariable" << " : \"" <<
-    msrSemiTonesPitchKindAsString (
-      fOptionsShowChordsNotesKindItemVariable) <<
-      "\"" <<
-    endl;
-}
-
-void optionsShowChordsNotesItem::printOptionsValues (
-  ostream& os,
-  int      valueFieldWidth) const
-{  
-  os << left <<
-    setw (valueFieldWidth) <<
-    fOptionsShowChordsNotesKindItemVariableDisplayName <<
-    " : \"" <<
-    msrSemiTonesPitchKindAsString (
-      fOptionsShowChordsNotesKindItemVariable) <<
-    "\"" <<
-    endl;
-}
-
-ostream& operator<< (ostream& os, const S_optionsShowChordsNotesItem& elt)
+ostream& operator<< (ostream& os, const S_optionsShowAllChordNotesItem& elt)
 {
   elt->print (os);
   return os;
@@ -300,9 +214,7 @@ void extraOptions::initializeExtraOptions (
 
   {
     // variables
-    
-    fShowAllChordIntervals = false;
-  
+      
     // options
   
     S_optionsSubGroup
@@ -328,9 +240,7 @@ R"(Write all known chord intervals.)"));
 
   {
     // variables
-    
-    fShowChordNotes = false;
-  
+      
     // options
   
     S_optionsSubGroup
@@ -346,9 +256,11 @@ R"()",
         
     workSubGroup->
       appendOptionsItem (
-        optionsShowChordNotesItem::create (
-          "scn", "showChordNotes",
-R"(Show the chord notes for the given chord.)"));
+        optionsShowAllChordNotesItem::create (
+          "sacn", "showAllChordNotes",
+R"(Show all chord notes for the given diatonic (semitones) pitch
+in the current language.)"
+));
   }
 }
 
@@ -368,60 +280,25 @@ S_extraOptions extraOptions::createCloneWithDetailedTrace ()
   // chord intervals
   // --------------------------------------
 
-  clone->fShowAllChordIntervals =
-    false; // JMI
-
-
-  // chord intervals
+  // chord notes
   // --------------------------------------
     
-  clone->fShowChordNotes =
-    fShowChordNotes; // JMI
-
   return clone;
 }  
 
 void extraOptions::printExtraOptionsValues (int fieldWidth)
 {  
   gLogIOstream <<
-    "The extra options are:" <<
+    "The extra options are:" << // JMI
     endl;
 
   gIndenter++;
 
   // chord intervals
   // --------------------------------------
-  
-  gLogIOstream <<
-    "Chord intervals:" <<
-    endl;
 
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "showAllChordIntervals" << " : " <<
-    booleanAsString (fShowAllChordIntervals) <<
-    endl;
-
-  gIndenter--;
-      
-
-  // chord intervals
+  // chord notes
   // --------------------------------------
-
-  gLogIOstream <<
-    "Chord notes:" <<
-    endl;
-
-  gIndenter++;
-
-  gLogIOstream << left <<
-    setw (fieldWidth) << "showChordNotes" << " : " <<
-    booleanAsString (fShowChordNotes) <<
-     endl;
-
-  gIndenter--;
-
 
   gIndenter--;
 }
@@ -454,26 +331,125 @@ S_optionsItem extraOptions::handleOptionsItem (
   
   else if (
     // show chord notes item?
-    S_optionsShowChordNotesItem
-      showChordNotesItem =
-        dynamic_cast<optionsShowChordNotesItem*>(&(*item))
+    S_optionsShowAllChordNotesItem
+      showAllChordNotesItem =
+        dynamic_cast<optionsShowAllChordNotesItem*>(&(*item))
     ) {
     if (TRACE_OPTIONS) {
       os <<
-        "==> optionsItem is of type 'optionsShowChordNotesItem'" <<
+        "==> optionsItem is of type 'optionsShowAllChordNotesItem'" <<
         endl;
     }
 
-    // handle it at once
-    showChordNotesItem->
-      printChordNotes (os);
-
-    // exit
-    exit (0);
+    // wait until the value is met
+    result = showAllChordNotesItem;
   }
 
   return result;
 }   
+
+void extraOptions::handleValuedOptionsItem (
+  ostream&      os,
+  S_optionsItem item,
+  string        theString)
+{
+  os << "FOO" << endl;
+  
+  if (
+    // show chord notes item?
+    S_optionsShowAllChordNotesItem
+      showAllChordNotesItem =
+        dynamic_cast<optionsShowAllChordNotesItem*>(&(*item))
+    ) {
+    // theString contains the pitch name in the current language
+    // is it in the accidental styles map?
+
+    if (TRACE_OPTIONS) {
+      os <<
+        "==> optionsItem is of type 'optionsShowAllChordNotesItem'" <<
+        endl;
+    }
+
+    msrQuarterTonesPitchKind
+      quarterTonesPitchKindFromString =
+        msrQuarterTonesPitchKindFromString (
+          gLpsrOptions->
+            fLpsrQuarterTonesPitchesLanguageKind,
+          theString);
+
+    msrSemiTonesPitchKind
+      semiTonesPitchKind =
+        semiTonesPitchKindFromQuarterTonesPitchKind (
+          quarterTonesPitchKindFromString);
+
+    switch (semiTonesPitchKind) {
+      case k_NoQuarterTonesPitch_QTP:
+      case k_Rest_QTP:
+        {
+          stringstream s;
+      
+          s <<
+            "'" << theString <<
+            "' is no diatonic  (semitones) pitch" <<
+            endl;
+            
+          optionError (s.str ());
+                    
+          exit (4);
+        }
+        break;
+  
+      case kA_Flat_STP:
+      case kA_Natural_STP:
+      case kA_Sharp_STP:
+
+      case kB_Flat_STP:
+      case kB_Natural_STP:
+      case kB_Sharp_STP:
+
+      case kC_Flat_STP:
+      case kC_Natural_STP:
+      case kC_Sharp_STP:
+
+      case kD_Flat_STP:
+      case kD_Natural_STP:
+      case kD_Sharp_STP:
+
+      case kE_Flat_STP:
+      case kE_Natural_STP:
+      case kE_Sharp_STP:
+
+      case kF_Flat_STP:
+      case kF_Natural_STP:
+      case kF_Sharp_STP:
+
+      case kG_Flat_STP:
+      case kG_Natural_STP:
+      case kG_Sharp_STP:
+        {
+          showAllChordNotesItem->
+            printAllChordNotes (
+              os,
+              semiTonesPitchKind);
+        }
+        break;
+  
+      default:
+        {
+          stringstream s;
+      
+          s <<
+            "'" << theString <<
+            "' is no diatonic (semitones) pitch" <<
+            endl;
+            
+          optionError (s.str ());
+                    
+          exit (4);
+        }
+    } // switch
+  }
+}
 
 ostream& operator<< (ostream& os, const S_extraOptions& elt)
 {
