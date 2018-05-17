@@ -12732,7 +12732,15 @@ void msrChordNotes::printAllChordsNotes (
   for (
     msrHarmonyKind harmonyKind = kMajorHarmony;
     harmonyKind <= kTristanHarmony;
-    harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
+    harmonyKind = msrHarmonyKind (harmonyKind + 1)
+  ) {
+    os <<
+      msrHarmonyKindAsString (harmonyKind) <<
+      ":" <<
+      endl;
+
+    gIndenter++;
+
     // create the chord intervals
     S_msrChordIntervals
       chordIntervals =
@@ -12747,48 +12755,62 @@ void msrChordNotes::printAllChordsNotes (
         chordIntervals->
           getChordIntervalsItems ();
 
-    // fetch the notes for these intervals
+    if (getChordIntervalsItems.size ()) {
+      // fetch the notes for these intervals
+      vector <S_msrChordItem>::const_iterator
+        iBegin = getChordIntervalsItems.begin (),
+        iEnd   = getChordIntervalsItems.end (),
+        i      = iBegin;
+  
+      for ( ; ; ) {
+        S_msrChordItem
+          chordItem = (*i);
+        /*
+      int                   getChordItemNumber () const
+                                { return fChordItemNumber; }
+                                
+      msrIntervalKind       getChordItemIntervalKind () const
+                                { return fChordItemIntervalKind; }
+                                
+      int                   getChordItemRelativeOctave () const
+                                { return fChordItemRelativeOctave; }
+  */
+  
+        msrIntervalKind
+          intervalKind =
+            chordItem->
+              getChordItemIntervalKind ();
+  
+        const int fieldWidth = 16;
         
-    vector <S_msrChordItem>::const_iterator
-      iBegin = getChordIntervalsItems.begin (),
-      iEnd   = getChordIntervalsItems.end (),
-      i      = iBegin;
-    for ( ; ; ) {
-      S_msrChordItem
-        chordItem = (*i);
-      /*
-    int                   getChordItemNumber () const
-                              { return fChordItemNumber; }
-                              
-    msrIntervalKind       getChordItemIntervalKind () const
-                              { return fChordItemIntervalKind; }
-                              
-    int                   getChordItemRelativeOctave () const
-                              { return fChordItemRelativeOctave; }
-*/
-
-      msrIntervalKind
-        intervalKind =
-          chordItem->
-            getChordItemIntervalKind ();
-
-      os << "intervalKind: " << msrIntervalKindAsString (intervalKind) << endl;
-      os << "rootSemiTonesPitchKind: " << msrSemiTonesPitchKindAsString (rootSemiTonesPitchKind) << endl;
+        os << left <<
+          setw (fieldWidth) <<
+          msrIntervalKindAsString (intervalKind) <<
+        ": ";
       
-      msrSemiTonesPitchKind
-        noteSemiTonesPitchKind =
-          noteAtIntervalFromSemiTonesPitch (
-            0, //                   inputLineNumber,
-            intervalKind,
+        msrSemiTonesPitchKind
+          noteSemiTonesPitchKind =
+            noteAtIntervalFromSemiTonesPitch (
+              0, //                   inputLineNumber,
+              intervalKind,
+              rootSemiTonesPitchKind);
+  
+        os <<
+          msrSemiTonesPitchKindAsString (
             noteSemiTonesPitchKind);
+  
+        if (++i == iEnd) break;
+        
+        os <<
+          endl;
+      } // for
+    }
 
-      os <<
-        msrSemiTonesPitchKindAsString (
-          noteSemiTonesPitchKind);
-      if (++i == iEnd) break;
-      os <<
-        " ";
-    } // for
+  os <<
+    endl <<
+    endl;
+    
+  gIndenter--;
   } // for
 
   gIndenter--;

@@ -368,11 +368,16 @@ void extraOptions::handleValuedOptionsItem (
         endl;
     }
 
+    // fetch current pitch language
+    msrQuarterTonesPitchesLanguageKind
+      currentQuarterTonesPitchesLanguageKind =
+          gLpsrOptions->
+            fLpsrQuarterTonesPitchesLanguageKind;
+        
     msrQuarterTonesPitchKind
       quarterTonesPitchKindFromString =
         msrQuarterTonesPitchKindFromString (
-          gLpsrOptions->
-            fLpsrQuarterTonesPitchesLanguageKind,
+          currentQuarterTonesPitchesLanguageKind,
           theString);
 
     msrSemiTonesPitchKind
@@ -389,6 +394,10 @@ void extraOptions::handleValuedOptionsItem (
           s <<
             "'" << theString <<
             "' is no diatonic  (semitones) pitch" <<
+            " in pitch language '" <<
+            msrQuarterTonesPitchesLanguageKindAsString (
+              currentQuarterTonesPitchesLanguageKind) <<
+            "'" <<
             endl;
             
           optionError (s.str ());
