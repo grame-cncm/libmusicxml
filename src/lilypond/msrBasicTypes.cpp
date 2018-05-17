@@ -12717,12 +12717,12 @@ msrSemiTonesPitchKind msrChordNotes::bassSemiTonesPitchKindForChordInversion (
 
 void msrChordNotes::printAllChordsNotes (
   ostream&              os,
-  msrSemiTonesPitchKind semiTonesPitchKind)
+  msrSemiTonesPitchKind rootSemiTonesPitchKind)
 {
   os <<
-    "All the known chords notes for diatonic (semitones) pitch '" <<
+    "All the known chords notes with diatonic (semitones) root '" <<
     msrSemiTonesPitchKindAsString (
-      semiTonesPitchKind) <<
+      rootSemiTonesPitchKind) <<
     " 'are:" <<
     endl <<
     endl;
@@ -12741,14 +12741,13 @@ void msrChordNotes::printAllChordsNotes (
           harmonyKind);
 
     // fetch the intervals items for these intervals
-    // with semiTonesPitchKind as root
+    // with rootSemiTonesPitchKind as root
     const vector <S_msrChordItem>&
       getChordIntervalsItems =
         chordIntervals->
           getChordIntervalsItems ();
 
     // fetch the notes for these intervals
-    // with semiTonesPitchKind as root
         
     vector <S_msrChordItem>::const_iterator
       iBegin = getChordIntervalsItems.begin (),
@@ -12772,17 +12771,20 @@ void msrChordNotes::printAllChordsNotes (
         intervalKind =
           chordItem->
             getChordItemIntervalKind ();
-          
+
+      os << "intervalKind: " << msrIntervalKindAsString (intervalKind) << endl;
+      os << "rootSemiTonesPitchKind: " << msrSemiTonesPitchKindAsString (rootSemiTonesPitchKind) << endl;
+      
       msrSemiTonesPitchKind
-        semiTonesPitchKind =
+        noteSemiTonesPitchKind =
           noteAtIntervalFromSemiTonesPitch (
             0, //                   inputLineNumber,
             intervalKind,
-            semiTonesPitchKind);
+            noteSemiTonesPitchKind);
 
       os <<
         msrSemiTonesPitchKindAsString (
-          semiTonesPitchKind);
+          noteSemiTonesPitchKind);
       if (++i == iEnd) break;
       os <<
         " ";
