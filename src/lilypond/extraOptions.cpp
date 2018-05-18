@@ -383,22 +383,11 @@ void extraOptions::handleValuedOptionsItem (
         endl;
     }
 
-    // fetch current pitch language
-    msrQuarterTonesPitchesLanguageKind
-      currentQuarterTonesPitchesLanguageKind =
-          gLpsrOptions->
-            fLpsrQuarterTonesPitchesLanguageKind;
-        
-    msrQuarterTonesPitchKind
-      quarterTonesPitchKindFromString =
-        msrQuarterTonesPitchKindFromString (
-          currentQuarterTonesPitchesLanguageKind,
-          theString);
-
+    // fetch the semitones pitch from the current pitch language
     msrSemiTonesPitchKind
       semiTonesPitchKind =
-        semiTonesPitchKindFromQuarterTonesPitchKind (
-          quarterTonesPitchKindFromString);
+        semiTonesPitchKindFromString (
+          theString);
 
     switch (semiTonesPitchKind) {
       case k_NoQuarterTonesPitch_QTP:
@@ -411,7 +400,8 @@ void extraOptions::handleValuedOptionsItem (
             "' is no diatonic  (semitones) pitch" <<
             " in pitch language '" <<
             msrQuarterTonesPitchesLanguageKindAsString (
-              currentQuarterTonesPitchesLanguageKind) <<
+              gLpsrOptions->
+                fLpsrQuarterTonesPitchesLanguageKind) <<
             "'" <<
             endl;
             

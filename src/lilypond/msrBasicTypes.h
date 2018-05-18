@@ -171,6 +171,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
 msrSemiTonesPitchKind semiTonesPitchKindFromQuarterTonesPitchKind (
   msrQuarterTonesPitchKind quarterTonesPitchKind);
 
+msrSemiTonesPitchKind semiTonesPitchKindFromString (
+  string theString);
+
 // alterations preferences
 //______________________________________________________________________________
 enum msrAlterationPreferenceKind {
