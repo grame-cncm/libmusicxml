@@ -616,10 +616,9 @@ class msrChordItem : public smartable
       msrIntervalKind chordItemIntervalKind,
       int             chordItemRelativeOctave);
 
-    /* JMI
-    SMARTP<msrChordItem> createChordItemNewbornClone (
-      S_msrPart containingPart);
+    SMARTP<msrChordItem> createChordItemNewbornClone ();
 
+    /* JMI
     SMARTP<msrChordItem> createChordItemDeepCopy ( // JMI ???
       S_msrPart containingPart);
       */
@@ -647,6 +646,12 @@ class msrChordItem : public smartable
                               
     msrIntervalKind       getChordItemIntervalKind () const
                               { return fChordItemIntervalKind; }
+                              
+    void                  incrementChordItemRelativeOctave ()
+                              { fChordItemRelativeOctave++; }
+                              
+    void                  decrementChordItemRelativeOctave ()
+                              { fChordItemRelativeOctave--; }
                               
     int                   getChordItemRelativeOctave () const
                               { return fChordItemRelativeOctave; }
@@ -696,6 +701,9 @@ typedef SMARTP<msrChordItem> S_msrChordItem;
 EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
 
 //______________________________________________________________________________
+class msrChordIntervals;
+typedef SMARTP<msrChordIntervals> S_msrChordIntervals;
+
 class msrChordIntervals : public smartable
 {
   public:
@@ -758,8 +766,10 @@ class msrChordIntervals : public smartable
                             int inputLineNumber,
                             int inversionNumber);
                             
-    static void           printAllChordsIntervals (ostream& os);
+    S_msrChordIntervals   invertChordIntervals (int inversion);
     
+    static void           printAllChordsIntervals (ostream& os);
+
     // visitors
     // ------------------------------------------------------
 /* JMI

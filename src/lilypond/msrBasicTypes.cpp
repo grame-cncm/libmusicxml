@@ -18541,6 +18541,18 @@ msrChordItem::msrChordItem (
 msrChordItem::~msrChordItem()
 {}
 
+S_msrChordItem msrChordItem::createChordItemNewbornClone ()
+{
+  S_msrChordItem
+    newbornClone =
+      msrChordItem::create (
+        0, // JMI fInputLineNumber
+        fChordItemNumber,
+        fChordItemIntervalKind,
+        fChordItemRelativeOctave);
+  
+  return newbornClone;
+}
 
 string msrChordItem::chordItemAsString () const
 {
@@ -19918,6 +19930,81 @@ S_msrChordItem msrChordIntervals::bassChordItemForChordInversion (
   return fChordIntervalsItems [inversionNumber];
 }
 
+S_msrChordIntervals msrChordIntervals::invertChordIntervals (int inversion)
+{
+  if (inversion == 0) {
+    return this;
+  }
+    
+  // create an empty object
+  S_msrChordIntervals
+    result =
+      msrChordIntervals::create (
+        NO_INPUT_LINE_NUMBER,
+        fChordIntervalsHarmonyKind);
+
+  unsigned int
+    chordIntervalsItemsSize =
+      fChordIntervalsItems.size ();
+
+  gLogIOstream <<
+    "==> invertChordIntervals(), inversion = " << inversion <<
+    ", chordIntervalsItemsSize = " << chordIntervalsItemsSize <<
+    endl;
+      
+  if (chordIntervalsItemsSize) {
+    // create JMI
+    unsigned int i = inversion;
+
+    // add the first items
+    for (unsigned int i = inversion; i < chordIntervalsItemsSize; i++) {
+      S_msrChordItem
+        chordItemClone =
+          fChordIntervalsItems [i]->
+            createChordItemNewbornClone ();
+
+      gLogIOstream <<
+        "--> adding first item:" <<
+        endl;
+      gIndenter++;
+      gLogIOstream <<
+        chordItemClone <<
+        endl;
+      gIndenter--;
+
+      result->
+        appendChordItemToChordIntervals (
+          chordItemClone);
+    } // while
+    
+    // add  the octaviate last items
+    for (unsigned int i = 0; i < inversion; i++) {
+      S_msrChordItem
+        chordItemClone =
+          fChordIntervalsItems [i]->
+            createChordItemNewbornClone ();
+
+      chordItemClone->
+        incrementChordItemRelativeOctave ();
+        
+      gLogIOstream <<
+        "--> adding last item:" <<
+        endl;
+      gIndenter++;
+      gLogIOstream <<
+        chordItemClone <<
+        endl;
+      gIndenter--;
+        
+      result->
+        appendChordItemToChordIntervals (
+          chordItemClone);
+    } // for
+  }
+
+  return result;
+}
+
 void msrChordIntervals::printAllChordsIntervals (ostream& os)
 {
   os <<
@@ -19966,7 +20053,8 @@ list<msrSemiTonesPitchKind> buildSemiTonesChord (
   // add the other notes to the chord
   const vector<S_msrChordItem>&
     chordIntervalsItems =
-      chordIntervals->getChordIntervalsItems ();
+      chordIntervals->
+        getChordIntervalsItems ();
 
   for (unsigned int i = 1; i << chordIntervalsItems.size (); i++) {
     result.push_back (rootNote);
@@ -20020,7 +20108,8 @@ msrChordNotes::msrChordNotes (
       
   const vector<S_msrChordItem>&
     chordItems =
-      chordIntervals->getChordIntervalsItems ();
+      chordIntervals->
+        getChordIntervalsItems ();
 
   for (unsigned int i = 1; i < chordItems.size (); i++) {
     msrSemiTonesPitchKind
@@ -20118,15 +20207,15 @@ void msrChordNotes::printAllChordsNotes (
     // fetch the intervals items for these intervals
     // with rootSemiTonesPitchKind as root
     const vector <S_msrChordItem>&
-      getChordIntervalsItems =
+      chordIntervalsItems =
         chordIntervals->
           getChordIntervalsItems ();
 
-    if (getChordIntervalsItems.size ()) {
+    if (chordIntervalsItems.size ()) {
       // fetch the notes for these intervals
-      vector <S_msrChordItem>::const_iterator
-        iBegin = getChordIntervalsItems.begin (),
-        iEnd   = getChordIntervalsItems.end (),
+      vector<S_msrChordItem>::const_iterator
+        iBegin = chordIntervalsItems.begin (),
+        iEnd   = chordIntervalsItems.end (),
         i      = iBegin;
   
       for ( ; ; ) {
@@ -20321,13 +20410,15 @@ void printChordDetails (
     endl;
 
   gIndenter++;
-  
+
+/* JMI
+  gIndenter++;
   os <<
     msrHarmonyKindAsString (harmonyKind) <<
     ":" <<
     endl;
-
-  gIndenter++;
+  gIndenter--;
+*/
 
   // create the chord intervals
   S_msrChordIntervals
@@ -20339,73 +20430,108 @@ void printChordDetails (
   // fetch the intervals items for these intervals
   // with rootSemiTonesPitchKind as root
   const vector <S_msrChordItem>&
-    getChordIntervalsItems =
+    chordIntervalsItems =
       chordIntervals->
         getChordIntervalsItems ();
 
-  if (getChordIntervalsItems.size ()) {
-    // fetch the notes for these intervals
-    vector <S_msrChordItem>::const_iterator
-      iBegin = getChordIntervalsItems.begin (),
-      iEnd   = getChordIntervalsItems.end (),
-      i      = iBegin;
+  // loop on all the inversion
+  int chordIntervalsItemsNumber =
+    chordIntervalsItems.size ();
 
-    for ( ; ; ) {
-      S_msrChordItem
-        chordItem = (*i);
+  if (chordIntervalsItemsNumber) {
+    for (int n = 0; n < chordIntervalsItemsNumber; n++) {
+      // invert the chord intervals
+      S_msrChordIntervals
+        invertedChordIntervals =
+          chordIntervals->
+            invertChordIntervals (n);
 
-      msrIntervalKind
-        intervalKind =
-          chordItem->
-            getChordItemIntervalKind ();
+   //   gIndenter++;
 
-      const int fieldWidth1 = 17;
-      
-      os << left <<
-        setw (fieldWidth1) <<
-        msrIntervalKindAsString (intervalKind) <<
-      ": ";
-
-      // fetch the semitones pitch kind
-      msrSemiTonesPitchKind
-        noteSemiTonesPitchKind =
-          noteAtIntervalFromSemiTonesPitch (
-            NO_INPUT_LINE_NUMBER,
-            intervalKind,
-            rootSemiTonesPitchKind);
-
-      // fetch the quartertones pitch kind
-      msrQuarterTonesPitchKind
-        noteQuarterTonesPitchKind =
-          quarterTonesPitchKindFromSemiTonesPitchKind (
-            noteSemiTonesPitchKind);
-
-      // print it
-      const int fieldWidth2 = 8;
-
-      os << left <<
-        setw (fieldWidth2) <<
-        msrQuarterTonesPitchKindAsString (
-          gLpsrOptions->
-            fLpsrQuarterTonesPitchesLanguageKind,
-          noteQuarterTonesPitchKind) <<
-        " (" <<
-        msrSemiTonesPitchKindAsString (
-          noteSemiTonesPitchKind) <<
-        ")" <<
+      os <<
+        "==> inversion = " << n << ":" <<
+        endl <<
+        "invertedChordIntervals =" <<
+        endl <<
+        invertedChordIntervals <<
+        endl <<
         endl;
 
-      if (++i == iEnd) break;
+      gIndenter++;
       
-      // no endl here
-    }
-
-  os <<
-    endl <<
-    endl;
+      os <<
+        invertedChordIntervals <<
+        endl;
+            
+      const vector <S_msrChordItem>&
+        invertedChordIntervalsItems =
+          invertedChordIntervals->
+            getChordIntervalsItems ();
     
-  gIndenter--;
-  } // for
+      // fetch the notes for these intervals
+      vector<S_msrChordItem>::const_iterator
+        iBegin = invertedChordIntervalsItems.begin (),
+        iEnd   = invertedChordIntervalsItems.end (),
+        i      = iBegin;
+  
+      for ( ; ; ) {
+        S_msrChordItem
+          chordItem = (*i);
+  
+        msrIntervalKind
+          intervalKind =
+            chordItem->
+              getChordItemIntervalKind ();
+  
+        const int fieldWidth1 = 17;
+        
+        os << left <<
+          setw (fieldWidth1) <<
+          msrIntervalKindAsString (intervalKind) <<
+          ": ";
+  
+        // fetch the semitones pitch kind
+        msrSemiTonesPitchKind
+          noteSemiTonesPitchKind =
+            noteAtIntervalFromSemiTonesPitch (
+              NO_INPUT_LINE_NUMBER,
+              intervalKind,
+              rootSemiTonesPitchKind);
+  
+        // fetch the quartertones pitch kind
+        msrQuarterTonesPitchKind
+          noteQuarterTonesPitchKind =
+            quarterTonesPitchKindFromSemiTonesPitchKind (
+              noteSemiTonesPitchKind);
+  
+        // print it
+        const int fieldWidth2 = 8;
+  
+        os << left <<
+          setw (fieldWidth2) <<
+          msrQuarterTonesPitchKindAsString (
+            gLpsrOptions->
+              fLpsrQuarterTonesPitchesLanguageKind,
+            noteQuarterTonesPitchKind) <<
+          " (" <<
+          msrSemiTonesPitchKindAsString (
+            noteSemiTonesPitchKind) <<
+          ")" <<
+          endl;
+  
+        if (++i == iEnd) break;
+        
+        // no endl here
+      } // for
+
+    gIndenter--;
+
+    os <<
+      endl <<
+      endl;
+      
+    } // for
+  }
 
   gIndenter--;
 }
