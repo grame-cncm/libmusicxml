@@ -983,7 +983,7 @@ S_optionsItem msrOptions::handleOptionsItem (
   return result;
 }
 
-void msrOptions::handleValuedOptionsItem (
+void msrOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
   string        theString)
@@ -1016,19 +1016,21 @@ void msrOptions::handleValuedOptionsItem (
     if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
-        " for MIDI tempo string '" << theString <<
+        " for part rename string '" << theString <<
         "' with regex '" << regularExpression <<
         "'" <<
         endl;
     }
   
     if (sm.size ()) {
-      for (unsigned i = 0; i < sm.size (); ++i) {
+      if (gTraceOptions->fTraceOptions) {
+        for (unsigned i = 0; i < sm.size (); ++i) {
+          os <<
+            "[" << sm [i] << "] ";
+        } // for
         os <<
-          "[" << sm [i] << "] ";
-      } // for
-      os <<
-        endl;
+          endl;
+      }
     }
     
     else {

@@ -12,6 +12,8 @@
 
 #include <iomanip>      // setw, setprecision, ...
 
+#include <regex>
+
 #include "version.h"
 #include "utilities.h"
 
@@ -182,6 +184,84 @@ ostream& operator<< (ostream& os, const S_optionsShowAllChordsNotesItem& elt)
   return os;
 }
 
+//______________________________________________________________________________
+S_optionsShowChordDetailsItem optionsShowChordDetailsItem::create (
+  string  optionsItemShortName,
+  string  optionsItemLongName,
+  string  optionsItemDescription,
+  string  optionsValueSpecification,
+  string  optionsShowChordDetailsItemVariableDisplayName,
+  string& optionsShowChordDetailsItemVariable)
+{
+  optionsShowChordDetailsItem* o = new
+    optionsShowChordDetailsItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsShowChordDetailsItemVariableDisplayName,
+      optionsShowChordDetailsItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsShowChordDetailsItem::optionsShowChordDetailsItem (
+  string  optionsItemShortName,
+  string  optionsItemLongName,
+  string  optionsItemDescription,
+  string  optionsValueSpecification,
+  string  optionsShowChordDetailsItemVariableDisplayName,
+  string& optionsShowChordDetailsItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsShowChordDetailsItemVariableDisplayName (
+      optionsShowChordDetailsItemVariableDisplayName),
+    fOptionsShowChordDetailsItemVariable (
+      optionsShowChordDetailsItemVariable)
+{}
+
+optionsShowChordDetailsItem::~optionsShowChordDetailsItem ()
+{}
+
+void optionsShowChordDetailsItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "optionsShowChordDetailsItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void optionsShowChordDetailsItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 
 S_extraOptions gExtraOptions;
@@ -222,7 +302,7 @@ extraOptions::~extraOptions ()
 void extraOptions::initializeExtraOptions (
   bool boolOptionsInitialValue)
 {
-  // chord intervals
+  // show all chords intervals
   // --------------------------------------
 
   {
@@ -249,7 +329,7 @@ R"(Write all known chords intervals to standard output.)"));
   }
   
   
-  // chords notes
+  // show all chords notes
 
   {
     // variables
@@ -274,6 +354,58 @@ R"()",
 R"(Write all chords notes for the given diatonic (semitones) pitch
 in the current language to standard output.)",
           "pitch",
+          "diatonic (semitones) pitch",
+          fChordsRootAsString));
+  }
+  
+  
+  // show chord details
+
+  {
+    // variables
+      
+    // options
+  
+    S_optionsSubGroup
+      workSubGroup =
+        optionsSubGroup::create (
+          "Chord details",
+          "hecd", "helpExtraChordsetailss",
+R"()",
+          optionsSubGroup::kAlwaysShowDescription,
+          this);
+  
+    appendOptionsSubGroup (workSubGroup);
+        
+    workSubGroup->
+      appendOptionsItem (
+        optionsShowChordDetailsItem::create (
+          "scd", "showChordDetails",
+R"(Write the details of the chord for the given diatonic (semitones) pitch
+in the current language and the given harmony to standard output.
+
+'chordSpecification' can be:
+  'rootDiatonicPitch harmonyName'
+or
+  "rootDiatonicPitch = harmonyName"
+  
+'rootDiatonicPitch' should belong to the names available in
+the selected MSR pitches language, "nederlands" by default.
+
+'harmonyName' should be one of:
+  "maj", "min", "aug", "dom",
+  "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
+  "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
+  "dom13", "maj13", "min13", "sus2", "sus4",
+  "neapolitan", "italian", "french", "german",
+  "pedal", "power" or "tristan".
+  
+The single or double quotes are used to allow spaces in the names
+and around the '=' sign, otherwise they can be dispensed with.
+Using double quotes allows for shell variables substitutions, as in:
+  HARMONY="maj7"
+  xml2ly -showChordDetails "bes ${HARMONY}" .)",
+          "chordSpecification",
           "diatonic (semitones) pitch",
           fChordsRootAsString));
   }
@@ -359,17 +491,33 @@ S_optionsItem extraOptions::handleOptionsItem (
     // wait until the value is met
     result = showAllChordsNotesItem;
   }
+  
+  else if (
+    // show chord details item?
+    S_optionsShowChordDetailsItem
+      showChordDetailsItem =
+        dynamic_cast<optionsShowChordDetailsItem*>(&(*item))
+    ) {
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = showChordDetailsItem;
+  }
 
   return result;
 }   
 
-void extraOptions::handleValuedOptionsItem (
+void extraOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
   string        theString)
 {  
   if (
-    // show chord notes item?
+    // show all chord notes item?
     S_optionsShowAllChordsNotesItem
       showAllChordsNotesItem =
         dynamic_cast<optionsShowAllChordsNotesItem*>(&(*item))
@@ -383,7 +531,7 @@ void extraOptions::handleValuedOptionsItem (
         endl;
     }
 
-    // fetch the semitones pitch from the current pitch language
+    // fetch the semitones pitch from theString
     msrSemiTonesPitchKind
       semiTonesPitchKind =
         semiTonesPitchKindFromString (
@@ -397,7 +545,7 @@ void extraOptions::handleValuedOptionsItem (
       
           s <<
             "'" << theString <<
-            "' is no diatonic  (semitones) pitch" <<
+            "' is no diatonic (semitones) pitch" <<
             " in pitch language '" <<
             msrQuarterTonesPitchesLanguageKindAsString (
               gLpsrOptions->
@@ -438,12 +586,6 @@ void extraOptions::handleValuedOptionsItem (
       case kG_Flat_STP:
       case kG_Natural_STP:
       case kG_Sharp_STP:
-        {
-          showAllChordsNotesItem->
-            printAllChordsNotes (
-              os,
-              semiTonesPitchKind);
-        }
         break;
   
       default:
@@ -460,6 +602,175 @@ void extraOptions::handleValuedOptionsItem (
           exit (4);
         }
     } // switch
+
+  // print all the chords notes
+  showAllChordsNotesItem->
+    printAllChordsNotes (
+      os,
+      semiTonesPitchKind);
+  }
+  
+  else if (
+    // show chord details item?
+    S_optionsShowChordDetailsItem
+      showChordDetailsItem =
+        dynamic_cast<optionsShowChordDetailsItem*>(&(*item))
+    ) {
+    // theString contains the pitch name in the current language
+    // is it in the accidental styles map?
+
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
+        endl;
+    }
+
+    // decipher theString with a regular expression
+    string regularExpression (
+      "[[:space:]]*"
+      "([[:alnum:]]*)"
+      "[[:space:]]*"
+      "([[:alnum:]]*)"
+      "[[:space:]]*");
+      
+    regex  e (regularExpression);
+    smatch sm;
+
+    regex_match (theString, sm, e);
+
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "There are " << sm.size () << " matches" <<
+        " for chord details string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl;
+    }
+
+    if (sm.size ()) {
+      if (gTraceOptions->fTraceOptions) {
+        os <<
+          sm.size () << " elements: ";
+        for (unsigned i = 0; i < sm.size (); ++i) {
+          os <<
+            "[" << sm [i] << "] ";
+        } // for
+        os <<
+          endl;
+      }
+    }
+    
+    else {
+      stringstream s;
+
+      s <<
+        "-chord details argument '" << theString <<
+        "' is ill-formed";
+        
+      optionError (s.str ());
+      
+      printSpecificSubGroupHelp (
+        os,
+        showChordDetailsItem->
+          getOptionsSubGroupUplink ());
+          
+      exit (4);
+    }
+
+    string
+      rootName    = sm [1],
+      harmonyName = sm [2];
+      
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "--> rootName = \"" << rootName << "\", " <<
+        "--> harmonyName = \"" << harmonyName << "\"" <<
+        endl;
+    }
+
+    // fetch the semitones pitch from rootName
+    msrSemiTonesPitchKind
+      semiTonesPitchKind =
+        semiTonesPitchKindFromString (
+          rootName);
+
+    switch (semiTonesPitchKind) {
+      case k_NoQuarterTonesPitch_QTP:
+      case k_Rest_QTP:
+        {
+          stringstream s;
+      
+          s <<
+            "'" << rootName <<
+            "' is no diatonic (semitones) root pitch" <<
+            " in pitch language '" <<
+            msrQuarterTonesPitchesLanguageKindAsString (
+              gLpsrOptions->
+                fLpsrQuarterTonesPitchesLanguageKind) <<
+            "'" <<
+            endl;
+            
+          optionError (s.str ());
+                    
+          exit (4);
+        }
+        break;
+  
+      case kA_Flat_STP:
+      case kA_Natural_STP:
+      case kA_Sharp_STP:
+
+      case kB_Flat_STP:
+      case kB_Natural_STP:
+      case kB_Sharp_STP:
+
+      case kC_Flat_STP:
+      case kC_Natural_STP:
+      case kC_Sharp_STP:
+
+      case kD_Flat_STP:
+      case kD_Natural_STP:
+      case kD_Sharp_STP:
+
+      case kE_Flat_STP:
+      case kE_Natural_STP:
+      case kE_Sharp_STP:
+
+      case kF_Flat_STP:
+      case kF_Natural_STP:
+      case kF_Sharp_STP:
+
+      case kG_Flat_STP:
+      case kG_Natural_STP:
+      case kG_Sharp_STP:
+        break;
+  
+      default:
+        {
+          stringstream s;
+      
+          s <<
+            "'" << rootName <<
+            "' is no diatonic (semitones) pitch" <<
+            endl;
+            
+          optionError (s.str ());
+                    
+          exit (4);
+        }
+    } // switch
+
+    // fetch the harmony kind from harmonyName
+    msrHarmonyKind
+      harmonyKind =
+        msrHarmonyKindFromString (
+          harmonyName);
+
+    // print the chord details
+    printChordDetails (
+      os,
+      semiTonesPitchKind,
+      harmonyKind);
   }
 }
 

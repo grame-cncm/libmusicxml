@@ -109,7 +109,8 @@ R"(Write the chosen options values to standard error.)",
         appendOptionsItem (
           optionsBooleanItem::create (
             "topts", "traceOptions",
-R"(Write a trace of options handling to standard error.)",
+R"(Write a trace of options handling to standard error.
+This option should best appear first.)",
             "traceOptions",
             fTraceOptions));
     

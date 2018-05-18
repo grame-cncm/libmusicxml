@@ -24,6 +24,11 @@
 namespace MusicXML2 
 {
 
+// input line numbers
+//______________________________________________________________________________
+
+#define NO_INPUT_LINE_NUMBER 0
+
 // diatonic pitches
 //______________________________________________________________________________
 enum msrDiatonicPitchKind {
@@ -857,6 +862,12 @@ class msrChordNotes : public smartable
 };
 typedef SMARTP<msrChordNotes> S_msrChordNotes;
 EXP ostream& operator<< (ostream& os, const S_msrChordNotes& elt);
+
+//______________________________________________________________________________
+void printChordDetails (
+  ostream&              os,
+  msrSemiTonesPitchKind rootSemiTonesPitchKind,
+  msrHarmonyKind        harmonyKind);
 
 //______________________________________________________________________________
 enum msrScoreNotationKind {

@@ -232,7 +232,7 @@ class msrOptions : public optionsGroup
                             ostream&      os,
                             S_optionsItem item);
                             
-    virtual void          handleValuedOptionsItem (
+    virtual void          handleOptionsItemValue (
                             ostream&      os,
                             S_optionsItem item,
                             string        theString);

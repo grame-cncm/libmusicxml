@@ -279,7 +279,7 @@ void msr2LpsrTranslator::visitStart (S_msrScore& elt)
   // create the LPSR score
   fLpsrScore =
     lpsrScore::create (
-      0, // input line number
+      NO_INPUT_LINE_NUMBER,
       fCurrentMsrScoreClone);
       
   // fetch score header
@@ -502,7 +502,7 @@ void msr2LpsrTranslator::visitStart (S_msrPageGeometry& elt)
   S_lpsrSchemeVariable
     assoc =
       lpsrSchemeVariable::create (
-        0, // JMI
+        NO_INPUT_LINE_NUMBER, // JMI
         lpsrSchemeVariable::kCommented,
         "layout-set-staff-size",
         s.str (),

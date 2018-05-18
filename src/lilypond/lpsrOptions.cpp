@@ -557,7 +557,7 @@ S_optionsItem lpsrOptions::handleOptionsItem (
   return result;
 }
 
-void lpsrOptions::handleValuedOptionsItem (
+void lpsrOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
   string        theString)

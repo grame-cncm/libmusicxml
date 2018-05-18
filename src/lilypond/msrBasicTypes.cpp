@@ -7782,7 +7782,7 @@ void initializeChordIntervalsMap ()
 
     gChordIntervalsMap [harmonyKind] =
       msrChordIntervals::create (
-        0, // input line number
+        NO_INPUT_LINE_NUMBER,
         harmonyKind);
   } // for
 }
@@ -10902,7 +10902,7 @@ float msrFontSize::getFontNumericSize ()
 
         msrInternalError (
           gXml2lyOptions->fInputSourceName,
-          0, // JMI
+          NO_INPUT_LINE_NUMBER, // JMI
           __FILE__, __LINE__,
           s.str ());
       }
@@ -11795,21 +11795,21 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
@@ -11832,21 +11832,21 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
@@ -11858,21 +11858,21 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kAugmentedFifth,
             0) // relative octave
@@ -11884,21 +11884,21 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kDiminishedFifth,
             0) // relative octave
@@ -11910,28 +11910,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
@@ -11943,28 +11943,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMajorSeventh,
             0) // relative octave
@@ -11976,28 +11976,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
@@ -12009,28 +12009,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kDiminishedFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kDiminishedSeventh,
             0) // relative octave
@@ -12042,28 +12042,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kAugmentedFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
@@ -12075,28 +12075,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kDiminishedFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
@@ -12108,28 +12108,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMajorSeventh,
             0) // relative octave
@@ -12141,28 +12141,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMajorSixth,
             0) // relative octave
@@ -12174,28 +12174,28 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMajorSixth,
             0) // relative octave
@@ -12207,35 +12207,35 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorSeventh,
             0) // relative octave
@@ -12247,35 +12247,35 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorNinth,
             0) // relative octave
@@ -12287,35 +12287,35 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorNinth,
             0) // relative octave
@@ -12327,42 +12327,42 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             6, // chord item number
             kPerEleventh,
             0) // relative octave
@@ -12374,42 +12374,42 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
          appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             6, // chord item number
             kPerEleventh,
             0) // relative octave
@@ -12421,42 +12421,42 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             6, // chord item number
             kPerEleventh,
             0) // relative octave
@@ -12468,49 +12468,49 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             6, // chord item number
             kPerEleventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             7, // chord item number
             kMajorThirteenth,
             0) // relative octave
@@ -12522,49 +12522,49 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
          appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             6, // chord item number
             kPerEleventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             7, // chord item number
             kMajorThirteenth,
             0) // relative octave
@@ -12576,49 +12576,49 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             6, // chord item number
             kPerEleventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             7, // chord item number
             kMajorThirteenth,
             0) // relative octave
@@ -12630,21 +12630,21 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorSecond,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
@@ -12656,21 +12656,21 @@ void msrChordIntervals::initializeChordIntervals ()
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kPerFourth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
@@ -12698,21 +12698,21 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kDiminishedSixth,
             0) // relative octave
@@ -12724,21 +12724,21 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kAugmentedSixth,
             0) // relative octave
@@ -12750,28 +12750,28 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kAugmentedFourth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kAugmentedSixth,
             0) // relative octave
@@ -12783,28 +12783,28 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kPerFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kAugmentedSixth,
             0) // relative octave
@@ -12819,14 +12819,14 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kPerFifth,
             0) // relative octave
@@ -12838,28 +12838,28 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       {
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             1, // chord item number
             kPerUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             2, // chord item number
             kAugmentedSecond,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             3, // chord item number
             kAugmentedFourth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
-            0, // input line number
+            NO_INPUT_LINE_NUMBER,
             4, // chord item number
             kAugmentedSixth,
             0) // relative octave
@@ -13046,7 +13046,7 @@ void msrChordIntervals::printAllChordsIntervals (ostream& os)
     S_msrChordIntervals
       chordIntervals =
         msrChordIntervals::create (
-          0, // inputLineNumber
+          NO_INPUT_LINE_NUMBER,
           harmonyKind);
 
     // print it
@@ -13068,7 +13068,7 @@ list<msrSemiTonesPitchKind> buildSemiTonesChord (
   S_msrChordIntervals
     chordIntervals =
       msrChordIntervals::create (
-        0, // inputLineNumber
+        NO_INPUT_LINE_NUMBER,
         harmonyKind);
 
   // add the root to the chord
@@ -13223,7 +13223,7 @@ void msrChordNotes::printAllChordsNotes (
     S_msrChordIntervals
       chordIntervals =
         msrChordIntervals::create (
-          0, // inputLineNumber
+          NO_INPUT_LINE_NUMBER,
           harmonyKind);
 
     // fetch the intervals items for these intervals
@@ -13249,10 +13249,10 @@ void msrChordNotes::printAllChordsNotes (
             chordItem->
               getChordItemIntervalKind ();
   
-        const int fieldWidth = 16;
+        const int fieldWidth1 = 17;
         
         os << left <<
-          setw (fieldWidth) <<
+          setw (fieldWidth1) <<
           msrIntervalKindAsString (intervalKind) <<
         ": ";
 
@@ -13260,7 +13260,7 @@ void msrChordNotes::printAllChordsNotes (
         msrSemiTonesPitchKind
           noteSemiTonesPitchKind =
             noteAtIntervalFromSemiTonesPitch (
-              0,                      // inputLineNumber,
+              NO_INPUT_LINE_NUMBER,
               intervalKind,
               rootSemiTonesPitchKind);
 
@@ -13271,7 +13271,10 @@ void msrChordNotes::printAllChordsNotes (
               noteSemiTonesPitchKind);
 
         // print it
-        os <<
+        const int fieldWidth2 = 8;
+        
+        os << left <<
+          setw (fieldWidth2) <<
           msrQuarterTonesPitchKindAsString (
             gLpsrOptions->
               fLpsrQuarterTonesPitchesLanguageKind,
@@ -13398,6 +13401,122 @@ void msrChordNotes::print (ostream& os)
       "no notes" <<
       endl;
   }
+
+  gIndenter--;
+}
+
+//______________________________________________________________________________
+void printChordDetails (
+  ostream&              os,
+  msrSemiTonesPitchKind rootSemiTonesPitchKind,
+  msrHarmonyKind        harmonyKind)
+{
+  // fetch the quartertones pitch kind
+  msrQuarterTonesPitchKind
+    rootQuarterTonesPitchKind =
+      quarterTonesPitchKindFromSemiTonesPitchKind (
+        rootSemiTonesPitchKind);
+
+  // print the deails
+  os <<
+    "The details of chord '" <<
+    msrQuarterTonesPitchKindAsString (
+      gLpsrOptions->
+        fLpsrQuarterTonesPitchesLanguageKind,
+      rootQuarterTonesPitchKind) <<
+    " " <<
+    msrHarmonyKindAsString (
+      harmonyKind) <<
+    "' are:" <<
+    endl <<
+    endl;
+
+  gIndenter++;
+  
+  os <<
+    msrHarmonyKindAsString (harmonyKind) <<
+    ":" <<
+    endl;
+
+  gIndenter++;
+
+  // create the chord intervals
+  S_msrChordIntervals
+    chordIntervals =
+      msrChordIntervals::create (
+        NO_INPUT_LINE_NUMBER,
+        harmonyKind);
+
+  // fetch the intervals items for these intervals
+  // with rootSemiTonesPitchKind as root
+  const vector <S_msrChordItem>&
+    getChordIntervalsItems =
+      chordIntervals->
+        getChordIntervalsItems ();
+
+  if (getChordIntervalsItems.size ()) {
+    // fetch the notes for these intervals
+    vector <S_msrChordItem>::const_iterator
+      iBegin = getChordIntervalsItems.begin (),
+      iEnd   = getChordIntervalsItems.end (),
+      i      = iBegin;
+
+    for ( ; ; ) {
+      S_msrChordItem
+        chordItem = (*i);
+
+      msrIntervalKind
+        intervalKind =
+          chordItem->
+            getChordItemIntervalKind ();
+
+      const int fieldWidth1 = 17;
+      
+      os << left <<
+        setw (fieldWidth1) <<
+        msrIntervalKindAsString (intervalKind) <<
+      ": ";
+
+      // fetch the semitones pitch kind
+      msrSemiTonesPitchKind
+        noteSemiTonesPitchKind =
+          noteAtIntervalFromSemiTonesPitch (
+            NO_INPUT_LINE_NUMBER,
+            intervalKind,
+            rootSemiTonesPitchKind);
+
+      // fetch the quartertones pitch kind
+      msrQuarterTonesPitchKind
+        noteQuarterTonesPitchKind =
+          quarterTonesPitchKindFromSemiTonesPitchKind (
+            noteSemiTonesPitchKind);
+
+      // print it
+      const int fieldWidth2 = 8;
+
+      os << left <<
+        setw (fieldWidth2) <<
+        msrQuarterTonesPitchKindAsString (
+          gLpsrOptions->
+            fLpsrQuarterTonesPitchesLanguageKind,
+          noteQuarterTonesPitchKind) <<
+        " (" <<
+        msrSemiTonesPitchKindAsString (
+          noteSemiTonesPitchKind) <<
+        ")" <<
+        endl;
+
+      if (++i == iEnd) break;
+      
+      // no endl here
+    }
+
+  os <<
+    endl <<
+    endl;
+    
+  gIndenter--;
+  } // for
 
   gIndenter--;
 }

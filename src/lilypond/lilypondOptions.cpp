@@ -1453,7 +1453,7 @@ S_optionsItem lilypondOptions::handleOptionsItem (
   return result;
 }
 
-void lilypondOptions::handleValuedOptionsItem (
+void lilypondOptions::handleOptionsItemValue (
   ostream&      os,
   S_optionsItem item,
   string        theString)
