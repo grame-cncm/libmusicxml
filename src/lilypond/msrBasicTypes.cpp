@@ -7674,6 +7674,129 @@ string msrHarmonyKindAsShortString (
   return result;
 }
 
+string msrHarmonyKindShortName (
+  msrHarmonyKind harmonyKind)
+{
+  string result;
+  
+  switch (harmonyKind) {
+    case k_NoHarmony:
+      result = "noHarmony";
+      break;
+
+    case kMajorHarmony:
+      result = "maj";
+      break;
+    case kMinorHarmony:
+      result = "min";
+      break;
+    case kAugmentedHarmony:
+      result = "aug";
+      break;
+    case kDiminishedHarmony:
+      result = "dim";
+      break;
+
+    case kDominantHarmony:
+      result = "dom";
+      break;
+    case kMajorSeventhHarmony:
+      result = "maj";
+      break;
+    case kMinorSeventhHarmony:
+      result = "min7";
+      break;
+    case kDiminishedSeventhHarmony:
+      result = "dim7";
+      break;
+    case kAugmentedSeventhHarmony:
+      result = "aug7";
+      break;
+    case kHalfDiminishedHarmony:
+      result = "halfdim";
+      break;
+    case kMinorMajorSeventhHarmony:
+      result = "minmaj7";
+      break;
+
+    case kMajorSixthHarmony:
+      result = "maj6";
+      break;
+    case kMinorSixthHarmony:
+      result = "min6";
+      break;
+
+    case kDominantNinthHarmony:
+      result = "dom9";
+      break;
+    case kMajorNinthHarmony:
+      result = "maj9";
+      break;
+    case kMinorNinthHarmony:
+      result = "min9";
+      break;
+
+    case kDominantEleventhHarmony:
+      result = "dom11";
+      break;
+    case kMajorEleventhHarmony:
+      result = "maj11";
+      break;
+    case kMinorEleventhHarmony:
+      result = "min11";
+      break;
+
+    case kDominantThirteenthHarmony:
+      result = "dom13";
+      break;
+    case kMajorThirteenthHarmony:
+      result = "maj13";
+      break;
+    case kMinorThirteenthHarmony:
+      result = "min13";
+      break;
+
+    case kSuspendedSecondHarmony:
+      result = "sus2";
+      break;
+    case kSuspendedFourthHarmony:
+      result = "sus4";
+      break;
+      
+    case kNeapolitanHarmony:
+      result = "neapolitan";
+      break;
+    case kItalianHarmony:
+      result = "ttalian";
+      break;
+    case kFrenchHarmony:
+      result = "french";
+      break;
+    case kGermanHarmony:
+      result = "german";
+      break;
+
+    case kPedalHarmony:
+      result = "pedal";
+      break;
+    case kPowerHarmony:
+      result = "power";
+      break;
+    case kTristanHarmony:
+      result = "tristan";
+      break;
+
+    case kOtherHarmony:
+      result = "other";
+      break;
+    case kNoneHarmony:
+      result = "none";
+      break;
+  } // switch
+
+  return result;
+}
+
 msrHarmonyKind msrHarmonyKindFromString (
   string theString)
 {
@@ -7687,6 +7810,9 @@ msrHarmonyKind msrHarmonyKindFromString (
   }
   else if (theString == "aug") {
     result = kAugmentedHarmony;
+  }
+  else if (theString == "dim") {
+    result = kDiminishedHarmony;
   }
   else if (theString == "dom") {
     result = kDominantHarmony;
@@ -13425,7 +13551,7 @@ void printChordDetails (
         fLpsrQuarterTonesPitchesLanguageKind,
       rootQuarterTonesPitchKind) <<
     " " <<
-    msrHarmonyKindAsString (
+    msrHarmonyKindShortName (
       harmonyKind) <<
     "' are:" <<
     endl <<

@@ -393,7 +393,7 @@ or
 the selected MSR pitches language, "nederlands" by default.
 
 'harmonyName' should be one of:
-  "maj", "min", "aug", "dom",
+  "maj", "min", "aug", "dim", "dom",
   "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
   "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
   "dom13", "maj13", "min13", "sus2", "sus4",
@@ -461,7 +461,7 @@ S_optionsItem extraOptions::handleOptionsItem (
     S_optionsShowAllChordsIntervalsItem
       showAllChordsIntervalsItem =
         dynamic_cast<optionsShowAllChordsIntervalsItem*>(&(*item))
-    ) {
+  ) {
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsIntervalsItem'" <<
@@ -528,6 +528,7 @@ void extraOptions::handleOptionsItemValue (
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowAllChordsNotesItem'" <<
+        ", theString = \"" << theString << "\"" << 
         endl;
     }
 
@@ -622,6 +623,7 @@ void extraOptions::handleOptionsItemValue (
     if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsShowChordDetailsItem'" <<
+        ", theString = \"" << theString << "\"" << 
         endl;
     }
 

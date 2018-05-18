@@ -295,6 +295,9 @@ string msrHarmonyKindAsString (
 string msrHarmonyKindAsShortString (
   msrHarmonyKind harmonyKind);
 
+string msrHarmonyKindShortName (
+  msrHarmonyKind harmonyKind);
+
 msrHarmonyKind msrHarmonyKindFromString (
   string theString);
 
