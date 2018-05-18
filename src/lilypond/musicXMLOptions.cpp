@@ -23,8 +23,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 0
-
 //_______________________________________________________________________________
 
 S_musicXMLOptions gMusicXMLOptions;

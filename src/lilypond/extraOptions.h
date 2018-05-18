@@ -21,14 +21,14 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-class optionsShowAllChordIntervalsItem : public optionsItem
+class optionsShowAllChordsIntervalsItem : public optionsItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsShowAllChordIntervalsItem> create (
+    static SMARTP<optionsShowAllChordsIntervalsItem> create (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
@@ -38,12 +38,12 @@ class optionsShowAllChordIntervalsItem : public optionsItem
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsShowAllChordIntervalsItem (
+    optionsShowAllChordsIntervalsItem (
       string optionsItemShortName,
       string optionsItemLongName,
       string optionsItemDescription);
       
-    virtual ~optionsShowAllChordIntervalsItem ();
+    virtual ~optionsShowAllChordsIntervalsItem ();
 
   public:
   
@@ -58,7 +58,7 @@ class optionsShowAllChordIntervalsItem : public optionsItem
 
     void                  print (ostream& os) const;
 
-    void                  printAllChordIntervals (ostream& os) const;
+    void                  printAllChordsIntervals (ostream& os) const;
 
     void                  printOptionsValues (
                             ostream& os,
@@ -69,38 +69,56 @@ class optionsShowAllChordIntervalsItem : public optionsItem
     // fields
     // ------------------------------------------------------
 };
-typedef SMARTP<optionsShowAllChordIntervalsItem> S_optionsShowAllChordIntervalsItem;
-ostream& operator<< (ostream& os, const S_optionsShowAllChordIntervalsItem& elt);
+typedef SMARTP<optionsShowAllChordsIntervalsItem> S_optionsShowAllChordsIntervalsItem;
+ostream& operator<< (ostream& os, const S_optionsShowAllChordsIntervalsItem& elt);
 
 //______________________________________________________________________________
-class optionsShowAllChordNotesItem : public optionsItem
+class optionsShowAllChordsNotesItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsShowAllChordNotesItem> create (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
+    static SMARTP<optionsShowAllChordsNotesItem> create (
+      string  optionsItemShortName,
+      string  optionsItemLongName,
+      string  optionsItemDescription,
+      string  optionsValueSpecification,
+      string  optionsStringItemVariableDisplayName,
+      string& optionsStringItemVariable);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsShowAllChordNotesItem (
-      string optionsItemShortName,
-      string optionsItemLongName,
-      string optionsItemDescription);
+    optionsShowAllChordsNotesItem (
+      string  optionsItemShortName,
+      string  optionsItemLongName,
+      string  optionsItemDescription,
+      string  optionsValueSpecification,
+      string  optionsStringItemVariableDisplayName,
+      string& optionsStringItemVariable);
       
-    virtual ~optionsShowAllChordNotesItem ();
+    virtual ~optionsShowAllChordsNotesItem ();
 
   public:
   
     // set and get
     // ------------------------------------------------------
+
+    string                getOptionsShowAllChordsNotesItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsShowAllChordsNotesItemVariableDisplayName;
+                              }
+                              
+    void                  setShowAllChordsNotesItemVariableValue (
+                            string value)
+                              {
+                                fOptionsShowAllChordsNotesItemVariable = value;
+                              }
 
     // services
     // ------------------------------------------------------
@@ -110,7 +128,7 @@ class optionsShowAllChordNotesItem : public optionsItem
 
     void                  print (ostream& os) const;
 
-    void                  printAllChordNotes (
+    void                  printAllChordsNotes (
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind) const;
 
@@ -122,9 +140,12 @@ class optionsShowAllChordNotesItem : public optionsItem
   
     // fields
     // ------------------------------------------------------
+
+    string                fOptionsShowAllChordsNotesItemVariableDisplayName;
+    string&               fOptionsShowAllChordsNotesItemVariable;
 };
-typedef SMARTP<optionsShowAllChordNotesItem> S_optionsShowAllChordNotesItem;
-ostream& operator<< (ostream& os, const S_optionsShowAllChordNotesItem& elt);
+typedef SMARTP<optionsShowAllChordsNotesItem> S_optionsShowAllChordsNotesItem;
+ostream& operator<< (ostream& os, const S_optionsShowAllChordsNotesItem& elt);
 
 //______________________________________________________________________________
 class extraOptions : public optionsGroup
@@ -188,6 +209,8 @@ class extraOptions : public optionsGroup
 
     // fields
     // ------------------------------------------------------
+
+    string                fChordsRootAsString;
 };
 typedef SMARTP<extraOptions> S_extraOptions;
 EXP ostream& operator<< (ostream& os, const S_extraOptions& elt);

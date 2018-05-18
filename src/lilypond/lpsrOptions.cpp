@@ -15,7 +15,8 @@
 
 #include "utilities.h"
 
-#include "msrOptions.h" // for optionsPitchesLanguageItem
+#include "traceOptions.h"
+
 #include "lpsrOptions.h"
 
 
@@ -24,58 +25,56 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 0
-
 //______________________________________________________________________________
-S_optionsChordsLanguageItem optionsChordsLanguageItem::create (
+S_optionsLpsrPitchesLanguageItem optionsLpsrPitchesLanguageItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsChordsLanguageKindItemVariableDisplayName,
-  lpsrChordsLanguageKind&
-                     optionsChordsLanguageKindItemVariable)
+  string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
+  msrQuarterTonesPitchesLanguageKind&
+                     optionsLpsrPitchesLanguageKindItemVariable)
 {
-  optionsChordsLanguageItem* o = new
-    optionsChordsLanguageItem (
+  optionsLpsrPitchesLanguageItem* o = new
+    optionsLpsrPitchesLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
-      optionsChordsLanguageKindItemVariableDisplayName,
-      optionsChordsLanguageKindItemVariable);
+      optionsLpsrPitchesLanguageKindItemVariableDisplayName,
+      optionsLpsrPitchesLanguageKindItemVariable);
   assert(o!=0);
   return o;
 }
 
-optionsChordsLanguageItem::optionsChordsLanguageItem (
+optionsLpsrPitchesLanguageItem::optionsLpsrPitchesLanguageItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsChordsLanguageKindItemVariableDisplayName,
-  lpsrChordsLanguageKind&
-                     optionsChordsLanguageKindItemVariable)
+  string             optionsLpsrPitchesLanguageKindItemVariableDisplayName,
+  msrQuarterTonesPitchesLanguageKind&
+                     optionsLpsrPitchesLanguageKindItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification),
-    fOptionsChordsLanguageKindItemVariableDisplayName (
-      optionsChordsLanguageKindItemVariableDisplayName),
-    fOptionsChordsLanguageKindItemVariable (
-      optionsChordsLanguageKindItemVariable)
+    fOptionsLpsrPitchesLanguageKindItemVariableDisplayName (
+      optionsLpsrPitchesLanguageKindItemVariableDisplayName),
+    fOptionsLpsrPitchesLanguageKindItemVariable (
+      optionsLpsrPitchesLanguageKindItemVariable)
 {}
 
-optionsChordsLanguageItem::~optionsChordsLanguageItem()
+optionsLpsrPitchesLanguageItem::~optionsLpsrPitchesLanguageItem ()
 {}
 
-void optionsChordsLanguageItem::print (ostream& os) const
+void optionsLpsrPitchesLanguageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
-    "OptionsChordsLanguageItem:" <<
+    "OptionsLpsrPitchesLanguageItem:" <<
     endl;
 
   gIndenter++;
@@ -85,31 +84,121 @@ void optionsChordsLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsChordsLanguageKindItemVariableDisplayName" << " : " <<
-    fOptionsChordsLanguageKindItemVariableDisplayName <<
+    "fOptionsLpsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
+    fOptionsLpsrPitchesLanguageKindItemVariableDisplayName <<
+    endl <<
     setw (fieldWidth) <<
-    "fOptionsChordsLanguageKindItemVariable" << " : \"" <<
-    lpsrChordsLanguageKindAsString (
-      fOptionsChordsLanguageKindItemVariable) <<
+    "fOptionsLpsrPitchesLanguageItemVariable" << " : \"" <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fOptionsLpsrPitchesLanguageKindItemVariable) <<
       "\"" <<
     endl;
 }
 
-void optionsChordsLanguageItem::printOptionsValues (
+void optionsLpsrPitchesLanguageItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsChordsLanguageKindItemVariableDisplayName <<
+    fOptionsLpsrPitchesLanguageKindItemVariableDisplayName <<
     " : \"" <<
-    lpsrChordsLanguageKindAsString (
-      fOptionsChordsLanguageKindItemVariable) <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      fOptionsLpsrPitchesLanguageKindItemVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsChordsLanguageItem& elt)
+ostream& operator<< (ostream& os, const S_optionsLpsrPitchesLanguageItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+//______________________________________________________________________________
+S_optionsLpsrChordsLanguageItem optionsLpsrChordsLanguageItem::create (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
+  lpsrChordsLanguageKind&
+                     optionsLpsrChordsLanguageKindItemVariable)
+{
+  optionsLpsrChordsLanguageItem* o = new
+    optionsLpsrChordsLanguageItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsLpsrChordsLanguageKindItemVariableDisplayName,
+      optionsLpsrChordsLanguageKindItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsLpsrChordsLanguageItem::optionsLpsrChordsLanguageItem (
+  string             optionsItemShortName,
+  string             optionsItemLongName,
+  string             optionsItemDescription,
+  string             optionsValueSpecification,
+  string             optionsLpsrChordsLanguageKindItemVariableDisplayName,
+  lpsrChordsLanguageKind&
+                     optionsLpsrChordsLanguageKindItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsLpsrChordsLanguageKindItemVariableDisplayName (
+      optionsLpsrChordsLanguageKindItemVariableDisplayName),
+    fOptionsLpsrChordsLanguageKindItemVariable (
+      optionsLpsrChordsLanguageKindItemVariable)
+{}
+
+optionsLpsrChordsLanguageItem::~optionsLpsrChordsLanguageItem()
+{}
+
+void optionsLpsrChordsLanguageItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "OptionsLpsrChordsLanguageItem:" <<
+    endl;
+
+  gIndenter++;
+
+  printValuedItemEssentials (
+    os, fieldWidth);
+
+  os << left <<
+    setw (fieldWidth) <<
+    "fOptionsLpsrChordsLanguageKindItemVariableDisplayName" << " : " <<
+    fOptionsLpsrChordsLanguageKindItemVariableDisplayName <<
+    setw (fieldWidth) <<
+    "fOptionsLpsrChordsLanguageKindItemVariable" << " : \"" <<
+    lpsrChordsLanguageKindAsString (
+      fOptionsLpsrChordsLanguageKindItemVariable) <<
+      "\"" <<
+    endl;
+}
+
+void optionsLpsrChordsLanguageItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{  
+  os << left <<
+    setw (valueFieldWidth) <<
+    fOptionsLpsrChordsLanguageKindItemVariableDisplayName <<
+    " : \"" <<
+    lpsrChordsLanguageKindAsString (
+      fOptionsLpsrChordsLanguageKindItemVariable) <<
+    "\"" <<
+    endl;
+}
+
+ostream& operator<< (ostream& os, const S_optionsLpsrChordsLanguageItem& elt)
 {
   elt->print (os);
   return os;
@@ -258,7 +347,7 @@ R"()",
       
     languagesSubGroup->
       appendOptionsItem (
-        optionsPitchesLanguageItem::create (
+        optionsLpsrPitchesLanguageItem::create (
           "lppl", "lpsrPitchesLanguage",
 R"(Use 'language' to display note pitches in the LPSR logs and views,
 as well as in the generated LilyPond code.
@@ -272,7 +361,7 @@ The default is to use 'nederlands'.)",
   
     languagesSubGroup->
       appendOptionsItem (
-        optionsChordsLanguageItem::create (
+        optionsLpsrChordsLanguageItem::create (
           "lpcl", "lpsrChordsLanguage",
 R"(Use 'language' to display chord names, their root and bass notes,
 in the LPSR logs and views and the generated LilyPond code.
@@ -435,18 +524,18 @@ S_optionsItem lpsrOptions::handleOptionsItem (
   
   if (
     // chords language item?
-    S_optionsChordsLanguageItem
-      chordsLanguageItem =
-        dynamic_cast<optionsChordsLanguageItem*>(&(*item))
+    S_optionsLpsrChordsLanguageItem
+      LpsrChordsLanguageItem =
+        dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
     ) {
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsChordsLanguageItem'" <<
+        "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
         endl;
     }
 
     // wait until the value is met
-    result = chordsLanguageItem;
+    result = LpsrChordsLanguageItem;
   }
 
   return result;
@@ -459,12 +548,19 @@ void lpsrOptions::handleValuedOptionsItem (
 {
   if (
     // chords language item?
-    S_optionsChordsLanguageItem
-      chordsLanguageItem =
-        dynamic_cast<optionsChordsLanguageItem*>(&(*item))
+    S_optionsLpsrChordsLanguageItem
+      LpsrChordsLanguageItem =
+        dynamic_cast<optionsLpsrChordsLanguageItem*>(&(*item))
     ) {
     // theString contains the language name:     
     // is it in the chords languages map?
+
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsLpsrChordsLanguageItem'" <<
+        endl;
+    }
+
     map<string, lpsrChordsLanguageKind>::const_iterator
       it =
         gLpsrChordsLanguageKindsMap.find (theString);
@@ -496,8 +592,8 @@ void lpsrOptions::handleValuedOptionsItem (
       exit (4);
     }
   
-    chordsLanguageItem->
-      setChordsLanguageKindItemVariableValue (
+    LpsrChordsLanguageItem->
+      setLpsrChordsLanguageKindItemVariableValue (
         (*it).second);
   }
 }

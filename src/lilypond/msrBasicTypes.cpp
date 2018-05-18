@@ -33,6 +33,7 @@
 
 #include "generalOptions.h"
 #include "msrOptions.h"
+#include "lpsrOptions.h"
 
 #include "xml2lyOptionsHandling.h"
 
@@ -12794,15 +12795,26 @@ void msrChordNotes::printAllChordsNotes (
               0, //                   inputLineNumber,
               intervalKind,
               rootSemiTonesPitchKind);
-  
+
+        msrQuarterTonesPitchKind
+          noteQuarterTonesPitchKind =
+            quarterTonesPitchKindFromSemiTonesPitchKind (
+              noteSemiTonesPitchKind);
+
         os <<
+          msrQuarterTonesPitchKindAsString (
+            gLpsrOptions->
+              fLpsrQuarterTonesPitchesLanguageKind,
+            noteQuarterTonesPitchKind) <<
+          " (" <<
           msrSemiTonesPitchKindAsString (
-            noteSemiTonesPitchKind);
+            noteSemiTonesPitchKind) <<
+          ")" <<
+          endl;
   
         if (++i == iEnd) break;
         
-        os <<
-          endl;
+        // no endl here
       } // for
     }
 

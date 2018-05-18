@@ -34,8 +34,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 0
-
 //______________________________________________________________________________
 S_xml2lyOptionsVersionItem xml2lyOptionsVersionItem::create (
   string optionsItemShortName,
@@ -349,7 +347,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
     this);
 
 
-  if (TRACE_OPTIONS) {
+  if (gTraceOptions->fTraceOptions) {
     // print the options handler initial state
     fOptionsHandlerLogIOstream <<
       "xml2lyOptionsHandler has been initialized as:" <<
@@ -371,7 +369,7 @@ void xml2lyOptionsHandler::initializeOptionsHandler ()
   this->
     registerOptionsHandlerInItself ();
 
-  if (TRACE_OPTIONS) {
+  if (gTraceOptions->fTraceOptions) {
     fOptionsHandlerLogIOstream <<
       "xml2lyOptionsHandler help:" <<
       endl;
@@ -387,7 +385,7 @@ void xml2lyOptionsHandler::checkOptionsAndArguments ()
   unsigned int argumentsNumber =
     fArgumentsVector.size ();
 
-  if (TRACE_OPTIONS) {    
+  if (gTraceOptions->fTraceOptions) {    
     if (argumentsNumber > 0) {
       fOptionsHandlerLogIOstream <<
         singularOrPluralWithoutNumber (
@@ -809,7 +807,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
 {
   S_optionsItem result;
   
-  if (TRACE_OPTIONS) {
+  if (gTraceOptions->fTraceOptions) {
     os <<
       "---> Handling options item '" <<
       item <<
@@ -823,7 +821,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
       versionItem =
         dynamic_cast<xml2lyOptionsVersionItem*>(&(*item))
     ) {
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsVersionItem'" <<
         endl;
@@ -843,7 +841,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
       aboutItem =
         dynamic_cast<xml2lyOptionsAboutItem*>(&(*item))
     ) {
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAboutItem'" <<
         endl;
@@ -863,7 +861,7 @@ S_optionsItem xml2lyOptions::handleOptionsItem (
       contactItem =
         dynamic_cast<xml2lyOptionsContactItem*>(&(*item))
     ) {
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsContactItem'" <<
         endl;

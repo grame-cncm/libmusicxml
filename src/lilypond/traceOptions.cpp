@@ -22,8 +22,6 @@ using namespace std;
 namespace MusicXML2 
 {
 
-#define TRACE_OPTIONS 0
-
 //_______________________________________________________________________________
 S_traceOptions gTraceOptions;
 S_traceOptions gTraceOptionsUserChoices;
@@ -73,6 +71,7 @@ void traceOptions::initializeTraceOptions (
     
     fTraceBasic = boolOptionsInitialValue;
     
+    fTraceOptions         = boolOptionsInitialValue;
     fDisplayOptionsValues = boolOptionsInitialValue;
     
     // fTraceDetailedMeasureNumbersSet is empty
@@ -105,6 +104,14 @@ R"(Write a trace of the trace activity to standard error.)",
 R"(Write the chosen options values to standard error.)",
             "displayOptionsValues",
             fDisplayOptionsValues));
+    
+      traceAndDisplaySubGroup->
+        appendOptionsItem (
+          optionsBooleanItem::create (
+            "topts", "traceOptions",
+R"(Write a trace of options handling to standard error.)",
+            "traceOptions",
+            fTraceOptions));
     
       traceAndDisplaySubGroup->
         appendOptionsItem (

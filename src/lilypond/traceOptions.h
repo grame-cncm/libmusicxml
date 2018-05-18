@@ -73,6 +73,7 @@ class traceOptions : public optionsGroup
     // trace and display  
     bool                  fTraceBasic;
     
+    bool                  fTraceOptions;
     bool                  fDisplayOptionsValues;
     
     set<int>              fTraceDetailedMeasureNumbersSet;

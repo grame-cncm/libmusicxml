@@ -17,6 +17,8 @@
 
 #include "utilities.h"
 
+#include "traceOptions.h"
+
 #include "lilypondOptions.h"
 
 
@@ -24,8 +26,6 @@ using namespace std;
 
 namespace MusicXML2 
 {
-
-#define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
 S_optionsAccidentalStyleItem optionsAccidentalStyleItem::create (
@@ -1424,7 +1424,7 @@ S_optionsItem lilypondOptions::handleOptionsItem (
       accidentalStyleItem =
         dynamic_cast<optionsAccidentalStyleItem*>(&(*item))
     ) {
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
         endl;
@@ -1440,7 +1440,7 @@ S_optionsItem lilypondOptions::handleOptionsItem (
       midiTempoItem =
         dynamic_cast<optionsMidiTempoItem*>(&(*item))
     ) {
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsMidiTempoItem'" <<
         endl;
@@ -1466,6 +1466,13 @@ void lilypondOptions::handleValuedOptionsItem (
     ) {
     // theString contains the language name:     
     // is it in the accidental styles map?
+    
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsAccidentalStyleItem'" <<
+        endl;
+    }
+
     map<string, lpsrAccidentalStyleKind>::const_iterator
       it =
         gLpsrAccidentalStyleKindsMap.find (
@@ -1511,6 +1518,13 @@ void lilypondOptions::handleValuedOptionsItem (
     ) {
     // theString contains the midi tempo specification
     // decipher it to extract duration and perSecond values
+
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsMidiTempoItem'" <<
+        endl;
+    }
+
     string regularExpression (
       "[[:space:]]*([[:digit:]]+\\.*)[[:space:]]*"
       "="
@@ -1521,7 +1535,7 @@ void lilypondOptions::handleValuedOptionsItem (
 
     regex_match (theString, sm, e);
 
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
         " for MIDI tempo string '" << theString <<
@@ -1565,7 +1579,7 @@ void lilypondOptions::handleValuedOptionsItem (
       s >> midiTempoPerSecond;
     }
     
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "midiTempoDuration  = " <<
         midiTempoDuration <<

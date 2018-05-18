@@ -106,53 +106,53 @@ typedef SMARTP<optionsPartRenameItem> S_optionsPartRenameItem;
 ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt);
 
 //______________________________________________________________________________
-class optionsPitchesLanguageItem : public optionsValuedItem
+class optionsMsrPitchesLanguageItem : public optionsValuedItem
 {
   public:
   
     // creation
     // ------------------------------------------------------
 
-    static SMARTP<optionsPitchesLanguageItem> create (
+    static SMARTP<optionsMsrPitchesLanguageItem> create (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification,
-      string             optionsPitchesLanguageKindItemVariableDisplayName,
+      string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
-                         optionsPitchesLanguageKindItemVariable);
+                         optionsMsrPitchesLanguageKindItemVariable);
      
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    optionsPitchesLanguageItem (
+    optionsMsrPitchesLanguageItem (
       string             optionsItemShortName,
       string             optionsItemLongName,
       string             optionsItemDescription,
       string             optionsValueSpecification,
-      string             optionsPitchesLanguageKindItemVariableDisplayName,
+      string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
       msrQuarterTonesPitchesLanguageKind&
-                         optionsPitchesLanguageKindItemVariable);
+                         optionsMsrPitchesLanguageKindItemVariable);
       
-    virtual ~optionsPitchesLanguageItem();
+    virtual ~optionsMsrPitchesLanguageItem ();
 
   public:
   
     // set and get
     // ------------------------------------------------------
 
-    string                getOptionsPitchesLanguageKindItemVariableDisplayName () const
+    string                getOptionsMsrPitchesLanguageKindItemVariableDisplayName () const
                               {
                                 return
-                                  fOptionsPitchesLanguageKindItemVariableDisplayName;
+                                  fOptionsMsrPitchesLanguageKindItemVariableDisplayName;
                               }
                               
     void                  setPitchesLanguageKindItemVariableValue (
                             msrQuarterTonesPitchesLanguageKind value)
                               {
-                                fOptionsPitchesLanguageKindItemVariable = value;
+                                fOptionsMsrPitchesLanguageKindItemVariable = value;
                               }
 
     // services
@@ -172,12 +172,12 @@ class optionsPitchesLanguageItem : public optionsValuedItem
     // fields
     // ------------------------------------------------------
 
-    string                fOptionsPitchesLanguageKindItemVariableDisplayName;
+    string                fOptionsMsrPitchesLanguageKindItemVariableDisplayName;
     msrQuarterTonesPitchesLanguageKind&
-                          fOptionsPitchesLanguageKindItemVariable;
+                          fOptionsMsrPitchesLanguageKindItemVariable;
 };
-typedef SMARTP<optionsPitchesLanguageItem> S_optionsPitchesLanguageItem;
-ostream& operator<< (ostream& os, const S_optionsPitchesLanguageItem& elt);
+typedef SMARTP<optionsMsrPitchesLanguageItem> S_optionsMsrPitchesLanguageItem;
+ostream& operator<< (ostream& os, const S_optionsMsrPitchesLanguageItem& elt);
 
 //______________________________________________________________________________
 class msrOptions : public optionsGroup

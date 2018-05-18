@@ -18,6 +18,8 @@
 
 #include "utilities.h"
 
+#include "traceOptions.h"
+
 #include "msrOptions.h"
 
 
@@ -25,8 +27,6 @@ using namespace std;
 
 namespace MusicXML2 
 {
-
-#define TRACE_OPTIONS 0
 
 //______________________________________________________________________________
 S_optionsPartRenameItem optionsPartRenameItem::create (
@@ -161,55 +161,55 @@ ostream& operator<< (ostream& os, const S_optionsPartRenameItem& elt)
 }
 
 //______________________________________________________________________________
-S_optionsPitchesLanguageItem optionsPitchesLanguageItem::create (
+S_optionsMsrPitchesLanguageItem optionsMsrPitchesLanguageItem::create (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsPitchesLanguageKindItemVariableDisplayName,
+  string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
-                     optionsPitchesLanguageKindItemVariable)
+                     optionsMsrPitchesLanguageKindItemVariable)
 {
-  optionsPitchesLanguageItem* o = new
-    optionsPitchesLanguageItem (
+  optionsMsrPitchesLanguageItem* o = new
+    optionsMsrPitchesLanguageItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
-      optionsPitchesLanguageKindItemVariableDisplayName,
-      optionsPitchesLanguageKindItemVariable);
+      optionsMsrPitchesLanguageKindItemVariableDisplayName,
+      optionsMsrPitchesLanguageKindItemVariable);
   assert(o!=0);
   return o;
 }
 
-optionsPitchesLanguageItem::optionsPitchesLanguageItem (
+optionsMsrPitchesLanguageItem::optionsMsrPitchesLanguageItem (
   string             optionsItemShortName,
   string             optionsItemLongName,
   string             optionsItemDescription,
   string             optionsValueSpecification,
-  string             optionsPitchesLanguageKindItemVariableDisplayName,
+  string             optionsMsrPitchesLanguageKindItemVariableDisplayName,
   msrQuarterTonesPitchesLanguageKind&
-                     optionsPitchesLanguageKindItemVariable)
+                     optionsMsrPitchesLanguageKindItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification),
-    fOptionsPitchesLanguageKindItemVariableDisplayName (
-      optionsPitchesLanguageKindItemVariableDisplayName),
-    fOptionsPitchesLanguageKindItemVariable (
-      optionsPitchesLanguageKindItemVariable)
+    fOptionsMsrPitchesLanguageKindItemVariableDisplayName (
+      optionsMsrPitchesLanguageKindItemVariableDisplayName),
+    fOptionsMsrPitchesLanguageKindItemVariable (
+      optionsMsrPitchesLanguageKindItemVariable)
 {}
 
-optionsPitchesLanguageItem::~optionsPitchesLanguageItem()
+optionsMsrPitchesLanguageItem::~optionsMsrPitchesLanguageItem ()
 {}
 
-void optionsPitchesLanguageItem::print (ostream& os) const
+void optionsMsrPitchesLanguageItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
-    "OptionsPitchesLanguageItem:" <<
+    "OptionsMsrPitchesLanguageItem:" <<
     endl;
 
   gIndenter++;
@@ -219,32 +219,32 @@ void optionsPitchesLanguageItem::print (ostream& os) const
 
   os << left <<
     setw (fieldWidth) <<
-    "fOptionsPitchesLanguagKindeItemVariableDisplayName" << " : " <<
-    fOptionsPitchesLanguageKindItemVariableDisplayName <<
+    "fOptionsMsrPitchesLanguagKindeItemVariableDisplayName" << " : " <<
+    fOptionsMsrPitchesLanguageKindItemVariableDisplayName <<
     endl <<
     setw (fieldWidth) <<
-    "fOptionsPitchesLanguageItemVariable" << " : \"" <<
+    "fOptionsMsrPitchesLanguageItemVariable" << " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
-      fOptionsPitchesLanguageKindItemVariable) <<
+      fOptionsMsrPitchesLanguageKindItemVariable) <<
       "\"" <<
     endl;
 }
 
-void optionsPitchesLanguageItem::printOptionsValues (
+void optionsMsrPitchesLanguageItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {  
   os << left <<
     setw (valueFieldWidth) <<
-    fOptionsPitchesLanguageKindItemVariableDisplayName <<
+    fOptionsMsrPitchesLanguageKindItemVariableDisplayName <<
     " : \"" <<
     msrQuarterTonesPitchesLanguageKindAsString (
-      fOptionsPitchesLanguageKindItemVariable) <<
+      fOptionsMsrPitchesLanguageKindItemVariable) <<
     "\"" <<
     endl;
 }
 
-ostream& operator<< (ostream& os, const S_optionsPitchesLanguageItem& elt)
+ostream& operator<< (ostream& os, const S_optionsMsrPitchesLanguageItem& elt)
 {
   elt->print (os);
   return os;
@@ -402,7 +402,7 @@ R"()",
 
     languagesSubGroup->
       appendOptionsItem (
-        optionsPitchesLanguageItem::create (
+        optionsMsrPitchesLanguageItem::create (
           "mpl", "msrPitchesLanguage",
 R"(Use 'language' to display note pitches in the MSR logs and text views.
 The 12 LilyPond pitches languages are available:
@@ -949,28 +949,12 @@ S_optionsItem msrOptions::handleOptionsItem (
   S_optionsItem result;
   
   if (
-    // pitches language item?
-    S_optionsPitchesLanguageItem
-      pitchesLanguageItem =
-        dynamic_cast<optionsPitchesLanguageItem*>(&(*item))
-    ) {
-    if (TRACE_OPTIONS) {
-      os <<
-        "==> optionsItem is of type 'optionsPitchesLanguageItem'" <<
-        endl;
-    }
-
-    // wait until the value is met
-    result = pitchesLanguageItem;
-  }
-
-  else if (
     // part rename item?
     S_optionsPartRenameItem
       partRenameItem =
         dynamic_cast<optionsPartRenameItem*>(&(*item))
     ) {
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "==> optionsItem is of type 'optionsPartRenameItem'" <<
         endl;
@@ -978,6 +962,22 @@ S_optionsItem msrOptions::handleOptionsItem (
 
     // wait until the value is met
     result = partRenameItem;
+  }
+
+  else if (
+    // pitches language item?
+    S_optionsMsrPitchesLanguageItem
+      pitchesLanguageItem =
+        dynamic_cast<optionsMsrPitchesLanguageItem*>(&(*item))
+    ) {
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsMsrPitchesLanguageItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = pitchesLanguageItem;
   }
 
   return result;
@@ -996,6 +996,13 @@ void msrOptions::handleValuedOptionsItem (
     ) {
     // theString contains the part rename specification
     // decipher it to extract the old and new part names
+
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsPartRenameItem'" <<
+        endl;
+    }
+
     string regularExpression (
       "[[:space:]]*(.*)[[:space:]]*"
       "="
@@ -1006,7 +1013,7 @@ void msrOptions::handleValuedOptionsItem (
 
     regex_match (theString, sm, e);
 
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "There are " << sm.size () << " matches" <<
         " for MIDI tempo string '" << theString <<
@@ -1045,7 +1052,7 @@ void msrOptions::handleValuedOptionsItem (
       oldPartName = sm [1],
       newPartName = sm [2];
       
-    if (TRACE_OPTIONS) {
+    if (gTraceOptions->fTraceOptions) {
       os <<
         "--> oldPartName = \"" << oldPartName << "\", " <<
         "--> newPartName = \"" << newPartName << "\"" <<
@@ -1082,59 +1089,20 @@ void msrOptions::handleValuedOptionsItem (
   }
 
   else if (
-    // pitches language item?
-    S_optionsPitchesLanguageItem
+    // MSR pitches language item?
+    S_optionsMsrPitchesLanguageItem
       pitchesLanguageKindItem =
-        dynamic_cast<optionsPitchesLanguageItem*>(&(*item))
+        dynamic_cast<optionsMsrPitchesLanguageItem*>(&(*item))
     ) {
     // theString contains the language name:     
     // is it in the pitches languages map?
-    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
-      it =
-        gQuarterTonesPitchesLanguageKindsMap.find (
-          theString);
-          
-    if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
-      // no, language is unknown in the map
-      
-      printHelpSummary (os);
-      
-      stringstream s;
-  
-      s <<
-        "MSR pitches language " << theString <<
-        " is unknown" <<
-        endl <<
-        "The " <<
-        gQuarterTonesPitchesLanguageKindsMap.size () <<
-        " known MSR pitches languages are:" <<
-        endl;
-  
-      gIndenter++;
-    
-      s <<
-        existingQuarterTonesPitchesLanguageKinds ();
-  
-      gIndenter--;
-  
-      optionError (s.str ());
-      
-      exit (4);
-    }
-  
-    pitchesLanguageKindItem->
-      setPitchesLanguageKindItemVariableValue (
-        (*it).second);
-  }
 
-  else if (
-    // pitches language item?
-    S_optionsPitchesLanguageItem
-      pitchesLanguageKindItem =
-        dynamic_cast<optionsPitchesLanguageItem*>(&(*item))
-    ) {
-    // theString contains the language name:     
-    // is it in the pitches languages map?
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsMsrPitchesLanguageItem'" <<
+        endl;
+    }
+
     map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
       it =
         gQuarterTonesPitchesLanguageKindsMap.find (
