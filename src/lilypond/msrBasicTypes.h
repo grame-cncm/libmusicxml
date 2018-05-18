@@ -232,6 +232,9 @@ string msrIntervalKindAsShortString (
 msrIntervalKind invertIntervalKind (
   msrIntervalKind intervalKind);
 
+int intervalKindAsSemitones (
+  msrIntervalKind intervalKind);
+
 msrIntervalKind intervalKindSum (
   msrIntervalKind intervalKind1,
   msrIntervalKind intervalKind2);

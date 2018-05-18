@@ -760,165 +760,3626 @@ msrIntervalKind invertIntervalKind (
   return result;
 }
 
+int intervalKindAsSemitones (
+  msrIntervalKind intervalKind)
+{
+  int result;
+  
+  switch (intervalKind) {
+    case kDiminishedUnisson:
+      result = -1;
+      break;
+    case kPerUnison:
+      result = 0;
+      break;
+    case kAugmentedUnison:
+      result = 1;
+      break;
+      
+    case kDiminishedSecond:
+      result = 0;
+      break;
+    case kMinorSecond:
+      result = 1;
+      break;
+    case kMajorSecond:
+      result = 2;
+      break;
+    case kAugmentedSecond:
+      result = 3;
+      break;
+      
+    case kDiminishedThird:
+      result = 2;
+      break;
+    case kMinorThird:
+      result = 3;
+      break;
+    case kMajorThird:
+      result = 4;
+      break;
+    case kAugmentedThird:
+      result = 5;
+      break;
+      
+    case kDiminishedFourth:
+      result = 4;
+      break;
+    case kPerFourth:
+      result = 5;
+      break;
+    case kAugmentedFourth:
+      result = 6;
+      break;
+      
+    case kDiminishedFifth:
+      result = 7;
+      break;
+    case kPerFifth:
+      result = 7;
+      break;
+    case kAugmentedFifth:
+      result = 8;
+      break;
+
+    case kDiminishedSixth:
+      result = 7;
+      break;
+    case kMinorSixth:
+      result = 8;
+      break;
+    case kMajorSixth:
+      result = 9;
+      break;
+    case kAugmentedSixth:
+      result = 10;
+      break;
+      
+    case kDiminishedSeventh:
+      result = 9;
+      break;
+    case kMinorSeventh:
+      result = 10;
+      break;
+    case kMajorSeventh:
+      result = 11;
+      break;
+    case kAugmentedSeventh:
+      result = 12;
+      break;
+
+    case kDiminishedOctave:
+      result = 11;
+      break;
+    case kPerOctave:
+      result = 12;
+      break;
+    case kAugmentedOctave:
+      result = 13;
+      break;
+      
+    case kDiminishedNinth:
+      result = 12;
+      break;
+    case kMinorNinth:
+      result = 13;
+      break;
+    case kMajorNinth:
+      result = 14;
+      break;
+    case kAugmentedNinth:
+      result = 15;
+      break;
+      
+    case kDiminishedTenth:
+      result = 14;
+      break;
+    case kMinorTenth:
+      result = 15;
+      break;
+    case kMajorTenth:
+      result = 16;
+      break;
+    case kAugmentedTenth:
+      result = 17;
+      break;
+      
+    case kDiminishedEleventh:
+      result = 16;
+      break;
+    case kPerEleventh:
+      result = 17;
+      break;
+    case kAugmentedEleventh:
+      result = 18;
+      break;
+      
+    case kDiminishedTwelfth:
+      result = 18;
+      break;
+    case kPerTwelfth:
+      result = 19;
+      break;
+    case kAugmentedTwelfth:
+      result = 20;
+      break;
+
+    case kDiminishedThirteenth:
+      result = 19;
+      break;
+    case kMinorThirteenth:
+      result = 20;
+      break;
+    case kMajorThirteenth:
+      result = 21;
+      break;
+    case kAugmentedThirteenth:
+      result = 22;
+      break;
+  } // switch
+
+  return result;
+}
+
 msrIntervalKind intervalKindSum (
   msrIntervalKind intervalKind1,
   msrIntervalKind intervalKind2)
 {
-  msrIntervalKind result;
+  msrIntervalKind result = kPerUnison; // to have it initialized
 
-  switch (intervalKind1) { // JMI TODO
+  // order the intervals so that
+  // workIntervalKind1 is greater or equal to workIntervalKind2
+  // according to the enum type
+  msrIntervalKind
+    workIntervalKind1 = intervalKind1,
+    workIntervalKind2 = intervalKind2;
+    
+  if (intervalKind1 < intervalKind2) {
+    workIntervalKind1 = intervalKind2;
+    workIntervalKind2 = intervalKind1;
+  }
+    
+  switch (workIntervalKind1) {
     case kDiminishedUnisson:
-      result = kAugmentedUnison;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerUnison:
-      result = kPerUnison;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedUnison:
-      result = kDiminishedOctave;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedSecond:
-      result = kAugmentedSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kDiminishedSecond:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorSecond:
-      result = kMajorSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorSecond:
-      result = kMinorSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedSecond:
-      result = kDiminishedSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedThird:
-      result = kAugmentedSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorThird:
-      result = kMajorSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorThird:
-      result = kMinorSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedThird:
-      result = kDiminishedSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedFourth:
-      result = kAugmentedFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerFourth:
-      result = kPerFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedFourth:
-      result = kDiminishedFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedFifth:
-      result = kAugmentedFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerFifth:
-      result = kPerFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedFifth:
-      result = kDiminishedFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
 
     case kDiminishedSixth:
-      result = kAugmentedThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorSixth:
-      result = kMajorThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorSixth:
-      result = kMinorThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedSixth:
-      result = kDiminishedThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedSeventh:
-      result = kAugmentedSecond;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorSeventh:
-      result = kMajorSecond;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorSeventh:
-      result = kMinorSecond;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedSeventh:
-      result = kDiminishedSecond;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
 
     case kDiminishedOctave:
-      result = kAugmentedUnison;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerOctave:
-      result = kPerOctave;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedOctave:
-      result = kDiminishedUnisson;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedNinth:
-      result = kAugmentedSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorNinth:
-      result = kMajorSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorNinth:
-      result = kMinorSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedNinth:
-      result = kDiminishedSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedTenth:
-      result = kAugmentedSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorTenth:
-      result = kMajorSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorTenth:
-      result = kMinorSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedTenth:
-      result = kDiminishedSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedEleventh:
-      result = kAugmentedFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerEleventh:
-      result = kPerFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedEleventh:
-      result = kDiminishedFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedTwelfth:
-      result = kAugmentedFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerTwelfth:
-      result = kPerFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedTwelfth:
-      result = kDiminishedFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
 
     case kDiminishedThirteenth:
-      result = kAugmentedThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        case kDiminishedThirteenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorThirteenth:
-      result = kMajorThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        case kDiminishedThirteenth:
+          result = kPerUnison;
+          break;
+        case kMinorThirteenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorThirteenth:
-      result = kMinorThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        case kDiminishedThirteenth:
+          result = kPerUnison;
+          break;
+        case kMinorThirteenth:
+          result = kPerUnison;
+          break;
+        case kMajorThirteenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedThirteenth:
-      result = kDiminishedThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        case kDiminishedThirteenth:
+          result = kPerUnison;
+          break;
+        case kMinorThirteenth:
+          result = kPerUnison;
+          break;
+        case kMajorThirteenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedThirteenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
   } // switch
-
+  
   return result;
 }
 
@@ -926,161 +4387,3463 @@ msrIntervalKind intervalKindDifference (
   msrIntervalKind intervalKind1,
   msrIntervalKind intervalKind2)
 {
-  msrIntervalKind result;
+  msrIntervalKind result = kPerUnison; // to have it initialized
 
-  switch (intervalKind1) { // JMI TODO
+  // order the intervals so that
+  // workIntervalKind1 is greater or equal to workIntervalKind2
+  // according to the enum type
+  msrIntervalKind
+    workIntervalKind1 = intervalKind1,
+    workIntervalKind2 = intervalKind2;
+    
+  if (intervalKind1 < intervalKind2) {
+    workIntervalKind1 = intervalKind2;
+    workIntervalKind2 = intervalKind1;
+  }
+  
+  int workingOctaveOffset = 0;
+  
+  switch (workIntervalKind1) {
     case kDiminishedUnisson:
-      result = kAugmentedUnison;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerUnison:
-      result = kPerUnison;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedUnison:
-      result = kDiminishedOctave;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedSecond:
-      result = kAugmentedSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kDiminishedSecond:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorSecond:
-      result = kMajorSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorSecond:
-      result = kMinorSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedSecond:
-      result = kDiminishedSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedThird:
-      result = kAugmentedSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorThird:
-      result = kMajorSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorThird:
-      result = kMinorSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedThird:
-      result = kDiminishedSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedFourth:
-      result = kAugmentedFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerFourth:
-      result = kPerFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedFourth:
-      result = kDiminishedFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedFifth:
-      result = kAugmentedFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerFifth:
-      result = kPerFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedFifth:
-      result = kDiminishedFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
 
     case kDiminishedSixth:
-      result = kAugmentedThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorSixth:
-      result = kMajorThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorSixth:
-      result = kMinorThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedSixth:
-      result = kDiminishedThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedSeventh:
-      result = kAugmentedSecond;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorSeventh:
-      result = kMajorSecond;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorSeventh:
-      result = kMinorSecond;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedSeventh:
-      result = kDiminishedSecond;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
 
     case kDiminishedOctave:
-      result = kAugmentedUnison;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerOctave:
-      result = kPerOctave;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedOctave:
-      result = kDiminishedUnisson;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedNinth:
-      result = kAugmentedSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorNinth:
-      result = kMajorSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorNinth:
-      result = kMinorSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedNinth:
-      result = kDiminishedSeventh;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedTenth:
-      result = kAugmentedSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorTenth:
-      result = kMajorSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorTenth:
-      result = kMinorSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedTenth:
-      result = kDiminishedSixth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedEleventh:
-      result = kAugmentedFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerEleventh:
-      result = kPerFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedEleventh:
-      result = kDiminishedFifth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
       
     case kDiminishedTwelfth:
-      result = kAugmentedFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kPerTwelfth:
-      result = kPerFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedTwelfth:
-      result = kDiminishedFourth;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
 
     case kDiminishedThirteenth:
-      result = kAugmentedThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        case kDiminishedThirteenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMinorThirteenth:
-      result = kMajorThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        case kDiminishedThirteenth:
+          result = kPerUnison;
+          break;
+        case kMinorThirteenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kMajorThirteenth:
-      result = kMinorThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        case kDiminishedThirteenth:
+          result = kPerUnison;
+          break;
+        case kMinorThirteenth:
+          result = kPerUnison;
+          break;
+        case kMajorThirteenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
+      
     case kAugmentedThirteenth:
-      result = kDiminishedThird;
+      switch (workIntervalKind2) {
+        case kDiminishedUnisson:
+          result = kAugmentedUnison;
+          break;
+        case kPerUnison:
+          result = kPerUnison;
+          break;
+        case kAugmentedUnison:
+          result = kDiminishedOctave;
+          break;
+        case kMinorSecond:
+          result = kMajorSeventh;
+          break;
+        case kMajorSecond:
+          result = kMinorSeventh;
+          break;
+        case kAugmentedSecond:
+          result = kDiminishedSeventh;
+          break;
+        case kDiminishedThird:
+          result = kAugmentedSixth;
+          break;
+        case kMinorThird:
+          result = kMinorThird;
+          break;
+        case kMajorThird:
+          result = kMinorThird;
+          break;
+        case kAugmentedThird:
+          result = kMinorThird;
+          break;
+        case kDiminishedFourth:
+          result = kMinorThird;
+          break;
+        case kPerFourth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFourth:
+          result = kMinorThird;
+          break;
+        case kDiminishedFifth:
+          result = kMinorThird;
+          break;
+        case kPerFifth:
+          result = kMinorThird;
+          break;
+        case kAugmentedFifth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSixth:
+          result = kPerUnison;
+          break;
+        case kMinorSixth:
+          result = kPerUnison;
+          break;
+        case kMajorSixth:
+          result = kPerUnison;
+          break;
+        case kAugmentedSixth:
+          result = kPerUnison;
+          break;
+        case kDiminishedSeventh:
+          result = kPerUnison;
+          break;
+        case kMinorSeventh:
+          result = kPerUnison;
+          break;
+        case kMajorSeventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedSeventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedOctave:
+          result = kPerUnison;
+          break;
+        case kPerOctave:
+          result = kPerUnison;
+          break;
+        case kAugmentedOctave:
+          result = kPerUnison;
+          break;
+        case kDiminishedNinth:
+          result = kPerUnison;
+          break;
+        case kMinorNinth:
+          result = kPerUnison;
+          break;
+        case kMajorNinth:
+          result = kPerUnison;
+          break;
+        case kAugmentedNinth:
+          result = kPerUnison;
+          break;
+        case kDiminishedTenth:
+          result = kPerUnison;
+          break;
+        case kMinorTenth:
+          result = kPerUnison;
+          break;
+        case kMajorTenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTenth:
+          result = kPerUnison;
+          break;
+        case kDiminishedEleventh:
+          result = kPerUnison;
+          break;
+        case kPerEleventh:
+          result = kPerUnison;
+          break;
+        case kAugmentedEleventh:
+          result = kPerUnison;
+          break;
+        case kDiminishedTwelfth:
+          result = kPerUnison;
+          break;
+        case kPerTwelfth:
+          result = kPerUnison;
+          break;
+        case kAugmentedTwelfth:
+          result = kPerUnison;
+          break;
+        case kDiminishedThirteenth:
+          result = kPerUnison;
+          break;
+        case kMinorThirteenth:
+          result = kPerUnison;
+          break;
+        case kMajorThirteenth:
+          result = kPerUnison;
+          break;
+        case kAugmentedThirteenth:
+          result = kPerUnison;
+          break;
+        default:
+          ;
+      } // switch
       break;
   } // switch
-
+  
   return result;
 }
 
