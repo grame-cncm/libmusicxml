@@ -523,6 +523,22 @@ S_optionsItem lpsrOptions::handleOptionsItem (
   S_optionsItem result;
   
   if (
+    // LPSR pitches language item?
+    S_optionsLpsrPitchesLanguageItem
+      pitchesLanguageItem =
+        dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
+    ) {
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = pitchesLanguageItem;
+  }
+
+  else if (
     // chords language item?
     S_optionsLpsrChordsLanguageItem
       LpsrChordsLanguageItem =
@@ -547,6 +563,59 @@ void lpsrOptions::handleValuedOptionsItem (
   string        theString)
 {
   if (
+    // LPSR pitches language item?
+    S_optionsLpsrPitchesLanguageItem
+      pitchesLanguageKindItem =
+        dynamic_cast<optionsLpsrPitchesLanguageItem*>(&(*item))
+    ) {
+    // theString contains the language name:     
+    // is it in the pitches languages map?
+
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsLpsrPitchesLanguageItem'" <<
+        endl;
+    }
+
+    map<string, msrQuarterTonesPitchesLanguageKind>::const_iterator
+      it =
+        gQuarterTonesPitchesLanguageKindsMap.find (
+          theString);
+          
+    if (it == gQuarterTonesPitchesLanguageKindsMap.end ()) {
+      // no, language is unknown in the map
+      
+      printHelpSummary (os);
+      
+      stringstream s;
+  
+      s <<
+        "LPSR pitches language " << theString <<
+        " is unknown" <<
+        endl <<
+        "The " <<
+        gQuarterTonesPitchesLanguageKindsMap.size () <<
+        " known LPSR pitches languages are:" <<
+        endl;
+  
+      gIndenter++;
+    
+      s <<
+        existingQuarterTonesPitchesLanguageKinds ();
+  
+      gIndenter--;
+  
+      optionError (s.str ());
+      
+      exit (4);
+    }
+  
+    pitchesLanguageKindItem->
+      setPitchesLanguageKindItemVariableValue (
+        (*it).second);
+  }
+
+  else if (
     // chords language item?
     S_optionsLpsrChordsLanguageItem
       LpsrChordsLanguageItem =
