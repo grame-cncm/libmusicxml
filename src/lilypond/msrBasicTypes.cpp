@@ -122,7 +122,7 @@ int msrIntervalKindAsSemiTones (
     case kDiminishedUnisson:
       result = -1;
       break;
-    case kPerUnison:
+    case kPerfectUnison:
       result = 0;
       break;
     case kAugmentedUnison:
@@ -158,7 +158,7 @@ int msrIntervalKindAsSemiTones (
     case kDiminishedFourth:
       result = 4;
       break;
-    case kPerFourth:
+    case kPerfectFourth:
       result = 5;
       break;
     case kAugmentedFourth:
@@ -168,7 +168,7 @@ int msrIntervalKindAsSemiTones (
     case kDiminishedFifth:
       result = 6;
       break;
-    case kPerFifth:
+    case kPerfectFifth:
       result = 7;
       break;
     case kAugmentedFifth:
@@ -204,7 +204,7 @@ int msrIntervalKindAsSemiTones (
     case kDiminishedOctave:
       result = 11;
       break;
-    case kPerOctave:
+    case kPerfectOctave:
       result = 12;
       break;
     case kAugmentedOctave:
@@ -240,7 +240,7 @@ int msrIntervalKindAsSemiTones (
     case kDiminishedEleventh:
       result = 16;
       break;
-    case kPerEleventh:
+    case kPerfectEleventh:
       result = 17;
       break;
     case kAugmentedEleventh:
@@ -250,7 +250,7 @@ int msrIntervalKindAsSemiTones (
     case kDiminishedTwelfth:
       result = 18;
       break;
-    case kPerTwelfth:
+    case kPerfectTwelfth:
       result = 19;
       break;
     case kAugmentedTwelfth:
@@ -295,8 +295,8 @@ string msrIntervalKindAsString (
     case kDiminishedUnisson:
       result = "diminishedUnisson";
       break;
-    case kPerUnison:
-      result = "perUnison";
+    case kPerfectUnison:
+      result = "perfectUnison";
       break;
     case kAugmentedUnison:
       result = "augmentedUnison";
@@ -331,8 +331,8 @@ string msrIntervalKindAsString (
     case kDiminishedFourth:
       result = "diminishedFourth";
       break;
-    case kPerFourth:
-      result = "perFourth";
+    case kPerfectFourth:
+      result = "perfectFourth";
       break;
     case kAugmentedFourth:
       result = "augmentedFourth";
@@ -341,8 +341,8 @@ string msrIntervalKindAsString (
     case kDiminishedFifth:
       result = "diminishedFifth";
       break;
-    case kPerFifth:
-      result = "perFifth";
+    case kPerfectFifth:
+      result = "perfectFifth";
       break;
     case kAugmentedFifth:
       result = "augmentedFifth";
@@ -377,8 +377,8 @@ string msrIntervalKindAsString (
     case kDiminishedOctave:
       result = "diminishedOctave";
       break;
-    case kPerOctave:
-      result = "perOctave";
+    case kPerfectOctave:
+      result = "perfectOctave";
       break;
     case kAugmentedOctave:
       result = "augmentedOctave";
@@ -413,8 +413,8 @@ string msrIntervalKindAsString (
     case kDiminishedEleventh:
       result = "diminishedEleventh";
       break;
-    case kPerEleventh:
-      result = "perEleventh";
+    case kPerfectEleventh:
+      result = "perfectEleventh";
       break;
     case kAugmentedEleventh:
       result = "augmentedEleventh";
@@ -423,8 +423,8 @@ string msrIntervalKindAsString (
     case kDiminishedTwelfth:
       result = "diminishedTwelfth";
       break;
-    case kPerTwelfth:
-      result = "perTwelfth";
+    case kPerfectTwelfth:
+      result = "perfectTwelfth";
       break;
     case kAugmentedTwelfth:
       result = "augmentedTwelfth";
@@ -460,7 +460,7 @@ string msrIntervalAsShortString (
     case kDiminishedUnisson:
       result = "bu";
       break;
-    case kPerUnison:
+    case kPerfectUnison:
       result = "u";
       break;
     case kAugmentedUnison:
@@ -496,7 +496,7 @@ string msrIntervalAsShortString (
     case kDiminishedFourth:
       result = "b4";
       break;
-    case kPerFourth:
+    case kPerfectFourth:
       result = "4";
       break;
     case kAugmentedFourth:
@@ -506,7 +506,7 @@ string msrIntervalAsShortString (
     case kDiminishedFifth:
       result = "b5";
       break;
-    case kPerFifth:
+    case kPerfectFifth:
       result = "5";
       break;
     case kAugmentedFifth:
@@ -542,7 +542,7 @@ string msrIntervalAsShortString (
     case kDiminishedOctave:
       result = "b8";
       break;
-    case kPerOctave:
+    case kPerfectOctave:
       result = "8";
       break;
     case kAugmentedOctave:
@@ -578,7 +578,7 @@ string msrIntervalAsShortString (
     case kDiminishedEleventh:
       result = "b11";
       break;
-    case kPerEleventh:
+    case kPerfectEleventh:
       result = "11";
       break;
     case kAugmentedEleventh:
@@ -588,7 +588,7 @@ string msrIntervalAsShortString (
     case kDiminishedTwelfth:
       result = "b12";
       break;
-    case kPerTwelfth:
+    case kPerfectTwelfth:
       result = "12";
       break;
     case kAugmentedTwelfth:
@@ -624,8 +624,8 @@ msrIntervalKind invertIntervalKind (
     case kDiminishedUnisson:
       result = kAugmentedUnison;
       break;
-    case kPerUnison:
-      result = kPerUnison;
+    case kPerfectUnison:
+      result = kPerfectUnison;
       break;
     case kAugmentedUnison:
       result = kDiminishedOctave;
@@ -660,8 +660,8 @@ msrIntervalKind invertIntervalKind (
     case kDiminishedFourth:
       result = kAugmentedFifth;
       break;
-    case kPerFourth:
-      result = kPerFifth;
+    case kPerfectFourth:
+      result = kPerfectFifth;
       break;
     case kAugmentedFourth:
       result = kDiminishedFifth;
@@ -670,8 +670,8 @@ msrIntervalKind invertIntervalKind (
     case kDiminishedFifth:
       result = kAugmentedFourth;
       break;
-    case kPerFifth:
-      result = kPerFourth;
+    case kPerfectFifth:
+      result = kPerfectFourth;
       break;
     case kAugmentedFifth:
       result = kDiminishedFourth;
@@ -706,8 +706,8 @@ msrIntervalKind invertIntervalKind (
     case kDiminishedOctave:
       result = kAugmentedUnison;
       break;
-    case kPerOctave:
-      result = kPerOctave;
+    case kPerfectOctave:
+      result = kPerfectOctave;
       break;
     case kAugmentedOctave:
       result = kDiminishedUnisson;
@@ -742,8 +742,8 @@ msrIntervalKind invertIntervalKind (
     case kDiminishedEleventh:
       result = kAugmentedFifth;
       break;
-    case kPerEleventh:
-      result = kPerFifth;
+    case kPerfectEleventh:
+      result = kPerfectFifth;
       break;
     case kAugmentedEleventh:
       result = kDiminishedFifth;
@@ -752,8 +752,8 @@ msrIntervalKind invertIntervalKind (
     case kDiminishedTwelfth:
       result = kAugmentedFourth;
       break;
-    case kPerTwelfth:
-      result = kPerFourth;
+    case kPerfectTwelfth:
+      result = kPerfectFourth;
       break;
     case kAugmentedTwelfth:
       result = kDiminishedFourth;
@@ -788,7 +788,7 @@ int intervalKindAsSemitones (
     case kDiminishedUnisson:
       result = -1;
       break;
-    case kPerUnison:
+    case kPerfectUnison:
       result = 0;
       break;
     case kAugmentedUnison:
@@ -824,7 +824,7 @@ int intervalKindAsSemitones (
     case kDiminishedFourth:
       result = 4;
       break;
-    case kPerFourth:
+    case kPerfectFourth:
       result = 5;
       break;
     case kAugmentedFourth:
@@ -834,7 +834,7 @@ int intervalKindAsSemitones (
     case kDiminishedFifth:
       result = 7;
       break;
-    case kPerFifth:
+    case kPerfectFifth:
       result = 7;
       break;
     case kAugmentedFifth:
@@ -870,7 +870,7 @@ int intervalKindAsSemitones (
     case kDiminishedOctave:
       result = 11;
       break;
-    case kPerOctave:
+    case kPerfectOctave:
       result = 12;
       break;
     case kAugmentedOctave:
@@ -906,7 +906,7 @@ int intervalKindAsSemitones (
     case kDiminishedEleventh:
       result = 16;
       break;
-    case kPerEleventh:
+    case kPerfectEleventh:
       result = 17;
       break;
     case kAugmentedEleventh:
@@ -916,7 +916,7 @@ int intervalKindAsSemitones (
     case kDiminishedTwelfth:
       result = 18;
       break;
-    case kPerTwelfth:
+    case kPerfectTwelfth:
       result = 19;
       break;
     case kAugmentedTwelfth:
@@ -968,20 +968,20 @@ msrIntervalKind intervalKindSum (
     case kDiminishedUnisson:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerUnison:
+    case kPerfectUnison:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -993,11 +993,11 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1009,14 +1009,14 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
           break;
         case kDiminishedSecond:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1028,14 +1028,14 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
           break;
         case kMinorSecond:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1047,8 +1047,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1057,7 +1057,7 @@ msrIntervalKind intervalKindSum (
           result = kMajorSeventh;
           break;
         case kMajorSecond:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1069,8 +1069,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1082,7 +1082,7 @@ msrIntervalKind intervalKindSum (
           result = kMinorSeventh;
           break;
         case kAugmentedSecond:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1094,8 +1094,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1110,7 +1110,7 @@ msrIntervalKind intervalKindSum (
           result = kDiminishedSeventh;
           break;
         case kDiminishedThird:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1122,8 +1122,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1141,7 +1141,7 @@ msrIntervalKind intervalKindSum (
           result = kAugmentedSixth;
           break;
         case kMinorThird:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1153,8 +1153,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1175,7 +1175,7 @@ msrIntervalKind intervalKindSum (
           result = kMinorThird;
           break;
         case kMajorThird:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1187,8 +1187,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1212,7 +1212,7 @@ msrIntervalKind intervalKindSum (
           result = kMinorThird;
           break;
         case kAugmentedThird:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1224,8 +1224,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1252,20 +1252,20 @@ msrIntervalKind intervalKindSum (
           result = kMinorThird;
           break;
         case kDiminishedFourth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerFourth:
+    case kPerfectFourth:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1294,8 +1294,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
-          result = kPerUnison;
+        case kPerfectFourth:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1307,8 +1307,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1337,11 +1337,11 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1353,8 +1353,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1383,27 +1383,27 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
           result = kMinorThird;
           break;
         case kDiminishedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerFifth:
+    case kPerfectFifth:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1432,7 +1432,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1441,8 +1441,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
-          result = kPerUnison;
+        case kPerfectFifth:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1454,8 +1454,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1484,7 +1484,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1493,11 +1493,11 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1509,8 +1509,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1539,7 +1539,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1548,14 +1548,14 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1567,8 +1567,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1597,7 +1597,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1606,17 +1606,17 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1628,8 +1628,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1658,7 +1658,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1667,20 +1667,20 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1692,8 +1692,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1722,7 +1722,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1731,23 +1731,23 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1759,8 +1759,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1789,7 +1789,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1798,26 +1798,26 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1829,8 +1829,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1859,7 +1859,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1868,29 +1868,29 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1902,8 +1902,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -1932,7 +1932,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -1941,32 +1941,32 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -1978,8 +1978,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2008,7 +2008,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2017,35 +2017,35 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2057,8 +2057,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2087,7 +2087,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2096,51 +2096,51 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerOctave:
+    case kPerfectOctave:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2169,7 +2169,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2178,41 +2178,41 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2224,8 +2224,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2254,7 +2254,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2263,44 +2263,44 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2312,8 +2312,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2342,7 +2342,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2351,47 +2351,47 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2403,8 +2403,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2433,7 +2433,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2442,50 +2442,50 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2497,8 +2497,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2527,7 +2527,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2536,53 +2536,53 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2594,8 +2594,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2624,7 +2624,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2633,56 +2633,56 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2694,8 +2694,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2724,7 +2724,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2733,59 +2733,59 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2797,8 +2797,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2827,7 +2827,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2836,62 +2836,62 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -2903,8 +2903,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -2933,7 +2933,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -2942,65 +2942,65 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -3012,8 +3012,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -3042,7 +3042,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -3051,68 +3051,68 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -3124,8 +3124,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -3154,7 +3154,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -3163,84 +3163,84 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerEleventh:
+    case kPerfectEleventh:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -3269,7 +3269,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -3278,74 +3278,74 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -3357,8 +3357,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -3387,7 +3387,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -3396,77 +3396,77 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -3478,8 +3478,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -3508,7 +3508,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -3517,93 +3517,93 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerTwelfth:
+    case kPerfectTwelfth:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -3632,7 +3632,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -3641,83 +3641,83 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -3729,8 +3729,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -3759,7 +3759,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -3768,86 +3768,86 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -3859,8 +3859,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -3889,7 +3889,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -3898,89 +3898,89 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -3992,8 +3992,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4022,7 +4022,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -4031,92 +4031,92 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4128,8 +4128,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4158,7 +4158,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -4167,95 +4167,95 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4267,8 +4267,8 @@ msrIntervalKind intervalKindSum (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4297,7 +4297,7 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -4306,98 +4306,98 @@ msrIntervalKind intervalKindSum (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4443,20 +4443,20 @@ msrIntervalKind intervalKindDifference (
     case kDiminishedUnisson:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerUnison:
+    case kPerfectUnison:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4466,29 +4466,29 @@ msrIntervalKind intervalKindDifference (
      /*
         k_NoIntervalKind,
   
-  kDiminishedUnisson, kPerUnison, kAugmentedUnison,
+  kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
   
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
   
-  kDiminishedFourth, kPerFourth, kAugmentedFourth,
+  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
   
-  kDiminishedFifth, kPerFifth, kAugmentedFifth,
+  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
   
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
   
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
   
-  kDiminishedOctave, kPerOctave, kAugmentedOctave,
+  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
   
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
   
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
   
-  kDiminishedEleventh, kPerEleventh, kAugmentedEleventh,
+  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
   
-  kDiminishedTwelfth, kPerTwelfth, kAugmentedTwelfth,
+  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
   
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
@@ -4498,11 +4498,11 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4514,14 +4514,14 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
           break;
         case kDiminishedSecond:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4533,14 +4533,14 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
           break;
         case kMinorSecond:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4552,8 +4552,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4562,7 +4562,7 @@ msrIntervalKind intervalKindDifference (
           result = kMajorSeventh;
           break;
         case kMajorSecond:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4574,8 +4574,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4587,7 +4587,7 @@ msrIntervalKind intervalKindDifference (
           result = kMinorSeventh;
           break;
         case kAugmentedSecond:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4599,8 +4599,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4615,7 +4615,7 @@ msrIntervalKind intervalKindDifference (
           result = kDiminishedSeventh;
           break;
         case kDiminishedThird:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4627,8 +4627,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4646,7 +4646,7 @@ msrIntervalKind intervalKindDifference (
           result = kAugmentedSixth;
           break;
         case kMinorThird:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4658,8 +4658,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4680,7 +4680,7 @@ msrIntervalKind intervalKindDifference (
           result = kMinorThird;
           break;
         case kMajorThird:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4692,8 +4692,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4717,7 +4717,7 @@ msrIntervalKind intervalKindDifference (
           result = kMinorThird;
           break;
         case kAugmentedThird:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4729,8 +4729,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4757,20 +4757,20 @@ msrIntervalKind intervalKindDifference (
           result = kMinorThird;
           break;
         case kDiminishedFourth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerFourth:
+    case kPerfectFourth:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4799,8 +4799,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
-          result = kPerUnison;
+        case kPerfectFourth:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4812,8 +4812,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4842,11 +4842,11 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4858,8 +4858,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4888,27 +4888,27 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
           result = kMinorThird;
           break;
         case kDiminishedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerFifth:
+    case kPerfectFifth:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4937,7 +4937,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -4946,8 +4946,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
-          result = kPerUnison;
+        case kPerfectFifth:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -4959,8 +4959,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -4989,7 +4989,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -4998,11 +4998,11 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5014,8 +5014,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5044,7 +5044,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5053,14 +5053,14 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5072,8 +5072,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5102,7 +5102,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5111,17 +5111,17 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5133,8 +5133,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5163,7 +5163,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5172,20 +5172,20 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5197,8 +5197,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5227,7 +5227,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5236,23 +5236,23 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5264,8 +5264,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5294,7 +5294,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5303,26 +5303,26 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5334,8 +5334,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5364,7 +5364,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5373,29 +5373,29 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5407,8 +5407,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5437,7 +5437,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5446,32 +5446,32 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5483,8 +5483,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5513,7 +5513,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5522,35 +5522,35 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5562,8 +5562,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5592,7 +5592,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5601,51 +5601,51 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerOctave:
+    case kPerfectOctave:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5674,7 +5674,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5683,41 +5683,41 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5729,8 +5729,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5759,7 +5759,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5768,44 +5768,44 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5817,8 +5817,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5847,7 +5847,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5856,47 +5856,47 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -5908,8 +5908,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -5938,7 +5938,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -5947,50 +5947,50 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6002,8 +6002,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6032,7 +6032,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6041,53 +6041,53 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6099,8 +6099,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6129,7 +6129,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6138,56 +6138,56 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6199,8 +6199,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6229,7 +6229,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6238,59 +6238,59 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6302,8 +6302,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6332,7 +6332,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6341,62 +6341,62 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6408,8 +6408,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6438,7 +6438,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6447,65 +6447,65 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6517,8 +6517,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6547,7 +6547,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6556,68 +6556,68 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6629,8 +6629,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6659,7 +6659,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6668,84 +6668,84 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerEleventh:
+    case kPerfectEleventh:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6774,7 +6774,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6783,74 +6783,74 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6862,8 +6862,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -6892,7 +6892,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -6901,77 +6901,77 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -6983,8 +6983,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -7013,7 +7013,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -7022,93 +7022,93 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
       } // switch
       break;
       
-    case kPerTwelfth:
+    case kPerfectTwelfth:
       switch (workIntervalKind2) {
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -7137,7 +7137,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -7146,83 +7146,83 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -7234,8 +7234,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -7264,7 +7264,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -7273,86 +7273,86 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -7364,8 +7364,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -7394,7 +7394,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -7403,89 +7403,89 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -7497,8 +7497,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -7527,7 +7527,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -7536,92 +7536,92 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -7633,8 +7633,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -7663,7 +7663,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -7672,95 +7672,95 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -7772,8 +7772,8 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedUnisson:
           result = kAugmentedUnison;
           break;
-        case kPerUnison:
-          result = kPerUnison;
+        case kPerfectUnison:
+          result = kPerfectUnison;
           break;
         case kAugmentedUnison:
           result = kDiminishedOctave;
@@ -7802,7 +7802,7 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFourth:
           result = kMinorThird;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kMinorThird;
           break;
         case kAugmentedFourth:
@@ -7811,98 +7811,98 @@ msrIntervalKind intervalKindDifference (
         case kDiminishedFifth:
           result = kMinorThird;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kMinorThird;
           break;
         case kAugmentedFifth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSixth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedSeventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerOctave:
-          result = kPerUnison;
+        case kPerfectOctave:
+          result = kPerfectUnison;
           break;
         case kAugmentedOctave:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedNinth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedTenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerEleventh:
-          result = kPerUnison;
+        case kPerfectEleventh:
+          result = kPerfectUnison;
           break;
         case kAugmentedEleventh:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
-        case kPerTwelfth:
-          result = kPerUnison;
+        case kPerfectTwelfth:
+          result = kPerfectUnison;
           break;
         case kAugmentedTwelfth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kDiminishedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMinorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kMajorThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         case kAugmentedThirteenth:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
         default:
           ;
@@ -7946,7 +7946,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
               break;
           } // switch
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           break;
         case kAugmentedUnison:
           break;
@@ -7971,14 +7971,14 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           
         case kDiminishedFourth:
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           break;
         case kAugmentedFourth:
           break;
           
         case kDiminishedFifth:
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           break;
         case kAugmentedFifth:
           break;
@@ -8003,7 +8003,7 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
     
         case kDiminishedOctave:
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           break;
         case kAugmentedOctave:
           break;
@@ -8028,14 +8028,14 @@ msrSemiTonesPitchKind noteAtIntervalKindFromNote (
           
         case kDiminishedEleventh:
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           break;
         case kAugmentedEleventh:
           break;
           
         case kDiminishedTwelfth:
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           break;
         case kAugmentedTwelfth:
           break;
@@ -8152,7 +8152,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kC_DoubleFlat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kC_Flat_STP;
           break;
         case kAugmentedUnison:
@@ -8188,7 +8188,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kF_DoubleFlat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kF_Flat_STP;
           break;
         case kAugmentedFourth:
@@ -8198,7 +8198,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kG_DoubleFlat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kG_Flat_STP;
           break;
         case kAugmentedFifth:
@@ -8234,7 +8234,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kC_DoubleFlat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kC_Flat_STP;
           break;
         case kAugmentedOctave:
@@ -8270,7 +8270,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kF_DoubleFlat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kF_Flat_STP;
           break;
         case kAugmentedEleventh:
@@ -8280,7 +8280,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kG_DoubleFlat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kG_Flat_STP;
           break;
         case kAugmentedTwelfth:
@@ -8310,7 +8310,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kC_Flat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kC_Natural_STP;
           break;
         case kAugmentedUnison:
@@ -8346,7 +8346,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kF_Flat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kF_Natural_STP;
           break;
         case kAugmentedFourth:
@@ -8356,7 +8356,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kG_Flat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kG_Natural_STP;
           break;
         case kAugmentedFifth:
@@ -8392,7 +8392,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kC_Flat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kC_Natural_STP;
           break;
         case kAugmentedOctave:
@@ -8428,7 +8428,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kF_Flat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kF_Natural_STP;
           break;
         case kAugmentedEleventh:
@@ -8438,7 +8438,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kG_Flat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kG_Natural_STP;
           break;
         case kAugmentedTwelfth:
@@ -8468,7 +8468,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kC_Natural_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kC_Sharp_STP;
           break;
         case kAugmentedUnison:
@@ -8504,7 +8504,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kF_Natural_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kF_Sharp_STP;
           break;
         case kAugmentedFourth:
@@ -8514,7 +8514,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kG_Natural_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kG_Sharp_STP;
           break;
         case kAugmentedFifth:
@@ -8550,7 +8550,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kC_Natural_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kC_Sharp_STP;
           break;
         case kAugmentedOctave:
@@ -8586,7 +8586,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kF_Natural_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kF_Sharp_STP;
           break;
         case kAugmentedEleventh:
@@ -8596,7 +8596,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kG_Natural_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kG_Sharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -8626,7 +8626,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kD_DoubleFlat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kD_Flat_STP;
           break;
         case kAugmentedUnison:
@@ -8662,7 +8662,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kG_DoubleFlat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kG_Flat_STP;
           break;
         case kAugmentedFourth:
@@ -8672,7 +8672,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kA_DoubleFlat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kA_Flat_STP;
           break;
         case kAugmentedFifth:
@@ -8708,7 +8708,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kD_DoubleFlat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kD_Flat_STP;
           break;
         case kAugmentedOctave:
@@ -8744,7 +8744,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kG_DoubleFlat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kG_Flat_STP;
           break;
         case kAugmentedEleventh:
@@ -8754,7 +8754,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kA_DoubleFlat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kA_Flat_STP;
           break;
         case kAugmentedTwelfth:
@@ -8784,7 +8784,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kD_Flat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kD_Natural_STP;
           break;
         case kAugmentedUnison:
@@ -8820,7 +8820,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kG_Flat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kG_Natural_STP;
           break;
         case kAugmentedFourth:
@@ -8830,7 +8830,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kA_Flat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kA_Natural_STP;
           break;
         case kAugmentedFifth:
@@ -8866,7 +8866,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kD_Flat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kD_Natural_STP;
           break;
         case kAugmentedOctave:
@@ -8902,7 +8902,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kG_Flat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kG_Natural_STP;
           break;
         case kAugmentedEleventh:
@@ -8912,7 +8912,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kA_Flat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kA_Natural_STP;
           break;
         case kAugmentedTwelfth:
@@ -8942,7 +8942,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kD_Natural_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kD_Sharp_STP;
           break;
         case kAugmentedUnison:
@@ -8978,7 +8978,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kG_Natural_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kG_Sharp_STP;
           break;
         case kAugmentedFourth:
@@ -8988,7 +8988,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kA_Natural_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kA_Sharp_STP;
           break;
         case kAugmentedFifth:
@@ -9024,7 +9024,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kD_Natural_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kD_Sharp_STP;
           break;
         case kAugmentedOctave:
@@ -9060,7 +9060,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kG_Natural_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kG_Sharp_STP;
           break;
         case kAugmentedEleventh:
@@ -9070,7 +9070,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kA_Natural_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kA_Sharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -9100,7 +9100,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kE_DoubleFlat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kE_Flat_STP;
           break;
         case kAugmentedUnison:
@@ -9136,7 +9136,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kA_DoubleFlat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kA_Flat_STP;
           break;
         case kAugmentedFourth:
@@ -9146,7 +9146,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kB_DoubleFlat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kB_Flat_STP;
           break;
         case kAugmentedFifth:
@@ -9182,7 +9182,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kE_DoubleFlat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kE_Flat_STP;
           break;
         case kAugmentedOctave:
@@ -9218,7 +9218,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kA_DoubleFlat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kA_Flat_STP;
           break;
         case kAugmentedEleventh:
@@ -9228,7 +9228,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kB_DoubleFlat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kB_Flat_STP;
           break;
         case kAugmentedTwelfth:
@@ -9258,7 +9258,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kE_Flat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kE_Natural_STP;
           break;
         case kAugmentedUnison:
@@ -9294,7 +9294,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kA_Flat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kA_Natural_STP;
           break;
         case kAugmentedFourth:
@@ -9304,7 +9304,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kB_Natural_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kB_Sharp_STP;
           break;
         case kAugmentedFifth:
@@ -9340,7 +9340,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kE_Flat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kE_Natural_STP;
           break;
         case kAugmentedOctave:
@@ -9376,7 +9376,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kA_Flat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kA_Natural_STP;
           break;
         case kAugmentedEleventh:
@@ -9386,7 +9386,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kB_Natural_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kB_Sharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -9416,7 +9416,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kE_Natural_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kE_Sharp_STP;
           break;
         case kAugmentedUnison:
@@ -9452,7 +9452,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kA_Natural_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kA_Sharp_STP;
           break;
         case kAugmentedFourth:
@@ -9462,7 +9462,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kB_Natural_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kB_Sharp_STP;
           break;
         case kAugmentedFifth:
@@ -9498,7 +9498,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kE_Natural_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kE_Sharp_STP;
           break;
         case kAugmentedOctave:
@@ -9534,7 +9534,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kA_Natural_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kA_Sharp_STP;
           break;
         case kAugmentedEleventh:
@@ -9544,7 +9544,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kB_Natural_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kB_Sharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -9574,7 +9574,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kF_DoubleFlat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kF_Flat_STP;
           break;
         case kAugmentedUnison:
@@ -9610,7 +9610,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kB_TripleFlat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kB_DoubleFlat_STP;
           break;
         case kAugmentedFourth:
@@ -9620,7 +9620,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kC_DoubleFlat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kC_Flat_STP;
           break;
         case kAugmentedFifth:
@@ -9656,7 +9656,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kF_DoubleFlat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kF_Flat_STP;
           break;
         case kAugmentedOctave:
@@ -9692,7 +9692,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kB_TripleFlat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kB_DoubleFlat_STP;
           break;
         case kAugmentedEleventh:
@@ -9702,7 +9702,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kC_DoubleFlat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kC_Flat_STP;
           break;
         case kAugmentedTwelfth:
@@ -9732,7 +9732,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kF_Flat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kF_Natural_STP;
           break;
         case kAugmentedUnison:
@@ -9768,7 +9768,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kB_DoubleFlat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kB_Flat_STP;
           break;
         case kAugmentedFourth:
@@ -9778,7 +9778,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kC_Flat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kC_Natural_STP;
           break;
         case kAugmentedFifth:
@@ -9814,7 +9814,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kF_Flat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kF_Natural_STP;
           break;
         case kAugmentedOctave:
@@ -9850,7 +9850,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kB_DoubleFlat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kB_Flat_STP;
           break;
         case kAugmentedEleventh:
@@ -9860,7 +9860,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kC_Flat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kC_Natural_STP;
           break;
         case kAugmentedTwelfth:
@@ -9890,7 +9890,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kF_Natural_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kF_Sharp_STP;
           break;
         case kAugmentedUnison:
@@ -9926,7 +9926,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kB_Sharp_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kB_DoubleSharp_STP;
           break;
         case kAugmentedFourth:
@@ -9936,7 +9936,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kC_Natural_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kC_Sharp_STP;
           break;
         case kAugmentedFifth:
@@ -9972,7 +9972,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kF_Natural_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kF_Sharp_STP;
           break;
         case kAugmentedOctave:
@@ -10008,7 +10008,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kB_Sharp_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kB_DoubleSharp_STP;
           break;
         case kAugmentedEleventh:
@@ -10018,7 +10018,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kC_Natural_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kC_Sharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -10048,7 +10048,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kG_DoubleFlat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kG_Flat_STP;
           break;
         case kAugmentedUnison:
@@ -10084,7 +10084,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kC_DoubleFlat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kC_Flat_STP;
           break;
         case kAugmentedFourth:
@@ -10094,7 +10094,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kD_DoubleFlat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kD_Flat_STP;
           break;
         case kAugmentedFifth:
@@ -10130,7 +10130,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kG_DoubleFlat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kG_Flat_STP;
           break;
         case kAugmentedOctave:
@@ -10166,7 +10166,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kC_DoubleFlat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kC_Flat_STP;
           break;
         case kAugmentedEleventh:
@@ -10176,7 +10176,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kD_DoubleFlat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kD_Flat_STP;
           break;
         case kAugmentedTwelfth:
@@ -10206,7 +10206,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kG_Flat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kG_Natural_STP;
           break;
         case kAugmentedUnison:
@@ -10242,7 +10242,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kC_Flat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kC_Natural_STP;
           break;
         case kAugmentedFourth:
@@ -10252,7 +10252,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kD_Flat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kD_Natural_STP;
           break;
         case kAugmentedFifth:
@@ -10288,7 +10288,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kG_Flat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kG_Natural_STP;
           break;
         case kAugmentedOctave:
@@ -10324,7 +10324,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kC_Flat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kC_Natural_STP;
           break;
         case kAugmentedEleventh:
@@ -10334,7 +10334,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kD_Flat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kD_Natural_STP;
           break;
         case kAugmentedTwelfth:
@@ -10364,7 +10364,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kG_Natural_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kG_Sharp_STP;
           break;
         case kAugmentedUnison:
@@ -10400,7 +10400,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kC_Natural_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kC_Sharp_STP;
           break;
         case kAugmentedFourth:
@@ -10410,7 +10410,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kD_Natural_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kD_Sharp_STP;
           break;
         case kAugmentedFifth:
@@ -10446,7 +10446,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kG_Natural_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kG_Sharp_STP;
           break;
         case kAugmentedOctave:
@@ -10482,7 +10482,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kC_Natural_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kC_Sharp_STP;
           break;
         case kAugmentedEleventh:
@@ -10492,7 +10492,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kD_Natural_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kD_Sharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -10522,7 +10522,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kA_DoubleFlat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kA_Flat_STP;
           break;
         case kAugmentedUnison:
@@ -10558,7 +10558,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kD_DoubleFlat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kD_Flat_STP;
           break;
         case kAugmentedFourth:
@@ -10568,7 +10568,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kE_DoubleFlat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kE_Flat_STP;
           break;
         case kAugmentedFifth:
@@ -10604,7 +10604,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kA_DoubleFlat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kA_Flat_STP;
           break;
         case kAugmentedOctave:
@@ -10640,7 +10640,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kD_DoubleFlat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kD_Flat_STP;
           break;
         case kAugmentedEleventh:
@@ -10650,7 +10650,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kE_DoubleFlat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kE_Flat_STP;
           break;
         case kAugmentedTwelfth:
@@ -10680,7 +10680,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kA_Flat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kA_Natural_STP;
           break;
         case kAugmentedUnison:
@@ -10716,7 +10716,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kD_Flat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kD_Natural_STP;
           break;
         case kAugmentedFourth:
@@ -10726,7 +10726,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kE_Flat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kE_Natural_STP;
           break;
         case kAugmentedFifth:
@@ -10762,7 +10762,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kA_Flat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kA_Natural_STP;
           break;
         case kAugmentedOctave:
@@ -10798,7 +10798,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kD_Flat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kD_Natural_STP;
           break;
         case kAugmentedEleventh:
@@ -10808,7 +10808,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kE_Flat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kE_Natural_STP;
           break;
         case kAugmentedTwelfth:
@@ -10838,7 +10838,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kA_Natural_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kA_Sharp_STP;
           break;
         case kAugmentedUnison:
@@ -10874,7 +10874,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kD_Natural_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kD_Sharp_STP;
           break;
         case kAugmentedFourth:
@@ -10884,7 +10884,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kE_Natural_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kE_Sharp_STP;
           break;
         case kAugmentedFifth:
@@ -10920,7 +10920,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kA_Natural_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kA_Sharp_STP;
           break;
         case kAugmentedOctave:
@@ -10956,7 +10956,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kD_Natural_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kD_Sharp_STP;
           break;
         case kAugmentedEleventh:
@@ -10966,7 +10966,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kE_Natural_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kE_Sharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -10996,7 +10996,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kB_DoubleFlat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kB_Flat_STP;
           break;
         case kAugmentedUnison:
@@ -11032,7 +11032,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kE_DoubleFlat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kE_Flat_STP;
           break;
         case kAugmentedFourth:
@@ -11042,7 +11042,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kF_Flat_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kF_Natural_STP;
           break;
         case kAugmentedFifth:
@@ -11078,7 +11078,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kB_DoubleFlat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kB_Flat_STP;
           break;
         case kAugmentedOctave:
@@ -11114,7 +11114,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kE_DoubleFlat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kE_Flat_STP;
           break;
         case kAugmentedEleventh:
@@ -11124,7 +11124,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kF_Flat_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kF_Natural_STP;
           break;
         case kAugmentedTwelfth:
@@ -11154,7 +11154,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kB_Flat_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kB_Natural_STP;
           break;
         case kAugmentedUnison:
@@ -11190,7 +11190,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kE_Flat_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kE_Natural_STP;
           break;
         case kAugmentedFourth:
@@ -11200,7 +11200,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kF_Natural_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kF_Sharp_STP;
           break;
         case kAugmentedFifth:
@@ -11236,7 +11236,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kB_Flat_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kB_Natural_STP;
           break;
         case kAugmentedOctave:
@@ -11272,7 +11272,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kE_Flat_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kE_Natural_STP;
           break;
         case kAugmentedEleventh:
@@ -11282,7 +11282,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kF_Natural_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kF_Sharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -11312,7 +11312,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedUnisson:
           result = kB_Natural_STP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kB_Sharp_STP;
           break;
         case kAugmentedUnison:
@@ -11348,7 +11348,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFourth:
           result = kE_Natural_STP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kE_Sharp_STP;
           break;
         case kAugmentedFourth:
@@ -11358,7 +11358,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedFifth:
           result = kF_Sharp_STP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kF_DoubleSharp_STP;
           break;
         case kAugmentedFifth:
@@ -11394,7 +11394,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedOctave:
           result = kB_Natural_STP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kB_Sharp_STP;
           break;
         case kAugmentedOctave:
@@ -11430,7 +11430,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedEleventh:
           result = kE_Natural_STP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kE_Sharp_STP;
           break;
         case kAugmentedEleventh:
@@ -11440,7 +11440,7 @@ msrSemiTonesPitchKind noteAtIntervalFromSemiTonesPitch (
         case kDiminishedTwelfth:
           result = kF_Sharp_STP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kF_DoubleSharp_STP;
           break;
         case kAugmentedTwelfth:
@@ -11509,7 +11509,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kC_Flat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kC_Natural_QTP;
           break;
         case kAugmentedUnison:
@@ -11545,7 +11545,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kF_Flat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kF_Natural_QTP;
           break;
         case kAugmentedFourth:
@@ -11555,7 +11555,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kG_Flat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kG_Natural_QTP;
           break;
         case kAugmentedFifth:
@@ -11591,7 +11591,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kC_Flat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kC_Natural_QTP;
           break;
         case kAugmentedOctave:
@@ -11627,7 +11627,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kF_Flat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kF_Natural_QTP;
           break;
         case kAugmentedEleventh:
@@ -11637,7 +11637,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kG_Flat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kG_Natural_QTP;
           break;
         case kAugmentedTwelfth:
@@ -11667,7 +11667,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kC_Natural_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kC_Sharp_QTP;
           break;
         case kAugmentedUnison:
@@ -11703,7 +11703,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kF_Natural_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kF_Sharp_QTP;
           break;
         case kAugmentedFourth:
@@ -11713,7 +11713,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kG_Natural_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kG_Sharp_QTP;
           break;
         case kAugmentedFifth:
@@ -11749,7 +11749,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kC_Natural_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kC_Sharp_QTP;
           break;
         case kAugmentedOctave:
@@ -11785,7 +11785,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kF_Natural_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kF_Sharp_QTP;
           break;
         case kAugmentedEleventh:
@@ -11795,7 +11795,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kG_Natural_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kG_Sharp_QTP;
           break;
         case kAugmentedTwelfth:
@@ -11825,7 +11825,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kD_DoubleFlat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kD_Flat_QTP;
           break;
         case kAugmentedUnison:
@@ -11861,7 +11861,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kG_DoubleFlat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kG_Flat_QTP;
           break;
         case kAugmentedFourth:
@@ -11871,7 +11871,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kA_DoubleFlat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kA_Flat_QTP;
           break;
         case kAugmentedFifth:
@@ -11907,7 +11907,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kD_DoubleFlat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kD_Flat_QTP;
           break;
         case kAugmentedOctave:
@@ -11943,7 +11943,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kG_DoubleFlat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kG_Flat_QTP;
           break;
         case kAugmentedEleventh:
@@ -11953,7 +11953,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kA_DoubleFlat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kA_Flat_QTP;
           break;
         case kAugmentedTwelfth:
@@ -11983,7 +11983,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kD_Flat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kD_Natural_QTP;
           break;
         case kAugmentedUnison:
@@ -12019,7 +12019,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kG_Flat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kG_Natural_QTP;
           break;
         case kAugmentedFourth:
@@ -12029,7 +12029,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kA_Flat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kA_Natural_QTP;
           break;
         case kAugmentedFifth:
@@ -12065,7 +12065,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kD_Flat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kD_Natural_QTP;
           break;
         case kAugmentedOctave:
@@ -12101,7 +12101,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kG_Flat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kG_Natural_QTP;
           break;
         case kAugmentedEleventh:
@@ -12111,7 +12111,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kA_Flat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kA_Natural_QTP;
           break;
         case kAugmentedTwelfth:
@@ -12141,7 +12141,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kD_Natural_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kD_Sharp_QTP;
           break;
         case kAugmentedUnison:
@@ -12177,7 +12177,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kG_Natural_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kG_Sharp_QTP;
           break;
         case kAugmentedFourth:
@@ -12187,7 +12187,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kA_Natural_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kA_Sharp_QTP;
           break;
         case kAugmentedFifth:
@@ -12223,7 +12223,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kD_Natural_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kD_Sharp_QTP;
           break;
         case kAugmentedOctave:
@@ -12259,7 +12259,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kG_Natural_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kG_Sharp_QTP;
           break;
         case kAugmentedEleventh:
@@ -12269,7 +12269,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kA_Natural_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kA_Sharp_QTP;
           break;
         case kAugmentedTwelfth:
@@ -12299,7 +12299,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kE_DoubleFlat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kE_Flat_QTP;
           break;
         case kAugmentedUnison:
@@ -12335,7 +12335,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kA_DoubleFlat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kA_Flat_QTP;
           break;
         case kAugmentedFourth:
@@ -12345,7 +12345,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kB_DoubleFlat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kB_Flat_QTP;
           break;
         case kAugmentedFifth:
@@ -12381,7 +12381,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kE_DoubleFlat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kE_Flat_QTP;
           break;
         case kAugmentedOctave:
@@ -12417,7 +12417,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kA_DoubleFlat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kA_Flat_QTP;
           break;
         case kAugmentedEleventh:
@@ -12427,7 +12427,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kB_DoubleFlat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kB_Flat_QTP;
           break;
         case kAugmentedTwelfth:
@@ -12457,7 +12457,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kE_Flat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kE_Natural_QTP;
           break;
         case kAugmentedUnison:
@@ -12493,7 +12493,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kA_Flat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kA_Natural_QTP;
           break;
         case kAugmentedFourth:
@@ -12503,7 +12503,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kB_Natural_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kB_Sharp_QTP;
           break;
         case kAugmentedFifth:
@@ -12539,7 +12539,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kE_Flat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kE_Natural_QTP;
           break;
         case kAugmentedOctave:
@@ -12575,7 +12575,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kA_Flat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kA_Natural_QTP;
           break;
         case kAugmentedEleventh:
@@ -12585,7 +12585,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kB_Natural_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kB_Sharp_QTP;
           break;
         case kAugmentedTwelfth:
@@ -12615,7 +12615,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kE_Natural_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kE_Sharp_QTP;
           break;
         case kAugmentedUnison:
@@ -12651,7 +12651,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kA_Natural_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kA_Sharp_QTP;
           break;
         case kAugmentedFourth:
@@ -12661,7 +12661,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kB_Natural_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kB_Sharp_QTP;
           break;
         case kAugmentedFifth:
@@ -12697,7 +12697,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kE_Natural_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kE_Sharp_QTP;
           break;
         case kAugmentedOctave:
@@ -12733,7 +12733,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kA_Natural_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kA_Sharp_QTP;
           break;
         case kAugmentedEleventh:
@@ -12743,7 +12743,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kB_Natural_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kB_Sharp_QTP;
           break;
         case kAugmentedTwelfth:
@@ -12776,7 +12776,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kF_Flat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kF_Natural_QTP;
           break;
         case kAugmentedUnison:
@@ -12812,7 +12812,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kB_DoubleFlat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kB_Flat_QTP;
           break;
         case kAugmentedFourth:
@@ -12822,7 +12822,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kC_Flat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kC_Natural_QTP;
           break;
         case kAugmentedFifth:
@@ -12858,7 +12858,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kF_Flat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kF_Natural_QTP;
           break;
         case kAugmentedOctave:
@@ -12894,7 +12894,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kB_DoubleFlat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kB_Flat_QTP;
           break;
         case kAugmentedEleventh:
@@ -12904,7 +12904,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kC_Flat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kC_Natural_QTP;
           break;
         case kAugmentedTwelfth:
@@ -12934,7 +12934,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kF_Natural_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kF_Sharp_QTP;
           break;
         case kAugmentedUnison:
@@ -12970,7 +12970,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kB_Sharp_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kB_DoubleSharp_QTP;
           break;
         case kAugmentedFourth:
@@ -12980,7 +12980,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kC_Natural_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kC_Sharp_QTP;
           break;
         case kAugmentedFifth:
@@ -13016,7 +13016,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kF_Natural_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kF_Sharp_QTP;
           break;
         case kAugmentedOctave:
@@ -13052,7 +13052,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kB_Sharp_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kB_DoubleSharp_QTP;
           break;
         case kAugmentedEleventh:
@@ -13062,7 +13062,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kC_Natural_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kC_Sharp_QTP;
           break;
         case kAugmentedTwelfth:
@@ -13092,7 +13092,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kG_DoubleFlat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kG_Flat_QTP;
           break;
         case kAugmentedUnison:
@@ -13128,7 +13128,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kC_DoubleFlat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kC_Flat_QTP;
           break;
         case kAugmentedFourth:
@@ -13138,7 +13138,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kD_DoubleFlat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kD_Flat_QTP;
           break;
         case kAugmentedFifth:
@@ -13174,7 +13174,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kG_DoubleFlat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kG_Flat_QTP;
           break;
         case kAugmentedOctave:
@@ -13210,7 +13210,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kC_DoubleFlat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kC_Flat_QTP;
           break;
         case kAugmentedEleventh:
@@ -13220,7 +13220,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kD_DoubleFlat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kD_Flat_QTP;
           break;
         case kAugmentedTwelfth:
@@ -13250,7 +13250,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kG_Flat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kG_Natural_QTP;
           break;
         case kAugmentedUnison:
@@ -13286,7 +13286,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kC_Flat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kC_Natural_QTP;
           break;
         case kAugmentedFourth:
@@ -13296,7 +13296,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kD_Flat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kD_Natural_QTP;
           break;
         case kAugmentedFifth:
@@ -13332,7 +13332,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kG_Flat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kG_Natural_QTP;
           break;
         case kAugmentedOctave:
@@ -13368,7 +13368,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kC_Flat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kC_Natural_QTP;
           break;
         case kAugmentedEleventh:
@@ -13378,7 +13378,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kD_Flat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kD_Natural_QTP;
           break;
         case kAugmentedTwelfth:
@@ -13408,7 +13408,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kG_Natural_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kG_Sharp_QTP;
           break;
         case kAugmentedUnison:
@@ -13444,7 +13444,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kC_Natural_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kC_Sharp_QTP;
           break;
         case kAugmentedFourth:
@@ -13454,7 +13454,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kD_Natural_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kD_Sharp_QTP;
           break;
         case kAugmentedFifth:
@@ -13490,7 +13490,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kG_Natural_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kG_Sharp_QTP;
           break;
         case kAugmentedOctave:
@@ -13526,7 +13526,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kC_Natural_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kC_Sharp_QTP;
           break;
         case kAugmentedEleventh:
@@ -13536,7 +13536,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kD_Natural_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kD_Sharp_QTP;
           break;
         case kAugmentedTwelfth:
@@ -13566,7 +13566,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kA_DoubleFlat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kA_Flat_QTP;
           break;
         case kAugmentedUnison:
@@ -13602,7 +13602,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kD_DoubleFlat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kD_Flat_QTP;
           break;
         case kAugmentedFourth:
@@ -13612,7 +13612,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kE_DoubleFlat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kE_Flat_QTP;
           break;
         case kAugmentedFifth:
@@ -13648,7 +13648,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kA_DoubleFlat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kA_Flat_QTP;
           break;
         case kAugmentedOctave:
@@ -13684,7 +13684,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kD_DoubleFlat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kD_Flat_QTP;
           break;
         case kAugmentedEleventh:
@@ -13694,7 +13694,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kE_DoubleFlat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kE_Flat_QTP;
           break;
         case kAugmentedTwelfth:
@@ -13724,7 +13724,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kA_Flat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kA_Natural_QTP;
           break;
         case kAugmentedUnison:
@@ -13760,7 +13760,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kD_Flat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kD_Natural_QTP;
           break;
         case kAugmentedFourth:
@@ -13770,7 +13770,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kE_Flat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kE_Natural_QTP;
           break;
         case kAugmentedFifth:
@@ -13806,7 +13806,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kA_Flat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kA_Natural_QTP;
           break;
         case kAugmentedOctave:
@@ -13842,7 +13842,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kD_Flat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kD_Natural_QTP;
           break;
         case kAugmentedEleventh:
@@ -13852,7 +13852,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kE_Flat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kE_Natural_QTP;
           break;
         case kAugmentedTwelfth:
@@ -13885,7 +13885,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kB_DoubleFlat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kB_Flat_QTP;
           break;
         case kAugmentedUnison:
@@ -13921,7 +13921,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kE_DoubleFlat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kE_Flat_QTP;
           break;
         case kAugmentedFourth:
@@ -13931,7 +13931,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kF_Flat_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kF_Natural_QTP;
           break;
         case kAugmentedFifth:
@@ -13967,7 +13967,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kB_DoubleFlat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kB_Flat_QTP;
           break;
         case kAugmentedOctave:
@@ -14003,7 +14003,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kE_DoubleFlat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kE_Flat_QTP;
           break;
         case kAugmentedEleventh:
@@ -14013,7 +14013,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kF_Flat_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kF_Natural_QTP;
           break;
         case kAugmentedTwelfth:
@@ -14043,7 +14043,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kB_Flat_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kB_Natural_QTP;
           break;
         case kAugmentedUnison:
@@ -14079,7 +14079,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kE_Flat_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kE_Natural_QTP;
           break;
         case kAugmentedFourth:
@@ -14089,7 +14089,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kF_Natural_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kF_Sharp_QTP;
           break;
         case kAugmentedFifth:
@@ -14125,7 +14125,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kB_Flat_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kB_Natural_QTP;
           break;
         case kAugmentedOctave:
@@ -14161,7 +14161,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kE_Flat_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kE_Natural_QTP;
           break;
         case kAugmentedEleventh:
@@ -14171,7 +14171,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kF_Natural_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kF_Sharp_QTP;
           break;
         case kAugmentedTwelfth:
@@ -14201,7 +14201,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedUnisson:
           result = kB_Natural_QTP;
           break;
-        case kPerUnison:
+        case kPerfectUnison:
           result = kB_Sharp_QTP;
           break;
         case kAugmentedUnison:
@@ -14237,7 +14237,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFourth:
           result = kE_Natural_QTP;
           break;
-        case kPerFourth:
+        case kPerfectFourth:
           result = kE_Sharp_QTP;
           break;
         case kAugmentedFourth:
@@ -14247,7 +14247,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedFifth:
           result = kF_Sharp_QTP;
           break;
-        case kPerFifth:
+        case kPerfectFifth:
           result = kF_DoubleSharp_QTP;
           break;
         case kAugmentedFifth:
@@ -14283,7 +14283,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedOctave:
           result = kB_Natural_QTP;
           break;
-        case kPerOctave:
+        case kPerfectOctave:
           result = kB_Sharp_QTP;
           break;
         case kAugmentedOctave:
@@ -14319,7 +14319,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedEleventh:
           result = kE_Natural_QTP;
           break;
-        case kPerEleventh:
+        case kPerfectEleventh:
           result = kE_Sharp_QTP;
           break;
         case kAugmentedEleventh:
@@ -14329,7 +14329,7 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
         case kDiminishedTwelfth:
           result = kF_Sharp_QTP;
           break;
-        case kPerTwelfth:
+        case kPerfectTwelfth:
           result = kF_DoubleSharp_QTP;
           break;
         case kAugmentedTwelfth:
@@ -14408,29 +14408,29 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
 
  /*
-     kDiminishedUnisson, kPerUnison, kAugmentedUnison,
+     kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
   
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
   
-  kDiminishedFourth, kPerFourth, kAugmentedFourth,
+  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
   
-  kDiminishedFifth, kPerFifth, kAugmentedFifth,
+  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
   
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
   
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
   
-  kDiminishedOctave, kPerOctave, kAugmentedOctave,
+  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
   
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
   
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
   
-  kDiminishedEleventh, kPerEleventh, kAugmentedEleventh,
+  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
   
-  kDiminishedTwelfth, kPerTwelfth, kAugmentedTwelfth,
+  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
   
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
@@ -14648,29 +14648,29 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
 
  /*
-     kDiminishedUnisson, kPerUnison, kAugmentedUnison,
+     kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
   
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
   
-  kDiminishedFourth, kPerFourth, kAugmentedFourth,
+  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
   
-  kDiminishedFifth, kPerFifth, kAugmentedFifth,
+  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
   
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
   
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
   
-  kDiminishedOctave, kPerOctave, kAugmentedOctave,
+  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
   
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
   
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
   
-  kDiminishedEleventh, kPerEleventh, kAugmentedEleventh,
+  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
   
-  kDiminishedTwelfth, kPerTwelfth, kAugmentedTwelfth,
+  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
   
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
@@ -14778,7 +14778,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           result = kAugmentedUnison;
           break;
         case kB_DoubleSharp_STP:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
       } // switch
       break;
@@ -14789,29 +14789,29 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           break;
 
  /*
-     kDiminishedUnisson, kPerUnison, kAugmentedUnison,
+     kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
   
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
   
-  kDiminishedFourth, kPerFourth, kAugmentedFourth,
+  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
   
-  kDiminishedFifth, kPerFifth, kAugmentedFifth,
+  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
   
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
   
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
   
-  kDiminishedOctave, kPerOctave, kAugmentedOctave,
+  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
   
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
   
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
   
-  kDiminishedEleventh, kPerEleventh, kAugmentedEleventh,
+  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
   
-  kDiminishedTwelfth, kPerTwelfth, kAugmentedTwelfth,
+  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
   
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
@@ -14921,7 +14921,7 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
           result = kAugmentedUnison;
           break;
         case kB_TripleSharp_STP:
-          result = kPerUnison;
+          result = kPerfectUnison;
           break;
       } // switch
       break;
@@ -18930,48 +18930,92 @@ string wholeNotesAsMsrString (
   }
 
   int
-    numberOfDots = 0;
+    workNumerator   = numerator,
+    workDenominator = denominator,
+    workDotsNumber  = 0;
 
   stringstream s;
 
-  // handle the quarter note fraction if any
+  // handle the 'smaller than quarter note' part if any
   for ( ; ; ) {
-    if (denominator <= 4) {
+    if (workDenominator <= 4) {
       break;
     }
     
-    if (numerator == 1) {
+    if (workNumerator == 1) {
       // a number of ??? JMI notes
-      s << denominator;
+      s <<
+        workDenominator;
       break;
     }
     
-    if (numerator % 2 == 1) {
-      numberOfDots += 1;
+    if (workNumerator % 2 == 1) {
+      workDotsNumber += 1;
       
-      numerator = (numerator - 1) / 2;
-      denominator /= 2;
+      workNumerator = (workNumerator - 1) / 2;
+      workDenominator /= 2;
       
-      rational r (numerator, denominator);
+      rational r (workNumerator, workDenominator);
       r.rationalise ();
       
-      numerator   = r.getNumerator (),
-      denominator = r.getDenominator ();
+      workNumerator   = r.getNumerator (),
+      workDenominator = r.getDenominator ();
     }
+
+#ifdef DEBUG_WHOLE_NOTES
+    gLogIOstream <<
+      "--> workNumerator" << " : " << workNumerator <<
+      endl <<
+      "--> workDenominator" << " : " << workDenominator <<
+      endl <<
+      "--> workDotsNumber" << " : " << workDotsNumber <<
+      endl <<
+      "--> s.str ()" << " : \"" << s.str () << "\"" <<
+      endl <<
+      endl;
+#endif
   } // for
 
-  if (denominator <= 4) {
-    // handle the 'above quarter note' part
+  if (workDenominator <= 4) {
+    // handle the 'larger than quarter note' part
+
+    int accumulatedValue = 1;
+    
     for ( ; ; ) {
-      if (numerator == 1) {
-        // a number of whole notes
-        s << denominator;
+      if (workNumerator == 1) {
+        // wholeNotes is a number of whole notes
+        if (workDenominator * 4 == numerator) {
+          // wholeNotes is a dotted note duration
+          s <<
+            workDenominator;
+        }
+        else {
+          // wholeNotes is NOT a dotted note duration,
+          // use a multiplying factor and exit
+          stringstream ss;
+          
+          ss <<
+            workDenominator /*1*/ <<
+            "*" <<
+            numerator << "/" << denominator; // JMI
+
+#ifdef DEBUG_WHOLE_NOTES
+          gLogIOstream <<
+            "--> return:" <<
+            endl <<
+            "--> ss.str ()" << " : \"" << ss.str () << "\"" <<
+            endl <<
+    endl;
+#endif
+
+          return ss.str ();
+        }
         break;
       }
       
-      if (denominator == 1) {
+      if (workDenominator == 1) {
         // a number of whole notes
-        switch (numerator) {
+        switch (workNumerator) {
           case 1:
             s << "1";
             break;
@@ -18980,34 +19024,34 @@ string wholeNotesAsMsrString (
             break;
           case 3:
             s << "breve";
-            numberOfDots += 1;
+            workDotsNumber += 1;
             break;
           case 4:
             s << "long";
             break;
           case 6:
             s << "long";
-            numberOfDots += 1;
+            workDotsNumber += 1;
             break;
           case 7:
             s << "long";
-            numberOfDots += 2;
+            workDotsNumber += 2;
             break;
           case 8:
             s << "maxima";
             break;
           case 12:
             s << "maxima";
-            numberOfDots += 1;
+            workDotsNumber += 1;
             break;
           case 14:
             s << "maxima";
-            numberOfDots += 2;
+            workDotsNumber += 2;
             break;
           default:
           /* JMI
             s <<
-              numerator << "/" << denominator <<
+              workNumerator << "/" << workDenominator <<
               " whole notes cannot be represented as an MSR string";
   
             msrInternalWarning (
@@ -19016,40 +19060,73 @@ string wholeNotesAsMsrString (
               s.str ());
               */
             s <<
-              numerator << "/" << denominator << "???";
+              workNumerator << "/" << workDenominator << "???";
         } // switch
         break;
       }
       
-      if (numerator % 2 == 1) {
+#ifdef DEBUG_WHOLE_NOTES
+      gLogIOstream <<
+        "--> workNumerator % 2" << " : " << workNumerator % 2 <<
+        endl;
+#endif
+
+      if (workNumerator % 2 == 1) {
         // a number of quarter or half notes
-        numberOfDots += 1;
+        workDotsNumber += 1;
         
-        numerator = (numerator - 1) / 2;
-        denominator /= 2;
+        workNumerator = (workNumerator - 1) / 2;
+        workDenominator /= 2;
         
-        rational r (numerator, denominator);
+#ifdef DEBUG_WHOLE_NOTES
+        gLogIOstream <<
+          "--> workNumerator" << " : " << workNumerator <<
+          endl <<
+          "--> workDenominator" << " : " << workDenominator <<
+          endl <<
+          "--> workDotsNumber" << " : " << workDotsNumber <<
+          endl <<
+          endl;
+#endif
+
+        rational r (workNumerator, workDenominator);
         r.rationalise ();
         
-        numerator   = r.getNumerator (),
-        denominator = r.getDenominator ();
+        workNumerator   = r.getNumerator (),
+        workDenominator = r.getDenominator ();
+
+#ifdef DEBUG_WHOLE_NOTES
+        gLogIOstream <<
+          "--> workNumerator" << " : " << workNumerator <<
+          endl <<
+          "--> workDenominator" << " : " << workDenominator <<
+          endl <<
+          "--> workDotsNumber" << " : " << workDotsNumber <<
+          endl <<
+          "--> s.str ()" << " : \"" << s.str () << "\"" <<
+          endl <<
+          endl;
+#endif
       }
     } // for
   }
 
-  // append the dots if any
-#ifdef DEBUG_WHOLE_NOTES
-    s <<
-      " %{" << numerator << "/" << denominator << "%} ";
-#endif
-    
-  for (int i = 0; i < numberOfDots; i++) {
+  // append the dots if any    
+  for (int i = 0; i < workDotsNumber; i++) {
     s << ".";
   } // for
   
   // return the result
-  dotsNumber = numberOfDots;
+  dotsNumber = workDotsNumber;
   
+#ifdef DEBUG_WHOLE_NOTES
+  gLogIOstream <<
+    "--> return:" <<
+    endl <<
+    "--> s.str ()" << " : \"" << s.str () << "\"" <<
+    endl <<
+    endl;
+#endif
   return
     s.str ();
 }
@@ -19440,7 +19517,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19454,7 +19531,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
 /* JMI
@@ -19477,7 +19554,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19491,7 +19568,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
       }
@@ -19503,7 +19580,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19529,7 +19606,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19555,7 +19632,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19569,7 +19646,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19588,7 +19665,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19602,7 +19679,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19621,7 +19698,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19635,7 +19712,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19654,7 +19731,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19687,7 +19764,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19720,7 +19797,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19753,7 +19830,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19767,7 +19844,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19786,7 +19863,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19800,7 +19877,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19819,7 +19896,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19833,7 +19910,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19852,7 +19929,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19866,7 +19943,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19892,7 +19969,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19906,7 +19983,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19932,7 +20009,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19946,7 +20023,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19972,7 +20049,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -19986,7 +20063,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20007,7 +20084,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             6, // chord item number
-            kPerEleventh,
+            kPerfectEleventh,
             0) // relative octave
           );
       }
@@ -20019,7 +20096,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20033,7 +20110,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20054,7 +20131,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             6, // chord item number
-            kPerEleventh,
+            kPerfectEleventh,
             0) // relative octave
           );
       }
@@ -20066,7 +20143,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20080,7 +20157,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20101,7 +20178,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             6, // chord item number
-            kPerEleventh,
+            kPerfectEleventh,
             0) // relative octave
           );
       }
@@ -20113,7 +20190,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20127,7 +20204,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20148,7 +20225,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             6, // chord item number
-            kPerEleventh,
+            kPerfectEleventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20167,7 +20244,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20181,7 +20258,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20202,7 +20279,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             6, // chord item number
-            kPerEleventh,
+            kPerfectEleventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20221,7 +20298,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20235,7 +20312,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20256,7 +20333,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             6, // chord item number
-            kPerEleventh,
+            kPerfectEleventh,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20275,7 +20352,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20289,7 +20366,7 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
       }
@@ -20301,21 +20378,21 @@ void msrChordIntervals::initializeChordIntervals ()
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             2, // chord item number
-            kPerFourth,
+            kPerfectFourth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
       }
@@ -20343,7 +20420,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20369,7 +20446,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20395,7 +20472,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20428,7 +20505,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20442,7 +20519,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             3, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
@@ -20464,14 +20541,14 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             2, // chord item number
-            kPerFifth,
+            kPerfectFifth,
             0) // relative octave
           );
       }
@@ -20483,7 +20560,7 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
           msrChordItem::create (
             NO_INPUT_LINE_NUMBER,
             1, // chord item number
-            kPerUnison,
+            kPerfectUnison,
             0) // relative octave
           );
         appendChordItemToChordIntervals (

@@ -193,29 +193,29 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 enum msrIntervalKind {
   k_NoIntervalKind,
   
-  kDiminishedUnisson, kPerUnison, kAugmentedUnison,
+  kDiminishedUnisson, kPerfectUnison, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
   
   kDiminishedThird, kMinorThird, kMajorThird, kAugmentedThird,
   
-  kDiminishedFourth, kPerFourth, kAugmentedFourth,
+  kDiminishedFourth, kPerfectFourth, kAugmentedFourth,
   
-  kDiminishedFifth, kPerFifth, kAugmentedFifth,
+  kDiminishedFifth, kPerfectFifth, kAugmentedFifth,
   
   kDiminishedSixth, kMinorSixth, kMajorSixth, kAugmentedSixth,
   
   kDiminishedSeventh, kMinorSeventh, kMajorSeventh, kAugmentedSeventh,
   
-  kDiminishedOctave, kPerOctave, kAugmentedOctave,
+  kDiminishedOctave, kPerfectOctave, kAugmentedOctave,
   
   kDiminishedNinth, kMinorNinth, kMajorNinth, kAugmentedNinth,
   
   kDiminishedTenth, kMinorTenth, kMajorTenth, kAugmentedTenth,
   
-  kDiminishedEleventh, kPerEleventh, kAugmentedEleventh,
+  kDiminishedEleventh, kPerfectEleventh, kAugmentedEleventh,
   
-  kDiminishedTwelfth, kPerTwelfth, kAugmentedTwelfth,
+  kDiminishedTwelfth, kPerfectTwelfth, kAugmentedTwelfth,
   
   kDiminishedThirteenth, kMinorThirteenth, kMajorThirteenth, kAugmentedThirteenth };
 
