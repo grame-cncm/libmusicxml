@@ -3849,6 +3849,9 @@ class msrMeasure : public msrElement
     // measure lengthes
     
     rational              fFullMeasureLength;
+                            // meaningfull only
+                            // when there is a time signature,
+                            // but not for cadenzas
     
     rational              fMeasureLength;
 

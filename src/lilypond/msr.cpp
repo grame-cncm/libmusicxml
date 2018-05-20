@@ -1515,7 +1515,7 @@ void msrTechnical::print (ostream& os)
     asString () <<
     ", line " << fInputLineNumber <<
 //    ", accidental mark" << " = " << technicalAccidentalMarkKindAsString () <<
-    ", note uplink" << " = " <<
+    ", noteUplink" << " = " <<
     fTechnicalNoteUplink->asShortString () <<
     endl;
 }
@@ -1674,7 +1674,7 @@ void msrTechnicalWithInteger::print (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "note uplink" << " = " <<
+    "noteUplink" << " = " <<
     fTechnicalWithIntegerNoteUplink->asShortString () <<
     endl;
 
@@ -1856,7 +1856,7 @@ void msrTechnicalWithString::print (ostream& os)
     endl <<
 
     setw (fieldWidth) <<
-    "note uplink" << " = " <<
+    "noteUplink" << " = " <<
     fTechnicalWithStringNoteUplink->asShortString () <<
     endl;
 
@@ -2212,7 +2212,7 @@ void msrOrnament::print (ostream& os)
     ornamentAccidentalMarkAsString () <<
     endl <<
     setw (fieldWidth) <<
-    "note uplink" << " : " <<
+    "noteUplink" << " : " <<
     fOrnamentNoteUplink->asShortString () <<
     endl;
 
@@ -2350,7 +2350,7 @@ string msrSingleTremolo::asString () const
 
   if (fSingleTremoloNoteUplink) // it may not yet be set
     s <<
-      ", note uplink" << " = " <<
+      ", noteUplink" << " = " <<
       fSingleTremoloNoteUplink->
         asShortStringWithRawWholeNotes ();
 
@@ -7379,6 +7379,9 @@ string msrNote::asShortStringWithRawWholeNotes () const
       break;
   } // switch
 
+  s <<
+    ", line " << fInputLineNumber;
+
   return s.str ();
 }
 
@@ -7530,10 +7533,10 @@ string msrNote::asString () const
       
     case msrNote::kStandaloneNote:
       s <<
-        "Standalone note" " "<<
+        "Standalone note '"<<
         notePitchAsString () <<
         noteSoundingWholeNotesAsMsrString () <<
-        " [octave" " " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
+        "', [octave " << fNoteOctave << ", " << noteDisplayOctaveAsString () << "]";
       break;
       
     case msrNote::kDoubleTremoloMemberNote:
@@ -7652,13 +7655,11 @@ void msrNote::print (ostream& os)
   // print the note itself and its positionInMeasure
   os <<
     asString () <<
-    ", line " << fInputLineNumber;
+    ", line " << fInputLineNumber <<
+    endl;
 
   {
-    // print displayed whole notes
-    os <<
-      endl;
-  
+    // print sounding and displayed whole notes
     gIndenter++;
         
     switch (fNoteKind) {
@@ -7669,29 +7670,26 @@ void msrNote::print (ostream& os)
       case msrNote::kDoubleTremoloMemberNote:
       case msrNote::kChordMemberNote:
         os <<
-          "Whole notes: " <<
+          "noteSoundingWholeNotes: " <<
           fNoteSoundingWholeNotes <<
-          " sounding, " <<
-          fNoteDisplayWholeNotes<<
-          " display";
+          ", noteDisplayWholeNotes: " <<
+          fNoteDisplayWholeNotes;
         break;
   
       case msrNote::kGraceNote:
       case msrNote::kGraceChordMemberNote:
         os <<
-          "Whole notes: " <<
-          fNoteDisplayWholeNotes <<
-          " display";
+          "noteDisplayWholeNotes: " <<
+          fNoteDisplayWholeNotes;
         break;
   
       case msrNote::kTupletMemberNote:
         os <<
-          "Whole notes: " <<
+          "fNoteSoundingWholeNotes: " <<
           fNoteSoundingWholeNotes <<
-          " sounding, " <<
-          fNoteDisplayWholeNotes<<
-          " display" <<
-          ", note tuplet sounding: " <<
+          ", fNoteDisplayWholeNotes: " <<
+          fNoteDisplayWholeNotes <<
+          ", tupletSoundingWholeNotes: " <<
           wholeNotesAsMsrString (
             fInputLineNumber,
             getNoteTupletUplink ()->
@@ -7707,9 +7705,8 @@ void msrNote::print (ostream& os)
     }
     else {
       os <<
-        ", " <<
-        fullMeasureLength <<
-        " per full measure";
+        ", fullMeasureLength :" <<
+        fullMeasureLength;
     }
 
     os <<
@@ -7734,7 +7731,7 @@ void msrNote::print (ostream& os)
       
     // accidentals
     os <<
-      "accidental kind: " <<
+      "noteAccidentalKind: " <<
       noteAccidentalKindAsString (
         fNoteAccidentalKind) <<
       endl;
@@ -7749,7 +7746,7 @@ void msrNote::print (ostream& os)
 
     // print measure related information
     os <<
-      "Measure: ";
+      "noteMeasureNumber: ";
     if (fNoteMeasureNumber == K_NO_MEASURE_NUMBER)
       os <<
         "unknown";
@@ -7772,7 +7769,7 @@ void msrNote::print (ostream& os)
     }
 
     os <<
-      ", position in measure: ";
+      ", notePositionInMeasure: ";
     if (fNotePositionInMeasure == K_NO_POSITION_MEASURE_NUMBER)
       os << "unknown";
     else
@@ -13119,6 +13116,7 @@ void msrClef::print (ostream& os)
 {
   os <<
     asString () <<
+    endl <<
     endl;
 }
 
@@ -13677,6 +13675,9 @@ void msrKey::print (ostream& os)
         }
       break;
   } // switch
+
+  os <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -14309,6 +14310,9 @@ void msrTime::print (ostream& os)
       os <<
         " none";
     }
+
+  os <<
+    endl;
 }
 
 //______________________________________________________________________________
@@ -16483,12 +16487,12 @@ void msrSyllable::print (ostream& os)
   const int fieldWidth = 19;
   os << left <<
     setw (fieldWidth) <<
-    "SyllableExtendKind" << " : " <<
+    "syllableExtendKind" << " : " <<
     syllableExtendKindAsString (
       fSyllableExtendKind) <<
     endl <<
     setw (fieldWidth) <<
-    "Texts list" << " : ";
+    "texts list" << " : ";
     
     writeTextsList (
       fSyllableTextsList,
@@ -16497,7 +16501,7 @@ void msrSyllable::print (ostream& os)
   os << left <<
     endl <<
     setw (fieldWidth) <<
-    "Note uplink" << " : " <<
+    "noteUplink" << " : " <<
     syllableNoteUplinkAsString () <<      
     endl;
 
@@ -22588,12 +22592,12 @@ void msrMeasure::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "Segment uplink" << " : " <<
+    "segmentUplink" << " : " <<
     fMeasureSegmentUplink->asShortString () <<
     endl <<
     
     setw (fieldWidth) <<
-    "first in segment" << " : " <<
+    "measureFirstInSegment" << " : " <<
     msrMeasure::measureFirstInSegmentKindAsString (
       fMeasureFirstInSegmentKind) << 
     endl;
@@ -22620,7 +22624,7 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
-    "measureCreatedAfterARepeat:" << " : " <<
+    "measureCreatedAfterARepeat" << " : " <<
     msrMeasure::measureCreatedAfterARepeatKindAsString (
       fMeasureCreatedAfterARepeatKind) << 
     endl <<
@@ -22631,22 +22635,46 @@ void msrMeasure::print (ostream& os)
     endl <<
     
     setw (fieldWidth) <<
-    "length" << " : " << fMeasureLength << " whole notes" <<
+    "measureLength" << " : " << fMeasureLength << " whole notes" <<
     endl <<
     
     setw (fieldWidth) <<
-    "full measure length" << " : " <<
-    fFullMeasureLength << " whole notes" <<
-    endl <<
+    "fulMeasureLength" << " : ";
     
+    // fetch the staff
+    S_msrStaff
+      staff =
+        getMeasureSegmentUplink ()->
+          getSegmentVoiceUplink ()->
+            getVoiceStaffUplink ();
+        
+    // get the staff current time
+    S_msrTime
+      time =
+        staff->
+          getStaffCurrentTime ();
+
+    if (time) {
+      os <<
+        fFullMeasureLength << " whole notes";
+    }
+    else {
+      os <<
+        "IRRELEVANT";
+    }
+    os <<
+      endl;
+
+  os <<
     setw (fieldWidth) <<
-    "next measure number" << " : '" <<
+    "nextMeasureNumber" << " : '" <<
     fNextMeasureNumber << "'" <<
     endl;
   gIndenter--;
 
   if (fMeasureElementsList.size ()) {
-    os << endl;
+    os <<
+      endl;
     
     gIndenter++;
     
@@ -24590,7 +24618,7 @@ void msrSegment::print (ostream& os)
   const int fieldWidth = 20;
   
   os <<
-    setw (fieldWidth) << "Voice uplink" << " : " <<
+    setw (fieldWidth) << "voiceUplink" << " : " <<
     "\"" <<
     fSegmentVoiceUplink->getVoiceName () <<
     "\"" <<
@@ -24598,7 +24626,7 @@ void msrSegment::print (ostream& os)
 
   if (! fSegmentMeasuresList.size ()) {
     os <<
-      setw (fieldWidth) << "Measures" << " : " << "none" <<
+      setw (fieldWidth) << "measures" << " : " << "none" <<
       endl;
   }
   
@@ -31451,13 +31479,13 @@ void msrVoice::print (ostream& os)
   const int fieldWidth = 34;
 
   os << left <<
-    setw (fieldWidth) << "Staff uplink" << " : " <<
+    setw (fieldWidth) << "staffUplink" << " : " <<
     fVoiceStaffUplink->getStaffName () <<
     endl <<
-    setw (fieldWidth) << "VoiceNumber" << " : " <<
+    setw (fieldWidth) << "voiceNumber" << " : " <<
     voiceNumberAsString () <<
     endl <<
-    setw (fieldWidth) << "RegularVoiceStaffSequentialNumber" << " : " <<
+    setw (fieldWidth) << "regularVoiceStaffSequentialNumber" << " : " <<
     regularVoiceStaffSequentialNumberAsString () <<
     endl;
 
@@ -34331,23 +34359,23 @@ void msrStaff::print (ostream& os)
   
   os <<
     setw (fieldwidth) <<
-    "Part uplink" << " : " <<
+    "staffPartUplink" << " : " <<
     fStaffPartUplink->getPartCombinedName () <<
     endl <<
     setw (fieldwidth) <<
-    "StaffInstrumentName" << " : \"" <<
+    "staffInstrumentName" << " : \"" <<
     fStaffInstrumentName <<
     "\"" <<
     endl <<
     setw (fieldwidth) <<
-    "StaffInstrumentAbbreviation" << " : \"" <<
+    "staffInstrumentAbbreviation" << " : \"" <<
     fStaffInstrumentAbbreviation <<
     "\"" <<
     endl;
 
   // print the staff details if any
   os <<
-    "Staff details: ";
+    "staff details: ";
   if (fStaffStaffDetails) {
     os << fStaffStaffDetails;
   }
@@ -36286,7 +36314,7 @@ void msrPart::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "PartGroup uplink" << " : ";
+    "partGroupUplink" << " : ";
   if (fPartPartGroupUplink) {
     // it may be empty
     os <<
@@ -37312,7 +37340,7 @@ void msrPartGroup::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "PartGroup uplink" << " : ";
+    "partGroupPartGroupUplink" << " : ";
 
   if (fPartGroupPartGroupUplink) {
     // it may be empty
@@ -37329,14 +37357,14 @@ void msrPartGroup::print (ostream& os)
 
   os << left <<
     setw (fieldWidth) <<
-    "PartGroupName" << " : \"" <<
+    "partGroupName" << " : \"" <<
     fPartGroupName <<
     "\"" <<
     endl;
 
    os << left <<
     setw (fieldWidth) <<
-    "PartGroupPartGroupUplink" << " : ";
+    "partGroupPartGroupUplink" << " : ";
   if (fPartGroupPartGroupUplink)
     os <<
       "\"" <<
@@ -37351,40 +37379,40 @@ void msrPartGroup::print (ostream& os)
 
   os << left <<
    setw (fieldWidth) <<
-    "PartGroupNameDisplayText" << " : \"" <<
+    "partGroupNameDisplayText" << " : \"" <<
     fPartGroupNameDisplayText <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartGroupAccidentalText" << " : \"" <<
+    "partGroupAccidentalText" << " : \"" <<
     fPartGroupAccidentalText <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartGroupAbbrevation" << " : \"" <<
+    "partGroupAbbrevation" << " : \"" <<
     fPartGroupAbbreviation <<
     "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "PartGroupSymbolDefaultX" << " : " <<
+    "partGroupSymbolDefaultX" << " : " <<
     fPartGroupSymbolDefaultX <<
       endl <<
     setw (fieldWidth) <<
-    "PartGroupSymbolKind" << " : " <<
+    "partGroupSymbolKind" << " : " <<
     partGroupSymbolKindAsString (
       fPartGroupSymbolKind) <<
     endl;
     
   os << left <<
     setw (fieldWidth) <<
-    "PartGroupImplicit" << " : " <<
+    "partGroupImplicit" << " : " <<
     partGroupImplicitKindAsString (
       fPartGroupImplicitKind) <<
     endl;
 
   os << left <<
     setw (fieldWidth) <<
-    "PartGroupBarline" << " : " <<
+    "partGroupBarline" << " : " <<
     partGroupBarlineKindAsString (
       fPartGroupBarlineKind) <<
     endl;
