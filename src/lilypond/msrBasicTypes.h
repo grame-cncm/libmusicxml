@@ -191,6 +191,8 @@ msrQuarterTonesPitchKind msrSemiTonesPitchKindAsQuarterTonesPitchKind (
 // intervals
 //______________________________________________________________________________
 enum msrIntervalKind {
+  k_NoIntervalKind,
+  
   kDiminishedUnisson, kPerUnison, kAugmentedUnison,
   
   kDiminishedSecond, kMinorSecond, kMajorSecond, kAugmentedSecond,
@@ -259,6 +261,10 @@ msrQuarterTonesPitchKind noteAtIntervalFromQuarterTonesPitch (
   int                      inputLineNumber,
   msrIntervalKind          intervalKind,
   msrQuarterTonesPitchKind quarterTonesPitchKind);
+
+msrIntervalKind intervalBetweenSemiTonesPitches (
+  msrSemiTonesPitchKind semiTonesPitch1,
+  msrSemiTonesPitchKind semiTonesPitch2);
 
 // harmonies
 //______________________________________________________________________________

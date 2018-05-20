@@ -5541,7 +5541,7 @@ else
     case msrMeasure::kOverfullMeasureKind:
       if (! fOnGoingVoiceCadenza) {
         fLilypondCodeIOstream <<
-          "\\cadenzaOn";
+          "\\cadenzaOn \\hide Staff.TimeSignature ";
 
         if (gLilypondOptions->fComments) {
           fLilypondCodeIOstream << " % kOverfullMeasureKind Start";
@@ -5557,7 +5557,7 @@ else
     case msrMeasure::kSenzaMisuraMeasureKind:
       if (! fOnGoingVoiceCadenza) {
         fLilypondCodeIOstream <<
-          "\\cadenzaOn";
+          "\\cadenzaOn \\hide Staff.TimeSignature ";
 
         if (gLilypondOptions->fComments) {
           fLilypondCodeIOstream << " % kSenzaMisuraMeasureKind Start";

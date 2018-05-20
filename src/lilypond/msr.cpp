@@ -7226,23 +7226,6 @@ string msrNote::notePitchAsString () const
 {
   stringstream s;
   
-  /*
-  gLogIOstream << "msrNote::notePitchAsString (), isRest = " <<
-    fNoteIsARest <<
-    ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
-  */
-
-  /*
-  if (fNoteIsARest) {
-    if (fNoteOccupiesAFullMeasure) // JMI
-      s << "R";
-    else
-      s << "r";
-  }
-  
-  else
-  */
-  
   if (fNoteIsUnpitched)
     s << "unpitched ";
   else {
@@ -7259,31 +7242,10 @@ string msrNote::noteDisplayPitchKindAsString () const
 {
   stringstream s;
   
-  /* JMI
-  gLogIOstream << "msrNote::notePitchAsString (), isRest = " <<
-    fNoteIsARest <<
-    ", fQuarterTonesPitch = " << fQuarterTonesPitch << endl;
-
-  
-  if (fNoteIsARest) {
-    if (fNoteOccupiesAFullMeasure) // JMI
-      s << "R";
-    else
-      s << "r";
-  }
-  
-  else if (fNoteIsUnpitched)
-
-    s << "unpitched ";
-
-  else {
-  */
-    s <<
-      msrQuarterTonesPitchKindAsString (
-        gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
-        fNoteQuarterTonesDisplayPitchKind);  
-
- // JMI }
+  s <<
+    msrQuarterTonesPitchKindAsString (
+      gMsrOptions->fMsrQuarterTonesPitchesLanguageKind,
+      fNoteQuarterTonesDisplayPitchKind);  
   
   return s.str ();
 }
@@ -20889,11 +20851,13 @@ void msrMeasure::appendNoteToMeasure (S_msrNote note)
       inputLineNumber,
       fMeasureLength);
 
-  // determine if the note occupies a full measure
+/* JMI
+  // determine whether the note occupies a full measure
   if (noteSoundingWholeNotes == fFullMeasureLength)
     note->
       setNoteOccupiesAFullMeasure ();
-    
+  */
+  
   // append the note to the measure elements list
 // JMI  // only now to make it possible to remove it afterwards
   // if it happens to be the first note of a chord
@@ -20989,11 +20953,13 @@ void msrMeasure::appendNoteToMeasureClone (S_msrNote note)
       updatePartMeasureLengthHighTide (
         inputLineNumber,
         fMeasureLength);
-  
-    // determine if the note occupies a full measure
+
+  /* JMI
+    // determine whether the note occupies a full measure
     if (noteSoundingWholeNotes == fFullMeasureLength)
       note->
         setNoteOccupiesAFullMeasure ();
+      */
       
     // append the note to the measure elements list
   // JMI  // only now to make it possible to remove it afterwards
@@ -21669,10 +21635,12 @@ void msrMeasure::padUpToMeasureLengthInMeasure (
     } // switch
 */
 
+/* JMI
     // does the rest occupy a full measure?
     if (missingDuration == fFullMeasureLength)
       paddingNote->
         setNoteOccupiesAFullMeasure ();
+  */
   
     // register rest's measure length
     paddingNote->
@@ -22316,10 +22284,12 @@ void msrMeasure::padUpToPartMeasureLengthHighTide (
     } // switch
 */
 
+/* JMI
     // does the rest occupy a full measure?
     if (missingDuration == fFullMeasureLength)
       paddingNote->
         setNoteOccupiesAFullMeasure ();
+  */
   
     // register rest's position in measure
     paddingNote->
@@ -22415,6 +22385,18 @@ void msrMeasure::finalizeMeasure (
         inputLineNumber);
       break;
   } // switch
+
+  // is there a single note or rest occupying the whole measure?
+  if (fMeasureLongestNote) {
+    if (
+      fMeasureLongestNote-> getNoteSoundingWholeNotes ()
+        ==
+      fMeasureLength
+    ) {
+      fMeasureLongestNote->
+        setNoteOccupiesAFullMeasure ();
+    }
+  }
 }
 
 void msrMeasure::acceptIn (basevisitor* v)
