@@ -262,6 +262,84 @@ ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt)
   return os;
 }
 
+//______________________________________________________________________________
+S_optionsShowChordAnalysisItem optionsShowChordAnalysisItem::create (
+  string  optionsItemShortName,
+  string  optionsItemLongName,
+  string  optionsItemDescription,
+  string  optionsValueSpecification,
+  string  optionsShowChordAnalysisItemVariableDisplayName,
+  string& optionsShowChordAnalysisItemVariable)
+{
+  optionsShowChordAnalysisItem* o = new
+    optionsShowChordAnalysisItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification,
+      optionsShowChordAnalysisItemVariableDisplayName,
+      optionsShowChordAnalysisItemVariable);
+  assert(o!=0);
+  return o;
+}
+
+optionsShowChordAnalysisItem::optionsShowChordAnalysisItem (
+  string  optionsItemShortName,
+  string  optionsItemLongName,
+  string  optionsItemDescription,
+  string  optionsValueSpecification,
+  string  optionsShowChordAnalysisItemVariableDisplayName,
+  string& optionsShowChordAnalysisItemVariable)
+  : optionsValuedItem (
+      optionsItemShortName,
+      optionsItemLongName,
+      optionsItemDescription,
+      optionsValueSpecification),
+    fOptionsShowChordAnalysisItemVariableDisplayName (
+      optionsShowChordAnalysisItemVariableDisplayName),
+    fOptionsShowChordAnalysisItemVariable (
+      optionsShowChordAnalysisItemVariable)
+{}
+
+optionsShowChordAnalysisItem::~optionsShowChordAnalysisItem ()
+{}
+
+void optionsShowChordAnalysisItem::print (ostream& os) const
+{
+  const int fieldWidth = K_FIELD_WIDTH;
+  
+  os <<
+    "optionsShowChordAnalysisItem:" <<
+    endl;
+
+  gIndenter++;
+
+  optionsElement::printElementEssentials (
+    os, fieldWidth);
+
+  gIndenter++;
+  os <<
+    gIndenter.indentMultiLineString (
+      fOptionsElementDescription) <<
+    endl;
+  gIndenter--;
+
+  gIndenter--;
+}
+
+void optionsShowChordAnalysisItem::printOptionsValues (
+  ostream& os,
+  int      valueFieldWidth) const
+{
+  // nothing to print here
+}
+                            
+ostream& operator<< (ostream& os, const S_optionsShowChordAnalysisItem& elt)
+{
+  elt->print (os);
+  return os;
+}
+
 //_______________________________________________________________________________
 
 S_extraOptions gExtraOptions;
@@ -370,7 +448,7 @@ in the current language to standard output.)",
       workSubGroup =
         optionsSubGroup::create (
           "Chord details",
-          "hecd", "helpExtraChordsetailss",
+          "hecd", "helpExtraChordsetails",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -405,6 +483,57 @@ and around the '=' sign, otherwise they can be dispensed with.
 Using double quotes allows for shell variables substitutions, as in:
   HARMONY="maj7"
   xml2ly -showChordDetails "bes ${HARMONY}" .)",
+          "chordSpecification",
+          "diatonic (semitones) pitch",
+          fChordsRootAsString));
+  }
+  
+  // show chord analysis
+
+  {
+    // variables
+      
+    // options
+  
+    S_optionsSubGroup
+      workSubGroup =
+        optionsSubGroup::create (
+          "Chord analysis",
+          "heca", "helpExtraChordsAnalysis",
+R"()",
+          optionsSubGroup::kAlwaysShowDescription,
+          this);
+  
+    appendOptionsSubGroup (workSubGroup);
+        
+    workSubGroup->
+      appendOptionsItem (
+        optionsShowChordAnalysisItem::create (
+          "sca", "showChordAnalysis",
+R"(Write an analysis of the chord for the given diatonic (semitones) pitch
+in the current language and the given harmony to standard output.
+
+'chordSpecification' can be:
+  'rootDiatonicPitch harmonyName'
+or
+  "rootDiatonicPitch = harmonyName"
+  
+'rootDiatonicPitch' should belong to the names available in
+the selected MSR pitches language, "nederlands" by default.
+
+'harmonyName' should be one of:
+  "maj", "min", "aug", "dim", "dom",
+  "maj7", "min7", "dim7", "aug7", "halfdim", "minmaj7",
+  "maj6", "min6", "dom9", "maj9", "min9", "dom11", "maj11", "min11",
+  "dom13", "maj13", "min13", "sus2", "sus4",
+  "neapolitan", "italian", "french", "german",
+  "pedal", "power" or "tristan".
+  
+The single or double quotes are used to allow spaces in the names
+and around the '=' sign, otherwise they can be dispensed with.
+Using double quotes allows for shell variables substitutions, as in:
+  HARMONY="maj7"
+  xml2ly -showChordAnalysis "bes ${HARMONY}" .)",
           "chordSpecification",
           "diatonic (semitones) pitch",
           fChordsRootAsString));
@@ -506,6 +635,22 @@ S_optionsItem extraOptions::handleOptionsItem (
 
     // wait until the value is met
     result = showChordDetailsItem;
+  }
+  
+  else if (
+    // show chord analysis item?
+    S_optionsShowChordAnalysisItem
+      showChordAnalysisItem =
+        dynamic_cast<optionsShowChordAnalysisItem*>(&(*item))
+    ) {
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
+        endl;
+    }
+
+    // wait until the value is met
+    result = showChordAnalysisItem;
   }
 
   return result;
@@ -773,6 +918,184 @@ void extraOptions::handleOptionsItemValue (
       os,
       semiTonesPitchKind,
       harmonyKind);
+  }
+  
+  else if (
+    // show chord analysis item?
+    S_optionsShowChordAnalysisItem
+      showChordAnalysisItem =
+        dynamic_cast<optionsShowChordAnalysisItem*>(&(*item))
+    ) {
+    // theString contains the pitch name in the current language
+    // is it in the accidental styles map?
+
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "==> optionsItem is of type 'optionsShowChordAnalysisItem'" <<
+        ", theString = \"" << theString << "\"" << 
+        endl;
+    }
+
+    // decipher theString with a regular expression
+    string regularExpression (
+      "[[:space:]]*"
+      "([[:alnum:]]*)"
+      "[[:space:]]*"
+      "([[:alnum:]]*)"
+      "[[:space:]]*"
+      "([[:digit:]]*)"
+      "[[:space:]]*");
+      
+    regex  e (regularExpression);
+    smatch sm;
+
+    regex_match (theString, sm, e);
+
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "There are " << sm.size () << " matches" <<
+        " for chord analysis string '" << theString <<
+        "' with regex '" << regularExpression <<
+        "'" <<
+        endl;
+    }
+
+    if (sm.size ()) {
+      if (gTraceOptions->fTraceOptions) {
+        os <<
+          sm.size () << " elements: ";
+        for (unsigned i = 0; i < sm.size (); ++i) {
+          os <<
+            "[" << sm [i] << "] ";
+        } // for
+        os <<
+          endl;
+      }
+    }
+    
+    else {
+      stringstream s;
+
+      s <<
+        "-chord analysis argument '" << theString <<
+        "' is ill-formed";
+        
+      optionError (s.str ());
+      
+      printSpecificSubGroupHelp (
+        os,
+        showChordAnalysisItem->
+          getOptionsSubGroupUplink ());
+          
+      exit (4);
+    }
+
+    string
+      rootName          = sm [1],
+      harmonyName       = sm [2],
+      inversionAsString = sm [3];
+
+    int
+      inversion;
+      
+    stringstream s;
+
+    s << inversionAsString;
+
+    s >> inversion;
+    
+    if (gTraceOptions->fTraceOptions) {
+      os <<
+        "--> rootName = \"" << rootName << "\", " <<
+        "--> harmonyName = \"" << harmonyName << "\"" <<
+        "--> inversion = " << inversion <<
+        endl;
+    }
+
+    // fetch the semitones pitch from rootName
+    msrSemiTonesPitchKind
+      semiTonesPitchKind =
+        semiTonesPitchKindFromString (
+          rootName);
+
+    switch (semiTonesPitchKind) {
+      case k_NoQuarterTonesPitch_QTP:
+      case k_Rest_QTP:
+        {
+          stringstream s;
+      
+          s <<
+            "'" << rootName <<
+            "' is no diatonic (semitones) root pitch" <<
+            " in pitch language '" <<
+            msrQuarterTonesPitchesLanguageKindAsString (
+              gLpsrOptions->
+                fLpsrQuarterTonesPitchesLanguageKind) <<
+            "'" <<
+            endl;
+            
+          optionError (s.str ());
+                    
+          exit (4);
+        }
+        break;
+  
+      case kA_Flat_STP:
+      case kA_Natural_STP:
+      case kA_Sharp_STP:
+
+      case kB_Flat_STP:
+      case kB_Natural_STP:
+      case kB_Sharp_STP:
+
+      case kC_Flat_STP:
+      case kC_Natural_STP:
+      case kC_Sharp_STP:
+
+      case kD_Flat_STP:
+      case kD_Natural_STP:
+      case kD_Sharp_STP:
+
+      case kE_Flat_STP:
+      case kE_Natural_STP:
+      case kE_Sharp_STP:
+
+      case kF_Flat_STP:
+      case kF_Natural_STP:
+      case kF_Sharp_STP:
+
+      case kG_Flat_STP:
+      case kG_Natural_STP:
+      case kG_Sharp_STP:
+        break;
+  
+      default:
+        {
+          stringstream s;
+      
+          s <<
+            "'" << rootName <<
+            "' is no diatonic (semitones) pitch" <<
+            endl;
+            
+          optionError (s.str ());
+                    
+          exit (4);
+        }
+    } // switch
+
+    // fetch the harmony kind from harmonyName
+    msrHarmonyKind
+      harmonyKind =
+        msrHarmonyKindFromString (
+          harmonyName);
+
+    // print the chord analysis
+    printChordAnalysis (
+      os,
+      semiTonesPitchKind,
+      harmonyKind,
+      inversion);
   }
 }
 

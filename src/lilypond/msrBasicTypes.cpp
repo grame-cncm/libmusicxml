@@ -21497,15 +21497,6 @@ void printChordDetails (
 
   gIndenter++;
 
-/* JMI
-  gIndenter++;
-  os <<
-    msrHarmonyKindAsString (harmonyKind) <<
-    ":" <<
-    endl;
-  gIndenter--;
-*/
-
   // create the chord intervals
   S_msrChordStructure
     chordStructure =
@@ -21641,6 +21632,200 @@ void printChordDetails (
       os <<
         endl;
     } // for
+  }
+
+  gIndenter--;
+}
+
+//______________________________________________________________________________
+void printChordAnalysis (
+  ostream&              os,
+  msrSemiTonesPitchKind rootSemiTonesPitchKind,
+  msrHarmonyKind        harmonyKind,
+  int                   inversion)
+{
+  // fetch the quartertones pitch kind
+  msrQuarterTonesPitchKind
+    rootQuarterTonesPitchKind =
+      quarterTonesPitchKindFromSemiTonesPitchKind (
+        rootSemiTonesPitchKind);
+
+  string
+    rootQuarterTonesPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->
+          fLpsrQuarterTonesPitchesLanguageKind,
+        rootQuarterTonesPitchKind);
+
+  string
+    harmonyKindShortName =
+      msrHarmonyKindShortName (
+        harmonyKind);
+      
+  // print the deails
+  os <<
+    "The analysis of chord '" <<
+    rootQuarterTonesPitchKindAsString <<
+    " " <<
+    harmonyKindShortName <<
+    "' inversion " <<
+    inversion <<
+    " is:" <<
+    endl <<
+    endl;
+
+  gIndenter++;
+
+  // create the chord intervals
+  S_msrChordStructure
+    chordStructure =
+      msrChordStructure::create (
+ // JMI       NO_INPUT_LINE_NUMBER,
+        harmonyKind);
+
+  // fetch the intervals items for these intervals
+  // with rootSemiTonesPitchKind as root
+  const vector <S_msrChordInterval>&
+    chordStructureIntervals =
+      chordStructure->
+        getChordStructureIntervals ();
+
+  // loop on all the inversion
+  int chordStructureIntervalsNumber =
+    chordStructureIntervals.size ();
+
+  if (chordStructureIntervalsNumber) {
+    if (inversion < chordStructureIntervalsNumber) {
+      // invert the chord structure
+      S_msrChordStructure
+        invertedChordStructure =
+          chordStructure->
+            invertChordStructure (inversion);
+
+      if (TRACE_MSR_BASIC_TYPES) {
+        os <<
+          "==> inversion = " << inversion <<
+          ", initial invertedChordStructure:" <<
+          endl;
+
+        gIndenter++;
+        os <<
+          invertedChordStructure <<
+          endl;
+        gIndenter--;
+      }
+
+      // get the inverted chord structure intervals
+      const vector <S_msrChordInterval>&
+        invertedChordStructureIntervals =
+          invertedChordStructure->
+            getChordStructureIntervals ();
+    
+      // fetch the notes for these intervals
+      vector<S_msrChordInterval>::const_iterator
+        iBegin = invertedChordStructureIntervals.begin (),
+        iEnd   = invertedChordStructureIntervals.end (),
+        i      = iBegin;
+
+      os <<
+        "Chord " <<
+        rootQuarterTonesPitchKindAsString <<
+        " " <<
+        harmonyKindShortName;
+
+      if (inversion == 0) {
+        os <<
+          " fundamental state";
+      }
+      else {
+        os <<
+          " inversion " << inversion;
+      }
+
+      os <<
+        " contents, "<<
+        invertedChordStructureIntervals.size () <<
+        " intervals:" <<
+        endl;
+        
+      gIndenter++;
+
+      for ( ; ; ) {
+        S_msrChordInterval
+          chordInterval = (*i);
+  
+        msrIntervalKind
+          intervalKind =
+            chordInterval->
+              getChordIntervalIntervalKind ();
+
+        int
+          relativeOctave =
+            chordInterval->
+              getChordIntervalRelativeOctave ();
+              
+        const int fieldWidth1 = 17;
+        
+        os << left <<
+          setw (fieldWidth1) <<
+          msrIntervalKindAsString (intervalKind) <<
+          ": ";
+  
+        // fetch the semitones pitch kind
+        msrSemiTonesPitchKind
+          noteSemiTonesPitchKind =
+            noteAtIntervalFromSemiTonesPitch (
+              NO_INPUT_LINE_NUMBER,
+              intervalKind,
+              rootSemiTonesPitchKind);
+  
+        // fetch the quartertones pitch kind
+        msrQuarterTonesPitchKind
+          noteQuarterTonesPitchKind =
+            quarterTonesPitchKindFromSemiTonesPitchKind (
+              noteSemiTonesPitchKind);
+  
+        // print it
+        const int fieldWidth2 = 8;
+  
+        os << left <<
+          setw (fieldWidth2) <<
+          msrQuarterTonesPitchKindAsString (
+            gLpsrOptions->
+              fLpsrQuarterTonesPitchesLanguageKind,
+            noteQuarterTonesPitchKind) <<
+          ", octave " << relativeOctave <<
+          " (" <<
+          msrSemiTonesPitchKindAsString (
+            noteSemiTonesPitchKind) <<
+          ")" <<
+          endl;
+  
+        if (++i == iEnd) break;
+        
+        // no endl here
+      } // for
+
+      gIndenter--;
+  
+      os <<
+        endl;
+    }
+
+    else {
+      os <<
+        "chord '" <<
+        rootQuarterTonesPitchKindAsString <<
+        " " <<
+        harmonyKindShortName <<
+        "' has only " <<
+        chordStructureIntervalsNumber <<
+        "intervals, inversion " <<
+        inversion <<
+        " does not exist" <<
+        endl <<
+        endl;
+    }
   }
 
   gIndenter--;

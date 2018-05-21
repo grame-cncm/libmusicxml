@@ -991,6 +991,12 @@ void printChordDetails (
   msrSemiTonesPitchKind rootSemiTonesPitchKind,
   msrHarmonyKind        harmonyKind);
 
+void printChordAnalysis (
+  ostream&              os,
+  msrSemiTonesPitchKind rootSemiTonesPitchKind,
+  msrHarmonyKind        harmonyKind,
+  int                   inversion);
+
 //______________________________________________________________________________
 enum msrScoreNotationKind {
   kScoreNotationWestern,

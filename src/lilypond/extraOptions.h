@@ -219,6 +219,77 @@ typedef SMARTP<optionsShowChordDetailsItem> S_optionsShowChordDetailsItem;
 ostream& operator<< (ostream& os, const S_optionsShowChordDetailsItem& elt);
 
 //______________________________________________________________________________
+class optionsShowChordAnalysisItem : public optionsValuedItem
+{
+  public:
+  
+    // creation
+    // ------------------------------------------------------
+
+    static SMARTP<optionsShowChordAnalysisItem> create (
+      string  optionsItemShortName,
+      string  optionsItemLongName,
+      string  optionsItemDescription,
+      string  optionsValueSpecification,
+      string  optionsStringItemVariableDisplayName,
+      string& optionsStringItemVariable);
+     
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    optionsShowChordAnalysisItem (
+      string  optionsItemShortName,
+      string  optionsItemLongName,
+      string  optionsItemDescription,
+      string  optionsValueSpecification,
+      string  optionsStringItemVariableDisplayName,
+      string& optionsStringItemVariable);
+      
+    virtual ~optionsShowChordAnalysisItem ();
+
+  public:
+  
+    // set and get
+    // ------------------------------------------------------
+
+    string                getOptionsShowChordAnalysisItemVariableDisplayName () const
+                              {
+                                return
+                                  fOptionsShowChordAnalysisItemVariableDisplayName;
+                              }
+                              
+    void                  setShowChordAnalysisItemVariableValue (
+                            string value)
+                              {
+                                fOptionsShowChordAnalysisItemVariable = value;
+                              }
+
+    // services
+    // ------------------------------------------------------
+
+    // print
+    // ------------------------------------------------------
+
+    void                  print (ostream& os) const;
+
+    void                  printOptionsValues (
+                            ostream& os,
+                            int      valueFieldWidth) const;
+  
+  private:
+  
+    // fields
+    // ------------------------------------------------------
+
+    string                fOptionsShowChordAnalysisItemVariableDisplayName;
+    string&               fOptionsShowChordAnalysisItemVariable;
+};
+typedef SMARTP<optionsShowChordAnalysisItem> S_optionsShowChordAnalysisItem;
+ostream& operator<< (ostream& os, const S_optionsShowChordAnalysisItem& elt);
+
+//______________________________________________________________________________
 class extraOptions : public optionsGroup
 {
   public:
