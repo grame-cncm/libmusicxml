@@ -40,13 +40,7 @@
     <staff-layout>
       <staff-distance>100</staff-distance>
     </staff-layout>
-    <music-font font-family="Maestro" font-size="14.4"/>
-    <word-font font-family="Century Schoolbook" font-size="7.2"/>
-    <lyric-font font-family="Century Schoolbook" font-size="7.2" name="verse"/>
   </defaults>
-  <credit page="1">
-    <credit-words default-x="840" default-y="1940" font-size="12" font-weight="bold" justify="center" valign="top">Magnificat secundi toni</credit-words>
-  </credit>
   <part-list>
     <part-group number="1" type="start">
       <group-barline>yes</group-barline>
@@ -88,24 +82,23 @@
         </clef>
       </attributes>
       <sound tempo="60"/>
-      <direction placement="above">
-        <direction-type>
-          <words default-y="46" relative-x="-37">Chorus</words>
-        </direction-type>
-      </direction>
       <note default-x="74">
         <pitch>
           <step>C</step>
           <octave>4</octave>
         </pitch>
-        <duration>40</duration>
+        <duration>8</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <stem>none</stem>
-        <lyric default-y="-66" number="1">
-          <syllabic>begin</syllabic>
-          <text>Ma</text>
-        </lyric>
+      </note>
+      <note default-x="74">
+        <pitch>
+          <step>C</step>
+          <octave>4</octave>
+        </pitch>
+        <duration>32</duration>
+        <voice>1</voice>
+        <type>whole</type>
       </note>
       <!--note default-x="103">
         <pitch>
@@ -165,6 +158,9 @@
           <text>cat</text>
         </lyric>
       </note-->
+      <barline location="right">
+        <bar-style>regular</bar-style>
+        </barline>
     </measure>
     <!--=======================================================-->
     <measure number="2" width="217">
@@ -175,11 +171,6 @@
           <beat-type>4</beat-type>
         </time>
       </attributes>
-      <direction placement="above">
-        <direction-type>
-          <words default-y="24" relative-x="-65">(C.)</words>
-        </direction-type>
-      </direction>
       <note default-x="106">
         <rest/>
         <duration>8</duration>
@@ -200,12 +191,10 @@
         <duration>8</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <stem default-y="-20">down</stem>
-        <lyric default-y="-66" justify="left" number="1">
-          <syllabic>begin</syllabic>
-          <text>A</text>
-        </lyric>
       </note>
+      <barline location="right">
+        <bar-style>regular</bar-style>
+        </barline>
     </measure>
     <!--=======================================================-->
     <measure number="3" width="147">
@@ -223,11 +212,6 @@
         <duration>8</duration>
         <voice>1</voice>
         <type>quarter</type>
-        <stem default-y="-20">down</stem>
-        <lyric default-y="-66" justify="left" number="1">
-          <syllabic>single</syllabic>
-          <text>in</text>
-        </lyric>
       </note>
       <direction placement="above">
         <direction-type>
@@ -244,7 +228,6 @@
         <voice>1</voice>
         <type>quarter</type>
         <dot/>
-        <stem default-y="-20">down</stem>
       </note>
       <note default-x="115">
         <pitch>
@@ -254,9 +237,11 @@
         <duration>4</duration>
         <voice>1</voice>
         <type>eighth</type>
-        <stem default-y="-20">down</stem>
       </note>
     </measure>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        </barline>
   </part>
   <!--=========================================================-->
   <part id="P2">
@@ -280,6 +265,9 @@
         <duration>40</duration>
         <voice>1</voice>
       </note>
+      <barline location="right">
+        <bar-style>regular</bar-style>
+        </barline>
     </measure>
     <!--=======================================================-->
     <measure number="2" width="217">
@@ -293,11 +281,6 @@
       <attributes>
         <staff-details print-object="yes"/>
       </attributes>
-      <direction placement="above">
-        <direction-type>
-          <words default-y="17" relative-x="-67">(CT.)</words>
-        </direction-type>
-      </direction>
       <note default-x="106">
         <rest/>
         <duration>8</duration>
@@ -321,11 +304,6 @@
         <instrument id="P2-I4"/>
         <voice>1</voice>
         <type>quarter</type>
-        <stem default-y="-45">down</stem>
-        <lyric default-y="-75" justify="left" number="1">
-          <syllabic>begin</syllabic>
-          <text>A</text>
-        </lyric>
       </note>
       <backup>
         <duration>24</duration>
@@ -353,8 +331,10 @@
         <instrument id="P2-I3"/>
         <voice>2</voice>
         <type>quarter</type>
-        <stem default-y="-45">down</stem>
       </note>
+      <barline location="right">
+        <bar-style>regular</bar-style>
+        </barline>
     </measure>
     <!--=======================================================-->
     <measure number="3" width="147">
@@ -374,7 +354,6 @@
         <instrument id="P2-I4"/>
         <voice>1</voice>
         <type>quarter</type>
-        <stem default-y="1">up</stem>
       </note>
       <direction placement="above">
         <direction-type>
@@ -392,7 +371,6 @@
         <voice>1</voice>
         <type>quarter</type>
         <dot/>
-        <stem default-y="26">up</stem>
       </note>
       <note default-x="115">
         <pitch>
@@ -403,7 +381,6 @@
         <instrument id="P2-I4"/>
         <voice>1</voice>
         <type>eighth</type>
-        <stem default-y="20">up</stem>
       </note>
       <backup>
         <duration>24</duration>
@@ -417,7 +394,6 @@
         <instrument id="P2-I3"/>
         <voice>2</voice>
         <type>quarter</type>
-        <stem default-y="-57.5">down</stem>
       </note>
       <note default-x="57">
         <pitch>
@@ -428,8 +404,10 @@
         <instrument id="P2-I3"/>
         <voice>2</voice>
         <type>half</type>
-        <stem default-y="-55.5">down</stem>
       </note>
+      <barline location="right">
+        <bar-style>light-heavy</bar-style>
+        </barline>
     </measure>
   </part>
   <!--=========================================================-->

@@ -15407,25 +15407,25 @@ msrHarmonyKind msrHarmonyKindFromString (
   return result;
 }
 
-void initializeChordIntervalsMap ()
+void initializeChordStructuresMap ()
 {
   for (int i = k_NoHarmony; i <= kNoneHarmony; i++) {
     msrHarmonyKind
       harmonyKind =
         msrHarmonyKind (i);
 
-    gChordIntervalsMap [harmonyKind] =
-      msrChordIntervals::create (
-        NO_INPUT_LINE_NUMBER,
+    gChordStructuresMap [harmonyKind] =
+      msrChordStructure::create (
+ // JMI       NO_INPUT_LINE_NUMBER,
         harmonyKind);
   } // for
 }
 
-void printChordIntervalsMap ()
+void printChordStructuresMap ()
 {
   gLogIOstream <<
-    "Harmonies chord intervals:" <<
-    " (" << gChordIntervalsMap.size () << ")" <<
+    "Harmonies chords structures:" <<
+    " (" << gChordStructuresMap.size () << ")" <<
     endl;
 
   gIndenter++;
@@ -15442,13 +15442,13 @@ void printChordIntervalsMap ()
 
     gIndenter++;
     
-    S_msrChordIntervals
-      chordIntervals =
-        gChordIntervalsMap [harmonyKind];
+    S_msrChordStructure
+      chordStructure =
+        gChordStructuresMap [harmonyKind];
 
-    if (chordIntervals) {
+    if (chordStructure) {
       gLogIOstream <<
-        chordIntervals <<
+        chordStructure <<
         endl;
     }
     else {
@@ -19318,133 +19318,139 @@ string msrSpannerTypeKindAsString (
 }
 
 //______________________________________________________________________________
-S_msrChordItem msrChordItem::create (
-  int             inputLineNumber,
-  int             chordItemNumber,
-  msrIntervalKind chordItemIntervalKind,
-  int             chordItemRelativeOctave)
+S_msrChordInterval msrChordInterval::create (
+// JMI  int             inputLineNumber,
+// JMI  int             chordIntervalNumber,
+  msrIntervalKind chordIntervalIntervalKind,
+  int             chordIntervalRelativeOctave)
 {
-  msrChordItem* o =
-    new msrChordItem (
-      inputLineNumber,
-      chordItemNumber,
-      chordItemIntervalKind,
-      chordItemRelativeOctave);
+  msrChordInterval* o =
+    new msrChordInterval (
+ //     inputLineNumber,
+ //     chordIntervalNumber,
+      chordIntervalIntervalKind,
+      chordIntervalRelativeOctave);
   assert(o!=0);
 
   return o;
 }
 
-msrChordItem::msrChordItem (
-  int             inputLineNumber,
-  int             chordItemNumber,
-  msrIntervalKind chordItemIntervalKind,
-  int             chordItemRelativeOctave)
+msrChordInterval::msrChordInterval (
+// JMI  int             inputLineNumber,
+// JMI  int             chordIntervalNumber,
+  msrIntervalKind chordIntervalIntervalKind,
+  int             chordIntervalRelativeOctave)
   // JMI  : msrElement (inputLineNumber)
 {
-  fChordItemNumber       = chordItemNumber;
+//  fChordIntervalNumber       = chordIntervalNumber;
   
-  fChordItemIntervalKind = chordItemIntervalKind;
+  fChordIntervalIntervalKind = chordIntervalIntervalKind;
 
-  fChordItemRelativeOctave = chordItemRelativeOctave;
+  fChordIntervalRelativeOctave = chordIntervalRelativeOctave;
 
   if (TRACE_MSR_BASIC_TYPES) {
     gLogIOstream <<
       "==> Creating chord item '" <<
-      chordItemAsString () <<
+      chordIntervalAsString () <<
       "'" <<
       endl;
   }
 }
 
-msrChordItem::~msrChordItem()
+msrChordInterval::~msrChordInterval()
 {}
 
-S_msrChordItem msrChordItem::createChordItemNewbornClone ()
+S_msrChordInterval msrChordInterval::createChordIntervalNewbornClone ()
 {
-  S_msrChordItem
+  S_msrChordInterval
     newbornClone =
-      msrChordItem::create (
-        0, // JMI fInputLineNumber
-        fChordItemNumber,
-        fChordItemIntervalKind,
-        fChordItemRelativeOctave);
+      msrChordInterval::create (
+   //      0, // JMI fInputLineNumber
+  //      fChordIntervalNumber,
+        fChordIntervalIntervalKind,
+        fChordIntervalRelativeOctave);
   
   return newbornClone;
 }
 
-string msrChordItem::chordItemAsString () const
+string msrChordInterval::chordIntervalAsString () const
 {
   stringstream s;
 
   const int fieldWidth = 19;
   
   s << left <<
-    "ChordItem" <<
-    " " << fChordItemNumber <<
+    "ChordInterval" <<
+ //   " " << fChordIntervalNumber <<
     ": " <<
     setw (fieldWidth) <<
-    msrIntervalKindAsString (fChordItemIntervalKind) + "," <<
-    "chordItemRelativeOctave: " << fChordItemRelativeOctave;
+    msrIntervalKindAsString (fChordIntervalIntervalKind) <<
+    "chordIntervalRelativeOctave: " << fChordIntervalRelativeOctave;
 
   return s.str ();
 }
 
+string msrChordInterval::chordIntervalAsShortString () const
+{
+  return
+    msrIntervalKindAsString (fChordIntervalIntervalKind);
+}
+
 /* JMI
-void msrChordItem::acceptIn (basevisitor* v) {
+void msrChordInterval::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordItem::acceptIn()" <<
+      "% ==> msrChordInterval::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_msrChordItem>*
+  if (visitor<S_msrChordInterval>*
     p =
-      dynamic_cast<visitor<S_msrChordItem>*> (v)) {
-        S_msrChordItem elem = this;
+      dynamic_cast<visitor<S_msrChordInterval>*> (v)) {
+        S_msrChordInterval elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordItem::visitStart()" <<
+            "% ==> Launching msrChordInterval::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrChordItem::acceptOut (basevisitor* v) {
+void msrChordInterval::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordItem::acceptOut()" <<
+      "% ==> msrChordInterval::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_msrChordItem>*
+  if (visitor<S_msrChordInterval>*
     p =
-      dynamic_cast<visitor<S_msrChordItem>*> (v)) {
-        S_msrChordItem elem = this;
+      dynamic_cast<visitor<S_msrChordInterval>*> (v)) {
+        S_msrChordInterval elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordItem::visitEnd()" <<
+            "% ==> Launching msrChordInterval::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrChordItem::browseData (basevisitor* v)
+void msrChordInterval::browseData (basevisitor* v)
 {}
 */
 
-ostream& operator<< (ostream& os, const S_msrChordItem& elt)
+ostream& operator<< (ostream& os, const S_msrChordInterval& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrChordItem::print (ostream& os)
+void msrChordInterval::print (ostream& os)
 {  
   os <<
-    "ChordItem" <<
+    "ChordInterval" <<
     endl;
 
   gIndenter++;
@@ -19452,15 +19458,17 @@ void msrChordItem::print (ostream& os)
   const int fieldWidth = 22;
   
   os << left <<
+  /* JMI
     setw (fieldWidth) <<
-    "chordItemNumber" << " : " << fChordItemNumber <<
+    "chordIntervalNumber" << " : " << fChordIntervalNumber <<
+    endl <<
+    */
+    setw (fieldWidth) <<
+    "chordIntervalIntervalKind" << " : " <<
+      msrIntervalKindAsString (fChordIntervalIntervalKind) <<
     endl <<
     setw (fieldWidth) <<
-    "chordItemIntervalKind" << " : " <<
-      msrIntervalKindAsString (fChordItemIntervalKind) <<
-    endl <<
-    setw (fieldWidth) <<
-    "chordItemRelativeOctave" << " : " << fChordItemRelativeOctave <<
+    "chordIntervalRelativeOctave" << " : " << fChordIntervalRelativeOctave <<
   /* JMI
     ", line: " << fInputLineNumber <<
     */
@@ -19470,67 +19478,67 @@ void msrChordItem::print (ostream& os)
 }
 
 //______________________________________________________________________________
-map<msrHarmonyKind, S_msrChordIntervals>
-  gChordIntervalsMap;
+map<msrHarmonyKind, S_msrChordStructure>
+  gChordStructuresMap;
 
-S_msrChordIntervals msrChordIntervals::create (
-  int            inputLineNumber,
-  msrHarmonyKind chordIntervalsHarmonyKind)
+S_msrChordStructure msrChordStructure::create (
+// JMI  int            inputLineNumber,
+  msrHarmonyKind chordStructureHarmonyKind)
 {
-  msrChordIntervals* o =
-    new msrChordIntervals (
-      inputLineNumber,
-      chordIntervalsHarmonyKind);
+  msrChordStructure* o =
+    new msrChordStructure (
+ //     inputLineNumber,
+      chordStructureHarmonyKind);
   assert(o!=0);
 
   return o;
 }
 
-msrChordIntervals::msrChordIntervals (
-  int            inputLineNumber,
-  msrHarmonyKind chordIntervalsHarmonyKind)
+msrChordStructure::msrChordStructure (
+// JMI  int            inputLineNumber,
+  msrHarmonyKind chordStructureHarmonyKind)
    // JMI : msrElement (inputLineNumber)
 {
-  fChordIntervalsHarmonyKind = chordIntervalsHarmonyKind;
+  fChordStructureHarmonyKind = chordStructureHarmonyKind;
 
   if (TRACE_MSR_BASIC_TYPES) {
     gLogIOstream <<
       "==> Creating chord intervals '" <<
-      chordIntervalsAsString () <<
+      chordStructureAsString () <<
       "'" <<
       endl;
   }
 
-  initializeChordIntervals ();
+  initializeChordStructure ();
 }
 
-void msrChordIntervals::initializeChordIntervals ()
+void msrChordStructure::initializeChordStructure ()
 {
   // append chord items to chord intervals
-  switch (fChordIntervalsHarmonyKind) {
+  switch (fChordStructureHarmonyKind) {
     case k_NoHarmony:
       break;
 
     case kMajorHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//            1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
@@ -19539,7 +19547,7 @@ void msrChordIntervals::initializeChordIntervals ()
           endl <<
           "*****************" <<
           endl <<
-          "msrChordIntervals::initializeChordIntervals(), this =" <<
+          "msrChordStructure::initializeChordStructure(), this =" <<
           endl;
         print (gLogIOstream);
         gLogIOstream <<
@@ -19550,24 +19558,24 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kMinorHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
@@ -19576,24 +19584,24 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kAugmentedHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kAugmentedFifth,
             0) // relative octave
           );
@@ -19602,24 +19610,24 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kDiminishedHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kDiminishedFifth,
             0) // relative octave
           );
@@ -19628,31 +19636,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kDominantHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
@@ -19661,31 +19669,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kMajorSeventhHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
@@ -19694,31 +19702,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
      case kMinorSeventhHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
@@ -19727,31 +19735,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kDiminishedSeventhHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kDiminishedFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kDiminishedSeventh,
             0) // relative octave
           );
@@ -19760,31 +19768,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kAugmentedSeventhHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kAugmentedFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
@@ -19793,31 +19801,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kHalfDiminishedHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kDiminishedFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
@@ -19826,31 +19834,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
      case kMinorMajorSeventhHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
@@ -19859,31 +19867,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kMajorSixthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMajorSixth,
             0) // relative octave
           );
@@ -19892,31 +19900,31 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kMinorSixthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMajorSixth,
             0) // relative octave
           );
@@ -19925,38 +19933,38 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kDominantNinthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
@@ -19965,38 +19973,38 @@ void msrChordIntervals::initializeChordIntervals ()
 
     case kMajorNinthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
@@ -20005,38 +20013,38 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kMinorNinthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
@@ -20045,45 +20053,45 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kDominantEleventhHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            6, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             6, // chord item number
             kPerfectEleventh,
             0) // relative octave
           );
@@ -20092,45 +20100,45 @@ void msrChordIntervals::initializeChordIntervals ()
 
     case kMajorEleventhHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
-         appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            6, // chord item number
+         appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             6, // chord item number
             kPerfectEleventh,
             0) // relative octave
           );
@@ -20139,45 +20147,45 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kMinorEleventhHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            6, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             6, // chord item number
             kPerfectEleventh,
             0) // relative octave
           );
@@ -20186,52 +20194,52 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kDominantThirteenthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            6, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             6, // chord item number
             kPerfectEleventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            7, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             7, // chord item number
             kMajorThirteenth,
             0) // relative octave
           );
@@ -20240,52 +20248,52 @@ void msrChordIntervals::initializeChordIntervals ()
 
     case kMajorThirteenthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMajorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
-         appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            6, // chord item number
+         appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             6, // chord item number
             kPerfectEleventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            7, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             7, // chord item number
             kMajorThirteenth,
             0) // relative octave
           );
@@ -20294,52 +20302,52 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kMinorThirteenthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kMinorSeventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            5, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             5, // chord item number
             kMajorNinth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            6, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             6, // chord item number
             kPerfectEleventh,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            7, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             7, // chord item number
             kMajorThirteenth,
             0) // relative octave
           );
@@ -20348,24 +20356,24 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kSuspendedSecondHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorSecond,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
@@ -20374,24 +20382,24 @@ void msrChordIntervals::initializeChordIntervals ()
     
     case kSuspendedFourthHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kPerfectFourth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
@@ -20416,24 +20424,24 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
     case kNeapolitanHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMinorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kDiminishedSixth,
             0) // relative octave
           );
@@ -20442,24 +20450,24 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     
     case kItalianHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kAugmentedSixth,
             0) // relative octave
           );
@@ -20468,31 +20476,31 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     
     case kFrenchHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kAugmentedFourth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kAugmentedSixth,
             0) // relative octave
           );
@@ -20501,31 +20509,31 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     
     case kGermanHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kMajorThird,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kAugmentedSixth,
             0) // relative octave
           );
@@ -20537,17 +20545,17 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
       
     case kPowerHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kPerfectFifth,
             0) // relative octave
           );
@@ -20556,31 +20564,31 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
     
     case kTristanHarmony:
       {
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            1, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             1, // chord item number
             kPerfectUnison,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            2, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             2, // chord item number
             kAugmentedSecond,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            3, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             3, // chord item number
             kAugmentedFourth,
             0) // relative octave
           );
-        appendChordItemToChordIntervals (
-          msrChordItem::create (
-            NO_INPUT_LINE_NUMBER,
-            4, // chord item number
+        appendChordIntervalToChordStructure (
+          msrChordInterval::create (
+// JMI            NO_INPUT_LINE_NUMBER,
+//             4, // chord item number
             kAugmentedSixth,
             0) // relative octave
           );
@@ -20596,98 +20604,98 @@ in all of them, the C and A# in theory want to fan out to B (the dominant).  Thi
 
 /* JMI
   // register chord intervals in map
-  gChordIntervalsMap [fChordIntervalsHarmonyKind] = this;
+  gChordStructuresMap [fChordStructureHarmonyKind] = this;
   */
 }
 
-msrChordIntervals::~msrChordIntervals ()
+msrChordStructure::~msrChordStructure ()
 {}
 
-void msrChordIntervals::appendChordItemToChordIntervals (
-  S_msrChordItem chordItem)
+void msrChordStructure::appendChordIntervalToChordStructure (
+  S_msrChordInterval chordInterval)
 {
   // set the input line number and chord item number // JMI
 
   // append the chord item
-  fChordIntervalsItems.push_back (
-    chordItem);
+  fChordStructureIntervals.push_back (
+    chordInterval);
 }
 
-string msrChordIntervals::chordIntervalsAsString () const
+string msrChordStructure::chordStructureAsString () const
 {
   stringstream s;
 
   s <<
-    "ChordIntervals" <<
+    "ChordStructure" <<
     ", " <<
-    msrHarmonyKindAsString (fChordIntervalsHarmonyKind) <<
+    msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
     ", " <<
     singularOrPlural (
-      fChordIntervalsItems.size (), "item", "items");
+      fChordStructureIntervals.size (), "item", "items");
 
   return s.str ();
 }
 
 /* JMI
-void msrChordIntervals::acceptIn (basevisitor* v) {
+void msrChordStructure::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordIntervals::acceptIn()" <<
+      "% ==> msrChordStructure::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_msrChordIntervals>*
+  if (visitor<S_msrChordStructure>*
     p =
-      dynamic_cast<visitor<S_msrChordIntervals>*> (v)) {
-        S_msrChordIntervals elem = this;
+      dynamic_cast<visitor<S_msrChordStructure>*> (v)) {
+        S_msrChordStructure elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordIntervals::visitStart()" <<
+            "% ==> Launching msrChordStructure::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrChordIntervals::acceptOut (basevisitor* v) {
+void msrChordStructure::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordIntervals::acceptOut()" <<
+      "% ==> msrChordStructure::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_msrChordIntervals>*
+  if (visitor<S_msrChordStructure>*
     p =
-      dynamic_cast<visitor<S_msrChordIntervals>*> (v)) {
-        S_msrChordIntervals elem = this;
+      dynamic_cast<visitor<S_msrChordStructure>*> (v)) {
+        S_msrChordStructure elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordIntervals::visitEnd()" <<
+            "% ==> Launching msrChordStructure::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrChordIntervals::browseData (basevisitor* v)
+void msrChordStructure::browseData (basevisitor* v)
 {}
 */
 
-ostream& operator<< (ostream& os, const S_msrChordIntervals& elt)
+ostream& operator<< (ostream& os, const S_msrChordStructure& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrChordIntervals::print (ostream& os)
+void msrChordStructure::print (ostream& os)
 {  
   os <<
-    "ChordIntervals" <<
+    "ChordStructure" <<
     ", harmonyKind: " <<
-    msrHarmonyKindAsString (fChordIntervalsHarmonyKind) <<
+    msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
     ", " <<
     singularOrPlural (
-      fChordIntervalsItems.size (), "item", "items") <<
+      fChordStructureIntervals.size (), "interval", "intervals") <<
   /* JMI
     ", line: " << fInputLineNumber <<
     */
@@ -20695,14 +20703,14 @@ void msrChordIntervals::print (ostream& os)
 
   gIndenter++;
     
-  if (fChordIntervalsItems.size ()) {
-    for (unsigned int i = 0; i < fChordIntervalsItems.size (); i++) {
-      S_msrChordItem
-        chordItem =
-          fChordIntervalsItems [i];
+  if (fChordStructureIntervals.size ()) {
+    for (unsigned int i = 0; i < fChordStructureIntervals.size (); i++) {
+      S_msrChordInterval
+        chordInterval =
+          fChordStructureIntervals [i];
 
       gLogIOstream <<
-        chordItem->chordItemAsString () <<
+        chordInterval->chordIntervalAsShortString () <<
         endl;
     } // for
   }
@@ -20715,7 +20723,7 @@ void msrChordIntervals::print (ostream& os)
   gIndenter--;
 }
 
-S_msrChordItem msrChordIntervals::bassChordItemForChordInversion (
+S_msrChordInterval msrChordStructure::bassChordIntervalForChordInversion (
   int inputLineNumber,
   int inversionNumber)
 {
@@ -20724,19 +20732,19 @@ S_msrChordItem msrChordIntervals::bassChordItemForChordInversion (
     0 for root position, 1 for first inversion, etc.
   */
 
-  S_msrChordItem result;
+  S_msrChordInterval result;
 
   if (
     inversionNumber < 0
       ||
-    inversionNumber > int (fChordIntervalsItems.size ()) - 1 ) {
+    inversionNumber > int (fChordStructureIntervals.size ()) - 1 ) {
     stringstream s;
 
     s <<
       "Sorry, inversion number '" <<
       inversionNumber <<
       "' does not exist for chord intevals '" <<
-      msrHarmonyKindAsString (fChordIntervalsHarmonyKind) <<
+      msrHarmonyKindAsString (fChordStructureHarmonyKind) <<
       "', line " << inputLineNumber;
 
     msrLimitation (
@@ -20746,85 +20754,85 @@ S_msrChordItem msrChordIntervals::bassChordItemForChordInversion (
       s.str ());
   }
 
-  return fChordIntervalsItems [inversionNumber];
+  return fChordStructureIntervals [inversionNumber];
 }
 
-S_msrChordIntervals msrChordIntervals::invertChordIntervals (int inversion)
+S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 {
   if (inversion == 0) {
     return this;
   }
     
   // create an empty object
-  S_msrChordIntervals
+  S_msrChordStructure
     result =
-      msrChordIntervals::create (
-        NO_INPUT_LINE_NUMBER,
-        fChordIntervalsHarmonyKind);
+      msrChordStructure::create (
+ // JMI       NO_INPUT_LINE_NUMBER,
+        fChordStructureHarmonyKind);
 
   unsigned int
-    chordIntervalsItemsSize =
-      fChordIntervalsItems.size ();
+    chordStructureIntervalsSize =
+      fChordStructureIntervals.size ();
 
   gLogIOstream <<
-    "==> invertChordIntervals(), inversion = " << inversion <<
-    ", chordIntervalsItemsSize = " << chordIntervalsItemsSize <<
+    "==> invertChordStructure(), inversion = " << inversion <<
+    ", chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
     endl;
       
-  if (chordIntervalsItemsSize) {
+  if (chordStructureIntervalsSize) {
     // add the first items
-    for (unsigned int i = inversion; i < chordIntervalsItemsSize; i++) {
-      S_msrChordItem
-        chordItemClone =
-          fChordIntervalsItems [i]->
-            createChordItemNewbornClone ();
+    for (unsigned int i = inversion; i < chordStructureIntervalsSize; i++) {
+      S_msrChordInterval
+        chordIntervalClone =
+          fChordStructureIntervals [i]->
+            createChordIntervalNewbornClone ();
 
       gLogIOstream <<
         "--> adding first item:" <<
         endl;
       gIndenter++;
       gLogIOstream <<
-        chordItemClone <<
+        chordIntervalClone <<
         endl;
       gIndenter--;
 
       result->
-        appendChordItemToChordIntervals (
-          chordItemClone);
+        appendChordIntervalToChordStructure (
+          chordIntervalClone);
     } // while
     
     // add  the octaviate last items
     for (int i = 0; i < inversion; i++) {
-      S_msrChordItem
-        chordItemClone =
-          fChordIntervalsItems [i]->
-            createChordItemNewbornClone ();
+      S_msrChordInterval
+        chordIntervalClone =
+          fChordStructureIntervals [i]->
+            createChordIntervalNewbornClone ();
 
-      chordItemClone->
-        incrementChordItemRelativeOctave ();
+      chordIntervalClone->
+        incrementChordIntervalRelativeOctave ();
         
       gLogIOstream <<
         "--> adding last item:" <<
         endl;
       gIndenter++;
       gLogIOstream <<
-        chordItemClone <<
+        chordIntervalClone <<
         endl;
       gIndenter--;
         
       result->
-        appendChordItemToChordIntervals (
-          chordItemClone);
+        appendChordIntervalToChordStructure (
+          chordIntervalClone);
     } // for
   }
 
   return result;
 }
 
-void msrChordIntervals::printAllChordsIntervals (ostream& os)
+void msrChordStructure::printAllChordsStructures (ostream& os)
 {
   os <<
-    "All the known chords intervals are:" <<
+    "All the known chords structures are:" <<
     endl <<
     endl;
 
@@ -20835,15 +20843,15 @@ void msrChordIntervals::printAllChordsIntervals (ostream& os)
     harmonyKind <= kTristanHarmony;
     harmonyKind = msrHarmonyKind (harmonyKind + 1)) {
     // create the chord intervals
-    S_msrChordIntervals
-      chordIntervals =
-        msrChordIntervals::create (
-          NO_INPUT_LINE_NUMBER,
+    S_msrChordStructure
+      chordStructure =
+        msrChordStructure::create (
+  // JMI        NO_INPUT_LINE_NUMBER,
           harmonyKind);
 
     // print it
     os <<
-      chordIntervals <<
+      chordStructure <<
       endl;
   } // for
 
@@ -20857,22 +20865,22 @@ list<msrSemiTonesPitchKind> buildSemiTonesChord (
   list<msrSemiTonesPitchKind> result;
 
   // create the chord intervals
-  S_msrChordIntervals
-    chordIntervals =
-      msrChordIntervals::create (
-        NO_INPUT_LINE_NUMBER,
+  S_msrChordStructure
+    chordStructure =
+      msrChordStructure::create (
+  // JMI      NO_INPUT_LINE_NUMBER,
         harmonyKind);
 
   // add the root to the chord
   result.push_back (rootNote);
 
   // add the other notes to the chord
-  const vector<S_msrChordItem>&
-    chordIntervalsItems =
-      chordIntervals->
-        getChordIntervalsItems ();
+  const vector<S_msrChordInterval>&
+    chordStructureIntervals =
+      chordStructure->
+        getChordStructureIntervals ();
 
-  for (unsigned int i = 1; i << chordIntervalsItems.size (); i++) {
+  for (unsigned int i = 1; i << chordStructureIntervals.size (); i++) {
     result.push_back (rootNote);
   } // for
 
@@ -20880,80 +20888,259 @@ list<msrSemiTonesPitchKind> buildSemiTonesChord (
 }
 
 //______________________________________________________________________________
-S_msrChordNotes msrChordNotes::create (
-  int                   inputLineNumber,
-  msrSemiTonesPitchKind chordRootNote,
-  msrHarmonyKind        chordHarmonyKind)
+S_msrChordPitch msrChordPitch::create (
+//      int             inputLineNumber,
+// JMI      int             chordPitchNumber,
+  msrSemiTonesPitchKind chordPitchSemitonePitchKind,
+  int                   chordPitchRelativeOctave)
 {
-  msrChordNotes* o =
-    new msrChordNotes (
-      inputLineNumber,
-      chordRootNote,
-      chordHarmonyKind);
+  msrChordPitch* o =
+    new msrChordPitch (
+ //     inputLineNumber,
+ //     chordPitchNumber,
+      chordPitchSemitonePitchKind,
+      chordPitchRelativeOctave);
   assert(o!=0);
 
   return o;
 }
 
-msrChordNotes::msrChordNotes (
-  int                   inputLineNumber,
-  msrSemiTonesPitchKind chordRootNote,
-  msrHarmonyKind        chordHarmonyKind)
-   // JMI : msrElement (inputLineNumber)
+msrChordPitch::msrChordPitch (
+//      int             inputLineNumber,
+// JMI      int             chordPitchNumber,
+  msrSemiTonesPitchKind chordPitchSemitonePitchKind,
+  int                   chordPitchRelativeOctave)
+  // JMI  : msrElement (inputLineNumber)
 {
-  fChordRootNote    = chordRootNote;
-  fChordHarmonyKind = chordHarmonyKind;
+//  fChordSemitonePitchNumber       = chordPitchNumber;
+  
+  fChordPitchSemitonePitchKind = chordPitchSemitonePitchKind;
+
+  fChordPitchRelativeOctave = chordPitchRelativeOctave;
 
   if (TRACE_MSR_BASIC_TYPES) {
     gLogIOstream <<
-      "==> Creating chordNotes '" <<
-      chordNotesAsString () <<
+      "==> Creating chord item '" <<
+      chordPitchAsString () <<
       "'" <<
       endl;
   }
-
-  // add the root to the chord notes
-  fChordSemiTonesPitches.push_back (fChordRootNote);
-
-  // add the other notes to the chord notes
-  S_msrChordIntervals
-    chordIntervals =
-      msrChordIntervals::create (
-        inputLineNumber,
-        fChordHarmonyKind);
-      
-  const vector<S_msrChordItem>&
-    chordItems =
-      chordIntervals->
-        getChordIntervalsItems ();
-
-  for (unsigned int i = 1; i < chordItems.size (); i++) {
-    msrSemiTonesPitchKind
-      note = fChordRootNote;
-      
-    fChordSemiTonesPitches.push_back (note);
-  } // for
 }
 
-msrChordNotes::~msrChordNotes ()
+msrChordPitch::~msrChordPitch ()
 {}
 
-string msrChordNotes::chordNotesAsString () const
+S_msrChordPitch msrChordPitch::createChordPitchNewbornClone ()
+{
+  S_msrChordPitch
+    newbornClone =
+      msrChordPitch::create (
+   //      0, // JMI fInputLineNumber
+  //      fChordPitchNumber,
+        fChordPitchSemitonePitchKind,
+        fChordPitchRelativeOctave);
+  
+  return newbornClone;
+}
+
+string msrChordPitch::chordPitchAsString () const
 {
   stringstream s;
 
-  s <<
-    "ChordNotes" <<
-    ", " <<
-    msrHarmonyKindAsString (fChordHarmonyKind) <<
-    ", " <<
-    singularOrPlural (
-      fChordSemiTonesPitches.size (), "note", "notes");
+  const int fieldWidth = 19;
+  
+  s << left <<
+    "ChordPitch" <<
+ //   " " << fChordPitchNumber <<
+    ": " <<
+    setw (fieldWidth) <<
+    msrSemiTonesPitchKindAsString (fChordPitchSemitonePitchKind) <<
+    ", chordPitchRelativeOctave: " << fChordPitchRelativeOctave;
 
   return s.str ();
 }
 
-msrSemiTonesPitchKind msrChordNotes::bassSemiTonesPitchKindForChordInversion (
+/* JMI
+void msrChordPitch::acceptIn (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrChordPitch::acceptIn()" <<
+      endl;
+  }
+      
+  if (visitor<S_msrChordPitch>*
+    p =
+      dynamic_cast<visitor<S_msrChordPitch>*> (v)) {
+        S_msrChordPitch elem = this;
+        
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrChordPitch::visitStart()" <<
+             endl;
+        p->visitStart (elem);
+  }
+}
+
+void msrChordPitch::acceptOut (basevisitor* v) {
+  if (gMsrOptions->fTraceMsrVisitors) {
+    gLogIOstream <<
+      "% ==> msrChordPitch::acceptOut()" <<
+      endl;
+  }
+
+  if (visitor<S_msrChordPitch>*
+    p =
+      dynamic_cast<visitor<S_msrChordPitch>*> (v)) {
+        S_msrChordPitch elem = this;
+      
+        if (gMsrOptions->fTraceMsrVisitors) {
+          gLogIOstream <<
+            "% ==> Launching msrChordPitch::visitEnd()" <<
+            endl;
+        p->visitEnd (elem);
+  }
+}
+
+void msrChordPitch::browseData (basevisitor* v)
+{}
+*/
+
+ostream& operator<< (ostream& os, const S_msrChordPitch& elt)
+{
+  elt->print (os);
+  return os;
+}
+
+void msrChordPitch::print (ostream& os)
+{  
+  os <<
+    "ChordPitch" <<
+    endl;
+
+  gIndenter++;
+
+  const int fieldWidth = 22;
+  
+  os << left <<
+  /* JMI
+    setw (fieldWidth) <<
+    "chordPitchNumber" << " : " << fChordPitchNumber <<
+    endl <<
+    */
+    setw (fieldWidth) <<
+    "chordPitchSemitonePitchKind" << " : " <<
+      msrSemiTonesPitchKindAsString (fChordPitchSemitonePitchKind) <<
+    endl <<
+    setw (fieldWidth) <<
+    "chordPitchRelativeOctave" << " : " << fChordPitchRelativeOctave <<
+  /* JMI
+    ", line: " << fInputLineNumber <<
+    */
+    endl;
+
+  gIndenter--;
+}
+
+//______________________________________________________________________________
+S_msrChordContents msrChordContents::create (
+// JMI  int                   inputLineNumber,
+  msrSemiTonesPitchKind chordContentsRootNote,
+  msrHarmonyKind        chordContentsHarmonyKind)
+{
+  msrChordContents* o =
+    new msrChordContents (
+ //     inputLineNumber,
+      chordContentsRootNote,
+      chordContentsHarmonyKind);
+  assert(o!=0);
+
+  return o;
+}
+
+msrChordContents::msrChordContents (
+// JMI  int                   inputLineNumber,
+  msrSemiTonesPitchKind chordContentsRootNote,
+  msrHarmonyKind        chordContentsHarmonyKind)
+{
+  fChordContentsRootNote    = chordContentsRootNote;
+  fChordContentsHarmonyKind = chordContentsHarmonyKind;
+
+  if (TRACE_MSR_BASIC_TYPES) {
+    gLogIOstream <<
+      "==> Creating chordContents '" <<
+      chordContentsAsString () <<
+      "'" <<
+      endl;
+  }
+
+  // create the root chord pitch
+  S_msrChordPitch
+    rootChordPitch =
+      msrChordPitch::create (
+        fChordContentsRootNote,
+        0); // relative octave
+        
+  // add it to the chord pitches
+  fChordContentsChordPitches.push_back (rootChordPitch);
+
+  // add the other notes to the chord pitches
+  S_msrChordStructure
+    chordStructure =
+      msrChordStructure::create (
+   // JMI     inputLineNumber,
+        fChordContentsHarmonyKind);
+      
+  const vector<S_msrChordInterval>&
+    chordIntervals =
+      chordStructure->
+        getChordStructureIntervals ();
+
+  for (unsigned int i = 1; i < chordIntervals.size (); i++) {
+    // get the interval
+    msrIntervalKind
+      intervalKind =
+        chordIntervals [i]->
+          getChordIntervalIntervalKind ();
+
+    // fetch the semitone pitch
+    msrSemiTonesPitchKind
+      semiTonePitch =
+        noteAtIntervalFromSemiTonesPitch (
+          0, // ??? JM                   inputLineNumber,
+          intervalKind,
+          fChordContentsRootNote);
+    
+    // create the chord pitch
+    S_msrChordPitch
+      chordPitch =
+        msrChordPitch::create (
+          semiTonePitch,
+          0); // relative octave
+          
+    // add it to the chord pitches
+    fChordContentsChordPitches.push_back (chordPitch);
+  } // for
+}
+
+msrChordContents::~msrChordContents ()
+{}
+
+string msrChordContents::chordContentsAsString () const
+{
+  stringstream s;
+
+  s <<
+    "ChordContents" <<
+    ", " <<
+    msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
+    ", " <<
+    singularOrPlural (
+      fChordContentsChordPitches.size (), "chord pitch", "chord pitches");
+
+  return s.str ();
+}
+
+msrSemiTonesPitchKind msrChordContents::bassSemiTonesPitchKindForChordInversion (
   int inputLineNumber,
   int inversionNumber)
 {
@@ -20962,19 +21149,17 @@ msrSemiTonesPitchKind msrChordNotes::bassSemiTonesPitchKindForChordInversion (
     0 for root position, 1 for first inversion, etc.
   */
 
-  S_msrChordItem result;
-
   if (
     inversionNumber < 0
       ||
-    inversionNumber > int (fChordSemiTonesPitches.size ()) - 1 ) {
+    inversionNumber > int (fChordContentsChordPitches.size ()) - 1 ) {
     stringstream s;
 
     s <<
       "Sorry, inversion number '" <<
       inversionNumber <<
       "' does not exist for chord notes '" <<
-      msrHarmonyKindAsString (fChordHarmonyKind) <<
+      msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
       "', line " << inputLineNumber;
 
     msrLimitation (
@@ -20984,18 +21169,36 @@ msrSemiTonesPitchKind msrChordNotes::bassSemiTonesPitchKindForChordInversion (
       s.str ());
   }
 
-  return fChordSemiTonesPitches [inversionNumber];
+  return
+    fChordContentsChordPitches [inversionNumber]->
+      getChordPitchSemitonePitchKind ();
 }
 
-void msrChordNotes::printAllChordsNotes (
+void msrChordContents::printAllChordsContents (
   ostream&              os,
   msrSemiTonesPitchKind rootSemiTonesPitchKind)
 {
+  // fetch the root quartertones pitch kind
+  msrQuarterTonesPitchKind
+    rootQuarterTonesPitchKind =
+      quarterTonesPitchKindFromSemiTonesPitchKind (
+        rootSemiTonesPitchKind);
+        
   os <<
-    "All the known chords notes with diatonic (semitones) root '" <<
+    "All the known chords contents with diatonic (semitones) root '" <<
+    msrQuarterTonesPitchKindAsString (
+      gLpsrOptions->
+        fLpsrQuarterTonesPitchesLanguageKind,
+      rootQuarterTonesPitchKind) <<
+    "' (" <<
     msrSemiTonesPitchKindAsString (
       rootSemiTonesPitchKind) <<
-    " 'are:" <<
+    ")" <<
+    " in language '" <<
+    msrQuarterTonesPitchesLanguageKindAsString (
+      gLpsrOptions->
+        fLpsrQuarterTonesPitchesLanguageKind) <<
+    "' 'are:" <<
     endl <<
     endl;
 
@@ -21014,34 +21217,34 @@ void msrChordNotes::printAllChordsNotes (
     gIndenter++;
 
     // create the chord intervals
-    S_msrChordIntervals
-      chordIntervals =
-        msrChordIntervals::create (
-          NO_INPUT_LINE_NUMBER,
+    S_msrChordStructure
+      chordStructure =
+        msrChordStructure::create (
+   // JMI       NO_INPUT_LINE_NUMBER,
           harmonyKind);
 
     // fetch the intervals items for these intervals
     // with rootSemiTonesPitchKind as root
-    const vector <S_msrChordItem>&
-      chordIntervalsItems =
-        chordIntervals->
-          getChordIntervalsItems ();
+    const vector <S_msrChordInterval>&
+      chordStructureIntervals =
+        chordStructure->
+          getChordStructureIntervals ();
 
-    if (chordIntervalsItems.size ()) {
+    if (chordStructureIntervals.size ()) {
       // fetch the notes for these intervals
-      vector<S_msrChordItem>::const_iterator
-        iBegin = chordIntervalsItems.begin (),
-        iEnd   = chordIntervalsItems.end (),
+      vector<S_msrChordInterval>::const_iterator
+        iBegin = chordStructureIntervals.begin (),
+        iEnd   = chordStructureIntervals.end (),
         i      = iBegin;
   
       for ( ; ; ) {
-        S_msrChordItem
-          chordItem = (*i);
+        S_msrChordInterval
+          chordInterval = (*i);
   
         msrIntervalKind
           intervalKind =
-            chordItem->
-              getChordItemIntervalKind ();
+            chordInterval->
+              getChordIntervalIntervalKind ();
   
         const int fieldWidth1 = 17;
         
@@ -21096,60 +21299,60 @@ void msrChordNotes::printAllChordsNotes (
 }
 
 /* JMI
-void msrChordNotes::acceptIn (basevisitor* v) {
+void msrChordContents::acceptIn (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordNotes::acceptIn()" <<
+      "% ==> msrChordContents::acceptIn()" <<
       endl;
   }
       
-  if (visitor<S_msrChordNotes>*
+  if (visitor<S_msrChordContents>*
     p =
-      dynamic_cast<visitor<S_msrChordNotes>*> (v)) {
-        S_msrChordNotes elem = this;
+      dynamic_cast<visitor<S_msrChordContents>*> (v)) {
+        S_msrChordContents elem = this;
         
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordNotes::visitStart()" <<
+            "% ==> Launching msrChordContents::visitStart()" <<
              endl;
         p->visitStart (elem);
   }
 }
 
-void msrChordNotes::acceptOut (basevisitor* v) {
+void msrChordContents::acceptOut (basevisitor* v) {
   if (gMsrOptions->fTraceMsrVisitors) {
     gLogIOstream <<
-      "% ==> msrChordNotes::acceptOut()" <<
+      "% ==> msrChordContents::acceptOut()" <<
       endl;
   }
 
-  if (visitor<S_msrChordNotes>*
+  if (visitor<S_msrChordContents>*
     p =
-      dynamic_cast<visitor<S_msrChordNotes>*> (v)) {
-        S_msrChordNotes elem = this;
+      dynamic_cast<visitor<S_msrChordContents>*> (v)) {
+        S_msrChordContents elem = this;
       
         if (gMsrOptions->fTraceMsrVisitors) {
           gLogIOstream <<
-            "% ==> Launching msrChordNotes::visitEnd()" <<
+            "% ==> Launching msrChordContents::visitEnd()" <<
             endl;
         p->visitEnd (elem);
   }
 }
 
-void msrChordNotes::browseData (basevisitor* v)
+void msrChordContents::browseData (basevisitor* v)
 {}
 */
 
-ostream& operator<< (ostream& os, const S_msrChordNotes& elt)
+ostream& operator<< (ostream& os, const S_msrChordContents& elt)
 {
   elt->print (os);
   return os;
 }
 
-void msrChordNotes::print (ostream& os)
+void msrChordContents::print (ostream& os)
 {  
   os <<
-    "ChordNotes" <<
+    "ChordContents" <<
   /* JMI
     ", line: " << fInputLineNumber <<
     */
@@ -21161,30 +21364,30 @@ void msrChordNotes::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "chordRootNote" << " : " <<
-    msrSemiTonesPitchKindAsString (fChordRootNote) <<
+    "chordContentsRootNote" << " : " <<
+    msrSemiTonesPitchKindAsString (fChordContentsRootNote) <<
     endl <<
     setw (fieldWidth) <<
-    "chordHarmonyKind" << " : " <<
-    msrHarmonyKindAsString (fChordHarmonyKind) <<
+    "chordContentsHarmonyKind" << " : " <<
+    msrHarmonyKindAsString (fChordContentsHarmonyKind) <<
     endl;
 
-  if (fChordSemiTonesPitches.size ()) {
+  if (fChordContentsChordPitches.size ()) {
     os <<
     singularOrPlural (
-      fChordSemiTonesPitches.size (), "note", "notes") <<
+      fChordContentsChordPitches.size (), "chord pitch", "chord pitches") <<
     ":" <<
     endl;
 
     gIndenter++;
 
-    for (unsigned int i = 0; i < fChordSemiTonesPitches.size (); i++) {
-      msrSemiTonesPitchKind
-        semiTonesPitchKind =
-          fChordSemiTonesPitches [i];
+    for (unsigned int i = 0; i < fChordContentsChordPitches.size (); i++) {
+      S_msrChordPitch
+        chordPitch =
+          fChordContentsChordPitches [i];
 
       os <<
-        msrSemiTonesPitchKindAsString (semiTonesPitchKind) <<
+        chordPitch <<
         endl;
     } // for
     
@@ -21237,67 +21440,67 @@ void printChordDetails (
 */
 
   // create the chord intervals
-  S_msrChordIntervals
-    chordIntervals =
-      msrChordIntervals::create (
-        NO_INPUT_LINE_NUMBER,
+  S_msrChordStructure
+    chordStructure =
+      msrChordStructure::create (
+ // JMI       NO_INPUT_LINE_NUMBER,
         harmonyKind);
 
   // fetch the intervals items for these intervals
   // with rootSemiTonesPitchKind as root
-  const vector <S_msrChordItem>&
-    chordIntervalsItems =
-      chordIntervals->
-        getChordIntervalsItems ();
+  const vector <S_msrChordInterval>&
+    chordStructureIntervals =
+      chordStructure->
+        getChordStructureIntervals ();
 
   // loop on all the inversion
-  int chordIntervalsItemsNumber =
-    chordIntervalsItems.size ();
+  int chordStructureIntervalsNumber =
+    chordStructureIntervals.size ();
 
-  if (chordIntervalsItemsNumber) {
-    for (int n = 0; n < chordIntervalsItemsNumber; n++) {
+  if (chordStructureIntervalsNumber) {
+    for (int n = 0; n < chordStructureIntervalsNumber; n++) {
       // invert the chord intervals
-      S_msrChordIntervals
-        invertedChordIntervals =
-          chordIntervals->
-            invertChordIntervals (n);
+      S_msrChordStructure
+        invertedChordStructure =
+          chordStructure->
+            invertChordStructure (n);
 
    //   gIndenter++;
 
       os <<
         "==> inversion = " << n << ":" <<
         endl <<
-        "invertedChordIntervals =" <<
+        "invertedChordStructure =" <<
         endl <<
-        invertedChordIntervals <<
+        invertedChordStructure <<
         endl <<
         endl;
 
       gIndenter++;
       
       os <<
-        invertedChordIntervals <<
+        invertedChordStructure <<
         endl;
             
-      const vector <S_msrChordItem>&
-        invertedChordIntervalsItems =
-          invertedChordIntervals->
-            getChordIntervalsItems ();
+      const vector <S_msrChordInterval>&
+        invertedChordStructureIntervals =
+          invertedChordStructure->
+            getChordStructureIntervals ();
     
       // fetch the notes for these intervals
-      vector<S_msrChordItem>::const_iterator
-        iBegin = invertedChordIntervalsItems.begin (),
-        iEnd   = invertedChordIntervalsItems.end (),
+      vector<S_msrChordInterval>::const_iterator
+        iBegin = invertedChordStructureIntervals.begin (),
+        iEnd   = invertedChordStructureIntervals.end (),
         i      = iBegin;
   
       for ( ; ; ) {
-        S_msrChordItem
-          chordItem = (*i);
+        S_msrChordInterval
+          chordInterval = (*i);
   
         msrIntervalKind
           intervalKind =
-            chordItem->
-              getChordItemIntervalKind ();
+            chordInterval->
+              getChordIntervalIntervalKind ();
   
         const int fieldWidth1 = 17;
         

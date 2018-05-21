@@ -609,23 +609,23 @@ class msrDottedDuration
 EXP ostream& operator<< (ostream& os, msrDottedDuration elt);
 
 //______________________________________________________________________________
-class msrChordItem : public smartable
+class msrChordInterval : public smartable
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrChordItem> create (
-      int             inputLineNumber,
-      int             chordItemNumber,
-      msrIntervalKind chordItemIntervalKind,
-      int             chordItemRelativeOctave);
+    static SMARTP<msrChordInterval> create (
+//      int             inputLineNumber,
+// JMI      int             chordIntervalNumber,
+      msrIntervalKind chordIntervalIntervalKind,
+      int             chordIntervalRelativeOctave);
 
-    SMARTP<msrChordItem> createChordItemNewbornClone ();
+    SMARTP<msrChordInterval> createChordIntervalNewbornClone ();
 
     /* JMI
-    SMARTP<msrChordItem> createChordItemDeepCopy ( // JMI ???
+    SMARTP<msrChordInterval> createChordIntervalDeepCopy ( // JMI ???
       S_msrPart containingPart);
       */
 
@@ -634,48 +634,51 @@ class msrChordItem : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordItem (
-      int             inputLineNumber,
-      int             chordItemNumber,
-      msrIntervalKind chordItemIntervalKind,
-      int             chordItemRelativeOctave);
+    msrChordInterval (
+ //     int             inputLineNumber,
+// JMI      int             chordIntervalNumber,
+      msrIntervalKind chordIntervalIntervalKind,
+      int             chordIntervalRelativeOctave);
 
-    virtual ~msrChordItem ();
+    virtual ~msrChordInterval ();
   
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    int                   getChordItemNumber () const
-                              { return fChordItemNumber; }
+/* JMI
+    int                   getChordIntervalNumber () const
+                              { return fChordIntervalNumber; }
+                     */
                               
-    msrIntervalKind       getChordItemIntervalKind () const
-                              { return fChordItemIntervalKind; }
+    msrIntervalKind       getChordIntervalIntervalKind () const
+                              { return fChordIntervalIntervalKind; }
                               
-    void                  incrementChordItemRelativeOctave ()
-                              { fChordItemRelativeOctave++; }
+    void                  incrementChordIntervalRelativeOctave ()
+                              { fChordIntervalRelativeOctave++; }
                               
-    void                  decrementChordItemRelativeOctave ()
-                              { fChordItemRelativeOctave--; }
+    void                  decrementChordIntervalRelativeOctave ()
+                              { fChordIntervalRelativeOctave--; }
                               
-    int                   getChordItemRelativeOctave () const
-                              { return fChordItemRelativeOctave; }
+    int                   getChordIntervalRelativeOctave () const
+                              { return fChordIntervalRelativeOctave; }
                               
     // services
     // ------------------------------------------------------
 
-    int                   chordItemAsSemitones () const
+    int                   chordIntervalAsSemitones () const
                               {
                                 return
                                   msrIntervalKindAsSemiTones (
-                                    fChordItemIntervalKind);
+                                    fChordIntervalIntervalKind);
                               }
     
-    string                chordItemIntervalKindAsString () const;
-    string                chordItemIntervalKindAsShortString () const;
+    string                chordIntervalIntervalKindAsString () const;
+    string                chordIntervalIntervalKindAsShortString () const;
     
-    string                chordItemAsString () const;
+    string                chordIntervalAsString () const;
+    string                chordIntervalAsShortString () const;
    
     // visitors
     // ------------------------------------------------------
@@ -697,35 +700,35 @@ class msrChordItem : public smartable
     // fields
     // ------------------------------------------------------
 
-    int                   fChordItemNumber;
+ // JMI   int                   fChordIntervalNumber;
     
-    msrIntervalKind       fChordItemIntervalKind;
+    msrIntervalKind       fChordIntervalIntervalKind;
 
-    int                   fChordItemRelativeOctave;
+    int                   fChordIntervalRelativeOctave; // JMI
 };
-typedef SMARTP<msrChordItem> S_msrChordItem;
-EXP ostream& operator<< (ostream& os, const S_msrChordItem& elt);
+typedef SMARTP<msrChordInterval> S_msrChordInterval;
+EXP ostream& operator<< (ostream& os, const S_msrChordInterval& elt);
 
 //______________________________________________________________________________
-class msrChordIntervals;
-typedef SMARTP<msrChordIntervals> S_msrChordIntervals;
+class msrChordStructure;
+typedef SMARTP<msrChordStructure> S_msrChordStructure;
 
-class msrChordIntervals : public smartable
+class msrChordStructure : public smartable
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrChordIntervals> create (
-      int            inputLineNumber,
-      msrHarmonyKind chordIntervalsHarmonyKind);
+    static SMARTP<msrChordStructure> create (
+ // JMI     int            inputLineNumber,
+      msrHarmonyKind chordStructureHarmonyKind);
 
     /* JMI
-    SMARTP<msrChordIntervals> createChordIntervalsNewbornClone (
+    SMARTP<msrChordStructure> createChordStructureNewbornClone (
       S_msrPart containingPart);
 
-    SMARTP<msrChordIntervals> createChordIntervalsDeepCopy ( // JMI ???
+    SMARTP<msrChordStructure> createChordStructureDeepCopy ( // JMI ???
       S_msrPart containingPart);
       */
 
@@ -734,47 +737,47 @@ class msrChordIntervals : public smartable
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordIntervals (
-      int            inputLineNumber,
-      msrHarmonyKind chordIntervalsHarmonyKind);
+    msrChordStructure (
+ // JMI     int            inputLineNumber,
+      msrHarmonyKind chordStructureHarmonyKind);
 
-    virtual ~msrChordIntervals ();
+    virtual ~msrChordStructure ();
   
   private:
 
     // initialization
     // ------------------------------------------------------
 
-    void                  initializeChordIntervals ();
+    void                  initializeChordStructure ();
 
   public:
 
     // set and get
     // ------------------------------------------------------
 
-    msrHarmonyKind        getChordIntervalsHarmonyKind () const
-                              { return fChordIntervalsHarmonyKind; }
+    msrHarmonyKind        getChordStructureHarmonyKind () const
+                              { return fChordStructureHarmonyKind; }
                               
-    const vector <S_msrChordItem>&
-                          getChordIntervalsItems () const
-                              { return fChordIntervalsItems; }
+    const vector <S_msrChordInterval>&
+                          getChordStructureIntervals () const
+                              { return fChordStructureIntervals; }
                               
     // services
     // ------------------------------------------------------
 
-    void                  appendChordItemToChordIntervals (
-                            S_msrChordItem chordItem);
+    void                  appendChordIntervalToChordStructure (
+                            S_msrChordInterval chordInterval);
         
-    string                chordIntervalsAsString () const;
-    string                chordIntervalsAsShortString () const;
+    string                chordStructureAsString () const;
+    string                chordStructureAsShortString () const;
 
-    S_msrChordItem        bassChordItemForChordInversion (
+    S_msrChordInterval        bassChordIntervalForChordInversion (
                             int inputLineNumber,
                             int inversionNumber);
                             
-    S_msrChordIntervals   invertChordIntervals (int inversion);
+    S_msrChordStructure   invertChordStructure (int inversion);
     
-    static void           printAllChordsIntervals (ostream& os);
+    static void           printAllChordsStructures (ostream& os);
 
     // visitors
     // ------------------------------------------------------
@@ -795,37 +798,131 @@ class msrChordIntervals : public smartable
     // fields
     // ------------------------------------------------------
 
-    msrHarmonyKind        fChordIntervalsHarmonyKind;
-    vector<S_msrChordItem>
-                          fChordIntervalsItems;
+    msrHarmonyKind        fChordStructureHarmonyKind;
+    vector<S_msrChordInterval>
+                          fChordStructureIntervals;
 };
-typedef SMARTP<msrChordIntervals> S_msrChordIntervals;
-EXP ostream& operator<< (ostream& os, const S_msrChordIntervals& elt);
+typedef SMARTP<msrChordStructure> S_msrChordStructure;
+EXP ostream& operator<< (ostream& os, const S_msrChordStructure& elt);
 
 //______________________________________________________________________________
-class msrChordNotes : public smartable
+class msrChordPitch : public smartable
 {
   public:
 
     // creation from MusicXML
     // ------------------------------------------------------
 
-    static SMARTP<msrChordNotes> create (
-      int                   inputLineNumber,
-      msrSemiTonesPitchKind chordRootNote,
-      msrHarmonyKind        chordHarmonyKind);
+    static SMARTP<msrChordPitch> create (
+//      int             inputLineNumber,
+// JMI      int             chordPitchNumber,
+      msrSemiTonesPitchKind chordPitchSemitonePitchKind,
+      int                   chordPitchRelativeOctave);
+
+    SMARTP<msrChordPitch> createChordPitchNewbornClone ();
+
+    /* JMI
+    SMARTP<msrChordPitch> createChordPitchDeepCopy ( // JMI ???
+      S_msrPart containingPart);
+      */
+
+  protected:
+
+    // constructors/destructor
+    // ------------------------------------------------------
+
+    msrChordPitch (
+//      int             inputLineNumber,
+// JMI      int             chordPitchNumber,
+      msrSemiTonesPitchKind chordPitchSemitonePitchKind,
+      int                   chordPitchRelativeOctave);
+
+    virtual ~msrChordPitch ();
+  
+  public:
+
+    // set and get
+    // ------------------------------------------------------
+
+/* JMI
+    int                   getChordPitchNumber () const
+                              { return fChordPitchNumber; }
+                     */
+                              
+    msrSemiTonesPitchKind getChordPitchSemitonePitchKind () const
+                              { return fChordPitchSemitonePitchKind; }
+                              
+    void                  incrementChordPitchRelativeOctave ()
+                              { fChordPitchRelativeOctave++; }
+                              
+    void                  decrementChordPitchRelativeOctave ()
+                              { fChordPitchRelativeOctave--; }
+                              
+    int                   getChordPitchRelativeOctave () const
+                              { return fChordPitchRelativeOctave; }
+                              
+    // services
+    // ------------------------------------------------------
+
+    
+    string                chordPitchSemitonePitchKindAsString () const;
+    string                chordPitchSemitonePitchKindAsShortString () const;
+    
+    string                chordPitchAsString () const;
+   
+    // visitors
+    // ------------------------------------------------------
+
+/* JMI
+    virtual void          acceptIn  (basevisitor* v);
+    virtual void          acceptOut (basevisitor* v);
+
+    virtual void          browseData (basevisitor* v);
+*/
+
+    // print
+    // ------------------------------------------------------
+
+    virtual void          print (ostream& os);
+
+  private:
+
+    // fields
+    // ------------------------------------------------------
+
+ // JMI   int                   fChordPitchNumber;
+    
+    msrSemiTonesPitchKind fChordPitchSemitonePitchKind;
+
+    int                   fChordPitchRelativeOctave;
+};
+typedef SMARTP<msrChordPitch> S_msrChordPitch;
+EXP ostream& operator<< (ostream& os, const S_msrChordPitch& elt);
+
+//______________________________________________________________________________
+class msrChordContents : public smartable
+{
+  public:
+
+    // creation from MusicXML
+    // ------------------------------------------------------
+
+    static SMARTP<msrChordContents> create (
+ // JMI     int                   inputLineNumber,
+      msrSemiTonesPitchKind chordContentsRootNote,
+      msrHarmonyKind        chordContentsHarmonyKind);
    
   protected:
 
     // constructors/destructor
     // ------------------------------------------------------
 
-    msrChordNotes (
-      int                   inputLineNumber,
-      msrSemiTonesPitchKind chordRootNote,
-      msrHarmonyKind        chordHarmonyKind);
+    msrChordContents (
+ // JMI     int                   inputLineNumber,
+      msrSemiTonesPitchKind chordContentsRootNote,
+      msrHarmonyKind        chordContentsHarmonyKind);
 
-    virtual ~msrChordNotes ();
+    virtual ~msrChordContents ();
   
   public:
 
@@ -833,27 +930,27 @@ class msrChordNotes : public smartable
     // ------------------------------------------------------
 
     msrSemiTonesPitchKind
-                          getChordRootNote () const
-                              { return fChordRootNote; }
+                          getChordContentsRootNote () const
+                              { return fChordContentsRootNote; }
                               
-    msrHarmonyKind        getChordHarmonyKind () const
-                              { return fChordHarmonyKind; }
+    msrHarmonyKind        getChordContentsHarmonyKind () const
+                              { return fChordContentsHarmonyKind; }
                               
-    const vector<msrSemiTonesPitchKind>&
-                          getChordSemiTonesPitches () const
-                              { return fChordSemiTonesPitches; }
+    const vector<S_msrChordPitch>&
+                          getChordContentsChordPitches () const
+                              { return fChordContentsChordPitches; }
                               
     // services
     // ------------------------------------------------------
         
-    string                chordNotesAsString () const;
-    string                chordNotesAsShortString () const;
+    string                chordContentsAsString () const;
+    string                chordContentsAsShortString () const;
     
     msrSemiTonesPitchKind bassSemiTonesPitchKindForChordInversion (
                             int inputLineNumber,
                             int inversionNumber);
                             
-    static void           printAllChordsNotes (
+    static void           printAllChordsContents (
                             ostream&              os,
                             msrSemiTonesPitchKind semiTonesPitchKind);
 
@@ -876,14 +973,14 @@ class msrChordNotes : public smartable
     // fields
     // ------------------------------------------------------
 
-    msrSemiTonesPitchKind fChordRootNote;
-    msrHarmonyKind        fChordHarmonyKind;
+    msrSemiTonesPitchKind fChordContentsRootNote;
+    msrHarmonyKind        fChordContentsHarmonyKind;
 
-    vector<msrSemiTonesPitchKind>
-                          fChordSemiTonesPitches;
+    vector<S_msrChordPitch>
+                          fChordContentsChordPitches;
 };
-typedef SMARTP<msrChordNotes> S_msrChordNotes;
-EXP ostream& operator<< (ostream& os, const S_msrChordNotes& elt);
+typedef SMARTP<msrChordContents> S_msrChordContents;
+EXP ostream& operator<< (ostream& os, const S_msrChordContents& elt);
 
 //______________________________________________________________________________
 void printChordDetails (
@@ -902,8 +999,8 @@ string msrScoreNotationKindAsString (
 
 //______________________________________________________________________________
 // global variable 
-extern map<msrHarmonyKind, S_msrChordIntervals>
-  gChordIntervalsMap;
+extern map<msrHarmonyKind, S_msrChordStructure>
+  gChordStructuresMap;
 
 // global variables
 //______________________________________________________________________________
@@ -928,9 +1025,9 @@ string existingQuarterTonesPitchesLanguageKinds ();
 
 //______________________________________________________________________________
 // tools
-extern void initializeChordIntervalsMap ();
+extern void initializeChordStructuresMap ();
 
-extern void printChordIntervalsMap ();
+extern void printChordStructuresMap ();
 
 // initialization
 //______________________________________________________________________________

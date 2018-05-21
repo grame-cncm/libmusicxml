@@ -29,13 +29,13 @@ namespace MusicXML2
 {
 
 //______________________________________________________________________________
-S_optionsShowAllChordsIntervalsItem optionsShowAllChordsIntervalsItem::create (
+S_optionsShowAllChordsStructuresItem optionsShowAllChordsStructuresItem::create (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
 {
-  optionsShowAllChordsIntervalsItem* o = new
-    optionsShowAllChordsIntervalsItem (
+  optionsShowAllChordsStructuresItem* o = new
+    optionsShowAllChordsStructuresItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription);
@@ -43,7 +43,7 @@ S_optionsShowAllChordsIntervalsItem optionsShowAllChordsIntervalsItem::create (
   return o;
 }
 
-optionsShowAllChordsIntervalsItem::optionsShowAllChordsIntervalsItem (
+optionsShowAllChordsStructuresItem::optionsShowAllChordsStructuresItem (
   string optionsItemShortName,
   string optionsItemLongName,
   string optionsItemDescription)
@@ -53,15 +53,15 @@ optionsShowAllChordsIntervalsItem::optionsShowAllChordsIntervalsItem (
       optionsItemDescription)
 {}
 
-optionsShowAllChordsIntervalsItem::~optionsShowAllChordsIntervalsItem()
+optionsShowAllChordsStructuresItem::~optionsShowAllChordsStructuresItem()
 {}
 
-void optionsShowAllChordsIntervalsItem::print (ostream& os) const
+void optionsShowAllChordsStructuresItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
-    "OptionsShowAllChordsIntervalsItem:" <<
+    "OptionsShowAllChordsStructuresItem:" <<
     endl;
 
   gIndenter++;
@@ -79,72 +79,72 @@ void optionsShowAllChordsIntervalsItem::print (ostream& os) const
   gIndenter--;
 }
 
-void optionsShowAllChordsIntervalsItem::printAllChordsIntervals (ostream& os) const
+void optionsShowAllChordsStructuresItem::printAllChordsStructures (ostream& os) const
 {
-  msrChordIntervals::printAllChordsIntervals (os);
+  msrChordStructure::printAllChordsStructures (os);
 }
 
-void optionsShowAllChordsIntervalsItem::printOptionsValues (
+void optionsShowAllChordsStructuresItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_optionsShowAllChordsIntervalsItem& elt)
+ostream& operator<< (ostream& os, const S_optionsShowAllChordsStructuresItem& elt)
 {
   elt->print (os);
   return os;
 }
 
 //______________________________________________________________________________
-S_optionsShowAllChordsNotesItem optionsShowAllChordsNotesItem::create (
+S_optionsShowAllChordsContentsItem optionsShowAllChordsContentsItem::create (
   string  optionsItemShortName,
   string  optionsItemLongName,
   string  optionsItemDescription,
   string  optionsValueSpecification,
-  string  optionsShowAllChordsNotesItemVariableDisplayName,
-  string& optionsShowAllChordsNotesItemVariable)
+  string  optionsShowAllChordsContentsItemVariableDisplayName,
+  string& optionsShowAllChordsContentsItemVariable)
 {
-  optionsShowAllChordsNotesItem* o = new
-    optionsShowAllChordsNotesItem (
+  optionsShowAllChordsContentsItem* o = new
+    optionsShowAllChordsContentsItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification,
-      optionsShowAllChordsNotesItemVariableDisplayName,
-      optionsShowAllChordsNotesItemVariable);
+      optionsShowAllChordsContentsItemVariableDisplayName,
+      optionsShowAllChordsContentsItemVariable);
   assert(o!=0);
   return o;
 }
 
-optionsShowAllChordsNotesItem::optionsShowAllChordsNotesItem (
+optionsShowAllChordsContentsItem::optionsShowAllChordsContentsItem (
   string  optionsItemShortName,
   string  optionsItemLongName,
   string  optionsItemDescription,
   string  optionsValueSpecification,
-  string  optionsShowAllChordsNotesItemVariableDisplayName,
-  string& optionsShowAllChordsNotesItemVariable)
+  string  optionsShowAllChordsContentsItemVariableDisplayName,
+  string& optionsShowAllChordsContentsItemVariable)
   : optionsValuedItem (
       optionsItemShortName,
       optionsItemLongName,
       optionsItemDescription,
       optionsValueSpecification),
-    fOptionsShowAllChordsNotesItemVariableDisplayName (
-      optionsShowAllChordsNotesItemVariableDisplayName),
-    fOptionsShowAllChordsNotesItemVariable (
-      optionsShowAllChordsNotesItemVariable)
+    fOptionsShowAllChordsContentsItemVariableDisplayName (
+      optionsShowAllChordsContentsItemVariableDisplayName),
+    fOptionsShowAllChordsContentsItemVariable (
+      optionsShowAllChordsContentsItemVariable)
 {}
 
-optionsShowAllChordsNotesItem::~optionsShowAllChordsNotesItem ()
+optionsShowAllChordsContentsItem::~optionsShowAllChordsContentsItem ()
 {}
 
-void optionsShowAllChordsNotesItem::print (ostream& os) const
+void optionsShowAllChordsContentsItem::print (ostream& os) const
 {
   const int fieldWidth = K_FIELD_WIDTH;
   
   os <<
-    "optionsShowAllChordsNotesItem:" <<
+    "optionsShowAllChordsContentsItem:" <<
     endl;
 
   gIndenter++;
@@ -162,23 +162,23 @@ void optionsShowAllChordsNotesItem::print (ostream& os) const
   gIndenter--;
 }
 
-void optionsShowAllChordsNotesItem::printAllChordsNotes (
+void optionsShowAllChordsContentsItem::printAllChordsContents (
   ostream&              os,
   msrSemiTonesPitchKind semiTonesPitchKind) const
 {  
-  msrChordNotes::printAllChordsNotes (
+  msrChordContents::printAllChordsContents (
     os,
     semiTonesPitchKind);
 }
 
-void optionsShowAllChordsNotesItem::printOptionsValues (
+void optionsShowAllChordsContentsItem::printOptionsValues (
   ostream& os,
   int      valueFieldWidth) const
 {
   // nothing to print here
 }
                             
-ostream& operator<< (ostream& os, const S_optionsShowAllChordsNotesItem& elt)
+ostream& operator<< (ostream& os, const S_optionsShowAllChordsContentsItem& elt)
 {
   elt->print (os);
   return os;
@@ -313,8 +313,8 @@ void extraOptions::initializeExtraOptions (
     S_optionsSubGroup
       traceAndDisplaySubGroup =
         optionsSubGroup::create (
-          "Chords intervals",
-          "heci", "helpExtraChordIntervals",
+          "Chords structures",
+          "hecs", "helpExtraChordStructures",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -323,13 +323,13 @@ R"()",
         
     traceAndDisplaySubGroup->
       appendOptionsItem (
-        optionsShowAllChordsIntervalsItem::create (
-          "saci", "showAllChordsIntervals",
-R"(Write all known chords intervals to standard output.)"));
+        optionsShowAllChordsStructuresItem::create (
+          "sacs", "showAllChordsStructures",
+R"(Write all known chords structures to standard output.)"));
   }
   
   
-  // show all chords notes
+  // show all chords contents
 
   {
     // variables
@@ -339,8 +339,8 @@ R"(Write all known chords intervals to standard output.)"));
     S_optionsSubGroup
       workSubGroup =
         optionsSubGroup::create (
-          "Chords notes",
-          "hecn", "helpExtraChordsNotes",
+          "Chords contents",
+          "hecc", "helpExtraChordsContents",
 R"()",
           optionsSubGroup::kAlwaysShowDescription,
           this);
@@ -349,9 +349,9 @@ R"()",
         
     workSubGroup->
       appendOptionsItem (
-        optionsShowAllChordsNotesItem::create (
-          "sacn", "showAllChordsNotes",
-R"(Write all chords notes for the given diatonic (semitones) pitch
+        optionsShowAllChordsContentsItem::create (
+          "sacc", "showAllChordsContents",
+R"(Write all chords contents for the given diatonic (semitones) pitch
 in the current language to standard output.)",
           "pitch",
           "diatonic (semitones) pitch",
@@ -458,19 +458,19 @@ S_optionsItem extraOptions::handleOptionsItem (
   
   if (
     // show all chords intervals item?
-    S_optionsShowAllChordsIntervalsItem
-      showAllChordsIntervalsItem =
-        dynamic_cast<optionsShowAllChordsIntervalsItem*>(&(*item))
+    S_optionsShowAllChordsStructuresItem
+      showAllChordsStructuresItem =
+        dynamic_cast<optionsShowAllChordsStructuresItem*>(&(*item))
   ) {
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsShowAllChordsIntervalsItem'" <<
+        "==> optionsItem is of type 'optionsShowAllChordsStructuresItem'" <<
         endl;
     }
 
     // handle it at once
-    showAllChordsIntervalsItem->
-      printAllChordsIntervals (os);
+    showAllChordsStructuresItem->
+      printAllChordsStructures (os);
 
     // exit
     exit (0);
@@ -478,18 +478,18 @@ S_optionsItem extraOptions::handleOptionsItem (
   
   else if (
     // show all chords notes item?
-    S_optionsShowAllChordsNotesItem
-      showAllChordsNotesItem =
-        dynamic_cast<optionsShowAllChordsNotesItem*>(&(*item))
+    S_optionsShowAllChordsContentsItem
+      showAllChordsContentsItem =
+        dynamic_cast<optionsShowAllChordsContentsItem*>(&(*item))
     ) {
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsShowAllChordsNotesItem'" <<
+        "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
         endl;
     }
 
     // wait until the value is met
-    result = showAllChordsNotesItem;
+    result = showAllChordsContentsItem;
   }
   
   else if (
@@ -518,16 +518,16 @@ void extraOptions::handleOptionsItemValue (
 {  
   if (
     // show all chord notes item?
-    S_optionsShowAllChordsNotesItem
-      showAllChordsNotesItem =
-        dynamic_cast<optionsShowAllChordsNotesItem*>(&(*item))
+    S_optionsShowAllChordsContentsItem
+      showAllChordsContentsItem =
+        dynamic_cast<optionsShowAllChordsContentsItem*>(&(*item))
     ) {
     // theString contains the pitch name in the current language
     // is it in the accidental styles map?
 
     if (gTraceOptions->fTraceOptions) {
       os <<
-        "==> optionsItem is of type 'optionsShowAllChordsNotesItem'" <<
+        "==> optionsItem is of type 'optionsShowAllChordsContentsItem'" <<
         ", theString = \"" << theString << "\"" << 
         endl;
     }
@@ -605,8 +605,8 @@ void extraOptions::handleOptionsItemValue (
     } // switch
 
   // print all the chords notes
-  showAllChordsNotesItem->
-    printAllChordsNotes (
+  showAllChordsContentsItem->
+    printAllChordsContents (
       os,
       semiTonesPitchKind);
   }

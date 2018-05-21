@@ -17666,17 +17666,17 @@ msrHarmony::msrHarmony (
   */
   if (fHarmonyInversion > 0) {
     // fetch the chord intervals
-    S_msrChordIntervals
-      chordIntervals =
-        msrChordIntervals::create (
-          inputLineNumber,
+    S_msrChordStructure
+      chordStructure =
+        msrChordStructure::create (
+  // JMI        inputLineNumber,
           fHarmonyKind);
 
     // fetch the bass chord item for the inversion
-    S_msrChordItem
-      bassChordItem =
-        chordIntervals->
-          bassChordItemForChordInversion (
+    S_msrChordInterval
+      bassChordInterval =
+        chordStructure->
+          bassChordIntervalForChordInversion (
             inputLineNumber,
             fHarmonyInversion);
 
@@ -17685,7 +17685,7 @@ msrHarmony::msrHarmony (
       invertedChordBassQuarterTonesPitchKind =
         noteAtIntervalFromQuarterTonesPitch (
           inputLineNumber,
-          bassChordItem->getChordItemIntervalKind (),
+          bassChordInterval->getChordIntervalIntervalKind (),
           fHarmonyRootQuarterTonesPitchKind);
 
     // is this compatible with bass quartertones pitch if specified?
@@ -38588,11 +38588,10 @@ void initializeMSR ()
 
   initializeQuarterTonesPitchesLanguageKinds ();
   
-  // harmony handling
+  // chord structures handling
   // ------------------------------------------------------
 
-  initializeChordIntervalsMap ();
-  // JMI printChordIntervalsMap ();
+  initializeChordStructuresMap ();
 }
 
 
