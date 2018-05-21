@@ -20799,24 +20799,17 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
       this->
         createChordStructureNewbornClone ();
 
-  gLogIOstream <<
-    "--> initial result:" <<
-    endl;
-  gIndenter++;
-  gLogIOstream <<
-    result <<
-    endl;
-  gIndenter--;
-
   unsigned int
     chordStructureIntervalsSize =
       fChordStructureIntervals.size ();
 
-  gLogIOstream <<
-    "==> invertChordStructure(), inversion = " << inversion <<
-    ", original chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
-    endl;
-      
+  if (TRACE_MSR_BASIC_TYPES) {
+    gLogIOstream <<
+      "==> invertChordStructure(), inversion = " << inversion <<
+      ", original chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
+      endl;
+  }
+  
   if (chordStructureIntervalsSize) {
     // add the first items
     for (unsigned int i = inversion; i < chordStructureIntervalsSize; i++) {
@@ -20825,28 +20818,32 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
           fChordStructureIntervals [i]->
             createChordIntervalNewbornClone ();
 
-      gLogIOstream <<
-        "--> adding first item to result:" <<
-        endl;
-      gIndenter++;
-      gLogIOstream <<
-        chordIntervalClone <<
-        endl;
-      gIndenter--;
+      if (TRACE_MSR_BASIC_TYPES) {
+        gLogIOstream <<
+          "--> adding first item to result:" <<
+          endl;
+        gIndenter++;
+        gLogIOstream <<
+          chordIntervalClone <<
+          endl;
+        gIndenter--;
+      }
 
       result->
         appendChordIntervalToChordStructure (
           chordIntervalClone);
 
-      gLogIOstream <<
-        "==> result chord structure after adding first item :" <<
-        endl;
-
-      gIndenter++;
-      gLogIOstream <<
-        result <<
-        endl;
-      gIndenter--;
+      if (TRACE_MSR_BASIC_TYPES) {
+        gLogIOstream <<
+          "==> result chord structure after adding first item :" <<
+          endl;
+  
+        gIndenter++;
+        gLogIOstream <<
+          result <<
+          endl;
+        gIndenter--;
+      }
     } // while
     
     // add  the octaviate last items
@@ -20859,28 +20856,32 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
       chordIntervalClone->
         incrementChordIntervalRelativeOctave ();
         
-      gLogIOstream <<
-        "--> adding last item to resultlast item :" <<
-        endl;
-      gIndenter++;
-      gLogIOstream <<
-        chordIntervalClone <<
-        endl;
-      gIndenter--;
+      if (TRACE_MSR_BASIC_TYPES) {
+        gLogIOstream <<
+          "--> adding last item to resultlast item :" <<
+          endl;
+        gIndenter++;
+        gLogIOstream <<
+          chordIntervalClone <<
+          endl;
+        gIndenter--;
+      }
         
       result->
         appendChordIntervalToChordStructure (
           chordIntervalClone);
 
-      gLogIOstream <<
-        "==> result chord structure after  after adding last item:" <<
-        endl;
-
-      gIndenter++;
-      gLogIOstream <<
-        result <<
-        endl;
-      gIndenter--;
+      if (TRACE_MSR_BASIC_TYPES) {
+        gLogIOstream <<
+          "==> result chord structure after  after adding last item:" <<
+          endl;
+  
+        gIndenter++;
+        gLogIOstream <<
+          result <<
+          endl;
+        gIndenter--;
+      }
     } // for
   }
 
@@ -21531,10 +21532,12 @@ void printChordDetails (
           chordStructure->
             invertChordStructure (n);
 
-      os <<
-        "==> inversion = " << n <<
-        ", initial invertedChordStructure:" <<
-        endl;
+      if (TRACE_MSR_BASIC_TYPES) {
+        os <<
+          "==> inversion = " << n <<
+          ", initial invertedChordStructure:" <<
+          endl;
+      }
 
       gIndenter++;
       os <<
@@ -21644,6 +21647,20 @@ string msrScoreNotationKindAsString (
   } // switch
 
   return result;
+}
+
+//______________________________________________________________________________
+void initializeMSRBasicTypes ()
+{
+  // languages handling
+  // ------------------------------------------------------
+
+  initializeQuarterTonesPitchesLanguageKinds ();
+  
+  // chord structures handling
+  // ------------------------------------------------------
+
+  initializeChordStructuresMap ();
 }
 
 

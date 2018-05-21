@@ -110,6 +110,9 @@ void writeTextsListAsLilypondString (
   const list<string>& textsList,
   ostream&            os);
 
+//______________________________________________________________________________
+void initializeLPSRBasicTypes ();
+
 
 } // namespace MusicXML2
 

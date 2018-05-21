@@ -607,7 +607,8 @@ void lpsrOptions::handleOptionsItemValue (
   
       optionError (s.str ());
       
-      exit (4);
+ //     exit (4); // JMI
+      abort ();
     }
   
     pitchesLanguageKindItem->

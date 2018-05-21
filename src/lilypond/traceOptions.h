@@ -205,6 +205,9 @@ class traceOptions : public optionsGroup
     
     // harp pedals tuning
     bool                  fTraceHarpPedalsTuning;
+
+    // extra chords
+    bool                  fTraceExtraChords;
     
     /* STUFF not yet handled JMI */
     bool                  fTraceMidi;

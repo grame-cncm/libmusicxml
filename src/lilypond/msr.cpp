@@ -38583,15 +38583,7 @@ void msrMidi::print (ostream& os)
 //______________________________________________________________________________
 void initializeMSR ()
 {
-  // languages handling
-  // ------------------------------------------------------
-
-  initializeQuarterTonesPitchesLanguageKinds ();
-  
-  // chord structures handling
-  // ------------------------------------------------------
-
-  initializeChordStructuresMap ();
+  initializeMSRBasicTypes ();
 }
 
 

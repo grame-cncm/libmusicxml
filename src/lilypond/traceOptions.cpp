@@ -261,6 +261,9 @@ debugging information to standard error for the specified measures.)",
     // harp pedals tuning
     fTraceHarpPedalsTuning = boolOptionsInitialValue;
     
+    // extra chords
+    fTraceExtraChords = boolOptionsInitialValue;
+    
     // options
   
     S_optionsSubGroup
@@ -674,6 +677,15 @@ R"(Staff tuning)",
 R"(Harp pedals tuning)",
           "traceHarpPedalsTuning",
           fTraceHarpPedalsTuning,
+          fTraceBasic));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
+          "tec", "traceExtraChords",
+R"(Extra chords handling)",
+          "traceExtraChords",
+          fTraceExtraChords,
           fTraceBasic));
   }
       

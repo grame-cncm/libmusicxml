@@ -5857,15 +5857,7 @@ void lpsrScore::print (ostream& os)
 //______________________________________________________________________________
 void initializeLPSR ()
 {
-  // LPSR accidental styles handling
-  // ------------------------------------------------------
-
-  initializeLpsrAccidentalStyleKindsMap ();
-
-  // LPSR chords languages handling
-  // ------------------------------------------------------
-
-  initializeLpsrChordsLanguageKindsMap ();
+  initializeLPSRBasicTypes ();
 }
 
 

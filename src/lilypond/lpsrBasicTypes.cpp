@@ -905,5 +905,19 @@ string existingLpsrChordsLanguageKinds ()
   return s.str ();
 }
 
+//______________________________________________________________________________
+void initializeLPSRBasicTypes ()
+{
+  // LPSR accidental styles handling
+  // ------------------------------------------------------
+
+  initializeLpsrAccidentalStyleKindsMap ();
+
+  // LPSR chords languages handling
+  // ------------------------------------------------------
+
+  initializeLpsrChordsLanguageKindsMap ();
+}
+
 
 }

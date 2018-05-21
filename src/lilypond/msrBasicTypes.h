@@ -1001,12 +1001,14 @@ string msrScoreNotationKindAsString (
   msrScoreNotationKind scoreNotationKind);
 
 //______________________________________________________________________________
-// global variable 
+// global variables
+
 extern map<msrHarmonyKind, S_msrChordStructure>
   gChordStructuresMap;
 
-// global variables
-//______________________________________________________________________________
+void initializeChordStructuresMap ();
+
+void printChordStructuresMap ();
 
 extern map<string, msrQuarterTonesPitchesLanguageKind>
   gQuarterTonesPitchesLanguageKindsMap;
@@ -1024,17 +1026,14 @@ extern map<msrQuarterTonesPitchKind, string> gSuomiPitchNamesMap;
 extern map<msrQuarterTonesPitchKind, string> gSvenskaPitchNamesMap;
 extern map<msrQuarterTonesPitchKind, string> gVlaamsPitchNamesMap;
 
+void initializeQuarterTonesPitchesLanguageKinds ();
+
 string existingQuarterTonesPitchesLanguageKinds ();
 
 //______________________________________________________________________________
-// tools
-extern void initializeChordStructuresMap ();
-
-extern void printChordStructuresMap ();
-
 // initialization
-//______________________________________________________________________________
-void initializeQuarterTonesPitchesLanguageKinds ();
+
+void initializeMSRBasicTypes ();
 
 
 } // namespace MusicXML2
