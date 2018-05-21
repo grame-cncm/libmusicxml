@@ -4435,6 +4435,8 @@ msrIntervalKind intervalKindDifference (
   }
   
   int workingOctaveOffset = 0;
+
+  workingOctaveOffset++; // JMI
   
   switch (workIntervalKind1) {
     case k_NoIntervalKind:
@@ -14780,6 +14782,9 @@ msrIntervalKind intervalBetweenSemiTonesPitches (
         case kB_DoubleSharp_STP:
           result = kPerfectUnison;
           break;
+        case kB_TripleSharp_STP:
+          result = kPerfectUnison;
+          break;
       } // switch
       break;
 
@@ -17562,6 +17567,9 @@ msrQuarterTonesPitchKind quarterTonesPitchKindFromSemiTonesPitchKind (
   msrQuarterTonesPitchKind result = k_NoQuarterTonesPitch_QTP;
   
   switch (semiTonesPitchKind) {
+    case k_NoSemiTonesPitch_STP:
+      break;
+      
     case kC_TripleFlat_STP:
       result = kC_TripleFlat_QTP;
       break;
@@ -18986,6 +18994,8 @@ string wholeNotesAsMsrString (
     // handle the 'larger than quarter note' part
 
     int accumulatedValue = 1;
+
+    accumulatedValue++; // JMI
     
     for ( ; ; ) {
       if (workNumerator == 1) {
