@@ -15414,10 +15414,16 @@ void initializeChordStructuresMap ()
       harmonyKind =
         msrHarmonyKind (i);
 
+    // create the chord structure
+    S_msrChordStructure
+      chordStructure =
+        msrChordStructure::create (
+   // JMI       NO_INPUT_LINE_NUMBER,
+          harmonyKind);
+
+    // register it in the map
     gChordStructuresMap [harmonyKind] =
-      msrChordStructure::create (
- // JMI       NO_INPUT_LINE_NUMBER,
-        harmonyKind);
+      chordStructure;
   } // for
 }
 
@@ -19481,7 +19487,7 @@ void msrChordInterval::print (ostream& os)
 map<msrHarmonyKind, S_msrChordStructure>
   gChordStructuresMap;
 
-S_msrChordStructure msrChordStructure::create (
+S_msrChordStructure msrChordStructure::createBare (
 // JMI  int            inputLineNumber,
   msrHarmonyKind chordStructureHarmonyKind)
 {
@@ -19491,6 +19497,21 @@ S_msrChordStructure msrChordStructure::create (
       chordStructureHarmonyKind);
   assert(o!=0);
 
+  return o;
+}
+
+S_msrChordStructure msrChordStructure::create (
+// JMI  int            inputLineNumber,
+  msrHarmonyKind chordStructureHarmonyKind)
+{
+  S_msrChordStructure o =
+    createBare (
+ //     inputLineNumber,
+      chordStructureHarmonyKind);
+
+  o->
+    populateChordStructure ();
+    
   return o;
 }
 
@@ -19508,11 +19529,20 @@ msrChordStructure::msrChordStructure (
       "'" <<
       endl;
   }
-
-  initializeChordStructure ();
 }
 
-void msrChordStructure::initializeChordStructure ()
+S_msrChordStructure msrChordStructure::createChordStructureNewbornClone ()
+{
+  S_msrChordStructure
+    newbornClone =
+      createBare (
+   //     inputLineNumber,
+        fChordStructureHarmonyKind);
+  
+  return newbornClone;
+}
+
+void msrChordStructure::populateChordStructure ()
 {
   // append chord items to chord intervals
   switch (fChordStructureHarmonyKind) {
@@ -19547,7 +19577,7 @@ void msrChordStructure::initializeChordStructure ()
           endl <<
           "*****************" <<
           endl <<
-          "msrChordStructure::initializeChordStructure(), this =" <<
+          "msrChordStructure::populateChordStructure(), this =" <<
           endl;
         print (gLogIOstream);
         gLogIOstream <<
@@ -20766,9 +20796,17 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
   // create an empty object
   S_msrChordStructure
     result =
-      msrChordStructure::create (
- // JMI       NO_INPUT_LINE_NUMBER,
-        fChordStructureHarmonyKind);
+      this->
+        createChordStructureNewbornClone ();
+
+  gLogIOstream <<
+    "--> initial result:" <<
+    endl;
+  gIndenter++;
+  gLogIOstream <<
+    result <<
+    endl;
+  gIndenter--;
 
   unsigned int
     chordStructureIntervalsSize =
@@ -20776,7 +20814,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
 
   gLogIOstream <<
     "==> invertChordStructure(), inversion = " << inversion <<
-    ", chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
+    ", original chordStructureIntervalsSize = " << chordStructureIntervalsSize <<
     endl;
       
   if (chordStructureIntervalsSize) {
@@ -20788,7 +20826,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
             createChordIntervalNewbornClone ();
 
       gLogIOstream <<
-        "--> adding first item:" <<
+        "--> adding first item to result:" <<
         endl;
       gIndenter++;
       gLogIOstream <<
@@ -20799,6 +20837,16 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
       result->
         appendChordIntervalToChordStructure (
           chordIntervalClone);
+
+      gLogIOstream <<
+        "==> result chord structure after adding first item :" <<
+        endl;
+
+      gIndenter++;
+      gLogIOstream <<
+        result <<
+        endl;
+      gIndenter--;
     } // while
     
     // add  the octaviate last items
@@ -20812,7 +20860,7 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
         incrementChordIntervalRelativeOctave ();
         
       gLogIOstream <<
-        "--> adding last item:" <<
+        "--> adding last item to resultlast item :" <<
         endl;
       gIndenter++;
       gLogIOstream <<
@@ -20823,6 +20871,16 @@ S_msrChordStructure msrChordStructure::invertChordStructure (int inversion)
       result->
         appendChordIntervalToChordStructure (
           chordIntervalClone);
+
+      gLogIOstream <<
+        "==> result chord structure after  after adding last item:" <<
+        endl;
+
+      gIndenter++;
+      gLogIOstream <<
+        result <<
+        endl;
+      gIndenter--;
     } // for
   }
 
@@ -21414,16 +21472,24 @@ void printChordDetails (
       quarterTonesPitchKindFromSemiTonesPitchKind (
         rootSemiTonesPitchKind);
 
+  string
+    rootQuarterTonesPitchKindAsString =
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->
+          fLpsrQuarterTonesPitchesLanguageKind,
+        rootQuarterTonesPitchKind);
+
+  string
+    harmonyKindShortName =
+      msrHarmonyKindShortName (
+        harmonyKind);
+      
   // print the deails
   os <<
     "The details of chord '" <<
-    msrQuarterTonesPitchKindAsString (
-      gLpsrOptions->
-        fLpsrQuarterTonesPitchesLanguageKind,
-      rootQuarterTonesPitchKind) <<
+    rootQuarterTonesPitchKindAsString <<
     " " <<
-    msrHarmonyKindShortName (
-      harmonyKind) <<
+    harmonyKindShortName <<
     "' are:" <<
     endl <<
     endl;
@@ -21459,29 +21525,24 @@ void printChordDetails (
 
   if (chordStructureIntervalsNumber) {
     for (int n = 0; n < chordStructureIntervalsNumber; n++) {
-      // invert the chord intervals
+      // invert the chord structure
       S_msrChordStructure
         invertedChordStructure =
           chordStructure->
             invertChordStructure (n);
 
-   //   gIndenter++;
-
       os <<
-        "==> inversion = " << n << ":" <<
-        endl <<
-        "invertedChordStructure =" <<
-        endl <<
-        invertedChordStructure <<
-        endl <<
+        "==> inversion = " << n <<
+        ", initial invertedChordStructure:" <<
         endl;
 
       gIndenter++;
-      
       os <<
         invertedChordStructure <<
         endl;
-            
+      gIndenter--;
+
+      // get the inverted chord structure intervals
       const vector <S_msrChordInterval>&
         invertedChordStructureIntervals =
           invertedChordStructure->
@@ -21492,7 +21553,19 @@ void printChordDetails (
         iBegin = invertedChordStructureIntervals.begin (),
         iEnd   = invertedChordStructureIntervals.end (),
         i      = iBegin;
-  
+
+      os <<
+        "Chord " <<
+        rootQuarterTonesPitchKindAsString <<
+        " " <<
+        harmonyKindShortName <<
+        " contents, "<<
+        invertedChordStructureIntervals.size () <<
+        " intervals:" <<
+        endl;
+        
+      gIndenter++;
+
       for ( ; ; ) {
         S_msrChordInterval
           chordInterval = (*i);
@@ -21543,12 +21616,11 @@ void printChordDetails (
         // no endl here
       } // for
 
-    gIndenter--;
-
-    os <<
-      endl <<
-      endl;
-      
+      gIndenter--;
+  
+      os <<
+        endl <<
+        endl;
     } // for
   }
 

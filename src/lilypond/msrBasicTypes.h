@@ -720,16 +720,19 @@ class msrChordStructure : public smartable
     // creation from MusicXML
     // ------------------------------------------------------
 
+    static SMARTP<msrChordStructure> createBare (
+ // JMI     int            inputLineNumber,
+      msrHarmonyKind chordStructureHarmonyKind);
+
     static SMARTP<msrChordStructure> create (
  // JMI     int            inputLineNumber,
       msrHarmonyKind chordStructureHarmonyKind);
 
-    /* JMI
-    SMARTP<msrChordStructure> createChordStructureNewbornClone (
-      S_msrPart containingPart);
+    SMARTP<msrChordStructure> createChordStructureNewbornClone ();
 
+    /* JMI
     SMARTP<msrChordStructure> createChordStructureDeepCopy ( // JMI ???
-      S_msrPart containingPart);
+      );
       */
 
   protected:
@@ -747,8 +750,6 @@ class msrChordStructure : public smartable
 
     // initialization
     // ------------------------------------------------------
-
-    void                  initializeChordStructure ();
 
   public:
 
@@ -768,10 +769,12 @@ class msrChordStructure : public smartable
     void                  appendChordIntervalToChordStructure (
                             S_msrChordInterval chordInterval);
         
+    void                  populateChordStructure ();
+
     string                chordStructureAsString () const;
     string                chordStructureAsShortString () const;
 
-    S_msrChordInterval        bassChordIntervalForChordInversion (
+    S_msrChordInterval    bassChordIntervalForChordInversion (
                             int inputLineNumber,
                             int inversionNumber);
                             
