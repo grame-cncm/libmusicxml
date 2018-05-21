@@ -21525,25 +21525,25 @@ void printChordDetails (
     chordStructureIntervals.size ();
 
   if (chordStructureIntervalsNumber) {
-    for (int n = 0; n < chordStructureIntervalsNumber; n++) {
+    for (int inversion = 0; inversion < chordStructureIntervalsNumber; inversion++) {
       // invert the chord structure
       S_msrChordStructure
         invertedChordStructure =
           chordStructure->
-            invertChordStructure (n);
+            invertChordStructure (inversion);
 
       if (TRACE_MSR_BASIC_TYPES) {
         os <<
-          "==> inversion = " << n <<
+          "==> inversion = " << inversion <<
           ", initial invertedChordStructure:" <<
           endl;
-      }
 
-      gIndenter++;
-      os <<
-        invertedChordStructure <<
-        endl;
-      gIndenter--;
+        gIndenter++;
+        os <<
+          invertedChordStructure <<
+          endl;
+        gIndenter--;
+      }
 
       // get the inverted chord structure intervals
       const vector <S_msrChordInterval>&
@@ -21561,7 +21561,18 @@ void printChordDetails (
         "Chord " <<
         rootQuarterTonesPitchKindAsString <<
         " " <<
-        harmonyKindShortName <<
+        harmonyKindShortName;
+
+      if (inversion == 0) {
+        os <<
+          " fundamental state";
+      }
+      else {
+        os <<
+          " inversion " << inversion;
+      }
+
+      os <<
         " contents, "<<
         invertedChordStructureIntervals.size () <<
         " intervals:" <<
@@ -21577,7 +21588,12 @@ void printChordDetails (
           intervalKind =
             chordInterval->
               getChordIntervalIntervalKind ();
-  
+
+        int
+          relativeOctave =
+            chordInterval->
+              getChordIntervalRelativeOctave ();
+              
         const int fieldWidth1 = 17;
         
         os << left <<
@@ -21608,6 +21624,7 @@ void printChordDetails (
             gLpsrOptions->
               fLpsrQuarterTonesPitchesLanguageKind,
             noteQuarterTonesPitchKind) <<
+          ", octave " << relativeOctave <<
           " (" <<
           msrSemiTonesPitchKindAsString (
             noteSemiTonesPitchKind) <<
@@ -21622,7 +21639,6 @@ void printChordDetails (
       gIndenter--;
   
       os <<
-        endl <<
         endl;
     } // for
   }
