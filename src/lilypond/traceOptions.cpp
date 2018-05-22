@@ -252,6 +252,9 @@ debugging information to standard error for the specified measures.)",
     // ligatures
     fTraceLigatures = boolOptionsInitialValue;
 
+    // pedals
+    fTracePedals = boolOptionsInitialValue;
+
     // wedges
     fTraceWedges = boolOptionsInitialValue;
 
@@ -655,6 +658,15 @@ R"(Ligatures)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
+          "tpedals", "tracePedals",
+R"(Pedals)",
+          "tracePedals",
+          fTracePedals,
+          fTraceBasic));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
           "twedges", "traceWedges",
 R"(Wedges)",
           "traceWedges",
@@ -690,19 +702,21 @@ R"(Extra chords handling)",
   }
       
 
+  fTraceDynamics = boolOptionsInitialValue;
+  fTraceWords = boolOptionsInitialValue;
+  fTraceSlurs = boolOptionsInitialValue;
+  fTraceLigatures = boolOptionsInitialValue;
+  fTracePedals = boolOptionsInitialValue;
+  fTraceWedges = boolOptionsInitialValue;
+  
+  fTraceStaffTuning = boolOptionsInitialValue;
+  
+
   /* STUFF not yet handled JMI */
 
   fTraceScore = boolOptionsInitialValue;
 
 
-  fTraceDynamics = boolOptionsInitialValue;
-  fTraceWords = boolOptionsInitialValue;
-  fTraceSlurs = boolOptionsInitialValue;
-  fTraceLigatures = boolOptionsInitialValue;
-  fTraceWedges = boolOptionsInitialValue;
-  
-  fTraceStaffTuning = boolOptionsInitialValue;
-  
   fTraceMidi = boolOptionsInitialValue;
 }
 
@@ -831,22 +845,30 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   // credits
   clone->fTraceCredits = true;
 
+  // dynamics
+  clone->fTraceDynamics = true;
+
+  // slurs
+  clone->fTraceSlurs = true;
+
+  // ligatures
+  clone->fTraceLigatures = true;
+
+  // pedals
+  clone->fTracePedals = true;
+
+  // wedges
+  clone->fTraceWedges = true;
+  
+  // stafftuning
+  clone->fTraceStaffTuning = true;
+
     
   /* STUFF not yet handled JMI */
 
   clone->fTraceScore = true;
 
-
-  clone->fTraceDynamics = true;
-
-  clone->fTraceSlurs = true;
-
-  clone->fTraceLigatures = true;
-
-  clone->fTraceWedges = true;
-  
-  clone->fTraceStaffTuning = true;
-  
+  // midi
   clone->fTraceMidi = true;
 
   return clone;

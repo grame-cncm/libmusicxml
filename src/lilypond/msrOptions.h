@@ -279,6 +279,7 @@ class msrOptions : public optionsGroup
     bool                  fDelayRestsWords; // JMI
     bool                  fDelayRestsSlurs; // JMI
     bool                  fDelayRestsLigatures; // JMI
+    bool                  fDelayRestsPedals; // JMI
     bool                  fDelayRestsWedges; // JMI
 
 

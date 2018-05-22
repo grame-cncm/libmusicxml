@@ -310,6 +310,7 @@ class lpsr2LilypondTranslator :
   public visitor<S_msrPedal>,
   public visitor<S_msrDamp>,
   public visitor<S_msrDampAll>,
+  public visitor<S_msrScordatura>,
 
   public visitor<S_msrBarCheck>,
   
@@ -590,6 +591,7 @@ class lpsr2LilypondTranslator :
     virtual void visitStart (S_msrPedal& elt);
     virtual void visitStart (S_msrDamp& elt);
     virtual void visitStart (S_msrDampAll& elt);
+    virtual void visitStart (S_msrScordatura& elt);
 
     virtual void visitStart (S_msrBarCheck& elt);
     virtual void visitEnd   (S_msrBarCheck& elt);

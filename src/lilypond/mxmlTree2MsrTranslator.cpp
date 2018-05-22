@@ -3900,7 +3900,7 @@ void mxmlTree2MsrTranslator::attachCurrentMetronomeBeamsToMetronomeNote (
       }
   
       tempoNote->
-        addBeamToTempoNote (beam);
+        appendBeamToTempoNote (beam);
 
       // forget about this articulation
       fPendingMetronomeBeams.pop_front();
@@ -6159,14 +6159,14 @@ void mxmlTree2MsrTranslator::visitEnd ( S_lyric& elt )
     stringstream s;
 
     s <<
-      "<lyric /> has no <syllabic/> component, using 'skip' by default";
+      "<lyric /> has no <syllabic/> component, using 'single' by default";
 
     msrMusicXMLWarning (
       gXml2lyOptions->fInputSourceName,
       inputLineNumber,
       s.str ());
     
-    fCurrentSyllableKind = msrSyllable::kSyllableSkip;
+    fCurrentSyllableKind = msrSyllable::kSyllableSingle;
   }
 
   if (fCurrentNoteIsARest) {
@@ -14606,7 +14606,7 @@ void mxmlTree2MsrTranslator::copyNoteArticulationsToChord (
         endl;
     }
 
-    chord->addArticulationToChord ((*i));
+    chord->appendArticulationToChord ((*i));
   } // for      
 }
 
@@ -14639,7 +14639,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalsToChord (
         endl;
     }
     
-    chord->addTechnicalToChord ((*i));
+    chord->appendTechnicalToChord ((*i));
   } // for      
 }
 
@@ -14672,7 +14672,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithIntegersToChord (
         endl;
     }
 
-    chord->addTechnicalWithIntegerToChord ((*i));
+    chord->appendTechnicalWithIntegerToChord ((*i));
   } // for      
 }
 
@@ -14705,7 +14705,7 @@ void mxmlTree2MsrTranslator::copyNoteTechnicalWithStringsToChord (
         endl;
     }
 
-    chord->addTechnicalWithStringToChord ((*i));
+    chord->appendTechnicalWithStringToChord ((*i));
   } // for      
 }
 
@@ -14739,7 +14739,7 @@ void mxmlTree2MsrTranslator::copyNoteOrnamentsToChord (
     }
 
     chord->
-      addOrnamentToChord ((*i));
+      appendOrnamentToChord ((*i));
   } // for      
 }
 
@@ -14773,7 +14773,7 @@ void mxmlTree2MsrTranslator::copyNoteSpannersToChord (
     }
 
     chord->
-      addSpannerToChord ((*i));
+      appendSpannerToChord ((*i));
   } // for      
 }
 
@@ -14799,7 +14799,7 @@ void mxmlTree2MsrTranslator::copyNoteSingleTremoloToChord (
     }
     
     chord->
-      addSingleTremoloToChord (noteSingleTremolo);
+      setChordSingleTremolo (noteSingleTremolo);
   }
 }
 
@@ -14830,7 +14830,7 @@ void mxmlTree2MsrTranslator::copyNoteDynamicsToChord (
     }
 
     chord->
-      addDynamicsToChord ((*i));
+      appendDynamicsToChord ((*i));
   } // for      
 }
 
@@ -14861,7 +14861,7 @@ void mxmlTree2MsrTranslator::copyNoteOtherDynamicsToChord (
     }
 
     chord->
-      addOtherDynamicsToChord ((*i));
+      appendOtherDynamicsToChord ((*i));
   } // for      
 }
 
@@ -14892,7 +14892,7 @@ void mxmlTree2MsrTranslator::copyNoteWordsToChord (
     }
 
     chord->
-      addWordsToChord ((*i));
+      appendWordsToChord ((*i));
   } // for      
 }
 
@@ -14923,7 +14923,7 @@ void mxmlTree2MsrTranslator::copyNoteBeamsToChord (
     }
 
     chord->
-      addBeamToChord ((*i));
+      appendBeamToChord ((*i));
   } // for      
 }
 
@@ -14954,7 +14954,7 @@ void mxmlTree2MsrTranslator::copyNoteSlursToChord (
     }
 
     chord->
-      addSlurToChord ((*i));
+      appendSlurToChord ((*i));
   } // for      
 }
 
@@ -14985,7 +14985,38 @@ void mxmlTree2MsrTranslator::copyNoteLigaturesToChord (
     }
 
     chord->
-      addLigatureToChord ((*i));
+      appendLigatureToChord ((*i));
+  } // for      
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::copyNotePedalsToChord (
+  S_msrNote note, S_msrChord chord)
+{  
+  // copy note's pedals if any from the first note to chord
+  
+  list<S_msrPedal>
+    notePedals =
+      note->
+        getNotePedals ();
+                          
+  list<S_msrPedal>::const_iterator i;
+  for (
+    i=notePedals.begin ();
+    i!=notePedals.end ();
+    i++) {
+
+    if (gTraceOptions->fTraceChords || gTraceOptions->fTracePedals) {
+      fLogOutputStream <<
+        "Copying pedal '" <<
+        (*i)->pedalTypeAsString () <<
+        "' from note " << note->asString () <<
+        " to chord" <<
+        endl;
+    }
+
+    chord->
+      appendPedalToChord ((*i));
   } // for      
 }
 
@@ -15016,7 +15047,7 @@ void mxmlTree2MsrTranslator::copyNoteWedgesToChord (
     }
 
     chord->
-      addWedgeToChord ((*i));
+      appendWedgeToChord ((*i));
   } // for      
 }
 
@@ -15085,6 +15116,9 @@ void mxmlTree2MsrTranslator::copyNoteElementsToChord (
 
   // copy note's ligatures if any to the chord
   copyNoteLigaturesToChord (note, chord);
+
+  // copy note's pedals if any to the chord
+  copyNotePedalsToChord (note, chord);
 
   // copy note's wedges if any to the chord
   copyNoteWedgesToChord (note, chord);
@@ -15315,7 +15349,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToNote (
       }
   
       note->
-        addArticulationToNote (art);
+        appendArticulationToNote (art);
 
       // forget about this articulation
       fCurrentArticulations.pop_front();
@@ -15351,7 +15385,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalsToNote (
       }
   
       note->
-        addTechnicalToNote (tech);
+        appendTechnicalToNote (tech);
 
       // forget about this technical
       fCurrentTechnicalsList.pop_front();
@@ -15387,7 +15421,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithIntegersToNote (
       }
   
       note->
-        addTechnicalWithIntegerToNote (tech);
+        appendTechnicalWithIntegerToNote (tech);
 
       // forget about this technical
       fCurrentTechnicalWithIntegersList.pop_front();
@@ -15423,7 +15457,7 @@ void mxmlTree2MsrTranslator::attachCurrentTechnicalWithStringsToNote (
       }
   
       note->
-        addTechnicalWithStringToNote (tech);
+        appendTechnicalWithStringToNote (tech);
 
       // forget about this technical
       fCurrentTechnicalWithStringsList.pop_front();
@@ -15459,7 +15493,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToNote (
       }
   
       note->
-        addOrnamentToNote (orn);
+        appendOrnamentToNote (orn);
 
       // forget about this ornament
       fCurrentOrnamentsList.pop_front();
@@ -15537,7 +15571,7 @@ void mxmlTree2MsrTranslator::attachCurrentSpannersToNote (
         }
     
         note->
-          addSpannerToNote (spanner);
+          appendSpannerToNote (spanner);
 
         // set spanner note uplink
         spanner->
@@ -15587,7 +15621,7 @@ void mxmlTree2MsrTranslator::attachCurrentSingleTremoloToNote (
     }
 
     note->
-      addSingleTremoloToNote (fCurrentSingleTremolo);
+      setNoteSingleTremolo (fCurrentSingleTremolo);
       
     fCurrentSingleTremolo = nullptr;
   }
@@ -15619,7 +15653,7 @@ void mxmlTree2MsrTranslator::attachCurrentArticulationsToChord ( // JMI
       }
           
       chord->
-        addArticulationToChord ((*i));
+        appendArticulationToChord ((*i));
       } // for
   }
 }
@@ -15651,7 +15685,7 @@ void mxmlTree2MsrTranslator::attachCurrentOrnamentsToChord ( // JMI
       }
           
       chord->
-        addOrnamentToChord ((*i));
+        appendOrnamentToChord ((*i));
       } // for
   }
 }
@@ -15726,7 +15760,7 @@ void mxmlTree2MsrTranslator::attachPendingRehearsalsToTheVoiceOfNote (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::attachPendingEyeGlassesToTheVoiceOfNote (
+void mxmlTree2MsrTranslator::attachPendingEyeGlassesToNote (
   S_msrNote note)
 {
  // attach the pending eyeglasses if any to the note
@@ -15738,21 +15772,13 @@ void mxmlTree2MsrTranslator::attachPendingEyeGlassesToTheVoiceOfNote (
         endl;
     }
 
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fetchVoiceFromCurrentPart (
-          note->getInputLineNumber (),
-          fCurrentNoteStaffNumber,
-          fCurrentNoteVoiceNumber);
-
     while (fPendingEyeGlasses.size ()) {
       S_msrEyeGlasses
         eyeGlasses =
           fPendingEyeGlasses.front ();
           
-      voice->
-        appendEyeGlassesToVoice (eyeGlasses);
+      note->
+        appendEyeGlassesToNote (eyeGlasses);
         
       fPendingEyeGlasses.pop_front ();
     } // while
@@ -15760,7 +15786,7 @@ void mxmlTree2MsrTranslator::attachPendingEyeGlassesToTheVoiceOfNote (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::attachPendingDampsToTheVoiceOfNote (
+void mxmlTree2MsrTranslator::attachPendingDampsToNote (
   S_msrNote note)
 {
  // attach the pending damps if any to the note
@@ -15772,21 +15798,13 @@ void mxmlTree2MsrTranslator::attachPendingDampsToTheVoiceOfNote (
         endl;
     }
 
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fetchVoiceFromCurrentPart (
-          note->getInputLineNumber (),
-          fCurrentNoteStaffNumber,
-          fCurrentNoteVoiceNumber);
-
     while (fPendingDamps.size ()) {
       S_msrDamp
         damp =
           fPendingDamps.front ();
           
-      voice->
-        appendDampToVoice (damp);
+      note->
+        appendDampToNote (damp);
         
       fPendingDamps.pop_front ();
     } // while
@@ -15794,33 +15812,25 @@ void mxmlTree2MsrTranslator::attachPendingDampsToTheVoiceOfNote (
 }
 
 //______________________________________________________________________________
-void mxmlTree2MsrTranslator::attachPendingDampAllsToTheVoiceOfNote (
+void mxmlTree2MsrTranslator::attachPendingDampAllsToNote (
   S_msrNote note)
 {
  // attach the pending damp alls if any to the note
   if (fPendingDampAlls.size ()) {
     if (gTraceOptions->fTraceBasic) {
       fLogOutputStream <<
-        "Attaching pending damps alls to note " <<
+        "Attaching pending damp alls to note " <<
         note->asString () <<
         endl;
     }
-
-    // fetch the voice
-    S_msrVoice
-      voice =
-        fetchVoiceFromCurrentPart (
-          note->getInputLineNumber (),
-          fCurrentNoteStaffNumber,
-          fCurrentNoteVoiceNumber);
 
     while (fPendingDampAlls.size ()) {
       S_msrDampAll
         dampAll =
           fPendingDampAlls.front ();
           
-      voice->
-        appendDampAllToVoice (dampAll);
+      note->
+        appendDampAllToNote (dampAll);
         
       fPendingDampAlls.pop_front ();
     } // while
@@ -15857,6 +15867,32 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
         appendOctaveShiftToVoice (octaveShift);
         
       fPendingOctaveShifts.pop_front ();
+    } // while
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingScordaturasToNote (
+  S_msrNote note)
+{
+ // attach the pending scordatura if any to the note
+  if (fPendingScordaturas.size ()) {
+    if (gTraceOptions->fTraceBasic) {
+      fLogOutputStream <<
+        "Attaching pending scordaturas to note " <<
+        note->asString () <<
+        endl;
+    }
+
+    while (fPendingScordaturas.size ()) {
+      S_msrScordatura
+        scordatura =
+          fPendingScordaturas.front ();
+          
+      note->
+        appendScordaturaToNote (scordatura);
+        
+      fPendingScordaturas.pop_front ();
     } // while
   }
 }
@@ -15912,7 +15948,7 @@ void mxmlTree2MsrTranslator::attachPendingDynamicsToNote (
           dynamics =
             fPendingDynamics.front ();
             
-        note->addDynamicsToNote (dynamics);
+        note->appendDynamicsToNote (dynamics);
         fPendingDynamics.pop_front ();
       } // while
     }
@@ -15971,7 +16007,7 @@ void mxmlTree2MsrTranslator::attachPendingOtherDynamicsToNote (
           otherDynamics =
             fPendingOtherDynamics.front ();
             
-        note->addOtherDynamicsToNote (otherDynamics);
+        note->appendOtherDynamicsToNote (otherDynamics);
         fPendingOtherDynamics.pop_front ();
       } // while
     }
@@ -16029,7 +16065,7 @@ void mxmlTree2MsrTranslator::attachPendingWordsToNote (
           words =
             fPendingWords.front ();
             
-        note->addWordsToNote (words);
+        note->appendWordsToNote (words);
         
         fPendingWords.pop_front ();
       } // while
@@ -16088,7 +16124,7 @@ void mxmlTree2MsrTranslator::attachPendingSlursToNote (
           slur =
             fPendingSlurs.front ();
             
-        note->addSlurToNote (slur);
+        note->appendSlurToNote (slur);
         fPendingSlurs.pop_front ();
       } // while
     }
@@ -16146,8 +16182,66 @@ void mxmlTree2MsrTranslator::attachPendingLigaturesToNote (
           ligature =
             fPendingLigatures.front ();
             
-        note->addLigatureToNote (ligature);
+        note->appendLigatureToNote (ligature);
         fPendingLigatures.pop_front ();
+      } // while
+    }
+  }
+}
+
+//______________________________________________________________________________
+void mxmlTree2MsrTranslator::attachPendingPedalsToNote (
+  S_msrNote note)
+{
+  // attach the pending pedals if any to the note
+  if (fPendingPedals.size ()) {
+    bool delayAttachment = false;
+        
+    if (gTraceOptions->fTracePedals) {
+      fLogOutputStream <<
+        "Attaching pending pedals to note " <<
+        note->asString () <<
+        endl;
+    }
+
+    if (fCurrentNoteIsARest) {
+      if (gMsrOptions->fDelayRestsPedals) {
+        fLogOutputStream <<
+          "Delaying pedal attached to a rest until next note" <<
+          endl;
+
+        delayAttachment = true;
+      }
+
+      else {
+        stringstream s;
+
+        int numberOfPedals = fPendingPedals.size ();
+
+        if (numberOfPedals > 1)
+          s <<
+            "there are " << numberOfPedals << " pedals";
+        else
+          s <<
+            "there is 1 pedal";
+        s <<
+          " attached to a rest";
+          
+        msrMusicXMLWarning (
+          gXml2lyOptions->fInputSourceName,
+          note->getInputLineNumber (),
+          s.str ());
+      }
+    }
+    
+    if (! delayAttachment) {
+      while (fPendingPedals.size ()) {
+        S_msrPedal
+          pedal =
+            fPendingPedals.front ();
+            
+        note->appendPedalToNote (pedal);
+        fPendingPedals.pop_front ();
       } // while
     }
   }
@@ -16204,7 +16298,7 @@ void mxmlTree2MsrTranslator::attachPendingWedgesToNote (
           wedge =
             fPendingWedges.front ();
             
-        note->addWedgeToNote (wedge);
+        note->appendWedgeToNote (wedge);
         fPendingWedges.pop_front ();
       } // while
     }
@@ -16230,7 +16324,7 @@ void mxmlTree2MsrTranslator::attachPendingGlissandosToNote (
           fPendingGlissandos.front ();
           
       note->
-        addGlissandoToNote (glissando);
+        appendGlissandoToNote (glissando);
         
       fPendingGlissandos.pop_front ();
     } // while
@@ -16256,7 +16350,7 @@ void mxmlTree2MsrTranslator::attachPendingSlidesToNote (
           fPendingSlides.front ();
           
       note->
-        addSlideToNote (slide);
+        appendSlideToNote (slide);
         
       fPendingSlides.pop_front ();
     } // while
@@ -16272,14 +16366,17 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   // attach the pending rehearsals, if any, to the note's voice
   attachPendingRehearsalsToTheVoiceOfNote (note);
 
-  // attach the pending eyeglasses, if any, to the note's voice
-  attachPendingEyeGlassesToTheVoiceOfNote (note);
+  // attach the pending eyeglasses, if any, to the note
+  attachPendingEyeGlassesToNote (note);
 
-  // attach the pending damps, if any, to the note's voice
-  attachPendingDampsToTheVoiceOfNote (note);
+  // attach the pending damps, if any, to the note
+  attachPendingDampsToNote (note);
 
-  // attach the pending damp alls, if any, to the note's voice
-  attachPendingDampAllsToTheVoiceOfNote (note);
+  // attach the pending damp alls, if any, to the note
+  attachPendingDampAllsToNote (note);
+
+  // attach the pending scordaturas, if any, to the note
+  attachPendingScordaturasToNote (note);
 
   // attach the pending octave shifts, if any, to the note's voice
   attachPendingOctaveShiftsToTheVoiceOfNote (note);
@@ -16296,8 +16393,11 @@ void mxmlTree2MsrTranslator::attachPendingElementsToNote (
   // attach the pending slurs, if any, to the note
   attachPendingSlursToNote (note);
 
-  // attach the pending libatures, if any, to the note
+  // attach the pending ligatures, if any, to the note
   attachPendingLigaturesToNote (note);
+
+  // attach the pending pedals, if any, to the note
+  attachPendingPedalsToNote (note);
 
   // attach the pending wedges, if any, to the note
   attachPendingWedgesToNote (note);
@@ -16757,7 +16857,7 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
       i!=fPendingBeams.end ();
       i++) {
       newNote->
-        addBeamToNote ((*i));
+        appendBeamToNote ((*i));
     } // for
 
     fPendingBeams.clear ();
@@ -20755,10 +20855,8 @@ void mxmlTree2MsrTranslator::visitEnd (S_scordatura& elt)
       endl;
   }
 
-  // append the current scordatura to the voice
-//  voice->
-//    appendScordaturaToVoice (
-//      fCurrentScordatura);
+  // append the current scordatura to the pending scordatura list
+  fPendingScordaturas.push_back (fCurrentScordatura);
 
   // forget about this scordatura
   fCurrentScordatura = nullptr;

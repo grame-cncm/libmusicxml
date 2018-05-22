@@ -197,6 +197,9 @@ class traceOptions : public optionsGroup
     // ligatures
     bool                  fTraceLigatures;
 
+    // pedals
+    bool                  fTracePedals;
+
     // wedges
     bool                  fTraceWedges;
 

@@ -1189,7 +1189,7 @@ class mxmlTree2MsrTranslator :
     // may occur when no current voice exists
     list<S_msrEyeGlasses>     fPendingEyeGlasses;
     
-    void                      attachPendingEyeGlassesToTheVoiceOfNote (
+    void                      attachPendingEyeGlassesToNote (
                                 S_msrNote note);
 
     // damp handling
@@ -1199,7 +1199,7 @@ class mxmlTree2MsrTranslator :
     // may occur when no current voice exists
     list<S_msrDamp>           fPendingDamps;
     
-    void                      attachPendingDampsToTheVoiceOfNote (
+    void                      attachPendingDampsToNote (
                                 S_msrNote note);
 
     // damp all handling
@@ -1209,7 +1209,7 @@ class mxmlTree2MsrTranslator :
     // may occur when no current voice exists
     list<S_msrDampAll>        fPendingDampAlls;
     
-    void                      attachPendingDampAllsToTheVoiceOfNote (
+    void                      attachPendingDampAllsToNote (
                                 S_msrNote note);
 
     // accordion-registration handling
@@ -1289,6 +1289,14 @@ class mxmlTree2MsrTranslator :
 
     S_msrScordatura           fCurrentScordatura;
     
+    // scordaturas remain pending until the next note:
+    // in MusicXML, they precede the note and
+    // may occur when no current voice exists
+    list<S_msrScordatura>     fPendingScordaturas;
+    
+    void                      attachPendingScordaturasToNote (
+                                S_msrNote note);
+
     int                       fCurrentStringTuningNumber;
     
     msrDiatonicPitchKind      fCurrentStringTuningDiatonicPitchKind;
@@ -1296,6 +1304,7 @@ class mxmlTree2MsrTranslator :
     int                       fCurrentStringTuningOctave;
 
     bool                      fOnGoingAccord;
+    
 
     // time handling
     // ------------------------------------------------------
@@ -1647,6 +1656,8 @@ class mxmlTree2MsrTranslator :
                                 S_msrNote note);
     void                      attachPendingLigaturesToNote (
                                 S_msrNote note);
+    void                      attachPendingPedalsToNote (
+                                S_msrNote note);
     void                      attachPendingWedgesToNote (
                                 S_msrNote note);
 
@@ -1667,6 +1678,8 @@ class mxmlTree2MsrTranslator :
     void                      copyNoteSlursToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteLigaturesToChord (
+                                S_msrNote note, S_msrChord chord);
+    void                      copyNotePedalsToChord (
                                 S_msrNote note, S_msrChord chord);
     void                      copyNoteWedgesToChord (
                                 S_msrNote note, S_msrChord chord);
@@ -1874,6 +1887,8 @@ class mxmlTree2MsrTranslator :
     // piano pedals handling
     // ------------------------------------------------------
 
+    list<S_msrPedal>          fPendingPedals;
+    
 /* JMI
     msrDamperPedal::damperPedalKind
                               fCurrentDamperPedalKind;

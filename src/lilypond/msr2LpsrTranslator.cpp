@@ -2132,11 +2132,11 @@ void msr2LpsrTranslator::visitStart (S_msrArticulation& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addArticulationToNote (elt);
+      appendArticulationToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addArticulationToChord (elt);
+      appendArticulationToChord (elt);
   }
 }
 
@@ -2164,11 +2164,11 @@ void msr2LpsrTranslator::visitStart (S_msrFermata& elt)
   
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addArticulationToNote (elt);
+      appendArticulationToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addArticulationToChord (elt);
+      appendArticulationToChord (elt);
   }
 }
 
@@ -2186,11 +2186,11 @@ void msr2LpsrTranslator::visitStart (S_msrArpeggiato& elt)
   
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
+      appendArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addArticulationToChord (elt);
+      appendArticulationToChord (elt);
   }
 }
 
@@ -2208,11 +2208,11 @@ void msr2LpsrTranslator::visitStart (S_msrNonArpeggiato& elt)
   
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
+      appendArticulationToNote (elt); // addArpeggiatoToNote ??? JMI
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addArticulationToChord (elt);
+      appendArticulationToChord (elt);
   }
 }
 
@@ -2228,11 +2228,11 @@ void msr2LpsrTranslator::visitStart (S_msrTechnical& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addTechnicalToNote (elt);
+      appendTechnicalToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addTechnicalToChord (elt);
+      appendTechnicalToChord (elt);
   }
 
   // doest the score need the 'tongue' function?
@@ -2298,11 +2298,11 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithInteger& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addTechnicalWithIntegerToNote (elt);
+      appendTechnicalWithIntegerToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addTechnicalWithIntegerToChord (elt);
+      appendTechnicalWithIntegerToChord (elt);
   }
 }
 
@@ -2328,11 +2328,11 @@ void msr2LpsrTranslator::visitStart (S_msrTechnicalWithString& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addTechnicalWithStringToNote (elt);
+      appendTechnicalWithStringToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addTechnicalWithStringToChord (elt);
+      appendTechnicalWithStringToChord (elt);
   }
   
   switch (elt->getTechnicalWithStringKind ()) {
@@ -2369,11 +2369,11 @@ void msr2LpsrTranslator::visitStart (S_msrOrnament& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addOrnamentToNote (elt);
+      appendOrnamentToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addOrnamentToChord (elt);
+      appendOrnamentToChord (elt);
   }
 }
 
@@ -2410,12 +2410,12 @@ void msr2LpsrTranslator::visitStart (S_msrSpanner& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addSpannerToNote (elt);
+      appendSpannerToNote (elt);
   }
   
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addSpannerToChord (elt);
+      appendSpannerToChord (elt);
   }
 }
 
@@ -2441,11 +2441,11 @@ void msr2LpsrTranslator::visitStart (S_msrGlissando& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addGlissandoToNote (elt);
+      appendGlissandoToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addGlissandoToChord (elt);
+      appendGlissandoToChord (elt);
   }
 }
 
@@ -2471,11 +2471,11 @@ void msr2LpsrTranslator::visitStart (S_msrSlide& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addSlideToNote (elt);
+      appendSlideToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addSlideToChord (elt);
+      appendSlideToChord (elt);
   }
 }
 
@@ -2501,11 +2501,11 @@ void msr2LpsrTranslator::visitStart (S_msrSingleTremolo& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addSingleTremoloToNote (elt);
+      setNoteSingleTremolo (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addSingleTremoloToChord (elt);
+      setChordSingleTremolo (elt);
   }
 }
 
@@ -2569,7 +2569,7 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addDynamicsToNote (elt);
+      appendDynamicsToNote (elt);
 
     // is this a non LilyPond native dynamics?
     bool knownToLilyPondNatively = true;
@@ -2598,7 +2598,7 @@ void msr2LpsrTranslator::visitStart (S_msrDynamics& elt)
   
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addDynamicsToChord (elt);
+      appendDynamicsToChord (elt);
   }
 }
 
@@ -2624,11 +2624,11 @@ void msr2LpsrTranslator::visitStart (S_msrOtherDynamics& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addOtherDynamicsToNote (elt);
+      appendOtherDynamicsToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addOtherDynamicsToChord (elt);
+      appendOtherDynamicsToChord (elt);
   }
 }
 
@@ -2654,11 +2654,11 @@ void msr2LpsrTranslator::visitStart (S_msrWords& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addWordsToNote (elt);
+      appendWordsToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addWordsToChord (elt);
+      appendWordsToChord (elt);
   }
 }
 
@@ -2695,19 +2695,19 @@ void msr2LpsrTranslator::visitStart (S_msrSlur& elt)
       case msrNote::kChordMemberNote:
         if (fCurrentNoteClone->getNoteIsAChordsFirstMemberNote ()) {
           fCurrentNoteClone->
-            addSlurToNote (elt);
+            appendSlurToNote (elt);
         }
         break;
         
       default:
         fCurrentNoteClone->
-          addSlurToNote (elt);
+          appendSlurToNote (elt);
     } // switch
   }
   
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addSlurToChord (elt);
+      appendSlurToChord (elt);
   }
 }
 
@@ -2733,11 +2733,11 @@ void msr2LpsrTranslator::visitStart (S_msrLigature& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addLigatureToNote (elt);
+      appendLigatureToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addLigatureToChord (elt);
+      appendLigatureToChord (elt);
   }
 }
 
@@ -2763,12 +2763,12 @@ void msr2LpsrTranslator::visitStart (S_msrWedge& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addWedgeToNote (elt);
+      appendWedgeToNote (elt);
   }
   
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addWedgeToChord (elt);
+      appendWedgeToChord (elt);
   }
 }
 
@@ -3388,11 +3388,11 @@ void msr2LpsrTranslator::visitStart (S_msrBeam& elt)
 
   if (fOnGoingNote) {
     fCurrentNoteClone->
-      addBeamToNote (elt);
+      appendBeamToNote (elt);
   }
   else if (fOnGoingChord) {
     fCurrentChordClone->
-      addBeamToChord (elt);
+      appendBeamToChord (elt);
   }
 }
 
@@ -3635,8 +3635,21 @@ void msr2LpsrTranslator::visitStart (S_msrEyeGlasses& elt)
       endl;
   }
 
-  fCurrentVoiceClone->
-    appendEyeGlassesToVoice (elt);
+  fCurrentNoteClone->
+    appendEyeGlassesToNote (elt);
+}
+
+void msr2LpsrTranslator::visitStart (S_msrScordatura& elt)
+{
+  if (gMsrOptions->fTraceMsrVisitors) {
+    fLogOutputStream <<
+      "--> Start visiting scordatura" <<
+      ", line " << elt->getInputLineNumber () <<
+      endl;
+  }
+
+  fCurrentNoteClone->
+    appendScordaturaToNote (elt);
 }
 
 void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
@@ -3648,8 +3661,8 @@ void msr2LpsrTranslator::visitStart (S_msrPedal& elt)
       endl;
   }
 
-  fCurrentVoiceClone->
-    appendPedalToVoice (elt);
+  fCurrentNoteClone->
+    appendPedalToNote (elt);
 }
 
 void msr2LpsrTranslator::visitStart (S_msrDamp& elt)
@@ -3661,8 +3674,8 @@ void msr2LpsrTranslator::visitStart (S_msrDamp& elt)
       endl;
   }
 
-  fCurrentVoiceClone->
-    appendDampToVoice (elt);
+  fCurrentNoteClone->
+    appendDampToNote (elt);
 
   fLpsrScore->
     // this score needs the 'custom short barline' Scheme function
@@ -3678,8 +3691,8 @@ void msr2LpsrTranslator::visitStart (S_msrDampAll& elt)
       endl;
   }
 
-  fCurrentVoiceClone->
-    appendDampAllToVoice (elt);
+  fCurrentNoteClone->
+    appendDampAllToNote (elt);
 
   fLpsrScore->
     // this score needs the 'custom short barline' Scheme function

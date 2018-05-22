@@ -5883,6 +5883,54 @@ S_msrNote msrNote::createNoteDeepCopy (
     } // for
   }
   
+  // eyeglasses
+  // ------------------------------------------------------
+
+  {
+    list<S_msrEyeGlasses>::const_iterator i;
+    for (i=fNoteEyeGlasses.begin (); i!=fNoteEyeGlasses.end (); i++) {
+      // share this data
+      noteDeepCopy->
+        fNoteEyeGlasses.push_back ((*i));
+    } // for
+  }
+  
+  // damps
+  // ------------------------------------------------------
+
+  {
+    list<S_msrDamp>::const_iterator i;
+    for (i=fNoteDamps.begin (); i!=fNoteDamps.end (); i++) {
+      // share this data
+      noteDeepCopy->
+        fNoteDamps.push_back ((*i));
+    } // for
+  }
+  
+  // damp alls
+  // ------------------------------------------------------
+
+  {
+    list<S_msrDampAll>::const_iterator i;
+    for (i=fNoteDampAlls.begin (); i!=fNoteDampAlls.end (); i++) {
+      // share this data
+      noteDeepCopy->
+        fNoteDampAlls.push_back ((*i));
+    } // for
+  }
+  
+  // scordaturas
+  // ------------------------------------------------------
+
+  {
+    list<S_msrScordatura>::const_iterator i;
+    for (i=fNoteScordaturas.begin (); i!=fNoteScordaturas.end (); i++) {
+      // share this data
+      noteDeepCopy->
+        fNoteScordaturas.push_back ((*i));
+    } // for
+  }
+  
   // words
   // ------------------------------------------------------
 
@@ -5919,6 +5967,18 @@ S_msrNote msrNote::createNoteDeepCopy (
     } // for
   }
   
+  // pedals
+  // ------------------------------------------------------
+
+  { 
+    list<S_msrPedal>::const_iterator i;
+    for (i=fNotePedals.begin (); i!=fNotePedals.end (); i++) {
+      // share this data
+      noteDeepCopy->
+        fNotePedals.push_back ((*i));
+    } // for
+  }
+
   // harmony
   // ------------------------------------------------------
 
@@ -6607,17 +6667,17 @@ void msrNote::determineTupletMemberSoundingFromDisplayWholeNotes (
   }
 }
 
-void msrNote::addBeamToNote (S_msrBeam beam)
+void msrNote::appendBeamToNote (S_msrBeam beam)
 {
   fNoteBeams.push_back (beam);
 }
 
-void msrNote::addArticulationToNote (S_msrArticulation art)
+void msrNote::appendArticulationToNote (S_msrArticulation art)
 {
   fNoteArticulations.push_back (art);
 }
 
-void msrNote::addSpannerToNote (S_msrSpanner spanner)
+void msrNote::appendSpannerToNote (S_msrSpanner spanner)
 {
   if (gTraceOptions->fTraceSpanners || gTraceOptions->fTraceNotes) {
     gLogIOstream <<
@@ -6655,7 +6715,7 @@ void msrNote::addSpannerToNote (S_msrSpanner spanner)
   fNoteSpanners.push_back (spanner);
 }
 
-void msrNote::addTechnicalToNote (S_msrTechnical technical)
+void msrNote::appendTechnicalToNote (S_msrTechnical technical)
 {
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
     gLogIOstream <<
@@ -6674,7 +6734,7 @@ void msrNote::addTechnicalToNote (S_msrTechnical technical)
     setTechnicalNoteUplink (this);
 }
 
-void msrNote::addTechnicalWithIntegerToNote (
+void msrNote::appendTechnicalWithIntegerToNote (
   S_msrTechnicalWithInteger technicalWithInteger)
 {
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
@@ -6687,14 +6747,15 @@ void msrNote::addTechnicalWithIntegerToNote (
   }
 
   // append the technical with integer to the note technicals with integers list
-  fNoteTechnicalWithIntegers.push_back (technicalWithInteger);
+  fNoteTechnicalWithIntegers.push_back (
+    technicalWithInteger);
 
   // set technical's note uplink
   technicalWithInteger->
     setTechnicalWithIntegerNoteUplink (this);
 }
 
-void msrNote::addTechnicalWithStringToNote (
+void msrNote::appendTechnicalWithStringToNote (
   S_msrTechnicalWithString technicalWithString)
 {
   if (gTraceOptions->fTraceNotes || gTraceOptions->fTraceTechnicals) {
@@ -6707,14 +6768,15 @@ void msrNote::addTechnicalWithStringToNote (
   }
 
   // append the technical with integer to the note technicals with integers list
-  fNoteTechnicalWithStrings.push_back (technicalWithString);
+  fNoteTechnicalWithStrings.push_back (
+    technicalWithString);
 
   // set technical's note uplink
   technicalWithString->
     setTechnicalWithStringNoteUplink (this);
 }
 
-void msrNote::addOrnamentToNote (S_msrOrnament ornament)
+void msrNote::appendOrnamentToNote (S_msrOrnament ornament)
 {
   // append the ornament to the note ornaments list
   fNoteOrnaments.push_back (ornament);
@@ -6745,21 +6807,21 @@ void msrNote::addOrnamentToNote (S_msrOrnament ornament)
     setOrnamentNoteUplink (this);
 }
 
-void msrNote::addGlissandoToNote (S_msrGlissando glissando)
+void msrNote::appendGlissandoToNote (S_msrGlissando glissando)
 
 {
   // append the glissando to the note glissandos list
   fNoteGlissandos.push_back (glissando);
 }
 
-void msrNote::addSlideToNote (S_msrSlide slide)
+void msrNote::appendSlideToNote (S_msrSlide slide)
 
 {
   // append the slide to the note glissandos list
   fNoteSlides.push_back (slide);
 }
 
-void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
+void msrNote::setNoteSingleTremolo (S_msrSingleTremolo trem)
 {
   if (gTraceOptions->fTraceTremolos) {
     gLogIOstream <<
@@ -6777,21 +6839,21 @@ void msrNote::addSingleTremoloToNote (S_msrSingleTremolo trem)
     setSingleTremoloNoteUplink (this);
 }
 
-void msrNote::addDynamicsToNote (S_msrDynamics dynamics)
+void msrNote::appendDynamicsToNote (S_msrDynamics dynamics)
 {
   fNoteDynamics.push_back (dynamics);
 }
-void msrNote::addOtherDynamicsToNote (S_msrOtherDynamics otherDynamics)
+void msrNote::appendOtherDynamicsToNote (S_msrOtherDynamics otherDynamics)
 {
   fNoteOtherDynamics.push_back (otherDynamics);
 }
 
-void msrNote::addWordsToNote (S_msrWords words)
+void msrNote::appendWordsToNote (S_msrWords words)
 {
   fNoteWords.push_back (words);
 }
 
-void msrNote::addSlurToNote (S_msrSlur slur)
+void msrNote::appendSlurToNote (S_msrSlur slur)
 {
   if (gTraceOptions->fTraceSlurs) {
     gLogIOstream <<
@@ -6803,11 +6865,11 @@ void msrNote::addSlurToNote (S_msrSlur slur)
   fNoteSlurs.push_back (slur);
 }
 
-void msrNote::addLigatureToNote (S_msrLigature ligature)
+void msrNote::appendLigatureToNote (S_msrLigature ligature)
 {
   if (gTraceOptions->fTraceLigatures) {
     gLogIOstream <<
-      "Adding ligature " << ligature << " to note " << asString () <<
+      "Appending ligature " << ligature << " to note " << asString () <<
        endl;
   }
 
@@ -6849,9 +6911,73 @@ void msrNote::addLigatureToNote (S_msrLigature ligature)
     fNoteLigatures.push_back (ligature);
 }
 
-void msrNote::addWedgeToNote (S_msrWedge wedge)
+void msrNote::appendPedalToNote (S_msrPedal pedal)
+{
+  if (gTraceOptions->fTracePedals) {
+    gLogIOstream <<
+      "Appending pedal " << pedal << " to note " << asString () <<
+       endl;
+  }
+
+  if (fNotePedals.size ()) {
+    if (
+      fNotePedals.back ()->getPedalTypeKind () == msrPedal::kPedalStart
+        &&
+      pedal->getPedalTypeKind () == msrPedal::kPedalStop
+      ) {
+      // it may happen that a given note has a 'pedal start'
+      // and a 'pedal stop' in sequence, ignore both            // JMI ???
+
+      stringstream s;
+      
+      s <<
+        "a 'pedal start' is immediately followed by a 'pedal stop'" <<
+        endl <<
+        "with the same number, ignoring both of them at line " <<
+        pedal->getInputLineNumber ();
+        
+      msrMusicXMLWarning (
+        gXml2lyOptions->fInputSourceName,
+        pedal->getInputLineNumber (),
+        s.str ());
+        
+      // rmeove 'pedal start'
+      fNotePedals.pop_back ();
+
+      // don't register 'pedal stop'
+    }
+
+    else
+      fNotePedals.push_back (pedal);
+  }
+
+  else
+    fNotePedals.push_back (pedal);
+}
+
+void msrNote::appendWedgeToNote (S_msrWedge wedge)
 {
   fNoteWedges.push_back (wedge);
+}
+
+void msrNote::appendEyeGlassesToNote (S_msrEyeGlasses eyeGlasses)
+{
+  fNoteEyeGlasses.push_back (eyeGlasses);
+}
+
+void msrNote::appendDampToNote (S_msrDamp damp)
+{
+  fNoteDamps.push_back (damp);
+}
+
+void msrNote::appendDampAllToNote (S_msrDampAll dampAll)
+{
+  fNoteDampAlls.push_back (dampAll);
+}
+
+void msrNote::appendScordaturaToNote (S_msrScordatura scordatura)
+{
+  fNoteScordaturas.push_back (scordatura);
 }
 
 S_msrDynamics msrNote::removeFirstDynamics () // JMI
@@ -7186,6 +7312,54 @@ void msrNote::browseData (basevisitor* v)
     for (i=fNoteWedges.begin (); i!=fNoteWedges.end (); i++) {
       // browse the wedge
       msrBrowser<msrWedge> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
+  // browse the eyeglasses if any
+  if (fNoteEyeGlasses.size ()) {
+    gIndenter++;
+    list<S_msrEyeGlasses>::const_iterator i;
+    for (i=fNoteEyeGlasses.begin (); i!=fNoteEyeGlasses.end (); i++) {
+      // browse the eyeglasses
+      msrBrowser<msrEyeGlasses> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
+  // browse the damps if any
+  if (fNoteDamps.size ()) {
+    gIndenter++;
+    list<S_msrDamp>::const_iterator i;
+    for (i=fNoteDamps.begin (); i!=fNoteDamps.end (); i++) {
+      // browse the damp
+      msrBrowser<msrDamp> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
+  // browse the damp alls if any
+  if (fNoteDampAlls.size ()) {
+    gIndenter++;
+    list<S_msrDampAll>::const_iterator i;
+    for (i=fNoteDampAlls.begin (); i!=fNoteDampAlls.end (); i++) {
+      // browse the damp all
+      msrBrowser<msrDampAll> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
+  // browse the scordaturas if any
+  if (fNoteScordaturas.size ()) {
+    gIndenter++;
+    list<S_msrScordatura>::const_iterator i;
+    for (i=fNoteScordaturas.begin (); i!=fNoteScordaturas.end (); i++) {
+      // browse the scordatura
+      msrBrowser<msrScordatura> browser (v);
       browser.browse (*(*i));
     } // for
     gIndenter--;
@@ -8429,6 +8603,98 @@ void msrNote::print (ostream& os)
     gIndenter--;
   }
 
+  // print the eyeglasses if any
+  if (fNoteEyeGlasses.size ()) {
+    gIndenter++;
+    os <<
+      "Note eyeGlasses:" <<
+      endl;
+      
+    gIndenter++;
+    
+    list<S_msrEyeGlasses>::const_iterator
+      iBegin = fNoteEyeGlasses.begin (),
+      iEnd   = fNoteEyeGlasses.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+    
+    gIndenter--;
+    gIndenter--;
+  }
+
+  // print the damps if any
+  if (fNoteDamps.size ()) {
+    gIndenter++;
+    os <<
+      "Note damps:" <<
+      endl;
+      
+    gIndenter++;
+    
+    list<S_msrDamp>::const_iterator
+      iBegin = fNoteDamps.begin (),
+      iEnd   = fNoteDamps.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+    
+    gIndenter--;
+    gIndenter--;
+  }
+
+  // print the damps alls if any
+  if (fNoteDampAlls.size ()) {
+    gIndenter++;
+    os <<
+      "Note damp alls:" <<
+      endl;
+      
+    gIndenter++;
+    
+    list<S_msrDampAll>::const_iterator
+      iBegin = fNoteDampAlls.begin (),
+      iEnd   = fNoteDampAlls.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+    
+    gIndenter--;
+    gIndenter--;
+  }
+
+  // print the scordaturas if any
+  if (fNoteScordaturas.size ()) {
+    gIndenter++;
+    os <<
+      "Note scordaturas:" <<
+      endl;
+      
+    gIndenter++;
+    
+    list<S_msrScordatura>::const_iterator
+      iBegin = fNoteScordaturas.begin (),
+      iEnd   = fNoteScordaturas.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+    
+    gIndenter--;
+    gIndenter--;
+  }
+
   // print the harmony if any
   if (fNoteHarmony) {
     gIndenter++;
@@ -8705,14 +8971,14 @@ void msrChord::setChordFirstNoteMeasureNumber (
  }
 }
                     
-void msrChord::addArticulationToChord (S_msrArticulation art)
+void msrChord::appendArticulationToChord (S_msrArticulation art)
 {
   msrArticulation::msrArticulationKind
     articulationKind =
       art->
         getArticulationKind ();
 
-  // don't add the same articulation several times
+  // don't append the same articulation several times
   for (
     list<S_msrArticulation>::const_iterator i = fChordArticulations.begin ();
     i!=fChordArticulations.end ();
@@ -8723,7 +8989,7 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
 
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) { // JMI
     gLogIOstream <<
-      "Adding articulation '" <<
+      "Appending articulation '" <<
       art->articulationKindAsString () <<
       "' to chord" <<
       endl;
@@ -8732,14 +8998,14 @@ void msrChord::addArticulationToChord (S_msrArticulation art)
   fChordArticulations.push_back (art);
 }
 
-void msrChord::addSpannerToChord (S_msrSpanner span)
+void msrChord::appendSpannerToChord (S_msrSpanner span)
 {
   msrSpanner::msrSpannerKind
     spannerKind =
       span->
         getSpannerKind ();
 
-  // don't add the same spanner several times
+  // don't append the same spanner several times
   for (
     list<S_msrSpanner>::const_iterator i = fChordSpanners.begin ();
     i!=fChordSpanners.end ();
@@ -8750,7 +9016,7 @@ void msrChord::addSpannerToChord (S_msrSpanner span)
 
   if (gTraceOptions->fTraceSpanners || gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Adding spanner '" <<
+      "Appending spanner '" <<
       span->spannerKindAsString () <<
       "' to chord '" <<
       asString () <<
@@ -8761,7 +9027,7 @@ void msrChord::addSpannerToChord (S_msrSpanner span)
   fChordSpanners.push_back (span);
 }
 
-void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
+void msrChord::setChordSingleTremolo (S_msrSingleTremolo trem)
 {
   if (gTraceOptions->fTraceTremolos || gTraceOptions->fTraceChords) {
     gLogIOstream <<
@@ -8774,14 +9040,14 @@ void msrChord::addSingleTremoloToChord (S_msrSingleTremolo trem)
   fChordSingleTremolo = trem;
 }
 
-void msrChord::addTechnicalToChord (S_msrTechnical tech)
+void msrChord::appendTechnicalToChord (S_msrTechnical tech)
 {
   msrTechnical::msrTechnicalKind
     technicalKind =
       tech->
         getTechnicalKind ();
 
-  // don't add the same technical several times
+  // don't append the same technical several times
   for (
     list<S_msrTechnical>::const_iterator i =
       fChordTechnicals.begin ();
@@ -8793,7 +9059,7 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
 
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Adding technical '" <<
+      "Appending technical '" <<
       tech->asString () <<
       "' to chord" <<
       endl;
@@ -8802,7 +9068,7 @@ void msrChord::addTechnicalToChord (S_msrTechnical tech)
   fChordTechnicals.push_back (tech);
 }
 
-void msrChord::addTechnicalWithIntegerToChord (
+void msrChord::appendTechnicalWithIntegerToChord (
   S_msrTechnicalWithInteger tech)
 {
   msrTechnicalWithInteger::msrTechnicalWithIntegerKind
@@ -8810,7 +9076,7 @@ void msrChord::addTechnicalWithIntegerToChord (
       tech->
         getTechnicalWithIntegerKind ();
 
-  // don't add the same technical several times
+  // don't append the same technical several times
   for (
     list<S_msrTechnicalWithInteger>::const_iterator i =
       fChordTechnicalWithIntegers.begin ();
@@ -8822,7 +9088,7 @@ void msrChord::addTechnicalWithIntegerToChord (
 
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Adding technical with integer '" <<
+      "Appending technical with integer '" <<
       tech->asString () <<
       "' to chord" <<
       endl;
@@ -8831,7 +9097,7 @@ void msrChord::addTechnicalWithIntegerToChord (
   fChordTechnicalWithIntegers.push_back (tech);
 }
 
-void msrChord::addTechnicalWithStringToChord (
+void msrChord::appendTechnicalWithStringToChord (
   S_msrTechnicalWithString tech)
 {
   msrTechnicalWithString::msrTechnicalWithStringKind
@@ -8839,7 +9105,7 @@ void msrChord::addTechnicalWithStringToChord (
       tech->
         getTechnicalWithStringKind ();
 
-  // don't add the same technical several times
+  // don't append the same technical several times
   for (
     list<S_msrTechnicalWithString>::const_iterator i =
       fChordTechnicalWithStrings.begin ();
@@ -8851,7 +9117,7 @@ void msrChord::addTechnicalWithStringToChord (
 
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Adding technical with string '" <<
+      "Appending technical with string '" <<
       tech->asString () <<
       "' to chord" <<
       endl;
@@ -8860,14 +9126,14 @@ void msrChord::addTechnicalWithStringToChord (
   fChordTechnicalWithStrings.push_back (tech);
 }
 
-void msrChord::addOrnamentToChord (S_msrOrnament orn)
+void msrChord::appendOrnamentToChord (S_msrOrnament orn)
 {
   msrOrnament::msrOrnamentKind
     ornamentKind =
       orn->
         getOrnamentKind ();
 
-  // don't add the same ornament several times
+  // don't append the same ornament several times
   for (
     list<S_msrOrnament>::const_iterator i = fChordOrnaments.begin ();
     i!=fChordOrnaments.end ();
@@ -8878,7 +9144,7 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
 
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Adding ornament '" <<
+      "Appending ornament '" <<
       orn->ornamentKindAsString () <<
       "' to chord" <<
       endl;
@@ -8887,14 +9153,14 @@ void msrChord::addOrnamentToChord (S_msrOrnament orn)
   fChordOrnaments.push_back (orn);
 }
 
-void msrChord::addGlissandoToChord (S_msrGlissando gliss)
+void msrChord::appendGlissandoToChord (S_msrGlissando gliss)
 {
   msrGlissando::msrGlissandoTypeKind
     glissandoTypeKind =
       gliss->
         getGlissandoTypeKind ();
 
-  // don't add the same slissando several times
+  // don't append the same slissando several times
   for (
     list<S_msrGlissando>::const_iterator i = fChordGlissandos.begin ();
     i!=fChordGlissandos.end ();
@@ -8905,7 +9171,7 @@ void msrChord::addGlissandoToChord (S_msrGlissando gliss)
 
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Adding glissando '" <<
+      "Appending glissando '" <<
       gliss->asString () <<
       "' to chord" <<
       endl;
@@ -8914,14 +9180,14 @@ void msrChord::addGlissandoToChord (S_msrGlissando gliss)
   fChordGlissandos.push_back (gliss);
 }
 
-void msrChord::addSlideToChord (S_msrSlide slide)
+void msrChord::appendSlideToChord (S_msrSlide slide)
 {
   msrSlide::msrSlideTypeKind
     slideTypeKind =
       slide->
         getSlideTypeKind ();
 
-  // don't add the same slide several times
+  // don't append the same slide several times
   for (
     list<S_msrSlide>::const_iterator i = fChordSlides.begin ();
     i!=fChordSlides.end ();
@@ -8932,7 +9198,7 @@ void msrChord::addSlideToChord (S_msrSlide slide)
 
   if (gTraceOptions->fTraceChords) {
     gLogIOstream <<
-      "Adding slide '" <<
+      "Appending slide '" <<
       slide->asString () <<
       "' to chord" <<
       endl;
@@ -14736,7 +15002,7 @@ msrTempoNote::msrTempoNote (
 msrTempoNote::~msrTempoNote ()
 {}
 
-void msrTempoNote::addBeamToTempoNote (S_msrBeam beam)
+void msrTempoNote::appendBeamToTempoNote (S_msrBeam beam)
 {
   fTempoNoteBeams.push_back (beam);
 }
@@ -15917,14 +16183,15 @@ void msrTempo::print (ostream& os)
 
   gIndenter++;
 
-  const int fieldWidth = 23;
+  const int fieldWidth = 27;
 
   os << left <<
      setw (fieldWidth) <<
-   "tempoKind" << " = " << tempoKindAsString (fTempoKind) <<
+   "tempoKind" << " : " << tempoKindAsString (fTempoKind) <<
     endl;
 
   os << left <<
+    setw (fieldWidth) <<
     "tempoWords";
     
   if (fTempoWords) {
@@ -15934,14 +16201,14 @@ void msrTempo::print (ostream& os)
       
     gIndenter++;
     
-    os << fTempoWords;
+    os <<
+      fTempoWords;
       
     gIndenter--;
   }
   else {
     os <<
-      setw (fieldWidth) <<
-      " = " << "none" <<
+      " : " << "none" <<
       endl;;
   }
     
@@ -15959,10 +16226,10 @@ void msrTempo::print (ostream& os)
   
   os << left <<
     setw (fieldWidth) <<
-    "tempoPerMinute" << " = \"" << fTempoPerMinute << "\"" <<
+    "tempoPerMinute" << " : \"" << fTempoPerMinute << "\"" <<
     endl <<
     setw (fieldWidth) <<
-    "tempoParenthesizedKind"  << " = " <<
+    "tempoParenthesizedKind"  << " : " <<
     tempoParenthesizedAsString (fTempoParenthesizedKind) <<
     endl;
 
@@ -19302,16 +19569,16 @@ string msrPedal::pedalTypeAsString ()
   
   switch (fPedalTypeKind) {
     case kPedalStart:
-      result = "start pedal";
+      result = "pedalStart";
       break;
     case kPedalContinue:
-      result = "continue pedal";
+      result = "pedalContinue";
       break;
     case kPedalChange:
-      result = "change pedal";
+      result = "pedalChange";
       break;
     case kPedalStop:
-      result = "stop pedal";
+      result = "pedalStop";
       break;
   } // switch
 
@@ -23409,7 +23676,7 @@ void msrSegment::appendEyeGlassesToSegment (
 {
   if (gTraceOptions->fTraceHarmonies || gTraceOptions->fTraceSegments) {
     gLogIOstream <<
-      "Appending eyeglasses " <<
+      "Appending eyeGlasses " <<
       " to segment " << asString () <<
       "' in voice \"" <<
       fSegmentVoiceUplink->getVoiceName () <<

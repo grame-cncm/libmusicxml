@@ -7082,6 +7082,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrTempo& elt)
         endl;
         
       break;
+      
     case msrTempo::kTempoNotesRelationShip:
       fLilypondCodeIOstream <<
         "\\tempoRelationship #\"";
@@ -9957,6 +9958,18 @@ void lpsr2LilypondTranslator::visitStart (S_msrEyeGlasses& elt)
 
   fLilypondCodeIOstream <<
     "^\\markup {\\eyeglasses} ";
+}
+
+void lpsr2LilypondTranslator::visitStart (S_msrScordatura& elt)
+{
+  if (gLpsrOptions->fTraceLpsrVisitors) {
+    fLilypondCodeIOstream <<
+      "% --> Start visiting scordatura" <<
+      endl;
+  }
+
+  fLilypondCodeIOstream <<
+    "\\mark \\markup {\"Scordatura\"} ";
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)

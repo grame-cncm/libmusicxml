@@ -6013,6 +6013,9 @@ class msrNote : public msrElement
                               { return fNoteSlides; }
         
     // singleTremolo
+    void                  setNoteSingleTremolo (
+                            S_msrSingleTremolo trem);
+    
     S_msrSingleTremolo    getNoteSingleTremolo () const
                               { return fNoteSingleTremolo; }
 
@@ -6025,27 +6028,47 @@ class msrNote : public msrElement
     // dynamics
     const list<S_msrDynamics>&
                           getNoteDynamics () const
-                              { return fNoteDynamics; };
+                              { return fNoteDynamics; }
     const list<S_msrOtherDynamics>&
                           getNoteOtherDynamics () const
-                              { return fNoteOtherDynamics; };
+                              { return fNoteOtherDynamics; }
         
     // words
     const list<S_msrWords>&
                           getNoteWords () const
-                              { return fNoteWords; };
+                              { return fNoteWords; }
                       
     list<S_msrWords>&     getNoteWordsToModify ()
-                              { return fNoteWords; };
+                              { return fNoteWords; }
                       
     // wedges
     const list<S_msrWedge>&
                           getNoteWedges () const
-                              { return fNoteWedges; };
+                              { return fNoteWedges; }
 
     list<S_msrWedge>&
                           getNoteWedgesToModify ()
-                              { return fNoteWedges; };
+                              { return fNoteWedges; }
+
+    // eyeglasses
+    const list<S_msrEyeGlasses>&
+                          getNoteEyeGlasses () const
+                              { return fNoteEyeGlasses; }
+    
+    // damps
+    const list<S_msrDamp>&
+                          getNoteDamps () const
+                              { return fNoteDamps; };
+    
+    // damp alls
+    const list<S_msrDampAll>&
+                          getNoteDampAlls () const
+                              { return fNoteDampAlls; }
+    
+    // scordaturas
+    const list<S_msrScordatura>&
+                          getNoteScordaturas () const
+                              { return fNoteScordaturas; }
 
     // slurs
     const list<S_msrSlur>&
@@ -6056,6 +6079,11 @@ class msrNote : public msrElement
     const list<S_msrLigature>&
                           getNoteLigatures () const
                               { return fNoteLigatures; }
+
+    // pedals
+    const list<S_msrPedal>&
+                          getNotePedals () const
+                              { return fNotePedals; }
 
     // note measure information
     // -------------------------------
@@ -6201,56 +6229,69 @@ class msrNote : public msrElement
     void                  appendSyllableToNote (S_msrSyllable syllable);
 
     // beams
-    void                  addBeamToNote (S_msrBeam beam);
+    void                  appendBeamToNote (S_msrBeam beam);
     
     // articulations
-    void                  addArticulationToNote (S_msrArticulation art);
+    void                  appendArticulationToNote (S_msrArticulation art);
     
     // spanners
-    void                  addSpannerToNote (S_msrSpanner span);
+    void                  appendSpannerToNote (S_msrSpanner span);
     
     // technicals
-    void                  addTechnicalToNote (S_msrTechnical tech);
+    void                  appendTechnicalToNote (S_msrTechnical tech);
     
-    void                  addTechnicalWithIntegerToNote (
+    void                  appendTechnicalWithIntegerToNote (
                             S_msrTechnicalWithInteger tech);
     
-    void                  addTechnicalWithStringToNote (
+    void                  appendTechnicalWithStringToNote (
                             S_msrTechnicalWithString tech);
     
     // ornaments
-    void                  addOrnamentToNote (S_msrOrnament orn);
+    void                  appendOrnamentToNote (S_msrOrnament orn);
     
     // glissandos
-    void                  addGlissandoToNote (S_msrGlissando glissando);
+    void                  appendGlissandoToNote (S_msrGlissando glissando);
     
     // slides
-    void                  addSlideToNote (S_msrSlide slide);
-    
-    // singleTremolo
-    void                  addSingleTremoloToNote (S_msrSingleTremolo trem);
+    void                  appendSlideToNote (S_msrSlide slide);
     
     // dynamics
-    void                  addDynamicsToNote (
+    void                  appendDynamicsToNote (
                             S_msrDynamics dynamics);
-    void                  addOtherDynamicsToNote (
+    void                  appendOtherDynamicsToNote (
                             S_msrOtherDynamics otherDynamics);
 
     S_msrDynamics         removeFirstDynamics (); // ???
 
     // words
-    void                  addWordsToNote (S_msrWords words);
+    void                  appendWordsToNote (S_msrWords words);
     
     // slurs
-    void                  addSlurToNote (S_msrSlur slur);
+    void                  appendSlurToNote (S_msrSlur slur);
     
     // ligatures
-    void                  addLigatureToNote (S_msrLigature ligature);
+    void                  appendLigatureToNote (S_msrLigature ligature);
+    
+    // pedals
+    void                  appendPedalToNote (S_msrPedal pedal);
     
     //  wedges
-    void                  addWedgeToNote (S_msrWedge wedge);
+    void                  appendWedgeToNote (S_msrWedge wedge);
 
     S_msrWedge            removeFirstWedge (); // JMI
+
+    // eyeglasses
+    void                  appendEyeGlassesToNote (S_msrEyeGlasses eyeGlasses);
+    
+    // damps
+    void                  appendDampToNote (S_msrDamp damp);
+    
+    // damp alls
+    void                  appendDampAllToNote (S_msrDampAll dampAll);
+    
+    // scordaturas
+    void                  appendScordaturaToNote (S_msrScordatura scordatura);
+    
 
     // visitors
     // ------------------------------------------------------
@@ -6422,6 +6463,26 @@ class msrNote : public msrElement
                           fNoteOtherDynamics;
     list<S_msrWedge>      fNoteWedges;
 
+    // eyeglasses
+    // ------------------------------------------------------
+
+    list<S_msrEyeGlasses> fNoteEyeGlasses;
+    
+    // damps
+    // ------------------------------------------------------
+
+    list<S_msrDamp>       fNoteDamps;
+    
+    // damp alls
+    // ------------------------------------------------------
+
+    list<S_msrDampAll>    fNoteDampAlls;
+    
+    // scordaturas
+    // ------------------------------------------------------
+
+    list<S_msrScordatura> fNoteScordaturas;
+
     // words
     // ------------------------------------------------------
 
@@ -6436,6 +6497,11 @@ class msrNote : public msrElement
     // ------------------------------------------------------
 
     list<S_msrLigature>   fNoteLigatures;
+
+    // pedals
+    // ------------------------------------------------------
+
+    list<S_msrPedal>      fNotePedals;
 
     // harmony
     // ------------------------------------------------------
@@ -6598,6 +6664,9 @@ class msrChord : public msrElement
                               { return fChordSlides; }
     
     // singleTremolo
+    void                  setChordSingleTremolo (
+                            S_msrSingleTremolo trem);
+    
     S_msrSingleTremolo    getChordSingleTremolo () const
                               { return fChordSingleTremolo; }
 
@@ -6627,6 +6696,11 @@ class msrChord : public msrElement
     const list<S_msrLigature>&
                           getChordLigatures () const
                               { return fChordLigatures; }
+                      
+    // pedals
+    const list<S_msrPedal>&
+                          getChordPedals () const
+                              { return fChordPedals; }
                       
     // double tremolo
     void                  setChordIsFirstChordInADoubleTremolo ()
@@ -6702,55 +6776,73 @@ class msrChord : public msrElement
     void                  addAnotherNoteToChord (S_msrNote note);
 
     // articulations
-    void                  addArticulationToChord (S_msrArticulation art);
+    void                  appendArticulationToChord (S_msrArticulation art);
      
     // spanners
-    void                  addSpannerToChord (S_msrSpanner span);
+    void                  appendSpannerToChord (S_msrSpanner span);
      
     // technicals
-    void                  addTechnicalToChord (S_msrTechnical tech);
+    void                  appendTechnicalToChord (S_msrTechnical tech);
     
-    void                  addTechnicalWithIntegerToChord (
+    void                  appendTechnicalWithIntegerToChord (
                             S_msrTechnicalWithInteger tech);
     
-    void                  addTechnicalWithStringToChord (
+    void                  appendTechnicalWithStringToChord (
                             S_msrTechnicalWithString tech);
     
     // ornaments
-    void                  addOrnamentToChord (S_msrOrnament orn);
+    void                  appendOrnamentToChord (S_msrOrnament orn);
      
     // glissandos
-    void                  addGlissandoToChord (S_msrGlissando gliss);
+    void                  appendGlissandoToChord (S_msrGlissando gliss);
      
     // slides
-    void                  addSlideToChord (S_msrSlide slide);
+    void                  appendSlideToChord (S_msrSlide slide);
      
-    // singleTremolo
-    void                  addSingleTremoloToChord (S_msrSingleTremolo trem);
-    
     // dynamics
-    void                  addDynamicsToChord (S_msrDynamics dynamic)
-                              { fChordDynamics.push_back (dynamic); }
-    void                  addOtherDynamicsToChord (S_msrOtherDynamics otherDynamic)
-                              { fChordOtherDynamics.push_back (otherDynamic); }
-    void                  addWedgeToChord (S_msrWedge wedge)
-                              { fChordWedges.push_back (wedge); }
+    void                  appendDynamicsToChord (S_msrDynamics dynamic)
+                              {
+                                fChordDynamics.push_back (dynamic);
+                              }
+    void                  appendOtherDynamicsToChord (
+                            S_msrOtherDynamics otherDynamic)
+                              {
+                                fChordOtherDynamics.push_back (otherDynamic);
+                              }
+    void                  appendWedgeToChord (S_msrWedge wedge)
+                              {
+                                fChordWedges.push_back (wedge);
+                              }
                     
     // words
-    void                  addWordsToChord (S_msrWords dynamic)
-                              { fChordWords.push_back (dynamic); }
+    void                  appendWordsToChord (S_msrWords dynamic)
+                              {
+                                fChordWords.push_back (dynamic);
+                              }
                     
     // slurs
-    void                  addSlurToChord (S_msrSlur slur)
-                              { fChordSlurs.push_back (slur); }
+    void                  appendSlurToChord (S_msrSlur slur)
+                              {
+                                fChordSlurs.push_back (slur);
+                              }
                       
     // beams
-    void                  addBeamToChord (S_msrBeam beam)
-                              { fChordBeams.push_back (beam); }
+    void                  appendBeamToChord (S_msrBeam beam)
+                              {
+                                fChordBeams.push_back (beam);
+                              }
 
     // ligatures
-    void                  addLigatureToChord (S_msrLigature ligature)
-                              { fChordLigatures.push_back (ligature); }
+    void                  appendLigatureToChord (S_msrLigature ligature)
+                              {
+                                fChordLigatures.push_back (ligature);
+                              }
+                      
+    // pedals
+    void                  appendPedalToChord (S_msrPedal pedal)
+                              {
+                                fChordPedals.push_back (pedal);
+                              }
                       
     // tuplet members
     /* JMI
@@ -6862,6 +6954,9 @@ class msrChord : public msrElement
 
     // ligatures
     list<S_msrLigature>   fChordLigatures;
+
+    // pedals
+    list<S_msrPedal>      fChordPedals;
 
     // harmony
     S_msrHarmony          fChordHarmony;
@@ -8334,7 +8429,7 @@ class msrTempoNote : public msrElement
 
     string                asString () const;
 
-    void                  addBeamToTempoNote (S_msrBeam beam);
+    void                  appendBeamToTempoNote (S_msrBeam beam);
 
     // visitors
     // ------------------------------------------------------
