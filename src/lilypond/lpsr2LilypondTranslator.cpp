@@ -7952,6 +7952,12 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     
       gIndenter--;
 
+      fLilypondCodeIOstream <<
+        "{" <<
+        endl;
+
+      gIndenter++;
+      
       break; // JMI
     } // for
   }
@@ -9028,6 +9034,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
     
     fLilypondCodeIOstream <<
       endl <<
+      "}" <<
+      endl;
+
+    gIndenter--;
+    
+    fLilypondCodeIOstream <<
       ">>" <<
       endl;
   }
