@@ -675,8 +675,8 @@
         <direction-type>
           <scordatura>
               <accord string="3"><tuning-step>C</tuning-step><tuning-octave>3</tuning-octave></accord>
-              <accord string="2"><tuning-step>G</tuning-step><tuning-octave>5</tuning-octave></accord>
-              <accord string="1"><tuning-step>E</tuning-step><tuning-octave>5</tuning-octave></accord>
+              <accord string="2"><tuning-step>G</tuning-step><tuning-octave>3</tuning-octave></accord>
+              <accord string="1"><tuning-step>F</tuning-step><tuning-octave>4</tuning-octave></accord>
           </scordatura>
         </direction-type>
       </direction>

@@ -15796,7 +15796,7 @@ void mxmlTree2MsrTranslator::attachPendingDampsToNote (
   S_msrNote note)
 {
  // attach the pending damps if any to the note
-  if (fPendingDampAlls.size ()) {
+  if (fPendingDamps.size ()) {
     if (gTraceOptions->fTraceBasic) {
       fLogOutputStream <<
         "Attaching pending damps to note " <<

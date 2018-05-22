@@ -474,6 +474,80 @@ string lpsr2LilypondTranslator::lilypondRelativeOctave (
   return s.str ();
 }
 
+string lpsr2LilypondTranslator::stringTuningAsLilypondString (
+  int               inputLineNumber,
+  S_msrStringTuning stringTuning)
+{
+  int
+    getStringTuningNumber =
+      stringTuning->
+        getStringTuningNumber ();
+
+  msrDiatonicPitchKind
+    stringTuningDiatonicPitchKind =
+      stringTuning->
+        getStringTuningDiatonicPitchKind ();
+
+  msrAlterationKind
+    stringTuningAlterationKind =
+      stringTuning->
+       getStringTuningAlterationKind ();
+
+  int
+    stringTuningOctave =
+      stringTuning->
+       getStringTuningOctave ();
+
+  // compute the quartertones pitch
+  msrQuarterTonesPitchKind
+    quarterTonesPitchKind =
+      quarterTonesPitchKindFromDiatonicPitchAndAlteration (
+        inputLineNumber,
+        stringTuningDiatonicPitchKind,
+        stringTuningAlterationKind);
+
+  if (gTraceOptions->fTraceScordaturas) {
+    fLilypondCodeIOstream <<
+      endl <<
+      "%getStringTuningNumber = " <<
+      getStringTuningNumber <<
+      endl <<
+      "%stringTuningDiatonicPitchKind = " <<
+      msrDiatonicPitchKindAsString (
+        stringTuningDiatonicPitchKind) <<
+      endl <<
+      "%stringTuningAlterationKind = " <<
+      alterationKindAsLilypondString (
+        stringTuningAlterationKind) <<
+      endl <<
+      "%stringTuningOctave = " <<
+      stringTuningOctave <<
+      endl <<
+      "%quarterTonesPitchKind = " <<
+      quarterTonesPitchKind <<
+      endl <<
+      "%quarterTonesPitchKindAsString: " <<
+      msrQuarterTonesPitchKindAsString (
+        gLpsrOptions->
+          fLpsrQuarterTonesPitchesLanguageKind,
+          quarterTonesPitchKind) <<
+      endl <<
+      endl;
+  }
+  
+  stringstream s;
+
+  s <<
+    msrQuarterTonesPitchKindAsString (
+      gLpsrOptions->
+        fLpsrQuarterTonesPitchesLanguageKind,
+        quarterTonesPitchKind) <<
+    absoluteOctaveAsLilypondString (
+      stringTuningOctave);
+
+  return s.str ();
+}
+  
 void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
   S_msrNote note)
 {
@@ -7804,13 +7878,82 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       ;
   } // switch
 
-  // are there note scordaturas?
-  if (elt->getNoteScordaturas ().size ()) {
+  // print the note scordaturas if any
+  const list<S_msrScordatura>&
+    noteScordaturas =
+      elt->getNoteScordaturas ();
+      
+  if (noteScordaturas.size ()) {
     fLilypondCodeIOstream <<
       "<<" <<
       endl;
 
     gIndenter++;
+
+    list<S_msrScordatura>::const_iterator
+      iBegin = noteScordaturas.begin (),
+      iEnd   = noteScordaturas.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      S_msrScordatura
+        scordatura = (*i);
+          
+      const list<S_msrStringTuning>&
+        scordaturaStringTuningsList =
+          scordatura->
+            getScordaturaStringTuningsList ();
+      
+      gIndenter++;
+        
+      fLilypondCodeIOstream <<
+        "\\new Staff {" <<
+        endl;
+    
+      gIndenter++;
+    
+      fLilypondCodeIOstream <<
+        "\\hide Staff.Stem" <<
+        endl <<
+        "\\hide Staff.TimeSignature" <<
+        endl <<
+        "\\small" <<
+        endl <<
+        "<";
+        
+      if (scordaturaStringTuningsList.size ()) {
+        list<S_msrStringTuning>::const_iterator
+          iBegin = scordaturaStringTuningsList.begin (),
+          iEnd   = scordaturaStringTuningsList.end (),
+          i      = iBegin;
+        for ( ; ; ) {
+          S_msrStringTuning
+            stringTuning = (*i);
+            
+          fLilypondCodeIOstream <<
+            stringTuningAsLilypondString (
+              elt->getInputLineNumber (),
+              stringTuning);
+    
+          if (++i == iEnd) break;
+          
+          fLilypondCodeIOstream << " ";
+        } // for
+      }
+        
+      fLilypondCodeIOstream <<
+        ">4" <<
+        endl;
+        
+      gIndenter--;
+      
+      fLilypondCodeIOstream <<
+        "}" <<
+        endl;
+    
+      gIndenter--;
+
+      break; // JMI
+    } // for
   }
 
   // print the note wedges circled tips if any
@@ -8622,10 +8765,12 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
               "\\huge ";
             break;
           case msrFontSize::kFontSizeNumeric:
+          /* JMI
             s <<
               "%{ " <<
               wordsFontSize->getFontNumericSize () <<
               " points %} ";
+              */
             break;
         } // switch
 
@@ -8874,10 +9019,15 @@ void lpsr2LilypondTranslator::visitEnd (S_msrNote& elt)
   }
   
   // are there note scordaturas?
-  if (elt->getNoteScordaturas ().size ()) {
+  const list<S_msrScordatura>&
+    noteScordaturas =
+      elt->getNoteScordaturas ();
+      
+  if (noteScordaturas.size ()) {
     gIndenter--;
     
     fLilypondCodeIOstream <<
+      endl <<
       ">>" <<
       endl;
   }
@@ -9022,7 +9172,8 @@ void lpsr2LilypondTranslator::visitStart (S_msrHarpPedalsTuning& elt)
         harpPedalsAlterationKindsMap [kG]) <<
       harpPedalTuningAsLilypondString (
         harpPedalsAlterationKindsMap [kA]) <<
-      "\" } ";
+      "\" } " <<
+      endl;
   }
   else {
     fLilypondCodeIOstream <<
@@ -9978,80 +10129,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrEyeGlasses& elt)
     "^\\markup {\\eyeglasses} ";
 }
 
-string lpsr2LilypondTranslator::stringTuningAsLilypondString (
-  int               inputLineNumber,
-  S_msrStringTuning stringTuning)
-{
-  int
-    getStringTuningNumber =
-      stringTuning->
-        getStringTuningNumber ();
-
-  msrDiatonicPitchKind
-    stringTuningDiatonicPitchKind =
-      stringTuning->
-        getStringTuningDiatonicPitchKind ();
-
-  msrAlterationKind
-    stringTuningAlterationKind =
-      stringTuning->
-       getStringTuningAlterationKind ();
-
-  int
-    stringTuningOctave =
-      stringTuning->
-       getStringTuningOctave ();
-
-  // compute the quartertones pitch
-  msrQuarterTonesPitchKind
-    quarterTonesPitchKind =
-      quarterTonesPitchKindFromDiatonicPitchAndAlteration (
-        inputLineNumber,
-        stringTuningDiatonicPitchKind,
-        stringTuningAlterationKind);
-
-  if (gTraceOptions->fTraceScordaturas) {
-    fLilypondCodeIOstream <<
-      endl <<
-      "%getStringTuningNumber = " <<
-      getStringTuningNumber <<
-      endl <<
-      "%stringTuningDiatonicPitchKind = " <<
-      msrDiatonicPitchKindAsString (
-        stringTuningDiatonicPitchKind) <<
-      endl <<
-      "%stringTuningAlterationKind = " <<
-      alterationKindAsLilypondString (
-        stringTuningAlterationKind) <<
-      endl <<
-      "%stringTuningOctave = " <<
-      stringTuningOctave <<
-      endl <<
-      "%quarterTonesPitchKind = " <<
-      quarterTonesPitchKind <<
-      endl <<
-      "%quarterTonesPitchKindAsString: " <<
-      msrQuarterTonesPitchKindAsString (
-        gLpsrOptions->
-          fLpsrQuarterTonesPitchesLanguageKind,
-          quarterTonesPitchKind) <<
-      endl <<
-      endl;
-  }
-  
-  stringstream s;
-
-  s <<
-    msrQuarterTonesPitchKindAsString (
-      gLpsrOptions->
-        fLpsrQuarterTonesPitchesLanguageKind,
-        quarterTonesPitchKind) <<
-    absoluteOctaveAsLilypondString (
-      stringTuningOctave);
-
-  return s.str ();
-}
-  
 void lpsr2LilypondTranslator::visitStart (S_msrScordatura& elt)
 {
   if (gLpsrOptions->fTraceLpsrVisitors) {
@@ -10060,6 +10137,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrScordatura& elt)
       endl;
   }
 
+/* JMI
   const list<S_msrStringTuning>&
     scordaturaStringTuningsList =
       elt->getScordaturaStringTuningsList ();
@@ -10114,6 +10192,7 @@ void lpsr2LilypondTranslator::visitStart (S_msrScordatura& elt)
     endl <<
 
   gIndenter--;
+  */
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
