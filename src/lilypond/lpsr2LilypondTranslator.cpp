@@ -9968,8 +9968,22 @@ void lpsr2LilypondTranslator::visitStart (S_msrScordatura& elt)
       endl;
   }
 
+  stringstream s;
+  
+  s <<
+    "<<" <<
+    endl <<
+    "\\new Staff {" <<
+    endl <<
+    "d' 4"
+    "}" <<
+    endl <<
+    "{ c'4 }" <<
+    endl <<
+    ">>";
+
   fLilypondCodeIOstream <<
-    "\\mark \\markup {\"Scordatura\"} ";
+    s.str ();
 }
 
 void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
