@@ -261,6 +261,9 @@ debugging information to standard error for the specified measures.)",
     // staff tuning
     fTraceStaffTuning = boolOptionsInitialValue;
     
+    // scordaturas
+    fTraceScordaturas = boolOptionsInitialValue;
+    
     // harp pedals tuning
     fTraceHarpPedalsTuning = boolOptionsInitialValue;
     
@@ -685,6 +688,15 @@ R"(Staff tuning)",
     specificTraceSubGroup->
       appendOptionsItem (
         optionsTwoBooleansItem::create (
+          "traceScordaturas", "",
+R"(Scordaturas)",
+          "traceScordaturas",
+          fTraceScordaturas,
+          fTraceBasic));
+      
+    specificTraceSubGroup->
+      appendOptionsItem (
+        optionsTwoBooleansItem::create (
           "traceHarpPedalsTuning", "",
 R"(Harp pedals tuning)",
           "traceHarpPedalsTuning",
@@ -710,6 +722,7 @@ R"(Extra chords handling)",
   fTraceWedges = boolOptionsInitialValue;
   
   fTraceStaffTuning = boolOptionsInitialValue;
+  fTraceScordaturas = boolOptionsInitialValue;
   
 
   /* STUFF not yet handled JMI */
@@ -862,6 +875,9 @@ S_traceOptions traceOptions::createCloneWithDetailedTrace ()
   
   // stafftuning
   clone->fTraceStaffTuning = true;
+
+  // scordaturas
+  clone->fTraceScordaturas = true;
 
     
   /* STUFF not yet handled JMI */

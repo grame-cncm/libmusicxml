@@ -448,8 +448,14 @@ class msrStringTuning : public msrElement
     int                   getStringTuningNumber () const
                               { return fStringTuningNumber; }
 
-    int                   getStringTuningSize () const
-                              { return fStringTuningSize; }
+    msrDiatonicPitchKind  getStringTuningDiatonicPitchKind () const
+                              { return fStringTuningDiatonicPitchKind; }
+
+    msrAlterationKind     getStringTuningAlterationKind () const
+                              { return fStringTuningAlterationKind; }
+
+    int                   getStringTuningOctave () const
+                              { return fStringTuningOctave; }
 
     // services
     // ------------------------------------------------------
@@ -479,8 +485,6 @@ class msrStringTuning : public msrElement
     msrDiatonicPitchKind  fStringTuningDiatonicPitchKind;
     msrAlterationKind     fStringTuningAlterationKind;
     int                   fStringTuningOctave;
-
-    int                   fStringTuningSize;
 };
 typedef SMARTP<msrStringTuning> S_msrStringTuning;
 EXP ostream& operator<< (ostream& os, const S_msrStringTuning& elt);

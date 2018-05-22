@@ -110,6 +110,12 @@ mxmlTree2MsrTranslator::mxmlTree2MsrTranslator (
   fOnGoingStaffTuning = false;
 
   // scordatura handling
+  
+  fCurrentStringTuningNumber = -1;
+  fCurrentStringTuningDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentStringTuningAlterationKind = k_NoAlteration;
+  fCurrentStringTuningOctave = -1;
+  
   fOnGoingAccord = false;
 
   // staff handling
@@ -20820,8 +20826,12 @@ void mxmlTree2MsrTranslator::visitStart (S_accord& elt )
           </accord>
 */
 
-  fCurrentStringTuningNumber = (int)(* elt);
-  
+  fCurrentStringTuningNumber = elt->getAttributeIntValue ("string", 0);
+
+  fCurrentStringTuningDiatonicPitchKind = k_NoDiatonicPitch;
+  fCurrentStringTuningAlterationKind = kNatural; // default value
+  fCurrentStringTuningOctave = -1;
+
   fOnGoingAccord = true;
 }
 

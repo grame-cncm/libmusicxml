@@ -206,6 +206,9 @@ class traceOptions : public optionsGroup
     // staff tuning
     bool                  fTraceStaffTuning;
     
+    // scordaturas
+    bool                  fTraceScordaturas;
+    
     // harp pedals tuning
     bool                  fTraceHarpPedalsTuning;
 

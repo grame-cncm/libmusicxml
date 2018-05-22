@@ -640,7 +640,7 @@ class lpsr2LilypondTranslator :
                             lpsrVarValsListAssoc::lpsrVarValsListAssocKind
                               lilyPondVarValsListAssocKind);
 
-    void                  writeLpsrVarValsListAssocValuesAsLilyPondString (
+    void                  writeLpsrVarValsListAssocValuesAsLilypondString (
                             S_lpsrVarValsListAssoc varValsListAssoc,
                             ostream&               os);
 
@@ -734,6 +734,11 @@ class lpsr2LilypondTranslator :
     
     string                dynamicsAsLilypondString (
                             S_msrDynamics dynamics);
+
+    // string tuning
+    string                stringTuningAsLilypondString (
+                            int               inputLineNumber,
+                            S_msrStringTuning stringTuning);
 
     // harp pedals tuning
     

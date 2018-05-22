@@ -8674,7 +8674,6 @@ void msrNote::print (ostream& os)
 
   // print the scordaturas if any
   if (fNoteScordaturas.size ()) {
-    gIndenter++;
     os <<
       "Note scordaturas:" <<
       endl;
@@ -8691,7 +8690,6 @@ void msrNote::print (ostream& os)
       // no endl here;
     } // for
     
-    gIndenter--;
     gIndenter--;
   }
 
