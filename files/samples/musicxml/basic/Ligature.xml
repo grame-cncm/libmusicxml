@@ -116,7 +116,7 @@
       </note>
       <direction placement="above">
         <direction-type>
-          <bracket default-y="45" line-end="down" number="1" type="stop"/>
+          <bracket default-y="45" line-end="up" number="1" type="stop"/>
         </direction-type>
         <offset>2</offset>
       </direction>

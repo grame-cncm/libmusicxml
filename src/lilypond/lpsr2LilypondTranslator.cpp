@@ -575,19 +575,19 @@ void lpsr2LilypondTranslator::printNoteAsLilypondString ( // JMI
             case kLineTypeDashed:
               fLilypondCodeIOstream <<
                 endl <<
-               // JMI "%\\once\\override Ligature.style = #'dashed-line" <<
+                "\\once\\override LigatureBracket.style = #'dashed-line" <<
                 endl;
               break;
             case kLineTypeDotted:
               fLilypondCodeIOstream <<
                 endl <<
-               // JMI "%\\once\\override Ligature.style = #'dotted-line" <<
+                "\\once\\override LigatureBracket.style = #'dotted-line" <<
                 endl;
               break;
             case kLineTypeWavy:
               fLilypondCodeIOstream <<
                 endl <<
-               // JMI "%\\once\\override Ligature.style = #'zigzag" <<
+                "\\once\\override LigatureBracket.style = #'zigzag" <<
                 endl;
               break;
           } // switch
@@ -1845,7 +1845,7 @@ void lpsr2LilypondTranslator::generateCodeForSpannerBeforeNote (
       switch (spanner->getSpannerTypeKind ()) {
         case kSpannerTypeStart:
           fLilypondCodeIOstream <<
-            "\\once \\override TextSpanner #'style = #'dashed-line" <<
+            "\\once \\override TextSpanner.style = #'dashed-line" <<
             endl;
           fOnGoingTrillSpanner = true;
           break;
@@ -1867,7 +1867,7 @@ void lpsr2LilypondTranslator::generateCodeForSpannerBeforeNote (
           }
           else {
             fLilypondCodeIOstream <<
-              "\\once \\override TextSpanner #'style = #'trill" <<
+              "\\once \\override TextSpanner.style = #'trill" <<
               endl;
           }
           break;
