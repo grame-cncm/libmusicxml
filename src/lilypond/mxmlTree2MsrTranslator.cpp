@@ -15868,8 +15868,8 @@ void mxmlTree2MsrTranslator::attachPendingOctaveShiftsToTheVoiceOfNote (
         octaveShift =
           fPendingOctaveShifts.front ();
           
-      voice->
-        appendOctaveShiftToVoice (octaveShift);
+      note->
+        setNoteOctaveShift (octaveShift);
         
       fPendingOctaveShifts.pop_front ();
     } // while

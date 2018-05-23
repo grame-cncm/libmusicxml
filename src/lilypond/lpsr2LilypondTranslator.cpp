@@ -8394,6 +8394,45 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       "\\once \\override NoteHead.font-size = -3 ";
   }
 
+  // has the note an octave shift up or down?
+  S_msrOctaveShift
+    noteOctaveShift =
+      elt->
+        getNoteOctaveShift ();
+
+  if (noteOctaveShift) {
+    msrOctaveShift::msrOctaveShiftKind
+      octaveShiftKind =
+        noteOctaveShift->
+          getOctaveShiftKind ();
+
+    int
+      octaveShiftSize =
+        noteOctaveShift->
+          getOctaveShiftSize ();
+  
+    switch (octaveShiftKind) {
+      case msrOctaveShift::kOctaveShiftNone:
+        break;
+      case msrOctaveShift::kOctaveShiftUp:
+        fLilypondCodeIOstream <<
+        "\\ottava #" <<
+          "-" << (octaveShiftSize - 1) / 7 << // 1 or 2
+          " ";
+        break;
+      case msrOctaveShift::kOctaveShiftDown:
+        fLilypondCodeIOstream <<
+          "\\ottava #" <<
+          (octaveShiftSize - 1) / 7 << // 1 or 2
+          " ";
+        break;
+      case msrOctaveShift::kOctaveShiftStop:
+        break;
+      case msrOctaveShift::kOctaveShiftContinue:
+        break;
+    } // switch
+  }
+  
   // print the note itself as a LilyPond string
   printNoteAsLilypondString (elt);
 
@@ -8401,6 +8440,30 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
     // print the note line number as a comment
     fLilypondCodeIOstream <<
       "%{ " << elt->getInputLineNumber () << " %} ";
+  }
+  
+  // has the note an octave stop?
+  if (noteOctaveShift) {
+    msrOctaveShift::msrOctaveShiftKind
+      octaveShiftKind =
+        noteOctaveShift->
+          getOctaveShiftKind ();
+  
+    switch (octaveShiftKind) {
+      case msrOctaveShift::kOctaveShiftNone:
+        break;
+      case msrOctaveShift::kOctaveShiftUp:
+        break;
+      case msrOctaveShift::kOctaveShiftDown:
+        break;
+      case msrOctaveShift::kOctaveShiftStop:
+        fLilypondCodeIOstream <<
+          "\\ottava #0" <<
+          " ";
+        break;
+      case msrOctaveShift::kOctaveShiftContinue:
+        break;
+    } // switch
   }
   
   fOnGoingNote = true;
@@ -9073,36 +9136,6 @@ void lpsr2LilypondTranslator::visitStart (S_msrOctaveShift& elt)
       "% --> Start visiting msrOctaveShift" <<
       endl;
   }
-
-  int octaveShiftSize =
-    elt->getOctaveShiftSize (); // 8 or 15
-    
-  fLilypondCodeIOstream <<
-    endl <<
-    "\\ottava #";
-    
-  switch (elt->getOctaveShiftKind ()) {
-    case msrOctaveShift::kOctaveShiftNone:
-      break;
-    case msrOctaveShift::kOctaveShiftUp:
-      fLilypondCodeIOstream <<
-        "-" << (octaveShiftSize - 1) / 7; // 1 or 2
-      break;
-    case msrOctaveShift::kOctaveShiftDown:
-      fLilypondCodeIOstream <<
-        (octaveShiftSize - 1) / 7; // 1 or 2
-      break;
-    case msrOctaveShift::kOctaveShiftStop:
-      fLilypondCodeIOstream <<
-        0;
-      break;
-    case msrOctaveShift::kOctaveShiftContinue:
-     // JMI ??? fLilypondCodeIOstream << 0;
-      break;
-  } // switch
-  
-  fLilypondCodeIOstream <<
-    endl;
 }
 
 void lpsr2LilypondTranslator::visitEnd (S_msrOctaveShift& elt)

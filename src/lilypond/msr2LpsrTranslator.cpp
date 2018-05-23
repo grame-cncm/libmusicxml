@@ -3296,8 +3296,8 @@ void msr2LpsrTranslator::visitStart (S_msrOctaveShift& elt)
       endl;
   }
 
-  fCurrentVoiceClone->
-    appendOctaveShiftToVoice (elt);
+  fCurrentNoteClone->
+    setNoteOctaveShift (elt);
 }
 
 void msr2LpsrTranslator::visitEnd (S_msrOctaveShift& elt)

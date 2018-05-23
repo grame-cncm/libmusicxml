@@ -291,19 +291,19 @@ string msrOctaveShift::octaveShiftKindAsString () const
   string result;
   
   switch (fOctaveShiftKind) {
-    case kOctaveShiftNone:
+    case msrOctaveShift::kOctaveShiftNone:
       result = "octaveShiftNone";
       break;
-    case kOctaveShiftUp:
+    case msrOctaveShift::kOctaveShiftUp:
       result = "octaveShiftUp";
       break;
-    case kOctaveShiftDown:
+    case msrOctaveShift::kOctaveShiftDown:
       result = "octaveShiftDown";
       break;
-    case kOctaveShiftStop:
+    case msrOctaveShift::kOctaveShiftStop:
       result = "octaveShiftStop";
       break;
-    case kOctaveShiftContinue:
+    case msrOctaveShift::kOctaveShiftContinue:
       result = "octaveShiftContinue";
       break;
   } // switch
@@ -5232,9 +5232,6 @@ void msrNote::initializeNote ()
          noteHeadParenthesesKindAsString (fNoteHeadParenthesesKind) <<
         endl <<
 
-        // fNoteOctaveShift JMI ???
-
-      // accidentals
       left <<
         setw (fieldWidth) <<
         "fNoteAccidentalKind" << " = " <<
