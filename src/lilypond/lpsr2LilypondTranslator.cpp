@@ -10231,19 +10231,19 @@ void lpsr2LilypondTranslator::visitStart (S_msrPedal& elt)
   switch (elt->getPedalTypeKind ()) {
     case msrPedal::kPedalStart:
       fLilypondCodeIOstream <<
-        "<>\\sustainOn";
+        "\\sustainOn";
       break;
     case msrPedal::kPedalContinue:
       fLilypondCodeIOstream <<
-        "<>\\sustainOff\\sustainOn"; // JMI
+        "\\sustainOff\\sustainOn"; // JMI
       break;
     case msrPedal::kPedalChange:
       fLilypondCodeIOstream <<
-        "<>\\sustainOff\\sustainOn";
+        "\\sustainOff\\sustainOn";
       break;
     case msrPedal::kPedalStop:
       fLilypondCodeIOstream <<
-        "<>\\sustainOff";
+        "\\sustainOff";
       break;
   } // switch
 

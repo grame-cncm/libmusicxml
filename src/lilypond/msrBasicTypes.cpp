@@ -16575,7 +16575,7 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
       +0.5      -0.5        +1.5       -1.5         +2.0        -2.0
 */
 
-  msrAlterationKind result;
+  msrAlterationKind result = k_NoAlteration;
   
   if      (alter == 0 ) {
     result = kNatural;
@@ -16619,10 +16619,6 @@ msrAlterationKind msrAlterationKindFromMusicXMLAlter (
   
   else if (alter == +3 ) {
     result = kTripleSharp;
-  }
-  
-  else {
-    result = k_NoAlteration;
   }
 
   return result;
@@ -18904,35 +18900,35 @@ string wholeNotesAsMsrString (
   rational wholeNotes,
   int&     dotsNumber)
 {
-#define DEBUG_WHOLE_NOTES
+#define DEBUG_WHOLE_NOTES 0
 
-#ifdef DEBUG_WHOLE_NOTES
-  gLogIOstream <<
-    "--> wholeNotes: " << wholeNotes <<
-    ", line " << inputLineNumber <<
-    endl;
-#endif
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> wholeNotes: " << wholeNotes <<
+      ", line " << inputLineNumber <<
+      endl;
+  }
 
   wholeNotes.rationalise ();
 
-#ifdef DEBUG_WHOLE_NOTES
-  gLogIOstream <<
-    "--> wholeNotes rationalised: " << wholeNotes <<
-    endl;
-#endif
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> wholeNotes rationalised: " << wholeNotes <<
+      endl;
+  }
 
   int
     numerator    = wholeNotes.getNumerator (),
     denominator  = wholeNotes.getDenominator ();
 
-#ifdef DEBUG_WHOLE_NOTES
-  gLogIOstream <<
-    "--> numerator: " << numerator <<
-    endl <<
-    "--> denominator: " << denominator <<
-    endl <<
-    endl;
-#endif
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> numerator: " << numerator <<
+      endl <<
+      "--> denominator: " << denominator <<
+      endl <<
+      endl;
+  }
 
   if (numerator == 0) {
     return "0/1";
@@ -18976,18 +18972,18 @@ string wholeNotesAsMsrString (
       workDenominator = r.getDenominator ();
     }
 
-#ifdef DEBUG_WHOLE_NOTES
-    gLogIOstream <<
-      "--> workNumerator" << " : " << workNumerator <<
-      endl <<
-      "--> workDenominator" << " : " << workDenominator <<
-      endl <<
-      "--> workDotsNumber" << " : " << workDotsNumber <<
-      endl <<
-      "--> s.str ()" << " : \"" << s.str () << "\"" <<
-      endl <<
-      endl;
-#endif
+    if (DEBUG_WHOLE_NOTES) {
+      gLogIOstream <<
+        "--> workNumerator" << " : " << workNumerator <<
+        endl <<
+        "--> workDenominator" << " : " << workDenominator <<
+        endl <<
+        "--> workDotsNumber" << " : " << workDotsNumber <<
+        endl <<
+        "--> s.str ()" << " : \"" << s.str () << "\"" <<
+        endl <<
+        endl;
+    }
   } // for
 
   if (workDenominator <= 4) {
@@ -19015,14 +19011,14 @@ string wholeNotesAsMsrString (
             "*" <<
             numerator << "/" << denominator; // JMI
 
-#ifdef DEBUG_WHOLE_NOTES
-          gLogIOstream <<
-            "--> return:" <<
-            endl <<
-            "--> ss.str ()" << " : \"" << ss.str () << "\"" <<
-            endl <<
-    endl;
-#endif
+          if (DEBUG_WHOLE_NOTES) {
+            gLogIOstream <<
+              "--> return:" <<
+              endl <<
+              "--> ss.str ()" << " : \"" << ss.str () << "\"" <<
+              endl <<
+            endl;
+          }
 
           return ss.str ();
         }
@@ -19081,11 +19077,11 @@ string wholeNotesAsMsrString (
         break;
       }
       
-#ifdef DEBUG_WHOLE_NOTES
-      gLogIOstream <<
-        "--> workNumerator % 2" << " : " << workNumerator % 2 <<
-        endl;
-#endif
+      if (DEBUG_WHOLE_NOTES) {
+        gLogIOstream <<
+          "--> workNumerator % 2" << " : " << workNumerator % 2 <<
+          endl;
+      }
 
       if (workNumerator % 2 == 1) {
         // a number of quarter or half notes
@@ -19094,16 +19090,16 @@ string wholeNotesAsMsrString (
         workNumerator = (workNumerator - 1) / 2;
         workDenominator /= 2;
         
-#ifdef DEBUG_WHOLE_NOTES
-        gLogIOstream <<
-          "--> workNumerator" << " : " << workNumerator <<
-          endl <<
-          "--> workDenominator" << " : " << workDenominator <<
-          endl <<
-          "--> workDotsNumber" << " : " << workDotsNumber <<
-          endl <<
-          endl;
-#endif
+        if (DEBUG_WHOLE_NOTES) {
+          gLogIOstream <<
+            "--> workNumerator" << " : " << workNumerator <<
+            endl <<
+            "--> workDenominator" << " : " << workDenominator <<
+            endl <<
+            "--> workDotsNumber" << " : " << workDotsNumber <<
+            endl <<
+            endl;
+        }
 
         rational r (workNumerator, workDenominator);
         r.rationalise ();
@@ -19111,18 +19107,18 @@ string wholeNotesAsMsrString (
         workNumerator   = r.getNumerator (),
         workDenominator = r.getDenominator ();
 
-#ifdef DEBUG_WHOLE_NOTES
-        gLogIOstream <<
-          "--> workNumerator" << " : " << workNumerator <<
-          endl <<
-          "--> workDenominator" << " : " << workDenominator <<
-          endl <<
-          "--> workDotsNumber" << " : " << workDotsNumber <<
-          endl <<
-          "--> s.str ()" << " : \"" << s.str () << "\"" <<
-          endl <<
-          endl;
-#endif
+        if (DEBUG_WHOLE_NOTES) {
+          gLogIOstream <<
+            "--> workNumerator" << " : " << workNumerator <<
+            endl <<
+            "--> workDenominator" << " : " << workDenominator <<
+            endl <<
+            "--> workDotsNumber" << " : " << workDotsNumber <<
+            endl <<
+            "--> s.str ()" << " : \"" << s.str () << "\"" <<
+            endl <<
+            endl;
+        }
       }
     } // for
   }
@@ -19135,14 +19131,15 @@ string wholeNotesAsMsrString (
   // return the result
   dotsNumber = workDotsNumber;
   
-#ifdef DEBUG_WHOLE_NOTES
-  gLogIOstream <<
-    "--> return:" <<
-    endl <<
-    "--> s.str ()" << " : \"" << s.str () << "\"" <<
-    endl <<
-    endl;
-#endif
+  if (DEBUG_WHOLE_NOTES) {
+    gLogIOstream <<
+      "--> return:" <<
+      endl <<
+      "--> s.str ()" << " : \"" << s.str () << "\"" <<
+      endl <<
+      endl;
+  }
+  
   return
     s.str ();
 }

@@ -2011,7 +2011,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_key_alter& elt )
 
     s <<
       "key alter '" << keyAlter << "'"
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -4891,12 +4891,12 @@ void mxmlTree2MsrTranslator::visitStart (S_tuning_alter& elt )
       msrAlterationKindFromMusicXMLAlter (
         tuningAlter);
       
-  if (fCurrentStaffTuningAlterationKind == k_NoAlteration) {
+  if (tuningAlterationKind == k_NoAlteration) {
     stringstream s;
 
     s <<
-      "tuning alter '" << tuningAlter << "'"
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      "tuning alter '" << tuningAlter <<
+      "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -7343,9 +7343,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_pedal& elt )
           pedalLineKind,
           pedalSignKind);
 
-    // append it to the current voice
-    currentVoice->
-      appendPedalToVoice (pedal);
+    // append it to the pending pedals list
+    fPendingPedals.push_back (pedal);
   }
 }
 
@@ -7947,7 +7946,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_alter& elt)
 
     s <<
       "alter '" << alter << "'"
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -19361,7 +19360,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_root_alter& elt )
 
     s <<
       "root alter '" << rootAlter << "'"
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -19649,7 +19648,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_bass_alter& elt )
 
     s <<
       "bass alter '" << bassAlter << "'"
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -19698,7 +19697,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_degree_alter& elt )
 
     s <<
       "degree alter '" << degreeAlter << "'"
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -19978,7 +19977,7 @@ void mxmlTree2MsrTranslator::visitStart ( S_frame& elt )
 
     s <<
       "degree alter '" << degreeAlter << "'"
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,
@@ -20577,7 +20576,7 @@ void mxmlTree2MsrTranslator::visitStart (S_pedal_alter& elt )
 
     s <<
       "pedal alter '" << pedalAlter << "'"
-      "' should be -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5 or +2";
+      "' should be -3, -2, -1.5, -1, -0.5, 0, +0.5, +1, +1.5, +2 or +3";
       
     msrMusicXMLError (
       gXml2lyOptions->fInputSourceName,

@@ -11202,7 +11202,6 @@ class msrVoice : public msrElement
                           fVoiceStanzasMap;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
-EXP S_msrVoice& operator<< (S_msrVoice& os, const string& elt);
 
 //______________________________________________________________________________
 class msrPartNameDisplay : public msrElement

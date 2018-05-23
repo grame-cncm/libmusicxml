@@ -481,11 +481,11 @@ int main (int argc, char *argv[])
   // check indentation
   if (gIndenter != 0) {
     gLogIOstream <<
-      "### gIndenter final value: "<< gIndenter << " ###" <<
+      "### gIndenter final value: "<< gIndenter.getIndent () << " ###" <<
       endl <<
       endl;
 
-    abort ();
+    // JMI abort ();
   }
 
   // over!

@@ -7305,6 +7305,18 @@ void msrNote::browseData (basevisitor* v)
     gIndenter--;
   }
 
+  // browse the pedals if any
+  if (fNotePedals.size ()) {
+    gIndenter++;
+    list<S_msrPedal>::const_iterator i;
+    for (i=fNotePedals.begin (); i!=fNotePedals.end (); i++) {
+      // browse the pedal
+      msrBrowser<msrPedal> browser (v);
+      browser.browse (*(*i));
+    } // for
+    gIndenter--;
+  }
+
   // browse the wedges if any
   if (fNoteWedges.size ()) {
     gIndenter++;
@@ -8569,6 +8581,29 @@ void msrNote::print (ostream& os)
     list<S_msrLigature>::const_iterator
       iBegin = fNoteLigatures.begin (),
       iEnd   = fNoteLigatures.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      os << (*i);
+      if (++i == iEnd) break;
+      // no endl here;
+    } // for
+    
+    gIndenter--;
+    gIndenter--;
+  }
+  
+  // print the pedals if any
+  if (fNotePedals.size ()) {
+    gIndenter++;
+    os <<
+      "Note pedals:" <<
+      endl;
+      
+    gIndenter++;
+    
+    list<S_msrPedal>::const_iterator
+      iBegin = fNotePedals.begin (),
+      iEnd   = fNotePedals.end (),
       i      = iBegin;
     for ( ; ; ) {
       os << (*i);
@@ -19672,12 +19707,13 @@ void msrPedal::print (ostream& os)
 {
   os <<
     "Pedal" <<
-    ", line " << fInputLineNumber <<
+    ", pedalType: " <<
     pedalTypeAsString () <<
-    ", " <<
+    ", pedalLine: " <<
     pedalLineAsString () <<
-    ", " <<
+    ", pedalSign: " <<
     pedalSignAsString () <<
+    ", line " << fInputLineNumber <<
     endl;
 }
 
