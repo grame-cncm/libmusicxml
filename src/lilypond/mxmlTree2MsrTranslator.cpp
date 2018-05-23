@@ -13488,6 +13488,8 @@ void mxmlTree2MsrTranslator::visitStart ( S_chord& elt)
       endl;
   }
 
+  // the current note belongs to a chord,
+  // placed in the corresponding staff AND voice
   fCurrentNoteBelongsToAChord = true;
 
   // delay the handling until 'visitEnd ( S_note& elt)',
@@ -16781,7 +16783,8 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     else {
       
       // note is the second, third, ..., member of a chord
-      // whose first member is 'fLastHandledNoteInVoiceMap [currentVoice]'
+      // whose first member is in
+      // JMI ??? 'fLastHandledNoteInVoiceMap [currentVoice]'
       handleNoteBelongingToAChord (
         newNote);
       
