@@ -477,7 +477,16 @@ int main (int argc, char *argv[])
   if (gGeneralOptions->fDisplayCPUusage)
     timing::gTiming.print (
       gLogIOstream);
-  
+
+  // check indentation
+  if (gIndenter != 0) {
+    gLogIOstream <<
+      "### gIndenter final value: "<< gIndenter << " ###" <<
+      endl <<
+      endl;
+
+    abort ();
+  }
 
   // over!
   // ------------------------------------------------------
@@ -487,6 +496,7 @@ int main (int argc, char *argv[])
       "### Conversion from LPSR to LilyPond code failed ###" <<
       endl <<
       endl;
+      
     return 1;
   }
 

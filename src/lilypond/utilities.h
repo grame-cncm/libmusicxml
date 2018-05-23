@@ -116,6 +116,12 @@ class EXP indenter
     // reset the indentation
     void                  resetToZero ()    { fIndent = 0; }
 
+    // check indentation value
+    bool                  operator == (const int &value) const
+                              { return fIndent == value; }
+    bool                  operator != (const int &value) const
+                              { return fIndent != value; }
+
     // output as much space as specified
     void                  print (std::ostream& os) const;
 

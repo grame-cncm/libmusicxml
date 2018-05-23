@@ -7906,7 +7906,13 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
       gIndenter++;
         
       fLilypondCodeIOstream <<
-        "\\new Staff {" <<
+        "\\new Staff \\with { alignAboveContext = \"" <<
+        elt->getNoteMeasureUplink ()->
+          getMeasureSegmentUplink ()->
+            getSegmentVoiceUplink ()->
+              getVoiceStaffUplink ()->
+                getStaffName () <<
+        "\" } {" <<
         endl;
     
       gIndenter++;
@@ -7917,6 +7923,10 @@ void lpsr2LilypondTranslator::visitStart (S_msrNote& elt)
         "\\hide Staff.TimeSignature" <<
         endl <<
         "\\small" <<
+        endl <<
+        "\\once \\override Score.RehearsalMark.self-alignment-X = #LEFT" <<
+        endl <<
+        "\\mark\\markup {\\small\\bold \"Scordatura\"}" <<
         endl <<
         "<";
         

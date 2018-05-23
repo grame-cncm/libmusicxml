@@ -5760,6 +5760,22 @@ class msrNote : public msrElement
     // set and get
     // ------------------------------------------------------
 
+    // measure uplink
+    void                  setNoteMeasureUplink (
+                            const S_msrMeasure& measure)
+                              { fNoteMeasureUplink = measure; }
+                      
+    S_msrMeasure          getNoteMeasureUplink () const
+                              { return fNoteMeasureUplink; }
+
+    // tuplet uplink
+    void                  setNoteTupletUplink (
+                            const S_msrTuplet& tuplet)
+                              { fNoteTupletUplink = tuplet; }
+                      
+    S_msrTuplet           getNoteTupletUplink () const
+                              { return fNoteTupletUplink; }
+
     // note kind
     
     void                  setNoteKind (msrNoteKind noteKind)
@@ -6164,22 +6180,6 @@ class msrNote : public msrElement
     bool                  getNoteIsFollowedByGraceNotes () const
                               { return fNoteIsFollowedByGraceNotes; }
                   
-    // measure uplink
-    void                  setNoteMeasureUplink (
-                            const S_msrMeasure& measure)
-                              { fNoteMeasureUplink = measure; }
-                      
-    S_msrMeasure          getNoteMeasureUplink () const
-                              { return fNoteMeasureUplink; }
-
-    // tuplet uplink
-    void                  setNoteTupletUplink (
-                            const S_msrTuplet& tuplet)
-                              { fNoteTupletUplink = tuplet; }
-                      
-    S_msrTuplet           getNoteTupletUplink () const
-                              { return fNoteTupletUplink; }
-
     // services
     // ------------------------------------------------------
 
@@ -11202,6 +11202,7 @@ class msrVoice : public msrElement
                           fVoiceStanzasMap;
 };
 EXP ostream& operator<< (ostream& os, const S_msrVoice& elt);
+EXP S_msrVoice& operator<< (S_msrVoice& os, const string& elt);
 
 //______________________________________________________________________________
 class msrPartNameDisplay : public msrElement
