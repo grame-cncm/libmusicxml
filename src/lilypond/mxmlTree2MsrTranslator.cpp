@@ -427,6 +427,55 @@ void mxmlTree2MsrTranslator::initializeNoteData ()
 }
 
 //________________________________________________________________________
+void mxmlTree2MsrTranslator::printVoicesLastMetNoteMap (
+  int    inputLineNumber)
+{
+  int
+    voicesLastMetNoteMapSize =
+      fVoicesLastMetNoteMap.size ();
+      
+  fLogOutputStream <<
+    endl <<
+    "VoicesLastMetNoteMap contains " <<
+    singularOrPlural (
+      voicesLastMetNoteMapSize, "element", "elements") <<
+    ", line " << inputLineNumber <<
+    ":" <<
+    endl;
+   
+  if (voicesLastMetNoteMapSize) {
+    gIndenter++;
+    
+    map<S_msrVoice, S_msrNote>::const_iterator
+      iBegin = fVoicesLastMetNoteMap.begin (),
+      iEnd   = fVoicesLastMetNoteMap.end (),
+      i      = iBegin;
+    for ( ; ; ) {
+      fLogOutputStream <<
+        (*i).first->getVoiceName () <<
+        ":" <<
+        endl <<
+        endl;
+
+      gIndenter++;
+      
+      fLogOutputStream <<
+        (*i).second <<
+        endl;
+        
+      gIndenter--;
+
+      if (++i == iEnd) break;
+      
+      fLogOutputStream <<
+        endl;
+    } // for
+
+    gIndenter--;
+  }
+}
+
+//________________________________________________________________________
 void mxmlTree2MsrTranslator::checkStep (
   int    inputLineNumber,
   string stepValue)
@@ -17079,7 +17128,29 @@ void mxmlTree2MsrTranslator::visitEnd ( S_note& elt )
     newNote);
 
   // register newNote as the last met note for this voice
-  fVoicesLastMetNoteMap [voice] = newNote;
+ // fVoicesLastMetNoteMap [voice] = newNote;
+
+  fVoicesLastMetNoteMap.insert ( // JMI ???
+    pair<S_msrVoice, S_msrNote>(voice, newNote));
+
+  if (gTraceOptions->fTraceChords) {
+    fLogOutputStream <<
+      "--> fCurrentNoteVoiceNumber        = " <<
+      fCurrentNoteVoiceNumber <<
+      endl <<
+      "-->  fCurrentNoteStaffNumber = " <<
+      fCurrentNoteStaffNumber <<
+      endl <<
+      "--> staff name  = " <<
+      staff->getStaffName () <<
+      endl <<
+      "--> voice name  = " <<
+      voice->getVoiceName () <<
+      endl;
+
+    printVoicesLastMetNoteMap (
+      inputLineNumber);
+  }
   
   fOnGoingNote = false;
 }
@@ -17655,6 +17726,12 @@ void mxmlTree2MsrTranslator::handleNoteBelongingToAChord (
     
     // fetch this chord's first note,
     // i.e the last handled note for this voice
+
+    if (gTraceOptions->fTraceChords) {
+      printVoicesLastMetNoteMap (
+        inputLineNumber);
+    }
+    
     S_msrNote
       chordFirstNote =
         fVoicesLastMetNoteMap [currentVoice];

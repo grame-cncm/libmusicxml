@@ -1506,6 +1506,9 @@ class mxmlTree2MsrTranslator :
 
     map<S_msrVoice, S_msrNote>
                               fVoicesLastMetNoteMap;
+
+    void                      printVoicesLastMetNoteMap (
+                                int    inputLineNumber);
     
     void                      checkStep (
                                 int    inputLineNumber,
